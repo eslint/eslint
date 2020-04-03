@@ -129,15 +129,35 @@ describe("IgnorePattern", () => {
             }
 
             assertions(process.cwd());
+
+            /*
+             * This will catch regressions of Windows specific issue #12850 when run on CI nodes.
+             * This runs the full set of assertions for the function returned from IgnorePattern.createIgnore.
+             * When run on Windows CI nodes the .root drive i.e C:\ will be supplied
+             *  forcing getCommonAncestors to resolve to the root of the drive thus catching any regrssion of 12850.
+             * When run on *nix CI nodes provides additional coverage on this OS too.
+             *  assertions when run on Windows CI nodes and / on *nix OS
+             */
             assertions(path.parse(process.cwd()).root);
         });
     });
 
     describe("static createIgnore(ignorePatterns)", () => {
+
+        /*
+         * This test will catch regressions of Windows specific issue #12850 when run on your local dev box
+         * irrespective of if you are running a Windows or *nix style OS.
+         * When running on *nix sinon is used to emulate Windows behaviors of path and platform APIs
+         * thus ensuring that the Windows specific fix is exercised and any regression is caught.
+         */
         it("with common ancestor of drive root on windows should not throw", () => {
             try {
 
-                // when not on windows return win32 values so local runs on linux produce the same issue as windows.
+                /*
+                 * When not on Windows return win32 values so local runs on *nix hit the same code path as on Windows
+                 * thus enabling developers with *nix style OS to catch and debug any future regression of #12850 without
+                 * requiring a Windows based OS.
+                 */
                 if (process.platform !== "win32") {
                     sinon.stub(process, "platform").value("win32");
                     sinon.stub(path, "sep").value(path.win32.sep);
