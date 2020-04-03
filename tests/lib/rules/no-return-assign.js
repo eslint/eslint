@@ -52,7 +52,8 @@ ruleTester.run("no-return-assign", rule, {
         {
             code: "() => (result = a * b)",
             options: ["except-parens"]
-        }
+        },
+        "const foo = (a,b,c) => ((a = b), c)"
     ],
     invalid: [
         {
@@ -79,7 +80,12 @@ ruleTester.run("no-return-assign", rule, {
         },
         {
             code: "() => result = a * b",
-            errors: [{ messageId: "arrowAssignment", type: "ArrowFunctionExpression" }]
+            errors: [
+                {
+                    messageId: "arrowAssignment",
+                    type: "ArrowFunctionExpression"
+                }
+            ]
         },
         {
             code: "function x() { return result = a * b; };",
@@ -94,6 +100,10 @@ ruleTester.run("no-return-assign", rule, {
         {
             code: "function x() { return result || (result = a * b); };",
             options: ["always"],
+            errors: [{ messageId: "returnAssignment", type: "ReturnStatement" }]
+        },
+        {
+            code: '"const foo = (a,b,c) => (a = b, c)"',
             errors: [{ messageId: "returnAssignment", type: "ReturnStatement" }]
         }
     ]
