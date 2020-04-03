@@ -107,6 +107,7 @@ rules:
     no-octal-escape: "error"
     no-param-reassign: "error"
     no-proto: "error"
+    no-process-exit: "off"
     no-redeclare: "error"
     no-restricted-properties: [
         "error",
