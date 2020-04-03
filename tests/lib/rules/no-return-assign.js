@@ -101,10 +101,6 @@ ruleTester.run("no-return-assign", rule, {
             code: "function x() { return result || (result = a * b); };",
             options: ["always"],
             errors: [{ messageId: "returnAssignment", type: "ReturnStatement" }]
-        },
-        {
-            code: '"const foo = (a,b,c) => (a = b, c)"',
-            errors: [{ messageId: "returnAssignment", type: "ReturnStatement" }]
         }
     ]
 });
