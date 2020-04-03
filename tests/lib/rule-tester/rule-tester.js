@@ -1829,7 +1829,7 @@ describe("RuleTester", () => {
                     invalid: []
                 }
             );
-        }, /A fatal parsing error occurred in autofix/u);
+        }, /A fatal parsing error occurred in autofix.\nError: .+\nAutofix output:\n.+/u);
     });
 
     describe("sanitize test cases", () => {
