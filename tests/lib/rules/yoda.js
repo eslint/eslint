@@ -19,6 +19,7 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("yoda", rule, {
     valid: [
+
         // "never" mode
         { code: 'if (value === "red") {}', options: ["never"] },
         { code: "if (value === value) {}", options: ["never"] },
@@ -645,7 +646,7 @@ ruleTester.run("yoda", rule, {
                 }
             ]
         },
-         {
+        {
             code: "if (`green` < x.y && x.y < `blue`) {}",
             output: "if (x.y > `green` && x.y < `blue`) {}",
             options: ["never", { exceptRange: true }],
