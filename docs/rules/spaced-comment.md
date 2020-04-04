@@ -176,7 +176,7 @@ Examples of **incorrect** code for this rule with the `"always"` option combined
 ```
 
 ```js
-/* eslint spaced-comment: ["error", "always", { "line": { "exceptions": ["*"] } }] */
+/* eslint spaced-comment: ["error", "always", { "block": { "exceptions": ["*"] } }] */
 
 /******** COMMENT *******/
 ```
