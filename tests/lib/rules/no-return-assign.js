@@ -53,7 +53,19 @@ ruleTester.run("no-return-assign", rule, {
             code: "() => (result = a * b)",
             options: ["except-parens"]
         },
-        "const foo = (a,b,c) => ((a = b), c)"
+        "const foo = (a,b,c) => ((a = b), c)",
+        `function foo(){
+            return (a = b)
+        }`,
+        `function bar(){
+            return function foo(){
+                return (a = b) && c
+            }
+        }`,
+        {
+            code: "const foo = (a) => (b) => (a = b)",
+            parserOptions: { ecmaVersion: 6 }
+        }
     ],
     invalid: [
         {
@@ -101,6 +113,68 @@ ruleTester.run("no-return-assign", rule, {
             code: "function x() { return result || (result = a * b); };",
             options: ["always"],
             errors: [{ messageId: "returnAssignment", type: "ReturnStatement" }]
+        },
+        {
+            code: `function foo(){
+                return a = b
+            }`,
+            errors: [{ messageId: "returnAssignment", type: "ReturnStatement" }]
+        },
+        {
+            code: `function doSomething() {
+                return foo = bar && foo > 0;
+            }`,
+            errors: [{ messageId: "returnAssignment", type: "ReturnStatement" }]
+        },
+        {
+            code: `function doSomething() {
+                return foo = function(){
+                    return (bar = bar1)
+                }
+            }`,
+            errors: [{ messageId: "returnAssignment", type: "ReturnStatement" }]
+        },
+        {
+            code: `function doSomething() {
+                return foo = () => a
+            }`,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "returnAssignment",
+                    type: "ReturnStatement"
+                }
+            ]
+        },
+        {
+            code: `function doSomething() {
+                return () => a = () => b
+            }`,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "arrowAssignment",
+                    type: "ArrowFunctionExpression"
+                }
+            ]
+        },
+        {
+            code: `function foo(a){
+                return function bar(b){
+                    return a = b
+                }
+            }`,
+            errors: [{ messageId: "returnAssignment", type: "ReturnStatement" }]
+        },
+        {
+            code: "const foo = (a) => (b) => a = b",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "arrowAssignment",
+                    type: "ArrowFunctionExpression"
+                }
+            ]
         }
     ]
 });
