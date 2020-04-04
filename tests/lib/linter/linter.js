@@ -2733,7 +2733,10 @@ describe("Linter", () => {
     });
 
     describe("when evaluating code with comments which have colon in its value", () => {
-        const code = "/* eslint max-len: [2, 100, 2, {ignoreUrls: true, ignorePattern: \"data:image\\/|\\\\s*require\\\\s*\\\\(|^\\\\s*loader\\\\.lazy|-\\\\*-\"}] */\nalert('test');";
+        const code = String.raw`
+/* eslint max-len: [2, 100, 2, {ignoreUrls: true, ignorePattern: "data:image\/|\\s*require\\s*\\(|^\\s*loader\\.lazy|-\\*-"}] */
+alert('test');
+`;
 
         it("should not parse errors, should report a violation", () => {
             const messages = linter.verify(code, {}, filename);
@@ -2746,7 +2749,11 @@ describe("Linter", () => {
     });
 
     describe("when evaluating code with comments that contain escape sequences", () => {
-        const code = '/* eslint max-len: ["error", 1, { ignoreComments: true, ignorePattern: "console\\.log\\\\(" }] */\nconsole.log("test");\nvar a = "test2";';
+        const code = String.raw`
+/* eslint max-len: ["error", 1, { ignoreComments: true, ignorePattern: "console\.log\\(" }] */
+console.log("test");
+var a = "test2";
+`;
 
         it("should validate correctly", () => {
             const config = { rules: {} };
@@ -2756,7 +2763,7 @@ describe("Linter", () => {
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].ruleId, "max-len");
             assert.strictEqual(messages[0].message, "This line has a length of 16. Maximum allowed is 1.");
-            assert.strictEqual(messages[0].line, 3);
+            assert.strictEqual(messages[0].line, 4);
             assert.strictEqual(messages[0].column, 1);
             assert.include(messages[0].nodeType, "Program");
         });
