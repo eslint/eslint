@@ -16,7 +16,7 @@ const INTERNAL_FILES = {
  * @param {string} pathOrPattern the path or glob pattern.
  * @returns {string} The resolved path or glob pattern.
  */
-function resolveAbsPath(pathOrPattern) {
+function resolveAbsolutePath(pathOrPattern) {
     return path.resolve(__dirname, pathOrPattern);
 }
 
@@ -32,10 +32,10 @@ function createInternalFilesPatterns(pattern = null) {
             name: [
 
                 // Disallow all children modules.
-                resolveAbsPath(p),
+                resolveAbsolutePath(p),
 
                 // Allow the main `index.js` module.
-                `!${resolveAbsPath(p.replace(/\*\*\/\*$/u, "index.js"))}`
+                `!${resolveAbsolutePath(p.replace(/\*\*\/\*$/u, "index.js"))}`
             ]
         }));
 }
@@ -125,7 +125,7 @@ module.exports = {
             rules: {
                 "node/no-restricted-require": ["error", [
                     ...createInternalFilesPatterns(INTERNAL_FILES.CLI_ENGINE_PATTERN),
-                    resolveAbsPath("lib/init/index.js")
+                    resolveAbsolutePath("lib/init/index.js")
                 ]]
             }
         },
@@ -134,7 +134,7 @@ module.exports = {
             rules: {
                 "node/no-restricted-require": ["error", [
                     ...createInternalFilesPatterns(INTERNAL_FILES.INIT_PATTERN),
-                    resolveAbsPath("lib/rule-tester/index.js")
+                    resolveAbsolutePath("lib/rule-tester/index.js")
                 ]]
             }
         },
@@ -144,9 +144,9 @@ module.exports = {
                 "node/no-restricted-require": ["error", [
                     ...createInternalFilesPatterns(INTERNAL_FILES.LINTER_PATTERN),
                     "fs",
-                    resolveAbsPath("lib/cli-engine/index.js"),
-                    resolveAbsPath("lib/init/index.js"),
-                    resolveAbsPath("lib/rule-tester/index.js")
+                    resolveAbsolutePath("lib/cli-engine/index.js"),
+                    resolveAbsolutePath("lib/init/index.js"),
+                    resolveAbsolutePath("lib/rule-tester/index.js")
                 ]]
             }
         },
@@ -156,11 +156,11 @@ module.exports = {
                 "node/no-restricted-require": ["error", [
                     ...createInternalFilesPatterns(INTERNAL_FILES.RULES_PATTERN),
                     "fs",
-                    resolveAbsPath("lib/cli-engine/index.js"),
-                    resolveAbsPath("lib/init/index.js"),
-                    resolveAbsPath("lib/linter/index.js"),
-                    resolveAbsPath("lib/rule-tester/index.js"),
-                    resolveAbsPath("lib/source-code/index.js")
+                    resolveAbsolutePath("lib/cli-engine/index.js"),
+                    resolveAbsolutePath("lib/init/index.js"),
+                    resolveAbsolutePath("lib/linter/index.js"),
+                    resolveAbsolutePath("lib/rule-tester/index.js"),
+                    resolveAbsolutePath("lib/source-code/index.js")
                 ]]
             }
         },
@@ -169,11 +169,11 @@ module.exports = {
             rules: {
                 "node/no-restricted-require": ["error", [
                     ...createInternalFilesPatterns(),
-                    resolveAbsPath("lib/cli-engine/index.js"),
-                    resolveAbsPath("lib/init/index.js"),
-                    resolveAbsPath("lib/linter/index.js"),
-                    resolveAbsPath("lib/rule-tester/index.js"),
-                    resolveAbsPath("lib/source-code/index.js")
+                    resolveAbsolutePath("lib/cli-engine/index.js"),
+                    resolveAbsolutePath("lib/init/index.js"),
+                    resolveAbsolutePath("lib/linter/index.js"),
+                    resolveAbsolutePath("lib/rule-tester/index.js"),
+                    resolveAbsolutePath("lib/source-code/index.js")
                 ]]
             }
         },
@@ -183,11 +183,11 @@ module.exports = {
                 "node/no-restricted-require": ["error", [
                     ...createInternalFilesPatterns(INTERNAL_FILES.SOURCE_CODE_PATTERN),
                     "fs",
-                    resolveAbsPath("lib/cli-engine/index.js"),
-                    resolveAbsPath("lib/init/index.js"),
-                    resolveAbsPath("lib/linter/index.js"),
-                    resolveAbsPath("lib/rule-tester/index.js"),
-                    resolveAbsPath("lib/rules/index.js")
+                    resolveAbsolutePath("lib/cli-engine/index.js"),
+                    resolveAbsolutePath("lib/init/index.js"),
+                    resolveAbsolutePath("lib/linter/index.js"),
+                    resolveAbsolutePath("lib/rule-tester/index.js"),
+                    resolveAbsolutePath("lib/rules/index.js")
                 ]]
             }
         },
@@ -196,8 +196,8 @@ module.exports = {
             rules: {
                 "node/no-restricted-require": ["error", [
                     ...createInternalFilesPatterns(INTERNAL_FILES.RULE_TESTER_PATTERN),
-                    resolveAbsPath("lib/cli-engine/index.js"),
-                    resolveAbsPath("lib/init/index.js")
+                    resolveAbsolutePath("lib/cli-engine/index.js"),
+                    resolveAbsolutePath("lib/init/index.js")
                 ]]
             }
         }
