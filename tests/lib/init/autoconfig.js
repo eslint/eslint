@@ -12,7 +12,8 @@
 const assert = require("chai").assert,
     autoconfig = require("../../../lib/init/autoconfig"),
     sourceCodeUtils = require("../../../lib/init/source-code-utils"),
-    baseDefaultOptions = require("../../../conf/default-cli-options");
+    baseDefaultOptions = require("../../../conf/default-cli-options"),
+    recommendedConfig = require("../../conf/eslint-recommended");
 
 const defaultOptions = Object.assign({}, baseDefaultOptions, { cwd: process.cwd() });
 
@@ -326,6 +327,45 @@ describe("autoconfig", () => {
                 assert.lengthOf(filteredRegistry2.rules.quotes, 3);
                 assert.lengthOf(filteredRegistry3.rules.quotes, 3);
             });
+        });
+    });
+
+    describe("extendFromRecommended()", () => {
+        it("should return a configuration which has `extends` key with Array type value", () => {
+            const oldConfig = { extends: [], rules: {} };
+            const newConfig = autoconfig.extendFromRecommended(oldConfig);
+
+            assert.exists(newConfig.extends);
+            assert.isArray(newConfig.extends);
+        });
+
+        it("should return a configuration which has array property `extends`", () => {
+            const oldConfig = { extends: [], rules: {} };
+            const newConfig = autoconfig.extendFromRecommended(oldConfig);
+
+            assert.include(newConfig.extends, "eslint:recommended");
+        });
+
+        it("should return a configuration which preserves the previous extending configurations", () => {
+            const oldConfig = { extends: ["previous:configuration1", "previous:configuration2"], rules: {} };
+            const newConfig = autoconfig.extendFromRecommended(oldConfig);
+
+            assert.includeMembers(newConfig.extends, oldConfig.extends);
+        });
+
+        it("should return a configuration which has `eslint:recommended` at the first of `extends`", () => {
+            const oldConfig = { extends: ["previous:configuration1", "previous:configuration2"], rules: {} };
+            const newConfig = autoconfig.extendFromRecommended(oldConfig);
+            const [firstExtendInNewConfig] = newConfig.extends;
+
+            assert.strictEqual(firstExtendInNewConfig, "eslint:recommended");
+        });
+
+        it("should return a configuration which not includes rules configured in `eslint:recommended`", () => {
+            const oldConfig = { extends: [], rules: { ...recommendedConfig.rules } };
+            const newConfig = autoconfig.extendFromRecommended(oldConfig);
+
+            assert.notInclude(newConfig.rules, oldConfig.rules);
         });
     });
 });
