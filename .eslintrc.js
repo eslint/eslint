@@ -53,6 +53,11 @@ module.exports = {
     parserOptions: {
         ecmaVersion: 2020
     },
+    settings: {
+        jsdoc: {
+            mode: "typescript"
+        }
+    },
     rules: {
         "eslint-plugin/consistent-output": "error",
         "eslint-plugin/no-deprecated-context-methods": "error",
