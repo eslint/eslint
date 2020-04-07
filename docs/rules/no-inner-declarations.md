@@ -134,7 +134,7 @@ if (foo) function f(){}
 Examples of **correct** code for this rule with the `"both"` option:
 
 ```js
-/*eslint no-inner-declarations: "error"*/
+/*eslint no-inner-declarations: ["error", "both"]*/
 /*eslint-env es6*/
 
 var bar = 42;
