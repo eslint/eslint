@@ -56,7 +56,7 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var foo = [1,\n2 // any comment\n];", options: ["always"] },
         { code: "var foo = [1,\n2,\n3];", options: ["always"] },
         { code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];", options: ["always"] },
-        { code: "var foo = [\n[1,\n2],\n3,\n[\n4]]", options: ["always"]},
+        { code: "var foo = [\n[1,\n2],\n3,\n[\n4]]", options: ["always"] },
 
         // "never"
         { code: "var foo = [];", options: ["never"] },
@@ -68,8 +68,8 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var foo = [1, 2, 3];", options: ["never"] },
         { code: "var foo = [1, (\n2\n), 3];", options: ["never"] },
         { code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];", options: ["never"] },
-        { code: "var foo = [\n[1,2],3,[4]\n]", options: ["never"]},
-        { code: "var foo = [[1,2\n],3,[4\n]\n]", options: ["never"]},
+        { code: "var foo = [\n[1,2],3,[4]\n]", options: ["never"] },
+        { code: "var foo = [[1,2\n],3,[4\n]\n]", options: ["never"] },
 
         // "consistent"
         { code: "var foo = [];", options: ["consistent"] },
@@ -163,16 +163,17 @@ ruleTester.run("array-element-newline", rule, {
         {
             code: "var foo = [\n1,[2,\n3]]",
             output: "var foo = [\n1,\n[2,\n3]]",
-            errors : [
+            errors: [
                 {
                     line: 2,
                     column: 3,
-                    messageId: 'missingLineBreak',
+                    messageId: "missingLineBreak",
                     endLine: 2,
-                    endColumn: 3,
+                    endColumn: 3
                 }
             ]
         },
+
         /*
          * ArrayExpression
          * "always"
@@ -391,14 +392,15 @@ ruleTester.run("array-element-newline", rule, {
                 }
             ]
         },
-        {   code: "var foo = [\n[1,\n2],\n3,[\n4]]",
-            output : "var foo = [\n[1,\n2],\n3,\n[\n4]]",
+        {
+            code: "var foo = [\n[1,\n2],\n3,[\n4]]",
+            output: "var foo = [\n[1,\n2],\n3,\n[\n4]]",
             options: ["always"],
             errors: [
                 {
                     line: 4,
                     column: 3,
-                    messageId: 'missingLineBreak',
+                    messageId: "missingLineBreak"
                 }
             ]
         },
@@ -518,7 +520,7 @@ ruleTester.run("array-element-newline", rule, {
                 {
                     line: 1,
                     column: 15,
-                    messageId: 'unexpectedLineBreak',
+                    messageId: "unexpectedLineBreak"
                 }
             ]
         },
@@ -612,12 +614,12 @@ ruleTester.run("array-element-newline", rule, {
                 {
                     line: 2,
                     column: 3,
-                    messageId: 'missingLineBreak',
+                    messageId: "missingLineBreak"
                 },
                 {
                     line: 2,
                     column: 6,
-                    messageId: 'missingLineBreak',
+                    messageId: "missingLineBreak"
                 }
             ]
         },
@@ -663,16 +665,16 @@ ruleTester.run("array-element-newline", rule, {
             code: "var foo = [\n1,2,3,\n[\n]\n];",
             output: "var foo = [\n1,\n2,\n3,\n[\n]\n];",
             options: [{ multiline: true }],
-            errors : [
+            errors: [
                 {
                     line: 2,
                     column: 3,
-                    messageId: 'missingLineBreak',
+                    messageId: "missingLineBreak"
                 },
                 {
                     line: 2,
                     column: 5,
-                    messageId: 'missingLineBreak',
+                    messageId: "missingLineBreak"
                 }
             ]
         },
