@@ -74,6 +74,7 @@ The 2nd option is an object which has 3 properties.
 
 * `caseSensitive` - if `true`, enforce properties to be in case-sensitive order. Default is `true`.
 * `minKeys` - Specifies the minimum number of keys that an object should have in order for the object's unsorted keys to produce an error. Default is `2`, which means by default all objects with unsorted keys will result in lint errors.
+* `maxDepth` - Specifies the maximum depth of nested objects to check for sorted keys. `1` means that only the top-level object will be checked. Default is `Infinity`, which means all objects with unsorted keys, regardless of nesting, will result in lint errors.
 * `natural` - if `true`, enforce properties to be in natural order. Default is `false`. Natural Order compares strings containing combination of letters and numbers in the way a human being would sort. It basically sorts numerically, instead of sorting alphabetically. So the number 10 comes after the number 3 in Natural Sorting.
 
 Example for a list:
@@ -211,6 +212,40 @@ let obj = {
 let obj = {
     2: 'b',
     1: 'a',
+};
+```
+
+### maxDepth
+
+Examples of **incorrect** code for the `{maxDepth: 2}` option:
+
+```js
+/*eslint sort-keys: ["error", "asc", {maxDepth: 2}]*/
+/*eslint-env es6*/
+
+let obj = {
+    a: 1,
+    b: 1,
+    c: {
+        e: 1,
+        d: 1, // not sorted correctly, reported as violation because current depth (2) <= maxDepth (2)
+    },
+};
+```
+
+Examples of **correct** code for the `{maxDepth: 1}` option:
+
+```js
+/*eslint sort-keys: ["error", "asc", {maxDepth: 1}]*/
+/*eslint-env es6*/
+
+let obj = {
+    a: 1,
+    b: 1,
+    c: {
+        e: 1,
+        d: 1, // not sorted correctly, but ignored because current depth (2) > maxDepth (1)
+    },
 };
 ```
 

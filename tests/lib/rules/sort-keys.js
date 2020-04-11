@@ -163,7 +163,11 @@ ruleTester.run("sort-keys", rule, {
         { code: "var obj = {è:4, À:3, 'Z':2, '#':1}", options: ["desc", { natural: true, caseSensitive: false }] },
 
         // desc, natural, insensitive, minKeys should ignore unsorted keys when number of keys is less than minKeys
-        { code: "var obj = {a:1, _:2, b:3}", options: ["desc", { natural: true, caseSensitive: false, minKeys: 4 }] }
+        { code: "var obj = {a:1, _:2, b:3}", options: ["desc", { natural: true, caseSensitive: false, minKeys: 4 }] },
+
+        // maxDepth
+        { code: "var obj = {a:1, b:1, c:{e:1, d:1}}", options: ["asc", { maxDepth: 1 }] }, // maxDepth is 1, 2nd level is out-of-order but ignored.
+        { code: "var obj = {a:1, b:1, c:{d:1, e:{g:1, f:1}}}", options: ["asc", { maxDepth: 2 }] } // maxDepth is 2, 3rd level is out-of-order but ignored.
     ],
     invalid: [
 
@@ -1758,6 +1762,78 @@ ruleTester.run("sort-keys", rule, {
                         order: "desc",
                         thisName: "b",
                         prevName: "_"
+                    }
+                }
+            ]
+        },
+
+        // maxDepth to check is 1, 1st level out-of-order after a nested object.
+        {
+            code: "var obj = {a:1, b:{d:1, c:1}, f:1, e:1}",
+            options: ["asc", { maxDepth: 1 }],
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "e",
+                        prevName: "f"
+                    }
+                }
+            ]
+        },
+
+        // maxDepth to check is 2, and 1st level is out-of-order.
+        {
+            code: "var obj = {b:1, a:1, c:{d:1, e:1}}",
+            options: ["asc", { maxDepth: 2 }],
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "a",
+                        prevName: "b"
+                    }
+                }
+            ]
+        },
+
+        // maxDepth to check is 2, and 2nd level is out-of-order.
+        {
+            code: "var obj = {a:1, b:1, c:{e:1, d:1}}",
+            options: ["asc", { maxDepth: 2 }],
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "d",
+                        prevName: "e"
+                    }
+                }
+            ]
+        },
+
+        // maxDepth to check is 3, and 3rd level is out-of-order. 4th level is also out-of-order but ignored.
+        {
+            code: "var obj = {a:1, b:1, c:{d:1, e:{g:1, f:{i:1, h:1}}}}",
+            options: ["asc", { maxDepth: 3 }],
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "f",
+                        prevName: "g"
                     }
                 }
             ]
