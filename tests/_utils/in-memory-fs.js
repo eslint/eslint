@@ -504,10 +504,11 @@ function defineESLintWithInMemoryFileSystem({
         ConfigArrayFactory,
         CascadingConfigArrayFactory,
         FileEnumerator,
-        CLIEngine
+        CLIEngine,
+        getCLIEngineInternalSlots
     } = defineCLIEngineWithInMemoryFileSystem({ cwd, files });
     const { ESLint, getESLintInternalSlots } = proxyquire(ESLintPath, {
-        "../cli-engine": { CLIEngine }
+        "../cli-engine/cli-engine": { CLIEngine, getCLIEngineInternalSlots }
     });
 
     // Override the default cwd.
