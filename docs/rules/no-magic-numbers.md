@@ -78,15 +78,54 @@ foo(1n);
 
 ### ignoreArrayIndexes
 
-A boolean to specify if numbers used as array indexes are considered okay. `false` by default.
+A boolean to specify if numbers used in the context of array indexes (e.g., `data[2]`) are considered okay. `false` by default.
+
+This option allows only valid array indexes: numbers that will be coerced to one of `"0"`, `"1"`, `"2"` ... `"4294967294"`.
+
+Arrays are objects, so they can have property names such as `"-1"` or `"2.5"`. However, those are just "normal" object properties that don't represent array elements. They don't influence the array's `length`, and they are ignored by array methods like `.map` or `.forEach`.
+
+Additionally, since the maximum [array length](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length) is 2<sup>32</sup> - 1, all values above 2<sup>32</sup> - 2 also represent just normal property names and are thus not considered to be array indexes.
 
 Examples of **correct** code for the `{ "ignoreArrayIndexes": true }` option:
 
 ```js
 /*eslint no-magic-numbers: ["error", { "ignoreArrayIndexes": true }]*/
 
-var data = ['foo', 'bar', 'baz'];
-var dataLast = data[2];
+var item = data[2];
+
+data[100] = a;
+
+f(data[0]);
+
+a = data[-0]; // same as data[0], -0 will be coerced to "0"
+
+a = data[0xAB];
+
+a = data[5.6e1];
+
+a = data[10n]; // same as data[10], 10n will be coerced to "10"
+
+a = data[4294967294]; // max array index
+```
+
+Examples of **incorrect** code for the `{ "ignoreArrayIndexes": true }` option:
+
+```js
+/*eslint no-magic-numbers: ["error", { "ignoreArrayIndexes": true }]*/
+
+f(2); // not used as array index
+
+a = data[-1];
+
+a = data[2.5];
+
+a = data[5.67e1];
+
+a = data[-10n];
+
+a = data[4294967295]; // above the max array index
+
+a = data[1e500]; // same as data["Infinity"]
 ```
 
 ### enforceConst

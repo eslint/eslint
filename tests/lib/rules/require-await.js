@@ -55,7 +55,37 @@ ruleTester.run("require-await", rule, {
                 }
             `,
             parser: require.resolve("../../fixtures/parsers/typescript-parsers/global-for-await-of")
+        },
+        {
+            code: "async function* run() { yield * anotherAsyncGenerator() }",
+            parserOptions: { ecmaVersion: 9 }
+        },
+        {
+            code: `async function* run() {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                yield 'Hello';
+                console.log('World');
+            }
+            `,
+            parserOptions: { ecmaVersion: 9 }
+        },
+        {
+            code: "async function* run() { }",
+            parserOptions: { ecmaVersion: 9 }
+        },
+        {
+            code: "const foo = async function *(){}",
+            parserOptions: { ecmaVersion: 9 }
+        },
+        {
+            code: 'const foo = async function *(){ console.log("bar") }',
+            parserOptions: { ecmaVersion: 9 }
+        },
+        {
+            code: 'async function* run() { console.log("bar") }',
+            parserOptions: { ecmaVersion: 9 }
         }
+
     ],
     invalid: [
         {

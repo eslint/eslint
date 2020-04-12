@@ -531,12 +531,16 @@ ruleTester.run("no-extra-parens", rule, {
         "() => ({ foo: 1 }.foo().bar).baz.qux()",
         "() => ({ foo: 1 }.foo().bar + baz)",
         {
+            code: "export default (a, b)",
+            parserOptions: { sourceType: "module" }
+        },
+        {
             code: "export default (function(){}).foo",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            parserOptions: { sourceType: "module" }
         },
         {
             code: "export default (class{}).foo",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            parserOptions: { sourceType: "module" }
         },
         "({}).hasOwnProperty.call(foo, bar)",
         "({}) ? foo() : bar()",
@@ -1357,6 +1361,55 @@ ruleTester.run("no-extra-parens", rule, {
             "class A extends (++foo) {}",
             "UpdateExpression",
             1
+        ),
+        invalid(
+            "export default ((a, b))",
+            "export default (a, b)",
+            "SequenceExpression",
+            1,
+            { parserOptions: { sourceType: "module" } }
+        ),
+        invalid(
+            "export default (() => {})",
+            "export default () => {}",
+            "ArrowFunctionExpression",
+            1,
+            { parserOptions: { sourceType: "module" } }
+        ),
+        invalid(
+            "export default ((a, b) => a + b)",
+            "export default (a, b) => a + b",
+            "ArrowFunctionExpression",
+            1,
+            { parserOptions: { sourceType: "module" } }
+        ),
+        invalid(
+            "export default (a => a)",
+            "export default a => a",
+            "ArrowFunctionExpression",
+            1,
+            { parserOptions: { sourceType: "module" } }
+        ),
+        invalid(
+            "export default (a = b)",
+            "export default a = b",
+            "AssignmentExpression",
+            1,
+            { parserOptions: { sourceType: "module" } }
+        ),
+        invalid(
+            "export default (a ? b : c)",
+            "export default a ? b : c",
+            "ConditionalExpression",
+            1,
+            { parserOptions: { sourceType: "module" } }
+        ),
+        invalid(
+            "export default (a)",
+            "export default a",
+            "Identifier",
+            1,
+            { parserOptions: { sourceType: "module" } }
         ),
         invalid(
             "for (foo of(bar));",
@@ -2221,6 +2274,20 @@ ruleTester.run("no-extra-parens", rule, {
             code: "var foo = { [((bar1, bar2))]: baz };",
             output: "var foo = { [(bar1, bar2)]: baz };",
             errors: [{ messageId: "unexpected" }]
-        }
+        },
+
+        // adjacent tokens tests for division operator, comments and regular expressions
+        invalid("a+/**/(/**/b)", "a+/**//**/b", "Identifier"),
+        invalid("a+/**/(//\nb)", "a+/**///\nb", "Identifier"),
+        invalid("a in(/**/b)", "a in/**/b", "Identifier"),
+        invalid("a in(//\nb)", "a in//\nb", "Identifier"),
+        invalid("a+(/**/b)", "a+/**/b", "Identifier"),
+        invalid("a+/**/(b)", "a+/**/b", "Identifier"),
+        invalid("a+(//\nb)", "a+//\nb", "Identifier"),
+        invalid("a+//\n(b)", "a+//\nb", "Identifier"),
+        invalid("a+(/^b$/)", "a+/^b$/", "Literal"),
+        invalid("a/(/**/b)", "a/ /**/b", "Identifier"),
+        invalid("a/(//\nb)", "a/ //\nb", "Identifier"),
+        invalid("a/(/^b$/)", "a/ /^b$/", "Literal")
     ]
 });

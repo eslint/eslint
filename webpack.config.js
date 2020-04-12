@@ -42,5 +42,8 @@ module.exports = {
             }
         ]
     },
+    resolve: {
+        mainFields: ["main", "module"]
+    },
     stats: "errors-only"
 };
