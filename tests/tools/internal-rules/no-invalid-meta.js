@@ -260,30 +260,30 @@ ruleTester.run("no-invalid-meta", rule, {
                 column: 5
             }]
         },
-         {
-             code: "",
-             errors: [{
-                 messageId: "noExport",
-                 line: 1,
-                 column: 1
-             }]
-         },
-         {
-             code: "foo();",
-             errors: [{
-                 messageId: "noExport",
-                 line: 1,
-                 column: 1
-             }]
-         },
-         {
-             code: "foo = bar;",
-             errors: [{
-                 messageId: "noExport",
-                 line: 1,
-                 column: 1
-             }]
-         },
+        {
+            code: "",
+            errors: [{
+                messageId: "noExport",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "foo();",
+            errors: [{
+                messageId: "noExport",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "foo = bar;",
+            errors: [{
+                messageId: "noExport",
+                line: 1,
+                column: 1
+            }]
+        },
         {
             code: `
              module.exports = {
