@@ -260,29 +260,69 @@ ruleTester.run("no-invalid-meta", rule, {
                 column: 5
             }]
         },
+         {
+             code: "",
+             errors: [{
+                 messageId: "noExport",
+                 line: 1,
+                 column: 1
+             }]
+         },
+         {
+             code: "foo();",
+             errors: [{
+                 messageId: "noExport",
+                 line: 1,
+                 column: 1
+             }]
+         },
+         {
+             code: "foo = bar;",
+             errors: [{
+                 messageId: "noExport",
+                 line: 1,
+                 column: 1
+             }]
+         },
         {
-            code: "",
-            errors: [{
-                messageId: "noExport",
-                line: 1,
-                column: 1
-            }]
+            code: `
+             module.exports = {
+                meta : {
+                    docs : {
+                        description : '',
+                        category: 'Internal',
+                        recommended: false
+                    },
+                }
+            }
+            `,
+            errors: [
+                {
+                    line: 3,
+                    column: 17,
+                    messageId: "emptyMetaDocsDescription"
+                }
+            ]
         },
         {
-            code: "foo();",
-            errors: [{
-                messageId: "noExport",
-                line: 1,
-                column: 1
-            }]
-        },
-        {
-            code: "foo = bar;",
-            errors: [{
-                messageId: "noExport",
-                line: 1,
-                column: 1
-            }]
+            code: `
+             module.exports = {
+                meta : {
+                    docs : {
+                        description : 'some description',
+                        category: '',
+                        recommended: false
+                    },
+                }
+            }
+            `,
+            errors: [
+                {
+                    line: 3,
+                    column: 17,
+                    messageId: "emptyMetaDocsCategory"
+                }
+            ]
         }
     ]
 });

@@ -61,6 +61,20 @@ function hasMetaDocsDescription(metaPropertyNode) {
     return metaDocs && getPropertyFromObject("description", metaDocs.value);
 }
 
+
+/**
+ * Checks whether the value of the property is empty or not
+ * @param {ASTNode} metaPropertyNode The `meta` ObjectExpression for this rule.
+ * @param {string}  type the property type to check
+ * @returns {boolean} `true` if propertie valye is empty else `false`
+ */
+function isEmptMetaStringProp(metaPropertyNode, type) {
+    const metaDocs = getPropertyFromObject("docs", metaPropertyNode.value);
+    const metaType = getPropertyFromObject(type, metaDocs.value);
+
+    return metaType && metaType.value.value.trim().length === 0;
+}
+
 /**
  * Whether this `meta` ObjectExpression has a `docs.category` property defined or not.
  * @param {ASTNode} metaPropertyNode The `meta` ObjectExpression for this rule.
@@ -116,8 +130,18 @@ function checkMetaValidity(context, exportsNode) {
         return;
     }
 
+    if (isEmptMetaStringProp(metaProperty, "description")) {
+        context.report({ node: metaProperty, messageId: "emptyMetaDocsDescription" });
+        return;
+    }
+
     if (!hasMetaDocsCategory(metaProperty)) {
         context.report({ node: metaProperty, messageId: "missingMetaDocsCategory" });
+        return;
+    }
+
+    if (isEmptMetaStringProp(metaProperty, "category")) {
+        context.report({ node: metaProperty, messageId: "emptyMetaDocsCategory" });
         return;
     }
 
@@ -161,7 +185,9 @@ module.exports = {
             missingMetaDocsRecommended: "Rule is missing a meta.docs.recommended property.",
             missingMetaSchema: "Rule is missing a meta.schema property.",
             noExport: "Rule does not export anything. Make sure rule exports an object according to new rule format.",
-            incorrectExport: "Rule does not export an Object. Make sure the rule follows the new rule format."
+            incorrectExport: "Rule does not export an Object. Make sure the rule follows the new rule format.",
+            emptyMetaDocsDescription: "Rule's meta.docs.description cant be empty.",
+            emptyMetaDocsCategory: "Rule's meta.docs.category cant be empty."
         }
     },
 
