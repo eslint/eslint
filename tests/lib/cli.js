@@ -792,10 +792,10 @@ describe("cli", () => {
             sinon.verifyAndRestore();
         });
 
-        it("should pass overrideConfig.noInlineConfig:true to ESLint when --no-inline-config is used", async () => {
+        it("should pass allowInlineConfig:false to ESLint when --no-inline-config is used", async () => {
 
             // create a fake ESLint class to test with
-            const fakeESLint = sinon.mock().withExactArgs(sinon.match({ overrideConfig: { noInlineConfig: true } }));
+            const fakeESLint = sinon.mock().withExactArgs(sinon.match({ allowInlineConfig: false }));
 
             Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
             sinon.stub(fakeESLint.prototype, "lintFiles").returns([{
@@ -821,10 +821,10 @@ describe("cli", () => {
             await localCLI.execute("--no-inline-config .");
         });
 
-        it("should not error and overrideConfig.noInlineConfig should be undefined by default", async () => {
+        it("should not error and allowInlineConfig should be true by default", async () => {
 
             // create a fake ESLint class to test with
-            const fakeESLint = sinon.mock().withExactArgs(sinon.match({ overrideConfig: { noInlineConfig: void 0 } }));
+            const fakeESLint = sinon.mock().withExactArgs(sinon.match({ allowInlineConfig: true }));
 
             Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
             sinon.stub(fakeESLint.prototype, "lintFiles").returns([]);

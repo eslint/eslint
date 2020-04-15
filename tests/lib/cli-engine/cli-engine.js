@@ -821,7 +821,9 @@ describe("CLIEngine", () => {
 
             engine = new CLIEngine({
                 parser: "espree",
-                envs: ["es6"],
+                parserOptions: {
+                    ecmaVersion: 2020
+                },
                 useEslintrc: false
             });
 
