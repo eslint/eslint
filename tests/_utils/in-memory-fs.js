@@ -507,7 +507,7 @@ function defineESLintWithInMemoryFileSystem({
         CLIEngine,
         getCLIEngineInternalSlots
     } = defineCLIEngineWithInMemoryFileSystem({ cwd, files });
-    const { ESLint, getESLintInternalSlots } = proxyquire(ESLintPath, {
+    const { ESLint, getESLintPrivateMembers } = proxyquire(ESLintPath, {
         "../cli-engine/cli-engine": { CLIEngine, getCLIEngineInternalSlots }
     });
 
@@ -518,6 +518,8 @@ function defineESLintWithInMemoryFileSystem({
         ConfigArrayFactory,
         CascadingConfigArrayFactory,
         FileEnumerator,
+        CLIEngine,
+        getCLIEngineInternalSlots,
         ESLint: cwd === process.cwd
             ? ESLint
             : class extends ESLint {
@@ -525,7 +527,7 @@ function defineESLintWithInMemoryFileSystem({
                     super({ cwd: cwd(), ...options });
                 }
             },
-        getESLintInternalSlots
+        getESLintPrivateMembers
     };
 }
 
