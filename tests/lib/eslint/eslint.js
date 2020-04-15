@@ -128,6 +128,99 @@ describe("ESLint", () => {
 
             assert.deepStrictEqual(customBaseConfig, { root: true });
         });
+
+        it("should throw readable messages if removed options are present", () => {
+            assert.throws(
+                () => new ESLint({
+                    cacheFile: "",
+                    configFile: "",
+                    envs: [],
+                    globals: [],
+                    ignorePattern: [],
+                    parser: "",
+                    parserOptions: {},
+                    rules: {},
+                    plugins: []
+                }),
+                new RegExp(escapeStringRegExp([
+                    "Invalid Options:",
+                    "- Unknown options: cacheFile, configFile, envs, globals, ignorePattern, parser, parserOptions, rules",
+                    "- 'cacheFile' has been removed. Please use the 'cacheLocation' option instead.",
+                    "- 'configFile' has been removed. Please use the 'overrideConfigFile' option instead.",
+                    "- 'envs' has been removed. Please use the 'overrideConfig.env' option instead.",
+                    "- 'globals' has been removed. Please use the 'overrideConfig.globals' option instead.",
+                    "- 'ignorePattern' has been removed. Please use the 'overrideConfig.ignorePatterns' option instead.",
+                    "- 'parser' has been removed. Please use the 'overrideConfig.parser' option instead.",
+                    "- 'parserOptions' has been removed. Please use the 'overrideConfig.parserOptions' option instead.",
+                    "- 'rules' has been removed. Please use the 'overrideConfig.rules' option instead.",
+                    "- 'plugins' doesn't add plugins to configuration to load. Please use the 'overrideConfig.plugins' option instead."
+                ].join("\n")), "u")
+            );
+        });
+
+        it("should throw readable messages if wrong type values are given to options", () => {
+            assert.throws(
+                () => new ESLint({
+                    allowInlineConfig: "",
+                    baseConfig: "",
+                    cache: "",
+                    cacheLocation: "",
+                    cwd: "foo",
+                    errorOnUnmatchedPattern: "",
+                    extensions: "",
+                    fix: "",
+                    fixTypes: ["xyz"],
+                    globInputPaths: "",
+                    ignore: "",
+                    ignorePath: "",
+                    overrideConfig: "",
+                    overrideConfigFile: "",
+                    plugins: "",
+                    reportUnusedDisableDirectives: "",
+                    resolvePluginsRelativeTo: "",
+                    rulePaths: "",
+                    useEslintrc: ""
+                }),
+                new RegExp(escapeStringRegExp([
+                    "Invalid Options:",
+                    "- 'allowInlineConfig' must be a boolean.",
+                    "- 'baseConfig' must be an object or null.",
+                    "- 'cache' must be a boolean.",
+                    "- 'cacheLocation' must be a non-empty string.",
+                    "- 'cwd' must be an absolute path.",
+                    "- 'errorOnUnmatchedPattern' must be a boolean.",
+                    "- 'extensions' must be an array of non-empty strings or null.",
+                    "- 'fix' must be a boolean or a function.",
+                    "- 'fixTypes' must be an array of any of \"problem\", \"suggestion\", and \"layout\".",
+                    "- 'globInputPaths' must be a boolean.",
+                    "- 'ignore' must be a boolean.",
+                    "- 'ignorePath' must be a non-empty string or null.",
+                    "- 'overrideConfig' must be an object or null.",
+                    "- 'overrideConfigFile' must be a non-empty string or null.",
+                    "- 'plugins' must be an object or null.",
+                    "- 'reportUnusedDisableDirectives' must be any of \"error\", \"warn\", \"off\", and null.",
+                    "- 'resolvePluginsRelativeTo' must be a non-empty string or null.",
+                    "- 'rulePaths' must be an array of non-empty strings.",
+                    "- 'useElintrc' must be a boolean."
+                ].join("\n")), "u")
+            );
+        });
+
+        it("should throw readable messages if 'plugins' option contains empty key", () => {
+            assert.throws(
+                () => new ESLint({
+                    plugins: {
+                        "eslint-plugin-foo": {},
+                        "eslint-plugin-bar": {},
+                        "": {}
+                    }
+                }),
+                new RegExp(escapeStringRegExp([
+                    "Invalid Options:",
+                    "- 'plugins' must not include the empty string in keys."
+                ].join("\n")), "u")
+            );
+        });
     });
 
     describe("lintText()", () => {
@@ -733,6 +826,31 @@ describe("ESLint", () => {
                 [{ ruleId: "indent-legacy", replacedBy: ["indent"] }]
             );
         });
+
+        it("should throw if non-string value is given to 'code' parameter", async () => {
+            eslint = new ESLint();
+            await assert.rejects(() => eslint.lintText(100), /'code' must be a string/u);
+        });
+
+        it("should throw if non-object value is given to 'options' parameter", async () => {
+            eslint = new ESLint();
+            await assert.rejects(() => eslint.lintText("var a = 0", "foo.js"), /'options' must be an object, null, or undefined/u);
+        });
+
+        it("should throw if 'options' argument contains unknown key", async () => {
+            eslint = new ESLint();
+            await assert.rejects(() => eslint.lintText("var a = 0", { filename: "foo.js" }), /'options' must not include the unknown option 'filename'/u);
+        });
+
+        it("should throw if non-string value is given to 'options.filePath' option", async () => {
+            eslint = new ESLint();
+            await assert.rejects(() => eslint.lintText("var a = 0", { filePath: "" }), /'options.filePath' must be a non-empty string or undefined/u);
+        });
+
+        it("should throw if non-boolean value is given to 'options.warnIgnored' option", async () => {
+            eslint = new ESLint();
+            await assert.rejects(() => eslint.lintText("var a = 0", { warnIgnored: "" }), /'options.warnIgnored' must be a boolean or undefined/u);
+        });
     });
 
     describe("lintFiles()", () => {
@@ -1179,7 +1297,7 @@ describe("ESLint", () => {
 
             await assert.rejects(async () => {
                 await eslint.lintFiles([getFixturePath("./cli-engine/")]);
-            }, new Error(`All files matched by '${getFixturePath("./cli-engine/")}' are ignored.`));
+            }, new RegExp(escapeStringRegExp(`All files matched by '${getFixturePath("./cli-engine/")}' are ignored.`), "u"));
         });
 
         it("should throw an error when all given files are ignored", async () => {
@@ -3587,6 +3705,12 @@ describe("ESLint", () => {
                 await eslint.lintFiles("subdir");
             });
         });
+
+        it("should throw if non-boolean value is given to 'options.warnIgnored' option", async () => {
+            eslint = new ESLint();
+            await assert.rejects(() => eslint.lintFiles(777), /'patterns' must be a non-empty string or an array of non-empty strings/u);
+            await assert.rejects(() => eslint.lintFiles([null]), /'patterns' must be a non-empty string or an array of non-empty strings/u);
+        });
     });
 
     describe("calculateConfigForFile", () => {
@@ -3631,6 +3755,12 @@ describe("ESLint", () => {
                 return;
             }
             assert.fail("should throw an error");
+        });
+
+        it("should throw if non-string value is given to 'filePath' parameter", async () => {
+            const eslint = new ESLint();
+
+            await assert.rejects(() => eslint.calculateConfigForFile(null), /'filePath' must be a non-empty string/u);
         });
     });
 
@@ -3955,7 +4085,7 @@ describe("ESLint", () => {
                 assert.throws(() => {
                     // eslint-disable-next-line no-new
                     new ESLint({ ignorePath, cwd });
-                }, "Cannot read .eslintignore file");
+                }, /Cannot read \.eslintignore file/u);
             });
 
             it("should return false for files outside of ignorePath's directory", async () => {
@@ -4070,6 +4200,12 @@ describe("ESLint", () => {
                 assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "sampleignorepattern")));
             });
         });
+
+        it("should throw if non-string value is given to 'filePath' parameter", async () => {
+            const eslint = new ESLint();
+
+            await assert.rejects(() => eslint.isPathIgnored(null), /'filePath' must be a non-empty string/u);
+        });
     });
 
     describe("loadFormatter()", () => {
@@ -4154,7 +4290,7 @@ describe("ESLint", () => {
 
             await assert.rejects(async () => {
                 await engine.loadFormatter(formatterPath);
-            }, `There was a problem loading formatter: ${fullFormatterPath}\nError: Cannot find module '${fullFormatterPath}'`);
+            }, new RegExp(escapeStringRegExp(`There was a problem loading formatter: ${fullFormatterPath}\nError: Cannot find module '${fullFormatterPath}'`), "u"));
         });
 
         it("should throw if a built-in formatter doesn't exist", async () => {
@@ -4163,7 +4299,7 @@ describe("ESLint", () => {
 
             await assert.rejects(async () => {
                 await engine.loadFormatter("special");
-            }, `There was a problem loading formatter: ${fullFormatterPath}\nError: Cannot find module '${fullFormatterPath}'`);
+            }, new RegExp(escapeStringRegExp(`There was a problem loading formatter: ${fullFormatterPath}\nError: Cannot find module '${fullFormatterPath}'`), "u"));
         });
 
         it("should throw if the required formatter exists but has an error", async () => {
@@ -4172,15 +4308,15 @@ describe("ESLint", () => {
 
             await assert.rejects(async () => {
                 await engine.loadFormatter(formatterPath);
-            }, `There was a problem loading formatter: ${formatterPath}\nError: Cannot find module 'this-module-does-not-exist'`);
+            }, new RegExp(escapeStringRegExp(`There was a problem loading formatter: ${formatterPath}\nError: Cannot find module 'this-module-does-not-exist'`), "u"));
         });
 
         it("should throw if a non-string formatter name is passed", async () => {
             const engine = new ESLint();
 
-            assert.rejects(async () => {
+            await assert.rejects(async () => {
                 await engine.loadFormatter(5);
-            }, "'name' must be a string");
+            }, /'name' must be a string/u);
         });
     });
 
@@ -4339,6 +4475,11 @@ describe("ESLint", () => {
             assert.strictEqual(spy.callCount, 2);
             assert(spy.firstCall.calledWithExactly(path.resolve("foo.js"), "bar", sinon.match.func), "First call was incorrect.");
             assert(spy.secondCall.calledWithExactly(path.resolve("bar.js"), "baz", sinon.match.func), "Second call was incorrect.");
+        });
+
+        it("should throw if non object array is given to 'results' parameter", async () => {
+            await assert.rejects(() => ESLint.outputFixes(null), /'results' must be an array/u);
+            await assert.rejects(() => ESLint.outputFixes([null]), /'results' must include only objects/u);
         });
     });
 
@@ -5159,7 +5300,7 @@ describe("ESLint", () => {
                     const engine = new InMemoryESLint();
 
                     await engine.lintFiles("*.js");
-                }, "Unexpected top-level property \"overrides[0].ignorePatterns\"");
+                }, /Unexpected top-level property "overrides\[0\]\.ignorePatterns"/u);
             });
         });
     });
