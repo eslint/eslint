@@ -591,7 +591,7 @@ describe("ESLint", () => {
                     warningCount: 0,
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
-                    source: "var bar = foo",
+                    output: void 0,
                     usedDeprecatedRules: []
                 }
             ]);
@@ -668,13 +668,13 @@ describe("ESLint", () => {
                     warningCount: 0,
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
-                    source: "var bar =",
+                    output: void 0,
                     usedDeprecatedRules: []
                 }
             ]);
         });
 
-        it("should return source code of file in `source` property when errors are present", async () => {
+        it("should not contain `source` property when errors are present", async () => {
             eslint = new ESLint({
                 useEslintrc: false,
                 overrideConfig: {
@@ -683,10 +683,10 @@ describe("ESLint", () => {
             });
             const results = await eslint.lintText("var foo = 'bar'");
 
-            assert.strictEqual(results[0].source, "var foo = 'bar'");
+            assert.strictEqual(results[0].source, void 0);
         });
 
-        it("should return source code of file in `source` property when warnings are present", async () => {
+        it("should not contain `source` property when warnings are present", async () => {
             eslint = new ESLint({
                 useEslintrc: false,
                 overrideConfig: {
@@ -695,7 +695,7 @@ describe("ESLint", () => {
             });
             const results = await eslint.lintText("var foo = 'bar'");
 
-            assert.strictEqual(results[0].source, "var foo = 'bar'");
+            assert.strictEqual(results[0].source, void 0);
         });
 
 
@@ -755,7 +755,7 @@ describe("ESLint", () => {
                     warningCount: 0,
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
-                    source: "var bar = foothis is a syntax error.\n return bar;",
+                    output: void 0,
                     usedDeprecatedRules: []
                 }
             ]);
@@ -1662,6 +1662,7 @@ describe("ESLint", () => {
                         warningCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
+                        output: void 0,
                         usedDeprecatedRules: []
                     },
                     {
@@ -2851,7 +2852,7 @@ describe("ESLint", () => {
                     const results = await eslint.lintText("<script>foo</script>", { filePath: "foo.html" });
 
                     assert.strictEqual(results[0].messages.length, 1);
-                    assert(!Object.prototype.hasOwnProperty.call(results[0], "output"));
+                    assert.strictEqual(results[0].output, void 0);
                 });
 
                 it("should not run in autofix mode when `fix: true` is not provided, even if the processor supports autofixing", async () => {
@@ -2876,7 +2877,7 @@ describe("ESLint", () => {
                     const results = await eslint.lintText("<script>foo</script>", { filePath: "foo.html" });
 
                     assert.strictEqual(results[0].messages.length, 1);
-                    assert(!Object.prototype.hasOwnProperty.call(results[0], "output"));
+                    assert.strictEqual(results[0].output, void 0);
                 });
             });
         });
@@ -4386,7 +4387,7 @@ describe("ESLint", () => {
             assert.strictEqual(results[0].warningCount, 1);
         });
 
-        it("should return source code of file in the `source` property", async () => {
+        it("should not contain `source` property", async () => {
             process.chdir(originalDir);
             const engine = new ESLint({
                 useEslintrc: false,
@@ -4398,7 +4399,7 @@ describe("ESLint", () => {
             const errorResults = ESLint.getErrorResults(results);
 
             assert.strictEqual(errorResults[0].messages.length, 1);
-            assert.strictEqual(errorResults[0].source, "var foo = 'bar';");
+            assert.strictEqual(errorResults[0].source, void 0);
         });
 
         it("should contain `output` property after fixes", async () => {
@@ -4559,7 +4560,7 @@ describe("ESLint", () => {
                         warningCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
-                        source: "/* eslint-disable */",
+                        output: void 0,
                         usedDeprecatedRules: []
                     }
                 ]
@@ -5583,7 +5584,7 @@ describe("ESLint", () => {
                                 severity: 2
                             }
                         ],
-                        source: "a == b",
+                        output: void 0,
                         usedDeprecatedRules: [],
                         warningCount: 0
                     }
@@ -5607,6 +5608,7 @@ describe("ESLint", () => {
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         messages: [],
+                        output: void 0,
                         usedDeprecatedRules: [],
                         warningCount: 0
                     }
@@ -5653,6 +5655,7 @@ describe("ESLint", () => {
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         messages: [],
+                        output: void 0,
                         usedDeprecatedRules: [],
                         warningCount: 0
                     }
@@ -5688,7 +5691,7 @@ describe("ESLint", () => {
                                 severity: 2
                             }
                         ],
-                        source: "a == b",
+                        output: void 0,
                         usedDeprecatedRules: [],
                         warningCount: 0
                     }
