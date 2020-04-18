@@ -95,7 +95,7 @@ const { ESLint } = require("eslint");
 });
 ```
 
-### 💠 new ESLint(options)
+### ◆ new ESLint(options)
 
 ```js
 const eslint = new ESLint(options);
@@ -157,7 +157,7 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 * `options.cacheLocation` (`string`)<br>
   Default is `.eslintcache`. The [`eslint.lintFiles()`][eslint-lintfiles] method writes caches into this file.
 
-### 💠 eslint.lintFiles(patterns)
+### ◆ eslint.lintFiles(patterns)
 
 ```js
 const results = await eslint.lintFiles(patterns);
@@ -175,7 +175,7 @@ This method checks the given files then returns the results.
 * (`Promise<LintResult[]>`)<br>
   The promise that will be fulfilled with an array of [LintResult] objects.
 
-### 💠 eslint.lintText(code, options)
+### ◆ eslint.lintText(code, options)
 
 ```js
 const results = await eslint.lintText(code, options);
@@ -203,7 +203,7 @@ The second parameter `options` is omittable.
 * (`Promise<LintResult[]>`)<br>
   The promise that will be fulfilled with an array of [LintResult] objects. The length of this array is `1` at most, but it's an array to because of aligning to the [`eslint.lintFiles()`][eslint-lintfiles] method.
 
-### 💠 eslint.calculateConfigForFile(filePath)
+### ◆ eslint.calculateConfigForFile(filePath)
 
 ```js
 const config = await eslint.calculateConfigForFile(filePath);
@@ -229,7 +229,7 @@ You can use the calculated configuration object for the debugging purpose.
 * (`Promise<Object>`)<br>
   The promise that will be fulfilled with a configuration object.
 
-### 💠 eslint.isPathIgnored(filePath)
+### ◆ eslint.isPathIgnored(filePath)
 
 ```js
 const isPathIgnored = await eslint.isPathIgnored(filePath);
@@ -247,7 +247,7 @@ This method checks if a given file is ignored by your configurations.
 * (`Promise<boolean>`)<br>
   The promise that will be fulfilled with whether the file is ignored or not. If the file is ignored then `true`.
 
-### 💠 eslint.loadFormatter(nameOrPath)
+### ◆ eslint.loadFormatter(nameOrPath)
 
 ```js
 const formatter = await eslint.loadFormatter(nameOrPath);
@@ -272,7 +272,7 @@ This method loads a formatter.
 * (`Promise<Formatter>`)<br>
   The promise that will be fulfilled with a [Formatter] object.
 
-### 💠 ESLint.version
+### ◆ ESLint.version
 
 ```js
 const version = ESLint.version;
@@ -282,7 +282,7 @@ The version string of ESLint. E.g. `"7.0.0"`.
 
 This is not instance property.
 
-### 💠 ESLint.outputFixes(results)
+### ◆ ESLint.outputFixes(results)
 
 ```js
 await ESLint.outputFixes(results);
@@ -302,7 +302,7 @@ This is not instance method.
 * (`Promise<void>`)<br>
   The promise that will be fulfilled after all files are written.
 
-### 💠 ESLint.getErrorResults(results)
+### ◆ ESLint.getErrorResults(results)
 
 ```js
 const filteredResults = ESLint.getErrorResults(results);
@@ -322,7 +322,7 @@ This is not instance method.
 * (`LintResult[]`)<br>
   The filtered [LintResult] objects.
 
-### 💠 LintResult type
+### ◆ LintResult type
 
 The `LintResult` value is the information of the linting result of each file. The [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext] methods return it. It has following properties:
 
@@ -343,7 +343,7 @@ The `LintResult` value is the information of the linting result of each file. Th
 * `usedDeprecatedRules` (`{ ruleId: string; replacedBy: string[] }[]`)<br>
   The information about the deprecated rules that were used to check this file.
 
-### 💠 LintMessage type
+### ◆ LintMessage type
 
 The `LintMessage` value is the information of each linting error. The `messages` property of the [LintResult] type contains it. It has following properties:
 
@@ -366,7 +366,7 @@ The `LintMessage` value is the information of each linting error. The `messages`
 * `suggestions` (`{ desc: string; fix: EditInfo }[] | undefined`)<br>
   The list of suggestions. Each suggestion is the pair of a description and an [EditInfo] object to fix code. API users such as editor integrations can choose one of them to fix the problem of this message. This property is undefined if this message doesn't have any suggestions.
 
-### 💠 EditInfo type
+### ◆ EditInfo type
 
 The `EditInfo` value is information to edit text. The `fix` and `suggestions` properties of [LintMessage] type contain it. It has following properties:
 
@@ -377,7 +377,7 @@ The `EditInfo` value is information to edit text. The `fix` and `suggestions` pr
 
 This edit information means replacing the range of the `range` property by the `text` property value. It's like `sourceCodeText.slice(0, edit.range[0]) + edit.text + sourceCodeText.slice(edit.range[1])`. Therefore, it's an add if the `range[0]` and `range[1]` property values are the same value, and it's removal if the `text` property value is empty string.
 
-### 💠 Formatter type
+### ◆ Formatter type
 
 The `Formatter` value is the object to convert the [LintResult] objects to text. The [eslint.loadFormatter()][eslint-loadformatter] method returns it. It has the following method:
 
@@ -1381,15 +1381,15 @@ ruleTester.run("my-rule", myRule, {
 [configuration object]: ../user-guide/configuring.md
 [builtin-formatters]: https://eslint.org/docs/user-guide/formatters/
 [eslint]: #eslint-class
-[eslint-constructor]: #new-eslint-options
-[eslint-lintfiles]: #eslint-lintFiles-patterns
-[eslint-linttext]: #eslint-lintText-code-options
-[eslint-calculateconfigforfile]: #eslint-calculateConfigForFile-filePath
-[eslint-ispathignored]: #eslint-isPathIgnored-filePath
-[eslint-loadformatter]: #eslint-loadFormatter-nameOrPath
-[eslint-version]: #eslint-version
-[eslint-outputfixes]: #eslint-outputFixes-results
-[eslint-geterrorresults]: #eslint-getErrorResults-results
+[eslint-constructor]: #-new-eslintoptions
+[eslint-lintfiles]: #-eslintlintFilespatterns
+[eslint-linttext]: #-eslintlintTextcode-options
+[eslint-calculateconfigforfile]: #-eslintcalculateConfigForFilefilePath
+[eslint-ispathignored]: #-eslintisPathIgnoredfilePath
+[eslint-loadformatter]: #-eslintloadFormatternameOrPath
+[eslint-version]: #-eslintversion
+[eslint-outputfixes]: #-eslintoutputFixesresults
+[eslint-geterrorresults]: #-eslintgetErrorResultsresults
 [lintresult]: #lintresult-type
 [lintmessage]: #lintmessage-type
 [editinfo]: #editinfo-type
