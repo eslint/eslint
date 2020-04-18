@@ -1390,8 +1390,8 @@ ruleTester.run("my-rule", myRule, {
 [eslint-version]: #-eslintversion
 [eslint-outputfixes]: #-eslintoutputFixesresults
 [eslint-geterrorresults]: #-eslintgetErrorResultsresults
-[lintresult]: #lintresult-type
-[lintmessage]: #lintmessage-type
-[editinfo]: #editinfo-type
-[formatter]: #formatter-type
+[lintresult]: #-lintresult-type
+[lintmessage]: #-lintmessage-type
+[editinfo]: #-editinfo-type
+[formatter]: #-formatter-type
 [linter]: #linter
