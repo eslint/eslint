@@ -310,6 +310,12 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: 'export * as ns from "source"',
             parserOptions: { ecmaVersion: 2020, sourceType: "module" }
+        },
+
+        // import.meta
+        {
+            code: "import.meta",
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" }
         }
     ],
     invalid: [
