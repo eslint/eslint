@@ -340,6 +340,8 @@ The `LintResult` value is the information of the linting result of each file. Th
   The number of warnings. This includes fixable warnings.
 * `output` (`string | undefined`)<br>
   The modified source code text. This property is undefined if any fixable messages didn't exist.
+* `source` (`string | undefined`)<br>
+  The original source code text. This property is undefined if any messages didn't exist or the `output` property exists.
 * `usedDeprecatedRules` (`{ ruleId: string; replacedBy: string[] }[]`)<br>
   The information about the deprecated rules that were used to check this file.
 
