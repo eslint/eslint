@@ -463,6 +463,18 @@ describe("RuleTester", () => {
         }, expectedErrorMessage);
     });
 
+    it("should throw error for empty error array", () => {
+        assert.throws(() => {
+            ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
+                valid: [],
+                invalid: [{
+                    code: "var foo;",
+                    errors: []
+                }]
+            });
+        }, /errors array should have atleast one element otherwise its a valid case/u);
+    });
+
     it("should not skip column assertion if column is a falsy value", () => {
         assert.throws(() => {
             ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
@@ -732,7 +744,7 @@ describe("RuleTester", () => {
                 {
                     code: "eval(foo)",
                     parser: require.resolve("esprima"),
-                    errors: [{}]
+                    errors: [{ line: 1 }]
                 }
             ]
         });
@@ -1893,4 +1905,5 @@ describe("RuleTester", () => {
         });
 
     });
+
 });
