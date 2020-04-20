@@ -129,6 +129,10 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "import*as a from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "import* as a from\"foo\"", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "import *as a from \"foo\"", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export * as a from \"foo\"", parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export*as a from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export* as a from\"foo\"", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export *as a from \"foo\"", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
 
         //----------------------------------------------------------------------
         // async
@@ -1381,6 +1385,33 @@ ruleTester.run("keyword-spacing", rule, {
             output: "import *as a from \"foo\"",
             options: [override("as", NEITHER)],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: unexpectedBefore("as")
+        },
+        {
+            code: "export *as a from \"foo\"",
+            output: "export * as a from \"foo\"",
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            errors: expectedBefore("as")
+        },
+        {
+            code: "export* as a from\"foo\"",
+            output: "export*as a from\"foo\"",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            errors: unexpectedBefore("as")
+        },
+        {
+            code: "export*as a from\"foo\"",
+            output: "export* as a from\"foo\"",
+            options: [override("as", BOTH)],
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            errors: expectedBefore("as")
+        },
+        {
+            code: "export * as a from \"foo\"",
+            output: "export *as a from \"foo\"",
+            options: [override("as", NEITHER)],
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
             errors: unexpectedBefore("as")
         },
 

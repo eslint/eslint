@@ -52,7 +52,7 @@
     "cross-spawn": "^7.0.1",
     "debug": "^4.0.1",
     "doctrine": "^3.0.0",
-    "eslint-scope": "^5.0.0",
+    "eslint-scope": "github:eslint/eslint-scope#export-star-ns",
     "eslint-utils": "^2.0.0",
     "eslint-visitor-keys": "github:eslint/eslint-visitor-keys",
     "espree": "github:eslint/espree#upgrade-acorn",

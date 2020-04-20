@@ -71,13 +71,19 @@ ruleTester.run("no-undef", rule, {
         // new.target: https://github.com/eslint/eslint/issues/5420
         { code: "class A { constructor() { new.target; } }", parserOptions: { ecmaVersion: 6 } },
 
-        // Experimental,
+        // Rest property
         {
             code: "var {bacon, ...others} = stuff; foo(others)",
             parserOptions: {
                 ecmaVersion: 2018
             },
             globals: { stuff: false, foo: false }
+        },
+
+        // export * as ns from "source"
+        {
+            code: 'export * as ns from "source"',
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" }
         }
     ],
     invalid: [
