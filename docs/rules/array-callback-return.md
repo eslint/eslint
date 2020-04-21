@@ -13,7 +13,7 @@ var indexMap = myArray.reduce(function(memo, item, index) {
 ## Rule Details
 
 This rule enforces usage of `return` statement in callbacks of array's methods.
-Additionaly, it may also enforce the `forEach` array method callback to __not__ return a value by using the `checkForEach` option.
+Additionally, it may also enforce the `forEach` array method callback to __not__ return a value by using the `checkForEach` option.
 
 This rule finds callback functions of the following methods, then checks usage of `return` statement.
 
