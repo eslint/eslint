@@ -20,7 +20,7 @@ Examples of **incorrect** code for this rule:
 typeof foo === "strnig"
 typeof foo == "undefimed"
 typeof bar != "nunber"
-typeof bar !== "function"
+typeof bar !== "fucntion"
 ```
 
 Examples of **correct** code for this rule:
