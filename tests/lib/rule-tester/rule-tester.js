@@ -472,7 +472,7 @@ describe("RuleTester", () => {
                     errors: []
                 }]
             });
-        }, /errors array should have atleast one element otherwise its a valid case/u);
+        }, /errors array should have at least one element otherwise its a valid case/u);
     });
 
     it("should not skip column assertion if column is a falsy value", () => {
