@@ -112,7 +112,7 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 * `options.cwd` (`string`)<br>
   Default is `process.cwd()`. The working directory. This must be an absolute path.
 * `options.errorOnUnmatchedPattern` (`boolean`)<br>
-  Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't throw even if no target files found.
+  Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method will not throw when no target files are found.
 * `options.extensions` (`string[] | null`)<br>
   Default is `null`. If you pass directory paths to the [`eslint.lintFiles()`][eslint-lintfiles] method, ESLint checks the files which have the given extensions in the directories. If `null` is present, ESLint checks `*.js` files and the files which matches `overrides[].files` in your configuration.<br>Mind this option works only if you pass directory paths to the [`eslint.lintFiles()`][eslint-lintfiles] method. If you pass glob patterns like `lib/**/*`, ESLint doesn't restrict file kinds to check.
 * `options.globInputPaths` (`boolean`)<br>
