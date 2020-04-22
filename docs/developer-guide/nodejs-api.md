@@ -150,7 +150,7 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 * `options.fixTypes` (`("problem" | "suggestion" | "layout")[] | null`)<br>
   Default is `null`. The types of the rules that the [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext] methods use for autofix.
 
-##### Misc
+##### Cache-related
 
 * `options.cache` (`boolean`)<br>
   Default is `false`. If `true` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method caches lint results and uses it if each target file is not changed. Please mind that ESLint doesn't clear the cache when you upgrade ESLint plugins. In that case, you have to remove the cache file manually. The [`eslint.lintText()`][eslint-linttext] method doesn't use caches even if you pass the `options.filePath` to the method.
