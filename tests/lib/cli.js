@@ -7,7 +7,7 @@
 
 /*
  * NOTE: If you are adding new tests for cli.js, use verifyESLintOpts(). The
- * test only needs to verify that CLIEngine receives the correct opts.
+ * test only needs to verify that ESLint receives the correct opts.
  */
 
 //------------------------------------------------------------------------------
