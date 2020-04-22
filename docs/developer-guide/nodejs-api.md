@@ -222,7 +222,7 @@ You can use the calculated configuration object for the debugging purpose.
 #### Parameters
 
 * `filePath` (`string`)<br>
-  The path to the file you want to check the actual configuration. Directory paths are forbidden because ESLint cannot handle the `overrides` setting.
+  The path to the file whose configuration you would like to calculate. Directory paths are forbidden because ESLint cannot handle the `overrides` setting.
 
 #### Return Value
 
