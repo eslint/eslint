@@ -215,7 +215,7 @@ This method calculates the configuration for a given file.
 * It resolves the `parser` setting to absolute paths.
 * It normalizes the `plugins` setting to align short names. (e.g., `eslint-plugin-foo` → `foo`)
 * It adds the `processor` setting if a legacy file extension processor is matched.
-* It doesn't interpret the `env` setting to the `globals` and `parserOotions` settings, so the result object contains the `env` setting as is.
+* It doesn't interpret the `env` setting to the `globals` and `parserOptions` settings, so the result object contains the `env` setting as is.
 
 You can use the calculated configuration object for the debugging purpose.
 
