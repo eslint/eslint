@@ -116,7 +116,7 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 * `options.extensions` (`string[] | null`)<br>
   Default is `null`. If you pass directory paths to the [`eslint.lintFiles()`][eslint-lintfiles] method, ESLint checks the files which have the given extensions in the directories. If `null` is present, ESLint checks `*.js` files and the files which matches `overrides[].files` in your configuration.<br>**Note:** This option works only if you pass directory paths to the [`eslint.lintFiles()`][eslint-lintfiles] method. If you pass glob patterns like `lib/**/*`, ESLint doesn't restrict file kinds to check.
 * `options.globInputPaths` (`boolean`)<br>
-  Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't interprit glob patterns.
+  Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't interpret glob patterns.
 * `options.ignore` (`boolean`)<br>
   Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't respect `.eslintignore` files or `ignorePatterns` in your configuration.
 * `options.ignorePath` (`string | null`)<br>
