@@ -118,7 +118,7 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 * `options.globInputPaths` (`boolean`)<br>
   Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't interprit glob patterns.
 * `options.ignore` (`boolean`)<br>
-  Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't use the `.eslintignore` file and `ignorePatterns` in your configuration.
+  Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't respect `.eslintignore` files or `ignorePatterns` in your configuration.
 * `options.ignorePath` (`string | null`)<br>
   Default is `null`. The path to a file ESLint uses instead of `$CWD/.eslintignore`. If a path is present and the file doesn't exist, this constructor will throw an error.
 
