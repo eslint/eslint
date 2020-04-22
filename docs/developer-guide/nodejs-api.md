@@ -181,7 +181,7 @@ This method checks the given files then returns the results.
 const results = await eslint.lintText(code, options);
 ```
 
-This method checks the given source code text then returns the results.
+This method lints the given source code text and then returns the results.
 
 If you want to use suitable configuration files to lint the text, passing the `options.filePath` option is important. This method loads configuration files with the same manner as the [`eslint.lintFiles()`][eslint-lintfiles] method checks the file the `options.filePath` option pointers. If the `options.filePath` option is not present, this method uses the configuration file at the current working directory (the `cwd` constructor option).
 
