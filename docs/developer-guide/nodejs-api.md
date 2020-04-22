@@ -245,7 +245,7 @@ This method checks if a given file is ignored by your configuration.
 #### Return Value
 
 * (`Promise<boolean>`)<br>
-  The promise that will be fulfilled with whether the file is ignored or not. If the file is ignored then `true`.
+  The promise that will be fulfilled with whether the file is ignored or not. If the file is ignored, then it will return `true`.
 
 ### ◆ eslint.loadFormatter(nameOrPath)
 
