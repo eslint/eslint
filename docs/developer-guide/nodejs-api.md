@@ -310,7 +310,7 @@ const filteredResults = ESLint.getErrorResults(results);
 
 This method copies the given results and removes warnings. The returned value contains only errors.
 
-This is not instance method.
+This is a static method.
 
 #### Parameters
 
