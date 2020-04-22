@@ -280,7 +280,7 @@ const version = ESLint.version;
 
 The version string of ESLint. E.g. `"7.0.0"`.
 
-This is not instance property.
+This is a static property.
 
 ### ◆ ESLint.outputFixes(results)
 
