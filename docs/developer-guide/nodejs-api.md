@@ -201,7 +201,7 @@ The second parameter `options` is omittable.
 #### Return Value
 
 * (`Promise<LintResult[]>`)<br>
-  The promise that will be fulfilled with an array of [LintResult] objects. The length of this array is `1` at most, but it's an array to because of aligning to the [`eslint.lintFiles()`][eslint-lintfiles] method.
+  The promise that will be fulfilled with an array of [LintResult] objects. This is an array (despite there being only one lint result) in order to keep the interfaces between this and the [`eslint.lintFiles()`][eslint-lintfiles] method similar.
 
 ### ◆ eslint.calculateConfigForFile(filePath)
 
