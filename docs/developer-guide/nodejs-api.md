@@ -324,7 +324,7 @@ This is a static method.
 
 ### ◆ LintResult type
 
-The `LintResult` value is the information of the linting result of each file. The [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext] methods return it. It has following properties:
+The `LintResult` value is the information of the linting result of each file. The [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext] methods return it. It has the following properties:
 
 * `filePath` (`string`)<br>
   The absolute path to the file of this result. This may be the string `"<text>"` rather than a file path if the [`eslint.lintText()`][eslint-linttext] method returned it.
