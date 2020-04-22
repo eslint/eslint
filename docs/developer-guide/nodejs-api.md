@@ -235,7 +235,7 @@ You can use the calculated configuration object for the debugging purpose.
 const isPathIgnored = await eslint.isPathIgnored(filePath);
 ```
 
-This method checks if a given file is ignored by your configurations.
+This method checks if a given file is ignored by your configuration.
 
 #### Parameters
 
