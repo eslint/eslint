@@ -475,6 +475,25 @@ describe("RuleTester", () => {
         }, /errors array should have at least one element otherwise its a valid case/u);
     });
 
+    it("should throw error for errors : 0", () => {
+        assert.throws(() => {
+            ruleTester.run(
+                "suggestions-messageIds",
+                require("../../fixtures/testers/rule-tester/suggestions")
+                    .withMessageIds,
+                {
+                    valid: [],
+                    invalid: [
+                        {
+                            code: "var foo;",
+                            errors: 0
+                        }
+                    ]
+                }
+            );
+        }, /errors of type `number` should not have value `0`/u);
+    });
+
     it("should not skip column assertion if column is a falsy value", () => {
         assert.throws(() => {
             ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
