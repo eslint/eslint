@@ -290,7 +290,7 @@ await ESLint.outputFixes(results);
 
 This method writes the modified code by the autofix feature into each file. If any modified files don't exist, this method does nothing.
 
-This is not instance method.
+This is a static method.
 
 #### Parameters
 
