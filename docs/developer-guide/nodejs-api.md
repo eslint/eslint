@@ -211,7 +211,7 @@ const config = await eslint.calculateConfigForFile(filePath);
 
 This method calculates the configuration for a given file.
 
-* It resolves and merges the `extends` and `overrides` settings, so the result object doesn't contain the two.
+* It resolves and merges `extends` and `overrides` settings into the top level configuration.
 * It resolves the `parser` setting to absolute paths.
 * It normalizes the `plugins` setting to align short names. (e.g., `eslint-plugin-foo` → `foo`)
 * It adds the `processor` setting if a legacy file extension processor is matched.
