@@ -288,7 +288,7 @@ This is a static property.
 await ESLint.outputFixes(results);
 ```
 
-This method writes the modified code by the autofix feature into each file. If any modified files don't exist, this method does nothing.
+This method writes code modified by ESLint's autofix feature into its respective file. If any of the modified files don't exist, this method does nothing.
 
 This is a static method.
 
