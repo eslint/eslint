@@ -163,7 +163,7 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 const results = await eslint.lintFiles(patterns);
 ```
 
-This method checks the given files then returns the results.
+This method lints the files that match the glob patterns and then returns the results.
 
 #### Parameters
 
