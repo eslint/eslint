@@ -32,14 +32,10 @@ jobs:
           node: "10.12.0"
         - os: windows-latest
           node: 10.x
-        - os: windows-latest
-          node: 12.x
         - os: macOS-latest
           node: "10.12.0"
         - os: macOS-latest
           node: 10.x
-        - os: macOS-latest
-          node: 12.x
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v1
