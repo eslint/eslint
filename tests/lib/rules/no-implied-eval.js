@@ -150,7 +150,7 @@ ruleTester.run("no-implied-eval", rule, {
         { code: "window.window.setTimeout(`foo${bar}`)", parserOptions: { ecmaVersion: 6 }, env: { browser: true }, errors: [expectedError] },
         { code: "global.global.setTimeout(`foo${bar}`)", parserOptions: { ecmaVersion: 6 }, env: { node: true }, errors: [expectedError] },
 
-        // string concatination
+        // string concatenation
         { code: "setTimeout('foo' + bar)", errors: [expectedError] },
         { code: "setTimeout(foo + 'bar')", errors: [expectedError] },
         { code: "setTimeout(`foo` + bar)", parserOptions: { ecmaVersion: 6 }, errors: [expectedError] },
