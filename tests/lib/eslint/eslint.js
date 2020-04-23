@@ -217,7 +217,7 @@ describe("ESLint", () => {
                 }),
                 new RegExp(escapeStringRegExp([
                     "Invalid Options:",
-                    "- 'plugins' must not include the empty string in keys."
+                    "- 'plugins' must not include an empty string."
                 ].join("\n")), "u")
             );
         });
