@@ -251,19 +251,19 @@ This method checks if a given file is ignored by your configuration.
 const formatter = await eslint.loadFormatter(nameOrPath);
 ```
 
-This method loads a formatter.
+This method loads a formatter. The formatters are what convert lint results to a formated string, human-readable or machine-readable.
 
 #### Parameters
 
 * `nameOrPath` (`string | undefined`)<br>
   The path to the file you want to check. The following values are allowed:
     * `undefined`. In this case, loads the `"stylish"` built-in formatter.
-    * One of [built-in formatter names][builtin-formatters].
-    * A third-party formatter name. For examples:
+    * A name of [built-in formatters][builtin-formatters].
+    * A name of [third-party formatters][thirdparty-formatters]. For examples:
         * `"foo"` will load `eslint-formatter-foo`.
         * `"@foo"` will load `@foo/eslint-formatter`.
         * `"@foo/bar"` will load `@foo/eslint-formatter-bar`.
-    * A path to the file that defines a formatter. The path must contain one or more path separators (`/`) in order to distinguish if it's a path or not.
+    * A path to the file that defines a formatter. The path must contain one or more path separators (`/`) in order to distinguish if it's a path or not. For example, start with `./`.
 
 #### Return Value
 
@@ -1380,6 +1380,7 @@ ruleTester.run("my-rule", myRule, {
 
 [configuration object]: ../user-guide/configuring.md
 [builtin-formatters]: https://eslint.org/docs/user-guide/formatters/
+[thirdparty-formatters]: https://www.npmjs.com/search?q=eslintformatter
 [eslint]: #eslint-class
 [eslint-constructor]: #-new-eslintoptions
 [eslint-lintfiles]: #-eslintlintFilespatterns
