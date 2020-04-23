@@ -26,16 +26,24 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
-        node: [14.x, 12.x, 10.x, "10.12.0"]
+        node: [14.x, 13.x, 12.x, 10.x, "10.12.0"]
         exclude:
         - os: windows-latest
           node: "10.12.0"
         - os: windows-latest
           node: 10.x
+        - os: windows-latest
+          node: 13.x
+        - os: windows-latest
+          node: 14.x
         - os: macOS-latest
           node: "10.12.0"
         - os: macOS-latest
           node: 10.x
+        - os: macOS-latest
+          node: 13.x
+        - os: macOS-latest
+          node: 14.x
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v1
