@@ -3208,7 +3208,7 @@ describe("CLIEngine", () => {
                 `);
             });
 
-            it("should use overriden processor; should report HTML blocks but not fix HTML blocks if the processor for '*.html' didn't support autofix.", () => {
+            it("should use overridden processor; should report HTML blocks but not fix HTML blocks if the processor for '*.html' didn't support autofix.", () => {
                 CLIEngine = defineCLIEngineWithInMemoryFileSystem({
                     cwd: () => root,
                     files: {
