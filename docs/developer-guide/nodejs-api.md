@@ -44,7 +44,7 @@ The `ESLint` class is primary class to use in Node.js applications.
 
 This class depends on the Node.js `fs` module and the file system, so you cannot use it in browsers. If you want to lint code on browsers, use the [Linter](#linter) class instead.
 
-For a simple example:
+Here's a simple example of using the `ESLint` class:
 
 ```js
 const { ESLint } = require("eslint");
