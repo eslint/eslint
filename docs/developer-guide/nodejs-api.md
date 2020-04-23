@@ -68,7 +68,7 @@ const { ESLint } = require("eslint");
 });
 ```
 
-For a simple example with autofix:
+And here is an example that autofixes lint problems:
 
 ```js
 const { ESLint } = require("eslint");
