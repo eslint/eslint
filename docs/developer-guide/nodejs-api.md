@@ -325,7 +325,7 @@ This is a static method.
 The `LintResult` value is the information of the linting result of each file. The [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext] methods return it. It has the following properties:
 
 * `filePath` (`string`)<br>
-  The absolute path to the file of this result. This may be the string `"<text>"` rather than a file path if the [`eslint.lintText()`][eslint-linttext] method returned it.
+  The absolute path to the file of this result. This is the string `"<text>"` if the file path is unknown (when you didn't pass the `options.filePath` option to the [`eslint.lintText()`][eslint-linttext] method).
 * `messages` (`LintMessage[]`)<br>
   The array of [LintMessage] objects.
 * `fixableErrorCount` (`number`)<br>
