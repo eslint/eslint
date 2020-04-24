@@ -14,8 +14,8 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
     * [isPathIgnored()][eslint-isPathIgnored]
     * [loadFormatter()][eslint-loadFormatter]
     * [static version][eslint-version]
-    * [static outputFixes][eslint-outputFixes]
-    * [static getErrorResults][eslint-getErrorResults]
+    * [static outputFixes()][eslint-outputFixes]
+    * [static getErrorResults()][eslint-getErrorResults]
     * [LintResult type](lintresult)
     * [LintMessage type](lintmessage)
     * [EditInfo type](editinfo)
