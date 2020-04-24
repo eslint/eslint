@@ -65,7 +65,7 @@ describe("cli", () => {
             "./shared/logging": log
         });
 
-        await await localCLI.execute(cmd);
+        await localCLI.execute(cmd);
         sinon.verifyAndRestore();
     }
 
