@@ -251,7 +251,7 @@ This method checks if a given file is ignored by your configuration.
 const formatter = await eslint.loadFormatter(nameOrPath);
 ```
 
-This method loads a formatter. The formatters are what convert lint results to a formated string, human-readable or machine-readable.
+This method loads a formatter. Formatters convert lint results to a human- or machine-readable string.
 
 #### Parameters
 
