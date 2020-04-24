@@ -11,7 +11,7 @@ const { spy } = require("sinon");
 const { ConfigArray } = require("../../../lib/cli-engine/config-array");
 const { OverrideTester } = require("../../../lib/cli-engine/config-array");
 const { createContext } = require("../../../lib/cli-engine/config-array-factory");
-const { defineConfigArrayFactoryWithInMemoryFileSystem } = require("./_utils");
+const { defineConfigArrayFactoryWithInMemoryFileSystem } = require("../../_utils");
 
 const tempDir = path.join(os.tmpdir(), "eslint/config-array-factory");
 
