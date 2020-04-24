@@ -53,6 +53,16 @@ module.exports = {
     parserOptions: {
         ecmaVersion: 2020
     },
+
+    /*
+     * it fixes eslint-plugin-jsdoc's reports: "Invalid JSDoc tag name "template" jsdoc/check-tag-names"
+     * refs: https://github.com/gajus/eslint-plugin-jsdoc#check-tag-names
+     */
+    settings: {
+        jsdoc: {
+            mode: "typescript"
+        }
+    },
     rules: {
         "eslint-plugin/consistent-output": "error",
         "eslint-plugin/no-deprecated-context-methods": "error",
