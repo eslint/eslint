@@ -40,7 +40,7 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
 
 ## ESLint class
 
-The `ESLint` class is primary class to use in Node.js applications.
+The `ESLint` class is the primary class to use in Node.js applications.
 
 This class depends on the Node.js `fs` module and the file system, so you cannot use it in browsers. If you want to lint code on browsers, use the [Linter](#linter) class instead.
 
