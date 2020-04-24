@@ -183,7 +183,7 @@ const results = await eslint.lintText(code, options);
 
 This method lints the given source code text and then returns the results.
 
-If you want to use suitable configuration files to lint the text, passing the `options.filePath` option is important. This method loads configuration files with the same manner as the [`eslint.lintFiles()`][eslint-lintfiles] method checks the file the `options.filePath` option pointers. If the `options.filePath` option is not present, this method uses the configuration file at the current working directory (the `cwd` constructor option).
+By default, this method uses the configuration that applies to files in the current working directory (the `cwd` constructor option). If you want to use a different configuration, pass `options.filePath`, and ESLint will load the same configuration that [`eslint.lintFiles()`][eslint-lintfiles] would use for a file at `options.filePath`.
 
 If the `options.filePath` value is configured to be ignored, this method returns an empty array. If the `options.warnIgnored` option is set along with the `options.filePath` option, this method returns a [LintResult] object. In that case, the result may contain a warning that indicates the file was ignored.
 
