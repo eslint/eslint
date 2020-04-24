@@ -156,6 +156,54 @@ ruleTester.run("id-blacklist", rule, {
             code: "({[obj.bar]: a = baz} = qux);",
             options: ["bar"],
             parserOptions: { ecmaVersion: 6 }
+        },
+
+        // references to global variables
+        {
+            code: "Number.parseInt()",
+            options: ["Number"]
+        },
+        {
+            code: "x = Number.NaN;",
+            options: ["Number"]
+        },
+        {
+            code: "var foo = undefined;",
+            options: ["undefined"]
+        },
+        {
+            code: "if (foo === undefined);",
+            options: ["undefined"]
+        },
+        {
+            code: "obj[undefined] = 5;", // creates obj["undefined"]. It should be disallowed, but the rule doesn't know values of globals and can't control computed access.
+            options: ["undefined"]
+        },
+        {
+            code: "foo = { [myGlobal]: 1 };",
+            options: ["myGlobal"],
+            parserOptions: { ecmaVersion: 6 },
+            globals: { myGlobal: "readonly" }
+        },
+        {
+            code: "({ myGlobal } = foo);", // writability doesn't affect the logic, it's always assumed that user doesn't have control over the names of globals.
+            options: ["myGlobal"],
+            parserOptions: { ecmaVersion: 6 },
+            globals: { myGlobal: "writable" }
+        },
+        {
+            code: "/* global myGlobal: readonly */ myGlobal = 5;",
+            options: ["myGlobal"]
+        },
+        {
+            code: "var foo = [Map];",
+            options: ["Map"],
+            env: { es6: true }
+        },
+        {
+            code: "var foo = { bar: window.baz };",
+            options: ["window"],
+            env: { browser: true }
         }
     ],
     invalid: [
@@ -319,7 +367,7 @@ ruleTester.run("id-blacklist", rule, {
                     column: 5
                 },
 
-                // reports each occurence of local identifier, although it's renamed in this export specifier
+                // reports each occurrence of local identifier, although it's renamed in this export specifier
                 {
                     messageId: "blacklisted",
                     data: { name: "foo" },
@@ -447,6 +495,24 @@ ruleTester.run("id-blacklist", rule, {
             errors: [
                 error
             ]
+        },
+        {
+            code: "foo[bar] = baz;",
+            options: ["bar"],
+            errors: [{
+                messageId: "blacklisted",
+                data: { name: "bar" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "baz = foo[bar];",
+            options: ["bar"],
+            errors: [{
+                messageId: "blacklisted",
+                data: { name: "bar" },
+                type: "Identifier"
+            }]
         },
         {
             code: "var foo = bar.baz;",
@@ -853,6 +919,431 @@ ruleTester.run("id-blacklist", rule, {
                     data: { name: "bar" },
                     type: "Identifier",
                     column: 8
+                }
+            ]
+        },
+
+        // not a reference to a global variable, because it isn't a reference to a variable
+        {
+            code: "foo.undefined = 1;",
+            options: ["undefined"],
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "undefined" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var foo = { undefined: 1 };",
+            options: ["undefined"],
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "undefined" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var foo = { undefined: undefined };",
+            options: ["undefined"],
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "undefined" },
+                    type: "Identifier",
+                    column: 13
+                }
+            ]
+        },
+        {
+            code: "var foo = { Number() {} };",
+            options: ["Number"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "Number" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "class Foo { Number() {} }",
+            options: ["Number"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "Number" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "myGlobal: while(foo) { break myGlobal; } ",
+            options: ["myGlobal"],
+            globals: { myGlobal: "readonly" },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "myGlobal" },
+                    type: "Identifier",
+                    column: 1
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "myGlobal" },
+                    type: "Identifier",
+                    column: 30
+                }
+            ]
+        },
+
+        // globals declared in the given source code are not excluded from consideration
+        {
+            code: "const foo = 1; bar = foo;",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 7
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 22
+                }
+            ]
+        },
+        {
+            code: "let foo; foo = bar;",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 5
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 10
+                }
+            ]
+        },
+        {
+            code: "bar = foo; var foo;",
+            options: ["foo"],
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 7
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 16
+                }
+            ]
+        },
+        {
+            code: "function foo() {} var bar = foo;",
+            options: ["foo"],
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 10
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 29
+                }
+            ]
+        },
+        {
+            code: "class Foo {} var bar = Foo;",
+            options: ["Foo"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "Foo" },
+                    type: "Identifier",
+                    column: 7
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "Foo" },
+                    type: "Identifier",
+                    column: 24
+                }
+            ]
+        },
+
+        // redeclared globals are not excluded from consideration
+        {
+            code: "let undefined; undefined = 1;",
+            options: ["undefined"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "undefined" },
+                    type: "Identifier",
+                    column: 5
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "undefined" },
+                    type: "Identifier",
+                    column: 16
+                }
+            ]
+        },
+        {
+            code: "foo = undefined; var undefined;",
+            options: ["undefined"],
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "undefined" },
+                    type: "Identifier",
+                    column: 7
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "undefined" },
+                    type: "Identifier",
+                    column: 22
+                }
+            ]
+        },
+        {
+            code: "function undefined(){} x = undefined;",
+            options: ["undefined"],
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "undefined" },
+                    type: "Identifier",
+                    column: 10
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "undefined" },
+                    type: "Identifier",
+                    column: 28
+                }
+            ]
+        },
+        {
+            code: "class Number {} x = Number.NaN;",
+            options: ["Number"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "Number" },
+                    type: "Identifier",
+                    column: 7
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "Number" },
+                    type: "Identifier",
+                    column: 21
+                }
+            ]
+        },
+
+        /*
+         * Assignment to a property with a blacklisted name isn't allowed, in general.
+         * In this case, that restriction prevents creating a global variable with a blacklisted name.
+         */
+        {
+            code: "/* globals myGlobal */ window.myGlobal = 5; foo = myGlobal;",
+            options: ["myGlobal"],
+            env: { browser: true },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "myGlobal" },
+                    type: "Identifier",
+                    column: 31
+                }
+            ]
+        },
+
+        // disabled global variables
+        {
+            code: "var foo = undefined;",
+            options: ["undefined"],
+            globals: { undefined: "off" },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "undefined" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "/* globals Number: off */ Number.parseInt()",
+            options: ["Number"],
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "Number" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var foo = [Map];", // this actually isn't a disabled global: it was never enabled because es6 environment isn't enabled
+            options: ["Map"],
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "Map" },
+                    type: "Identifier"
+                }
+            ]
+        },
+
+        // shadowed global variables
+        {
+            code: "if (foo) { let undefined; bar = undefined; }",
+            options: ["undefined"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "undefined" },
+                    type: "Identifier",
+                    column: 16
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "undefined" },
+                    type: "Identifier",
+                    column: 33
+                }
+            ]
+        },
+        {
+            code: "function foo(Number) { var x = Number.NaN; }",
+            options: ["Number"],
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "Number" },
+                    type: "Identifier",
+                    column: 14
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "Number" },
+                    type: "Identifier",
+                    column: 32
+                }
+            ]
+        },
+        {
+            code: "function foo() { var myGlobal; x = myGlobal; }",
+            options: ["myGlobal"],
+            globals: { myGlobal: "readonly" },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "myGlobal" },
+                    type: "Identifier",
+                    column: 22
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "myGlobal" },
+                    type: "Identifier",
+                    column: 36
+                }
+            ]
+        },
+        {
+            code: "function foo(bar) { return Number.parseInt(bar); } const Number = 1;",
+            options: ["Number"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "Number" },
+                    type: "Identifier",
+                    column: 28
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "Number" },
+                    type: "Identifier",
+                    column: 58
+                }
+            ]
+        },
+        {
+            code: "import Number from 'myNumber'; const foo = Number.parseInt(bar);",
+            options: ["Number"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "Number" },
+                    type: "Identifier",
+                    column: 8
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "Number" },
+                    type: "Identifier",
+                    column: 44
+                }
+            ]
+        },
+        {
+            code: "var foo = function undefined() {};",
+            options: ["undefined"],
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "undefined" },
+                    type: "Identifier"
+                }
+            ]
+        },
+
+        // this is a reference to a global variable, but at the same time creates a property with a blacklisted name
+        {
+            code: "var foo = { undefined }",
+            options: ["undefined"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "undefined" },
+                    type: "Identifier"
                 }
             ]
         }

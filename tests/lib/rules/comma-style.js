@@ -292,7 +292,9 @@ ruleTester.run("comma-style", rule, {
             output: "var foo = 1,\nbar = 2;",
             errors: [{
                 messageId: "expectedCommaLast",
-                type: "VariableDeclarator"
+                type: "VariableDeclarator",
+                column: 1,
+                endColumn: 2
             }]
         },
         {
@@ -473,7 +475,9 @@ ruleTester.run("comma-style", rule, {
             options: ["first"],
             errors: [{
                 messageId: "expectedCommaFirst",
-                type: "VariableDeclarator"
+                type: "VariableDeclarator",
+                column: 12,
+                endColumn: 13
             }]
         },
         {
@@ -590,7 +594,9 @@ ruleTester.run("comma-style", rule, {
             output: "var foo = [\n(bar\n),\nbaz\n];",
             errors: [{
                 messageId: "unexpectedLineBeforeAndAfterComma",
-                type: "Identifier"
+                type: "Identifier",
+                column: 1,
+                endColumn: 2
             }]
         },
         {

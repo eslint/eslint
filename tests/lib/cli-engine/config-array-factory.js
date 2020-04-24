@@ -10,6 +10,7 @@ const { assert } = require("chai");
 const { spy } = require("sinon");
 const { ConfigArray } = require("../../../lib/cli-engine/config-array");
 const { OverrideTester } = require("../../../lib/cli-engine/config-array");
+const { createContext } = require("../../../lib/cli-engine/config-array-factory");
 const { defineConfigArrayFactoryWithInMemoryFileSystem } = require("./_utils");
 
 const tempDir = path.join(os.tmpdir(), "eslint/config-array-factory");
@@ -112,56 +113,28 @@ describe("ConfigArrayFactory", () => {
             }, /Unexpected top-level property "files"/u);
         });
 
-        it("should call '_normalizeConfigData(configData, options)' with given arguments except 'options.parent'.", () => {
+        it("should call '_normalizeConfigData(configData, ctx)' with given arguments.", () => {
             const configData = {};
+            const basePath = tempDir;
             const filePath = __filename;
             const name = "example";
-            const parent = new ConfigArray();
             const normalizeConfigData = spy(factory, "_normalizeConfigData");
 
-            factory.create(configData, { filePath, name, parent });
+            factory.create(configData, { basePath, filePath, name });
 
             assert.strictEqual(normalizeConfigData.callCount, 1);
-            assert.strictEqual(normalizeConfigData.args[0].length, 3);
-            assert.strictEqual(normalizeConfigData.args[0][0], configData);
-            assert.strictEqual(normalizeConfigData.args[0][1], filePath);
-            assert.strictEqual(normalizeConfigData.args[0][2], name);
+            assert.deepStrictEqual(normalizeConfigData.args[0], [
+                configData,
+                createContext({ cwd: tempDir }, void 0, name, filePath, basePath)
+            ]);
         });
 
-        it("should return a config array that contains the yielded elements from '_normalizeConfigData(configData, options)'.", () => {
+        it("should return a config array that contains the yielded elements from '_normalizeConfigData(configData, ctx)'.", () => {
             const elements = [{}, {}];
 
             factory._normalizeConfigData = () => elements; // eslint-disable-line no-underscore-dangle
 
             const configArray = factory.create({});
-
-            assert.strictEqual(configArray.length, 2);
-            assert.strictEqual(configArray[0], elements[0]);
-            assert.strictEqual(configArray[1], elements[1]);
-        });
-
-        it("should concatenate the elements of `options.parent` and the yielded elements from '_normalizeConfigData(configData, options)'.", () => {
-            const parent = new ConfigArray({}, {});
-            const elements = [{}, {}];
-
-            factory._normalizeConfigData = () => elements; // eslint-disable-line no-underscore-dangle
-
-            const configArray = factory.create({}, { parent });
-
-            assert.strictEqual(configArray.length, 4);
-            assert.strictEqual(configArray[0], parent[0]);
-            assert.strictEqual(configArray[1], parent[1]);
-            assert.strictEqual(configArray[2], elements[0]);
-            assert.strictEqual(configArray[3], elements[1]);
-        });
-
-        it("should not concatenate the elements of `options.parent` if the yielded elements from '_normalizeConfigData(configData, options)' has 'root:true'.", () => {
-            const parent = new ConfigArray({}, {});
-            const elements = [{ root: true }, {}];
-
-            factory._normalizeConfigData = () => elements; // eslint-disable-line no-underscore-dangle
-
-            const configArray = factory.create({}, { parent });
 
             assert.strictEqual(configArray.length, 2);
             assert.strictEqual(configArray[0], elements[0]);
@@ -231,55 +204,27 @@ describe("ConfigArrayFactory", () => {
             });
         }
 
-        it("should call '_normalizeConfigData(configData, options)' with the loaded config data and given options except 'options.parent'.", () => {
+        it("should call '_normalizeConfigData(configData, ctx)' with the loaded config data and given options.", () => {
+            const basePath = tempDir;
             const filePath = "js/.eslintrc.js";
             const name = "example";
-            const parent = new ConfigArray();
             const normalizeConfigData = spy(factory, "_normalizeConfigData");
 
-            factory.loadFile(filePath, { name, parent });
+            factory.loadFile(filePath, { basePath, name });
 
             assert.strictEqual(normalizeConfigData.callCount, 1);
-            assert.strictEqual(normalizeConfigData.args[0].length, 3);
-            assert.deepStrictEqual(normalizeConfigData.args[0][0], { settings: { name: filePath } });
-            assert.strictEqual(normalizeConfigData.args[0][1], path.resolve(tempDir, filePath));
-            assert.strictEqual(normalizeConfigData.args[0][2], name);
+            assert.deepStrictEqual(normalizeConfigData.args[0], [
+                { settings: { name: filePath } },
+                createContext({ cwd: tempDir }, void 0, name, filePath, basePath)
+            ]);
         });
 
-        it("should return a config array that contains the yielded elements from '_normalizeConfigData(configData, options)'.", () => {
+        it("should return a config array that contains the yielded elements from '_normalizeConfigData(configData, ctx)'.", () => {
             const elements = [{}, {}];
 
             factory._normalizeConfigData = () => elements; // eslint-disable-line no-underscore-dangle
 
             const configArray = factory.loadFile("js/.eslintrc.js");
-
-            assert.strictEqual(configArray.length, 2);
-            assert.strictEqual(configArray[0], elements[0]);
-            assert.strictEqual(configArray[1], elements[1]);
-        });
-
-        it("should concatenate the elements of `options.parent` and the yielded elements from '_normalizeConfigData(configData, options)'.", () => {
-            const parent = new ConfigArray({}, {});
-            const elements = [{}, {}];
-
-            factory._normalizeConfigData = () => elements; // eslint-disable-line no-underscore-dangle
-
-            const configArray = factory.loadFile("js/.eslintrc.js", { parent });
-
-            assert.strictEqual(configArray.length, 4);
-            assert.strictEqual(configArray[0], parent[0]);
-            assert.strictEqual(configArray[1], parent[1]);
-            assert.strictEqual(configArray[2], elements[0]);
-            assert.strictEqual(configArray[3], elements[1]);
-        });
-
-        it("should not concatenate the elements of `options.parent` if the yielded elements from '_normalizeConfigData(configData, options)' has 'root:true'.", () => {
-            const parent = new ConfigArray({}, {});
-            const elements = [{ root: true }, {}];
-
-            factory._normalizeConfigData = () => elements; // eslint-disable-line no-underscore-dangle
-
-            const configArray = factory.loadFile("js/.eslintrc.js", { parent });
 
             assert.strictEqual(configArray.length, 2);
             assert.strictEqual(configArray[0], elements[0]);
@@ -347,55 +292,27 @@ describe("ConfigArrayFactory", () => {
             });
         }
 
-        it("should call '_normalizeConfigData(configData, options)' with the loaded config data and given options except 'options.parent'.", () => {
+        it("should call '_normalizeConfigData(configData, ctx)' with the loaded config data and given options.", () => {
+            const basePath = tempDir;
             const directoryPath = "js";
             const name = "example";
-            const parent = new ConfigArray();
             const normalizeConfigData = spy(factory, "_normalizeConfigData");
 
-            factory.loadInDirectory(directoryPath, { name, parent });
+            factory.loadInDirectory(directoryPath, { basePath, name });
 
             assert.strictEqual(normalizeConfigData.callCount, 1);
-            assert.strictEqual(normalizeConfigData.args[0].length, 3);
-            assert.deepStrictEqual(normalizeConfigData.args[0][0], { settings: { name: `${directoryPath}/.eslintrc.js` } });
-            assert.strictEqual(normalizeConfigData.args[0][1], path.resolve(tempDir, directoryPath, ".eslintrc.js"));
-            assert.strictEqual(normalizeConfigData.args[0][2], name);
+            assert.deepStrictEqual(normalizeConfigData.args[0], [
+                { settings: { name: `${directoryPath}/.eslintrc.js` } },
+                createContext({ cwd: tempDir }, void 0, name, path.join(directoryPath, ".eslintrc.js"), basePath)
+            ]);
         });
 
-        it("should return a config array that contains the yielded elements from '_normalizeConfigData(configData, options)'.", () => {
+        it("should return a config array that contains the yielded elements from '_normalizeConfigData(configData, ctx)'.", () => {
             const elements = [{}, {}];
 
             factory._normalizeConfigData = () => elements; // eslint-disable-line no-underscore-dangle
 
             const configArray = factory.loadInDirectory("js");
-
-            assert.strictEqual(configArray.length, 2);
-            assert.strictEqual(configArray[0], elements[0]);
-            assert.strictEqual(configArray[1], elements[1]);
-        });
-
-        it("should concatenate the elements of `options.parent` and the yielded elements from '_normalizeConfigData(configData, options)'.", () => {
-            const parent = new ConfigArray({}, {});
-            const elements = [{}, {}];
-
-            factory._normalizeConfigData = () => elements; // eslint-disable-line no-underscore-dangle
-
-            const configArray = factory.loadInDirectory("js", { parent });
-
-            assert.strictEqual(configArray.length, 4);
-            assert.strictEqual(configArray[0], parent[0]);
-            assert.strictEqual(configArray[1], parent[1]);
-            assert.strictEqual(configArray[2], elements[0]);
-            assert.strictEqual(configArray[3], elements[1]);
-        });
-
-        it("should not concatenate the elements of `options.parent` if the yielded elements from '_normalizeConfigData(configData, options)' has 'root:true'.", () => {
-            const parent = new ConfigArray({}, {});
-            const elements = [{ root: true }, {}];
-
-            factory._normalizeConfigData = () => elements; // eslint-disable-line no-underscore-dangle
-
-            const configArray = factory.loadInDirectory("js", { parent });
 
             assert.strictEqual(configArray.length, 2);
             assert.strictEqual(configArray[0], elements[0]);
@@ -407,7 +324,7 @@ describe("ConfigArrayFactory", () => {
      * All of `create`, `loadFile`, and `loadInDirectory` call this method.
      * So this section tests the common part of the three.
      */
-    describe("'_normalizeConfigData(configData, options)' method should normalize the config data.", () => {
+    describe("'_normalizeConfigData(configData, ctx)' method should normalize the config data.", () => {
 
         /** @type {ConfigArrayFactory} */
         let factory = null;
@@ -421,7 +338,9 @@ describe("ConfigArrayFactory", () => {
          * @returns {ConfigArray} The created config array.
          */
         function create(configData, { filePath, name } = {}) {
-            return new ConfigArray(...factory._normalizeConfigData(configData, filePath, name)); // eslint-disable-line no-underscore-dangle
+            const ctx = createContext({ cwd: tempDir }, void 0, name, filePath, void 0);
+
+            return new ConfigArray(...factory._normalizeConfigData(configData, ctx)); // eslint-disable-line no-underscore-dangle
         }
 
         describe("misc", () => {
@@ -763,7 +682,7 @@ describe("ConfigArrayFactory", () => {
             });
 
             describe("even if 'plugins' property was given and 'filePath' option was given,", () => {
-                it("should load the plugin from the project root.", () => {
+                it("should load the plugin from 'subdir'.", () => {
                     const configArray = create(
                         { plugins: ["subdir"] },
                         { filePath: path.resolve(tempDir, "subdir/a.js") }
@@ -771,9 +690,7 @@ describe("ConfigArrayFactory", () => {
 
                     assert.strictEqual(
                         configArray[0].plugins.subdir.filePath,
-
-                        // "subdir/node_modules/eslint-plugin-subdir/index.js" exists, but not it.
-                        path.resolve(tempDir, "node_modules/eslint-plugin-subdir/index.js")
+                        path.resolve(tempDir, "subdir/node_modules/eslint-plugin-subdir/index.js")
                     );
                 });
             });
@@ -1109,7 +1026,7 @@ describe("ConfigArrayFactory", () => {
                     });
                 });
 
-                it("should have the given config data at the thrid element.", () => {
+                it("should have the given config data at the third element.", () => {
                     assertConfigArrayElement(configArray[2], {
                         name: ".eslintrc",
                         rules: { eqeqeq: 1 }

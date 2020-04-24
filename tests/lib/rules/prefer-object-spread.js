@@ -60,6 +60,22 @@ ruleTester.run("prefer-object-spread", rule, {
         import { Object, Array } from 'globals';
         Object.assign({ foo: 'bar' });
         `,
+        "globalThis.Object.assign({}, foo)",
+        {
+            code: "globalThis.Object.assign({}, { foo: 'bar' })",
+            env: { es6: true }
+        },
+        {
+            code: "globalThis.Object.assign({}, baz, { foo: 'bar' })",
+            env: { es2017: true }
+        },
+        {
+            code: `
+                var globalThis = foo;
+                globalThis.Object.assign({}, foo)
+                `,
+            env: { es2020: true }
+        },
 
         // ignore Object.assign() with > 1 arguments if any of the arguments is an object expression with a getter/setter
         "Object.assign({ get a() {} }, {})",
@@ -87,7 +103,18 @@ ruleTester.run("prefer-object-spread", rule, {
                 }
             ]
         },
-
+        {
+            code: "Object.assign  ({}, foo)",
+            output: "({ ...foo})",
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
         {
             code: "Object.assign({}, { foo: 'bar' })",
             output: "({ foo: 'bar'})",
@@ -447,6 +474,18 @@ ruleTester.run("prefer-object-spread", rule, {
         },
         {
             code: "let a = Object.assign({}, a)",
+            output: "let a = { ...a}",
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 9
+                }
+            ]
+        },
+        {
+            code: "let a = Object.assign   ({}, a)",
             output: "let a = { ...a}",
             errors: [
                 {
@@ -847,6 +886,70 @@ ruleTester.run("prefer-object-spread", rule, {
                 }
             ]
         },
+        {
+            code: "globalThis.Object.assign({ });",
+            output: "({});",
+            env: { es2020: true },
+            errors: [
+                {
+                    messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "globalThis.Object.assign({\n});",
+            output: "({});",
+            env: { es2020: true },
+            errors: [
+                {
+                    messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: `
+                function foo () { var globalThis = bar; }
+                globalThis.Object.assign({ });
+            `,
+            output: `
+                function foo () { var globalThis = bar; }
+                ({});
+            `,
+            env: { es2020: true },
+            errors: [
+                {
+                    messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 3,
+                    column: 17
+                }
+            ]
+        },
+        {
+            code: `
+                const Foo = require('foo');
+                globalThis.Object.assign({ foo: Foo });
+            `,
+            output: `
+                const Foo = require('foo');
+                ({foo: Foo});
+            `,
+            env: { es2020: true },
+            errors: [
+                {
+                    messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 3,
+                    column: 17
+                }
+            ]
+        },
 
         // report Object.assign() with getters/setters if the function call has only 1 argument
         {
@@ -855,6 +958,34 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+
+        // https://github.com/eslint/eslint/issues/13058
+        {
+            code: "const obj = Object.assign<{}, Record<string, string[]>>({}, getObject());",
+            output: "const obj = { ...getObject()};",
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/object-assign-with-generic/object-assign-with-generic-1"),
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 13
+                }
+            ]
+        },
+        {
+            code: "Object.assign<{}, A>({}, foo);",
+            output: "({ ...foo});",
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/object-assign-with-generic/object-assign-with-generic-2"),
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
                     type: "CallExpression",
                     line: 1,
                     column: 1

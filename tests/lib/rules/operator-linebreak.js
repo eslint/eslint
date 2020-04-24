@@ -69,7 +69,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             }]
         },
         {
@@ -80,7 +82,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
-                column: 3
+                column: 2,
+                endLine: 2,
+                endColumn: 3
             }]
         },
         {
@@ -91,7 +95,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             }]
         },
         {
@@ -102,7 +108,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             }]
         },
         {
@@ -113,7 +121,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             }]
         },
         {
@@ -124,7 +134,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "||" },
                 type: "LogicalExpression",
                 line: 2,
-                column: 4
+                column: 2,
+                endLine: 2,
+                endColumn: 4
             }]
         },
         {
@@ -135,7 +147,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+=" },
                 type: "AssignmentExpression",
                 line: 2,
-                column: 4
+                column: 2,
+                endLine: 2,
+                endColumn: 4
             }]
         },
         {
@@ -146,7 +160,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 2,
-                column: 3
+                column: 2,
+                endLine: 2,
+                endColumn: 3
             }]
         },
         {
@@ -157,7 +173,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "*" },
                 type: "BinaryExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             }]
         },
         {
@@ -168,14 +186,18 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "?" },
                 type: "ConditionalExpression",
                 line: 1,
-                column: 22
+                column: 21,
+                endLine: 1,
+                endColumn: 22
             },
             {
                 messageId: "operatorAtBeginning",
                 data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 2,
-                column: 7
+                column: 6,
+                endLine: 2,
+                endColumn: 7
             }]
         },
 
@@ -188,14 +210,18 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "?" },
                 type: "ConditionalExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             },
             {
                 messageId: "operatorAtEnd",
                 data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 3,
-                column: 2
+                column: 1,
+                endLine: 3,
+                endColumn: 2
             }]
         },
 
@@ -208,7 +234,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 1,
-                column: 4
+                column: 3,
+                endLine: 1,
+                endColumn: 4
             }]
         },
         {
@@ -220,7 +248,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 1,
-                column: 6
+                column: 5,
+                endLine: 1,
+                endColumn: 6
             }]
         },
         {
@@ -232,7 +262,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "||" },
                 type: "LogicalExpression",
                 line: 1,
-                column: 5
+                column: 3,
+                endLine: 1,
+                endColumn: 5
             }]
         },
         {
@@ -244,7 +276,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+=" },
                 type: "AssignmentExpression",
                 line: 1,
-                column: 5
+                column: 3,
+                endLine: 1,
+                endColumn: 5
             }]
         },
         {
@@ -256,7 +290,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 1,
-                column: 8
+                column: 7,
+                endLine: 1,
+                endColumn: 8
             }]
         },
         {
@@ -268,14 +304,18 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "?" },
                 type: "ConditionalExpression",
                 line: 1,
-                column: 22
+                column: 21,
+                endLine: 1,
+                endColumn: 22
             },
             {
                 messageId: "operatorAtBeginning",
                 data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 2,
-                column: 7
+                column: 6,
+                endLine: 2,
+                endColumn: 7
             }]
         },
 
@@ -288,7 +328,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 1,
-                column: 4
+                column: 3,
+                endLine: 1,
+                endColumn: 4
             }]
         },
         {
@@ -300,7 +342,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             }]
         },
         {
@@ -312,7 +356,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 1,
-                column: 6
+                column: 5,
+                endLine: 1,
+                endColumn: 6
             }]
         },
         {
@@ -324,7 +370,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             }]
         },
         {
@@ -336,7 +384,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "||" },
                 type: "LogicalExpression",
                 line: 1,
-                column: 5
+                column: 3,
+                endLine: 1,
+                endColumn: 5
             }]
         },
         {
@@ -348,7 +398,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "||" },
                 type: "LogicalExpression",
                 line: 2,
-                column: 4
+                column: 2,
+                endLine: 2,
+                endColumn: 4
             }]
         },
         {
@@ -360,7 +412,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+=" },
                 type: "AssignmentExpression",
                 line: 1,
-                column: 5
+                column: 3,
+                endLine: 1,
+                endColumn: 5
             }]
         },
         {
@@ -372,7 +426,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+=" },
                 type: "AssignmentExpression",
                 line: 2,
-                column: 3
+                column: 1,
+                endLine: 2,
+                endColumn: 3
             }]
         },
         {
@@ -384,7 +440,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 1,
-                column: 8
+                column: 7,
+                endLine: 1,
+                endColumn: 8
             }]
         },
         {
@@ -396,7 +454,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 2,
-                column: 3
+                column: 2,
+                endLine: 2,
+                endColumn: 3
             }]
         },
         {
@@ -408,14 +468,18 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "?" },
                 type: "ConditionalExpression",
                 line: 1,
-                column: 22
+                column: 21,
+                endLine: 1,
+                endColumn: 22
             },
             {
                 messageId: "noLinebreak",
                 data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 3,
-                column: 2
+                column: 1,
+                endLine: 3,
+                endColumn: 2
             }]
         },
         {
@@ -427,14 +491,31 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "?" },
                 type: "ConditionalExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             },
             {
                 messageId: "badLinebreak",
                 data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 4,
-                column: 2
+                column: 1,
+                endLine: 4,
+                endColumn: 2
+            }]
+        },
+        {
+            code: "a = b \n  >>> \n c;",
+            output: "a = b   >>> \n c;",
+            errors: [{
+                messageId: "badLinebreak",
+                data: { operator: ">>>" },
+                type: "BinaryExpression",
+                line: 2,
+                column: 3,
+                endLine: 2,
+                endColumn: 6
             }]
         },
         {
@@ -446,7 +527,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+=" },
                 type: "AssignmentExpression",
                 line: 1,
-                column: 7
+                column: 5,
+                endLine: 1,
+                endColumn: 7
             }]
         },
         {
@@ -458,7 +541,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 4,
-                column: 2
+                column: 1,
+                endLine: 4,
+                endColumn: 2
             }]
         },
         {
@@ -472,7 +557,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 1,
-                column: 5
+                column: 4,
+                endLine: 1,
+                endColumn: 5
             }]
         },
         {
@@ -483,7 +570,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "&&" },
                 type: "LogicalExpression",
                 line: 2,
-                column: 3
+                column: 1,
+                endLine: 2,
+                endColumn: 3
             }]
         },
         {
@@ -494,7 +583,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             }]
         },
         {
@@ -506,7 +597,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             }]
         },
         {
@@ -517,7 +610,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             }]
         },
         {
@@ -529,7 +624,9 @@ ruleTester.run("operator-linebreak", rule, {
                 data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 1,
-                column: 14
+                column: 13,
+                endLine: 1,
+                endColumn: 14
             }]
         }
     ]

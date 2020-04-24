@@ -1372,6 +1372,1029 @@ ruleTester.run("no-extra-boolean-cast", rule, {
                 column: 24,
                 endColumn: 27
             }]
+        },
+
+        // test parentheses in autofix
+        {
+            code: "Boolean(!!(a, b))",
+            output: "Boolean((a, b))",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "Boolean(Boolean((a, b)))",
+            output: "Boolean((a, b))",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "Boolean((!!(a, b)))",
+            output: "Boolean((a, b))",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "Boolean((Boolean((a, b))))",
+            output: "Boolean((a, b))",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "Boolean(!(!(a, b)))",
+            output: "Boolean((a, b))",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "Boolean((!(!(a, b))))",
+            output: "Boolean((a, b))",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "Boolean(!!(a = b))",
+            output: "Boolean(a = b)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "Boolean((!!(a = b)))",
+            output: "Boolean((a = b))",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "Boolean(Boolean(a = b))",
+            output: "Boolean(a = b)",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "Boolean(Boolean((a += b)))",
+            output: "Boolean(a += b)",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "Boolean(!!(a === b))",
+            output: "Boolean(a === b)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "Boolean(!!((a !== b)))",
+            output: "Boolean(a !== b)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "Boolean(!!a.b)",
+            output: "Boolean(a.b)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "Boolean(Boolean((a)))",
+            output: "Boolean(a)",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "Boolean((!!(a)))",
+            output: "Boolean((a))",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+
+        {
+            code: "new Boolean(!!(a, b))",
+            output: "new Boolean((a, b))",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "new Boolean(Boolean((a, b)))",
+            output: "new Boolean((a, b))",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "new Boolean((!!(a, b)))",
+            output: "new Boolean((a, b))",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "new Boolean((Boolean((a, b))))",
+            output: "new Boolean((a, b))",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "new Boolean(!(!(a, b)))",
+            output: "new Boolean((a, b))",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "new Boolean((!(!(a, b))))",
+            output: "new Boolean((a, b))",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "new Boolean(!!(a = b))",
+            output: "new Boolean(a = b)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "new Boolean((!!(a = b)))",
+            output: "new Boolean((a = b))",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "new Boolean(Boolean(a = b))",
+            output: "new Boolean(a = b)",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "new Boolean(Boolean((a += b)))",
+            output: "new Boolean(a += b)",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "new Boolean(!!(a === b))",
+            output: "new Boolean(a === b)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "new Boolean(!!((a !== b)))",
+            output: "new Boolean(a !== b)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "new Boolean(!!a.b)",
+            output: "new Boolean(a.b)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "new Boolean(Boolean((a)))",
+            output: "new Boolean(a)",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "new Boolean((!!(a)))",
+            output: "new Boolean((a))",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "if (!!(a, b));",
+            output: "if (a, b);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "if (Boolean((a, b)));",
+            output: "if (a, b);",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "if (!(!(a, b)));",
+            output: "if (a, b);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "if (!!(a = b));",
+            output: "if (a = b);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "if (Boolean(a = b));",
+            output: "if (a = b);",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "if (!!(a > b));",
+            output: "if (a > b);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "if (Boolean(a === b));",
+            output: "if (a === b);",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "if (!!f(a));",
+            output: "if (f(a));",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "if (Boolean(f(a)));",
+            output: "if (f(a));",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "if (!!(f(a)));",
+            output: "if (f(a));",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "if ((!!f(a)));",
+            output: "if ((f(a)));",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "if ((Boolean(f(a))));",
+            output: "if ((f(a)));",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "if (!!a);",
+            output: "if (a);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "if (Boolean(a));",
+            output: "if (a);",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "while (!!(a, b));",
+            output: "while (a, b);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "while (Boolean((a, b)));",
+            output: "while (a, b);",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "while (!(!(a, b)));",
+            output: "while (a, b);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "while (!!(a = b));",
+            output: "while (a = b);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "while (Boolean(a = b));",
+            output: "while (a = b);",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "while (!!(a > b));",
+            output: "while (a > b);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "while (Boolean(a === b));",
+            output: "while (a === b);",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "while (!!f(a));",
+            output: "while (f(a));",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "while (Boolean(f(a)));",
+            output: "while (f(a));",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "while (!!(f(a)));",
+            output: "while (f(a));",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "while ((!!f(a)));",
+            output: "while ((f(a)));",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "while ((Boolean(f(a))));",
+            output: "while ((f(a)));",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "while (!!a);",
+            output: "while (a);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "while (Boolean(a));",
+            output: "while (a);",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "do {} while (!!(a, b));",
+            output: "do {} while (a, b);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "do {} while (Boolean((a, b)));",
+            output: "do {} while (a, b);",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "do {} while (!(!(a, b)));",
+            output: "do {} while (a, b);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "do {} while (!!(a = b));",
+            output: "do {} while (a = b);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "do {} while (Boolean(a = b));",
+            output: "do {} while (a = b);",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "do {} while (!!(a > b));",
+            output: "do {} while (a > b);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "do {} while (Boolean(a === b));",
+            output: "do {} while (a === b);",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "do {} while (!!f(a));",
+            output: "do {} while (f(a));",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "do {} while (Boolean(f(a)));",
+            output: "do {} while (f(a));",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "do {} while (!!(f(a)));",
+            output: "do {} while (f(a));",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "do {} while ((!!f(a)));",
+            output: "do {} while ((f(a)));",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "do {} while ((Boolean(f(a))));",
+            output: "do {} while ((f(a)));",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "do {} while (!!a);",
+            output: "do {} while (a);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "do {} while (Boolean(a));",
+            output: "do {} while (a);",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "for (; !!(a, b););",
+            output: "for (; a, b;);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "for (; Boolean((a, b)););",
+            output: "for (; a, b;);",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "for (; !(!(a, b)););",
+            output: "for (; a, b;);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "for (; !!(a = b););",
+            output: "for (; a = b;);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "for (; Boolean(a = b););",
+            output: "for (; a = b;);",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "for (; !!(a > b););",
+            output: "for (; a > b;);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "for (; Boolean(a === b););",
+            output: "for (; a === b;);",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "for (; !!f(a););",
+            output: "for (; f(a););",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "for (; Boolean(f(a)););",
+            output: "for (; f(a););",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "for (; !!(f(a)););",
+            output: "for (; f(a););",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "for (; (!!f(a)););",
+            output: "for (; (f(a)););",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "for (; (Boolean(f(a))););",
+            output: "for (; (f(a)););",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "for (; !!a;);",
+            output: "for (; a;);",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "for (; Boolean(a););",
+            output: "for (; a;);",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!!(a, b) ? c : d",
+            output: "(a, b) ? c : d",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "(!!(a, b)) ? c : d",
+            output: "(a, b) ? c : d",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "Boolean((a, b)) ? c : d",
+            output: "(a, b) ? c : d",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!!(a = b) ? c : d",
+            output: "(a = b) ? c : d",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "Boolean(a -= b) ? c : d",
+            output: "(a -= b) ? c : d",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "(Boolean((a *= b))) ? c : d",
+            output: "(a *= b) ? c : d",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!!(a ? b : c) ? d : e",
+            output: "(a ? b : c) ? d : e",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "Boolean(a ? b : c) ? d : e",
+            output: "(a ? b : c) ? d : e",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!!(a || b) ? c : d",
+            output: "a || b ? c : d",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "Boolean(a && b) ? c : d",
+            output: "a && b ? c : d",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!!(a === b) ? c : d",
+            output: "a === b ? c : d",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "Boolean(a < b) ? c : d",
+            output: "a < b ? c : d",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!!((a !== b)) ? c : d",
+            output: "a !== b ? c : d",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "Boolean((a >= b)) ? c : d",
+            output: "a >= b ? c : d",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!!+a ? b : c",
+            output: "+a ? b : c",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "!!+(a) ? b : c",
+            output: "+(a) ? b : c",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "Boolean(!a) ? b : c",
+            output: "!a ? b : c",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!!f(a) ? b : c",
+            output: "f(a) ? b : c",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "(!!f(a)) ? b : c",
+            output: "(f(a)) ? b : c",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "Boolean(a.b) ? c : d",
+            output: "a.b ? c : d",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!!a ? b : c",
+            output: "a ? b : c",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "Boolean(a) ? b : c",
+            output: "a ? b : c",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!!!(a, b)",
+            output: "!(a, b)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "!Boolean((a, b))",
+            output: "!(a, b)",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!!!(a = b)",
+            output: "!(a = b)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "!!(!(a += b))",
+            output: "!(a += b)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "!(!!(a += b))",
+            output: "!(a += b)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "!Boolean(a -= b)",
+            output: "!(a -= b)",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!Boolean((a -= b))",
+            output: "!(a -= b)",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!(Boolean(a -= b))",
+            output: "!(a -= b)",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!!!(a || b)",
+            output: "!(a || b)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "!Boolean(a || b)",
+            output: "!(a || b)",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!!!(a && b)",
+            output: "!(a && b)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "!Boolean(a && b)",
+            output: "!(a && b)",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!!!(a != b)",
+            output: "!(a != b)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "!!!(a === b)",
+            output: "!(a === b)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "var x = !Boolean(a > b)",
+            output: "var x = !(a > b)",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!!!(a - b)",
+            output: "!(a - b)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "!!!(a ** b)",
+            output: "!(a ** b)",
+            parserOptions: { ecmaVersion: 2016 },
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "!Boolean(a ** b)",
+            output: "!(a ** b)",
+            parserOptions: { ecmaVersion: 2016 },
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "async function f() { !!!(await a) }",
+            output: "async function f() { !await a }",
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "async function f() { !Boolean(await a) }",
+            output: "async function f() { !await a }",
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!!!!a",
+            output: "!!a", // Reports 2 errors. After the first fix, the second error will disappear.
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedNegation", type: "UnaryExpression" }
+            ]
+        },
+        {
+            code: "!!(!(!a))",
+            output: "!!a", // Reports 2 errors. After the first fix, the second error will disappear.
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedNegation", type: "UnaryExpression" }
+            ]
+        },
+        {
+            code: "!Boolean(!a)",
+            output: "!!a",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!Boolean((!a))",
+            output: "!!a",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!Boolean(!(a))",
+            output: "!!(a)",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!(Boolean(!a))",
+            output: "!(!a)",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!!!+a",
+            output: "!+a",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "!!!(+a)",
+            output: "!+a",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "!!(!+a)",
+            output: "!+a",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "!(!!+a)",
+            output: "!(+a)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "!Boolean((-a))",
+            output: "!-a",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!Boolean(-(a))",
+            output: "!-(a)",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!!!(--a)",
+            output: "!--a",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "!Boolean(a++)",
+            output: "!a++",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "!!!f(a)",
+            output: "!f(a)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "!!!(f(a))",
+            output: "!f(a)",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "!!!a",
+            output: "!a",
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+        },
+        {
+            code: "!Boolean(a)",
+            output: "!a",
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+        {
+            code: "if (!!(a, b) || !!(c, d)) {}",
+            output: "if ((a, b) || (c, d)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedNegation", type: "UnaryExpression" }
+            ]
+        },
+        {
+            code: "if (Boolean((a, b)) || Boolean((c, d))) {}",
+            output: "if ((a, b) || (c, d)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedCall", type: "CallExpression" },
+                { messageId: "unexpectedCall", type: "CallExpression" }
+            ]
+        },
+        {
+            code: "if ((!!((a, b))) || (!!((c, d)))) {}",
+            output: "if ((a, b) || (c, d)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedNegation", type: "UnaryExpression" }
+            ]
+        },
+        {
+            code: "if (!!(a, b) && !!(c, d)) {}",
+            output: "if ((a, b) && (c, d)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedNegation", type: "UnaryExpression" }
+            ]
+        },
+        {
+            code: "if (Boolean((a, b)) && Boolean((c, d))) {}",
+            output: "if ((a, b) && (c, d)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedCall", type: "CallExpression" },
+                { messageId: "unexpectedCall", type: "CallExpression" }
+            ]
+        },
+        {
+            code: "if ((!!((a, b))) && (!!((c, d)))) {}",
+            output: "if ((a, b) && (c, d)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedNegation", type: "UnaryExpression" }
+            ]
+        },
+        {
+            code: "if (!!(a = b) || !!(c = d)) {}",
+            output: "if ((a = b) || (c = d)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedNegation", type: "UnaryExpression" }
+            ]
+        },
+        {
+            code: "if (Boolean(a /= b) || Boolean(c /= d)) {}",
+            output: "if ((a /= b) || (c /= d)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedCall", type: "CallExpression" },
+                { messageId: "unexpectedCall", type: "CallExpression" }
+            ]
+        },
+        {
+            code: "if (!!(a >>= b) && !!(c >>= d)) {}",
+            output: "if ((a >>= b) && (c >>= d)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedNegation", type: "UnaryExpression" }
+            ]
+        },
+        {
+            code: "if (Boolean(a **= b) && Boolean(c **= d)) {}",
+            output: "if ((a **= b) && (c **= d)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            parserOptions: { ecmaVersion: 2016 },
+            errors: [
+                { messageId: "unexpectedCall", type: "CallExpression" },
+                { messageId: "unexpectedCall", type: "CallExpression" }
+            ]
+        },
+        {
+            code: "if (!!(a ? b : c) || !!(d ? e : f)) {}",
+            output: "if ((a ? b : c) || (d ? e : f)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedNegation", type: "UnaryExpression" }
+            ]
+        },
+        {
+            code: "if (Boolean(a ? b : c) || Boolean(d ? e : f)) {}",
+            output: "if ((a ? b : c) || (d ? e : f)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedCall", type: "CallExpression" },
+                { messageId: "unexpectedCall", type: "CallExpression" }
+            ]
+        },
+        {
+            code: "if (!!(a ? b : c) && !!(d ? e : f)) {}",
+            output: "if ((a ? b : c) && (d ? e : f)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedNegation", type: "UnaryExpression" }
+            ]
+        },
+        {
+            code: "if (Boolean(a ? b : c) && Boolean(d ? e : f)) {}",
+            output: "if ((a ? b : c) && (d ? e : f)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedCall", type: "CallExpression" },
+                { messageId: "unexpectedCall", type: "CallExpression" }
+            ]
+        },
+        {
+            code: "if (!!(a || b) || !!(c || d)) {}",
+            output: "if (a || b || (c || d)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedNegation", type: "UnaryExpression" }
+            ]
+        },
+        {
+            code: "if (Boolean(a || b) || Boolean(c || d)) {}",
+            output: "if (a || b || (c || d)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedCall", type: "CallExpression" },
+                { messageId: "unexpectedCall", type: "CallExpression" }
+            ]
+        },
+        {
+            code: "if (!!(a || b) && !!(c || d)) {}",
+            output: "if ((a || b) && (c || d)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedNegation", type: "UnaryExpression" }
+            ]
+        },
+        {
+            code: "if (Boolean(a || b) && Boolean(c || d)) {}",
+            output: "if ((a || b) && (c || d)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedCall", type: "CallExpression" },
+                { messageId: "unexpectedCall", type: "CallExpression" }
+            ]
+        },
+        {
+            code: "if (!!(a && b) || !!(c && d)) {}",
+            output: "if (a && b || c && d) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedNegation", type: "UnaryExpression" }
+            ]
+        },
+        {
+            code: "if (Boolean(a && b) || Boolean(c && d)) {}",
+            output: "if (a && b || c && d) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedCall", type: "CallExpression" },
+                { messageId: "unexpectedCall", type: "CallExpression" }
+            ]
+        },
+        {
+            code: "if (!!(a && b) && !!(c && d)) {}",
+            output: "if (a && b && (c && d)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedNegation", type: "UnaryExpression" }
+            ]
+        },
+        {
+            code: "if (Boolean(a && b) && Boolean(c && d)) {}",
+            output: "if (a && b && (c && d)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedCall", type: "CallExpression" },
+                { messageId: "unexpectedCall", type: "CallExpression" }
+            ]
+        },
+        {
+            code: "if (!!(a !== b) || !!(c !== d)) {}",
+            output: "if (a !== b || c !== d) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedNegation", type: "UnaryExpression" }
+            ]
+        },
+        {
+            code: "if (Boolean(a != b) || Boolean(c != d)) {}",
+            output: "if (a != b || c != d) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedCall", type: "CallExpression" },
+                { messageId: "unexpectedCall", type: "CallExpression" }
+            ]
+        },
+        {
+            code: "if (!!(a === b) && !!(c === d)) {}",
+            output: "if (a === b && c === d) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedNegation", type: "UnaryExpression" }
+            ]
+        },
+        {
+            code: "if (!!(a > b) || !!(c < d)) {}",
+            output: "if (a > b || c < d) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedNegation", type: "UnaryExpression" }
+            ]
+        },
+        {
+            code: "if (Boolean(!a) || Boolean(+b)) {}",
+            output: "if (!a || +b) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedCall", type: "CallExpression" },
+                { messageId: "unexpectedCall", type: "CallExpression" }
+            ]
+        },
+        {
+            code: "if (!!f(a) && !!b.c) {}",
+            output: "if (f(a) && b.c) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedNegation", type: "UnaryExpression" }
+            ]
+        },
+        {
+            code: "if (Boolean(a) || !!b) {}",
+            output: "if (a || b) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedCall", type: "CallExpression" },
+                { messageId: "unexpectedNegation", type: "UnaryExpression" }
+            ]
+        },
+        {
+            code: "if (!!a && Boolean(b)) {}",
+            output: "if (a && b) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedCall", type: "CallExpression" }
+            ]
+        },
+        {
+            code: "if ((!!a) || (Boolean(b))) {}",
+            output: "if ((a) || (b)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [
+                { messageId: "unexpectedNegation", type: "UnaryExpression" },
+                { messageId: "unexpectedCall", type: "CallExpression" }
+            ]
         }
     ]
 });
