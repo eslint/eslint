@@ -1026,7 +1026,7 @@ describe("ConfigArrayFactory", () => {
                     });
                 });
 
-                it("should have the given config data at the thrid element.", () => {
+                it("should have the given config data at the third element.", () => {
                     assertConfigArrayElement(configArray[2], {
                         name: ".eslintrc",
                         rules: { eqeqeq: 1 }
