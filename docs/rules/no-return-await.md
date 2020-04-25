@@ -2,7 +2,7 @@
 
 Using `return await` inside an `async function` keeps the current function in the call stack until the Promise that is being awaited have resolved. You can take a shortcut and just return the Promise right away to avoid this, saving an extra microtask before resolving the overarching Promise. `return await` can also be  used in a try/catch statement to catch errors from another Promise-based function.
 
-The only visible change when doing this is that the function will no longer be a part of the stack trace, if an error is thrown asyncrously from the Promise being returned.
+The only visible change when doing this is that the function will no longer be a part of the stack trace, if an error is thrown asynchronously from the Promise being returned.
 
 ## Rule Details
 
