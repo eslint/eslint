@@ -46,6 +46,50 @@ ruleTester.run("arrow-body-style", rule, {
     ],
     invalid: [
         {
+            code: "for (let a = (b, c, d) => { return vb && c in d; }; ;);",
+            output: "for (let a = (b, c, d) => (vb && c in d); ;);",
+            errors: [
+                {
+                    line: 1,
+                    column: 27,
+                    messageId: "unexpectedSingleBlock"
+                }
+            ]
+        },
+        {
+            code: "for (let a = (b, c, d) => { return v in b && c in d; }; ;);",
+            output: "for (let a = (b, c, d) => (v in b && c in d); ;);",
+            errors: [
+                {
+                    line: 1,
+                    column: 27,
+                    messageId: "unexpectedSingleBlock"
+                }
+            ]
+        },
+        {
+            code: "for (let a = (b, c, d) => { return vb in dd ; }; ;);",
+            output: "for (let a = (b, c, d) => (vb in dd ); ;);",
+            errors: [
+                {
+                    line: 1,
+                    column: 27,
+                    messageId: "unexpectedSingleBlock"
+                }
+            ]
+        },
+        {
+            code: "for (let a = (b, c, d) => { return vb in c in dd ; }; ;);",
+            output: "for (let a = (b, c, d) => (vb in c in dd ); ;);",
+            errors: [
+                {
+                    line: 1,
+                    column: 27,
+                    messageId: "unexpectedSingleBlock"
+                }
+            ]
+        },
+        {
             code: "var foo = () => 0",
             output: "var foo = () => {return 0}",
             options: ["always"],
