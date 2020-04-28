@@ -753,11 +753,11 @@ target.gensite = function(prereleaseVersion) {
     }
     cp("-rf", `${TEMP_DIR}*`, outputDir);
 
-    // 11. Generate rule listing page
+    // 11. Generate rules index page
     if (prereleaseVersion) {
-        echo("> Skipping updating rules listing because this is a prerelease (Step 11)");
+        echo("> Skipping generating rules index page because this is a prerelease (Step 11)");
     } else {
-        echo("> Generating the rule listing (Step 11)");
+        echo("> Generating the rules index page (Step 11)");
         generateRuleIndexPage();
     }
 
