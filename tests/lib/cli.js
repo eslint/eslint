@@ -185,6 +185,7 @@ describe("cli", () => {
         });
     });
 
+
     describe("when given a config with environment set to Node.js", () => {
         it("should execute without any errors", () => {
             const configPath = getFixturePath("configurations", "env-node.json");
@@ -1189,6 +1190,31 @@ describe("cli", () => {
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);
             assert.strictEqual(exitCode, 2);
+        });
+    });
+
+    describe("testing the cloned config", () => {
+        describe("config file and input file", () => {
+            it("should execute without any errors", () => {
+                const configPath = getFixturePath("config-file", "cloned-config", "eslintConfig.js");
+                const filePath = getFixturePath("config-file", "cloned-config", "index.js");
+                const code = `--config ${configPath} ${filePath}`;
+
+                const exit = cli.execute(code);
+
+                assert.strictEqual(exit, 0);
+            });
+        });
+
+        describe("inline config and input file", () => {
+            it("should execute without any errors", () => {
+                const filePath = getFixturePath("config-file", "cloned-config", "inlineText.js");
+                const code = `${filePath}`;
+
+                const exit = cli.execute(code);
+
+                assert.strictEqual(exit, 0);
+            });
         });
     });
 
