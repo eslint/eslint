@@ -18,8 +18,7 @@ const assert = require("chai").assert,
     os = require("os"),
     hash = require("../../../lib/cli-engine/hash"),
     { CascadingConfigArrayFactory } = require("../../../lib/cli-engine/cascading-config-array-factory"),
-    { unIndent } = require("../_utils"),
-    { defineCLIEngineWithInMemoryFileSystem } = require("./_utils");
+    { unIndent, defineCLIEngineWithInMemoryFileSystem } = require("../../_utils");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 const fCache = require("file-entry-cache");
@@ -822,7 +821,9 @@ describe("CLIEngine", () => {
 
             engine = new CLIEngine({
                 parser: "espree",
-                envs: ["es6"],
+                parserOptions: {
+                    ecmaVersion: 2020
+                },
                 useEslintrc: false
             });
 
@@ -866,6 +867,29 @@ describe("CLIEngine", () => {
 
             assert.strictEqual(report.results.length, 1);
             assert.strictEqual(report.results[0].messages.length, 0);
+        });
+
+        it("should fall back to defaults when extensions is set to an empty array", () => {
+
+            engine = new CLIEngine({
+                cwd: getFixturePath("configurations"),
+                configFile: getFixturePath("configurations", "quotes-error.json"),
+                extensions: []
+            });
+            const report = engine.executeOnFiles([getFixturePath("single-quoted.js")]);
+
+            assert.strictEqual(report.results.length, 1);
+            assert.strictEqual(report.results[0].messages.length, 1);
+            assert.strictEqual(report.errorCount, 1);
+            assert.strictEqual(report.warningCount, 0);
+            assert.strictEqual(report.fixableErrorCount, 1);
+            assert.strictEqual(report.fixableWarningCount, 0);
+            assert.strictEqual(report.results[0].messages[0].ruleId, "quotes");
+            assert.strictEqual(report.results[0].messages[0].severity, 2);
+            assert.strictEqual(report.results[0].errorCount, 1);
+            assert.strictEqual(report.results[0].warningCount, 0);
+            assert.strictEqual(report.results[0].fixableErrorCount, 1);
+            assert.strictEqual(report.results[0].fixableWarningCount, 0);
         });
 
         it("should report zero messages when given a directory with a .js and a .js2 file", () => {
@@ -995,6 +1019,27 @@ describe("CLIEngine", () => {
             });
 
             const report = engine.executeOnFiles(["fixtures/files/.bar.js"]);
+            const expectedMsg = "File ignored by default.  Use a negated ignore pattern (like \"--ignore-pattern '!<relative/path/to/filename>'\") to override.";
+
+            assert.strictEqual(report.results.length, 1);
+            assert.strictEqual(report.results[0].errorCount, 0);
+            assert.strictEqual(report.results[0].warningCount, 1);
+            assert.strictEqual(report.results[0].fixableErrorCount, 0);
+            assert.strictEqual(report.results[0].fixableWarningCount, 0);
+            assert.strictEqual(report.results[0].messages[0].message, expectedMsg);
+        });
+
+        // https://github.com/eslint/eslint/issues/12873
+        it("should not check files within a .hidden folder if they are passed explicitly without the --no-ignore flag", () => {
+            engine = new CLIEngine({
+                cwd: getFixturePath("cli-engine"),
+                useEslintrc: false,
+                rules: {
+                    quotes: [2, "single"]
+                }
+            });
+
+            const report = engine.executeOnFiles(["hidden/.hiddenfolder/double-quotes.js"]);
             const expectedMsg = "File ignored by default.  Use a negated ignore pattern (like \"--ignore-pattern '!<relative/path/to/filename>'\") to override.";
 
             assert.strictEqual(report.results.length, 1);
@@ -3187,7 +3232,7 @@ describe("CLIEngine", () => {
                 `);
             });
 
-            it("should use overriden processor; should report HTML blocks but not fix HTML blocks if the processor for '*.html' didn't support autofix.", () => {
+            it("should use overridden processor; should report HTML blocks but not fix HTML blocks if the processor for '*.html' didn't support autofix.", () => {
                 CLIEngine = defineCLIEngineWithInMemoryFileSystem({
                     cwd: () => root,
                     files: {
@@ -3394,7 +3439,7 @@ describe("CLIEngine", () => {
                     assert.deepStrictEqual(err.messageData, {
                         importerName: `extends-plugin${path.sep}.eslintrc.yml`,
                         pluginName: "eslint-plugin-nonexistent-plugin",
-                        resolvePluginsRelativeTo: cwd
+                        resolvePluginsRelativeTo: path.join(cwd, "extends-plugin") // the directory of the config file.
                     });
                     return;
                 }
@@ -3410,7 +3455,7 @@ describe("CLIEngine", () => {
                     assert.deepStrictEqual(err.messageData, {
                         importerName: `plugins${path.sep}.eslintrc.yml`,
                         pluginName: "eslint-plugin-nonexistent-plugin",
-                        resolvePluginsRelativeTo: cwd
+                        resolvePluginsRelativeTo: path.join(cwd, "plugins") // the directory of the config file.
                     });
                     return;
                 }
@@ -5901,6 +5946,363 @@ describe("CLIEngine", () => {
                 assert.deepStrictEqual(files, [
                     path.join(root, "node_modules/myconf/foo/test.js")
                 ]);
+            });
+        });
+    });
+
+    describe("plugin conflicts", () => {
+        let uid = 0;
+        let root = "";
+
+        beforeEach(() => {
+            root = getFixturePath(`cli-engine/plugin-conflicts-${++uid}`);
+        });
+
+        /** @type {typeof CLIEngine} */
+        let InMemoryCLIEngine;
+
+        /**
+         * Verify thrown errors.
+         * @param {() => void} f The function to run and throw.
+         * @param {Record<string, any>} props The properties to verify.
+         * @returns {void}
+         */
+        function assertThrows(f, props) {
+            try {
+                f();
+            } catch (error) {
+                for (const [key, value] of Object.entries(props)) {
+                    assert.deepStrictEqual(error[key], value, key);
+                }
+                return;
+            }
+
+            assert.fail("Function should throw an error, but not.");
+        }
+
+        describe("between a config file and linear extendees.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-plugin-foo/index.js": "",
+                        "node_modules/eslint-config-one/node_modules/eslint-plugin-foo/index.js": "",
+                        "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
+                            extends: ["two"],
+                            plugins: ["foo"]
+                        })}`,
+                        "node_modules/eslint-config-two/node_modules/eslint-plugin-foo/index.js": "",
+                        "node_modules/eslint-config-two/index.js": `module.exports = ${JSON.stringify({
+                            plugins: ["foo"]
+                        })}`,
+                        ".eslintrc.json": JSON.stringify({
+                            extends: ["one"],
+                            plugins: ["foo"]
+                        }),
+                        "test.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' should NOT throw plugin-conflict error. (Load the plugin from the base directory of the entry config file.)", () => {
+                const engine = new InMemoryCLIEngine({ cwd: root });
+
+                engine.executeOnFiles("test.js");
+            });
+        });
+
+        describe("between a config file and same-depth extendees.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-plugin-foo/index.js": "",
+                        "node_modules/eslint-config-one/node_modules/eslint-plugin-foo/index.js": "",
+                        "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
+                            plugins: ["foo"]
+                        })}`,
+                        "node_modules/eslint-config-two/node_modules/eslint-plugin-foo/index.js": "",
+                        "node_modules/eslint-config-two/index.js": `module.exports = ${JSON.stringify({
+                            plugins: ["foo"]
+                        })}`,
+                        ".eslintrc.json": JSON.stringify({
+                            extends: ["one", "two"],
+                            plugins: ["foo"]
+                        }),
+                        "test.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' should NOT throw plugin-conflict error. (Load the plugin from the base directory of the entry config file.)", () => {
+                const engine = new InMemoryCLIEngine({ cwd: root });
+
+                engine.executeOnFiles("test.js");
+            });
+        });
+
+        describe("between two config files in different directories, with single node_modules.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-plugin-foo/index.js": "",
+                        ".eslintrc.json": JSON.stringify({
+                            plugins: ["foo"]
+                        }),
+                        "subdir/.eslintrc.json": JSON.stringify({
+                            plugins: ["foo"]
+                        }),
+                        "subdir/test.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' should NOT throw plugin-conflict error. (Load the plugin from the base directory of the entry config file, but there are two entry config files, but node_modules directory is unique.)", () => {
+                const engine = new InMemoryCLIEngine({ cwd: root });
+
+                engine.executeOnFiles("subdir/test.js");
+            });
+        });
+
+        describe("between two config files in different directories, with multiple node_modules.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-plugin-foo/index.js": "",
+                        ".eslintrc.json": JSON.stringify({
+                            plugins: ["foo"]
+                        }),
+                        "subdir/node_modules/eslint-plugin-foo/index.js": "",
+                        "subdir/.eslintrc.json": JSON.stringify({
+                            plugins: ["foo"]
+                        }),
+                        "subdir/test.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' should throw plugin-conflict error. (Load the plugin from the base directory of the entry config file, but there are two entry config files.)", () => {
+                const engine = new InMemoryCLIEngine({ cwd: root });
+
+                assertThrows(
+                    () => engine.executeOnFiles("subdir/test.js"),
+                    {
+                        message: `Plugin "foo" was conflicted between "subdir${path.sep}.eslintrc.json" and ".eslintrc.json".`,
+                        messageTemplate: "plugin-conflict",
+                        messageData: {
+                            pluginId: "foo",
+                            plugins: [
+                                {
+                                    filePath: path.join(root, "subdir/node_modules/eslint-plugin-foo/index.js"),
+                                    importerName: `subdir${path.sep}.eslintrc.json`
+                                },
+                                {
+                                    filePath: path.join(root, "node_modules/eslint-plugin-foo/index.js"),
+                                    importerName: ".eslintrc.json"
+                                }
+                            ]
+                        }
+                    }
+                );
+            });
+        });
+
+        describe("between '--config' option and a regular config file, with single node_modules.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-plugin-foo/index.js": "",
+                        "node_modules/mine/.eslintrc.json": JSON.stringify({
+                            plugins: ["foo"]
+                        }),
+                        ".eslintrc.json": JSON.stringify({
+                            plugins: ["foo"]
+                        }),
+                        "test.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' should NOT throw plugin-conflict error. (Load the plugin from the base directory of the entry config file, but there are two entry config files, but node_modules directory is unique.)", () => {
+                const engine = new InMemoryCLIEngine({
+                    cwd: root,
+                    configFile: "node_modules/mine/.eslintrc.json"
+                });
+
+                engine.executeOnFiles("test.js");
+            });
+        });
+
+        describe("between '--config' option and a regular config file, with multiple node_modules.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-plugin-foo/index.js": "",
+                        "node_modules/mine/node_modules/eslint-plugin-foo/index.js": "",
+                        "node_modules/mine/.eslintrc.json": JSON.stringify({
+                            plugins: ["foo"]
+                        }),
+                        ".eslintrc.json": JSON.stringify({
+                            plugins: ["foo"]
+                        }),
+                        "test.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' should throw plugin-conflict error. (Load the plugin from the base directory of the entry config file, but there are two entry config files.)", () => {
+                const engine = new InMemoryCLIEngine({
+                    cwd: root,
+                    configFile: "node_modules/mine/.eslintrc.json"
+                });
+
+                assertThrows(
+                    () => engine.executeOnFiles("test.js"),
+                    {
+                        message: "Plugin \"foo\" was conflicted between \"--config\" and \".eslintrc.json\".",
+                        messageTemplate: "plugin-conflict",
+                        messageData: {
+                            pluginId: "foo",
+                            plugins: [
+                                {
+                                    filePath: path.join(root, "node_modules/mine/node_modules/eslint-plugin-foo/index.js"),
+                                    importerName: "--config"
+                                },
+                                {
+                                    filePath: path.join(root, "node_modules/eslint-plugin-foo/index.js"),
+                                    importerName: ".eslintrc.json"
+                                }
+                            ]
+                        }
+                    }
+                );
+            });
+        });
+
+        describe("between '--plugin' option and a regular config file, with single node_modules.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-plugin-foo/index.js": "",
+                        "subdir/.eslintrc.json": JSON.stringify({
+                            plugins: ["foo"]
+                        }),
+                        "subdir/test.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' should NOT throw plugin-conflict error. (Load the plugin from both CWD and the base directory of the entry config file, but node_modules directory is unique.)", () => {
+                const engine = new InMemoryCLIEngine({
+                    cwd: root,
+                    plugins: ["foo"]
+                });
+
+                engine.executeOnFiles("subdir/test.js");
+            });
+        });
+
+        describe("between '--plugin' option and a regular config file, with multiple node_modules.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-plugin-foo/index.js": "",
+                        "subdir/node_modules/eslint-plugin-foo/index.js": "",
+                        "subdir/.eslintrc.json": JSON.stringify({
+                            plugins: ["foo"]
+                        }),
+                        "subdir/test.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' should throw plugin-conflict error. (Load the plugin from both CWD and the base directory of the entry config file.)", () => {
+                const engine = new InMemoryCLIEngine({
+                    cwd: root,
+                    plugins: ["foo"]
+                });
+
+                assertThrows(
+                    () => engine.executeOnFiles("subdir/test.js"),
+                    {
+                        message: `Plugin "foo" was conflicted between "CLIOptions" and "subdir${path.sep}.eslintrc.json".`,
+                        messageTemplate: "plugin-conflict",
+                        messageData: {
+                            pluginId: "foo",
+                            plugins: [
+                                {
+                                    filePath: path.join(root, "node_modules/eslint-plugin-foo/index.js"),
+                                    importerName: "CLIOptions"
+                                },
+                                {
+                                    filePath: path.join(root, "subdir/node_modules/eslint-plugin-foo/index.js"),
+                                    importerName: `subdir${path.sep}.eslintrc.json`
+                                }
+                            ]
+                        }
+                    }
+                );
+            });
+        });
+
+        describe("'--resolve-plugins-relative-to' option overrides the location that ESLint load plugins from.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-plugin-foo/index.js": "",
+                        ".eslintrc.json": JSON.stringify({
+                            plugins: ["foo"]
+                        }),
+                        "subdir/node_modules/eslint-plugin-foo/index.js": "",
+                        "subdir/.eslintrc.json": JSON.stringify({
+                            plugins: ["foo"]
+                        }),
+                        "subdir/test.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' should NOT throw plugin-conflict error. (Load the plugin from '--resolve-plugins-relative-to'.)", () => {
+                const engine = new InMemoryCLIEngine({
+                    cwd: root,
+                    resolvePluginsRelativeTo: root
+                });
+
+                engine.executeOnFiles("subdir/test.js");
+            });
+        });
+
+        describe("between two config files with different target files.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "one/node_modules/eslint-plugin-foo/index.js": "",
+                        "one/.eslintrc.json": JSON.stringify({
+                            plugins: ["foo"]
+                        }),
+                        "one/test.js": "",
+                        "two/node_modules/eslint-plugin-foo/index.js": "",
+                        "two/.eslintrc.json": JSON.stringify({
+                            plugins: ["foo"]
+                        }),
+                        "two/test.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' should NOT throw plugin-conflict error. (Load the plugin from the base directory of the entry config file for each target file. Not related to each other.)", () => {
+                const engine = new InMemoryCLIEngine({ cwd: root });
+                const { results } = engine.executeOnFiles("*/test.js");
+
+                assert.strictEqual(results.length, 2);
             });
         });
     });

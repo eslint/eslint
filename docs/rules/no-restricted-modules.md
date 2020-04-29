@@ -1,5 +1,7 @@
 # Disallow Node.js modules (no-restricted-modules)
 
+This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-node`](https://github.com/mysticatea/eslint-plugin-node).
+
 A module in Node.js is a simple or complex functionality organized in a JavaScript file which can be reused throughout the Node.js
 application. The keyword `require` is used in Node.js/CommonJS to import modules into an application. This way you can have dynamic loading where the loaded module name isn't predefined /static, or where you conditionally load a module only if it's "truly required".
 

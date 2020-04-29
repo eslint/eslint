@@ -226,99 +226,99 @@ ruleTester.run("func-call-spacing", rule, {
         {
             code: "f ();",
             output: "f();",
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
             code: "f (a, b);",
             output: "f(a, b);",
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
             code: "f.b ();",
             output: "f.b();",
-            errors: [{ messageId: "unexpected", type: "CallExpression", column: 3 }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression", column: 3 }]
         },
         {
             code: "f.b().c ();",
             output: "f.b().c();",
-            errors: [{ messageId: "unexpected", type: "CallExpression", column: 7 }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression", column: 7 }]
         },
         {
             code: "f() ()",
             output: "f()()",
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
             code: "(function() {} ())",
             output: "(function() {}())",
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
             code: "var f = new Foo ()",
             output: "var f = new Foo()",
-            errors: [{ messageId: "unexpected", type: "NewExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "NewExpression" }]
         },
         {
             code: "f ( (0) )",
             output: "f( (0) )",
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
             code: "f(0) (1)",
             output: "f(0)(1)",
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
             code: "(f) (0)",
             output: "(f)(0)",
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
             code: "f ();\n t   ();",
             output: "f();\n t();",
             errors: [
-                { messageId: "unexpected", type: "CallExpression" },
-                { messageId: "unexpected", type: "CallExpression" }
+                { messageId: "unexpectedWhitespace", type: "CallExpression" },
+                { messageId: "unexpectedWhitespace", type: "CallExpression" }
             ]
         },
         {
             code: "import (source);",
             output: "import(source);",
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpected", type: "ImportExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "ImportExpression" }]
         },
 
         // https://github.com/eslint/eslint/issues/7787
         {
             code: "f\n();",
             output: null, // no change
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
             code: "f\r();",
             output: null, // no change
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
             code: "f\u2028();",
             output: null, // no change
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
             code: "f\u2029();",
             output: null, // no change
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
             code: "f\r\n();",
             output: null, // no change
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
             code: "import\n(source);",
             output: null,
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpected", type: "ImportExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "ImportExpression" }]
         },
 
         // "never"
@@ -326,69 +326,69 @@ ruleTester.run("func-call-spacing", rule, {
             code: "f ();",
             output: "f();",
             options: ["never"],
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
             code: "f (a, b);",
             output: "f(a, b);",
             options: ["never"],
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
             code: "f.b ();",
             output: "f.b();",
             options: ["never"],
-            errors: [{ messageId: "unexpected", type: "CallExpression", column: 3 }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression", column: 3 }]
         },
         {
             code: "f.b().c ();",
             output: "f.b().c();",
             options: ["never"],
-            errors: [{ messageId: "unexpected", type: "CallExpression", column: 7 }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression", column: 7 }]
         },
         {
             code: "f() ()",
             output: "f()()",
             options: ["never"],
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
             code: "(function() {} ())",
             output: "(function() {}())",
             options: ["never"],
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
             code: "var f = new Foo ()",
             output: "var f = new Foo()",
             options: ["never"],
-            errors: [{ messageId: "unexpected", type: "NewExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "NewExpression" }]
         },
         {
             code: "f ( (0) )",
             output: "f( (0) )",
             options: ["never"],
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
             code: "f(0) (1)",
             output: "f(0)(1)",
             options: ["never"],
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
             code: "(f) (0)",
             output: "(f)(0)",
             options: ["never"],
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
             code: "f ();\n t   ();",
             output: "f();\n t();",
             options: ["never"],
             errors: [
-                { messageId: "unexpected", type: "CallExpression" },
-                { messageId: "unexpected", type: "CallExpression" }
+                { messageId: "unexpectedWhitespace", type: "CallExpression" },
+                { messageId: "unexpectedWhitespace", type: "CallExpression" }
             ]
         },
         {
@@ -396,7 +396,7 @@ ruleTester.run("func-call-spacing", rule, {
             output: "import(source);",
             options: ["never"],
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpected", type: "ImportExpression" }]
+            errors: [{ messageId: "unexpectedWhitespace", type: "ImportExpression" }]
         },
 
         // https://github.com/eslint/eslint/issues/7787
@@ -406,7 +406,7 @@ ruleTester.run("func-call-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "unexpected",
+                    messageId: "unexpectedWhitespace",
                     type: "CallExpression"
                 }
             ]
@@ -421,7 +421,7 @@ ruleTester.run("func-call-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "unexpected",
+                    messageId: "unexpectedWhitespace",
                     type: "CallExpression",
                     line: 2,
                     column: 23
@@ -437,7 +437,7 @@ ruleTester.run("func-call-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "unexpected",
+                    messageId: "unexpectedWhitespace",
                     type: "CallExpression",
                     line: 1,
                     column: 9
@@ -453,7 +453,7 @@ ruleTester.run("func-call-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "unexpected",
+                    messageId: "unexpectedWhitespace",
                     type: "CallExpression",
                     line: 1,
                     column: 9
@@ -466,7 +466,7 @@ ruleTester.run("func-call-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "unexpected",
+                    messageId: "unexpectedWhitespace",
                     type: "CallExpression"
                 }
             ]
@@ -477,7 +477,7 @@ ruleTester.run("func-call-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "unexpected",
+                    messageId: "unexpectedWhitespace",
                     type: "CallExpression"
                 }
             ]
@@ -488,7 +488,7 @@ ruleTester.run("func-call-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "unexpected",
+                    messageId: "unexpectedWhitespace",
                     type: "CallExpression"
                 }
             ]
@@ -499,7 +499,7 @@ ruleTester.run("func-call-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "unexpected",
+                    messageId: "unexpectedWhitespace",
                     type: "CallExpression"
                 }
             ]
@@ -516,7 +516,7 @@ ruleTester.run("func-call-spacing", rule, {
             code: "f\n();",
             output: "f ();",
             options: ["always"],
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedNewline", type: "CallExpression" }]
         },
         {
             code: "f(a, b);",
@@ -528,7 +528,7 @@ ruleTester.run("func-call-spacing", rule, {
             code: "f\n(a, b);",
             output: "f (a, b);",
             options: ["always"],
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedNewline", type: "CallExpression" }]
         },
         {
             code: "f.b();",
@@ -540,7 +540,7 @@ ruleTester.run("func-call-spacing", rule, {
             code: "f.b\n();",
             output: "f.b ();",
             options: ["always"],
-            errors: [{ messageId: "unexpected", type: "CallExpression", column: 3 }]
+            errors: [{ messageId: "unexpectedNewline", type: "CallExpression", column: 3 }]
         },
         {
             code: "f.b().c ();",
@@ -552,7 +552,7 @@ ruleTester.run("func-call-spacing", rule, {
             code: "f.b\n().c ();",
             output: "f.b ().c ();",
             options: ["always"],
-            errors: [{ messageId: "unexpected", type: "CallExpression", column: 3 }]
+            errors: [{ messageId: "unexpectedNewline", type: "CallExpression", column: 3 }]
         },
         {
             code: "f() ()",
@@ -564,14 +564,14 @@ ruleTester.run("func-call-spacing", rule, {
             code: "f\n() ()",
             output: "f () ()",
             options: ["always"],
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedNewline", type: "CallExpression" }]
         },
         {
             code: "f\n()()",
             output: "f () ()",
             options: ["always"],
             errors: [
-                { messageId: "unexpected", type: "CallExpression" },
+                { messageId: "unexpectedNewline", type: "CallExpression" },
                 { messageId: "missing", type: "CallExpression" }
             ]
         },
@@ -625,25 +625,25 @@ ruleTester.run("func-call-spacing", rule, {
             code: "f\r();",
             output: "f ();",
             options: ["always"],
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedNewline", type: "CallExpression" }]
         },
         {
             code: "f\u2028();",
             output: "f ();",
             options: ["always"],
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedNewline", type: "CallExpression" }]
         },
         {
             code: "f\u2029();",
             output: "f ();",
             options: ["always"],
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedNewline", type: "CallExpression" }]
         },
         {
             code: "f\r\n();",
             output: "f ();",
             options: ["always"],
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedNewline", type: "CallExpression" }]
         },
 
         // "always", "allowNewlines": true

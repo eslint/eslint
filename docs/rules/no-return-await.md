@@ -47,3 +47,5 @@ If you want to use `await` to denote a value that is a thenable, even when it is
 ## Further Reading
 
 [`async function` on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
+
+[`await vs return vs return await` by Jake Archibald](https://jakearchibald.com/2017/await-vs-return-vs-return-await/)

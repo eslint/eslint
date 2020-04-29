@@ -45,74 +45,233 @@ ruleTester.run("no-inner-declarations", rule, {
             code: "var x = {doSomething() {var foo;}}",
             options: ["both"],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "export var foo;",
+            options: ["both"],
+            parserOptions: { sourceType: "module", ecmaVersion: 6 }
+        },
+        {
+            code: "export function bar() {}",
+            options: ["both"],
+            parserOptions: { sourceType: "module", ecmaVersion: 6 }
+        },
+        {
+            code: "export default function baz() {}",
+            options: ["both"],
+            parserOptions: { sourceType: "module", ecmaVersion: 6 }
+        },
+        {
+            code: "exports.foo = () => {}",
+            options: ["both"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "exports.foo = function(){}",
+            options: ["both"]
+        },
+        {
+            code: "module.exports = function foo(){}",
+            options: ["both"]
         }
 
     ],
 
     // Examples of code that should trigger the rule
-    invalid: [{
-        code: "if (test) { function doSomething() { } }",
-        options: ["both"],
-        errors: [{
-            messageId: "moveDeclToRoot",
-            data: {
-                type: "function",
-                body: "program"
-            },
-            type: "FunctionDeclaration"
-        }]
-    }, {
-        code: "function doSomething() { do { function somethingElse() { } } while (test); }",
-        errors: [{
-            messageId: "moveDeclToRoot",
-            data: {
-                type: "function",
-                body: "function body"
-            },
-            type: "FunctionDeclaration"
-        }]
-    }, {
-        code: "(function() { if (test) { function doSomething() { } } }());",
-        errors: [{
-            messageId: "moveDeclToRoot",
-            data: {
-                type: "function",
-                body: "function body"
-            },
-            type: "FunctionDeclaration"
-        }]
-    }, {
-        code: "while (test) { var foo; }",
-        options: ["both"],
-        errors: [{
-            messageId: "moveDeclToRoot",
-            data: {
-                type: "variable",
-                body: "program"
-            },
-            type: "VariableDeclaration"
-        }]
-    }, {
-        code: "function doSomething() { if (test) { var foo = 42; } }",
-        options: ["both"],
-        errors: [{
-            messageId: "moveDeclToRoot",
-            data: {
-                type: "variable",
-                body: "function body"
-            },
-            type: "VariableDeclaration"
-        }]
-    }, {
-        code: "(function() { if (test) { var foo; } }());",
-        options: ["both"],
-        errors: [{
-            messageId: "moveDeclToRoot",
-            data: {
-                type: "variable",
-                body: "function body"
-            },
-            type: "VariableDeclaration"
-        }]
-    }]
+    invalid: [
+        {
+            code: "if (test) { function doSomething() { } }",
+            options: ["both"],
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "function",
+                    body: "program"
+                },
+                type: "FunctionDeclaration"
+            }]
+        }, {
+            code: "if (foo) var a; ",
+            options: ["both"],
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "program"
+                },
+                type: "VariableDeclaration"
+            }]
+        }, {
+            code: "if (foo) /* some comments */ var a; ",
+            options: ["both"],
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "program"
+                },
+                type: "VariableDeclaration"
+            }]
+        }, {
+            code: "if (foo){ function f(){ if(bar){ var a; } } }",
+            options: ["both"],
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "function",
+                    body: "program"
+                },
+                type: "FunctionDeclaration"
+            }, {
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "function body"
+                },
+                type: "VariableDeclaration"
+            }]
+        }, {
+            code: "if (foo) function f(){ if(bar) var a; } ",
+            options: ["both"],
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "function",
+                    body: "program"
+                },
+                type: "FunctionDeclaration"
+            }, {
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "function body"
+                },
+                type: "VariableDeclaration"
+            }]
+        }, {
+            code: "if (foo) { var fn = function(){} } ",
+            options: ["both"],
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "program"
+                },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "if (foo)  function f(){} ",
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "function",
+                    body: "program"
+                },
+                type: "FunctionDeclaration"
+            }]
+        },
+        {
+            code: "function bar() { if (foo) function f(){}; }",
+            options: ["both"],
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "function",
+                    body: "function body"
+                },
+                type: "FunctionDeclaration"
+            }]
+        },
+        {
+            code: "function bar() { if (foo) var a; }",
+            options: ["both"],
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "function body"
+                },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "if (foo){ var a; }",
+            options: ["both"],
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "program"
+                },
+                type: "VariableDeclaration"
+            }]
+        }, {
+            code: "function doSomething() { do { function somethingElse() { } } while (test); }",
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "function",
+                    body: "function body"
+                },
+                type: "FunctionDeclaration"
+            }]
+        }, {
+            code: "(function() { if (test) { function doSomething() { } } }());",
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "function",
+                    body: "function body"
+                },
+                type: "FunctionDeclaration"
+            }]
+        }, {
+            code: "while (test) { var foo; }",
+            options: ["both"],
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "program"
+                },
+                type: "VariableDeclaration"
+            }]
+        }, {
+            code: "function doSomething() { if (test) { var foo = 42; } }",
+            options: ["both"],
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "function body"
+                },
+                type: "VariableDeclaration"
+            }]
+        }, {
+            code: "(function() { if (test) { var foo; } }());",
+            options: ["both"],
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "function body"
+                },
+                type: "VariableDeclaration"
+            }]
+        }, {
+            code: "const doSomething = () => { if (test) { var foo = 42; } }",
+            options: ["both"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "function body"
+                },
+                type: "VariableDeclaration"
+            }]
+        }
+
+    ]
 });

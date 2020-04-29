@@ -11,7 +11,8 @@ const sinon = require("sinon"),
     EventEmitter = require("events"),
     { RuleTester } = require("../../../lib/rule-tester"),
     assert = require("chai").assert,
-    nodeAssert = require("assert");
+    nodeAssert = require("assert"),
+    { noop } = require("lodash");
 
 const NODE_ASSERT_STRICT_EQUAL_OPERATOR = (() => {
     try {
@@ -233,7 +234,7 @@ describe("RuleTester", () => {
                 "bar = baz;"
             ],
             invalid: [
-                { code: "var foo = bar;", errors: ["Bad var."] }
+                { code: "var foo = bar;", output: " foo = bar;", errors: ["Bad var."] }
             ]
         });
     });
@@ -242,7 +243,7 @@ describe("RuleTester", () => {
         ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
             valid: [],
             invalid: [
-                { code: "var foo = bar;", errors: [/^Bad var/u] }
+                { code: "var foo = bar;", output: " foo = bar;", errors: [/^Bad var/u] }
             ]
         });
     });
@@ -283,7 +284,7 @@ describe("RuleTester", () => {
         ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
             valid: [],
             invalid: [
-                { code: "var foo = bar;", errors: [{ message: /^Bad var/u }] }
+                { code: "var foo = bar;", output: " foo = bar;", errors: [{ message: /^Bad var/u }] }
             ]
         });
     });
@@ -390,6 +391,19 @@ describe("RuleTester", () => {
                 ]
             });
         }, /Expected no autofixes to be suggested/u);
+    });
+
+    it("should throw an error when the expected output isn't specified and problems produce output", () => {
+        assert.throws(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [
+                    "bar = baz;"
+                ],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+        }, "The rule fixed the code. Please add 'output' property.");
     });
 
     it("should throw an error if invalid code specifies wrong type", () => {
@@ -530,6 +544,45 @@ describe("RuleTester", () => {
                 ]
             });
         }, /Should have 2 errors but had 1/u);
+    });
+
+    it("should throw an error if there's a parsing error in a valid test", () => {
+        assert.throws(() => {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [
+                    "1eval('foo')"
+                ],
+                invalid: [
+                    { code: "eval('foo')", errors: [{}] }
+                ]
+            });
+        }, /fatal parsing error/iu);
+    });
+
+    it("should throw an error if there's a parsing error in an invalid test", () => {
+        assert.throws(() => {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [
+                    "noeval('foo')"
+                ],
+                invalid: [
+                    { code: "1eval('foo')", errors: [{}] }
+                ]
+            });
+        }, /fatal parsing error/iu);
+    });
+
+    it("should throw an error if there's a parsing error in an invalid test and errors is just a number", () => {
+        assert.throws(() => {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [
+                    "noeval('foo')"
+                ],
+                invalid: [
+                    { code: "1eval('foo')", errors: 1 }
+                ]
+            });
+        }, /fatal parsing error/iu);
     });
 
     // https://github.com/eslint/eslint/issues/4779
@@ -684,6 +737,37 @@ describe("RuleTester", () => {
             ]
         });
         assert.strictEqual(spy.args[1][1].parser, require.resolve("esprima"));
+    });
+
+    it("should pass-through services from parseForESLint to the rule", () => {
+        const enhancedParserPath = require.resolve("../../fixtures/parsers/enhanced-parser");
+        const disallowHiRule = {
+            create: context => ({
+                Literal(node) {
+                    const disallowed = context.parserServices.test.getMessage(); // returns "Hi!"
+
+                    if (node.value === disallowed) {
+                        context.report({ node, message: `Don't use '${disallowed}'` });
+                    }
+                }
+            })
+        };
+
+        ruleTester.run("no-hi", disallowHiRule, {
+            valid: [
+                {
+                    code: "'Hello!'",
+                    parser: enhancedParserPath
+                }
+            ],
+            invalid: [
+                {
+                    code: "'Hi!'",
+                    parser: enhancedParserPath,
+                    errors: [{ message: "Don't use 'Hi!'" }]
+                }
+            ]
+        });
     });
 
     it("should prevent invalid options schemas", () => {
@@ -902,6 +986,122 @@ describe("RuleTester", () => {
                 ]
             });
         }, "Rule should not modify AST.");
+    });
+
+    it("should throw an error if rule uses start and end properties on nodes, tokens or comments", () => {
+        const usesStartEndRule = {
+            create(context) {
+
+                const sourceCode = context.getSourceCode();
+
+                return {
+                    CallExpression(node) {
+                        noop(node.arguments[1].start);
+                    },
+                    "BinaryExpression[operator='+']"(node) {
+                        noop(node.end);
+                    },
+                    "UnaryExpression[operator='-']"(node) {
+                        noop(sourceCode.getFirstToken(node).start);
+                    },
+                    ConditionalExpression(node) {
+                        noop(sourceCode.getFirstToken(node).end);
+                    },
+                    BlockStatement(node) {
+                        noop(sourceCode.getCommentsInside(node)[0].start);
+                    },
+                    ObjectExpression(node) {
+                        noop(sourceCode.getCommentsInside(node)[0].end);
+                    },
+                    Decorator(node) {
+                        noop(node.start);
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("uses-start-end", usesStartEndRule, {
+                valid: ["foo(a, b)"],
+                invalid: []
+            });
+        }, "Use node.range[0] instead of node.start");
+        assert.throws(() => {
+            ruleTester.run("uses-start-end", usesStartEndRule, {
+                valid: [],
+                invalid: [{ code: "var a = b * (c + d) / e;", errors: 1 }]
+            });
+        }, "Use node.range[1] instead of node.end");
+        assert.throws(() => {
+            ruleTester.run("uses-start-end", usesStartEndRule, {
+                valid: [],
+                invalid: [{ code: "var a = -b * c;", errors: 1 }]
+            });
+        }, "Use token.range[0] instead of token.start");
+        assert.throws(() => {
+            ruleTester.run("uses-start-end", usesStartEndRule, {
+                valid: ["var a = b ? c : d;"],
+                invalid: []
+            });
+        }, "Use token.range[1] instead of token.end");
+        assert.throws(() => {
+            ruleTester.run("uses-start-end", usesStartEndRule, {
+                valid: ["function f() { /* comment */ }"],
+                invalid: []
+            });
+        }, "Use token.range[0] instead of token.start");
+        assert.throws(() => {
+            ruleTester.run("uses-start-end", usesStartEndRule, {
+                valid: [],
+                invalid: [{ code: "var x = //\n {\n //comment\n //\n}", errors: 1 }]
+            });
+        }, "Use token.range[1] instead of token.end");
+
+        const enhancedParserPath = require.resolve("../../fixtures/parsers/enhanced-parser");
+
+        assert.throws(() => {
+            ruleTester.run("uses-start-end", usesStartEndRule, {
+                valid: [{ code: "foo(a, b)", parser: enhancedParserPath }],
+                invalid: []
+            });
+        }, "Use node.range[0] instead of node.start");
+        assert.throws(() => {
+            ruleTester.run("uses-start-end", usesStartEndRule, {
+                valid: [],
+                invalid: [{ code: "var a = b * (c + d) / e;", parser: enhancedParserPath, errors: 1 }]
+            });
+        }, "Use node.range[1] instead of node.end");
+        assert.throws(() => {
+            ruleTester.run("uses-start-end", usesStartEndRule, {
+                valid: [],
+                invalid: [{ code: "var a = -b * c;", parser: enhancedParserPath, errors: 1 }]
+            });
+        }, "Use token.range[0] instead of token.start");
+        assert.throws(() => {
+            ruleTester.run("uses-start-end", usesStartEndRule, {
+                valid: [{ code: "var a = b ? c : d;", parser: enhancedParserPath }],
+                invalid: []
+            });
+        }, "Use token.range[1] instead of token.end");
+        assert.throws(() => {
+            ruleTester.run("uses-start-end", usesStartEndRule, {
+                valid: [{ code: "function f() { /* comment */ }", parser: enhancedParserPath }],
+                invalid: []
+            });
+        }, "Use token.range[0] instead of token.start");
+        assert.throws(() => {
+            ruleTester.run("uses-start-end", usesStartEndRule, {
+                valid: [],
+                invalid: [{ code: "var x = //\n {\n //comment\n //\n}", parser: enhancedParserPath, errors: 1 }]
+            });
+        }, "Use token.range[1] instead of token.end");
+
+        assert.throws(() => {
+            ruleTester.run("uses-start-end", usesStartEndRule, {
+                valid: [{ code: "@foo class A {}", parser: require.resolve("../../fixtures/parsers/enhanced-parser2") }],
+                invalid: []
+            });
+        }, "Use node.range[0] instead of node.start");
     });
 
     it("should throw an error if no test scenarios given", () => {
@@ -1582,6 +1782,7 @@ describe("RuleTester", () => {
                 invalid: [
                     {
                         code: "var x = invalid(code);",
+                        output: " x = invalid(code);",
                         errors: 1
                     }
                 ]
@@ -1628,7 +1829,7 @@ describe("RuleTester", () => {
                     invalid: []
                 }
             );
-        }, /A fatal parsing error occurred in autofix/u);
+        }, /A fatal parsing error occurred in autofix.\nError: .+\nAutofix output:\n.+/u);
     });
 
     describe("sanitize test cases", () => {
