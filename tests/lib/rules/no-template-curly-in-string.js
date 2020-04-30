@@ -18,7 +18,7 @@ const rule = require("../../../lib/rules/no-template-curly-in-string"),
 
 const ruleTester = new RuleTester();
 
-const message = "Unexpected template string expression.";
+const messageId = "unexpectedTemplateExpression";
 const parserOptions = { ecmaVersion: 6 };
 
 ruleTester.run("no-template-curly-in-string", rule, {
@@ -43,37 +43,37 @@ ruleTester.run("no-template-curly-in-string", rule, {
         {
             code: "'Hello, ${name}'",
             parserOptions,
-            errors: [{ message }]
+            errors: [{ messageId }]
         },
         {
             code: "\"Hello, ${name}\"",
             parserOptions,
-            errors: [{ message }]
+            errors: [{ messageId }]
         },
         {
             code: "'${greeting}, ${name}'",
             parserOptions,
-            errors: [{ message }]
+            errors: [{ messageId }]
         },
         {
             code: "'Hello, ${index + 1}'",
             parserOptions,
-            errors: [{ message }]
+            errors: [{ messageId }]
         },
         {
             code: "'Hello, ${name + \" foo\"}'",
             parserOptions,
-            errors: [{ message }]
+            errors: [{ messageId }]
         },
         {
             code: "'Hello, ${name || \"foo\"}'",
             parserOptions,
-            errors: [{ message }]
+            errors: [{ messageId }]
         },
         {
             code: "'Hello, ${{foo: \"bar\"}.foo}'",
             parserOptions,
-            errors: [{ message }]
+            errors: [{ messageId }]
         }
     ]
 });

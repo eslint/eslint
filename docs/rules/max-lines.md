@@ -110,7 +110,7 @@ You can turn this rule off if you are not concerned with the number of lines in 
 
 ## Further reading
 
-* [Software Module size and file size](http://www.mind2b.com/component/content/article/24-software-module-size-and-file-size)
+* [Software Module size and file size](https://web.archive.org/web/20160725154648/http://www.mind2b.com/component/content/article/24-software-module-size-and-file-size)
 
 ## Related Rules
 

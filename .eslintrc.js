@@ -1,13 +1,44 @@
 "use strict";
 
-const internalFiles = [
-    "**/cli-engine/**/*",
-    "**/init/**/*",
-    "**/linter/**/*",
-    "**/rule-tester/**/*",
-    "**/rules/**/*",
-    "**/source-code/**/*"
-];
+const path = require("path");
+
+const INTERNAL_FILES = {
+    CLI_ENGINE_PATTERN: "lib/cli-engine/**/*",
+    INIT_PATTERN: "lib/init/**/*",
+    LINTER_PATTERN: "lib/linter/**/*",
+    RULE_TESTER_PATTERN: "lib/rule-tester/**/*",
+    RULES_PATTERN: "lib/rules/**/*",
+    SOURCE_CODE_PATTERN: "lib/source-code/**/*"
+};
+
+/**
+ * Resolve an absolute path or glob pattern.
+ * @param {string} pathOrPattern the path or glob pattern.
+ * @returns {string} The resolved path or glob pattern.
+ */
+function resolveAbsolutePath(pathOrPattern) {
+    return path.resolve(__dirname, pathOrPattern);
+}
+
+/**
+ * Create an array of `no-restricted-require` entries for ESLint's core files.
+ * @param {string} [pattern] The glob pattern to create the entries for.
+ * @returns {Object[]} The array of `no-restricted-require` entries.
+ */
+function createInternalFilesPatterns(pattern = null) {
+    return Object.values(INTERNAL_FILES)
+        .filter(p => p !== pattern)
+        .map(p => ({
+            name: [
+
+                // Disallow all children modules.
+                resolveAbsolutePath(p),
+
+                // Allow the main `index.js` module.
+                `!${resolveAbsolutePath(p.replace(/\*\*\/\*$/u, "index.js"))}`
+            ]
+        }));
+}
 
 module.exports = {
     root: true,
@@ -19,12 +50,26 @@ module.exports = {
         "eslint",
         "plugin:eslint-plugin/recommended"
     ],
+    parserOptions: {
+        ecmaVersion: 2020
+    },
+
+    /*
+     * it fixes eslint-plugin-jsdoc's reports: "Invalid JSDoc tag name "template" jsdoc/check-tag-names"
+     * refs: https://github.com/gajus/eslint-plugin-jsdoc#check-tag-names
+     */
+    settings: {
+        jsdoc: {
+            mode: "typescript"
+        }
+    },
     rules: {
         "eslint-plugin/consistent-output": "error",
         "eslint-plugin/no-deprecated-context-methods": "error",
         "eslint-plugin/prefer-output-null": "error",
         "eslint-plugin/prefer-placeholders": "error",
         "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
+        "eslint-plugin/require-meta-docs-description": "error",
         "eslint-plugin/require-meta-type": "error",
         "eslint-plugin/test-case-property-ordering": [
             "error",
@@ -50,8 +95,7 @@ module.exports = {
             files: ["lib/rules/*", "tools/internal-rules/*"],
             excludedFiles: ["index.js"],
             rules: {
-                "internal-rules/no-invalid-meta": "error",
-                "internal-rules/consistent-docs-description": "error"
+                "internal-rules/no-invalid-meta": "error"
 
                 /*
                  * TODO: enable it when all the rules using meta.messages
@@ -81,106 +125,90 @@ module.exports = {
         {
             files: ["lib/*"],
             rules: {
-                "no-restricted-modules": ["error", {
-                    patterns: [
-                        ...internalFiles
-                    ]
-                }]
+                "node/no-restricted-require": ["error", [
+                    ...createInternalFilesPatterns()
+                ]]
             }
         },
         {
-            files: ["lib/cli-engine/**/*"],
+            files: [INTERNAL_FILES.CLI_ENGINE_PATTERN],
             rules: {
-                "no-restricted-modules": ["error", {
-                    patterns: [
-                        ...internalFiles,
-                        "**/init"
-                    ]
-                }]
+                "node/no-restricted-require": ["error", [
+                    ...createInternalFilesPatterns(INTERNAL_FILES.CLI_ENGINE_PATTERN),
+                    resolveAbsolutePath("lib/init/index.js")
+                ]]
             }
         },
         {
-            files: ["lib/init/**/*"],
+            files: [INTERNAL_FILES.INIT_PATTERN],
             rules: {
-                "no-restricted-modules": ["error", {
-                    patterns: [
-                        ...internalFiles,
-                        "**/rule-tester"
-                    ]
-                }]
+                "node/no-restricted-require": ["error", [
+                    ...createInternalFilesPatterns(INTERNAL_FILES.INIT_PATTERN),
+                    resolveAbsolutePath("lib/rule-tester/index.js")
+                ]]
             }
         },
         {
-            files: ["lib/linter/**/*"],
+            files: [INTERNAL_FILES.LINTER_PATTERN],
             rules: {
-                "no-restricted-modules": ["error", {
-                    patterns: [
-                        ...internalFiles,
-                        "fs",
-                        "**/cli-engine",
-                        "**/init",
-                        "**/rule-tester"
-                    ]
-                }]
+                "node/no-restricted-require": ["error", [
+                    ...createInternalFilesPatterns(INTERNAL_FILES.LINTER_PATTERN),
+                    "fs",
+                    resolveAbsolutePath("lib/cli-engine/index.js"),
+                    resolveAbsolutePath("lib/init/index.js"),
+                    resolveAbsolutePath("lib/rule-tester/index.js")
+                ]]
             }
         },
         {
-            files: ["lib/rules/**/*"],
+            files: [INTERNAL_FILES.RULES_PATTERN],
             rules: {
-                "no-restricted-modules": ["error", {
-                    patterns: [
-                        ...internalFiles,
-                        "fs",
-                        "**/cli-engine",
-                        "**/init",
-                        "**/linter",
-                        "**/rule-tester",
-                        "**/source-code"
-                    ]
-                }]
+                "node/no-restricted-require": ["error", [
+                    ...createInternalFilesPatterns(INTERNAL_FILES.RULES_PATTERN),
+                    "fs",
+                    resolveAbsolutePath("lib/cli-engine/index.js"),
+                    resolveAbsolutePath("lib/init/index.js"),
+                    resolveAbsolutePath("lib/linter/index.js"),
+                    resolveAbsolutePath("lib/rule-tester/index.js"),
+                    resolveAbsolutePath("lib/source-code/index.js")
+                ]]
             }
         },
         {
             files: ["lib/shared/**/*"],
             rules: {
-                "no-restricted-modules": ["error", {
-                    patterns: [
-                        ...internalFiles,
-                        "**/cli-engine",
-                        "**/init",
-                        "**/linter",
-                        "**/rule-tester",
-                        "**/source-code"
-                    ]
-                }]
+                "node/no-restricted-require": ["error", [
+                    ...createInternalFilesPatterns(),
+                    resolveAbsolutePath("lib/cli-engine/index.js"),
+                    resolveAbsolutePath("lib/init/index.js"),
+                    resolveAbsolutePath("lib/linter/index.js"),
+                    resolveAbsolutePath("lib/rule-tester/index.js"),
+                    resolveAbsolutePath("lib/source-code/index.js")
+                ]]
             }
         },
         {
-            files: ["lib/source-code/**/*"],
+            files: [INTERNAL_FILES.SOURCE_CODE_PATTERN],
             rules: {
-                "no-restricted-modules": ["error", {
-                    patterns: [
-                        ...internalFiles,
-                        "fs",
-                        "**/cli-engine",
-                        "**/init",
-                        "**/linter",
-                        "**/rule-tester",
-                        "**/rules"
-                    ]
-                }]
+                "node/no-restricted-require": ["error", [
+                    ...createInternalFilesPatterns(INTERNAL_FILES.SOURCE_CODE_PATTERN),
+                    "fs",
+                    resolveAbsolutePath("lib/cli-engine/index.js"),
+                    resolveAbsolutePath("lib/init/index.js"),
+                    resolveAbsolutePath("lib/linter/index.js"),
+                    resolveAbsolutePath("lib/rule-tester/index.js"),
+                    resolveAbsolutePath("lib/rules/index.js")
+                ]]
             }
         },
         {
-            files: ["lib/rule-tester/**/*"],
+            files: [INTERNAL_FILES.RULE_TESTER_PATTERN],
             rules: {
-                "no-restricted-modules": ["error", {
-                    patterns: [
-                        ...internalFiles,
-                        "**/cli-engine",
-                        "**/init"
-                    ]
-                }]
+                "node/no-restricted-require": ["error", [
+                    ...createInternalFilesPatterns(INTERNAL_FILES.RULE_TESTER_PATTERN),
+                    resolveAbsolutePath("lib/cli-engine/index.js"),
+                    resolveAbsolutePath("lib/init/index.js")
+                ]]
             }
         }
     ]

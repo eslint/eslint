@@ -40,27 +40,169 @@ ruleTester.run("no-warning-comments", rule, {
         { code: "foo", options: [{ terms: ["foo-bar"] }] }
     ],
     invalid: [
-        { code: "// fixme", errors: [{ message: "Unexpected 'fixme' comment." }] },
-        { code: "// any fixme", options: [{ location: "anywhere" }], errors: [{ message: "Unexpected 'fixme' comment." }] },
-        { code: "// any fixme", options: [{ terms: ["fixme"], location: "anywhere" }], errors: [{ message: "Unexpected 'fixme' comment." }] },
-        { code: "// any FIXME", options: [{ terms: ["fixme"], location: "anywhere" }], errors: [{ message: "Unexpected 'fixme' comment." }] },
-        { code: "// any fIxMe", options: [{ terms: ["fixme"], location: "anywhere" }], errors: [{ message: "Unexpected 'fixme' comment." }] },
-        { code: "/* any fixme */", options: [{ terms: ["FIXME"], location: "anywhere" }], errors: [{ message: "Unexpected 'FIXME' comment." }] },
-        { code: "/* any FIXME */", options: [{ terms: ["FIXME"], location: "anywhere" }], errors: [{ message: "Unexpected 'FIXME' comment." }] },
-        { code: "/* any fIxMe */", options: [{ terms: ["FIXME"], location: "anywhere" }], errors: [{ message: "Unexpected 'FIXME' comment." }] },
-        { code: "// any fixme or todo", options: [{ terms: ["fixme", "todo"], location: "anywhere" }], errors: [{ message: "Unexpected 'fixme' comment." }, { message: "Unexpected 'todo' comment." }] },
-        { code: "/* any fixme or todo */", options: [{ terms: ["fixme", "todo"], location: "anywhere" }], errors: [{ message: "Unexpected 'fixme' comment." }, { message: "Unexpected 'todo' comment." }] },
-        { code: "/* any fixme or todo */", options: [{ location: "anywhere" }], errors: [{ message: "Unexpected 'todo' comment." }, { message: "Unexpected 'fixme' comment." }] },
-        { code: "/* fixme and todo */", errors: [{ message: "Unexpected 'fixme' comment." }] },
-        { code: "/* fixme and todo */", options: [{ location: "anywhere" }], errors: [{ message: "Unexpected 'todo' comment." }, { message: "Unexpected 'fixme' comment." }] },
-        { code: "/* any fixme */", options: [{ location: "anywhere" }], errors: [{ message: "Unexpected 'fixme' comment." }] },
-        { code: "/* fixme! */", options: [{ terms: ["fixme"] }], errors: [{ message: "Unexpected 'fixme' comment." }] },
-        { code: "// regex [litera|$]", options: [{ terms: ["[litera|$]"], location: "anywhere" }], errors: [{ message: "Unexpected '[litera|$]' comment." }] },
-        { code: "/* eslint one-var: 2 */", options: [{ terms: ["eslint"] }], errors: [{ message: "Unexpected 'eslint' comment." }] },
-        { code: "/* eslint one-var: 2 */", options: [{ terms: ["one"], location: "anywhere" }], errors: [{ message: "Unexpected 'one' comment." }] },
-        { code: "/* any block comment with TODO, FIXME or XXX */", options: [{ location: "anywhere" }], errors: [{ message: "Unexpected 'todo' comment." }, { message: "Unexpected 'fixme' comment." }, { message: "Unexpected 'xxx' comment." }] },
-        { code: "/* any block comment with (TODO, FIXME's or XXX!) */", options: [{ location: "anywhere" }], errors: [{ message: "Unexpected 'todo' comment." }, { message: "Unexpected 'fixme' comment." }, { message: "Unexpected 'xxx' comment." }] },
-        { code: "/** \n *any block comment \n*with (TODO, FIXME's or XXX!) **/", options: [{ location: "anywhere" }], errors: [{ message: "Unexpected 'todo' comment." }, { message: "Unexpected 'fixme' comment." }, { message: "Unexpected 'xxx' comment." }] },
-        { code: "// any comment with TODO, FIXME or XXX", options: [{ location: "anywhere" }], errors: [{ message: "Unexpected 'todo' comment." }, { message: "Unexpected 'fixme' comment." }, { message: "Unexpected 'xxx' comment." }] }
+        {
+            code: "// fixme",
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "fixme" } }
+            ]
+        },
+        {
+            code: "// any fixme",
+            options: [{ location: "anywhere" }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "fixme" } }
+            ]
+        },
+        {
+            code: "// any fixme",
+            options: [{ terms: ["fixme"], location: "anywhere" }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "fixme" } }
+            ]
+        },
+        {
+            code: "// any FIXME",
+            options: [{ terms: ["fixme"], location: "anywhere" }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "fixme" } }
+            ]
+        },
+        {
+            code: "// any fIxMe",
+            options: [{ terms: ["fixme"], location: "anywhere" }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "fixme" } }
+            ]
+        },
+        {
+            code: "/* any fixme */",
+            options: [{ terms: ["FIXME"], location: "anywhere" }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "FIXME" } }
+            ]
+        },
+        {
+            code: "/* any FIXME */",
+            options: [{ terms: ["FIXME"], location: "anywhere" }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "FIXME" } }
+            ]
+        },
+        {
+            code: "/* any fIxMe */",
+            options: [{ terms: ["FIXME"], location: "anywhere" }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "FIXME" } }
+            ]
+        },
+        {
+            code: "// any fixme or todo",
+            options: [{ terms: ["fixme", "todo"], location: "anywhere" }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "fixme" } },
+                { messageId: "unexpectedComment", data: { matchedTerm: "todo" } }
+            ]
+        },
+        {
+            code: "/* any fixme or todo */",
+            options: [{ terms: ["fixme", "todo"], location: "anywhere" }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "fixme" } },
+                { messageId: "unexpectedComment", data: { matchedTerm: "todo" } }
+            ]
+        },
+        {
+            code: "/* any fixme or todo */",
+            options: [{ location: "anywhere" }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "todo" } },
+                { messageId: "unexpectedComment", data: { matchedTerm: "fixme" } }
+            ]
+        },
+        {
+            code: "/* fixme and todo */",
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "fixme" } }
+            ]
+        },
+        {
+            code: "/* fixme and todo */",
+            options: [{ location: "anywhere" }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "todo" } },
+                { messageId: "unexpectedComment", data: { matchedTerm: "fixme" } }
+            ]
+        },
+        {
+            code: "/* any fixme */",
+            options: [{ location: "anywhere" }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "fixme" } }
+            ]
+        },
+        {
+            code: "/* fixme! */",
+            options: [{ terms: ["fixme"] }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "fixme" } }
+            ]
+        },
+        {
+            code: "// regex [litera|$]",
+            options: [{ terms: ["[litera|$]"], location: "anywhere" }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "[litera|$]" } }
+            ]
+        },
+        {
+            code: "/* eslint one-var: 2 */",
+            options: [{ terms: ["eslint"] }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "eslint" } }
+            ]
+        },
+        {
+            code: "/* eslint one-var: 2 */",
+            options: [{ terms: ["one"], location: "anywhere" }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "one" } }
+            ]
+        },
+        {
+            code: "/* any block comment with TODO, FIXME or XXX */",
+            options: [{ location: "anywhere" }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "todo" } },
+                { messageId: "unexpectedComment", data: { matchedTerm: "fixme" } },
+                { messageId: "unexpectedComment", data: { matchedTerm: "xxx" } }
+            ]
+        },
+        {
+            code: "/* any block comment with (TODO, FIXME's or XXX!) */",
+            options: [{ location: "anywhere" }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "todo" } },
+                { messageId: "unexpectedComment", data: { matchedTerm: "fixme" } },
+                { messageId: "unexpectedComment", data: { matchedTerm: "xxx" } }
+            ]
+        },
+        {
+            code: "/** \n *any block comment \n*with (TODO, FIXME's or XXX!) **/",
+            options: [{ location: "anywhere" }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "todo" } },
+                { messageId: "unexpectedComment", data: { matchedTerm: "fixme" } },
+                { messageId: "unexpectedComment", data: { matchedTerm: "xxx" } }
+            ]
+        },
+        {
+            code: "// any comment with TODO, FIXME or XXX",
+            options: [{ location: "anywhere" }],
+            errors: [
+                { messageId: "unexpectedComment", data: { matchedTerm: "todo" } },
+                { messageId: "unexpectedComment", data: { matchedTerm: "fixme" } },
+                { messageId: "unexpectedComment", data: { matchedTerm: "xxx" } }
+            ]
+        }
     ]
 });

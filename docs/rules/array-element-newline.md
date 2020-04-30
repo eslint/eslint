@@ -19,6 +19,20 @@ Or an object option (Requires line breaks if any of properties is satisfied. Oth
 * `"multiline": <boolean>` requires line breaks if there are line breaks inside elements. If this is false, this condition is disabled.
 * `"minItems": <number>` requires line breaks if the number of elements is at least the given integer. If this is 0, this condition will act the same as the option `"always"`. If this is `null` (the default), this condition is disabled.
 
+Alternatively, different configurations can be specified for array expressions and array patterns:
+
+```json
+{
+    "array-element-newline": ["error", {
+        "ArrayExpression": "consistent",
+        "ArrayPattern": { "minItems": 3 },
+    }]
+}
+```
+
+* `"ArrayExpression"` configuration for array expressions (if unspecified, this rule will not apply to array expressions)
+* `"ArrayPattern"` configuration for array patterns of destructuring assignments (if unspecified, this rule will not apply to array patterns)
+
 ### always
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
@@ -283,6 +297,63 @@ var e = [
 ];
 ```
 
+### ArrayExpression and ArrayPattern
+
+Examples of **incorrect** code for this rule with the `{ "ArrayExpression": "always", "ArrayPattern": "never" }` options:
+
+```js
+/*eslint array-element-newline: ["error", { "ArrayExpression": "always", "ArrayPattern": "never" }]*/
+
+var a = [1, 2];
+var b = [1, 2, 3];
+var c = [
+    function foo() {
+        dosomething();
+    }, function bar() {
+        dosomething();
+    }
+];
+
+var [d,
+    e] = arr;
+var [f,
+    g,
+    h] = arr;
+var [i = function foo() {
+  dosomething()
+},
+j = function bar() {
+  dosomething()
+}] = arr
+```
+
+Examples of **correct** code for this rule with the `{ "ArrayExpression": "always", "ArrayPattern": "never" }` options:
+
+```js
+/*eslint object-curly-newline: ["error", { "ArrayExpression": "always", "ArrayPattern": "never" }]*/
+
+var a = [1,
+    2];
+var b = [1,
+    2,
+    3];
+var c = [
+    function foo() {
+        dosomething();
+    },
+    function bar() {
+        dosomething();
+    }
+];
+
+var [d, e] = arr
+var [f, g, h] = arr
+var [i = function foo() {
+    dosomething()
+}, j = function bar() {
+    dosomething()
+}] = arr
+```
 
 ## When Not To Use It
 

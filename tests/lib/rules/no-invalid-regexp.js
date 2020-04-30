@@ -44,14 +44,39 @@ ruleTester.run("no-invalid-regexp", rule, {
         { code: "new RegExp('\\\\p{Letter}', 'u')", parserOptions: { ecmaVersion: 2018 } }
     ],
     invalid: [
-        { code: "RegExp('[');", errors: [{ message: "Invalid regular expression: /[/: Unterminated character class.", type: "CallExpression" }] },
-        { code: "RegExp('.', 'z');", errors: [{ message: "Invalid flags supplied to RegExp constructor 'z'.", type: "CallExpression" }] },
-        { code: "new RegExp(')');", errors: [{ message: "Invalid regular expression: /)/: Unmatched ')'.", type: "NewExpression" }] },
+        {
+            code: "RegExp('[');",
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid regular expression: /[/: Unterminated character class" },
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "RegExp('.', 'z');",
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid flags supplied to RegExp constructor 'z'" },
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "new RegExp(')');",
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid regular expression: /)/: Unmatched ')'" },
+                type: "NewExpression"
+            }]
+        },
 
         // https://github.com/eslint/eslint/issues/10861
         {
             code: String.raw`new RegExp('\\');`,
-            errors: [{ message: "Invalid regular expression: /\\/: \\ at end of pattern.", type: "NewExpression" }]
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid regular expression: /\\/: \\ at end of pattern" },
+                type: "NewExpression"
+            }]
         }
     ]
 });

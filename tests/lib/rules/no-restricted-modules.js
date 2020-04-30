@@ -30,36 +30,38 @@ ruleTester.run("no-restricted-modules", rule, {
         { code: "var withPaths = require(\"foo/bar\");", options: [{ paths: ["foo", "bar"] }] },
         { code: "var withPatterns = require(\"foo/bar\");", options: [{ patterns: ["foo/c*"] }] },
         { code: "var withPatternsAndPaths = require(\"foo/bar\");", options: [{ paths: ["foo"], patterns: ["foo/c*"] }] },
-        { code: "var withGitignores = require(\"foo/bar\");", options: [{ paths: ["foo"], patterns: ["foo/*", "!foo/bar"] }] }
+        { code: "var withGitignores = require(\"foo/bar\");", options: [{ paths: ["foo"], patterns: ["foo/*", "!foo/bar"] }] },
+        { code: "require(`fs`)", options: ["crypto"], parserOptions: { ecmaVersion: 6 } },
+        { code: "require(`foo${bar}`)", options: ["foo"], parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [{
         code: "require(\"fs\")",
         options: ["fs"],
-        errors: [{ message: "'fs' module is restricted from being used.", type: "CallExpression" }]
+        errors: [{ messageId: "defaultMessage", data: { name: "fs" }, type: "CallExpression" }]
     }, {
         code: "require(\"os \")",
         options: ["fs", "crypto ", "stream", "os"],
-        errors: [{ message: "'os' module is restricted from being used.", type: "CallExpression" }]
+        errors: [{ messageId: "defaultMessage", data: { name: "os" }, type: "CallExpression" }]
     }, {
         code: "require(\"foo/bar\");",
         options: ["foo/bar"],
-        errors: [{ message: "'foo/bar' module is restricted from being used.", type: "CallExpression" }]
+        errors: [{ messageId: "defaultMessage", data: { name: "foo/bar" }, type: "CallExpression" }]
     }, {
         code: "var withPaths = require(\"foo/bar\");",
         options: [{ paths: ["foo/bar"] }],
-        errors: [{ message: "'foo/bar' module is restricted from being used.", type: "CallExpression" }]
+        errors: [{ messageId: "defaultMessage", data: { name: "foo/bar" }, type: "CallExpression" }]
     }, {
         code: "var withPatterns = require(\"foo/bar\");",
         options: [{ patterns: ["foo/*"] }],
-        errors: [{ message: "'foo/bar' module is restricted from being used by a pattern.", type: "CallExpression" }]
+        errors: [{ messageId: "patternMessage", data: { name: "foo/bar" }, type: "CallExpression" }]
     }, {
         code: "var withPatternsAndPaths = require(\"foo/bar\");",
         options: [{ patterns: ["foo/*"], paths: ["foo"] }],
-        errors: [{ message: "'foo/bar' module is restricted from being used by a pattern.", type: "CallExpression" }]
+        errors: [{ messageId: "patternMessage", data: { name: "foo/bar" }, type: "CallExpression" }]
     }, {
         code: "var withGitignores = require(\"foo/bar\");",
         options: [{ patterns: ["foo/*", "!foo/baz"], paths: ["foo"] }],
-        errors: [{ message: "'foo/bar' module is restricted from being used by a pattern.", type: "CallExpression" }]
+        errors: [{ messageId: "patternMessage", data: { name: "foo/bar" }, type: "CallExpression" }]
     }, {
         code: "var withGitignores = require(\"foo\");",
         options: [{
@@ -67,7 +69,8 @@ ruleTester.run("no-restricted-modules", rule, {
             message: "Please use 'bar' module instead."
         }],
         errors: [{
-            message: "'foo' module is restricted from being used. Please use 'bar' module instead.",
+            messageId: "customMessage",
+            data: { name: "foo", customMessage: "Please use 'bar' module instead." },
             type: "CallExpression"
         }]
     }, {
@@ -81,7 +84,8 @@ ruleTester.run("no-restricted-modules", rule, {
             "baz"
         ],
         errors: [{
-            message: "'bar' module is restricted from being used. Please use 'baz' module instead.",
+            messageId: "customMessage",
+            data: { name: "bar", customMessage: "Please use 'baz' module instead." },
             type: "CallExpression"
         }]
     }, {
@@ -93,8 +97,19 @@ ruleTester.run("no-restricted-modules", rule, {
             }]
         }],
         errors: [{
-            message: "'foo' module is restricted from being used. Please use 'bar' module instead.",
+            messageId: "customMessage",
+            data: { name: "foo", customMessage: "Please use 'bar' module instead." },
             type: "CallExpression"
         }]
+    }, {
+        code: "require(`fs`)",
+        options: ["fs"],
+        parserOptions: { ecmaVersion: 6 },
+        errors: [{ messageId: "defaultMessage", data: { name: "fs" }, type: "CallExpression" }]
+    }, {
+        code: "require(`crypt\\o`);",
+        options: ["crypto"],
+        parserOptions: { ecmaVersion: 6 },
+        errors: [{ messageId: "defaultMessage", data: { name: "crypto" }, type: "CallExpression" }]
     }]
 });

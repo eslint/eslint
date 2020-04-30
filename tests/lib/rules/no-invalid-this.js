@@ -92,8 +92,8 @@ function extractPatterns(patterns, type) {
 //------------------------------------------------------------------------------
 
 const errors = [
-    { message: "Unexpected 'this'.", type: "ThisExpression" },
-    { message: "Unexpected 'this'.", type: "ThisExpression" }
+    { messageId: "unexpectedThis", type: "ThisExpression" },
+    { messageId: "unexpectedThis", type: "ThisExpression" }
 ];
 
 const patterns = [
