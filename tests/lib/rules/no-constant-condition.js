@@ -74,12 +74,11 @@ ruleTester.run("no-constant-condition", rule, {
         "if(true && typeof abc==='string'){}",
 
         // #11181, string literals
-        "if('str' || a){}",
         "if('str1' && a){}",
         "if(a && 'str'){}",
-        "if('str' || abc==='str'){}",
 
         // #11306
+        "if ((foo || true) === 'baz') {}",
         "if ((foo || 'bar') === 'baz') {}",
         "if ((foo || 'bar') !== 'baz') {}",
         "if ((foo || 'bar') == 'baz') {}",
@@ -121,11 +120,14 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "for(;`foo`;);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "for(;`foo${bar}`;);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "do{}while(true)", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "do{}while('1')", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "do{}while(0)", errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "do{}while(t = -2)", errors: [{ messageId: "unexpected", type: "AssignmentExpression" }] },
         { code: "do{}while(``)", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "do{}while(`foo`)", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "do{}while(`foo${bar}`)", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "true ? 1 : 2;", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "1 ? 1 : 2;", errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "q = 0 ? 1 : 2;", errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "(q = 0) ? 1 : 2;", errors: [{ messageId: "unexpected", type: "AssignmentExpression" }] },
         { code: "`` ? 1 : 2;", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
@@ -133,6 +135,7 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "`foo${bar}` ? 1 : 2;", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "if(-2);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
         { code: "if(true);", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(1);", errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "if({});", errors: [{ messageId: "unexpected", type: "ObjectExpression" }] },
         { code: "if(0 < 1);", errors: [{ messageId: "unexpected", type: "BinaryExpression" }] },
         { code: "if(0 || 1);", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
@@ -143,6 +146,7 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "if(`${'bar'}`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "if(`${'bar' + `foo`}`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "if(`foo${false || true}`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "if(`foo${0 || 1}`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "if(`foo${bar}`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "if(`${bar}foo`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
 
@@ -152,6 +156,7 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "while(x = 1);", errors: [{ messageId: "unexpected", type: "AssignmentExpression" }] },
         { code: "while(function(){});", errors: [{ messageId: "unexpected", type: "FunctionExpression" }] },
         { code: "while(true);", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "while(1);", errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "while(() => {});", errors: [{ messageId: "unexpected", type: "ArrowFunctionExpression" }] },
         { code: "while(`foo`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "while(``);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
@@ -180,12 +185,15 @@ ruleTester.run("no-constant-condition", rule, {
         // #5693
         { code: "if(false && abc==='str'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
         { code: "if(true || abc==='str'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+        { code: "if(1 || abc==='str'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
         { code: "if(abc==='str' || true){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
         { code: "if(abc==='str' || true || def ==='str'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
         { code: "if(false || true){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
         { code: "if(typeof abc==='str' || true){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
 
         // #11181, string literals
+        { code: "if('str' || a){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+        { code: "if('str' || abc==='str'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
         { code: "if('str1' || 'str2'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
         { code: "if('str1' && 'str2'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
         { code: "if(abc==='str' || 'str'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
