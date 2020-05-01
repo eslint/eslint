@@ -38,6 +38,12 @@ Array(500)
 new Array(someOtherArray.length)
 ```
 
+```js
+/*eslint no-array-constructor: "error"*/
+
+[0, 1, 2]
+```
+
 ## When Not To Use It
 
 This rule enforces a nearly universal stylistic concern. That being said, this
