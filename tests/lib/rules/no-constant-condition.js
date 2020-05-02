@@ -89,6 +89,8 @@ ruleTester.run("no-constant-condition", rule, {
         "if ((foo || 233) <= 666) {}",
         "if ((key || 'k') in obj) {}",
         "if ((foo || {}) instanceof obj) {}",
+        "if ((foo || 'bar' || 'bar') === 'bar');",
+        "if (a && false || b);",
 
         // #12225
         "if ('' + [y] === '' + [ty]) {}",
