@@ -550,13 +550,16 @@ In this way, you can retrieve the text and AST used for the last run of `linter.
 
 ### Linter#verifyAndFix()
 
-This method is similar to verify except that it also runs autofixing logic, similar to the `--fix` flag on the command line. The result object will contain the autofixed code, along with any remaining linting messages for the code that were not autofixed.
+This method is similar to `verify` except that it also runs autofixing logic, similar to the `--fix` flag on the command line. The result object will contain the autofixed code, along with any remaining linting messages for the code that were not autofixed.
+
+The default parser `espree` is set to a default [setting](../user-guide/configuring.md#specifying-parser-options) `ecmaVersion: 5` so if your code is more modern than ES5, remember to set `parserOptions`. When the parser does not recognise the code syntax, it silently fails and does not traverse any AST or emit any nodes; the `linter.verifyAndFix()` result is still returned but it will be a non-fixed, original input.
 
 ```js
 const Linter = require("eslint").Linter;
 const linter = new Linter();
 
 const messages = linter.verifyAndFix("var foo", {
+    parserOptions: { ecmaVersion: 11 },
     rules: {
         semi: 2
     }
