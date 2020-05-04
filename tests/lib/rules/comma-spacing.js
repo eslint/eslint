@@ -61,6 +61,10 @@ ruleTester.run("comma-spacing", rule, {
         "['  ,  ']",
         { code: "[`  ,  `]", parserOptions: { ecmaVersion: 6 } },
         { code: "`${[1, 2]}`", parserOptions: { ecmaVersion: 6 } },
+        { code: "fn(a, b,)", parserOptions: { ecmaVersion: 2018 } }, // #11295
+        { code: "const fn = (a, b,) => {}", parserOptions: { ecmaVersion: 2018 } }, // #11295
+        { code: "const fn = function (a, b,) {}", parserOptions: { ecmaVersion: 2018 } }, // #11295
+        { code: "function fn(a, b,) {}", parserOptions: { ecmaVersion: 2018 } }, // #11295
         "foo(/,/, 'a')",
         "var x = ',,,,,';",
         "var code = 'var foo = 1, bar = 3;'",
