@@ -4,7 +4,7 @@
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "bin": {
-    "eslint": "./bin/eslint.js"
+    "eslint": "./bin/eslint-cli.js"
   },
   "main": "./lib/api.js",
   "scripts": {
