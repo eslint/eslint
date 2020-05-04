@@ -25,6 +25,11 @@ ruleTester.run("no-throw-literal", rule, {
         "throw Error('error');",
         "var e = new Error(); throw e;",
         "try {throw new Error();} catch (e) {throw e;};",
+        { code: "const err = Error('err'); throw err;", parserOptions: { ecmaVersion: 6 } },
+        { code: "const err = new Error('err'); throw err;", parserOptions: { ecmaVersion: 6 } },
+        { code: "const String = Error; throw String('err');", parserOptions: { ecmaVersion: 6 } },
+        "throw new CustomError();",
+        "throw CustomError();",
         "throw a;", // Identifier
         "throw foo();", // CallExpression
         "throw new foo();", // NewExpression
@@ -41,6 +46,16 @@ ruleTester.run("no-throw-literal", rule, {
         { code: "async function foo() { throw await bar; }", parserOptions: { ecmaVersion: 8 } } // AwaitExpression
     ],
     invalid: [
+        {
+            code: "function foo() { const foo = 'str'; throw foo; }",
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [{
+                messageId: "object",
+                type: "ThrowStatement"
+            }]
+        },
         {
             code: "throw 'error';",
             errors: [{
@@ -79,7 +94,24 @@ ruleTester.run("no-throw-literal", rule, {
         {
             code: "throw undefined;",
             errors: [{
+                messageId: "object",
+                type: "ThrowStatement"
+            }]
+        },
+        {
+            code: "function foo(undefined) {throw undefined;}",
+            errors: [{
                 messageId: "undef",
+                type: "ThrowStatement"
+            }]
+        },
+        {
+            code: "const foo = 'foo'; throw foo;",
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [{
+                messageId: "object",
                 type: "ThrowStatement"
             }]
         },
@@ -139,6 +171,59 @@ ruleTester.run("no-throw-literal", rule, {
         // TemplateLiteral
         {
             code: "throw `${err}`;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "object",
+                type: "ThrowStatement"
+
+            }]
+        },
+
+        {
+            code: "const err = 'error'; throw err;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "object",
+                type: "ThrowStatement"
+
+            }]
+        },
+        {
+            code: "throw new String('error');",
+            errors: [{
+                messageId: "object",
+                type: "ThrowStatement"
+
+            }]
+        },
+        {
+            code: "throw String('error');",
+            errors: [{
+                messageId: "object",
+                type: "ThrowStatement"
+
+            }]
+        },
+        {
+            code: "const foo = { bar: 'err' }; throw foo.bar;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "object",
+                type: "ThrowStatement"
+
+            }]
+        },
+        {
+            code: "const Error = 'err'; throw Error;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "object",
+                type: "ThrowStatement"
+
+            }]
+        },
+        {
+            code: "throw new Object();",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "object",
