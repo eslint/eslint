@@ -53,6 +53,11 @@ const valid = [
     { code: "async (a, b) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 8 } },
     { code: "(a: T) => a", options: ["as-needed"], parser: parser("identifer-type") },
     { code: "(a): T => a", options: ["as-needed"], parser: parser("return-type") },
+    { code: "<T extends Array>(param: T) => { return param }", options: ["as-needed"], parser: parser("generic-param") },
+    { code: "<T extends Object>(): T => { return 1 }", options: ["as-needed"], parser: parser("generic-no-params") },
+    { code: "<T>(x) => {};", options: ["as-needed"], parser: parser("generic-no-params-simple") },
+    { code: "<T extends (A | B) & C>(): T => {};", options: ["as-needed"], parser: parser("generic-union-type") },
+    { code: "<T extends (A | B) & C>(a: (string | number)): T => {};", options: ["as-needed"], parser: parser("generic-union-type-complex") },
 
     // "as-needed", { "requireForBlockBody": true }
     { code: "() => {}", options: ["as-needed", { requireForBlockBody: true }] },
@@ -67,8 +72,12 @@ const valid = [
     { code: "a => ({})", options: ["as-needed", { requireForBlockBody: true }] },
     { code: "async a => ({})", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
     { code: "async a => a", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
+    { code: "function *f() { yield a => a; }", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
     { code: "(a: T) => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("identifer-type") },
-    { code: "(a): T => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("return-type") }
+    { code: "(a): T => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("return-type") },
+    { code: "<T extends Array>(param: T) => { return param }", options: ["as-needed", { requireForBlockBody: true }], parser: parser("generic-param") },
+    { code: "<T extends Object>(): T => { return 1 }", options: ["as-needed", { requireForBlockBody: true }], parser: parser("generic-no-params") }
+
 ];
 
 const type = "ArrowFunctionExpression";
@@ -190,6 +199,19 @@ const invalid = [
             line: 1,
             column: 8,
             endColumn: 9,
+            messageId: "unexpectedParens",
+            type
+        }]
+    },
+    {
+        code: "function *f() { yield(a) => a; }",
+        output: "function *f() { yield a => a; }",
+        options: ["as-needed"],
+        parserOptions: { ecmaVersion: 8 },
+        errors: [{
+            line: 1,
+            column: 23,
+            endColumn: 24,
             messageId: "unexpectedParens",
             type
         }]

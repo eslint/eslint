@@ -4,7 +4,7 @@
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "bin": {
-    "eslint": "./bin/eslint.js"
+    "eslint": "./bin/eslint-cli.js"
   },
   "main": "./lib/api.js",
   "scripts": {
@@ -52,10 +52,10 @@
     "cross-spawn": "^7.0.2",
     "debug": "^4.0.1",
     "doctrine": "^3.0.0",
-    "eslint-scope": "^5.0.0",
+    "eslint-scope": "github:eslint/eslint-scope#export-star-ns",
     "eslint-utils": "^2.0.0",
-    "eslint-visitor-keys": "^1.1.0",
-    "espree": "^6.2.1",
+    "eslint-visitor-keys": "github:eslint/eslint-visitor-keys",
+    "espree": "github:eslint/espree#upgrade-acorn",
     "esquery": "^1.2.0",
     "esutils": "^2.0.2",
     "file-entry-cache": "^5.0.1",

@@ -2051,6 +2051,90 @@ describe("Linter", () => {
                 ]);
             });
 
+            // Note: This behavior will change in the next major release: https://github.com/eslint/rfcs/pull/34
+            it("when file level directives are used in line comments, they should be ignored and add an extra report", () => {
+                const code = [
+                    "// eslint no-undef: \"off\", no-unused-vars: \"off\"",
+                    "// global window",
+                    "window.alert('Hello');",
+                    "// exported global_var",
+                    "var global_var = 42",
+                    "// eslint-env node"
+                ].join("\n");
+                const config = {
+                    rules: {
+                        "no-undef": 1,
+                        "no-unused-vars": 1
+                    }
+                };
+
+                const messages = linter.verify(code, config);
+
+                assert.deepStrictEqual(messages, [
+                    {
+                        severity: 1,
+                        line: 1,
+                        column: 1,
+                        endLine: 1,
+                        endColumn: 49,
+                        message: "The 'eslint' ESLint directive is only allowed in `/* block level comments */`.",
+                        nodeType: null,
+                        ruleId: null
+                    },
+                    {
+                        severity: 1,
+                        line: 2,
+                        column: 1,
+                        endLine: 2,
+                        endColumn: 17,
+                        message: "The 'global' ESLint directive is only allowed in `/* block level comments */`.",
+                        nodeType: null,
+                        ruleId: null
+                    },
+                    {
+                        severity: 1,
+                        column: 1,
+                        endColumn: 7,
+                        endLine: 3,
+                        line: 3,
+                        message: "'window' is not defined.",
+                        messageId: "undef",
+                        nodeType: "Identifier",
+                        ruleId: "no-undef"
+                    },
+                    {
+                        column: 1,
+                        endColumn: 23,
+                        endLine: 4,
+                        line: 4,
+                        message: "The 'exported' ESLint directive is only allowed in `/* block level comments */`.",
+                        nodeType: null,
+                        ruleId: null,
+                        severity: 1
+                    },
+                    {
+                        column: 5,
+                        endColumn: 15,
+                        endLine: 5,
+                        line: 5,
+                        message: "'global_var' is assigned a value but never used.",
+                        nodeType: "Identifier",
+                        ruleId: "no-unused-vars",
+                        severity: 1
+                    },
+                    {
+                        column: 1,
+                        endColumn: 19,
+                        endLine: 6,
+                        line: 6,
+                        message: "The 'eslint-env' ESLint directive is only allowed in `/* block level comments */`.",
+                        nodeType: null,
+                        ruleId: null,
+                        severity: 1
+                    }
+                ]);
+            });
+
             it("should not report a violation for eslint-disable-line in block comment", () => {
                 const code = [
                     "alert('test'); // eslint-disable-line no-alert",

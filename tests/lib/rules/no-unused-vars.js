@@ -145,7 +145,7 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "var x = 1; function foo(y = function(z = x) { bar(z); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 } },
         { code: "var x = 1; function foo(y = function() { bar(x); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 } },
 
-        // exported variables should work
+        // Exported variables should work
         "/*exported toaster*/ var toaster = 'great'",
         "/*exported toaster, poster*/ var toaster = 1; poster = 0;",
         { code: "/*exported x*/ var { x } = y", parserOptions: { ecmaVersion: 6 } },
@@ -304,6 +304,18 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "const a = () => () => { a(); }; a();",
             parserOptions: { ecmaVersion: 2015 }
+        },
+
+        // export * as ns from "source"
+        {
+            code: 'export * as ns from "source"',
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" }
+        },
+
+        // import.meta
+        {
+            code: "import.meta",
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" }
         }
     ],
     invalid: [
@@ -348,7 +360,7 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "export function fn2({ x, y }) {\n console.log(x); \n};", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("y")] },
         { code: "export function fn2( x, y ) {\n console.log(x); \n};", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("y")] },
 
-        // exported
+        // Exported
         { code: "/*exported max*/ var max = 1, min = {min: 1}", errors: [assignedError("min")] },
         { code: "/*exported x*/ var { x, y } = z", parserOptions: { ecmaVersion: 6 }, errors: [assignedError("y")] },
 
