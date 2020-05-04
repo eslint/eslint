@@ -11,7 +11,7 @@ const { assert } = require("chai");
 const sh = require("shelljs");
 const { CascadingConfigArrayFactory } =
     require("../../../lib/cli-engine/cascading-config-array-factory");
-const { defineFileEnumeratorWithInMemoryFileSystem } = require("./_utils");
+const { defineFileEnumeratorWithInMemoryFileSystem } = require("../../_utils");
 
 describe("FileEnumerator", () => {
     describe("'iterateFiles(patterns)' method should iterate files and configs.", () => {
