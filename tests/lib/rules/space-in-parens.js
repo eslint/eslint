@@ -38,6 +38,7 @@ ruleTester.run("space-in-parens", rule, {
         { code: "var foo = `(bar ${( 1 + 2 )})`;", options: ["always"], parserOptions: { ecmaVersion: 6 } },
         { code: "bar(baz)", options: ["never"] },
         { code: "var x = (4 + 5) * 6", options: ["never"] },
+        { code: "foo(\nbar()\n)\n", options: ["never"] },
         { code: "foo\n(\nbar\n)\n", options: ["never"] },
         { code: "foo\n(  \nbar\n )\n", options: ["never"] },
         { code: "foo\n(\n bar  \n)\n", options: ["never"] },
@@ -164,6 +165,12 @@ ruleTester.run("space-in-parens", rule, {
             output: "foo(bar())",
             options: ["never"],
             errors: [{ messageId: "rejectedClosingSpace" }]
+        },
+        {
+            code: "foo(bar()\n)\n",
+            output: "foo(bar())\n",
+            options: ["never"],
+            errors: [{ messageId: "rejectedClosingSpace", line: 1, column: 10 }]
         },
         {
             code: "foo\n(\nbar )",
