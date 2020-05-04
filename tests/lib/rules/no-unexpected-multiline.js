@@ -43,6 +43,18 @@ ruleTester.run("no-unexpected-multiline", rule, {
             code: "x\n.y\nz `Valid Test Case`",
             parserOptions: { ecmaVersion: 6 }
         },
+        {
+            code: "f(x\n)`Valid Test Case`",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "x.\ny `Valid Test Case`",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "(x\n)`Valid Test Case`",
+            parserOptions: { ecmaVersion: 6 }
+        },
         `
             foo
             / bar /2
@@ -118,8 +130,9 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 messageId: "function",
                 line: 2,
-                column: 1
-
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             }]
         },
         {
@@ -127,6 +140,8 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 1,
+                endLine: 2,
+                endColumn: 2,
                 messageId: "function"
             }]
         },
@@ -135,6 +150,8 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 1,
+                endLine: 2,
+                endColumn: 2,
                 messageId: "function"
             }]
         },
@@ -143,6 +160,8 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 1,
+                endLine: 2,
+                endColumn: 2,
                 messageId: "property"
             }]
         },
@@ -151,6 +170,8 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 5,
+                endLine: 2,
+                endColumn: 6,
                 messageId: "function"
             }]
         },
@@ -159,6 +180,8 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 3,
+                endLine: 2,
+                endColumn: 4,
                 messageId: "property"
             }]
         },
@@ -166,8 +189,10 @@ ruleTester.run("no-unexpected-multiline", rule, {
             code: "let x = function() {}\n `hello`",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                line: 1,
-                column: 9,
+                line: 2,
+                column: 2,
+                endLine: 2,
+                endColumn: 3,
                 messageId: "taggedTemplate"
             }]
         },
@@ -175,8 +200,10 @@ ruleTester.run("no-unexpected-multiline", rule, {
             code: "let x = function() {}\nx\n`hello`",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                line: 2,
+                line: 3,
                 column: 1,
+                endLine: 3,
+                endColumn: 2,
                 messageId: "taggedTemplate"
             }]
         },
@@ -184,8 +211,10 @@ ruleTester.run("no-unexpected-multiline", rule, {
             code: "x\n.y\nz\n`Invalid Test Case`",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                line: 3,
+                line: 4,
                 column: 1,
+                endLine: 4,
+                endColumn: 2,
                 messageId: "taggedTemplate"
             }]
         },
@@ -197,6 +226,8 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 3,
                 column: 17,
+                endLine: 3,
+                endColumn: 18,
                 messageId: "division"
             }]
         },
@@ -208,6 +239,8 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 3,
                 column: 17,
+                endLine: 3,
+                endColumn: 18,
                 messageId: "division"
             }]
         },
@@ -219,6 +252,8 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 3,
                 column: 17,
+                endLine: 3,
+                endColumn: 18,
                 messageId: "division"
             }]
         },
@@ -230,6 +265,8 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 3,
                 column: 17,
+                endLine: 3,
+                endColumn: 18,
                 messageId: "division"
             }]
         },
@@ -241,24 +278,28 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 3,
                 column: 17,
+                endLine: 3,
+                endColumn: 18,
                 messageId: "division"
             }]
         },
 
         // https://github.com/eslint/eslint/issues/11650
         {
-            code: `
-                const x = aaaa<
-                    test
-                >/*
-                test
-                */\`foo\`
-            `,
+            code: [
+                "const x = aaaa<",
+                "  test",
+                ">/*",
+                "test",
+                "*/`foo`"
+            ].join("\n"),
             parser: require.resolve("../../fixtures/parsers/typescript-parsers/tagged-template-with-generic/tagged-template-with-generic-and-comment"),
             errors: [
                 {
-                    line: 1,
-                    column: 11,
+                    line: 5,
+                    column: 3,
+                    endLine: 5,
+                    endColumn: 4,
                     messageId: "taggedTemplate"
                 }
             ]

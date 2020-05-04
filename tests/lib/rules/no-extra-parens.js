@@ -244,12 +244,19 @@ ruleTester.run("no-extra-parens", rule, {
 
         // "functions" enables reports for function nodes only
         { code: "(0)", options: ["functions"] },
+        { code: "((0))", options: ["functions"] },
         { code: "a + (b * c)", options: ["functions"] },
+        { code: "a + ((b * c))", options: ["functions"] },
         { code: "(a)(b)", options: ["functions"] },
+        { code: "((a))(b)", options: ["functions"] },
         { code: "a, (b = c)", options: ["functions"] },
+        { code: "a, ((b = c))", options: ["functions"] },
         { code: "for(a in (0));", options: ["functions"] },
+        { code: "for(a in ((0)));", options: ["functions"] },
         { code: "var a = (b = c)", options: ["functions"] },
+        { code: "var a = ((b = c))", options: ["functions"] },
         { code: "_ => (a = 0)", options: ["functions"] },
+        { code: "_ => ((a = 0))", options: ["functions"] },
 
         // ["all", { conditionalAssign: false }] enables extra parens around conditional assignments
         { code: "while ((foo = bar())) {}", options: ["all", { conditionalAssign: false }] },
@@ -257,6 +264,8 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "do; while ((foo = bar()))", options: ["all", { conditionalAssign: false }] },
         { code: "for (;(a = b););", options: ["all", { conditionalAssign: false }] },
         { code: "var a = ((b = c)) ? foo : bar;", options: ["all", { conditionalAssign: false }] },
+        { code: "while (((foo = bar()))) {}", options: ["all", { conditionalAssign: false }] },
+        { code: "var a = (((b = c))) ? foo : bar;", options: ["all", { conditionalAssign: false }] },
 
         // ["all", { nestedBinaryExpressions: false }] enables extra parens around conditional assignments
         { code: "a + (b * c)", options: ["all", { nestedBinaryExpressions: false }] },
@@ -369,11 +378,20 @@ ruleTester.run("no-extra-parens", rule, {
 
         // ["all", { ignoreJSX: "all" }]
         { code: "const Component = (<div />)", options: ["all", { ignoreJSX: "all" }] },
+        { code: "const Component = ((<div />))", options: ["all", { ignoreJSX: "all" }] },
         {
             code: [
                 "const Component = (<>",
                 "  <p />",
                 "</>);"
+            ].join("\n"),
+            options: ["all", { ignoreJSX: "all" }]
+        },
+        {
+            code: [
+                "const Component = ((<>",
+                "  <p />",
+                "</>));"
             ].join("\n"),
             options: ["all", { ignoreJSX: "all" }]
         },
@@ -403,6 +421,7 @@ ruleTester.run("no-extra-parens", rule, {
 
         // ["all", { ignoreJSX: "single-line" }]
         { code: "const Component = (<div />);", options: ["all", { ignoreJSX: "single-line" }] },
+        { code: "const Component = ((<div />));", options: ["all", { ignoreJSX: "single-line" }] },
         {
             code: [
                 "const Component = (",
@@ -427,6 +446,16 @@ ruleTester.run("no-extra-parens", rule, {
                 "  <p />",
                 "</div>",
                 ");"
+            ].join("\n"),
+            options: ["all", { ignoreJSX: "multi-line" }]
+        },
+        {
+            code: [
+                "const Component = ((",
+                "<div>",
+                "  <p />",
+                "</div>",
+                "));"
             ].join("\n"),
             options: ["all", { ignoreJSX: "multi-line" }]
         },
@@ -459,6 +488,7 @@ ruleTester.run("no-extra-parens", rule, {
         // ["all", { enforceForArrowConditionals: false }]
         { code: "var a = b => 1 ? 2 : 3", options: ["all", { enforceForArrowConditionals: false }] },
         { code: "var a = (b) => (1 ? 2 : 3)", options: ["all", { enforceForArrowConditionals: false }] },
+        { code: "var a = (b) => ((1 ? 2 : 3))", options: ["all", { enforceForArrowConditionals: false }] },
 
         // ["all", { enforceForSequenceExpressions: false }]
         { code: "(a, b)", options: ["all", { enforceForSequenceExpressions: false }] },
@@ -466,6 +496,7 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "(foo(), bar());", options: ["all", { enforceForSequenceExpressions: false }] },
         { code: "((foo(), bar()));", options: ["all", { enforceForSequenceExpressions: false }] },
         { code: "if((a, b)){}", options: ["all", { enforceForSequenceExpressions: false }] },
+        { code: "if(((a, b))){}", options: ["all", { enforceForSequenceExpressions: false }] },
         { code: "while ((val = foo(), val < 10));", options: ["all", { enforceForSequenceExpressions: false }] },
 
         // ["all", { enforceForNewInMemberExpressions: false }]
@@ -500,12 +531,16 @@ ruleTester.run("no-extra-parens", rule, {
         "() => ({ foo: 1 }.foo().bar).baz.qux()",
         "() => ({ foo: 1 }.foo().bar + baz)",
         {
+            code: "export default (a, b)",
+            parserOptions: { sourceType: "module" }
+        },
+        {
             code: "export default (function(){}).foo",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            parserOptions: { sourceType: "module" }
         },
         {
             code: "export default (class{}).foo",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            parserOptions: { sourceType: "module" }
         },
         "({}).hasOwnProperty.call(foo, bar)",
         "({}) ? foo() : bar()",
@@ -1122,12 +1157,10 @@ ruleTester.run("no-extra-parens", rule, {
                 }
             ]
         },
-
-        // ["all", { enforceForArrowConditionals: false }]
         {
             code: "var a = (b) => ((1 ? 2 : 3))",
             output: "var a = (b) => (1 ? 2 : 3)",
-            options: ["all", { enforceForArrowConditionals: false }],
+            options: ["all", { enforceForArrowConditionals: true }],
             errors: [
                 {
                     messageId: "unexpected"
@@ -1330,6 +1363,55 @@ ruleTester.run("no-extra-parens", rule, {
             1
         ),
         invalid(
+            "export default ((a, b))",
+            "export default (a, b)",
+            "SequenceExpression",
+            1,
+            { parserOptions: { sourceType: "module" } }
+        ),
+        invalid(
+            "export default (() => {})",
+            "export default () => {}",
+            "ArrowFunctionExpression",
+            1,
+            { parserOptions: { sourceType: "module" } }
+        ),
+        invalid(
+            "export default ((a, b) => a + b)",
+            "export default (a, b) => a + b",
+            "ArrowFunctionExpression",
+            1,
+            { parserOptions: { sourceType: "module" } }
+        ),
+        invalid(
+            "export default (a => a)",
+            "export default a => a",
+            "ArrowFunctionExpression",
+            1,
+            { parserOptions: { sourceType: "module" } }
+        ),
+        invalid(
+            "export default (a = b)",
+            "export default a = b",
+            "AssignmentExpression",
+            1,
+            { parserOptions: { sourceType: "module" } }
+        ),
+        invalid(
+            "export default (a ? b : c)",
+            "export default a ? b : c",
+            "ConditionalExpression",
+            1,
+            { parserOptions: { sourceType: "module" } }
+        ),
+        invalid(
+            "export default (a)",
+            "export default a",
+            "Identifier",
+            1,
+            { parserOptions: { sourceType: "module" } }
+        ),
+        invalid(
             "for (foo of(bar));",
             "for (foo of bar);",
             "Identifier",
@@ -1403,7 +1485,7 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("const [a = (b)] = []", "const [a = b] = []", "Identifier"),
         invalid("const {a = (b)} = {}", "const {a = b} = {}", "Identifier"),
 
-        // LHS of assigments/Assignment targets
+        // LHS of assignments/Assignment targets
         invalid("(a) = b", "a = b", "Identifier"),
         invalid("(a.b) = c", "a.b = c", "MemberExpression"),
         invalid("(a) += b", "a += b", "Identifier"),
@@ -2192,6 +2274,20 @@ ruleTester.run("no-extra-parens", rule, {
             code: "var foo = { [((bar1, bar2))]: baz };",
             output: "var foo = { [(bar1, bar2)]: baz };",
             errors: [{ messageId: "unexpected" }]
-        }
+        },
+
+        // adjacent tokens tests for division operator, comments and regular expressions
+        invalid("a+/**/(/**/b)", "a+/**//**/b", "Identifier"),
+        invalid("a+/**/(//\nb)", "a+/**///\nb", "Identifier"),
+        invalid("a in(/**/b)", "a in/**/b", "Identifier"),
+        invalid("a in(//\nb)", "a in//\nb", "Identifier"),
+        invalid("a+(/**/b)", "a+/**/b", "Identifier"),
+        invalid("a+/**/(b)", "a+/**/b", "Identifier"),
+        invalid("a+(//\nb)", "a+//\nb", "Identifier"),
+        invalid("a+//\n(b)", "a+//\nb", "Identifier"),
+        invalid("a+(/^b$/)", "a+/^b$/", "Literal"),
+        invalid("a/(/**/b)", "a/ /**/b", "Identifier"),
+        invalid("a/(//\nb)", "a/ //\nb", "Identifier"),
+        invalid("a/(/^b$/)", "a/ /^b$/", "Literal")
     ]
 });

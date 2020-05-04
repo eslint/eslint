@@ -1,5 +1,5 @@
 /* eslint semi: "error" */
-/* eslint no-program: "error" */
+/* eslint test/no-program: "error" */
 /* eslint prefer-arrow-callback: "error" */
 "use strict";
 

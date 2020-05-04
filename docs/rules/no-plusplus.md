@@ -71,10 +71,30 @@ Examples of **correct** code for this rule with the `{ "allowForLoopAfterthought
 /*eslint no-plusplus: ["error", { "allowForLoopAfterthoughts": true }]*/
 
 for (i = 0; i < l; i++) {
-    return;
+    doSomething(i);
 }
 
-for (i = 0; i < l; i--) {
-    return;
+for (i = l; i >= 0; i--) {
+    doSomething(i);
 }
+
+for (i = 0, j = l; i < l; i++, j--) {
+    doSomething(i, j);
+}
+```
+
+Examples of **incorrect** code for this rule with the `{ "allowForLoopAfterthoughts": true }` option:
+
+```js
+/*eslint no-plusplus: ["error", { "allowForLoopAfterthoughts": true }]*/
+
+for (i = 0; i < l; j = i++) {
+    doSomething(i, j);
+}
+
+for (i = l; i--;) {
+    doSomething(i);
+}
+
+for (i = 0; i < l;) i++;
 ```

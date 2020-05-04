@@ -9,7 +9,7 @@
 - [ ] I have read the [contributing guidelines](https://github.com/eslint/eslint/blob/master/CONTRIBUTING.md).
 - [ ] The team has reached consensus on the changes proposed in this pull request. If not, I understand that the evaluation process will begin with this pull request and won't be merged until the team has reached consensus.
 
-#### What is the purpose of this pull request? (put an "X" next to item)
+#### What is the purpose of this pull request? (put an "X" next to an item)
 
 [ ] Documentation update
 [ ] Bug fix ([template](https://raw.githubusercontent.com/eslint/eslint/master/templates/bug-report.md))

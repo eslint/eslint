@@ -142,77 +142,77 @@ ruleTester.run("grouped-accessor-pairs", rule, {
         // basic grouping tests with full messages
         {
             code: "({ get a(){}, b:1, set a(foo){} })",
-            errors: [{ message: "Accessor pair getter 'a' and setter 'a' should be grouped.", type: "Property", column: 20 }]
+            errors: [{ messageId: "notGrouped", data: { formerName: "getter 'a'", latterName: "setter 'a'" }, type: "Property", column: 20 }]
         },
         {
             code: "({ set 'abc'(foo){}, b:1, get 'abc'(){} })",
-            errors: [{ message: "Accessor pair setter 'abc' and getter 'abc' should be grouped.", type: "Property", column: 27 }]
+            errors: [{ messageId: "notGrouped", data: { formerName: "setter 'abc'", latterName: "getter 'abc'" }, type: "Property", column: 27 }]
         },
         {
             code: "({ get [a](){}, b:1, set [a](foo){} })",
-            errors: [{ message: "Accessor pair getter and setter should be grouped.", type: "Property", column: 22 }]
+            errors: [{ messageId: "notGrouped", data: { formerName: "getter", latterName: "setter" }, type: "Property", column: 22 }]
         },
         {
             code: "class A { get abc(){} b(){} set abc(foo){} }",
-            errors: [{ message: "Accessor pair getter 'abc' and setter 'abc' should be grouped.", type: "MethodDefinition", column: 29 }]
+            errors: [{ messageId: "notGrouped", data: { formerName: "getter 'abc'", latterName: "setter 'abc'" }, type: "MethodDefinition", column: 29 }]
         },
         {
             code: "(class { set abc(foo){} b(){} get abc(){} })",
-            errors: [{ message: "Accessor pair setter 'abc' and getter 'abc' should be grouped.", type: "MethodDefinition", column: 31 }]
+            errors: [{ messageId: "notGrouped", data: { formerName: "setter 'abc'", latterName: "getter 'abc'" }, type: "MethodDefinition", column: 31 }]
         },
         {
             code: "class A { static set a(foo){} b(){} static get a(){} }",
-            errors: [{ message: "Accessor pair static setter 'a' and static getter 'a' should be grouped.", type: "MethodDefinition", column: 37 }]
+            errors: [{ messageId: "notGrouped", data: { formerName: "static setter 'a'", latterName: "static getter 'a'" }, type: "MethodDefinition", column: 37 }]
         },
         {
             code: "(class { static get 123(){} b(){} static set 123(foo){} })",
-            errors: [{ message: "Accessor pair static getter '123' and static setter '123' should be grouped.", type: "MethodDefinition", column: 35 }]
+            errors: [{ messageId: "notGrouped", data: { formerName: "static getter '123'", latterName: "static setter '123'" }, type: "MethodDefinition", column: 35 }]
         },
         {
             code: "class A { static get [a](){} b(){} static set [a](foo){} }",
-            errors: [{ message: "Accessor pair static getter and static setter should be grouped.", type: "MethodDefinition", column: 36 }]
+            errors: [{ messageId: "notGrouped", data: { formerName: "static getter", latterName: "static setter" }, type: "MethodDefinition", column: 36 }]
         },
 
         // basic ordering tests with full messages
         {
             code: "({ set a(foo){}, get a(){} })",
             options: ["getBeforeSet"],
-            errors: [{ message: "Expected getter 'a' to be before setter 'a'.", type: "Property", column: 18 }]
+            errors: [{ messageId: "invalidOrder", data: { latterName: "getter 'a'", formerName: "setter 'a'" }, type: "Property", column: 18 }]
         },
         {
             code: "({ get 123(){}, set 123(foo){} })",
             options: ["setBeforeGet"],
-            errors: [{ message: "Expected setter '123' to be before getter '123'.", type: "Property", column: 17 }]
+            errors: [{ messageId: "invalidOrder", data: { latterName: "setter '123'", formerName: "getter '123'" }, type: "Property", column: 17 }]
         },
         {
             code: "({ get [a](){}, set [a](foo){} })",
             options: ["setBeforeGet"],
-            errors: [{ message: "Expected setter to be before getter.", type: "Property", column: 17 }]
+            errors: [{ messageId: "invalidOrder", data: { latterName: "setter", formerName: "getter" }, type: "Property", column: 17 }]
         },
         {
             code: "class A { set abc(foo){} get abc(){} }",
             options: ["getBeforeSet"],
-            errors: [{ message: "Expected getter 'abc' to be before setter 'abc'.", type: "MethodDefinition", column: 26 }]
+            errors: [{ messageId: "invalidOrder", data: { latterName: "getter 'abc'", formerName: "setter 'abc'" }, type: "MethodDefinition", column: 26 }]
         },
         {
             code: "(class { get [`abc`](){} set [`abc`](foo){} })",
             options: ["setBeforeGet"],
-            errors: [{ message: "Expected setter 'abc' to be before getter 'abc'.", type: "MethodDefinition", column: 26 }]
+            errors: [{ messageId: "invalidOrder", data: { latterName: "setter 'abc'", formerName: "getter 'abc'" }, type: "MethodDefinition", column: 26 }]
         },
         {
             code: "class A { static get a(){} static set a(foo){} }",
             options: ["setBeforeGet"],
-            errors: [{ message: "Expected static setter 'a' to be before static getter 'a'.", type: "MethodDefinition", column: 28 }]
+            errors: [{ messageId: "invalidOrder", data: { latterName: "static setter 'a'", formerName: "static getter 'a'" }, type: "MethodDefinition", column: 28 }]
         },
         {
             code: "(class { static set 'abc'(foo){} static get 'abc'(){} })",
             options: ["getBeforeSet"],
-            errors: [{ message: "Expected static getter 'abc' to be before static setter 'abc'.", type: "MethodDefinition", column: 34 }]
+            errors: [{ messageId: "invalidOrder", data: { latterName: "static getter 'abc'", formerName: "static setter 'abc'" }, type: "MethodDefinition", column: 34 }]
         },
         {
             code: "class A { static set [abc](foo){} static get [abc](){} }",
             options: ["getBeforeSet"],
-            errors: [{ message: "Expected static getter to be before static setter.", type: "MethodDefinition", column: 35 }]
+            errors: [{ messageId: "invalidOrder", data: { formerName: "static setter", latterName: "static getter" }, type: "MethodDefinition", column: 35 }]
         },
 
         // ordering option does not affect the grouping check

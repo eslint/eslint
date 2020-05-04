@@ -1342,13 +1342,43 @@ describe("ast-utils", () => {
             [["++", "+"], false],
             [["--", "-"], false],
             [["+", "++"], false],
-            [["-", "--"], false]
+            [["-", "--"], false],
+            [["a/", "b"], true],
+            [["a/", "+b"], true],
+            [["a+", "/^regex$/"], true],
+            [["a/", "/^regex$/"], false],
+            [["a+", "/**/b"], true],
+            [["a/", "/**/b"], false],
+            [["a+", "//\nb"], true],
+            [["a/", "//\nb"], false],
+            [["a/**/", "b"], true],
+            [["/**/a", "b"], false],
+            [["a", "/**/b"], true],
+            [["a", "b/**/"], false],
+            [["a", "//\nb"], true],
+            [["a", "b//"], false],
+            [["#!/usr/bin/env node", "("], false],
+            [["123invalidtoken", "("], false],
+            [["(", "123invalidtoken"], false],
+            [["(", "1n"], true],
+            [["1n", "+"], true],
+            [["1n", "in"], false]
         ]);
 
         CASES.forEach((expectedResult, tokenStrings) => {
             it(tokenStrings.join(", "), () => {
                 assert.strictEqual(astUtils.canTokensBeAdjacent(tokenStrings[0], tokenStrings[1]), expectedResult);
             });
+        });
+
+        it("#!/usr/bin/env node, (", () => {
+            assert.strictEqual(
+                astUtils.canTokensBeAdjacent(
+                    { type: "Shebang", value: "#!/usr/bin/env node" },
+                    { type: "Punctuator", value: "(" }
+                ),
+                false
+            );
         });
     });
 

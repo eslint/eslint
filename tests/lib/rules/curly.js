@@ -336,6 +336,89 @@ ruleTester.run("curly", rule, {
             // https://github.com/feross/standard/issues/664
             code: "if (true) foo()\n;[1, 2, 3].bar()",
             options: ["multi-line"]
+        },
+
+        // https://github.com/eslint/eslint/issues/12928 (also in invalid[])
+        {
+            code: "if (x) for (var i in x) { if (i > 0) console.log(i); } else console.log('whoops');",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { if (b) foo(); } else bar();",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "if (a) { if (b) foo(); } else { bar(); }",
+            options: ["multi", "consistent"]
+        },
+        {
+            code: "if (a) { if (b) foo(); } else { bar(); }",
+            options: ["multi-or-nest", "consistent"]
+        },
+        {
+            code: "if (a) { if (b) { foo(); bar(); } } else baz();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) foo(); else if (b) { if (c) bar(); } else baz();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { if (b) foo(); else if (c) bar(); } else baz();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) if (b) foo(); else { if (c) bar(); } else baz();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { lbl:if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { lbl1:lbl2:if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { for (;;) if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { for (key in obj) if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { for (elem of arr) if (b) foo(); } else bar();",
+            options: ["multi"],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "if (a) { with (obj) if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { while (cond) if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { while (cond) for (;;) for (key in obj) if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) while (cond) { for (;;) for (key in obj) if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) while (cond) for (;;) { for (key in obj) if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) while (cond) for (;;) for (key in obj) { if (b) foo(); } else bar();",
+            options: ["multi"]
         }
     ],
     invalid: [
@@ -1091,6 +1174,114 @@ ruleTester.run("curly", rule, {
             output: "do \ndoSomething()\n;\n while (foo)",
             options: ["multi-or-nest"],
             errors: [{ messageId: "unexpectedCurlyAfter", data: { name: "do" }, type: "DoWhileStatement" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/12928 (also in valid[])
+        {
+            code: "if (a) { if (b) foo(); }",
+            output: "if (a)  if (b) foo(); ",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (a) { if (b) foo(); else bar(); }",
+            output: "if (a)  if (b) foo(); else bar(); ",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (a) { if (b) foo(); else bar(); } baz();",
+            output: "if (a)  if (b) foo(); else bar();  baz();",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (a) { while (cond) if (b) foo(); }",
+            output: "if (a)  while (cond) if (b) foo(); ",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (a) while (cond) { if (b) foo(); }",
+            output: "if (a) while (cond)  if (b) foo(); ",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "while" }, type: "WhileStatement" }]
+        },
+        {
+            code: "if (a) while (cond) { if (b) foo(); else bar(); }",
+            output: "if (a) while (cond)  if (b) foo(); else bar(); ",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "while" }, type: "WhileStatement" }]
+        },
+        {
+            code: "if (a) { while (cond) { if (b) foo(); } bar(); baz() } else quux();",
+            output: "if (a) { while (cond)  if (b) foo();  bar(); baz() } else quux();",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "while" }, type: "WhileStatement" }]
+        },
+        {
+            code: "if (a) { if (b) foo(); } bar();",
+            output: "if (a)  if (b) foo();  bar();",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if(a) { if (b) foo(); } if (c) bar(); else baz();",
+            output: "if(a)  if (b) foo();  if (c) bar(); else baz();",
+            options: ["multi-or-nest"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (a) { do if (b) foo(); while (cond); } else bar();",
+            output: "if (a)  do if (b) foo(); while (cond);  else bar();",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (a) do { if (b) foo(); } while (cond); else bar();",
+            output: "if (a) do  if (b) foo();  while (cond); else bar();",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfter", data: { name: "do" }, type: "DoWhileStatement" }]
+        },
+        {
+            code: "if (a) { if (b) foo(); else bar(); } else baz();",
+            output: "if (a)  if (b) foo(); else bar();  else baz();",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (a) while (cond) { bar(); } else baz();",
+            output: "if (a) while (cond)  bar();  else baz();",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "while" }, type: "WhileStatement" }]
+        },
+        {
+            code: "if (a) { for (;;); } else bar();",
+            output: "if (a)  for (;;);  else bar();",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (a) { while (cond) if (b) foo() } else bar();",
+            output: "if (a) { while (cond) if (b) foo() } else {bar();}",
+            options: ["multi", "consistent"],
+            errors: [{ messageId: "missingCurlyAfter", data: { name: "else" }, type: "IfStatement" }]
+        },
+        {
+
+            /**
+             * Reports 2 errors, but one pair of braces is necessary if the other pair gets removed.
+             * Auto-fix will remove only outer braces in the first iteration.
+             * After that, the inner braces will become valid and won't be removed in the second iteration.
+             * If user manually removes inner braces first, the outer braces will become valid.
+             */
+            code: "if (a) { while (cond) { if (b) foo(); } } else bar();",
+            output: "if (a)  while (cond) { if (b) foo(); }  else bar();",
+            options: ["multi"],
+            errors: [
+                { messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" },
+                { messageId: "unexpectedCurlyAfterCondition", data: { name: "while" }, type: "WhileStatement" }
+            ]
         }
     ]
 });

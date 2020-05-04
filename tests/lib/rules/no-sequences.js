@@ -23,7 +23,7 @@ const rule = require("../../../lib/rules/no-sequences"),
  */
 function errors(column) {
     return [{
-        message: "Unexpected use of comma operator.",
+        messageId: "unexpectedCommaExpression",
         type: "SequenceExpression",
         line: 1,
         column
@@ -57,7 +57,7 @@ ruleTester.run("no-sequences", rule, {
         {
             code: "1, 2;",
             errors: [{
-                message: "Unexpected use of comma operator.",
+                messageId: "unexpectedCommaExpression",
                 type: "SequenceExpression",
                 line: 1,
                 column: 2,

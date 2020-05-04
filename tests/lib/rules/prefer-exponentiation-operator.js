@@ -58,6 +58,8 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
         "foo.Math.pow(a, b)",
         "new Math.pow(a, b)",
         "Math[pow](a, b)",
+        { code: "globalThis.Object.pow(a, b)", env: { es2020: true } },
+        { code: "globalThis.Math.max(a, b)", env: { es2020: true } },
 
         // not the global Math
         "/* globals Math:off*/ Math.pow(a, b)",
@@ -65,7 +67,18 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
         "if (foo) { const Math = 1; Math.pow(a, b); }",
         "var x = function Math() { Math.pow(a, b); }",
         "function foo(Math) { Math.pow(a, b); }",
-        "function foo() { Math.pow(a, b); var Math; }"
+        "function foo() { Math.pow(a, b); var Math; }",
+
+        "globalThis.Math.pow(a, b)",
+        { code: "globalThis.Math.pow(a, b)", env: { es6: true } },
+        { code: "globalThis.Math.pow(a, b)", env: { es2017: true } },
+        {
+            code: `
+                var globalThis = bar;
+                globalThis.Math.pow(a, b)
+            `,
+            env: { es2020: true }
+        }
     ],
 
     invalid: [
@@ -75,6 +88,36 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
         invalid("Math['pow'](a, b)", "a**b"),
         invalid("(Math)['pow'](a, b)", "a**b"),
         invalid("var x=Math\n.  pow( a, \n b )", "var x=a**b"),
+        {
+            code: "globalThis.Math.pow(a, b)",
+            output: "a**b",
+            env: { es2020: true },
+            errors: [
+                {
+                    messageId: "useExponentiation",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 26
+                }
+            ]
+        },
+        {
+            code: "globalThis.Math['pow'](a, b)",
+            output: "a**b",
+            env: { es2020: true },
+            errors: [
+                {
+                    messageId: "useExponentiation",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 29
+                }
+            ]
+        },
 
         // able to catch some workarounds
         invalid("Math[`pow`](a, b)", "a**b"),
@@ -212,13 +255,12 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
         invalid("+Math.pow(++a, b)", "+(++a**b)"),
         invalid("Math.pow(a, b + c)in d", "a**(b + c)in d"),
 
-        // multiple invalid and full message and location test
         {
             code: "Math.pow(a, b) + Math.pow(c,\n d)",
             output: "a**b + c**d",
             errors: [
                 {
-                    message: "Use the '**' operator instead of 'Math.pow'.",
+                    messageId: "useExponentiation",
                     type: "CallExpression",
                     line: 1,
                     column: 1,
@@ -226,7 +268,7 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
                     endColumn: 15
                 },
                 {
-                    message: "Use the '**' operator instead of 'Math.pow'.",
+                    messageId: "useExponentiation",
                     type: "CallExpression",
                     line: 1,
                     column: 18,
