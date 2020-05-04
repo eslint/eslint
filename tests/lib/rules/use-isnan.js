@@ -41,16 +41,6 @@ ruleTester.run("use-isnan", rule, {
         // enforceForSwitchCase
         //------------------------------------------------------------------------------
 
-        "switch(NaN) { case foo: break; }",
-        "switch(foo) { case NaN: break; }",
-        {
-            code: "switch(NaN) { case foo: break; }",
-            options: [{}]
-        },
-        {
-            code: "switch(foo) { case NaN: break; }",
-            options: [{}]
-        },
         {
             code: "switch(NaN) { case foo: break; }",
             options: [{ enforceForSwitchCase: false }]
@@ -282,6 +272,24 @@ ruleTester.run("use-isnan", rule, {
         // enforceForSwitchCase
         //------------------------------------------------------------------------------
 
+        {
+            code: "switch(NaN) { case foo: break; }",
+            errors: [{ messageId: "switchNaN", type: "SwitchStatement", column: 1 }]
+        },
+        {
+            code: "switch(foo) { case NaN: break; }",
+            errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 15 }]
+        },
+        {
+            code: "switch(NaN) { case foo: break; }",
+            options: [{}],
+            errors: [{ messageId: "switchNaN", type: "SwitchStatement", column: 1 }]
+        },
+        {
+            code: "switch(foo) { case NaN: break; }",
+            options: [{}],
+            errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 15 }]
+        },
         {
             code: "switch(NaN) {}",
             options: [{ enforceForSwitchCase: true }],
