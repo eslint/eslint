@@ -15,7 +15,7 @@ const globals = require("globals");
 //------------------------------------------------------------------------------
 
 /**
- * Get the object that has differentce.
+ * Get the object that has difference.
  * @param {Record<string,boolean>} current The newer object.
  * @param {Record<string,boolean>} prev The older object.
  * @returns {Record<string,boolean>} The difference object.
@@ -40,7 +40,8 @@ const newGlobals2017 = {
 const newGlobals2020 = {
     BigInt: false,
     BigInt64Array: false,
-    BigUint64Array: false
+    BigUint64Array: false,
+    globalThis: false
 };
 
 //------------------------------------------------------------------------------

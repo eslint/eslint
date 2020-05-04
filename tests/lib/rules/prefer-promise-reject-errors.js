@@ -89,7 +89,7 @@ ruleTester.run("prefer-promise-reject-errors", rule, {
         "new Promise(({}, reject) => reject(5))",
         "new Promise((resolve, reject, somethingElse = reject(5)) => {})"
     ].map(invalidCase => {
-        const errors = { errors: [{ message: "Expected the Promise rejection reason to be an Error.", type: "CallExpression" }] };
+        const errors = { errors: [{ messageId: "rejectAnError", type: "CallExpression" }] };
 
         return Object.assign({}, errors, typeof invalidCase === "string" ? { code: invalidCase } : invalidCase);
     })

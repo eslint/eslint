@@ -57,6 +57,14 @@ ruleTester.run("no-extend-native", rule, {
             type: "AssignmentExpression"
         }]
     }, {
+        code: "BigInt.prototype.p = 0",
+        env: { es2020: true },
+        errors: [{
+            messageId: "unexpected",
+            data: { builtin: "BigInt" },
+            type: "AssignmentExpression"
+        }]
+    }, {
         code: "Function.prototype['p'] = 0",
         errors: [{
             messageId: "unexpected",

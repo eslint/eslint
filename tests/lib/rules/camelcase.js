@@ -92,6 +92,14 @@ ruleTester.run("camelcase", rule, {
             options: [{ properties: "never" }]
         },
         {
+            code: "const { ['foo']: _foo } = obj;",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const { [_foo_]: foo } = obj;",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
             code: "var { category_id } = query;",
             options: [{ ignoreDestructuring: true }],
             parserOptions: { ecmaVersion: 6 }
@@ -148,7 +156,17 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
-            code: "import { no_camelcased as camelCased, anoterCamelCased } from \"external-module\";",
+            code: "import { no_camelcased as camelCased, anotherCamelCased } from \"external-module\";",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import { snake_cased } from 'mod'",
+            options: [{ ignoreImports: true }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import { camelCased } from 'mod'",
+            options: [{ ignoreImports: false }],
             parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
@@ -206,6 +224,59 @@ ruleTester.run("camelcase", rule, {
         {
             code: "foo = { [computedBar]: 0 };",
             options: [{ ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({ a: obj.fo_o } = bar);",
+            options: [{ allow: ["fo_o"] }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({ a: obj.foo } = bar);",
+            options: [{ allow: ["fo_o"] }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({ a: obj.fo_o } = bar);",
+            options: [{ properties: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({ a: obj.fo_o.b_ar } = bar);",
+            options: [{ properties: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({ a: { b: obj.fo_o } } = bar);",
+            options: [{ properties: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "([obj.fo_o] = bar);",
+            options: [{ properties: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({ c: [ob.fo_o]} = bar);",
+            options: [{ properties: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "([obj.fo_o.b_ar] = bar);",
+            options: [{ properties: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({obj} = baz.fo_o);",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "([obj] = baz.fo_o);",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "([obj.foo = obj.fo_o] = bar);",
+            options: [{ properties: "always" }],
             parserOptions: { ecmaVersion: 6 }
         }
     ],
@@ -428,7 +499,8 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Identifier 'category_id' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "category_id" },
                     type: "Identifier"
                 }
             ]
@@ -533,11 +605,60 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
+            code: "import snake_cased from 'mod'",
+            options: [{ ignoreImports: true }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "snake_cased" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import * as snake_cased from 'mod'",
+            options: [{ ignoreImports: true }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "snake_cased" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import snake_cased from 'mod'",
+            options: [{ ignoreImports: false }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "snake_cased" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import * as snake_cased from 'mod'",
+            options: [{ ignoreImports: false }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "snake_cased" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
             code: "function foo({ no_camelcased }) {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
             ]
@@ -547,7 +668,8 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
             ]
@@ -557,11 +679,13 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "no_camelcased" },
                     type: "Identifier"
                 },
                 {
-                    message: "Identifier 'camelcased_value' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "camelcased_value" },
                     type: "Identifier"
                 }
             ]
@@ -571,7 +695,8 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
             ]
@@ -581,7 +706,8 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Identifier 'my_default' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "my_default" },
                     type: "Identifier"
                 }
             ]
@@ -591,7 +717,8 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
             ]
@@ -601,7 +728,8 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Identifier 'bar_baz' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "bar_baz" },
                     type: "Identifier"
                 }
             ]
@@ -611,7 +739,8 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
             ]
@@ -621,7 +750,8 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
             ]
@@ -631,7 +761,8 @@ ruleTester.run("camelcase", rule, {
             options: [{ allow: ["ignored_bar"] }],
             errors: [
                 {
-                    message: "Identifier 'not_ignored_foo' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "not_ignored_foo" },
                     type: "Identifier"
                 }
             ]
@@ -641,7 +772,8 @@ ruleTester.run("camelcase", rule, {
             options: [{ allow: ["_id$"] }],
             errors: [
                 {
-                    message: "Identifier 'not_ignored_foo' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "not_ignored_foo" },
                     type: "Identifier"
                 }
             ]
@@ -652,7 +784,165 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Identifier 'computed_bar' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "computed_bar" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({ a: obj.fo_o } = bar);",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({ a: obj.fo_o } = bar);",
+            options: [{ ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({ a: obj.fo_o.b_ar } = baz);",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "b_ar" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({ a: { b: { c: obj.fo_o } } } = bar);",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({ a: { b: { c: obj.fo_o.b_ar } } } = baz);",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "b_ar" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "([obj.fo_o] = bar);",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "([obj.fo_o] = bar);",
+            options: [{ ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "([obj.fo_o = 1] = bar);",
+            options: [{ properties: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({ a: [obj.fo_o] } = bar);",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({ a: { b: [obj.fo_o] } } = bar);",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "([obj.fo_o.ba_r] = baz);",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "ba_r" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({...obj.fo_o} = baz);",
+            parserOptions: { ecmaVersion: 9 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({...obj.fo_o.ba_r} = baz);",
+            parserOptions: { ecmaVersion: 9 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "ba_r" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({c: {...obj.fo_o }} = baz);",
+            parserOptions: { ecmaVersion: 9 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
                     type: "Identifier"
                 }
             ]

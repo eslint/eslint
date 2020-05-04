@@ -17,7 +17,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 //------------------------------------------------------------------------------
 
 const errors = [{
-    message: "Unexpected string concatenation.",
+    messageId: "unexpectedStringConcatenation",
     type: "BinaryExpression"
 }];
 

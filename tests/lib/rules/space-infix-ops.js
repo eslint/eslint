@@ -54,67 +54,80 @@ ruleTester.run("space-infix-ops", rule, {
             code: "a+b",
             output: "a + b",
             errors: [{
-                message: "Operator '+' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 1,
-                column: 2
+                column: 2,
+                endColumn: 3
             }]
         },
         {
             code: "a +b",
             output: "a + b",
             errors: [{
-                message: "Operator '+' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 1,
-                column: 3
+                column: 3,
+                endColumn: 4
             }]
         },
         {
             code: "a+ b",
             output: "a + b",
             errors: [{
-                message: "Operator '+' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 1,
-                column: 2
+                column: 2,
+                endColumn: 3
             }]
         },
         {
             code: "a||b",
             output: "a || b",
             errors: [{
-                message: "Operator '||' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "||" },
                 type: "LogicalExpression",
                 line: 1,
-                column: 2
+                column: 2,
+                endColumn: 4
             }]
         },
         {
             code: "a ||b",
             output: "a || b",
             errors: [{
-                message: "Operator '||' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "||" },
                 type: "LogicalExpression",
                 line: 1,
-                column: 3
+                column: 3,
+                endColumn: 5
             }]
         },
         {
             code: "a|| b",
             output: "a || b",
             errors: [{
-                message: "Operator '||' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "||" },
                 type: "LogicalExpression",
                 line: 1,
-                column: 2
+                column: 2,
+                endColumn: 4
             }]
         },
         {
             code: "a=b",
             output: "a = b",
             errors: [{
-                message: "Operator '=' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "=" },
                 type: "AssignmentExpression",
                 line: 1,
                 column: 2
@@ -124,7 +137,8 @@ ruleTester.run("space-infix-ops", rule, {
             code: "a= b",
             output: "a = b",
             errors: [{
-                message: "Operator '=' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "=" },
                 type: "AssignmentExpression",
                 line: 1,
                 column: 2
@@ -134,7 +148,8 @@ ruleTester.run("space-infix-ops", rule, {
             code: "a =b",
             output: "a = b",
             errors: [{
-                message: "Operator '=' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "=" },
                 type: "AssignmentExpression",
                 line: 1,
                 column: 3
@@ -144,77 +159,92 @@ ruleTester.run("space-infix-ops", rule, {
             code: "a?b:c",
             output: "a ? b:c",
             errors: [{
-                message: "Operator '?' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "?" },
                 type: "ConditionalExpression",
                 line: 1,
-                column: 2
+                column: 2,
+                endColumn: 3
             }]
         },
         {
             code: "a?b : c",
             output: "a ? b : c",
             errors: [{
-                message: "Operator '?' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "?" },
                 type: "ConditionalExpression",
                 line: 1,
-                column: 2
+                column: 2,
+                endColumn: 3
             }]
         },
         {
             code: "a ? b:c",
             output: "a ? b : c",
             errors: [{
-                message: "Operator ':' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 1,
-                column: 6
+                column: 6,
+                endColumn: 7
             }]
         },
         {
             code: "a? b : c",
             output: "a ? b : c",
             errors: [{
-                message: "Operator '?' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "?" },
                 type: "ConditionalExpression",
                 line: 1,
-                column: 2
+                column: 2,
+                endColumn: 3
             }]
         },
         {
             code: "a ?b : c",
             output: "a ? b : c",
             errors: [{
-                message: "Operator '?' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "?" },
                 type: "ConditionalExpression",
                 line: 1,
-                column: 3
+                column: 3,
+                endColumn: 4
             }]
         },
         {
             code: "a ? b: c",
             output: "a ? b : c",
             errors: [{
-                message: "Operator ':' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 1,
-                column: 6
+                column: 6,
+                endColumn: 7
             }]
         },
         {
             code: "a ? b :c",
             output: "a ? b : c",
             errors: [{
-                message: "Operator ':' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 1,
-                column: 7
+                column: 7,
+                endColumn: 8
             }]
         },
         {
             code: "var a=b;",
             output: "var a = b;",
             errors: [{
-                message: "Operator '=' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 1,
                 column: 6
@@ -224,7 +254,8 @@ ruleTester.run("space-infix-ops", rule, {
             code: "var a= b;",
             output: "var a = b;",
             errors: [{
-                message: "Operator '=' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 1,
                 column: 6
@@ -234,7 +265,8 @@ ruleTester.run("space-infix-ops", rule, {
             code: "var a =b;",
             output: "var a = b;",
             errors: [{
-                message: "Operator '=' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 1,
                 column: 7
@@ -244,7 +276,8 @@ ruleTester.run("space-infix-ops", rule, {
             code: "var a = b, c=d;",
             output: "var a = b, c = d;",
             errors: [{
-                message: "Operator '=' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 1,
                 column: 13
@@ -257,7 +290,8 @@ ruleTester.run("space-infix-ops", rule, {
                 int32Hint: true
             }],
             errors: [{
-                message: "Operator '|' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "|" },
                 type: "BinaryExpression",
                 line: 1,
                 column: 2
@@ -267,7 +301,8 @@ ruleTester.run("space-infix-ops", rule, {
             code: "var output = test || (test && test.value) ||(test2 && test2.value);",
             output: "var output = test || (test && test.value) || (test2 && test2.value);",
             errors: [{
-                message: "Operator '||' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "||" },
                 type: "LogicalExpression",
                 line: 1,
                 column: 43
@@ -277,7 +312,8 @@ ruleTester.run("space-infix-ops", rule, {
             code: "var output = a ||(b && c.value) || (d && e.value);",
             output: "var output = a || (b && c.value) || (d && e.value);",
             errors: [{
-                message: "Operator '||' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "||" },
                 type: "LogicalExpression",
                 line: 1,
                 column: 16
@@ -287,7 +323,8 @@ ruleTester.run("space-infix-ops", rule, {
             code: "var output = a|| (b && c.value) || (d && e.value);",
             output: "var output = a || (b && c.value) || (d && e.value);",
             errors: [{
-                message: "Operator '||' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "||" },
                 type: "LogicalExpression",
                 line: 1,
                 column: 15
@@ -298,7 +335,8 @@ ruleTester.run("space-infix-ops", rule, {
             output: "const my_object = {key: 'value'}",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Operator '=' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 1,
                 column: 16
@@ -309,12 +347,14 @@ ruleTester.run("space-infix-ops", rule, {
             output: "var {a = 0} = bar;",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Operator '=' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "=" },
                 line: 1,
                 column: 7,
                 type: "AssignmentPattern"
             }, {
-                message: "Operator '=' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "=" },
                 line: 1,
                 column: 10,
                 type: "VariableDeclarator"
@@ -325,7 +365,8 @@ ruleTester.run("space-infix-ops", rule, {
             output: "function foo(a = 0) { }",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Operator '=' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "=" },
                 line: 1,
                 column: 15,
                 type: "AssignmentPattern"
@@ -336,7 +377,8 @@ ruleTester.run("space-infix-ops", rule, {
             output: "a ** b",
             parserOptions: { ecmaVersion: 7 },
             errors: [{
-                message: "Operator '**' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "**" },
                 line: 1,
                 column: 2,
                 type: "BinaryExpression"
@@ -346,7 +388,8 @@ ruleTester.run("space-infix-ops", rule, {
             code: "'foo'in{}",
             output: "'foo' in {}",
             errors: [{
-                message: "Operator 'in' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "in" },
                 line: 1,
                 column: 6,
                 type: "BinaryExpression"
@@ -356,7 +399,8 @@ ruleTester.run("space-infix-ops", rule, {
             code: "'foo'instanceof{}",
             output: "'foo' instanceof {}",
             errors: [{
-                message: "Operator 'instanceof' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "instanceof" },
                 line: 1,
                 column: 6,
                 type: "BinaryExpression"
@@ -370,7 +414,8 @@ ruleTester.run("space-infix-ops", rule, {
             output: "var a: Foo = b;",
             parser: parser("type-annotations/variable-declaration-init-type-annotation-no-space"),
             errors: [{
-                message: "Operator '=' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 1,
                 column: 11
@@ -382,7 +427,8 @@ ruleTester.run("space-infix-ops", rule, {
             parser: parser("type-annotations/function-declaration-type-annotation-no-space"),
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Operator '=' must be spaced.",
+                messageId: "missingSpace",
+                data: { operator: "=" },
                 line: 1,
                 column: 23,
                 type: "AssignmentPattern"

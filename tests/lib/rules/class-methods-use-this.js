@@ -110,15 +110,15 @@ ruleTester.run("class-methods-use-this", rule, {
             code: "class A { foo(){} 'bar'(){} 123(){} [`baz`](){} [a](){} [f(a)](){} get quux(){} set[a](b){} *quuux(){} }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Expected 'this' to be used by class method 'foo'.", type: "FunctionExpression", column: 14 },
-                { message: "Expected 'this' to be used by class method 'bar'.", type: "FunctionExpression", column: 24 },
-                { message: "Expected 'this' to be used by class method '123'.", type: "FunctionExpression", column: 32 },
-                { message: "Expected 'this' to be used by class method 'baz'.", type: "FunctionExpression", column: 44 },
-                { message: "Expected 'this' to be used by class method.", type: "FunctionExpression", column: 52 },
-                { message: "Expected 'this' to be used by class method.", type: "FunctionExpression", column: 63 },
-                { message: "Expected 'this' to be used by class getter 'quux'.", type: "FunctionExpression", column: 76 },
-                { message: "Expected 'this' to be used by class setter.", type: "FunctionExpression", column: 87 },
-                { message: "Expected 'this' to be used by class generator method 'quuux'.", type: "FunctionExpression", column: 99 }
+                { messageId: "missingThis", data: { name: "method 'foo'" }, type: "FunctionExpression", column: 14 },
+                { messageId: "missingThis", data: { name: "method 'bar'" }, type: "FunctionExpression", column: 24 },
+                { messageId: "missingThis", data: { name: "method '123'" }, type: "FunctionExpression", column: 32 },
+                { messageId: "missingThis", data: { name: "method 'baz'" }, type: "FunctionExpression", column: 44 },
+                { messageId: "missingThis", data: { name: "method" }, type: "FunctionExpression", column: 52 },
+                { messageId: "missingThis", data: { name: "method" }, type: "FunctionExpression", column: 63 },
+                { messageId: "missingThis", data: { name: "getter 'quux'" }, type: "FunctionExpression", column: 76 },
+                { messageId: "missingThis", data: { name: "setter" }, type: "FunctionExpression", column: 87 },
+                { messageId: "missingThis", data: { name: "generator method 'quuux'" }, type: "FunctionExpression", column: 99 }
             ]
         }
     ]

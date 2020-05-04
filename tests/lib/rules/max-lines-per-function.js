@@ -25,7 +25,7 @@ ruleTester.run("max-lines-per-function", rule, {
             options: [1]
         },
 
-        // Test single line standlone function
+        // Test single line standalone function
         {
             code: "function name() {}",
             options: [1]
@@ -91,7 +91,7 @@ ruleTester.run("max-lines-per-function", rule, {
             options: [{ max: 5, skipComments: true, skipBlankLines: false }]
         },
 
-        // Multiple params on seperate lines test
+        // Multiple params on separate lines test
         {
             code: `function foo(
     aaa = 1,
