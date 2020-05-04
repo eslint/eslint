@@ -105,12 +105,12 @@ ruleTester.run("no-implicit-globals", rule, {
             env: { browser: true }
         },
 
-        // Another way to create a global variable. Not the best practice, but that isn't the reposibility of this rule.
+        // Another way to create a global variable. Not the best practice, but that isn't the responsibility of this rule.
         "this.foo = 1;",
         "this.foo = function() {};",
         "this.foo = function bar() {};",
 
-        // Test that the rule does'n report global comments
+        // Test that the rule doesn't report global comments
         "/*global foo:readonly*/",
         "/*global foo:writable*/",
         "/*global Array:readonly*/",
@@ -322,7 +322,7 @@ ruleTester.run("no-implicit-globals", rule, {
         // leaks
         //------------------------------------------------------------------------------
 
-        // This rule doesn't report all undeclared variables, just leaks (assigments to an undeclared variable)
+        // This rule doesn't report all undeclared variables, just leaks (assignments to an undeclared variable)
         "foo",
         "foo + bar",
         "foo(bar)",
@@ -409,7 +409,7 @@ ruleTester.run("no-implicit-globals", rule, {
         },
 
 
-        // This rule doesn't dissalow assignments to properties of readonly globals
+        // This rule doesn't disallow assignments to properties of readonly globals
         "Array.from = 1;",
         "Object['assign'] = 1;",
         "/*global foo:readonly*/ foo.bar = 1;"
@@ -850,7 +850,7 @@ ruleTester.run("no-implicit-globals", rule, {
         // globals
         //------------------------------------------------------------------------------
 
-        // Basic assigment tests
+        // Basic assignment tests
         {
             code: "Array = 1",
             errors: [
@@ -991,7 +991,7 @@ ruleTester.run("no-implicit-globals", rule, {
             ]
         },
 
-        // Multiple and mixed assigments
+        // Multiple and mixed assignments
         {
             code: "/*global foo:readonly, bar: readonly*/ foo = bar = 1",
             errors: [

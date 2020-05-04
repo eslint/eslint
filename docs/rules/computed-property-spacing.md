@@ -34,7 +34,7 @@ String option:
 
 Object option:
 
-* `"enforceForClassMembers": true` additionally applies this rule to class members (default is `false`)
+* `"enforceForClassMembers": true` (default) additionally applies this rule to class members.
 
 ### never
 
@@ -92,13 +92,9 @@ obj[ foo[ bar ] ]
 
 #### enforceForClassMembers
 
-By default, this rule does not check class declarations and class expressions,
-as the default value for `enforceForClassMembers` is `false`.
+With `enforceForClassMembers` set to `true` (default), the rule also disallows/enforces spaces inside of computed keys of class methods, getters and setters.
 
-When `enforceForClassMembers` is set to `true`, the rule will also disallow/enforce spaces inside of
-computed keys of class methods, getters and setters.
-
-Examples of **incorrect** code for this rule with `"never"` and `{ "enforceForClassMembers": true }`:
+Examples of **incorrect** code for this rule with `"never"` and `{ "enforceForClassMembers": true }` (default):
 
 ```js
 /*eslint computed-property-spacing: ["error", "never", { "enforceForClassMembers": true }]*/
@@ -118,7 +114,7 @@ const Bar = class {
 }
 ```
 
-Examples of **correct** code for this rule with `"never"` and `{ "enforceForClassMembers": true }`:
+Examples of **correct** code for this rule with `"never"` and `{ "enforceForClassMembers": true }` (default):
 
 ```js
 /*eslint computed-property-spacing: ["error", "never", { "enforceForClassMembers": true }]*/
@@ -135,6 +131,26 @@ const Bar = class {
   static [b]() {}
   static get [c]() {}
   static set [c](value) {}
+}
+```
+
+Examples of **correct** code for this rule with `"never"` and `{ "enforceForClassMembers": false }`:
+
+```js
+/*eslint computed-property-spacing: ["error", "never", { "enforceForClassMembers": false }]*/
+/*eslint-env es6*/
+
+class Foo {
+  [a ]() {}
+  get [b ]() {}
+  set [b ](value) {}
+}
+
+const Bar = class {
+  [ a](){}
+  static [ b]() {}
+  static get [ c ]() {}
+  static set [ c ](value) {}
 }
 ```
 

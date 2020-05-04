@@ -65,14 +65,6 @@ ruleTester.run("func-names", rule, {
             options: ["as-needed"]
         },
         {
-            code: "export default (function(){});",
-            options: ["as-needed"],
-            parserOptions: {
-                ecmaVersion: 6,
-                sourceType: "module"
-            }
-        },
-        {
             code: "({foo = function(){}} = {});",
             options: ["as-needed"],
             parserOptions: { ecmaVersion: 6 }
@@ -125,6 +117,28 @@ ruleTester.run("func-names", rule, {
             code: "({ foo() {} });",
             options: ["never"],
             parserOptions: { ecmaVersion: 6 }
+        },
+
+        // export default
+        {
+            code: "export default function foo() {}",
+            options: ["always"],
+            parserOptions: { sourceType: "module", ecmaVersion: 6 }
+        },
+        {
+            code: "export default function foo() {}",
+            options: ["as-needed"],
+            parserOptions: { sourceType: "module", ecmaVersion: 6 }
+        },
+        {
+            code: "export default function foo() {}",
+            options: ["never"],
+            parserOptions: { sourceType: "module", ecmaVersion: 6 }
+        },
+        {
+            code: "export default function() {}",
+            options: ["never"],
+            parserOptions: { sourceType: "module", ecmaVersion: 6 }
         },
 
         // generators
@@ -379,6 +393,54 @@ ruleTester.run("func-names", rule, {
             }]
         },
         {
+            code: "({ a: obj.prop = function(){} } = foo);",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unnamed",
+                type: "FunctionExpression",
+                line: 1,
+                column: 18,
+                endColumn: 26
+            }]
+        },
+        {
+            code: "[obj.prop = function(){}] = foo;",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unnamed",
+                type: "FunctionExpression",
+                line: 1,
+                column: 13,
+                endColumn: 21
+            }]
+        },
+        {
+            code: "var { a: [b] = function(){} } = foo;",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unnamed",
+                type: "FunctionExpression",
+                line: 1,
+                column: 16,
+                endColumn: 24
+            }]
+        },
+        {
+            code: "function foo({ a } = function(){}) {};",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unnamed",
+                type: "FunctionExpression",
+                line: 1,
+                column: 22,
+                endColumn: 30
+            }]
+        },
+        {
             code: "var x = function foo() {};",
             options: ["never"],
             errors: [{
@@ -412,6 +474,41 @@ ruleTester.run("func-names", rule, {
                 line: 1,
                 column: 3,
                 endColumn: 20
+            }]
+        },
+
+        // export default
+        {
+            code: "export default function() {}",
+            options: ["always"],
+            parserOptions: { sourceType: "module", ecmaVersion: 6 },
+            errors: [{
+                messageId: "unnamed",
+                type: "FunctionDeclaration",
+                column: 16,
+                endColumn: 24
+            }]
+        },
+        {
+            code: "export default function() {}",
+            options: ["as-needed"],
+            parserOptions: { sourceType: "module", ecmaVersion: 6 },
+            errors: [{
+                messageId: "unnamed",
+                type: "FunctionDeclaration",
+                column: 16,
+                endColumn: 24
+            }]
+        },
+        {
+            code: "export default (function(){});",
+            options: ["as-needed"],
+            parserOptions: { sourceType: "module", ecmaVersion: 6 },
+            errors: [{
+                messageId: "unnamed",
+                type: "FunctionExpression",
+                column: 17,
+                endColumn: 25
             }]
         },
 

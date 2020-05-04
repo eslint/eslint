@@ -1596,7 +1596,7 @@ ko.exportSymbol('computed', ko.dependentObservable); // Make "ko.computed" an al
 ko.exportSymbol('isComputed', ko.isComputed);
 
 (function() {
-    var maxNestedObservableDepth = 10; // Escape the (unlikely) pathalogical case where an observable's current value is itself (or similar reference cycle)
+    var maxNestedObservableDepth = 10; // Escape the (unlikely) pathological case where an observable's current value is itself (or similar reference cycle)
 
     ko.toJS = function(rootObject) {
         if (arguments.length == 0)
