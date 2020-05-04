@@ -11,7 +11,7 @@ const { assert } = require("chai");
 const sh = require("shelljs");
 const { CascadingConfigArrayFactory } =
     require("../../../lib/cli-engine/cascading-config-array-factory");
-const { defineFileEnumeratorWithInMemoryFileSystem } = require("./_utils");
+const { defineFileEnumeratorWithInMemoryFileSystem } = require("../../_utils");
 
 describe("FileEnumerator", () => {
     describe("'iterateFiles(patterns)' method should iterate files and configs.", () => {
@@ -380,7 +380,7 @@ describe("FileEnumerator", () => {
 
                     assert.throws(() => {
                         listFiles(patterns);
-                    }, `No files matching '${patterns[0]}' were found.`);
+                    }, `All files matched by '${patterns[0]}' are ignored.`);
                 });
 
                 it("should return an ignored file, if ignore option is turned off", () => {

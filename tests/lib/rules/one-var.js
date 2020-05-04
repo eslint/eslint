@@ -201,13 +201,11 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var foo = require('foo'), bar;",
-            options: [{ separateRequires: false, var: "always" }],
-            parserOptions: { env: { node: true } }
+            options: [{ separateRequires: false, var: "always" }]
         },
         {
             code: "var foo = require('foo'), bar = require('bar');",
-            options: [{ separateRequires: true, var: "always" }],
-            parserOptions: { env: { node: true } }
+            options: [{ separateRequires: true, var: "always" }]
         },
         {
             code: "var bar = 'bar'; var foo = require('foo');",
@@ -216,11 +214,6 @@ ruleTester.run("one-var", rule, {
         {
             code: "var foo = require('foo'); var bar = 'bar';",
             options: [{ separateRequires: true, var: "always" }]
-        },
-        {
-            code: "var foo = require('foo'); var bar = 'bar';",
-            options: [{ separateRequires: true, var: "always" }],
-            parserOptions: { env: { node: true } }
         },
 
         // https://github.com/eslint/eslint/issues/4680
@@ -504,7 +497,8 @@ ruleTester.run("one-var", rule, {
             output: "function foo() { var bar = true; var baz = false; }",
             options: ["never"],
             errors: [{
-                message: "Split 'var' declarations into multiple statements.",
+                messageId: "split",
+                data: { type: "var" },
                 type: "VariableDeclaration"
             }]
         },
@@ -513,7 +507,8 @@ ruleTester.run("one-var", rule, {
             output: "function foo() { var bar = true,  baz = false; }",
             options: ["always"],
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration"
             }]
         },
@@ -522,7 +517,8 @@ ruleTester.run("one-var", rule, {
             output: null,
             options: ["always"],
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration"
             }]
         },
@@ -532,7 +528,8 @@ ruleTester.run("one-var", rule, {
             options: [{ initialized: "never" }],
             errors: [
                 {
-                    message: "Split initialized 'var' declarations into multiple statements.",
+                    messageId: "splitInitialized",
+                    data: { type: "var" },
                     type: "VariableDeclaration"
                 }
             ]
@@ -543,7 +540,8 @@ ruleTester.run("one-var", rule, {
             options: [{ uninitialized: "never" }],
             errors: [
                 {
-                    message: "Split uninitialized 'var' declarations into multiple statements.",
+                    messageId: "splitUninitialized",
+                    data: { type: "var" },
                     type: "VariableDeclaration"
                 }
             ]
@@ -554,7 +552,8 @@ ruleTester.run("one-var", rule, {
             options: [{ uninitialized: "always", initialized: "never" }],
             errors: [
                 {
-                    message: "Combine this with the previous 'var' statement with uninitialized variables.",
+                    messageId: "combineUninitialized",
+                    data: { type: "var" },
                     type: "VariableDeclaration"
                 }
             ]
@@ -565,7 +564,9 @@ ruleTester.run("one-var", rule, {
             options: [{ uninitialized: "never", initialized: "always" }],
             errors: [
                 {
-                    message: "Combine this with the previous 'var' statement with initialized variables.",
+                    messageId: "combineInitialized",
+                    data: { type: "var" },
+
                     type: "VariableDeclaration"
                 }
             ]
@@ -576,11 +577,13 @@ ruleTester.run("one-var", rule, {
             options: [{ uninitialized: "never", initialized: "never" }],
             errors: [
                 {
-                    message: "Split 'var' declarations into multiple statements.",
+                    messageId: "split",
+                    data: { type: "var" },
                     type: "VariableDeclaration"
                 },
                 {
-                    message: "Split 'var' declarations into multiple statements.",
+                    messageId: "split",
+                    data: { type: "var" },
                     type: "VariableDeclaration"
                 }
             ]
@@ -591,15 +594,18 @@ ruleTester.run("one-var", rule, {
             options: [{ uninitialized: "always", initialized: "always" }],
             errors: [
                 {
-                    message: "Combine this with the previous 'var' statement.",
+                    messageId: "combine",
+                    data: { type: "var" },
                     type: "VariableDeclaration"
                 },
                 {
-                    message: "Combine this with the previous 'var' statement.",
+                    messageId: "combine",
+                    data: { type: "var" },
                     type: "VariableDeclaration"
                 },
                 {
-                    message: "Combine this with the previous 'var' statement.",
+                    messageId: "combine",
+                    data: { type: "var" },
                     type: "VariableDeclaration"
                 }
             ]
@@ -609,7 +615,8 @@ ruleTester.run("one-var", rule, {
             output: "function foo() { var a = [1, 2, 3],  [b, c, d] = a; }",
             options: ["always"],
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration"
             }]
         },
@@ -618,7 +625,8 @@ ruleTester.run("one-var", rule, {
             output: "function foo() { let a = 1,  b = 2; }",
             options: ["always"],
             errors: [{
-                message: "Combine this with the previous 'let' statement.",
+                messageId: "combine",
+                data: { type: "let" },
                 type: "VariableDeclaration"
             }]
         },
@@ -627,7 +635,8 @@ ruleTester.run("one-var", rule, {
             output: "function foo() { const a = 1,  b = 2; }",
             options: ["always"],
             errors: [{
-                message: "Combine this with the previous 'const' statement.",
+                messageId: "combine",
+                data: { type: "const" },
                 type: "VariableDeclaration"
             }]
         },
@@ -636,7 +645,8 @@ ruleTester.run("one-var", rule, {
             output: "function foo() { let a = 1,  b = 2; }",
             options: [{ let: "always" }],
             errors: [{
-                message: "Combine this with the previous 'let' statement.",
+                messageId: "combine",
+                data: { type: "let" },
                 type: "VariableDeclaration"
             }]
         },
@@ -645,7 +655,8 @@ ruleTester.run("one-var", rule, {
             output: "function foo() { const a = 1,  b = 2; }",
             options: [{ const: "always" }],
             errors: [{
-                message: "Combine this with the previous 'const' statement.",
+                messageId: "combine",
+                data: { type: "const" },
                 type: "VariableDeclaration"
             }]
         },
@@ -654,7 +665,8 @@ ruleTester.run("one-var", rule, {
             output: "function foo() { let a = 1; let b = 2; }",
             options: [{ let: "never" }],
             errors: [{
-                message: "Split 'let' declarations into multiple statements.",
+                messageId: "split",
+                data: { type: "let" },
                 type: "VariableDeclaration"
             }]
         },
@@ -663,7 +675,8 @@ ruleTester.run("one-var", rule, {
             output: "function foo() { let a = 1; let b = 2; }",
             options: [{ initialized: "never" }],
             errors: [{
-                message: "Split initialized 'let' declarations into multiple statements.",
+                messageId: "splitInitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration"
             }]
         },
@@ -672,7 +685,8 @@ ruleTester.run("one-var", rule, {
             output: "function foo() { let a; let b; }",
             options: [{ uninitialized: "never" }],
             errors: [{
-                message: "Split uninitialized 'let' declarations into multiple statements.",
+                messageId: "splitUninitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration"
             }]
         },
@@ -681,7 +695,8 @@ ruleTester.run("one-var", rule, {
             output: "function foo() { const a = 1; const b = 2; }",
             options: [{ initialized: "never" }],
             errors: [{
-                message: "Split initialized 'const' declarations into multiple statements.",
+                messageId: "splitInitialized",
+                data: { type: "const" },
                 type: "VariableDeclaration"
             }]
         },
@@ -690,7 +705,8 @@ ruleTester.run("one-var", rule, {
             output: "function foo() { const a = 1; const b = 2; }",
             options: [{ const: "never" }],
             errors: [{
-                message: "Split 'const' declarations into multiple statements.",
+                messageId: "split",
+                data: { type: "const" },
                 type: "VariableDeclaration"
             }]
         },
@@ -699,7 +715,8 @@ ruleTester.run("one-var", rule, {
             output: null,
             options: [{ var: "always", let: "always", const: "never" }],
             errors: [{
-                message: "Combine this with the previous 'let' statement.",
+                messageId: "combine",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 74
@@ -710,7 +727,8 @@ ruleTester.run("one-var", rule, {
             output: "var one = 1, two = 2,\n three;",
             options: ["always"],
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 2,
                 column: 1
@@ -721,7 +739,8 @@ ruleTester.run("one-var", rule, {
             output: "var i = [0]; var j;",
             options: [{ initialized: "never" }],
             errors: [{
-                message: "Split initialized 'var' declarations into multiple statements.",
+                messageId: "splitInitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration"
             }]
         },
@@ -730,7 +749,8 @@ ruleTester.run("one-var", rule, {
             output: "var i = [0]; var j;",
             options: [{ uninitialized: "never" }],
             errors: [{
-                message: "Split uninitialized 'var' declarations into multiple statements.",
+                messageId: "splitUninitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration"
             }]
         },
@@ -739,7 +759,8 @@ ruleTester.run("one-var", rule, {
             output: null,
             options: ["always"],
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration"
             }]
         },
@@ -748,7 +769,8 @@ ruleTester.run("one-var", rule, {
             output: null,
             options: ["always"],
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration"
             }]
         },
@@ -756,7 +778,8 @@ ruleTester.run("one-var", rule, {
             code: "var foo = function() { var bar = true; var baz = false; }",
             output: "var foo = function() { var bar = true,  baz = false; }",
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 40
@@ -766,12 +789,14 @@ ruleTester.run("one-var", rule, {
             code: "function foo() { var bar = true; if (qux) { var baz = false; } else { var quxx = 42; } }",
             output: null,
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 45
             }, {
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 71
@@ -782,7 +807,8 @@ ruleTester.run("one-var", rule, {
             output: "var foo = () => { var bar = true,  baz = false; }",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 35
@@ -792,7 +818,8 @@ ruleTester.run("one-var", rule, {
             code: "var foo = function() { var bar = true; if (qux) { var baz = false; } }",
             output: null,
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 51
@@ -802,7 +829,8 @@ ruleTester.run("one-var", rule, {
             code: "var foo; var bar;",
             output: "var foo,  bar;",
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 10
@@ -813,7 +841,8 @@ ruleTester.run("one-var", rule, {
             output: "var x = 1; var y = 2; for (var z in foo) {}",
             options: [{ initialized: "never", uninitialized: "always" }],
             errors: [{
-                message: "Split initialized 'var' declarations into multiple statements.",
+                messageId: "splitInitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 1
@@ -824,7 +853,8 @@ ruleTester.run("one-var", rule, {
             output: "var x = 1; var y = 2; for (var z of foo) {}",
             options: [{ initialized: "never", uninitialized: "always" }],
             errors: [{
-                message: "Split initialized 'var' declarations into multiple statements.",
+                messageId: "splitInitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 1
@@ -835,7 +865,8 @@ ruleTester.run("one-var", rule, {
             output: "var x,  y; for (var z in foo) {}",
             options: [{ initialized: "never", uninitialized: "always" }],
             errors: [{
-                message: "Combine this with the previous 'var' statement with uninitialized variables.",
+                messageId: "combineUninitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 8
@@ -846,7 +877,8 @@ ruleTester.run("one-var", rule, {
             output: "var x,  y; for (var z of foo) {}",
             options: [{ initialized: "never", uninitialized: "always" }],
             errors: [{
-                message: "Combine this with the previous 'var' statement with uninitialized variables.",
+                messageId: "combineUninitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 8
@@ -857,7 +889,8 @@ ruleTester.run("one-var", rule, {
             output: "var x; for (var y in foo) {var bar = y,  a; for (var z of bar) {}}",
             options: [{ initialized: "never", uninitialized: "always" }],
             errors: [{
-                message: "Combine this with the previous 'var' statement with uninitialized variables.",
+                messageId: "combineUninitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 41
@@ -868,7 +901,8 @@ ruleTester.run("one-var", rule, {
             output: "var a = 1; var b = 2; var x, y; for (var z of foo) {var c = 3; var baz = z; for (var d in baz) {}}",
             options: [{ initialized: "never", uninitialized: "always" }],
             errors: [{
-                message: "Split initialized 'var' declarations into multiple statements.",
+                messageId: "splitInitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 53
@@ -880,7 +914,8 @@ ruleTester.run("one-var", rule, {
             options: [{ initialized: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Split initialized 'var' declarations into multiple statements.",
+                messageId: "splitInitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 1
@@ -892,7 +927,8 @@ ruleTester.run("one-var", rule, {
             options: [{ initialized: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Split initialized 'const' declarations into multiple statements.",
+                messageId: "splitInitialized",
+                data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 1
@@ -903,7 +939,8 @@ ruleTester.run("one-var", rule, {
             output: "var foo = 1;\n    var bar = 2;",
             options: [{ initialized: "never" }],
             errors: [{
-                message: "Split initialized 'var' declarations into multiple statements.",
+                messageId: "splitInitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 1
@@ -914,7 +951,8 @@ ruleTester.run("one-var", rule, {
             output: "var foo = 1; // comment\n    var bar = 2;",
             options: [{ initialized: "never" }],
             errors: [{
-                message: "Split initialized 'var' declarations into multiple statements.",
+                messageId: "splitInitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 1
@@ -925,7 +963,8 @@ ruleTester.run("one-var", rule, {
             output: "var f; var k /* test */; var l;",
             options: ["never"],
             errors: [{
-                message: "Split 'var' declarations into multiple statements.",
+                messageId: "split",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 1
@@ -936,7 +975,8 @@ ruleTester.run("one-var", rule, {
             output: "var f;          /* test */ var l;",
             options: ["never"],
             errors: [{
-                message: "Split 'var' declarations into multiple statements.",
+                messageId: "split",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 1
@@ -947,7 +987,8 @@ ruleTester.run("one-var", rule, {
             output: "var f; var k /* test \n some more comment \n even more */; var l = 1; var P;",
             options: ["never"],
             errors: [{
-                message: "Split 'var' declarations into multiple statements.",
+                messageId: "split",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 1
@@ -958,7 +999,8 @@ ruleTester.run("one-var", rule, {
             output: "var a = 1; var b = 2",
             options: ["never"],
             errors: [{
-                message: "Split 'var' declarations into multiple statements.",
+                messageId: "split",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 1
@@ -968,9 +1010,8 @@ ruleTester.run("one-var", rule, {
             code: "var foo = require('foo'), bar;",
             output: null,
             options: [{ separateRequires: true, var: "always" }],
-            parserOptions: { env: { node: true } },
             errors: [{
-                message: "Split requires to be separated into a single block.",
+                messageId: "splitRequires",
                 type: "VariableDeclaration",
                 line: 1,
                 column: 1
@@ -980,9 +1021,8 @@ ruleTester.run("one-var", rule, {
             code: "var foo, bar = require('bar');",
             output: null,
             options: [{ separateRequires: true, var: "always" }],
-            parserOptions: { env: { node: true } },
             errors: [{
-                message: "Split requires to be separated into a single block.",
+                messageId: "splitRequires",
                 type: "VariableDeclaration",
                 line: 1,
                 column: 1
@@ -992,9 +1032,8 @@ ruleTester.run("one-var", rule, {
             code: "let foo, bar = require('bar');",
             output: null,
             options: [{ separateRequires: true, let: "always" }],
-            parserOptions: { env: { node: true } },
             errors: [{
-                message: "Split requires to be separated into a single block.",
+                messageId: "splitRequires",
                 type: "VariableDeclaration",
                 line: 1,
                 column: 1
@@ -1004,9 +1043,8 @@ ruleTester.run("one-var", rule, {
             code: "const foo = 0, bar = require('bar');",
             output: null,
             options: [{ separateRequires: true, const: "always" }],
-            parserOptions: { env: { node: true } },
             errors: [{
-                message: "Split requires to be separated into a single block.",
+                messageId: "splitRequires",
                 type: "VariableDeclaration",
                 line: 1,
                 column: 1
@@ -1016,9 +1054,9 @@ ruleTester.run("one-var", rule, {
             code: "const foo = require('foo'); const bar = require('bar');",
             output: "const foo = require('foo'),  bar = require('bar');",
             options: [{ separateRequires: true, const: "always" }],
-            parserOptions: { env: { node: true } },
             errors: [{
-                message: "Combine this with the previous 'const' statement.",
+                messageId: "combine",
+                data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 29
@@ -1031,7 +1069,8 @@ ruleTester.run("one-var", rule, {
             output: "var a = 1, b,  c;",
             options: ["consecutive"],
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 15
@@ -1042,7 +1081,8 @@ ruleTester.run("one-var", rule, {
             output: "var a = 0, b = 1,  c = 2;",
             options: ["consecutive"],
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 19
@@ -1054,7 +1094,8 @@ ruleTester.run("one-var", rule, {
             options: ["consecutive"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'let' statement.",
+                messageId: "combine",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 15
@@ -1066,7 +1107,8 @@ ruleTester.run("one-var", rule, {
             options: ["consecutive"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'let' statement.",
+                messageId: "combine",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 19
@@ -1078,7 +1120,8 @@ ruleTester.run("one-var", rule, {
             options: ["consecutive"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'const' statement.",
+                messageId: "combine",
+                data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 21
@@ -1090,7 +1133,8 @@ ruleTester.run("one-var", rule, {
             options: ["consecutive"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 25
@@ -1101,7 +1145,8 @@ ruleTester.run("one-var", rule, {
             output: "var a = true,  b = false;",
             options: [{ separateRequires: true, var: "always" }],
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 15
@@ -1113,7 +1158,8 @@ ruleTester.run("one-var", rule, {
             options: ["consecutive"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'let' statement.",
+                messageId: "combine",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 25
@@ -1125,7 +1171,8 @@ ruleTester.run("one-var", rule, {
             options: ["consecutive"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'const' statement.",
+                messageId: "combine",
+                data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 25
@@ -1136,7 +1183,8 @@ ruleTester.run("one-var", rule, {
             output: "var a = 0; var b,  c; var d = 1",
             options: [{ initialized: "consecutive", uninitialized: "always" }],
             errors: [{
-                message: "Combine this with the previous 'var' statement with uninitialized variables.",
+                messageId: "combineUninitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 19
@@ -1147,13 +1195,15 @@ ruleTester.run("one-var", rule, {
             output: "var a = 0,  b = 1; var c,  d;",
             options: [{ initialized: "consecutive", uninitialized: "always" }],
             errors: [{
-                message: "Combine this with the previous 'var' statement with initialized variables.",
+                messageId: "combineInitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 12
             },
             {
-                message: "Combine this with the previous 'var' statement with uninitialized variables.",
+                messageId: "combineUninitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 30
@@ -1165,7 +1215,8 @@ ruleTester.run("one-var", rule, {
             options: [{ initialized: "consecutive", uninitialized: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'let' statement with uninitialized variables.",
+                messageId: "combineUninitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 19
@@ -1177,13 +1228,15 @@ ruleTester.run("one-var", rule, {
             options: [{ initialized: "consecutive", uninitialized: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'let' statement with initialized variables.",
+                messageId: "combineInitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 12
             },
             {
-                message: "Combine this with the previous 'let' statement with uninitialized variables.",
+                messageId: "combineUninitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 30
@@ -1195,7 +1248,8 @@ ruleTester.run("one-var", rule, {
             options: [{ initialized: "consecutive", uninitialized: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'let' statement with uninitialized variables.",
+                messageId: "combineUninitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 21
@@ -1207,13 +1261,14 @@ ruleTester.run("one-var", rule, {
             options: [{ initialized: "consecutive", uninitialized: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'const' statement with initialized variables.",
+                messageId: "combineInitialized",
                 type: "VariableDeclaration",
                 line: 1,
                 column: 14
             },
             {
-                message: "Combine this with the previous 'let' statement with uninitialized variables.",
+                messageId: "combineUninitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 34
@@ -1224,13 +1279,15 @@ ruleTester.run("one-var", rule, {
             output: "var a = 0,  b = 1; var c; var d;",
             options: [{ initialized: "consecutive", uninitialized: "never" }],
             errors: [{
-                message: "Combine this with the previous 'var' statement with initialized variables.",
+                messageId: "combineInitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 12
             },
             {
-                message: "Split uninitialized 'var' declarations into multiple statements.",
+                messageId: "splitUninitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 23
@@ -1241,7 +1298,8 @@ ruleTester.run("one-var", rule, {
             output: "var a = 0; var b; var c; var d = 1;",
             options: [{ initialized: "consecutive", uninitialized: "never" }],
             errors: [{
-                message: "Split uninitialized 'var' declarations into multiple statements.",
+                messageId: "splitUninitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 12
@@ -1253,13 +1311,15 @@ ruleTester.run("one-var", rule, {
             options: [{ initialized: "consecutive", uninitialized: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'let' statement with initialized variables.",
+                messageId: "combineInitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 12
             },
             {
-                message: "Split uninitialized 'let' declarations into multiple statements.",
+                messageId: "splitUninitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 23
@@ -1271,7 +1331,8 @@ ruleTester.run("one-var", rule, {
             options: [{ initialized: "consecutive", uninitialized: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Split uninitialized 'let' declarations into multiple statements.",
+                messageId: "splitUninitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 12
@@ -1283,13 +1344,15 @@ ruleTester.run("one-var", rule, {
             options: [{ initialized: "consecutive", uninitialized: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'const' statement with initialized variables.",
+                messageId: "combineInitialized",
+                data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 14
             },
             {
-                message: "Split uninitialized 'let' declarations into multiple statements.",
+                messageId: "splitUninitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 27
@@ -1301,7 +1364,8 @@ ruleTester.run("one-var", rule, {
             options: [{ initialized: "consecutive", uninitialized: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Split uninitialized 'let' declarations into multiple statements.",
+                messageId: "splitUninitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 14
@@ -1312,13 +1376,15 @@ ruleTester.run("one-var", rule, {
             output: "var a,  b; var c = 0,  d = 1;",
             options: [{ uninitialized: "consecutive", initialized: "always" }],
             errors: [{
-                message: "Combine this with the previous 'var' statement with uninitialized variables.",
+                messageId: "combineUninitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 8
             },
             {
-                message: "Combine this with the previous 'var' statement with initialized variables.",
+                messageId: "combineInitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 26
@@ -1329,7 +1395,8 @@ ruleTester.run("one-var", rule, {
             output: "var a; var b = 0,  c = 1; var d;",
             options: [{ uninitialized: "consecutive", initialized: "always" }],
             errors: [{
-                message: "Combine this with the previous 'var' statement with initialized variables.",
+                messageId: "combineInitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 19
@@ -1341,13 +1408,15 @@ ruleTester.run("one-var", rule, {
             options: [{ uninitialized: "consecutive", initialized: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'let' statement with uninitialized variables.",
+                messageId: "combineUninitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 8
             },
             {
-                message: "Combine this with the previous 'let' statement with initialized variables.",
+                messageId: "combineInitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 26
@@ -1359,7 +1428,8 @@ ruleTester.run("one-var", rule, {
             options: [{ uninitialized: "consecutive", initialized: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'let' statement with initialized variables.",
+                messageId: "combineInitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 19
@@ -1371,13 +1441,15 @@ ruleTester.run("one-var", rule, {
             options: [{ uninitialized: "consecutive", initialized: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'let' statement with uninitialized variables.",
+                messageId: "combineUninitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 8
             },
             {
-                message: "Combine this with the previous 'const' statement with initialized variables.",
+                messageId: "combineInitialized",
+                data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 28
@@ -1389,7 +1461,8 @@ ruleTester.run("one-var", rule, {
             options: [{ uninitialized: "consecutive", initialized: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'const' statement with initialized variables.",
+                messageId: "combineInitialized",
+                data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 21
@@ -1400,13 +1473,15 @@ ruleTester.run("one-var", rule, {
             output: "var a,  b; var c = 0; var d = 1;",
             options: [{ uninitialized: "consecutive", initialized: "never" }],
             errors: [{
-                message: "Combine this with the previous 'var' statement with uninitialized variables.",
+                messageId: "combineUninitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 8
             },
             {
-                message: "Split initialized 'var' declarations into multiple statements.",
+                messageId: "splitInitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 15
@@ -1417,7 +1492,8 @@ ruleTester.run("one-var", rule, {
             output: "var a; var b = 0; var c = 1; var d;",
             options: [{ uninitialized: "consecutive", initialized: "never" }],
             errors: [{
-                message: "Split initialized 'var' declarations into multiple statements.",
+                messageId: "splitInitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 8
@@ -1429,13 +1505,15 @@ ruleTester.run("one-var", rule, {
             options: [{ uninitialized: "consecutive", initialized: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'let' statement with uninitialized variables.",
+                messageId: "combineUninitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 8
             },
             {
-                message: "Split initialized 'let' declarations into multiple statements.",
+                messageId: "splitInitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 15
@@ -1447,7 +1525,8 @@ ruleTester.run("one-var", rule, {
             options: [{ uninitialized: "consecutive", initialized: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Split initialized 'let' declarations into multiple statements.",
+                messageId: "splitInitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 8
@@ -1459,13 +1538,15 @@ ruleTester.run("one-var", rule, {
             options: [{ uninitialized: "consecutive", initialized: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'let' statement with uninitialized variables.",
+                messageId: "combineUninitialized",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 8
             },
             {
-                message: "Split initialized 'const' declarations into multiple statements.",
+                messageId: "splitInitialized",
+                data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 15
@@ -1477,7 +1558,8 @@ ruleTester.run("one-var", rule, {
             options: [{ uninitialized: "consecutive", initialized: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Split initialized 'const' declarations into multiple statements.",
+                messageId: "splitInitialized",
+                data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 8
@@ -1488,7 +1570,8 @@ ruleTester.run("one-var", rule, {
             output: "var a = 0,  b = 1;",
             options: [{ var: "consecutive" }],
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 12
@@ -1500,7 +1583,8 @@ ruleTester.run("one-var", rule, {
             options: [{ let: "consecutive" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'let' statement.",
+                messageId: "combine",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 12
@@ -1512,7 +1596,8 @@ ruleTester.run("one-var", rule, {
             options: [{ const: "consecutive" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'const' statement.",
+                messageId: "combine",
+                data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 14
@@ -1524,13 +1609,15 @@ ruleTester.run("one-var", rule, {
             options: [{ let: "consecutive", const: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'let' statement.",
+                messageId: "combine",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 8
             },
             {
-                message: "Combine this with the previous 'const' statement.",
+                messageId: "combine",
+                data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 28
@@ -1542,7 +1629,8 @@ ruleTester.run("one-var", rule, {
             options: [{ let: "consecutive", const: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'const' statement.",
+                messageId: "combine",
+                data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 21
@@ -1554,13 +1642,15 @@ ruleTester.run("one-var", rule, {
             options: [{ let: "consecutive", const: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'let' statement.",
+                messageId: "combine",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 8
             },
             {
-                message: "Split 'const' declarations into multiple statements.",
+                messageId: "split",
+                data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 15
@@ -1572,7 +1662,8 @@ ruleTester.run("one-var", rule, {
             options: [{ let: "consecutive", const: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Split 'const' declarations into multiple statements.",
+                messageId: "split",
+                data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 8
@@ -1584,13 +1675,15 @@ ruleTester.run("one-var", rule, {
             options: [{ const: "consecutive", let: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'const' statement.",
+                messageId: "combine",
+                data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 14
             },
             {
-                message: "Combine this with the previous 'let' statement.",
+                messageId: "combine",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 34
@@ -1602,7 +1695,8 @@ ruleTester.run("one-var", rule, {
             options: [{ const: "consecutive", let: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'let' statement.",
+                messageId: "combine",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 21
@@ -1614,13 +1708,15 @@ ruleTester.run("one-var", rule, {
             options: [{ const: "consecutive", let: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'const' statement.",
+                messageId: "combine",
+                data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 14
             },
             {
-                message: "Split 'let' declarations into multiple statements.",
+                messageId: "split",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 27
@@ -1632,7 +1728,8 @@ ruleTester.run("one-var", rule, {
             options: [{ const: "consecutive", let: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Split 'let' declarations into multiple statements.",
+                messageId: "split",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 14
@@ -1643,7 +1740,8 @@ ruleTester.run("one-var", rule, {
             output: "var bar,  baz;",
             options: ["consecutive"],
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 10
@@ -1654,13 +1752,15 @@ ruleTester.run("one-var", rule, {
             output: "var bar = 1,  baz = 2; qux(); var qux = 3,  quux;",
             options: ["consecutive"],
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 14
             },
             {
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 47
@@ -1672,13 +1772,15 @@ ruleTester.run("one-var", rule, {
             options: [{ var: "never", let: "consecutive", const: "consecutive" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Combine this with the previous 'let' statement.",
+                messageId: "combine",
+                data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 11
             },
             {
-                message: "Split 'var' declarations into multiple statements.",
+                messageId: "split",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 18
@@ -1689,7 +1791,8 @@ ruleTester.run("one-var", rule, {
             output: "var a,  b;",
             options: [{ var: "consecutive" }],
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 8
@@ -1700,19 +1803,22 @@ ruleTester.run("one-var", rule, {
             output: "var a = 1,  b = 2; var c; var d; var e = 3,  f = 4;",
             options: [{ initialized: "consecutive", uninitialized: "never" }],
             errors: [{
-                message: "Combine this with the previous 'var' statement with initialized variables.",
+                messageId: "combineInitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 12
             },
             {
-                message: "Split uninitialized 'var' declarations into multiple statements.",
+                messageId: "splitUninitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 23
             },
             {
-                message: "Combine this with the previous 'var' statement with initialized variables.",
+                messageId: "combineInitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 44
@@ -1723,13 +1829,15 @@ ruleTester.run("one-var", rule, {
             output: "var a = 1,  b = 2; foo(); var c = 3,  d = 4;",
             options: [{ initialized: "consecutive" }],
             errors: [{
-                message: "Combine this with the previous 'var' statement with initialized variables.",
+                messageId: "combineInitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 12
             },
             {
-                message: "Combine this with the previous 'var' statement with initialized variables.",
+                messageId: "combineInitialized",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 41
@@ -1740,7 +1848,8 @@ ruleTester.run("one-var", rule, {
             output: "var a,\n b",
             options: ["always"],
             errors: [{
-                message: "Combine this with the previous 'var' statement.",
+                messageId: "combine",
+                data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 2,
                 column: 1

@@ -70,7 +70,7 @@ This rule has an object option:
 
 * `"SwitchCase"` (default: 0) enforces indentation level for `case` clauses in `switch` statements
 * `"VariableDeclarator"` (default: 1) enforces indentation level for `var` declarators; can also take an object to define separate rules for `var`, `let` and `const` declarations. It can also be `"first"`, indicating all the declarators should be aligned with the first declarator.
-* `"outerIIFEBody"` (default: 1) enforces indentation level for file-level IIFEs.
+* `"outerIIFEBody"` (default: 1) enforces indentation level for file-level IIFEs. This can also be set to `"off"` to disable checking for file-level IIFEs.
 * `"MemberExpression"` (default: 1) enforces indentation level for multi-line property chains. This can also be set to `"off"` to disable checking for MemberExpression indentation.
 * `"FunctionDeclaration"` takes an object to define rules for function declarations.
     * `parameters` (default: 1) enforces indentation level for parameters in a function declaration. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the declaration must be aligned with the first parameter. This can also be set to `"off"` to disable checking for FunctionDeclaration parameters.
@@ -84,6 +84,7 @@ This rule has an object option:
 * `"ObjectExpression"` (default: 1) enforces indentation level for properties in objects. It can be set to the string `"first"`, indicating that all properties in the object should be aligned with the first property. This can also be set to `"off"` to disable checking for object properties.
 * `"ImportDeclaration"` (default: 1) enforces indentation level for import statements. It can be set to the string `"first"`, indicating that all imported members from a module should be aligned with the first member in the list. This can also be set to `"off"` to disable checking for imported module members.
 * `"flatTernaryExpressions": true` (`false` by default) requires no indentation for ternary expressions which are nested in other ternary expressions.
+* `"offsetTernaryExpressions": true` (`false` by default) requires indentation for values of ternary expressions.
 * `"ignoredNodes"` accepts an array of [selectors](/docs/developer-guide/selectors.md). If an AST node is matched by any of the selectors, the indentation of tokens which are direct children of that node will be ignored. This can be used as an escape hatch to relax the rule if you disagree with the indentation that it enforces for a particular syntactic pattern.
 * `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
 
@@ -280,12 +281,12 @@ Examples of **incorrect** code for this rule with the options `2, { "outerIIFEBo
 })();
 
 
-if(y) {
+if (y) {
 console.log('foo');
 }
 ```
 
-Examples of **correct** code for this rule with the options `2, {"outerIIFEBody": 0}`:
+Examples of **correct** code for this rule with the options `2, { "outerIIFEBody": 0 }`:
 
 ```js
 /*eslint indent: ["error", 2, { "outerIIFEBody": 0 }]*/
@@ -299,8 +300,34 @@ function foo(x) {
 })();
 
 
-if(y) {
+if (y) {
    console.log('foo');
+}
+```
+
+Examples of **correct** code for this rule with the options `2, { "outerIIFEBody":  "off" }`:
+
+```js
+/*eslint indent: ["error", 2, { "outerIIFEBody": "off" }]*/
+
+(function() {
+
+function foo(x) {
+  return x + 1;
+}
+
+})();
+
+(function() {
+
+  function foo(x) {
+    return x + 1;
+  }
+
+})();
+
+if (y) {
+  console.log('foo');
 }
 ```
 
@@ -641,6 +668,76 @@ var a =
     foo ? bar :
     baz ? qux :
     boop;
+```
+
+### offsetTernaryExpressions
+
+Examples of **incorrect** code for this rule with the default `2, { "offsetTernaryExpressions": false }` option:
+
+```js
+/*eslint indent: ["error", 2, { "offsetTernaryExpressions": false }]*/
+
+condition
+  ? () => {
+      return true
+    }
+  : () => {
+      false
+    }
+```
+
+Examples of **correct** code for this rule with the default `2, { "offsetTernaryExpressions": false }` option:
+
+```js
+/*eslint indent: ["error", 2, { "offsetTernaryExpressions": false }]*/
+
+condition
+  ? () => {
+    return true
+  }
+  : condition2
+    ? () => {
+      return true
+    }
+    : () => {
+      return false
+    }
+```
+
+Examples of **incorrect** code for this rule with the `2, { "offsetTernaryExpressions": true }` option:
+
+```js
+/*eslint indent: ["error", 2, { "offsetTernaryExpressions": true }]*/
+
+condition
+  ? () => {
+    return true
+  }
+  : condition2
+    ? () => {
+      return true
+    }
+    : () => {
+      return false
+    }
+```
+
+Examples of **correct** code for this rule with the `2, { "offsetTernaryExpressions": true }` option:
+
+```js
+/*eslint indent: ["error", 2, { "offsetTernaryExpressions": true }]*/
+
+condition
+  ? () => {
+      return true
+    }
+  : condition2
+    ? () => {
+        return true
+      }
+    : () => {
+        return false
+      }
 ```
 
 ### ignoredNodes

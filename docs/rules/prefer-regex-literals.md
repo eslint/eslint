@@ -45,6 +45,8 @@ dynamically generated regular expressions.
 Examples of **incorrect** code for this rule:
 
 ```js
+/*eslint prefer-regex-literals: "error"*/
+
 new RegExp("abc");
 
 new RegExp("abc", "u");
@@ -63,6 +65,8 @@ new RegExp(String.raw`^\d\.$`);
 Examples of **correct** code for this rule:
 
 ```js
+/*eslint prefer-regex-literals: "error"*/
+
 /abc/;
 
 /abc/u;
@@ -81,7 +85,7 @@ new RegExp(prefix + "abc");
 
 RegExp(`${prefix}abc`);
 
-new RegExp(String.raw`^\d\. ${sufix}`);
+new RegExp(String.raw`^\d\. ${suffix}`);
 ```
 
 ## Further Reading

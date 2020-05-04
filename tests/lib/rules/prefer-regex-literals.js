@@ -28,9 +28,9 @@ ruleTester.run("prefer-regex-literals", rule, {
         "RegExp(pattern, 'g')",
         "new RegExp(f('a'))",
         "RegExp(prefix + 'a')",
-        "new RegExp('a' + sufix)",
-        "RegExp(`a` + sufix);",
-        "new RegExp(String.raw`a` + sufix);",
+        "new RegExp('a' + suffix)",
+        "RegExp(`a` + suffix);",
+        "new RegExp(String.raw`a` + suffix);",
         "RegExp('a', flags)",
         "RegExp('a', 'g' + flags)",
         "new RegExp(String.raw`a`, flags);",
@@ -90,6 +90,15 @@ ruleTester.run("prefer-regex-literals", rule, {
         {
             code: "RegExp('a');",
             globals: { RegExp: "off" }
+        },
+        "new globalThis.RegExp('a');",
+        {
+            code: "new globalThis.RegExp('a');",
+            env: { es6: true }
+        },
+        {
+            code: "new globalThis.RegExp('a');",
+            env: { es2017: true }
         }
     ],
 
@@ -176,6 +185,16 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('a', String.raw`g`);",
+            errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
+        },
+        {
+            code: "new globalThis.RegExp('a');",
+            env: { es2020: true },
+            errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
+        },
+        {
+            code: "globalThis.RegExp('a');",
+            env: { es2020: true },
             errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
         }
     ]

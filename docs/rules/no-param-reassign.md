@@ -129,16 +129,24 @@ Examples of **correct** code for the `{ "props": true }` option with `"ignorePro
 ```js
 /*eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsForRegex": ["^bar"] }]*/
 
-function foo(bar) {
+function foo(barVar) {
     barVar.prop = "value";
 }
 
-function foo(bar) {
+function foo(barrito) {
     delete barrito.aaa;
 }
 
-function foo(bar) {
+function foo(bar_) {
     bar_.aaa++;
+}
+
+function foo(barBaz) {
+    for (barBaz.aaa in baz) {}
+}
+
+function foo(barBaz) {
+    for (barBaz.aaa of baz) {}
 }
 ```
 

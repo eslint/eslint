@@ -23,8 +23,8 @@ ruleTester.run("no-ternary", rule, {
         "\"x ? y\";"
     ],
     invalid: [
-        { code: "var foo = true ? thing : stuff;", errors: [{ message: "Ternary operator used.", type: "ConditionalExpression" }] },
-        { code: "true ? thing() : stuff();", errors: [{ message: "Ternary operator used.", type: "ConditionalExpression" }] },
-        { code: "function foo(bar) { return bar ? baz : qux; }", errors: [{ message: "Ternary operator used.", type: "ConditionalExpression" }] }
+        { code: "var foo = true ? thing : stuff;", errors: [{ messageId: "noTernaryOperator", type: "ConditionalExpression" }] },
+        { code: "true ? thing() : stuff();", errors: [{ messageId: "noTernaryOperator", type: "ConditionalExpression" }] },
+        { code: "function foo(bar) { return bar ? baz : qux; }", errors: [{ messageId: "noTernaryOperator", type: "ConditionalExpression" }] }
     ]
 });

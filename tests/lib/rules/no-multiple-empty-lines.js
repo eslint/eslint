@@ -24,12 +24,12 @@ const ruleTester = new RuleTester();
  * @private
  */
 function getExpectedError(lines) {
-    const message = lines === 1
-        ? "More than 1 blank line not allowed."
-        : `More than ${lines} blank lines not allowed.`;
-
     return {
-        message,
+        messageId: "consecutiveBlank",
+        data: {
+            max: lines,
+            pluralizedLines: lines === 1 ? "line" : "lines"
+        },
         type: "Program",
         column: 1
     };
@@ -43,7 +43,10 @@ function getExpectedError(lines) {
  */
 function getExpectedErrorEOF(lines) {
     return {
-        message: `Too many blank lines at the end of file. Max of ${lines} allowed.`,
+        messageId: "blankEndOfFile",
+        data: {
+            max: lines
+        },
         type: "Program",
         column: 1
     };
@@ -57,7 +60,10 @@ function getExpectedErrorEOF(lines) {
  */
 function getExpectedErrorBOF(lines) {
     return {
-        message: `Too many blank lines at the beginning of file. Max of ${lines} allowed.`,
+        messageId: "blankBeginningOfFile",
+        data: {
+            max: lines
+        },
         type: "Program",
         column: 1
     };
@@ -316,6 +322,40 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             output: "foo\n",
             options: [{ max: 1, maxEOF: 0 }],
             errors: [getExpectedErrorEOF(0)]
+        },
+        {
+
+            // https://github.com/eslint/eslint/pull/12594
+            code: "var a;\n\n\n\n\nvar b;",
+            output: "var a;\n\nvar b;",
+            options: [{ max: 1 }],
+            errors: [{
+                messageId: "consecutiveBlank",
+                data: {
+                    max: 1,
+                    pluralizedLines: "line"
+                },
+                type: "Program",
+                line: 3,
+                column: 1
+            }]
+        },
+        {
+
+            // https://github.com/eslint/eslint/pull/12594
+            code: "var a;\n\n\n\n\nvar b;",
+            output: "var a;\n\n\nvar b;",
+            options: [{ max: 2 }],
+            errors: [{
+                messageId: "consecutiveBlank",
+                data: {
+                    max: 2,
+                    pluralizedLines: "lines"
+                },
+                type: "Program",
+                line: 4,
+                column: 1
+            }]
         }
     ]
 });

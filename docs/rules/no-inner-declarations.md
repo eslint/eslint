@@ -81,6 +81,8 @@ function doSomethingElse() {
         function doAnotherThing() { }
     }
 }
+
+if (foo) function f(){}
 ```
 
 Examples of **correct** code for this rule with the default `"functions"` option:
@@ -102,6 +104,8 @@ var fn;
 if (test) {
     fn = function fnExpression() { };
 }
+
+if (foo) var a;
 ```
 
 ### both
@@ -120,12 +124,17 @@ function doAnotherThing() {
         var bar = 81;
     }
 }
+
+
+if (foo) var a;
+
+if (foo) function f(){}
 ```
 
 Examples of **correct** code for this rule with the `"both"` option:
 
 ```js
-/*eslint no-inner-declarations: "error"*/
+/*eslint no-inner-declarations: ["error", "both"]*/
 /*eslint-env es6*/
 
 var bar = 42;

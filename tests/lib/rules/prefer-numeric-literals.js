@@ -31,7 +31,34 @@ ruleTester.run("prefer-numeric-literals", rule, {
         "parseInt(foo);",
         "parseInt(foo, 2);",
         "Number.parseInt(foo);",
-        "Number.parseInt(foo, 2);"
+        "Number.parseInt(foo, 2);",
+        "parseInt(11, 2);",
+        "Number.parseInt(1, 8);",
+        "parseInt(1e5, 16);",
+        "parseInt('11', '2');",
+        "Number.parseInt('11', '8');",
+        "parseInt(/foo/, 2);",
+        "parseInt(`11${foo}`, 2);",
+        {
+            code: "parseInt('11', 2n);",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "Number.parseInt('11', 8n);",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "parseInt('11', 16n);",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "parseInt(`11`, 16n);",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "parseInt(1n, 2);",
+            parserOptions: { ecmaVersion: 2020 }
+        }
     ],
     invalid: [
         {
@@ -90,6 +117,42 @@ ruleTester.run("prefer-numeric-literals", rule, {
             code: "Number.parseInt('1️⃣3️⃣3️⃣7️⃣', 16);",
             output: null, // not fixed, javascript doesn't support emoji literals
             errors: [{ message: "Use hexadecimal literals instead of Number.parseInt()." }]
+        },
+        {
+            code: "parseInt(`111110111`, 2) === 503;",
+            output: "0b111110111 === 503;",
+            errors: [{ message: "Use binary literals instead of parseInt()." }]
+        }, {
+            code: "parseInt(`767`, 8) === 503;",
+            output: "0o767 === 503;",
+            errors: [{ message: "Use octal literals instead of parseInt()." }]
+        }, {
+            code: "parseInt(`1F7`, 16) === 255;",
+            output: "0x1F7 === 255;",
+            errors: [{ message: "Use hexadecimal literals instead of parseInt()." }]
+        },
+        {
+            code: "parseInt('', 8);",
+            output: null, // not fixed, it's empty string
+            errors: [{ message: "Use octal literals instead of parseInt()." }]
+        },
+        {
+            code: "parseInt(``, 8);",
+            output: null, // not fixed, it's empty string
+            errors: [{ message: "Use octal literals instead of parseInt()." }]
+        },
+        {
+            code: "parseInt(`7999`, 8);",
+            output: null, // not fixed, unexpected 9 in parseInt string
+            errors: [{ message: "Use octal literals instead of parseInt()." }]
+        }, {
+            code: "parseInt(`1234`, 2);",
+            output: null, // not fixed, invalid binary string
+            errors: [{ message: "Use binary literals instead of parseInt()." }]
+        }, {
+            code: "parseInt(`1234.5`, 8);",
+            output: null, // not fixed, this isn't an integer
+            errors: [{ message: "Use octal literals instead of parseInt()." }]
         },
 
         // Adjacent tokens tests
@@ -238,6 +301,11 @@ ruleTester.run("prefer-numeric-literals", rule, {
         },
         {
             code: "parseInt('11'/**/, 2);",
+            output: null,
+            errors: 1
+        },
+        {
+            code: "parseInt(`11`/**/, 2);",
             output: null,
             errors: 1
         },

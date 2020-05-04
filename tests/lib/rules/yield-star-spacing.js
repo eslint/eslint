@@ -137,6 +137,24 @@ ruleTester.run("yield-star-spacing", rule, {
         {
             code: "function *foo(){ var result = yield*foo(); }",
             options: ["neither"]
+        },
+
+        // object option
+        {
+            code: "function *foo(){ yield* foo; }",
+            options: [{ before: false, after: true }]
+        },
+        {
+            code: "function *foo(){ yield *foo; }",
+            options: [{ before: true, after: false }]
+        },
+        {
+            code: "function *foo(){ yield * foo; }",
+            options: [{ before: true, after: true }]
+        },
+        {
+            code: "function *foo(){ yield*foo; }",
+            options: [{ before: false, after: false }]
         }
     ],
 
@@ -226,6 +244,32 @@ ruleTester.run("yield-star-spacing", rule, {
             code: "function *foo(){ yield * foo; }",
             output: "function *foo(){ yield*foo; }",
             options: ["neither"],
+            errors: [unexpectedBeforeError, unexpectedAfterError]
+        },
+
+        // object option
+        {
+            code: "function *foo(){ yield*foo; }",
+            output: "function *foo(){ yield* foo; }",
+            options: [{ before: false, after: true }],
+            errors: [missingAfterError]
+        },
+        {
+            code: "function *foo(){ yield * foo; }",
+            output: "function *foo(){ yield *foo; }",
+            options: [{ before: true, after: false }],
+            errors: [unexpectedAfterError]
+        },
+        {
+            code: "function *foo(){ yield*foo; }",
+            output: "function *foo(){ yield * foo; }",
+            options: [{ before: true, after: true }],
+            errors: [missingBeforeError, missingAfterError]
+        },
+        {
+            code: "function *foo(){ yield * foo; }",
+            output: "function *foo(){ yield*foo; }",
+            options: [{ before: false, after: false }],
             errors: [unexpectedBeforeError, unexpectedAfterError]
         }
     ]

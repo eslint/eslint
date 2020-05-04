@@ -384,214 +384,6 @@ ruleTester.run("key-spacing", rule, {
         }],
         parserOptions: { ecmaVersion: 2018 }
     },
-    {
-        code: [
-            "({",
-            "    foo : 1, bar : 2, baz : 3",
-            "});"
-        ].join("\n"),
-        options: [{
-            beforeColon: true
-        }]
-    },
-    {
-        code: [
-            "({",
-            "    foo: 1, bar: 2, baz: 3",
-            "});"
-        ].join("\n"),
-        options: [{
-            beforeColon: false
-        }]
-    },
-    {
-        code: [
-            "({",
-            "    foo: 1, bar: 2, baz: 3",
-            "});"
-        ].join("\n"),
-        options: [{
-            afterColon: true
-        }]
-    },
-    {
-        code: [
-            "({",
-            "    foo:1, bar:2, baz:3",
-            "});"
-        ].join("\n"),
-        options: [{
-            afterColon: false
-        }]
-    },
-    {
-        code: [
-            "({",
-            "    foo :1, bar :2, baz :3",
-            "});"
-        ].join("\n"),
-        options: [{
-            beforeColon: true,
-            afterColon: false
-        }]
-    },
-    {
-        code: [
-            "({",
-            "    foo: 1, bar: 2, baz: 3",
-            "});"
-        ].join("\n"),
-        options: [{
-            beforeColon: false,
-            afterColon: true
-        }]
-    },
-    {
-        code: [
-            "({",
-            "    foo : 1, bar : 2, baz : 3",
-            "});"
-        ].join("\n"),
-        options: [{
-            beforeColon: true,
-            afterColon: true
-        }]
-    },
-    {
-        code: [
-            "({",
-            "    foo:1, bar:2, baz:3",
-            "});"
-        ].join("\n"),
-        options: [{
-            beforeColon: false,
-            afterColon: false
-        }]
-    },
-    {
-        code: [
-            "({",
-            "    foo: 1, bar: 2, baz: 3",
-            "});"
-        ].join("\n"),
-        options: [{
-            mode: "strict"
-        }]
-    },
-    {
-        code: [
-            "({",
-            "    foo:  1, bar:  2, baz:  3",
-            "});"
-        ].join("\n"),
-        options: [{
-            mode: "minimum"
-        }]
-    },
-    {
-        code: [
-            "({",
-            "    foo: 1, bar: 2, baz: 3",
-            "});"
-        ].join("\n"),
-        options: [{
-            singleLine: {
-                afterColon: true,
-                beforeColon: false
-            }
-        }]
-    },
-    {
-        code: [
-            "({",
-            "    foo :1, bar :2, baz :3",
-            "});"
-        ].join("\n"),
-        options: [{
-            singleLine: {
-                afterColon: false,
-                beforeColon: true
-            }
-        }]
-    },
-    {
-        code: [
-            "({",
-            "    foo: 'bar',",
-            "});"
-        ].join("\n"),
-        options: [{
-            multiLine: {
-                align: "value"
-            }
-        }]
-    },
-    {
-        code: [
-            "({",
-            "    foo: 1, bar: 2, baz: 3",
-            "});"
-        ].join("\n"),
-        options: [{
-            multiLine: {
-                align: "value"
-            }
-        }]
-    },
-    {
-        code: [
-            "({",
-            "  foo: 1, bar: { qux: 4",
-            "  }, baz: 3,",
-            "})"
-        ].join("\n"),
-        options: [
-            {
-                singleLine: {
-                    afterColon: true,
-                    beforeColon: false
-                },
-                multiLine: {
-                    align: "value"
-                }
-            }
-        ]
-    },
-    {
-        code: [
-            "({",
-            "  foo: 1, bar: { qux1: 4, qux2: 5",
-            "  }, baz: 3,",
-            "})"
-        ].join("\n"),
-        options: [
-            {
-                singleLine: {
-                    afterColon: true,
-                    beforeColon: false
-                },
-                multiLine: {
-                    align: "value"
-                }
-            }
-        ]
-    },
-    {
-        code: [
-            "({",
-            "  foo: 1, bar: {",
-            "    qux1: 4, qux2: 5",
-            "  }, baz: 3,",
-            "})"
-        ].join("\n"),
-        options: [
-            {
-                multiLine: {
-                    align: "value"
-                }
-            }
-        ]
-    },
 
     // https://github.com/eslint/eslint/issues/4792
     {
@@ -965,6 +757,141 @@ ruleTester.run("key-spacing", rule, {
             }
         }],
         parserOptions: { ecmaVersion: 6 }
+    }, {
+        code: [
+            "var obj = {",
+            "    foo : 1, 'bar' : 2, baz : 3, longlonglong : 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            multiLine: {
+                beforeColon: true,
+                afterColon: true,
+                align: "colon"
+            }
+        }]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo: 1, 'bar': 2, baz: 3",
+            "}"
+        ].join("\n"),
+        options: [{
+            multiLine: {
+                align: "value"
+            }
+        }]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo: 1",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            multiLine: {
+                align: "value"
+            }
+        }]
+    }, {
+        code: [
+            "foo({",
+            "    bar: 1",
+            "})"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "colon"
+            }
+        }]
+    }, {
+        code: "var obj = { foo:1, 'bar':2, baz:3, longlonglong:4 }",
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "colon"
+            }
+        }]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo         : 1,",
+            "    'bar'       : 2, baz         : 3, longlonglong: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "colon"
+            }
+        }]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo:          1,",
+            "    'bar':        2, baz:          3, longlonglong: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "value"
+            }
+        }]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo         : 1,",
+            "    'bar'       : 2, baz         : 3,",
+            "    longlonglong: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "colon"
+            }
+        }]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo:          1,",
+            "    'bar':        2, baz:          3,",
+            "    longlonglong: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "value"
+            }
+        }]
     }],
 
     invalid: [{
@@ -1977,218 +1904,206 @@ ruleTester.run("key-spacing", rule, {
             { messageId: "missingKey", data: { computed: "", key: "foo" }, line: 1, column: 7, type: "Identifier" },
             { messageId: "missingValue", data: { computed: "", key: "foo" }, line: 1, column: 19, type: "Identifier" }
         ]
-    },
-    {
+    }, {
         code: [
-            "({",
-            "    foo : 1, bar : 2, baz : 3",
-            "});"
+            "var obj = {",
+            "    foo:1, 'bar':2, baz:3",
+            "}"
         ].join("\n"),
         output: [
-            "({",
-            "    foo: 1, bar: 2, baz: 3",
-            "});"
-        ].join("\n"),
-        options: [{
-            beforeColon: false
-        }],
-        errors: [
-            { messageId: "extraKey", data: { computed: "", key: "foo" }, line: 2, column: 5, type: "Identifier" },
-            { messageId: "extraKey", data: { computed: "", key: "bar" }, line: 2, column: 14, type: "Identifier" },
-            { messageId: "extraKey", data: { computed: "", key: "baz" }, line: 2, column: 23, type: "Identifier" }
-        ]
-    },
-    {
-        code: [
-            "({",
-            "    foo: 1, bar: 2, baz: 3",
-            "});"
-        ].join("\n"),
-        output: [
-            "({",
-            "    foo : 1, bar : 2, baz : 3",
-            "});"
-        ].join("\n"),
-        options: [{
-            beforeColon: true
-        }],
-        errors: [
-            { messageId: "missingKey", data: { computed: "", key: "foo" }, line: 2, column: 5, type: "Identifier" },
-            { messageId: "missingKey", data: { computed: "", key: "bar" }, line: 2, column: 13, type: "Identifier" },
-            { messageId: "missingKey", data: { computed: "", key: "baz" }, line: 2, column: 21, type: "Identifier" }
-        ]
-    },
-    {
-        code: [
-            "({",
-            "    foo: 1, bar: 2, baz: 3",
-            "});"
-        ].join("\n"),
-        output: [
-            "({",
-            "    foo:1, bar:2, baz:3",
-            "});"
-        ].join("\n"),
-        options: [{
-            afterColon: false
-        }],
-        errors: [
-            { messageId: "extraValue", data: { computed: "", key: "foo" }, line: 2, column: 10, type: "Literal" },
-            { messageId: "extraValue", data: { computed: "", key: "bar" }, line: 2, column: 18, type: "Literal" },
-            { messageId: "extraValue", data: { computed: "", key: "baz" }, line: 2, column: 26, type: "Literal" }
-        ]
-    },
-    {
-        code: [
-            "({",
-            "    foo:1, bar:2, baz:3",
-            "});"
-        ].join("\n"),
-        output: [
-            "({",
-            "    foo: 1, bar: 2, baz: 3",
-            "});"
-        ].join("\n"),
-        options: [{
-            afterColon: true
-        }],
-        errors: [
-            { messageId: "missingValue", data: { computed: "", key: "foo" }, line: 2, column: 9, type: "Literal" },
-            { messageId: "missingValue", data: { computed: "", key: "bar" }, line: 2, column: 16, type: "Literal" },
-            { messageId: "missingValue", data: { computed: "", key: "baz" }, line: 2, column: 23, type: "Literal" }
-        ]
-    },
-    {
-        code: [
-            "({",
-            "    foo: 1, bar: 2, baz: 3",
-            "});"
-        ].join("\n"),
-        output: [
-            "({",
-            "    foo :1, bar :2, baz :3",
-            "});"
-        ].join("\n"),
-        options: [{
-            beforeColon: true,
-            afterColon: false
-        }],
-        errors: [
-            { messageId: "missingKey", data: { computed: "", key: "foo" }, line: 2, column: 5, type: "Identifier" },
-            { messageId: "extraValue", data: { computed: "", key: "foo" }, line: 2, column: 10, type: "Literal" },
-            { messageId: "missingKey", data: { computed: "", key: "bar" }, line: 2, column: 13, type: "Identifier" },
-            { messageId: "extraValue", data: { computed: "", key: "bar" }, line: 2, column: 18, type: "Literal" },
-            { messageId: "missingKey", data: { computed: "", key: "baz" }, line: 2, column: 21, type: "Identifier" },
-            { messageId: "extraValue", data: { computed: "", key: "baz" }, line: 2, column: 26, type: "Literal" }
-        ]
-    },
-    {
-        code: [
-            "({",
-            "    foo :1, bar :2, baz :3",
-            "});"
-        ].join("\n"),
-        output: [
-            "({",
-            "    foo: 1, bar: 2, baz: 3",
-            "});"
-        ].join("\n"),
-        options: [{
-            mode: "strict"
-        }],
-        errors: [
-            { messageId: "extraKey", data: { computed: "", key: "foo" }, line: 2, column: 5, type: "Identifier" },
-            { messageId: "missingValue", data: { computed: "", key: "foo" }, line: 2, column: 10, type: "Literal" },
-            { messageId: "extraKey", data: { computed: "", key: "bar" }, line: 2, column: 13, type: "Identifier" },
-            { messageId: "missingValue", data: { computed: "", key: "bar" }, line: 2, column: 18, type: "Literal" },
-            { messageId: "extraKey", data: { computed: "", key: "baz" }, line: 2, column: 21, type: "Identifier" },
-            { messageId: "missingValue", data: { computed: "", key: "baz" }, line: 2, column: 26, type: "Literal" }
-        ]
-    },
-    {
-        code: [
-            "({",
-            "    foo :1, bar :2, baz :3",
-            "});"
-        ].join("\n"),
-        output: [
-            "({",
-            "    foo: 1, bar: 2, baz: 3",
-            "});"
-        ].join("\n"),
-        options: [{
-            mode: "minimum"
-        }],
-        errors: [
-            { messageId: "extraKey", data: { computed: "", key: "foo" }, line: 2, column: 5, type: "Identifier" },
-            { messageId: "missingValue", data: { computed: "", key: "foo" }, line: 2, column: 10, type: "Literal" },
-            { messageId: "extraKey", data: { computed: "", key: "bar" }, line: 2, column: 13, type: "Identifier" },
-            { messageId: "missingValue", data: { computed: "", key: "bar" }, line: 2, column: 18, type: "Literal" },
-            { messageId: "extraKey", data: { computed: "", key: "baz" }, line: 2, column: 21, type: "Identifier" },
-            { messageId: "missingValue", data: { computed: "", key: "baz" }, line: 2, column: 26, type: "Literal" }
-        ]
-    },
-    {
-        code: [
-            "({",
-            "    foo: 1, bar: 2,",
-            "});"
-        ].join("\n"),
-        output: [
-            "({",
-            "    foo :1, bar :2,",
-            "});"
+            "var obj = {",
+            "    foo : 1, 'bar' : 2, baz : 3",
+            "}"
         ].join("\n"),
         options: [{
             singleLine: {
-                beforeColon: true,
+                beforeColon: false,
                 afterColon: false
+            },
+            multiLine: {
+                beforeColon: true,
+                afterColon: true,
+                align: "colon"
             }
         }],
         errors: [
             { messageId: "missingKey", data: { computed: "", key: "foo" }, line: 2, column: 5, type: "Identifier" },
-            { messageId: "extraValue", data: { computed: "", key: "foo" }, line: 2, column: 10, type: "Literal" },
-            { messageId: "missingKey", data: { computed: "", key: "bar" }, line: 2, column: 13, type: "Identifier" },
-            { messageId: "extraValue", data: { computed: "", key: "bar" }, line: 2, column: 18, type: "Literal" }
+            { messageId: "missingValue", data: { computed: "", key: "foo" }, line: 2, column: 9, type: "Literal" },
+            { messageId: "missingKey", data: { computed: "", key: "bar" }, line: 2, column: 12, type: "Literal" },
+            { messageId: "missingValue", data: { computed: "", key: "bar" }, line: 2, column: 18, type: "Literal" },
+            { messageId: "missingKey", data: { computed: "", key: "baz" }, line: 2, column: 21, type: "Identifier" },
+            { messageId: "missingValue", data: { computed: "", key: "baz" }, line: 2, column: 25, type: "Literal" }
         ]
-    },
-    {
+    }, {
         code: [
-            "({",
-            "  foo: 1, bar: { qux1: 4, qux2: 5",
-            "  }, baz: 3,",
+            "var obj = {",
+            "    foo : 1, 'bar' : 2, baz : 3, longlonglong : 4",
+            "}"
+        ].join("\n"),
+        output: [
+            "var obj = {",
+            "    foo: 1, 'bar': 2, baz: 3, longlonglong: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            multiLine: {
+                align: "value"
+            }
+        }],
+        errors: [
+            { messageId: "extraKey", data: { computed: "", key: "foo" }, line: 2, column: 5, type: "Identifier" },
+            { messageId: "extraKey", data: { computed: "", key: "bar" }, line: 2, column: 14, type: "Literal" },
+            { messageId: "extraKey", data: { computed: "", key: "baz" }, line: 2, column: 25, type: "Identifier" },
+            { messageId: "extraKey", data: { computed: "", key: "longlonglong" }, line: 2, column: 34, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo:1",
+            "}"
+        ].join("\n"),
+        output: [
+            "var obj = {",
+            "    foo: 1",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            multiLine: {
+                align: "value"
+            }
+        }],
+        errors: [
+            { messageId: "missingValue", data: { computed: "", key: "foo" }, line: 2, column: 9, type: "Literal" }
+        ]
+    }, {
+        code: [
+            "foo({",
+            "    bar:1",
             "})"
         ].join("\n"),
         output: [
-            "({",
-            "  foo :1, bar :{ qux1 :4, qux2 :5",
-            "  }, baz :3,",
+            "foo({",
+            "    bar: 1",
             "})"
         ].join("\n"),
-        options: [
-            {
-                singleLine: {
-                    afterColon: false,
-                    beforeColon: true
-                },
-                multiLine: {
-                    align: "value",
-                    afterColon: false,
-                    beforeColon: true
-                }
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "colon"
             }
-        ],
+        }],
         errors: [
-            { messageId: "missingKey", data: { computed: "", key: "foo" }, line: 2, column: 3, type: "Identifier" },
-            { messageId: "extraValue", data: { computed: "", key: "foo" }, line: 2, column: 8, type: "Literal" },
-            { messageId: "missingKey", data: { computed: "", key: "bar" }, line: 2, column: 11, type: "Identifier" },
-            { messageId: "extraValue", data: { computed: "", key: "bar" }, line: 2, column: 16, type: "ObjectExpression" },
-            { messageId: "missingKey", data: { computed: "", key: "qux1" }, line: 2, column: 18, type: "Identifier" },
-            { messageId: "extraValue", data: { computed: "", key: "qux1" }, line: 2, column: 24, type: "Literal" },
-            { messageId: "missingKey", data: { computed: "", key: "qux2" }, line: 2, column: 27, type: "Identifier" },
-            { messageId: "extraValue", data: { computed: "", key: "qux2" }, line: 2, column: 33, type: "Literal" },
-            { messageId: "missingKey", data: { computed: "", key: "baz" }, line: 3, column: 6, type: "Identifier" },
-            { messageId: "extraValue", data: { computed: "", key: "baz" }, line: 3, column: 11, type: "Literal" }
+            { messageId: "missingValue", data: { computed: "", key: "bar" }, line: 2, column: 9, type: "Literal" }
+        ]
+    }, {
+        code: "var obj = { foo: 1, 'bar': 2, baz :3, longlonglong :4 }",
+        output: "var obj = { foo:1, 'bar':2, baz:3, longlonglong:4 }",
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "colon"
+            }
+        }],
+        errors: [
+            { messageId: "extraValue", data: { computed: "", key: "foo" }, line: 1, column: 18, type: "Literal" },
+            { messageId: "extraValue", data: { computed: "", key: "bar" }, line: 1, column: 28, type: "Literal" },
+            { messageId: "extraKey", data: { computed: "", key: "baz" }, line: 1, column: 31, type: "Identifier" },
+            { messageId: "extraKey", data: { computed: "", key: "longlonglong" }, line: 1, column: 39, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo: 1,",
+            "    'bar': 2, baz: 3, longlonglong: 4",
+            "}"
+        ].join("\n"),
+        output: [
+            "var obj = {",
+            "    foo         : 1,",
+            "    'bar'       : 2, baz         : 3, longlonglong: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "colon"
+            }
+        }],
+        errors: [
+            { messageId: "missingKey", data: { computed: "", key: "foo" }, line: 2, column: 5, type: "Identifier" },
+            { messageId: "missingKey", data: { computed: "", key: "bar" }, line: 3, column: 5, type: "Literal" },
+            { messageId: "missingKey", data: { computed: "", key: "baz" }, line: 3, column: 15, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo : 1,",
+            "    'bar' : 2, baz : 3,",
+            "    longlonglong: 4",
+            "}"
+        ].join("\n"),
+        output: [
+            "var obj = {",
+            "    foo         : 1,",
+            "    'bar'       : 2, baz         : 3,",
+            "    longlonglong: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "colon"
+            }
+        }],
+        errors: [
+            { messageId: "missingKey", data: { computed: "", key: "foo" }, line: 2, column: 5, type: "Identifier" },
+            { messageId: "missingKey", data: { computed: "", key: "bar" }, line: 3, column: 5, type: "Literal" },
+            { messageId: "missingKey", data: { computed: "", key: "baz" }, line: 3, column: 16, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo: 1,",
+            "    'bar': 2, baz: 3,",
+            "    longlonglong: 4",
+            "}"
+        ].join("\n"),
+        output: [
+            "var obj = {",
+            "    foo:          1,",
+            "    'bar':        2, baz:          3,",
+            "    longlonglong: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "value"
+            }
+        }],
+        errors: [
+            { messageId: "missingValue", data: { computed: "", key: "foo" }, line: 2, column: 10, type: "Literal" },
+            { messageId: "missingValue", data: { computed: "", key: "bar" }, line: 3, column: 12, type: "Literal" },
+            { messageId: "missingValue", data: { computed: "", key: "baz" }, line: 3, column: 20, type: "Literal" }
         ]
     }]
 });

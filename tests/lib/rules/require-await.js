@@ -55,48 +55,108 @@ ruleTester.run("require-await", rule, {
                 }
             `,
             parser: require.resolve("../../fixtures/parsers/typescript-parsers/global-for-await-of")
+        },
+        {
+            code: "async function* run() { yield * anotherAsyncGenerator() }",
+            parserOptions: { ecmaVersion: 9 }
+        },
+        {
+            code: `async function* run() {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                yield 'Hello';
+                console.log('World');
+            }
+            `,
+            parserOptions: { ecmaVersion: 9 }
+        },
+        {
+            code: "async function* run() { }",
+            parserOptions: { ecmaVersion: 9 }
+        },
+        {
+            code: "const foo = async function *(){}",
+            parserOptions: { ecmaVersion: 9 }
+        },
+        {
+            code: 'const foo = async function *(){ console.log("bar") }',
+            parserOptions: { ecmaVersion: 9 }
+        },
+        {
+            code: 'async function* run() { console.log("bar") }',
+            parserOptions: { ecmaVersion: 9 }
         }
+
     ],
     invalid: [
         {
             code: "async function foo() { doSomething() }",
-            errors: ["Async function 'foo' has no 'await' expression."]
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async function 'foo'" }
+            }]
         },
         {
             code: "(async function() { doSomething() })",
-            errors: ["Async function has no 'await' expression."]
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async function" }
+            }]
         },
         {
             code: "async () => { doSomething() }",
-            errors: ["Async arrow function has no 'await' expression."]
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async arrow function" }
+            }]
         },
         {
             code: "async () => doSomething()",
-            errors: ["Async arrow function has no 'await' expression."]
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async arrow function" }
+            }]
         },
         {
             code: "({ async foo() { doSomething() } })",
-            errors: ["Async method 'foo' has no 'await' expression."]
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async method 'foo'" }
+            }]
         },
         {
             code: "class A { async foo() { doSomething() } }",
-            errors: ["Async method 'foo' has no 'await' expression."]
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async method 'foo'" }
+            }]
         },
         {
             code: "(class { async foo() { doSomething() } })",
-            errors: ["Async method 'foo' has no 'await' expression."]
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async method 'foo'" }
+            }]
         },
         {
             code: "(class { async ''() { doSomething() } })",
-            errors: ["Async method '' has no 'await' expression."]
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async method ''" }
+            }]
         },
         {
             code: "async function foo() { async () => { await doSomething() } }",
-            errors: ["Async function 'foo' has no 'await' expression."]
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async function 'foo'" }
+            }]
         },
         {
             code: "async function foo() { await async () => { doSomething() } }",
-            errors: ["Async arrow function has no 'await' expression."]
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async arrow function" }
+            }]
         }
     ]
 });
