@@ -610,7 +610,17 @@ ruleTester.run("no-extra-parens", rule, {
         "for (let a = b; a; a); a; a;",
         "for (a; a; a); a; a;",
         "for (; a; a); a; a;",
-        "for (let a = (b && c) === d; ;);"
+        "for (let a = (b && c) === d; ;);",
+
+        // Nullish coalescing
+        { code: "var v = (a ?? b) || c", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = a ?? (b || c)", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (a ?? b) && c", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = a ?? (b && c)", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (a || b) ?? c", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = a || (b ?? c)", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (a && b) ?? c", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = a && (b ?? c)", parserOptions: { ecmaVersion: 2020 } }
     ],
 
     invalid: [
@@ -2619,6 +2629,75 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("a+(/^b$/)", "a+/^b$/", "Literal"),
         invalid("a/(/**/b)", "a/ /**/b", "Identifier"),
         invalid("a/(//\nb)", "a/ //\nb", "Identifier"),
-        invalid("a/(/^b$/)", "a/ /^b$/", "Literal")
+        invalid("a/(/^b$/)", "a/ /^b$/", "Literal"),
+
+
+        // Nullish coalescing
+        {
+            code: "var v = ((a ?? b)) || c",
+            output: "var v = (a ?? b) || c",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = a ?? ((b || c))",
+            output: "var v = a ?? (b || c)",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = ((a ?? b)) && c",
+            output: "var v = (a ?? b) && c",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = a ?? ((b && c))",
+            output: "var v = a ?? (b && c)",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = ((a || b)) ?? c",
+            output: "var v = (a || b) ?? c",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = a || ((b ?? c))",
+            output: "var v = a || (b ?? c)",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = ((a && b)) ?? c",
+            output: "var v = (a && b) ?? c",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = a && ((b ?? c))",
+            output: "var v = a && (b ?? c)",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = (a ?? b) ? b : c",
+            output: "var v = a ?? b ? b : c",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = (a | b) ?? c | d",
+            output: "var v = a | b ?? c | d",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = a | b ?? (c | d)",
+            output: "var v = a | b ?? c | d",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        }
     ]
 });

@@ -176,7 +176,7 @@ describe("configInitializer", () => {
 
                 assert.strictEqual(config.parser, "@typescript-eslint/parser");
                 assert.deepStrictEqual(config.plugins, ["@typescript-eslint"]);
-                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:@typescript-eslint/eslint-recommended"]);
+                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:@typescript-eslint/eslint-recommended", "plugin:@typescript-eslint/recommended"]);
             });
 
             it("should enable typescript parser and plugin with vue", () => {
@@ -184,6 +184,7 @@ describe("configInitializer", () => {
                 answers.typescript = true;
                 const config = init.processAnswers(answers);
 
+                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/essential", "plugin:@typescript-eslint/eslint-recommended", "plugin:@typescript-eslint/recommended"]);
                 assert.strictEqual(config.parserOptions.parser, "@typescript-eslint/parser");
                 assert.deepStrictEqual(config.plugins, ["vue", "@typescript-eslint"]);
             });
