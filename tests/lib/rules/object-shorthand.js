@@ -11,7 +11,7 @@
 
 const rule = require("../../../lib/rules/object-shorthand"),
     { RuleTester } = require("../../../lib/rule-tester");
-const { unIndent } = require("../_utils");
+const { unIndent } = require("../../_utils");
 
 //------------------------------------------------------------------------------
 // Tests

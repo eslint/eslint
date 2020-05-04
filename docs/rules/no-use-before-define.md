@@ -82,7 +82,7 @@ function g() {
   Default is `true`.
 
 This rule accepts `"nofunc"` string as an option.
-`"nofunc"` is the same as `{ "functions": false, "classes": true }`.
+`"nofunc"` is the same as `{ "functions": false, "classes": true, "variables": true }`.
 
 ### functions
 
@@ -94,6 +94,8 @@ Examples of **correct** code for the `{ "functions": false }` option:
 f();
 function f() {}
 ```
+
+This option allows references to function declarations. For function expressions and arrow functions, please see the [`variables`](#variables) option.
 
 ### classes
 
@@ -131,6 +133,12 @@ Examples of **incorrect** code for the `{ "variables": false }` option:
 
 console.log(foo);
 var foo = 1;
+
+f();
+const f = () => {};
+
+g();
+const g = function() {};
 ```
 
 Examples of **correct** code for the `{ "variables": false }` option:
@@ -141,6 +149,13 @@ Examples of **correct** code for the `{ "variables": false }` option:
 function baz() {
     console.log(foo);
 }
-
 var foo = 1;
+
+const a = () => f();
+function b() { return f(); }
+const c = function() { return f(); }
+const f = () => {};
+
+const e = function() { return g(); }
+const g = function() {}
 ```

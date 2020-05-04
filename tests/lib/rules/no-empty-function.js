@@ -24,7 +24,9 @@ const ALLOW_OPTIONS = Object.freeze([
     "generatorMethods",
     "getters",
     "setters",
-    "constructors"
+    "constructors",
+    "asyncFunctions",
+    "asyncMethods"
 ]);
 
 /**
@@ -36,24 +38,29 @@ const ALLOW_OPTIONS = Object.freeze([
  */
 function toValidInvalid(patterns, item) {
 
+    const ecmaVersion =
+        item.parserOptions && item.parserOptions.ecmaVersion
+            ? item.parserOptions.ecmaVersion
+            : 6;
+
     // Valid Patterns
     patterns.valid.push(
         {
             code: item.code.replace("{}", "{ bar(); }"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion }
         },
         {
             code: item.code.replace("{}", "{ /* empty */ }"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion }
         },
         {
             code: item.code.replace("{}", "{\n    // empty\n}"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion }
         },
         {
             code: `${item.code} // allow: ${item.allow}`,
             options: [{ allow: [item.allow] }],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion }
         }
     );
 
@@ -63,7 +70,7 @@ function toValidInvalid(patterns, item) {
     patterns.invalid.push({
         code: item.code,
         errors: [error],
-        parserOptions: { ecmaVersion: 6 }
+        parserOptions: { ecmaVersion }
     });
     ALLOW_OPTIONS
         .filter(allow => allow !== item.allow)
@@ -74,7 +81,7 @@ function toValidInvalid(patterns, item) {
                 code: `${item.code} // allow: ${allow}`,
                 errors: [error],
                 options: [{ allow: [allow] }],
-                parserOptions: { ecmaVersion: 6 }
+                parserOptions: { ecmaVersion }
             });
         });
 
@@ -261,6 +268,41 @@ ruleTester.run("no-empty-function", rule, [
         messageId: "unexpected",
         data: { name: "constructor" },
         allow: "constructors"
+    },
+    {
+        code: "const foo = { async method() {} }",
+        allow: "asyncMethods",
+        messageId: "unexpected",
+        data: { name: "async method 'method'" },
+        parserOptions: { ecmaVersion: 8 }
+    },
+    {
+        code: "async function a(){}",
+        allow: "asyncFunctions",
+        messageId: "unexpected",
+        data: { name: "async function 'a'" },
+        parserOptions: { ecmaVersion: 8 }
+    },
+    {
+        code: "const foo = async function () {}",
+        messageId: "unexpected",
+        data: { name: "async function" },
+        allow: "asyncFunctions",
+        parserOptions: { ecmaVersion: 8 }
+    },
+    {
+        code: "class Foo { async bar() {} }",
+        messageId: "unexpected",
+        data: { name: "async method 'bar'" },
+        allow: "asyncMethods",
+        parserOptions: { ecmaVersion: 8 }
+    },
+    {
+        code: "const foo = async () => {};",
+        messageId: "unexpected",
+        data: { name: "async arrow function" },
+        allow: "arrowFunctions",
+        parserOptions: { ecmaVersion: 8 }
     }
 ].reduce(toValidInvalid, {
     valid: [
@@ -268,6 +310,68 @@ ruleTester.run("no-empty-function", rule, [
             code: "var foo = () => 0;",
             parserOptions: { ecmaVersion: 6 }
         }
+
     ],
-    invalid: []
+    invalid: [
+
+        // location tests
+        {
+            code: "function foo() {}",
+            errors: [{
+                messageId: "unexpected",
+                data: { name: "function 'foo'" },
+                line: 1,
+                column: 16,
+                endLine: 1,
+                endColumn: 18
+            }]
+        },
+        {
+            code: "var foo = function () {\n}",
+            errors: [{
+                messageId: "unexpected",
+                data: { name: "function" },
+                line: 1,
+                column: 23,
+                endLine: 2,
+                endColumn: 2
+            }]
+        },
+        {
+            code: "var foo = () => { \n\n  }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unexpected",
+                data: { name: "arrow function" },
+                line: 1,
+                column: 17,
+                endLine: 3,
+                endColumn: 4
+            }]
+        },
+        {
+            code: "var obj = {\n\tfoo() {\n\t}\n}",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unexpected",
+                data: { name: "method 'foo'" },
+                line: 2,
+                column: 8,
+                endLine: 3,
+                endColumn: 3
+            }]
+        },
+        {
+            code: "class A { foo() { } }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unexpected",
+                data: { name: "method 'foo'" },
+                line: 1,
+                column: 17,
+                endLine: 1,
+                endColumn: 20
+            }]
+        }
+    ]
 }));

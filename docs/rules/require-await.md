@@ -18,6 +18,7 @@ async function fetchData(processDataItem) {
 
 Asynchronous functions that don't use `await` might not need to be asynchronous functions and could be the unintentional result of refactoring.
 
+Note: this rule ignores async generator functions. This is because generators yield rather than return a value and async generators might yield all the values of another async generator without ever actually needing to use await.
 
 ## Rule Details
 

@@ -40,6 +40,14 @@ function doSomething() {
 function doSomething() {
     return foo += 2;
 }
+
+const foo = (a, b) => a = b
+
+const bar = (a, b, c) => (a = b, c == b)
+
+function doSomething() {
+    return foo = bar && foo > 0;
+}
 ```
 
 Examples of **correct** code for the default `"except-parens"` option:
@@ -57,6 +65,14 @@ function doSomething() {
 
 function doSomething() {
     return (foo = bar + 2);
+}
+
+const foo = (a, b) => (a = b)
+
+const bar = (a, b, c) => ((a = b), c == b)
+
+function doSomething() {
+    return (foo = bar) && foo > 0;
 }
 ```
 

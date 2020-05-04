@@ -147,7 +147,7 @@ ruleTester.run("array-callback-return", rule, {
         { code: "foo[`every`](function foo() {})", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedInside", data: { name: "function 'foo'" } }] },
         { code: "foo.every(() => {})", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected to return a value in arrow function.", column: 14 }] },
         { code: "foo.every(function() { if (a) return true; })", errors: [{ message: "Expected to return a value at the end of function.", column: 11 }] },
-        { code: "foo.every(function cb() { if (a) return true; })", errors: [{ message: "Expected to return a value at the end of function 'cb'.", column: 20 }] },
+        { code: "foo.every(function cb() { if (a) return true; })", errors: [{ message: "Expected to return a value at the end of function 'cb'.", column: 11 }] },
         { code: "foo.every(function() { switch (a) { case 0: break; default: return true; } })", errors: [{ messageId: "expectedAtEnd", data: { name: "function" } }] },
         { code: "foo.every(function foo() { switch (a) { case 0: break; default: return true; } })", errors: [{ messageId: "expectedAtEnd", data: { name: "function 'foo'" } }] },
         { code: "foo.every(function() { try { bar(); } catch (err) { return true; } })", errors: [{ messageId: "expectedAtEnd", data: { name: "function" } }] },
@@ -163,7 +163,7 @@ ruleTester.run("array-callback-return", rule, {
         { code: "foo.every(a ? function() {} : function() {})", errors: ["Expected to return a value in function.", "Expected to return a value in function."] },
         { code: "foo.every(a ? function foo() {} : function bar() {})", errors: ["Expected to return a value in function 'foo'.", "Expected to return a value in function 'bar'."] },
         { code: "foo.every(function(){ return function() {}; }())", errors: [{ message: "Expected to return a value in function.", column: 30 }] },
-        { code: "foo.every(function(){ return function foo() {}; }())", errors: [{ message: "Expected to return a value in function 'foo'.", column: 39 }] },
+        { code: "foo.every(function(){ return function foo() {}; }())", errors: [{ message: "Expected to return a value in function 'foo'.", column: 30 }] },
         { code: "foo.every(() => {})", options: [{ allowImplicit: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected to return a value in arrow function." }] },
         { code: "foo.every(() => {})", options: [{ allowImplicit: true }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected to return a value in arrow function." }] },
 
@@ -198,7 +198,250 @@ ruleTester.run("array-callback-return", rule, {
         { code: "foo.every(function() {})", options: checkForEachOptions, errors: [{ messageId: "expectedInside", data: { name: "function" } }] },
         { code: "foo.filter(function foo() {})", options: checkForEachOptions, errors: [{ messageId: "expectedInside", data: { name: "function 'foo'" } }] },
         { code: "foo.filter(function foo() { return; })", options: checkForEachOptions, errors: [{ messageId: "expectedReturnValue", data: { name: "Function 'foo'" } }] },
-        { code: "foo.every(cb || function() {})", options: checkForEachOptions, errors: ["Expected to return a value in function."] }
+        { code: "foo.every(cb || function() {})", options: checkForEachOptions, errors: ["Expected to return a value in function."] },
 
+        // full location tests
+        {
+            code: "foo.filter(bar => { baz(); } )",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "expectedInside",
+                data: { name: "arrow function" },
+                type: "ArrowFunctionExpression",
+                line: 1,
+                column: 16,
+                endLine: 1,
+                endColumn: 18
+            }]
+        },
+        {
+            code: "foo.filter(\n() => {} )",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "expectedInside",
+                data: { name: "arrow function" },
+                type: "ArrowFunctionExpression",
+                line: 2,
+                column: 4,
+                endLine: 2,
+                endColumn: 6
+            }]
+        },
+        {
+            code: "foo.filter(bar || ((baz) => {}) )",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "expectedInside",
+                data: { name: "arrow function" },
+                type: "ArrowFunctionExpression",
+                line: 1,
+                column: 26,
+                endLine: 1,
+                endColumn: 28
+            }]
+        },
+        {
+            code: "foo.filter(bar => { return; })",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "expectedReturnValue",
+                data: { name: "Arrow function" },
+                type: "ReturnStatement",
+                line: 1,
+                column: 21,
+                endLine: 1,
+                endColumn: 28
+            }]
+        },
+        {
+            code: "Array.from(foo, bar => { bar })",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "expectedInside",
+                data: { name: "arrow function" },
+                type: "ArrowFunctionExpression",
+                line: 1,
+                column: 21,
+                endLine: 1,
+                endColumn: 23
+            }]
+        },
+        {
+            code: "foo.forEach(bar => bar)",
+            options: checkForEachOptions,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "expectedNoReturnValue",
+                data: { name: "Arrow function" },
+                type: "ArrowFunctionExpression",
+                line: 1,
+                column: 17,
+                endLine: 1,
+                endColumn: 19
+            }]
+        },
+        {
+            code: "foo.forEach((function () { return (bar) => bar; })())",
+            options: checkForEachOptions,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "expectedNoReturnValue",
+                data: { name: "Arrow function" },
+                type: "ArrowFunctionExpression",
+                line: 1,
+                column: 41,
+                endLine: 1,
+                endColumn: 43
+            }]
+        },
+        {
+            code: "foo.forEach((() => {\n return bar => bar; })())",
+            options: checkForEachOptions,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "expectedNoReturnValue",
+                data: { name: "Arrow function" },
+                type: "ArrowFunctionExpression",
+                line: 2,
+                column: 13,
+                endLine: 2,
+                endColumn: 15
+            }]
+        },
+        {
+            code: "foo.forEach((bar) => { if (bar) { return; } else { return bar ; } })",
+            options: checkForEachOptions,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "expectedNoReturnValue",
+                data: { name: "Arrow function" },
+                type: "ReturnStatement",
+                line: 1,
+                column: 52,
+                endLine: 1,
+                endColumn: 64
+            }]
+        },
+        {
+            code: "foo.filter(function(){})",
+            errors: [{
+                messageId: "expectedInside",
+                data: { name: "function" },
+                type: "FunctionExpression",
+                line: 1,
+                column: 12,
+                endLine: 1,
+                endColumn: 20
+            }]
+        },
+        {
+            code: "foo.filter(function (){})",
+            errors: [{
+                messageId: "expectedInside",
+                data: { name: "function" },
+                type: "FunctionExpression",
+                line: 1,
+                column: 12,
+                endLine: 1,
+                endColumn: 21
+            }]
+        },
+        {
+            code: "foo.filter(function\n(){})",
+            errors: [{
+                messageId: "expectedInside",
+                data: { name: "function" },
+                type: "FunctionExpression",
+                line: 1,
+                column: 12,
+                endLine: 2,
+                endColumn: 1
+            }]
+        },
+        {
+            code: "foo.filter(function bar(){})",
+            errors: [{
+                messageId: "expectedInside",
+                data: { name: "function 'bar'" },
+                type: "FunctionExpression",
+                line: 1,
+                column: 12,
+                endLine: 1,
+                endColumn: 24
+            }]
+        },
+        {
+            code: "foo.filter(function bar  (){})",
+            errors: [{
+                messageId: "expectedInside",
+                data: { name: "function 'bar'" },
+                type: "FunctionExpression",
+                line: 1,
+                column: 12,
+                endLine: 1,
+                endColumn: 26
+            }]
+        },
+        {
+            code: "foo.filter(function\n bar() {})",
+            errors: [{
+                messageId: "expectedInside",
+                data: { name: "function 'bar'" },
+                type: "FunctionExpression",
+                line: 1,
+                column: 12,
+                endLine: 2,
+                endColumn: 5
+            }]
+        },
+        {
+            code: "Array.from(foo, function bar(){})",
+            errors: [{
+                messageId: "expectedInside",
+                data: { name: "function 'bar'" },
+                type: "FunctionExpression",
+                line: 1,
+                column: 17,
+                endLine: 1,
+                endColumn: 29
+            }]
+        },
+        {
+            code: "Array.from(foo, bar ? function (){} : baz)",
+            errors: [{
+                messageId: "expectedInside",
+                data: { name: "function" },
+                type: "FunctionExpression",
+                line: 1,
+                column: 23,
+                endLine: 1,
+                endColumn: 32
+            }]
+        },
+        {
+            code: "foo.filter(function bar() { return \n })",
+            errors: [{
+                messageId: "expectedReturnValue",
+                data: { name: "Function 'bar'" },
+                type: "ReturnStatement",
+                line: 1,
+                column: 29,
+                endLine: 1,
+                endColumn: 35
+            }]
+        },
+        {
+            code: "foo.forEach(function () { \nif (baz) return bar\nelse return\n })",
+            options: checkForEachOptions,
+            errors: [{
+                messageId: "expectedNoReturnValue",
+                data: { name: "Function" },
+                type: "ReturnStatement",
+                line: 2,
+                column: 10,
+                endLine: 2,
+                endColumn: 20
+            }]
+        }
     ]
 });
