@@ -33,7 +33,44 @@ ruleTester.run("prefer-named-capture-group", rule, {
         "RegExp('')",
         "RegExp('(?<year>[0-9]{4})')",
         "RegExp('(')", // invalid regexp should be ignored
-        "RegExp('\\\\u{1F680}', 'u')"
+        "RegExp('\\\\u{1F680}', 'u')",
+        "new globalThis.RegExp('([0-9]{4})')",
+        {
+            code: "new globalThis.RegExp('([0-9]{4})')",
+            env: { es6: true }
+        },
+        {
+            code: "new globalThis.RegExp('([0-9]{4})')",
+            env: { es2017: true }
+        },
+        {
+            code: "new globalThis.RegExp()",
+            env: { es2020: true }
+        },
+        {
+            code: "new globalThis.RegExp(foo)",
+            env: { es2020: true }
+        },
+        {
+            code: "globalThis.RegExp(foo)",
+            env: { es2020: true }
+        },
+        {
+            code: `
+                var globalThis = bar;
+                globalThis.RegExp(foo);
+                `,
+            env: { es2020: true }
+        },
+        {
+            code: `
+                function foo () {
+                    var globalThis = bar;
+                    new globalThis.RegExp(baz);
+                }
+                `,
+            env: { es2020: true }
+        }
     ],
 
     invalid: [
@@ -181,6 +218,45 @@ ruleTester.run("prefer-named-capture-group", rule, {
                 messageId: "required",
                 type: "CallExpression",
                 data: { group: "(b)" }
+            }]
+        },
+        {
+            code: "new globalThis.RegExp('([0-9]{4})')",
+            env: { es2020: true },
+            errors: [{
+                messageId: "required",
+                type: "NewExpression",
+                data: { group: "([0-9]{4})" },
+                line: 1,
+                column: 1,
+                endColumn: 36
+            }]
+        },
+        {
+            code: "globalThis.RegExp('([0-9]{4})')",
+            env: { es2020: true },
+            errors: [{
+                messageId: "required",
+                type: "CallExpression",
+                data: { group: "([0-9]{4})" },
+                line: 1,
+                column: 1,
+                endColumn: 32
+            }]
+        },
+        {
+            code: `
+                function foo() { var globalThis = bar; }
+                new globalThis.RegExp('([0-9]{4})');
+            `,
+            env: { es2020: true },
+            errors: [{
+                messageId: "required",
+                type: "NewExpression",
+                data: { group: "([0-9]{4})" },
+                line: 3,
+                column: 17,
+                endColumn: 52
             }]
         }
     ]

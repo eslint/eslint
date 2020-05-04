@@ -46,6 +46,19 @@ ruleTester.run("arrow-body-style", rule, {
     ],
     invalid: [
         {
+            code: "var foo = () => 0",
+            output: "var foo = () => {return 0}",
+            options: ["always"],
+            errors: [
+                {
+                    line: 1,
+                    column: 17,
+                    type: "ArrowFunctionExpression",
+                    messageId: "expectedBlock"
+                }
+            ]
+        },
+        {
             code: "var foo = () => 0;",
             output: "var foo = () => {return 0};",
             options: ["always"],
@@ -66,6 +79,45 @@ ruleTester.run("arrow-body-style", rule, {
                 {
                     line: 1,
                     column: 18,
+                    type: "ArrowFunctionExpression",
+                    messageId: "expectedBlock"
+                }
+            ]
+        },
+        {
+            code: "var foo = () => (  {});",
+            output: "var foo = () => {return   {}};",
+            options: ["always"],
+            errors: [
+                {
+                    line: 1,
+                    column: 20,
+                    type: "ArrowFunctionExpression",
+                    messageId: "expectedBlock"
+                }
+            ]
+        },
+        {
+            code: "(() => ({}))",
+            output: "(() => {return {}})",
+            options: ["always"],
+            errors: [
+                {
+                    line: 1,
+                    column: 9,
+                    type: "ArrowFunctionExpression",
+                    messageId: "expectedBlock"
+                }
+            ]
+        },
+        {
+            code: "(() => ( {}))",
+            output: "(() => {return  {}})",
+            options: ["always"],
+            errors: [
+                {
+                    line: 1,
+                    column: 10,
                     type: "ArrowFunctionExpression",
                     messageId: "expectedBlock"
                 }
@@ -470,6 +522,48 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => ({foo: 1}.foo());",
             output: "var foo = () => {return {foo: 1}.foo()};",
+            options: ["always"],
+            errors: [{ messageId: "expectedBlock" }]
+        },
+        {
+            code: "var foo = () => ( {foo: 1} ).foo();",
+            output: "var foo = () => {return  {foo: 1} .foo()};",
+            options: ["always"],
+            errors: [{ messageId: "expectedBlock" }]
+        },
+        {
+            code: `
+              var foo = () => ({
+                  bar: 1,
+                  baz: 2
+                });
+            `,
+            output: `
+              var foo = () => {return {
+                  bar: 1,
+                  baz: 2
+                }};
+            `,
+            options: ["always"],
+            errors: [{ messageId: "expectedBlock" }]
+        },
+        {
+            code: `
+              parsedYears = _map(years, (year) => (
+                  {
+                      index : year,
+                      title : splitYear(year)
+                  }
+              ));
+            `,
+            output: `
+              parsedYears = _map(years, (year) => {
+                  return {
+                      index : year,
+                      title : splitYear(year)
+                  }
+              });
+            `,
             options: ["always"],
             errors: [{ messageId: "expectedBlock" }]
         }

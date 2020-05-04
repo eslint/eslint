@@ -12,7 +12,7 @@
 const assert = require("chai").assert;
 const sinon = require("sinon");
 const spawn = require("cross-spawn");
-const { unIndent } = require("../_utils");
+const { unIndent } = require("../../_utils");
 const RuntimeInfo = require("../../../lib/shared/runtime-info");
 const log = require("../../../lib/shared/logging");
 const packageJson = require("../../../package.json");
