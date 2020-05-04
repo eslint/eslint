@@ -1,5 +1,6 @@
 {
     "rules": {
+        "no-dupe-args": "error",
         "semi": ["error", "always"]
     },
     "root": true

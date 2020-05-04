@@ -19,6 +19,11 @@
 function getPropertyFromObject(property, node) {
     const properties = node.properties;
 
+    if (!Array.isArray(properties)) {
+
+        return null;
+    }
+
     for (let i = 0; i < properties.length; i++) {
         if (properties[i].key.name === property) {
             return properties[i];
@@ -106,32 +111,32 @@ function checkMetaValidity(context, exportsNode) {
     const metaProperty = getMetaPropertyFromExportsNode(exportsNode);
 
     if (!metaProperty) {
-        context.report(exportsNode, "Rule is missing a meta property.");
+        context.report({ node: exportsNode, messageId: "missingMeta" });
         return;
     }
 
     if (!hasMetaDocs(metaProperty)) {
-        context.report(metaProperty, "Rule is missing a meta.docs property.");
+        context.report({ node: metaProperty, messageId: "missingMetaDocs" });
         return;
     }
 
     if (!hasMetaDocsDescription(metaProperty)) {
-        context.report(metaProperty, "Rule is missing a meta.docs.description property.");
+        context.report({ node: metaProperty, messageId: "missingMetaDocsDescription" });
         return;
     }
 
     if (!hasMetaDocsCategory(metaProperty)) {
-        context.report(metaProperty, "Rule is missing a meta.docs.category property.");
+        context.report({ node: metaProperty, messageId: "missingMetaDocsCategory" });
         return;
     }
 
     if (!hasMetaDocsRecommended(metaProperty)) {
-        context.report(metaProperty, "Rule is missing a meta.docs.recommended property.");
+        context.report({ node: metaProperty, messageId: "missingMetaDocsRecommended" });
         return;
     }
 
     if (!hasMetaSchema(metaProperty)) {
-        context.report(metaProperty, "Rule is missing a meta.schema property.");
+        context.report({ node: metaProperty, messageId: "missingMetaSchema" });
     }
 }
 
@@ -156,8 +161,18 @@ module.exports = {
             category: "Internal",
             recommended: false
         },
-
-        schema: []
+        type: "problem",
+        schema: [],
+        messages: {
+            missingMeta: "Rule is missing a meta property.",
+            missingMetaDocs: "Rule is missing a meta.docs property.",
+            missingMetaDocsDescription: "Rule is missing a meta.docs.description property.",
+            missingMetaDocsCategory: "Rule is missing a meta.docs.category property.",
+            missingMetaDocsRecommended: "Rule is missing a meta.docs.recommended property.",
+            missingMetaSchema: "Rule is missing a meta.schema property.",
+            noExport: "Rule does not export anything. Make sure rule exports an object according to new rule format.",
+            incorrectExport: "Rule does not export an Object. Make sure the rule follows the new rule format."
+        }
     },
 
     create(context) {
@@ -179,12 +194,12 @@ module.exports = {
                 if (!exportsNode) {
                     context.report({
                         node,
-                        message: "Rule does not export anything. Make sure rule exports an object according to new rule format."
+                        messageId: "noExport"
                     });
                 } else if (!isCorrectExportsFormat(exportsNode)) {
                     context.report({
                         node: exportsNode,
-                        message: "Rule does not export an Object. Make sure the rule follows the new rule format."
+                        messageId: "incorrectExport"
                     });
                 } else {
                     checkMetaValidity(context, exportsNode);

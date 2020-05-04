@@ -1367,7 +1367,7 @@ describe("Config", () => {
             function onWarning(w) { // eslint-disable-line require-jsdoc
 
                 // Node.js 6.x does not have 'w.code' property.
-                if (!w.hasOwnProperty("code") || typeof w.code === "string" && w.code.startsWith("ESLINT_")) {
+                if (!Object.prototype.hasOwnProperty.call(w, "code") || typeof w.code === "string" && w.code.startsWith("ESLINT_")) {
                     warning = w;
                 }
             }

@@ -44,8 +44,8 @@ ruleTester.run("no-useless-rename", rule, {
         "import {foo as bar} from 'foo';",
         "import {foo as bar, baz as qux} from 'foo';",
         "export {foo} from 'foo';",
-        "export {foo as bar};",
-        "export {foo as bar, baz as qux};",
+        "var foo = 0;export {foo as bar};",
+        "var foo = 0; var baz = 0; export {foo as bar, baz as qux};",
         "export {foo as bar} from 'foo';",
         "export {foo as bar, baz as qux} from 'foo';",
         {
@@ -91,15 +91,15 @@ ruleTester.run("no-useless-rename", rule, {
 
         // { ignoreExport: true }
         {
-            code: "export {foo as foo};",
+            code: "var foo = 0;export {foo as foo};",
             options: [{ ignoreExport: true }]
         },
         {
-            code: "export {foo as foo, bar as baz};",
+            code: "var foo = 0;var bar = 0;export {foo as foo, bar as baz};",
             options: [{ ignoreExport: true }]
         },
         {
-            code: "export {foo as foo, bar as bar};",
+            code: "var foo = 0;var bar = 0;export {foo as foo, bar as bar};",
             options: [{ ignoreExport: true }]
         },
         {
@@ -261,23 +261,23 @@ ruleTester.run("no-useless-rename", rule, {
             errors: ["Import foo unnecessarily renamed.", "Import bar unnecessarily renamed."]
         },
         {
-            code: "export {foo as foo};",
-            output: "export {foo};",
+            code: "var foo = 0; export {foo as foo};",
+            output: "var foo = 0; export {foo};",
             errors: ["Export foo unnecessarily renamed."]
         },
         {
-            code: "export {foo as foo, bar as baz};",
-            output: "export {foo, bar as baz};",
+            code: "var foo = 0; var bar = 0; export {foo as foo, bar as baz};",
+            output: "var foo = 0; var bar = 0; export {foo, bar as baz};",
             errors: ["Export foo unnecessarily renamed."]
         },
         {
-            code: "export {foo as bar, baz as baz};",
-            output: "export {foo as bar, baz};",
+            code: "var foo = 0; var baz = 0; export {foo as bar, baz as baz};",
+            output: "var foo = 0; var baz = 0; export {foo as bar, baz};",
             errors: ["Export baz unnecessarily renamed."]
         },
         {
-            code: "export {foo as foo, bar as bar};",
-            output: "export {foo, bar};",
+            code: "var foo = 0; var bar = 0;export {foo as foo, bar as bar};",
+            output: "var foo = 0; var bar = 0;export {foo, bar};",
             errors: ["Export foo unnecessarily renamed.", "Export bar unnecessarily renamed."]
         },
         {
@@ -291,8 +291,8 @@ ruleTester.run("no-useless-rename", rule, {
             errors: ["Export foo unnecessarily renamed."]
         },
         {
-            code: "export {foo as bar, baz as baz} from 'foo';",
-            output: "export {foo as bar, baz} from 'foo';",
+            code: "var foo = 0; var bar = 0; export {foo as bar, baz as baz} from 'foo';",
+            output: "var foo = 0; var bar = 0; export {foo as bar, baz} from 'foo';",
             errors: ["Export baz unnecessarily renamed."]
         },
         {

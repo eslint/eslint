@@ -1,6 +1,9 @@
 ---
-name: Rule change request
+name: "\U0001F4DD Rule change request"
 about: Request a change to an existing rule
+title: ''
+labels: enhancement, triage, rule
+assignees: ''
 
 ---
 
@@ -34,3 +37,4 @@ about: Request a change to an existing rule
 
 **What will the rule do after it's changed?**
 
+**Are you willing to submit a pull request to implement this change?**

@@ -263,63 +263,63 @@ ruleTester.run("func-name-matching", rule, {
             options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `bar` should match variable name `foo`" }
+                { messageId: "matchVariable", data: { funcName: "bar", name: "foo" } }
             ]
         },
         {
             code: "let foo = function bar() {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `bar` should match variable name `foo`" }
+                { messageId: "matchVariable", data: { funcName: "bar", name: "foo" } }
             ]
         },
         {
             code: "foo = function bar() {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `bar` should match variable name `foo`" }
+                { messageId: "matchVariable", data: { funcName: "bar", name: "foo" } }
             ]
         },
         {
             code: "obj.foo = function bar() {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `bar` should match property name `foo`" }
+                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
             ]
         },
         {
             code: "obj.bar.foo = function bar() {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `bar` should match property name `foo`" }
+                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
             ]
         },
         {
             code: "obj['foo'] = function bar() {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `bar` should match property name `foo`" }
+                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
             ]
         },
         {
             code: "let obj = {foo: function bar() {}};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `bar` should match property name `foo`" }
+                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
             ]
         },
         {
             code: "let obj = {'foo': function bar() {}};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `bar` should match property name `foo`" }
+                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
             ]
         },
         {
             code: "({['foo']: function bar() {}})",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `bar` should match property name `foo`" }
+                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
             ]
         },
         {
@@ -327,7 +327,7 @@ ruleTester.run("func-name-matching", rule, {
             options: [{ includeCommonJSModuleExports: true }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `foo` should match property name `exports`" }
+                { messageId: "matchProperty", data: { funcName: "foo", name: "exports" } }
             ]
         },
         {
@@ -335,7 +335,7 @@ ruleTester.run("func-name-matching", rule, {
             options: ["always", { includeCommonJSModuleExports: true }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `foo` should match property name `exports`" }
+                { messageId: "matchProperty", data: { funcName: "foo", name: "exports" } }
             ]
         },
         {
@@ -343,7 +343,7 @@ ruleTester.run("func-name-matching", rule, {
             options: ["never", { includeCommonJSModuleExports: true }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `exports` should not match property name `exports`" }
+                { messageId: "notMatchProperty", data: { funcName: "exports", name: "exports" } }
             ]
         },
         {
@@ -351,7 +351,7 @@ ruleTester.run("func-name-matching", rule, {
             options: [{ includeCommonJSModuleExports: true }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `foo` should match property name `exports`" }
+                { messageId: "matchProperty", data: { funcName: "foo", name: "exports" } }
             ]
         },
         {
@@ -359,7 +359,7 @@ ruleTester.run("func-name-matching", rule, {
             options: ["always", { includeCommonJSModuleExports: true }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `foo` should match property name `exports`" }
+                { messageId: "matchProperty", data: { funcName: "foo", name: "exports" } }
             ]
         },
         {
@@ -367,84 +367,84 @@ ruleTester.run("func-name-matching", rule, {
             options: ["never", { includeCommonJSModuleExports: true }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `exports` should not match property name `exports`" }
+                { messageId: "notMatchProperty", data: { funcName: "exports", name: "exports" } }
             ]
         },
         {
             code: "var foo = function foo(name) {};",
             options: ["never"],
             errors: [
-                { message: "Function name `foo` should not match variable name `foo`" }
+                { messageId: "notMatchVariable", data: { funcName: "foo", name: "foo" } }
             ]
         },
         {
             code: "obj.foo = function foo(name) {};",
             options: ["never"],
             errors: [
-                { message: "Function name `foo` should not match property name `foo`" }
+                { messageId: "notMatchProperty", data: { funcName: "foo", name: "foo" } }
             ]
         },
         {
             code: "Object.defineProperty(foo, 'bar', { value: function baz() {} })",
             options: ["always", { considerPropertyDescriptor: true }],
             errors: [
-                { message: "Function name `baz` should match property name `bar`" }
+                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
             ]
         },
         {
             code: "Object.defineProperties(foo, { bar: { value: function baz() {} } })",
             options: ["always", { considerPropertyDescriptor: true }],
             errors: [
-                { message: "Function name `baz` should match property name `bar`" }
+                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
             ]
         },
         {
             code: "Object.create(proto, { bar: { value: function baz() {} } })",
             options: ["always", { considerPropertyDescriptor: true }],
             errors: [
-                { message: "Function name `baz` should match property name `bar`" }
+                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
             ]
         },
         {
             code: "var obj = { value: function foo(name) {} }",
             options: ["always", { considerPropertyDescriptor: true }],
             errors: [
-                { message: "Function name `foo` should match property name `value`" }
+                { messageId: "matchProperty", data: { funcName: "foo", name: "value" } }
             ]
         },
         {
             code: "Object.defineProperty(foo, 'bar', { value: function bar() {} })",
             options: ["never", { considerPropertyDescriptor: true }],
             errors: [
-                { message: "Function name `bar` should not match property name `bar`" }
+                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
             ]
         },
         {
             code: "Object.defineProperties(foo, { bar: { value: function bar() {} } })",
             options: ["never", { considerPropertyDescriptor: true }],
             errors: [
-                { message: "Function name `bar` should not match property name `bar`" }
+                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
             ]
         },
         {
             code: "Object.create(proto, { bar: { value: function bar() {} } })",
             options: ["never", { considerPropertyDescriptor: true }],
             errors: [
-                { message: "Function name `bar` should not match property name `bar`" }
+                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
             ]
         },
         {
             code: "Reflect.defineProperty(foo, 'bar', { value: function baz() {} })",
             options: ["always", { considerPropertyDescriptor: true }],
             errors: [
-                { message: "Function name `baz` should match property name `bar`" }
+                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
             ]
         },
         {
             code: "Reflect.defineProperty(foo, 'bar', { value: function bar() {} })",
             options: ["never", { considerPropertyDescriptor: true }],
             errors: [
-                { message: "Function name `bar` should not match property name `bar`" }
+                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
             ]
         }
     ]

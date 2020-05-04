@@ -932,6 +932,14 @@ ruleTester.run("object-shorthand", rule, {
             errors: [METHOD_ERROR]
         },
         {
+
+            // https://github.com/eslint/eslint/issues/11305
+            code: "({ key: (arg = () => {}) => {} })",
+            output: "({ key(arg = () => {}) {} })",
+            options: ["always", { avoidExplicitReturnArrows: true }],
+            errors: [METHOD_ERROR]
+        },
+        {
             code: `
                 function foo() {
                     var x = {

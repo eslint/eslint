@@ -79,93 +79,93 @@ ruleTester.run("valid-typeof", rule, {
     invalid: [
         {
             code: "typeof foo === 'strnig'",
-            errors: [{ message: "Invalid typeof comparison value.", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "'strnig' === typeof foo",
-            errors: [{ message: "Invalid typeof comparison value.", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "if (typeof bar === 'umdefined') {}",
-            errors: [{ message: "Invalid typeof comparison value.", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "typeof foo !== 'strnig'",
-            errors: [{ message: "Invalid typeof comparison value.", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "'strnig' !== typeof foo",
-            errors: [{ message: "Invalid typeof comparison value.", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "if (typeof bar !== 'umdefined') {}",
-            errors: [{ message: "Invalid typeof comparison value.", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "typeof foo != 'strnig'",
-            errors: [{ message: "Invalid typeof comparison value.", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "'strnig' != typeof foo",
-            errors: [{ message: "Invalid typeof comparison value.", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "if (typeof bar != 'umdefined') {}",
-            errors: [{ message: "Invalid typeof comparison value.", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "typeof foo == 'strnig'",
-            errors: [{ message: "Invalid typeof comparison value.", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "'strnig' == typeof foo",
-            errors: [{ message: "Invalid typeof comparison value.", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "if (typeof bar == 'umdefined') {}",
-            errors: [{ message: "Invalid typeof comparison value.", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "if (typeof bar === `umdefined`) {}",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Invalid typeof comparison value.", type: "TemplateLiteral" }]
+            errors: [{ messageId: "invalidValue", type: "TemplateLiteral" }]
         },
         {
             code: "typeof foo == 'invalid string'",
             options: [{ requireStringLiterals: true }],
-            errors: [{ message: "Invalid typeof comparison value.", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "typeof foo == Object",
             options: [{ requireStringLiterals: true }],
-            errors: [{ message: "Typeof comparisons should be to string literals.", type: "Identifier" }]
+            errors: [{ messageId: "notString", type: "Identifier" }]
         },
         {
             code: "typeof foo === undefined",
             options: [{ requireStringLiterals: true }],
-            errors: [{ message: "Typeof comparisons should be to string literals.", type: "Identifier" }]
+            errors: [{ messageId: "notString", type: "Identifier" }]
         },
         {
             code: "undefined === typeof foo",
             options: [{ requireStringLiterals: true }],
-            errors: [{ message: "Typeof comparisons should be to string literals.", type: "Identifier" }]
+            errors: [{ messageId: "notString", type: "Identifier" }]
         },
         {
             code: "undefined == typeof foo",
             options: [{ requireStringLiterals: true }],
-            errors: [{ message: "Typeof comparisons should be to string literals.", type: "Identifier" }]
+            errors: [{ messageId: "notString", type: "Identifier" }]
         },
         {
             code: "typeof foo === `undefined${foo}`",
             options: [{ requireStringLiterals: true }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Typeof comparisons should be to string literals.", type: "TemplateLiteral" }]
+            errors: [{ messageId: "notString", type: "TemplateLiteral" }]
         },
         {
             code: "typeof foo === `${string}`",
             options: [{ requireStringLiterals: true }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Typeof comparisons should be to string literals.", type: "TemplateLiteral" }]
+            errors: [{ messageId: "notString", type: "TemplateLiteral" }]
         }
     ]
 });

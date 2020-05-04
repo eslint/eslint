@@ -15,9 +15,8 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
-
-const ALWAYS_MESSAGE = "Expected blank line between class members.";
-const NEVER_MESSAGE = "Unexpected blank line between class members.";
+const alwaysError = { messageId: "always" };
+const neverError = { messageId: "never" };
 
 //------------------------------------------------------------------------------
 // Tests
@@ -63,17 +62,17 @@ ruleTester.run("lines-between-class-members", rule, {
             code: "class foo{ bar(){}\nbaz(){}}",
             output: "class foo{ bar(){}\n\nbaz(){}}",
             options: ["always"],
-            errors: [{ message: ALWAYS_MESSAGE }]
+            errors: [alwaysError]
         }, {
             code: "class foo{ bar(){}\n\nbaz(){}}",
             output: "class foo{ bar(){}\nbaz(){}}",
             options: ["never"],
-            errors: [{ message: NEVER_MESSAGE }]
+            errors: [neverError]
         }, {
             code: "class foo{ bar(){\n}\nbaz(){}}",
             output: "class foo{ bar(){\n}\n\nbaz(){}}",
             options: ["always", { exceptAfterSingleLine: true }],
-            errors: [{ message: ALWAYS_MESSAGE }]
+            errors: [alwaysError]
         }
     ]
 });

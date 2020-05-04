@@ -17,11 +17,8 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
-
-// data is not working, so specify a name: "getter 'bar'"
-const name = "getter 'bar'";
-const noReturnMessage = `Expected to return a value in ${name}.`;
-const noLastReturnMessage = `Expected ${name} to always return a value.`;
+const expectedError = { messageId: "expected", data: { name: "getter 'bar'" } };
+const expectedAlwaysError = { messageId: "expectedAlways", data: { name: "getter 'bar'" } };
 const options = [{ allowImplicit: true }];
 
 ruleTester.run("getter-return", rule, {
@@ -84,39 +81,39 @@ ruleTester.run("getter-return", rule, {
          * test obj: get
          * option: {allowImplicit: false}
          */
-        { code: "var foo = { get bar() {} };", errors: [{ message: noReturnMessage }] },
-        { code: "var foo = { get bar(){if(baz) {return true;}} };", errors: [{ message: noLastReturnMessage }] },
-        { code: "var foo = { get bar() { ~function () {return true;}} };", errors: [{ message: noReturnMessage }] },
+        { code: "var foo = { get bar() {} };", errors: [expectedError] },
+        { code: "var foo = { get bar(){if(baz) {return true;}} };", errors: [expectedAlwaysError] },
+        { code: "var foo = { get bar() { ~function () {return true;}} };", errors: [expectedError] },
 
         // option: {allowImplicit: true}
-        { code: "var foo = { get bar() {} };", options, errors: [{ message: noReturnMessage }] },
-        { code: "var foo = { get bar() {if (baz) {return;}} };", options, errors: [{ message: noLastReturnMessage }] },
+        { code: "var foo = { get bar() {} };", options, errors: [expectedError] },
+        { code: "var foo = { get bar() {if (baz) {return;}} };", options, errors: [expectedAlwaysError] },
 
         /*
          * test class: get
          * option: {allowImplicit: false}
          */
-        { code: "class foo { get bar(){} }", errors: [{ message: noReturnMessage }] },
-        { code: "class foo { get bar(){ if (baz) { return true; }}}", errors: [{ noLastReturnMessage }] },
-        { code: "class foo { get bar(){ ~function () { return true; }()}}", errors: [{ noLastReturnMessage }] },
+        { code: "class foo { get bar(){} }", errors: [expectedError] },
+        { code: "class foo { get bar(){ if (baz) { return true; }}}", errors: [expectedAlwaysError] },
+        { code: "class foo { get bar(){ ~function () { return true; }()}}", errors: [expectedError] },
 
         // option: {allowImplicit: true}
-        { code: "class foo { get bar(){} }", options, errors: [{ message: noReturnMessage }] },
-        { code: "class foo { get bar(){if (baz) {return true;} } }", options, errors: [{ message: noLastReturnMessage }] },
+        { code: "class foo { get bar(){} }", options, errors: [expectedError] },
+        { code: "class foo { get bar(){if (baz) {return true;} } }", options, errors: [expectedAlwaysError] },
 
         /*
          * test object.defineProperty(s)
          * option: {allowImplicit: false}
          */
-        { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", errors: [{ noReturnMessage }] },
-        { code: "Object.defineProperty(foo, \"bar\", { get: () => {}});", errors: [{ noReturnMessage }] },
-        { code: "Object.defineProperty(foo, \"bar\", { get: function (){if(bar) {return true;}}});", errors: [{ message: "Expected method 'get' to always return a value." }] },
-        { code: "Object.defineProperty(foo, \"bar\", { get: function (){ ~function () { return true; }()}});", errors: [{ noReturnMessage }] },
-        { code: "Object.defineProperties(foo, { bar: { get: function () {}} });", options, errors: [{ noReturnMessage }] },
-        { code: "Object.defineProperties(foo, { bar: { get: function (){if(bar) {return true;}}}});", options, errors: [{ message: "Expected method 'get' to always return a value." }] },
-        { code: "Object.defineProperties(foo, { bar: { get: function () {~function () { return true; }()}} });", options, errors: [{ noReturnMessage }] },
+        { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", errors: [{ messageId: "expected", data: { name: "method 'get'" } }] },
+        { code: "Object.defineProperty(foo, \"bar\", { get: () => {}});", errors: [{ messageId: "expected", data: { name: "arrow function 'get'" } }] },
+        { code: "Object.defineProperty(foo, \"bar\", { get: function (){if(bar) {return true;}}});", errors: [{ messageId: "expectedAlways" }] },
+        { code: "Object.defineProperty(foo, \"bar\", { get: function (){ ~function () { return true; }()}});", errors: [{ messageId: "expected" }] },
+        { code: "Object.defineProperties(foo, { bar: { get: function () {}} });", options, errors: [{ messageId: "expected" }] },
+        { code: "Object.defineProperties(foo, { bar: { get: function (){if(bar) {return true;}}}});", options, errors: [{ messageId: "expectedAlways" }] },
+        { code: "Object.defineProperties(foo, { bar: { get: function () {~function () { return true; }()}} });", options, errors: [{ messageId: "expected" }] },
 
         // option: {allowImplicit: true}
-        { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", options, errors: [{ message: "Expected to return a value in method 'get'." }] }
+        { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", options, errors: [{ messageId: "expected" }] }
     ]
 });

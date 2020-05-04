@@ -17,6 +17,7 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
+const incorrectDirection = { messageId: "incorrectDirection" };
 
 ruleTester.run("for-direction", rule, {
     valid: [
@@ -30,10 +31,12 @@ ruleTester.run("for-direction", rule, {
         // test if '+=', '-=',
         "for(var i = 0; i < 10; i+=1){}",
         "for(var i = 0; i <= 10; i+=1){}",
+        "for(var i = 0; i < 10; i-=-1){}",
+        "for(var i = 0; i <= 10; i-=-1){}",
         "for(var i = 10; i > 0; i-=1){}",
         "for(var i = 10; i >= 0; i-=1){}",
-        "for (var i = 0; i < MAX; i += STEP_SIZE);",
-        "for (var i = MAX; i > MIN; i -= STEP_SIZE);",
+        "for(var i = 10; i > 0; i+=-1){}",
+        "for(var i = 10; i >= 0; i+=-1){}",
 
         // test if no update.
         "for(var i = 10; i > 0;){}",
@@ -47,22 +50,27 @@ ruleTester.run("for-direction", rule, {
         "for(var i = 10; i >= 0; j += 2){}",
         "for(var i = 10; i >= 0; j -= 2){}",
         "for(var i = 10; i >= 0; i |= 2){}",
-        "for(var i = 10; i >= 0; i %= 2){}"
+        "for(var i = 10; i >= 0; i %= 2){}",
+        "for(var i = 0; i < MAX; i += STEP_SIZE);",
+        "for(var i = 0; i < MAX; i -= STEP_SIZE);",
+        "for(var i = 10; i > 0; i += STEP_SIZE);"
     ],
     invalid: [
 
         // test if '++', '--'
-        { code: "for(var i = 0; i < 10; i--){}", errors: [{ message: "The update clause in this loop moves the variable in the wrong direction." }] },
-        { code: "for(var i = 0; i <= 10; i--){}", errors: [{ message: "The update clause in this loop moves the variable in the wrong direction." }] },
-        { code: "for(var i = 10; i > 10; i++){}", errors: [{ message: "The update clause in this loop moves the variable in the wrong direction." }] },
-        { code: "for(var i = 10; i >= 0; i++){}", errors: [{ message: "The update clause in this loop moves the variable in the wrong direction." }] },
+        { code: "for(var i = 0; i < 10; i--){}", errors: [incorrectDirection] },
+        { code: "for(var i = 0; i <= 10; i--){}", errors: [incorrectDirection] },
+        { code: "for(var i = 10; i > 10; i++){}", errors: [incorrectDirection] },
+        { code: "for(var i = 10; i >= 0; i++){}", errors: [incorrectDirection] },
 
         // test if '+=', '-='
-        { code: "for(var i = 0; i < 10; i-=1){}", errors: [{ message: "The update clause in this loop moves the variable in the wrong direction." }] },
-        { code: "for(var i = 0; i <= 10; i-=1){}", errors: [{ message: "The update clause in this loop moves the variable in the wrong direction." }] },
-        { code: "for(var i = 10; i > 10; i+=1){}", errors: [{ message: "The update clause in this loop moves the variable in the wrong direction." }] },
-        { code: "for(var i = 10; i >= 0; i+=1){}", errors: [{ message: "The update clause in this loop moves the variable in the wrong direction." }] },
-        { code: "for (var i = 0; i < MAX; i -= STEP_SIZE);", errors: [{ message: "The update clause in this loop moves the variable in the wrong direction." }] },
-        { code: "for (var i = 0; i > MIN; i += STEP_SIZE);", errors: [{ message: "The update clause in this loop moves the variable in the wrong direction." }] }
+        { code: "for(var i = 0; i < 10; i-=1){}", errors: [incorrectDirection] },
+        { code: "for(var i = 0; i <= 10; i-=1){}", errors: [incorrectDirection] },
+        { code: "for(var i = 10; i > 10; i+=1){}", errors: [incorrectDirection] },
+        { code: "for(var i = 10; i >= 0; i+=1){}", errors: [incorrectDirection] },
+        { code: "for(var i = 0; i < 10; i+=-1){}", errors: [incorrectDirection] },
+        { code: "for(var i = 0; i <= 10; i+=-1){}", errors: [incorrectDirection] },
+        { code: "for(var i = 10; i > 10; i-=-1){}", errors: [incorrectDirection] },
+        { code: "for(var i = 10; i >= 0; i-=-1){}", errors: [incorrectDirection] }
     ]
 });

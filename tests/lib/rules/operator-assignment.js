@@ -18,8 +18,8 @@ const rule = require("../../../lib/rules/operator-assignment"),
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 7 } });
 
-const EXPECTED_OPERATOR_ASSIGNMENT = [{ message: "Assignment can be replaced with operator assignment.", type: "AssignmentExpression" }];
-const UNEXPECTED_OPERATOR_ASSIGNMENT = [{ message: "Unexpected operator assignment shorthand.", type: "AssignmentExpression" }];
+const EXPECTED_OPERATOR_ASSIGNMENT = [{ messageId: "replaced", type: "AssignmentExpression" }];
+const UNEXPECTED_OPERATOR_ASSIGNMENT = [{ messageId: "unexpected", type: "AssignmentExpression" }];
 
 ruleTester.run("operator-assignment", rule, {
 

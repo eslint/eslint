@@ -1088,7 +1088,8 @@ ruleTester.run("valid-jsdoc", rule, {
             output: null,
             options: [{ requireReturn: false }],
             errors: [{
-                message: "Expected JSDoc for 'argName' but found 'bogusName'.",
+                messageId: "expected",
+                data: { name: "argName", jsdocName: "bogusName" },
                 type: "Block",
                 line: 4,
                 column: 6,
@@ -1100,7 +1101,7 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/** @@foo */\nfunction foo(){}",
             output: null,
             errors: [{
-                message: "JSDoc syntax error.",
+                messageId: "syntaxError",
                 type: "Block"
             }]
         },
@@ -1120,7 +1121,8 @@ ruleTester.run("valid-jsdoc", rule, {
             output: null,
             options: [{ requireReturn: false }],
             errors: [{
-                message: "Missing JSDoc @returns for function.",
+                messageId: "missingReturn",
+                data: { returns: "returns" },
                 type: "Block"
             }]
         },
@@ -1128,7 +1130,7 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/** @@returns {void} Foo */\nfunction foo(){}",
             output: null,
             errors: [{
-                message: "JSDoc syntax error.",
+                messageId: "syntaxError",
                 type: "Block"
             }]
         },
@@ -1136,7 +1138,7 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/** Foo \n@returns {void Foo\n */\nfunction foo(){}",
             output: null,
             errors: [{
-                message: "JSDoc type missing brace.",
+                messageId: "missingBrace",
                 type: "Block"
             }]
         },
@@ -1145,7 +1147,8 @@ ruleTester.run("valid-jsdoc", rule, {
             output: "/** Foo \n@returns {void} Foo\n */\nfunction foo(){}",
             options: [{ prefer: { return: "returns" } }],
             errors: [{
-                message: "Use @returns instead.",
+                messageId: "use",
+                data: { name: "returns" },
                 type: "Block",
                 line: 2,
                 column: 1,
@@ -1158,10 +1161,12 @@ ruleTester.run("valid-jsdoc", rule, {
             output: "/** Foo \n@arg {int} bar baz\n */\nfunction foo(bar){}",
             options: [{ prefer: { argument: "arg" } }],
             errors: [{
-                message: "Missing JSDoc @returns for function.",
+                messageId: "missingReturn",
+                data: { returns: "returns" },
                 type: "Block"
             }, {
-                message: "Use @arg instead.",
+                messageId: "use",
+                data: { name: "arg" },
                 type: "Block",
                 line: 2,
                 column: 1,
@@ -1174,7 +1179,8 @@ ruleTester.run("valid-jsdoc", rule, {
             output: null,
             options: [{ prefer: { returns: "return" } }],
             errors: [{
-                message: "Missing JSDoc @return for function.",
+                messageId: "missingReturn",
+                data: { returns: "return" },
                 type: "Block"
             }]
         },
@@ -1184,7 +1190,8 @@ ruleTester.run("valid-jsdoc", rule, {
             options: [{ prefer: { return: "returns" } }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Use @returns instead.",
+                messageId: "use",
+                data: { name: "returns" },
                 type: "Block",
                 line: 2,
                 column: 1,
@@ -1196,7 +1203,7 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/** Foo \n@param {void Foo\n */\nfunction foo(){}",
             output: null,
             errors: [{
-                message: "JSDoc type missing brace.",
+                messageId: "missingBrace",
                 type: "Block"
             }]
         },
@@ -1204,7 +1211,7 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/** Foo \n@param {} p Bar\n */\nfunction foo(){}",
             output: null,
             errors: [{
-                message: "JSDoc syntax error.",
+                messageId: "syntaxError",
                 type: "Block"
             }]
         },
@@ -1212,7 +1219,7 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/** Foo \n@param {void Foo */\nfunction foo(){}",
             output: null,
             errors: [{
-                message: "JSDoc type missing brace.",
+                messageId: "missingBrace",
                 type: "Block"
             }]
         },
@@ -1220,10 +1227,12 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/** Foo\n* @param p Desc \n*/\nfunction foo(){}",
             output: null,
             errors: [{
-                message: "Missing JSDoc @returns for function.",
+                messageId: "missingReturn",
+                data: { returns: "returns" },
                 type: "Block"
             }, {
-                message: "Missing JSDoc parameter type for 'p'.",
+                messageId: "missingParamType",
+                data: { name: "p" },
                 type: "Block",
                 line: 2,
                 column: 3,
@@ -1235,10 +1244,12 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/**\n* Foo\n* @param {string} p \n*/\nfunction foo(){}",
             output: null,
             errors: [{
-                message: "Missing JSDoc @returns for function.",
+                messageId: "missingReturn",
+                data: { returns: "returns" },
                 type: "Block"
             }, {
-                message: "Missing JSDoc parameter description for 'p'.",
+                messageId: "missingParamDesc",
+                data: { name: "p" },
                 type: "Block",
                 line: 3,
                 column: 3,
@@ -1250,10 +1261,12 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/**\n* Foo\n* @param {string} p \n*/\nvar foo = function(){}",
             output: null,
             errors: [{
-                message: "Missing JSDoc @returns for function.",
+                messageId: "missingReturn",
+                data: { returns: "returns" },
                 type: "Block"
             }, {
-                message: "Missing JSDoc parameter description for 'p'.",
+                messageId: "missingParamDesc",
+                data: { name: "p" },
                 type: "Block",
                 line: 3,
                 column: 3,
@@ -1265,10 +1278,12 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/**\n* Foo\n* @param {string} p \n*/\nvar foo = \nfunction(){}",
             output: null,
             errors: [{
-                message: "Missing JSDoc @returns for function.",
+                messageId: "missingReturn",
+                data: { returns: "returns" },
                 type: "Block"
             }, {
-                message: "Missing JSDoc parameter description for 'p'.",
+                messageId: "missingParamDesc",
+                data: { name: "p" },
                 type: "Block",
                 line: 3,
                 column: 3,
@@ -1301,11 +1316,12 @@ ruleTester.run("valid-jsdoc", rule, {
             },
             errors: [
                 {
-                    message: "JSDoc description does not satisfy the regex pattern.",
+                    messageId: "unsatisfiedDesc",
                     type: "Block"
                 },
                 {
-                    message: "Missing JSDoc @returns for function.",
+                    messageId: "missingReturn",
+                    data: { returns: "returns" },
                     type: "Block"
                 }
             ]
@@ -1314,7 +1330,7 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/**\n* Foo\n* @returns {string} \n*/\nfunction foo(){}",
             output: null,
             errors: [{
-                message: "Missing JSDoc return description.",
+                messageId: "missingReturnDesc",
                 type: "Block"
             }]
         },
@@ -1322,7 +1338,8 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/**\n* Foo\n* @returns {string} something \n*/\nfunction foo(p){}",
             output: null,
             errors: [{
-                message: "Missing JSDoc for parameter 'p'.",
+                messageId: "missingParam",
+                data: { name: "p" },
                 type: "Block"
             }]
         },
@@ -1331,7 +1348,8 @@ ruleTester.run("valid-jsdoc", rule, {
             output: null,
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Missing JSDoc for parameter 'a'.",
+                messageId: "missingParam",
+                data: { name: "a" },
                 type: "Block"
             }]
         },
@@ -1340,7 +1358,8 @@ ruleTester.run("valid-jsdoc", rule, {
             output: null,
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Expected JSDoc for 'b' but found 'a'.",
+                messageId: "expected",
+                data: { name: "b", jsdocName: "a" },
                 type: "Block",
                 line: 3,
                 column: 3,
@@ -1348,7 +1367,8 @@ ruleTester.run("valid-jsdoc", rule, {
                 endColumn: 32
             },
             {
-                message: "Expected JSDoc for 'a' but found 'b'.",
+                messageId: "expected",
+                data: { name: "a", jsdocName: "b" },
                 type: "Block",
                 line: 4,
                 column: 3,
@@ -1360,10 +1380,12 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/**\n* Foo\n* @param {string} p desc\n* @param {string} p desc \n*/\nfunction foo(){}",
             output: null,
             errors: [{
-                message: "Missing JSDoc @returns for function.",
+                messageId: "missingReturn",
+                data: { returns: "returns" },
                 type: "Block"
             }, {
-                message: "Duplicate JSDoc parameter 'p'.",
+                messageId: "duplicateParam",
+                data: { name: "p" },
                 type: "Block",
                 line: 4,
                 column: 3,
@@ -1375,7 +1397,8 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/**\n* Foo\n* @param {string} a desc\n@returns {void}*/\nfunction foo(b){}",
             output: null,
             errors: [{
-                message: "Expected JSDoc for 'b' but found 'a'.",
+                messageId: "expected",
+                data: { name: "b", jsdocName: "a" },
                 type: "Block",
                 line: 3,
                 column: 3,
@@ -1387,7 +1410,8 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/**\n* Foo\n* @override\n* @param {string} a desc\n */\nfunction foo(b){}",
             output: null,
             errors: [{
-                message: "Expected JSDoc for 'b' but found 'a'.",
+                messageId: "expected",
+                data: { name: "b", jsdocName: "a" },
                 type: "Block",
                 line: 4,
                 column: 3,
@@ -1399,7 +1423,8 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/**\n* Foo\n* @inheritdoc\n* @param {string} a desc\n */\nfunction foo(b){}",
             output: null,
             errors: [{
-                message: "Expected JSDoc for 'b' but found 'a'.",
+                messageId: "expected",
+                data: { name: "b", jsdocName: "a" },
                 type: "Block",
                 line: 4,
                 column: 3,
@@ -1412,7 +1437,8 @@ ruleTester.run("valid-jsdoc", rule, {
             output: null,
             options: [{ requireReturn: false }],
             errors: [{
-                message: "Missing JSDoc @returns for function.",
+                messageId: "missingReturn",
+                data: { returns: "returns" },
                 type: "Block"
             }]
         },
@@ -1421,7 +1447,8 @@ ruleTester.run("valid-jsdoc", rule, {
             output: null,
             options: [{ requireReturn: false }],
             errors: [{
-                message: "Missing JSDoc @returns for function.",
+                messageId: "missingReturn",
+                data: { returns: "returns" },
                 type: "Block"
             }]
         },
@@ -1430,7 +1457,8 @@ ruleTester.run("valid-jsdoc", rule, {
             output: null,
             options: [{ requireReturn: false }],
             errors: [{
-                message: "Unexpected @returns tag; function has no return statement.",
+                messageId: "unexpectedTag",
+                data: { title: "returns" },
                 type: "Block",
                 line: 4,
                 column: 1,
@@ -1444,7 +1472,8 @@ ruleTester.run("valid-jsdoc", rule, {
             options: [{ prefer: { return: "returns" } }],
             parserOptions: { sourceType: "module" },
             errors: [{
-                message: "Use @returns instead.",
+                messageId: "use",
+                data: { name: "returns" },
                 type: "Block",
                 line: 4,
                 column: 3,
@@ -1458,7 +1487,8 @@ ruleTester.run("valid-jsdoc", rule, {
             options: [{ prefer: { return: "returns" } }],
             parserOptions: { sourceType: "module" },
             errors: [{
-                message: "Use @returns instead.",
+                messageId: "use",
+                data: { name: "returns" },
                 type: "Block",
                 line: 4,
                 column: 3,
@@ -1472,7 +1502,8 @@ ruleTester.run("valid-jsdoc", rule, {
             options: [{ requireReturn: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Missing JSDoc @returns for function.",
+                messageId: "missingReturn",
+                data: { returns: "returns" },
                 type: "Block"
             }]
         },
@@ -1482,7 +1513,8 @@ ruleTester.run("valid-jsdoc", rule, {
             options: [{ requireReturn: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Missing JSDoc @returns for function.",
+                messageId: "missingReturn",
+                data: { returns: "returns" },
                 type: "Block"
             }]
         },
@@ -1492,7 +1524,8 @@ ruleTester.run("valid-jsdoc", rule, {
             options: [{ requireReturn: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Unexpected @returns tag; function has no return statement.",
+                messageId: "unexpectedTag",
+                data: { title: "returns" },
                 type: "Block",
                 line: 1,
                 column: 5,
@@ -1505,11 +1538,13 @@ ruleTester.run("valid-jsdoc", rule, {
             output: null,
             errors: [
                 {
-                    message: "Missing JSDoc @returns for function.",
+                    messageId: "missingReturn",
+                    data: { returns: "returns" },
                     type: "Block"
                 },
                 {
-                    message: "Missing JSDoc parameter type for 'fields'.",
+                    messageId: "missingParamType",
+                    data: { name: "fields" },
                     type: "Block",
                     line: 2,
                     column: 3,
@@ -1525,7 +1560,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 matchDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
             }],
             errors: [{
-                message: "JSDoc description does not satisfy the regex pattern.",
+                messageId: "unsatisfiedDesc",
                 type: "Block"
             }]
         },
@@ -1534,7 +1569,7 @@ ruleTester.run("valid-jsdoc", rule, {
             output: null,
             options: [{ prefer: { return: "return" } }],
             errors: [{
-                message: "Missing JSDoc return type.",
+                messageId: "missingReturnType",
                 type: "Block"
             }]
         },
@@ -1546,7 +1581,8 @@ ruleTester.run("valid-jsdoc", rule, {
                 requireReturn: false
             }],
             errors: [{
-                message: "Unexpected @return tag; function has no return statement.",
+                messageId: "unexpectedTag",
+                data: { title: "return" },
                 type: "Block",
                 line: 2,
                 column: 1,
@@ -1580,11 +1616,11 @@ ruleTester.run("valid-jsdoc", rule, {
             },
             errors: [
                 {
-                    message: "JSDoc description does not satisfy the regex pattern.",
+                    messageId: "unsatisfiedDesc",
                     type: "Block"
                 },
                 {
-                    message: "JSDoc description does not satisfy the regex pattern.",
+                    messageId: "unsatisfiedDesc",
                     type: "Block"
                 }
             ]
@@ -1613,11 +1649,12 @@ ruleTester.run("valid-jsdoc", rule, {
             },
             errors: [
                 {
-                    message: "JSDoc description does not satisfy the regex pattern.",
+                    messageId: "unsatisfiedDesc",
                     type: "Block"
                 },
                 {
-                    message: "Missing JSDoc @returns for function.",
+                    messageId: "missingReturn",
+                    data: { returns: "returns" },
                     type: "Block"
                 }
             ]
@@ -1650,11 +1687,13 @@ ruleTester.run("valid-jsdoc", rule, {
             },
             errors: [
                 {
-                    message: "Missing JSDoc @returns for function.",
+                    messageId: "missingReturn",
+                    data: { returns: "returns" },
                     type: "Block"
                 },
                 {
-                    message: "Missing JSDoc for parameter 'xs'.",
+                    messageId: "missingParam",
+                    data: { name: "xs" },
                     type: "Block"
                 }
             ]
@@ -1669,7 +1708,7 @@ ruleTester.run("valid-jsdoc", rule, {
             output: null,
             options: [{ requireReturn: false }],
             errors: [{
-                message: "JSDoc type missing brace.",
+                messageId: "missingBrace",
                 type: "Block"
             }]
         },
@@ -1683,7 +1722,7 @@ ruleTester.run("valid-jsdoc", rule, {
             output: null,
             options: [{ requireReturn: false }],
             errors: [{
-                message: "JSDoc syntax error.",
+                messageId: "syntaxError",
                 type: "Block"
             }]
         },
@@ -1701,7 +1740,8 @@ ruleTester.run("valid-jsdoc", rule, {
                 ecmaVersion: 2017
             },
             errors: [{
-                message: "Missing JSDoc @returns for function.",
+                messageId: "missingReturn",
+                data: { returns: "returns" },
                 type: "Block"
             }]
         },
@@ -1730,7 +1770,8 @@ ruleTester.run("valid-jsdoc", rule, {
             }],
             errors: [
                 {
-                    message: "Use 'string' instead of 'String'.",
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
                     type: "Block",
                     line: 3,
                     column: 11,
@@ -1738,7 +1779,8 @@ ruleTester.run("valid-jsdoc", rule, {
                     endColumn: 17
                 },
                 {
-                    message: "Use 'ASTNode' instead of 'Astnode'.",
+                    messageId: "useType",
+                    data: { expectedTypeName: "ASTNode", currentTypeName: "Astnode" },
                     type: "Block",
                     line: 4,
                     column: 13,
@@ -1770,7 +1812,8 @@ ruleTester.run("valid-jsdoc", rule, {
             }],
             errors: [
                 {
-                    message: "Use 'string' instead of 'String'.",
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
                     type: "Block",
                     line: 3,
                     column: 15,
@@ -1778,7 +1821,8 @@ ruleTester.run("valid-jsdoc", rule, {
                     endColumn: 21
                 },
                 {
-                    message: "Use 'ASTNode' instead of 'Astnode'.",
+                    messageId: "useType",
+                    data: { expectedTypeName: "ASTNode", currentTypeName: "Astnode" },
                     type: "Block",
                     line: 4,
                     column: 13,
@@ -1809,7 +1853,8 @@ ruleTester.run("valid-jsdoc", rule, {
             }],
             errors: [
                 {
-                    message: "Use 'Test' instead of 'test'.",
+                    messageId: "useType",
+                    data: { expectedTypeName: "Test", currentTypeName: "test" },
                     type: "Block",
                     line: 3,
                     column: 25,
@@ -1841,7 +1886,8 @@ ruleTester.run("valid-jsdoc", rule, {
             }],
             errors: [
                 {
-                    message: "Use 'string' instead of 'String'.",
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
                     type: "Block",
                     line: 3,
                     column: 18,
@@ -1873,7 +1919,8 @@ ruleTester.run("valid-jsdoc", rule, {
             }],
             errors: [
                 {
-                    message: "Use 'number' instead of 'Number'.",
+                    messageId: "useType",
+                    data: { expectedTypeName: "number", currentTypeName: "Number" },
                     type: "Block",
                     line: 3,
                     column: 23,
@@ -1881,7 +1928,8 @@ ruleTester.run("valid-jsdoc", rule, {
                     endColumn: 29
                 },
                 {
-                    message: "Use 'number' instead of 'Number'.",
+                    messageId: "useType",
+                    data: { expectedTypeName: "number", currentTypeName: "Number" },
                     type: "Block",
                     line: 3,
                     column: 38,
@@ -1889,7 +1937,8 @@ ruleTester.run("valid-jsdoc", rule, {
                     endColumn: 44
                 },
                 {
-                    message: "Use 'string' instead of 'String'.",
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
                     type: "Block",
                     line: 4,
                     column: 30,
@@ -1921,7 +1970,8 @@ ruleTester.run("valid-jsdoc", rule, {
             }],
             errors: [
                 {
-                    message: "Use 'string' instead of 'String'.",
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
                     type: "Block",
                     line: 3,
                     column: 19,
@@ -1929,7 +1979,8 @@ ruleTester.run("valid-jsdoc", rule, {
                     endColumn: 25
                 },
                 {
-                    message: "Use 'number' instead of 'Number'.",
+                    messageId: "useType",
+                    data: { expectedTypeName: "number", currentTypeName: "Number" },
                     type: "Block",
                     line: 3,
                     column: 27,
@@ -1937,7 +1988,8 @@ ruleTester.run("valid-jsdoc", rule, {
                     endColumn: 33
                 },
                 {
-                    message: "Use 'string' instead of 'String'.",
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
                     type: "Block",
                     line: 4,
                     column: 21,
@@ -1945,7 +1997,8 @@ ruleTester.run("valid-jsdoc", rule, {
                     endColumn: 27
                 },
                 {
-                    message: "Use 'string' instead of 'String'.",
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
                     type: "Block",
                     line: 4,
                     column: 29,
@@ -1978,7 +2031,8 @@ ruleTester.run("valid-jsdoc", rule, {
             }],
             errors: [
                 {
-                    message: "Use 'Object' instead of 'object'.",
+                    messageId: "useType",
+                    data: { expectedTypeName: "Object", currentTypeName: "object" },
                     type: "Block",
                     line: 3,
                     column: 11,
@@ -1986,7 +2040,8 @@ ruleTester.run("valid-jsdoc", rule, {
                     endColumn: 17
                 },
                 {
-                    message: "Use 'string' instead of 'String'.",
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
                     type: "Block",
                     line: 3,
                     column: 18,
@@ -1994,7 +2049,8 @@ ruleTester.run("valid-jsdoc", rule, {
                     endColumn: 24
                 },
                 {
-                    message: "Use 'Object' instead of 'object'.",
+                    messageId: "useType",
+                    data: { expectedTypeName: "Object", currentTypeName: "object" },
                     type: "Block",
                     line: 3,
                     column: 25,
@@ -2002,7 +2058,8 @@ ruleTester.run("valid-jsdoc", rule, {
                     endColumn: 31
                 },
                 {
-                    message: "Use 'string' instead of 'String'.",
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
                     type: "Block",
                     line: 3,
                     column: 32,
@@ -2010,7 +2067,8 @@ ruleTester.run("valid-jsdoc", rule, {
                     endColumn: 38
                 },
                 {
-                    message: "Use 'number' instead of 'Number'.",
+                    messageId: "useType",
+                    data: { expectedTypeName: "number", currentTypeName: "Number" },
                     type: "Block",
                     line: 3,
                     column: 40,
@@ -2044,7 +2102,8 @@ ruleTester.run("valid-jsdoc", rule, {
             }],
             errors: [
                 {
-                    message: "Use 'string' instead of 'String'.",
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
                     type: "Block",
                     line: 3,
                     column: 16,

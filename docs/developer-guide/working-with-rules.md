@@ -26,6 +26,8 @@ Here is the basic format of the source file for a rule:
 
 module.exports = {
     meta: {
+        type: "suggestion",
+
         docs: {
             description: "disallow unnecessary semicolons",
             category: "Possible Errors",
@@ -49,6 +51,11 @@ The source file for a rule exports an object with the following properties.
 
 `meta` (object) contains metadata for the rule:
 
+* `type` (string) indicates the type of rule, which is one of `"problem"`, `"suggestion"`, or `"layout"`:
+    * `"problem"` means the rule is identifying code that either will cause an error or may cause a confusing behavior. Developers should consider this a high priority to resolve.
+    * `"suggestion"` means the rule is identifying something that could be done in a better way but no errors will occur if the code isn't changed.
+    * `"layout"` means the rule cares primarily about whitespace, semicolons, commas, and parentheses, all the parts of the program that determine how the code looks rather than how it executes. These rules work on parts of the code that aren't specified in the AST.
+
 * `docs` (object) is required for core rules of ESLint:
 
     * `description` (string) provides the short description of the rule in the [rules index](../rules/)
@@ -65,6 +72,8 @@ The source file for a rule exports an object with the following properties.
 * `schema` (array) specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../user-guide/configuring.md#configuring-rules)
 
 * `deprecated` (boolean) indicates whether the rule has been deprecated.  You may omit the `deprecated` property if the rule has not been deprecated.
+
+* `replacedBy` (array) in the case of a deprecated rule, specifies replacement rule(s)
 
 `create` (function) returns an object with methods that ESLint calls to "visit" nodes while traversing the abstract syntax tree (AST as defined by [ESTree](https://github.com/estree/estree)) of JavaScript code:
 
@@ -324,6 +333,7 @@ Best practices for fixes:
 
         ({ "foo": 1 })
         ```
+
     * This fixer can just select a quote type arbitrarily. If it guesses wrong, the resulting code will be automatically reported and fixed by the [`quotes`](/docs/rules/quotes.md) rule.
 
 ### context.options
@@ -396,16 +406,19 @@ Once you have an instance of `SourceCode`, you can use the methods on it to work
 * `commentsExistBetween(nodeOrToken1, nodeOrToken2)` - returns `true` if comments exist between two nodes.
 
 > `skipOptions` is an object which has 3 properties; `skip`, `includeComments`, and `filter`. Default is `{skip: 0, includeComments: false, filter: null}`.
+>
 > * `skip` is a positive integer, the number of skipping tokens. If `filter` option is given at the same time, it doesn't count filtered tokens as skipped.
 > * `includeComments` is a boolean value, the flag to include comment tokens into the result.
 > * `filter` is a function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
 >
 > `countOptions` is an object which has 3 properties; `count`, `includeComments`, and `filter`. Default is `{count: 0, includeComments: false, filter: null}`.
+>
 > * `count` is a positive integer, the maximum number of returning tokens.
 > * `includeComments` is a boolean value, the flag to include comment tokens into the result.
 > * `filter` is a function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
 >
 > `rangeOptions` is an object which has 1 property: `includeComments`.
+>
 > * `includeComments` is a boolean value, the flag to include comment tokens into the result.
 
 There are also some properties you can access:

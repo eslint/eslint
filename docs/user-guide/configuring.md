@@ -23,10 +23,10 @@ Please note that supporting JSX syntax is not the same as supporting React. Reac
 By the same token, supporting ES6 syntax is not the same as supporting new ES6 globals (e.g., new types such as
 `Set`).
 For ES6 syntax, use `{ "parserOptions": { "ecmaVersion": 6 } }`; for new ES6 global variables, use `{ "env":
-{ "es6": true } }` (this setting enables ES6 syntax automatically).
+{ "es6": true } }`. `{ env: { es6: true } }` enables ES6 syntax automatically, but `{ parserOptions: { ecmaVersion: 6 } }` does not enable ES6 globals automatically.
 Parser options are set in your `.eslintrc.*` file by using the `parserOptions` property. The available options are:
 
-* `ecmaVersion` - set to 3, 5 (default), 6, 7, 8, or 9 to specify the version of ECMAScript syntax you want to use. You can also set to 2015 (same as 6), 2016 (same as 7), 2017 (same as 8), or 2018 (same as 9) to use the year-based naming.
+* `ecmaVersion` - set to 3, 5 (default), 6, 7, 8, 9, or 10 to specify the version of ECMAScript syntax you want to use. You can also set to 2015 (same as 6), 2016 (same as 7), 2017 (same as 8), 2018 (same as 9), or 2019 (same as 10) to use the year-based naming.
 * `sourceType` - set to `"script"` (default) or `"module"` if your code is in ECMAScript modules.
 * `ecmaFeatures` - an object indicating which additional language features you'd like to use:
     * `globalReturn` - allow `return` statements in the global scope
@@ -45,7 +45,7 @@ Here's an example `.eslintrc.json` file:
         }
     },
     "rules": {
-        "semi": 2
+        "semi": "error"
     }
 }
 ```
@@ -81,7 +81,7 @@ The following parsers are compatible with ESLint:
 
 * [Esprima](https://www.npmjs.com/package/esprima)
 * [Babel-ESLint](https://www.npmjs.com/package/babel-eslint) - A wrapper around the [Babel](https://babeljs.io) parser that makes it compatible with ESLint.
-* [typescript-eslint-parser(Experimental)](https://www.npmjs.com/package/typescript-eslint-parser) - A parser that converts TypeScript into an ESTree-compatible form so it can be used in ESLint. The goal is to allow TypeScript files to be parsed by ESLint (though not necessarily pass all ESLint rules).
+* [@typescript-eslint/parser](https://www.npmjs.com/package/@typescript-eslint/parser) - A parser that converts TypeScript into an ESTree-compatible form so it can be used in ESLint.
 
 Note when using a custom parser, the `parserOptions` configuration property is still required for ESLint to work properly with features not in ECMAScript 5 by default. Parsers are all passed `parserOptions` and may or may not use them to determine which features to enable.
 
@@ -208,19 +208,19 @@ To specify globals using a comment inside of your JavaScript file, use the follo
 /* global var1, var2 */
 ```
 
-This defines two global variables, `var1` and `var2`. If you want to optionally specify that these global variables should never be written to (only read), then you can set each with a `false` flag:
+This defines two global variables, `var1` and `var2`. If you want to optionally specify that these global variables can be written to (rather than only being read), then you can set each with a `"writable"` flag:
 
 ```js
-/* global var1:false, var2:false */
+/* global var1:writable, var2:writable */
 ```
 
-To configure global variables inside of a configuration file, use the `globals` key and indicate the global variables you want to use. Set each global variable name equal to `true` to allow the variable to be overwritten or `false` to disallow overwriting. For example:
+To configure global variables inside of a configuration file, set the `globals` configuration property to an object containing keys named for each of the global variables you want to use. For each global variable key, set the corresponding value equal to `"writable"` to allow the variable to be overwritten or `"readonly"` to disallow overwriting. For example:
 
 ```json
 {
     "globals": {
-        "var1": true,
-        "var2": false
+        "var1": "writable",
+        "var2": "readonly"
     }
 }
 ```
@@ -230,11 +230,26 @@ And in YAML:
 ```yaml
 ---
   globals:
-    var1: true
-    var2: false
+    var1: writable
+    var2: readonly
 ```
 
 These examples allow `var1` to be overwritten in your code, but disallow it for `var2`.
+
+Globals can be disabled with the string `"off"`. For example, in an environment where most ES2015 globals are available but `Promise` is unavailable, you might use this config:
+
+```json
+{
+    "env": {
+        "es6": true
+    },
+    "globals": {
+        "Promise": "off"
+    }
+}
+```
+
+For historical reasons, the boolean value `false` and the string value `"readable"` are equivalent to `"readonly"`. Similarly, the boolean value `true` and the string value `"writeable"` are equivalent to `"writable"`. However, the use of older values is deprecated.
 
 **Note:** Enable the [no-global-assign](../rules/no-global-assign.md) rule to disallow modifications to read-only global variables in your code.
 
@@ -272,6 +287,8 @@ ESLint comes with a large number of rules. You can modify which rules your proje
 * `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
 * `"error"` or `2` - turn the rule on as an error (exit code is 1 when triggered)
 
+### Using Configuration Comments
+
 To configure rules inside of a file using configuration comments, use a comment in the following format:
 
 ```js
@@ -293,6 +310,8 @@ If a rule has additional options, you can specify them using array literal synta
 ```
 
 This comment specifies the "double" option for the [`quotes`](../rules/quotes) rule. The first item in the array is always the rule severity (number or string).
+
+### Using Configuration Files
 
 To configure rules inside of a configuration file, use the `rules` key along with an error level and any options you want to use. For example:
 
@@ -759,7 +778,7 @@ module.exports = {
 
 ## Configuration Based on Glob Patterns
 
-Sometimes a more fine-controlled configuration is necessary, for example if the configuration for files within the same directory has to be different. Therefore you can provide configurations under the `overrides` key that will only apply to files that match specific glob patterns, using the same format you would pass on the command line (e.g., `app/**/*.test.js`).
+<b>v4.1.0+.</b> Sometimes a more fine-controlled configuration is necessary, for example if the configuration for files within the same directory has to be different. Therefore you can provide configurations under the `overrides` key that will only apply to files that match specific glob patterns, using the same format you would pass on the command line (e.g., `app/**/*.test.js`).
 
 ### How it works
 
@@ -797,15 +816,15 @@ In your `.eslintrc.json`:
 ```json
 {
   "rules": {
-    "quotes": [ 2, "double" ]
+    "quotes": ["error", "double"]
   },
 
   "overrides": [
     {
-      "files": [ "bin/*.js", "lib/*.js" ],
+      "files": ["bin/*.js", "lib/*.js"],
       "excludedFiles": "*.test.js",
       "rules": {
-        "quotes": [ 2, "single" ]
+        "quotes": ["error", "single"]
       }
     }
   ]
@@ -835,6 +854,8 @@ Currently the sole method for telling ESLint which file extensions to lint is by
 
 ## Ignoring Files and Directories
 
+### `.eslintignore`
+
 You can tell ESLint to ignore specific files and directories by creating an `.eslintignore` file in your project's root directory. The `.eslintignore` file is a plain text file where each line is a glob pattern indicating which paths should be omitted from linting. For example, the following will omit all JavaScript files:
 
 ```text
@@ -846,9 +867,21 @@ When ESLint is run, it looks in the current working directory to find an `.eslin
 Globs are matched using [node-ignore](https://github.com/kaelzhang/node-ignore), so a number of features are available:
 
 * Lines beginning with `#` are treated as comments and do not affect ignore patterns.
-* Paths are relative to `.eslintignore` location or the current working directory. This also influences paths passed via `--ignore-pattern`.
-* Ignore patterns behave according to the `.gitignore` [specification](https://git-scm.com/docs/gitignore)
+* Paths are relative to `.eslintignore` location or the current working directory. This is also true of paths passed in via the `--ignore-pattern` [command](./command-line-interface.md#--ignore-pattern).
 * Lines preceded by `!` are negated patterns that re-include a pattern that was ignored by an earlier pattern.
+* Ignore patterns behave according to the `.gitignore` [specification](https://git-scm.com/docs/gitignore).
+
+Of particular note is that like `.gitignore` files, all paths used as patterns for both `.eslintignore` and `--ignore-pattern` must use forward slashes as their path separators.
+
+```text
+# Valid
+/root/src/*.js
+
+# Invalid
+\root\src\*.js
+```
+
+Please see `.gitignore`'s specification for further examples of valid syntax.
 
 In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `/node_modules/*` and `/bower_components/*`.
 

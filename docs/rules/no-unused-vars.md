@@ -4,16 +4,16 @@ Variables that are declared and not used anywhere in the code are most likely an
 
 ## Rule Details
 
-This rule is aimed at eliminating unused variables, functions, and parameters of functions.
+This rule is aimed at eliminating unused variables, functions, and function parameters.
 
-A variable is considered to be used if any of the following are true:
+A variable `foo` is considered to be used if any of the following are true:
 
-* It represents a function that is called (`doSomething()`)
-* It is read (`var y = x`)
-* It is passed into a function as an argument (`doSomething(x)`)
+* It is called (`foo()`) or constructed (`new foo()`)
+* It is read (`var bar = foo`)
+* It is passed into a function as an argument (`doSomething(foo)`)
 * It is read inside of a function that is passed to another function (`doSomething(function() { foo(); })`)
 
-A variable is *not* considered to be used if it is only ever assigned to (`var x = 5`) or declared.
+A variable is *not* considered to be used if it is only ever declared (`var foo = 5`) or assigned to (`foo = 7`).
 
 Examples of **incorrect** code for this rule:
 

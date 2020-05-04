@@ -25,6 +25,12 @@ const ALLOWED_FIRST_WORDS = [
 function getPropertyFromObject(property, node) {
     const properties = node.properties;
 
+    if (!Array.isArray(properties)) {
+
+        // if properties is not an array, "internal-no-invalid-meta" will already report this.
+        return null;
+    }
+
     for (let i = 0; i < properties.length; i++) {
         if (properties[i].key.name === property) {
             return properties[i];
@@ -109,7 +115,7 @@ module.exports = {
             category: "Internal",
             recommended: false
         },
-
+        type: "suggestion",
         schema: []
     },
 

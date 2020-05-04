@@ -290,7 +290,7 @@ If you don't want to enforce linebreaks between array elements, don't enable thi
 
 ## Compatibility
 
-* **JSCS:** [validateNewlineAfterArrayElements](http://jscs.info/rule/validateNewlineAfterArrayElements)
+* **JSCS:** [validateNewlineAfterArrayElements](https://jscs-dev.github.io/rule/validateNewlineAfterArrayElements)
 
 ## Related Rules
 

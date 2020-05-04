@@ -94,12 +94,12 @@ const NO_BREAK = "var greet = 'hello';console.log(greet);",
     NO_BLANK_BEFORE_CASE = "switch(a) {\ncase 0:\nvar foo;\ncase 1:}";
 
 const ALWAYS_ERROR = {
-    message: "Expected blank line after variable declarations.",
+    messageId: "expected",
     type: "VariableDeclaration"
 };
 
 const NEVER_ERROR = {
-    message: "Unexpected blank line after variable declarations.",
+    messageId: "unexpected",
     type: "VariableDeclaration"
 };
 

@@ -69,7 +69,7 @@ if (a) {
 This rule has an object option:
 
 * `"SwitchCase"` (default: 0) enforces indentation level for `case` clauses in `switch` statements
-* `"VariableDeclarator"` (default: 1) enforces indentation level for `var` declarators; can also take an object to define separate rules for `var`, `let` and `const` declarations.
+* `"VariableDeclarator"` (default: 1) enforces indentation level for `var` declarators; can also take an object to define separate rules for `var`, `let` and `const` declarations. It can also be `"first"`, indicating all the declarators should be aligned with the first declarator.
 * `"outerIIFEBody"` (default: 1) enforces indentation level for file-level IIFEs.
 * `"MemberExpression"` (default: 1) enforces indentation level for multi-line property chains. This can also be set to `"off"` to disable checking for MemberExpression indentation.
 * `"FunctionDeclaration"` takes an object to define rules for function declarations.
@@ -211,6 +211,40 @@ let a,
 const a = 1,
     b = 2,
     c = 3;
+```
+
+Examples of **incorrect** code for this rule with the `2, { "VariableDeclarator": "first" }` options:
+
+```js
+/*eslint indent: ["error", 2, { "VariableDeclarator": "first" }]*/
+/*eslint-env es6*/
+
+var a,
+  b,
+  c;
+let a,
+  b,
+  c;
+const a = 1,
+  b = 2,
+  c = 3;
+```
+
+Examples of **correct** code for this rule with the `2, { "VariableDeclarator": "first" }` options:
+
+```js
+/*eslint indent: ["error", 2, { "VariableDeclarator": "first" }]*/
+/*eslint-env es6*/
+
+var a,
+    b,
+    c;
+let a,
+    b,
+    c;
+const a = 1,
+      b = 2,
+      c = 3;
 ```
 
 Examples of **correct** code for this rule with the `2, { "VariableDeclarator": { "var": 2, "let": 2, "const": 3 } }` options:
@@ -661,4 +695,4 @@ if (foo) {
 ## Compatibility
 
 * **JSHint**: `indent`
-* **JSCS**: [validateIndentation](http://jscs.info/rule/validateIndentation)
+* **JSCS**: [validateIndentation](https://jscs-dev.github.io/rule/validateIndentation)

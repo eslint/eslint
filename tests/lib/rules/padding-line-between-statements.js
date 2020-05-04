@@ -19,7 +19,7 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 const MESSAGE_NEVER = "Unexpected blank line before this statement.";
 const MESSAGE_ALWAYS = "Expected blank line before this statement.";
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2017 } });
 
 ruleTester.run("padding-line-between-statements", rule, {
     valid: [
@@ -736,7 +736,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             parserOptions: { sourceType: "module" }
         },
         {
-            code: "export {a}\n\nfoo()",
+            code: "var a = 0; export {a}\n\nfoo()",
             options: [
                 { blankLine: "never", prev: "*", next: "*" },
                 { blankLine: "always", prev: "export", next: "*" }
@@ -811,6 +811,13 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: "function", next: "*" }
             ]
         },
+        {
+            code: "async function foo(){}\n\nfoo()",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "function", next: "*" }
+            ]
+        },
 
         //----------------------------------------------------------------------
         // if
@@ -842,6 +849,35 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "*", next: "*" },
                 { blankLine: "always", prev: "if", next: "*" }
+            ]
+        },
+
+        //----------------------------------------------------------------------
+        // iife
+        //----------------------------------------------------------------------
+
+        {
+            code: "(function(){\n})()\n\nvar a = 2;",
+            options: [
+                { blankLine: "always", prev: "iife", next: "*" }
+            ]
+        },
+        {
+            code: "+(function(){\n})()\n\nvar a = 2;",
+            options: [
+                { blankLine: "always", prev: "iife", next: "*" }
+            ]
+        },
+        {
+            code: "(function(){\n})()\nvar a = 2;",
+            options: [
+                { blankLine: "never", prev: "iife", next: "*" }
+            ]
+        },
+        {
+            code: "+(function(){\n})()\nvar a = 2;",
+            options: [
+                { blankLine: "never", prev: "iife", next: "*" }
             ]
         },
 
@@ -1032,6 +1068,204 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "*", next: "*" },
                 { blankLine: "always", prev: "with", next: "*" }
+            ]
+        },
+
+        //----------------------------------------------------------------------
+        // multiline-const
+        //----------------------------------------------------------------------
+
+        {
+            code: "const a={\nb:1,\nc:2\n}\n\nconst d=3",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "multiline-const", next: "*" }
+            ]
+        },
+        {
+            code: "const a=1\n\nconst b={\nc:2,\nd:3\n}",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "*", next: "multiline-const" }
+            ]
+        },
+        {
+            code: "const a=1\nconst b=2",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "multiline-const", next: "*" }
+            ]
+        },
+        {
+            code: "const a=1\nconst b=2",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "*", next: "multiline-const" }
+            ]
+        },
+
+        //----------------------------------------------------------------------
+        // multiline-let
+        //----------------------------------------------------------------------
+
+        {
+            code: "let a={\nb:1,\nc:2\n}\n\nlet d=3",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "multiline-let", next: "*" }
+            ]
+        },
+        {
+            code: "let a=1\n\nlet b={\nc:2,\nd:3\n}",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "*", next: "multiline-let" }
+            ]
+        },
+        {
+            code: "let a=1\nlet b=2",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "multiline-let", next: "*" }
+            ]
+        },
+        {
+            code: "let a=1\nlet b=2",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "*", next: "multiline-let" }
+            ]
+        },
+
+        //----------------------------------------------------------------------
+        // multiline-var
+        //----------------------------------------------------------------------
+
+        {
+            code: "var a={\nb:1,\nc:2\n}\n\nvar d=3",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "multiline-var", next: "*" }
+            ]
+        },
+        {
+            code: "var a=1\n\nvar b={\nc:2,\nd:3\n}",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "*", next: "multiline-var" }
+            ]
+        },
+        {
+            code: "var a=1\nvar b=2",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "multiline-var", next: "*" }
+            ]
+        },
+        {
+            code: "var a=1\nvar b=2",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "*", next: "multiline-var" }
+            ]
+        },
+
+        //----------------------------------------------------------------------
+        // singleline-const
+        //----------------------------------------------------------------------
+
+        {
+            code: "const a=1\n\nconst b=2",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "singleline-const", next: "*" }
+            ]
+        },
+        {
+            code: "const a=1\n\nconst b=2",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "*", next: "singleline-const" }
+            ]
+        },
+        {
+            code: "const a={\nb:1,\nc:2\n}\nconst d={\ne:3,\nf:4\n}",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "singleline-const", next: "*" }
+            ]
+        },
+        {
+            code: "const a={\nb:1,\nc:2\n}\nconst d={\ne:3,\nf:4\n}",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "*", next: "singleline-const" }
+            ]
+        },
+
+        //----------------------------------------------------------------------
+        // singleline-let
+        //----------------------------------------------------------------------
+
+        {
+            code: "let a=1\n\nlet b=2",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "singleline-let", next: "*" }
+            ]
+        },
+        {
+            code: "let a=1\n\nlet b=2",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "*", next: "singleline-let" }
+            ]
+        },
+        {
+            code: "let a={\nb:1,\nc:2\n}\nlet d={\ne:3,\nf:4\n}",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "singleline-let", next: "*" }
+            ]
+        },
+        {
+            code: "let a={\nb:1,\nc:2\n}\nlet d={\ne:3,\nf:4\n}",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "*", next: "singleline-let" }
+            ]
+        },
+
+        //----------------------------------------------------------------------
+        // singleline-var
+        //----------------------------------------------------------------------
+
+        {
+            code: "var a=1\n\nvar b=2",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "singleline-var", next: "*" }
+            ]
+        },
+        {
+            code: "var a=1\n\nvar b=2",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "*", next: "singleline-var" }
+            ]
+        },
+        {
+            code: "var a={\nb:1,\nc:2\n}\nvar d={\ne:3,\nf:4\n}",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "singleline-var", next: "*" }
+            ]
+        },
+        {
+            code: "var a={\nb:1,\nc:2\n}\nvar d={\ne:3,\nf:4\n}",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "*", next: "singleline-var" }
             ]
         },
 
@@ -3208,8 +3442,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             errors: [MESSAGE_NEVER]
         },
         {
-            code: "export {a}\n\nfoo()",
-            output: "export {a}\nfoo()",
+            code: "var a = 0;export {a}\n\nfoo()",
+            output: "var a = 0;export {a}\nfoo()",
             options: [
                 { blankLine: "never", prev: "export", next: "*" }
             ],
@@ -3235,8 +3469,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             errors: [MESSAGE_ALWAYS]
         },
         {
-            code: "export {a}\nfoo()",
-            output: "export {a}\n\nfoo()",
+            code: "var a = 0;export {a}\nfoo()",
+            output: "var a = 0;export {a}\n\nfoo()",
             options: [
                 { blankLine: "always", prev: "export", next: "*" }
             ],
@@ -3317,6 +3551,15 @@ ruleTester.run("padding-line-between-statements", rule, {
             ],
             errors: [MESSAGE_ALWAYS]
         },
+        {
+            code: "async function foo(){}\nfoo()",
+            output: "async function foo(){}\n\nfoo()",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "function", next: "*" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
 
         //----------------------------------------------------------------------
         // if
@@ -3351,6 +3594,43 @@ ruleTester.run("padding-line-between-statements", rule, {
             output: "if(a);else;\n\nfoo()",
             options: [
                 { blankLine: "always", prev: "if", next: "*" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+
+        //----------------------------------------------------------------------
+        // iife
+        //----------------------------------------------------------------------
+
+        {
+            code: "(function(){\n})()\n\nvar a = 2;",
+            output: "(function(){\n})()\nvar a = 2;",
+            options: [
+                { blankLine: "never", prev: "iife", next: "*" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "+(function(){\n})()\n\nvar a = 2;",
+            output: "+(function(){\n})()\nvar a = 2;",
+            options: [
+                { blankLine: "never", prev: "iife", next: "*" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "(function(){\n})()\nvar a = 2;",
+            output: "(function(){\n})()\n\nvar a = 2;",
+            options: [
+                { blankLine: "always", prev: "iife", next: "*" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+        {
+            code: "+(function(){\n})()\nvar a = 2;",
+            output: "+(function(){\n})()\n\nvar a = 2;",
+            options: [
+                { blankLine: "always", prev: "iife", next: "*" }
             ],
             errors: [MESSAGE_ALWAYS]
         },
@@ -3610,6 +3890,228 @@ ruleTester.run("padding-line-between-statements", rule, {
             output: "with(a);\n\nfoo()",
             options: [
                 { blankLine: "always", prev: "with", next: "*" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+
+        //----------------------------------------------------------------------
+        // multiline-const
+        //----------------------------------------------------------------------
+
+        {
+            code: "const a={\nb:1,\nc:2\n}\n\nconst d=3",
+            output: "const a={\nb:1,\nc:2\n}\nconst d=3",
+            options: [
+                { blankLine: "never", prev: "multiline-const", next: "*" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "const a={\nb:1,\nc:2\n}\nconst d=3",
+            output: "const a={\nb:1,\nc:2\n}\n\nconst d=3",
+            options: [
+                { blankLine: "always", prev: "multiline-const", next: "*" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+        {
+            code: "const a=1\n\nconst b={\nc:2,\nd:3\n}",
+            output: "const a=1\nconst b={\nc:2,\nd:3\n}",
+            options: [
+                { blankLine: "never", prev: "*", next: "multiline-const" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "const a=1\nconst b={\nc:2,\nd:3\n}",
+            output: "const a=1\n\nconst b={\nc:2,\nd:3\n}",
+            options: [
+                { blankLine: "always", prev: "*", next: "multiline-const" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+
+        //----------------------------------------------------------------------
+        // multiline-let
+        //----------------------------------------------------------------------
+
+        {
+            code: "let a={\nb:1,\nc:2\n}\n\nlet d=3",
+            output: "let a={\nb:1,\nc:2\n}\nlet d=3",
+            options: [
+                { blankLine: "never", prev: "multiline-let", next: "*" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "let a={\nb:1,\nc:2\n}\nlet d=3",
+            output: "let a={\nb:1,\nc:2\n}\n\nlet d=3",
+            options: [
+                { blankLine: "always", prev: "multiline-let", next: "*" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+        {
+            code: "let a=1\n\nlet b={\nc:2,\nd:3\n}",
+            output: "let a=1\nlet b={\nc:2,\nd:3\n}",
+            options: [
+                { blankLine: "never", prev: "*", next: "multiline-let" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "let a=1\nlet b={\nc:2,\nd:3\n}",
+            output: "let a=1\n\nlet b={\nc:2,\nd:3\n}",
+            options: [
+                { blankLine: "always", prev: "*", next: "multiline-let" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+
+        //----------------------------------------------------------------------
+        // multiline-var
+        //----------------------------------------------------------------------
+
+        {
+            code: "var a={\nb:1,\nc:2\n}\n\nvar d=3",
+            output: "var a={\nb:1,\nc:2\n}\nvar d=3",
+            options: [
+                { blankLine: "never", prev: "multiline-var", next: "*" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "var a={\nb:1,\nc:2\n}\nvar d=3",
+            output: "var a={\nb:1,\nc:2\n}\n\nvar d=3",
+            options: [
+                { blankLine: "always", prev: "multiline-var", next: "*" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+        {
+            code: "var a=1\n\nvar b={\nc:2,\nd:3\n}",
+            output: "var a=1\nvar b={\nc:2,\nd:3\n}",
+            options: [
+                { blankLine: "never", prev: "*", next: "multiline-var" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "var a=1\nvar b={\nc:2,\nd:3\n}",
+            output: "var a=1\n\nvar b={\nc:2,\nd:3\n}",
+            options: [
+                { blankLine: "always", prev: "*", next: "multiline-var" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+
+        //----------------------------------------------------------------------
+        // singleline-const
+        //----------------------------------------------------------------------
+
+        {
+            code: "const a=1\n\nconst b=2",
+            output: "const a=1\nconst b=2",
+            options: [
+                { blankLine: "never", prev: "singleline-const", next: "*" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "const a=1\nconst b=2",
+            output: "const a=1\n\nconst b=2",
+            options: [
+                { blankLine: "always", prev: "singleline-const", next: "*" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+        {
+            code: "const a=1\n\nconst b=2",
+            output: "const a=1\nconst b=2",
+            options: [
+                { blankLine: "never", prev: "*", next: "singleline-const" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "const a=1\nconst b=2",
+            output: "const a=1\n\nconst b=2",
+            options: [
+                { blankLine: "always", prev: "*", next: "singleline-const" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+
+        //----------------------------------------------------------------------
+        // singleline-let
+        //----------------------------------------------------------------------
+
+        {
+            code: "let a=1\n\nlet b=2",
+            output: "let a=1\nlet b=2",
+            options: [
+                { blankLine: "never", prev: "singleline-let", next: "*" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "let a=1\nlet b=2",
+            output: "let a=1\n\nlet b=2",
+            options: [
+                { blankLine: "always", prev: "singleline-let", next: "*" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+        {
+            code: "let a=1\n\nlet b=2",
+            output: "let a=1\nlet b=2",
+            options: [
+                { blankLine: "never", prev: "*", next: "singleline-let" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "let a=1\nlet b=2",
+            output: "let a=1\n\nlet b=2",
+            options: [
+                { blankLine: "always", prev: "*", next: "singleline-let" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+
+        //----------------------------------------------------------------------
+        // singleline-var
+        //----------------------------------------------------------------------
+
+        {
+            code: "var a=1\n\nvar b=2",
+            output: "var a=1\nvar b=2",
+            options: [
+                { blankLine: "never", prev: "singleline-var", next: "*" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "var a=1\nvar b=2",
+            output: "var a=1\n\nvar b=2",
+            options: [
+                { blankLine: "always", prev: "singleline-var", next: "*" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+        {
+            code: "var a=1\n\nvar b=2",
+            output: "var a=1\nvar b=2",
+            options: [
+                { blankLine: "never", prev: "*", next: "singleline-var" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "var a=1\nvar b=2",
+            output: "var a=1\n\nvar b=2",
+            options: [
+                { blankLine: "always", prev: "*", next: "singleline-var" }
             ],
             errors: [MESSAGE_ALWAYS]
         },
@@ -4226,6 +4728,14 @@ ruleTester.run("padding-line-between-statements", rule, {
         {
             code: "(function(){\n})()\n\nvar a = 2;",
             output: "(function(){\n})()\nvar a = 2;",
+            options: [
+                { blankLine: "never", prev: "block-like", next: "*" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "+(function(){\n})()\n\nvar a = 2;",
+            output: "+(function(){\n})()\nvar a = 2;",
             options: [
                 { blankLine: "never", prev: "block-like", next: "*" }
             ],

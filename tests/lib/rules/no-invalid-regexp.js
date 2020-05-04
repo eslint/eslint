@@ -46,6 +46,12 @@ ruleTester.run("no-invalid-regexp", rule, {
     invalid: [
         { code: "RegExp('[');", errors: [{ message: "Invalid regular expression: /[/: Unterminated character class.", type: "CallExpression" }] },
         { code: "RegExp('.', 'z');", errors: [{ message: "Invalid flags supplied to RegExp constructor 'z'.", type: "CallExpression" }] },
-        { code: "new RegExp(')');", errors: [{ message: "Invalid regular expression: /)/: Unmatched ')'.", type: "NewExpression" }] }
+        { code: "new RegExp(')');", errors: [{ message: "Invalid regular expression: /)/: Unmatched ')'.", type: "NewExpression" }] },
+
+        // https://github.com/eslint/eslint/issues/10861
+        {
+            code: String.raw`new RegExp('\\');`,
+            errors: [{ message: "Invalid regular expression: /\\/: \\ at end of pattern.", type: "NewExpression" }]
+        }
     ]
 });

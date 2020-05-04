@@ -21,6 +21,12 @@ const path = require("path");
 function getPropertyFromObject(property, node) {
     const properties = node.properties;
 
+    if (!Array.isArray(properties)) {
+
+        // if properties is not an array, "internal-no-invalid-meta" will already report this.
+        return null;
+    }
+
     for (let i = 0; i < properties.length; i++) {
         if (properties[i].key.name === property) {
             return properties[i];
@@ -47,6 +53,14 @@ function checkMetaDocsUrl(context, exportsNode) {
     const metaProperty = getPropertyFromObject("meta", exportsNode);
     const metaDocs = metaProperty && getPropertyFromObject("docs", metaProperty.value);
     const metaDocsUrl = metaDocs && getPropertyFromObject("url", metaDocs.value);
+
+    if (!metaDocs) {
+        context.report({
+            node: metaProperty,
+            message: "Rule is missing a meta.docs property"
+        });
+        return;
+    }
 
     if (!metaDocsUrl) {
         context.report({
@@ -80,7 +94,7 @@ module.exports = {
             category: "Internal",
             recommended: false
         },
-
+        type: "suggestion",
         schema: []
     },
 

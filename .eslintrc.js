@@ -21,13 +21,29 @@ module.exports = {
         "eslint-plugin/prefer-output-null": "error",
         "eslint-plugin/prefer-placeholders": "error",
         "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
+        "eslint-plugin/require-meta-type": "error",
         "eslint-plugin/test-case-property-ordering": "error",
         "eslint-plugin/test-case-shorthand-strings": "error",
-        "rulesdir/multiline-comment-style": "error",
-        "rulesdir/no-useless-catch": "error"
+        "rulesdir/multiline-comment-style": "error"
     },
     overrides: [
         {
+            files: ["lib/rules/*", "tools/internal-rules/*"],
+            rules: {
+                "rulesdir/no-invalid-meta": "error",
+                "rulesdir/consistent-docs-description": "error"
+
+                /*
+                 * TODO: enable it when all the rules using meta.messages
+                 * "rulesdir/consistent-meta-messages": "error"
+                 */
+            }
+        }, {
+            files: ["lib/rules/*"],
+            rules: {
+                "rulesdir/consistent-docs-url": "error"
+            }
+        }, {
             files: ["tests/**/*"],
             env: { mocha: true },
             rules: {

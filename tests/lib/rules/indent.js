@@ -25,7 +25,7 @@ const parser = require("../../fixtures/fixture-parser");
 /**
  * Create error message object for failure cases with a single 'found' indentation type
  * @param {string} providedIndentType indent type of string or tab
- * @param {array} providedErrors error info
+ * @param {Array} providedErrors error info
  * @returns {Object} returns the error messages collection
  * @private
  */
@@ -41,18 +41,17 @@ function expectedErrors(providedIndentType, providedErrors) {
         indentType = providedIndentType;
     }
 
-    return errors.map(err => {
-        let message;
-
-        if (typeof err[1] === "string" && typeof err[2] === "string") {
-            message = `Expected indentation of ${err[1]} but found ${err[2]}.`;
-        } else {
-            const chars = indentType + (err[1] === 1 ? "" : "s");
-
-            message = `Expected indentation of ${err[1]} ${chars} but found ${err[2]}.`;
-        }
-        return { message, type: err[3], line: err[0], endLine: err[0], column: 1, endColumn: parseInt(err[2], 10) + 1 };
-    });
+    return errors.map(err => ({
+        messageId: "wrongIndentation",
+        data: {
+            expected: typeof err[1] === "string" && typeof err[2] === "string"
+                ? err[1]
+                : `${err[1]} ${indentType}${err[1] === 1 ? "" : "s"}`,
+            actual: err[2]
+        },
+        type: err[3],
+        line: err[0]
+    }));
 }
 
 /**
@@ -64,7 +63,7 @@ function unIndent(strings) {
     const templateValue = strings[0];
     const lines = templateValue.replace(/^\n/, "").replace(/\n\s*$/, "").split("\n");
     const lineIndents = lines.filter(line => line.trim()).map(line => line.match(/ */)[0].length);
-    const minLineIndent = Math.min.apply(null, lineIndents);
+    const minLineIndent = Math.min(...lineIndents);
 
     return lines.map(line => line.slice(minLineIndent)).join("\n");
 }
@@ -270,6 +269,17 @@ ruleTester.run("indent", rule, {
                 }
             `,
             options: [4]
+        },
+        {
+
+            // https://github.com/eslint/eslint/issues/11802
+            code: unIndent`
+                import foo from "foo"
+
+                ;(() => {})()
+            `,
+            options: [4],
+            parserOptions: { sourceType: "module" }
         },
         {
             code: unIndent`
@@ -605,6 +615,24 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                let foo = 'foo',
+                    bar = bar;
+                const a = 'a',
+                      b = 'b';
+            `,
+            options: [2, { VariableDeclarator: "first" }]
+        },
+        {
+            code: unIndent`
+                let foo = 'foo',
+                    bar = bar  // <-- no semicolon here
+                const a = 'a',
+                      b = 'b'  // <-- no semicolon here
+            `,
+            options: [2, { VariableDeclarator: "first" }]
+        },
+        {
+            code: unIndent`
                 var foo = 1,
                     bar = 2,
                     baz = 3
@@ -620,6 +648,43 @@ ruleTester.run("indent", rule, {
                     ;
             `,
             options: [2, { VariableDeclarator: { var: 2 } }]
+        },
+        {
+            code: unIndent`
+                var foo = 'foo',
+                    bar = bar;
+            `,
+            options: [2, { VariableDeclarator: { var: "first" } }]
+        },
+        {
+            code: unIndent`
+                var foo = 'foo',
+                    bar = 'bar'  // <-- no semicolon here
+            `,
+            options: [2, { VariableDeclarator: { var: "first" } }]
+        },
+        {
+            code: unIndent`
+            let foo = 1,
+                bar = 2,
+                baz
+            `,
+            options: [2, { VariableDeclarator: "first" }]
+        },
+        {
+            code: unIndent`
+            let
+                foo
+            `,
+            options: [4, { VariableDeclarator: "first" }]
+        },
+        {
+            code: unIndent`
+            let foo = 1,
+                bar =
+                2
+            `,
+            options: [2, { VariableDeclarator: "first" }]
         },
         {
             code: unIndent`
@@ -1044,6 +1109,7 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                var foo = 0, bar = 0; baz = 0;
                 export {
                     foo,
                     bar,
@@ -3035,6 +3101,7 @@ ruleTester.run("indent", rule, {
         `,
         {
             code: unIndent`
+                var foo = 0, bar = 0, baz = 0;
                 export {
                     foo,
                     bar,
@@ -4748,6 +4815,7 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                var a = 0, b = 0, c = 0;
                 export default foo(
                     a,
                     b, {
@@ -4843,6 +4911,56 @@ ruleTester.run("indent", rule, {
                         2
                 }
             }
+        `,
+
+        //----------------------------------------------------------------------
+        // Comment alignment tests
+        //----------------------------------------------------------------------
+        unIndent`
+            if (foo) {
+            // Comment can align with code immediately above even if "incorrect" alignment
+                doSomething();
+            }
+        `,
+        unIndent`
+            if (foo) {
+                doSomething();
+            // Comment can align with code immediately below even if "incorrect" alignment
+            }
+        `,
+        unIndent`
+            if (foo) {
+                // Comment can be in correct alignment even if not aligned with code above/below
+            }
+        `,
+        unIndent`
+            if (foo) {
+
+                // Comment can be in correct alignment even if gaps between (and not aligned with) code above/below
+
+            }
+        `,
+        unIndent`
+            [{
+                foo
+            },
+
+            // Comment between nodes
+
+            {
+                bar
+            }];
+        `,
+        unIndent`
+            [{
+                foo
+            },
+
+            // Comment between nodes
+
+            { // comment
+                bar
+            }];
         `
     ],
 
@@ -5868,6 +5986,39 @@ ruleTester.run("indent", rule, {
                     rotate;
             `,
             options: [2, { VariableDeclarator: 2 }],
+            errors: expectedErrors([
+                [2, 4, 2, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                let foo = 'foo',
+                  bar = bar;
+                const a = 'a',
+                  b = 'b';
+            `,
+            output: unIndent`
+                let foo = 'foo',
+                    bar = bar;
+                const a = 'a',
+                      b = 'b';
+            `,
+            options: [2, { VariableDeclarator: "first" }],
+            errors: expectedErrors([
+                [2, 4, 2, "Identifier"],
+                [4, 6, 2, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                var foo = 'foo',
+                  bar = bar;
+            `,
+            output: unIndent`
+                var foo = 'foo',
+                    bar = bar;
+            `,
+            options: [2, { VariableDeclarator: { var: "first" } }],
             errors: expectedErrors([
                 [2, 4, 2, "Identifier"]
             ])
@@ -7472,6 +7623,7 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                var foo = 0, bar = 0, baz = 0;
                 export {
                 foo,
                   bar,
@@ -7479,6 +7631,7 @@ ruleTester.run("indent", rule, {
                 };
             `,
             output: unIndent`
+                var foo = 0, bar = 0, baz = 0;
                 export {
                     foo,
                     bar,
@@ -7486,10 +7639,11 @@ ruleTester.run("indent", rule, {
                 };
             `,
             parserOptions: { sourceType: "module" },
-            errors: expectedErrors([[2, 4, 0, "Identifier"], [3, 4, 2, "Identifier"]])
+            errors: expectedErrors([[3, 4, 0, "Identifier"], [4, 4, 2, "Identifier"]])
         },
         {
             code: unIndent`
+                var foo = 0, bar = 0, baz = 0;
                 export {
                 foo,
                   bar,
@@ -7497,6 +7651,7 @@ ruleTester.run("indent", rule, {
                 } from 'qux';
             `,
             output: unIndent`
+                var foo = 0, bar = 0, baz = 0;
                 export {
                     foo,
                     bar,
@@ -7504,7 +7659,7 @@ ruleTester.run("indent", rule, {
                 } from 'qux';
             `,
             parserOptions: { sourceType: "module" },
-            errors: expectedErrors([[2, 4, 0, "Identifier"], [3, 4, 2, "Identifier"]])
+            errors: expectedErrors([[3, 4, 0, "Identifier"], [4, 4, 2, "Identifier"]])
         },
         {
 
@@ -7926,6 +8081,7 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                var foo = 0, bar = 0, baz = 0;
                 export {
                 foo,
                         bar,
@@ -7933,6 +8089,7 @@ ruleTester.run("indent", rule, {
                 }
             `,
             output: unIndent`
+                var foo = 0, bar = 0, baz = 0;
                 export {
                     foo,
                     bar,
@@ -7940,7 +8097,7 @@ ruleTester.run("indent", rule, {
                 }
             `,
             parserOptions: { sourceType: "module" },
-            errors: expectedErrors([[2, 4, 0, "Identifier"], [3, 4, 8, "Identifier"], [4, 4, 2, "Identifier"]])
+            errors: expectedErrors([[3, 4, 0, "Identifier"], [4, 4, 8, "Identifier"], [5, 4, 2, "Identifier"]])
         },
         {
             code: unIndent`
@@ -9383,6 +9540,71 @@ ruleTester.run("indent", rule, {
                 }
             `,
             errors: expectedErrors([4, 12, 8, "Numeric"])
+        },
+
+        //----------------------------------------------------------------------
+        // Comment alignment tests
+        //----------------------------------------------------------------------
+        {
+            code: unIndent`
+                if (foo) {
+
+                // Comment cannot align with code immediately above if there is a whitespace gap
+                    doSomething();
+                }
+            `,
+            output: unIndent`
+                if (foo) {
+
+                    // Comment cannot align with code immediately above if there is a whitespace gap
+                    doSomething();
+                }
+            `,
+            errors: expectedErrors([3, 4, 0, "Line"])
+        },
+        {
+            code: unIndent`
+                if (foo) {
+                    foo(
+                        bar);
+                // Comment cannot align with code immediately below if there is a whitespace gap
+
+                }
+            `,
+            output: unIndent`
+                if (foo) {
+                    foo(
+                        bar);
+                    // Comment cannot align with code immediately below if there is a whitespace gap
+
+                }
+            `,
+            errors: expectedErrors([4, 4, 0, "Line"])
+        },
+        {
+            code: unIndent`
+                [{
+                    foo
+                },
+
+                    // Comment between nodes
+
+                {
+                    bar
+                }];
+            `,
+            output: unIndent`
+                [{
+                    foo
+                },
+
+                // Comment between nodes
+
+                {
+                    bar
+                }];
+            `,
+            errors: expectedErrors([5, 0, 4, "Line"])
         }
     ]
 });

@@ -16,6 +16,7 @@ const parser = require("../../fixtures/fixture-parser"),
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
+const error = { messageId: "missing", type: "NewExpression" };
 
 const ruleTester = new RuleTester();
 
@@ -34,47 +35,44 @@ ruleTester.run("new-parens", rule, {
         {
             code: "var a = new Date;",
             output: "var a = new Date();",
-            errors: [{ message: "Missing '()' invoking a constructor.", type: "NewExpression" }]
+            errors: [error]
         },
         {
             code: "var a = new Date",
             output: "var a = new Date()",
-            errors: [{ message: "Missing '()' invoking a constructor.", type: "NewExpression" }]
+            errors: [error]
         },
         {
             code: "var a = new (Date);",
             output: "var a = new (Date)();",
-            errors: [{ message: "Missing '()' invoking a constructor.", type: "NewExpression" }]
+            errors: [error]
         },
         {
             code: "var a = new (Date)",
             output: "var a = new (Date)()",
-            errors: [{ message: "Missing '()' invoking a constructor.", type: "NewExpression" }]
+            errors: [error]
         },
         {
             code: "var a = (new Date)",
             output: "var a = (new Date())",
-            errors: [{
-                message: "Missing '()' invoking a constructor.",
-                type: "NewExpression"
-            }]
+            errors: [error]
         },
         {
 
             // This `()` is `CallExpression`'s. This is a call of the result of `new Date`.
             code: "var a = (new Date)()",
             output: "var a = (new Date())()",
-            errors: [{ message: "Missing '()' invoking a constructor.", type: "NewExpression" }]
+            errors: [error]
         },
         {
             code: "var a = new foo.Bar;",
             output: "var a = new foo.Bar();",
-            errors: [{ message: "Missing '()' invoking a constructor.", type: "NewExpression" }]
+            errors: [error]
         },
         {
             code: "var a = (new Foo).bar;",
             output: "var a = (new Foo()).bar;",
-            errors: [{ message: "Missing '()' invoking a constructor.", type: "NewExpression" }]
+            errors: [error]
         }
     ]
 });

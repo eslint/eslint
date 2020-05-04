@@ -58,7 +58,7 @@ function override(keyword, value) {
  * @returns {string[]} An error message.
  */
 function expectedBefore(keyword) {
-    return [`Expected space(s) before "${keyword}".`];
+    return [{ messageId: "expectedBefore", data: { value: keyword } }];
 }
 
 /**
@@ -68,7 +68,7 @@ function expectedBefore(keyword) {
  * @returns {string[]} An error message.
  */
 function expectedAfter(keyword) {
-    return [`Expected space(s) after "${keyword}".`];
+    return [{ messageId: "expectedAfter", data: { value: keyword } }];
 }
 
 /**
@@ -80,8 +80,8 @@ function expectedAfter(keyword) {
  */
 function expectedBeforeAndAfter(keyword) {
     return [
-        `Expected space(s) before "${keyword}".`,
-        `Expected space(s) after "${keyword}".`
+        { messageId: "expectedBefore", data: { value: keyword } },
+        { messageId: "expectedAfter", data: { value: keyword } }
     ];
 }
 
@@ -92,7 +92,7 @@ function expectedBeforeAndAfter(keyword) {
  * @returns {string[]} An error message.
  */
 function unexpectedBefore(keyword) {
-    return [`Unexpected space(s) before "${keyword}".`];
+    return [{ messageId: "unexpectedBefore", data: { value: keyword } }];
 }
 
 /**
@@ -102,7 +102,7 @@ function unexpectedBefore(keyword) {
  * @returns {string[]} An error message.
  */
 function unexpectedAfter(keyword) {
-    return [`Unexpected space(s) after "${keyword}".`];
+    return [{ messageId: "unexpectedAfter", data: { value: keyword } }];
 }
 
 /**
@@ -114,8 +114,8 @@ function unexpectedAfter(keyword) {
  */
 function unexpectedBeforeAndAfter(keyword) {
     return [
-        `Unexpected space(s) before "${keyword}".`,
-        `Unexpected space(s) after "${keyword}".`
+        { messageId: "unexpectedBefore", data: { value: keyword } },
+        { messageId: "unexpectedAfter", data: { value: keyword } }
     ];
 }
 
@@ -561,16 +561,16 @@ ruleTester.run("keyword-spacing", rule, {
         // export
         //----------------------------------------------------------------------
 
-        { code: "{} export {a}", parserOptions: { sourceType: "module" } },
+        { code: "var a = 0; {} export {a}", parserOptions: { sourceType: "module" } },
         { code: "{} export default a", parserOptions: { sourceType: "module" } },
         { code: "{} export * from \"a\"", parserOptions: { sourceType: "module" } },
-        { code: "{}export{a}", options: [NEITHER], parserOptions: { sourceType: "module" } },
-        { code: "{} export {a}", options: [override("export", BOTH)], parserOptions: { sourceType: "module" } },
-        { code: "{}export{a}", options: [override("export", NEITHER)], parserOptions: { sourceType: "module" } },
+        { code: "var a = 0; {}export{a}", options: [NEITHER], parserOptions: { sourceType: "module" } },
+        { code: "var a = 0; {} export {a}", options: [override("export", BOTH)], parserOptions: { sourceType: "module" } },
+        { code: "var a = 0; {}export{a}", options: [override("export", NEITHER)], parserOptions: { sourceType: "module" } },
 
         // not conflict with `semi-spacing`
-        { code: ";export {a}", parserOptions: { sourceType: "module" } },
-        { code: "; export{a}", options: [NEITHER], parserOptions: { sourceType: "module" } },
+        { code: "var a = 0;\n;export {a}", parserOptions: { sourceType: "module" } },
+        { code: "var a = 0;\n; export{a}", options: [NEITHER], parserOptions: { sourceType: "module" } },
 
         //----------------------------------------------------------------------
         // extends
@@ -932,62 +932,62 @@ ruleTester.run("keyword-spacing", rule, {
         // super
         //----------------------------------------------------------------------
 
-        { code: "class A { a() { {} super[b](); } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { {}super[b](); } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { {} super[b](); } }", options: [override("super", BOTH)], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { {}super[b](); } }", options: [override("super", NEITHER)], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { a() { {} super[b](); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { a() { {}super[b](); } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { a() { {} super[b](); } }", options: [override("super", BOTH)], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { a() { {}super[b](); } }", options: [override("super", NEITHER)], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `array-bracket-spacing`
-        { code: "class A { a() { [super()]; } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { [ super() ]; } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { [super()]; } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { [ super() ]; } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `arrow-spacing`
-        { code: "class A { a() { () =>super(); } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { () => super(); } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { () =>super(); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { () => super(); } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
-        { code: "class A { a() {super()} }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() {super()} }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `comma-spacing`
-        { code: "class A { a() { (0,super()) } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { (0, super()) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { (0,super()) } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { (0, super()) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `computed-property-spacing`
-        { code: "class A { a() { ({[super()]: 0}) } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { ({[ super() ]: 0}) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ({[super()]: 0}) } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ({[ super() ]: 0}) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `key-spacing`
-        { code: "class A { a() { ({a:super() }) } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { ({a: super() }) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ({a:super() }) } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ({a: super() }) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `func-call-spacing`
-        { code: "class A { constructor() { super(); } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { constructor() { super (); } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { super(); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { super (); } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `semi-spacing`
-        { code: "class A { a() { ;super(); } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { ; super() ; } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ;super(); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ; super() ; } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-in-parens`
-        { code: "class A { a() { (super()) } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { ( super() ) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { (super()) } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ( super() ) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-infix-ops`
-        { code: "class A { a() { b =super() } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { b = super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { b =super() } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { b = super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-unary-ops`
-        { code: "class A { a() { !super() } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { ! super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { !super() } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ! super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `template-curly-spacing`
-        { code: "class A { a() { `${super()}` } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { `${ super() }` } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { `${super()}` } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { `${ super() }` } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `jsx-curly-spacing`
-        { code: "class A { a() { <Foo onClick={super()} /> } }", parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "class A { a() { <Foo onClick={ super() } /> } }", options: [NEITHER], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
+        { code: "class A extends B { constructor() { <Foo onClick={super()} /> } }", parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
+        { code: "class A extends B { constructor() { <Foo onClick={ super() } /> } }", options: [NEITHER], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
 
         //----------------------------------------------------------------------
         // switch
@@ -2012,16 +2012,22 @@ ruleTester.run("keyword-spacing", rule, {
         //----------------------------------------------------------------------
 
         {
-            code: "{}export{a}",
-            output: "{} export {a}",
+            code: "var a = 0; {}export{a}",
+            output: "var a = 0; {} export {a}",
             parserOptions: { sourceType: "module" },
             errors: expectedBeforeAndAfter("export")
         },
         {
-            code: "{}export default a",
-            output: "{} export default a",
+            code: "var a = 0; {}export default a",
+            output: "var a = 0; {} export default a",
             parserOptions: { sourceType: "module" },
             errors: expectedBefore("export")
+        },
+        {
+            code: "var a = 0; export default{a}",
+            output: "var a = 0; export default {a}",
+            parserOptions: { sourceType: "module" },
+            errors: expectedAfter("default")
         },
         {
             code: "{}export* from \"a\"",
@@ -2030,22 +2036,22 @@ ruleTester.run("keyword-spacing", rule, {
             errors: expectedBeforeAndAfter("export")
         },
         {
-            code: "{} export {a}",
-            output: "{}export{a}",
+            code: "var a = 0; {} export {a}",
+            output: "var a = 0; {}export{a}",
             options: [NEITHER],
             parserOptions: { sourceType: "module" },
             errors: unexpectedBeforeAndAfter("export")
         },
         {
-            code: "{}export{a}",
-            output: "{} export {a}",
+            code: "var a = 0; {}export{a}",
+            output: "var a = 0; {} export {a}",
             options: [override("export", BOTH)],
             parserOptions: { sourceType: "module" },
             errors: expectedBeforeAndAfter("export")
         },
         {
-            code: "{} export {a}",
-            output: "{}export{a}",
+            code: "var a = 0; {} export {a}",
+            output: "var a = 0; {}export{a}",
             options: [override("export", NEITHER)],
             parserOptions: { sourceType: "module" },
             errors: unexpectedBeforeAndAfter("export")

@@ -1,10 +1,6 @@
 extends:
     - "eslint:recommended"
     - "plugin:node/recommended"
-
-plugins:
-    - "node"
-
 rules:
     array-bracket-spacing: "error"
     array-callback-return: "error"
@@ -54,9 +50,9 @@ rules:
     new-parens: "error"
     no-alert: "error"
     no-array-constructor: "error"
+    no-async-promise-executor: "error"
     no-buffer-constructor: "error"
     no-caller: "error"
-    no-catch-shadow: "error"
     no-confusing-arrow: "error"
     no-console: "error"
     no-delete-var: "error"
@@ -91,6 +87,7 @@ rules:
     no-path-concat: "error"
     no-process-exit: "error"
     no-proto: "error"
+    no-prototype-builtins: "error"
     no-redeclare: "error"
     no-restricted-properties: [
         "error",
@@ -121,6 +118,7 @@ rules:
     no-unused-vars: ["error", {vars: "all", args: "after-used"}]
     no-use-before-define: "error"
     no-useless-call: "error"
+    no-useless-catch: "error"
     no-useless-computed-key: "error"
     no-useless-concat: "error"
     no-useless-constructor: "error"
@@ -157,9 +155,10 @@ rules:
     prefer-rest-params: "error"
     prefer-spread: "error"
     prefer-template: "error"
-    quotes: ["error", "double"]
+    quotes: ["error", "double", {avoidEscape: true}]
     quote-props: ["error", "as-needed"]
     radix: "error"
+    require-atomic-updates: "error"
     require-jsdoc: "error"
     rest-spread-spacing: "error"
     semi: "error"
@@ -183,6 +182,7 @@ rules:
             "String": "string",
             "Number": "number",
             "Boolean": "boolean",
+            "array": "Array",
             "object": "Object",
             "function": "Function"
         }

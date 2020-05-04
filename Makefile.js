@@ -23,23 +23,11 @@ const lodash = require("lodash"),
     os = require("os"),
     path = require("path"),
     semver = require("semver"),
-    shell = require("shelljs"),
     ejs = require("ejs"),
     loadPerf = require("load-perf"),
     yaml = require("js-yaml");
 
-const cat = shell.cat;
-const cd = shell.cd;
-const cp = shell.cp;
-const echo = shell.echo;
-const exec = shell.exec;
-const exit = shell.exit;
-const find = shell.find;
-const ls = shell.ls;
-const mkdir = shell.mkdir;
-const pwd = shell.pwd;
-const rm = shell.rm;
-const test = shell.test;
+const { cat, cd, cp, echo, exec, exit, find, ls, mkdir, pwd, rm, test } = require("shelljs");
 
 //------------------------------------------------------------------------------
 // Settings
@@ -68,7 +56,7 @@ const NODE = "node ", // intentional extra space
     BUILD_DIR = "./build/",
     DOCS_DIR = "../eslint.github.io/docs",
     SITE_DIR = "../eslint.github.io/",
-    PERF_TMP_DIR = path.join(os.tmpdir(), "eslint", "performance"),
+    PERF_TMP_DIR = path.join(TEMP_DIR, "eslint", "performance"),
 
     // Utilities - intentional extra space at the end of each string
     MOCHA = `${NODE_MODULES}mocha/bin/_mocha `,
@@ -130,27 +118,6 @@ function fileType(extension) {
 }
 
 /**
- * Generates a static file that includes each rule by name rather than dynamically
- * looking up based on directory. This is used for the browser version of ESLint.
- * @param {string} basedir The directory in which to look for code.
- * @returns {void}
- */
-function generateRulesIndex(basedir) {
-    let output = "module.exports = function() {\n";
-
-    output += "    var rules = Object.create(null);\n";
-
-    find(`${basedir}rules/`).filter(fileType("js")).forEach(filename => {
-        const basename = path.basename(filename, ".js");
-
-        output += `    rules["${basename}"] = require("./rules/${basename}");\n`;
-    });
-
-    output += "\n    return rules;\n};";
-    output.to(`${basedir}load-rules.js`);
-}
-
-/**
  * Executes a command and returns the output instead of printing it to stdout.
  * @param {string} cmd The command string to execute.
  * @returns {string} The result of the executed command.
@@ -162,10 +129,11 @@ function execSilent(cmd) {
 /**
  * Generates a release blog post for eslint.org
  * @param {Object} releaseInfo The release metadata.
+ * @param {string} [prereleaseMajorVersion] If this is a prerelease, the next major version after this prerelease
  * @returns {void}
  * @private
  */
-function generateBlogPost(releaseInfo) {
+function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
     const ruleList = ls("lib/rules")
 
         // Strip the .js extension
@@ -178,7 +146,7 @@ function generateBlogPost(releaseInfo) {
          */
         .sort((ruleA, ruleB) => ruleB.length - ruleA.length);
 
-    const renderContext = Object.assign({ prereleaseMajorVersion: null, ruleList }, releaseInfo);
+    const renderContext = Object.assign({ prereleaseMajorVersion, ruleList }, releaseInfo);
 
     const output = ejs.render(cat("./templates/blogpost.md.ejs"), renderContext),
         now = new Date(),
@@ -237,7 +205,7 @@ function generateRuleIndexPage(basedir) {
             if (rule.meta.deprecated) {
                 categoriesData.deprecated.rules.push({
                     name: basename,
-                    replacedBy: rule.meta.docs.replacedBy || []
+                    replacedBy: rule.meta.replacedBy || []
                 });
             } else {
                 const output = {
@@ -262,11 +230,12 @@ function generateRuleIndexPage(basedir) {
 }
 
 /**
- * Commits the changes in the site and publishes them to GitHub.
- * @param {string} [tag] The string to tag the commit with.
+ * Creates a git commit and tag in an adjacent `eslint.github.io` repository, without pushing it to
+ * the remote. This assumes that the repository has already been modified somehow (e.g. by adding a blogpost).
+ * @param {string} [tag] The string to tag the commit with
  * @returns {void}
  */
-function publishSite(tag) {
+function commitSiteToGit(tag) {
     const currentDir = pwd();
 
     cd(SITE_DIR);
@@ -278,38 +247,52 @@ function publishSite(tag) {
     }
 
     exec("git fetch origin && git rebase origin/master");
+    cd(currentDir);
+}
+
+/**
+ * Publishes the changes in an adjacent `eslint.github.io` repository to the remote. The
+ * site should already have local commits (e.g. from running `commitSiteToGit`).
+ * @returns {void}
+ */
+function publishSite() {
+    const currentDir = pwd();
+
+    cd(SITE_DIR);
     exec("git push origin master --tags");
     cd(currentDir);
 }
 
 /**
- * Creates a release version tag and pushes to origin.
- * @param {boolean} [ciRelease] Set to true to indicate this is a CI release.
+ * Updates the changelog, bumps the version number in package.json, creates a local git commit and tag,
+ * and generates the site in an adjacent `eslint.github.io` folder.
  * @returns {void}
  */
-function release(ciRelease) {
-
-    const releaseInfo = ReleaseOps.release(null, ciRelease);
+function generateRelease() {
+    ReleaseOps.generateRelease();
+    const releaseInfo = JSON.parse(cat(".eslint-release-info.json"));
 
     echo("Generating site");
     target.gensite();
     generateBlogPost(releaseInfo);
-    publishSite(`v${releaseInfo.version}`);
-    echo("Site has been published");
-
-    echo("Publishing to GitHub");
-    ReleaseOps.publishReleaseToGitHub(releaseInfo);
+    commitSiteToGit(`v${releaseInfo.version}`);
 }
 
 /**
- * Creates a prerelease version tag and pushes to origin.
+ * Updates the changelog, bumps the version number in package.json, creates a local git commit and tag,
+ * and generates the site in an adjacent `eslint.github.io` folder.
  * @param {string} prereleaseId The prerelease identifier (alpha, beta, etc.)
  * @returns {void}
  */
-function prerelease(prereleaseId) {
-
-    const releaseInfo = ReleaseOps.release(prereleaseId);
+function generatePrerelease(prereleaseId) {
+    ReleaseOps.generateRelease(prereleaseId);
+    const releaseInfo = JSON.parse(cat(".eslint-release-info.json"));
     const nextMajor = semver.inc(releaseInfo.version, "major");
+
+    echo("Generating site");
+
+    // always write docs into the next major directory (so 2.0.0-alpha.0 writes to 2.0.0)
+    target.gensite(nextMajor);
 
     /*
      * Premajor release should have identical "next major version".
@@ -325,26 +308,28 @@ function prerelease(prereleaseId) {
          * Blog post generation logic needs to be aware of this (as well as
          * know what the next major version is actually supposed to be).
          */
-        releaseInfo.prereleaseMajorVersion = nextMajor;
+        generateBlogPost(releaseInfo, nextMajor);
+    } else {
+        generateBlogPost(releaseInfo);
     }
 
-    echo("Generating site");
-
-    // always write docs into the next major directory (so 2.0.0-alpha.0 writes to 2.0.0)
-    target.gensite(nextMajor);
-    generateBlogPost(releaseInfo);
-    publishSite(`v${releaseInfo.version}`);
-    echo("Site has been published");
-
-    echo("Publishing to GitHub");
-    ReleaseOps.publishReleaseToGitHub(releaseInfo);
+    commitSiteToGit(`v${releaseInfo.version}`);
 }
 
+/**
+ * Publishes a generated release to npm and GitHub, and pushes changes to the adjacent `eslint.github.io` repo
+ * to remote repo.
+ * @returns {void}
+ */
+function publishRelease() {
+    ReleaseOps.publishRelease();
+    publishSite();
+}
 
 /**
  * Splits a command result to separate lines.
  * @param {string} result The command result string.
- * @returns {array} The separated lines.
+ * @returns {Array} The separated lines.
  */
 function splitCommandResultToLines(result) {
     return result.trim().split("\n");
@@ -410,7 +395,7 @@ function getFirstVersionOfDeletion(filePath) {
 
 /**
  * Lints Markdown files.
- * @param {array} files Array of file names to lint.
+ * @param {Array} files Array of file names to lint.
  * @returns {Object} exec-style exit code object.
  * @private
  */
@@ -660,10 +645,10 @@ target.gensite = function(prereleaseVersion) {
 
         if (test("-f", fullPath)) {
 
-            rm("-r", fullPath);
+            rm("-rf", fullPath);
 
             if (filePath.indexOf(".md") >= 0 && test("-f", htmlFullPath)) {
-                rm("-r", htmlFullPath);
+                rm("-rf", htmlFullPath);
             }
         }
     });
@@ -684,7 +669,7 @@ target.gensite = function(prereleaseVersion) {
     const rules = require(".").linter.getRules();
 
     const RECOMMENDED_TEXT = "\n\n(recommended) The `\"extends\": \"eslint:recommended\"` property in a configuration file enables this rule.";
-    const FIXABLE_TEXT = "\n\n(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) can automatically fix some of the problems reported by this rule.";
+    const FIXABLE_TEXT = "\n\n(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fixing-problems) can automatically fix some of the problems reported by this rule.";
 
     // 4. Loop through all files in temporary directory
     process.stdout.write("> Updating files (Steps 4-9): 0/... - ...\r");
@@ -702,6 +687,7 @@ target.gensite = function(prereleaseVersion) {
                 ruleName = path.basename(filename, ".md"),
                 filePath = path.join("docs", path.relative("tmp", filename));
             let text = cat(filename),
+                ruleType = "",
                 title;
 
             process.stdout.write(`> Updating files (Steps 4-9): ${i}/${length} - ${filePath + " ".repeat(30)}\r`);
@@ -720,8 +706,11 @@ target.gensite = function(prereleaseVersion) {
                 const ruleDocsContent = textSplit.slice(1).join("\n");
 
                 text = `${ruleHeading}${isRecommended ? RECOMMENDED_TEXT : ""}${isFixable ? FIXABLE_TEXT : ""}\n${ruleDocsContent}`;
-
                 title = `${ruleName} - Rules`;
+
+                if (rule && rule.meta) {
+                    ruleType = `rule_type: ${rule.meta.type}`;
+                }
             } else {
 
                 // extract the title from the file itself
@@ -738,6 +727,7 @@ target.gensite = function(prereleaseVersion) {
                 `title: ${title}`,
                 "layout: doc",
                 `edit_link: https://github.com/eslint/eslint/edit/master/${filePath}`,
+                ruleType,
                 "---",
                 "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",
                 "",
@@ -745,7 +735,7 @@ target.gensite = function(prereleaseVersion) {
             ].join("\n");
 
             // 6. Remove .md extension for relative links and change README to empty string
-            text = text.replace(/\((?!https?:\/\/)([^)]*?)\.md.*?\)/g, "($1)").replace("README.html", "");
+            text = text.replace(/\((?!https?:\/\/)([^)]*?)\.md(.*?)\)/g, "($1$2)").replace("README.html", "");
 
             // 7. Check if there's a trailing white line at the end of the file, if there isn't one, add it
             if (!/\n$/.test(text)) {
@@ -801,7 +791,7 @@ target.gensite = function(prereleaseVersion) {
 
     // 12. Delete temporary directory
     echo("> Removing the temporary directory (Step 12)");
-    rm("-r", TEMP_DIR);
+    rm("-rf", TEMP_DIR);
 
     // 13. Update demos, but only for non-prereleases
     if (!prereleaseVersion) {
@@ -830,34 +820,24 @@ target.browserify = function() {
         mkdir(BUILD_DIR);
     }
 
-    // 2. copy files into temp directory
-    cp("-r", "lib/*", TEMP_DIR);
+    // 2. browserify the temp directory
+    exec(`${getBinFile("browserify")} -x espree lib/linter.js -o ${BUILD_DIR}eslint.js -s eslint --global-transform [ babelify --presets [ @babel/preset-env ] ]`);
 
-    // 3. delete the load-rules.js file
-    rm(`${TEMP_DIR}load-rules.js`);
+    // 3. Browserify espree
+    exec(`${getBinFile("browserify")} -r espree -o ${TEMP_DIR}espree.js --global-transform [ babelify --presets [ @babel/preset-env ] ]`);
 
-    // 4. create new load-rule.js with hardcoded requires
-    generateRulesIndex(TEMP_DIR);
+    // 4. Concatenate Babel polyfill, Espree, and ESLint files together
+    cat("./node_modules/@babel/polyfill/dist/polyfill.js", `${TEMP_DIR}espree.js`, `${BUILD_DIR}eslint.js`).to(`${BUILD_DIR}eslint.js`);
 
-    // 5. browserify the temp directory
-    exec(`${getBinFile("browserify")} -x espree ${TEMP_DIR}linter.js -o ${BUILD_DIR}eslint.js -s eslint --global-transform [ babelify --presets [ es2015 ] ]`);
-
-    // 6. Browserify espree
-    exec(`${getBinFile("browserify")} -r espree -o ${TEMP_DIR}espree.js`);
-
-    // 7. Concatenate Babel polyfill, Espree, and ESLint files together
-    cat("./node_modules/babel-polyfill/dist/polyfill.js", `${TEMP_DIR}espree.js`, `${BUILD_DIR}eslint.js`).to(`${BUILD_DIR}eslint.js`);
-
-    // 8. remove temp directory
-    rm("-r", TEMP_DIR);
+    // 5. remove temp directory
+    rm("-rf", TEMP_DIR);
 };
 
 target.checkRuleFiles = function() {
 
     echo("Validating rules");
 
-    const eslintRecommended = require("./conf/eslint-recommended").rules;
-
+    const ruleTypes = require("./tools/rule-types.json");
     const ruleFiles = find("lib/rules/").filter(fileType("js"));
     let errors = 0;
 
@@ -866,12 +846,12 @@ target.checkRuleFiles = function() {
         const docFilename = `docs/rules/${basename}.md`;
 
         /**
-         * Check if basename is present in eslint:recommended configuration.
+         * Check if basename is present in rule-types.json file.
          * @returns {boolean} true if present
          * @private
          */
-        function isInConfig() {
-            return eslintRecommended.hasOwnProperty(basename);
+        function isInRuleTypes() {
+            return Object.prototype.hasOwnProperty.call(ruleTypes, basename);
         }
 
         /**
@@ -907,8 +887,19 @@ target.checkRuleFiles = function() {
         }
 
         // check for recommended configuration
-        if (!isInConfig()) {
-            console.error("Missing eslint:recommended setting for %s in conf/eslint-recommended.js", basename);
+        if (!isInRuleTypes()) {
+            console.error("Missing setting for %s in tools/rule-types.json", basename);
+            errors++;
+        }
+
+        // check parity between rules index file and rules directory
+        const builtInRulesIndexPath = "./lib/built-in-rules-index";
+        const ruleIdsInIndex = require(builtInRulesIndexPath);
+        const ruleEntryFromIndexIsMissing = !(basename in ruleIdsInIndex);
+
+        if (ruleEntryFromIndexIsMissing) {
+            console.error(`Missing rule from index (${builtInRulesIndexPath}.js): ${basename}. If you just added a ` +
+                "new rule then add an entry for it in this file.");
             errors++;
         }
 
@@ -1141,18 +1132,6 @@ target.perf = function() {
     });
 };
 
-target.release = function() {
-    release();
-};
-
-target.ciRelease = function() {
-    release(true);
-};
-
-target.publishsite = function() {
-    publishSite();
-};
-
-target.prerelease = function(args) {
-    prerelease(args[0]);
-};
+target.generateRelease = generateRelease;
+target.generatePrerelease = ([prereleaseType]) => generatePrerelease(prereleaseType);
+target.publishRelease = publishRelease;

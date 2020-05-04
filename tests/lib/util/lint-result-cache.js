@@ -28,7 +28,8 @@ describe("LintResultCache", () => {
         hashStub,
         sandbox,
         fakeConfigHelper,
-        fakeErrorResults;
+        fakeErrorResults,
+        fakeErrorResultsAutofix;
 
     before(() => {
         sandbox = sinon.sandbox.create();
@@ -39,13 +40,22 @@ describe("LintResultCache", () => {
 
         hashStub = sandbox.stub();
 
-        // Get lint results for test fixtures with and without errors
+        let shouldFix = false;
+
+        // Get lint results for test fixtures
         const cliEngine = new CLIEngine({
             cache: false,
-            globInputPaths: false
+            ignore: false,
+            globInputPaths: false,
+            fix: () => shouldFix
         });
 
+        // Get results without autofixing...
         fakeErrorResults = cliEngine.executeOnFiles([path.join(fixturePath, "test-with-errors.js")]).results[0];
+
+        // ...and with autofixing
+        shouldFix = true;
+        fakeErrorResultsAutofix = cliEngine.executeOnFiles([path.join(fixturePath, "test-with-errors.js")]).results[0];
 
         // Set up LintResultCache with fake fileEntryCache module
         LintResultCache = proxyquire("../../../lib/util/lint-result-cache", {
@@ -105,7 +115,10 @@ describe("LintResultCache", () => {
         beforeEach(() => {
             cacheEntry = {
                 meta: {
-                    results: fakeErrorResults,
+
+                    // Serialized results will have null source
+                    results: Object.assign({}, fakeErrorResults, { source: null }),
+
                     hashOfConfig
                 }
             };
@@ -170,6 +183,7 @@ describe("LintResultCache", () => {
                 const result = lintResultsCache.getCachedLintResults(filePath);
 
                 assert.deepStrictEqual(result, fakeErrorResults);
+                assert.ok(result.source, "source property should be hydrated from filesystem");
             });
         });
     });
@@ -211,6 +225,15 @@ describe("LintResultCache", () => {
             lintResultsCache = new LintResultCache(cacheFileLocation, fakeConfigHelper);
         });
 
+        describe("When lint result has output property", () => {
+            it("does not modify file entry", () => {
+                lintResultsCache.setCachedLintResults(filePath, fakeErrorResultsAutofix);
+
+                assert.notProperty(cacheEntry.meta, "results");
+                assert.notProperty(cacheEntry.meta, "hashOfConfig");
+            });
+        });
+
         describe("When file is not found on filesystem", () => {
             beforeEach(() => {
                 cacheEntry.notFound = true;
@@ -225,11 +248,45 @@ describe("LintResultCache", () => {
         });
 
         describe("When file is found on filesystem", () => {
-            it("stores results and hash of config in file entry", () => {
+            beforeEach(() => {
                 lintResultsCache.setCachedLintResults(filePath, fakeErrorResults);
+            });
 
-                assert.deepStrictEqual(cacheEntry.meta.results, fakeErrorResults);
+            it("stores hash of config in file entry", () => {
                 assert.strictEqual(cacheEntry.meta.hashOfConfig, hashOfConfig);
+            });
+
+            it("stores results (except source) in file entry", () => {
+                const expectedCachedResults = Object.assign(
+                    {},
+                    fakeErrorResults,
+                    { source: null }
+                );
+
+                assert.deepStrictEqual(cacheEntry.meta.results, expectedCachedResults);
+            });
+        });
+
+        describe("When file is found and empty", () => {
+            beforeEach(() => {
+                lintResultsCache.setCachedLintResults(
+                    filePath,
+                    Object.assign({}, fakeErrorResults, { source: "" })
+                );
+            });
+
+            it("stores hash of config in file entry", () => {
+                assert.strictEqual(cacheEntry.meta.hashOfConfig, hashOfConfig);
+            });
+
+            it("stores results (except source) in file entry", () => {
+                const expectedCachedResults = Object.assign(
+                    {},
+                    fakeErrorResults,
+                    { source: null }
+                );
+
+                assert.deepStrictEqual(cacheEntry.meta.results, expectedCachedResults);
             });
         });
     });
@@ -258,36 +315,6 @@ describe("LintResultCache", () => {
             lintResultsCache.reconcile();
 
             assert.isTrue(reconcileStub.calledOnce);
-        });
-    });
-
-    describe("removeEntry", () => {
-        const filePath = path.join(fixturePath, "test-with-errors.js");
-
-        let removeEntryStub,
-            lintResultsCache;
-
-        before(() => {
-            removeEntryStub = sandbox.stub();
-
-            fileEntryCacheStubs.create = () => ({
-                removeEntry: removeEntryStub
-            });
-        });
-
-        after(() => {
-            delete fileEntryCacheStubs.create;
-        });
-
-        beforeEach(() => {
-            lintResultsCache = new LintResultCache(cacheFileLocation, fakeConfigHelper);
-        });
-
-        it("calls removeEntry on the underlying cache", () => {
-            lintResultsCache.removeEntry(filePath);
-
-            assert.isTrue(removeEntryStub.calledOnce);
-            assert.isTrue(removeEntryStub.alwaysCalledWith(filePath));
         });
     });
 });

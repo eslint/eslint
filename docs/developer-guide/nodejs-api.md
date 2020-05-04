@@ -117,7 +117,8 @@ var messages = linter.verify("var foo;", {
 
 // or using SourceCode
 
-var linter = require("eslint").linter,
+var Linter = require("eslint").Linter,
+    linter = new Linter(),
     SourceCode = require("eslint").SourceCode;
 
 var code = new SourceCode("var foo = bar;", ast);
@@ -290,7 +291,7 @@ linter.defineParser("my-custom-parser", {
 const results = linter.verify("// some source text", { parser: "my-custom-parser" });
 ```
 
-### Linter#version
+### Linter#version/Linter.version
 
 Each instance of `Linter` has a `version` property containing the semantic version number of ESLint that the `Linter` instance is from.
 
@@ -299,6 +300,14 @@ const Linter = require("eslint").Linter;
 const linter = new Linter();
 
 linter.version; // => '4.5.0'
+```
+
+There is also a `Linter.version` property that you can read without instantiating `Linter`:
+
+```js
+const Linter = require("eslint").Linter;
+
+Linter.version; // => '4.5.0'
 ```
 
 ## linter
@@ -330,16 +339,17 @@ var CLIEngine = require("eslint").CLIEngine;
 The `CLIEngine` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
 * `allowInlineConfig` - Set to `false` to disable the use of configuration comments (such as `/*eslint-disable*/`). Corresponds to `--no-inline-config`.
-* `baseConfig` - Set to false to disable use of base config. Could be set to an object to override default base config as well.
+* `baseConfig` - Can optionally be set to a config object that has the same schema as `.eslintrc.*`. This will used as a default config, and will be merged with any configuration defined in `.eslintrc.*` files, with the `.eslintrc.*` files having precedence.
 * `cache` - Operate only on changed files (default: `false`). Corresponds to `--cache`.
 * `cacheFile` - Name of the file where the cache will be stored (default: `.eslintcache`). Corresponds to `--cache-file`. Deprecated: use `cacheLocation` instead.
 * `cacheLocation` - Name of the file or directory where the cache will be stored (default: `.eslintcache`). Corresponds to `--cache-location`.
 * `configFile` - The configuration file to use (default: null). If `useEslintrc` is true or not specified, this configuration will be merged with any configuration defined in `.eslintrc.*` files, with options in this configuration having precedence. Corresponds to `-c`.
 * `cwd` - Path to a directory that should be considered as the current working directory.
-* `envs` - An array of environments to load (default: empty array). Corresponds to `--env`.
-* `extensions` - An array of filename extensions that should be checked for code. The default is an array containing just `".js"`. Corresponds to `--ext`. It is only used in conjunction with directories, not with filenames or glob patterns.
-* `fix` - This can be a boolean or a function which will be provided each linting message and should return a boolean. True indicates that fixes should be included with the output report, and that errors and warnings should not be listed if they can be fixed. However, the files on disk will not be changed. To persist changes to disk, call [`outputFixes()`](#cliengineoutputfixes).
-* `globals` - An array of global variables to declare (default: empty array). Corresponds to `--global`.
+* `envs` - An array of environments to load (default: empty array). Corresponds to `--env`. Note: This differs from `.eslintrc.*` / `baseConfig`, where instead the option is called `env` and is an object.
+* `extensions` - An array of filename extensions that should be checked for code. The default is an array containing just `".js"`. Corresponds to `--ext`. It is only used in conjunction with directories, not with filenames, glob patterns or when using `executeOnText()`.
+* `fix` - A boolean or a function (default: `false`). If a function, it will be passed each linting message and should return a boolean indicating whether the fix should be included with the output report (errors and warnings will not be listed if fixed). Files on disk are never changed regardless of the value of `fix`. To persist changes to disk, call [`outputFixes()`](#cliengineoutputfixes).
+* `fixTypes` - An array of rule types for which fixes should be applied (default: `null`). This array acts like a filter, only allowing rules of the given types to apply fixes. Possible array values are `"problem"`, `"suggestion"`, and `"layout"`.
+* `globals` - An array of global variables to declare (default: empty array). Corresponds to `--global`, and similarly supports passing `'name:true'` to denote a writeable global. Note: This differs from `.eslintrc.*` / `baseConfig`, where `globals` is an object.
 * `ignore` - False disables use of `.eslintignore`, `ignorePath` and `ignorePattern` (default: true). Corresponds to `--no-ignore`.
 * `ignorePath` - The ignore file to use instead of `.eslintignore` (default: null). Corresponds to `--ignore-path`.
 * `ignorePattern` - Glob patterns for paths to ignore. String or array of strings.
@@ -352,7 +362,8 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 * `useEslintrc` - Set to false to disable use of `.eslintrc` files (default: true). Corresponds to `--no-eslintrc`.
 * `globInputPaths` - Set to false to skip glob resolution of input file paths to lint (default: true). If false, each input file paths is assumed to be a non-glob path to an existing file.
 
-
+To programmatically set `.eslintrc.*` options not supported above (such as `extends`,
+`overrides` and `settings`), define them in a config object passed to `baseConfig` instead.
 
 For example:
 
@@ -360,6 +371,12 @@ For example:
 var CLIEngine = require("eslint").CLIEngine;
 
 var cli = new CLIEngine({
+    baseConfig: {
+        extends: ["eslint-config-shared"],
+        settings: {
+            sharedData: "Hello"
+        }
+    },
     envs: ["browser", "mocha"],
     useEslintrc: false,
     rules: {
@@ -368,7 +385,13 @@ var cli = new CLIEngine({
 });
 ```
 
-In this code, a new `CLIEngine` instance is created that sets two environments, `"browser"` and `"mocha"`, disables loading of `.eslintrc` and `package.json` files, and enables the `semi` rule as an error. You can then call methods on `cli` and these options will be used to perform the correct action.
+In this example, a new `CLIEngine` instance is created that extends a configuration called
+`"eslint-config-shared"`, a setting named `"sharedData"` and two environments (`"browser"`
+and `"mocha"`) are defined, loading of `.eslintrc` and `package.json` files are disabled,
+and the `semi` rule enabled as an error. You can then call methods on `cli` and these options
+will be used to perform the correct action.
+
+Note: Currently `CLIEngine` does not validate options passed to it, but may start doing so in the future.
 
 ### CLIEngine#executeOnFiles()
 
@@ -415,7 +438,8 @@ The return value is an object containing the results of the linting operation. H
     errorCount: 1,
     warningCount: 0,
     fixableErrorCount: 1,
-    fixableWarningCount: 0
+    fixableWarningCount: 0,
+    usedDeprecatedRules: []
 }
 ```
 
@@ -473,6 +497,7 @@ var report = cli.executeOnFiles(["myfile.js", "lib/"]);
     warningCount: 0,
     fixableErrorCount: 1,
     fixableWarningCount: 0,
+    usedDeprecatedRules: []
 }
 ```
 
@@ -504,6 +529,7 @@ If the operation ends with a parsing error, you will get a single message for th
     warningCount: 0,
     fixableErrorCount: 0,
     fixableWarningCount: 0,
+    usedDeprecatedRules: []
 }
 ```
 
@@ -515,7 +541,10 @@ The top-level report object has a `results` array containing all linting results
 * `source` - The source code for the given file. This property is omitted if this file has no errors/warnings or if the `output` property is present.
 * `output` - The source code for the given file with as many fixes applied as possible, so you can use that to rewrite the files if necessary. This property is omitted if no fix is available.
 
-The top-level report object also has `errorCount` and `warningCount` which give the exact number of errors and warnings respectively on all the files.
+The top-level report object also has `errorCount` and `warningCount` which give the exact number of errors and warnings respectively on all the files. Additionally, `usedDeprecatedRules` signals any deprecated rules used and their replacement (if available). Specifically, it is array of objects with properties like so:
+
+* `ruleId` - The name of the rule (e.g. `indent-legacy`).
+* `replacedBy` - An array of rules that replace the deprecated rule (e.g. `["indent"]`).
 
 Once you get a report object, it's up to you to determine how to output the results. Fixes will not be automatically applied to the files, even if you set `fix: true` when constructing the `CLIEngine` instance. To apply fixes to the files, call [`outputFixes`](#cliengineoutputfixes).
 

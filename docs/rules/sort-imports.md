@@ -34,6 +34,7 @@ The `--fix` option on the command line automatically fixes some problems reporte
 This rule accepts an object with its properties as
 
 * `ignoreCase` (default: `false`)
+* `ignoreDeclarationSort` (default: `false`)
 * `ignoreMemberSort` (default: `false`)
 * `memberSyntaxSortOrder` (default: `["none", "all", "multiple", "single"]`); all 4 items must be present in the array, but you can change the order:
     * `none` = import module without exported bindings.
@@ -47,6 +48,7 @@ Default option settings are:
 {
     "sort-imports": ["error", {
         "ignoreCase": false,
+        "ignoreDeclarationSort": false,
         "ignoreMemberSort": false,
         "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
     }]
@@ -132,6 +134,34 @@ Examples of **correct** code for this rule with the `{ "ignoreCase": true }` opt
 import a from 'foo.js';
 import B from 'bar.js';
 import c from 'baz.js';
+```
+
+Default is `false`.
+
+### `ignoreDeclarationSort`
+
+Ignores the sorting of import declaration statements.
+
+Examples of **incorrect** code for this rule with the default `{ "ignoreDeclarationSort": false }` option:
+
+```js
+/*eslint sort-imports: ["error", { "ignoreDeclarationSort": false }]*/
+import b from 'foo.js'
+import a from 'bar.js'
+```
+
+Examples of **correct** code for this rule with the `{ "ignoreDeclarationSort": true }` option:
+
+```js
+/*eslint sort-imports: ["error", { "ignoreDeclarationSort": true }]*/
+import a from 'foo.js'
+import b from 'bar.js'
+```
+
+```js
+/*eslint sort-imports: ["error", { "ignoreDeclarationSort": true }]*/
+import b from 'foo.js'
+import a from 'bar.js'
 ```
 
 Default is `false`.

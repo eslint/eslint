@@ -31,9 +31,9 @@ const ALLOW_OPTIONS = Object.freeze([
  * Folds test items to `{valid: [], invalid: []}`.
  * One item would be converted to 4 valid patterns and 8 invalid patterns.
  *
- * @param {{valid: object[], invalid: object[]}} patterns - The result.
+ * @param {{valid: Object[], invalid: Object[]}} patterns - The result.
  * @param {{code: string, message: string, allow: string}} item - A test item.
- * @returns {{valid: object[], invalid: object[]}} The result.
+ * @returns {{valid: Object[], invalid: Object[]}} The result.
  */
 function toValidInvalid(patterns, item) {
 

@@ -55,6 +55,24 @@ ruleTester.run("no-constant-condition", rule, {
         "if(true && abc==='str' || def ==='str'){}",
         "if(true && typeof abc==='string'){}",
 
+        // #11181, string literals
+        "if('str' || a){}",
+        "if('str1' && a){}",
+        "if(a && 'str'){}",
+        "if('str' || abc==='str'){}",
+
+        // #11306
+        "if ((foo || 'bar') === 'baz') {}",
+        "if ((foo || 'bar') !== 'baz') {}",
+        "if ((foo || 'bar') == 'baz') {}",
+        "if ((foo || 'bar') != 'baz') {}",
+        "if ((foo || 233) > 666) {}",
+        "if ((foo || 233) < 666) {}",
+        "if ((foo || 233) >= 666) {}",
+        "if ((foo || 233) <= 666) {}",
+        "if ((key || 'k') in obj) {}",
+        "if ((foo || {}) instanceof obj) {}",
+
         // { checkLoops: false }
         { code: "while(true);", options: [{ checkLoops: false }] },
         { code: "for(;true;);", options: [{ checkLoops: false }] },
@@ -116,6 +134,12 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "if(false || true){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
         { code: "if(typeof abc==='str' || true){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
 
+        // #11181, string literals
+        { code: "if('str1' || 'str2'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+        { code: "if('str1' && 'str2'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+        { code: "if(abc==='str' || 'str'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+        { code: "if(a || 'str'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+
         {
             code: "function* foo(){while(true){} yield 'foo';}",
             errors: [{ messageId: "unexpected", type: "Literal" }]
@@ -150,6 +174,10 @@ ruleTester.run("no-constant-condition", rule, {
         },
         {
             code: "function foo() {while (true) {function* bar() {while (true) {yield;}}}}",
+            errors: [{ messageId: "unexpected", type: "Literal" }]
+        },
+        {
+            code: "function foo() {while (true) {const bar = function*() {while (true) {yield;}}}}",
             errors: [{ messageId: "unexpected", type: "Literal" }]
         },
         {

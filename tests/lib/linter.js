@@ -76,6 +76,14 @@ describe("Linter", () => {
         sandbox.verifyAndRestore();
     });
 
+    describe("Static Members", () => {
+        describe("version", () => {
+            it("should return same version as instance property", () => {
+                assert.strictEqual(Linter.version, linter.version);
+            });
+        });
+    });
+
     describe("when using events", () => {
         const code = TEST_CODE;
 
@@ -1116,10 +1124,15 @@ describe("Linter", () => {
     });
 
     describe("when evaluating code containing /*global */ and /*globals */ blocks", () => {
-        const code = "/*global a b:true c:false*/ function foo() {} /*globals d:true*/";
 
         it("variables should be available in global scope", () => {
-            const config = { rules: { checker: "error" } };
+            const config = { rules: { checker: "error" }, globals: { Array: "off", ConfigGlobal: "writeable" } };
+            const code = `
+                /*global a b:true c:false d:readable e:writeable Math:off */
+                function foo() {}
+                /*globals f:true*/
+                /* global ConfigGlobal : readable */
+            `;
             let spy;
 
             linter.defineRule("checker", context => {
@@ -1128,7 +1141,12 @@ describe("Linter", () => {
                     const a = getVariable(scope, "a"),
                         b = getVariable(scope, "b"),
                         c = getVariable(scope, "c"),
-                        d = getVariable(scope, "d");
+                        d = getVariable(scope, "d"),
+                        e = getVariable(scope, "e"),
+                        f = getVariable(scope, "f"),
+                        mathGlobal = getVariable(scope, "Math"),
+                        arrayGlobal = getVariable(scope, "Array"),
+                        configGlobal = getVariable(scope, "ConfigGlobal");
 
                     assert.strictEqual(a.name, "a");
                     assert.strictEqual(a.writeable, false);
@@ -1137,7 +1155,15 @@ describe("Linter", () => {
                     assert.strictEqual(c.name, "c");
                     assert.strictEqual(c.writeable, false);
                     assert.strictEqual(d.name, "d");
-                    assert.strictEqual(d.writeable, true);
+                    assert.strictEqual(d.writeable, false);
+                    assert.strictEqual(e.name, "e");
+                    assert.strictEqual(e.writeable, true);
+                    assert.strictEqual(f.name, "f");
+                    assert.strictEqual(f.writeable, true);
+                    assert.strictEqual(mathGlobal, null);
+                    assert.strictEqual(arrayGlobal, null);
+                    assert.strictEqual(configGlobal.name, "ConfigGlobal");
+                    assert.strictEqual(configGlobal.writeable, false);
                 });
 
                 return { Program: spy };
@@ -1438,6 +1464,26 @@ describe("Linter", () => {
                     assert.notStrictEqual(getVariable(scope, "Promise"), null);
                     assert.notStrictEqual(getVariable(scope, "Symbol"), null);
                     assert.notStrictEqual(getVariable(scope, "WeakMap"), null);
+                });
+
+                return { Program: spy };
+            });
+
+            linter.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+
+        it("ES6 global variables can be disabled when the es6 environment is enabled", () => {
+            const config = { rules: { checker: "error" }, globals: { Promise: "off", Symbol: "off", WeakMap: "off" }, env: { es6: true } };
+            let spy;
+
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+
+                    assert.strictEqual(getVariable(scope, "Promise"), null);
+                    assert.strictEqual(getVariable(scope, "Symbol"), null);
+                    assert.strictEqual(getVariable(scope, "WeakMap"), null);
                 });
 
                 return { Program: spy };
@@ -3388,7 +3434,7 @@ describe("Linter", () => {
                 "var u = /^.$/u.test('𠮷');",
                 "var y = /hello/y.test('hello');",
                 "function restParam(a, ...rest) {}",
-                "function superInFunc() { super.foo(); }",
+                "class B { superInFunc() { super.foo(); } }",
                 "var template = `hello, ${a}`;",
                 "var unicode = '\\u{20BB7}';"
             ].join("\n");

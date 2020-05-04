@@ -73,3 +73,7 @@ var {a = 0} = bar;
 
 function foo(a = 0) { }
 ```
+
+## When Not To Use It
+
+You can turn this rule off if you are not concerned with the consistency of spacing around infix operators.

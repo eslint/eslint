@@ -1,6 +1,9 @@
 ---
-name: New rule proposal
+name: "\U0001F680 New rule proposal"
 about: Propose a new rule to be added to ESLint
+title: ''
+labels: triage, rule, feature
+assignees: ''
 
 ---
 
@@ -21,9 +24,9 @@ about: Propose a new rule to be added to ESLint
 
 **What category of rule is this? (place an "X" next to just one item)**
 
-[ ] Enforces code style
-[ ] Warns about a potential error
-[ ] Suggests an alternate way of doing something
+[ ] Warns about a potential error (problem)
+[ ] Suggests an alternate way of doing something (suggestion)
+[ ] Enforces code style (layout)
 [ ] Other (please specify:)
 
 **Provide 2-3 code examples that this rule will warn about:**
@@ -35,3 +38,5 @@ about: Propose a new rule to be added to ESLint
 
 **Why should this rule be included in ESLint (instead of a plugin)?**
 
+
+**Are you willing to submit a pull request to implement this rule?**

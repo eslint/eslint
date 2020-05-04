@@ -33,87 +33,46 @@ const valid = [
     { code: "var someFunc = require('./someFunc'); someFunc(function(require) { return('bananas'); });" }
 ];
 
-const message = "Unexpected require().";
-const type = "CallExpression";
+const error = { messageId: "unexpected", type: "CallExpression" };
 
 const invalid = [
 
     // block statements
     {
         code: "if (process.env.NODE_ENV === 'DEVELOPMENT') {\n\trequire('debug');\n}",
-        errors: [{
-            line: 2,
-            column: 2,
-            message,
-            type
-        }]
+        errors: [error]
     },
     {
         code: "var x; if (y) { x = require('debug'); }",
-        errors: [{
-            line: 1,
-            column: 21,
-            message,
-            type
-        }]
+        errors: [error]
     },
     {
         code: "var x; if (y) { x = require('debug').baz; }",
-        errors: [{
-            line: 1,
-            column: 21,
-            message,
-            type
-        }]
+        errors: [error]
     },
     {
         code: "function x() { require('y') }",
-        errors: [{
-            line: 1,
-            column: 16,
-            message,
-            type
-        }]
+        errors: [error]
     },
     {
         code: "try { require('x'); } catch (e) { console.log(e); }",
-        errors: [{
-            line: 1,
-            column: 7,
-            message,
-            type
-        }]
+        errors: [error]
     },
 
     // non-block statements
     {
         code: "var getModule = x => require(x);",
         parserOptions: { ecmaVersion: 6 },
-        errors: [{
-            line: 1,
-            column: 22,
-            message,
-            type
-        }]
+        errors: [error]
     },
     {
         code: "var x = (x => require(x))('weird')",
         parserOptions: { ecmaVersion: 6 },
-        errors: [{
-            line: 1,
-            column: 15,
-            message,
-            type
-        }]
+        errors: [error]
     },
     {
         code: "switch(x) { case '1': require('1'); break; }",
-        errors: [{
-            line: 1,
-            column: 23,
-            message,
-            type
-        }]
+        errors: [error]
     }
 ];
 

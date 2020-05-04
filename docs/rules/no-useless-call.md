@@ -37,6 +37,7 @@ obj.foo.call(otherObj, 1, 2, 3);
 obj.foo.apply(otherObj, [1, 2, 3]);
 
 // The argument list is variadic.
+// Those are warned by the `prefer-spread` rule.
 foo.apply(undefined, args);
 foo.apply(null, args);
 obj.foo.apply(obj, args);
@@ -66,3 +67,7 @@ a[++i].foo.call(a[i], 1, 2, 3);
 ## When Not To Use It
 
 If you don't want to be notified about unnecessary `.call()` and `.apply()`, you can safely disable this rule.
+
+## Related Rules
+
+* [prefer-spread](prefer-spread.md)

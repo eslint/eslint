@@ -16,8 +16,11 @@ const rule = require("../../../lib/rules/wrap-iife"),
 // Tests
 //------------------------------------------------------------------------------
 
-
 const ruleTester = new RuleTester();
+
+const wrapInvocationError = { messageId: "wrapInvocation", type: "CallExpression" };
+const wrapExpressionError = { messageId: "wrapExpression", type: "CallExpression" };
+const moveInvocationError = { messageId: "moveInvocation", type: "CallExpression" };
 
 ruleTester.run("wrap-iife", rule, {
     valid: [
@@ -110,34 +113,34 @@ ruleTester.run("wrap-iife", rule, {
         {
             code: "0, function(){ }();",
             output: "0, (function(){ }());",
-            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression" }]
+            errors: [wrapInvocationError]
         },
         {
             code: "[function(){ }()];",
             output: "[(function(){ }())];",
-            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression" }]
+            errors: [wrapInvocationError]
         },
         {
             code: "var a = function(){ }();",
             output: "var a = (function(){ }());",
-            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression" }]
+            errors: [wrapInvocationError]
         },
         {
             code: "(function(){ }(), 0);",
             output: "((function(){ }()), 0);",
-            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression" }]
+            errors: [wrapInvocationError]
         },
         {
             code: "(function a(){ })();",
             output: "(function a(){ }());",
             options: ["outside"],
-            errors: [{ message: "Move the invocation into the parens that contain the function.", type: "CallExpression" }]
+            errors: [moveInvocationError]
         },
         {
             code: "(function a(){ }());",
             output: "(function a(){ })();",
             options: ["inside"],
-            errors: [{ message: "Wrap only the function expression in parens.", type: "CallExpression" }]
+            errors: [wrapExpressionError]
         },
         {
 
@@ -145,55 +148,55 @@ ruleTester.run("wrap-iife", rule, {
             code: "( /* a */ function /* b */ foo /* c */ ( /* d */ bar /* e */ ) /* f */ { /* g */ return; /* h */ } /* i */ ( /* j */ baz /* k */) /* l */ ) /* m */ ;",
             output: "( /* a */ function /* b */ foo /* c */ ( /* d */ bar /* e */ ) /* f */ { /* g */ return; /* h */ }) /* i */ ( /* j */ baz /* k */) /* l */  /* m */ ;",
             options: ["inside"],
-            errors: [{ message: "Wrap only the function expression in parens.", type: "CallExpression" }]
+            errors: [wrapExpressionError]
         },
         {
             code: "( /* a */ function /* b */ foo /* c */ ( /* d */ bar /* e */ ) /* f */ { /* g */ return; /* h */ } /* i */ ) /* j */ ( /* k */ baz /* l */) /* m */ ;",
             output: "( /* a */ function /* b */ foo /* c */ ( /* d */ bar /* e */ ) /* f */ { /* g */ return; /* h */ } /* i */  /* j */ ( /* k */ baz /* l */)) /* m */ ;",
             options: ["outside"],
-            errors: [{ message: "Move the invocation into the parens that contain the function.", type: "CallExpression" }]
+            errors: [moveInvocationError]
         },
         {
             code: "+function(){return 1;}()",
             output: "+(function(){return 1;}())",
             options: ["outside"],
-            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression" }]
+            errors: [wrapInvocationError]
         },
         {
             code: "+function(){return 1;}()",
             output: "+(function(){return 1;})()",
             options: ["inside"],
-            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression" }]
+            errors: [wrapInvocationError]
         },
         {
             code: "window.bar = function() { return 3; }.call(this, arg1);",
             output: "window.bar = (function() { return 3; }).call(this, arg1);",
             options: ["inside", { functionPrototypeMethods: true }],
-            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression" }]
+            errors: [wrapInvocationError]
         },
         {
             code: "window.bar = function() { return 3; }['call'](this, arg1);",
             output: "window.bar = (function() { return 3; })['call'](this, arg1);",
             options: ["inside", { functionPrototypeMethods: true }],
-            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression" }]
+            errors: [wrapInvocationError]
         },
         {
             code: "window.bar = function() { return 3; }.call(this, arg1);",
             output: "window.bar = (function() { return 3; }.call(this, arg1));",
             options: ["outside", { functionPrototypeMethods: true }],
-            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression" }]
+            errors: [wrapInvocationError]
         },
         {
             code: "window.bar = (function() { return 3; }.call(this, arg1));",
             output: "window.bar = (function() { return 3; }).call(this, arg1);",
             options: ["inside", { functionPrototypeMethods: true }],
-            errors: [{ message: "Wrap only the function expression in parens.", type: "CallExpression" }]
+            errors: [wrapExpressionError]
         },
         {
             code: "window.bar = (function() { return 3; }).call(this, arg1);",
             output: "window.bar = (function() { return 3; }.call(this, arg1));",
             options: ["outside", { functionPrototypeMethods: true }],
-            errors: [{ message: "Move the invocation into the parens that contain the function.", type: "CallExpression" }]
+            errors: [moveInvocationError]
         }
     ]
 });

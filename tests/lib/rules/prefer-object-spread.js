@@ -12,9 +12,6 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 
 const parserOptions = {
     ecmaVersion: 2018,
-    ecmaFeatures: {
-        experimentalObjectRestSpread: true
-    },
     sourceType: "module"
 };
 
@@ -809,6 +806,32 @@ ruleTester.run("prefer-object-spread", rule, {
                     type: "CallExpression",
                     line: 2,
                     column: 29
+                }
+            ]
+        },
+
+        // https://github.com/eslint/eslint/issues/10646
+        {
+            code: "Object.assign({ });",
+            output: "({});",
+            errors: [
+                {
+                    messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "Object.assign({\n});",
+            output: "({});",
+            errors: [
+                {
+                    messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 }
             ]
         }

@@ -46,6 +46,7 @@ Specifying rules and plugins:
 Fixing problems:
   --fix                          Automatically fix problems
   --fix-dry-run                  Automatically fix problems without saving the changes to the file system
+  --fix-type Array               Specify the types of fixes to apply (problem, suggestion, layout)
 
 Ignoring files:
   --ignore-path path::String     Specify path of ignore file
@@ -233,6 +234,24 @@ getSomeText | eslint --stdin --fix-dry-run --format=json
 
 This flag can be useful for integrations (e.g. editor plugins) which need to autofix text from the command line without saving it to the filesystem.
 
+#### `--fix-type`
+
+This option allows you to specify the type of fixes to apply when using either `--fix` or `--fix-dry-run`. The three types of fixes are:
+
+1. `problem` - fix potential errors in the code
+1. `suggestion` - apply fixes to the code that improve it
+1. `layout` - apply fixes that do not change the program structure (AST)
+
+You can specify one or more fix type on the command line. Here are some examples:
+
+```
+eslint --fix --fix-type suggestion .
+eslint --fix --fix-type suggestion --fix-type problem .
+eslint --fix --fix-type suggestion,layout .
+```
+
+This option is helpful if you are using another program to format your code but you would still like ESLint to apply other types of fixes.
+
 ### Ignoring files
 
 #### `--ignore-path`
@@ -254,12 +273,11 @@ Example:
 
 #### `--ignore-pattern`
 
-This option allows you to specify patterns of files to ignore (in addition to those in `.eslintignore`). You can repeat the option to provide multiple patterns. The supported syntax is the same as in the `.eslintignore` file. You should quote your patterns in order to avoid shell interpretation of glob patterns.
+This option allows you to specify patterns of files to ignore (in addition to those in `.eslintignore`). You can repeat the option to provide multiple patterns. The supported syntax is the same as for `.eslintignore` [files](./configuring.md#.eslintignore), which use the same patterns as the `.gitignore` [specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
 
 Example:
 
     eslint --ignore-pattern '/lib/' --ignore-pattern '/src/vendor/*' .
-
 
 ### Using stdin
 
@@ -402,7 +420,7 @@ Store the info about processed files in order to only operate on the changed one
 
 **Note:** If you run ESLint with `--cache` and then run ESLint without `--cache`, the `.eslintcache` file will be deleted. This is necessary because the results of the lint might change and make `.eslintcache` invalid. If you want to control when the cache file is deleted, then use `--cache-location` to specify an alternate location for the cache file.
 
-**Note:**: As of now, only the results for successfully linted files are stored in the cache. Files which fail linting are not stored in the cache, so they will be linted every time.
+**Note:**: Autofixed files are not placed in the cache. Subsequent linting that does not trigger an autofix will place it in the cache.
 
 #### `--cache-file`
 

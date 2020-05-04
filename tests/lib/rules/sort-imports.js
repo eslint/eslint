@@ -62,6 +62,14 @@ ruleTester.run("sort-imports", rule, {
         },
         "import {a, b, c, d} from 'foo.js';",
         {
+            code:
+                "import a from 'foo.js';\n" +
+                "import B from 'bar.js';",
+            options: [{
+                ignoreDeclarationSort: true
+            }]
+        },
+        {
             code: "import {b, A, C, d} from 'foo.js';",
             options: [{
                 ignoreMemberSort: true
@@ -170,6 +178,21 @@ ruleTester.run("sort-imports", rule, {
         {
             code: "import {b, a, d, c} from 'foo.js';",
             output: "import {a, b, c, d} from 'foo.js';",
+            errors: [{
+                message: "Member 'a' of the import declaration should be sorted alphabetically.",
+                type: "ImportSpecifier"
+            }]
+        },
+        {
+            code:
+                "import {b, a, d, c} from 'foo.js';\n" +
+                "import {e, f, g, h} from 'bar.js';",
+            output:
+                "import {a, b, c, d} from 'foo.js';\n" +
+                "import {e, f, g, h} from 'bar.js';",
+            options: [{
+                ignoreDeclarationSort: true
+            }],
             errors: [{
                 message: "Member 'a' of the import declaration should be sorted alphabetically.",
                 type: "ImportSpecifier"

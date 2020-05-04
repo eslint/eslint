@@ -29,15 +29,15 @@ ruleTester.run("max-depth", rule, {
         { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [{ max: 3 }] }
     ],
     invalid: [
-        { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [2], errors: [{ message: "Blocks are nested too deeply (3).", type: "IfStatement" }] },
-        { code: "var foo = () => { if (true) { if (false) { if (true) { } } } }", options: [2], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Blocks are nested too deeply (3).", type: "IfStatement" }] },
-        { code: "function foo() { if (true) {} else { for(;;) {} } }", options: [1], errors: [{ message: "Blocks are nested too deeply (2).", type: "ForStatement" }] },
-        { code: "function foo() { while (true) { if (true) {} } }", options: [1], errors: [{ message: "Blocks are nested too deeply (2).", type: "IfStatement" }] },
-        { code: "function foo() { for (let x of foo) { if (true) {} } }", options: [1], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Blocks are nested too deeply (2).", type: "IfStatement" }] },
-        { code: "function foo() { while (true) { if (true) { if (false) { } } } }", options: [1], errors: [{ message: "Blocks are nested too deeply (2).", type: "IfStatement" }, { message: "Blocks are nested too deeply (3).", type: "IfStatement" }] },
-        { code: "function foo() { if (true) { if (false) { if (true) { if (false) { if (true) { } } } } } }", errors: [{ message: "Blocks are nested too deeply (5).", type: "IfStatement" }] },
+        { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [2], errors: [{ messageId: "tooDeeply", data: { depth: 3 }, type: "IfStatement" }] },
+        { code: "var foo = () => { if (true) { if (false) { if (true) { } } } }", options: [2], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "tooDeeply", data: { depth: 3 }, type: "IfStatement" }] },
+        { code: "function foo() { if (true) {} else { for(;;) {} } }", options: [1], errors: [{ messageId: "tooDeeply", data: { depth: 2 }, type: "ForStatement" }] },
+        { code: "function foo() { while (true) { if (true) {} } }", options: [1], errors: [{ messageId: "tooDeeply", data: { depth: 2 }, type: "IfStatement" }] },
+        { code: "function foo() { for (let x of foo) { if (true) {} } }", options: [1], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "tooDeeply", data: { depth: 2 }, type: "IfStatement" }] },
+        { code: "function foo() { while (true) { if (true) { if (false) { } } } }", options: [1], errors: [{ messageId: "tooDeeply", data: { depth: 2 }, type: "IfStatement" }, { messageId: "tooDeeply", data: { depth: 3 }, type: "IfStatement" }] },
+        { code: "function foo() { if (true) { if (false) { if (true) { if (false) { if (true) { } } } } } }", errors: [{ messageId: "tooDeeply", data: { depth: 5 }, type: "IfStatement" }] },
 
         // object property options
-        { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [{ max: 2 }], errors: [{ message: "Blocks are nested too deeply (3).", type: "IfStatement" }] }
+        { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [{ max: 2 }], errors: [{ messageId: "tooDeeply", data: { depth: 3 }, type: "IfStatement" }] }
     ]
 });

@@ -44,12 +44,12 @@ const ruleTesterTestEmitter = new EventEmitter();
 
 RuleTester.describe = function(text, method) {
     ruleTesterTestEmitter.emit("describe", text, method);
-    return method.apply(this);
+    return method.call(this);
 };
 
 RuleTester.it = function(text, method) {
     ruleTesterTestEmitter.emit("it", text, method);
-    return method.apply(this);
+    return method.call(this);
 };
 
 //------------------------------------------------------------------------------
@@ -640,7 +640,7 @@ describe("RuleTester", () => {
                     { code: "var answer = 6 * 7;", options: ["bar"], errors: [{ message: "Expected nothing." }] }
                 ]
             });
-        }, "Schema for rule no-invalid-schema is invalid:,\titems: should be object\n\titems[0].enum: should NOT have less than 1 items\n\titems: should match some schema in anyOf");
+        }, "Schema for rule no-invalid-schema is invalid:,\titems: should be object\n\titems[0].enum: should NOT have fewer than 1 items\n\titems: should match some schema in anyOf");
 
     });
 

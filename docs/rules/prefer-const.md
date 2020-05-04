@@ -79,6 +79,15 @@ for (let i = 0, end = 10; i < end; ++i) {
     console.log(a);
 }
 
+// `predicate` is only assigned once but cannot be separately declared as `const`
+let predicate;
+[object.type, predicate] = foo();
+
+// `a` is only assigned once but cannot be separately declared as `const`
+let a;
+const b = {};
+({ a, c: b.c } = func());
+
 // suggest to use `no-var` rule.
 var b = 3;
 console.log(b);

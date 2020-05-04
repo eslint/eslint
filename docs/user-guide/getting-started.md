@@ -37,6 +37,14 @@ After that, you can run ESLint in your project's root directory like this:
 $ ./node_modules/.bin/eslint yourfile.js
 ```
 
+Instead of navigating to `./node_modules/.bin/` you may also use `npx` to run `eslint`:
+
+```
+$ npx eslint
+```
+
+**Note:** If ESLint wasn't manually installed (via `npm`), `npx` will install `eslint` to a temporary directory and execute it.
+
 Any plugins or shareable configs that you use must also be installed locally to work with a locally-installed ESLint.
 
 ### Global Installation and Usage

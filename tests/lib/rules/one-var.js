@@ -263,6 +263,13 @@ ruleTester.run("one-var", rule, {
             options: ["consecutive"],
             parserOptions: { ecmaVersion: 6 }
         },
+
+        // https://github.com/eslint/eslint/issues/10784
+        {
+            code: "const foo = require('foo'); const bar = 'bar';",
+            options: [{ const: "consecutive", separateRequires: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
         {
             code: "var a = 0, b = 1; var c, d;",
             options: [{ initialized: "consecutive", uninitialized: "always" }]
@@ -877,7 +884,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "const foo = 1,\n    bar = 2;",
-            output: "const foo = 1;\n\n    \nconst bar = 2;",
+            output: "const foo = 1;\n    const bar = 2;",
             options: [{ initialized: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -889,7 +896,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var foo = 1,\n    bar = 2;",
-            output: "var foo = 1;\n\n    \nvar bar = 2;",
+            output: "var foo = 1;\n    var bar = 2;",
             options: [{ initialized: "never" }],
             errors: [{
                 message: "Split initialized 'var' declarations into multiple statements.",
@@ -900,7 +907,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var foo = 1, // comment\n    bar = 2;",
-            output: "var foo = 1;\n // comment\n    \nvar bar = 2;",
+            output: "var foo = 1; // comment\n    var bar = 2;",
             options: [{ initialized: "never" }],
             errors: [{
                 message: "Split initialized 'var' declarations into multiple statements.",
@@ -922,7 +929,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var f,          /* test */ l;",
-            output: "var f;\n          /* test */ \nvar l;",
+            output: "var f;          /* test */ var l;",
             options: ["never"],
             errors: [{
                 message: "Split 'var' declarations into multiple statements.",
@@ -934,6 +941,17 @@ ruleTester.run("one-var", rule, {
         {
             code: "var f, k /* test \n some more comment \n even more */, l = 1, P;",
             output: "var f; var k /* test \n some more comment \n even more */; var l = 1; var P;",
+            options: ["never"],
+            errors: [{
+                message: "Split 'var' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "var a = 1, b = 2",
+            output: "var a = 1; var b = 2",
             options: ["never"],
             errors: [{
                 message: "Split 'var' declarations into multiple statements.",

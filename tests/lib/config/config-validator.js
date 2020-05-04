@@ -11,7 +11,8 @@
 
 const assert = require("chai").assert,
     Linter = require("../../../lib/linter"),
-    validator = require("../../../lib/config/config-validator");
+    validator = require("../../../lib/config/config-validator"),
+    Rules = require("../../../lib/rules");
 const linter = new Linter();
 
 //------------------------------------------------------------------------------
@@ -96,7 +97,7 @@ describe("Validator", () => {
      * @returns {{create: Function}} The loaded rule
      */
     function ruleMapper(ruleId) {
-        return linter.getRules().get(ruleId);
+        return linter.getRules().get(ruleId) || new Rules().get(ruleId);
     }
 
     beforeEach(() => {
@@ -342,7 +343,7 @@ describe("Validator", () => {
             it("should throw if override has an empty files array", () => {
                 const fn = validator.validate.bind(null, { overrides: [{ files: [] }] }, "tests", ruleMapper, linter.environments);
 
-                assert.throws(fn, "ESLint configuration in tests is invalid:\n\t- Property \"overrides[0].files\" is the wrong type (expected string but got `[]`).\n\t- \"overrides[0].files\" should NOT have less than 1 items. Value: [].\n\t- \"overrides[0].files\" should match exactly one schema in oneOf. Value: [].\n");
+                assert.throws(fn, "ESLint configuration in tests is invalid:\n\t- Property \"overrides[0].files\" is the wrong type (expected string but got `[]`).\n\t- \"overrides[0].files\" should NOT have fewer than 1 items. Value: [].\n\t- \"overrides[0].files\" should match exactly one schema in oneOf. Value: [].\n");
             });
 
             it("should throw if override has nested overrides", () => {
@@ -403,12 +404,12 @@ describe("Validator", () => {
     describe("getRuleOptionsSchema", () => {
 
         it("should return null for a missing rule", () => {
-            assert.strictEqual(validator.getRuleOptionsSchema(linter.rules.get("non-existent-rule")), null);
+            assert.strictEqual(validator.getRuleOptionsSchema(ruleMapper("non-existent-rule")), null);
         });
 
         it("should not modify object schema", () => {
             linter.defineRule("mock-object-rule", mockObjectRule);
-            assert.deepStrictEqual(validator.getRuleOptionsSchema(linter.rules.get("mock-object-rule")), {
+            assert.deepStrictEqual(validator.getRuleOptionsSchema(ruleMapper("mock-object-rule")), {
                 enum: ["first", "second"]
             });
         });
@@ -418,43 +419,43 @@ describe("Validator", () => {
     describe("validateRuleOptions", () => {
 
         it("should throw for incorrect warning level number", () => {
-            const fn = validator.validateRuleOptions.bind(null, linter.rules.get("mock-rule"), "mock-rule", 3, "tests");
+            const fn = validator.validateRuleOptions.bind(null, ruleMapper("mock-rule"), "mock-rule", 3, "tests");
 
             assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '3').\n");
         });
 
         it("should throw for incorrect warning level string", () => {
-            const fn = validator.validateRuleOptions.bind(null, linter.rules.get("mock-rule"), "mock-rule", "booya", "tests");
+            const fn = validator.validateRuleOptions.bind(null, ruleMapper("mock-rule"), "mock-rule", "booya", "tests");
 
             assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '\"booya\"').\n");
         });
 
         it("should throw for invalid-type warning level", () => {
-            const fn = validator.validateRuleOptions.bind(null, linter.rules.get("mock-rule"), "mock-rule", [["error"]], "tests");
+            const fn = validator.validateRuleOptions.bind(null, ruleMapper("mock-rule"), "mock-rule", [["error"]], "tests");
 
             assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '[ \"error\" ]').\n");
         });
 
         it("should only check warning level for nonexistent rules", () => {
-            const fn = validator.validateRuleOptions.bind(null, linter.rules.get("non-existent-rule"), "non-existent-rule", [3, "foobar"], "tests");
+            const fn = validator.validateRuleOptions.bind(null, ruleMapper("non-existent-rule"), "non-existent-rule", [3, "foobar"], "tests");
 
             assert.throws(fn, "tests:\n\tConfiguration for rule \"non-existent-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '3').\n");
         });
 
         it("should only check warning level for plugin rules", () => {
-            const fn = validator.validateRuleOptions.bind(null, linter.rules.get("plugin/rule"), "plugin/rule", 3, "tests");
+            const fn = validator.validateRuleOptions.bind(null, ruleMapper("plugin/rule"), "plugin/rule", 3, "tests");
 
             assert.throws(fn, "tests:\n\tConfiguration for rule \"plugin/rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '3').\n");
         });
 
         it("should throw for incorrect configuration values", () => {
-            const fn = validator.validateRuleOptions.bind(null, linter.rules.get("mock-rule"), "mock-rule", [2, "frist"], "tests");
+            const fn = validator.validateRuleOptions.bind(null, ruleMapper("mock-rule"), "mock-rule", [2, "frist"], "tests");
 
             assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tValue \"frist\" should be equal to one of the allowed values.\n");
         });
 
         it("should throw for too many configuration values", () => {
-            const fn = validator.validateRuleOptions.bind(null, linter.rules.get("mock-rule"), "mock-rule", [2, "first", "second"], "tests");
+            const fn = validator.validateRuleOptions.bind(null, ruleMapper("mock-rule"), "mock-rule", [2, "first", "second"], "tests");
 
             assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tValue [\"first\",\"second\"] should NOT have more than 1 items.\n");
         });

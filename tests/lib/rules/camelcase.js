@@ -107,6 +107,11 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
+            code: "var { [{category_id} = query]: categoryId } = query;",
+            options: [{ ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
             code: "var { category_id: category } = query;",
             parserOptions: { ecmaVersion: 6 }
         },
@@ -180,6 +185,27 @@ ruleTester.run("camelcase", rule, {
         },
         {
             code: "function foo({ trailing_ }) {}",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "ignored_foo = 0;",
+            options: [{ allow: ["ignored_foo"] }]
+        },
+        {
+            code: "ignored_foo = 0; ignored_bar = 1;",
+            options: [{ allow: ["ignored_foo", "ignored_bar"] }]
+        },
+        {
+            code: "user_id = 0;",
+            options: [{ allow: ["_id$"] }]
+        },
+        {
+            code: "__option_foo__ = 0;",
+            options: [{ allow: ["__option_foo__"] }]
+        },
+        {
+            code: "foo = { [computedBar]: 0 };",
+            options: [{ ignoreDestructuring: true }],
             parserOptions: { ecmaVersion: 6 }
         }
     ],
@@ -275,6 +301,17 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
+            code: "var foo = { bar_baz: boom.bam_pow }",
+            options: [{ ignoreDestructuring: true }],
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "bar_baz" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
             code: "foo.qux.boom_pow = { bar: boom.bam_pow }",
             errors: [
                 {
@@ -330,6 +367,29 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
+            code: "var { [category_id]: categoryId } = query;",
+            options: [{ ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "category_id" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var { [category_id]: categoryId } = query;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "category_id" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
             code: "var { category_id: categoryId, ...other_props } = query;",
             options: [{ ignoreDestructuring: true }],
             parserOptions: { ecmaVersion: 2018 },
@@ -343,6 +403,17 @@ ruleTester.run("camelcase", rule, {
         },
         {
             code: "var { category_id } = query;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "category_id" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var { category_id: category_id } = query;",
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -541,6 +612,47 @@ ruleTester.run("camelcase", rule, {
             errors: [
                 {
                     message: "Identifier 'no_camelcased' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "const { no_camelcased = foo_bar } = bar;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "not_ignored_foo = 0;",
+            options: [{ allow: ["ignored_bar"] }],
+            errors: [
+                {
+                    message: "Identifier 'not_ignored_foo' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "not_ignored_foo = 0;",
+            options: [{ allow: ["_id$"] }],
+            errors: [
+                {
+                    message: "Identifier 'not_ignored_foo' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "foo = { [computed_bar]: 0 };",
+            options: [{ ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'computed_bar' is not in camel case.",
                     type: "Identifier"
                 }
             ]

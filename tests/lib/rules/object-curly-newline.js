@@ -515,6 +515,7 @@ ruleTester.run("object-curly-newline", rule, {
         // "ExportDeclaration" ---------------------------------------------
         {
             code: [
+                "var a = 0, b = 0;",
                 "export {a,",
                 "b};"
             ].join("\n"),
@@ -522,6 +523,7 @@ ruleTester.run("object-curly-newline", rule, {
         },
         {
             code: [
+                "var a = 0, b = 0;",
                 "export {",
                 "a as a, b",
                 "} from 'module';"
@@ -1637,19 +1639,21 @@ ruleTester.run("object-curly-newline", rule, {
         // "ExportDeclaration" ---------------------------------------------
         {
             code: [
+                "var a = 0; var b = 0;",
                 "export {",
                 "    a,",
                 "    b",
                 "};"
             ].join("\n"),
             output: [
+                "var a = 0; var b = 0;",
                 "export {a,",
                 "    b};"
             ].join("\n"),
             options: [{ ExportDeclaration: "never" }],
             errors: [
-                { line: 1, column: 8, message: "Unexpected line break after this opening brace." },
-                { line: 4, column: 1, message: "Unexpected line break before this closing brace." }
+                { line: 2, column: 8, message: "Unexpected line break after this opening brace." },
+                { line: 5, column: 1, message: "Unexpected line break before this closing brace." }
             ]
         },
         {

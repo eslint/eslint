@@ -1,3 +1,229 @@
+v5.13.0 - February 1, 2019
+
+* [`91c8884`](https://github.com/eslint/eslint/commit/91c8884971f5e57f5f7490d8daf92c4a9a489836) Chore: use local function to append "s" instead of a package (#11293) (Timo Tijhof)
+* [`b5143bf`](https://github.com/eslint/eslint/commit/b5143bfc09e53d8da8f63421ade093b7593f4f51) Update: for-direction detection false positives/negatives (#11254) (Ruben Bridgewater)
+* [`9005e63`](https://github.com/eslint/eslint/commit/9005e632d13476880c55f7e3c8a6e450762a5171) Chore: increase camelcase test coverage (#11299) (Redmond Tran)
+* [`5b14ad1`](https://github.com/eslint/eslint/commit/5b14ad1003c7df9a37621dea55c6d6d0484adc05) Fix: false positive in no-constant-condition (fixes #11306) (#11308) (Pig Fang)
+* [`6567c4f`](https://github.com/eslint/eslint/commit/6567c4f6665df85c3347388b29d8193cc8208d63) Fix: only remove arrow before body in object-shorthand (fixes #11305) (#11307) (Pig Fang)
+* [`fa2f370`](https://github.com/eslint/eslint/commit/fa2f370affa4814dbdda278f9859d0172d4b7aa2) Docs: update rule configuration values in examples (#11323) (Kai Cataldo)
+* [`0a3c3ff`](https://github.com/eslint/eslint/commit/0a3c3ff1d91e8f39943efc4a7d2bf6927d68d37e) New: Allow globals to be disabled/configured with strings (fixes #9940) (#11338) (Teddy Katz)
+* [`dccee63`](https://github.com/eslint/eslint/commit/dccee63cf41234180c71bf0fe01b165c9078fc69) Chore: avoid hard-coding the list of core rules in eslint:recommended (#11336) (Teddy Katz)
+* [`c1fd6f5`](https://github.com/eslint/eslint/commit/c1fd6f54d92efe615bcae529006221e122dbe9e6) Chore: remove undocumented `Linter#rules` property (refs #9161) (#11335) (Teddy Katz)
+* [`36e3356`](https://github.com/eslint/eslint/commit/36e335681d61cbe3c83b653b7cc5f95730f1d86e) Chore: remove dead code for loading rules (#11334) (Teddy Katz)
+* [`c464e27`](https://github.com/eslint/eslint/commit/c464e2744ec76e7e9c6c5af0f6162c92187f1ece) Docs: Rename `result` -> `foo` (#11210) (Alexis Tyler)
+
+v5.12.1 - January 18, 2019
+
+* [`eb5c401`](https://github.com/eslint/eslint/commit/eb5c4014f16be1c2003ed46ce9560d0d8a567d0f) Chore: use meta.messages in some rules (2/4) (refs #9870) (#10773) (薛定谔的猫)
+* [`aa56247`](https://github.com/eslint/eslint/commit/aa56247746a0095996a41dd03bdbbf659f0f93b6) Fix: avoid loading core rules dynamically from FS in Linter (#11278) (Peter Metz)
+* [`04450bb`](https://github.com/eslint/eslint/commit/04450bb7ed20f2412102538b238119d9764b4dc9) Docs: clarify process for adding committers (#11272) (Kai Cataldo)
+* [`3ffcf26`](https://github.com/eslint/eslint/commit/3ffcf26c1c83efe7d7cf2d87f1063695ae653709) Docs: add @g-plane as committer (#11277) (Kai Cataldo)
+* [`c403445`](https://github.com/eslint/eslint/commit/c40344566eff2e77a6ae2b2d2dbdbd4ad3e76b67) Fix: warn constant on RHS of || in no-constant-condition (fixes #11181) (#11253) (Merlin Mason)
+* [`9194f45`](https://github.com/eslint/eslint/commit/9194f45ac7d521119a53773bf02b81670bad526e) Fix: Manage severity of 1 with TAP reporter (fixes #11110) (#11221) (Gabriel Cousin)
+* [`000f495`](https://github.com/eslint/eslint/commit/000f4952ae6a4311fbbc3ed36c481235fcb0b64b) Docs: fix example for sort-imports ignoreDeclarationSort (#11242) (Remco Haszing)
+* [`7c0bf2c`](https://github.com/eslint/eslint/commit/7c0bf2ca92d83125a1fa000c9c4250bae6b4fc21) Docs: Add `npx` usage to Getting Started guide (#11249) (eyal0803)
+* [`da9174e`](https://github.com/eslint/eslint/commit/da9174e0798c1d785ddabb3ae405860fc5b89311) Docs: fixes typo peerDepencies (#11252) (Christian Kühl)
+* [`9c31625`](https://github.com/eslint/eslint/commit/9c31625f19176664ef76dcf088ce50703c41c324) Docs: Improve custom formatter docs (#11258) (Nicholas C. Zakas)
+
+v5.12.0 - January 4, 2019
+
+* [`0d91e7d`](https://github.com/eslint/eslint/commit/0d91e7d28e5eba79a6032165cdef5d4549d26462) Update: Add sort-imports ignoreDeclarationSort (fixes #11019) (#11040) (Remco Haszing)
+* [`f92d6f0`](https://github.com/eslint/eslint/commit/f92d6f05c4dcd4a3a0616871e10b31edae9dfad5) Build: Add karma-chrome-launcher support (#11027) (薛定谔的猫)
+* [`166853d`](https://github.com/eslint/eslint/commit/166853d9c59db493f0b1bb68a67ad868662a4205) Upgrade: eslint-plugin-eslint-plugin@2.0.1 (#11220) (薛定谔的猫)
+* [`bfff77a`](https://github.com/eslint/eslint/commit/bfff77ad4eaa02e2e62481c986634df38d5db6e5) Fix: no-param-reassign parameter in ternary operator (fixes #11236) (#11239) (周昊宇)
+* [`258b654`](https://github.com/eslint/eslint/commit/258b6541f61dc3a9ae64e200680766a11c3dd316) Upgrade: require-uncached renamed to import-fresh (#11066) (薛定谔的猫)
+
+v5.11.1 - December 26, 2018
+
+* [`de79f10`](https://github.com/eslint/eslint/commit/de79f1026b7035f0296d7876f1db64f225cca1b8) Fix: handle optional catch bindings in no-useless-catch (#11205) (Colin Ihrig)
+
+v5.11.0 - December 22, 2018
+
+* [`b4395f6`](https://github.com/eslint/eslint/commit/b4395f671442a7e0be956382c24cce38025a6df6) New: add option `first` for VariableDeclarator in indent (fixes #8976) (#11193) (Pig Fang)
+* [`2b5a602`](https://github.com/eslint/eslint/commit/2b5a60284670a3ab1281b206941ed38faf2ea10c) New: no-useless-catch rule (fixes #11174) (#11198) (Alexander Grasley)
+* [`06b3b5b`](https://github.com/eslint/eslint/commit/06b3b5bfcf0429c5078d4f4af3c03bb777e4f022) Fix: Account for comments in implicit-arrow-linebreak (#10545) (Mark de Dios)
+* [`4242314`](https://github.com/eslint/eslint/commit/4242314215a6f35e432860433906f47af1a29724) Update: handle computed properties in camelcase (fixes #11084) (#11113) (Bence Dányi)
+* [`1009304`](https://github.com/eslint/eslint/commit/100930493d9ab802a94dac5c761515b12241ddd2) Docs: add a note for no-unused-expressions (fixes #11169) (#11192) (Pig Fang)
+* [`88f99d3`](https://github.com/eslint/eslint/commit/88f99d31b88a4cde4563bc4a6f4c41f0cc557885) Docs: clarify how to use configs in plugins (#11199) (Kai Cataldo)
+* [`bcf558b`](https://github.com/eslint/eslint/commit/bcf558b2f7036f487af2bdb2b2d34b6cdf7fc174) Docs: Clarify the no-unused-vars docs (#11195) (Jed Fox)
+* [`a470eb7`](https://github.com/eslint/eslint/commit/a470eb73d52fae0f0bc48de5a487e23cf78fcfa9) Docs: Fix no-irregular-whitespace description (#11196) (Jed Fox)
+* [`8abc8af`](https://github.com/eslint/eslint/commit/8abc8afe71691b747cbd1819a13d896e8aa5b92a) Docs: Remove a misleading example (#11204) (Bogdan Gradinariu)
+* [`733d936`](https://github.com/eslint/eslint/commit/733d93618a99758a05453ab94505a9f1330950e0) Docs: link to JSDoc EOL blogpost in valid-jsdoc and require-jsdoc (#11191) (Nathan Diddle)
+* [`d5eb108`](https://github.com/eslint/eslint/commit/d5eb108e17f676d0e4fcddeb1211b4bdfac760c1) Docs: Ensure `triage` label is added to new issues (#11182) (Teddy Katz)
+* [`617a287`](https://github.com/eslint/eslint/commit/617a2874ed085bca36ca289aac55e3b7f7ce937e) Docs: add missing deprecation notices for jsdoc rules (#11171) (Teddy Katz)
+
+v5.10.0 - December 8, 2018
+
+* [`4b0f517`](https://github.com/eslint/eslint/commit/4b0f517cd317e5f1b99a1e8a0392332bd8a2e231) Upgrade: single- and multiline const, let, var statements (fixes #10721) (#10919) (Tom Panier)
+* [`9666aba`](https://github.com/eslint/eslint/commit/9666abaf46c841fba7b5d4e53c6998cd25b9bc33) Update: space-infix-ops reports violating operator (#10934) (Bence Dányi)
+* [`c14f717`](https://github.com/eslint/eslint/commit/c14f717f4c32860766185da47f64f8eb0c2d2998) Fix: Update all-files-ignored.txt message to be less confusing (#11075) (z.ky)
+* [`9f3573d`](https://github.com/eslint/eslint/commit/9f3573dda3dc35bc220e945686cc835eaad0ac2c) Docs: Clarify the CLIEngine options (#10995) (Ed Morley)
+* [`dd7b0cb`](https://github.com/eslint/eslint/commit/dd7b0cb019d94964930d30fec36f7b22ef072822) Chore: refactor template literal feature detection in 'quotes' rule (#11125) (Bryan)
+* [`3bf0332`](https://github.com/eslint/eslint/commit/3bf0332508b921cb660c2e8a1ab7ddf46a2013b6) Fix: fix the fixer of lone comma with comments (fixes #10632) (#11154) (Pig Fang)
+* [`f850726`](https://github.com/eslint/eslint/commit/f8507260c2091d18488fde20e466639d1a7f913c) Upgrade: Espree v5.0.0 (#11161) (Kai Cataldo)
+* [`4490d7a`](https://github.com/eslint/eslint/commit/4490d7af529d4ecc18b6874f1d838869656da58a) Update: deprecate valid-jsdoc and require-jsdoc (#11145) (Teddy Katz)
+* [`60dfb6c`](https://github.com/eslint/eslint/commit/60dfb6c623dfe829e5350dabe507e7850c1beacf) Docs: Update issue templates (#11163) (Teddy Katz)
+* [`958987a`](https://github.com/eslint/eslint/commit/958987aa6f5630faa051d8f822f0200faff41924) Docs: Fix link to rule no-useless-rename (#11165) (Brian)
+* [`62fd2b9`](https://github.com/eslint/eslint/commit/62fd2b93448966331db3eb2dfbe4e1273eb032b2) Update: Amend keyword-spacing to validate `default` keywords (#11097) (Bin Ury)
+* [`4bcdfd0`](https://github.com/eslint/eslint/commit/4bcdfd07d514fd7a6b8672d33703d0b6c606f214) Chore: fix some jsdoc-related issues (#11148) (薛定谔的猫)
+* [`c6471ed`](https://github.com/eslint/eslint/commit/c6471ed6feb3e71e239379a7042deb9b8ab3cf39) Docs: fix typo in issue-templates/new-rule (#11149) (薛定谔的猫)
+* [`5d451c5`](https://github.com/eslint/eslint/commit/5d451c510c15abc41b5bb14b4955a7db96aeb100) Chore: Remove dependency on is-resolvable (#11128) (Matt Grande)
+* [`bc50dc7`](https://github.com/eslint/eslint/commit/bc50dc7737496712463220e662946eb516e36ae1) Chore: Move ignored-paths, report-translator to lib/util (refs #10559) (#11116) (Kevin Partington)
+* [`c0a80d0`](https://github.com/eslint/eslint/commit/c0a80d0ca3c80ca27694fc8aedcf84b72bfd9465) Fix: Do not strip underscores in camelcase allow (fixes #11000) (#11001) (Luke Page)
+* [`a675c89`](https://github.com/eslint/eslint/commit/a675c89573836adaf108a932696b061946abf1e6) Docs: (Grammar) "the setup" -> "to set up" (#11117) (MarvinJWendt)
+* [`54dfa60`](https://github.com/eslint/eslint/commit/54dfa602f62e6d183d57d60d5fdd417a263f479e) Fix: Typo in function comment parameters (#11111) (Pierre Maoui)
+* [`cf296bd`](https://github.com/eslint/eslint/commit/cf296bdabf0dbbfbae491419e38aee4ecd63ec71) Docs: switch incorrect example with correct one (#11107) (Romain Le Quellec)
+* [`d2d500c`](https://github.com/eslint/eslint/commit/d2d500ca5dff307189b9d4161a5e7b8282557dd6) Docs: no-console#When-Not-To-Use provides incorrect rule snippet (#11093) (Lawrence Chou)
+* [`f394a1d`](https://github.com/eslint/eslint/commit/f394a1dfc5eb4874f899b7bc19685896893af7b8) Chore: Extract config comment parsing (#11091) (Nicholas C. Zakas)
+* [`709190f`](https://github.com/eslint/eslint/commit/709190f8c5d7559b1e0915e25af60b50a94ba1c7) Build: fix test failure on Node 11 (#11100) (Teddy Katz)
+* [`3025cdd`](https://github.com/eslint/eslint/commit/3025cddf0a2ea8461ce05575098a5714fcf6278d) Update: don't indent leading semi in line after import (fixes #11082) (#11085) (Pig Fang)
+* [`e18c827`](https://github.com/eslint/eslint/commit/e18c827cc12cb1c52e5d0aa993f572cb56238704) Chore: refactor linter#parseBooleanConfig to improve readability (#11074) (薛定谔的猫)
+* [`5da378a`](https://github.com/eslint/eslint/commit/5da378ac922d732ca1765f08edee0face1b1b924) Upgrade: eslint-release@1.2.0 (#11073) (Teddy Katz)
+
+v5.9.0 - November 9, 2018
+
+* 9436712 Fix: Unused recursive function expressions (fixes #10982) (#11032) (Sergei Startsev)
+* c832cd5 Update: add `ignoreDestructuring` option to `id-match` rule (#10554) (一名宅。)
+* 54687a8 Fix: prefer-const autofix multiline assignment (fixes #10582) (#10987) (Scott Stern)
+* ae2b61d Update: "off" options for "space-before-blocks" (refs #10906) (#10907) (Sophie Kirschner)
+* 57f357e Docs: Update require-await docs with exception (fixes #9540) (#11063) (Nicholas C. Zakas)
+* 79a2797 Update: no-restricted-imports to check re-export (fixes #9678) (#11064) (Nicholas C. Zakas)
+* 3dd7493 Docs: update ecmaVersion to include 2019/10 values (#11059) (Vse Mozhet Byt)
+* 607635d Upgrade: eslint-plugin-node & eslint-plugin (#11067) (薛定谔的猫)
+* dcc6233 Fix: Ignore empty statements in no-unreachable (fixes #9081) (#11058) (Nicholas C. Zakas)
+* 7ad86de New: Add --fix-type option to CLI (fixes #10855) (#10912) (Nicholas C. Zakas)
+* 0800b20 Chore: fix invalid super() calls in tests (#11054) (Teddy Katz)
+* 4fe3287 Docs: Cross-reference two rules (refs #11041) (#11042) (Paul Melnikow)
+* 5525eb6 Fix: rule deprecation warnings did not consider all rules (#11044) (Teddy Katz)
+* 44d37ca Docs: Update steps for adding new TSC member (#11038) (Nicholas C. Zakas)
+* 802e926 Update: Warn for deprecation in Node output (fixes #7443) (#10953) (Colin Chang)
+
+v5.8.0 - October 26, 2018
+
+* 9152417 Fix: deprecation warning in RuleTester using Node v11 (#11009) (Teddy Katz)
+* e349a03 Docs: Update issue templates to ask for PRs (#11012) (Nicholas C. Zakas)
+* 3d88b38 Chore: avoid using legacy report API in no-irregular-whitespace (#11013) (Teddy Katz)
+* 5a31a92 Build: compile espree's deps to ES5 when generating site (fixes #11014) (#11015) (Teddy Katz)
+* 3943635 Update: Create Linter.version API (fixes #9271) (#11010) (Nicholas C. Zakas)
+* a940cf4 Docs: Mention version for config glob patterns (fixes #8793) (Nicholas C. Zakas)
+* 6e1c530 Build: run tests on Node 11 (#11008) (Teddy Katz)
+* 58ff359 Docs: add instructions for npm 2FA (refs #10631) (#10992) (Teddy Katz)
+* 2f87bb3 Upgrade: eslint-release@1.0.0 (refs #10631) (#10991) (Teddy Katz)
+* 57ef0fd Fix: prefer-const when using destructuring assign (fixes #8308) (#10924) (Nicholas C. Zakas)
+* 577cbf1 Chore: Add typescript-specific edge case tests to space-infix-ops (#10986) (Bence Dányi)
+* d45b184 Chore: Using deconstruction assignment for shelljs (#10974) (ZYSzys)
+
+v5.7.0 - October 12, 2018
+
+* 6cb63fd Update: Add iife to padding-line-between-statements (fixes #10853) (#10916) (Kevin Partington)
+* 5fd1bda Update: no-tabs allowIndentationTabs option (fixes #10256) (#10925) (Kevin Partington)
+* d12be69 Fix: no-extra-bind No autofix if arg may have side effect (fixes #10846) (#10918) (Kevin Partington)
+* 847372f Fix: no-unused-vars false pos. with markVariableAsUsed (fixes #10952) (#10954) (Roy Sutton)
+* 4132de7 Chore: Simplify space-infix-ops (#10935) (Bence Dányi)
+* 543edfa Fix: Fix error with one-var (fixes #10937) (#10938) (Justin Krup)
+* 95c4cb1 Docs: Fix typo for no-unsafe-finally (#10945) (Sergio Santoro)
+* 5fe0e1a Fix: no-invalid-regexp disallows \ at end of pattern (fixes #10861) (#10920) (Toru Nagashima)
+* f85547a Docs: Add 'When Not To Use' section to space-infix-ops (#10931) (Bence Dányi)
+* 3dccac4 Docs: Update working-with-parsers link (#10929) (Azeem Bande-Ali)
+* 557a8bb Docs: Remove old note about caching, add a new one (fixes #10739) (#10913) (Zac)
+* fe8111a Chore: Add more test cases to space-infix-ops (#10936) (Bence Dányi)
+* 066f7e0 Update: camelcase rule ignoreList added (#10783) (Julien Martin)
+* 70bde69 Upgrade: table to version 5 (#10903) (Rouven Weßling)
+* 2e52bca Chore: Update issue templates (#10900) (Nicholas C. Zakas)
+
+v5.6.1 - September 28, 2018
+
+* 9b26bdb Fix: avoid exponential require-atomic-updates traversal (fixes #10893) (#10894) (Teddy Katz)
+* 9432b10 Fix: make separateRequires work in consecutive mode (fixes #10784) (#10886) (Pig Fang)
+* e51868d Upgrade: debug@4 (fixes #10854) (#10887) (薛定谔的猫)
+* d3f3994 Docs: add information about reporting security issues (#10889) (Teddy Katz)
+* cc458f4 Build: fix failing tests on master (#10890) (Teddy Katz)
+* a6ebfd3 Docs: clarify defaultAssignment option, fix no-unneeded-ternary examples (#10874) (CoffeeTableEspresso)
+* 9d52541 Fix: Remove duplicate error message on crash (fixes #8964) (#10865) (Nicholas C. Zakas)
+* 4eb9a49 Docs: Update quotes.md (#10862) (The Jared Wilcurt)
+* 9159e9b Docs: Update complexity.md (#10867) (Szymon Przybylski)
+* 14f4e46 Docs: Use Linter instead of linter in Nodejs API page (#10864) (Nicholas C. Zakas)
+* b3e3cb1 Chore: Update debug log name to match filename (#10863) (Nicholas C. Zakas)
+
+v5.6.0 - September 14, 2018
+
+* c5b688e Update: Added generators option to func-names (fixes #9511) (#10697) (Oscar Barrett)
+* 7da36d5 Fix: respect generator function expressions in no-constant-condition (#10827) (Julian Rosse)
+* 0a65844 Chore: quote enable avoidEscape option in eslint-config-eslint (#10626) (薛定谔的猫)
+* 32f41bd Chore: Add configuration wrapper markdown for the bug report template (#10669) (Iulian Onofrei)
+
+v5.5.0 - August 31, 2018
+
+* 6e110e6 Fix: camelcase duplicate warning bug (fixes #10801) (#10802) (Julian Rosse)
+* 5103ee7 Docs: Add Brackets integration (#10813) (Jan Pilzer)
+* b61d2cd Update: max-params to only highlight function header (#10815) (Ian Obermiller)
+* 2b2f11d Upgrade: babel-code-frame to version 7 (#10808) (Rouven Weßling)
+* 2824d43 Docs: fix comment placement in a code example (#10799) (Vse Mozhet Byt)
+* 10690b7 Upgrade: devdeps and deps to latest (#10622) (薛定谔的猫)
+* 80c8598 Docs: gitignore syntax updates (fixes #8139) (#10776) (Gustavo Santana)
+* cb946af Chore: use meta.messages in some rules (1/4) (#10764) (薛定谔的猫)
+
+v5.4.0 - August 17, 2018
+
+* a70909f Docs: Add jscs-dev.github.io links (#10771) (Gustavo Santana)
+* 034690f Fix: no-invalid-meta crashes for non Object values (fixes #10750) (#10753) (Sandeep Kumar Ranka)
+* 11a462d Docs: Broken jscs.info URLs (fixes #10732) (#10770) (Gustavo Santana)
+* 985567d Chore: rm unused dep string.prototype.matchall (#10756) (薛定谔的猫)
+* f3d8454 Update: Improve no-extra-parens error message (#10748) (Timo Tijhof)
+* 562a03f Fix: consistent-docs-url crashes if meta.docs is empty (fixes #10722) (#10749) (Sandeep Kumar Ranka)
+* 6492233 Chore: enable no-prototype-builtins in codebase (fixes #10660) (#10664) (薛定谔的猫)
+* 137140f Chore: use eslintrc overrides (#10677) (薛定谔的猫)
+
+v5.3.0 - August 3, 2018
+
+* dd6cb19 Docs: Updated no-return-await Rule Documentation (fixes #9695) (#10699) (Marla Foreman)
+* 6009239 Chore: rename utils for consistency (#10727) (薛定谔的猫)
+* 6eb972c New: require-unicode-regexp rule (fixes #9961) (#10698) (Toru Nagashima)
+* 5c5d64d Fix: ignored-paths for Windows path (fixes #10687) (#10691) (Toru Nagashima)
+* 5f6a765 Build: ensure URL fragments remain in documentation links (fixes #10717) (#10720) (Teddy Katz)
+* 863aa78 Docs: add another example for when not to use no-await-in-loop (#10714) (Valeri Karpov)
+* 6e78b7d Docs: remove links to terminated jscs.info domain (#10706) (Piotr Kuczynski)
+* d56c39d Fix: ESLint cache no longer stops autofix (fixes #10679) (#10694) (Kevin Partington)
+* 2cc3240 New: add no-misleading-character-class (fixes #10049) (#10511) (Toru Nagashima)
+* 877f4b8 Fix: The "../.." folder is always ignored (fixes #10675) (#10682) (Sridhar)
+* 5984820 Chore: Move lib/file-finder.js to lib/util/ (refs #10559) (#10695) (Kevin Partington)
+* e37a593 Update: Fix incorrect default value for position (#10670) (Iulian Onofrei)
+* 8084bfc Docs: change when not to use object spread (#10621) (Benny Powers)
+* 7f496e2 Chore: Update require path for ast-utils (#10693) (Kevin Partington)
+* 648a33a Chore: reorganize code structure of utilities (refs #10599) (#10680) (薛定谔的猫)
+* f026fe1 Update: Fix 'function' in padding-line-between-statements (fixes #10487) (#10676) (Kevin Partington)
+* c2bb8bb Docs: Remove superfluous object option sample code (#10652) (Iulian Onofrei)
+* d34a13b Docs: add subheader in configuring/configuring-rules (#10686) (薛定谔的猫)
+* d8aea28 Chore: rm unnecessary plugin in eslint-config-eslint (#10685) (薛定谔的猫)
+* 9e76be7 Update: indent comments w/ nearby code if no blank lines (fixes #9733) (#10640) (Kevin Partington)
+* 9e93d46 New: add no-async-promise-executor rule (fixes #10217) (#10661) (Teddy Katz)
+* 5a2538c New: require-atomic-updates rule (fixes #10405) (#10655) (Teddy Katz)
+* 8b83d2b Fix: always resolve default ignore patterns from CWD (fixes #9227) (#10638) (Teddy Katz)
+* acb6658 Fix: ESLint crash with prefer-object-spread (fixes #10646) (#10649) (薛定谔的猫)
+* 99fb7d3 Docs: fix misleading no-prototype-builtins description (#10666) (薛定谔的猫)
+* 005b849 Docs: fix outdated description of `baseConfig` option (#10657) (Teddy Katz)
+* 15a77c4 Docs: fix broken links (fixes eslint/eslint-jp#6) (#10658) (Toru Nagashima)
+* 87cd344 Docs: Make marking a default option consistent with other rules (#10650) (Iulian Onofrei)
+* 0cb5e3e Chore: Replace some function application with spread operators (#10645) (Kevin Partington)
+* b6daf0e Docs: Remove superfluous section from no-unsafe-negation (#10648) (Iulian Onofrei)
+* e1a3cac Chore: rm deprecated experimentalObjectRestSpread option in tests (#10647) (薛定谔的猫)
+
+v5.2.0 - July 20, 2018
+
+* 81283d0 Update: Cache files that failed linting (fixes #9948) (#10571) (Kevin Partington)
+* 13cc63e Upgrade: ignore@4.0.2 (#10619) (Rouven Weßling)
+* ac77a80 Chore: Fixing a call to Object.assign.apply in Linter (#10629) (Kevin Partington)
+* 761f802 Upgrade: eslint-plugin-node to 7.0.1 (#10612) (Toru Nagashima)
+* c517b2a Build: fix npm run perf failing(fixes #10577) (#10607) (薛定谔的猫)
+* e596939 Chore: fix redundant equality check (#10617) (Toru Nagashima)
+* 9f93d5f Docs: Updated Working with Custom Formatters (fixes #9950) (#10592) (Marla Foreman)
+* 9aaf195 Chore: Extract lint result cache logic (refs #9948) (#10562) (Kevin Partington)
+* 80b296e Build: package.json update for eslint-config-eslint release (ESLint Jenkins)
+* e4e7ff2 Chore: fix error message in eslint-config-eslint (#10588) (薛定谔的猫)
+* 1e88170 Chore: Move lib/logging and lib/timing to lib/util/ (refs #10559) (#10579) (Kevin Partington)
+* 64dfa21 Build: Fix prerelease logic in blog post generation (fixes #10578) (#10581) (Kevin Partington)
+* 0faf633 Chore: Simplify helper method in Linter tests (#10580) (Kevin Partington)
+
 v5.1.0 - July 8, 2018
 
 * 7328f99 Build: package.json update for eslint-config-eslint release (ESLint Jenkins)

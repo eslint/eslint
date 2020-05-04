@@ -50,39 +50,39 @@ ruleTester.run("no-duplicate-imports", rule, {
     invalid: [
         {
             code: "import \"fs\";\nimport \"fs\"",
-            errors: [{ message: "'fs' import is duplicated.", type: "ImportDeclaration" }]
+            errors: [{ messageId: "import", data: { module: "fs" }, type: "ImportDeclaration" }]
         },
         {
             code: "import { merge } from \"lodash-es\";import { find } from \"lodash-es\";",
-            errors: [{ message: "'lodash-es' import is duplicated.", type: "ImportDeclaration" }]
+            errors: [{ messageId: "import", data: { module: "lodash-es" }, type: "ImportDeclaration" }]
         },
         {
             code: "import { merge } from \"lodash-es\";import _ from \"lodash-es\";",
-            errors: [{ message: "'lodash-es' import is duplicated.", type: "ImportDeclaration" }]
+            errors: [{ messageId: "import", data: { module: "lodash-es" }, type: "ImportDeclaration" }]
         },
         {
             code: "export { os } from \"os\";\nexport { something } from \"os\";",
             options: [{ includeExports: true }],
-            errors: [{ message: "'os' export is duplicated.", type: "ExportNamedDeclaration" }]
+            errors: [{ messageId: "export", data: { module: "os" }, type: "ExportNamedDeclaration" }]
         },
         {
             code: "import os from \"os\"; export { os as foobar } from \"os\";\nexport { something } from \"os\";",
             options: [{ includeExports: true }],
             errors: [
-                { message: "'os' export is duplicated as import.", type: "ExportNamedDeclaration" },
-                { message: "'os' export is duplicated.", type: "ExportNamedDeclaration" },
-                { message: "'os' export is duplicated as import.", type: "ExportNamedDeclaration" }
+                { messageId: "exportAs", data: { module: "os" }, type: "ExportNamedDeclaration" },
+                { messageId: "export", data: { module: "os" }, type: "ExportNamedDeclaration" },
+                { messageId: "exportAs", data: { module: "os" }, type: "ExportNamedDeclaration" }
             ]
         },
         {
             code: "import os from \"os\";\nexport { something } from \"os\";",
             options: [{ includeExports: true }],
-            errors: [{ message: "'os' export is duplicated as import.", type: "ExportNamedDeclaration" }]
+            errors: [{ messageId: "exportAs", data: { module: "os" }, type: "ExportNamedDeclaration" }]
         },
         {
             code: "import os from \"os\";\nexport * from \"os\";",
             options: [{ includeExports: true }],
-            errors: [{ message: "'os' export is duplicated as import.", type: "ExportAllDeclaration" }]
+            errors: [{ messageId: "exportAs", data: { module: "os" }, type: "ExportAllDeclaration" }]
         }
     ]
 });

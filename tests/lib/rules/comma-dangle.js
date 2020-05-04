@@ -1290,12 +1290,12 @@ ruleTester.run("comma-dangle", rule, {
             code: `let {a,} = {a: 1,};
 let [b,] = [1,];
 import {c,} from "foo";
-export {d,};
+let d = 0;export {d,};
 (function foo(e,) {})(f,);`,
             output: `let {a} = {a: 1};
 let [b,] = [1,];
 import {c,} from "foo";
-export {d,};
+let d = 0;export {d,};
 (function foo(e,) {})(f,);`,
             options: [{
                 objects: "never",
@@ -1314,12 +1314,12 @@ export {d,};
             code: `let {a,} = {a: 1,};
 let [b,] = [1,];
 import {c,} from "foo";
-export {d,};
+let d = 0;export {d,};
 (function foo(e,) {})(f,);`,
             output: `let {a,} = {a: 1,};
 let [b] = [1];
 import {c,} from "foo";
-export {d,};
+let d = 0;export {d,};
 (function foo(e,) {})(f,);`,
             options: [{
                 objects: "ignore",
@@ -1338,12 +1338,12 @@ export {d,};
             code: `let {a,} = {a: 1,};
 let [b,] = [1,];
 import {c,} from "foo";
-export {d,};
+let d = 0;export {d,};
 (function foo(e,) {})(f,);`,
             output: `let {a,} = {a: 1,};
 let [b,] = [1,];
 import {c} from "foo";
-export {d,};
+let d = 0;export {d,};
 (function foo(e,) {})(f,);`,
             options: [{
                 objects: "ignore",
@@ -1361,12 +1361,12 @@ export {d,};
             code: `let {a,} = {a: 1,};
 let [b,] = [1,];
 import {c,} from "foo";
-export {d,};
+let d = 0;export {d,};
 (function foo(e,) {})(f,);`,
             output: `let {a,} = {a: 1,};
 let [b,] = [1,];
 import {c,} from "foo";
-export {d};
+let d = 0;export {d};
 (function foo(e,) {})(f,);`,
             options: [{
                 objects: "ignore",
@@ -1384,12 +1384,12 @@ export {d};
             code: `let {a,} = {a: 1,};
 let [b,] = [1,];
 import {c,} from "foo";
-export {d,};
+let d = 0;export {d,};
 (function foo(e,) {})(f,);`,
             output: `let {a,} = {a: 1,};
 let [b,] = [1,];
 import {c,} from "foo";
-export {d,};
+let d = 0;export {d,};
 (function foo(e) {})(f);`,
             options: [{
                 objects: "ignore",
