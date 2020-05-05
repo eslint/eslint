@@ -47,11 +47,7 @@ Node.js 8 reached EOL in December 2019, and we are officially dropping support f
 
 ## <a name="additional-lint-targets"></a> Lint files matched by `overrides[].files` by default
 
-Previously to v7.0.0, ESLint would only lint files with a `.js` extension by default.
-
-```
-$ eslint src
-```
+Previously to v7.0.0, ESLint would only lint files with a `.js` extension by default if you give directories like `eslint src`.
 
 ESLint 7.0.0 will now additionally lint files with other extensions (`.ts`, `.vue`, etc.) if the extension is explicitly matched by an `overrides[].files` entry. This will allow for users to lint files that don't end with `*.js` to be linted without having to use the `--ext` command line flag, as well as allow shared configuration authors to enable linting of these files without additional overhead for the end user. Please note that patterns that end with `*` are exempt from this behavior and will behave as they did previously. For example, if the following config file is present,
 
@@ -65,7 +61,7 @@ overrides:
 
 then running `eslint src` would check both `*.js` and `*.ts` files in the `src` directory.
 
-**To address:** Using the `--ext` CLI option will override this new behavior. Run ESLint with `--ext .js`  if you are using `overrides` but only want to lint files that have a `.js` extension. 
+**To address:** Using the `--ext` CLI option will override this new behavior. Run ESLint with `--ext .js`  if you are using `overrides` but only want to lint files that have a `.js` extension.
 
 If you maintain plugins that check files with extensions other than `.js`, this feature will allow you to check these files by default by configuring an `overrides` setting in your `recommended` preset.
 
