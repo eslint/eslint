@@ -146,7 +146,7 @@ To allow for the colocation of comments that provide context with the directive,
 
 ## <a name="deprecate-node-rules"></a> Node.js/CommonJS rules have been deprecated
 
-Ten rules about Node.js/CommonJS are deprecated and moved to the [eslint-plugin-node](https://github.com/mysticatea/eslint-plugin-node) plugin.
+The ten Node.js/CommonJS rules in core have been deprecated and moved to the [eslint-plugin-node](https://github.com/mysticatea/eslint-plugin-node) plugin.
 
 **To address:** As [our deprecation policy](https://eslint.org/docs/user-guide/rule-deprecation), you can continue to use the deprecated rules. But the source code of the deprecated rules has been frozen, so we don't fix any bugs of those rules anymore. Therefore, we recommend using the corresponded plugin rules instead.
 
