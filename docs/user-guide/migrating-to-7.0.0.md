@@ -231,6 +231,6 @@ The `CLIEngine` class provides a synchronous API that is blocking the implementa
 | `resolveFileGlobPatterns()`                  | (removed ※2)                       |
 
 - ※1 The `engine.getFormatter()` method had returned the object of loaded packages as-is. It had made hard to add new features to formatters for backward compatibility of third-party formatters. So the new `eslint.loadFormatter()` method returns the adapter object that wraps the object of loaded packages. It will ease adding new features as being able to provide default stuff. The adapter object may access to `ESLint` instance to make default stuff (for example, it uses loaded plugin rules to make `rulesMeta`). Therefore, `ESLint` class doesn't have the static version of `loadFormatter()` method.
-- ※2 Since ESLint 6, ESLint uses a different logic from the `resolveFileGlobPatterns()` method to iterate files. Therefore, we obsolate it.
+- ※2 Since ESLint 6, ESLint uses different logic from the `resolveFileGlobPatterns()` method to iterate files, making this method obsolete.
 
 **Related issue(s):** [RFC40](https://github.com/eslint/rfcs/blob/master/designs/2019-move-to-async-api/README.md), [#12939](https://github.com/eslint/eslint/pull/12939)
