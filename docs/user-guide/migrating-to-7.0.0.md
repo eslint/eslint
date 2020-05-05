@@ -109,7 +109,7 @@ Personal config files have been deprecated since [v6.7.0](https://eslint.org/blo
 1. When a project does not have a configuration file present and ESLint loads configuration from `~/.eslintrc.*`.
 1. When a project has a configuration file and ESLint ignored a `~/.eslintrc.*` configuration file. This occurs when the `$HOME` directory is an ancestor directory of the project and the project's configuration files doesn't contain `root:true`.
 
-**To address:** Remove `~/.eslintrc.*` config files then add `.eslintrc.*` config files to your project directory. Or use `--config` option to use shared config files.
+**To address:** Remove `~/.eslintrc.*` configuration files and add a `.eslintrc.*` configuration file to your project. Alternatively, use the `--config` option to use shared config files.
 
 **Related issue(s):** [RFC32](https://github.com/eslint/rfcs/tree/master/designs/2019-deprecating-personal-config/README.md), [#12678](https://github.com/eslint/eslint/pull/12678)
 
