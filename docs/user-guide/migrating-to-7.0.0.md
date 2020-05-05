@@ -22,7 +22,7 @@ The lists below are ordered roughly by the number of users each change is expect
 ### Breaking changes for plugin developers
 
 - [Node.js 8 is no longer supported](#drop-node-8)
-- [Lint the files that match to `overrides[].files` by default](#additional-lint-targets)
+- [Lint files matched by `overrides[].files` by default](#additional-lint-targets)
 - [The place where ESLint loads plugins from is changed](#plugin-loading-change)
 - [`RuleTester` class get strict](#rule-tester-strict)
 
