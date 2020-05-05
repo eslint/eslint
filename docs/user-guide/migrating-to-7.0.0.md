@@ -107,7 +107,7 @@ This means that if you are using a config file from a shared location via `--con
 Personal config files have been deprecated since [v6.7.0](https://eslint.org/blog/2019/11/eslint-v6.7.0-released). ESLint 7.0.0 will start printing runtime deprecation warnings. It will print a warning for the following situations:
 
 1. When a project does not have a configuration file present and ESLint loads configuration from `~/.eslintrc.*`.
-1. When ESLint ignored `~/.eslintrc.*` config files because project's config was present. (in other words, the HOME directory is an ancestor directory of the project and the project config didn't have `root:true` setting.)
+1. When a project has a configuration file and ESLint ignored a `~/.eslintrc.*` configuration file. This occurs when the `$HOME` directory is an ancestor directory of the project and the project's configuration files doesn't contain `root:true`.
 
 **To address:** Remove `~/.eslintrc.*` config files then add `.eslintrc.*` config files to your project directory. Or use `--config` option to use shared config files.
 
