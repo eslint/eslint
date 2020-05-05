@@ -16,7 +16,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [Default ignore patterns are changed](#default-ignore-patterns)
 - [Description in directive comments](#description-in-directive-comments)
 - [Node.js/CommonJS rules are deprecated](#deprecate-node-rules)
-- [Several rules get strict](#rules-strict)
+- [Several rules have been updated to cover more cases](#rules-strict)
 - [`eslint:recommended` is updated](#eslint-recommended)
 
 ### Breaking changes for plugin developers
