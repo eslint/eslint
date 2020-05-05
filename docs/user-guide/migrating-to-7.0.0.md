@@ -130,7 +130,7 @@ ESLint 7 ignores `node_modules/*` of subdirectories as well, but no longer ignor
 
 **Related issue(s):** [RFC51](https://github.com/eslint/rfcs/blob/master/designs/2019-update-default-ignore-patterns/README.md), [#12888](https://github.com/eslint/eslint/pull/12888)
 
-## <a name="description-in-directive-comments"></a> Description in directive comments
+## <a name="description-in-directive-comments"></a> Descriptions in directive comments
 
 Previously, ESLint doesn't have the official way to write the reason for directive comments like `/*eslint-disable*/`, but it's better if directive comments have the reason description.
 
