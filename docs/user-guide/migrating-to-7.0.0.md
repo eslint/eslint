@@ -36,7 +36,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 ## <a name="drop-node-8"></a> Node.js 8 is no longer supported
 
-Node.js 8 has been at EOL since December 2019. Therefore, we have decided to drop support for it in ESLint 7. We now support the following versions of Node.js:
+Node.js 8 reached EOL in December 2019, and we are officially dropping support for it in this release. ESLint now supports the following versions of Node.js:
 
 - Node.js 10 (`10.12.0` and above)
 - Anything above Node.js 12
