@@ -53,7 +53,7 @@ Previously to v7.0.0, ESLint would only lint files with a `.js` extension by def
 $ eslint src
 ```
 
-In the situation, ESLint 7 lints the files that match to `overrides[].files` along with `*.js` files. (But it excepts patterns that end with `*` in order to avoid linting unlimitedly.) For example, if the following config file is present,
+ESLint 7.0.0 will now additionally lint files with other extensions (`.ts`, `.vue`, etc.) if the extension is explicitly matched by an `overrides[].files` entry. This will allow for users to lint files that don't end with `*.js` to be linted without having to use the `--ext` command line flag, as well as allow shared configuration authors to enable linting of these files without additional overhead for the end user. Please note that patterns that end with `*` are exempt from this behavior and will behave as they did previously. For example, if the following config file is present,
 
 ```yml
 # .eslintrc.yml
