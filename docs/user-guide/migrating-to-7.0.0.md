@@ -41,7 +41,7 @@ Node.js 8 reached EOL in December 2019, and we are officially dropping support f
 - Node.js 10 (`10.12.0` and above)
 - Node.js 12 and above
 
-**To address:** Make sure you upgrade to at least Node.js `10.12.0` when using ESLint 7. One important thing to double check is the Node.js version supported by your editor when using ESLint via editor integrations. If you are unable to upgrade, we recommend continuing to use ESLint 6 until you are able to upgrade Node.js.
+**To address:** Make sure you upgrade to at least Node.js `10.12.0` when using ESLint v7.0.0. One important thing to double check is the Node.js version supported by your editor when using ESLint via editor integrations. If you are unable to upgrade, we recommend continuing to use ESLint 6 until you are able to upgrade Node.js.
 
 **Related issue(s):** [RFC44](https://github.com/eslint/rfcs/blob/master/designs/2019-drop-node8/README.md), [#12700](https://github.com/eslint/eslint/pull/12700)
 
@@ -49,7 +49,7 @@ Node.js 8 reached EOL in December 2019, and we are officially dropping support f
 
 Previously to v7.0.0, ESLint would only lint files with a `.js` extension by default if you give directories like `eslint src`.
 
-ESLint 7.0.0 will now additionally lint files with other extensions (`.ts`, `.vue`, etc.) if the extension is explicitly matched by an `overrides[].files` entry. This will allow for users to lint files that don't end with `*.js` to be linted without having to use the `--ext` command line flag, as well as allow shared configuration authors to enable linting of these files without additional overhead for the end user. Please note that patterns that end with `*` are exempt from this behavior and will behave as they did previously. For example, if the following config file is present,
+ESLint v7.0.0 will now additionally lint files with other extensions (`.ts`, `.vue`, etc.) if the extension is explicitly matched by an `overrides[].files` entry. This will allow for users to lint files that don't end with `*.js` to be linted without having to use the `--ext` command line flag, as well as allow shared configuration authors to enable linting of these files without additional overhead for the end user. Please note that patterns that end with `*` are exempt from this behavior and will behave as they did previously. For example, if the following config file is present,
 
 ```yml
 # .eslintrc.yml
@@ -88,7 +88,7 @@ Starting in ESLint v7, configuration files and ignore files passed to ESLint usi
 
 In previous versions, ESLint resolved all plugins from the current working directory by default.
 
-Starting in ESLint 7.0.0, `plugins` are resolved relative to the directory path of the _entry_ configuration file.
+Starting in ESLint v7.0.0, `plugins` are resolved relative to the directory path of the _entry_ configuration file.
 
 This will not change anything in most cases. If a configuration file in a subdirectory has `plugins` defined, the plugins will be loaded from the subdirectory (or ancestor directories that include the current working directory if not found).
 
@@ -100,7 +100,7 @@ This means that if you are using a config file from a shared location via `--con
 
 ## <a name="runtime-deprecation-on-personal-config-files"></a> Runtime deprecation warnings for `~/.eslintrc.*` config files
 
-Personal config files have been deprecated since [v6.7.0](https://eslint.org/blog/2019/11/eslint-v6.7.0-released). ESLint 7.0.0 will start printing runtime deprecation warnings. It will print a warning for the following situations:
+Personal config files have been deprecated since [v6.7.0](https://eslint.org/blog/2019/11/eslint-v6.7.0-released). ESLint v7.0.0 will start printing runtime deprecation warnings. It will print a warning for the following situations:
 
 1. When a project does not have a configuration file present and ESLint loads configuration from `~/.eslintrc.*`.
 1. When a project has a configuration file and ESLint ignored a `~/.eslintrc.*` configuration file. This occurs when the `$HOME` directory is an ancestor directory of the project and the project's configuration files doesn't contain `root:true`.
@@ -117,7 +117,7 @@ Up until now, ESLint has ignored the following files by default:
 - `node_modules` in the current working directory (`/node_modules/*`)
 - `bower_components` in the current working directory (`/bower_components/*`)
 
-ESLint 7 ignores `node_modules/*` of subdirectories as well, but no longer ignores `bower_components/*` and `.eslintrc.js`. Therefore, the new default ignore patterns are:
+ESLint v7.0.0 ignores `node_modules/*` of subdirectories as well, but no longer ignores `bower_components/*` and `.eslintrc.js`. Therefore, the new default ignore patterns are:
 
 - Dotfiles except `.eslintrc.*` (`.*` but not `.eslintrc.*`)
 - `node_modules` (`/**/node_modules/*`)
@@ -130,7 +130,7 @@ ESLint 7 ignores `node_modules/*` of subdirectories as well, but no longer ignor
 
 In older version of ESLint, there was no convenient way to indicate why a directive comment – such as `/*eslint-disable*/` – was necessary.
 
-To allow for the colocation of comments that provide context with the directive, ESLint 7.0.0 adds the ability to append arbitrary text in directive comments by ignoring text following `--`. For example:
+To allow for the colocation of comments that provide context with the directive, ESLint v7.0.0 adds the ability to append arbitrary text in directive comments by ignoring text following `--`. For example:
 
 ```js
 // eslint-disable-next-line a-rule, another-rule -- those are buggy!!
