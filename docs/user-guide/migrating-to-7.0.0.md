@@ -167,7 +167,7 @@ The ten Node.js/CommonJS rules in core have been deprecated and moved to the [es
 
 ## <a name="rules-strict"></a> Several rules have been updated to cover more cases
 
-Several rules now report more errors as enhancement:
+Several rules have been enhanced and now report additional errors:
 
 - [accessor-pairs](https://eslint.org/docs/rules/accessor-pairs) rule now recognizes class members by default.
 - [array-callback-return](https://eslint.org/docs/rules/array-callback-return) rule now recognizes `flatMap` method.
