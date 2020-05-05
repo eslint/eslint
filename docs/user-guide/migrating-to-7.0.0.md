@@ -165,7 +165,7 @@ The ten Node.js/CommonJS rules in core have been deprecated and moved to the [es
 
 **Related issue(s):** [#12898](https://github.com/eslint/eslint/pull/12898)
 
-## <a name="rules-strict"></a> Several rules get strict
+## <a name="rules-strict"></a> Several rules have been updated to cover more cases
 
 Several rules now report more errors as enhancement:
 
