@@ -88,7 +88,7 @@ Starting in ESLint v7, configuration files and ignore files passed to ESLint usi
 
 **Related issue(s):** [RFC37](https://github.com/eslint/rfcs/blob/master/designs/2019-changing-base-path-in-config-files-that-cli-options-specify/README.md), [#12887](https://github.com/eslint/eslint/pull/12887)
 
-## <a name="plugin-loading-change"></a> The place where ESLint loads plugins from is changed
+## <a name="plugin-loading-change"></a> Plugin resolution has been updated
 
 Previously, ESLint resolves all plugins from the current working directory by default.
 
