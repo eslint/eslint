@@ -92,7 +92,7 @@ Starting in ESLint v7, configuration files and ignore files passed to ESLint usi
 
 In previous versions, ESLint resolved all plugins from the current working directory by default.
 
-Since ESLint 7, it resolves the `plugins` setting as relative to the directory of having the _entry_ config file. (the _entry_ means that the `plugins` setting of shareable configs is resolved as relative to the directory of having the first extender.)
+Starting in ESLint 7.0.0, `plugins` are resolved relative to the directory path of the _entry_ configuration file.
 
 This will not change anything in most cases. If a config file in a subdirectory has `plugins` setting, the plugins will be loaded from the subdirectory (or ancestor directories that include the current working directory if not found).
 
