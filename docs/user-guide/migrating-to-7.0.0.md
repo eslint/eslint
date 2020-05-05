@@ -17,7 +17,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [Description in directive comments](#description-in-directive-comments)
 - [Node.js/CommonJS rules are deprecated](#deprecate-node-rules)
 - [Several rules have been updated to cover more cases](#rules-strict)
-- [`eslint:recommended` is updated](#eslint-recommended)
+- [`eslint:recommended` has been updated](#eslint-recommended)
 
 ### Breaking changes for plugin developers
 
