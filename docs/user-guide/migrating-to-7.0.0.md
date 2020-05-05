@@ -90,7 +90,7 @@ Starting in ESLint v7, configuration files and ignore files passed to ESLint usi
 
 ## <a name="plugin-loading-change"></a> Plugin resolution has been updated
 
-Previously, ESLint resolves all plugins from the current working directory by default.
+In previous versions, ESLint resolved all plugins from the current working directory by default.
 
 Since ESLint 7, it resolves the `plugins` setting as relative to the directory of having the _entry_ config file. (the _entry_ means that the `plugins` setting of shareable configs is resolved as relative to the directory of having the first extender.)
 
