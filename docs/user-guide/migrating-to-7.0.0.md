@@ -30,7 +30,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 - [Node.js 8 is no longer supported](#drop-node-8)
 - [Plugin resolution has been updated](#plugin-loading-change)
-- [`CLIEngine` class has been deprecated](#deprecate-cliengine)
+- [The `CLIEngine` class has been deprecated](#deprecate-cliengine)
 
 ---
 
