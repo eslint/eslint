@@ -102,7 +102,7 @@ This means that if you are using a config file from a shared location via `--con
 
 **Related issue(s):** [RFC47](https://github.com/eslint/rfcs/blob/master/designs/2019-plugin-loading-improvement/README.md), [#12922](https://github.com/eslint/eslint/pull/12922)
 
-## <a name="runtime-deprecation-on-personal-config-files"></a> Runtime deprecation warnings on `~/.eslintrc.*` config files
+## <a name="runtime-deprecation-on-personal-config-files"></a> Runtime deprecation warnings for `~/.eslintrc.*` config files
 
 Personal config files have been deprecated since [v6.7.0](https://eslint.org/blog/2019/11/eslint-v6.7.0-released). As planned, v7.0.0 has started to print runtime deprecation warnings. It prints the warnings when the following situations:
 
