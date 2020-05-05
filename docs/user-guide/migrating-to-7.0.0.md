@@ -140,7 +140,7 @@ To allow for the colocation of comments that provide context with the directive,
 // eslint-disable-next-line a-rule, another-rule -- those are buggy!!
 ```
 
-**To address:** If you have `--` surrounded by whitespaces in the configuration in directive comments, consider to move it to your config file.
+**To address:** If you have `--` surrounded by whitespace in directive comments, consider moving it into your configuration file.
 
 **Related issue(s):** [RFC33](https://github.com/eslint/rfcs/blob/master/designs/2019-description-in-directive-comments/README.md), [#12699](https://github.com/eslint/eslint/pull/12699)
 
