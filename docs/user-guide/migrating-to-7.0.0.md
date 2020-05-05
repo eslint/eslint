@@ -196,7 +196,7 @@ Three new rules have been enabled in the `eslint:recommended` preset.
 
 **Related issue(s):** [#12920](https://github.com/eslint/eslint/pull/12920)
 
-## <a name="rule-tester-strict"></a> `RuleTester` class get strict
+## <a name="rule-tester-strict"></a> Additional validation added to the `RuleTester` class
 
 The `RuleTester` now recognizes more mistakes:
 
