@@ -47,7 +47,7 @@ Node.js 8 reached EOL in December 2019, and we are officially dropping support f
 
 ## <a name="additional-lint-targets"></a> Lint files matched by `overrides[].files` by default
 
-Previously, ESLint lints only `*.js` files by default if directories are present such as below.
+Previously to v7.0.0, ESLint would only lint files with a `.js` extension by default.
 
 ```
 $ eslint src
