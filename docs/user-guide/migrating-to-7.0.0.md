@@ -208,7 +208,7 @@ The `RuleTester` now validates the following:
 
 **Related issue(s):** [RFC25](https://github.com/eslint/rfcs/blob/master/designs/2019-rule-tester-improvements/README.md), [#12096](https://github.com/eslint/eslint/pull/12096), [#12955](https://github.com/eslint/eslint/pull/12955)
 
-## <a name="deprecate-cliengine"></a> `CLIEngine` class has been deprecated
+## <a name="deprecate-cliengine"></a> The `CLIEngine` class has been deprecated
 
 The [`CLIEngine` class](https://eslint.org/docs/developer-guide/nodejs-api#cliengine) has been deprecated and replaced by the new [`ESLint` class](https://eslint.org/docs/developer-guide/nodejs-api#eslint-class).
 
