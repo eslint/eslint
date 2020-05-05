@@ -200,7 +200,7 @@ Three new rules have been enabled in the `eslint:recommended` preset.
 
 The `RuleTester` now validates the following:
 
-- It fails test-cases if the rule uses either of non-standard properties `node.start` and `node.end`. Use `node.range` instead.
+- It fails test cases if the rule under test uses the non-standard `node.start` or `node.end` properties. Rules should use `node.range` instead.
 - It fails test-cases if the rule provides autofix but the test-case doesn't have the `output` property. Add the `output` property to test autofix.
 - It fails test-cases if any unknown properties are found in the objects in the `errors` property.
 
