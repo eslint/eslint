@@ -19,6 +19,7 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("arrow-body-style", rule, {
     valid: [
+
         "var foo = () => {};",
         "var foo = () => 0;",
         "var addToB = (a) => { b =  b + a };",
@@ -45,6 +46,8 @@ ruleTester.run("arrow-body-style", rule, {
         { code: "var foo = () => { return { bar: 0 }; };", options: ["as-needed", { requireReturnForObjectLiteral: true }] }
     ],
     invalid: [
+
+
         {
             code: "for (let a = (b, c, d) => { return vb && c in d; }; ;);",
             output: "for (let a = (b, c, d) => (vb && c in d); ;);",
@@ -63,6 +66,28 @@ ruleTester.run("arrow-body-style", rule, {
                 {
                     line: 1,
                     column: 27,
+                    messageId: "unexpectedSingleBlock"
+                }
+            ]
+        },
+        {
+            code: "function foo(){ for (let a = (b, c, d) => { return v in b && c in d; }; ;); }",
+            output: "function foo(){ for (let a = (b, c, d) => (v in b && c in d); ;); }",
+            errors: [
+                {
+                    line: 1,
+                    column: 43,
+                    messageId: "unexpectedSingleBlock"
+                }
+            ]
+        },
+        {
+            code: "for ( a = (b, c, d) => { return v in b && c in d; }; ;);",
+            output: "for ( a = (b, c, d) => (v in b && c in d); ;);",
+            errors: [
+                {
+                    line: 1,
+                    column: 24,
                     messageId: "unexpectedSingleBlock"
                 }
             ]
@@ -91,7 +116,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "do{let a = () => {return f in ff}}while(true){}",
-            output: "do{let a = () => (f in ff)}while(true){}",
+            output: "do{let a = () => f in ff}while(true){}",
             errors: [{
                 line: 1,
                 column: 18,
@@ -99,8 +124,17 @@ ruleTester.run("arrow-body-style", rule, {
             }]
         },
         {
+            code: "do{for (let a = (b, c, d) => { return vb in c in dd ; }; ;);}while(true){}",
+            output: "do{for (let a = (b, c, d) => (vb in c in dd ); ;);}while(true){}",
+            errors: [{
+                line: 1,
+                column: 30,
+                messageId: "unexpectedSingleBlock"
+            }]
+        },
+        {
             code: "scores.map(score => { return x in +(score / maxScore).toFixed(2)});",
-            output: "scores.map(score => (x in +(score / maxScore).toFixed(2)));",
+            output: "scores.map(score => x in +(score / maxScore).toFixed(2));",
             errors: [{
                 line: 1,
                 column: 21,
@@ -109,7 +143,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "const fn = (a, b) => { return a + x in Number(b) };",
-            output: "const fn = (a, b) => (a + x in Number(b));",
+            output: "const fn = (a, b) => a + x in Number(b);",
             errors: [{
                 line: 1,
                 column: 22,
@@ -439,8 +473,8 @@ ruleTester.run("arrow-body-style", rule, {
 
             // Not fixed; fixing would cause ASI issues.
             code:
-            "var foo = () => { return bar }\n" +
-            "[1, 2, 3].map(foo)",
+        "var foo = () => { return bar }\n" +
+        "[1, 2, 3].map(foo)",
             output: null,
             options: ["never"],
             errors: [
@@ -449,10 +483,11 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
 
+
             // Not fixed; fixing would cause ASI issues.
             code:
-            "var foo = () => { return bar }\n" +
-            "(1).toString();",
+        "var foo = () => { return bar }\n" +
+        "(1).toString();",
             output: null,
             options: ["never"],
             errors: [
