@@ -13,7 +13,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [The base path of `overrides` and `ignorePatterns` is changed if the config file is given by the `--config`/`--ignore-path` options](#base-path-change)
 - [The place where ESLint loads plugins from is changed](#plugin-loading-change)
 - [Runtime deprecation warnings on `~/.eslintrc.*` config files](#runtime-deprecation-on-personal-config-files)
-- [Default ignore patterns are changed](#default-ignore-patterns)
+- [Default ignore patterns have changed](#default-ignore-patterns)
 - [Description in directive comments](#description-in-directive-comments)
 - [Node.js/CommonJS rules are deprecated](#deprecate-node-rules)
 - [Several rules have been updated to cover more cases](#rules-strict)
