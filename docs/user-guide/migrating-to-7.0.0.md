@@ -186,7 +186,7 @@ Several rules have been enhanced and now report additional errors:
 
 ## <a name="eslint-recommended"></a> `eslint:recommended` has been updated
 
-Three new rules are enabled by the `eslint:recommended` preset.
+Three new rules have been enabled in the `eslint:recommended` preset.
 
 - [no-dupe-else-if](https://eslint.org/docs/rules/no-dupe-else-if)
 - [no-import-assign](https://eslint.org/docs/rules/no-import-assign)
