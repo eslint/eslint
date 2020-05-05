@@ -192,7 +192,7 @@ Three new rules have been enabled in the `eslint:recommended` preset.
 - [no-import-assign](https://eslint.org/docs/rules/no-import-assign)
 - [no-setter-return](https://eslint.org/docs/rules/no-setter-return)
 
-**To address:** Modify your code if new warnings appeared.
+**To address:** Fix errors or use disable these rules.
 
 **Related issue(s):** [#12920](https://github.com/eslint/eslint/pull/12920)
 
