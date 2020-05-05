@@ -184,7 +184,7 @@ Several rules have been enhanced and now report additional errors:
 
 **Related issue(s):** [#12490](https://github.com/eslint/eslint/pull/12490), [#12608](https://github.com/eslint/eslint/pull/12608), [#12670](https://github.com/eslint/eslint/pull/12670), [#12701](https://github.com/eslint/eslint/pull/12701), [#12765](https://github.com/eslint/eslint/pull/12765), [#12837](https://github.com/eslint/eslint/pull/12837), [#12913](https://github.com/eslint/eslint/pull/12913), [#12915](https://github.com/eslint/eslint/pull/12915), [#12919](https://github.com/eslint/eslint/pull/12919)
 
-## <a name="eslint-recommended"></a> `eslint:recommended` is updated
+## <a name="eslint-recommended"></a> `eslint:recommended` has been updated
 
 Three new rules are enabled by the `eslint:recommended` preset.
 
