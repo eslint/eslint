@@ -24,7 +24,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [Node.js 8 is no longer supported](#drop-node-8)
 - [Lint files matched by `overrides[].files` by default](#additional-lint-targets)
 - [Plugin resolution has been updated](#plugin-loading-change)
-- [`RuleTester` class get strict](#rule-tester-strict)
+- [Additional validation added to the `RuleTester` class](#rule-tester-strict)
 
 ### Breaking changes for integration developers
 
