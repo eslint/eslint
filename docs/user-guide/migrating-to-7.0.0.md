@@ -71,7 +71,7 @@ If you maintain plugins that check files with extensions other than `.js`, this 
 
 **Related issue(s):** [RFC20](https://github.com/eslint/rfcs/blob/master/designs/2019-additional-lint-targets/README.md), [#12677](https://github.com/eslint/eslint/pull/12677)
 
-## <a name="base-path-change"></a> The base path of `overrides` and `ignorePatterns` is changed if the config file is given by the `--config`/`--ignore-path` options
+## <a name="base-path-change"></a> The base path of `overrides` and `ignorePatterns` has changed when using the `--config`/`--ignore-path` options
 
 ESLint resolves the following paths as relative to the directory path of having the _entry_ config file. (the _entry_ means that the settings of shareable configs are resolved as relative to the directory of having the first extender.)
 
