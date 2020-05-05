@@ -96,7 +96,7 @@ Starting in ESLint 7.0.0, `plugins` are resolved relative to the directory path 
 
 This will not change anything in most cases. If a configuration file in a subdirectory has `plugins` defined, the plugins will be loaded from the subdirectory (or ancestor directories that include the current working directory if not found).
 
-If you are using a config file of a shared location via `--config` option, the plugins the config file declare will be loaded from the shared location.
+This means that if you are using a config file from a shared location via `--config` option, the plugins that the config file declare will be loaded from the shared config file location.
 
 **To address:** Install plugins to the proper place or add `--resolve-plugins-relative-to .` option to override this change.
 
