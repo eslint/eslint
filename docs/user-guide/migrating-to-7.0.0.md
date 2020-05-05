@@ -41,7 +41,7 @@ Node.js 8 reached EOL in December 2019, and we are officially dropping support f
 - Node.js 10 (`10.12.0` and above)
 - Node.js 12 and above
 
-**To address:** Make sure you upgrade to at least Node.js `10.12.0` when using ESLint 7. Mind the Node.js version of your editor when you use ESLint 7 via editor integrations. If you are unable to upgrade, we recommend continuing to use ESLint 6 until you are able to upgrade Node.js.
+**To address:** Make sure you upgrade to at least Node.js `10.12.0` when using ESLint 7. One important thing to double check is the Node.js version supported by your editor when using ESLint via editor integrations. If you are unable to upgrade, we recommend continuing to use ESLint 6 until you are able to upgrade Node.js.
 
 **Related issue(s):** [RFC44](https://github.com/eslint/rfcs/blob/master/designs/2019-drop-node8/README.md), [#12700](https://github.com/eslint/eslint/pull/12700)
 
