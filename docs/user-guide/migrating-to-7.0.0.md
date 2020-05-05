@@ -67,7 +67,7 @@ then running `eslint src` would check both `*.js` and `*.ts` files in the `src` 
 
 **To address:** Using the `--ext` CLI option will override this new behavior. Run ESLint with `--ext .js`  if you are using `overrides` but only want to lint files that have a `.js` extension. 
 
-If you maintain plugins which check other kinds of files than `.js`, it may be convenient if the `recommended` preset of your plugin has the `overrides` setting in order to check the files by default.
+If you maintain plugins that check files with extensions other than `.js`, this feature will allow you to check these files by default by configuring an `overrides` setting in your `recommended` preset.
 
 **Related issue(s):** [RFC20](https://github.com/eslint/rfcs/blob/master/designs/2019-additional-lint-targets/README.md), [#12677](https://github.com/eslint/eslint/pull/12677)
 
