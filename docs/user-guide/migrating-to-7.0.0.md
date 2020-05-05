@@ -214,7 +214,7 @@ The `RuleTester` now recognizes more mistakes:
 
 The `CLIEngine` class provides a synchronous API that is blocking the implementation of features such as parallel linting, supporting ES modules in shared configs, parsers, plugins, and formatters, and adding the abilitiy to visually display the progress of linting runs. The new `ESLint` class provides an asynchronous API that ESLint core will now using going forward. `CLIEngine` will remain in core for the foreseeable future but may be removed in a future major version.
 
-**To address:** Use `ESLint` class if you are using `CLIEngine` class. The `ESLint` class has similar methods:
+**To address:** Update your code to use the new `ESLint` class if you are currently using `CLIEngine`. The following table maps the existing `CLIEngine` methods to their `ESLint` counterparts:
 
 | `CLIEngine`                                  | `ESLint`                           |
 | :------------------------------------------- | :--------------------------------- |
