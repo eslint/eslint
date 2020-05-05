@@ -39,7 +39,7 @@ The lists below are ordered roughly by the number of users each change is expect
 Node.js 8 reached EOL in December 2019, and we are officially dropping support for it in this release. ESLint now supports the following versions of Node.js:
 
 - Node.js 10 (`10.12.0` and above)
-- Anything above Node.js 12
+- Node.js 12 and above
 
 **To address:** Make sure you upgrade to at least Node.js `10.12.0` when using ESLint 7. Mind the Node.js version of your editor when you use ESLint 7 via editor integrations. If you are unable to upgrade, we recommend continuing to use ESLint 6 until you are able to upgrade Node.js.
 
