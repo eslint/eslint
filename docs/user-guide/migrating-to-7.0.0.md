@@ -104,7 +104,7 @@ This means that if you are using a config file from a shared location via `--con
 
 ## <a name="runtime-deprecation-on-personal-config-files"></a> Runtime deprecation warnings for `~/.eslintrc.*` config files
 
-Personal config files have been deprecated since [v6.7.0](https://eslint.org/blog/2019/11/eslint-v6.7.0-released). As planned, v7.0.0 has started to print runtime deprecation warnings. It prints the warnings when the following situations:
+Personal config files have been deprecated since [v6.7.0](https://eslint.org/blog/2019/11/eslint-v6.7.0-released). ESLint 7.0.0 will start printing runtime deprecation warnings. It will print a warning for the following situations:
 
 1. When ESLint loaded `~/.eslintrc.*` config files because project's config was not present.
 1. When ESLint ignored `~/.eslintrc.*` config files because project's config was present. (in other words, the HOME directory is an ancestor directory of the project and the project config didn't have `root:true` setting.)
