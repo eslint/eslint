@@ -132,7 +132,7 @@ ESLint 7 ignores `node_modules/*` of subdirectories as well, but no longer ignor
 
 ## <a name="description-in-directive-comments"></a> Descriptions in directive comments
 
-Previously, ESLint doesn't have the official way to write the reason for directive comments like `/*eslint-disable*/`, but it's better if directive comments have the reason description.
+In older version of ESLint, there was no convenient way to indicate why a directive comment – such as `/*eslint-disable*/` – was necessary.
 
 ESLint 7 ignores the part preceded by `--` in directive comments. For example:
 
