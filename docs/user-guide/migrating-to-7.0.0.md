@@ -98,7 +98,7 @@ This will not change anything in most cases. If a configuration file in a subdir
 
 This means that if you are using a config file from a shared location via `--config` option, the plugins that the config file declare will be loaded from the shared config file location.
 
-**To address:** Install plugins to the proper place or add `--resolve-plugins-relative-to .` option to override this change.
+**To address:** Ensure that plugins are installed in a place that can be resolved relative to your configuration file or use `--resolve-plugins-relative-to .` to override this change.
 
 **Related issue(s):** [RFC47](https://github.com/eslint/rfcs/blob/master/designs/2019-plugin-loading-improvement/README.md), [#12922](https://github.com/eslint/eslint/pull/12922)
 
