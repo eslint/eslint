@@ -144,7 +144,7 @@ To allow for the colocation of comments that provide context with the directive,
 
 **Related issue(s):** [RFC33](https://github.com/eslint/rfcs/blob/master/designs/2019-description-in-directive-comments/README.md), [#12699](https://github.com/eslint/eslint/pull/12699)
 
-## <a name="deprecate-node-rules"></a> Node.js/CommonJS rules are deprecated
+## <a name="deprecate-node-rules"></a> Node.js/CommonJS rules have been deprecated
 
 Ten rules about Node.js/CommonJS are deprecated and moved to the [eslint-plugin-node](https://github.com/mysticatea/eslint-plugin-node) plugin.
 
