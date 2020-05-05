@@ -204,7 +204,7 @@ The `RuleTester` now validates the following:
 - It fails test cases if the rule under test provides an autofix but a test case doesn't have an `output` property. Add an `output` property to test cases to test the rule's autofix functionality.
 - It fails test cases if any unknown properties are found in the objects in the `errors` property.
 
-**To address:** Modify your rule or test-case if existing test-cases failed.
+**To address:** Modify your rule or test case if existing test cases fail.
 
 **Related issue(s):** [RFC25](https://github.com/eslint/rfcs/blob/master/designs/2019-rule-tester-improvements/README.md), [#12096](https://github.com/eslint/eslint/pull/12096), [#12955](https://github.com/eslint/eslint/pull/12955)
 
