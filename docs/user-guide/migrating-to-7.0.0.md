@@ -63,7 +63,7 @@ overrides:
     extends: my-config-ts
 ```
 
-then the `eslint src` command checks both `*.js` and `*.ts` files in the `src` directory.
+then running `eslint src` would check both `*.js` and `*.ts` files in the `src` directory.
 
 **To address:** Add `--ext js` option if you are using `overrides` but don't want to lint other files than `*.js`. The `--ext` CLI option overrides this new behavior completely.
 
