@@ -84,7 +84,7 @@ Up until now, ESLint has resolved the following paths relative to the directory 
 
 Starting in ESLint v7, configuration files and ignore files passed to ESLint using the `--config path/to/a-config` and `--ignore-path path/to/a-ignore` CLI flags, respectively, will resolve from the current working directory rather than the file location. This allows for users to utilize shared plugins without having to install them directly in their project.
 
-**To address:** Update those paths if you are using the config file via `--config` or `--ignore-path` CLI options.
+**To address:** Update the affected paths if you are using a configuration or ignore file via the `--config` or `--ignore-path` CLI options.
 
 **Related issue(s):** [RFC37](https://github.com/eslint/rfcs/blob/master/designs/2019-changing-base-path-in-config-files-that-cli-options-specify/README.md), [#12887](https://github.com/eslint/eslint/pull/12887)
 
