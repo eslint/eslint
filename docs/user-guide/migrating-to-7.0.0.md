@@ -65,7 +65,7 @@ overrides:
 
 then running `eslint src` would check both `*.js` and `*.ts` files in the `src` directory.
 
-**To address:** Add `--ext js` option if you are using `overrides` but don't want to lint other files than `*.js`. The `--ext` CLI option overrides this new behavior completely.
+**To address:** Using the `--ext` CLI option will override this new behavior. Run ESLint with `--ext .js`  if you are using `overrides` but only want to lint files that have a `.js` extension. 
 
 If you maintain plugins which check other kinds of files than `.js`, it may be convenient if the `recommended` preset of your plugin has the `overrides` setting in order to check the files by default.
 
