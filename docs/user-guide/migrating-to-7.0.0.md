@@ -45,7 +45,7 @@ Node.js 8 reached EOL in December 2019, and we are officially dropping support f
 
 **Related issue(s):** [RFC44](https://github.com/eslint/rfcs/blob/master/designs/2019-drop-node8/README.md), [#12700](https://github.com/eslint/eslint/pull/12700)
 
-## <a name="additional-lint-targets"></a> Lint the files that match to `overrides[].files` by default
+## <a name="additional-lint-targets"></a> Lint files matched by `overrides[].files` by default
 
 Previously, ESLint lints only `*.js` files by default if directories are present such as below.
 
