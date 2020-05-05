@@ -73,7 +73,7 @@ If you maintain plugins that check files with extensions other than `.js`, this 
 
 ## <a name="base-path-change"></a> The base path of `overrides` and `ignorePatterns` has changed when using the `--config`/`--ignore-path` options
 
-ESLint resolves the following paths as relative to the directory path of having the _entry_ config file. (the _entry_ means that the settings of shareable configs are resolved as relative to the directory of having the first extender.)
+Up until now, ESLint has resolved the following paths relative to the directory path of the _entry_ configuration file:
 
 - Configuration files (`.eslintrc.*`)
     - relative paths in the `overrides[].files` setting
