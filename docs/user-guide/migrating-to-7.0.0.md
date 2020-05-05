@@ -113,7 +113,7 @@ Personal config files have been deprecated since [v6.7.0](https://eslint.org/blo
 
 **Related issue(s):** [RFC32](https://github.com/eslint/rfcs/tree/master/designs/2019-deprecating-personal-config/README.md), [#12678](https://github.com/eslint/eslint/pull/12678)
 
-## <a name="default-ignore-patterns"></a> Default ignore patterns are changed
+## <a name="default-ignore-patterns"></a> Default ignore patterns have changed
 
 Previously, ESLint ignores the following files:
 
