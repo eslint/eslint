@@ -115,7 +115,7 @@ Personal config files have been deprecated since [v6.7.0](https://eslint.org/blo
 
 ## <a name="default-ignore-patterns"></a> Default ignore patterns have changed
 
-Previously, ESLint ignores the following files:
+Up until now, ESLint has ignored the following files by default:
 
 - Dotfiles (`.*`)
 - `node_modules` in the current working directory (`/node_modules/*`)
