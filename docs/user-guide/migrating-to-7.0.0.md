@@ -174,7 +174,7 @@ Several rules have been enhanced and now report additional errors:
 - [computed-property-spacing](https://eslint.org/docs/rules/computed-property-spacing) rule now recognizes class members by default.
 - [func-names](https://eslint.org/docs/rules/func-names) rule now recognizes function declarations in default exports.
 - [no-extra-parens](https://eslint.org/docs/rules/no-extra-parens) rule now recognizes parentheses in assignment targets.
-- [no-dupe-class-members](https://eslint.org/docs/rules/no-dupe-class-members) rule now recognizes computed keys if it's static.
+- [no-dupe-class-members](https://eslint.org/docs/rules/no-dupe-class-members) rule now recognizes computed keys for static class members.
 - [no-magic-number](https://eslint.org/docs/rules/no-magic-number) rule now recognizes bigint literals.
 - [radix](https://eslint.org/docs/rules/radix) rule now recognizes invalid numbers at the second parameter of `parseInt()`.
 - [use-isnan](https://eslint.org/docs/rules/use-isnan) rule now recognizes class members by default.
