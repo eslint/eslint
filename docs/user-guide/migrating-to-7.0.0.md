@@ -176,7 +176,7 @@ Several rules have been enhanced and now report additional errors:
 - [use-isnan](https://eslint.org/docs/rules/use-isnan) rule now recognizes class members by default.
 - [yoda](https://eslint.org/docs/rules/yoda) rule now recognizes bigint literals.
 
-**To address:** Fix errors or use directive comments to disable the rules.
+**To address:** Fix errors or disable these rules.
 
 **Related issue(s):** [#12490](https://github.com/eslint/eslint/pull/12490), [#12608](https://github.com/eslint/eslint/pull/12608), [#12670](https://github.com/eslint/eslint/pull/12670), [#12701](https://github.com/eslint/eslint/pull/12701), [#12765](https://github.com/eslint/eslint/pull/12765), [#12837](https://github.com/eslint/eslint/pull/12837), [#12913](https://github.com/eslint/eslint/pull/12913), [#12915](https://github.com/eslint/eslint/pull/12915), [#12919](https://github.com/eslint/eslint/pull/12919)
 
