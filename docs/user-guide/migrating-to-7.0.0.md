@@ -130,7 +130,7 @@ ESLint v7.0.0 ignores `node_modules/*` of subdirectories as well, but no longer 
 
 In older version of ESLint, there was no convenient way to indicate why a directive comment – such as `/*eslint-disable*/` – was necessary.
 
-To allow for the colocation of comments that provide context with the directive, ESLint v7.0.0 adds the ability to append arbitrary text in directive comments by ignoring text following `--`. For example:
+To allow for the colocation of comments that provide context with the directive, ESLint v7.0.0 adds the ability to append arbitrary text in directive comments by ignoring text following `--` surrounded by whitespace. For example:
 
 ```js
 // eslint-disable-next-line a-rule, another-rule -- those are buggy!!
