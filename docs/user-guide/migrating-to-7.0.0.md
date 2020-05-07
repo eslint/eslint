@@ -78,7 +78,7 @@ Up until now, ESLint has resolved the following paths relative to the directory 
 - Ignore files (`.eslintignore`)
     - paths which start with `/`
 
-Starting in ESLint v7, configuration files and ignore files passed to ESLint using the `--config path/to/a-config` and `--ignore-path path/to/a-ignore` CLI flags, respectively, will resolve from the current working directory rather than the file location. This allows for users to utilize shared plugins without having to install them directly in their project.
+Starting in ESLint v7.0.0, configuration files and ignore files passed to ESLint using the `--config path/to/a-config` and `--ignore-path path/to/a-ignore` CLI flags, respectively, will resolve from the current working directory rather than the file location. This allows for users to utilize shared plugins without having to install them directly in their project.
 
 **To address:** Update the affected paths if you are using a configuration or ignore file via the `--config` or `--ignore-path` CLI options.
 
