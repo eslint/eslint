@@ -1163,23 +1163,23 @@ describe("cli", () => {
 
     describe("testing the cloned config", () => {
         describe("config file and input file", () => {
-            it("should execute without any errors", async () => {
+            it("should not modify original configuration object", async () => {
                 const configPath = getFixturePath("config-file", "cloned-config", "eslintConfig.js");
                 const filePath = getFixturePath("config-file", "cloned-config", "index.js");
-                const code = `--config ${configPath} ${filePath}`;
+                const args = `--config ${configPath} ${filePath}`;
 
-                const exit = await cli.execute(code);
+                const exit = await cli.execute(args);
 
                 assert.strictEqual(exit, 0);
             });
         });
 
         describe("inline config and input file", () => {
-            it("should execute without any errors", async () => {
+            it("should not modify original configuration object", async () => {
                 const filePath = getFixturePath("config-file", "cloned-config", "inlineText.js");
-                const code = `${filePath}`;
+                const args = `${filePath}`;
 
-                const exit = await cli.execute(code);
+                const exit = await cli.execute(args);
 
                 assert.strictEqual(exit, 0);
             });

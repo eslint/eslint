@@ -924,7 +924,7 @@ ruleTester.run("computed-property-spacing", rule, {
         {
             code: "A = class { [a](){} get [b](){} set [c](foo){} static [d](){} static get [e](){} static set [f](bar){} }",
             output: "A = class { [ a ](){} get [ b ](){} set [ c ](foo){} static [ d ](){} static get [ e ](){} static set [ f ](bar){} }",
-            options: ["always", {}],
+            options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -1040,7 +1040,7 @@ ruleTester.run("computed-property-spacing", rule, {
         {
             code: "class A { [a](){} get [b](){} set [c](foo){} static [d](){} static get [e](){} static set [f](bar){} }",
             output: "class A { [ a ](){} get [ b ](){} set [ c ](foo){} static [ d ](){} static get [ e ](){} static set [ f ](bar){} }",
-            options: ["always"],
+            options: ["always", {}],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
