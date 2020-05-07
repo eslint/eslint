@@ -227,10 +227,6 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
-            code: "var obj = { mem_var: 1 };",
-            options: [{ properties: "never" }]
-        },
-        {
             code: "({ a: obj.fo_o } = bar);",
             options: [{ allow: ["fo_o"] }],
             parserOptions: { ecmaVersion: 6 }
@@ -793,25 +789,6 @@ ruleTester.run("camelcase", rule, {
                     type: "Identifier"
                 }
             ]
-        },
-        {
-            code: "const {mem_var = 1} = obh",
-            options: [{ ignoreDestructuring: false }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "notCamelCase",
-                data: { name: "mem_var" },
-                type: "Identifier"
-            }]
-        },
-        {
-            code: "var obj = { mem_var: 1 };",
-            options: [{}],
-            errors: [{
-                messageId: "notCamelCase",
-                data: { name: "mem_var" },
-                type: "Identifier"
-            }]
         },
         {
             code: "({ a: obj.fo_o } = bar);",
