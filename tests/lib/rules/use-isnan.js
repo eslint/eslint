@@ -281,6 +281,16 @@ ruleTester.run("use-isnan", rule, {
             errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 15 }]
         },
         {
+            code: "switch(NaN) { case foo: break; }",
+            options: [{}],
+            errors: [{ messageId: "switchNaN", type: "SwitchStatement", column: 1 }]
+        },
+        {
+            code: "switch(foo) { case NaN: break; }",
+            options: [{}],
+            errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 15 }]
+        },
+        {
             code: "switch(NaN) {}",
             options: [{ enforceForSwitchCase: true }],
             errors: [{ messageId: "switchNaN", type: "SwitchStatement", column: 1 }]
