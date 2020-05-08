@@ -613,7 +613,6 @@ target.gensite = function(prereleaseVersion) {
             htmlFullPath = fullPath.replace(".md", ".html");
 
         if (test("-f", fullPath)) {
-
             rm("-rf", fullPath);
 
             if (filePath.indexOf(".md") >= 0 && test("-f", htmlFullPath)) {
@@ -743,7 +742,7 @@ target.gensite = function(prereleaseVersion) {
     echo(`> Updating files (Steps 4-9)${" ".repeat(50)}`);
 
     // 10. Copy temporary directory to site's docs folder
-    echo("> Copying the temporary directory the site (Step 10)");
+    echo("> Copying the temporary directory into the site's docs folder (Step 10)");
     let outputDir = DOCS_DIR;
 
     if (prereleaseVersion) {
@@ -754,9 +753,13 @@ target.gensite = function(prereleaseVersion) {
     }
     cp("-rf", `${TEMP_DIR}*`, outputDir);
 
-    // 11. Generate rule listing page
-    echo("> Generating the rule listing (Step 11)");
-    generateRuleIndexPage();
+    // 11. Generate rules index page
+    if (prereleaseVersion) {
+        echo("> Skipping generating rules index page because this is a prerelease (Step 11)");
+    } else {
+        echo("> Generating the rules index page (Step 11)");
+        generateRuleIndexPage();
+    }
 
     // 12. Delete temporary directory
     echo("> Removing the temporary directory (Step 12)");
