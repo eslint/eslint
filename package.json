@@ -101,7 +101,7 @@
     "eslint-plugin-internal-rules": "file:tools/internal-rules",
     "eslint-plugin-jsdoc": "^22.1.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-release": "^1.2.0",
+    "eslint-release": "^2.0.0",
     "eslump": "^2.0.0",
     "esprima": "^4.0.1",
     "glob": "^7.1.6",
