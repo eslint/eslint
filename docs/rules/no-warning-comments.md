@@ -16,6 +16,7 @@ This rule reports comments that include any of the predefined terms specified in
 This rule has an options object literal:
 
 * `"terms"`: optional array of terms to match. Defaults to `["todo", "fixme", "xxx"]`. Terms are matched case-insensitive and as whole words: `fix` would match `FIX` but not `fixing`. Terms can consist of multiple words: `really bad idea`.
+* `"whitelist"`: optional array of terms to ignore. Defaults to `[]`.
 * `"location"`: optional string that configures where in your comments to check for matches. Defaults to `"start"`. The other value is match `anywhere` in comments.
 
 Example of **incorrect** code for the default `{ "terms": ["todo", "fixme", "xxx"], "location": "start" }` options:
@@ -77,6 +78,24 @@ Examples of **correct** code for the `{ "terms": ["todo", "fixme", "any other te
  * with any other interesting term
  * or fix me this
  */
+```
+
+### whitelist
+
+Examples of **incorrect** code for the `{ "terms": ["todo", "fixme", "any other term"], "whitelist": ["issue #\\d+"] }` options:
+
+```js
+/*eslint no-warning-comments: ["error", { "terms": ["todo", "fixme", "any other term"], "whitelist": ["issue #\\d+"] }]*/
+
+// todo comments containing whitelisted text ISSUE #123
+```
+
+Examples of **incorrect** code for the `{ "terms": ["todo", "fixme", "any other term"], "whitelist": ["issue #\\d+"] }` options:
+
+```js
+/*eslint no-warning-comments: ["error", { "terms": ["todo", "fixme", "any other term"], "whitelist": ["issue #\\d+"] }]*/
+
+// todo comments not containing whitelisted text
 ```
 
 ## When Not To Use It
