@@ -49,13 +49,28 @@ ruleTester.run("template-tag-spacing", rule, {
         { code: "new (tag) `name`", options: ["always"] },
         "new (tag)`hello ${name}`",
         { code: "new (tag)`hello ${name}`", options: ["never"] },
-        { code: "new (tag) `hello ${name}`", options: ["always"] }
+        { code: "new (tag) `hello ${name}`", options: ["always"] },
+        { code: "new (tag)\n`hello ${name}`", options: ["always"] },
+        "func ()`Hello world` ;"
     ],
     invalid: [
         {
             code: "tag `name`",
             output: "tag`name`",
             errors: [unexpectedError]
+        },
+        {
+            code: "tag  `name`",
+            output: "tag`name`",
+            errors: [
+                {
+                    line: 1,
+                    column: 4,
+                    messageId: "unexpected",
+                    endLine: 1,
+                    endColumn: 6
+                }
+            ]
         },
         {
             code: "tag `name`",
@@ -114,6 +129,20 @@ ruleTester.run("template-tag-spacing", rule, {
             output: "tag `hello ${name}`",
             options: ["always"],
             errors: [missingError]
+        },
+        {
+            code: "tag`hello ${name}`",
+            output: "tag `hello ${name}`",
+            options: ["always"],
+            errors: [
+                {
+                    line: 1,
+                    column: 4,
+                    messageId: "missing",
+                    endLine: 1,
+                    endColumn: 5
+                }
+            ]
         },
         {
             code: "new tag `name`",
@@ -216,6 +245,21 @@ ruleTester.run("template-tag-spacing", rule, {
             output: "new (tag) `hello ${name}`",
             options: ["always"],
             errors: [missingError]
+        },
+        {
+            code: "tag\n`hello ${name}`",
+            output: "tag`hello ${name}`",
+            options: ["never"],
+            errors: [
+                {
+                    line: 1,
+                    column: 4,
+                    messageId: "unexpected",
+                    endLine: 2,
+                    endColumn: 1
+                }
+            ]
         }
+
     ]
 });
