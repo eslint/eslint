@@ -1174,6 +1174,21 @@ describe("cli", () => {
             });
         });
 
+        describe("config file and input file", () => {
+            it("should exit with 1 as camelcase has wrong property type", async () => {
+                const configPath = getFixturePath("config-file", "cloned-config", "eslintConfigFail.js");
+                const filePath = getFixturePath("config-file", "cloned-config", "index.js");
+                const args = `--config ${configPath} ${filePath}`;
+
+                try {
+                    await cli.execute(args);
+                } catch (error) {
+                    assert.strictEqual(/Configuration for rule "camelcase" is invalid:/u.test(error), true);
+                }
+
+            });
+        });
+
         describe("inline config and input file", () => {
             it("should not modify original configuration object", async () => {
                 const filePath = getFixturePath("config-file", "cloned-config", "inlineText.js");
