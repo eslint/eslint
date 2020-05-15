@@ -10,5 +10,6 @@ module.exports = {
     noLineError: require("./no-line-error"),
     enhancedParser2: require("./enhanced-parser2"),
     enhancedParser3: require("./enhanced-parser3"),
-    throwsWithOptions: require("./throws-with-options")
+    throwsWithOptions: require("./throws-with-options"),
+    nonJSParser: require('./non-js-parser')
 };
