@@ -1387,19 +1387,19 @@ ruleTester.run("curly", rule, {
         },
         {
             code:
-            "if (a) {\n" +
-            "  while (b) {\n" +
-            "    c();\n" +
-            "    d();\n" +
-            "  }\n" +
-            "} else e();",
+         "if (a) {\n" +
+         "  while (b) {\n" +
+         "    c();\n" +
+         "    d();\n" +
+         "  }\n" +
+         "} else e();",
             output:
-            "if (a) \n" +
-            "  while (b) {\n" +
-            "    c();\n" +
-            "    d();\n" +
-            "  }\n" +
-            " else e();",
+         "if (a) \n" +
+         "  while (b) {\n" +
+         "    c();\n" +
+         "    d();\n" +
+         "  }\n" +
+         " else e();",
             options: ["multi"],
             errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
         },
@@ -1576,7 +1576,53 @@ ruleTester.run("curly", rule, {
             code: "if (a) { while (cond) if (b) foo() } else bar();",
             output: "if (a) { while (cond) if (b) foo() } else {bar();}",
             options: ["multi", "consistent"],
-            errors: [{ messageId: "missingCurlyAfter", data: { name: "else" }, type: "IfStatement" }]
+            errors: [
+                {
+                    messageId: "missingCurlyAfter",
+                    data: { name: "else" },
+                    type: "IfStatement",
+                    line: 1,
+                    column: 38,
+                    endColumn: 42,
+                    endLine: 1
+                }
+            ]
+        },
+        {
+            code: "if (a)  while (cond) if (b) foo()  \nelse\n {bar();}",
+            output: "if (a)  while (cond) if (b) foo()  \nelse\n bar();",
+            options: ["multi", "consistent"],
+            errors: [
+                {
+                    messageId: "unexpectedCurlyAfter",
+                    data: { name: "else" },
+                    type: "IfStatement",
+                    line: 2,
+                    column: 1,
+                    endColumn: 5,
+                    endLine: 2
+                }
+            ]
+        },
+        {
+            code: "if (a) foo() \nelse\n bar();",
+            output: "if (a) {foo()} \nelse\n {bar();}",
+            errors: [{
+                line: 1,
+                column: 6,
+                type: "IfStatement",
+                messageId: "missingCurlyAfterCondition",
+                endLine: 1,
+                endColumn: 7
+            },
+            {
+                line: 2,
+                column: 1,
+                type: "IfStatement",
+                messageId: "missingCurlyAfter",
+                endLine: 2,
+                endColumn: 5
+            }]
         },
         {
             code: "if (a) { while (cond) if (b) foo() } ",
