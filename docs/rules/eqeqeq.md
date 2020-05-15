@@ -33,7 +33,7 @@ The `--fix` option on the command line automatically fixes some problems reporte
 
 ### always
 
-The `"always"` option (default) enforces the use of `===` and `!==` in every situation (except when you opt-in to more specific handling of `null` [see below]).
+The `"always"` option (default) enforces the use of `===` and `!==` in every situation (except when you opt-in to more specific handling of `null` or `undefined` [see below]).
 
 Examples of **incorrect** code for the `"always"` option:
 
@@ -75,6 +75,10 @@ This rule optionally takes a second argument, which should be an object with the
     * `always` (default) - Always use === or !==.
     * `never` - Never use === or !== with `null`.
     * `ignore` - Do not apply this rule to `null`.
+* `"undefined"`: Customize how this rule treats `undefined`. Possible values:
+    * `always` (default) - Always use === or !==.
+    * `never` - Never use === or !== with `undefined`.
+    * `ignore` - Do not apply this rule to `undefined`.
 
 ### smart
 
