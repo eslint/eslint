@@ -259,6 +259,34 @@ ruleTester.run("template-tag-spacing", rule, {
                     endColumn: 1
                 }
             ]
+        },
+        {
+            code: "func() `hello ${name}`",
+            output: "func()`hello ${name}`",
+            options: ["never"],
+            errors: [
+                {
+                    line: 1,
+                    column: 7,
+                    messageId: "unexpected",
+                    endLine: 1,
+                    endColumn: 8
+                }
+            ]
+        },
+        {
+            code: "func()`hello ${name}`",
+            output: "func() `hello ${name}`",
+            options: ["always"],
+            errors: [
+                {
+                    line: 1,
+                    column: 7,
+                    messageId: "missing",
+                    endLine: 1,
+                    endColumn: 8
+                }
+            ]
         }
 
     ]
