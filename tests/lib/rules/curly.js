@@ -777,7 +777,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "else" },
                     type: "IfStatement",
                     line: 6,
-                    column: 3
+                    column: 8,
+                    endLine: 6,
+                    endColumn: 9
                 }
             ]
         },
@@ -1215,7 +1217,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "else" },
                     type: "IfStatement",
                     line: 1,
-                    column: 18
+                    column: 23,
+                    endColumn: 24,
+                    endLine: 1
                 }
             ]
         },
@@ -1597,10 +1601,10 @@ ruleTester.run("curly", rule, {
                     messageId: "unexpectedCurlyAfter",
                     data: { name: "else" },
                     type: "IfStatement",
-                    line: 2,
-                    column: 1,
-                    endColumn: 5,
-                    endLine: 2
+                    line: 3,
+                    column: 2,
+                    endColumn: 3,
+                    endLine: 3
                 }
             ]
         },
