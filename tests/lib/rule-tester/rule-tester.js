@@ -472,7 +472,7 @@ describe("RuleTester", () => {
                     errors: []
                 }]
             });
-        }, /errors array should have at least one element otherwise its a valid case/u);
+        }, /Invalid cases must have at least one error/u);
     });
 
     it("should throw error for errors : 0", () => {
@@ -491,7 +491,7 @@ describe("RuleTester", () => {
                     ]
                 }
             );
-        }, /errors of type `number` should not have value `0`/u);
+        }, /Invalid cases must have value greater than 0/u);
     });
 
     it("should not skip column assertion if column is a falsy value", () => {
