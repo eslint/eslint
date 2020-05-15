@@ -1,6 +1,6 @@
 ---
 name: "⛔ Question"
-about: Please go to https://gitter.im/eslint/eslint
+about: Please go to https://eslint.org/chat
 title: ''
 labels: ''
 assignees: ''
@@ -8,13 +8,13 @@ assignees: ''
 ---
 
 <!--
-    ESLint adheres to the [JS Foundation Code of Conduct](https://js.foundation/community/code-of-conduct).
-
+    ESLint adheres to the Open JS Foundation Code of Conduct:
+    https://eslint.org/conduct
 
     Please do not use GitHub for asking questions. Instead,
     please visit our chatroom:
 
-        https://gitter.im/eslint/eslint
+        https://eslint.org/chat
 
     Or our mailing list:
 
