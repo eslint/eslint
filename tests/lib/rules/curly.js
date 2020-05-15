@@ -431,7 +431,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "if" },
                     type: "IfStatement",
                     line: 1,
-                    column: 9
+                    column: 8,
+                    endColumn: 9,
+                    endLine: 1
                 }
             ]
         },
@@ -444,7 +446,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "if" },
                     type: "IfStatement",
                     line: 1,
-                    column: 9
+                    column: 8,
+                    endColumn: 9,
+                    endLine: 1
                 }
             ]
         },
@@ -479,7 +483,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "while" },
                     type: "WhileStatement",
                     line: 1,
-                    column: 12
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
                 }
             ]
         },
@@ -503,7 +509,26 @@ ruleTester.run("curly", rule, {
                 {
                     messageId: "missingCurlyAfter",
                     data: { name: "do" },
-                    type: "DoWhileStatement"
+                    type: "DoWhileStatement",
+                    line: 1,
+                    column: 1,
+                    endColumn: 3,
+                    endLine: 1
+                }
+            ]
+        },
+        {
+            code: "do \n bar(); while (foo)",
+            output: "do \n {bar();} while (foo)",
+            errors: [
+                {
+                    messageId: "missingCurlyAfter",
+                    data: { name: "do" },
+                    type: "DoWhileStatement",
+                    line: 1,
+                    column: 1,
+                    endColumn: 3,
+                    endLine: 1
                 }
             ]
         },
@@ -539,7 +564,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "for-of" },
                     type: "ForOfStatement",
                     line: 1,
-                    column: 22
+                    column: 20,
+                    endLine: 1,
+                    endColumn: 21
                 }
             ]
         },
@@ -552,8 +579,10 @@ ruleTester.run("curly", rule, {
                     messageId: "missingCurlyAfter",
                     data: { name: "for-of" },
                     type: "ForOfStatement",
-                    line: 2,
-                    column: 2
+                    line: 1,
+                    column: 20,
+                    endColumn: 21,
+                    endLine: 1
                 }
             ]
         },
@@ -567,7 +596,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "for" },
                     type: "ForStatement",
                     line: 1,
-                    column: 11
+                    column: 9,
+                    endLine: 1,
+                    endColumn: 10
                 }
             ]
         },
@@ -580,8 +611,10 @@ ruleTester.run("curly", rule, {
                     messageId: "missingCurlyAfterCondition",
                     data: { name: "for" },
                     type: "ForStatement",
-                    line: 2,
-                    column: 2
+                    line: 1,
+                    column: 9,
+                    endLine: 1,
+                    endColumn: 10
                 }
             ]
         },
@@ -596,7 +629,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "for-of" },
                     type: "ForOfStatement",
                     line: 1,
-                    column: 22
+                    column: 22,
+                    endLine: 1,
+                    endColumn: 23
                 }
             ]
         },
@@ -611,7 +646,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "do" },
                     type: "DoWhileStatement",
                     line: 1,
-                    column: 3
+                    column: 3,
+                    endColumn: 4,
+                    endLine: 1
                 }
             ]
         },
@@ -623,7 +660,26 @@ ruleTester.run("curly", rule, {
                 {
                     messageId: "unexpectedCurlyAfterCondition",
                     data: { name: "for" },
-                    type: "ForStatement"
+                    type: "ForStatement",
+                    line: 1,
+                    column: 13,
+                    endColumn: 14,
+                    endLine: 1
+                }
+            ]
+        },
+        {
+            code: "for (;foo;) \n bar() ",
+            output: "for (;foo;) \n {bar()} ",
+            errors: [
+                {
+                    data: { name: "for" },
+                    line: 1,
+                    column: 11,
+                    type: "ForStatement",
+                    messageId: "missingCurlyAfterCondition",
+                    endLine: 1,
+                    endColumn: 12
                 }
             ]
         },
@@ -758,7 +814,26 @@ ruleTester.run("curly", rule, {
                 {
                     messageId: "missingCurlyAfterCondition",
                     data: { name: "if" },
-                    type: "IfStatement"
+                    type: "IfStatement",
+                    line: 1,
+                    endColumn: 9,
+                    endLine: 1,
+                    column: 8
+                }
+            ]
+        },
+        {
+            code: "if (foo) baz()",
+            output: "if (foo) {baz()}",
+            errors: [
+                {
+                    messageId: "missingCurlyAfterCondition",
+                    data: { name: "if" },
+                    type: "IfStatement",
+                    line: 1,
+                    endColumn: 9,
+                    endLine: 1,
+                    column: 8
                 }
             ]
         },
@@ -820,7 +895,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "do" },
                     type: "DoWhileStatement",
                     line: 1,
-                    column: 4
+                    column: 1,
+                    endColumn: 3,
+                    endLine: 1
                 }
             ]
         },
@@ -833,8 +910,10 @@ ruleTester.run("curly", rule, {
                     messageId: "missingCurlyAfter",
                     data: { name: "do" },
                     type: "DoWhileStatement",
-                    line: 2,
-                    column: 2
+                    line: 1,
+                    column: 1,
+                    endColumn: 3,
+                    endLine: 1
                 }
             ]
         },
@@ -885,7 +964,11 @@ ruleTester.run("curly", rule, {
                 {
                     messageId: "missingCurlyAfter",
                     data: { name: "for-of" },
-                    type: "ForOfStatement"
+                    type: "ForOfStatement",
+                    line: 1,
+                    column: 20,
+                    endLine: 1,
+                    endColumn: 21
                 }
             ]
         },
@@ -1019,14 +1102,18 @@ ruleTester.run("curly", rule, {
             errors: [
                 {
                     line: 1,
-                    column: 22,
+                    column: 20,
+                    endLine: 1,
+                    endColumn: 21,
                     messageId: "missingCurlyAfter",
                     data: { name: "for-in" },
                     type: "ForInStatement"
                 },
                 {
                     line: 1,
-                    column: 30,
+                    column: 29,
+                    endColumn: 30,
+                    endLine: 1,
                     messageId: "missingCurlyAfterCondition",
                     data: { name: "if" },
                     type: "IfStatement"
@@ -1049,8 +1136,10 @@ ruleTester.run("curly", rule, {
                     messageId: "missingCurlyAfter",
                     data: { name: "for-in" },
                     type: "ForInStatement",
-                    line: 2,
-                    column: 2
+                    line: 1,
+                    column: 20,
+                    endLine: 1,
+                    endColumn: 21
                 }
             ]
         },
@@ -1526,7 +1615,9 @@ ruleTester.run("curly", rule, {
             options: ["multi-line"],
             errors: [{
                 line: 1,
-                column: 10,
+                column: 9,
+                endLine: 1,
+                endColumn: 10,
                 data: { name: "if" },
                 type: "IfStatement",
                 messageId: "missingCurlyAfterCondition"
@@ -1538,6 +1629,8 @@ ruleTester.run("curly", rule, {
             options: ["multi"],
             errors: [{
                 line: 4,
+                endLine: 4,
+                endColumn: 4,
                 column: 3,
                 data: { name: "for" },
                 type: "ForStatement",
@@ -1549,8 +1642,10 @@ ruleTester.run("curly", rule, {
             output: "for(\n;\n;\n) \n{foo()}\n",
             options: ["multi-line"],
             errors: [{
-                line: 5,
+                line: 4,
                 column: 1,
+                endLine: 4,
+                endColumn: 2,
                 data: { name: "for" },
                 type: "ForStatement",
                 messageId: "missingCurlyAfterCondition"
