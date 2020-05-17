@@ -1,5 +1,6 @@
 {
     "accessor-pairs": "suggestion",
+    "advanced-sort-imports": "suggestion",
     "array-bracket-newline": "layout",
     "array-bracket-spacing": "layout",
     "array-callback-return": "problem",
