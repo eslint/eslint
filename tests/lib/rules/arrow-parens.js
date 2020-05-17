@@ -98,6 +98,21 @@ const valid = [
     {
         code: "const f = (/*\n */a//\n) => a + a;",
         options: ["as-needed"]
+    },
+    {
+        code: "var foo = (a,/**/) => b;",
+        parserOptions: { ecmaVersion: 2017 },
+        options: ["as-needed"]
+    },
+    {
+        code: "var foo = (a,//\n) => b;",
+        parserOptions: { ecmaVersion: 2017 },
+        options: ["as-needed"]
+    },
+    {
+        code: "const i = (a/**/,) => a + a;",
+        parserOptions: { ecmaVersion: 2017 },
+        options: ["as-needed"]
     }
 ];
 
@@ -327,7 +342,32 @@ const invalid = [
             endLine: 2,
             endColumn: 3
         }]
+    },
+    {
+        code: "var foo = /**/ a => b;",
+        output: "var foo = /**/ (a) => b;",
+        errors: [{
+            line: 1,
+            column: 16,
+            type: "ArrowFunctionExpression",
+            messageId: "expectedParens",
+            endLine: 1,
+            endColumn: 17
+        }]
+    },
+    {
+        code: "var bar = a /**/ =>  b;",
+        output: "var bar = (a) /**/ =>  b;",
+        errors: [{
+            line: 1,
+            column: 11,
+            type: "ArrowFunctionExpression",
+            messageId: "expectedParens",
+            endLine: 1,
+            endColumn: 12
+        }]
     }
+
 ];
 
 ruleTester.run("arrow-parens", rule, {
