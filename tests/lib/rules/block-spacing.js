@@ -698,6 +698,6 @@ ruleTester.run("block-spacing", rule, {
                     endColumn: 45
                 }
             ]
-        },
+        }
     ]
 });
