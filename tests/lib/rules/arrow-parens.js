@@ -105,12 +105,27 @@ const valid = [
         options: ["as-needed"]
     },
     {
+        code: "var foo = (a , /**/) => b;",
+        parserOptions: { ecmaVersion: 2017 },
+        options: ["as-needed"]
+    },
+    {
+        code: "var foo = (a\n,\n/**/) => b;",
+        parserOptions: { ecmaVersion: 2017 },
+        options: ["as-needed"]
+    },
+    {
         code: "var foo = (a,//\n) => b;",
         parserOptions: { ecmaVersion: 2017 },
         options: ["as-needed"]
     },
     {
         code: "const i = (a/**/,) => a + a;",
+        parserOptions: { ecmaVersion: 2017 },
+        options: ["as-needed"]
+    },
+    {
+        code: "const i = (a \n /**/,) => a + a;",
         parserOptions: { ecmaVersion: 2017 },
         options: ["as-needed"]
     }
