@@ -68,7 +68,7 @@ ruleTester.run("semi-spacing", rule, {
                     line: 1,
                     column: 12,
                     endLine: 1,
-                    endColumn: 13
+                    endColumn: 14
                 }
             ]
         },
@@ -82,7 +82,7 @@ ruleTester.run("semi-spacing", rule, {
                     line: 1,
                     column: 12,
                     endLine: 1,
-                    endColumn: 12
+                    endColumn: 13
                 }
             ]
         },
@@ -267,7 +267,7 @@ ruleTester.run("semi-spacing", rule, {
                     type: "ContinueStatement",
                     line: 1,
                     column: 21,
-                    endColumn: 23
+                    endColumn: 24
                 }
             ]
         },
@@ -282,7 +282,7 @@ ruleTester.run("semi-spacing", rule, {
                     type: "ThrowStatement",
                     line: 1,
                     column: 27,
-                    endColumn: 29
+                    endColumn: 30
                 }
             ]
         },
@@ -297,7 +297,7 @@ ruleTester.run("semi-spacing", rule, {
                 type: "ForStatement",
                 messageId: "unexpectedWhitespaceBefore",
                 endLine: 1,
-                endColumn: 6
+                endColumn: 7
             },
             {
                 line: 1,
@@ -319,7 +319,7 @@ ruleTester.run("semi-spacing", rule, {
                 type: "ForStatement",
                 messageId: "unexpectedWhitespaceBefore",
                 endLine: 1,
-                endColumn: 6
+                endColumn: 7
             }
             ]
         }
