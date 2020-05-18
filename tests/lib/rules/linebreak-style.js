@@ -46,6 +46,8 @@ ruleTester.run("linebreak-style", rule, {
             errors: [{
                 line: 1,
                 column: 13,
+                endLine: 2,
+                endColumn: 1,
                 messageId: "expectedLF"
             }]
         },
@@ -56,6 +58,8 @@ ruleTester.run("linebreak-style", rule, {
             errors: [{
                 line: 1,
                 column: 13,
+                endLine: 2,
+                endColumn: 1,
                 messageId: "expectedLF"
             }]
         },
@@ -66,6 +70,8 @@ ruleTester.run("linebreak-style", rule, {
             errors: [{
                 line: 1,
                 column: 13,
+                endLine: 2,
+                endColumn: 1,
                 messageId: "expectedCRLF"
             }]
         },
@@ -75,11 +81,15 @@ ruleTester.run("linebreak-style", rule, {
             errors: [{
                 line: 4,
                 column: 24,
+                endLine: 5,
+                endColumn: 1,
                 messageId: "expectedLF"
             },
             {
                 line: 6,
                 column: 3,
+                endLine: 7,
+                endColumn: 1,
                 messageId: "expectedLF"
             }]
         },
@@ -90,16 +100,46 @@ ruleTester.run("linebreak-style", rule, {
             errors: [{
                 line: 3,
                 column: 1,
+                endLine: 4,
+                endColumn: 1,
                 messageId: "expectedCRLF"
             },
             {
                 line: 5,
                 column: 1,
+                endLine: 6,
+                endColumn: 1,
                 messageId: "expectedCRLF"
             },
             {
                 line: 6,
                 column: 17,
+                endLine: 7,
+                endColumn: 1,
+                messageId: "expectedCRLF"
+            }]
+        },
+        {
+            code: "\r\n",
+            output: "\n",
+            options: ["unix"],
+            errors: [{
+                line: 1,
+                column: 1,
+                endLine: 2,
+                endColumn: 1,
+                messageId: "expectedLF"
+            }]
+        },
+        {
+            code: "\n",
+            output: "\r\n",
+            options: ["windows"],
+            errors: [{
+                line: 1,
+                column: 1,
+                endLine: 2,
+                endColumn: 1,
                 messageId: "expectedCRLF"
             }]
         }
