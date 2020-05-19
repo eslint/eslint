@@ -165,8 +165,8 @@ ruleTester.run("semi-spacing", rule, {
                     type: "VariableDeclaration",
                     line: 1,
                     column: 13,
-                    endColumn: 13,
-                    endLine: 1
+                    endLine: 1,
+                    endColumn: 14
                 }
             ]
         },
@@ -180,8 +180,8 @@ ruleTester.run("semi-spacing", rule, {
                     type: "VariableDeclaration",
                     line: 1,
                     column: 13,
-                    endColumn: 15,
-                    endLine: 1
+                    endLine: 1,
+                    endColumn: 16
                 }
             ]
         },
@@ -267,6 +267,7 @@ ruleTester.run("semi-spacing", rule, {
                     type: "ContinueStatement",
                     line: 1,
                     column: 21,
+                    endLine: 1,
                     endColumn: 24
                 }
             ]
@@ -282,6 +283,7 @@ ruleTester.run("semi-spacing", rule, {
                     type: "ThrowStatement",
                     line: 1,
                     column: 27,
+                    endLine: 1,
                     endColumn: 30
                 }
             ]
@@ -292,20 +294,20 @@ ruleTester.run("semi-spacing", rule, {
             options: [{ before: false, after: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                line: 1,
-                column: 6,
                 type: "ForStatement",
                 messageId: "unexpectedWhitespaceBefore",
+                line: 1,
+                column: 6,
                 endLine: 1,
                 endColumn: 7
             },
             {
-                line: 1,
-                column: 8,
                 type: "ForStatement",
                 messageId: "unexpectedWhitespaceAfter",
+                line: 1,
+                column: 8,
                 endLine: 1,
-                endColumn: 8
+                endColumn: 9
             }]
         },
         {
@@ -314,10 +316,10 @@ ruleTester.run("semi-spacing", rule, {
             options: [{ before: false, after: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                line: 1,
-                column: 6,
                 type: "ForStatement",
                 messageId: "unexpectedWhitespaceBefore",
+                line: 1,
+                column: 6,
                 endLine: 1,
                 endColumn: 7
             }
