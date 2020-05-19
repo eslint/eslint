@@ -312,10 +312,10 @@ ruleTester.run("block-spacing", rule, {
                     type: "BlockStatement",
                     messageId: "extra",
                     data: { location: "before", token: "}" },
-                    endLine: 1,
-                    endColumn: 10,
                     line: 1,
-                    column: 9
+                    column: 9,
+                    endLine: 1,
+                    endColumn: 10
                 }
             ]
         },
