@@ -159,6 +159,7 @@ Examples of **incorrect** code for this rule with the `"as-needed"` option:
 a.then((foo) => {});
 a.then((foo) => a);
 a((foo) => { if (true) {} });
+const f = /** @type {number} */(a) => a + a;
 ```
 
 Examples of **correct** code for this rule with the `"as-needed"` option:
@@ -177,6 +178,7 @@ a.then(foo => { if (true) {} });
 (a = 10) => a;
 ([a, b]) => a;
 ({a, b}) => a;
+const f = /** @type {number} */a => a + a;
 ```
 
 ### requireForBlockBody
