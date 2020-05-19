@@ -174,10 +174,283 @@ ruleTester.run("array-bracket-spacing", rule, {
 
         // destructuring with type annotation
         { code: "([ a, b ]: Array<any>) => {}", options: ["always"], parser: parser("flow-destructuring-1"), parserOptions: { ecmaVersion: 6 } },
-        { code: "([a, b]: Array< any >) => {}", options: ["never"], parser: parser("flow-destructuring-2"), parserOptions: { ecmaVersion: 6 } }
+        { code: "([a, b]: Array< any >) => {}", options: ["never"], parser: parser("flow-destructuring-2"), parserOptions: { ecmaVersion: 6 } },
+
+        { code: "var foo = [ \n/**comment here *//**comment here */a,b]", options: ["never"] },
+        { code: "var obj = [ /*comment \nhere*/'foo' ];", options: ["never", { singleValue: true }] },
+        { code: "var foo = [/*comment\n here*/{ 'bar': 'baz' }];", options: ["always", { objectsInArrays: false }] },
+        { code: "var arr = [ /*comment \nfirst*/  1, 2  /*comment \nlast*/ ];", options: ["never"] }
     ],
 
     invalid: [
+        {
+            code: "var foo = [a,b/**comment here *//**comment here */ ]",
+            output: "var foo = [a,b/**comment here *//**comment here */]",
+            options: ["never"],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 15,
+                    endLine: 1,
+                    endColumn: 52
+                }
+            ]
+        },
+        {
+            code: "var foo = [a,/**comment here *//**comment here */b ]",
+            output: "var foo = [a,/**comment here *//**comment here */b]",
+            options: ["never"],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 51,
+                    endLine: 1,
+                    endColumn: 52
+                }
+            ]
+        },
+        {
+            code: "var foo = [ /**comment here *//**comment here */a,b]",
+            output: "var foo = [/**comment here *//**comment here */a,b]",
+            options: ["never"],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 49
+                }
+            ]
+        },
+        {
+            code: "var foo = [ a/**comment here *//**comment here */,b]",
+            output: "var foo = [a/**comment here *//**comment here */,b]",
+            options: ["never"],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
+                }
+            ]
+        },
+        {
+            code: "var foo = [ /**comment here */a,b/**comment here */ ]",
+            output: "var foo = [/**comment here */a,b/**comment here */]",
+            options: ["never"],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 31
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 34,
+                    endLine: 1,
+                    endColumn: 53
+                }
+            ]
+        },
+        {
+            code: "var foo = [ /**comment here */ ]",
+            output: "var foo = [/**comment here */]",
+            options: ["never"],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 32
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 32
+                }
+
+            ]
+        },
+        {
+            code: "var foo = [     /**comment here */       ]",
+            output: "var foo = [/**comment here */]",
+            options: ["never"],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 42
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 42
+                }
+
+            ]
+        },
+        {
+            code: "var foo = [     /**comment here *//**comment here */       ]",
+            output: "var foo = [/**comment here *//**comment here */]",
+            options: ["never"],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 60
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 60
+                }
+
+            ]
+        },
+        {
+            code: "var foo = [     /**comment here */,/**comment here */       ]",
+            output: "var foo = [/**comment here */,/**comment here */]",
+            options: ["never"],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 35
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 36,
+                    endLine: 1,
+                    endColumn: 61
+                }
+
+            ]
+        },
+        {
+            code: "var foo = [   ]",
+            output: "var foo = []",
+            options: ["never"],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 15
+                }
+            ]
+        },
+        {
+            code: "var foo = [ ,  ]",
+            output: "var foo = [,]",
+            options: ["never"],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 16
+                }
+            ]
+        },
         {
             code: "var foo = [ ]",
             output: "var foo = []",
@@ -285,6 +558,203 @@ ruleTester.run("array-bracket-spacing", rule, {
                 }
             ]
         },
+        {
+            code: "var foo = [/*comment here*/1, 5, { 'bar': 'baz' } ];",
+            output: "var foo = [ /*comment here*/1, 5, { 'bar': 'baz' }];",
+            options: ["always", { objectsInArrays: false }],
+            errors: [
+                {
+                    messageId: "missingSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 50,
+                    endLine: 1,
+                    endColumn: 51
+                }
+            ]
+        },
+        {
+            code: "var foo = [/*comment here*/1, 5, { 'bar': 'baz' } /*comment here*/];",
+            output: "var foo = [ /*comment here*/1, 5, { 'bar': 'baz' }/*comment here*/];",
+            options: ["always", { objectsInArrays: false }],
+            errors: [
+                {
+                    messageId: "missingSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "comment here"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 50,
+                    endLine: 1,
+                    endColumn: 51
+                }
+            ]
+        },
+        {
+            code: "var foo = [/*comment here*/{ 'bar': 'baz' }/*comment here*/];",
+            output: "var foo = [ /*comment here*/{ 'bar': 'baz' }/*comment here*/ ];",
+            options: ["never", { objectsInArrays: true }],
+            errors: [
+                {
+                    messageId: "missingSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 60,
+                    endLine: 1,
+                    endColumn: 61
+                }
+            ]
+        },
+        {
+            code: "var foo = [  /*comment here*/{ 'bar': 'baz' }/*comment here*/ ];",
+            output: "var foo = [/*comment here*/{ 'bar': 'baz' }/*comment here*/];",
+            options: ["always", { objectsInArrays: false }],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 30
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 46,
+                    endLine: 1,
+                    endColumn: 63
+                }
+            ]
+        },
+        {
+            code: "var foo = [/*comment here*/ { 'bar': 'baz' } /*last comment here*/];",
+            output: "var foo = [/*comment here*/{ 'bar': 'baz' }/*last comment here*/];",
+            options: ["always", { objectsInArrays: false }],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "comment here"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 28,
+                    endLine: 1,
+                    endColumn: 29
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "last comment here"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 45,
+                    endLine: 1,
+                    endColumn: 46
+                }
+            ]
+        },
+        {
+            code: "var foo = [ /*comment here*/ { 'bar': 'baz' } /*last comment here*/ ];",
+            output: "var foo = [/*comment here*/{ 'bar': 'baz' }/*last comment here*/];",
+            options: ["always", { objectsInArrays: false }],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 30
+                },
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "comment here"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 29,
+                    endLine: 1,
+                    endColumn: 30
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 46,
+                    endLine: 1,
+                    endColumn: 69
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "last comment here"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 46,
+                    endLine: 1,
+                    endColumn: 47
+                }
+            ]
+        },
+
 
         // singleValue
         {
@@ -362,6 +832,97 @@ ruleTester.run("array-bracket-spacing", rule, {
                     endColumn: 18
                 }
             ]
+        },
+        {
+            code: "var obj = [/*comment here*/'foo'];",
+            output: "var obj = [ /*comment here*/'foo' ];",
+            options: ["never", { singleValue: true }],
+            errors: [
+                {
+                    messageId: "missingSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 33,
+                    endLine: 1,
+                    endColumn: 34
+                }
+            ]
+        },
+        {
+            code: "var obj = [/*comment here*/'foo'/*comment here*/ ];",
+            output: "var obj = [ /*comment here*/'foo'/*comment here*/ ];",
+            options: ["never", { singleValue: true }],
+            errors: [
+                {
+                    messageId: "missingSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
+                }
+            ]
+        },
+        {
+            code: "var [ /*Comment here*/...horse/*Comment here*/ ] = y",
+            output: "var [/*Comment here*/...horse/*Comment here*/] = y",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unexpectedSpaceAfter",
+                data: {
+                    tokenValue: "["
+                },
+                type: "ArrayPattern",
+                line: 1,
+                column: 6,
+                endLine: 1,
+                endColumn: 23
+            }, {
+                messageId: "unexpectedSpaceBefore",
+                data: {
+                    tokenValue: "]"
+                },
+                type: "ArrayPattern",
+                line: 1,
+                column: 31,
+                endLine: 1,
+                endColumn: 48
+            }]
+        },
+        {
+            code: "var [//\na,b ] = x;",
+            output: "var [//\na,b] = x;",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unexpectedSpaceBefore",
+                data: {
+                    tokenValue: "]"
+                },
+                type: "ArrayPattern",
+                line: 2,
+                column: 4,
+                endLine: 2,
+                endColumn: 5
+            }]
         },
 
         // always - arraysInArrays
@@ -466,6 +1027,35 @@ ruleTester.run("array-bracket-spacing", rule, {
                 }
             ]
         },
+        {
+            code: "var arr = [ /*Comment here*/[/*Comment here*/ 1, 2/*Comment here*/ /*Comment here*/], 2, [ 3, 4 ]/*Comment here*/ ];",
+            output: "var arr = [/*Comment here*/[/*Comment here*/ 1, 2/*Comment here*/ /*Comment here*/], 2, [ 3, 4 ]/*Comment here*/];",
+            options: ["always", { arraysInArrays: false }],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 29
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 98,
+                    endLine: 1,
+                    endColumn: 115
+                }
+            ]
+        },
 
         // always - destructuring
         {
@@ -514,6 +1104,23 @@ ruleTester.run("array-bracket-spacing", rule, {
             }]
         },
         {
+            code: "var [/*comment here*/x,y ] = y",
+            output: "var [ /*comment here*/x,y ] = y",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "missingSpaceAfter",
+                data: {
+                    tokenValue: "["
+                },
+                type: "ArrayPattern",
+                line: 1,
+                column: 5,
+                endLine: 1,
+                endColumn: 6
+            }]
+        },
+        {
             code: "var [,,,x,,] = y",
             output: "var [ ,,,x,, ] = y",
             options: ["always"],
@@ -539,6 +1146,34 @@ ruleTester.run("array-bracket-spacing", rule, {
                 column: 12,
                 endLine: 1,
                 endColumn: 13
+            }]
+        },
+        {
+            code: "var [,,/*comment here*/,x,,/*comment here*/] = y",
+            output: "var [ ,,/*comment here*/,x,,/*comment here*/ ] = y",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "missingSpaceAfter",
+                data: {
+                    tokenValue: "["
+                },
+                type: "ArrayPattern",
+                line: 1,
+                column: 5,
+                endLine: 1,
+                endColumn: 6
+            },
+            {
+                messageId: "missingSpaceBefore",
+                data: {
+                    tokenValue: "]"
+                },
+                type: "ArrayPattern",
+                line: 1,
+                column: 44,
+                endLine: 1,
+                endColumn: 45
             }]
         },
         {
@@ -584,6 +1219,34 @@ ruleTester.run("array-bracket-spacing", rule, {
                 column: 14,
                 endLine: 1,
                 endColumn: 15
+            }]
+        },
+        {
+            code: "var [/*comment here*/...horse/*comment here*/] = y",
+            output: "var [ /*comment here*/...horse/*comment here*/ ] = y",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "missingSpaceAfter",
+                data: {
+                    tokenValue: "["
+                },
+                type: "ArrayPattern",
+                line: 1,
+                column: 5,
+                endLine: 1,
+                endColumn: 6
+            },
+            {
+                messageId: "missingSpaceBefore",
+                data: {
+                    tokenValue: "]"
+                },
+                type: "ArrayPattern",
+                line: 1,
+                column: 46,
+                endLine: 1,
+                endColumn: 47
             }]
         },
         {
@@ -700,6 +1363,104 @@ ruleTester.run("array-bracket-spacing", rule, {
                     column: 12,
                     endLine: 1,
                     endColumn: 13
+                }
+            ]
+        },
+        {
+            code: "var arr = [ /*comment here*/];",
+            output: "var arr = [/*comment here*/];",
+            options: ["never", { arraysInArrays: true }],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 29
+                }
+            ]
+        },
+        {
+            code: "var arr = [/*commen here*/[1, 2/*commen here*/], 2,/*commen here*/ [3, 4]/*commen here*/];",
+            output: "var arr = [ /*commen here*/[1, 2/*commen here*/], 2,/*commen here*/ [3, 4]/*commen here*/ ];",
+            options: ["never", { arraysInArrays: true }],
+            errors: [
+                {
+                    messageId: "missingSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 89,
+                    endLine: 1,
+                    endColumn: 90
+                }
+            ]
+        },
+        {
+            code: "var arr = [/*commen here*/[1, 2 /*comment here*/ ], 2,/*commen here*/ [3, 4]/*commen here*/];",
+            output: "var arr = [ /*commen here*/[1, 2/*comment here*/], 2,/*commen here*/ [3, 4]/*commen here*/ ];",
+            options: ["never", { arraysInArrays: true }],
+            errors: [
+                {
+                    messageId: "missingSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 32,
+                    endLine: 1,
+                    endColumn: 50
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "comment here"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 32,
+                    endLine: 1,
+                    endColumn: 33
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 92,
+                    endLine: 1,
+                    endColumn: 93
                 }
             ]
         },
@@ -1123,6 +1884,57 @@ ruleTester.run("array-bracket-spacing", rule, {
                     column: 26,
                     endLine: 1,
                     endColumn: 27
+                }
+            ]
+        },
+        {
+            code: "var arr = [ /*comment first*/  1, 2  /*comment last*/ ];",
+            output: "var arr = [/*comment first*/1, 2/*comment last*/];",
+            options: ["never"],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 32
+                },
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "comment first"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 30,
+                    endLine: 1,
+                    endColumn: 32
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 36,
+                    endLine: 1,
+                    endColumn: 55
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "comment last"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 36,
+                    endLine: 1,
+                    endColumn: 38
                 }
             ]
         }
