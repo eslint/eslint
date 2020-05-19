@@ -93,6 +93,17 @@ ruleTester.run("arrow-body-style", rule, {
             ]
         },
         {
+            code: "for ( a = (b) => { return (c in d) }; ;);",
+            output: "for ( a = (b) => (c in d); ;);",
+            errors: [
+                {
+                    line: 1,
+                    column: 18,
+                    messageId: "unexpectedSingleBlock"
+                }
+            ]
+        },
+        {
             code: "for (let a = (b, c, d) => { return vb in dd ; }; ;);",
             output: "for (let a = (b, c, d) => (vb in dd ); ;);",
             errors: [
