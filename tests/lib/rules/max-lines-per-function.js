@@ -164,6 +164,30 @@ if ( x === y ) {
     return bar;
 }());`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: false }]
+        },
+
+        // Arrow IIFEs should be recognised if IIFEs: true
+        {
+            code: `(() => {
+    let x = 0;
+    let y = 0;
+    let z = x + y;
+    let foo = {};
+    return bar;
+})();`,
+            options: [{ max: 7, skipComments: true, skipBlankLines: false, IIFEs: true }]
+        },
+
+        // Arrow IIFEs should not be recognised if IIFEs: false
+        {
+            code: `(() => {
+    let x = 0;
+    let y = 0;
+    let z = x + y;
+    let foo = {};
+    return bar;
+})();`,
+            options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: false }]
         }
     ],
 
@@ -434,6 +458,21 @@ if ( x === y ) {
             options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: true }],
             errors: [
                 { messageId: "exceed", data: { name: "Function", lineCount: 7, maxLines: 2 } }
+            ]
+        },
+
+        // Test the IIFEs option includes arrow IIFEs
+        {
+            code: `(() => {
+    let x = 0;
+    let y = 0;
+    let z = x + y;
+    let foo = {};
+    return bar;
+})();`,
+            options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: true }],
+            errors: [
+                { messageId: "exceed", data: { name: "Arrow function", lineCount: 7, maxLines: 2 } }
             ]
         }
     ]
