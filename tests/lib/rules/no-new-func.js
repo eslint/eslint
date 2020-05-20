@@ -21,7 +21,14 @@ const ruleTester = new RuleTester();
 ruleTester.run("no-new-func", rule, {
     valid: [
         "var a = new _function(\"b\", \"c\", \"return b+c\");",
-        "var a = _function(\"b\", \"c\", \"return b+c\");"
+        "var a = _function(\"b\", \"c\", \"return b+c\");",
+        {
+            code: "class Function {}; new Function()",
+            parserOptions: {
+                ecmaVersion: 2015
+            }
+        },
+        "function Function() {}; Function()"
     ],
     invalid: [
         {
