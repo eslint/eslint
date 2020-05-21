@@ -82,7 +82,7 @@ ruleTester.run("max-lines", rule, {
                     messageId: "exceed",
                     data: { max: 2, actual: 3 },
                     line: 3,
-                    endLine: 3
+                    endLine: 4
                 }
             ]
         },
@@ -94,7 +94,7 @@ ruleTester.run("max-lines", rule, {
                     messageId: "exceed",
                     data: { max: 2, actual: 4 },
                     line: 3,
-                    endLine: 4
+                    endLine: 5
                 }
             ]
         },
@@ -106,7 +106,7 @@ ruleTester.run("max-lines", rule, {
                     messageId: "exceed",
                     data: { max: 2, actual: 3 },
                     line: 3,
-                    endLine: 3
+                    endLine: 4
                 }
             ]
         },
@@ -124,7 +124,7 @@ ruleTester.run("max-lines", rule, {
                     messageId: "exceed",
                     data: { max: 2, actual: 5 },
                     line: 3,
-                    endLine: 5
+                    endLine: 6
                 }
             ]
         },
@@ -144,8 +144,8 @@ ruleTester.run("max-lines", rule, {
                 {
                     messageId: "exceed",
                     data: { max: 2, actual: 4 },
-                    line: 3,
-                    endLine: 4
+                    line: 4,
+                    endLine: 9
                 }
             ]
         },
@@ -161,7 +161,7 @@ ruleTester.run("max-lines", rule, {
                     messageId: "exceed",
                     data: { max: 2, actual: 3 },
                     line: 3,
-                    endLine: 3
+                    endLine: 4
                 }
             ]
         },
@@ -177,8 +177,8 @@ ruleTester.run("max-lines", rule, {
                 {
                     messageId: "exceed",
                     data: { max: 2, actual: 3 },
-                    line: 3,
-                    endLine: 3
+                    line: 4,
+                    endLine: 5
                 }
             ]
         },
@@ -198,8 +198,8 @@ ruleTester.run("max-lines", rule, {
                 {
                     messageId: "exceed",
                     data: { max: 2, actual: 6 },
-                    line: 3,
-                    endLine: 6
+                    line: 4,
+                    endLine: 9
                 }
             ]
         },
@@ -211,7 +211,7 @@ ruleTester.run("max-lines", rule, {
                     messageId: "exceed",
                     data: { max: 300, actual: 301 },
                     line: 301,
-                    endLine: 301
+                    endLine: 302
                 }
             ]
         },
@@ -223,7 +223,7 @@ ruleTester.run("max-lines", rule, {
                     messageId: "exceed",
                     data: { max: 0, actual: 1 },
                     line: 1,
-                    endLine: 1
+                    endLine: 2
                 }
             ]
         },
@@ -237,9 +237,9 @@ ruleTester.run("max-lines", rule, {
                     messageId: "exceed",
                     data: { max: 2, actual: 4 },
                     line: 3,
-                    column: 1,
-                    endLine: 4,
-                    endColumn: 1
+
+                    endLine: 5
+
                 }
             ]
         },
@@ -251,9 +251,9 @@ ruleTester.run("max-lines", rule, {
                     messageId: "exceed",
                     data: { max: 2, actual: 4 },
                     line: 3,
-                    column: 1,
-                    endLine: 4,
-                    endColumn: 1
+
+                    endLine: 5
+
                 }
             ]
         },
@@ -265,9 +265,9 @@ ruleTester.run("max-lines", rule, {
                     messageId: "exceed",
                     data: { max: 2, actual: 4 },
                     line: 3,
-                    column: 1,
-                    endLine: 4,
-                    endColumn: 1
+
+                    endLine: 5
+
                 }
             ]
         },
@@ -278,10 +278,10 @@ ruleTester.run("max-lines", rule, {
                 {
                     messageId: "exceed",
                     data: { max: 2, actual: 3 },
-                    line: 3,
-                    column: 1,
-                    endLine: 3,
-                    endColumn: 1
+                    line: 5,
+
+                    endLine: 7
+
                 }
             ]
         },
@@ -300,9 +300,9 @@ ruleTester.run("max-lines", rule, {
                     messageId: "exceed",
                     data: { max: 2, actual: 4 },
                     line: 3,
-                    column: 1,
-                    endLine: 4,
-                    endColumn: 1
+
+                    endLine: 7
+
                 }
             ]
         },
@@ -320,9 +320,9 @@ ruleTester.run("max-lines", rule, {
                     messageId: "exceed",
                     data: { max: 2, actual: 4 },
                     line: 3,
-                    column: 1,
-                    endLine: 4,
-                    endColumn: 1
+
+                    endLine: 6
+
                 }
             ]
         },
@@ -340,11 +340,97 @@ ruleTester.run("max-lines", rule, {
                     messageId: "exceed",
                     data: { max: 2, actual: 4 },
                     line: 3,
-                    column: 1,
-                    endLine: 4,
-                    endColumn: 1
+
+                    endLine: 8
+
                 }
             ]
+        },
+        {
+            code: [
+                "var a = 'a'; ",
+                "var x",
+                "\n",
+                "var c;",
+                "console.log",
+                "\n"
+            ].join("\n"),
+            options: [{ max: 2, skipBlankLines: true }],
+            errors: [
+                {
+                    messageId: "exceed",
+                    data: { max: 2, actual: 4 },
+                    line: 5,
+
+                    endLine: 9
+
+                }
+            ]
+        },
+        {
+            code: [
+                "var a = 'a'; ",
+                "\n",
+                "var x",
+                "var c;",
+                "console.log",
+                "\n"
+            ].join("\n"),
+            options: [{ max: 2, skipBlankLines: true }],
+            errors: [
+                {
+                    messageId: "exceed",
+                    data: { max: 2, actual: 4 },
+                    line: 5,
+
+                    endLine: 9
+
+                }
+            ]
+        },
+        {
+            code: [
+                "var a = 'a'; ",
+                "//",
+                "var x",
+                "var c;",
+                "console.log",
+                "//"
+            ].join("\n"),
+            options: [{ max: 2, skipComments: true }],
+            errors: [
+                {
+                    messageId: "exceed",
+                    data: { max: 2, actual: 4 },
+                    line: 4,
+
+                    endLine: 7
+
+                }
+            ]
+        },
+        {
+            code: ["// hello world", "/*hello", " world 2 */", "var a,", "b", "// hh", "c,", "e,", "f;"].join("\n"),
+            options: [{ max: 2, skipComments: true }],
+            errors: [{
+                line: 7,
+
+                data: { max: 2, actual: 5 },
+                messageId: "exceed",
+                endLine: 10
+
+            }]
+        },
+        {
+            code: ["", "var x = '';", "", "// comment", "", "var b = '',", "c,", "d,", "e", "", "// comment"].join("\n"),
+            options: [{ max: 2, skipComments: true, skipBlankLines: true }],
+            errors: [{
+                data: { max: 2, actual: 5 },
+                messageId: "exceed",
+                line: 7,
+                endLine: 12
+            }]
         }
+
     ]
 });
