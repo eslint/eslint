@@ -128,6 +128,14 @@ const valid = [
         code: "const i = (a \n /**/,) => a + a;",
         parserOptions: { ecmaVersion: 2017 },
         options: ["as-needed"]
+    },
+    {
+        code: "var bar = ({/*comment here*/a}) => a",
+        options: ["as-needed"]
+    },
+    {
+        code: "var bar = (/*comment here*/{a}) => a",
+        options: ["as-needed"]
     }
 ];
 
@@ -380,6 +388,26 @@ const invalid = [
             messageId: "expectedParens",
             endLine: 1,
             endColumn: 12
+        }]
+    },
+    {
+        code: `const foo = a => {};
+
+// comment between 'a' and an unrelated closing paren
+
+bar();`,
+        output: `const foo = (a) => {};
+
+// comment between 'a' and an unrelated closing paren
+
+bar();`,
+        errors: [{
+            line: 1,
+            column: 13,
+            type: "ArrowFunctionExpression",
+            messageId: "expectedParens",
+            endLine: 1,
+            endColumn: 14
         }]
     }
 

@@ -178,7 +178,7 @@ a.then(foo => { if (true) {} });
 (a = 10) => a;
 ([a, b]) => a;
 ({a, b}) => a;
-const f = /** @type {number} */a => a + a;
+const f = (/** @type {number} */a) => a + a;
 ```
 
 ### requireForBlockBody
