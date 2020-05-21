@@ -147,13 +147,31 @@ ruleTester.run("semi-spacing", rule, {
         {
             code: "var a = 'b';c = 'd';",
             output: "var a = 'b'; c = 'd';",
-            errors: [{ messageId: "missingWhitespaceAfter", type: "VariableDeclaration", line: 1, column: 12 }]
+            errors: [
+                {
+                    messageId: "missingWhitespaceAfter",
+                    type: "VariableDeclaration",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
+                }
+            ]
         },
         {
             code: "var a = 'b';",
             output: "var a = 'b' ;",
             options: [{ before: true, after: true }],
-            errors: [{ messageId: "missingWhitespaceBefore", type: "VariableDeclaration", line: 1, column: 12 }]
+            errors: [
+                {
+                    messageId: "missingWhitespaceBefore",
+                    type: "VariableDeclaration",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
+                }
+            ]
         },
         {
             code: "var a = 'b'; c = 'd';",
@@ -189,8 +207,22 @@ ruleTester.run("semi-spacing", rule, {
             code: "for (var i = 0;i < 10;i++) {}",
             output: "for (var i = 0; i < 10; i++) {}",
             errors: [
-                { messageId: "missingWhitespaceAfter", type: "ForStatement", line: 1, column: 15 },
-                { messageId: "missingWhitespaceAfter", type: "ForStatement", line: 1, column: 22 }
+                {
+                    messageId: "missingWhitespaceAfter",
+                    type: "ForStatement",
+                    line: 1,
+                    column: 15,
+                    endLine: 1,
+                    endColumn: 16
+                },
+                {
+                    messageId: "missingWhitespaceAfter",
+                    type: "ForStatement",
+                    line: 1,
+                    column: 22,
+                    endLine: 1,
+                    endColumn: 23
+                }
             ]
         },
         {
@@ -198,8 +230,22 @@ ruleTester.run("semi-spacing", rule, {
             output: "for (var i = 0 ; i < 10 ; i++) {}",
             options: [{ before: true, after: true }],
             errors: [
-                { messageId: "missingWhitespaceBefore", type: "ForStatement", line: 1, column: 15 },
-                { messageId: "missingWhitespaceBefore", type: "ForStatement", line: 1, column: 23 }
+                {
+                    messageId: "missingWhitespaceBefore",
+                    type: "ForStatement",
+                    line: 1,
+                    column: 15,
+                    endLine: 1,
+                    endColumn: 16
+                },
+                {
+                    messageId: "missingWhitespaceBefore",
+                    type: "ForStatement",
+                    line: 1,
+                    column: 23,
+                    endLine: 1,
+                    endColumn: 24
+                }
             ]
         },
         {
