@@ -35,7 +35,9 @@ ruleTester.run("no-new-func", rule, {
             }
         },
         "function Function() {}; Function()",
-        "var fn = function () { function Function() {}; Function() }"
+        "var fn = function () { function Function() {}; Function() }",
+        "var x = function Function() { Function(); }",
+        "call(Function)"
     ],
     invalid: [
         {
