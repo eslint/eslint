@@ -160,6 +160,8 @@ a.then((foo) => {});
 a.then((foo) => a);
 a((foo) => { if (true) {} });
 const f = /** @type {number} */(a) => a + a;
+const g = (/* comment */ a) => a + a;
+const h = (a /* comment */) => a + a;
 ```
 
 Examples of **correct** code for this rule with the `"as-needed"` option:
