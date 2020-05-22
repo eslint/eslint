@@ -24,11 +24,15 @@ assignees: ''
 
 **Please describe what the rule should do:**
 
+
+**What new ECMAScript feature does this rule relate to?**
+
+<!-- New rules must be related to ECMAScript features added within the last 12 months -->
+
 **What category of rule is this? (place an "X" next to just one item)**
 
 [ ] Warns about a potential error (problem)
 [ ] Suggests an alternate way of doing something (suggestion)
-[ ] Enforces code style (layout)
 [ ] Other (please specify:)
 
 **Provide 2-3 code examples that this rule will warn about:**
