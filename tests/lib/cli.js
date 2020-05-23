@@ -1199,6 +1199,21 @@ describe("cli", () => {
                 assert.strictEqual(exit, 0);
             });
         });
+
+        describe("handling circular reference while cloning", () => {
+            it("should handle circular ref", async () => {
+                const configPath = getFixturePath("config-file", "cloned-config", "circularRefEslintConfig.js");
+                const filePath = getFixturePath("config-file", "cloned-config", "index.js");
+                const args = `--config ${configPath} ${filePath}`;
+
+                try {
+                    await cli.execute(args);
+                } catch (error) {
+                    assert.instanceOf(error, Error);
+                    assert.strictEqual(/Configuration for rule "default-case" is invalid/iu.test(error), true);
+                }
+            });
+        });
     });
 
 });
