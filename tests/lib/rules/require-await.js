@@ -31,7 +31,7 @@ ruleTester.run("require-await", rule, {
         "({ async foo() { await doSomething() } })",
         "class A { async foo() { await doSomething() } }",
         "(class { async foo() { await doSomething() } })",
-        "async function foo() { await async () => { await doSomething() } }",
+        "async function foo() { await (async () => { await doSomething() }) }",
 
         // empty functions are ok.
         "async function foo() {}",
@@ -152,7 +152,7 @@ ruleTester.run("require-await", rule, {
             }]
         },
         {
-            code: "async function foo() { await async () => { doSomething() } }",
+            code: "async function foo() { await (async () => { doSomething() }) }",
             errors: [{
                 messageId: "missingAwait",
                 data: { name: "Async arrow function" }

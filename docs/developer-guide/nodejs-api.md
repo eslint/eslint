@@ -1378,7 +1378,7 @@ ruleTester.run("my-rule", myRule, {
 
 ---
 
-[configuration object]: ../user-guide/configuring.md
+[configuration object]: ../user-guide/configuring
 [builtin-formatters]: https://eslint.org/docs/user-guide/formatters/
 [thirdparty-formatters]: https://www.npmjs.com/search?q=eslintformatter
 [eslint]: #eslint-class
