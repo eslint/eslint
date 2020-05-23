@@ -673,6 +673,21 @@ ruleTester.run("comma-dangle", rule, {
             ]
         },
         {
+            code: "var foo = {\nbar: 'baz'\r\n}",
+            output: "var foo = {\nbar: 'baz',\r\n}",
+            options: ["always"],
+            errors: [
+                {
+                    messageId: "missing",
+                    type: "Property",
+                    line: 2,
+                    column: 11,
+                    endLine: 3,
+                    endColumn: 1
+                }
+            ]
+        },
+        {
             code: "foo({ bar: 'baz', qux: 'quux' });",
             output: "foo({ bar: 'baz', qux: 'quux', });",
             options: ["always"],
