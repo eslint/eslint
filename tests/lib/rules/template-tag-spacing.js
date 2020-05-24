@@ -118,7 +118,7 @@ ruleTester.run("template-tag-spacing", rule, {
                 line: 1,
                 column: 1,
                 endLine: 1,
-                endColumn: 4
+                endColumn: 24
             }]
         },
         {
@@ -279,7 +279,7 @@ ruleTester.run("template-tag-spacing", rule, {
             errors: [{
                 messageId: "missing",
                 line: 1,
-                column: 5,
+                column: 1,
                 endLine: 1,
                 endColumn: 6
             }]
@@ -314,7 +314,7 @@ ruleTester.run("template-tag-spacing", rule, {
             errors: [{
                 messageId: "missing",
                 line: 1,
-                column: 5,
+                column: 1,
                 endLine: 1,
                 endColumn: 6
             }]
@@ -349,7 +349,7 @@ ruleTester.run("template-tag-spacing", rule, {
             errors: [{
                 messageId: "missing",
                 line: 1,
-                column: 9,
+                column: 5,
                 endLine: 1,
                 endColumn: 10
             }]
@@ -384,7 +384,7 @@ ruleTester.run("template-tag-spacing", rule, {
             errors: [{
                 messageId: "missing",
                 line: 1,
-                column: 9,
+                column: 5,
                 endLine: 1,
                 endColumn: 10
             }]
@@ -435,6 +435,30 @@ ruleTester.run("template-tag-spacing", rule, {
                 column: 4,
                 endLine: 3,
                 endColumn: 1
+            }]
+        },
+        {
+            code: "foo\n  .bar`Hello world`",
+            output: "foo\n  .bar `Hello world`",
+            options: ["always"],
+            errors: [{
+                messageId: "missing",
+                line: 1,
+                column: 1,
+                endLine: 2,
+                endColumn: 7
+            }]
+        },
+        {
+            code: "foo(\n  bar\n)`Hello world`",
+            output: "foo(\n  bar\n) `Hello world`",
+            options: ["always"],
+            errors: [{
+                messageId: "missing",
+                line: 1,
+                column: 1,
+                endLine: 3,
+                endColumn: 2
             }]
         }
     ]
