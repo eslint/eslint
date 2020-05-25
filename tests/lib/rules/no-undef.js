@@ -59,6 +59,7 @@ ruleTester.run("no-undef", rule, {
         { code: "requestIdleCallback;", env: { browser: true } },
         { code: "customElements;", env: { browser: true } },
         { code: "PromiseRejectionEvent;", env: { browser: true } },
+        { code: "BigInt;", env: { browser: true } },
 
         // Notifications of readonly are removed: https://github.com/eslint/eslint/issues/4504
         "/*global b:false*/ function f() { b = 1; }",
