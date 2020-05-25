@@ -1050,6 +1050,33 @@ ruleTester.run("no-unused-vars", rule, {
             code: "const a = () => () => { a(); };",
             parserOptions: { ecmaVersion: 2015 },
             errors: [{ ...assignedError("a"), line: 1, column: 25 }]
+        },
+        {
+
+            code: `let a = 'a';
+            a = 10;
+            function foo(){
+                a = 11;
+                a = () => {
+                    a = 13
+                }
+            }`,
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ ...definedError("foo"), line: 3, column: 22 }, { ...assignedError("a"), line: 6, column: 21 }]
+        },
+        {
+            code: `let c = 'c'
+c = 10
+function foo1() {
+  c = 11
+  c = () => {
+    c = 13
+  }
+}
+
+c = foo1`,
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("c"), line: 10, column: 1 }]
         }
     ]
 });
