@@ -90,7 +90,7 @@ function getErrorMessage(error) {
             const template = lodash.template(templateText);
 
             return template(error.messageData || {});
-        } catch {
+        } catch (e) {
 
             // Ignore template error then fallback to use `error.stack`.
         }
