@@ -8,7 +8,8 @@ assignees: ''
 ---
 
 <!--
-    ESLint adheres to the [JS Foundation Code of Conduct](https://js.foundation/community/code-of-conduct).
+    ESLint adheres to the Open JS Foundation Code of Conduct:
+    https://eslint.org/conduct
 
 
     STOP! Please do not use GitHub for filing security issues.

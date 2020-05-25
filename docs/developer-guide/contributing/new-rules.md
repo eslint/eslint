@@ -2,7 +2,7 @@
 
 ESLint is all about rules. For most of the project's lifetime, we've had over 200 rules, and that list continues to grow. However, we can't just accept any proposed rule because all rules need to work cohesively together. As such, we have some guidelines around which rules can be part of the ESLint core and which are better off as custom rules and plugins.
 
-**Note:** As of 2016, we accept only rules that are deemed extremely important for inclusion. We prefer that new rules be implemented in plugins.
+**Note:** As of 2020, we only accept rules related to new ECMAScript features. We prefer that new rules be implemented in plugins.
 
 ## Core Rule Guidelines
 
@@ -29,7 +29,7 @@ In order for a rule to be accepted in the ESLint core, it must:
 
 1. Fulfill all the criteria listed in the "Core Rule Guidelines" section
 1. Have an ESLint team member champion inclusion of the rule
-1. Be very important for ESLint users because it either catches a serious problem or allows styling of code in accordance with a popular style guide
+1. Be related to an ECMAScript feature that has reached stage 4 in the preceding 12 months
 
 Keep in mind that we have over 200 rules, and that is daunting both for end users and the ESLint team (who has to maintain them). As such, any new rules must be deemed of high importance to be considered for inclusion in ESLint.
 

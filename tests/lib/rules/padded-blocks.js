@@ -36,6 +36,7 @@ ruleTester.run("padded-blocks", rule, {
         { code: "{\n\na();\n\n/* comment */ }", options: ["always"] },
         { code: "{\n\na();\n\n/* comment */ }", options: [{ blocks: "always" }] },
 
+
         { code: "switch (a) {}", options: [{ switches: "always" }] },
         { code: "switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n\n}", options: ["always"] },
         { code: "switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n\n}", options: [{ switches: "always" }] },
@@ -95,7 +96,9 @@ ruleTester.run("padded-blocks", rule, {
                 {
                     messageId: "alwaysPadBlock",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 1
                 }
             ]
         },
@@ -106,7 +109,9 @@ ruleTester.run("padded-blocks", rule, {
                 {
                     messageId: "alwaysPadBlock",
                     line: 1,
-                    column: 3
+                    column: 3,
+                    endLine: 2,
+                    endColumn: 1
                 }
             ]
         },
@@ -116,8 +121,10 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "alwaysPadBlock",
-                    line: 5,
-                    column: 1
+                    line: 4,
+                    column: 10,
+                    endLine: 5,
+                    endColumn: 1
                 }
             ]
         },
@@ -127,8 +134,10 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "alwaysPadBlock",
-                    line: 5,
-                    column: 1
+                    line: 4,
+                    column: 10,
+                    endLine: 5,
+                    endColumn: 1
                 }
             ]
         },
@@ -138,7 +147,10 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "alwaysPadBlock",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 1
                 }
             ]
         },
@@ -148,7 +160,10 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "alwaysPadBlock",
-                    line: 4
+                    line: 3,
+                    column: 5,
+                    endLine: 4,
+                    endColumn: 1
                 }
             ]
         },
@@ -158,11 +173,17 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "alwaysPadBlock",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 1
                 },
                 {
                     messageId: "alwaysPadBlock",
-                    line: 3
+                    line: 2,
+                    column: 5,
+                    endLine: 3,
+                    endColumn: 1
                 }
             ]
         },
@@ -172,11 +193,17 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "alwaysPadBlock",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 1
                 },
                 {
                     messageId: "alwaysPadBlock",
-                    line: 3
+                    line: 2,
+                    column: 5,
+                    endLine: 3,
+                    endColumn: 1
                 }
             ]
         },
@@ -186,11 +213,17 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "alwaysPadBlock",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 1
                 },
                 {
                     messageId: "alwaysPadBlock",
-                    line: 2
+                    line: 2,
+                    column: 5,
+                    endLine: 2,
+                    endColumn: 5
                 }
             ]
         },
@@ -200,11 +233,17 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "alwaysPadBlock",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 2
                 },
                 {
                     messageId: "alwaysPadBlock",
-                    line: 2
+                    line: 1,
+                    column: 6,
+                    endLine: 2,
+                    endColumn: 1
                 }
             ]
         },
@@ -215,11 +254,17 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "alwaysPadBlock",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 2
                 },
                 {
                     messageId: "alwaysPadBlock",
-                    line: 2
+                    line: 1,
+                    column: 6,
+                    endLine: 2,
+                    endColumn: 1
                 }
             ]
         },
@@ -231,12 +276,16 @@ ruleTester.run("padded-blocks", rule, {
                 {
                     messageId: "alwaysPadBlock",
                     line: 1,
-                    column: 12
+                    column: 12,
+                    endLine: 2,
+                    endColumn: 1
                 },
                 {
                     messageId: "alwaysPadBlock",
-                    line: 4,
-                    column: 1
+                    line: 3,
+                    column: 15,
+                    endLine: 4,
+                    endColumn: 1
                 }
             ]
         },
@@ -248,12 +297,16 @@ ruleTester.run("padded-blocks", rule, {
                 {
                     messageId: "alwaysPadBlock",
                     line: 1,
-                    column: 12
+                    column: 12,
+                    endLine: 2,
+                    endColumn: 1
                 },
                 {
                     messageId: "alwaysPadBlock",
-                    line: 4,
-                    column: 1
+                    line: 3,
+                    column: 15,
+                    endLine: 4,
+                    endColumn: 1
                 }
             ]
         },
@@ -265,12 +318,16 @@ ruleTester.run("padded-blocks", rule, {
                 {
                     messageId: "alwaysPadBlock",
                     line: 1,
-                    column: 12
+                    column: 12,
+                    endLine: 2,
+                    endColumn: 1
                 },
                 {
                     messageId: "alwaysPadBlock",
-                    line: 4,
-                    column: 1
+                    line: 3,
+                    column: 24,
+                    endLine: 4,
+                    endColumn: 1
                 }
             ]
         },
@@ -283,12 +340,16 @@ ruleTester.run("padded-blocks", rule, {
                 {
                     messageId: "alwaysPadBlock",
                     line: 1,
-                    column: 9
+                    column: 9,
+                    endLine: 2,
+                    endColumn: 1
                 },
                 {
                     messageId: "alwaysPadBlock",
-                    line: 3,
-                    column: 1
+                    line: 2,
+                    column: 16,
+                    endLine: 3,
+                    endColumn: 1
                 }
             ]
         },
@@ -301,12 +362,16 @@ ruleTester.run("padded-blocks", rule, {
                 {
                     messageId: "alwaysPadBlock",
                     line: 1,
-                    column: 9
+                    column: 9,
+                    endLine: 2,
+                    endColumn: 1
                 },
                 {
                     messageId: "alwaysPadBlock",
-                    line: 3,
-                    column: 1
+                    line: 2,
+                    column: 16,
+                    endLine: 3,
+                    endColumn: 1
                 }
             ]
         },
@@ -316,11 +381,17 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "alwaysPadBlock",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 2
                 },
                 {
                     messageId: "alwaysPadBlock",
-                    line: 1
+                    line: 1,
+                    column: 6,
+                    endLine: 1,
+                    endColumn: 6
                 }
             ]
         },
@@ -331,7 +402,10 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "neverPadBlock",
-                    line: 5
+                    line: 3,
+                    column: 10,
+                    endLine: 5,
+                    endColumn: 1
                 }
             ]
         },
@@ -342,11 +416,17 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "neverPadBlock",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 1
                 },
                 {
                     messageId: "neverPadBlock",
-                    line: 5
+                    line: 3,
+                    column: 5,
+                    endLine: 5,
+                    endColumn: 1
                 }
             ]
         },
@@ -357,11 +437,17 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "neverPadBlock",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 1
                 },
                 {
                     messageId: "neverPadBlock",
-                    line: 5
+                    line: 3,
+                    column: 5,
+                    endLine: 5,
+                    endColumn: 1
                 }
             ]
         },
@@ -372,11 +458,17 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "neverPadBlock",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 4,
+                    endColumn: 3
                 },
                 {
                     messageId: "neverPadBlock",
-                    line: 7
+                    line: 4,
+                    column: 7,
+                    endLine: 7,
+                    endColumn: 1
                 }
             ]
         },
@@ -387,7 +479,10 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "neverPadBlock",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 1
                 }
             ]
         },
@@ -398,7 +493,10 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "neverPadBlock",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 2
                 }
             ]
         },
@@ -409,7 +507,10 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "neverPadBlock",
-                    line: 4
+                    line: 2,
+                    column: 5,
+                    endLine: 4,
+                    endColumn: 1
                 }
             ]
         },
@@ -420,7 +521,10 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "neverPadBlock",
-                    line: 4
+                    line: 2,
+                    column: 9,
+                    endLine: 4,
+                    endColumn: 3
                 }
             ]
         },
@@ -432,7 +536,9 @@ ruleTester.run("padded-blocks", rule, {
                 {
                     messageId: "alwaysPadBlock",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 1
                 }
             ]
         },
@@ -444,7 +550,9 @@ ruleTester.run("padded-blocks", rule, {
                 {
                     messageId: "neverPadBlock",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 1
                 }
             ]
         },
@@ -456,7 +564,9 @@ ruleTester.run("padded-blocks", rule, {
                 {
                     messageId: "neverPadBlock",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 1
                 }
             ]
         },
@@ -468,12 +578,16 @@ ruleTester.run("padded-blocks", rule, {
                 {
                     messageId: "neverPadBlock",
                     line: 1,
-                    column: 12
+                    column: 12,
+                    endLine: 3,
+                    endColumn: 1
                 },
                 {
                     messageId: "neverPadBlock",
-                    line: 5,
-                    column: 1
+                    line: 3,
+                    column: 15,
+                    endLine: 5,
+                    endColumn: 1
                 }
             ]
         },
@@ -485,7 +599,9 @@ ruleTester.run("padded-blocks", rule, {
                 {
                     messageId: "neverPadBlock",
                     line: 1,
-                    column: 12
+                    column: 12,
+                    endLine: 3,
+                    endColumn: 1
                 }
             ]
         },
@@ -496,8 +612,10 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "neverPadBlock",
-                    line: 4,
-                    column: 3
+                    line: 2,
+                    column: 15,
+                    endLine: 4,
+                    endColumn: 3
                 }
             ]
         },
@@ -509,19 +627,31 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "neverPadBlock",
-                    line: 1
+                    line: 1,
+                    column: 9,
+                    endLine: 3,
+                    endColumn: 1
                 },
                 {
                     messageId: "neverPadBlock",
-                    line: 3
+                    line: 3,
+                    column: 14,
+                    endLine: 5,
+                    endColumn: 1
                 },
                 {
                     messageId: "neverPadBlock",
-                    line: 7
+                    line: 5,
+                    column: 7,
+                    endLine: 7,
+                    endColumn: 1
                 },
                 {
                     messageId: "neverPadBlock",
-                    line: 9
+                    line: 7,
+                    column: 2,
+                    endLine: 9,
+                    endColumn: 1
                 }
             ]
         },
@@ -533,11 +663,17 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "neverPadBlock",
-                    line: 1
+                    line: 1,
+                    column: 9,
+                    endLine: 3,
+                    endColumn: 1
                 },
                 {
                     messageId: "neverPadBlock",
-                    line: 9
+                    line: 7,
+                    column: 2,
+                    endLine: 9,
+                    endColumn: 1
                 }
             ]
         },
@@ -549,19 +685,31 @@ ruleTester.run("padded-blocks", rule, {
             errors: [
                 {
                     messageId: "neverPadBlock",
-                    line: 1
+                    line: 1,
+                    column: 9,
+                    endLine: 3,
+                    endColumn: 1
                 },
                 {
                     messageId: "neverPadBlock",
-                    line: 3
+                    line: 3,
+                    column: 14,
+                    endLine: 5,
+                    endColumn: 1
                 },
                 {
                     messageId: "neverPadBlock",
-                    line: 7
+                    line: 5,
+                    column: 7,
+                    endLine: 7,
+                    endColumn: 1
                 },
                 {
                     messageId: "neverPadBlock",
-                    line: 9
+                    line: 7,
+                    column: 2,
+                    endLine: 9,
+                    endColumn: 1
                 }
             ]
         },

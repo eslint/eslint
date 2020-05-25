@@ -367,7 +367,7 @@ ruleTester.run("id-blacklist", rule, {
                     column: 5
                 },
 
-                // reports each occurence of local identifier, although it's renamed in this export specifier
+                // reports each occurrence of local identifier, although it's renamed in this export specifier
                 {
                     messageId: "blacklisted",
                     data: { name: "foo" },

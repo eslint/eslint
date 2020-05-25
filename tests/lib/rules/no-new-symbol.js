@@ -22,7 +22,9 @@ ruleTester.run("no-new-symbol", rule, {
     valid: [
         "var foo = Symbol('foo');",
         "function bar(Symbol) { var baz = new Symbol('baz');}",
-        "function Symbol() {} new Symbol();"
+        "function Symbol() {} new Symbol();",
+        "new foo(Symbol);",
+        "new foo(bar, Symbol);"
     ],
     invalid: [
         {

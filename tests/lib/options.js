@@ -79,11 +79,10 @@ describe("options", () => {
             assert.strictEqual(currentOptions.ext[1], ".js");
         });
 
-        it("should return an array one item when not passed", () => {
+        it("should not exist when not passed", () => {
             const currentOptions = options.parse("");
 
-            assert.isArray(currentOptions.ext);
-            assert.strictEqual(currentOptions.ext[0], ".js");
+            assert.notProperty(currentOptions, "ext");
         });
     });
 
