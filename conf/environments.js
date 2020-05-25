@@ -53,7 +53,7 @@ module.exports = new Map(Object.entries({
 
     // Language
     builtin: {
-        globals: globals.es5
+        globals: globals.builtin
     },
     es6: {
         globals: newGlobals2015,
