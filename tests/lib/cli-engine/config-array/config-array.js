@@ -389,6 +389,18 @@ describe("ConfigArray", () => {
             assert.isTrue(result.env.browser);
         });
 
+        it("should combine keys which exist on Object.prototype", () => {
+            const config = [
+                { settings: { toString: 'foo' } },
+                { settings: { constructor: 'bar' } }
+            ];
+
+            const result = merge(config[0], config[1]);
+
+            assert.strictEqual(result.settings.toString, 'foo');
+            assert.strictEqual(result.settings.constructor, 'bar');
+        });
+
         it("should combine two objects with parser when passed two objects with different top-level properties", () => {
             const config = [
                 { env: { browser: true }, parser: "espree" },
