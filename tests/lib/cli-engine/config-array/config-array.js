@@ -401,6 +401,17 @@ describe("ConfigArray", () => {
             assert.strictEqual(result.settings.constructor, 'bar');
         });
 
+        it("should use target value when source value is undefined", () => {
+            const config = [
+                { env: { browser: true } },
+                { env: { browser: undefined } }
+            ];
+
+            const result = merge(config[0], config[1]);
+
+            assert.strictEqual(result.env.browser, true);
+        });
+
         it("should combine two objects with parser when passed two objects with different top-level properties", () => {
             const config = [
                 { env: { browser: true }, parser: "espree" },
