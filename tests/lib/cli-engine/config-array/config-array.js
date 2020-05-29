@@ -391,20 +391,20 @@ describe("ConfigArray", () => {
 
         it("should combine keys which exist on Object.prototype", () => {
             const config = [
-                { settings: { toString: 'foo' } },
-                { settings: { constructor: 'bar' } }
+                { settings: { toString: "foo" } },
+                { settings: { constructor: "bar" } }
             ];
 
             const result = merge(config[0], config[1]);
 
-            assert.strictEqual(result.settings.toString, 'foo');
-            assert.strictEqual(result.settings.constructor, 'bar');
+            assert.strictEqual(result.settings.toString, "foo");
+            assert.strictEqual(result.settings.constructor, "bar");
         });
 
         it("should use target value when source value is undefined", () => {
             const config = [
                 { env: { browser: true } },
-                { env: { browser: undefined } }
+                { env: { browser: void 0 } }
             ];
 
             const result = merge(config[0], config[1]);
