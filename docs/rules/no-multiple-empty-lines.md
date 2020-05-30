@@ -95,6 +95,6 @@ var bar = 3;
 
 If you do not care about extra blank lines, turn this off.
 
-## Regarding the Airbnb JavaScript Style Guide `eol-last` rule
+## Using It With The `eol-last` Rule
 
-If you wish to use the Airbnb style guide rule regarding ending files with a single newline character (`eol-last`) with this rule, `maxEOF` should be set to 0, as an empty line is actually represented by two newline characters (`\n\n`). There is no empty line at the end of a file after the last `\n`, although editors may show an additional line.
+If you wish to use this rule with the `eol-last` core rule regarding ending files with a single newline character, `maxEOF` should be set to 0, as an empty line is actually represented by two newline characters (`\n\n`). There is no empty line at the end of a file after the last `\n`, although editors may show an additional line.
