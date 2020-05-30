@@ -589,7 +589,15 @@ ruleTester.run("no-extra-parens", rule, {
         "for (let a = b; a; a); a; a;",
         "for (a; a; a); a; a;",
         "for (; a; a); a; a;",
-        "for (let a = (b && c) === d; ;);"
+        "for (let a = (b && c) === d; ;);",
+
+        "new (a()).b.c;",
+        "new (a().b).c;",
+        "new (a().b.c);",
+        "new (a().b().d);",
+        "new a().b().d;",
+        "new (a(b()).c)",
+        "new (a.b()).c"
     ],
 
     invalid: [
@@ -741,6 +749,14 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("((new A))()", "(new A)()", "NewExpression"),
         invalid("new (foo\n.baz\n.bar\n.foo.baz)", "new foo\n.baz\n.bar\n.foo.baz", "MemberExpression"),
         invalid("new (foo.baz.bar.baz)", "new foo.baz.bar.baz", "MemberExpression"),
+        invalid("new ((a.b())).c", "new (a.b()).c", "CallExpression"),
+        invalid("new ((a().b)).c", "new (a().b).c", "MemberExpression"),
+        invalid("new ((a().b().d))", "new (a().b().d)", "MemberExpression"),
+        invalid("new ((a())).b.d", "new (a()).b.d", "CallExpression"),
+        invalid("new (a.b).d;", "new a.b.d;", "MemberExpression"),
+        invalid("(a().b).d;", "a().b.d;", "MemberExpression"),
+        invalid("(a.b()).d;", "a.b().d;", "CallExpression"),
+        invalid("(a.b).d;", "a.b.d;", "MemberExpression"),
 
         invalid("0, (_ => 0)", "0, _ => 0", "ArrowFunctionExpression", 1),
         invalid("(_ => 0), 0", "_ => 0, 0", "ArrowFunctionExpression", 1),
