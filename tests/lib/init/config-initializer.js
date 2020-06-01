@@ -67,7 +67,7 @@ describe("configInitializer", () => {
 
         try {
             return fs.realpathSync(filepath);
-        } catch (e) {
+        } catch {
             return filepath;
         }
     }
