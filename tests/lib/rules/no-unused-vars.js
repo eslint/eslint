@@ -444,7 +444,7 @@ ruleTester.run("no-unused-vars", rule, {
             code: "(function(obj) { var name; for ( name in obj ) { i(); return; } })({});",
             errors: [{
                 line: 1,
-                column: 22,
+                column: 34,
                 messageId: "unusedVar",
                 data: {
                     varName: "name",
@@ -457,7 +457,7 @@ ruleTester.run("no-unused-vars", rule, {
             code: "(function(obj) { var name; for ( name in obj ) { } })({});",
             errors: [{
                 line: 1,
-                column: 22,
+                column: 34,
                 messageId: "unusedVar",
                 data: {
                     varName: "name",
@@ -1021,6 +1021,62 @@ ruleTester.run("no-unused-vars", rule, {
             code: "const a = () => () => { a(); };",
             parserOptions: { ecmaVersion: 2015 },
             errors: [assignedError("a")]
+        },
+        {
+            code: `let myArray = [1,2,3,4].filter((x) => x == 0);
+    myArray = myArray.filter((x) => x == 1);`,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("myArray"), line: 2, column: 15 }]
+        },
+        {
+            code: "const a = 1; a += 1;",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("a"), line: 1, column: 14 }]
+        },
+        {
+            code: "var a = function() { a(); };",
+            errors: [{ ...assignedError("a"), line: 1, column: 22 }]
+        },
+        {
+            code: "var a = function(){ return function() { a(); } };",
+            errors: [{ ...assignedError("a"), line: 1, column: 41 }]
+        },
+        {
+            code: "const a = () => { a(); };",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("a"), line: 1, column: 19 }]
+        },
+        {
+            code: "const a = () => () => { a(); };",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("a"), line: 1, column: 25 }]
+        },
+        {
+
+            code: `let a = 'a';
+            a = 10;
+            function foo(){
+                a = 11;
+                a = () => {
+                    a = 13
+                }
+            }`,
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ ...definedError("foo"), line: 3, column: 22 }, { ...assignedError("a"), line: 6, column: 21 }]
+        },
+        {
+            code: `let c = 'c'
+c = 10
+function foo1() {
+  c = 11
+  c = () => {
+    c = 13
+  }
+}
+
+c = foo1`,
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("c"), line: 10, column: 1 }]
         }
     ]
 });
