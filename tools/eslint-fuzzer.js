@@ -65,7 +65,7 @@ function fuzz(options) {
 
             try {
                 fixResult = linter.verifyAndFix(text, reducedConfig, {});
-            } catch (err) {
+            } catch {
                 return reducedConfig;
             }
 
@@ -91,7 +91,7 @@ function fuzz(options) {
 
             try {
                 messages = linter.verify(currentText, config);
-            } catch (err) {
+            } catch {
                 return currentText;
             }
 
@@ -150,7 +150,7 @@ function fuzz(options) {
                     try {
                         linter.verify(reducedText, smallConfig);
                         return false;
-                    } catch (_) {
+                    } catch {
                         return true;
                     }
                 }
@@ -172,7 +172,7 @@ function fuzz(options) {
                         const smallFixResult = linter.verifyAndFix(reducedText, smallConfig);
 
                         return smallFixResult.fixed && smallFixResult.messages.length === 1 && smallFixResult.messages[0].fatal;
-                    } catch (_) {
+                    } catch {
                         return false;
                     }
                 }
