@@ -556,7 +556,10 @@ describe("CodePathAnalyzer", () => {
                         actual.push(debug.makeDotArrows(codePath));
                     }
                 }));
-                const messages = linter.verify(source, { rules: { test: 2 }, env: { es6: true } });
+                const messages = linter.verify(source, {
+                    parserOptions: { ecmaVersion: 2020 },
+                    rules: { test: 2 }
+                });
 
                 assert.strictEqual(messages.length, 0);
                 assert.strictEqual(actual.length, expected.length, "a count of code paths is wrong.");
