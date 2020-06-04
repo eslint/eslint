@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/no-restricted-imports"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, sourceType: "module" } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020, sourceType: "module" } });
 
 ruleTester.run("no-restricted-imports", rule, {
     valid: [
@@ -262,6 +262,16 @@ ruleTester.run("no-restricted-imports", rule, {
             endColumn: 20
         }]
     }, {
+        code: "export * as ns from \"fs\";",
+        options: ["fs"],
+        errors: [{
+            message: "'fs' import is restricted from being used.",
+            type: "ExportAllDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 26
+        }]
+    }, {
         code: "export {a} from \"fs\";",
         options: ["fs"],
         errors: [{
@@ -286,6 +296,22 @@ ruleTester.run("no-restricted-imports", rule, {
             line: 1,
             column: 9,
             endColumn: 17
+        }]
+    }, {
+        code: "export * as ns from \"fs\";",
+        options: [{
+            paths: [{
+                name: "fs",
+                importNames: ["foo"],
+                message: "Don't import 'foo'."
+            }]
+        }],
+        errors: [{
+            message: "* import is invalid because 'foo' from 'fs' is restricted. Don't import 'foo'.",
+            type: "ExportAllDeclaration",
+            line: 1,
+            column: 8,
+            endColumn: 9
         }]
     }, {
         code: "import withGitignores from \"foo\";",

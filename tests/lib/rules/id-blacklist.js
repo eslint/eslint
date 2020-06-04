@@ -252,6 +252,14 @@ ruleTester.run("id-blacklist", rule, {
             ]
         },
         {
+            code: "export * as foo from 'mod'",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            errors: [
+                error
+            ]
+        },
+        {
             code: "import { foo } from 'mod'",
             options: ["foo"],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },

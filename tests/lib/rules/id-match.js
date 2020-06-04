@@ -402,6 +402,17 @@ ruleTester.run("id-match", rule, {
             ]
         },
         {
+            code: "export * as no_camelcased from \"external-module\";",
+            options: ["^[^_]+$"],
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
             code: "import { no_camelcased } from \"external-module\";",
             options: ["^[^_]+$", {
                 properties: true
