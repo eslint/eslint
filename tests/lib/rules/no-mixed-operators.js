@@ -363,6 +363,31 @@ ruleTester.run("no-mixed-operators", rule, {
                     }
                 }
             ]
+        },
+        {
+            code: "a + b ?? c",
+            options: [{ groups: [["+", "??"]] }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                {
+                    column: 3,
+                    endColumn: 4,
+                    messageId: "unexpectedMixedOperator",
+                    data: {
+                        leftOperator: "+",
+                        rightOperator: "??"
+                    }
+                },
+                {
+                    column: 7,
+                    endColumn: 9,
+                    messageId: "unexpectedMixedOperator",
+                    data: {
+                        leftOperator: "+",
+                        rightOperator: "??"
+                    }
+                }
+            ]
         }
     ]
 });

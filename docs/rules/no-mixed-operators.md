@@ -100,6 +100,7 @@ The following operators can be used in `groups` option:
 * Bitwise Operators: `"&"`, `"|"`, `"^"`, `"~"`, `"<<"`, `">>"`, `">>>"`
 * Comparison Operators: `"=="`, `"!="`, `"==="`, `"!=="`, `">"`, `">="`, `"<"`, `"<="`
 * Logical Operators: `"&&"`, `"||"`
+* Coalesce Operator: `"??"`
 * Relational Operators: `"in"`, `"instanceof"`
 * Ternary Operator: `?:`
 

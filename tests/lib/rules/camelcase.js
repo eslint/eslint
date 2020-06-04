@@ -653,6 +653,17 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
+            code: "export * as snake_cased from 'mod'",
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "snake_cased" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
             code: "function foo({ no_camelcased }) {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [

@@ -304,6 +304,18 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "const a = () => () => { a(); }; a();",
             parserOptions: { ecmaVersion: 2015 }
+        },
+
+        // export * as ns from "source"
+        {
+            code: 'export * as ns from "source"',
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" }
+        },
+
+        // import.meta
+        {
+            code: "import.meta",
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" }
         }
     ],
     invalid: [
