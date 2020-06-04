@@ -41,10 +41,10 @@ var bar = 3;
 
 ### maxEOF
 
-Examples of **incorrect** code for this rule with the `{ max: 2, maxEOF: 1 }` options:
+Examples of **incorrect** code for this rule with the `{ max: 2, maxEOF: 0 }` options:
 
 ```js
-/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 1 }]*/
+/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }]*/
 
 var foo = 5;
 
@@ -54,16 +54,43 @@ var bar = 3;
 
 ```
 
-Examples of **correct** code for this rule with the `{ max: 2, maxEOF: 1 }` options:
+Examples of **correct** code for this rule with the `{ max: 2, maxEOF: 0 }` options:
 
 ```js
-/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 1 }]*/
+/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }]*/
 
 var foo = 5;
 
 
 var bar = 3;
+```
 
+**Note**: Although this ensures zero empty lines at the EOF, most editors will still show one empty line at the end, as illustrated below. There is no empty line at the end of a file after the last `\n`, although editors may show an additional line. A true additional line would be represented by `\n\n`.
+
+
+**Incorrect**:
+
+```
+1    /*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }]*/⏎
+2    ⏎
+3    var foo = 5;⏎
+4    ⏎
+5    ⏎
+6    var bar = 3;⏎
+7    ⏎
+8
+```
+
+**Correct**:
+
+```
+1    /*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }]*/⏎
+2    ⏎
+3    var foo = 5;⏎
+4    ⏎
+5    ⏎
+6    var bar = 3;⏎
+7
 ```
 
 ### maxBOF
@@ -94,7 +121,3 @@ var bar = 3;
 ## When Not To Use It
 
 If you do not care about extra blank lines, turn this off.
-
-## Using It With The `eol-last` Rule
-
-If you wish to use this rule with the `eol-last` core rule regarding ending files with a single newline character, `maxEOF` should be set to 0, as an empty line is actually represented by two newline characters (`\n\n`). There is no empty line at the end of a file after the last `\n`, although editors may show an additional line.
