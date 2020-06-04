@@ -76,7 +76,7 @@ function reduceBadExampleSize({
     function reproducesBadCase(updatedSourceText) {
         try {
             parser.parse(updatedSourceText);
-        } catch (err) {
+        } catch {
             return false;
         }
 

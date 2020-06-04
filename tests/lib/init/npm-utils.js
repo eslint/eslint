@@ -14,7 +14,7 @@ const
     sinon = require("sinon"),
     npmUtils = require("../../../lib/init/npm-utils"),
     log = require("../../../lib/shared/logging"),
-    { defineInMemoryFs } = require("../_utils");
+    { defineInMemoryFs } = require("../../_utils");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 

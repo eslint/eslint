@@ -914,38 +914,49 @@ describe("ast-utils", () => {
     });
 
     describe("getNextLocation", () => {
-        const code = "foo;\n";
-        const ast = espree.parse(code, ESPREE_CONFIG);
-        const sourceCode = new SourceCode(code, ast);
 
-        it("should handle normal case", () => {
-            assert.deepStrictEqual(
-                astUtils.getNextLocation(
-                    sourceCode,
-                    { line: 1, column: 0 }
-                ),
-                { line: 1, column: 1 }
-            );
-        });
+        /* eslint-disable quote-props */
+        const expectedResults = {
+            "": [[1, 0], null],
+            "\n": [[1, 0], [2, 0], null],
+            "\r\n": [[1, 0], [2, 0], null],
+            "foo": [[1, 0], [1, 1], [1, 2], [1, 3], null],
+            "foo\n": [[1, 0], [1, 1], [1, 2], [1, 3], [2, 0], null],
+            "foo\r\n": [[1, 0], [1, 1], [1, 2], [1, 3], [2, 0], null],
+            "foo;\n": [[1, 0], [1, 1], [1, 2], [1, 3], [1, 4], [2, 0], null],
+            "a\nb": [[1, 0], [1, 1], [2, 0], [2, 1], null],
+            "a\nb\n": [[1, 0], [1, 1], [2, 0], [2, 1], [3, 0], null],
+            "a\r\nb\r\n": [[1, 0], [1, 1], [2, 0], [2, 1], [3, 0], null],
+            "a\nb\r\n": [[1, 0], [1, 1], [2, 0], [2, 1], [3, 0], null],
+            "a\n\n": [[1, 0], [1, 1], [2, 0], [3, 0], null],
+            "a\r\n\r\n": [[1, 0], [1, 1], [2, 0], [3, 0], null],
+            "\n\r\n\n\r\n": [[1, 0], [2, 0], [3, 0], [4, 0], [5, 0], null],
+            "ab\u2029c": [[1, 0], [1, 1], [1, 2], [2, 0], [2, 1], null],
+            "ab\ncde\n": [[1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2], [2, 3], [3, 0], null],
+            "a ": [[1, 0], [1, 1], [1, 2], null],
+            "a\t": [[1, 0], [1, 1], [1, 2], null],
+            "a \n": [[1, 0], [1, 1], [1, 2], [2, 0], null]
+        };
+        /* eslint-enable quote-props */
 
-        it("should handle linebreaks", () => {
-            assert.deepStrictEqual(
-                astUtils.getNextLocation(
-                    sourceCode,
-                    { line: 1, column: 4 }
-                ),
-                { line: 2, column: 0 }
-            );
-        });
+        Object.keys(expectedResults).forEach(code => {
+            it(`should return expected locations for "${code}".`, () => {
+                const ast = espree.parse(code, ESPREE_CONFIG);
+                const sourceCode = new SourceCode(code, ast);
+                const locations = expectedResults[code];
 
-        it("should return null when result is out of bound", () => {
-            assert.strictEqual(
-                astUtils.getNextLocation(
-                    sourceCode,
-                    { line: 2, column: 0 }
-                ),
-                null
-            );
+                for (let i = 0; i < locations.length - 1; i++) {
+                    const location = { line: locations[i][0], column: locations[i][1] };
+                    const expectedNextLocation = locations[i + 1]
+                        ? { line: locations[i + 1][0], column: locations[i + 1][1] }
+                        : null;
+
+                    assert.deepStrictEqual(
+                        astUtils.getNextLocation(sourceCode, location),
+                        expectedNextLocation
+                    );
+                }
+            });
         });
     });
 

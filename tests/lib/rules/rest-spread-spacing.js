@@ -56,6 +56,21 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 7,
+                endLine: 1,
+                endColumn: 8,
+                messageId: "unexpectedWhitespace",
+                data: { type: "spread" },
+                type: "SpreadElement"
+            }]
+        },
+        {
+            code: "fn(...  args)",
+            output: "fn(...args)",
+            errors: [{
+                line: 1,
+                column: 7,
+                endLine: 1,
+                endColumn: 9,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -67,6 +82,21 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 7,
+                endLine: 1,
+                endColumn: 8,
+                messageId: "unexpectedWhitespace",
+                data: { type: "spread" },
+                type: "SpreadElement"
+            }]
+        },
+        {
+            code: "fn(... \t args)",
+            output: "fn(...args)",
+            errors: [{
+                line: 1,
+                column: 7,
+                endLine: 1,
+                endColumn: 10,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -78,6 +108,34 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 7,
+                endLine: 2,
+                endColumn: 1,
+                messageId: "unexpectedWhitespace",
+                data: { type: "spread" },
+                type: "SpreadElement"
+            }]
+        },
+        {
+            code: "fn(...\n    args)",
+            output: "fn(...args)",
+            errors: [{
+                line: 1,
+                column: 7,
+                endLine: 2,
+                endColumn: 5,
+                messageId: "unexpectedWhitespace",
+                data: { type: "spread" },
+                type: "SpreadElement"
+            }]
+        },
+        {
+            code: "fn(...\n\targs)",
+            output: "fn(...args)",
+            errors: [{
+                line: 1,
+                column: 7,
+                endLine: 2,
+                endColumn: 2,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -90,6 +148,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 7,
+                endLine: 1,
+                endColumn: 8,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -102,6 +162,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 7,
+                endLine: 1,
+                endColumn: 8,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -114,6 +176,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 7,
+                endLine: 2,
+                endColumn: 1,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -125,7 +189,9 @@ ruleTester.run("rest-spread-spacing", rule, {
             options: ["always"],
             errors: [{
                 line: 1,
-                column: 7,
+                column: 4,
+                endLine: 1,
+                endColumn: 7,
                 messageId: "expectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -137,6 +203,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 7,
+                endLine: 1,
+                endColumn: 8,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -148,6 +216,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 7,
+                endLine: 1,
+                endColumn: 8,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -159,7 +229,9 @@ ruleTester.run("rest-spread-spacing", rule, {
             options: ["always"],
             errors: [{
                 line: 1,
-                column: 7,
+                column: 4,
+                endLine: 1,
+                endColumn: 7,
                 messageId: "expectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -171,7 +243,9 @@ ruleTester.run("rest-spread-spacing", rule, {
             options: ["always"],
             errors: [{
                 line: 1,
-                column: 7,
+                column: 4,
+                endLine: 1,
+                endColumn: 7,
                 messageId: "expectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -183,6 +257,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 5,
+                endLine: 1,
+                endColumn: 6,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -194,6 +270,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 5,
+                endLine: 1,
+                endColumn: 6,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -205,6 +283,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 5,
+                endLine: 2,
+                endColumn: 1,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -217,6 +297,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 5,
+                endLine: 1,
+                endColumn: 6,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -229,6 +311,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 5,
+                endLine: 1,
+                endColumn: 6,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -241,6 +325,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 5,
+                endLine: 2,
+                endColumn: 1,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -252,7 +338,9 @@ ruleTester.run("rest-spread-spacing", rule, {
             options: ["always"],
             errors: [{
                 line: 1,
-                column: 5,
+                column: 2,
+                endLine: 1,
+                endColumn: 5,
                 messageId: "expectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -264,6 +352,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 5,
+                endLine: 1,
+                endColumn: 6,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -275,6 +365,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 5,
+                endLine: 1,
+                endColumn: 6,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -286,7 +378,9 @@ ruleTester.run("rest-spread-spacing", rule, {
             options: ["always"],
             errors: [{
                 line: 1,
-                column: 5,
+                column: 2,
+                endLine: 1,
+                endColumn: 5,
                 messageId: "expectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -298,7 +392,9 @@ ruleTester.run("rest-spread-spacing", rule, {
             options: ["always"],
             errors: [{
                 line: 1,
-                column: 5,
+                column: 2,
+                endLine: 1,
+                endColumn: 5,
                 messageId: "expectedWhitespace",
                 data: { type: "spread" },
                 type: "SpreadElement"
@@ -310,6 +406,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 15,
+                endLine: 1,
+                endColumn: 16,
                 messageId: "unexpectedWhitespace",
                 data: { type: "rest" },
                 type: "RestElement"
@@ -321,6 +419,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 15,
+                endLine: 1,
+                endColumn: 16,
                 messageId: "unexpectedWhitespace",
                 data: { type: "rest" },
                 type: "RestElement"
@@ -332,6 +432,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 15,
+                endLine: 2,
+                endColumn: 1,
                 messageId: "unexpectedWhitespace",
                 data: { type: "rest" },
                 type: "RestElement"
@@ -344,6 +446,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 15,
+                endLine: 1,
+                endColumn: 16,
                 messageId: "unexpectedWhitespace",
                 data: { type: "rest" },
                 type: "RestElement"
@@ -356,6 +460,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 15,
+                endLine: 1,
+                endColumn: 16,
                 messageId: "unexpectedWhitespace",
                 data: { type: "rest" },
                 type: "RestElement"
@@ -368,6 +474,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 15,
+                endLine: 2,
+                endColumn: 1,
                 messageId: "unexpectedWhitespace",
                 data: { type: "rest" },
                 type: "RestElement"
@@ -379,7 +487,9 @@ ruleTester.run("rest-spread-spacing", rule, {
             options: ["always"],
             errors: [{
                 line: 1,
-                column: 15,
+                column: 12,
+                endLine: 1,
+                endColumn: 15,
                 messageId: "expectedWhitespace",
                 data: { type: "rest" },
                 type: "RestElement"
@@ -392,6 +502,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 20,
+                endLine: 1,
+                endColumn: 21,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
@@ -404,6 +516,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 20,
+                endLine: 1,
+                endColumn: 21,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
@@ -416,6 +530,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 20,
+                endLine: 2,
+                endColumn: 1,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
@@ -429,6 +545,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 20,
+                endLine: 1,
+                endColumn: 21,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
@@ -442,6 +560,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 20,
+                endLine: 1,
+                endColumn: 21,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
@@ -455,6 +575,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 20,
+                endLine: 2,
+                endColumn: 1,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
@@ -467,7 +589,9 @@ ruleTester.run("rest-spread-spacing", rule, {
             parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
-                column: 20,
+                column: 17,
+                endLine: 1,
+                endColumn: 20,
                 messageId: "expectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
@@ -481,6 +605,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 20,
+                endLine: 1,
+                endColumn: 21,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
@@ -494,6 +620,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 20,
+                endLine: 1,
+                endColumn: 21,
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
@@ -506,7 +634,9 @@ ruleTester.run("rest-spread-spacing", rule, {
             parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
-                column: 20,
+                column: 17,
+                endLine: 1,
+                endColumn: 20,
                 messageId: "expectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
@@ -519,7 +649,9 @@ ruleTester.run("rest-spread-spacing", rule, {
             parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
-                column: 20,
+                column: 17,
+                endLine: 1,
+                endColumn: 20,
                 messageId: "expectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
@@ -532,6 +664,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 16,
+                endLine: 1,
+                endColumn: 17,
                 messageId: "unexpectedWhitespace",
                 data: { type: "rest property" },
                 type: "RestElement"
@@ -544,6 +678,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 16,
+                endLine: 1,
+                endColumn: 17,
                 messageId: "unexpectedWhitespace",
                 data: { type: "rest property" },
                 type: "RestElement"
@@ -556,6 +692,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 16,
+                endLine: 2,
+                endColumn: 1,
                 messageId: "unexpectedWhitespace",
                 data: { type: "rest property" },
                 type: "RestElement"
@@ -569,6 +707,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 16,
+                endLine: 1,
+                endColumn: 17,
                 messageId: "unexpectedWhitespace",
                 data: { type: "rest property" },
                 type: "RestElement"
@@ -582,6 +722,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 16,
+                endLine: 1,
+                endColumn: 17,
                 messageId: "unexpectedWhitespace",
                 data: { type: "rest property" },
                 type: "RestElement"
@@ -595,6 +737,8 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 16,
+                endLine: 2,
+                endColumn: 1,
                 messageId: "unexpectedWhitespace",
                 data: { type: "rest property" },
                 type: "RestElement"
@@ -607,7 +751,9 @@ ruleTester.run("rest-spread-spacing", rule, {
             parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
-                column: 16,
+                column: 13,
+                endLine: 1,
+                endColumn: 16,
                 messageId: "expectedWhitespace",
                 data: { type: "rest property" },
                 type: "RestElement"

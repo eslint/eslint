@@ -34,7 +34,7 @@ const NEITHER = { before: false, after: false };
  *         after: false,
  *         overrides: {as: {before: true, after: true}}
  *     }
- * @param {string} keyword A keyword to be overriden.
+ * @param {string} keyword A keyword to be overridden.
  * @param {Object} value A value to override.
  * @returns {Object} An option object to test an "overrides" option.
  */

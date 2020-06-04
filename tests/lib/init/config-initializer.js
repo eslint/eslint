@@ -15,6 +15,7 @@ const assert = require("chai").assert,
     os = require("os"),
     sinon = require("sinon"),
     sh = require("shelljs"),
+    espree = require("espree"),
     autoconfig = require("../../../lib/init/autoconfig"),
     npmUtils = require("../../../lib/init/npm-utils");
 
@@ -66,7 +67,7 @@ describe("configInitializer", () => {
 
         try {
             return fs.realpathSync(filepath);
-        } catch (e) {
+        } catch {
             return filepath;
         }
     }
@@ -138,7 +139,7 @@ describe("configInitializer", () => {
                 assert.strictEqual(config.env.es6, true);
                 assert.strictEqual(config.globals.Atomics, "readonly");
                 assert.strictEqual(config.globals.SharedArrayBuffer, "readonly");
-                assert.strictEqual(config.parserOptions.ecmaVersion, 2018);
+                assert.strictEqual(config.parserOptions.ecmaVersion, espree.latestEcmaVersion);
                 assert.strictEqual(config.parserOptions.sourceType, "module");
                 assert.strictEqual(config.env.browser, true);
                 assert.strictEqual(config.extends, "eslint:recommended");
@@ -156,7 +157,7 @@ describe("configInitializer", () => {
                 const config = init.processAnswers(answers);
 
                 assert.strictEqual(config.parserOptions.ecmaFeatures.jsx, true);
-                assert.strictEqual(config.parserOptions.ecmaVersion, 2018);
+                assert.strictEqual(config.parserOptions.ecmaVersion, espree.latestEcmaVersion);
                 assert.deepStrictEqual(config.plugins, ["react"]);
             });
 
@@ -164,7 +165,7 @@ describe("configInitializer", () => {
                 answers.framework = "vue";
                 const config = init.processAnswers(answers);
 
-                assert.strictEqual(config.parserOptions.ecmaVersion, 2018);
+                assert.strictEqual(config.parserOptions.ecmaVersion, espree.latestEcmaVersion);
                 assert.deepStrictEqual(config.plugins, ["vue"]);
                 assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/essential"]);
             });
@@ -175,7 +176,7 @@ describe("configInitializer", () => {
 
                 assert.strictEqual(config.parser, "@typescript-eslint/parser");
                 assert.deepStrictEqual(config.plugins, ["@typescript-eslint"]);
-                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:@typescript-eslint/eslint-recommended"]);
+                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:@typescript-eslint/eslint-recommended", "plugin:@typescript-eslint/recommended"]);
             });
 
             it("should enable typescript parser and plugin with vue", () => {
@@ -183,6 +184,7 @@ describe("configInitializer", () => {
                 answers.typescript = true;
                 const config = init.processAnswers(answers);
 
+                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/essential", "plugin:@typescript-eslint/eslint-recommended", "plugin:@typescript-eslint/recommended"]);
                 assert.strictEqual(config.parserOptions.parser, "@typescript-eslint/parser");
                 assert.deepStrictEqual(config.plugins, ["vue", "@typescript-eslint"]);
             });

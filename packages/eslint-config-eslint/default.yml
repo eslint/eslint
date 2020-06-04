@@ -134,7 +134,7 @@ rules:
     no-unmodified-loop-condition: "error"
     no-unneeded-ternary: "error"
     no-unused-expressions: "error"
-    no-unused-vars: ["error", {vars: "all", args: "after-used"}]
+    no-unused-vars: ["error", {vars: "all", args: "after-used", caughtErrors: "all"}]
     no-use-before-define: "error"
     no-useless-call: "error"
     no-useless-computed-key: "error"

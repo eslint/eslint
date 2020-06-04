@@ -20,8 +20,15 @@ const ruleTester = new RuleTester();
 ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 
     valid: [
+        "foo",
+        "foo \t",
+        "foo\t ",
         "\tvar x = 5;",
+        "\t\tvar x = 5;",
+        " var x = 5;",
         "    var x = 5;",
+        " foo\t",
+        "\tfoo ",
         "\t/*\n\t * Hello\n\t */",
         "// foo\n\t/**\n\t * Hello\n\t */",
         "/*\n\n \t \n*/",
@@ -80,6 +87,50 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
         {
             code: "\tvar x = 5,\n\t    y = 2;",
             options: ["smart-tabs"]
+        },
+        {
+            code: "\t\t\t   foo",
+            options: ["smart-tabs"]
+        },
+        {
+            code: "foo",
+            options: ["smart-tabs"]
+        },
+        {
+            code: "foo \t",
+            options: ["smart-tabs"]
+        },
+        {
+            code: "foo\t ",
+            options: ["smart-tabs"]
+        },
+        {
+            code: "\tfoo \t",
+            options: ["smart-tabs"]
+        },
+        {
+            code: "\tvar x = 5;",
+            options: ["smart-tabs"]
+        },
+        {
+            code: "\t\tvar x = 5;",
+            options: ["smart-tabs"]
+        },
+        {
+            code: " var x = 5;",
+            options: ["smart-tabs"]
+        },
+        {
+            code: "    var x = 5;",
+            options: ["smart-tabs"]
+        },
+        {
+            code: " foo\t",
+            options: ["smart-tabs"]
+        },
+        {
+            code: "\tfoo ",
+            options: ["smart-tabs"]
         }
     ],
 
@@ -90,7 +141,10 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                 {
                     messageId: "mixedSpacesAndTabs",
                     type: "Program",
-                    line: 2
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 3
                 }
             ]
         },
@@ -100,7 +154,10 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                 {
                     messageId: "mixedSpacesAndTabs",
                     type: "Program",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 3
                 }
             ]
         },
@@ -110,7 +167,10 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                 {
                     messageId: "mixedSpacesAndTabs",
                     type: "Program",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 3
                 }
             ]
         },
@@ -120,7 +180,10 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                 {
                     messageId: "mixedSpacesAndTabs",
                     type: "Program",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 3
                 }
             ]
         },
@@ -130,7 +193,10 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                 {
                     messageId: "mixedSpacesAndTabs",
                     type: "Program",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 3
                 }
             ]
         },
@@ -140,7 +206,10 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                 {
                     messageId: "mixedSpacesAndTabs",
                     type: "Program",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 3
                 }
             ]
         },
@@ -150,7 +219,10 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                 {
                     messageId: "mixedSpacesAndTabs",
                     type: "Program",
-                    line: 2
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 3
                 }
             ]
         },
@@ -160,12 +232,18 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                 {
                     messageId: "mixedSpacesAndTabs",
                     type: "Program",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 3
                 },
                 {
                     messageId: "mixedSpacesAndTabs",
                     type: "Program",
-                    line: 3
+                    line: 3,
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 3
                 }
             ]
         },
@@ -176,7 +254,10 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                 {
                     messageId: "mixedSpacesAndTabs",
                     type: "Program",
-                    line: 2
+                    line: 2,
+                    column: 2,
+                    endLine: 2,
+                    endColumn: 4
                 }
             ]
         },
@@ -187,7 +268,10 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                 {
                     messageId: "mixedSpacesAndTabs",
                     type: "Program",
-                    line: 2
+                    line: 2,
+                    column: 2,
+                    endLine: 2,
+                    endColumn: 4
                 }
             ]
         },
@@ -200,7 +284,9 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                     messageId: "mixedSpacesAndTabs",
                     type: "Program",
                     line: 2,
-                    column: 2
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 3
                 }
             ]
         },
@@ -212,7 +298,9 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                     messageId: "mixedSpacesAndTabs",
                     type: "Program",
                     line: 2,
-                    column: 2
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 3
                 }
             ]
         },
@@ -222,7 +310,10 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                 {
                     messageId: "mixedSpacesAndTabs",
                     type: "Program",
-                    line: 1
+                    line: 1,
+                    column: 2,
+                    endLine: 1,
+                    endColumn: 4
                 }
             ]
         },
@@ -232,7 +323,64 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                 {
                     messageId: "mixedSpacesAndTabs",
                     type: "Program",
-                    line: 2
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 3
+                }
+            ]
+        },
+        {
+            code: "   \tfoo",
+            errors: [
+                {
+                    messageId: "mixedSpacesAndTabs",
+                    type: "Program",
+                    line: 1,
+                    column: 3,
+                    endLine: 1,
+                    endColumn: 5
+                }
+            ]
+        },
+        {
+            code: "\t\t\t foo",
+            errors: [
+                {
+                    messageId: "mixedSpacesAndTabs",
+                    type: "Program",
+                    line: 1,
+                    column: 3,
+                    endLine: 1,
+                    endColumn: 5
+                }
+            ]
+        },
+        {
+            code: "\t \tfoo",
+            options: ["smart-tabs"],
+            errors: [
+                {
+                    messageId: "mixedSpacesAndTabs",
+                    type: "Program",
+                    line: 1,
+                    column: 2,
+                    endLine: 1,
+                    endColumn: 4
+                }
+            ]
+        },
+        {
+            code: "\t\t\t   \tfoo",
+            options: ["smart-tabs"],
+            errors: [
+                {
+                    messageId: "mixedSpacesAndTabs",
+                    type: "Program",
+                    line: 1,
+                    column: 6,
+                    endLine: 1,
+                    endColumn: 8
                 }
             ]
         }

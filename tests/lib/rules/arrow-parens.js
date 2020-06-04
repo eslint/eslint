@@ -29,6 +29,12 @@ const valid = [
     "(a) => {\n}",
     "a.then((foo) => {});",
     "a.then((foo) => { if (true) {}; });",
+    "const f = (/* */a) => a + a;",
+    "const f = (a/** */) => a + a;",
+    "const f = (a//\n) => a + a;",
+    "const f = (//\na) => a + a;",
+    "const f = (/*\n */a//\n) => a + a;",
+    "const f = (/** @type {number} */a/**hello*/) => a + a;",
     { code: "a.then(async (foo) => { if (true) {}; });", parserOptions: { ecmaVersion: 8 } },
 
     // "always" (explicit)
@@ -68,7 +74,69 @@ const valid = [
     { code: "async a => ({})", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
     { code: "async a => a", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
     { code: "(a: T) => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("identifer-type") },
-    { code: "(a): T => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("return-type") }
+    { code: "(a): T => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("return-type") },
+    {
+        code: "const f = (/** @type {number} */a/**hello*/) => a + a;",
+        options: ["as-needed"]
+    },
+    {
+        code: "const f = (/* */a) => a + a;",
+        options: ["as-needed"]
+    },
+    {
+        code: "const f = (a/** */) => a + a;",
+        options: ["as-needed"]
+    },
+    {
+        code: "const f = (a//\n) => a + a;",
+        options: ["as-needed"]
+    },
+    {
+        code: "const f = (//\na) => a + a;",
+        options: ["as-needed"]
+    },
+    {
+        code: "const f = (/*\n */a//\n) => a + a;",
+        options: ["as-needed"]
+    },
+    {
+        code: "var foo = (a,/**/) => b;",
+        parserOptions: { ecmaVersion: 2017 },
+        options: ["as-needed"]
+    },
+    {
+        code: "var foo = (a , /**/) => b;",
+        parserOptions: { ecmaVersion: 2017 },
+        options: ["as-needed"]
+    },
+    {
+        code: "var foo = (a\n,\n/**/) => b;",
+        parserOptions: { ecmaVersion: 2017 },
+        options: ["as-needed"]
+    },
+    {
+        code: "var foo = (a,//\n) => b;",
+        parserOptions: { ecmaVersion: 2017 },
+        options: ["as-needed"]
+    },
+    {
+        code: "const i = (a/**/,) => a + a;",
+        parserOptions: { ecmaVersion: 2017 },
+        options: ["as-needed"]
+    },
+    {
+        code: "const i = (a \n /**/,) => a + a;",
+        parserOptions: { ecmaVersion: 2017 },
+        options: ["as-needed"]
+    },
+    {
+        code: "var bar = ({/*comment here*/a}) => a",
+        options: ["as-needed"]
+    },
+    {
+        code: "var bar = (/*comment here*/{a}) => a",
+        options: ["as-needed"]
+    }
 ];
 
 const type = "ArrowFunctionExpression";
@@ -271,7 +339,78 @@ const invalid = [
             messageId: "unexpectedParensInline",
             type
         }]
+    },
+    {
+        code: "const f = /** @type {number} */(a)/**hello*/ => a + a;",
+        options: ["as-needed"],
+        output: "const f = /** @type {number} */a/**hello*/ => a + a;",
+        errors: [{
+            line: 1,
+            column: 33,
+            type,
+            messageId: "unexpectedParens",
+            endLine: 1,
+            endColumn: 34
+        }]
+    },
+    {
+        code: "const f = //\n(a) => a + a;",
+        output: "const f = //\na => a + a;",
+        options: ["as-needed"],
+        errors: [{
+            line: 2,
+            column: 2,
+            type,
+            messageId: "unexpectedParens",
+            endLine: 2,
+            endColumn: 3
+        }]
+    },
+    {
+        code: "var foo = /**/ a => b;",
+        output: "var foo = /**/ (a) => b;",
+        errors: [{
+            line: 1,
+            column: 16,
+            type: "ArrowFunctionExpression",
+            messageId: "expectedParens",
+            endLine: 1,
+            endColumn: 17
+        }]
+    },
+    {
+        code: "var bar = a /**/ =>  b;",
+        output: "var bar = (a) /**/ =>  b;",
+        errors: [{
+            line: 1,
+            column: 11,
+            type: "ArrowFunctionExpression",
+            messageId: "expectedParens",
+            endLine: 1,
+            endColumn: 12
+        }]
+    },
+    {
+        code: `const foo = a => {};
+
+// comment between 'a' and an unrelated closing paren
+
+bar();`,
+        output: `const foo = (a) => {};
+
+// comment between 'a' and an unrelated closing paren
+
+bar();`,
+        errors: [{
+            line: 1,
+            column: 13,
+            type: "ArrowFunctionExpression",
+            messageId: "expectedParens",
+            endLine: 1,
+            endColumn: 14
+        }]
     }
+
 ];
 
 ruleTester.run("arrow-parens", rule, {

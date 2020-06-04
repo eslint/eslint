@@ -1,6 +1,8 @@
 # Disallows unnecessary `return await` (no-return-await)
 
-Inside an `async function`, `return await` is seldom useful. Since the return value of an `async function` is always wrapped in `Promise.resolve`, `return await` doesn’t actually do anything except add extra time before the overarching Promise resolves or rejects. The only valid exception is if `return await` is used in a try/catch statement to catch errors from another Promise-based function.
+Using `return await` inside an `async function` keeps the current function in the call stack until the Promise that is being awaited has resolved, at the cost of an extra microtask before resolving the outer Promise. `return await` can also be used in a try/catch statement to catch errors from another function that returns a Promise.
+
+You can avoid the extra microtask by not awaiting the return value, with the trade off of the function no longer being a part of the stack trace if an error is thrown asynchronously from the Promise being returned. This can make debugging more difficult.
 
 ## Rule Details
 
@@ -42,7 +44,11 @@ In the last example the `await` is necessary to be able to catch errors thrown f
 
 ## When Not To Use It
 
-If you want to use `await` to denote a value that is a thenable, even when it is not necessary; or if you do not want the performance benefit of avoiding `return await`, you can turn off this rule.
+There are a few reasons you might want to turn this rule off:
+
+- If you want to use `await` to denote a value that is a thenable
+- If you do not want the performance benefit of avoiding `return await`
+- If you want the functions to show up in stack traces (useful for debugging purposes)
 
 ## Further Reading
 

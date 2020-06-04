@@ -11,7 +11,7 @@ const { spy } = require("sinon");
 const { ConfigArray } = require("../../../lib/cli-engine/config-array");
 const { OverrideTester } = require("../../../lib/cli-engine/config-array");
 const { createContext } = require("../../../lib/cli-engine/config-array-factory");
-const { defineConfigArrayFactoryWithInMemoryFileSystem } = require("./_utils");
+const { defineConfigArrayFactoryWithInMemoryFileSystem } = require("../../_utils");
 
 const tempDir = path.join(os.tmpdir(), "eslint/config-array-factory");
 
@@ -1026,7 +1026,7 @@ describe("ConfigArrayFactory", () => {
                     });
                 });
 
-                it("should have the given config data at the thrid element.", () => {
+                it("should have the given config data at the third element.", () => {
                     assertConfigArrayElement(configArray[2], {
                         name: ".eslintrc",
                         rules: { eqeqeq: 1 }
