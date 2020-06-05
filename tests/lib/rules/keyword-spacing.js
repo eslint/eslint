@@ -1374,6 +1374,35 @@ ruleTester.run("keyword-spacing", rule, {
             errors: unexpectedBefore("as")
         },
         {
+            code: "import* as a from\"foo\"",
+            output: "import*as a from\"foo\"",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "unexpectedBefore",
+                line: 1,
+                column: 8,
+                endLine: 1,
+                endColumn: 9
+            }
+            ]
+        },
+        {
+            code: "import *as a from\"foo\"",
+            output: "import*as a from\"foo\"",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "unexpectedAfter",
+                    line: 1,
+                    column: 7,
+                    endLine: 1,
+                    endColumn: 8
+                }
+            ]
+        },
+        {
             code: "import*as a from\"foo\"",
             output: "import* as a from\"foo\"",
             options: [override("as", BOTH)],
@@ -3165,4 +3194,5 @@ ruleTester.run("keyword-spacing", rule, {
             errors: expectedAfter("async")
         }
     ]
+
 });
