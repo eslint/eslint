@@ -1,3 +1,22 @@
+v7.2.0 - June 5, 2020
+
+* [`b735a48`](https://github.com/eslint/eslint/commit/b735a485e77bcc791e4c4c6b8716801d94e98b2c) Update: add enforceForFunctionPrototypeMethods option to no-extra-parens (#12895) (Milos Djermanovic)
+* [`27ef73f`](https://github.com/eslint/eslint/commit/27ef73ffb7428d5eff792d443186a2313e417bda) Update: reporter locr of func-call-spacing (refs #12334) (#13311) (Anix)
+* [`353bfe9`](https://github.com/eslint/eslint/commit/353bfe9760ec640f470859855d4018df084a4e88) Update: handle parentheses in multiline-ternary (fixes #13195) (#13367) (Milos Djermanovic)
+* [`a7fd343`](https://github.com/eslint/eslint/commit/a7fd343991cde99d8a219e3b25616db5792fe9a9) Update: keyword-spacing unexpected space loc improve (refs #12334) (#13377) (Anix)
+* [`e49732e`](https://github.com/eslint/eslint/commit/e49732eb41bff6347ca7718c3c5ca1d13f1cd2d3) Fix: Ignore import expressions in no-unused-expressions rule (#13387) (Veniamin Krol)
+* [`220349f`](https://github.com/eslint/eslint/commit/220349f5404060effe02fb5ec176a92e1383c3b5) Chore: Remove duplicate health files (#13380) (Nicholas C. Zakas)
+* [`dd949ae`](https://github.com/eslint/eslint/commit/dd949aedb81fa772e10568920156daf075d25ea2) Update: support `??` operator, import.meta, and `export * as ns` (#13196) (Toru Nagashima)
+* [`d5fce9f`](https://github.com/eslint/eslint/commit/d5fce9fa07e37ce61010a1fbb65964f1f7aefd82) Update: enable es2020 environment in --init (#13357) (Milos Djermanovic)
+* [`21b1583`](https://github.com/eslint/eslint/commit/21b15832e326f96d349c063cd7e85e72c3abb670) Docs: fixed broken hash link for working-with-rules.md (#13386) (Yosuke Ota)
+* [`b76aef7`](https://github.com/eslint/eslint/commit/b76aef778befb32afe7ad249934b132dc49713d2) Update: Improve report location for template-tag-spacing (refs #12334) (#13203) (Milos Djermanovic)
+* [`578efad`](https://github.com/eslint/eslint/commit/578efad331b797e28c0f5f1547ce4769d2ea23ee) Chore: update no-unused-vars caughtErrors in eslint-config-eslint (#13351) (Milos Djermanovic)
+* [`426088c`](https://github.com/eslint/eslint/commit/426088c966dc79dc338b33100f3adf827b147d69) Fix: no-unused-vars updated location to last reference (fixes #13181) (#13354) (Anix)
+* [`cb50b69`](https://github.com/eslint/eslint/commit/cb50b69c08d4393e32d5c42c537d769c51dd34d8) Update: Improve location for no-mixed-spaces-and-tabs (refs #12334) (#13365) (Milos Djermanovic)
+* [`f858f2a`](https://github.com/eslint/eslint/commit/f858f2a8f83232484491bd90b0bc5001b5056ad0) Chore: Add Tidelift to funding.yml (#13371) (Nicholas C. Zakas)
+* [`ee30e5d`](https://github.com/eslint/eslint/commit/ee30e5d8bb1a4c82a2a3fbe1b9ee9f979b55c5c4) Sponsors: Sync README with website (ESLint Jenkins)
+* [`c29bd9f`](https://github.com/eslint/eslint/commit/c29bd9f75582e5b1a403a8ffd0aafd1ffc8c58e1) Chore: Add breaking/core change link to issue templates (#13344) (Kai Cataldo)
+* [`d55490f`](https://github.com/eslint/eslint/commit/d55490fa73ff69416de375e4c1cd67b6edba531c) Sponsors: Sync README with website (ESLint Jenkins)
 v7.1.0 - May 22, 2020
 
 * [`a93083a`](https://github.com/eslint/eslint/commit/a93083af89c6f9714dcdd4a7f27c8655a0b0dba6) Fix: astUtils.getNextLocation returns invalid location after CRLF (#13275) (Milos Djermanovic)
