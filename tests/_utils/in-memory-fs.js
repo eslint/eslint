@@ -392,6 +392,7 @@ function defineCascadingConfigArrayFactoryWithInMemoryFileSystem({
     // Override the default cwd.
     return {
         fs,
+        stubs,
         RelativeModuleResolver,
         ConfigArrayFactory,
         CascadingConfigArrayFactory: cwd === process.cwd
@@ -417,6 +418,7 @@ function defineFileEnumeratorWithInMemoryFileSystem({
 } = {}) {
     const {
         fs,
+        stubs,
         RelativeModuleResolver,
         ConfigArrayFactory,
         CascadingConfigArrayFactory
@@ -430,6 +432,7 @@ function defineFileEnumeratorWithInMemoryFileSystem({
     // Override the default cwd.
     return {
         fs,
+        stubs,
         RelativeModuleResolver,
         ConfigArrayFactory,
         CascadingConfigArrayFactory,
@@ -456,6 +459,7 @@ function defineCLIEngineWithInMemoryFileSystem({
 } = {}) {
     const {
         fs,
+        stubs,
         RelativeModuleResolver,
         ConfigArrayFactory,
         CascadingConfigArrayFactory,
@@ -463,6 +467,7 @@ function defineCLIEngineWithInMemoryFileSystem({
     } =
         defineFileEnumeratorWithInMemoryFileSystem({ cwd, files });
     const { CLIEngine, getCLIEngineInternalSlots } = proxyquire(CLIEnginePath, {
+        ...stubs,
         fs,
         "./cascading-config-array-factory": { CascadingConfigArrayFactory },
         "./file-enumerator": { FileEnumerator },

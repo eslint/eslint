@@ -241,10 +241,13 @@ describe("cli", () => {
 
             // Check metadata.
             const { metadata } = JSON.parse(log.info.args[0][0]);
-            const expectedMetadata = Array.from(BuiltinRules).reduce((obj, [ruleId, rule]) => {
-                obj.rulesMeta[ruleId] = rule.meta;
-                return obj;
-            }, { rulesMeta: {} });
+            const expectedMetadata = {
+                cwd: process.cwd(),
+                rulesMeta: Array.from(BuiltinRules).reduce((obj, [ruleId, rule]) => {
+                    obj[ruleId] = rule.meta;
+                    return obj;
+                }, {})
+            };
 
             assert.deepStrictEqual(metadata, expectedMetadata);
         });

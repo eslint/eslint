@@ -4318,6 +4318,23 @@ describe("ESLint", () => {
                 await engine.loadFormatter(5);
             }, /'name' must be a string/u);
         });
+
+        it("should pass cwd to the `cwd` property of the second argument.", async () => {
+            const ESLintWithInMemoryFs = defineESLintWithInMemoryFileSystem({
+                cwd: () => __dirname,
+                files: {
+                    "node_modules/eslint-formatter-return-cwd/index.js": "module.exports = (results, context) => context.cwd;",
+                    "test.js": "",
+                    ".eslintrc.json": "{}"
+                }
+            }).ESLint;
+            const cwd = path.join(__dirname, "foo/bar");
+            const eslint = new ESLintWithInMemoryFs({ cwd });
+            const formatter = await eslint.loadFormatter("return-cwd");
+
+            // This formatter just returns cwd.
+            assert.strictEqual(formatter.format([]), cwd);
+        });
     });
 
     describe("getErrorResults()", () => {
