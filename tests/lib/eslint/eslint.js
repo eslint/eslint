@@ -4741,6 +4741,15 @@ describe("ESLint", () => {
                 await engine.loadFormatter(5);
             }, /'name' must be a string/u);
         });
+
+        it("should pass cwd to the `cwd` property of the second argument.", async () => {
+            const cwd = getFixturePath();
+            const engine = new ESLint({ cwd });
+            const formatterPath = getFixturePath("formatters", "cwd.js");
+            const formatter = await engine.loadFormatter(formatterPath);
+
+            assert.strictEqual(formatter.format([]), cwd);
+        });
     });
 
     describe("getErrorResults()", () => {
