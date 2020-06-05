@@ -7,7 +7,7 @@ This rule restricts the use of parentheses to only where they are necessary.
 This rule always ignores extra parentheses around the following:
 
 * RegExp literals such as `(/abc/).test(var)` to avoid conflicts with the [wrap-regex](wrap-regex.md) rule
-* immediately-invoked function expressions (also known as IIFEs) such as `var x = (function () {})();` and `((function foo() {return 1;})())` to avoid conflicts with the [wrap-iife](wrap-iife.md) rule
+* immediately-invoked function expressions (also known as IIFEs) such as `var x = (function () {})();` and `var x = (function () {}());` to avoid conflicts with the [wrap-iife](wrap-iife.md) rule
 * arrow function arguments to avoid conflicts with the [arrow-parens](arrow-parens.md) rule
 
 ## Options
@@ -26,6 +26,7 @@ This rule has an object option for exceptions to the `"all"` option:
 * `"enforceForArrowConditionals": false` allows extra parentheses around ternary expressions which are the body of an arrow function
 * `"enforceForSequenceExpressions": false` allows extra parentheses around sequence expressions
 * `"enforceForNewInMemberExpressions": false` allows extra parentheses around `new` expressions in member expressions
+* `"enforceForFunctionPrototypeMethods": false` allows extra parentheses around immediate `.call` and `.apply` method calls on function expressions and around function expressions in the same context.
 
 ### all
 
@@ -220,6 +221,22 @@ const foo = (new Bar()).baz;
 const quux = (new Bar())[baz];
 
 (new Bar()).doSomething();
+```
+
+### enforceForFunctionPrototypeMethods
+
+Examples of **correct** code for this rule with the `"all"` and `{ "enforceForFunctionPrototypeMethods": false }` options:
+
+```js
+/* eslint no-extra-parens: ["error", "all", { "enforceForFunctionPrototypeMethods": false }] */
+
+const foo = (function () {}).call();
+
+const bar = (function () {}).apply();
+
+const baz = (function () {}.call());
+
+const quux = (function () {}.apply());
 ```
 
 ### functions
