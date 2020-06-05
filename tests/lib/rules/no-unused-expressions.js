@@ -70,6 +70,10 @@ ruleTester.run("no-unused-expressions", rule, {
             code: "shouldNotBeAffectedByAllowTemplateTagsOption()",
             options: [{ allowTaggedTemplates: true }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "import(\"foo\")",
+            parserOptions: { ecmaVersion: 11 }
         }
     ],
     invalid: [
