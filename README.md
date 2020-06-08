@@ -33,11 +33,12 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 4. [Filing Issues](#filing-issues)
 5. [Frequently Asked Questions](#faq)
 6. [Releases](#releases)
-7. [Semantic Versioning Policy](#semantic-versioning-policy)
-8. [License](#license)
-9. [Team](#team)
-10. [Sponsors](#sponsors)
-11. [Technology Sponsors](#technology-sponsors)
+7. [Security Policy](#security-policy)
+8. [Semantic Versioning Policy](#semantic-versioning-policy)
+9. [License](#license)
+10. [Team](#team)
+11. [Sponsors](#sponsors)
+12. [Technology Sponsors](#technology-sponsors)
 
 ## <a name="installation-and-usage"></a>Installation and Usage
 
@@ -138,6 +139,10 @@ Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](ht
 ## <a name="releases"></a>Releases
 
 We have scheduled releases every two weeks on Friday or Saturday. You can follow a [release issue](https://github.com/eslint/eslint/issues?q=is%3Aopen+is%3Aissue+label%3Arelease) for updates about the scheduling of any particular release.
+
+## <a name="security-policy"></a>Security Policy
+
+ESLint takes security seriously. We work hard to ensure that ESLint is safe for everyone and that security issues are addressed quickly and responsibly. Read the full [security policy](https://github.com/eslint/.github/blob/master/SECURITY.md).
 
 ## <a name="semantic-versioning-policy"></a>Semantic Versioning Policy
 
