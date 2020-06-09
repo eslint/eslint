@@ -111,7 +111,7 @@ const context = vm.createContext();
 function isExistingFile(fs, filePath) {
     try {
         return fs.statSync(filePath).isFile();
-    } catch (error) {
+    } catch {
         return false;
     }
 }

@@ -16,7 +16,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018, sourceType: "module" } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020, sourceType: "module" } });
 
 ruleTester.run("no-restricted-exports", rule, {
     valid: [
@@ -73,6 +73,7 @@ ruleTester.run("no-restricted-exports", rule, {
 
         // does not check source in re-export declarations
         { code: "export { b } from 'a';", options: [{ restrictedNamedExports: ["a"] }] },
+        { code: "export * as b from 'a';", options: [{ restrictedNamedExports: ["a"] }] },
 
         // does not check non-export declarations
         { code: "var a;", options: [{ restrictedNamedExports: ["a"] }] },
@@ -331,6 +332,11 @@ ruleTester.run("no-restricted-exports", rule, {
             code: "export { b as a, a as b } from 'foo';",
             options: [{ restrictedNamedExports: ["a"] }],
             errors: [{ messageId: "restrictedNamed", data: { name: "a" }, type: "Identifier", column: 15 }]
+        },
+        {
+            code: "export * as a from 'a';",
+            options: [{ restrictedNamedExports: ["a"] }],
+            errors: [{ messageId: "restrictedNamed", data: { name: "a" }, type: "Identifier", column: 13 }]
         },
 
         // Note: duplicate identifiers in the same export declaration are a 'duplicate export' syntax error. Example: export var a, a;

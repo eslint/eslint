@@ -628,6 +628,16 @@ ruleTester.run("operator-linebreak", rule, {
                 endLine: 1,
                 endColumn: 14
             }]
+        },
+        {
+            code: "foo ??\n bar",
+            output: "foo\n ?? bar",
+            options: ["after", { overrides: { "??": "before" } }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{
+                messageId: "operatorAtBeginning",
+                data: { operator: "??" }
+            }]
         }
     ]
 });
