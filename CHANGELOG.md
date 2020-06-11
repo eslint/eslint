@@ -17,6 +17,7 @@ v7.2.0 - June 5, 2020
 * [`ee30e5d`](https://github.com/eslint/eslint/commit/ee30e5d8bb1a4c82a2a3fbe1b9ee9f979b55c5c4) Sponsors: Sync README with website (ESLint Jenkins)
 * [`c29bd9f`](https://github.com/eslint/eslint/commit/c29bd9f75582e5b1a403a8ffd0aafd1ffc8c58e1) Chore: Add breaking/core change link to issue templates (#13344) (Kai Cataldo)
 * [`d55490f`](https://github.com/eslint/eslint/commit/d55490fa73ff69416de375e4c1cd67b6edba531c) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.1.0 - May 22, 2020
 
 * [`a93083a`](https://github.com/eslint/eslint/commit/a93083af89c6f9714dcdd4a7f27c8655a0b0dba6) Fix: astUtils.getNextLocation returns invalid location after CRLF (#13275) (Milos Djermanovic)
@@ -46,6 +47,7 @@ v7.1.0 - May 22, 2020
 * [`f44a6b4`](https://github.com/eslint/eslint/commit/f44a6b4fd92602af8e2c75d5852f796ec064aa8e) Chore: fix invalid syntax in require-await tests (#13277) (Milos Djermanovic)
 * [`2c778fb`](https://github.com/eslint/eslint/commit/2c778fb6e31b7943bb27a47a6e15dcbfd8336f39) Fix: remove custom plugins from replacedBy metadata (#13274) (Kai Cataldo)
 * [`0db3b1d`](https://github.com/eslint/eslint/commit/0db3b1d5cc5e4e1de21462679581b7a4d89ff36e) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.0.0 - May 8, 2020
 
 * [`b98d8bd`](https://github.com/eslint/eslint/commit/b98d8bda4630fe8278c5aa2b6650630770568fe5) Upgrade: eslint-release@2.0.0 (#13271) (Kai Cataldo)
@@ -256,6 +258,7 @@ v7.0.0 - May 8, 2020
 * [`39f5a45`](https://github.com/eslint/eslint/commit/39f5a453579b2ad732212edeb71f84ecb0991f97) Chore: add test cases for for-direction (#12698) (YeonJuan)
 * [`b340304`](https://github.com/eslint/eslint/commit/b3403045e535921df6d34785a4ce053e14ba27fd) Chore: Add extra test, improve docs (#12492) (Kevin Partington)
 * [`827259e`](https://github.com/eslint/eslint/commit/827259ea009f98a0fdf3f7ebf1bfb6cd661ce28d) Build: package.json update for eslint-config-eslint release (ESLint Jenkins)
+
 v7.0.0-rc.0 - April 24, 2020
 
 * [`0b1d65a`](https://github.com/eslint/eslint/commit/0b1d65a45aa5dfe08cd596c420490e81b546317e) Update: Improve report location for array-callback-return (refs #12334) (#13109) (Milos Djermanovic)
