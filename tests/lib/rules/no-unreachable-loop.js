@@ -110,6 +110,7 @@ const invalidLoopBodies = [
     "{ if (foo) { return; } throw err; }",
     "{ switch (foo) { default: throw err; } }",
     "{ switch (foo) { case 1: throw err; default: return; } }",
+    "{ switch (foo) { case 1: something(); default: return; } }",
     "{ try { return bar(); } catch (e) { break; } }",
 
     // unreachable continue
