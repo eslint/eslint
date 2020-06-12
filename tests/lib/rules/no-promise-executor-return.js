@@ -157,11 +157,11 @@ ruleTester.run("no-promise-executor-return", rule, {
         // full error tests
         {
             code: "new Promise(function (resolve, reject) { return 1; })",
-            errors: [{ message: "Promise executor functions cannot return values.", type: "ReturnStatement", column: 42, endColumn: 51 }]
+            errors: [{ message: "Return values from promise executor functions cannot be read.", type: "ReturnStatement", column: 42, endColumn: 51 }]
         },
         {
             code: "new Promise((resolve, reject) => resolve(1))",
-            errors: [{ message: "Promise executor functions cannot return values.", type: "CallExpression", column: 34, endColumn: 44 }]
+            errors: [{ message: "Return values from promise executor functions cannot be read.", type: "CallExpression", column: 34, endColumn: 44 }]
         },
 
         // other basic tests
