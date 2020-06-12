@@ -157,7 +157,7 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 * `options.cacheLocation` (`string`)<br>
   Default is `.eslintcache`. The [`eslint.lintFiles()`][eslint-lintfiles] method writes caches into this file.
 
-### ◆ eslint.lintFiles(patterns)
+### eslint.lintFiles(patterns)
 
 ```js
 const results = await eslint.lintFiles(patterns);
@@ -175,7 +175,7 @@ This method lints the files that match the glob patterns and then returns the re
 * (`Promise<LintResult[]>`)<br>
   The promise that will be fulfilled with an array of [LintResult] objects.
 
-### ◆ eslint.lintText(code, options)
+### eslint.lintText(code, options)
 
 ```js
 const results = await eslint.lintText(code, options);
@@ -203,7 +203,7 @@ The second parameter `options` is omittable.
 * (`Promise<LintResult[]>`)<br>
   The promise that will be fulfilled with an array of [LintResult] objects. This is an array (despite there being only one lint result) in order to keep the interfaces between this and the [`eslint.lintFiles()`][eslint-lintfiles] method similar.
 
-### ◆ eslint.calculateConfigForFile(filePath)
+### eslint.calculateConfigForFile(filePath)
 
 ```js
 const config = await eslint.calculateConfigForFile(filePath);
@@ -227,7 +227,7 @@ This method calculates the configuration for a given file, which can be useful f
 * (`Promise<Object>`)<br>
   The promise that will be fulfilled with a configuration object.
 
-### ◆ eslint.isPathIgnored(filePath)
+### eslint.isPathIgnored(filePath)
 
 ```js
 const isPathIgnored = await eslint.isPathIgnored(filePath);
@@ -245,7 +245,7 @@ This method checks if a given file is ignored by your configuration.
 * (`Promise<boolean>`)<br>
   The promise that will be fulfilled with whether the file is ignored or not. If the file is ignored, then it will return `true`.
 
-### ◆ eslint.loadFormatter(nameOrPath)
+### eslint.loadFormatter(nameOrPath)
 
 ```js
 const formatter = await eslint.loadFormatter(nameOrPath);
@@ -270,7 +270,7 @@ This method loads a formatter. Formatters convert lint results to a human- or ma
 * (`Promise<Formatter>`)<br>
   The promise that will be fulfilled with a [Formatter] object.
 
-### ◆ ESLint.version
+### ESLint.version
 
 ```js
 const version = ESLint.version;
@@ -280,7 +280,7 @@ The version string of ESLint. E.g. `"7.0.0"`.
 
 This is a static property.
 
-### ◆ ESLint.outputFixes(results)
+### ESLint.outputFixes(results)
 
 ```js
 await ESLint.outputFixes(results);
@@ -300,7 +300,7 @@ This is a static method.
 * (`Promise<void>`)<br>
   The promise that will be fulfilled after all files are written.
 
-### ◆ ESLint.getErrorResults(results)
+### ESLint.getErrorResults(results)
 
 ```js
 const filteredResults = ESLint.getErrorResults(results);
@@ -320,7 +320,7 @@ This is a static method.
 * (`LintResult[]`)<br>
   The filtered [LintResult] objects.
 
-### ◆ LintResult type
+### LintResult type
 
 The `LintResult` value is the information of the linting result of each file. The [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext] methods return it. It has the following properties:
 
@@ -343,7 +343,7 @@ The `LintResult` value is the information of the linting result of each file. Th
 * `usedDeprecatedRules` (`{ ruleId: string; replacedBy: string[] }[]`)<br>
   The information about the deprecated rules that were used to check this file.
 
-### ◆ LintMessage type
+### LintMessage type
 
 The `LintMessage` value is the information of each linting error. The `messages` property of the [LintResult] type contains it. It has the following properties:
 
@@ -366,7 +366,7 @@ The `LintMessage` value is the information of each linting error. The `messages`
 * `suggestions` (`{ desc: string; fix: EditInfo }[] | undefined`)<br>
   The list of suggestions. Each suggestion is the pair of a description and an [EditInfo] object to fix code. API users such as editor integrations can choose one of them to fix the problem of this message. This property is undefined if this message doesn't have any suggestions.
 
-### ◆ EditInfo type
+### EditInfo type
 
 The `EditInfo` value is information to edit text. The `fix` and `suggestions` properties of [LintMessage] type contain it. It has following properties:
 
@@ -377,7 +377,7 @@ The `EditInfo` value is information to edit text. The `fix` and `suggestions` pr
 
 This edit information means replacing the range of the `range` property by the `text` property value. It's like `sourceCodeText.slice(0, edit.range[0]) + edit.text + sourceCodeText.slice(edit.range[1])`. Therefore, it's an add if the `range[0]` and `range[1]` property values are the same value, and it's removal if the `text` property value is empty string.
 
-### ◆ Formatter type
+### Formatter type
 
 The `Formatter` value is the object to convert the [LintResult] objects to text. The [eslint.loadFormatter()][eslint-loadformatter] method returns it. It has the following method:
 
@@ -438,7 +438,7 @@ const codeLines = SourceCode.splitLines(code);
 The `Linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `Linter` object does not process configuration objects or files.
 The `Linter` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
-* `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules by calling `context.getCwd()` (see [The Context Object](./working-with-rules.md#The-Context-Object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
+* `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules by calling `context.getCwd()` (see [The Context Object](./working-with-rules#The-Context-Object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
 
 For example:
 
@@ -460,8 +460,8 @@ The most important method on `Linter` is `verify()`, which initiates linting of 
     * **Note**: If you want to lint text and have your configuration be read and processed, use CLIEngine's [`executeOnFiles`](#cliengineexecuteonfiles) or [`executeOnText`](#cliengineexecuteontext) instead.
 * `options` - (optional) Additional options for this run.
     * `filename` - (optional) the filename to associate with the source code.
-    * `preprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins.md#processors-in-plugins) documentation describes as the `preprocess` method.
-    * `postprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins.md#processors-in-plugins) documentation describes as the `postprocess` method.
+    * `preprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins#processors-in-plugins) documentation describes as the `preprocess` method.
+    * `postprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins#processors-in-plugins) documentation describes as the `postprocess` method.
     * `filterCodeBlock` - (optional) A function that decides which code blocks the linter should adopt. The function receives two arguments. The first argument is the virtual filename of a code block. The second argument is the text of the code block. If the function returned `true` then the linter adopts the code block. If the function was omitted, the linter adopts only `*.js` code blocks. If you provided a `filterCodeBlock` function, it overrides this default behavior, so the linter doesn't adopt `*.js` code blocks automatically.
     * `disableFixes` - (optional) when set to `true`, the linter doesn't make either the `fix` or `suggestions` property of the lint result.
     * `allowInlineConfig` - (optional) set to `false` to disable inline comments from changing ESLint rules.
@@ -525,7 +525,7 @@ The information available for each linting message is:
 * `endColumn` - the end column of the range on which the error occurred (this property is omitted if it's not range).
 * `endLine` - the end line of the range on which the error occurred (this property is omitted if it's not range).
 * `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
-* `suggestions` - an array of objects describing possible lint fixes for editors to programmatically enable (see details in the [Working with Rules docs](./working-with-rules.md#providing-suggestions)).
+* `suggestions` - an array of objects describing possible lint fixes for editors to programmatically enable (see details in the [Working with Rules docs](./working-with-rules#providing-suggestions)).
 
 Linting message objects have a deprecated `source` property. This property **will be removed** from linting messages in an upcoming breaking release. If you depend on this property, you should now use the `SourceCode` instance provided by the linter.
 
@@ -641,7 +641,7 @@ Map {
 ### Linter#defineParser
 
 Each instance of `Linter` holds a map of custom parsers. If you want to define a parser programmatically, you can add this function
-with the name of the parser as first argument and the [parser object](/docs/developer-guide/working-with-custom-parsers.md) as second argument. The default `"espree"` parser will already be loaded for every `Linter` instance.
+with the name of the parser as first argument and the [parser object](/docs/developer-guide/working-with-custom-parsers) as second argument. The default `"espree"` parser will already be loaded for every `Linter` instance.
 
 ```js
 const Linter = require("eslint").Linter;
