@@ -7,19 +7,19 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
 ## Table of Contents
 
 * [ESLint]
-    * [constructor()][eslint-constructor]
-    * [lintFiles()][eslint-lintFiles]
-    * [lintText()][eslint-lintText]
-    * [calculateConfigForFile()][eslint-calculateConfigForFile]
-    * [isPathIgnored()][eslint-isPathIgnored]
-    * [loadFormatter()][eslint-loadFormatter]
-    * [static version][eslint-version]
-    * [static outputFixes()][eslint-outputFixes]
-    * [static getErrorResults()][eslint-getErrorResults]
-    * [LintResult type](lintresult)
-    * [LintMessage type](lintmessage)
-    * [EditInfo type](editinfo)
-    * [Formatter type](formatter)
+    * [constructor()](#new-eslint-options)
+    * [lintFiles()](#eslint-lintfiles-patterns)
+    * [lintText()](#eslint-linttext-code-options)
+    * [calculateConfigForFile()](#eslint-calculateconfigforfile-filepath)
+    * [isPathIgnored()](#eslint-ispathignored-filepath)
+    * [loadFormatter()](#eslint-loadformatter-nameorpath)
+    * [static version](#eslint-version)
+    * [static outputFixes()](#eslint-outputfixes-results)
+    * [static getErrorResults()](#eslint-geterrorresults-results)
+    * [LintResult type](#lintresult-type)
+    * [LintMessage type](#lintmessage-type)
+    * [EditInfo type](#editinfo-type)
+    * [Formatter type](#formatter-type)
 * [SourceCode](#sourcecode)
     * [splitLines()](#sourcecode-splitlines)
 * [Linter](#linter)
@@ -95,7 +95,7 @@ const { ESLint } = require("eslint");
 });
 ```
 
-### ◆ new ESLint(options)
+### new ESLint(options)
 
 ```js
 const eslint = new ESLint(options);
@@ -438,7 +438,7 @@ const codeLines = SourceCode.splitLines(code);
 The `Linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `Linter` object does not process configuration objects or files.
 The `Linter` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
-* `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules by calling `context.getCwd()` (see [The Context Object](./working-with-rules#The-Context-Object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
+* `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules by calling `context.getCwd()` (see [The Context Object](./working-with-rules.md#The-Context-Object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
 
 For example:
 
@@ -460,8 +460,8 @@ The most important method on `Linter` is `verify()`, which initiates linting of 
     * **Note**: If you want to lint text and have your configuration be read and processed, use CLIEngine's [`executeOnFiles`](#cliengineexecuteonfiles) or [`executeOnText`](#cliengineexecuteontext) instead.
 * `options` - (optional) Additional options for this run.
     * `filename` - (optional) the filename to associate with the source code.
-    * `preprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins#processors-in-plugins) documentation describes as the `preprocess` method.
-    * `postprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins#processors-in-plugins) documentation describes as the `postprocess` method.
+    * `preprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins.md#processors-in-plugins) documentation describes as the `preprocess` method.
+    * `postprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins.md#processors-in-plugins) documentation describes as the `postprocess` method.
     * `filterCodeBlock` - (optional) A function that decides which code blocks the linter should adopt. The function receives two arguments. The first argument is the virtual filename of a code block. The second argument is the text of the code block. If the function returned `true` then the linter adopts the code block. If the function was omitted, the linter adopts only `*.js` code blocks. If you provided a `filterCodeBlock` function, it overrides this default behavior, so the linter doesn't adopt `*.js` code blocks automatically.
     * `disableFixes` - (optional) when set to `true`, the linter doesn't make either the `fix` or `suggestions` property of the lint result.
     * `allowInlineConfig` - (optional) set to `false` to disable inline comments from changing ESLint rules.
@@ -525,7 +525,7 @@ The information available for each linting message is:
 * `endColumn` - the end column of the range on which the error occurred (this property is omitted if it's not range).
 * `endLine` - the end line of the range on which the error occurred (this property is omitted if it's not range).
 * `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
-* `suggestions` - an array of objects describing possible lint fixes for editors to programmatically enable (see details in the [Working with Rules docs](./working-with-rules#providing-suggestions)).
+* `suggestions` - an array of objects describing possible lint fixes for editors to programmatically enable (see details in the [Working with Rules docs](./working-with-rules.md#providing-suggestions)).
 
 Linting message objects have a deprecated `source` property. This property **will be removed** from linting messages in an upcoming breaking release. If you depend on this property, you should now use the `SourceCode` instance provided by the linter.
 
@@ -641,7 +641,7 @@ Map {
 ### Linter#defineParser
 
 Each instance of `Linter` holds a map of custom parsers. If you want to define a parser programmatically, you can add this function
-with the name of the parser as first argument and the [parser object](/docs/developer-guide/working-with-custom-parsers) as second argument. The default `"espree"` parser will already be loaded for every `Linter` instance.
+with the name of the parser as first argument and the [parser object](/docs/developer-guide/working-with-custom-parsers.md) as second argument. The default `"espree"` parser will already be loaded for every `Linter` instance.
 
 ```js
 const Linter = require("eslint").Linter;
