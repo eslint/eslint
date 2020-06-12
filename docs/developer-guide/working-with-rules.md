@@ -51,7 +51,12 @@ The source file for a rule exports an object with the following properties.
 
 `meta` (object) contains metadata for the rule:
 
+**Warning:** This property is not required but recommended as that may change in the future.
+
 * `type` (string) indicates the type of rule, which is one of `"problem"`, `"suggestion"`, or `"layout"`:
+
+    **Warning:** This property is not required but recommended as that may change in the future.
+
     * `"problem"` means the rule is identifying code that either will cause an error or may cause a confusing behavior. Developers should consider this a high priority to resolve.
     * `"suggestion"` means the rule is identifying something that could be done in a better way but no errors will occur if the code isn't changed.
     * `"layout"` means the rule cares primarily about whitespace, semicolons, commas, and parentheses, all the parts of the program that determine how the code looks rather than how it executes. These rules work on parts of the code that aren't specified in the AST.
@@ -68,7 +73,7 @@ The source file for a rule exports an object with the following properties.
 
 * `fixable` (string) is either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../user-guide/command-line-interface.md#fix) automatically fixes problems reported by the rule
 
-    **Important:** Without the `fixable` property, ESLint does not [apply fixes](#applying-fixes) even if the rule implements `fix` functions. Omit the `fixable` property if the rule is not fixable.
+    **Important:** Without the `fixable` property, ESLint does not [apply fixes](#applying-fixes) even if the rule implements `fix` functions. Omit the `fixable` property if the rule is not fixable.  However, due to backwards compatibility, if the `metadata` is not present, and a rule does implement `fix` functions, the fix *will* be applied.
 
 * `schema` (array) specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../user-guide/configuring.md#configuring-rules)
 
