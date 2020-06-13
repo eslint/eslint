@@ -4747,8 +4747,8 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: 1, prev: "class", next: "*" }
             ],
             errors: [
-                "Before this statement there are 2 blank line. Allowed is 1.",
-                "Before this statement there are 2 blank line. Allowed is 1."
+                "Expected 1 blank lines. Found 2.",
+                "Expected 1 blank lines. Found 2."
             ]
         },
         {
@@ -4759,8 +4759,8 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: 2, prev: "class", next: "*" }
             ],
             errors: [
-                "Before this statement there are 1 blank line. Allowed is 2.",
-                "Before this statement there are 1 blank line. Allowed is 2."
+                "Expected 2 blank lines. Found 1.",
+                "Expected 2 blank lines. Found 1."
             ]
         },
         {
@@ -4771,8 +4771,8 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: 1, prev: "class", next: "*" }
             ],
             errors: [
-                "Before this statement there are 2 blank line. Allowed is 1.",
-                "Before this statement there are 2 blank line. Allowed is 1."
+                "Expected 1 blank lines. Found 2.",
+                "Expected 1 blank lines. Found 2."
             ]
         },
         {
@@ -4783,8 +4783,8 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: 1, prev: "class", next: "*" }
             ],
             errors: [
-                "Before this statement there are 2 blank line. Allowed is 1.",
-                "Before this statement there are 2 blank line. Allowed is 1."
+                "Expected 1 blank lines. Found 2.",
+                "Expected 1 blank lines. Found 2."
             ]
         },
         {
@@ -4795,8 +4795,8 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: 2, prev: "class", next: "*" }
             ],
             errors: [
-                "Before this statement there are 1 blank line. Allowed is 2.",
-                "Before this statement there are 1 blank line. Allowed is 2."
+                "Expected 2 blank lines. Found 1.",
+                "Expected 2 blank lines. Found 1."
             ]
         },
         {
@@ -4807,8 +4807,8 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: 2, prev: "class", next: "*" }
             ],
             errors: [
-                "Before this statement there are 1 blank line. Allowed is 2.",
-                "Before this statement there are 1 blank line. Allowed is 2."
+                "Expected 2 blank lines. Found 1.",
+                "Expected 2 blank lines. Found 1."
             ]
         },
 
