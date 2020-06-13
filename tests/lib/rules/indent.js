@@ -11374,6 +11374,105 @@ ruleTester.run("indent", rule, {
                 [5, 4, 0, "Identifier"],
                 [6, 0, 4, "Punctuator"]
             ])
+        },
+
+        // Optional chaining
+        {
+            code: unIndent`
+                obj
+                ?.prop
+                ?.[key]
+                ?.
+                [key]
+            `,
+            output: unIndent`
+                obj
+                    ?.prop
+                    ?.[key]
+                    ?.
+                        [key]
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: expectedErrors([
+                [2, 4, 0, "Punctuator"],
+                [3, 4, 0, "Punctuator"],
+                [4, 4, 0, "Punctuator"],
+                [5, 8, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                (
+                    longSomething
+                        ?.prop
+                        ?.[key]
+                )
+                ?.prop
+                ?.[key]
+            `,
+            output: unIndent`
+                (
+                    longSomething
+                        ?.prop
+                        ?.[key]
+                )
+                    ?.prop
+                    ?.[key]
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: expectedErrors([
+                [6, 4, 0, "Punctuator"],
+                [7, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                obj
+                ?.(arg)
+                ?.
+                (arg)
+            `,
+            output: unIndent`
+                obj
+                    ?.(arg)
+                    ?.
+                    (arg)
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: expectedErrors([
+                [2, 4, 0, "Punctuator"],
+                [3, 4, 0, "Punctuator"],
+                [4, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                (
+                    longSomething
+                        ?.(arg)
+                        ?.(arg)
+                )
+                ?.(arg)
+                ?.(arg)
+            `,
+            output: unIndent`
+                (
+                    longSomething
+                        ?.(arg)
+                        ?.(arg)
+                )
+                    ?.(arg)
+                    ?.(arg)
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: expectedErrors([
+                [6, 4, 0, "Punctuator"],
+                [7, 4, 0, "Punctuator"]
+            ])
         }
     ]
 });
