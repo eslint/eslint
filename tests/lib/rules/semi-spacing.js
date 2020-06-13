@@ -55,7 +55,9 @@ ruleTester.run("semi-spacing", rule, {
         "function foo(){return 2;}",
         "for(var i = 0; i < results.length;) {}",
         { code: "function foo() { return 2; }", options: [{ after: false }] },
-        { code: "for ( var i = 0;i < results.length; ) {}", options: [{ after: false }] }
+        { code: "for ( var i = 0;i < results.length; ) {}", options: [{ after: false }] },
+
+        "do {} while (true); foo"
     ],
     invalid: [
         {
@@ -370,6 +372,51 @@ ruleTester.run("semi-spacing", rule, {
                 endColumn: 7
             }
             ]
+        },
+        {
+            code: "do {} while (true) ;",
+            output: "do {} while (true);",
+            errors: [{
+                messageId: "unexpectedWhitespaceBefore",
+                type: "DoWhileStatement",
+                line: 1,
+                column: 19,
+                endLine: 1,
+                endColumn: 20
+            }]
+        },
+        {
+            code: "do {} while (true);foo",
+            output: "do {} while (true); foo",
+            errors: [{
+                messageId: "missingWhitespaceAfter",
+                type: "DoWhileStatement",
+                line: 1,
+                column: 19,
+                endLine: 1,
+                endColumn: 20
+            }]
+        },
+        {
+            code: "do {} while (true);  foo",
+            output: "do {} while (true) ;foo",
+            options: [{ before: true, after: false }],
+            errors: [{
+                messageId: "missingWhitespaceBefore",
+                type: "DoWhileStatement",
+                line: 1,
+                column: 19,
+                endLine: 1,
+                endColumn: 20
+            },
+            {
+                messageId: "unexpectedWhitespaceAfter",
+                type: "DoWhileStatement",
+                line: 1,
+                column: 20,
+                endLine: 1,
+                endColumn: 22
+            }]
         }
     ]
 });
