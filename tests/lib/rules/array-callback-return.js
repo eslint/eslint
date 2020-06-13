@@ -442,6 +442,28 @@ ruleTester.run("array-callback-return", rule, {
                 endLine: 2,
                 endColumn: 20
             }]
+        },
+
+        // Optional chaining
+        {
+            code: "foo?.filter(() => { console.log('hello') })",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedInside", data: { name: "arrow function" } }]
+        },
+        {
+            code: "(foo?.filter)(() => { console.log('hello') })",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedInside", data: { name: "arrow function" } }]
+        },
+        {
+            code: "Array?.from([], () => { console.log('hello') })",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedInside", data: { name: "arrow function" } }]
+        },
+        {
+            code: "(Array?.from)([], () => { console.log('hello') })",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedInside", data: { name: "arrow function" } }]
         }
     ]
 });
