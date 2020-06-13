@@ -231,6 +231,13 @@ ruleTester.run("func-call-spacing", rule, {
             ]
         },
         {
+            code: "f \n    /**/ ();",
+            output: null,
+            errors: [
+                { messageId: "unexpectedWhitespace", type: "CallExpression" }
+            ]
+        },
+        {
             code: "f/*comment*/ ();",
             output: "f/*comment*/();",
             errors: [
@@ -238,8 +245,29 @@ ruleTester.run("func-call-spacing", rule, {
             ]
         },
         {
+            code: "f/*multiline \ncomment*/ ();",
+            output: null,
+            errors: [
+                { messageId: "unexpectedWhitespace", type: "CallExpression" }
+            ]
+        },
+        {
             code: "f/*comment*//*comment2*/ ();",
             output: "f/*comment*//*comment2*/();",
+            errors: [
+                { messageId: "unexpectedWhitespace", type: "CallExpression" }
+            ]
+        },
+        {
+            code: "f/*comment*/  /*comment2*/ ();",
+            output: "f/*comment*//*comment2*/();",
+            errors: [
+                { messageId: "unexpectedWhitespace", type: "CallExpression" }
+            ]
+        },
+        {
+            code: "f/*comment*/\n  /*comment2*/ ();",
+            output: null,
             errors: [
                 { messageId: "unexpectedWhitespace", type: "CallExpression" }
             ]
