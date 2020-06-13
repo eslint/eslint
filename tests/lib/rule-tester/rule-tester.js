@@ -491,7 +491,7 @@ describe("RuleTester", () => {
                     ]
                 }
             );
-        }, /Invalid cases must have value greater than 0/u);
+        }, /Invalid cases must have 'error' value greater than 0/u);
     });
 
     it("should not skip column assertion if column is a falsy value", () => {
