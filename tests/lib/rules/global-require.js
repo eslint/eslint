@@ -30,7 +30,13 @@ const valid = [
     { code: "var logger = require(DEBUG ? 'dev-logger' : 'logger');" },
     { code: "var logger = DEBUG ? require('dev-logger') : require('logger');" },
     { code: "function localScopedRequire(require) { require('y'); }" },
-    { code: "var someFunc = require('./someFunc'); someFunc(function(require) { return('bananas'); });" }
+    { code: "var someFunc = require('./someFunc'); someFunc(function(require) { return('bananas'); });" },
+
+    // Optional chaining
+    {
+        code: "var x = require('y')?.foo;",
+        parserOptions: { ecmaVersion: 2020 }
+    }
 ];
 
 const error = { messageId: "unexpected", type: "CallExpression" };
