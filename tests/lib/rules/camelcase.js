@@ -957,6 +957,20 @@ ruleTester.run("camelcase", rule, {
                     type: "Identifier"
                 }
             ]
+        },
+
+        // Optional chaining.
+        {
+            code: "obj.o_k.non_camelcase = 0",
+            options: [{ properties: "always" }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "notCamelCase", data: { name: "non_camelcase" } }]
+        },
+        {
+            code: "(obj?.o_k).non_camelcase = 0",
+            options: [{ properties: "always" }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "notCamelCase", data: { name: "non_camelcase" } }]
         }
     ]
 });
