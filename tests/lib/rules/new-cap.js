@@ -71,7 +71,21 @@ ruleTester.run("new-cap", rule, {
         { code: "var x = new foo.bar(42);", options: [{ newIsCapExceptionPattern: "^foo\\.." }] },
         { code: "var x = new foo.bar(42);", options: [{ properties: false }] },
         { code: "var x = Foo.bar(42);", options: [{ properties: false }] },
-        { code: "var x = foo.Bar(42);", options: [{ capIsNew: false, properties: false }] }
+        { code: "var x = foo.Bar(42);", options: [{ capIsNew: false, properties: false }] },
+
+        // Optional chaining
+        {
+            code: "foo?.bar();",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "(foo?.bar)();",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "new (foo?.Bar)();",
+            parserOptions: { ecmaVersion: 2020 }
+        }
     ],
     invalid: [
         {
@@ -302,6 +316,23 @@ ruleTester.run("new-cap", rule, {
 
             options: [{ newIsCapExceptionPattern: "^foo\\.." }],
             errors: [{ type: "NewExpression", messageId: "lower" }]
+        },
+
+        // Optional chaining
+        {
+            code: "new (foo?.bar)();",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "lower" }]
+        },
+        {
+            code: "foo?.Bar();",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "upper" }]
+        },
+        {
+            code: "(foo?.Bar)();",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "upper" }]
         }
     ]
 });
