@@ -7,19 +7,19 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
 ## Table of Contents
 
 * [ESLint]
-    * [constructor()](#new-eslint-options)
-    * [lintFiles()](#eslint-lintfiles-patterns)
-    * [lintText()](#eslint-linttext-code-options)
-    * [calculateConfigForFile()](#eslint-calculateconfigforfile-filepath)
-    * [isPathIgnored()](#eslint-ispathignored-filepath)
-    * [loadFormatter()](#eslint-loadformatter-nameorpath)
-    * [static version](#eslint-version)
-    * [static outputFixes()](#eslint-outputfixes-results)
-    * [static getErrorResults()](#eslint-geterrorresults-results)
-    * [LintResult type](#lintresult-type)
-    * [LintMessage type](#lintmessage-type)
-    * [EditInfo type](#editinfo-type)
-    * [Formatter type](#formatter-type)
+    * [constructor()][eslint-constructor]
+    * [lintFiles()][eslint-lintfiles]
+    * [lintText()][eslint-linttext]
+    * [calculateConfigForFile()][eslint-calculateconfigforfile]
+    * [isPathIgnored()][eslint-ispathignored]
+    * [loadFormatter()][eslint-loadformatter]
+    * [static version][eslint-version]
+    * [static outputFixes()][eslint-outputfixes]
+    * [static getErrorResults()][eslint-geterrorresults]
+    * [LintResult type][lintresult]
+    * [LintMessage type][lintmessage]
+    * [EditInfo type][editinfo]
+    * [Formatter type][formatter]
 * [SourceCode](#sourcecode)
     * [splitLines()](#sourcecode-splitlines)
 * [Linter](#linter)
@@ -1382,17 +1382,17 @@ ruleTester.run("my-rule", myRule, {
 [builtin-formatters]: https://eslint.org/docs/user-guide/formatters/
 [thirdparty-formatters]: https://www.npmjs.com/search?q=eslintformatter
 [eslint]: #eslint-class
-[eslint-constructor]: #-new-eslintoptions
-[eslint-lintfiles]: #-eslintlintFilespatterns
-[eslint-linttext]: #-eslintlintTextcode-options
-[eslint-calculateconfigforfile]: #-eslintcalculateConfigForFilefilePath
-[eslint-ispathignored]: #-eslintisPathIgnoredfilePath
-[eslint-loadformatter]: #-eslintloadFormatternameOrPath
-[eslint-version]: #-eslintversion
-[eslint-outputfixes]: #-eslintoutputFixesresults
-[eslint-geterrorresults]: #-eslintgetErrorResultsresults
-[lintresult]: #-lintresult-type
-[lintmessage]: #-lintmessage-type
-[editinfo]: #-editinfo-type
-[formatter]: #-formatter-type
+[eslint-constructor]: #new-eslint-options
+[eslint-lintfiles]: #eslint-lintfiles-patterns
+[eslint-linttext]: #eslint-linttext-code-options
+[eslint-calculateconfigforfile]: #eslint-calculateconfigforfile-filepath
+[eslint-ispathignored]: #eslint-ispathignored-filepath
+[eslint-loadformatter]: #eslint-loadformatter-nameorpath
+[eslint-version]: #eslint-version
+[eslint-outputfixes]: #eslint-outputfixes-results
+[eslint-geterrorresults]: #eslint-geterrorresults-results
+[lintresult]: #lintresult-type
+[lintmessage]: #lintmessage-type
+[editinfo]: #editinfo-type
+[formatter]: #formatter-type
 [linter]: #linter
