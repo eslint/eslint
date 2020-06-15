@@ -54,7 +54,7 @@
     "doctrine": "^3.0.0",
     "enquirer": "^2.3.5",
     "eslint-scope": "^5.1.0",
-    "eslint-utils": "^2.0.0",
+    "eslint-utils": "^2.1.0",
     "eslint-visitor-keys": "github:eslint/eslint-visitor-keys#add-chain-expression",
     "espree": "github:eslint/espree#optional-chaining",
     "esquery": "^1.2.0",
