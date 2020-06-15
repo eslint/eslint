@@ -620,7 +620,30 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "var v = (a || b) ?? c", parserOptions: { ecmaVersion: 2020 } },
         { code: "var v = a || (b ?? c)", parserOptions: { ecmaVersion: 2020 } },
         { code: "var v = (a && b) ?? c", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = a && (b ?? c)", parserOptions: { ecmaVersion: 2020 } }
+        { code: "var v = a && (b ?? c)", parserOptions: { ecmaVersion: 2020 } },
+
+        // Optional chaining
+        { code: "var v = (obj?.aaa).bbb", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (obj?.aaa)()", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = new (obj?.aaa)()", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = new (obj?.aaa)", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (obj?.aaa)`template`", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (obj?.()).bbb", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (obj?.())()", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = new (obj?.())()", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = new (obj?.())", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (obj?.())`template`", parserOptions: { ecmaVersion: 2020 } },
+        { code: "(obj?.aaa).bbb = 0", parserOptions: { ecmaVersion: 2020 } },
+        {
+            code: "var foo = (function(){})?.call()",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "var foo = (function(){}?.call())",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            parserOptions: { ecmaVersion: 2020 }
+        }
     ],
 
     invalid: [
@@ -2696,6 +2719,34 @@ ruleTester.run("no-extra-parens", rule, {
         {
             code: "var v = a | b ?? (c | d)",
             output: "var v = a | b ?? c | d",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+
+        // Optional chaining
+        {
+            code: "var v = (obj?.aaa)?.aaa",
+            output: "var v = obj?.aaa?.aaa",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = (obj.aaa)?.aaa",
+            output: "var v = obj.aaa?.aaa",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var foo = (function(){})?.call()",
+            output: "var foo = function(){}?.call()",
+            options: ["all", { enforceForFunctionPrototypeMethods: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var foo = (function(){}?.call())",
+            output: "var foo = function(){}?.call()",
+            options: ["all", { enforceForFunctionPrototypeMethods: true }],
             parserOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         }
