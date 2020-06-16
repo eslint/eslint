@@ -58,7 +58,7 @@ describe("CLIEngine", () => {
 
         try {
             return fs.realpathSync(filepath);
-        } catch (e) {
+        } catch {
             return filepath;
         }
     }
@@ -2161,7 +2161,7 @@ describe("CLIEngine", () => {
             function doDelete(filePath) {
                 try {
                     fs.unlinkSync(filePath);
-                } catch (ex) {
+                } catch {
 
                     /*
                      * we don't care if the file didn't exist, since our
@@ -2197,7 +2197,7 @@ describe("CLIEngine", () => {
                 function deleteCacheDir() {
                     try {
                         fs.unlinkSync("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory");
-                    } catch (ex) {
+                    } catch {
 
                         /*
                          * we don't care if the file didn't exist, since our

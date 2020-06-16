@@ -105,6 +105,11 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if ((!!foo || bar) === baz) {}",
             options: [{ enforceForLogicalOperands: true }]
+        },
+        {
+            code: "if (!!foo ?? bar) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            parserOptions: { ecmaVersion: 2020 }
         }
     ],
 
@@ -2395,6 +2400,14 @@ ruleTester.run("no-extra-boolean-cast", rule, {
                 { messageId: "unexpectedNegation", type: "UnaryExpression" },
                 { messageId: "unexpectedCall", type: "CallExpression" }
             ]
+        },
+
+        {
+            code: "if (Boolean(a ?? b) || c) {}",
+            output: "if ((a ?? b) || c) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
         }
     ]
 });

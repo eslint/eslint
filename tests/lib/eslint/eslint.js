@@ -55,7 +55,7 @@ describe("ESLint", () => {
 
         try {
             return fs.realpathSync(filepath);
-        } catch (e) {
+        } catch {
             return filepath;
         }
     }
@@ -2102,7 +2102,7 @@ describe("ESLint", () => {
             function doDelete(filePath) {
                 try {
                     fs.unlinkSync(filePath);
-                } catch (ex) {
+                } catch {
 
                     /*
                      * we don't care if the file didn't exist, since our
@@ -2138,7 +2138,7 @@ describe("ESLint", () => {
                 function deleteCacheDir() {
                     try {
                         fs.unlinkSync("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory");
-                    } catch (ex) {
+                    } catch {
 
                         /*
                          * we don't care if the file didn't exist, since our

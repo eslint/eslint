@@ -199,6 +199,7 @@
     "no-unmodified-loop-condition": "problem",
     "no-unneeded-ternary": "suggestion",
     "no-unreachable": "problem",
+    "no-unreachable-loop": "problem",
     "no-unsafe-finally": "problem",
     "no-unsafe-negation": "problem",
     "no-unused-expressions": "suggestion",

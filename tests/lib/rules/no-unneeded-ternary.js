@@ -357,6 +357,18 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 line: 1,
                 column: 15
             }]
+        },
+        {
+            code: "var a = foo ? foo : a ?? b;",
+            output: "var a = foo || (a ?? b);",
+            options: [{ defaultAssignment: false }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{
+                messageId: "unnecessaryConditionalAssignment",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 15
+            }]
         }
     ]
 });

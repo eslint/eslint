@@ -508,6 +508,27 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "(new foo.bar()).baz()", options: ["all", { enforceForNewInMemberExpressions: false }] },
         { code: "((new foo.bar())).baz()", options: ["all", { enforceForNewInMemberExpressions: false }] },
 
+        // ["all", { enforceForFunctionPrototypeMethods: false }]
+        { code: "var foo = (function(){}).call()", options: ["all", { enforceForFunctionPrototypeMethods: false }] },
+        { code: "var foo = (function(){}).apply()", options: ["all", { enforceForFunctionPrototypeMethods: false }] },
+        { code: "var foo = (function(){}.call())", options: ["all", { enforceForFunctionPrototypeMethods: false }] },
+        { code: "var foo = (function(){}.apply())", options: ["all", { enforceForFunctionPrototypeMethods: false }] },
+        { code: "var foo = (function(){}).call(arg)", options: ["all", { enforceForFunctionPrototypeMethods: false }] },
+        { code: "var foo = (function(){}.apply(arg))", options: ["all", { enforceForFunctionPrototypeMethods: false }] },
+        { code: "var foo = (function(){}['call']())", options: ["all", { enforceForFunctionPrototypeMethods: false }] },
+        { code: "var foo = (function(){})[`apply`]()", options: ["all", { enforceForFunctionPrototypeMethods: false }] },
+        { code: "var foo = ((function(){})).call()", options: ["all", { enforceForFunctionPrototypeMethods: false }] },
+        { code: "var foo = ((function(){}).apply())", options: ["all", { enforceForFunctionPrototypeMethods: false }] },
+        { code: "var foo = ((function(){}.call()))", options: ["all", { enforceForFunctionPrototypeMethods: false }] },
+        { code: "var foo = ((((function(){})).apply()))", options: ["all", { enforceForFunctionPrototypeMethods: false }] },
+        { code: "foo((function(){}).call().bar)", options: ["all", { enforceForFunctionPrototypeMethods: false }] },
+        { code: "foo = (function(){}).call()()", options: ["all", { enforceForFunctionPrototypeMethods: false }] },
+        { code: "foo = (function(){}.call())()", options: ["all", { enforceForFunctionPrototypeMethods: false }] },
+        { code: "var foo = { bar: (function(){}.call()) }", options: ["all", { enforceForFunctionPrototypeMethods: false }] },
+        { code: "var foo = { [(function(){}.call())]: bar  }", options: ["all", { enforceForFunctionPrototypeMethods: false }] },
+        { code: "if((function(){}).call()){}", options: ["all", { enforceForFunctionPrototypeMethods: false }] },
+        { code: "while((function(){}.apply())){}", options: ["all", { enforceForFunctionPrototypeMethods: false }] },
+
         "let a = [ ...b ]",
         "let a = { ...b }",
         {
@@ -597,7 +618,17 @@ ruleTester.run("no-extra-parens", rule, {
         "new (a().b().d);",
         "new a().b().d;",
         "new (a(b()).c)",
-        "new (a.b()).c"
+        "new (a.b()).c",
+
+        // Nullish coalescing
+        { code: "var v = (a ?? b) || c", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = a ?? (b || c)", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (a ?? b) && c", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = a ?? (b && c)", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (a || b) ?? c", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = a || (b ?? c)", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (a && b) ?? c", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = a && (b ?? c)", parserOptions: { ecmaVersion: 2020 } }
     ],
 
     invalid: [
@@ -1305,6 +1336,316 @@ ruleTester.run("no-extra-parens", rule, {
                 {
                     messageId: "unexpected",
                     type: "NewExpression"
+                }
+            ]
+        },
+
+        // enforceForFunctionPrototypeMethods
+        {
+            code: "var foo = (function(){}).call()",
+            output: "var foo = function(){}.call()",
+            options: ["all"],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "FunctionExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (function(){}.apply())",
+            output: "var foo = function(){}.apply()",
+            options: ["all"],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (function(){}).apply()",
+            output: "var foo = function(){}.apply()",
+            options: ["all", {}],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "FunctionExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (function(){}.call())",
+            output: "var foo = function(){}.call()",
+            options: ["all", {}],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (function(){}).call()",
+            output: "var foo = function(){}.call()",
+            options: ["all", { enforceForFunctionPrototypeMethods: true }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "FunctionExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (function(){}).apply()",
+            output: "var foo = function(){}.apply()",
+            options: ["all", { enforceForFunctionPrototypeMethods: true }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "FunctionExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (function(){}.call())",
+            output: "var foo = function(){}.call()",
+            options: ["all", { enforceForFunctionPrototypeMethods: true }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (function(){}.apply())",
+            output: "var foo = function(){}.apply()",
+            options: ["all", { enforceForFunctionPrototypeMethods: true }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (function(){}.call)()", // removing these parens does not cause any conflicts with wrap-iife
+            output: "var foo = function(){}.call()",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "MemberExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (function(){}.apply)()", // removing these parens does not cause any conflicts with wrap-iife
+            output: "var foo = function(){}.apply()",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "MemberExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (function(){}).call",
+            output: "var foo = function(){}.call",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "FunctionExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (function(){}.call)",
+            output: "var foo = function(){}.call",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "MemberExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = new (function(){}).call()",
+            output: "var foo = new function(){}.call()",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "FunctionExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (new function(){}.call())",
+            output: "var foo = new function(){}.call()",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "NewExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (function(){})[call]()",
+            output: "var foo = function(){}[call]()",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "FunctionExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (function(){}[apply]())",
+            output: "var foo = function(){}[apply]()",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (function(){}).bar()",
+            output: "var foo = function(){}.bar()",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "FunctionExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (function(){}.bar())",
+            output: "var foo = function(){}.bar()",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (function(){}).call.call()",
+            output: "var foo = function(){}.call.call()",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "FunctionExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (function(){}.call.call())",
+            output: "var foo = function(){}.call.call()",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (call())",
+            output: "var foo = call()",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (apply())",
+            output: "var foo = apply()",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = (bar).call()",
+            output: "var foo = bar.call()",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var foo = (bar.call())",
+            output: "var foo = bar.call()",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "((() => {}).call())",
+            output: "(() => {}).call()",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = function(){}.call((a.b))",
+            output: "var foo = function(){}.call(a.b)",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "MemberExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = function(){}.call((a).b)",
+            output: "var foo = function(){}.call(a.b)",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var foo = function(){}[('call')]()",
+            output: "var foo = function(){}['call']()",
+            options: ["all", { enforceForFunctionPrototypeMethods: false }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "Literal"
                 }
             ]
         },
@@ -2304,6 +2645,75 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("a+(/^b$/)", "a+/^b$/", "Literal"),
         invalid("a/(/**/b)", "a/ /**/b", "Identifier"),
         invalid("a/(//\nb)", "a/ //\nb", "Identifier"),
-        invalid("a/(/^b$/)", "a/ /^b$/", "Literal")
+        invalid("a/(/^b$/)", "a/ /^b$/", "Literal"),
+
+
+        // Nullish coalescing
+        {
+            code: "var v = ((a ?? b)) || c",
+            output: "var v = (a ?? b) || c",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = a ?? ((b || c))",
+            output: "var v = a ?? (b || c)",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = ((a ?? b)) && c",
+            output: "var v = (a ?? b) && c",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = a ?? ((b && c))",
+            output: "var v = a ?? (b && c)",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = ((a || b)) ?? c",
+            output: "var v = (a || b) ?? c",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = a || ((b ?? c))",
+            output: "var v = a || (b ?? c)",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = ((a && b)) ?? c",
+            output: "var v = (a && b) ?? c",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = a && ((b ?? c))",
+            output: "var v = a && (b ?? c)",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = (a ?? b) ? b : c",
+            output: "var v = a ?? b ? b : c",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = (a | b) ?? c | d",
+            output: "var v = a | b ?? c | d",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var v = a | b ?? (c | d)",
+            output: "var v = a | b ?? c | d",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        }
     ]
 });
