@@ -143,7 +143,7 @@ switch (x) {
             output: `switch (x) {
     case 0:
         foo();
-}
+        \n}
       `,
             errors: [
                 {
@@ -166,7 +166,7 @@ switch (x) {
 switch (x) {
     case 0: {
         foo();
-    }
+        \n    }
 }
       `,
             errors: [
@@ -204,8 +204,7 @@ switch (x) {
 }`,
             output: `switch (x) {
     case 0: {
-        foo();
-    }
+        foo();  \n    }
 }`,
             errors: [
                 {
@@ -227,7 +226,7 @@ switch (x) {
 switch (x) {
     default:
         foo();
-}
+        \n}
       `,
             errors: [
                 {
@@ -256,7 +255,7 @@ outer2: while (true) {
             ++x;
             break;
         default:
-    }
+            \n    }
 }      `,
             errors: [
                 {
@@ -275,8 +274,7 @@ outer2: while (true) {
   }`,
             output: `switch (x) {
   case 0:
-    foo();
-    break;
+    foo(); break;
   }`,
             options: ["always"],
             errors: [
@@ -295,8 +293,7 @@ outer2: while (true) {
   }`,
             output: `switch (x) {
   case 0: {
-      foo();
-      break;
+      foo(); break;
     }
   }`,
             options: ["always"],
@@ -315,8 +312,7 @@ outer2: while (true) {
   }`,
             output: `switch (x) {
   default:
-    foo();
-    break;
+    foo(); break;
   }`,
             options: ["always"],
             errors: [
@@ -335,8 +331,7 @@ outer2: while (true) {
   }`,
             output: `switch (x) {
   default: {
-      foo();
-      break;
+      foo(); break;
     }
   }`,
             options: ["always"],
