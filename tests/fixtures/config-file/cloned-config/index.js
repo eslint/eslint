@@ -1,0 +1,1 @@
+var someValue  = "bar";
