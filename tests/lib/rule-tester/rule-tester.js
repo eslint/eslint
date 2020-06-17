@@ -463,6 +463,37 @@ describe("RuleTester", () => {
         }, expectedErrorMessage);
     });
 
+    it("should throw error for empty error array", () => {
+        assert.throws(() => {
+            ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
+                valid: [],
+                invalid: [{
+                    code: "var foo;",
+                    errors: []
+                }]
+            });
+        }, /Invalid cases must have at least one error/u);
+    });
+
+    it("should throw error for errors : 0", () => {
+        assert.throws(() => {
+            ruleTester.run(
+                "suggestions-messageIds",
+                require("../../fixtures/testers/rule-tester/suggestions")
+                    .withMessageIds,
+                {
+                    valid: [],
+                    invalid: [
+                        {
+                            code: "var foo;",
+                            errors: 0
+                        }
+                    ]
+                }
+            );
+        }, /Invalid cases must have 'error' value greater than 0/u);
+    });
+
     it("should not skip column assertion if column is a falsy value", () => {
         assert.throws(() => {
             ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
@@ -732,7 +763,7 @@ describe("RuleTester", () => {
                 {
                     code: "eval(foo)",
                     parser: require.resolve("esprima"),
-                    errors: [{}]
+                    errors: [{ line: 1 }]
                 }
             ]
         });
@@ -1893,4 +1924,5 @@ describe("RuleTester", () => {
         });
 
     });
+
 });
