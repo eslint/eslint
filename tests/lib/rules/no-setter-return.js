@@ -39,7 +39,7 @@ function error(column, type = "ReturnStatement") {
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
 
 ruleTester.run("no-setter-return", rule, {
     valid: [
@@ -504,6 +504,18 @@ ruleTester.run("no-setter-return", rule, {
         },
         {
             code: "Object.defineProperty(foo, 'bar', { set: function(Object) { return 1; } })",
+            errors: [error()]
+        },
+
+        // Optional chaining
+        {
+            code: "Object?.defineProperty(foo, 'bar', { set(val) { return 1; } })",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [error()]
+        },
+        {
+            code: "(Object?.defineProperty)(foo, 'bar', { set(val) { return 1; } })",
+            parserOptions: { ecmaVersion: 2020 },
             errors: [error()]
         }
     ]
