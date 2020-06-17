@@ -79,6 +79,12 @@ ruleTester.run("no-self-assign", rule, {
         {
             code: "this.x = this.x",
             options: [{ props: false }]
+        },
+
+        // Optional chaining
+        {
+            code: "a.b = a?.b",
+            parserOptions: { ecmaVersion: 2020 }
         }
     ],
     invalid: [
@@ -135,6 +141,13 @@ ruleTester.run("no-self-assign", rule, {
             options: [{ props: true }],
             errors: [{ messageId: "selfAssignment", data: { name: "this.x" } }]
         },
-        { code: "a['/(?<zero>0)/'] = a[/(?<zero>0)/]", options: [{ props: true }], parserOptions: { ecmaVersion: 2018 }, errors: [{ messageId: "selfAssignment", data: { name: "a[/(?<zero>0)/]" } }] }
+        { code: "a['/(?<zero>0)/'] = a[/(?<zero>0)/]", options: [{ props: true }], parserOptions: { ecmaVersion: 2018 }, errors: [{ messageId: "selfAssignment", data: { name: "a[/(?<zero>0)/]" } }] },
+
+        // Optional chaining
+        {
+            code: "(a?.b).c = (a?.b).c",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "selfAssignment", data: { name: "(a?.b).c" } }]
+        }
     ]
 });
