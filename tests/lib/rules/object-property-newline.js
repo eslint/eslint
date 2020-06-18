@@ -598,7 +598,9 @@ ruleTester.run("object-property-newline", rule, {
                     messageId: "propertiesOnNewlineAll",
                     type: "ObjectExpression",
                     line: 3,
-                    column: 13
+                    column: 13,
+                    endLine: 3,
+                    endColumn: 15
                 }
             ]
         },
