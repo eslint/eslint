@@ -603,6 +603,29 @@ ruleTester.run("wrap-iife", rule, {
             options: ["inside", { functionPrototypeMethods: true }],
             parserOptions: { ecmaVersion: 2020 },
             errors: [wrapExpressionError]
+        },
+
+        // Optional chaining
+        {
+            code: "window.bar = function() { return 3; }.call?.(this, arg1);",
+            output: "window.bar = (function() { return 3; }).call?.(this, arg1);",
+            options: ["inside", { functionPrototypeMethods: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [wrapInvocationError]
+        },
+        {
+            code: "window.bar = function() { return 3; }?.call(this, arg1);",
+            output: "window.bar = (function() { return 3; })?.call(this, arg1);",
+            options: ["inside", { functionPrototypeMethods: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [wrapInvocationError]
+        },
+        {
+            code: "window.bar = (function() { return 3; }?.call)(this, arg1);",
+            output: "window.bar = ((function() { return 3; })?.call)(this, arg1);",
+            options: ["inside", { functionPrototypeMethods: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [wrapInvocationError]
         }
     ]
 });
