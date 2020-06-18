@@ -21,7 +21,7 @@ const errors = [{
     type: "FunctionExpression"
 }];
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
 
 ruleTester.run("prefer-arrow-callback", rule, {
     valid: [
@@ -165,13 +165,33 @@ ruleTester.run("prefer-arrow-callback", rule, {
         {
             code: "qux(async function (foo = 1, bar = 2, baz = 3) { return baz; })",
             output: "qux(async (foo = 1, bar = 2, baz = 3) => { return baz; })",
-            parserOptions: { ecmaVersion: 8 },
             errors
         },
         {
             code: "qux(async function (foo = 1, bar = 2, baz = 3) { return this; }.bind(this))",
             output: "qux(async (foo = 1, bar = 2, baz = 3) => { return this; })",
-            parserOptions: { ecmaVersion: 8 },
+            errors
+        },
+
+        // Optional chaining
+        {
+            code: "foo?.(function() {});",
+            output: "foo?.(() => {});",
+            errors
+        },
+        {
+            code: "foo?.(function() { return this; }.bind(this));",
+            output: "foo?.(() => { return this; });",
+            errors
+        },
+        {
+            code: "foo(function() { return this; }?.bind(this));",
+            output: "foo(() => { return this; });",
+            errors
+        },
+        {
+            code: "foo((function() { return this; }?.bind)(this));",
+            output: null,
             errors
         }
     ]
