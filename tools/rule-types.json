@@ -163,6 +163,7 @@
     "no-plusplus": "suggestion",
     "no-process-env": "suggestion",
     "no-process-exit": "suggestion",
+    "no-promise-executor-return": "problem",
     "no-proto": "suggestion",
     "no-prototype-builtins": "problem",
     "no-redeclare": "suggestion",
