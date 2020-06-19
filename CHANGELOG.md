@@ -1,3 +1,27 @@
+v7.3.0 - June 19, 2020
+
+* [`638a6d6`](https://github.com/eslint/eslint/commit/638a6d6be18b4a37cfdc7223e1f5acd3718694be) Update: add missing `additionalProperties: false` to some rules' schema (#13198) (Milos Djermanovic)
+* [`949a5cd`](https://github.com/eslint/eslint/commit/949a5cd741c2e930cfb43d80a9b6b084f9d677c3) Update: fix operator-linebreak overrides schema (#13199) (Milos Djermanovic)
+* [`9e1414e`](https://github.com/eslint/eslint/commit/9e1414ee16b8caf582920f8fdf3b6ee1eb0b7cd5) New: Add no-promise-executor-return rule (fixes #12640) (#12648) (Milos Djermanovic)
+* [`09cc0a2`](https://github.com/eslint/eslint/commit/09cc0a2bb5bcf3bcb0766a3c989871f268518437) Update: max-lines reporting loc improvement (refs #12334) (#13318) (Anix)
+* [`ee2fc2e`](https://github.com/eslint/eslint/commit/ee2fc2e90d0f9dfcdba852b0609156bee5280b92) Update: object-property-newline end location (refs #12334) (#13399) (Anix)
+* [`d98152a`](https://github.com/eslint/eslint/commit/d98152a3d8c72e4f5ac4c6fa10a615b12090c8f7) Update: added empty error array check for false negative (#13200) (Anix)
+* [`7fb45cf`](https://github.com/eslint/eslint/commit/7fb45cf13e9908d489bd6d5fba3b7243c01508b9) Fix: clone config before validating (fixes #12592) (#13034) (Anix)
+* [`aed46f6`](https://github.com/eslint/eslint/commit/aed46f69d54da167d9838149954ceeb4b02be5fd) Sponsors: Sync README with website (ESLint Jenkins)
+* [`7686d7f`](https://github.com/eslint/eslint/commit/7686d7feaccc7b8fee927eda6602d641d8de1e5c) Update: semi-spacing should check do-while statements (#13358) (Milos Djermanovic)
+* [`cbd0d00`](https://github.com/eslint/eslint/commit/cbd0d00a1ec2824d7e025bbbc084855ed0bf08bb) Update: disallow multiple options in comma-dangle schema (fixes #13165) (#13166) (Milos Djermanovic)
+* [`b550330`](https://github.com/eslint/eslint/commit/b550330d739c73a7a8f887064e7c911d05a95f9a) New: Add no-unreachable-loop rule (fixes #12381) (#12660) (Milos Djermanovic)
+* [`13999d2`](https://github.com/eslint/eslint/commit/13999d292080f814fa4fb266e011d61c184197c4) Update: curly should check consequent `if` statements (#12947) (Milos Djermanovic)
+* [`c42e548`](https://github.com/eslint/eslint/commit/c42e54893b79b470ca7745bd2a626ffd069e017b) Chore: enable exceptRange option in the yoda rule (#12857) (Milos Djermanovic)
+* [`6cfbd03`](https://github.com/eslint/eslint/commit/6cfbd03b3f22edb4d1c9c61c64eea7c129da71aa) Update: Drop @typescript-eslint/eslint-recommended from `eslint --init` (#13340) (Minh Nguyen)
+* [`796f269`](https://github.com/eslint/eslint/commit/796f269e448fdcbf8a5a62edf1990bd857efd1af) Chore: update eslint-config-eslint's required node version (#13379) (薛定谔的猫)
+* [`9d0186e`](https://github.com/eslint/eslint/commit/9d0186e55bee769ea6aa08dc5a62682f58316412) Docs: Fix changelog versions (#13410) (Tony Brix)
+* [`1ee3c42`](https://github.com/eslint/eslint/commit/1ee3c42ceeee56b650bcc4206ed783b795f65643) Docs: On maxEOF with eol-last (fixes #12742) (#13374) (Arthur Dias)
+* [`2a21049`](https://github.com/eslint/eslint/commit/2a210499288ed14ec9a6fd72decabfb77504c197) Update: key-spacing loc changes for extra space (refs #12334) (#13362) (Anix)
+* [`7ce7988`](https://github.com/eslint/eslint/commit/7ce7988f411da64248a64a9d9d2b7884d5ba39e0) Chore: Replace the inquirer dependency with enquirer (#13254) (Selwyn)
+* [`0f1f5ed`](https://github.com/eslint/eslint/commit/0f1f5ed2a20b8fb575d4360316861cf4c2b9b7bc) Docs: Add security policy link to README (#13403) (Nicholas C. Zakas)
+* [`9e9ba89`](https://github.com/eslint/eslint/commit/9e9ba897c566601cfe90522099c635ea316b235f) Sponsors: Sync README with website (ESLint Jenkins)
+* [`ca59fb9`](https://github.com/eslint/eslint/commit/ca59fb95a395c0a02ed23768a70e086480ab1f6d) Sponsors: Sync README with website (ESLint Jenkins)
 v7.2.0 - June 5, 2020
 
 * [`b735a48`](https://github.com/eslint/eslint/commit/b735a485e77bcc791e4c4c6b8716801d94e98b2c) Update: add enforceForFunctionPrototypeMethods option to no-extra-parens (#12895) (Milos Djermanovic)
