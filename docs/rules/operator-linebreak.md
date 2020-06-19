@@ -22,7 +22,7 @@ This rule enforces a consistent linebreak style for operators.
 
 ## Options
 
-This rule has one option, which can be a string option or an object option.
+This rule has two options, a string option and an object option.
 
 String option:
 
