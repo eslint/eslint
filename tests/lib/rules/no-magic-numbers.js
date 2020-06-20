@@ -213,6 +213,16 @@ ruleTester.run("no-magic-numbers", rule, {
             code: "f(-100n)",
             options: [{ ignore: ["-100n"] }],
             parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "const { param = 123 } = sourceObject;",
+            options: [{ ignoreDefaultValues: true }],
+            env: { es6: true }
+        },
+        {
+            code: "const func = ({ param = 123 }) => {}",
+            options: [{ ignoreDefaultValues: true }],
+            env: { es6: true }
         }
     ],
     invalid: [
@@ -718,6 +728,14 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{ ignore: ["100n"] }],
             errors: [
                 { messageId: "noMagic", data: { raw: "100" }, line: 1 }
+            ]
+        },
+        {
+            code: "const { param = 123 } = sourceObject;",
+            options: [{ ignoreDefaultValues: false }],
+            env: { es6: true },
+            errors: [
+                { messageId: "noMagic", data: { raw: "123" }, line: 1 }
             ]
         }
     ]

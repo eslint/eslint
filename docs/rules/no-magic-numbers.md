@@ -128,6 +128,20 @@ a = data[4294967295]; // above the max array index
 a = data[1e500]; // same as data["Infinity"]
 ```
 
+### ignoreDefaultValues
+
+A boolean to specify if numbers used in default value assignments are considered okay. `false` by default.
+
+Examples of **correct** code for the `{ "ignoreDefaultValues": true }` option:
+
+```js
+/*eslint no-magic-numbers: ["error", { "ignoreDefaultValues": true }]*/
+
+const { tax = 0.25 } = accountancy;
+
+function mapParallel(concurrency = 3) { /***/ }
+```
+
 ### enforceConst
 
 A boolean to specify if we should check for the const keyword in variable declaration of numbers. `false` by default.
