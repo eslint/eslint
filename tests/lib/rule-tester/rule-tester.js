@@ -751,7 +751,15 @@ describe("RuleTester", () => {
     });
 
     it("should pass-through the parser to the rule", () => {
-        const spy = sinon.spy(ruleTester.linter, "verify");
+
+        // To generate the default linter
+        ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+            valid: ["Eval(foo)"],
+            invalid: []
+        });
+
+        const linter = ruleTester.linterMap.get();
+        const spy = sinon.spy(linter, "verify");
 
         ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
             valid: [
@@ -888,6 +896,20 @@ describe("RuleTester", () => {
                 invalid: []
             });
         }, /Property "env" is the wrong type./u);
+    });
+
+    it("should pass-through the cwd to the linter", () => {
+        ruleTester.run("some-random-rule", ctx => {
+
+            assert.strictEqual(ctx.getCwd(), "myCwd");
+            return {};
+        }, {
+            valid: [{
+                code: "var test = 'foo'",
+                cwd: "myCwd"
+            }],
+            invalid: []
+        });
     });
 
     it("should pass-through the tester config to the rule", () => {
