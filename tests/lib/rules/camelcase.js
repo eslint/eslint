@@ -170,14 +170,29 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
-            code: "var _camelCased = camelCased",
+            code: "var _camelCased = aGlobalVariable",
             options: [{ ignoreGlobals: false }],
-            globals: { camelCased: false }
+            globals: { aGlobalVariable: false }
         },
         {
-            code: "var camelCased = snake_cased",
+            code: "var camelCased = _aGlobalVariable",
+            options: [{ ignoreGlobals: false }],
+            globals: { _aGlobalVariable: false }
+        },
+        {
+            code: "var camelCased = a_global_variable",
             options: [{ ignoreGlobals: true }],
-            globals: { snake_cased: false } // eslint-disable-line camelcase
+            globals: { a_global_variable: false } // eslint-disable-line camelcase
+        },
+        {
+            code: "a_global_variable.foo()",
+            options: [{ ignoreGlobals: true }],
+            globals: { a_global_variable: false } // eslint-disable-line camelcase
+        },
+        {
+            code: "a_global_variable[undefined]",
+            options: [{ ignoreGlobals: true }],
+            globals: { a_global_variable: "readonly" } // eslint-disable-line camelcase
         },
         {
             code: "function foo({ no_camelcased: camelCased }) {};",
@@ -674,6 +689,31 @@ ruleTester.run("camelcase", rule, {
                 }
             ]
         },
+        {
+            code: "a_global_variable.foo()",
+            options: [{ ignoreGlobals: false }],
+            globals: { a_global_variable: false }, // eslint-disable-line camelcase
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "a_global_variable" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "a_global_variable[undefined]",
+            options: [{ ignoreGlobals: false }],
+            globals: { a_global_variable: false }, // eslint-disable-line camelcase
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "a_global_variable" },
+                    type: "Identifier"
+                }
+            ]
+        },
+
         {
             code: "export * as snake_cased from 'mod'",
             parserOptions: { ecmaVersion: 2020, sourceType: "module" },
