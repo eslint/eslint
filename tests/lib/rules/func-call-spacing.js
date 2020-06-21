@@ -218,6 +218,28 @@ ruleTester.run("func-call-spacing", rule, {
             code: "import\n(source)",
             options: ["always", { allowNewlines: true }],
             parserOptions: { ecmaVersion: 2020 }
+        },
+
+        // Optional chaining
+        {
+            code: "func?.()",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "func ?.()",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "func?. ()",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "func ?. ()",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2020 }
         }
     ],
     invalid: [
@@ -853,6 +875,57 @@ ruleTester.run("func-call-spacing", rule, {
                     endColumn: 2
                 }
             ]
+        },
+
+        // Optional chaining
+        {
+            code: "func ?.()",
+            output: "func?.()",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedWhitespace" }]
+        },
+        {
+            code: "func?. ()",
+            output: "func?.()",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedWhitespace" }]
+        },
+        {
+            code: "func ?. ()",
+            output: "func?.()",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedWhitespace" }]
+        },
+        {
+            code: "func?.()",
+            output: null, // Not sure inserting a space into either before/after `?.`.
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "missing" }]
+        },
+        {
+            code: "func\n  ?.()",
+            output: "func ?.()",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedNewline" }]
+        },
+        {
+            code: "func?.\n  ()",
+            output: "func?. ()",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedNewline" }]
+        },
+        {
+            code: "func  ?.\n  ()",
+            output: "func ?. ()", // Not sure keeping either space.
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedNewline" }]
         }
     ]
 });
