@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 const sinon = require("sinon"),
     EventEmitter = require("events"),
-    { RuleTester } = require("../../../lib/rule-tester"),
+    { RuleTester, internalSlotsMap } = require("../../../lib/rule-tester"),
     { Linter } = require("../../../lib/linter"),
     assert = require("chai").assert,
     nodeAssert = require("assert"),
@@ -759,7 +759,8 @@ describe("RuleTester", () => {
             [undefined, linter]
         ]);
 
-        // ruleTester = new RuleTester({ linterMapDevOnly: linterMap });
+        const { injectedLinterMapSymbol } = internalSlotsMap;
+
         ruleTester = new RuleTester();
         ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
             valid: [
@@ -774,7 +775,7 @@ describe("RuleTester", () => {
                     errors: [{ line: 1 }]
                 }
             ],
-            linterMapDevOnly: linterMap
+            [injectedLinterMapSymbol]: linterMap
         });
         assert.strictEqual(spy.args[1][1].parser, require.resolve("esprima"));
     });
