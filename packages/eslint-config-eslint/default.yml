@@ -206,4 +206,4 @@ rules:
     unicode-bom: "error"
     wrap-iife: "error"
     yield-star-spacing: "error"
-    yoda: ["error", "never"]
+    yoda: ["error", "never", { exceptRange: true }]
