@@ -10,6 +10,7 @@
 const sinon = require("sinon"),
     EventEmitter = require("events"),
     { RuleTester } = require("../../../lib/rule-tester"),
+    { Linter } = require("../../../lib/linter"),
     assert = require("chai").assert,
     nodeAssert = require("assert"),
     { noop } = require("lodash");
@@ -751,16 +752,15 @@ describe("RuleTester", () => {
     });
 
     it("should pass-through the parser to the rule", () => {
-
-        // To generate the default linter
-        ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
-            valid: ["Eval(foo)"],
-            invalid: []
-        });
-
-        const linter = ruleTester.linterMap.get();
+        const linter = new Linter();
         const spy = sinon.spy(linter, "verify");
+        const linterMap = new Map([
+            // eslint-disable-next-line no-undefined
+            [undefined, linter]
+        ]);
 
+        // ruleTester = new RuleTester({ linterMapDevOnly: linterMap });
+        ruleTester = new RuleTester();
         ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
             valid: [
                 {
@@ -773,7 +773,8 @@ describe("RuleTester", () => {
                     parser: require.resolve("esprima"),
                     errors: [{ line: 1 }]
                 }
-            ]
+            ],
+            linterMapDevOnly: linterMap
         });
         assert.strictEqual(spy.args[1][1].parser, require.resolve("esprima"));
     });
