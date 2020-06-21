@@ -328,6 +328,13 @@ ruleTester.run("dot-location", rule, {
             errors: [{ messageId: "expectedDotAfterObject" }]
         },
         {
+            code: "10\n?.prop",
+            output: "10?.\nprop",
+            options: ["object"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedDotAfterObject" }]
+        },
+        {
             code: "obj?.\nprop",
             output: "obj\n?.prop",
             options: ["property"],
