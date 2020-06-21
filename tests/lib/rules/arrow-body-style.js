@@ -46,8 +46,30 @@ ruleTester.run("arrow-body-style", rule, {
         { code: "var foo = () => { return { bar: 0 }; };", options: ["as-needed", { requireReturnForObjectLiteral: true }] }
     ],
     invalid: [
-
-
+        {
+            code: "for (a = b => { return c in d ? e : f } ;;);",
+            output: "for (a = b => (c in d ? e : f) ;;);",
+            options: ["as-needed"],
+            errors: [
+                {
+                    line: 1,
+                    column: 15,
+                    messageId: "unexpectedSingleBlock"
+                }
+            ]
+        },
+        {
+            code: "for (a = b => { return c = d in e } ;;);",
+            output: "for (a = b => (c = d in e) ;;);",
+            options: ["as-needed"],
+            errors: [
+                {
+                    line: 1,
+                    column: 15,
+                    messageId: "unexpectedSingleBlock"
+                }
+            ]
+        },
         {
             code: "for (let a = (b, c, d) => { return vb && c in d; }; ;);",
             output: "for (let a = (b, c, d) => (vb && c in d); ;);",
