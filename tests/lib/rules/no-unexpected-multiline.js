@@ -132,6 +132,14 @@ ruleTester.run("no-unexpected-multiline", rule, {
         {
             code: "var a = b\n  ?.[a, b, c].forEach(doSomething)",
             parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "var a = b?.\n  (x || y).doSomething()",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "var a = b?.\n  [a, b, c].forEach(doSomething)",
+            parserOptions: { ecmaVersion: 2020 }
         }
     ],
     invalid: [
@@ -313,30 +321,6 @@ ruleTester.run("no-unexpected-multiline", rule, {
                     messageId: "taggedTemplate"
                 }
             ]
-        },
-
-        // Optional chaining
-        {
-            code: "var a = b?.\n(x || y).doSomething()",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{
-                messageId: "function",
-                line: 2,
-                column: 1,
-                endLine: 2,
-                endColumn: 2
-            }]
-        },
-        {
-            code: "var a = b?.\n  [a, b, c].forEach(doSomething)",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{
-                line: 2,
-                column: 3,
-                endLine: 2,
-                endColumn: 4,
-                messageId: "property"
-            }]
         }
     ]
 });
