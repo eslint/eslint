@@ -634,6 +634,8 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "var v = new (obj?.())", parserOptions: { ecmaVersion: 2020 } },
         { code: "var v = (obj?.())`template`", parserOptions: { ecmaVersion: 2020 } },
         { code: "(obj?.aaa).bbb = 0", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var foo = (function(){})?.()", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var foo = (function(){}?.())", parserOptions: { ecmaVersion: 2020 } },
         {
             code: "var foo = (function(){})?.call()",
             options: ["all", { enforceForFunctionPrototypeMethods: false }],
