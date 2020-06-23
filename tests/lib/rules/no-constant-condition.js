@@ -78,6 +78,7 @@ ruleTester.run("no-constant-condition", rule, {
         "if(a && 'str'){}",
 
         // #11306
+        "if ((foo || 1n) === 'baz') {}",
         "if ((foo || true) === 'baz') {}",
         "if ((foo || 'bar') === 'baz') {}",
         "if ((foo || 'bar') !== 'baz') {}",
@@ -90,7 +91,7 @@ ruleTester.run("no-constant-condition", rule, {
         "if ((key || 'k') in obj) {}",
         "if ((foo || {}) instanceof obj) {}",
         "if ((foo || 'bar' || 'bar') === 'bar');",
-        "if (a && false || b);",
+        "if (a && 0n || b);",
 
         // #12225
         "if ('' + [y] === '' + [ty]) {}",
@@ -282,6 +283,17 @@ ruleTester.run("no-constant-condition", rule, {
         {
             code: "if ([,] + ''){}",
             errors: [{ messageId: "unexpected", type: "BinaryExpression" }]
-        }
+        },
+
+        // #13238
+        { code: "if(/foo/ui);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
+        { code: "if(0n);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
+        { code: "if(0b0n);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
+        { code: "if(0o0n);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
+        { code: "if(0x0n);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
+        { code: "if(0b1n);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
+        { code: "if(0o1n);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
+        { code: "if(0x1n);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
+        { code: "if(0x1n || foo);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] }
     ]
 });
