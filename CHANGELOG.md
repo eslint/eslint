@@ -1,3 +1,6 @@
+v7.3.1 - June 22, 2020
+
+* [`de77c11`](https://github.com/eslint/eslint/commit/de77c11e7515f2097ff355ddc0d7b6db9c83c892) Fix: Replace Infinity with Number.MAX_SAFE_INTEGER (fixes #13427) (#13435) (Nicholas C. Zakas)
 v7.3.0 - June 19, 2020
 
 * [`638a6d6`](https://github.com/eslint/eslint/commit/638a6d6be18b4a37cfdc7223e1f5acd3718694be) Update: add missing `additionalProperties: false` to some rules' schema (#13198) (Milos Djermanovic)
