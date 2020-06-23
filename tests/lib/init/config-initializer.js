@@ -67,7 +67,7 @@ describe("configInitializer", () => {
 
         try {
             return fs.realpathSync(filepath);
-        } catch (e) {
+        } catch {
             return filepath;
         }
     }
@@ -136,9 +136,7 @@ describe("configInitializer", () => {
                 assert.deepStrictEqual(config.rules.quotes, ["error", "single"]);
                 assert.deepStrictEqual(config.rules["linebreak-style"], ["error", "unix"]);
                 assert.deepStrictEqual(config.rules.semi, ["error", "always"]);
-                assert.strictEqual(config.env.es6, true);
-                assert.strictEqual(config.globals.Atomics, "readonly");
-                assert.strictEqual(config.globals.SharedArrayBuffer, "readonly");
+                assert.strictEqual(config.env.es2020, true);
                 assert.strictEqual(config.parserOptions.ecmaVersion, espree.latestEcmaVersion);
                 assert.strictEqual(config.parserOptions.sourceType, "module");
                 assert.strictEqual(config.env.browser, true);
@@ -176,7 +174,7 @@ describe("configInitializer", () => {
 
                 assert.strictEqual(config.parser, "@typescript-eslint/parser");
                 assert.deepStrictEqual(config.plugins, ["@typescript-eslint"]);
-                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:@typescript-eslint/eslint-recommended"]);
+                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:@typescript-eslint/recommended"]);
             });
 
             it("should enable typescript parser and plugin with vue", () => {
@@ -184,6 +182,7 @@ describe("configInitializer", () => {
                 answers.typescript = true;
                 const config = init.processAnswers(answers);
 
+                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/essential", "plugin:@typescript-eslint/recommended"]);
                 assert.strictEqual(config.parserOptions.parser, "@typescript-eslint/parser");
                 assert.deepStrictEqual(config.plugins, ["vue", "@typescript-eslint"]);
             });

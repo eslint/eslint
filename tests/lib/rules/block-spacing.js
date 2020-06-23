@@ -182,12 +182,60 @@ ruleTester.run("block-spacing", rule, {
             code: "try {foo();} catch (e) {foo();} finally {foo();}",
             output: "try { foo(); } catch (e) { foo(); } finally { foo(); }",
             errors: [
-                { type: "BlockStatement", line: 1, column: 5, messageId: "missing", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 12, messageId: "missing", data: { location: "before", token: "}" } },
-                { type: "BlockStatement", line: 1, column: 24, messageId: "missing", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 31, messageId: "missing", data: { location: "before", token: "}" } },
-                { type: "BlockStatement", line: 1, column: 41, messageId: "missing", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 48, messageId: "missing", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    messageId: "missing",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 5,
+                    endLine: 1,
+                    endColumn: 6
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "missing",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "missing",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 24,
+                    endLine: 1,
+                    endColumn: 25
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "missing",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 31,
+                    endLine: 1,
+                    endColumn: 32
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "missing",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 41,
+                    endLine: 1,
+                    endColumn: 42
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "missing",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 48,
+                    endLine: 1,
+                    endColumn: 49
+                }
             ]
         },
         {
@@ -229,7 +277,18 @@ ruleTester.run("block-spacing", rule, {
             output: "if (a) { //comment\n foo(); }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { type: "BlockStatement", line: 1, column: 8, messageId: "missing", data: { location: "after", token: "{" } }
+                {
+                    type: "BlockStatement",
+                    messageId: "missing",
+                    data: {
+                        location: "after",
+                        token: "{"
+                    },
+                    line: 1,
+                    column: 8,
+                    endLine: 1,
+                    endColumn: 9
+                }
             ]
         },
 
@@ -240,8 +299,24 @@ ruleTester.run("block-spacing", rule, {
             output: "{foo();}",
             options: ["never"],
             errors: [
-                { type: "BlockStatement", line: 1, column: 1, messageId: "extra", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 10, messageId: "extra", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 2,
+                    endLine: 1,
+                    endColumn: 3
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 9,
+                    endLine: 1,
+                    endColumn: 10
+                }
             ]
         },
         {
@@ -249,7 +324,18 @@ ruleTester.run("block-spacing", rule, {
             output: "{foo();}",
             options: ["never"],
             errors: [
-                { type: "BlockStatement", line: 1, column: 1, messageId: "extra", data: { location: "after", token: "{" } }
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: {
+                        location: "after",
+                        token: "{"
+                    },
+                    line: 1,
+                    column: 2,
+                    endLine: 1,
+                    endColumn: 3
+                }
             ]
         },
         {
@@ -257,7 +343,18 @@ ruleTester.run("block-spacing", rule, {
             output: "{foo();}",
             options: ["never"],
             errors: [
-                { type: "BlockStatement", line: 1, column: 9, messageId: "extra", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: {
+                        location: "before",
+                        token: "}"
+                    },
+                    line: 1,
+                    column: 8,
+                    endLine: 1,
+                    endColumn: 9
+                }
             ]
         },
         {
@@ -265,7 +362,18 @@ ruleTester.run("block-spacing", rule, {
             output: "{\nfoo();}",
             options: ["never"],
             errors: [
-                { type: "BlockStatement", line: 2, column: 8, messageId: "extra", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: {
+                        location: "before",
+                        token: "}"
+                    },
+                    line: 2,
+                    column: 7,
+                    endLine: 2,
+                    endColumn: 8
+                }
             ]
         },
         {
@@ -273,7 +381,18 @@ ruleTester.run("block-spacing", rule, {
             output: "{foo();\n}",
             options: ["never"],
             errors: [
-                { type: "BlockStatement", line: 1, column: 1, messageId: "extra", data: { location: "after", token: "{" } }
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: {
+                        location: "after",
+                        token: "{"
+                    },
+                    line: 1,
+                    column: 2,
+                    endLine: 1,
+                    endColumn: 3
+                }
             ]
         },
         {
@@ -281,8 +400,24 @@ ruleTester.run("block-spacing", rule, {
             output: "if (a) {foo();}",
             options: ["never"],
             errors: [
-                { type: "BlockStatement", line: 1, column: 8, messageId: "extra", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 17, messageId: "extra", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 9,
+                    endLine: 1,
+                    endColumn: 10
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 16,
+                    endLine: 1,
+                    endColumn: 17
+                }
             ]
         },
         {
@@ -290,8 +425,24 @@ ruleTester.run("block-spacing", rule, {
             output: "if (a) {} else {foo();}",
             options: ["never"],
             errors: [
-                { type: "BlockStatement", line: 1, column: 16, messageId: "extra", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 25, messageId: "extra", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 17,
+                    endLine: 1,
+                    endColumn: 18
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 24,
+                    endLine: 1,
+                    endColumn: 25
+                }
             ]
         },
         {
@@ -299,8 +450,24 @@ ruleTester.run("block-spacing", rule, {
             output: "switch (a) {case 0: foo();}",
             options: ["never"],
             errors: [
-                { type: "SwitchStatement", line: 1, column: 12, messageId: "extra", data: { location: "after", token: "{" } },
-                { type: "SwitchStatement", line: 1, column: 29, messageId: "extra", data: { location: "before", token: "}" } }
+                {
+                    type: "SwitchStatement",
+                    messageId: "extra",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 13,
+                    endLine: 1,
+                    endColumn: 14
+                },
+                {
+                    type: "SwitchStatement",
+                    messageId: "extra",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 28,
+                    endLine: 1,
+                    endColumn: 29
+                }
             ]
         },
         {
@@ -308,8 +475,24 @@ ruleTester.run("block-spacing", rule, {
             output: "while (a) {foo();}",
             options: ["never"],
             errors: [
-                { type: "BlockStatement", line: 1, column: 11, messageId: "extra", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 20, messageId: "extra", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 19,
+                    endLine: 1,
+                    endColumn: 20
+                }
             ]
         },
         {
@@ -317,8 +500,24 @@ ruleTester.run("block-spacing", rule, {
             output: "do {foo();} while (a);",
             options: ["never"],
             errors: [
-                { type: "BlockStatement", line: 1, column: 4, messageId: "extra", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 13, messageId: "extra", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 5,
+                    endLine: 1,
+                    endColumn: 6
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
+                }
             ]
         },
         {
@@ -326,8 +525,24 @@ ruleTester.run("block-spacing", rule, {
             output: "for (;;) {foo();}",
             options: ["never"],
             errors: [
-                { type: "BlockStatement", line: 1, column: 10, messageId: "extra", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 19, messageId: "extra", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 18,
+                    endLine: 1,
+                    endColumn: 19
+                }
             ]
         },
         {
@@ -335,8 +550,24 @@ ruleTester.run("block-spacing", rule, {
             output: "for (var a in b) {foo();}",
             options: ["never"],
             errors: [
-                { type: "BlockStatement", line: 1, column: 18, messageId: "extra", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 27, messageId: "extra", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 19,
+                    endLine: 1,
+                    endColumn: 20
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 26,
+                    endLine: 1,
+                    endColumn: 27
+                }
             ]
         },
         {
@@ -345,8 +576,24 @@ ruleTester.run("block-spacing", rule, {
             options: ["never"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { type: "BlockStatement", line: 1, column: 18, messageId: "extra", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 27, messageId: "extra", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 19,
+                    endLine: 1,
+                    endColumn: 20
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 26,
+                    endLine: 1,
+                    endColumn: 27
+                }
             ]
         },
         {
@@ -354,12 +601,60 @@ ruleTester.run("block-spacing", rule, {
             output: "try {foo();} catch (e) {foo();} finally {foo();}",
             options: ["never"],
             errors: [
-                { type: "BlockStatement", line: 1, column: 5, messageId: "extra", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 14, messageId: "extra", data: { location: "before", token: "}" } },
-                { type: "BlockStatement", line: 1, column: 26, messageId: "extra", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 35, messageId: "extra", data: { location: "before", token: "}" } },
-                { type: "BlockStatement", line: 1, column: 45, messageId: "extra", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 54, messageId: "extra", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 6,
+                    endLine: 1,
+                    endColumn: 7
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 13,
+                    endLine: 1,
+                    endColumn: 14
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 27,
+                    endLine: 1,
+                    endColumn: 28
+                },
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 34,
+                    messageId: "extra",
+                    data: { location: "before", token: "}" },
+                    endLine: 1,
+                    endColumn: 35
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 46,
+                    endLine: 1,
+                    endColumn: 47
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 53,
+                    endLine: 1,
+                    endColumn: 54
+                }
             ]
         },
         {
@@ -367,8 +662,24 @@ ruleTester.run("block-spacing", rule, {
             output: "function foo() {bar();}",
             options: ["never"],
             errors: [
-                { type: "BlockStatement", line: 1, column: 16, messageId: "extra", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 25, messageId: "extra", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 17,
+                    endLine: 1,
+                    endColumn: 18
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 24,
+                    endLine: 1,
+                    endColumn: 25
+                }
             ]
         },
         {
@@ -376,8 +687,24 @@ ruleTester.run("block-spacing", rule, {
             output: "(function() {bar();});",
             options: ["never"],
             errors: [
-                { type: "BlockStatement", line: 1, column: 13, messageId: "extra", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 22, messageId: "extra", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 15
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 21,
+                    endLine: 1,
+                    endColumn: 22
+                }
             ]
         },
         {
@@ -386,8 +713,24 @@ ruleTester.run("block-spacing", rule, {
             options: ["never"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { type: "BlockStatement", line: 1, column: 8, messageId: "extra", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 17, messageId: "extra", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 9,
+                    endLine: 1,
+                    endColumn: 10
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 16,
+                    endLine: 1,
+                    endColumn: 17
+                }
             ]
         },
         {
@@ -395,8 +738,84 @@ ruleTester.run("block-spacing", rule, {
             output: "if (a) {/* comment */ foo(); /* comment */}",
             options: ["never"],
             errors: [
-                { type: "BlockStatement", line: 1, column: 8, messageId: "extra", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 45, messageId: "extra", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 9,
+                    endLine: 1,
+                    endColumn: 10
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 44,
+                    endLine: 1,
+                    endColumn: 45
+                }
+            ]
+        },
+        {
+            code: "(() => {   bar();});",
+            output: "(() => {bar();});",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 9,
+                    endLine: 1,
+                    endColumn: 12
+                }
+            ]
+        },
+        {
+            code: "(() => {bar();   });",
+            output: "(() => {bar();});",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 15,
+                    endLine: 1,
+                    endColumn: 18
+                }
+            ]
+        },
+        {
+            code: "(() => {   bar();   });",
+            output: "(() => {bar();});",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "after", token: "{" },
+                    line: 1,
+                    column: 9,
+                    endLine: 1,
+                    endColumn: 12
+                },
+                {
+                    type: "BlockStatement",
+                    messageId: "extra",
+                    data: { location: "before", token: "}" },
+                    line: 1,
+                    column: 18,
+                    endLine: 1,
+                    endColumn: 21
+                }
             ]
         }
     ]

@@ -3918,9 +3918,9 @@ var a = "test2";
                     messages,
                     [{
                         column: 25,
-                        endLine: 3,
+                        endLine: 4,
                         endColumn: 28,
-                        line: 3,
+                        line: 4,
                         message: "'aaa' is assigned a value but never used.",
                         messageId: "unusedVar",
                         nodeType: "Identifier",
@@ -3966,9 +3966,9 @@ var a = "test2";
                     messages,
                     [{
                         column: 25,
-                        endLine: 2,
+                        endLine: 3,
                         endColumn: 28,
-                        line: 2,
+                        line: 3,
                         message: "'aaa' is assigned a value but never used.",
                         messageId: "unusedVar",
                         nodeType: "Identifier",
@@ -3989,9 +3989,9 @@ var a = "test2";
                     messages,
                     [{
                         column: 25,
-                        endLine: 2,
+                        endLine: 3,
                         endColumn: 28,
-                        line: 2,
+                        line: 3,
                         message: "'aaa' is assigned a value but never used.",
                         messageId: "unusedVar",
                         nodeType: "Identifier",
@@ -4014,9 +4014,9 @@ var a = "test2";
                     messages,
                     [{
                         column: 25,
-                        endLine: 3,
+                        endLine: 5,
                         endColumn: 28,
-                        line: 3,
+                        line: 5,
                         message: "'aaa' is assigned a value but never used.",
                         messageId: "unusedVar",
                         nodeType: "Identifier",
@@ -4039,9 +4039,9 @@ var a = "test2";
                     messages,
                     [{
                         column: 25,
-                        endLine: 3,
+                        endLine: 5,
                         endColumn: 28,
-                        line: 3,
+                        line: 5,
                         message: "'aaa' is assigned a value but never used.",
                         messageId: "unusedVar",
                         nodeType: "Identifier",
@@ -5245,6 +5245,30 @@ var a = "test2";
             const messages = linter.verify(code, { parser: "unknown-logical-operator-nested" }, filename, true);
 
             assert.strictEqual(messages.length, 0);
+        });
+
+        it("should not throw or return errors when the custom parser returns unknown AST nodes", () => {
+            const code = "foo && bar %% baz";
+
+            const nodes = [];
+
+            linter.defineRule("collect-node-types", () => ({
+                "*"(node) {
+                    nodes.push(node.type);
+                }
+            }));
+
+            linter.defineParser("non-js-parser", testParsers.nonJSParser);
+
+            const messages = linter.verify(code, {
+                parser: "non-js-parser",
+                rules: {
+                    "collect-node-types": "error"
+                }
+            }, filename, true);
+
+            assert.strictEqual(messages.length, 0);
+            assert.isTrue(nodes.length > 0);
         });
 
         it("should strip leading line: prefix from parser error", () => {

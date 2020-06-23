@@ -236,12 +236,30 @@ ruleTester.run("func-call-spacing", rule, {
         {
             code: "f.b ();",
             output: "f.b();",
-            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression", column: 3 }]
+            errors: [
+                {
+                    messageId: "unexpectedWhitespace",
+                    type: "CallExpression",
+                    column: 4,
+                    line: 1,
+                    endColumn: 4,
+                    endLine: 1
+                }
+            ]
         },
         {
             code: "f.b().c ();",
             output: "f.b().c();",
-            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression", column: 7 }]
+            errors: [
+                {
+                    messageId: "unexpectedWhitespace",
+                    type: "CallExpression",
+                    column: 8,
+                    line: 1,
+                    endColumn: 8,
+                    endLine: 1
+                }
+            ]
         },
         {
             code: "f() ()",
@@ -335,16 +353,34 @@ ruleTester.run("func-call-spacing", rule, {
             errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression" }]
         },
         {
-            code: "f.b ();",
+            code: "f.b  ();",
             output: "f.b();",
             options: ["never"],
-            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression", column: 3 }]
+            errors: [
+                {
+                    messageId: "unexpectedWhitespace",
+                    type: "CallExpression",
+                    column: 4,
+                    line: 1,
+                    endColumn: 5,
+                    endLine: 1
+                }
+            ]
         },
         {
             code: "f.b().c ();",
             output: "f.b().c();",
             options: ["never"],
-            errors: [{ messageId: "unexpectedWhitespace", type: "CallExpression", column: 7 }]
+            errors: [
+                {
+                    messageId: "unexpectedWhitespace",
+                    type: "CallExpression",
+                    column: 8,
+                    line: 1,
+                    endColumn: 8,
+                    endLine: 1
+                }
+            ]
         },
         {
             code: "f() ()",
@@ -407,7 +443,11 @@ ruleTester.run("func-call-spacing", rule, {
             errors: [
                 {
                     messageId: "unexpectedWhitespace",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 2,
+                    endLine: 2,
+                    endColumn: 0
                 }
             ]
         },
@@ -424,7 +464,9 @@ ruleTester.run("func-call-spacing", rule, {
                     messageId: "unexpectedWhitespace",
                     type: "CallExpression",
                     line: 2,
-                    column: 23
+                    column: 24,
+                    endLine: 3,
+                    endColumn: 0
                 }
             ]
         },
@@ -440,7 +482,9 @@ ruleTester.run("func-call-spacing", rule, {
                     messageId: "unexpectedWhitespace",
                     type: "CallExpression",
                     line: 1,
-                    column: 9
+                    column: 12,
+                    endLine: 2,
+                    endColumn: 0
                 }
             ]
         },
@@ -456,7 +500,9 @@ ruleTester.run("func-call-spacing", rule, {
                     messageId: "unexpectedWhitespace",
                     type: "CallExpression",
                     line: 1,
-                    column: 9
+                    column: 12,
+                    endColumn: 0,
+                    endLine: 2
                 }
             ]
         },
@@ -534,13 +580,31 @@ ruleTester.run("func-call-spacing", rule, {
             code: "f.b();",
             output: "f.b ();",
             options: ["always"],
-            errors: [{ messageId: "missing", type: "CallExpression", column: 3 }]
+            errors: [
+                {
+                    messageId: "missing",
+                    type: "CallExpression",
+                    column: 3,
+                    line: 1,
+                    endLine: 1,
+                    endColumn: 4
+                }
+            ]
         },
         {
             code: "f.b\n();",
             output: "f.b ();",
             options: ["always"],
-            errors: [{ messageId: "unexpectedNewline", type: "CallExpression", column: 3 }]
+            errors: [
+                {
+                    messageId: "unexpectedNewline",
+                    type: "CallExpression",
+                    column: 4,
+                    line: 1,
+                    endColumn: 1,
+                    endLine: 2
+                }
+            ]
         },
         {
             code: "f.b().c ();",
@@ -552,7 +616,16 @@ ruleTester.run("func-call-spacing", rule, {
             code: "f.b\n().c ();",
             output: "f.b ().c ();",
             options: ["always"],
-            errors: [{ messageId: "unexpectedNewline", type: "CallExpression", column: 3 }]
+            errors: [
+                {
+                    messageId: "unexpectedNewline",
+                    type: "CallExpression",
+                    column: 4,
+                    line: 1,
+                    endColumn: 1,
+                    endLine: 2
+                }
+            ]
         },
         {
             code: "f() ()",
@@ -664,7 +737,13 @@ ruleTester.run("func-call-spacing", rule, {
             code: "f.b();",
             output: "f.b ();",
             options: ["always", { allowNewlines: true }],
-            errors: [{ messageId: "missing", type: "CallExpression", column: 3 }]
+            errors: [
+                {
+                    messageId: "missing",
+                    type: "CallExpression",
+                    column: 3
+                }
+            ]
         },
         {
             code: "f.b().c ();",
@@ -715,6 +794,64 @@ ruleTester.run("func-call-spacing", rule, {
             errors: [
                 { messageId: "missing", type: "CallExpression" },
                 { messageId: "missing", type: "CallExpression" }
+            ]
+        },
+        {
+            code: "f    ();",
+            output: "f();",
+            errors: [
+                {
+                    messageId: "unexpectedWhitespace",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 2,
+                    endLine: 1,
+                    endColumn: 5
+                }
+            ]
+        },
+        {
+            code: "f\n ();",
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedWhitespace",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 2,
+                    endLine: 2,
+                    endColumn: 1
+                }
+            ]
+        },
+        {
+            code: "fn();",
+            output: "fn ();",
+            options: ["always"],
+            errors: [
+                {
+                    messageId: "missing",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 2,
+                    endLine: 1,
+                    endColumn: 3
+                }
+            ]
+        },
+        {
+            code: "fnn\n (a, b);",
+            output: "fnn (a, b);",
+            options: ["always"],
+            errors: [
+                {
+                    messageId: "unexpectedNewline",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 4,
+                    endLine: 2,
+                    endColumn: 2
+                }
             ]
         }
     ]
