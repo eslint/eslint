@@ -582,7 +582,7 @@ ruleTester.run("func-call-spacing", rule, {
         },
         {
             code: "f\n();",
-            output: "f ();",
+            output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
             options: ["always"],
             errors: [{ messageId: "unexpectedNewline", type: "CallExpression" }]
         },
@@ -594,7 +594,7 @@ ruleTester.run("func-call-spacing", rule, {
         },
         {
             code: "f\n(a, b);",
-            output: "f (a, b);",
+            output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
             options: ["always"],
             errors: [{ messageId: "unexpectedNewline", type: "CallExpression" }]
         },
@@ -615,7 +615,7 @@ ruleTester.run("func-call-spacing", rule, {
         },
         {
             code: "f.b\n();",
-            output: "f.b ();",
+            output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
             options: ["always"],
             errors: [
                 {
@@ -636,7 +636,7 @@ ruleTester.run("func-call-spacing", rule, {
         },
         {
             code: "f.b\n().c ();",
-            output: "f.b ().c ();",
+            output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
             options: ["always"],
             errors: [
                 {
@@ -657,13 +657,13 @@ ruleTester.run("func-call-spacing", rule, {
         },
         {
             code: "f\n() ()",
-            output: "f () ()",
+            output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
             options: ["always"],
             errors: [{ messageId: "unexpectedNewline", type: "CallExpression" }]
         },
         {
             code: "f\n()()",
-            output: "f () ()",
+            output: "f\n() ()", // Don't fix the first error to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
             options: ["always"],
             errors: [
                 { messageId: "unexpectedNewline", type: "CallExpression" },
@@ -718,25 +718,25 @@ ruleTester.run("func-call-spacing", rule, {
         },
         {
             code: "f\r();",
-            output: "f ();",
+            output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
             options: ["always"],
             errors: [{ messageId: "unexpectedNewline", type: "CallExpression" }]
         },
         {
             code: "f\u2028();",
-            output: "f ();",
+            output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
             options: ["always"],
             errors: [{ messageId: "unexpectedNewline", type: "CallExpression" }]
         },
         {
             code: "f\u2029();",
-            output: "f ();",
+            output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
             options: ["always"],
             errors: [{ messageId: "unexpectedNewline", type: "CallExpression" }]
         },
         {
             code: "f\r\n();",
-            output: "f ();",
+            output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
             options: ["always"],
             errors: [{ messageId: "unexpectedNewline", type: "CallExpression" }]
         },
@@ -863,7 +863,7 @@ ruleTester.run("func-call-spacing", rule, {
         },
         {
             code: "fnn\n (a, b);",
-            output: "fnn (a, b);",
+            output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
             options: ["always"],
             errors: [
                 {
@@ -875,6 +875,24 @@ ruleTester.run("func-call-spacing", rule, {
                     endColumn: 2
                 }
             ]
+        },
+        {
+            code: "f /*comment*/ ()",
+            output: null, // Don't remove comments
+            options: ["never"],
+            errors: [{ messageId: "unexpectedWhitespace" }]
+        },
+        {
+            code: "f /*\n*/ ()",
+            output: null, // Don't remove comments
+            options: ["never"],
+            errors: [{ messageId: "unexpectedWhitespace" }]
+        },
+        {
+            code: "f/*comment*/()",
+            output: "f/*comment*/ ()",
+            options: ["always"],
+            errors: [{ messageId: "missing" }]
         },
 
         // Optional chaining
@@ -895,6 +913,20 @@ ruleTester.run("func-call-spacing", rule, {
         {
             code: "func ?. ()",
             output: "func?.()",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedWhitespace" }]
+        },
+        {
+            code: "func\n?.()",
+            output: "func?.()",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedWhitespace" }]
+        },
+        {
+            code: "func\n//comment\n?.()",
+            output: null, // Don't remove comments
             options: ["never"],
             parserOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedWhitespace" }]
@@ -922,7 +954,14 @@ ruleTester.run("func-call-spacing", rule, {
         },
         {
             code: "func  ?.\n  ()",
-            output: "func ?. ()", // Not sure keeping either space.
+            output: "func ?. ()",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedNewline" }]
+        },
+        {
+            code: "func\n /*comment*/ ?.()",
+            output: null, // Don't remove comments
             options: ["always"],
             parserOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedNewline" }]
