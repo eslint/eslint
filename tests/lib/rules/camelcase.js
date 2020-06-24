@@ -195,6 +195,79 @@ ruleTester.run("camelcase", rule, {
             globals: { a_global_variable: "readonly" } // eslint-disable-line camelcase
         },
         {
+            code: "var foo = a_global_variable.bar",
+            options: [{ ignoreGlobals: true }],
+            globals: { a_global_variable: "readonly" } // eslint-disable-line camelcase
+        },
+        {
+            code: "a_global_variable.foo = bar",
+            options: [{ ignoreGlobals: true }],
+            globals: { a_global_variable: "readonly" } // eslint-disable-line camelcase
+        },
+        {
+            code: "( { foo: a_global_variable.bar } = baz )",
+            options: [{ ignoreGlobals: true }],
+            parserOptions: { ecmaVersion: 6 },
+            globals: { a_global_variable: "readonly" } // eslint-disable-line camelcase
+        },
+        {
+            code: "a_global_variable = foo",
+            options: [{ ignoreGlobals: true }],
+            globals: { a_global_variable: "writable" } // eslint-disable-line camelcase
+        },
+        {
+            code: "a_global_variable = foo",
+            options: [{ ignoreGlobals: true }],
+            globals: { a_global_variable: "readonly" } // eslint-disable-line camelcase
+        },
+        {
+            code: "({ a_global_variable } = foo)",
+            options: [{ ignoreGlobals: true }],
+            parserOptions: { ecmaVersion: 6 },
+            globals: { a_global_variable: "writable" } // eslint-disable-line camelcase
+        },
+        {
+            code: "({ snake_cased: a_global_variable } = foo)",
+            options: [{ ignoreGlobals: true }],
+            parserOptions: { ecmaVersion: 6 },
+            globals: { a_global_variable: "writable" } // eslint-disable-line camelcase
+        },
+        {
+            code: "({ snake_cased: a_global_variable = foo } = bar)",
+            options: [{ ignoreGlobals: true }],
+            parserOptions: { ecmaVersion: 6 },
+            globals: { a_global_variable: "writable" } // eslint-disable-line camelcase
+        },
+        {
+            code: "[a_global_variable] = bar",
+            options: [{ ignoreGlobals: true }],
+            parserOptions: { ecmaVersion: 6 },
+            globals: { a_global_variable: "writable" } // eslint-disable-line camelcase
+        },
+        {
+            code: "[a_global_variable = foo] = bar",
+            options: [{ ignoreGlobals: true }],
+            parserOptions: { ecmaVersion: 6 },
+            globals: { a_global_variable: "writable" } // eslint-disable-line camelcase
+        },
+        {
+            code: "foo[a_global_variable] = bar",
+            options: [{ ignoreGlobals: true }],
+            globals: { a_global_variable: "readonly" } // eslint-disable-line camelcase
+        },
+        {
+            code: "var foo = { [a_global_variable]: bar }",
+            options: [{ ignoreGlobals: true }],
+            parserOptions: { ecmaVersion: 6 },
+            globals: { a_global_variable: "readonly" } // eslint-disable-line camelcase
+        },
+        {
+            code: "var { [a_global_variable]: foo } = bar",
+            options: [{ ignoreGlobals: true }],
+            parserOptions: { ecmaVersion: 6 },
+            globals: { a_global_variable: "readonly" } // eslint-disable-line camelcase
+        },
+        {
             code: "function foo({ no_camelcased: camelCased }) {};",
             parserOptions: { ecmaVersion: 6 }
         },
