@@ -47,6 +47,18 @@ ruleTester.run("arrow-body-style", rule, {
     ],
     invalid: [
         {
+            code: "a in b; for (var f = () => { return c };;);",
+            output: "a in b; for (var f = () => c;;);",
+            options: ["as-needed"],
+            errors: [
+                {
+                    line: 1,
+                    column: 28,
+                    messageId: "unexpectedSingleBlock"
+                }
+            ]
+        },
+        {
             code: "for (a = b => { return c in d ? e : f } ;;);",
             output: "for (a = b => (c in d ? e : f) ;;);",
             options: ["as-needed"],
