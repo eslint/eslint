@@ -47,6 +47,18 @@ ruleTester.run("arrow-body-style", rule, {
     ],
     invalid: [
         {
+            code: "for (var foo = () => { return a in b ? bar : () => {} } ;;);",
+            output: "for (var foo = () => (a in b ? bar : () => {}) ;;);",
+            options: ["as-needed"],
+            errors: [
+                {
+                    line: 1,
+                    column: 22,
+                    messageId: "unexpectedSingleBlock"
+                }
+            ]
+        },
+        {
             code: "a in b; for (var f = () => { return c };;);",
             output: "a in b; for (var f = () => c;;);",
             options: ["as-needed"],
@@ -185,7 +197,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "do{let a = () => {return f in ff}}while(true){}",
-            output: "do{let a = () => f in ff}while(true){}",
+            output: "do{let a = () => (f in ff)}while(true){}",
             errors: [{
                 line: 1,
                 column: 18,
@@ -203,7 +215,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "scores.map(score => { return x in +(score / maxScore).toFixed(2)});",
-            output: "scores.map(score => x in +(score / maxScore).toFixed(2));",
+            output: "scores.map(score => (x in +(score / maxScore).toFixed(2)));",
             errors: [{
                 line: 1,
                 column: 21,
@@ -212,7 +224,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "const fn = (a, b) => { return a + x in Number(b) };",
-            output: "const fn = (a, b) => a + x in Number(b);",
+            output: "const fn = (a, b) => (a + x in Number(b));",
             errors: [{
                 line: 1,
                 column: 22,
