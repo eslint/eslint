@@ -185,6 +185,28 @@ ruleTester.run("radix", rule, {
                 messageId: "redundantRadix",
                 type: "CallExpression"
             }]
+        },
+
+        // Optional chaining
+        {
+            code: "parseInt?.(\"10\");",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "missingRadix" }]
+        },
+        {
+            code: "Number.parseInt?.(\"10\");",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "missingRadix" }]
+        },
+        {
+            code: "Number?.parseInt(\"10\");",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "missingRadix" }]
+        },
+        {
+            code: "(Number?.parseInt)(\"10\");",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "missingRadix" }]
         }
     ]
 });
