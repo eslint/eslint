@@ -366,6 +366,12 @@ const patterns = [
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
         errors
     },
+    {
+        code: "obj.foo = (function() { return function() { console.log(this); z(x => console.log(x, this)); }; })?.();",
+        parserOptions: { ecmaVersion: 2020 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
 
     // Class Instance Methods.
     {
@@ -418,6 +424,24 @@ const patterns = [
     {
         code: "Reflect.apply(function() { console.log(this); z(x => console.log(x, this)); }, obj, []);",
         parserOptions: { ecmaVersion: 6 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "var foo = function() { console.log(this); z(x => console.log(x, this)); }?.bind(obj);",
+        parserOptions: { ecmaVersion: 2020 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "var foo = (function() { console.log(this); z(x => console.log(x, this)); }?.bind)(obj);",
+        parserOptions: { ecmaVersion: 2020 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "var foo = function() { console.log(this); z(x => console.log(x, this)); }.bind?.(obj);",
+        parserOptions: { ecmaVersion: 2020 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
