@@ -989,6 +989,19 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
+            code: "var foo = { a_global_variable }",
+            options: [{ ignoreGlobals: true }],
+            parserOptions: { ecmaVersion: 6 },
+            globals: { a_global_variable: "readonly" }, // eslint-disable-line camelcase
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "a_global_variable" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
             code: "export * as snake_cased from 'mod'",
             parserOptions: { ecmaVersion: 2020, sourceType: "module" },
             errors: [
