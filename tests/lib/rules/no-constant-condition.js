@@ -78,7 +78,6 @@ ruleTester.run("no-constant-condition", rule, {
         "if(a && 'str'){}",
 
         // #11306
-        "if ((foo || 1n) === 'baz') {}",
         "if ((foo || true) === 'baz') {}",
         "if ((foo || 'bar') === 'baz') {}",
         "if ((foo || 'bar') !== 'baz') {}",
@@ -91,7 +90,18 @@ ruleTester.run("no-constant-condition", rule, {
         "if ((key || 'k') in obj) {}",
         "if ((foo || {}) instanceof obj) {}",
         "if ((foo || 'bar' || 'bar') === 'bar');",
-        "if (a && 0n || b);",
+        {
+            code: "if ((foo || 1n) === 'baz') {}",
+            parserOptions: { ecmaVersion: 11 }
+        },
+        {
+            code: "if (a && 0n || b);",
+            parserOptions: { ecmaVersion: 11 }
+        },
+        {
+            code: "if(1n && a){};",
+            parserOptions: { ecmaVersion: 11 }
+        },
 
         // #12225
         "if ('' + [y] === '' + [ty]) {}",
@@ -286,14 +296,14 @@ ruleTester.run("no-constant-condition", rule, {
         },
 
         // #13238
-        { code: "if(/foo/ui);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
-        { code: "if(0n);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
-        { code: "if(0b0n);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
-        { code: "if(0o0n);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
-        { code: "if(0x0n);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
-        { code: "if(0b1n);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
-        { code: "if(0o1n);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
-        { code: "if(0x1n);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
-        { code: "if(0x1n || foo);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] }
+        { code: "if(/foo/ui);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0n);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0b0n);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0o0n);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0x0n);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0b1n);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0o1n);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0x1n);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0x1n || foo);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "LogicalExpression" }] }
     ]
 });
