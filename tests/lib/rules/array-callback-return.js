@@ -464,6 +464,11 @@ ruleTester.run("array-callback-return", rule, {
             code: "(Array?.from)([], () => { console.log('hello') })",
             parserOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "expectedInside", data: { name: "arrow function" } }]
+        },
+        {
+            code: "foo?.filter((function() { return () => { console.log('hello') } })?.())",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedInside", data: { name: "arrow function" } }]
         }
     ]
 });
