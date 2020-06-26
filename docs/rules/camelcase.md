@@ -225,9 +225,9 @@ Examples of **incorrect** code for this rule with the default `{ "ignoreGlobals"
 
 ```js
 /*eslint camelcase: ["error", {ignoreGlobals: false}]*/
-/* global some_property */
+/* global no_camelcased */
 
-const property = some_property;
+const foo = no_camelcased;
 ```
 
 ### ignoreGlobals: true
@@ -236,9 +236,9 @@ Examples of **correct** code for this rule with the `{ "ignoreGlobals": true }` 
 
 ```js
 /*eslint camelcase: ["error", {ignoreGlobals: true}]*/
-/* global some_property */
+/* global no_camelcased */
 
-const property = some_property;
+const foo = no_camelcased;
 ```
 
 ## allow
