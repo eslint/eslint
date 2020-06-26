@@ -223,6 +223,16 @@ ruleTester.run("no-magic-numbers", rule, {
             code: "const func = ({ param = 123 }) => {}",
             options: [{ ignoreDefaultValues: true }],
             env: { es6: true }
+        },
+        {
+            code: "const [one = 1, two = 2] = []",
+            options: [{ ignoreDefaultValues: true }],
+            env: { es6: true }
+        },
+        {
+            code: "var one, two; [one = 1, two = 2] = []",
+            options: [{ ignoreDefaultValues: true }],
+            env: { es6: true }
         }
     ],
     invalid: [
@@ -736,6 +746,24 @@ ruleTester.run("no-magic-numbers", rule, {
             env: { es6: true },
             errors: [
                 { messageId: "noMagic", data: { raw: "123" }, line: 1 }
+            ]
+        },
+        {
+            code: "const [one = 1, two = 2] = []",
+            options: [{ ignoreDefaultValues: false }],
+            env: { es6: true },
+            errors: [
+                { messageId: "noMagic", data: { raw: "1" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "2" }, line: 1 }
+            ]
+        },
+        {
+            code: "var one, two; [one = 1, two = 2] = []",
+            options: [{ ignoreDefaultValues: false }],
+            env: { es6: true },
+            errors: [
+                { messageId: "noMagic", data: { raw: "1" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "2" }, line: 1 }
             ]
         }
     ]
