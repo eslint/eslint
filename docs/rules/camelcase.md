@@ -16,6 +16,8 @@ This rule has an object option:
 * `"ignoreDestructuring": true` does not check destructured identifiers (but still checks any use of those identifiers later in the code)
 * `"ignoreImports": false` (default) enforces camelcase style for ES2015 imports
 * `"ignoreImports": true` does not check ES2015 imports (but still checks any use of the imports later in the code except function arguments)
+* `"ignoreGlobals": false` (default) enforces camelcase style for global variables
+* `"ignoreGlobals": true` does not enforce camelcase style for global variables
 * `allow` (`string[]`) list of properties to accept. Accept regex.
 
 ### properties: "always"
@@ -215,6 +217,28 @@ Examples of **correct** code for this rule with the `{ "ignoreImports": true }` 
 /*eslint camelcase: ["error", {ignoreImports: true}]*/
 
 import { snake_cased } from 'mod';
+```
+
+### ignoreGlobals: false
+
+Examples of **incorrect** code for this rule with the default `{ "ignoreGlobals": false }` option:
+
+```js
+/*eslint camelcase: ["error", {ignoreGlobals: false}]*/
+/* global no_camelcased */
+
+const foo = no_camelcased;
+```
+
+### ignoreGlobals: true
+
+Examples of **correct** code for this rule with the `{ "ignoreGlobals": true }` option:
+
+```js
+/*eslint camelcase: ["error", {ignoreGlobals: true}]*/
+/* global no_camelcased */
+
+const foo = no_camelcased;
 ```
 
 ## allow
