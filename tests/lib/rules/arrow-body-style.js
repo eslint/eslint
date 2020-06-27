@@ -197,7 +197,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "do{let a = () => {return f in ff}}while(true){}",
-            output: "do{let a = () => (f in ff)}while(true){}",
+            output: "do{let a = () => f in ff}while(true){}",
             errors: [{
                 line: 1,
                 column: 18,
@@ -215,7 +215,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "scores.map(score => { return x in +(score / maxScore).toFixed(2)});",
-            output: "scores.map(score => (x in +(score / maxScore).toFixed(2)));",
+            output: "scores.map(score => x in +(score / maxScore).toFixed(2));",
             errors: [{
                 line: 1,
                 column: 21,
@@ -224,7 +224,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "const fn = (a, b) => { return a + x in Number(b) };",
-            output: "const fn = (a, b) => (a + x in Number(b));",
+            output: "const fn = (a, b) => a + x in Number(b);",
             errors: [{
                 line: 1,
                 column: 22,
