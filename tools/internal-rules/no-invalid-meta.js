@@ -130,11 +130,6 @@ function checkMetaValidity(context, exportsNode) {
         return;
     }
 
-    if (isEmptMetaStringProperty(metaProperty, "description")) {
-        context.report({ node: metaProperty, messageId: "emptyMetaDocsDescription" });
-        return;
-    }
-
     if (!hasMetaDocsCategory(metaProperty)) {
         context.report({ node: metaProperty, messageId: "missingMetaDocsCategory" });
         return;
@@ -186,7 +181,6 @@ module.exports = {
             missingMetaSchema: "Rule is missing a meta.schema property.",
             noExport: "Rule does not export anything. Make sure rule exports an object according to new rule format.",
             incorrectExport: "Rule does not export an Object. Make sure the rule follows the new rule format.",
-            emptyMetaDocsDescription: "Rule's meta.docs.description cant be empty.",
             emptyMetaDocsCategory: "Rule's meta.docs.category cant be empty."
         }
     },

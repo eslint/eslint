@@ -289,26 +289,6 @@ ruleTester.run("no-invalid-meta", rule, {
              module.exports = {
                 meta : {
                     docs : {
-                        description : '',
-                        category: 'Internal',
-                        recommended: false
-                    },
-                }
-            }
-            `,
-            errors: [
-                {
-                    line: 3,
-                    column: 17,
-                    messageId: "emptyMetaDocsDescription"
-                }
-            ]
-        },
-        {
-            code: `
-             module.exports = {
-                meta : {
-                    docs : {
                         description : 'some description',
                         category: '',
                         recommended: false
