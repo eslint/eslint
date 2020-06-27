@@ -360,8 +360,30 @@ ruleTester.run("semi", rule, {
             }]
         },
         {
+            code: "foo()\r\n",
+            output: "foo();\r\n",
+            errors: [{
+                messageId: "missingSemi",
+                type: "ExpressionStatement",
+                column: 6,
+                endLine: 2,
+                endColumn: 1
+            }]
+        },
+        {
             code: "foo()\nbar();",
             output: "foo();\nbar();",
+            errors: [{
+                messageId: "missingSemi",
+                type: "ExpressionStatement",
+                column: 6,
+                endLine: 2,
+                endColumn: 1
+            }]
+        },
+        {
+            code: "foo()\r\nbar();",
+            output: "foo();\r\nbar();",
             errors: [{
                 messageId: "missingSemi",
                 type: "ExpressionStatement",

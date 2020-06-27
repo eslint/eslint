@@ -41,7 +41,7 @@ describe("SourceCodeUtil", () => {
         try {
             filepath = fs.realpathSync(filepath);
             return filepath;
-        } catch (e) {
+        } catch {
             return filepath;
         }
     }

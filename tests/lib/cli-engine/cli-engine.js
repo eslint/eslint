@@ -18,8 +18,7 @@ const assert = require("chai").assert,
     os = require("os"),
     hash = require("../../../lib/cli-engine/hash"),
     { CascadingConfigArrayFactory } = require("../../../lib/cli-engine/cascading-config-array-factory"),
-    { unIndent } = require("../_utils"),
-    { defineCLIEngineWithInMemoryFileSystem } = require("./_utils");
+    { unIndent, defineCLIEngineWithInMemoryFileSystem } = require("../../_utils");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 const fCache = require("file-entry-cache");
@@ -59,7 +58,7 @@ describe("CLIEngine", () => {
 
         try {
             return fs.realpathSync(filepath);
-        } catch (e) {
+        } catch {
             return filepath;
         }
     }
@@ -822,7 +821,9 @@ describe("CLIEngine", () => {
 
             engine = new CLIEngine({
                 parser: "espree",
-                envs: ["es6"],
+                parserOptions: {
+                    ecmaVersion: 2020
+                },
                 useEslintrc: false
             });
 
@@ -866,6 +867,29 @@ describe("CLIEngine", () => {
 
             assert.strictEqual(report.results.length, 1);
             assert.strictEqual(report.results[0].messages.length, 0);
+        });
+
+        it("should fall back to defaults when extensions is set to an empty array", () => {
+
+            engine = new CLIEngine({
+                cwd: getFixturePath("configurations"),
+                configFile: getFixturePath("configurations", "quotes-error.json"),
+                extensions: []
+            });
+            const report = engine.executeOnFiles([getFixturePath("single-quoted.js")]);
+
+            assert.strictEqual(report.results.length, 1);
+            assert.strictEqual(report.results[0].messages.length, 1);
+            assert.strictEqual(report.errorCount, 1);
+            assert.strictEqual(report.warningCount, 0);
+            assert.strictEqual(report.fixableErrorCount, 1);
+            assert.strictEqual(report.fixableWarningCount, 0);
+            assert.strictEqual(report.results[0].messages[0].ruleId, "quotes");
+            assert.strictEqual(report.results[0].messages[0].severity, 2);
+            assert.strictEqual(report.results[0].errorCount, 1);
+            assert.strictEqual(report.results[0].warningCount, 0);
+            assert.strictEqual(report.results[0].fixableErrorCount, 1);
+            assert.strictEqual(report.results[0].fixableWarningCount, 0);
         });
 
         it("should report zero messages when given a directory with a .js and a .js2 file", () => {
@@ -2137,7 +2161,7 @@ describe("CLIEngine", () => {
             function doDelete(filePath) {
                 try {
                     fs.unlinkSync(filePath);
-                } catch (ex) {
+                } catch {
 
                     /*
                      * we don't care if the file didn't exist, since our
@@ -2173,7 +2197,7 @@ describe("CLIEngine", () => {
                 function deleteCacheDir() {
                     try {
                         fs.unlinkSync("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory");
-                    } catch (ex) {
+                    } catch {
 
                         /*
                          * we don't care if the file didn't exist, since our
@@ -3208,7 +3232,7 @@ describe("CLIEngine", () => {
                 `);
             });
 
-            it("should use overriden processor; should report HTML blocks but not fix HTML blocks if the processor for '*.html' didn't support autofix.", () => {
+            it("should use overridden processor; should report HTML blocks but not fix HTML blocks if the processor for '*.html' didn't support autofix.", () => {
                 CLIEngine = defineCLIEngineWithInMemoryFileSystem({
                     cwd: () => root,
                     files: {

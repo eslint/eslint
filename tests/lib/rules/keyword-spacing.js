@@ -34,7 +34,7 @@ const NEITHER = { before: false, after: false };
  *         after: false,
  *         overrides: {as: {before: true, after: true}}
  *     }
- * @param {string} keyword A keyword to be overriden.
+ * @param {string} keyword A keyword to be overridden.
  * @param {Object} value A value to override.
  * @returns {Object} An option object to test an "overrides" option.
  */
@@ -129,6 +129,10 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "import*as a from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "import* as a from\"foo\"", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "import *as a from \"foo\"", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export * as a from \"foo\"", parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export*as a from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export* as a from\"foo\"", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export *as a from \"foo\"", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
 
         //----------------------------------------------------------------------
         // async
@@ -1370,6 +1374,35 @@ ruleTester.run("keyword-spacing", rule, {
             errors: unexpectedBefore("as")
         },
         {
+            code: "import* as a from\"foo\"",
+            output: "import*as a from\"foo\"",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "unexpectedBefore",
+                line: 1,
+                column: 8,
+                endLine: 1,
+                endColumn: 9
+            }
+            ]
+        },
+        {
+            code: "import *as a from\"foo\"",
+            output: "import*as a from\"foo\"",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "unexpectedAfter",
+                    line: 1,
+                    column: 7,
+                    endLine: 1,
+                    endColumn: 8
+                }
+            ]
+        },
+        {
             code: "import*as a from\"foo\"",
             output: "import* as a from\"foo\"",
             options: [override("as", BOTH)],
@@ -1381,6 +1414,33 @@ ruleTester.run("keyword-spacing", rule, {
             output: "import *as a from \"foo\"",
             options: [override("as", NEITHER)],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: unexpectedBefore("as")
+        },
+        {
+            code: "export *as a from \"foo\"",
+            output: "export * as a from \"foo\"",
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            errors: expectedBefore("as")
+        },
+        {
+            code: "export* as a from\"foo\"",
+            output: "export*as a from\"foo\"",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            errors: unexpectedBefore("as")
+        },
+        {
+            code: "export*as a from\"foo\"",
+            output: "export* as a from\"foo\"",
+            options: [override("as", BOTH)],
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            errors: expectedBefore("as")
+        },
+        {
+            code: "export * as a from \"foo\"",
+            output: "export *as a from \"foo\"",
+            options: [override("as", NEITHER)],
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
             errors: unexpectedBefore("as")
         },
 
@@ -3134,4 +3194,5 @@ ruleTester.run("keyword-spacing", rule, {
             errors: expectedAfter("async")
         }
     ]
+
 });
