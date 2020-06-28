@@ -19,7 +19,6 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("arrow-body-style", rule, {
     valid: [
-
         "var foo = () => {};",
         "var foo = () => 0;",
         "var addToB = (a) => { b =  b + a };",
@@ -95,6 +94,18 @@ ruleTester.run("arrow-body-style", rule, {
             ]
         },
         {
+            code: "for (var f;f = () => { return a };);",
+            output: "for (var f;f = () => a;);",
+            options: ["as-needed"],
+            errors: [
+                {
+                    line: 1,
+                    column: 22,
+                    messageId: "unexpectedSingleBlock"
+                }
+            ]
+        },
+        {
             code: "for (var f = () => { return a in c };;);",
             output: "for (var f = () => (a in c);;);",
             options: ["as-needed"],
@@ -107,6 +118,30 @@ ruleTester.run("arrow-body-style", rule, {
             ]
         },
         {
+            code: "for (var f;f = () => { return a in c };);",
+            output: "for (var f;f = () => a in c;);",
+            options: ["as-needed"],
+            errors: [
+                {
+                    line: 1,
+                    column: 22,
+                    messageId: "unexpectedSingleBlock"
+                }
+            ]
+        },
+        {
+            code: "for (;;){var f = () => { return a in c }}",
+            output: "for (;;){var f = () => a in c}",
+            options: ["as-needed"],
+            errors: [
+                {
+                    line: 1,
+                    column: 24,
+                    messageId: "unexpectedSingleBlock"
+                }
+            ]
+        },
+        {
             code: "for (a = b => { return c = d in e } ;;);",
             output: "for (a = b => (c = d in e) ;;);",
             options: ["as-needed"],
@@ -114,6 +149,18 @@ ruleTester.run("arrow-body-style", rule, {
                 {
                     line: 1,
                     column: 15,
+                    messageId: "unexpectedSingleBlock"
+                }
+            ]
+        },
+        {
+            code: "for (var a;;a = b => { return c = d in e } );",
+            output: "for (var a;;a = b => c = d in e );",
+            options: ["as-needed"],
+            errors: [
+                {
+                    line: 1,
+                    column: 22,
                     messageId: "unexpectedSingleBlock"
                 }
             ]
