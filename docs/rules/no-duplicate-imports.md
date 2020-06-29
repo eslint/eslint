@@ -12,7 +12,9 @@ import { find } from 'module';
 
 ## Rule Details
 
-This rule requires that all imports from a single module exists in a single `import` statement.
+An import that can be merged with another is a duplicate of that other.
+
+This rule requires that all imports from a single module that can be merged exists in a single `import` statement.
 
 Example of **incorrect** code for this rule:
 
@@ -32,6 +34,27 @@ Example of **correct** code for this rule:
 import { merge, find } from 'module';
 import something from 'another-module';
 ```
+
+The following examples explains **can be merged** in detail:
+
+```js
+// mergable, as parsers1 & parsers2 hold the same reference, and so their identifiers can be replaced.
+import * as parsers1 from 'parsers';
+import * as parsers2 from 'parsers';
+
+// mergable, as they can be combined without changing behaviour & remaining syntactically valid.
+import defaultValue from 'parsers';
+import { anotherValue } from 'parsers';
+
+// mergable as they will both trigger any side effects the module has.
+import * as parsers2 from 'parsers';
+import 'parsers';
+
+// not mergable, as they would require new nodes to be created.
+import { anotherValue } from 'parsers';
+import * as parsers1 from 'parsers';
+```
+
 
 ## Options
 

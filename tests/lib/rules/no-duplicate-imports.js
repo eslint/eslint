@@ -26,6 +26,7 @@ ruleTester.run("no-duplicate-imports", rule, {
         "import * as Foobar from \"async\";",
         "import \"foo\"",
         "import os from \"os\";\nexport { something } from \"os\";",
+        "import * as Lodash from \"lodash-es\";import { merge } from \"lodash-es\";",
         {
             code: "import os from \"os\";\nexport { hello } from \"hello\";",
             options: [{ includeExports: true }]
@@ -48,6 +49,18 @@ ruleTester.run("no-duplicate-imports", rule, {
         }
     ],
     invalid: [
+        {
+            code: "import * as Foo from \"os\";\nimport * as Bar from \"os\"",
+            errors: [{ messageId: "import", data: { module: "os" }, type: "ImportDeclaration" }]
+        },
+        {
+            code: "import os from \"os\";\nimport { arch } from \"os\"",
+            errors: [{ messageId: "import", data: { module: "os" }, type: "ImportDeclaration" }]
+        },
+        {
+            code: "import * as Foobar from \"os\";\nimport \"os\"",
+            errors: [{ messageId: "import", data: { module: "os" }, type: "ImportDeclaration" }]
+        },
         {
             code: "import \"fs\";\nimport \"fs\"",
             errors: [{ messageId: "import", data: { module: "fs" }, type: "ImportDeclaration" }]
