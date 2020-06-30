@@ -1,1 +1,0 @@
-var someValue  = "bar";
