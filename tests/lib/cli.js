@@ -1172,7 +1172,9 @@ describe("cli", () => {
 
                 assert.strictEqual(exit, 0);
             });
+        });
 
+        describe("config file and input file", () => {
             it("should exit with 1 as camelcase has wrong property type", async () => {
                 const configPath = getFixturePath("config-file", "cloned-config", "eslintConfigFail.js");
                 const filePath = getFixturePath("config-file", "cloned-config", "index.js");
@@ -1184,16 +1186,6 @@ describe("cli", () => {
                     assert.strictEqual(/Configuration for rule "camelcase" is invalid:/u.test(error), true);
                 }
 
-            });
-
-            it("should not cause an error when a rule configuration has `Infinity`", async () => {
-                const configPath = getFixturePath("config-file", "cloned-config", "configWithInfinity.js");
-                const filePath = getFixturePath("config-file", "cloned-config", "index.js");
-                const args = `--config ${configPath} ${filePath}`;
-
-                const exit = await cli.execute(args);
-
-                assert.strictEqual(exit, 0);
             });
         });
 
