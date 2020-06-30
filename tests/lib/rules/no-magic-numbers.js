@@ -750,6 +750,13 @@ ruleTester.run("no-magic-numbers", rule, {
         },
         {
             code: "const { param = 123 } = sourceObject;",
+            env: { es6: true },
+            errors: [
+                { messageId: "noMagic", data: { raw: "123" }, line: 1 }
+            ]
+        },
+        {
+            code: "const { param = 123 } = sourceObject;",
             options: [{ ignoreDefaultValues: false }],
             env: { es6: true },
             errors: [
