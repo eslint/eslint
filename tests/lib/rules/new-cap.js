@@ -85,6 +85,24 @@ ruleTester.run("new-cap", rule, {
         {
             code: "new (foo?.Bar)();",
             parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "(foo?.Bar)();",
+            options: [{ properties: false }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "new (foo?.bar)();",
+            options: [{ properties: false }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "Date?.UTC();",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "(Date?.UTC)();",
+            parserOptions: { ecmaVersion: 2020 }
         }
     ],
     invalid: [
@@ -322,17 +340,17 @@ ruleTester.run("new-cap", rule, {
         {
             code: "new (foo?.bar)();",
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "lower" }]
+            errors: [{ messageId: "lower", column: 11, endColumn: 14 }]
         },
         {
             code: "foo?.Bar();",
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "upper" }]
+            errors: [{ messageId: "upper", column: 6, endColumn: 9 }]
         },
         {
             code: "(foo?.Bar)();",
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "upper" }]
+            errors: [{ messageId: "upper", column: 7, endColumn: 10 }]
         }
     ]
 });
