@@ -239,6 +239,13 @@ ruleTester.run("dot-notation", rule, {
             options: [{ allowKeywords: false }],
             parserOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "useBrackets", data: { key: "true" } }]
+        },
+        {
+            code: "let?.true",
+            output: "let?.[\"true\"]",
+            options: [{ allowKeywords: false }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "useBrackets", data: { key: "true" } }]
         }
     ]
 });
