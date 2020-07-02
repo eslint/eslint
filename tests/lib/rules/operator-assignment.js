@@ -84,10 +84,7 @@ ruleTester.run("operator-assignment", rule, {
         {
             code: "this.x = foo.this.x + y",
             options: ["always"]
-        },
-
-        // Optional chaining
-        "obj.a = obj?.a + b"
+        }
     ],
 
     invalid: [{
@@ -406,6 +403,11 @@ ruleTester.run("operator-assignment", rule, {
     // Optional chaining
     {
         code: "(obj?.a).b = (obj?.a).b + y",
+        output: null,
+        errors: EXPECTED_OPERATOR_ASSIGNMENT
+    },
+    {
+        code: "obj.a = obj?.a + b",
         output: null,
         errors: EXPECTED_OPERATOR_ASSIGNMENT
     }
