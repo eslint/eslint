@@ -40,7 +40,9 @@ ruleTester.run("prefer-arrow-callback", rule, {
         "foo(function bar() { arguments; }.bind(this));",
         "foo(function bar() { new.target; });",
         "foo(function bar() { new.target; }.bind(this));",
-        "foo(function bar() { this; }.bind(this, somethingElse));"
+        "foo(function bar() { this; }.bind(this, somethingElse));",
+        "foo((function() {}).bind.bar)",
+        "foo((function() { this.bar(); }).bind(obj).bind(this))"
     ],
     invalid: [
         {
@@ -170,6 +172,16 @@ ruleTester.run("prefer-arrow-callback", rule, {
         {
             code: "qux(async function (foo = 1, bar = 2, baz = 3) { return this; }.bind(this))",
             output: "qux(async (foo = 1, bar = 2, baz = 3) => { return this; })",
+            errors
+        },
+        {
+            code: "foo((bar || function() {}).bind(this))",
+            output: null,
+            errors
+        },
+        {
+            code: "foo(function() {}.bind(this).bind(obj))",
+            output: "foo((() => {}).bind(obj))",
             errors
         },
 
