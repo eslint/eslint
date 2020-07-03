@@ -220,6 +220,11 @@ ruleTester.run("no-magic-numbers", rule, {
             env: { es6: true }
         },
         {
+            code: "const func = (param = 123) => {}",
+            options: [{ ignoreDefaultValues: true }],
+            env: { es6: true }
+        },
+        {
             code: "const func = ({ param = 123 }) => {}",
             options: [{ ignoreDefaultValues: true }],
             env: { es6: true }
@@ -738,6 +743,14 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{ ignore: ["100n"] }],
             errors: [
                 { messageId: "noMagic", data: { raw: "100" }, line: 1 }
+            ]
+        },
+        {
+            code: "const func = (param = 123) => {}",
+            options: [{ ignoreDefaultValues: false }],
+            env: { es6: true },
+            errors: [
+                { messageId: "noMagic", data: { raw: "123" }, line: 1 }
             ]
         },
         {
