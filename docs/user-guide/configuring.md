@@ -1070,18 +1070,36 @@ Of particular note is that like `.gitignore` files, all paths used as patterns f
 
 Please see `.gitignore`'s specification for further examples of valid syntax.
 
-In addition to any patterns in a `.eslintignore` file, ESLint ignores files in `/**/node_modules/*` by default. It can still be added using `!`.
+In addition to any patterns in the `.eslintignore` file, ESLint always follows a couple implicit ignore rules even if the `--no-ignore` flag is passed. The implicit rules are as follows:
 
-For example, placing the following `.eslintignore` file in the current working directory will not ignore `node_modules/*` and ignore anything in the `build/` directory except `build/index.js`:
+* `node_modules/` is ignored.
+* Dotfiles (except for `.eslintrc.*`) as well as Dotfolders and their contents are ignored.
 
-```text
-# node_modules/* is ignored by default, but can be added using !
-!node_modules/*
+There are also some exceptions to these rules:
 
-# Ignore built files except build/index.js
-build/*
-!build/index.js
-```
+* If the path to lint is a glob pattern or directory path and contains a Dotfolder, all Dotfiles and Dotfolders will be linted. This includes sub-dotfiles and sub-dotfolders that are buried deeper in the directory structure.
+
+  For example, `eslint .config/` will lint all Dotfolders and Dotfiles in the `.config` directory, including immediate children as well as children that are deeper in the directory structure.
+
+* If the path to lint is a specific file path and the `--no-ignore` flag has been passed, ESLint will lint the file regardless of the implicit ignore rules.
+
+  For example, `eslint .config/my-config-file.js --no-ignore` will cause `my-config-file.js` to be linted. It should be noted that the same command without the `--no-ignore` line will not lint the `my-config-file.js` file.
+
+* Allowlist and denylist rules specified via `--ignore-pattern` or `.eslintignore` are prioritized above implicit ignore rules.
+
+  For example, in this scenario, `.build/test.js` is the desired file to allowlist. Because all Dotfolders and their children are ignored by default, `.build` must first be allowlisted so that eslint because aware of its children. Then, `.build/test.js` must be explicitly allowlisted, while the rest of the content is denylisted. This is done with the following `.eslintignore` file:
+
+  ```text
+  # Allowlist 'test.js' in the '.build' folder
+  # But do not allow anything else in the '.build' folder to be linted
+  !.build
+  .build/*
+  !.build/test.js
+  ```
+
+  The following `--ignore-pattern` is also equivalent:
+
+      eslint --ignore-pattern '!.build' --ignore-pattern '.build/*' --ignore-pattern '!.build/test.js' parent-folder/
 
 ### Using an Alternate File
 
@@ -1127,12 +1145,27 @@ You'll see this warning:
 
 ```text
 foo.js
-  0:0  warning  File ignored because of your .eslintignore file. Use --no-ignore to override.
+  0:0  warning  File ignored because of a matching ignore pattern. Use "--no-ignore" to override.
 
 ✖ 1 problem (0 errors, 1 warning)
 ```
 
 This message occurs because ESLint is unsure if you wanted to actually lint the file or not. As the message indicates, you can use `--no-ignore` to omit using the ignore rules.
+
+Consider another scenario where you may want to run ESLint on a specific Dotfile or Dotfolder, but have forgotten to specifically allow those files in your `.eslintignore` file. You would run something like this:
+
+    eslint .config/foo.js
+
+You would see this warning:
+
+```text
+.config/foo.js
+  0:0  warning  File ignored by default.  Use a negated ignore pattern (like "--ignore-pattern '!<relative/path/to/filename>'") to override
+
+✖ 1 problem (0 errors, 1 warning)
+```
+
+This messages occurs because, normally, this file would be ignored by ESLint's implicit ignore rules (as mentioned above). A negated ignore rule in your `.eslintignore` file would override the implicit rule and reinclude this file for linting. Additionally, in this specific case, `--no-ignore` could be used to lint the file as well.
 
 ## Personal Configuration File (deprecated)
 
