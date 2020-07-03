@@ -1,3 +1,23 @@
+v7.4.0 - July 3, 2020
+
+* [`f21bad2`](https://github.com/eslint/eslint/commit/f21bad2680406a2671b877f8dba47f4475d0cc64) Docs: fix description for `never` in multiline-ternary (fixes #13368) (#13452) (Milos Djermanovic)
+* [`ada2c89`](https://github.com/eslint/eslint/commit/ada2c891298382f82dfabf37cacd59a1057b2bb7) Fix: support typescript generics in arrow-parens (fixes #12570) (#13451) (Milos Djermanovic)
+* [`89ee01e`](https://github.com/eslint/eslint/commit/89ee01e083f1e02293bf8d1447f9b0fdb3cb9384) Fix: Revert config cloning (fixes #13447) (#13449) (薛定谔的猫)
+* [`0a463db`](https://github.com/eslint/eslint/commit/0a463dbf7cc5a77d442879c9117204d4d38db972) Docs: fix no-multiple-empty-lines examples (fixes #13432) (#13433) (Milos Djermanovic)
+* [`ff5317e`](https://github.com/eslint/eslint/commit/ff5317e93425f93cfdf808609551ee67b2032543) Update: Improve array-callback-return report message (#13395) (Philip (flip) Kromer)
+* [`3f51930`](https://github.com/eslint/eslint/commit/3f51930eea7cddc921a9ee3cb0328c7b649c0f83) Fix: false positive new with member in no-extra-parens (fixes #12740) (#13375) (YeonJuan)
+* [`825a5b9`](https://github.com/eslint/eslint/commit/825a5b98d3d84f6eb72b75f7d8519de763cc8898) Fix: Clarify documentation on implicit ignore behavior (fixes #12348) (#12600) (Scott Hardin)
+* [`c139156`](https://github.com/eslint/eslint/commit/c1391566a5f765f25716527de7b5cdee16c0ce36) Sponsors: Sync README with website (ESLint Jenkins)
+* [`0c17e9d`](https://github.com/eslint/eslint/commit/0c17e9d2ac307cc288eea6ed7971bd5a7d33321a) Sponsors: Sync README with website (ESLint Jenkins)
+* [`c680387`](https://github.com/eslint/eslint/commit/c680387ba61f6dccf0390d24a85d871fa83e9fea) Sponsors: Sync README with website (ESLint Jenkins)
+* [`bf3939b`](https://github.com/eslint/eslint/commit/bf3939bbd9a33d0eb96cebe6a53bf61c855f9ba6) Sponsors: Sync README with website (ESLint Jenkins)
+* [`7baf02e`](https://github.com/eslint/eslint/commit/7baf02e983af909800261263f125cca901a5bd0f) Sponsors: Sync README with website (ESLint Jenkins)
+* [`5c4c3fd`](https://github.com/eslint/eslint/commit/5c4c3fdfbda18a13223ad36f44283adbfee8c496) Sponsors: Sync README with website (ESLint Jenkins)
+* [`53912aa`](https://github.com/eslint/eslint/commit/53912aab1856327b399cca26cbb2ba81fd01bfa2) Sponsors: Sync README with website (ESLint Jenkins)
+* [`51e42ec`](https://github.com/eslint/eslint/commit/51e42eca3e87d8259815d736ffe81e604f184057) Update: Add option "ignoreGlobals" to camelcase rule (fixes #11716) (#12782) (David Gasperoni)
+* [`0655f66`](https://github.com/eslint/eslint/commit/0655f66525d167ca1288167b79a77087cfc8fcf6) Update: improve report location in arrow-body-style (refs #12334) (#13424) (YeonJuan)
+* [`d53d69a`](https://github.com/eslint/eslint/commit/d53d69af08cfe55f42e0a0ca725b1014dabccc21) Update: prefer-regex-literal detect regex literals (fixes #12840) (#12842) (Mathias Schreck)
+* [`004adae`](https://github.com/eslint/eslint/commit/004adae3f959414f56e44e5884f6221e9dcda142) Update: rename id-blacklist to id-denylist (fixes #13407) (#13408) (Kai Cataldo)
 v7.3.1 - June 22, 2020
 
 * [`de77c11`](https://github.com/eslint/eslint/commit/de77c11e7515f2097ff355ddc0d7b6db9c83c892) Fix: Replace Infinity with Number.MAX_SAFE_INTEGER (fixes #13427) (#13435) (Nicholas C. Zakas)
