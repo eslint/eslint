@@ -45,16 +45,22 @@ const valid = [
     { code: "a.then((foo) => {});", options: ["always"] },
     { code: "a.then((foo) => { if (true) {}; });", options: ["always"] },
     { code: "a.then(async (foo) => { if (true) {}; });", options: ["always"], parserOptions: { ecmaVersion: 8 } },
+    { code: "(a: T) => a", options: ["always"], parser: parser("identifer-type") },
+    { code: "(a): T => a", options: ["always"], parser: parser("return-type") },
 
     // "as-needed"
     { code: "() => {}", options: ["as-needed"] },
     { code: "a => {}", options: ["as-needed"] },
     { code: "a => a", options: ["as-needed"] },
+    { code: "a => (a)", options: ["as-needed"] },
+    { code: "(a => a)", options: ["as-needed"] },
+    { code: "((a => a))", options: ["as-needed"] },
     { code: "([a, b]) => {}", options: ["as-needed"] },
     { code: "({ a, b }) => {}", options: ["as-needed"] },
     { code: "(a = 10) => {}", options: ["as-needed"] },
     { code: "(...a) => a[0]", options: ["as-needed"] },
     { code: "(a, b) => {}", options: ["as-needed"] },
+    { code: "async a => a", options: ["as-needed"], parserOptions: { ecmaVersion: 8 } },
     { code: "async ([a, b]) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 8 } },
     { code: "async (a, b) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 8 } },
     { code: "(a: T) => a", options: ["as-needed"], parser: parser("identifer-type") },
@@ -63,6 +69,9 @@ const valid = [
     // "as-needed", { "requireForBlockBody": true }
     { code: "() => {}", options: ["as-needed", { requireForBlockBody: true }] },
     { code: "a => a", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "a => (a)", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "(a => a)", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "((a => a))", options: ["as-needed", { requireForBlockBody: true }] },
     { code: "([a, b]) => {}", options: ["as-needed", { requireForBlockBody: true }] },
     { code: "([a, b]) => a", options: ["as-needed", { requireForBlockBody: true }] },
     { code: "({ a, b }) => {}", options: ["as-needed", { requireForBlockBody: true }] },
@@ -136,6 +145,83 @@ const valid = [
     {
         code: "var bar = (/*comment here*/{a}) => a",
         options: ["as-needed"]
+    },
+
+    // generics
+    {
+        code: "<T>(a) => b",
+        options: ["always"],
+        parser: parser("generics-simple")
+    },
+    {
+        code: "<T>(a) => b",
+        options: ["as-needed"],
+        parser: parser("generics-simple")
+    },
+    {
+        code: "<T>(a) => b",
+        options: ["as-needed", { requireForBlockBody: true }],
+        parser: parser("generics-simple")
+    },
+    {
+        code: "async <T>(a) => b",
+        options: ["always"],
+        parser: parser("generics-simple-async")
+    },
+    {
+        code: "async <T>(a) => b",
+        options: ["as-needed"],
+        parser: parser("generics-simple-async")
+    },
+    {
+        code: "async <T>(a) => b",
+        options: ["as-needed", { requireForBlockBody: true }],
+        parser: parser("generics-simple-async")
+    },
+    {
+        code: "<T>() => b",
+        options: ["always"],
+        parser: parser("generics-simple-no-params")
+    },
+    {
+        code: "<T>() => b",
+        options: ["as-needed"],
+        parser: parser("generics-simple-no-params")
+    },
+    {
+        code: "<T>() => b",
+        options: ["as-needed", { requireForBlockBody: true }],
+        parser: parser("generics-simple-no-params")
+    },
+    {
+        code: "<T extends A>(a) => b",
+        options: ["always"],
+        parser: parser("generics-extends")
+    },
+    {
+        code: "<T extends A>(a) => b",
+        options: ["as-needed"],
+        parser: parser("generics-extends")
+    },
+    {
+        code: "<T extends A>(a) => b",
+        options: ["as-needed", { requireForBlockBody: true }],
+        parser: parser("generics-extends")
+    },
+    {
+        code: "<T extends (A | B) & C>(a) => b",
+        options: ["always"],
+        parser: parser("generics-extends-complex")
+    },
+    {
+        code: "<T extends (A | B) & C>(a) => b",
+        options: ["as-needed"],
+        parser: parser("generics-extends-complex")
+    },
+    {
+        code: "<T extends (A | B) & C>(a) => b",
+        options: ["as-needed", { requireForBlockBody: true }],
+        parser: parser("generics-extends-complex")
     }
 ];
 
@@ -237,6 +323,30 @@ const invalid = [
         }]
     },
     {
+        code: "(  a  ) => b",
+        output: "a => b",
+        options: ["as-needed"],
+        errors: [{
+            line: 1,
+            column: 4,
+            endColumn: 5,
+            messageId: "unexpectedParens",
+            type
+        }]
+    },
+    {
+        code: "(\na\n) => b",
+        output: "a => b",
+        options: ["as-needed"],
+        errors: [{
+            line: 2,
+            column: 1,
+            endColumn: 2,
+            messageId: "unexpectedParens",
+            type
+        }]
+    },
+    {
         code: "(a,) => a",
         output: "a => a",
         options: ["as-needed"],
@@ -271,6 +381,30 @@ const invalid = [
             line: 1,
             column: 7,
             endColumn: 8,
+            messageId: "unexpectedParens",
+            type
+        }]
+    },
+    {
+        code: "typeof((a) => {})",
+        output: "typeof(a => {})",
+        options: ["as-needed"],
+        errors: [{
+            line: 1,
+            column: 9,
+            endColumn: 10,
+            messageId: "unexpectedParens",
+            type
+        }]
+    },
+    {
+        code: "function *f() { yield(a) => a; }",
+        output: "function *f() { yield a => a; }",
+        options: ["as-needed"],
+        errors: [{
+            line: 1,
+            column: 23,
+            endColumn: 24,
             messageId: "unexpectedParens",
             type
         }]
