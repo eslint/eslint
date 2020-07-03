@@ -144,6 +144,7 @@ function mapParallel(concurrency = 3) { /***/ }
 
 ```js
 /*eslint no-magic-numbers: ["error", { "ignoreDefaultValues": true }]*/
+
 let head;
 [head = 100] = []
 ```
