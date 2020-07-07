@@ -1503,6 +1503,24 @@ describe("ConfigArrayFactory", () => {
             }, /Failed to load config "plugin:invalid-config\/bar" to extend from./u);
         });
 
+        it("should throw an error with a message template when a plugin referenced for a plugin config is invalid", () => {
+            try {
+                applyExtends({
+                    extends: "plugin:nonexistent-plugin",
+                    rules: { eqeqeq: 2 }
+                });
+            } catch (err) {
+                assert.strictEqual(err.messageTemplate, "plugin-invalid");
+                assert.deepStrictEqual(err.messageData, {
+                    pluginName: "plugin:nonexistent-plugin",
+                    resolvePluginsRelativeTo: process.cwd(),
+                    importerName: "whatever"
+                });
+                return;
+            }
+            assert.fail("Expected to throw an error");
+        });
+
         it("should throw an error with a message template when a plugin referenced for a plugin config is not found", () => {
             try {
                 applyExtends({

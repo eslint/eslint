@@ -1,0 +1,9 @@
+ESLint couldn't find the plugin "<%- pluginName %>".
+
+(The package "<%- pluginName %>" was not found when loaded as a Node module from the directory "<%- resolvePluginsRelativeTo %>".)
+
+It looks like this might not be a valid plugin name. Did you use the name of a preset configuration instead of a plugin?
+
+The plugin "<%- pluginName %>" was referenced from the config file in "<%- importerName %>".
+
+If you still can't figure out the problem, please stop by https://eslint.org/chat to chat with the team.

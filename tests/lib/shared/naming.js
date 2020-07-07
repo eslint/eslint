@@ -25,7 +25,8 @@ describe("naming", () => {
             ["@z\\foo", "@z/eslint-config-foo"],
             ["@z\\foo\\bar.js", "@z/eslint-config-foo/bar.js"],
             ["@z/eslint-config", "@z/eslint-config"],
-            ["@z/eslint-config-foo", "@z/eslint-config-foo"]
+            ["@z/eslint-config-foo", "@z/eslint-config-foo"],
+            ["plugin:invalid", "plugin:invalid"]
         ], (input, expected) => {
             it(`should return ${expected} when passed ${input}`, () => {
                 const result = naming.normalizePackageName(input, "eslint-config");
