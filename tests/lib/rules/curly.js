@@ -432,8 +432,8 @@ ruleTester.run("curly", rule, {
                     type: "IfStatement",
                     line: 1,
                     column: 8,
-                    endColumn: 9,
-                    endLine: 1
+                    endLine: 1,
+                    endColumn: 10
                 }
             ]
         },
@@ -447,8 +447,8 @@ ruleTester.run("curly", rule, {
                     type: "IfStatement",
                     line: 1,
                     column: 8,
-                    endColumn: 9,
-                    endLine: 1
+                    endLine: 2,
+                    endColumn: 2
                 }
             ]
         },
@@ -483,7 +483,7 @@ ruleTester.run("curly", rule, {
                     data: { name: "while" },
                     type: "WhileStatement",
                     line: 1,
-                    column: 12,
+                    column: 11,
                     endLine: 1,
                     endColumn: 13
                 }
@@ -498,7 +498,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "while" },
                     type: "WhileStatement",
                     line: 1,
-                    column: 12
+                    column: 11,
+                    endLine: 2,
+                    endColumn: 2
                 }
             ]
         },
@@ -511,9 +513,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "do" },
                     type: "DoWhileStatement",
                     line: 1,
-                    column: 1,
-                    endColumn: 3,
-                    endLine: 1
+                    column: 3,
+                    endLine: 1,
+                    endColumn: 4
                 }
             ]
         },
@@ -526,9 +528,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "do" },
                     type: "DoWhileStatement",
                     line: 1,
-                    column: 1,
-                    endColumn: 3,
-                    endLine: 1
+                    column: 3,
+                    endLine: 2,
+                    endColumn: 2
                 }
             ]
         },
@@ -566,7 +568,7 @@ ruleTester.run("curly", rule, {
                     line: 1,
                     column: 20,
                     endLine: 1,
-                    endColumn: 21
+                    endColumn: 22
                 }
             ]
         },
@@ -581,8 +583,8 @@ ruleTester.run("curly", rule, {
                     type: "ForOfStatement",
                     line: 1,
                     column: 20,
-                    endColumn: 21,
-                    endLine: 1
+                    endLine: 2,
+                    endColumn: 2
                 }
             ]
         },
@@ -596,9 +598,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "for" },
                     type: "ForStatement",
                     line: 1,
-                    column: 9,
+                    column: 10,
                     endLine: 1,
-                    endColumn: 10
+                    endColumn: 11
                 }
             ]
         },
@@ -612,9 +614,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "for" },
                     type: "ForStatement",
                     line: 1,
-                    column: 9,
-                    endLine: 1,
-                    endColumn: 10
+                    column: 10,
+                    endLine: 2,
+                    endColumn: 2
                 }
             ]
         },
@@ -647,8 +649,8 @@ ruleTester.run("curly", rule, {
                     type: "DoWhileStatement",
                     line: 1,
                     column: 3,
-                    endColumn: 4,
-                    endLine: 1
+                    endLine: 1,
+                    endColumn: 4
                 }
             ]
         },
@@ -663,8 +665,8 @@ ruleTester.run("curly", rule, {
                     type: "ForStatement",
                     line: 1,
                     column: 13,
-                    endColumn: 14,
-                    endLine: 1
+                    endLine: 1,
+                    endColumn: 14
                 }
             ]
         },
@@ -674,12 +676,12 @@ ruleTester.run("curly", rule, {
             errors: [
                 {
                     data: { name: "for" },
-                    line: 1,
-                    column: 11,
                     type: "ForStatement",
                     messageId: "missingCurlyAfterCondition",
-                    endLine: 1,
-                    endColumn: 12
+                    line: 1,
+                    column: 12,
+                    endLine: 2,
+                    endColumn: 2
                 }
             ]
         },
@@ -691,7 +693,11 @@ ruleTester.run("curly", rule, {
                 {
                     messageId: "unexpectedCurlyAfterCondition",
                     data: { name: "if" },
-                    type: "IfStatement"
+                    type: "IfStatement",
+                    line: 1,
+                    column: 10,
+                    endLine: 1,
+                    endColumn: 11
                 }
             ]
         },
@@ -703,7 +709,11 @@ ruleTester.run("curly", rule, {
                 {
                     messageId: "unexpectedCurlyAfterCondition",
                     data: { name: "while" },
-                    type: "WhileStatement"
+                    type: "WhileStatement",
+                    line: 1,
+                    column: 13,
+                    endLine: 1,
+                    endColumn: 14
                 }
             ]
         },
@@ -791,7 +801,11 @@ ruleTester.run("curly", rule, {
                 {
                     messageId: "unexpectedCurlyAfter",
                     data: { name: "for-in" },
-                    type: "ForInStatement"
+                    type: "ForInStatement",
+                    line: 1,
+                    column: 22,
+                    endLine: 1,
+                    endColumn: 23
                 }
             ]
         },
@@ -818,9 +832,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "if" },
                     type: "IfStatement",
                     line: 1,
-                    endColumn: 9,
-                    endLine: 1,
-                    column: 8
+                    column: 8,
+                    endLine: 2,
+                    endColumn: 2
                 }
             ]
         },
@@ -833,9 +847,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "if" },
                     type: "IfStatement",
                     line: 1,
-                    endColumn: 9,
+                    column: 8,
                     endLine: 1,
-                    column: 8
+                    endColumn: 10
                 }
             ]
         },
@@ -897,9 +911,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "do" },
                     type: "DoWhileStatement",
                     line: 1,
-                    column: 1,
-                    endColumn: 3,
-                    endLine: 1
+                    column: 3,
+                    endLine: 1,
+                    endColumn: 4
                 }
             ]
         },
@@ -913,9 +927,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "do" },
                     type: "DoWhileStatement",
                     line: 1,
-                    column: 1,
-                    endColumn: 3,
-                    endLine: 1
+                    column: 3,
+                    endLine: 2,
+                    endColumn: 2
                 }
             ]
         },
@@ -929,7 +943,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "for-in" },
                     type: "ForInStatement",
                     line: 1,
-                    column: 22
+                    column: 22,
+                    endLine: 1,
+                    endColumn: 23
                 }
             ]
         },
@@ -969,8 +985,8 @@ ruleTester.run("curly", rule, {
                     type: "ForOfStatement",
                     line: 1,
                     column: 20,
-                    endLine: 1,
-                    endColumn: 21
+                    endLine: 2,
+                    endColumn: 2
                 }
             ]
         },
@@ -1093,7 +1109,11 @@ ruleTester.run("curly", rule, {
                 {
                     messageId: "unexpectedCurlyAfterCondition",
                     data: { name: "for" },
-                    type: "ForStatement"
+                    type: "ForStatement",
+                    line: 1,
+                    column: 27,
+                    endLine: 1,
+                    endColumn: 28
                 }
             ]
         },
@@ -1103,29 +1123,31 @@ ruleTester.run("curly", rule, {
             options: ["all"],
             errors: [
                 {
+                    messageId: "missingCurlyAfter",
+                    data: { name: "for-in" },
+                    type: "ForInStatement",
                     line: 1,
                     column: 20,
                     endLine: 1,
-                    endColumn: 21,
-                    messageId: "missingCurlyAfter",
-                    data: { name: "for-in" },
-                    type: "ForInStatement"
+                    endColumn: 22
                 },
                 {
-                    line: 1,
-                    column: 29,
-                    endColumn: 30,
-                    endLine: 1,
                     messageId: "missingCurlyAfterCondition",
                     data: { name: "if" },
-                    type: "IfStatement"
+                    type: "IfStatement",
+                    line: 1,
+                    column: 29,
+                    endLine: 1,
+                    endColumn: 31
                 },
                 {
-                    line: 1,
-                    column: 47,
                     messageId: "missingCurlyAfter",
                     data: { name: "else" },
-                    type: "IfStatement"
+                    type: "IfStatement",
+                    line: 1,
+                    column: 47,
+                    endLine: 1,
+                    endColumn: 51
                 }
             ]
         },
@@ -1140,8 +1162,8 @@ ruleTester.run("curly", rule, {
                     type: "ForInStatement",
                     line: 1,
                     column: 20,
-                    endLine: 1,
-                    endColumn: 21
+                    endLine: 2,
+                    endColumn: 2
                 }
             ]
         },
@@ -1262,7 +1284,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "do" },
                     type: "DoWhileStatement",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 2
                 }
             ]
         },
@@ -1276,7 +1300,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "while" },
                     type: "WhileStatement",
                     line: 1,
-                    column: 13
+                    column: 13,
+                    endLine: 1,
+                    endColumn: 14
                 }
             ]
         },
@@ -1290,7 +1316,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "while" },
                     type: "WhileStatement",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 2
                 }
             ]
         },
@@ -1304,7 +1332,9 @@ ruleTester.run("curly", rule, {
                     data: { name: "for" },
                     type: "ForStatement",
                     line: 1,
-                    column: 10
+                    column: 10,
+                    endLine: 1,
+                    endColumn: 11
                 }
             ]
         },
@@ -1587,8 +1617,8 @@ ruleTester.run("curly", rule, {
                     type: "IfStatement",
                     line: 1,
                     column: 38,
-                    endColumn: 42,
-                    endLine: 1
+                    endLine: 1,
+                    endColumn: 42
                 }
             ]
         },
@@ -1603,8 +1633,8 @@ ruleTester.run("curly", rule, {
                     type: "IfStatement",
                     line: 3,
                     column: 2,
-                    endColumn: 3,
-                    endLine: 3
+                    endLine: 3,
+                    endColumn: 3
                 }
             ]
         },
@@ -1612,18 +1642,18 @@ ruleTester.run("curly", rule, {
             code: "if (a) foo() \nelse\n bar();",
             output: "if (a) {foo()} \nelse\n {bar();}",
             errors: [{
-                line: 1,
-                column: 6,
                 type: "IfStatement",
                 messageId: "missingCurlyAfterCondition",
+                line: 1,
+                column: 6,
                 endLine: 1,
-                endColumn: 7
+                endColumn: 8
             },
             {
-                line: 2,
-                column: 1,
                 type: "IfStatement",
                 messageId: "missingCurlyAfter",
+                line: 2,
+                column: 1,
                 endLine: 2,
                 endColumn: 5
             }]
@@ -1634,10 +1664,12 @@ ruleTester.run("curly", rule, {
             options: ["multi", "consistent"],
             errors: [{
                 messageId: "unexpectedCurlyAfterCondition",
+                data: { name: "if" },
+                type: "IfStatement",
                 line: 1,
                 column: 8,
-                data: { name: "if" },
-                type: "IfStatement"
+                endLine: 1,
+                endColumn: 9
             }]
         },
         {
@@ -1645,18 +1677,23 @@ ruleTester.run("curly", rule, {
             output: "if(a)  if (b) foo();  if (c) bar(); else if(foo)bar();",
             options: ["multi-or-nest"],
             errors: [{
+                type: "IfStatement",
+                data: { name: "if" },
+                messageId: "unexpectedCurlyAfterCondition",
                 line: 1,
                 column: 7,
-                type: "IfStatement",
-                data: { name: "if" },
-                messageId: "unexpectedCurlyAfterCondition"
+                endLine: 1,
+                endColumn: 8
             },
             {
-                line: 1,
-                column: 51,
+
                 type: "IfStatement",
                 data: { name: "if" },
-                messageId: "unexpectedCurlyAfterCondition"
+                messageId: "unexpectedCurlyAfterCondition",
+                line: 1,
+                column: 51,
+                endLine: 1,
+                endColumn: 52
             }]
         },
         {
@@ -1664,13 +1701,13 @@ ruleTester.run("curly", rule, {
             output: "if (true) {[1, 2, 3]\n.bar()}",
             options: ["multi-line"],
             errors: [{
+                data: { name: "if" },
+                type: "IfStatement",
+                messageId: "missingCurlyAfterCondition",
                 line: 1,
                 column: 9,
                 endLine: 1,
-                endColumn: 10,
-                data: { name: "if" },
-                type: "IfStatement",
-                messageId: "missingCurlyAfterCondition"
+                endColumn: 11
             }]
         },
         {
@@ -1678,13 +1715,13 @@ ruleTester.run("curly", rule, {
             output: "for(\n;\n;\n) foo()",
             options: ["multi"],
             errors: [{
-                line: 4,
-                endLine: 4,
-                endColumn: 4,
-                column: 3,
                 data: { name: "for" },
                 type: "ForStatement",
-                messageId: "unexpectedCurlyAfterCondition"
+                messageId: "unexpectedCurlyAfterCondition",
+                line: 4,
+                column: 3,
+                endLine: 4,
+                endColumn: 4
             }]
         },
         {
@@ -1692,13 +1729,13 @@ ruleTester.run("curly", rule, {
             output: "for(\n;\n;\n) \n{foo()}\n",
             options: ["multi-line"],
             errors: [{
-                line: 4,
-                column: 1,
-                endLine: 4,
-                endColumn: 2,
                 data: { name: "for" },
                 type: "ForStatement",
-                messageId: "missingCurlyAfterCondition"
+                messageId: "missingCurlyAfterCondition",
+                line: 4,
+                column: 2,
+                endLine: 5,
+                endColumn: 1
             }]
         },
         {
