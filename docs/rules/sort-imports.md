@@ -41,6 +41,7 @@ This rule accepts an object with its properties as
     * `all` = import all members provided by exported bindings.
     * `multiple` = import multiple members.
     * `single` = import single member.
+* `allowSeparatedGroups` (default: `false`)
 
 Default option settings are:
 
@@ -50,7 +51,8 @@ Default option settings are:
         "ignoreCase": false,
         "ignoreDeclarationSort": false,
         "ignoreMemberSort": false,
-        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
+        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
+        "allowSeparatedGroups": false
     }]
 }
 ```
@@ -225,6 +227,53 @@ import {a, b} from 'foo.js';
 ```
 
 Default is `["none", "all", "multiple", "single"]`.
+
+### `allowSeparatedGroups`
+
+When `true` the rule checks the sorting of import declaration statements only for those that appear on consecutive lines.
+
+In other words, a blank line or a comment line or line with any other statement after an import declaration statement will reset the sorting of import declaration statements.
+
+Examples of **incorrect** code for this rule with the `{ "allowSeparatedGroups": true }` option:
+
+```js
+/*eslint sort-imports: ["error", { "allowSeparatedGroups": true }]*/
+
+import b from 'foo.js';
+import c from 'bar.js';
+import a from 'baz.js';
+```
+
+Examples of **correct** code for this rule with the `{ "allowSeparatedGroups": true }` option:
+
+```js
+/*eslint sort-imports: ["error", { "allowSeparatedGroups": true }]*/
+
+import b from 'foo.js';
+import c from 'bar.js';
+
+import a from 'baz.js';
+```
+
+```js
+/*eslint sort-imports: ["error", { "allowSeparatedGroups": true }]*/
+
+import b from 'foo.js';
+import c from 'bar.js';
+// comment
+import a from 'baz.js';
+```
+
+```js
+/*eslint sort-imports: ["error", { "allowSeparatedGroups": true }]*/
+
+import b from 'foo.js';
+import c from 'bar.js';
+quux();
+import a from 'baz.js';
+```
+
+Default is `false`.
 
 ## When Not To Use It
 
