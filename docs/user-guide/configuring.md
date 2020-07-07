@@ -91,7 +91,7 @@ To specify processors in a configuration file, use the `processor` key with the 
 }
 ```
 
-To specify processors for specific kind of files, use the combination of the `overrides` key and the `processor` key. For example, the following uses the processor `a-plugin/markdown` for `*.md` files.
+To specify processors for specific kinds of files, use the combination of the `overrides` key and the `processor` key. For example, the following uses the processor `a-plugin/markdown` for `*.md` files.
 
 ```json
 {
