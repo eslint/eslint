@@ -26,6 +26,7 @@ module.exports = {
     cacheFile: ".eslintcache",
     fix: false,
     allowInlineConfig: true,
+    inlineConfigGroup: "default",
     reportUnusedDisableDirectives: void 0,
     globInputPaths: true
 };

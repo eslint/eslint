@@ -22,6 +22,7 @@ const baseConfigProperties = {
     rules: { type: "object" },
     settings: { type: "object" },
     noInlineConfig: { type: "boolean" },
+    inlineConfigGroup: { type: "string" },
     reportUnusedDisableDirectives: { type: "boolean" },
 
     ecmaFeatures: { type: "object" } // deprecated; logs a warning when used
