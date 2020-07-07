@@ -54,7 +54,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 19
+                column: 9,
+                endLine: 1,
+                endColumn: 31
             }]
         },
         {
@@ -64,7 +66,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 18
+                column: 9,
+                endLine: 1,
+                endColumn: 30
             }]
         },
         {
@@ -74,7 +78,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 13
+                column: 9,
+                endLine: 1,
+                endColumn: 25
             }]
         },
         {
@@ -84,7 +90,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 19
+                column: 9,
+                endLine: 1,
+                endColumn: 31
             }]
         },
         {
@@ -94,7 +102,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 18
+                column: 9,
+                endLine: 1,
+                endColumn: 30
             }]
         },
         {
@@ -104,7 +114,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 17
+                column: 9,
+                endLine: 1,
+                endColumn: 29
             }]
         },
         {
@@ -114,7 +126,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 18
+                column: 9,
+                endLine: 1,
+                endColumn: 30
             }]
         },
         {
@@ -124,7 +138,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 21
+                column: 9,
+                endLine: 1,
+                endColumn: 33
             }]
         },
         {
@@ -134,7 +150,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 28
+                column: 9,
+                endLine: 1,
+                endColumn: 40
             }]
         },
         {
@@ -144,7 +162,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 15
+                column: 9,
+                endLine: 1,
+                endColumn: 28
             }]
         },
         {
@@ -154,7 +174,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 17
+                column: 9,
+                endLine: 1,
+                endColumn: 30
             }]
         },
         {
@@ -164,7 +186,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 28
+                column: 9,
+                endLine: 1,
+                endColumn: 40
             }]
         },
         {
@@ -174,7 +198,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 16
+                column: 9,
+                endLine: 1,
+                endColumn: 28
             }]
         },
         {
@@ -193,7 +219,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 4,
-                column: 38
+                column: 30,
+                endLine: 4,
+                endColumn: 78
             }]
         },
         {
@@ -204,7 +232,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 7
+                column: 1,
+                endLine: 1,
+                endColumn: 30
             }]
         },
         {
@@ -216,7 +246,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 24
+                column: 18,
+                endLine: 1,
+                endColumn: 39
             }]
         },
         {
@@ -227,7 +259,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 15
+                column: 9,
+                endLine: 1,
+                endColumn: 25
             }]
         },
         {
@@ -238,7 +272,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 24
+                column: 9,
+                endLine: 1,
+                endColumn: 66
             }]
         },
         {
@@ -250,7 +286,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 13
+                column: 9,
+                endLine: 1,
+                endColumn: 23
             }]
         },
         {
@@ -262,7 +300,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 13
+                column: 9,
+                endLine: 1,
+                endColumn: 22
             }]
         },
         {
@@ -274,7 +314,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 13
+                column: 9,
+                endLine: 1,
+                endColumn: 25
             }]
         },
         {
@@ -286,7 +328,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 13
+                column: 9,
+                endLine: 1,
+                endColumn: 24
             }]
         },
         {
@@ -298,7 +342,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 13
+                column: 9,
+                endLine: 1,
+                endColumn: 27
             }]
         },
         {
@@ -310,7 +356,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 13
+                column: 9,
+                endLine: 1,
+                endColumn: 18
             }]
         },
         {
@@ -322,7 +370,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 13
+                column: 9,
+                endLine: 1,
+                endColumn: 23
             }]
         },
         {
@@ -333,7 +383,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 7
+                column: 3,
+                endLine: 1,
+                endColumn: 12
             }]
         },
         {
@@ -344,7 +396,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 5
+                column: 1,
+                endLine: 1,
+                endColumn: 10
             }]
         },
         {
@@ -355,7 +409,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 15
+                column: 9,
+                endLine: 1,
+                endColumn: 24
             }]
         },
         {
@@ -367,7 +423,9 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 15
+                column: 9,
+                endLine: 1,
+                endColumn: 27
             }]
         }
     ]
