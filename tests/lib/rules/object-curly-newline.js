@@ -607,8 +607,20 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: ["always"],
             errors: [
-                { line: 1, column: 9, messageId: "expectedLinebreakAfterOpeningBrace" },
-                { line: 1, column: 14, messageId: "expectedLinebreakBeforeClosingBrace" }
+                {
+                    line: 1,
+                    column: 9,
+                    endLine: 1,
+                    endColumn: 10,
+                    messageId: "expectedLinebreakAfterOpeningBrace"
+                },
+                {
+                    line: 1,
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 15,
+                    messageId: "expectedLinebreakBeforeClosingBrace"
+                }
             ]
         },
         {
@@ -717,8 +729,20 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: ["never"],
             errors: [
-                { line: 1, column: 9, messageId: "unexpectedLinebreakAfterOpeningBrace" },
-                { line: 3, column: 1, messageId: "unexpectedLinebreakBeforeClosingBrace" }
+                {
+                    line: 1,
+                    column: 9,
+                    endLine: 1,
+                    endColumn: 10,
+                    messageId: "unexpectedLinebreakAfterOpeningBrace"
+                },
+                {
+                    line: 3,
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 2,
+                    messageId: "unexpectedLinebreakBeforeClosingBrace"
+                }
             ]
         },
         {

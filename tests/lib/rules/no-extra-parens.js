@@ -612,6 +612,14 @@ ruleTester.run("no-extra-parens", rule, {
         "for (; a; a); a; a;",
         "for (let a = (b && c) === d; ;);",
 
+        "new (a()).b.c;",
+        "new (a().b).c;",
+        "new (a().b.c);",
+        "new (a().b().d);",
+        "new a().b().d;",
+        "new (a(b()).c)",
+        "new (a.b()).c",
+
         // Nullish coalescing
         { code: "var v = (a ?? b) || c", parserOptions: { ecmaVersion: 2020 } },
         { code: "var v = a ?? (b || c)", parserOptions: { ecmaVersion: 2020 } },
@@ -784,6 +792,7 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("(new foo(bar)).baz", "new foo(bar).baz", "NewExpression"),
         invalid("(new foo.bar()).baz", "new foo.bar().baz", "NewExpression"),
         invalid("(new foo.bar()).baz()", "new foo.bar().baz()", "NewExpression"),
+        invalid("new a[(b()).c]", "new a[b().c]", "CallExpression"),
 
         invalid("(a)()", "a()", "Identifier"),
         invalid("(a.b)()", "a.b()", "MemberExpression"),
@@ -797,6 +806,14 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("((new A))()", "(new A)()", "NewExpression"),
         invalid("new (foo\n.baz\n.bar\n.foo.baz)", "new foo\n.baz\n.bar\n.foo.baz", "MemberExpression"),
         invalid("new (foo.baz.bar.baz)", "new foo.baz.bar.baz", "MemberExpression"),
+        invalid("new ((a.b())).c", "new (a.b()).c", "CallExpression"),
+        invalid("new ((a().b)).c", "new (a().b).c", "MemberExpression"),
+        invalid("new ((a().b().d))", "new (a().b().d)", "MemberExpression"),
+        invalid("new ((a())).b.d", "new (a()).b.d", "CallExpression"),
+        invalid("new (a.b).d;", "new a.b.d;", "MemberExpression"),
+        invalid("(a().b).d;", "a().b.d;", "MemberExpression"),
+        invalid("(a.b()).d;", "a.b().d;", "CallExpression"),
+        invalid("(a.b).d;", "a.b.d;", "MemberExpression"),
 
         invalid("0, (_ => 0)", "0, _ => 0", "ArrowFunctionExpression", 1),
         invalid("(_ => 0), 0", "_ => 0, 0", "ArrowFunctionExpression", 1),

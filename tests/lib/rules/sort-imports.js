@@ -101,7 +101,45 @@ ruleTester.run("sort-imports", rule, {
         },
 
         // https://github.com/eslint/eslint/issues/5305
-        "import React, {Component} from 'react';"
+        "import React, {Component} from 'react';",
+
+        // allowSeparatedGroups
+        {
+            code: "import b from 'b';\n\nimport a from 'a';",
+            options: [{ allowSeparatedGroups: true }]
+        },
+        {
+            code: "import a from 'a';\n\nimport 'b';",
+            options: [{ allowSeparatedGroups: true }]
+        },
+        {
+            code: "import { b } from 'b';\n\n\nimport { a } from 'a';",
+            options: [{ allowSeparatedGroups: true }]
+        },
+        {
+            code: "import b from 'b';\n// comment\nimport a from 'a';",
+            options: [{ allowSeparatedGroups: true }]
+        },
+        {
+            code: "import b from 'b';\nfoo();\nimport a from 'a';",
+            options: [{ allowSeparatedGroups: true }]
+        },
+        {
+            code: "import { b } from 'b';/*\n comment \n*/import { a } from 'a';",
+            options: [{ allowSeparatedGroups: true }]
+        },
+        {
+            code: "import b from\n'b';\n\nimport\n a from 'a';",
+            options: [{ allowSeparatedGroups: true }]
+        },
+        {
+            code: "import c from 'c';\n\nimport a from 'a';\nimport b from 'b';",
+            options: [{ allowSeparatedGroups: true }]
+        },
+        {
+            code: "import c from 'c';\n\nimport b from 'b';\n\nimport a from 'a';",
+            options: [{ allowSeparatedGroups: true }]
+        }
     ],
     invalid: [
         {
@@ -285,6 +323,125 @@ ruleTester.run("sort-imports", rule, {
             errors: [{
                 messageId: "sortMembersAlphabetically",
                 data: { memberName: "qux" },
+                type: "ImportSpecifier"
+            }]
+        },
+
+        // allowSeparatedGroups
+        {
+            code: "import b from 'b';\nimport a from 'a';",
+            output: null,
+            errors: [{
+                messageId: "sortImportsAlphabetically",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code: "import b from 'b';\nimport a from 'a';",
+            output: null,
+            options: [{}],
+            errors: [{
+                messageId: "sortImportsAlphabetically",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code: "import b from 'b';\nimport a from 'a';",
+            output: null,
+            options: [{ allowSeparatedGroups: false }],
+            errors: [{
+                messageId: "sortImportsAlphabetically",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code: "import b from 'b';import a from 'a';",
+            output: null,
+            options: [{ allowSeparatedGroups: false }],
+            errors: [{
+                messageId: "sortImportsAlphabetically",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code: "import b from 'b'; /* comment */ import a from 'a';",
+            output: null,
+            options: [{ allowSeparatedGroups: false }],
+            errors: [{
+                messageId: "sortImportsAlphabetically",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code: "import b from 'b'; // comment\nimport a from 'a';",
+            output: null,
+            options: [{ allowSeparatedGroups: false }],
+            errors: [{
+                messageId: "sortImportsAlphabetically",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code: "import b from 'b'; // comment 1\n/* comment 2 */import a from 'a';",
+            output: null,
+            options: [{ allowSeparatedGroups: false }],
+            errors: [{
+                messageId: "sortImportsAlphabetically",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code: "import { b } from 'b'; /* comment line 1 \n comment line 2 */ import { a } from 'a';",
+            output: null,
+            options: [{ allowSeparatedGroups: false }],
+            errors: [{
+                messageId: "sortImportsAlphabetically",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code: "import b\nfrom 'b'; import a\nfrom 'a';",
+            output: null,
+            options: [{ allowSeparatedGroups: false }],
+            errors: [{
+                messageId: "sortImportsAlphabetically",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code: "import { b } from \n'b'; /* comment */ import\n { a } from 'a';",
+            output: null,
+            options: [{ allowSeparatedGroups: false }],
+            errors: [{
+                messageId: "sortImportsAlphabetically",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code: "import { b } from \n'b';\nimport\n { a } from 'a';",
+            output: null,
+            options: [{ allowSeparatedGroups: false }],
+            errors: [{
+                messageId: "sortImportsAlphabetically",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code: "import c from 'c';\n\nimport b from 'b';\nimport a from 'a';",
+            output: null,
+            options: [{ allowSeparatedGroups: true }],
+            errors: [{
+                messageId: "sortImportsAlphabetically",
+                type: "ImportDeclaration",
+                line: 4
+            }]
+        },
+        {
+            code: "import b from 'b';\n\nimport { c, a } from 'c';",
+            output: "import b from 'b';\n\nimport { a, c } from 'c';",
+            options: [{ allowSeparatedGroups: true }],
+            errors: [{
+                messageId: "sortMembersAlphabetically",
                 type: "ImportSpecifier"
             }]
         }
