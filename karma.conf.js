@@ -1,6 +1,13 @@
 "use strict";
+const os = require("os");
 
-process.env.CHROME_BIN = require("puppeteer").executablePath();
+if (os.arch() === "arm64") {
+
+    // For arm64 architecture, install chromium-browser using "apt-get install chromium-browser"
+    process.env.CHROME_BIN = "/usr/bin/chromium-browser";
+} else {
+    process.env.CHROME_BIN = require("puppeteer").executablePath();
+}
 
 module.exports = function(config) {
     config.set({
