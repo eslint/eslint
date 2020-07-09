@@ -262,3 +262,5 @@ The following companies, organizations, and individuals support ESLint's ongoing
 ## <a name="technology-sponsors"></a>Technology Sponsors
 
 * Site search ([eslint.org](https://eslint.org)) is sponsored by [Algolia](https://www.algolia.com)
+* Hosting for ([eslint.org](https://eslint.org)) is sponsored by [Netlify](https://www.netlify.com)
+* Password management is sponsored by [1Password](https://www.1password.com)
