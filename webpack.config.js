@@ -43,7 +43,7 @@ module.exports = {
         ]
     },
     resolve: {
-        mainFields: ["main", "module"]
+        mainFields: ["browser", "main", "module"]
     },
     stats: "errors-only"
 };
