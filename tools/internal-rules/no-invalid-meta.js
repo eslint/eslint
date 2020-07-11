@@ -68,7 +68,7 @@ function hasMetaDocsDescription(metaPropertyNode) {
  * @param {string}  type the property type to check
  * @returns {boolean} `true` if propertie valye is empty else `false`
  */
-function isEmptMetaStringProperty(metaPropertyNode, type) {
+function isEmptyMetaStringProperty(metaPropertyNode, type) {
     const metaDocs = getPropertyFromObject("docs", metaPropertyNode.value);
     const metaType = getPropertyFromObject(type, metaDocs.value);
 
@@ -135,7 +135,7 @@ function checkMetaValidity(context, exportsNode) {
         return;
     }
 
-    if (isEmptMetaStringProperty(metaProperty, "category")) {
+    if (isEmptyMetaStringProperty(metaProperty, "category")) {
         context.report({ node: metaProperty, messageId: "emptyMetaDocsCategory" });
         return;
     }
