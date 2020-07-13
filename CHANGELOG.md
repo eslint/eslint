@@ -18,9 +18,11 @@ v7.4.0 - July 3, 2020
 * [`0655f66`](https://github.com/eslint/eslint/commit/0655f66525d167ca1288167b79a77087cfc8fcf6) Update: improve report location in arrow-body-style (refs #12334) (#13424) (YeonJuan)
 * [`d53d69a`](https://github.com/eslint/eslint/commit/d53d69af08cfe55f42e0a0ca725b1014dabccc21) Update: prefer-regex-literal detect regex literals (fixes #12840) (#12842) (Mathias Schreck)
 * [`004adae`](https://github.com/eslint/eslint/commit/004adae3f959414f56e44e5884f6221e9dcda142) Update: rename id-blacklist to id-denylist (fixes #13407) (#13408) (Kai Cataldo)
+
 v7.3.1 - June 22, 2020
 
 * [`de77c11`](https://github.com/eslint/eslint/commit/de77c11e7515f2097ff355ddc0d7b6db9c83c892) Fix: Replace Infinity with Number.MAX_SAFE_INTEGER (fixes #13427) (#13435) (Nicholas C. Zakas)
+
 v7.3.0 - June 19, 2020
 
 * [`638a6d6`](https://github.com/eslint/eslint/commit/638a6d6be18b4a37cfdc7223e1f5acd3718694be) Update: add missing `additionalProperties: false` to some rules' schema (#13198) (Milos Djermanovic)
@@ -45,6 +47,7 @@ v7.3.0 - June 19, 2020
 * [`0f1f5ed`](https://github.com/eslint/eslint/commit/0f1f5ed2a20b8fb575d4360316861cf4c2b9b7bc) Docs: Add security policy link to README (#13403) (Nicholas C. Zakas)
 * [`9e9ba89`](https://github.com/eslint/eslint/commit/9e9ba897c566601cfe90522099c635ea316b235f) Sponsors: Sync README with website (ESLint Jenkins)
 * [`ca59fb9`](https://github.com/eslint/eslint/commit/ca59fb95a395c0a02ed23768a70e086480ab1f6d) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.2.0 - June 5, 2020
 
 * [`b735a48`](https://github.com/eslint/eslint/commit/b735a485e77bcc791e4c4c6b8716801d94e98b2c) Update: add enforceForFunctionPrototypeMethods option to no-extra-parens (#12895) (Milos Djermanovic)
