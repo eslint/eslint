@@ -17,6 +17,7 @@ This rule has either a string option:
 Or an object option (Requires line breaks if any of properties is satisfied. Otherwise, disallows line breaks):
 
 * `"multiline": <boolean>` requires line breaks if there are line breaks inside elements. If this is false, this condition is disabled.
+* `"direction": <string>` one of the following: `"fold", "unfold", "both"`. Default value is `"both"` means linebreaks will be added or removed according the rule. `"Unold"` means only adding line breaks, `"fold"` only removing.  
 * `"minItems": <number>` requires line breaks if the number of elements is at least the given integer. If this is 0, this condition will act the same as the option `"always"`. If this is `null` (the default), this condition is disabled.
 
 Alternatively, different configurations can be specified for array expressions and array patterns:
