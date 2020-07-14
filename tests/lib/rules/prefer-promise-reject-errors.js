@@ -42,7 +42,11 @@ ruleTester.run("prefer-promise-reject-errors", rule, {
         {
             code: "new Promise(function(resolve, reject) { reject() })",
             options: [{ allowEmptyReject: true }]
-        }
+        },
+
+        // Optional chaining
+        "Promise.reject(obj?.foo)",
+        "Promise.reject(obj?.foo())"
     ],
 
     invalid: [
