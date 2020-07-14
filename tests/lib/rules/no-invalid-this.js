@@ -558,6 +558,30 @@ const patterns = [
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
+    {
+        code: "Array?.from([], function() { console.log(this); z(x => console.log(x, this)); }, obj);",
+        parserOptions: { ecmaVersion: 2020 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "foo?.every(function() { console.log(this); z(x => console.log(x, this)); }, obj);",
+        parserOptions: { ecmaVersion: 2020 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "(Array?.from)([], function() { console.log(this); z(x => console.log(x, this)); }, obj);",
+        parserOptions: { ecmaVersion: 2020 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "(foo?.every)(function() { console.log(this); z(x => console.log(x, this)); }, obj);",
+        parserOptions: { ecmaVersion: 2020 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
 
     // @this tag.
     {
