@@ -1247,7 +1247,7 @@ describe("RuleTester", () => {
         /**
          * Legacy-format rule (a function instead of an object with `create` method).
          * @param {RuleContext} context The ESLint rule context object.
-         * @returns {void} No return value
+         * @returns {Object} Listeners.
          */
         function replaceProgramWith5Rule(context) {
             return {
