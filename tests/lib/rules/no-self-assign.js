@@ -79,12 +79,6 @@ ruleTester.run("no-self-assign", rule, {
         {
             code: "this.x = this.x",
             options: [{ props: false }]
-        },
-
-        // Optional chaining
-        {
-            code: "a.b = a?.b",
-            parserOptions: { ecmaVersion: 2020 }
         }
     ],
     invalid: [
@@ -148,6 +142,11 @@ ruleTester.run("no-self-assign", rule, {
             code: "(a?.b).c = (a?.b).c",
             parserOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "selfAssignment", data: { name: "(a?.b).c" } }]
+        },
+        {
+            code: "a.b = a?.b",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "selfAssignment", data: { name: "a?.b" } }]
         }
     ]
 });
