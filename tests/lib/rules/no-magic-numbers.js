@@ -213,6 +213,25 @@ ruleTester.run("no-magic-numbers", rule, {
             code: "f(-100n)",
             options: [{ ignore: ["-100n"] }],
             parserOptions: { ecmaVersion: 2020 }
+        },
+
+        // Optional chaining
+        {
+            code: "var x = parseInt?.(y, 10);",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "var x = Number?.parseInt(y, 10);",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "var x = (Number?.parseInt)(y, 10);",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "foo?.[777]",
+            options: [{ ignoreArrayIndexes: true }],
+            parserOptions: { ecmaVersion: 2020 }
         }
     ],
     invalid: [

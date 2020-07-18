@@ -94,6 +94,18 @@ const invalid = [
             data: { prop: "isPrototypeOf" },
             type: "CallExpression"
         }]
+    },
+
+    // Optional chaining
+    {
+        code: "foo?.hasOwnProperty('bar')",
+        parserOptions: { ecmaVersion: 2020 },
+        errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" } }]
+    },
+    {
+        code: "(foo?.hasOwnProperty)('bar')",
+        parserOptions: { ecmaVersion: 2020 },
+        errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" } }]
     }
 ];
 

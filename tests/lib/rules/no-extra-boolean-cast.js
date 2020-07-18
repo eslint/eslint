@@ -2408,6 +2408,21 @@ ruleTester.run("no-extra-boolean-cast", rule, {
             options: [{ enforceForLogicalOperands: true }],
             parserOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+        },
+
+        // Optional chaining
+        {
+            code: "if (Boolean?.(foo)) ;",
+            output: "if (foo) ;",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if (Boolean?.(a ?? b) || c) {}",
+            output: "if ((a ?? b) || c) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedCall" }]
         }
     ]
 });

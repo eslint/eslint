@@ -18,7 +18,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 
 const errors = [{ messageId: "preferSpread", type: "CallExpression" }];
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
 
 ruleTester.run("prefer-spread", rule, {
     valid: [
@@ -39,7 +39,11 @@ ruleTester.run("prefer-spread", rule, {
         // ignores incomplete things.
         "foo.apply();",
         "obj.foo.apply();",
-        "obj.foo.apply(obj, ...args)"
+        "obj.foo.apply(obj, ...args)",
+
+        // Optional chaining
+        "(a?.b).c.foo.apply(a?.b.c, args);",
+        "a?.b.c.foo.apply((a?.b).c, args);"
     ],
     invalid: [
         {
@@ -72,6 +76,44 @@ ruleTester.run("prefer-spread", rule, {
         },
         {
             code: "[].concat.apply([\n/*empty*/\n], args);",
+            errors
+        },
+
+        // Optional chaining
+        {
+            code: "foo.apply?.(undefined, args);",
+            errors
+        },
+        {
+            code: "foo?.apply(undefined, args);",
+            errors
+        },
+        {
+            code: "foo?.apply?.(undefined, args);",
+            errors
+        },
+        {
+            code: "(foo?.apply)(undefined, args);",
+            errors
+        },
+        {
+            code: "(foo?.apply)?.(undefined, args);",
+            errors
+        },
+        {
+            code: "(obj?.foo).apply(obj, args);",
+            errors
+        },
+        {
+            code: "a?.b.c.foo.apply(a?.b.c, args);",
+            errors
+        },
+        {
+            code: "(a?.b.c).foo.apply(a?.b.c, args);",
+            errors
+        },
+        {
+            code: "(a?.b).c.foo.apply((a?.b).c, args);",
             errors
         }
     ]

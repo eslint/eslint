@@ -1087,6 +1087,46 @@ ruleTester.run("accessor-pairs", rule, {
             code: "Object.create(null, {foo: {set: function(value) {}}});",
             errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }]
         },
+        {
+            code: "var o = {d: 1};\n Object?.defineProperty(o, 'c', \n{set: function(value) {\n val = value; \n} \n});",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }]
+        },
+        {
+            code: "Reflect?.defineProperty(obj, 'foo', {set: function(value) {}});",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }]
+        },
+        {
+            code: "Object?.defineProperties(obj, {foo: {set: function(value) {}}});",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }]
+        },
+        {
+            code: "Object?.create(null, {foo: {set: function(value) {}}});",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }]
+        },
+        {
+            code: "var o = {d: 1};\n (Object?.defineProperty)(o, 'c', \n{set: function(value) {\n val = value; \n} \n});",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }]
+        },
+        {
+            code: "(Reflect?.defineProperty)(obj, 'foo', {set: function(value) {}});",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }]
+        },
+        {
+            code: "(Object?.defineProperties)(obj, {foo: {set: function(value) {}}});",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }]
+        },
+        {
+            code: "(Object?.create)(null, {foo: {set: function(value) {}}});",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }]
+        },
 
         //------------------------------------------------------------------------------
         // Classes

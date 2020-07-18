@@ -235,6 +235,20 @@ ruleTester.run("no-implied-eval", rule, {
                     line: 3
                 }
             ]
+        },
+
+        // Optional chaining
+        {
+            code: "window?.setTimeout('code', 0)",
+            parserOptions: { ecmaVersion: 2020 },
+            globals: { window: "readonly" },
+            errors: [{ messageId: "impliedEval" }]
+        },
+        {
+            code: "(window?.setTimeout)('code', 0)",
+            parserOptions: { ecmaVersion: 2020 },
+            globals: { window: "readonly" },
+            errors: [{ messageId: "impliedEval" }]
         }
     ]
 });

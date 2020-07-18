@@ -16,7 +16,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
 
 ruleTester.run("constructor-super", rule, {
     valid: [
@@ -88,7 +88,10 @@ ruleTester.run("constructor-super", rule, {
                     }
                 }
             }
-        `
+        `,
+
+        // Optional chaining
+        "class A extends obj?.prop { constructor() { super(); } }"
     ],
     invalid: [
 

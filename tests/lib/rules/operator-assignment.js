@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/operator-assignment"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 7 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
 
 const EXPECTED_OPERATOR_ASSIGNMENT = [{ messageId: "replaced", type: "AssignmentExpression" }];
 const UNEXPECTED_OPERATOR_ASSIGNMENT = [{ messageId: "unexpected", type: "AssignmentExpression" }];
@@ -398,6 +398,20 @@ ruleTester.run("operator-assignment", rule, {
         output: "foo= foo+(+bar===baz)", // tokens cannot be adjacent, but the right side will be parenthesised
         options: ["never"],
         errors: UNEXPECTED_OPERATOR_ASSIGNMENT
-    }]
+    },
+
+    // Optional chaining
+    {
+        code: "(obj?.a).b = (obj?.a).b + y",
+        output: null,
+        errors: EXPECTED_OPERATOR_ASSIGNMENT
+    },
+    {
+        code: "obj.a = obj?.a + b",
+        output: null,
+        errors: EXPECTED_OPERATOR_ASSIGNMENT
+    }
+
+    ]
 
 });

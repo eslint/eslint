@@ -16,7 +16,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
 
 ruleTester.run("prefer-regex-literals", rule, {
     valid: [
@@ -222,6 +222,7 @@ ruleTester.run("prefer-regex-literals", rule, {
             env: { es2020: true },
             errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
         },
+
         {
             code: "new RegExp(/a/);",
             options: [{ disallowRedundantWrapping: true }],
@@ -241,6 +242,12 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "new RegExp('a');",
             options: [{ disallowRedundantWrapping: true }],
             errors: [{ messageId: "unexpectedRegExp", type: "NewExpression", line: 1, column: 1 }]
+        },
+
+        // Optional chaining
+        {
+            code: "new RegExp((String?.raw)`a`);",
+            errors: [{ messageId: "unexpectedRegExp" }]
         }
     ]
 });
