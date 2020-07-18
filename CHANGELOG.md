@@ -1,3 +1,28 @@
+v7.5.0 - July 18, 2020
+
+* [`6ea3178`](https://github.com/eslint/eslint/commit/6ea3178776eae0e40c3f5498893e8aab0e23686b) Update: optional chaining support (fixes #12642) (#13416) (Toru Nagashima)
+* [`540b1af`](https://github.com/eslint/eslint/commit/540b1af77278ae649b621aa8d4bf8d6de03c3155) Chore: enable consistent-meta-messages internal rule (#13487) (Milos Djermanovic)
+* [`885a145`](https://github.com/eslint/eslint/commit/885a1455691265db88dc0befe9b48a69d69e8b9c) Docs: clarify behavior if `meta.fixable` is omitted (refs #13349) (#13493) (Milos Djermanovic)
+* [`1a01b42`](https://github.com/eslint/eslint/commit/1a01b420eaab0de03dab5cc190a9f2a860c21a84) Docs: Update technology sponsors in README (#13478) (Nicholas C. Zakas)
+* [`6ed9e8e`](https://github.com/eslint/eslint/commit/6ed9e8e4ff038c0259b0e7fe7ab7f4fd4ec55801) Upgrade: lodash@4.17.19 (#13499) (Yohan Siguret)
+* [`45cdf00`](https://github.com/eslint/eslint/commit/45cdf00da6aeff3d584d37b0710fc8d6ad9456d6) Sponsors: Sync README with website (ESLint Jenkins)
+* [`f1cc725`](https://github.com/eslint/eslint/commit/f1cc725ba1b8646dcf06a83716d96ad9bb726172) Docs: fix linebreaks between versions in changelog (#13488) (Milos Djermanovic)
+* [`f4d7b9e`](https://github.com/eslint/eslint/commit/f4d7b9e1a599346b2f21ff9de003b311b51411e6) Update: deprecate id-blacklist rule (#13465) (Dimitri Mitropoulos)
+* [`e14a645`](https://github.com/eslint/eslint/commit/e14a645aa495558081490f990ba221e21aa6b27c) Chore: use espree.latestEcmaVersion in fuzzer (#13484) (Milos Djermanovic)
+* [`61097fe`](https://github.com/eslint/eslint/commit/61097fe5cc275d414a0c8e19b31c6060cb5568b7) Docs: Update int rule level to string (#13483) (Brandon Mills)
+* [`c8f9c82`](https://github.com/eslint/eslint/commit/c8f9c8210cf4b9da8f07922093d7b219abad9f10) Update: Improve report location no-irregular-whitespace (refs #12334) (#13462) (Milos Djermanovic)
+* [`f2e68ec`](https://github.com/eslint/eslint/commit/f2e68ec1d6cee6299e8a5cdf76c522c11d3008dd) Build: update webpack resolve.mainFields to match website config (#13457) (Milos Djermanovic)
+* [`a96bc5e`](https://github.com/eslint/eslint/commit/a96bc5ec06f3a48bfe458bccd68d4d3b2a280ed9) Fix: arrow-body-style fixer for `in` wrap (fixes #11849) (#13228) (Anix)
+* [`748734f`](https://github.com/eslint/eslint/commit/748734fdd497fbf61f3a616ff4a09169135b9396) Upgrade: Updated puppeteer version to v4.0.0 (#13444) (odidev)
+* [`e951457`](https://github.com/eslint/eslint/commit/e951457b7aaa1b12b135588d36e3f4db4d7b8463) Docs: fix wording in configuring.md (#13469) (Piper)
+* [`0af1d28`](https://github.com/eslint/eslint/commit/0af1d2828d27885483737867653ba1659af72005) Update: add allowSeparatedGroups option to sort-imports (fixes #12951) (#13455) (Milos Djermanovic)
+* [`1050ee7`](https://github.com/eslint/eslint/commit/1050ee78a95da9484ff333dc1c74dac64c05da6f) Update: Improve report location for no-unneeded-ternary (refs #12334) (#13456) (Milos Djermanovic)
+* [`b77b420`](https://github.com/eslint/eslint/commit/b77b4202bd1d5d1306f6f645e88d7a41a51715db) Update: Improve report location for max-len (refs #12334) (#13458) (Milos Djermanovic)
+* [`095194c`](https://github.com/eslint/eslint/commit/095194c0fc0eb02aa69fde6b4280696e0e4de214) Fix: add end location to reports in object-curly-newline (refs #12334) (#13460) (Milos Djermanovic)
+* [`10251bb`](https://github.com/eslint/eslint/commit/10251bbaeba80ac15244f385fc42cf2f2a30e5d2) Fix: add end location to reports in keyword-spacing (refs #12334) (#13461) (Milos Djermanovic)
+* [`2ea7ee5`](https://github.com/eslint/eslint/commit/2ea7ee51a4e05ee76a6dae5954c3b6263b0970a3) Sponsors: Sync README with website (ESLint Jenkins)
+* [`b55fd3b`](https://github.com/eslint/eslint/commit/b55fd3b8c05a29a465a794a524b06c1a28cddf0c) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.4.0 - July 3, 2020
 
 * [`f21bad2`](https://github.com/eslint/eslint/commit/f21bad2680406a2671b877f8dba47f4475d0cc64) Docs: fix description for `never` in multiline-ternary (fixes #13368) (#13452) (Milos Djermanovic)
