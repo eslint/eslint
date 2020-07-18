@@ -3632,6 +3632,22 @@ ruleTester.run("padding-line-between-statements", rule, {
             errors: [{ messageId: "expectedBlankLine" }]
         },
 
+        // Optional chaining
+        {
+            code: "(function(){\n})?.()\nvar a = 2;",
+            output: "(function(){\n})?.()\n\nvar a = 2;",
+            options: [{ blankLine: "always", prev: "iife", next: "*" }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedBlankLine" }]
+        },
+        {
+            code: "void (function(){\n})?.()\nvar a = 2;",
+            output: "void (function(){\n})?.()\n\nvar a = 2;",
+            options: [{ blankLine: "always", prev: "iife", next: "*" }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedBlankLine" }]
+        },
+
         //----------------------------------------------------------------------
         // import
         //----------------------------------------------------------------------

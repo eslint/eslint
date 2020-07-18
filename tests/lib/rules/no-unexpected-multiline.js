@@ -122,6 +122,24 @@ ruleTester.run("no-unexpected-multiline", rule, {
                 >\`multiline\`;
             `,
             parser: require.resolve("../../fixtures/parsers/typescript-parsers/tagged-template-with-generic/tagged-template-with-generic-3")
+        },
+
+        // Optional chaining
+        {
+            code: "var a = b\n  ?.(x || y).doSomething()",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "var a = b\n  ?.[a, b, c].forEach(doSomething)",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "var a = b?.\n  (x || y).doSomething()",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "var a = b?.\n  [a, b, c].forEach(doSomething)",
+            parserOptions: { ecmaVersion: 2020 }
         }
     ],
     invalid: [

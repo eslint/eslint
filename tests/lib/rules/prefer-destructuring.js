@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/prefer-destructuring"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
 
 ruleTester.run("prefer-destructuring", rule, {
     valid: [
@@ -141,7 +141,11 @@ ruleTester.run("prefer-destructuring", rule, {
         {
             code: "var {bar} = object.foo;",
             options: [{ object: true }]
-        }
+        },
+
+        // Optional chaining
+        "var foo = array?.[0];", // because the fixed code can throw TypeError.
+        "var foo = object?.foo;"
     ],
 
     invalid: [

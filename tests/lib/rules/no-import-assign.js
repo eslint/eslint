@@ -310,6 +310,23 @@ ruleTester.run("no-import-assign", rule, {
         {
             code: "import mod, * as mod_ns from 'mod'; mod.prop = 0; mod_ns.prop = 0",
             errors: [{ messageId: "readonlyMember", data: { name: "mod_ns" }, column: 51 }]
+        },
+
+        // Optional chaining
+        {
+            code: "import * as mod from 'mod'; Object?.defineProperty(mod, key, d)",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "readonlyMember", data: { name: "mod" }, column: 29 }]
+        },
+        {
+            code: "import * as mod from 'mod'; (Object?.defineProperty)(mod, key, d)",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "readonlyMember", data: { name: "mod" }, column: 29 }]
+        },
+        {
+            code: "import * as mod from 'mod'; delete mod?.prop",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "readonlyMember", data: { name: "mod" }, column: 29 }]
         }
     ]
 });

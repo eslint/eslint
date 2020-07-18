@@ -315,6 +315,18 @@ ruleTester.run("no-obj-calls", rule, {
             code: "var foo = window.Atomics; new foo;",
             env: { es2020: true, browser: true },
             errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "Atomics" }, type: "NewExpression" }]
+        },
+
+        // Optional chaining
+        {
+            code: "var x = globalThis?.Reflect();",
+            env: { es2020: true },
+            errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "CallExpression" }]
+        },
+        {
+            code: "var x = (globalThis?.Reflect)();",
+            env: { es2020: true },
+            errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "CallExpression" }]
         }
     ]
 });
