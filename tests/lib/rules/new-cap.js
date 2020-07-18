@@ -71,7 +71,39 @@ ruleTester.run("new-cap", rule, {
         { code: "var x = new foo.bar(42);", options: [{ newIsCapExceptionPattern: "^foo\\.." }] },
         { code: "var x = new foo.bar(42);", options: [{ properties: false }] },
         { code: "var x = Foo.bar(42);", options: [{ properties: false }] },
-        { code: "var x = foo.Bar(42);", options: [{ capIsNew: false, properties: false }] }
+        { code: "var x = foo.Bar(42);", options: [{ capIsNew: false, properties: false }] },
+
+        // Optional chaining
+        {
+            code: "foo?.bar();",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "(foo?.bar)();",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "new (foo?.Bar)();",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "(foo?.Bar)();",
+            options: [{ properties: false }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "new (foo?.bar)();",
+            options: [{ properties: false }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "Date?.UTC();",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "(Date?.UTC)();",
+            parserOptions: { ecmaVersion: 2020 }
+        }
     ],
     invalid: [
         {
@@ -302,6 +334,23 @@ ruleTester.run("new-cap", rule, {
 
             options: [{ newIsCapExceptionPattern: "^foo\\.." }],
             errors: [{ type: "NewExpression", messageId: "lower" }]
+        },
+
+        // Optional chaining
+        {
+            code: "new (foo?.bar)();",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "lower", column: 11, endColumn: 14 }]
+        },
+        {
+            code: "foo?.Bar();",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "upper", column: 6, endColumn: 9 }]
+        },
+        {
+            code: "(foo?.Bar)();",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "upper", column: 7, endColumn: 10 }]
         }
     ]
 });

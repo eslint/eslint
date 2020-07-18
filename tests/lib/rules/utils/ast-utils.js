@@ -10,6 +10,7 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
+    util = require("util"),
     espree = require("espree"),
     astUtils = require("../../../../lib/rules/utils/ast-utils"),
     { Linter } = require("../../../../lib/linter"),
@@ -477,6 +478,28 @@ describe("ast-utils", () => {
 
                 assert.strictEqual(astUtils.getStaticStringValue(ast.body[0].expression), expectedResults[key]);
             });
+        });
+
+        it("should return text of regex literal even if it's not supported natively.", () => {
+            const node = {
+                type: "Literal",
+                value: null,
+                regex: { pattern: "(?:)", flags: "u" }
+            };
+            const expectedText = "/(?:)/u";
+
+            assert.strictEqual(astUtils.getStaticStringValue(node), expectedText);
+        });
+
+        it("should return text of bigint literal even if it's not supported natively.", () => {
+            const node = {
+                type: "Literal",
+                value: null,
+                bigint: "100n"
+            };
+            const expectedText = "100n";
+
+            assert.strictEqual(astUtils.getStaticStringValue(node), expectedText);
         });
     });
 
@@ -1408,6 +1431,134 @@ describe("ast-utils", () => {
             const sourceCode = new SourceCode(code, ast);
 
             assert.strictEqual(astUtils.equalTokens(ast.body[0], ast.body[1], sourceCode), false);
+        });
+    });
+
+    describe("equalLiteralValue", () => {
+        describe("should return true if two regex values are same, even if it's not supported natively.", () => {
+            const patterns = [
+                {
+                    nodeA: {
+                        type: "Literal",
+                        value: /(?:)/u,
+                        regex: { pattern: "(?:)", flags: "u" }
+                    },
+                    nodeB: {
+                        type: "Literal",
+                        value: /(?:)/u,
+                        regex: { pattern: "(?:)", flags: "u" }
+                    },
+                    expected: true
+                },
+                {
+                    nodeA: {
+                        type: "Literal",
+                        value: null,
+                        regex: { pattern: "(?:)", flags: "u" }
+                    },
+                    nodeB: {
+                        type: "Literal",
+                        value: null,
+                        regex: { pattern: "(?:)", flags: "u" }
+                    },
+                    expected: true
+                },
+                {
+                    nodeA: {
+                        type: "Literal",
+                        value: null,
+                        regex: { pattern: "(?:)", flags: "u" }
+                    },
+                    nodeB: {
+                        type: "Literal",
+                        value: /(?:)/, // eslint-disable-line require-unicode-regexp
+                        regex: { pattern: "(?:)", flags: "" }
+                    },
+                    expected: false
+                },
+                {
+                    nodeA: {
+                        type: "Literal",
+                        value: null,
+                        regex: { pattern: "(?:a)", flags: "u" }
+                    },
+                    nodeB: {
+                        type: "Literal",
+                        value: null,
+                        regex: { pattern: "(?:b)", flags: "u" }
+                    },
+                    expected: false
+                }
+            ];
+
+            for (const { nodeA, nodeB, expected } of patterns) {
+                it(`should return ${expected} if it compared ${util.format("%o", nodeA)} and ${util.format("%o", nodeB)}`, () => {
+                    assert.strictEqual(astUtils.equalLiteralValue(nodeA, nodeB), expected);
+                });
+            }
+        });
+
+        describe("should return true if two bigint values are same, even if it's not supported natively.", () => {
+            const patterns = [
+                {
+                    nodeA: {
+                        type: "Literal",
+                        value: null,
+                        bigint: "1"
+                    },
+                    nodeB: {
+                        type: "Literal",
+                        value: null,
+                        bigint: "1"
+                    },
+                    expected: true
+                },
+                {
+                    nodeA: {
+                        type: "Literal",
+                        value: null,
+                        bigint: "1"
+                    },
+                    nodeB: {
+                        type: "Literal",
+                        value: null,
+                        bigint: "2"
+                    },
+                    expected: false
+                },
+                {
+                    nodeA: {
+                        type: "Literal",
+                        value: 1n,
+                        bigint: "1"
+                    },
+                    nodeB: {
+                        type: "Literal",
+                        value: 1n,
+                        bigint: "1"
+                    },
+                    expected: true
+                },
+                {
+                    nodeA: {
+                        type: "Literal",
+                        value: 1n,
+                        bigint: "1"
+                    },
+                    nodeB: {
+                        type: "Literal",
+                        value: 2n,
+                        bigint: "2"
+                    },
+                    expected: false
+                }
+            ];
+
+            for (const { nodeA, nodeB, expected } of patterns) {
+                it(`should return ${expected} if it compared ${util.format("%o", nodeA)} and ${util.format("%o", nodeB)}`, () => {
+                    assert.strictEqual(astUtils.equalLiteralValue(nodeA, nodeB), expected);
+                });
+            }
         });
     });
 

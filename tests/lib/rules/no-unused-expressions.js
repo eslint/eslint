@@ -74,6 +74,14 @@ ruleTester.run("no-unused-expressions", rule, {
         {
             code: "import(\"foo\")",
             parserOptions: { ecmaVersion: 11 }
+        },
+        {
+            code: "func?.(\"foo\")",
+            parserOptions: { ecmaVersion: 11 }
+        },
+        {
+            code: "obj?.foo(\"bar\")",
+            parserOptions: { ecmaVersion: 11 }
         }
     ],
     invalid: [
@@ -127,6 +135,23 @@ ruleTester.run("no-unused-expressions", rule, {
             options: [{ allowTaggedTemplates: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unusedExpression" }]
+        },
+
+        // Optional chaining
+        {
+            code: "obj?.foo",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
+        },
+        {
+            code: "obj?.foo.bar",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
+        },
+        {
+            code: "obj?.foo().bar",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
         }
     ]
 });

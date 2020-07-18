@@ -457,6 +457,79 @@ ruleTester.run("func-name-matching", rule, {
             errors: [
                 { messageId: "matchProperty", data: { funcName: "bar", name: "value" } }
             ]
+        },
+
+        // Optional chaining
+        {
+            code: "(obj?.aaa).foo = function bar() {};",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
+            ]
+        },
+        {
+            code: "Object?.defineProperty(foo, 'bar', { value: function baz() {} })",
+            options: ["always", { considerPropertyDescriptor: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
+            ]
+        },
+        {
+            code: "(Object?.defineProperty)(foo, 'bar', { value: function baz() {} })",
+            options: ["always", { considerPropertyDescriptor: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
+            ]
+        },
+        {
+            code: "Object?.defineProperty(foo, 'bar', { value: function bar() {} })",
+            options: ["never", { considerPropertyDescriptor: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
+            ]
+        },
+        {
+            code: "(Object?.defineProperty)(foo, 'bar', { value: function bar() {} })",
+            options: ["never", { considerPropertyDescriptor: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
+            ]
+        },
+        {
+            code: "Object?.defineProperties(foo, { bar: { value: function baz() {} } })",
+            options: ["always", { considerPropertyDescriptor: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
+            ]
+        },
+        {
+            code: "(Object?.defineProperties)(foo, { bar: { value: function baz() {} } })",
+            options: ["always", { considerPropertyDescriptor: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
+            ]
+        },
+        {
+            code: "Object?.defineProperties(foo, { bar: { value: function bar() {} } })",
+            options: ["never", { considerPropertyDescriptor: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
+            ]
+        },
+        {
+            code: "(Object?.defineProperties)(foo, { bar: { value: function bar() {} } })",
+            options: ["never", { considerPropertyDescriptor: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
+            ]
         }
     ]
 });
