@@ -151,4 +151,21 @@ describe("formatter:checkstyle", () => {
             assert.strictEqual(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo.\" source=\"\" /></file></checkstyle>");
         });
     });
+
+    describe("when passing single message without line and column", () => {
+        const code = [{
+            filePath: "foo.js",
+            messages: [{
+                message: "Unexpected foo.",
+                severity: 2,
+                ruleId: "foo"
+            }]
+        }];
+
+        it("should return line and column as 0 instead of undefined", () => {
+            const result = formatter(code);
+
+            assert.strictEqual(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"0\" column=\"0\" severity=\"error\" message=\"Unexpected foo. (foo)\" source=\"eslint.rules.foo\" /></file></checkstyle>");
+        });
+    });
 });
