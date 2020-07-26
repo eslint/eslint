@@ -43,8 +43,7 @@ ruleTester.run("prefer-inclusive-language", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "exclusive",
-                data: { name: "blacklist" },
-                type: "Identifier"
+                data: { name: "blacklist" }
             }]
         },
         {
@@ -52,8 +51,7 @@ ruleTester.run("prefer-inclusive-language", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "exclusive",
-                data: { name: "blackList" },
-                type: "Identifier"
+                data: { name: "blackList" }
             }]
         },
         {
@@ -61,8 +59,7 @@ ruleTester.run("prefer-inclusive-language", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "exclusive",
-                data: { name: "masterDetailView" },
-                type: "Identifier"
+                data: { name: "masterDetailView" }
             }]
         },
         {
@@ -71,8 +68,7 @@ ruleTester.run("prefer-inclusive-language", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "exclusive",
-                data: { name: "MasterDetailView" },
-                type: "Identifier"
+                data: { name: "MasterDetailView" }
             }]
         }
     ]
