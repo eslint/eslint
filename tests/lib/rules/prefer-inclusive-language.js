@@ -19,10 +19,7 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("prefer-inclusive-language", rule, {
     valid: [
-        {
-            code: "const allowList = ['foo', 'bar'];",
-            parserOptions: { ecmaVersion: 6 }
-        },
+        "var allowList = ['foo', 'bar'];",
         {
             code: "const denyList = ['foo', 'bar'];",
             parserOptions: { ecmaVersion: 6 }
@@ -35,9 +32,21 @@ ruleTester.run("prefer-inclusive-language", rule, {
             code: "const masterDetailView = new View({ with: 'stuff' });",
             options: [{ allow: ["masterDetailView"] }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const masterDetailView = new View({ with: 'stuff' });",
+            options: [{ deny: ["whitelist", "blacklist", "slave"] }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
+        {
+            code: "var blacklist = ['foo', 'bar'];",
+            errors: [{
+                messageId: "exclusive",
+                data: { name: "blacklist" }
+            }]
+        },
         {
             code: "const blacklist = ['foo', 'bar'];",
             parserOptions: { ecmaVersion: 6 },
