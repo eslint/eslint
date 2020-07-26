@@ -37,6 +37,15 @@ ruleTester.run("prefer-inclusive-language", rule, {
             code: "const masterDetailView = new View({ with: 'stuff' });",
             options: [{ deny: ["whitelist", "blacklist", "slave"] }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const { masterList } = someObject;",
+            options: [{ ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const { masterList: list } = someObject;",
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -78,6 +87,22 @@ ruleTester.run("prefer-inclusive-language", rule, {
             errors: [{
                 messageId: "exclusive",
                 data: { name: "MasterDetailView" }
+            }]
+        },
+        {
+            code: "const { masterList } = someObject;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "exclusive",
+                data: { name: "masterList" }
+            }]
+        },
+        {
+            code: "const { list: masterList } = someObject;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "exclusive",
+                data: { name: "masterList" }
             }]
         }
     ]
