@@ -104,6 +104,13 @@ ruleTester.run("prefer-inclusive-language", rule, {
                 messageId: "exclusive",
                 data: { name: "masterList" }
             }]
+        },
+        {
+            code: "function attach(slave) { /* ... */ }",
+            errors: [{
+                messageId: "exclusive",
+                data: { name: "slave" }
+            }]
         }
     ]
 });
