@@ -237,6 +237,7 @@
     "prefer-const": "suggestion",
     "prefer-destructuring": "suggestion",
     "prefer-exponentiation-operator": "suggestion",
+    "prefer-inclusive-language": "suggestion",
     "prefer-named-capture-group": "suggestion",
     "prefer-numeric-literals": "suggestion",
     "prefer-object-spread": "suggestion",
