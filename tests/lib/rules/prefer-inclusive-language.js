@@ -111,6 +111,34 @@ ruleTester.run("prefer-inclusive-language", rule, {
                 messageId: "exclusive",
                 data: { name: "slave" }
             }]
+        },
+        {
+            code: "class Dispatcher { attachSlave(node) {} }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "exclusive",
+                data: { name: "attachSlave" }
+            }]
+        },
+        {
+            code: "class Dispatcher { attach(slave) {} }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "exclusive",
+                data: { name: "slave" }
+            }]
+        },
+        {
+            code: "class Dispatcher { attachSlave(slave) {} }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "exclusive",
+                data: { name: "attachSlave" }
+            },
+            {
+                messageId: "exclusive",
+                data: { name: "slave" }
+            }]
         }
     ]
 });
