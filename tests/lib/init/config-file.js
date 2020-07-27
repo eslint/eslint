@@ -11,7 +11,6 @@
 const assert = require("chai").assert,
     sinon = require("sinon"),
     path = require("path"),
-    fs = require("fs"),
     yaml = require("js-yaml"),
     espree = require("espree"),
     ConfigFile = require("../../../lib/init/config-file"),
@@ -66,7 +65,9 @@ describe("ConfigFile", () => {
         ].forEach(([fileType, filename, validate]) => {
 
             it(`should write a file through fs when a ${fileType} path is passed`, () => {
-                const fakeFS = sinon.fake(fs);
+                const fakeFS = {
+                    writeFileSync: () => {}
+                };
 
                 sinon.mock(fakeFS).expects("writeFileSync").withExactArgs(
                     filename,
@@ -82,7 +83,9 @@ describe("ConfigFile", () => {
             });
 
             it("should include a newline character at EOF", () => {
-                const fakeFS = sinon.fake(fs);
+                const fakeFS = {
+                    writeFileSync: () => {}
+                };
 
                 sinon.mock(fakeFS).expects("writeFileSync").withExactArgs(
                     filename,
@@ -99,7 +102,9 @@ describe("ConfigFile", () => {
         });
 
         it("should make sure js config files match linting rules", () => {
-            const fakeFS = sinon.fake(fs);
+            const fakeFS = {
+                writeFileSync: () => {}
+            };
 
             const singleQuoteConfig = {
                 rules: {
@@ -121,7 +126,9 @@ describe("ConfigFile", () => {
         });
 
         it("should still write a js config file even if linting fails", () => {
-            const fakeFS = sinon.fake(fs);
+            const fakeFS = {
+                writeFileSync: () => {}
+            };
             const fakeCLIEngine = sinon.mock().withExactArgs(sinon.match({
                 baseConfig: config,
                 fix: true,
