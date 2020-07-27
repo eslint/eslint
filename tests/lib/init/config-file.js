@@ -9,7 +9,6 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    leche = require("leche"),
     sinon = require("sinon"),
     path = require("path"),
     fs = require("fs"),
@@ -59,15 +58,15 @@ describe("ConfigFile", () => {
             sinon.verifyAndRestore();
         });
 
-        leche.withData([
+        [
             ["JavaScript", "foo.js", espree.parse],
             ["JSON", "bar.json", JSON.parse],
             ["YAML", "foo.yaml", yaml.safeLoad],
             ["YML", "foo.yml", yaml.safeLoad]
-        ], (fileType, filename, validate) => {
+        ].forEach(([fileType, filename, validate]) => {
 
             it(`should write a file through fs when a ${fileType} path is passed`, () => {
-                const fakeFS = leche.fake(fs);
+                const fakeFS = sinon.fake(fs);
 
                 sinon.mock(fakeFS).expects("writeFileSync").withExactArgs(
                     filename,
@@ -83,7 +82,7 @@ describe("ConfigFile", () => {
             });
 
             it("should include a newline character at EOF", () => {
-                const fakeFS = leche.fake(fs);
+                const fakeFS = sinon.fake(fs);
 
                 sinon.mock(fakeFS).expects("writeFileSync").withExactArgs(
                     filename,
@@ -100,7 +99,7 @@ describe("ConfigFile", () => {
         });
 
         it("should make sure js config files match linting rules", () => {
-            const fakeFS = leche.fake(fs);
+            const fakeFS = sinon.fake(fs);
 
             const singleQuoteConfig = {
                 rules: {
@@ -122,7 +121,7 @@ describe("ConfigFile", () => {
         });
 
         it("should still write a js config file even if linting fails", () => {
-            const fakeFS = leche.fake(fs);
+            const fakeFS = sinon.fake(fs);
             const fakeCLIEngine = sinon.mock().withExactArgs(sinon.match({
                 baseConfig: config,
                 fix: true,
