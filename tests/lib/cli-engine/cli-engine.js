@@ -4468,7 +4468,9 @@ describe("CLIEngine", () => {
         });
 
         it("should call fs.writeFileSync() for each result with output", () => {
-            const fakeFS = sinon.fake(fs),
+            const fakeFS = {
+                    writeFileSync: () => {}
+                },
                 localCLIEngine = proxyquire("../../../lib/cli-engine/cli-engine", {
                     fs: fakeFS
                 }).CLIEngine,
@@ -4485,7 +4487,6 @@ describe("CLIEngine", () => {
                     ]
                 };
 
-            fakeFS.writeFileSync = function() {};
             const spy = sinon.spy(fakeFS, "writeFileSync");
 
             localCLIEngine.outputFixes(report);
@@ -4497,7 +4498,9 @@ describe("CLIEngine", () => {
         });
 
         it("should call fs.writeFileSync() for each result with output and not at all for a result without output", () => {
-            const fakeFS = sinon.fake(fs),
+            const fakeFS = {
+                    writeFileSync: () => {}
+                },
                 localCLIEngine = proxyquire("../../../lib/cli-engine/cli-engine", {
                     fs: fakeFS
                 }).CLIEngine,
@@ -4517,7 +4520,6 @@ describe("CLIEngine", () => {
                     ]
                 };
 
-            fakeFS.writeFileSync = function() {};
             const spy = sinon.spy(fakeFS, "writeFileSync");
 
             localCLIEngine.outputFixes(report);
