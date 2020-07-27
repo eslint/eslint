@@ -4426,8 +4426,10 @@ describe("ESLint", () => {
         });
 
         it("should call fs.writeFile() for each result with output", async () => {
-            const fakeFS = sinon.fake(fs);
-            const spy = fakeFS.writeFile = sinon.spy(callLastArgument);
+            const fakeFS = {
+                writeFile: sinon.spy(callLastArgument)
+            };
+            const spy = fakeFS.writeFile;
             const localESLint = proxyquire("../../../lib/eslint/eslint", {
                 fs: fakeFS
             }).ESLint;
@@ -4450,8 +4452,10 @@ describe("ESLint", () => {
         });
 
         it("should call fs.writeFile() for each result with output and not at all for a result without output", async () => {
-            const fakeFS = sinon.fake(fs);
-            const spy = fakeFS.writeFile = sinon.spy(callLastArgument);
+            const fakeFS = {
+                writeFile: sinon.spy(callLastArgument)
+            };
+            const spy = fakeFS.writeFile;
             const localESLint = proxyquire("../../../lib/eslint/eslint", {
                 fs: fakeFS
             }).ESLint;
