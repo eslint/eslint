@@ -513,7 +513,7 @@ ruleTester.run("curly", rule, {
                     data: { name: "do" },
                     type: "DoWhileStatement",
                     line: 1,
-                    column: 3,
+                    column: 1,
                     endLine: 1,
                     endColumn: 4
                 }
@@ -528,7 +528,7 @@ ruleTester.run("curly", rule, {
                     data: { name: "do" },
                     type: "DoWhileStatement",
                     line: 1,
-                    column: 3,
+                    column: 1,
                     endLine: 2,
                     endColumn: 2
                 }
@@ -598,7 +598,7 @@ ruleTester.run("curly", rule, {
                     data: { name: "for" },
                     type: "ForStatement",
                     line: 1,
-                    column: 10,
+                    column: 9,
                     endLine: 1,
                     endColumn: 11
                 }
@@ -614,7 +614,7 @@ ruleTester.run("curly", rule, {
                     data: { name: "for" },
                     type: "ForStatement",
                     line: 1,
-                    column: 10,
+                    column: 9,
                     endLine: 2,
                     endColumn: 2
                 }
@@ -679,7 +679,7 @@ ruleTester.run("curly", rule, {
                     type: "ForStatement",
                     messageId: "missingCurlyAfterCondition",
                     line: 1,
-                    column: 12,
+                    column: 11,
                     endLine: 2,
                     endColumn: 2
                 }
@@ -911,7 +911,7 @@ ruleTester.run("curly", rule, {
                     data: { name: "do" },
                     type: "DoWhileStatement",
                     line: 1,
-                    column: 3,
+                    column: 1,
                     endLine: 1,
                     endColumn: 4
                 }
@@ -927,7 +927,7 @@ ruleTester.run("curly", rule, {
                     data: { name: "do" },
                     type: "DoWhileStatement",
                     line: 1,
-                    column: 3,
+                    column: 1,
                     endLine: 2,
                     endColumn: 2
                 }
@@ -1686,7 +1686,6 @@ ruleTester.run("curly", rule, {
                 endColumn: 8
             },
             {
-
                 type: "IfStatement",
                 data: { name: "if" },
                 messageId: "unexpectedCurlyAfterCondition",
@@ -1733,7 +1732,7 @@ ruleTester.run("curly", rule, {
                 type: "ForStatement",
                 messageId: "missingCurlyAfterCondition",
                 line: 4,
-                column: 2,
+                column: 1,
                 endLine: 5,
                 endColumn: 1
             }]
@@ -1753,6 +1752,46 @@ ruleTester.run("curly", rule, {
                 { messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" },
                 { messageId: "unexpectedCurlyAfterCondition", data: { name: "while" }, type: "WhileStatement" }
             ]
+        },
+        {
+            code: "for(;;)foo()\n",
+            output: "for(;;){foo()}\n",
+            errors: [{
+                data: { name: "for" },
+                type: "ForStatement",
+                messageId: "missingCurlyAfterCondition",
+                line: 1,
+                column: 7,
+                endLine: 1,
+                endColumn: 8
+            }]
+        },
+        {
+            code: "for(var \ni \n in \n z)foo()\n",
+            output: "for(var \ni \n in \n z){foo()}\n",
+            errors: [{
+                data: { name: "for-in" },
+                type: "ForInStatement",
+                messageId: "missingCurlyAfter",
+                line: 4,
+                column: 3,
+                endLine: 4,
+                endColumn: 4
+            }]
+        },
+        {
+            code: "for(var i of \n z)\nfoo()\n",
+            output: "for(var i of \n z)\n{foo()}\n",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                data: { name: "for-of" },
+                type: "ForOfStatement",
+                messageId: "missingCurlyAfter",
+                line: 2,
+                column: 3,
+                endLine: 3,
+                endColumn: 1
+            }]
         }
     ]
 });
