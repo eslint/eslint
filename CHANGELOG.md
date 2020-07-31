@@ -1,3 +1,15 @@
+v7.6.0 - July 31, 2020
+
+* [`ecb2b73`](https://github.com/eslint/eslint/commit/ecb2b7343a0d14fb57d297a16be6c1b176fb3dbf) Update: require `meta` for fixable rules in RuleTester (refs #13349) (#13489) (Milos Djermanovic)
+* [`6fb4edd`](https://github.com/eslint/eslint/commit/6fb4edde3b7a7ae2faf8ac956a7342fbf80865fc) Docs: fix broken links in developer guide (#13518) (Sam Chen)
+* [`318fe10`](https://github.com/eslint/eslint/commit/318fe103dbf2548eee293ff456ef0b829dbe3db3) Fix: Do not output `undefined` as line and column when it's unavailable (#13519) (haya14busa)
+* [`493b5b4`](https://github.com/eslint/eslint/commit/493b5b40cae7a076fdeb19740f8c88fb4ae9c1fb) Sponsors: Sync README with website (ESLint Jenkins)
+* [`f100143`](https://github.com/eslint/eslint/commit/f100143fa5f529aacb2b50e650a00d2697ca4c54) Sponsors: Sync README with website (ESLint Jenkins)
+* [`16b10fe`](https://github.com/eslint/eslint/commit/16b10fe8ba3c78939d5ada4a25caf2f0c9e6a058) Fix: Update the chatroom link to go directly to help channel (#13536) (Nicholas C. Zakas)
+* [`f937eb9`](https://github.com/eslint/eslint/commit/f937eb95407f60d3772bcb956e227aaf99e48777) Sponsors: Sync README with website (ESLint Jenkins)
+* [`e71e298`](https://github.com/eslint/eslint/commit/e71e2980cd2e319afc70d8c859c7ffd59cf4157b) Update: Change no-duplicate-case to comparing tokens (fixes #13485) (#13494) (Yosuke Ota)
+* [`6c4aea4`](https://github.com/eslint/eslint/commit/6c4aea44fd78e1eecea5fe3c37e1921e3b1e98a6) Docs: add ECMAScript 2020 to README (#13510) (Milos Djermanovic)
+
 v7.5.0 - July 18, 2020
 
 * [`6ea3178`](https://github.com/eslint/eslint/commit/6ea3178776eae0e40c3f5498893e8aab0e23686b) Update: optional chaining support (fixes #12642) (#13416) (Toru Nagashima)
