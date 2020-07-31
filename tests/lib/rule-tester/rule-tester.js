@@ -304,6 +304,10 @@ describe("RuleTester", () => {
 
     it("should use strict equality to compare output", () => {
         const replaceProgramWith5Rule = {
+            meta: {
+                fixable: "code"
+            },
+
             create: context => ({
                 Program(node) {
                     context.report({ node, message: "bad", fix: fixer => fixer.replaceText(node, "5") });
@@ -1235,6 +1239,73 @@ describe("RuleTester", () => {
                 invalid: [{ code: "foo", errors: [{ data: "something" }] }]
             });
         }, "Error must specify 'messageId' if 'data' is used.");
+    });
+
+    // fixable rules with or without `meta` property
+    it("should not throw an error if a rule that has `meta.fixable` produces fixes", () => {
+        const replaceProgramWith5Rule = {
+            meta: {
+                fixable: "code"
+            },
+            create(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad", fix: fixer => fixer.replaceText(node, "5") });
+                    }
+                };
+            }
+        };
+
+        ruleTester.run("replaceProgramWith5", replaceProgramWith5Rule, {
+            valid: [],
+            invalid: [
+                { code: "var foo = bar;", output: "5", errors: 1 }
+            ]
+        });
+    });
+    it("should throw an error if a new-format rule that doesn't have `meta` produces fixes", () => {
+        const replaceProgramWith5Rule = {
+            create(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad", fix: fixer => fixer.replaceText(node, "5") });
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("replaceProgramWith5", replaceProgramWith5Rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", output: "5", errors: 1 }
+                ]
+            });
+        }, "Fixable rules should export a `meta.fixable` property.");
+    });
+    it("should throw an error if a legacy-format rule produces fixes", () => {
+
+        /**
+         * Legacy-format rule (a function instead of an object with `create` method).
+         * @param {RuleContext} context The ESLint rule context object.
+         * @returns {Object} Listeners.
+         */
+        function replaceProgramWith5Rule(context) {
+            return {
+                Program(node) {
+                    context.report({ node, message: "bad", fix: fixer => fixer.replaceText(node, "5") });
+                }
+            };
+        }
+
+        assert.throws(() => {
+            ruleTester.run("replaceProgramWith5", replaceProgramWith5Rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", output: "5", errors: 1 }
+                ]
+            });
+        }, "Fixable rules should export a `meta.fixable` property.");
     });
 
     describe("suggestions", () => {
