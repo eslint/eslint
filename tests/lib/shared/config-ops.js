@@ -9,7 +9,6 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    leche = require("leche"),
     util = require("util"),
     ConfigOps = require("../../../lib/shared/config-ops");
 
@@ -199,7 +198,7 @@ describe("ConfigOps", () => {
 
     describe("isError()", () => {
 
-        leche.withData([
+        [
             ["error", true],
             ["Error", true],
             [2, true],
@@ -209,7 +208,7 @@ describe("ConfigOps", () => {
             [["error", "foo"], true],
             [["eRror", "bar"], true],
             [[2, "baz"], true]
-        ], (input, expected) => {
+        ].forEach(([input, expected]) => {
 
             it(`should return ${expected}when passed ${input}`, () => {
                 const result = ConfigOps.isErrorSeverity(input);
