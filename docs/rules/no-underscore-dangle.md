@@ -29,7 +29,7 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-underscore-dangle: "error"*/
 
-var _ = require("underscore");
+var _ = require('underscore');
 var obj = _.contains(items, item);
 obj.__proto__ = {};
 var file = __filename;
