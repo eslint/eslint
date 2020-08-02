@@ -65,12 +65,8 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "class foo { onClick_() { } }", options: [{ enforceInMethodNames: true }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "onClick_" }, type: "MethodDefinition" }] },
         { code: "const o = { _onClick() { } }", options: [{ enforceInMethodNames: true }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_onClick" }, type: "Property" }] },
         { code: "const o = { onClick_() { } }", options: [{ enforceInMethodNames: true }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "onClick_" }, type: "Property" }] },
-        { code: "this.constructor._bar", errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "MemberExpression" }] }
-
-        /*
-         * { code: "function foo(_bar) {}", errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "FunctionDeclaration" }] },
-         *  { code: "function foo(_bar) {}", errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "FunctionDeclaration" }] },
-         *  { code: "function foo(_bar) {}", options: [{ allowFunctionParams: false }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "FunctionDeclaration" }] }
-         */
+        { code: "this.constructor._bar", errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "MemberExpression" }] },
+        { code: "function foo(_bar) {}", errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "FunctionDeclaration" }] },
+        { code: "function foo(_bar) {}", options: [{ allowFunctionParams: false }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "FunctionDeclaration" }] }
     ]
 });
