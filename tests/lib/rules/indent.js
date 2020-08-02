@@ -5724,6 +5724,64 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { MemberExpression: 2 }],
             parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+const foo = async (arg1,
+                   arg2) =>
+{
+  return arg1 + arg2;
+}
+    `,
+            options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
+        },
+        {
+            code: unIndent`
+const foo = (arg1,
+             arg2) => async (arr1,
+                             arr2) =>
+{
+  return arg1 + arg2;
+}
+    `,
+            options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
+        },
+        {
+            code: unIndent`
+const foo = async (arg1,
+  arg2) =>
+{
+  return arg1 + arg2;
+}
+    `,
+            options: [2]
+        },
+        {
+            code: unIndent`
+const foo = async (arg1,
+        arg2) =>
+{
+  return arg1 + arg2;
+}
+    `,
+            options: [2, { FunctionDeclaration: { parameters: 4 }, FunctionExpression: { parameters: 4 } }]
+        },
+        {
+            code: unIndent`
+const foo = (arg1,
+        arg2) =>
+{
+  return arg1 + arg2;
+}
+    `,
+            options: [2, { FunctionDeclaration: { parameters: 4 }, FunctionExpression: { parameters: 4 } }]
+        },
+        {
+            code: unIndent`
+async function fn(ar1,
+                  ar2){}
+    `,
+            options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
         }
     ],
 
@@ -11472,6 +11530,27 @@ ruleTester.run("indent", rule, {
             errors: expectedErrors([
                 [6, 4, 0, "Punctuator"],
                 [7, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+const foo = async (arg1,
+                    arg2) =>
+{
+  return arg1 + arg2;
+}
+            `,
+            output: unIndent`
+const foo = async (arg1,
+                   arg2) =>
+{
+  return arg1 + arg2;
+}
+            `,
+            options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: expectedErrors([
+                [2, 19, 20, "Identifier"]
             ])
         }
     ]
