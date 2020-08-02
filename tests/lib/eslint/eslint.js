@@ -16,7 +16,6 @@ const os = require("os");
 const path = require("path");
 const escapeStringRegExp = require("escape-string-regexp");
 const fCache = require("file-entry-cache");
-const leche = require("leche");
 const sinon = require("sinon");
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 const shell = require("shelljs");
@@ -4427,8 +4426,10 @@ describe("ESLint", () => {
         });
 
         it("should call fs.writeFile() for each result with output", async () => {
-            const fakeFS = leche.fake(fs);
-            const spy = fakeFS.writeFile = sinon.spy(callLastArgument);
+            const fakeFS = {
+                writeFile: sinon.spy(callLastArgument)
+            };
+            const spy = fakeFS.writeFile;
             const localESLint = proxyquire("../../../lib/eslint/eslint", {
                 fs: fakeFS
             }).ESLint;
@@ -4451,8 +4452,10 @@ describe("ESLint", () => {
         });
 
         it("should call fs.writeFile() for each result with output and not at all for a result without output", async () => {
-            const fakeFS = leche.fake(fs);
-            const spy = fakeFS.writeFile = sinon.spy(callLastArgument);
+            const fakeFS = {
+                writeFile: sinon.spy(callLastArgument)
+            };
+            const spy = fakeFS.writeFile;
             const localESLint = proxyquire("../../../lib/eslint/eslint", {
                 fs: fakeFS
             }).ESLint;
