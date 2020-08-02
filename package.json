@@ -49,6 +49,7 @@
     "@babel/code-frame": "^7.0.0",
     "ajv": "^6.10.0",
     "chalk": "^4.0.0",
+    "ci-job-number": "^1.2.2",
     "cross-spawn": "^7.0.2",
     "debug": "^4.0.1",
     "doctrine": "^3.0.0",

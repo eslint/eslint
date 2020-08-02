@@ -138,6 +138,15 @@ ${message}`);
         return;
     }
 
+    if (require("ci-job-number")() > 1) {
+        console.warn(
+            "To speed up CI ESLint runs only in first job.\n" +
+            "Set CI_JOB_NUMBER=1 environment variable if you need " +
+            "to call ESLint for all job."
+        );
+        return;
+    }
+
     // Otherwise, call the CLI.
     process.exitCode = await require("../lib/cli").execute(
         process.argv,
