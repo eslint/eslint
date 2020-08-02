@@ -125,7 +125,7 @@ function foo (_bar) {}
 
 const foo = function onClick (_bar) {}
 
-const foo = (_bar) {};
+const foo = (_bar) => {};
 ```
 
 ## When Not To Use It
