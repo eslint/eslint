@@ -29,7 +29,7 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-underscore-dangle: "error"*/
 
-var _ = require('underscore');
+var _ = require("underscore");
 var obj = _.contains(items, item);
 obj.__proto__ = {};
 var file = __filename;
@@ -39,11 +39,12 @@ var file = __filename;
 
 This rule has an object option:
 
-* `"allow"` allows specified identifiers to have dangling underscores
-* `"allowAfterThis": false` (default) disallows dangling underscores in members of the `this` object
-* `"allowAfterSuper": false` (default) disallows dangling underscores in members of the `super` object
-* `"allowAfterThisConstructor": false` (default) disallows dangling underscores in members of the `this.constructor` object
-* `"enforceInMethodNames": false` (default) allows dangling underscores in method names
+-   `"allow"` allows specified identifiers to have dangling underscores
+-   `"allowAfterThis": false` (default) disallows dangling underscores in members of the `this` object
+-   `"allowAfterSuper": false` (default) disallows dangling underscores in members of the `super` object
+-   `"allowAfterThisConstructor": false` (default) disallows dangling underscores in members of the `this.constructor` object
+-   `"enforceInMethodNames": false` (default) allows dangling underscores in method names
+-   `"allowFunctionParams": false` (default) disallows dangling underscores in first letter of function parameter name
 
 ### allow
 
@@ -111,6 +112,20 @@ const o = {
 const o = {
   bar_() = {}
 };
+```
+
+### allowFunctionParams
+
+Examples of **correct** code for this rule with the `{ "allowFunctionParams": true }` option:
+
+```js
+/*eslint no-underscore-dangle: ["error", { "allowFunctionParams": true }]*/
+
+function foo (_bar) {}
+
+const foo = function onClick (_bar) {}
+
+const foo = (_bar) {};
 ```
 
 ## When Not To Use It
