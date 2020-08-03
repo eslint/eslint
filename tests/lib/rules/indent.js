@@ -5737,6 +5737,19 @@ const foo = async (arg1,
         },
         {
             code: unIndent`
+const a = async b => {}
+    `,
+            options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
+        },
+        {
+            code: unIndent`
+const a = async
+b => {}
+`,
+            options: [2]
+        },
+        {
+            code: unIndent`
 const foo = (arg1,
              arg2) => async (arr1,
                              arr2) =>
@@ -11551,6 +11564,20 @@ const foo = async (arg1,
             parserOptions: { ecmaVersion: 2020 },
             errors: expectedErrors([
                 [2, 19, 20, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+const a = async
+ b => {}
+`,
+            output: unIndent`
+const a = async
+b => {}
+`,
+            options: [2],
+            errors: expectedErrors([
+                [2, 0, 1, "Identifier"]
             ])
         }
     ]
