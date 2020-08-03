@@ -26,7 +26,9 @@ ruleTester.run("no-underscore-dangle", rule, {
         "console.log(__filename); console.log(__dirname);",
         "var _ = require('underscore');",
         "var a = b._;",
-        "function foo(bar) {}",
+        "function foo(_bar) {}",
+        { code: "const foo = { onClick(_bar) { } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "const foo = (_bar) => {}", parserOptions: { ecmaVersion: 6 } },
         { code: "export default function() {}", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "var _foo = 1", options: [{ allow: ["_foo"] }] },
         { code: "var __proto__ = 1;", options: [{ allow: ["__proto__"] }] },
@@ -68,11 +70,8 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "const o = { _onClick() { } }", options: [{ enforceInMethodNames: true }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_onClick" }, type: "Property" }] },
         { code: "const o = { onClick_() { } }", options: [{ enforceInMethodNames: true }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "onClick_" }, type: "Property" }] },
         { code: "this.constructor._bar", errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "MemberExpression" }] },
-        { code: "function foo(_bar) {}", errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "FunctionDeclaration" }] },
         { code: "function foo(_bar) {}", options: [{ allowFunctionParams: false }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "FunctionDeclaration" }] },
         { code: "const foo = { onClick(_bar) { } }", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "FunctionExpression" }] },
-        { code: "const foo = (_bar) => {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "ArrowFunctionExpression" }] },
-        { code: "const foo = { onClick(_bar) { } }", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "FunctionExpression" }] },
-        { code: "const foo = (_bar) => {}", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "ArrowFunctionExpression" }] }
+        { code: "const foo = (_bar) => {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "ArrowFunctionExpression" }] }
     ]
 });
