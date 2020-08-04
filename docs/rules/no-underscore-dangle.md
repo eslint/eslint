@@ -33,6 +33,9 @@ var _ = require('underscore');
 var obj = _.contains(items, item);
 obj.__proto__ = {};
 var file = __filename;
+function foo(_bar) {};
+const foo = { onClick(_bar) {} };
+const foo = (_bar) => {};
 ```
 
 ## Options
@@ -44,7 +47,7 @@ This rule has an object option:
 -   `"allowAfterSuper": false` (default) disallows dangling underscores in members of the `super` object
 -   `"allowAfterThisConstructor": false` (default) disallows dangling underscores in members of the `this.constructor` object
 -   `"enforceInMethodNames": false` (default) allows dangling underscores in method names
--   `"allowFunctionParams": false` (default) disallows dangling underscores in first letter of function parameter name
+-   `"allowFunctionParams": false` (default) disallows dangling underscores in function parameter names
 
 ### allow
 
@@ -116,10 +119,10 @@ const o = {
 
 ### allowFunctionParams
 
-Examples of **correct** code for this rule with the `{ "allowFunctionParams": true }` option:
+Examples of **incorrect** code for this rule with the `{ "allowFunctionParams": false }` option:
 
 ```js
-/*eslint no-underscore-dangle: ["error", { "allowFunctionParams": true }]*/
+/*eslint no-underscore-dangle: ["error", { "allowFunctionParams": false }]*/
 
 function foo (_bar) {}
 
