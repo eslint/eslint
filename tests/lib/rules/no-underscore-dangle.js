@@ -53,7 +53,10 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "const foo = { onClick(bar) { } }", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 } },
         { code: "const foo = (bar) => {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 } },
         { code: "function foo({ _bar }) {}", options: [{ allowFunctionParams: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo([ _bar ]) {}", options: [{ allowFunctionParams: true }], parserOptions: { ecmaVersion: 6 } }
+        { code: "function foo([ _bar ]) {}", options: [{ allowFunctionParams: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo(_bar) {}", options: [{ allowFunctionParams: false, allow: ["_bar"] }] },
+        { code: "const foo = { onClick(_bar) { } }", options: [{ allowFunctionParams: false, allow: ["_bar"] }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const foo = (_bar) => {}", options: [{ allowFunctionParams: false, allow: ["_bar"] }], parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         { code: "var _foo = 1", errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_foo" }, type: "VariableDeclarator" }] },
