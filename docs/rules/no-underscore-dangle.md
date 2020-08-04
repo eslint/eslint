@@ -47,7 +47,7 @@ This rule has an object option:
 -   `"allowAfterSuper": false` (default) disallows dangling underscores in members of the `super` object
 -   `"allowAfterThisConstructor": false` (default) disallows dangling underscores in members of the `this.constructor` object
 -   `"enforceInMethodNames": false` (default) allows dangling underscores in method names
--   `"allowFunctionParams": false` (default) disallows dangling underscores in function parameter names
+-   `"allowFunctionParams": true` (default) disallows dangling underscores in function parameter names parameter name
 
 ### allow
 
