@@ -206,6 +206,11 @@ Toru Nagashima
 <img src="https://github.com/kaicataldo.png?s=75" width="75" height="75"><br />
 Kai Cataldo
 </a>
+</td><td align="center" valign="top" width="11%">
+<a href="https://github.com/mdjermanovic">
+<img src="https://github.com/mdjermanovic.png?s=75" width="75" height="75"><br />
+Milos Djermanovic
+</a>
 </td></tr></tbody></table>
 
 
@@ -217,11 +222,6 @@ The people who review and implement new features.
 <a href="https://github.com/aladdin-add">
 <img src="https://github.com/aladdin-add.png?s=75" width="75" height="75"><br />
 薛定谔的猫
-</a>
-</td><td align="center" valign="top" width="11%">
-<a href="https://github.com/mdjermanovic">
-<img src="https://github.com/mdjermanovic.png?s=75" width="75" height="75"><br />
-Milos Djermanovic
 </a>
 </td></tr></tbody></table>
 
@@ -236,6 +236,11 @@ The people who review and fix bugs and help triage issues.
 <a href="https://github.com/g-plane">
 <img src="https://github.com/g-plane.png?s=75" width="75" height="75"><br />
 Pig Fang
+</a>
+</td><td align="center" valign="top" width="11%">
+<a href="https://github.com/anikethsaha">
+<img src="https://github.com/anikethsaha.png?s=75" width="75" height="75"><br />
+Anix
 </a>
 </td><td align="center" valign="top" width="11%">
 <a href="https://github.com/yeonjuan">
