@@ -5737,7 +5737,17 @@ const foo = async (arg1,
         },
         {
             code: unIndent`
-const a = async b => {}
+const foo = async /* some comments */(arg1,
+                                      arg2) =>
+{
+  return arg1 + arg2;
+}
+    `,
+            options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
+        },
+        {
+            code: unIndent`
+const a = async /*comments */b => {}
     `,
             options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
         },
@@ -5771,6 +5781,16 @@ const foo = async (arg1,
         },
         {
             code: unIndent`
+const foo = async /*comments*/(arg1,
+  arg2) =>
+{
+  return arg1 + arg2;
+}
+    `,
+            options: [2]
+        },
+        {
+            code: unIndent`
 const foo = async (arg1,
         arg2) =>
 {
@@ -5793,6 +5813,13 @@ const foo = (arg1,
             code: unIndent`
 async function fn(ar1,
                   ar2){}
+    `,
+            options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
+        },
+        {
+            code: unIndent`
+async function /* some comments */ fn(ar1,
+                                      ar2){}
     `,
             options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
         }
