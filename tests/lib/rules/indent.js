@@ -5822,6 +5822,13 @@ async function /* some comments */ fn(ar1,
                                       ar2){}
     `,
             options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
+        },
+        {
+            code: unIndent`
+async  /* some comments */  function fn(ar1,
+                                        ar2){}
+    `,
+            options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
         }
     ],
 
