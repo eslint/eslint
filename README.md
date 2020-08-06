@@ -132,6 +132,40 @@ In other cases (including if rules need to warn on more or fewer cases due to ne
 
 Once a language feature has been adopted into the ECMAScript standard (stage 4 according to the [TC39 process](https://tc39.github.io/process-document/)), we will accept issues and pull requests related to the new feature, subject to our [contributing guidelines](https://eslint.org/docs/developer-guide/contributing). Until then, please use the appropriate parser and plugin(s) for your experimental feature.
 
+### `eslint --init` needs a `package.json` but I don't want to create one.  What do do?
+
+Just use this `.eslintrc` or a variation thereof:
+```javascript
+module.exports = {
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "ecmaVersion": 2018
+    },
+    "rules": {
+        "indent": [
+            "error",
+            4
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
+    }
+};
+```
+
 ### Where to ask for help?
 
 Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](https://eslint.org/chat).
