@@ -181,18 +181,18 @@ ruleTester.run("no-warning-comments", rule, {
             code: "/* any block comment with (TODO, FIXME's or XXX!) */",
             options: [{ location: "anywhere" }],
             errors: [
-                { messageId: "unexpectedComment", data: { type: "todo", comment: "any block comment with (TODO, FIXME's or XXX!)" } },
-                { messageId: "unexpectedComment", data: { type: "fixme", comment: "any block comment with (TODO, FIXME's or XXX!)" } },
-                { messageId: "unexpectedComment", data: { type: "xxx", comment: "any block comment with (TODO, FIXME's or XXX!)" } }
+                { messageId: "unexpectedComment", data: { type: "todo", comment: "any block comment with (TODO, FIXME's or..." } },
+                { messageId: "unexpectedComment", data: { type: "fixme", comment: "any block comment with (TODO, FIXME's or..." } },
+                { messageId: "unexpectedComment", data: { type: "xxx", comment: "any block comment with (TODO, FIXME's or..." } }
             ]
         },
         {
             code: "/** \n *any block comment \n*with (TODO, FIXME's or XXX!) **/",
             options: [{ location: "anywhere" }],
             errors: [
-                { messageId: "unexpectedComment", data: { type: "todo", comment: "* *any block comment *with (TODO, FIXME's or..." } },
-                { messageId: "unexpectedComment", data: { type: "fixme", comment: "* *any block comment *with (TODO, FIXME's or..." } },
-                { messageId: "unexpectedComment", data: { type: "xxx", comment: "* *any block comment *with (TODO, FIXME's or..." } }
+                { messageId: "unexpectedComment", data: { type: "todo", comment: "* *any block comment *with (TODO, FIXME's..." } },
+                { messageId: "unexpectedComment", data: { type: "fixme", comment: "* *any block comment *with (TODO, FIXME's..." } },
+                { messageId: "unexpectedComment", data: { type: "xxx", comment: "* *any block comment *with (TODO, FIXME's..." } }
             ]
         },
         {
@@ -227,7 +227,7 @@ ruleTester.run("no-warning-comments", rule, {
                     messageId: "unexpectedComment",
                     data: {
                         type: "todo",
-                        comment: "TODO: something really longer than 40..."
+                        comment: "TODO: something really longer than 40 and..."
                     }
                 }
             ]
