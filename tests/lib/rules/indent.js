@@ -5727,107 +5727,101 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
-const foo = async (arg1,
-                   arg2) =>
-{
-  return arg1 + arg2;
-}
+                const foo = async (arg1,
+                                   arg2) =>
+                {
+                  return arg1 + arg2;
+                }
     `,
             options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
         },
         {
             code: unIndent`
-const foo = async /* some comments */(arg1,
-                                      arg2) =>
-{
-  return arg1 + arg2;
-}
+                const foo = async /* some comments */(arg1,
+                                                      arg2) =>
+                {
+                  return arg1 + arg2;
+                }
     `,
             options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
         },
         {
             code: unIndent`
-const a = async /*comments */b => {}
-    `,
-            options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
-        },
-        {
-            code: unIndent`
-const a = async
-b => {}
-`,
+                const a = async
+                b => {}
+                `,
             options: [2]
         },
         {
             code: unIndent`
-const foo = (arg1,
-             arg2) => async (arr1,
-                             arr2) =>
-{
-  return arg1 + arg2;
-}
-    `,
+                const foo = (arg1,
+                             arg2) => async (arr1,
+                                             arr2) =>
+                {
+                  return arg1 + arg2;
+                }
+                    `,
             options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
         },
         {
             code: unIndent`
-const foo = async (arg1,
-  arg2) =>
-{
-  return arg1 + arg2;
-}
-    `,
+                const foo = async (arg1,
+                  arg2) =>
+                {
+                  return arg1 + arg2;
+                }
+                    `,
             options: [2]
         },
         {
             code: unIndent`
-const foo = async /*comments*/(arg1,
-  arg2) =>
-{
-  return arg1 + arg2;
-}
-    `,
+                const foo = async /*comments*/(arg1,
+                  arg2) =>
+                {
+                  return arg1 + arg2;
+                }
+                    `,
             options: [2]
         },
         {
             code: unIndent`
-const foo = async (arg1,
-        arg2) =>
-{
-  return arg1 + arg2;
-}
-    `,
+                const foo = async (arg1,
+                        arg2) =>
+                {
+                  return arg1 + arg2;
+                }
+                    `,
             options: [2, { FunctionDeclaration: { parameters: 4 }, FunctionExpression: { parameters: 4 } }]
         },
         {
             code: unIndent`
-const foo = (arg1,
-        arg2) =>
-{
-  return arg1 + arg2;
-}
-    `,
+                const foo = (arg1,
+                        arg2) =>
+                {
+                  return arg1 + arg2;
+                }
+                    `,
             options: [2, { FunctionDeclaration: { parameters: 4 }, FunctionExpression: { parameters: 4 } }]
         },
         {
             code: unIndent`
-async function fn(ar1,
-                  ar2){}
-    `,
+                async function fn(ar1,
+                                  ar2){}
+                    `,
             options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
         },
         {
             code: unIndent`
-async function /* some comments */ fn(ar1,
-                                      ar2){}
-    `,
+                async function /* some comments */ fn(ar1,
+                                                      ar2){}
+                    `,
             options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
         },
         {
             code: unIndent`
-async  /* some comments */  function fn(ar1,
-                                        ar2){}
-    `,
+                async  /* some comments */  function fn(ar1,
+                                                        ar2){}
+                    `,
             options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
         }
     ],
