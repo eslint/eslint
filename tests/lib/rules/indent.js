@@ -11600,8 +11600,8 @@ ruleTester.run("indent", rule, {
                  b => {}
             `,
             output: unIndent`
-            const a = async
-            b => {}
+                const a = async
+                b => {}
             `,
             options: [2],
             errors: expectedErrors([
