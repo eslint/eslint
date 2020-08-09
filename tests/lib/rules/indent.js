@@ -5732,7 +5732,7 @@ ruleTester.run("indent", rule, {
                 {
                   return arg1 + arg2;
                 }
-    `,
+            `,
             options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
         },
         {
@@ -5742,14 +5742,14 @@ ruleTester.run("indent", rule, {
                 {
                   return arg1 + arg2;
                 }
-    `,
+            `,
             options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
         },
         {
             code: unIndent`
                 const a = async
                 b => {}
-                `,
+            `,
             options: [2]
         },
         {
@@ -5760,7 +5760,7 @@ ruleTester.run("indent", rule, {
                 {
                   return arg1 + arg2;
                 }
-                    `,
+            `,
             options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
         },
         {
@@ -5770,7 +5770,7 @@ ruleTester.run("indent", rule, {
                 {
                   return arg1 + arg2;
                 }
-                    `,
+            `,
             options: [2]
         },
         {
@@ -5780,7 +5780,7 @@ ruleTester.run("indent", rule, {
                 {
                   return arg1 + arg2;
                 }
-                    `,
+            `,
             options: [2]
         },
         {
@@ -5790,7 +5790,7 @@ ruleTester.run("indent", rule, {
                 {
                   return arg1 + arg2;
                 }
-                    `,
+            `,
             options: [2, { FunctionDeclaration: { parameters: 4 }, FunctionExpression: { parameters: 4 } }]
         },
         {
@@ -5800,28 +5800,28 @@ ruleTester.run("indent", rule, {
                 {
                   return arg1 + arg2;
                 }
-                    `,
+            `,
             options: [2, { FunctionDeclaration: { parameters: 4 }, FunctionExpression: { parameters: 4 } }]
         },
         {
             code: unIndent`
                 async function fn(ar1,
                                   ar2){}
-                    `,
+            `,
             options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
         },
         {
             code: unIndent`
                 async function /* some comments */ fn(ar1,
                                                       ar2){}
-                    `,
+            `,
             options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
         },
         {
             code: unIndent`
                 async  /* some comments */  function fn(ar1,
                                                         ar2){}
-                    `,
+            `,
             options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
         }
     ],
@@ -11575,18 +11575,18 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
-const foo = async (arg1,
-                    arg2) =>
-{
-  return arg1 + arg2;
-}
+                const foo = async (arg1,
+                                    arg2) =>
+                {
+                  return arg1 + arg2;
+                }
             `,
             output: unIndent`
-const foo = async (arg1,
-                   arg2) =>
-{
-  return arg1 + arg2;
-}
+                const foo = async (arg1,
+                                   arg2) =>
+                {
+                  return arg1 + arg2;
+                }
             `,
             options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }],
             parserOptions: { ecmaVersion: 2020 },
@@ -11596,13 +11596,13 @@ const foo = async (arg1,
         },
         {
             code: unIndent`
-const a = async
- b => {}
-`,
+                const a = async
+                 b => {}
+            `,
             output: unIndent`
-const a = async
-b => {}
-`,
+            const a = async
+            b => {}
+            `,
             options: [2],
             errors: expectedErrors([
                 [2, 0, 1, "Identifier"]
