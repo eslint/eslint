@@ -44,6 +44,7 @@
     "guard-for-in": "suggestion",
     "handle-callback-err": "suggestion",
     "id-blacklist": "suggestion",
+    "id-denylist": "suggestion",
     "id-length": "suggestion",
     "id-match": "suggestion",
     "implicit-arrow-linebreak": "layout",

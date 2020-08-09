@@ -187,7 +187,6 @@ describe("cli", () => {
         });
     });
 
-
     describe("when given a config with environment set to Node.js", () => {
         it("should execute without any errors", async () => {
             const configPath = getFixturePath("configurations", "env-node.json");
@@ -1161,58 +1160,4 @@ describe("cli", () => {
         });
     });
 
-    describe("testing the cloned config", () => {
-        describe("config file and input file", () => {
-            it("should not modify original configuration object", async () => {
-                const configPath = getFixturePath("config-file", "cloned-config", "eslintConfig.js");
-                const filePath = getFixturePath("config-file", "cloned-config", "index.js");
-                const args = `--config ${configPath} ${filePath}`;
-
-                const exit = await cli.execute(args);
-
-                assert.strictEqual(exit, 0);
-            });
-        });
-
-        describe("config file and input file", () => {
-            it("should exit with 1 as camelcase has wrong property type", async () => {
-                const configPath = getFixturePath("config-file", "cloned-config", "eslintConfigFail.js");
-                const filePath = getFixturePath("config-file", "cloned-config", "index.js");
-                const args = `--config ${configPath} ${filePath}`;
-
-                try {
-                    await cli.execute(args);
-                } catch (error) {
-                    assert.strictEqual(/Configuration for rule "camelcase" is invalid:/u.test(error), true);
-                }
-
-            });
-        });
-
-        describe("inline config and input file", () => {
-            it("should not modify original configuration object", async () => {
-                const filePath = getFixturePath("config-file", "cloned-config", "inlineText.js");
-                const args = `${filePath}`;
-
-                const exit = await cli.execute(args);
-
-                assert.strictEqual(exit, 0);
-            });
-        });
-
-    });
-
-    describe("handling circular reference while cloning", () => {
-        it("should handle circular ref", async () => {
-            const configPath = getFixturePath("config-file", "cloned-config", "circularRefEslintConfig.js");
-            const filePath = getFixturePath("config-file", "cloned-config", "index.js");
-            const args = `--config ${configPath} ${filePath}`;
-
-            try {
-                await cli.execute(args);
-            } catch (error) {
-                assert.instanceOf(error, Error);
-            }
-        });
-    });
 });

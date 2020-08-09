@@ -17,7 +17,7 @@ const rule = require("../../../lib/rules/id-blacklist"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
-const error = { messageId: "blacklisted", type: "Identifier" };
+const error = { messageId: "restricted", type: "Identifier" };
 
 ruleTester.run("id-blacklist", rule, {
     valid: [
@@ -272,7 +272,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["bar"],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
-                messageId: "blacklisted",
+                messageId: "restricted",
                 data: { name: "bar" },
                 type: "Identifier",
                 column: 17
@@ -283,7 +283,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["foo", "bar"],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
-                messageId: "blacklisted",
+                messageId: "restricted",
                 data: { name: "bar" },
                 type: "Identifier",
                 column: 17
@@ -294,7 +294,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["foo"],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
-                messageId: "blacklisted",
+                messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 17
@@ -305,7 +305,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["foo"],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
-                messageId: "blacklisted",
+                messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 10
@@ -316,7 +316,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["foo"],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
-                messageId: "blacklisted",
+                messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 22
@@ -327,7 +327,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["foo"],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
-                messageId: "blacklisted",
+                messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 8
@@ -338,7 +338,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["bar"],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
-                messageId: "blacklisted",
+                messageId: "restricted",
                 data: { name: "bar" },
                 type: "Identifier",
                 column: 26
@@ -350,13 +350,13 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 5
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 19
@@ -369,7 +369,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 5
@@ -377,7 +377,7 @@ ruleTester.run("id-blacklist", rule, {
 
                 // reports each occurrence of local identifier, although it's renamed in this export specifier
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 19
@@ -390,19 +390,19 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 5
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 19
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 26
@@ -415,19 +415,19 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 5
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 19
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "bar" },
                     type: "Identifier",
                     column: 26
@@ -447,7 +447,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["bar"],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
-                messageId: "blacklisted",
+                messageId: "restricted",
                 data: { name: "bar" },
                 type: "Identifier",
                 column: 17
@@ -458,7 +458,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["foo", "bar"],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
-                messageId: "blacklisted",
+                messageId: "restricted",
                 data: { name: "bar" },
                 type: "Identifier",
                 column: 17
@@ -469,7 +469,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["foo"],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
-                messageId: "blacklisted",
+                messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 17
@@ -480,7 +480,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["foo"],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
-                messageId: "blacklisted",
+                messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 10
@@ -491,7 +491,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["foo"],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
-                messageId: "blacklisted",
+                messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 22
@@ -508,7 +508,7 @@ ruleTester.run("id-blacklist", rule, {
             code: "foo[bar] = baz;",
             options: ["bar"],
             errors: [{
-                messageId: "blacklisted",
+                messageId: "restricted",
                 data: { name: "bar" },
                 type: "Identifier"
             }]
@@ -517,7 +517,7 @@ ruleTester.run("id-blacklist", rule, {
             code: "baz = foo[bar];",
             options: ["bar"],
             errors: [{
-                messageId: "blacklisted",
+                messageId: "restricted",
                 data: { name: "bar" },
                 type: "Identifier"
             }]
@@ -633,7 +633,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 8
@@ -646,7 +646,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "bar" },
                     type: "Identifier",
                     column: 13
@@ -659,13 +659,13 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 9
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "bar" },
                     type: "Identifier",
                     column: 15
@@ -678,7 +678,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "baz" },
                     type: "Identifier",
                     column: 19
@@ -691,13 +691,13 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "bar" },
                     type: "Identifier",
                     column: 15
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "baz" },
                     type: "Identifier",
                     column: 21
@@ -710,19 +710,19 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 9
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "bar" },
                     type: "Identifier",
                     column: 17
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "baz" },
                     type: "Identifier",
                     column: 23
@@ -735,7 +735,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "baz" },
                     type: "Identifier",
                     column: 21
@@ -748,7 +748,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "qux" },
                     type: "Identifier",
                     column: 27
@@ -761,7 +761,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "bar" },
                     type: "Identifier",
                     column: 12
@@ -774,7 +774,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "baz" },
                     type: "Identifier",
                     column: 24
@@ -787,13 +787,13 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 4
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "bar" },
                     type: "Identifier",
                     column: 14
@@ -806,7 +806,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "bar" },
                     type: "Identifier",
                     column: 17
@@ -819,7 +819,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "bar" },
                     type: "Identifier",
                     column: 10
@@ -832,7 +832,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "baz" },
                     type: "Identifier",
                     column: 18
@@ -845,7 +845,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "bar" },
                     type: "Identifier",
                     column: 10
@@ -858,7 +858,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "bar" },
                     type: "Identifier",
                     column: 11
@@ -871,7 +871,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "bar" },
                     type: "Identifier",
                     column: 17
@@ -884,7 +884,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "bar" },
                     type: "Identifier",
                     column: 19
@@ -897,7 +897,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 9 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "bar" },
                     type: "Identifier",
                     column: 10
@@ -910,7 +910,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "bar" },
                     type: "Identifier",
                     column: 7
@@ -923,7 +923,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "bar" },
                     type: "Identifier",
                     column: 8
@@ -937,7 +937,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["undefined"],
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "undefined" },
                     type: "Identifier"
                 }
@@ -948,7 +948,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["undefined"],
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "undefined" },
                     type: "Identifier"
                 }
@@ -959,7 +959,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["undefined"],
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "undefined" },
                     type: "Identifier",
                     column: 13
@@ -972,7 +972,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "Number" },
                     type: "Identifier"
                 }
@@ -984,7 +984,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "Number" },
                     type: "Identifier"
                 }
@@ -996,13 +996,13 @@ ruleTester.run("id-blacklist", rule, {
             globals: { myGlobal: "readonly" },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "myGlobal" },
                     type: "Identifier",
                     column: 1
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "myGlobal" },
                     type: "Identifier",
                     column: 30
@@ -1017,13 +1017,13 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 7
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 22
@@ -1036,13 +1036,13 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 5
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 10
@@ -1054,13 +1054,13 @@ ruleTester.run("id-blacklist", rule, {
             options: ["foo"],
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 7
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 16
@@ -1072,13 +1072,13 @@ ruleTester.run("id-blacklist", rule, {
             options: ["foo"],
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 10
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "foo" },
                     type: "Identifier",
                     column: 29
@@ -1091,13 +1091,13 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "Foo" },
                     type: "Identifier",
                     column: 7
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "Foo" },
                     type: "Identifier",
                     column: 24
@@ -1112,13 +1112,13 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "undefined" },
                     type: "Identifier",
                     column: 5
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "undefined" },
                     type: "Identifier",
                     column: 16
@@ -1130,13 +1130,13 @@ ruleTester.run("id-blacklist", rule, {
             options: ["undefined"],
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "undefined" },
                     type: "Identifier",
                     column: 7
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "undefined" },
                     type: "Identifier",
                     column: 22
@@ -1148,13 +1148,13 @@ ruleTester.run("id-blacklist", rule, {
             options: ["undefined"],
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "undefined" },
                     type: "Identifier",
                     column: 10
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "undefined" },
                     type: "Identifier",
                     column: 28
@@ -1167,13 +1167,13 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "Number" },
                     type: "Identifier",
                     column: 7
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "Number" },
                     type: "Identifier",
                     column: 21
@@ -1182,8 +1182,8 @@ ruleTester.run("id-blacklist", rule, {
         },
 
         /*
-         * Assignment to a property with a blacklisted name isn't allowed, in general.
-         * In this case, that restriction prevents creating a global variable with a blacklisted name.
+         * Assignment to a property with a restricted name isn't allowed, in general.
+         * In this case, that restriction prevents creating a global variable with a restricted name.
          */
         {
             code: "/* globals myGlobal */ window.myGlobal = 5; foo = myGlobal;",
@@ -1191,7 +1191,7 @@ ruleTester.run("id-blacklist", rule, {
             env: { browser: true },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "myGlobal" },
                     type: "Identifier",
                     column: 31
@@ -1206,7 +1206,7 @@ ruleTester.run("id-blacklist", rule, {
             globals: { undefined: "off" },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "undefined" },
                     type: "Identifier"
                 }
@@ -1217,7 +1217,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["Number"],
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "Number" },
                     type: "Identifier"
                 }
@@ -1228,7 +1228,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["Map"],
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "Map" },
                     type: "Identifier"
                 }
@@ -1242,13 +1242,13 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "undefined" },
                     type: "Identifier",
                     column: 16
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "undefined" },
                     type: "Identifier",
                     column: 33
@@ -1260,13 +1260,13 @@ ruleTester.run("id-blacklist", rule, {
             options: ["Number"],
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "Number" },
                     type: "Identifier",
                     column: 14
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "Number" },
                     type: "Identifier",
                     column: 32
@@ -1279,13 +1279,13 @@ ruleTester.run("id-blacklist", rule, {
             globals: { myGlobal: "readonly" },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "myGlobal" },
                     type: "Identifier",
                     column: 22
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "myGlobal" },
                     type: "Identifier",
                     column: 36
@@ -1298,13 +1298,13 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "Number" },
                     type: "Identifier",
                     column: 28
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "Number" },
                     type: "Identifier",
                     column: 58
@@ -1317,13 +1317,13 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "Number" },
                     type: "Identifier",
                     column: 8
                 },
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "Number" },
                     type: "Identifier",
                     column: 44
@@ -1335,21 +1335,21 @@ ruleTester.run("id-blacklist", rule, {
             options: ["undefined"],
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "undefined" },
                     type: "Identifier"
                 }
             ]
         },
 
-        // this is a reference to a global variable, but at the same time creates a property with a blacklisted name
+        // this is a reference to a global variable, but at the same time creates a property with a restricted name
         {
             code: "var foo = { undefined }",
             options: ["undefined"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "blacklisted",
+                    messageId: "restricted",
                     data: { name: "undefined" },
                     type: "Identifier"
                 }

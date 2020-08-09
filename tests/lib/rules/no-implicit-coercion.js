@@ -355,6 +355,28 @@ ruleTester.run("no-implicit-coercion", rule, {
                 data: { recommendation: "String(1n)" },
                 type: "BinaryExpression"
             }]
+        },
+
+        // Optional chaining
+        {
+            code: "~foo?.indexOf(1)",
+            output: null,
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "foo?.indexOf(1) >= 0" },
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "~(foo?.indexOf)(1)",
+            output: null,
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "(foo?.indexOf)(1) !== -1" },
+                type: "UnaryExpression"
+            }]
         }
     ]
 });

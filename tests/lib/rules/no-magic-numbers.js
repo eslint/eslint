@@ -238,6 +238,25 @@ ruleTester.run("no-magic-numbers", rule, {
             code: "var one, two; [one = 1, two = 2] = []",
             options: [{ ignoreDefaultValues: true }],
             env: { es6: true }
+        },
+
+        // Optional chaining
+        {
+            code: "var x = parseInt?.(y, 10);",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "var x = Number?.parseInt(y, 10);",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "var x = (Number?.parseInt)(y, 10);",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "foo?.[777]",
+            options: [{ ignoreArrayIndexes: true }],
+            parserOptions: { ecmaVersion: 2020 }
         }
     ],
     invalid: [

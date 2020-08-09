@@ -341,7 +341,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 86, maxLength: 80 },
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 30
                 }
             ]
         },
@@ -354,7 +356,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 24, maxLength: 10 },
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 25
                 }
             ]
         },
@@ -367,7 +371,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 22, maxLength: 15 },
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 14
                 }
             ]
         },
@@ -380,14 +386,18 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 22, maxLength: 15 },
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 14
                 },
                 {
                     messageId: "max",
                     data: { lineLength: 22, maxLength: 15 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 14
                 }
             ]
         },
@@ -400,7 +410,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 56, maxLength: 20 },
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 57
                 }
             ]
         },
@@ -415,7 +427,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 54, maxLength: 20 },
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 55
                 }
             ]
         },
@@ -428,7 +442,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 30, maxLength: 10 },
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 31
                 }
             ]
         },
@@ -441,7 +457,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 62, maxLength: 40 },
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 63
                 }
             ]
         },
@@ -454,7 +472,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 57, maxLength: 40 },
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 58
                 }
             ]
         }, {
@@ -466,7 +486,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 53, maxLength: 40 },
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 54
                 }
             ]
         }, {
@@ -478,7 +500,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 49, maxCommentLength: 20 },
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 50
                 }
             ]
         }, {
@@ -490,7 +514,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 119, maxCommentLength: 80 },
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 120
                 }
             ]
         }, {
@@ -502,7 +528,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 49, maxLength: 20 },
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 50
                 }
             ]
         }, {
@@ -514,7 +542,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 73, maxLength: 40 },
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 74
                 }
             ]
         },
@@ -531,7 +561,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 29, maxCommentLength: 28 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 30
                 }
             ]
         }, {
@@ -545,7 +577,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 33, maxCommentLength: 32 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 34
                 }
             ]
         }, {
@@ -560,14 +594,18 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 29, maxCommentLength: 28 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 30
                 },
                 {
                     messageId: "maxComment",
                     data: { lineLength: 32, maxCommentLength: 28 },
                     type: "Program",
                     line: 3,
-                    column: 1
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 33
                 }
             ]
         }, {
@@ -582,14 +620,18 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 33, maxCommentLength: 32 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 34
                 },
                 {
                     messageId: "maxComment",
                     data: { lineLength: 36, maxCommentLength: 32 },
                     type: "Program",
                     line: 3,
-                    column: 1
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 37
                 }
             ]
         }, {
@@ -604,14 +646,18 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 40, maxLength: 39 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 41
                 },
                 {
                     messageId: "maxComment",
                     data: { lineLength: 36, maxCommentLength: 35 },
                     type: "Program",
                     line: 3,
-                    column: 1
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 37
                 }
             ]
         }, {
@@ -626,14 +672,18 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 33, maxCommentLength: 32 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 34
                 },
                 {
                     messageId: "max",
                     data: { lineLength: 43, maxLength: 42 },
                     type: "Program",
                     line: 3,
-                    column: 1
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 44
                 }
             ]
         },
@@ -649,7 +699,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 51, maxLength: 20 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 52
                 }
             ]
         },
@@ -664,7 +716,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 39, maxLength: 29 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 40
                 }
             ]
         },
@@ -677,7 +731,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 45, maxLength: 29 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 46
                 }
             ]
         },
@@ -690,7 +746,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 57, maxLength: 29 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 58
                 }
             ]
         },
@@ -703,7 +761,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 39, maxLength: 29 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 40
                 }
             ]
         },
@@ -717,7 +777,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 39, maxLength: 29 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 40
                 }
             ]
         },
@@ -731,14 +793,18 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 37, maxLength: 29 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 38
                 },
                 {
                     messageId: "max",
                     data: { lineLength: 44, maxLength: 29 },
                     type: "Program",
                     line: 3,
-                    column: 1
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 45
                 }
             ]
         },
@@ -752,7 +818,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 58, maxLength: 29 },
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 59
                 }
             ]
         },
@@ -767,7 +835,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 12, maxLength: 10 },
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 21
                 }
             ]
         },
@@ -781,7 +851,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 1, maxLength: 0 },
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 2
                 }
             ]
         },
@@ -799,7 +871,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 38, maxCommentLength: 37 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 39
                 }
             ]
         },
@@ -815,7 +889,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 44, maxCommentLength: 40 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 39
                 }
             ]
         },
@@ -831,7 +907,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 38, maxLength: 15 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 39
                 }
             ]
         },
@@ -847,7 +925,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 38, maxLength: 37 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 39
                 }
             ]
         },
@@ -863,7 +943,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 38, maxLength: 37 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 39
                 }
             ]
         },
@@ -879,7 +961,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 50, maxLength: 49 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 51
                 }
             ]
         },
@@ -896,7 +980,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 44, maxLength: 37 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 45
                 }
             ]
         },
@@ -912,7 +998,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 57, maxLength: 56 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 58
                 }
             ]
         },
@@ -928,7 +1016,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 57, maxLength: 56 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 58
                 }
             ]
         },
@@ -944,7 +1034,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 56, maxLength: 55 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 57
                 }
             ]
         },
@@ -961,7 +1053,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 51, maxLength: 30 },
                     type: "Program",
                     line: 3,
-                    column: 1
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 52
                 }
             ]
         },
@@ -978,7 +1072,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 80, maxLength: 79 },
                     type: "Program",
                     line: 3,
-                    column: 1
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 81
                 }
             ]
         },
@@ -994,7 +1090,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 87, maxLength: 85 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 88
                 }
             ]
         },
@@ -1011,7 +1109,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 87, maxLength: 37 },
                     type: "Program",
                     line: 3,
-                    column: 1
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 88
                 }
             ]
         },
@@ -1028,7 +1128,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 119, maxLength: 37 },
                     type: "Program",
                     line: 3,
-                    column: 1
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 120
                 }
             ]
         },
@@ -1045,7 +1147,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 55, maxLength: 37 },
                     type: "Program",
                     line: 3,
-                    column: 1
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 56
                 }
             ]
         },
@@ -1062,7 +1166,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 55, maxLength: 37 },
                     type: "Program",
                     line: 3,
-                    column: 1
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 56
                 }
             ]
         },
@@ -1079,7 +1185,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 15, maxLength: 14 },
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 16
                 }
             ]
         },
@@ -1096,7 +1204,9 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 31, maxLength: 30 },
                     type: "Program",
                     line: 3,
-                    column: 1
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 32
                 }
             ]
         }

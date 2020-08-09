@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/prefer-numeric-literals"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
 
 ruleTester.run("prefer-numeric-literals", rule, {
     valid: [
@@ -318,6 +318,33 @@ ruleTester.run("prefer-numeric-literals", rule, {
             code: "parseInt('11', 2)//comment\n;",
             output: "0b11//comment\n;",
             errors: 1
+        },
+
+        // Optional chaining
+        {
+            code: "parseInt?.(\"1F7\", 16) === 255;",
+            output: "0x1F7 === 255;",
+            errors: [{ message: "Use hexadecimal literals instead of parseInt()." }]
+        },
+        {
+            code: "Number?.parseInt(\"1F7\", 16) === 255;",
+            output: "0x1F7 === 255;",
+            errors: [{ message: "Use hexadecimal literals instead of Number?.parseInt()." }]
+        },
+        {
+            code: "Number?.parseInt?.(\"1F7\", 16) === 255;",
+            output: "0x1F7 === 255;",
+            errors: [{ message: "Use hexadecimal literals instead of Number?.parseInt()." }]
+        },
+        {
+            code: "(Number?.parseInt)(\"1F7\", 16) === 255;",
+            output: "0x1F7 === 255;",
+            errors: [{ message: "Use hexadecimal literals instead of Number?.parseInt()." }]
+        },
+        {
+            code: "(Number?.parseInt)?.(\"1F7\", 16) === 255;",
+            output: "0x1F7 === 255;",
+            errors: [{ message: "Use hexadecimal literals instead of Number?.parseInt()." }]
         }
     ]
 });

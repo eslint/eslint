@@ -1906,6 +1906,28 @@ ruleTester.run("computed-property-spacing", rule, {
                     endColumn: 19
                 }
             ]
+        },
+
+        // Optional chaining
+        {
+            code: "obj?.[1];",
+            output: "obj?.[ 1 ];",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "missingSpaceAfter", data: { tokenValue: "[" } },
+                { messageId: "missingSpaceBefore", data: { tokenValue: "]" } }
+            ]
+        },
+        {
+            code: "obj?.[ 1 ];",
+            output: "obj?.[1];",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "unexpectedSpaceAfter", data: { tokenValue: "[" } },
+                { messageId: "unexpectedSpaceBefore", data: { tokenValue: "]" } }
+            ]
         }
     ]
 });

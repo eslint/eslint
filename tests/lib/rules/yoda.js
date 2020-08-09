@@ -288,6 +288,11 @@ ruleTester.run("yoda", rule, {
             code: "if('a' <= x && x < MAX) {}",
             options: ["never", { exceptRange: true }]
         },
+        {
+            code: "if (0 <= obj?.a && obj?.a < 1) {}",
+            options: ["never", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
 
         // onlyEquality
         {

@@ -136,6 +136,68 @@ ruleTester.run("dot-location", rule, {
         {
             code: "(\na &&\nb()\n).toString()",
             options: ["object"]
+        },
+
+        // Optional chaining
+        {
+            code: "obj?.prop",
+            options: ["object"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "obj?.[key]",
+            options: ["object"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "obj?.\nprop",
+            options: ["object"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "obj\n?.[key]",
+            options: ["object"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "obj?.\n[key]",
+            options: ["object"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "obj?.[\nkey]",
+            options: ["object"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "obj?.prop",
+            options: ["property"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "obj?.[key]",
+            options: ["property"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "obj\n?.prop",
+            options: ["property"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "obj\n?.[key]",
+            options: ["property"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "obj?.\n[key]",
+            options: ["property"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "obj?.[\nkey]",
+            options: ["property"],
+            parserOptions: { ecmaVersion: 2020 }
         }
     ],
     invalid: [
@@ -255,6 +317,29 @@ ruleTester.run("dot-location", rule, {
             output: "(5).\ntoExponential()",
             options: ["object"],
             errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }]
+        },
+
+        // Optional chaining
+        {
+            code: "obj\n?.prop",
+            output: "obj?.\nprop",
+            options: ["object"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedDotAfterObject" }]
+        },
+        {
+            code: "10\n?.prop",
+            output: "10?.\nprop",
+            options: ["object"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedDotAfterObject" }]
+        },
+        {
+            code: "obj?.\nprop",
+            output: "obj\n?.prop",
+            options: ["property"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedDotBeforeProperty" }]
         }
     ]
 });
