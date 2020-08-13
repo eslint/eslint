@@ -149,27 +149,32 @@ ESLint takes security seriously. We work hard to ensure that ESLint is safe for 
 ESLint follows [semantic versioning](https://semver.org). However, due to the nature of ESLint as a code quality tool, it's not always clear when a minor or major version bump occurs. To help clarify this for everyone, we've defined the following semantic versioning policy for ESLint:
 
 * Patch release (intended to not break your lint build)
-    * A bug fix in a rule that results in ESLint reporting fewer errors.
+    * A bug fix in a rule that results in ESLint reporting fewer linting errors.
     * A bug fix to the CLI or core (including formatters).
     * Improvements to documentation.
     * Non-user-facing changes such as refactoring code, adding, deleting, or modifying tests, and increasing test coverage.
     * Re-releasing after a failed release (i.e., publishing a release that doesn't work for anyone).
 * Minor release (might break your lint build)
-    * A bug fix in a rule that results in ESLint reporting more errors.
+    * A bug fix in a rule that results in ESLint reporting more linting errors.
     * A new rule is created.
-    * A new option to an existing rule that does not result in ESLint reporting more errors by default.
+    * A new option to an existing rule that does not result in ESLint reporting more linting errors by default.
     * An existing rule is deprecated.
     * A new CLI capability is created.
     * New capabilities to the public API are added (new classes, new methods, new arguments to existing methods, etc.).
     * A new formatter is created.
-    * `eslint:recommended` is updated and will result in strictly fewer errors (e.g., rule removals).
+    * `eslint:recommended` is updated and will result in strictly fewer linting errors (e.g., rule removals).
 * Major release (likely to break your lint build)
-    * `eslint:recommended` is updated and may result in new errors (e.g., rule additions, most rule option updates).
-    * A new option to an existing rule that results in ESLint reporting more errors by default.
+    * `eslint:recommended` is updated and may result in new linting errors (e.g., rule additions, most rule option updates).
+    * A new option to an existing rule that results in ESLint reporting more linting errors by default.
     * An existing formatter is removed.
-    * Part of the public API is removed or changed in an incompatible way.
+    * Part of the public API is removed or changed in an incompatible way. The public API includes:
+        * Rule schemas
+        * Configuration schema
+        * Command-line options
+        * Node.js API
+        * Rule, formatter, parser, plugin formats
 
-According to our policy, any minor update may report more errors than the previous release (ex: from a bug fix). As such, we recommend using the tilde (`~`) in `package.json` e.g. `"eslint": "~3.1.0"` to guarantee the results of your builds.
+According to our policy, any minor update may report more linting errors than the previous release (ex: from a bug fix). As such, we recommend using the tilde (`~`) in `package.json` e.g. `"eslint": "~3.1.0"` to guarantee the results of your builds.
 
 ## <a name="license"></a>License
 
