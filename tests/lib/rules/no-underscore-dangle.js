@@ -27,6 +27,9 @@ ruleTester.run("no-underscore-dangle", rule, {
         "var _ = require('underscore');",
         "var a = b._;",
         "function foo(_bar) {}",
+        "function foo(bar_) {}",
+        "(function _foo() {})",
+        { code: "function foo(_bar) {}", options: [{}] },
         { code: "function foo( _bar = 0) {}", parserOptions: { ecmaVersion: 6 } },
         { code: "const foo = { onClick(_bar) { } }", parserOptions: { ecmaVersion: 6 } },
         { code: "const foo = { onClick(_bar = 0) { } }", parserOptions: { ecmaVersion: 6 } },
@@ -61,7 +64,12 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "const foo = (bar) => {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 } },
         { code: "function foo(_bar) {}", options: [{ allowFunctionParams: false, allow: ["_bar"] }] },
         { code: "const foo = { onClick(_bar) { } }", options: [{ allowFunctionParams: false, allow: ["_bar"] }], parserOptions: { ecmaVersion: 6 } },
-        { code: "const foo = (_bar) => {}", options: [{ allowFunctionParams: false, allow: ["_bar"] }], parserOptions: { ecmaVersion: 6 } }
+        { code: "const foo = (_bar) => {}", options: [{ allowFunctionParams: false, allow: ["_bar"] }], parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo([_bar]) {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo([_bar] = []) {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo( { _bar }) {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo( { _bar = 0 } = {}) {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo(...[_bar]) {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 2016 } }
     ],
     invalid: [
         { code: "var _foo = 1", errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_foo" }, type: "VariableDeclarator" }] },
@@ -79,6 +87,8 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "const o = { onClick_() { } }", options: [{ enforceInMethodNames: true }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "onClick_" }, type: "Property" }] },
         { code: "this.constructor._bar", errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "MemberExpression" }] },
         { code: "function foo(_bar) {}", options: [{ allowFunctionParams: false }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "Identifier" }] },
+        { code: "(function foo(_bar) {})", options: [{ allowFunctionParams: false }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "Identifier" }] },
+        { code: "function foo(bar, _foo) {}", options: [{ allowFunctionParams: false }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_foo" }, type: "Identifier" }] },
         { code: "const foo = { onClick(_bar) { } }", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "Identifier" }] },
         { code: "const foo = (_bar) => {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "Identifier" }] },
         { code: "function foo(_bar = 0) {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "AssignmentPattern" }] },
@@ -87,6 +97,7 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "function foo(..._bar) {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "RestElement" }] },
         { code: "const foo = { onClick(..._bar) { } }", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "RestElement" }] },
         { code: "const foo = (..._bar) => {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "RestElement" }] }
+
 
     ]
 });

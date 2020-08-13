@@ -125,10 +125,16 @@ Examples of **incorrect** code for this rule with the `{ "allowFunctionParams": 
 /*eslint no-underscore-dangle: ["error", { "allowFunctionParams": false }]*/
 
 function foo (_bar) {}
+function foo (_bar = 0) {}
+function foo (..._bar) {}
 
 const foo = function onClick (_bar) {}
+const foo = function onClick (_bar = 0) {}
+const foo = function onClick (..._bar) {}
 
 const foo = (_bar) => {};
+const foo = (_bar = 0) => {};
+const foo = (...bar) => {};
 ```
 
 ## When Not To Use It
