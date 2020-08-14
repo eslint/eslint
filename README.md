@@ -172,7 +172,7 @@ ESLint follows [semantic versioning](https://semver.org). However, due to the na
         * Configuration schema
         * Command-line options
         * Node.js API
-        * Rule, formatter, parser, plugin formats
+        * Rule, formatter, parser, plugin APIs
 
 According to our policy, any minor update may report more linting errors than the previous release (ex: from a bug fix). As such, we recommend using the tilde (`~`) in `package.json` e.g. `"eslint": "~3.1.0"` to guarantee the results of your builds.
 
