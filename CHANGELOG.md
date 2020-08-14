@@ -1,3 +1,23 @@
+v7.7.0 - August 14, 2020
+
+* [`b46f3ee`](https://github.com/eslint/eslint/commit/b46f3ee0dae4add9df99cae940b641ad8de58b9e) Update: allowFunctionParams option in no-underscore-dangle (fixes 12579) (#13545) (Sunghyun Cho)
+* [`26aa245`](https://github.com/eslint/eslint/commit/26aa2452b5f407fabc25dad21182180e4d3be532) Docs: clarify "case" specifier in padding-line-between-statements (#13562) (Milos Djermanovic)
+* [`082891c`](https://github.com/eslint/eslint/commit/082891c042d72953fe86cd3ce9c96e661760793d) Docs: Update semantic versioning policy (#13563) (Nicholas C. Zakas)
+* [`4e0b672`](https://github.com/eslint/eslint/commit/4e0b672eb4bf39f7502a550b08b25a56a196f19f) Fix: revert "Update: disallow multiple options in comma-dangle schema" (#13564) (Kai Cataldo)
+* [`254990e`](https://github.com/eslint/eslint/commit/254990e87914457ca25ea2d7ee012964e56fc9e5) Fix: indent for async arrow functions (fixes #13497) (#13544) (Anix)
+* [`28ca339`](https://github.com/eslint/eslint/commit/28ca339259b07c96c73f2ef28cbf112b96395855) Sponsors: Sync README with website (ESLint Jenkins)
+* [`2e4158d`](https://github.com/eslint/eslint/commit/2e4158d3ec9cfed6400bf70795fd7171e96ff9b3) Sponsors: Sync README with website (ESLint Jenkins)
+* [`488d159`](https://github.com/eslint/eslint/commit/488d1595aef43c4d52cccdb2c97977884f0375a8) Sponsors: Sync README with website (ESLint Jenkins)
+* [`c44306e`](https://github.com/eslint/eslint/commit/c44306e52778309a79232ceab8b55a9aa0f2dfda) Sponsors: Sync README with website (ESLint Jenkins)
+* [`6677180`](https://github.com/eslint/eslint/commit/6677180495e16a02d150d0552e7e5d5f6b77fcc5) Sponsors: Sync README with website (ESLint Jenkins)
+* [`07db7b8`](https://github.com/eslint/eslint/commit/07db7b8080c2f68ee28e7d447db356c33e6fddce) Sponsors: Sync README with website (ESLint Jenkins)
+* [`d4ce4d3`](https://github.com/eslint/eslint/commit/d4ce4d3b8492c3e4654ed1f51f2c48e6c0ad272f) Sponsors: Sync README with website (ESLint Jenkins)
+* [`284e954`](https://github.com/eslint/eslint/commit/284e954f93126c50e0aa9b88f42afb03a47ad967) Sponsors: Sync README with website (ESLint Jenkins)
+* [`ae9b54e`](https://github.com/eslint/eslint/commit/ae9b54e59b01aa9f50ee31f5b6787d86e6b59de6) Sponsors: Sync README with website (ESLint Jenkins)
+* [`9124a15`](https://github.com/eslint/eslint/commit/9124a1599638a1caf4b7e252d1cb66abdc5e51c6) Chore: remove leche (fixes #13287) (#13533) (Mark de Dios)
+* [`5c4c7f5`](https://github.com/eslint/eslint/commit/5c4c7f515c2e8e83f2186a66ddce75d6477abeb0) Sponsors: Sync README with website (ESLint Jenkins)
+* [`48d8ec8`](https://github.com/eslint/eslint/commit/48d8ec8cf320c69aed17c6b6c78f19e7c1e587ca) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.6.0 - July 31, 2020
 
 * [`ecb2b73`](https://github.com/eslint/eslint/commit/ecb2b7343a0d14fb57d297a16be6c1b176fb3dbf) Update: require `meta` for fixable rules in RuleTester (refs #13349) (#13489) (Milos Djermanovic)
