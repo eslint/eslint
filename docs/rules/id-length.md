@@ -82,6 +82,7 @@ This rule has an object option:
 * `"properties": always` (default) enforces identifier length convention for property names
 * `"properties": never` ignores identifier length convention for property names
 * `"exceptions"` allows an array of specified identifier names
+* `"exceptionPatterns"` allows an array of identifiers matching the pattern.
 
 ### min
 
@@ -215,6 +216,29 @@ try {
 var [x] = arr;
 const { x } = foo;
 const { a: x } = foo;
+```
+
+### exceptionPatterns
+
+Examples of additional **correct** code for this rule with the `{ "exceptionPatterns": ["^x_", "_send$"] }` option:
+
+```js
+/*eslint id-length: ["error", { "exceptionPatterns": ["^x_", "_send$"] }]*/
+/*eslint-env es6*/
+
+var x_value = 5;
+function longFunction_send() { return 42; }
+obj.x_longName = document.body;
+var foo = function (x_value) { /* do stuff */ };
+try {
+    dangerousStuff();
+} catch (x_value) {
+    // ignore as many do
+}
+(x_value) => {return x_value * x_value};
+var [x_value] = arr;
+const { x_value } = foo;
+const { a: x_value } = foo;
 ```
 
 ## Related Rules
