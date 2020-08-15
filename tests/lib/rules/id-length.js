@@ -448,6 +448,20 @@ ruleTester.run("id-length", rule, {
             errors: [
                 tooLongError
             ]
+        },
+        {
+            code: "function NOTMATCHED_send() {};",
+            options: [{ min: 3, max: 5, exceptionPatterns: ["^BEFORE_"] }],
+            errors: [
+                tooLongError
+            ]
+        },
+        {
+            code: "function N() {};",
+            options: [{ min: 3, max: 5, exceptionPatterns: ["^BEFORE_"] }],
+            errors: [
+                tooShortError
+            ]
         }
     ]
 });
