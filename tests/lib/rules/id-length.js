@@ -77,7 +77,8 @@ ruleTester.run("id-length", rule, {
         { code: "var {x} = foo;", options: [{ properties: "never" }], parserOptions: { ecmaVersion: 6 } },
         { code: "var {x, y: {z}} = foo;", options: [{ properties: "never" }], parserOptions: { ecmaVersion: 6 } },
         { code: "let foo = { [a]: 1 };", options: [{ properties: "always" }], parserOptions: { ecmaVersion: 6 } },
-        { code: "let foo = { [a + b]: 1 };", options: [{ properties: "always" }], parserOptions: { ecmaVersion: 6 } }
+        { code: "let foo = { [a + b]: 1 };", options: [{ properties: "always" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "function BEFORE_send() {};", options: [{ min: 3, max: 5, exceptionPatterns: ["^BEFORE_"] }], parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         { code: "var x = 1;", errors: [tooShortError] },
@@ -439,6 +440,14 @@ ruleTester.run("id-length", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
+            ]
+        },
+        {
+            code: "function BEFORE_send() {};",
+            options: [{ min: 3, max: 5 }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                tooLongError
             ]
         }
     ]
