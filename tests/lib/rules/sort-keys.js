@@ -163,7 +163,53 @@ ruleTester.run("sort-keys", rule, {
         { code: "var obj = {è:4, À:3, 'Z':2, '#':1}", options: ["desc", { natural: true, caseSensitive: false }] },
 
         // desc, natural, insensitive, minKeys should ignore unsorted keys when number of keys is less than minKeys
-        { code: "var obj = {a:1, _:2, b:3}", options: ["desc", { natural: true, caseSensitive: false, minKeys: 4 }] }
+        { code: "var obj = {a:1, _:2, b:3}", options: ["desc", { natural: true, caseSensitive: false, minKeys: 4 }] },
+
+        // allowLineSeparatedGroups, default false
+        {
+            code: `
+                var obj = {
+                    f: 1,
+                    g: 2,
+
+
+                    a: 3,
+                    b: 4,
+                    c: 5,
+
+                    d: 6,
+                    e: 7
+                }
+            `,
+            options: ["asc", { allowLineSeparatedGroups: true }]
+        },
+        {
+            code: `
+                var obj = {
+                    b: 1,
+                    c: 2,
+
+                    a: 3
+                }
+            `,
+            options: ["asc", { allowLineSeparatedGroups: true }]
+        },
+        {
+            code: `
+                var obj = {
+                    c: 1,
+                    d: 2,
+
+                    a: 3,
+                    b() {
+
+                    },
+                    e: 4
+                }
+            `,
+            options: ["asc", { allowLineSeparatedGroups: true }],
+            parserOptions: { ecmaVersion: 6 }
+        }
     ],
     invalid: [
 
@@ -1758,6 +1804,28 @@ ruleTester.run("sort-keys", rule, {
                         order: "desc",
                         thisName: "b",
                         prevName: "_"
+                    }
+                }
+            ]
+        },
+
+        // If allowLineSeparatedGroups option is false, Groups are not divided by line breaks.
+        {
+            code: `
+                var obj = {
+                    b: 1,
+                    c: 2,
+
+                    a: 3
+                }
+            `,
+            options: ["asc", { allowLineSeparatedGroups: false }],
+            errors: [
+                {
+                    messageId: "allowLineSeparatedGroups",
+                    data: {
+                        thisName: "a",
+                        prevName: "c"
                     }
                 }
             ]
