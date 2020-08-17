@@ -33,10 +33,11 @@ This rule is aimed to flag shorter notations for the type conversion, then sugge
 
 This rule has three main options and one override option to allow some coercions as required.
 
-* `"boolean"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `boolean` type.
-* `"number"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `number` type.
-* `"string"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `string` type.
-* `"allow"` (`empty` by default) - Each entry in this array can be one of `~`, `!!`, `+` or `*` that are to be allowed.
+-   `"boolean"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `boolean` type.
+-   `"number"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `number` type.
+-   `"string"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `string` type.
+-   `"templateString"` (`false` by default) - When this is `true`, this rule warns shorter type conversions using template strings.
+-   `"allow"` (`empty` by default) - Each entry in this array can be one of `~`, `!!`, `+` or `*` that are to be allowed.
 
 Note that operator `+` in `allow` list would allow `+foo` (number coercion) as well as `"" + foo` (string coercion).
 
@@ -104,6 +105,24 @@ Examples of **correct** code for the default `{ "string": true }` option:
 
 var s = String(foo);
 foo = String(foo);
+```
+
+### templateString
+
+Examples of **incorrect** code for the default `{ "templateString": true }` option:
+
+```js
+/*eslint no-implicit-coercion: "error"*/
+
+`${foo}`;
+```
+
+Examples of **correct** code for the default `{ "templateString": false }` option:
+
+```js
+/*eslint no-implicit-coercion: "error"*/
+
+`${foo}`;
 ```
 
 ### allow
