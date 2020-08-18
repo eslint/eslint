@@ -1822,8 +1822,36 @@ ruleTester.run("sort-keys", rule, {
             options: ["asc", { allowLineSeparatedGroups: false }],
             errors: [
                 {
-                    messageId: "allowLineSeparatedGroups",
+                    messageId: "sortKeys",
                     data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "a",
+                        prevName: "c"
+                    }
+                }
+            ]
+        },
+        {
+            code: `
+                 var obj = {
+                    b: 1,
+                    c () {
+
+                    },
+                    a: 3
+                  }
+             `,
+            options: ["asc", { allowLineSeparatedGroups: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
                         thisName: "a",
                         prevName: "c"
                     }
