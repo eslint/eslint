@@ -219,6 +219,40 @@ ruleTester.run("dot-notation", rule, {
             options: [{ allowKeywords: false }],
             errors: [{ messageId: "useBrackets", data: { key: "if" } }]
         },
+        {
+            code: "5['prop']",
+            output: "5 .prop",
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "-5['prop']",
+            output: "-5 .prop",
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "5_000['prop']",
+            output: "5_000 .prop",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "5_000_00['prop']",
+            output: "5_000_00 .prop",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "5.000_000['prop']",
+            output: "5.000_000.prop",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "0b1010_1010['prop']",
+            output: "0b1010_1010.prop",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
 
         // Optional chaining
         {
