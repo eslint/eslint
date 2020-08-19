@@ -244,6 +244,19 @@ ruleTester.run("no-warning-comments", rule, {
                     }
                 }
             ]
+        },
+        {
+            code: "// TODO: https://github.com/eslint/eslint/pull/13522#discussion_r470293411",
+            options: [{ location: "anywhere" }],
+            errors: [
+                {
+                    messageId: "unexpectedComment",
+                    data: {
+                        matchedTerm: "todo",
+                        comment: "TODO:..."
+                    }
+                }
+            ]
         }
     ]
 });
