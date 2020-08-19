@@ -10,6 +10,7 @@ JavaScript provides shorthand operators that combine variable assignment and som
  x *= y    | x = x * y
  x /= y    | x = x / y
  x %= y    | x = x % y
+ x **= y   | x = x ** y
  x <<= y   | x = x << y
  x >>= y   | x = x >> y
  x >>>= y  | x = x >>> y
