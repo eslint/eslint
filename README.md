@@ -1,10 +1,11 @@
-[![NPM version][npm-image]][npm-url]
-[![Build Status](https://dev.azure.com/eslint/eslint/_apis/build/status/eslint.eslint?branchName=master)](https://dev.azure.com/eslint/eslint/_build/latest?definitionId=1&branchName=master)
+[![NPM version](https://img.shields.io/npm/v/eslint.svg)](https://www.npmjs.com/package/eslint)
+[![Downloads](https://img.shields.io/npm/dm/eslint.svg)](https://www.npmjs.com/package/eslint)
 [![Build Status](https://github.com/eslint/eslint/workflows/CI/badge.svg)](https://github.com/eslint/eslint/actions)
-[![Downloads][downloads-image]][downloads-url]
-[![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=282608)](https://www.bountysource.com/trackers/282608-eslint?utm_source=282608&utm_medium=shield&utm_campaign=TRACKER_BADGE)
-[![Join the chat at https://gitter.im/eslint/eslint](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/eslint/eslint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint?ref=badge_shield)
+<br />
+[![Open Collective Backers](https://img.shields.io/opencollective/backers/eslint)](https://opencollective.com/eslint)
+[![Open Collective Sponsors](https://img.shields.io/opencollective/sponsors/eslint)](https://opencollective.com/eslint)
+[![Follow us on Twitter](https://img.shields.io/twitter/follow/geteslint?label=Follow&style=social)](https://twitter.com/intent/user?screen_name=geteslint)
 
 # ESLint
 
@@ -16,7 +17,7 @@
 [Code of Conduct](https://js.foundation/community/code-of-conduct) |
 [Twitter](https://twitter.com/geteslint) |
 [Mailing List](https://groups.google.com/group/eslint) |
-[Chat Room](https://gitter.im/eslint/eslint)
+[Chat Room](https://eslint.org/chat)
 
 ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code. In many ways, it is similar to JSLint and JSHint with a few exceptions:
 
@@ -32,15 +33,16 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 4. [Filing Issues](#filing-issues)
 5. [Frequently Asked Questions](#faq)
 6. [Releases](#releases)
-7. [Semantic Versioning Policy](#semantic-versioning-policy)
-8. [License](#license)
-9. [Team](#team)
-10. [Sponsors](#sponsors)
-11. [Technology Sponsors](#technology-sponsors)
+7. [Security Policy](#security-policy)
+8. [Semantic Versioning Policy](#semantic-versioning-policy)
+9. [License](#license)
+10. [Team](#team)
+11. [Sponsors](#sponsors)
+12. [Technology Sponsors](#technology-sponsors)
 
 ## <a name="installation-and-usage"></a>Installation and Usage
 
-Prerequisites: [Node.js](https://nodejs.org/) (`^8.10.0`, `^10.13.0`, or `>=11.10.1`) built with SSL support. (If you are using an official Node.js distribution, SSL is always built in.)
+Prerequisites: [Node.js](https://nodejs.org/) (`^10.12.0`, or `>=12.0.0`) built with SSL support. (If you are using an official Node.js distribution, SSL is always built in.)
 
 You can install ESLint using npm:
 
@@ -120,7 +122,7 @@ Yes, ESLint natively supports parsing JSX syntax (this must be enabled in [confi
 
 ### What ECMAScript versions does ESLint support?
 
-ESLint has full support for ECMAScript 3, 5 (default), 2015, 2016, 2017, 2018, and 2019. You can set your desired ECMAScript syntax (and other settings, like global variables or your target environments) through [configuration](https://eslint.org/docs/user-guide/configuring).
+ESLint has full support for ECMAScript 3, 5 (default), 2015, 2016, 2017, 2018, 2019, and 2020. You can set your desired ECMAScript syntax (and other settings, like global variables or your target environments) through [configuration](https://eslint.org/docs/user-guide/configuring).
 
 ### What about experimental features?
 
@@ -132,38 +134,47 @@ Once a language feature has been adopted into the ECMAScript standard (stage 4 a
 
 ### Where to ask for help?
 
-Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](https://gitter.im/eslint/eslint).
+Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](https://eslint.org/chat).
 
 ## <a name="releases"></a>Releases
 
 We have scheduled releases every two weeks on Friday or Saturday. You can follow a [release issue](https://github.com/eslint/eslint/issues?q=is%3Aopen+is%3Aissue+label%3Arelease) for updates about the scheduling of any particular release.
+
+## <a name="security-policy"></a>Security Policy
+
+ESLint takes security seriously. We work hard to ensure that ESLint is safe for everyone and that security issues are addressed quickly and responsibly. Read the full [security policy](https://github.com/eslint/.github/blob/master/SECURITY.md).
 
 ## <a name="semantic-versioning-policy"></a>Semantic Versioning Policy
 
 ESLint follows [semantic versioning](https://semver.org). However, due to the nature of ESLint as a code quality tool, it's not always clear when a minor or major version bump occurs. To help clarify this for everyone, we've defined the following semantic versioning policy for ESLint:
 
 * Patch release (intended to not break your lint build)
-    * A bug fix in a rule that results in ESLint reporting fewer errors.
+    * A bug fix in a rule that results in ESLint reporting fewer linting errors.
     * A bug fix to the CLI or core (including formatters).
     * Improvements to documentation.
     * Non-user-facing changes such as refactoring code, adding, deleting, or modifying tests, and increasing test coverage.
     * Re-releasing after a failed release (i.e., publishing a release that doesn't work for anyone).
 * Minor release (might break your lint build)
-    * A bug fix in a rule that results in ESLint reporting more errors.
+    * A bug fix in a rule that results in ESLint reporting more linting errors.
     * A new rule is created.
-    * A new option to an existing rule that does not result in ESLint reporting more errors by default.
+    * A new option to an existing rule that does not result in ESLint reporting more linting errors by default.
     * An existing rule is deprecated.
     * A new CLI capability is created.
     * New capabilities to the public API are added (new classes, new methods, new arguments to existing methods, etc.).
     * A new formatter is created.
-    * `eslint:recommended` is updated and will result in strictly fewer errors (e.g., rule removals).
+    * `eslint:recommended` is updated and will result in strictly fewer linting errors (e.g., rule removals).
 * Major release (likely to break your lint build)
-    * `eslint:recommended` is updated and may result in new errors (e.g., rule additions, most rule option updates).
-    * A new option to an existing rule that results in ESLint reporting more errors by default.
+    * `eslint:recommended` is updated and may result in new linting errors (e.g., rule additions, most rule option updates).
+    * A new option to an existing rule that results in ESLint reporting more linting errors by default.
     * An existing formatter is removed.
-    * Part of the public API is removed or changed in an incompatible way.
+    * Part of the public API is removed or changed in an incompatible way. The public API includes:
+        * Rule schemas
+        * Configuration schema
+        * Command-line options
+        * Node.js API
+        * Rule, formatter, parser, plugin APIs
 
-According to our policy, any minor update may report more errors than the previous release (ex: from a bug fix). As such, we recommend using the tilde (`~`) in `package.json` e.g. `"eslint": "~3.1.0"` to guarantee the results of your builds.
+According to our policy, any minor update may report more linting errors than the previous release (ex: from a bug fix). As such, we recommend using the tilde (`~`) in `package.json` e.g. `"eslint": "~3.1.0"` to guarantee the results of your builds.
 
 ## <a name="license"></a>License
 
@@ -186,16 +197,6 @@ The people who manage releases, review feature requests, and meet regularly to e
 Nicholas C. Zakas
 </a>
 </td><td align="center" valign="top" width="11%">
-<a href="https://github.com/platinumazure">
-<img src="https://github.com/platinumazure.png?s=75" width="75" height="75"><br />
-Kevin Partington
-</a>
-</td><td align="center" valign="top" width="11%">
-<a href="https://github.com/ilyavolodin">
-<img src="https://github.com/ilyavolodin.png?s=75" width="75" height="75"><br />
-Ilya Volodin
-</a>
-</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/btmills">
 <img src="https://github.com/btmills.png?s=75" width="75" height="75"><br />
 Brandon Mills
@@ -206,14 +207,14 @@ Brandon Mills
 Toru Nagashima
 </a>
 </td><td align="center" valign="top" width="11%">
-<a href="https://github.com/gyandeeps">
-<img src="https://github.com/gyandeeps.png?s=75" width="75" height="75"><br />
-Gyandeep Singh
+<a href="https://github.com/kaicataldo">
+<img src="https://github.com/kaicataldo.png?s=75" width="75" height="75"><br />
+Kai Cataldo
 </a>
 </td><td align="center" valign="top" width="11%">
-<a href="https://github.com/not-an-aardvark">
-<img src="https://github.com/not-an-aardvark.png?s=75" width="75" height="75"><br />
-Teddy Katz
+<a href="https://github.com/mdjermanovic">
+<img src="https://github.com/mdjermanovic.png?s=75" width="75" height="75"><br />
+Milos Djermanovic
 </a>
 </td></tr></tbody></table>
 
@@ -223,11 +224,6 @@ Teddy Katz
 The people who review and implement new features.
 
 <table><tbody><tr><td align="center" valign="top" width="11%">
-<a href="https://github.com/kaicataldo">
-<img src="https://github.com/kaicataldo.png?s=75" width="75" height="75"><br />
-Kai Cataldo
-</a>
-</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/aladdin-add">
 <img src="https://github.com/aladdin-add.png?s=75" width="75" height="75"><br />
 薛定谔的猫
@@ -247,9 +243,14 @@ The people who review and fix bugs and help triage issues.
 Pig Fang
 </a>
 </td><td align="center" valign="top" width="11%">
-<a href="https://github.com/mdjermanovic">
-<img src="https://github.com/mdjermanovic.png?s=75" width="75" height="75"><br />
-Milos Djermanovic
+<a href="https://github.com/anikethsaha">
+<img src="https://github.com/anikethsaha.png?s=75" width="75" height="75"><br />
+Anix
+</a>
+</td><td align="center" valign="top" width="11%">
+<a href="https://github.com/yeonjuan">
+<img src="https://github.com/yeonjuan.png?s=75" width="75" height="75"><br />
+YeonJuan
 </a>
 </td></tr></tbody></table>
 
@@ -263,17 +264,13 @@ The following companies, organizations, and individuals support ESLint's ongoing
 <!-- NOTE: This section is autogenerated. Do not manually edit.-->
 <!--sponsorsstart-->
 <h3>Gold Sponsors</h3>
-<p><a href="https://www.shopify.com"><img src="https://images.opencollective.com/shopify/eeb91aa/logo.png" alt="Shopify" height="96"></a> <a href="http://engineering.salesforce.com"><img src="https://images.opencollective.com/salesforce/ca8f997/logo.png" alt="Salesforce" height="96"></a> <a href="https://badoo.com/team?utm_source=eslint"><img src="https://images.opencollective.com/badoo/2826a3b/logo.png" alt="Badoo" height="96"></a> <a href="https://www.airbnb.com/"><img src="https://images.opencollective.com/airbnb/d327d66/logo.png" alt="Airbnb" height="96"></a> <a href="https://opensource.facebook.com"><img src="https://images.opencollective.com/fbopensource/fbb8a5b/logo.png" alt="Facebook Open Source" height="96"></a></p><h3>Silver Sponsors</h3>
-<p><a href="https://www.ampproject.org/"><img src="https://images.opencollective.com/amp/c8a3b25/logo.png" alt="AMP Project" height="64"></a></p><h3>Bronze Sponsors</h3>
-<p><a href="https://clay.global"><img src="https://images.opencollective.com/clayglobal/2468f34/logo.png" alt="clay" height="32"></a> <a href="https://www.bugsnag.com/platforms?utm_source=Open Collective&utm_medium=Website&utm_content=open-source&utm_campaign=2019-community&utm_term="><img src="https://images.opencollective.com/bugsnag-stability-monitoring/c2cef36/logo.png" alt="Bugsnag Stability Monitoring" height="32"></a> <a href="https://www.codacy.com/?utm_source=eslint&utm_medium=cpm&utm_campaign=eslint-sponsorship"><img src="https://images.opencollective.com/codacy/ed22716/logo.png" alt="Codacy" height="32"></a> <a href="https://mixpanel.com"><img src="https://images.opencollective.com/mixpanel/cd682f7/logo.png" alt="Mixpanel" height="32"></a> <a href="https://www.vpsserver.com"><img src="https://images.opencollective.com/vpsservercom/logo.png" alt="VPS Server" height="32"></a> <a href="https://icons8.com"><img src="https://images.opencollective.com/icons8/0b37d14/logo.png" alt="Free Icons by Icons8" height="32"></a> <a href="https://uxplanet.org/top-ui-ux-design-agencies-user-experience-firms-8c54697e290"><img src="https://images.opencollective.com/ui-ux-design-agencies/cae5dfe/logo.png" alt="UI UX Design Agencies" height="32"></a> <a href="https://www.crosswordsolver.com"><img src="https://images.opencollective.com/crosswordsolver/d4481d6/logo.png" alt="Crosswordsolver" height="32"></a> <a href="https://discordapp.com"><img src="https://images.opencollective.com/discordapp/7e3d9a9/logo.png" alt="Discord" height="32"></a> <a href="https://themeisle.com"><img src="https://images.opencollective.com/themeisle/logo.png" alt="ThemeIsle" height="32"></a> <a href="https://tekhattan.com"><img src="https://images.opencollective.com/tekhattan/bc73c28/logo.png" alt="TekHattan" height="32"></a> <a href="https://www.marfeel.com/"><img src="https://images.opencollective.com/marfeel/4b88e30/logo.png" alt="Marfeel" height="32"></a> <a href="http://www.firesticktricks.com"><img src="https://images.opencollective.com/fire-stick-tricks/b8fbe2c/logo.png" alt="Fire Stick Tricks" height="32"></a> <a href="https://jsheroes.io/"><img src="https://images.opencollective.com/jsheroes1/9fedf0b/logo.png" alt="JSHeroes " height="32"></a></p>
+<p><a href="https://www.salesforce.com"><img src="https://images.opencollective.com/salesforce/ca8f997/logo.png" alt="Salesforce" height="96"></a> <a href="https://www.airbnb.com/"><img src="https://images.opencollective.com/airbnb/d327d66/logo.png" alt="Airbnb" height="96"></a> <a href="https://aka.ms/microsoftfossfund"><img src="https://avatars1.githubusercontent.com/u/67931232?u=7fddc652a464d7151b97e8f108392af7d54fa3e8&v=4" alt="Microsoft FOSS Fund Sponsorships" height="96"></a></p><h3>Silver Sponsors</h3>
+<p><a href="https://liftoff.io/"><img src="https://images.opencollective.com/liftoff/5c4fa84/logo.png" alt="Liftoff" height="64"></a> <a href="https://www.ampproject.org/"><img src="https://images.opencollective.com/amp/c8a3b25/logo.png" alt="AMP Project" height="64"></a></p><h3>Bronze Sponsors</h3>
+<p><a href="https://vpn-review.com/netflix-vpn"><img src="https://images.opencollective.com/vpn-for-netflix/4887627/logo.png" alt="vpn for netflix" height="32"></a> <a href="https://nettikasinolista.com"><img src="https://images.opencollective.com/nettikasinolista/fd361ee/logo.png" alt="Nettikasinolista.com" height="32"></a> <a href="https://www.veikkaajat.com"><img src="https://images.opencollective.com/veikkaajat/b92b427/logo.png" alt="Veikkaajat.com" height="32"></a> <a href="https://www.nettikasinot.media/"><img src="https://images.opencollective.com/nettikasinot-media/2dba7da/logo.png" alt="Nettikasinot.media" height="32"></a> <a href="https://mytruemedia.com/"><img src="https://images.opencollective.com/my-true-media/03e2168/logo.png" alt="My True Media" height="32"></a> <a href="https://www.norgekasino.com"><img src="https://images.opencollective.com/norgekasino/ecfd57a/logo.png" alt="Norgekasino" height="32"></a> <a href="https://www.japanesecasino.com/"><img src="https://images.opencollective.com/japanesecasino/b0ffe3c/logo.png" alt="Japanesecasino" height="32"></a> <a href="https://bruce.agency"><img src="https://images.opencollective.com/brucemade/0c70c59/logo.png" alt="Bruce" height="32"></a> <a href="https://www.casinotop.com/"><img src="https://images.opencollective.com/casinotop-com/10fd95b/logo.png" alt="CasinoTop.com" height="32"></a> <a href="https://www.casinotopp.net/"><img src="https://images.opencollective.com/casino-topp/1dd399a/logo.png" alt="Casino Topp" height="32"></a> <a href="https://writersperhour.com/write-my-essay"><img src="https://images.opencollective.com/writersperhour/5787d4b/logo.png" alt="Writers Per Hour" height="32"></a> <a href="https://www.crosswordsolver.org/anagram-solver/"><img src="https://images.opencollective.com/anagram-solver/2666271/logo.png" alt="Anagram Solver" height="32"></a> <a href="https://www.kasinot.fi"><img src="https://images.opencollective.com/kasinot-fi/e09aa2e/logo.png" alt="Kasinot.fi" height="32"></a> <a href="https://www.pelisivut.com"><img src="https://images.opencollective.com/pelisivut/04f08f2/logo.png" alt="Pelisivut" height="32"></a> <a href="https://www.nettikasinot.org"><img src="https://images.opencollective.com/nettikasinot-org/53a4b44/logo.png" alt="Nettikasinot.org" height="32"></a> <a href="https://www.bonus.com.de/freispiele"><img src="https://images.opencollective.com/bonusfinder-deutschland/646169e/logo.png" alt="BonusFinder Deutschland" height="32"></a> <a href="https://www.bugsnag.com/platforms?utm_source=Open Collective&utm_medium=Website&utm_content=open-source&utm_campaign=2019-community&utm_term="><img src="https://images.opencollective.com/bugsnag-stability-monitoring/c2cef36/logo.png" alt="Bugsnag Stability Monitoring" height="32"></a> <a href="https://mixpanel.com"><img src="https://images.opencollective.com/mixpanel/cd682f7/logo.png" alt="Mixpanel" height="32"></a> <a href="https://www.vpsserver.com"><img src="https://images.opencollective.com/vpsservercom/logo.png" alt="VPS Server" height="32"></a> <a href="https://icons8.com"><img src="https://images.opencollective.com/icons8/6e889f6/logo.png" alt="Icons8: free icons, photos, illustrations, and music" height="32"></a> <a href="https://discordapp.com"><img src="https://images.opencollective.com/discordapp/7e3d9a9/logo.png" alt="Discord" height="32"></a> <a href="https://themeisle.com"><img src="https://images.opencollective.com/themeisle/d5592fe/logo.png" alt="ThemeIsle" height="32"></a> <a href="https://www.marfeel.com/"><img src="https://images.opencollective.com/marfeel/4b88e30/logo.png" alt="Marfeel" height="32"></a> <a href="https://www.firesticktricks.com"><img src="https://images.opencollective.com/fire-stick-tricks/b8fbe2c/logo.png" alt="Fire Stick Tricks" height="32"></a></p>
 <!--sponsorsend-->
 
 ## <a name="technology-sponsors"></a>Technology Sponsors
 
 * Site search ([eslint.org](https://eslint.org)) is sponsored by [Algolia](https://www.algolia.com)
-
-
-[npm-image]: https://img.shields.io/npm/v/eslint.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/eslint
-[downloads-image]: https://img.shields.io/npm/dm/eslint.svg?style=flat-square
-[downloads-url]: https://www.npmjs.com/package/eslint
+* Hosting for ([eslint.org](https://eslint.org)) is sponsored by [Netlify](https://www.netlify.com)
+* Password management is sponsored by [1Password](https://www.1password.com)

@@ -1,8 +1,14 @@
 <!--
+    Thank you for contributing!
+
     ESLint adheres to the [JS Foundation Code of Conduct](https://js.foundation/community/code-of-conduct).
 -->
 
-**What is the purpose of this pull request? (put an "X" next to item)**
+#### Prerequisites checklist
+
+- [ ] I have read the [contributing guidelines](https://github.com/eslint/eslint/blob/master/CONTRIBUTING.md).
+
+#### What is the purpose of this pull request? (put an "X" next to an item)
 
 [ ] Documentation update
 [ ] Bug fix ([template](https://raw.githubusercontent.com/eslint/eslint/master/templates/bug-report.md))
@@ -29,9 +35,7 @@
     The following is required for all pull requests:
 -->
 
-**What changes did you make? (Give an overview)**
+#### What changes did you make? (Give an overview)
 
 
-**Is there anything you'd like reviewers to focus on?**
-
-
+#### Is there anything you'd like reviewers to focus on?

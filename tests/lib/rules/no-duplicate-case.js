@@ -128,6 +128,66 @@ ruleTester.run("no-duplicate-case", rule, {
                     column: 74
                 }
             ]
+        },
+        {
+            code: "var a = 1, p = {p: {p1: 1, p2: 1}}; switch (a) {case p.p.p1: break; case p. p // comment\n .p1: break; default: break;}",
+            errors: [{
+                messageId: "unexpected",
+                type: "SwitchCase",
+                column: 69
+            }]
+        },
+        {
+            code: "var a = 1, p = {p: {p1: 1, p2: 1}}; switch (a) {case p .p\n/* comment */\n.p1: break; case p.p.p1: break; default: break;}",
+            errors: [{
+                messageId: "unexpected",
+                type: "SwitchCase",
+                line: 3,
+                column: 13
+            }]
+        },
+        {
+            code: "var a = 1, p = {p: {p1: 1, p2: 1}}; switch (a) {case p .p\n/* comment */\n.p1: break; case p. p // comment\n .p1: break; default: break;}",
+            errors: [{
+                messageId: "unexpected",
+                type: "SwitchCase",
+                line: 3,
+                column: 13
+            }]
+        },
+        {
+            code: "var a = 1, p = {p: {p1: 1, p2: 1}}; switch (a) {case p.p.p1: break; case p. p // comment\n .p1: break; case p .p\n/* comment */\n.p1: break; default: break;}",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "SwitchCase",
+                    line: 1,
+                    column: 69
+                },
+                {
+                    messageId: "unexpected",
+                    type: "SwitchCase",
+                    line: 2,
+                    column: 14
+                }
+            ]
+        },
+        {
+            code: "var a = 1, f = function(s) { return { p1: s } }; switch (a) {case f(a + 1).p1: break; case f(a+1).p1: break; default: break;}",
+            errors: [{
+                messageId: "unexpected",
+                type: "SwitchCase",
+                column: 87
+            }]
+        },
+        {
+            code: "var a = 1, f = function(s) { return { p1: s } }; switch (a) {case f(\na + 1 // comment\n).p1: break; case f(a+1)\n.p1: break; default: break;}",
+            errors: [{
+                messageId: "unexpected",
+                type: "SwitchCase",
+                line: 3,
+                column: 14
+            }]
         }
     ]
 });

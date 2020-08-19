@@ -218,6 +218,34 @@ ruleTester.run("dot-notation", rule, {
             output: null, // `let["if"]()` is a syntax error because `let[` indicates a destructuring variable declaration
             options: [{ allowKeywords: false }],
             errors: [{ messageId: "useBrackets", data: { key: "if" } }]
+        },
+
+        // Optional chaining
+        {
+            code: "obj?.['prop']",
+            output: "obj?.prop",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "0?.['prop']",
+            output: "0?.prop",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "obj?.true",
+            output: "obj?.[\"true\"]",
+            options: [{ allowKeywords: false }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "useBrackets", data: { key: "true" } }]
+        },
+        {
+            code: "let?.true",
+            output: "let?.[\"true\"]",
+            options: [{ allowKeywords: false }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "useBrackets", data: { key: "true" } }]
         }
     ]
 });

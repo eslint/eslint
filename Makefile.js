@@ -210,6 +210,9 @@ function generateRuleIndexPage() {
             }
         });
 
+    // `.rules` will be `undefined` if all rules in category are deprecated.
+    categoriesData.categories = categoriesData.categories.filter(category => !!category.rules);
+
     const output = yaml.safeDump(categoriesData, { sortKeys: true });
 
     output.to(outputFile);
@@ -560,20 +563,7 @@ target.mocha = () => {
 target.karma = () => {
     echo("Running unit tests on browsers");
 
-    target.webpack();
-
-    const browserFileLintOutput = new CLIEngine({
-        useEslintrc: false,
-        ignore: false,
-        allowInlineConfig: false,
-        baseConfig: { parserOptions: { ecmaVersion: 5 } }
-    }).executeOnFiles([`${BUILD_DIR}/eslint.js`]);
-
-    if (browserFileLintOutput.errorCount > 0) {
-        echo(`error: Failed to lint ${BUILD_DIR}/eslint.js as ES5 code`);
-        echo(CLIEngine.getFormatter("stylish")(browserFileLintOutput.results));
-        exit(1);
-    }
+    target.webpack("production");
 
     const lastReturn = exec(`${getBinFile("karma")} start karma.conf.js`);
 
@@ -626,7 +616,6 @@ target.gensite = function(prereleaseVersion) {
             htmlFullPath = fullPath.replace(".md", ".html");
 
         if (test("-f", fullPath)) {
-
             rm("-rf", fullPath);
 
             if (filePath.indexOf(".md") >= 0 && test("-f", htmlFullPath)) {
@@ -756,7 +745,7 @@ target.gensite = function(prereleaseVersion) {
     echo(`> Updating files (Steps 4-9)${" ".repeat(50)}`);
 
     // 10. Copy temporary directory to site's docs folder
-    echo("> Copying the temporary directory the site (Step 10)");
+    echo("> Copying the temporary directory into the site's docs folder (Step 10)");
     let outputDir = DOCS_DIR;
 
     if (prereleaseVersion) {
@@ -767,25 +756,19 @@ target.gensite = function(prereleaseVersion) {
     }
     cp("-rf", `${TEMP_DIR}*`, outputDir);
 
-    // 11. Generate rule listing page
-    echo("> Generating the rule listing (Step 11)");
-    generateRuleIndexPage();
+    // 11. Generate rules index page
+    if (prereleaseVersion) {
+        echo("> Skipping generating rules index page because this is a prerelease (Step 11)");
+    } else {
+        echo("> Generating the rules index page (Step 11)");
+        generateRuleIndexPage();
+    }
 
     // 12. Delete temporary directory
     echo("> Removing the temporary directory (Step 12)");
     rm("-rf", TEMP_DIR);
 
-    // 13. Update demos, but only for non-prereleases
-    if (!prereleaseVersion) {
-        echo("> Updating the demos (Step 13)");
-        target.webpack("production");
-        cp("-f", "build/eslint.js", `${SITE_DIR}src/js/eslint.js`);
-        cp("-f", "build/espree.js", `${SITE_DIR}src/js/espree.js`);
-    } else {
-        echo("> Skipped updating the demos (Step 13)");
-    }
-
-    // 14. Create Example Formatter Output Page
+    // 13. Create Example Formatter Output Page
     echo("> Creating the formatter examples (Step 14)");
     generateFormatterExamples(getFormatterResults(), prereleaseVersion);
 
@@ -988,7 +971,7 @@ function createConfigForPerformanceTest() {
 function time(cmd, runs, runNumber, results, cb) {
     const start = process.hrtime();
 
-    exec(cmd, { silent: true }, (code, stdout, stderr) => {
+    exec(cmd, { maxBuffer: 64 * 1024 * 1024, silent: true }, (code, stdout, stderr) => {
         const diff = process.hrtime(start),
             actual = (diff[0] * 1e3 + diff[1] / 1e6); // ms
 

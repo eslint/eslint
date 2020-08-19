@@ -51,130 +51,156 @@ ruleTester.run("no-unneeded-ternary", rule, {
             code: "var a = x === 2 ? true : false;",
             output: "var a = x === 2;",
             errors: [{
-                message: "Unnecessary use of boolean literals in conditional expression.",
+                messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 19
+                column: 9,
+                endLine: 1,
+                endColumn: 31
             }]
         },
         {
             code: "var a = x >= 2 ? true : false;",
             output: "var a = x >= 2;",
             errors: [{
-                message: "Unnecessary use of boolean literals in conditional expression.",
+                messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 18
+                column: 9,
+                endLine: 1,
+                endColumn: 30
             }]
         },
         {
             code: "var a = x ? true : false;",
             output: "var a = !!x;",
             errors: [{
-                message: "Unnecessary use of boolean literals in conditional expression.",
+                messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 13
+                column: 9,
+                endLine: 1,
+                endColumn: 25
             }]
         },
         {
             code: "var a = x === 1 ? false : true;",
             output: "var a = x !== 1;",
             errors: [{
-                message: "Unnecessary use of boolean literals in conditional expression.",
+                messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 19
+                column: 9,
+                endLine: 1,
+                endColumn: 31
             }]
         },
         {
             code: "var a = x != 1 ? false : true;",
             output: "var a = x == 1;",
             errors: [{
-                message: "Unnecessary use of boolean literals in conditional expression.",
+                messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 18
+                column: 9,
+                endLine: 1,
+                endColumn: 30
             }]
         },
         {
             code: "var a = foo() ? false : true;",
             output: "var a = !foo();",
             errors: [{
-                message: "Unnecessary use of boolean literals in conditional expression.",
+                messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 17
+                column: 9,
+                endLine: 1,
+                endColumn: 29
             }]
         },
         {
             code: "var a = !foo() ? false : true;",
             output: "var a = !!foo();",
             errors: [{
-                message: "Unnecessary use of boolean literals in conditional expression.",
+                messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 18
+                column: 9,
+                endLine: 1,
+                endColumn: 30
             }]
         },
         {
             code: "var a = foo + bar ? false : true;",
             output: "var a = !(foo + bar);",
             errors: [{
-                message: "Unnecessary use of boolean literals in conditional expression.",
+                messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 21
+                column: 9,
+                endLine: 1,
+                endColumn: 33
             }]
         },
         {
             code: "var a = x instanceof foo ? false : true;",
             output: "var a = !(x instanceof foo);",
             errors: [{
-                message: "Unnecessary use of boolean literals in conditional expression.",
+                messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 28
+                column: 9,
+                endLine: 1,
+                endColumn: 40
             }]
         },
         {
             code: "var a = foo ? false : false;",
             output: "var a = false;",
             errors: [{
-                message: "Unnecessary use of boolean literals in conditional expression.",
+                messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 15
+                column: 9,
+                endLine: 1,
+                endColumn: 28
             }]
         },
         {
             code: "var a = foo() ? false : false;",
             output: null,
             errors: [{
-                message: "Unnecessary use of boolean literals in conditional expression.",
+                messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 17
+                column: 9,
+                endLine: 1,
+                endColumn: 30
             }]
         },
         {
             code: "var a = x instanceof foo ? true : false;",
             output: "var a = x instanceof foo;",
             errors: [{
-                message: "Unnecessary use of boolean literals in conditional expression.",
+                messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 28
+                column: 9,
+                endLine: 1,
+                endColumn: 40
             }]
         },
         {
             code: "var a = !foo ? true : false;",
             output: "var a = !foo;",
             errors: [{
-                message: "Unnecessary use of boolean literals in conditional expression.",
+                messageId: "unnecessaryConditionalExpression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 16
+                column: 9,
+                endLine: 1,
+                endColumn: 28
             }]
         },
         {
@@ -190,10 +216,12 @@ ruleTester.run("no-unneeded-ternary", rule, {
             `,
             options: [{ defaultAssignment: false }],
             errors: [{
-                message: "Unnecessary use of conditional expression for default assignment.",
+                messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 4,
-                column: 38
+                column: 30,
+                endLine: 4,
+                endColumn: 78
             }]
         },
         {
@@ -201,10 +229,12 @@ ruleTester.run("no-unneeded-ternary", rule, {
             output: "foo || (bar ? baz : qux)",
             options: [{ defaultAssignment: false }],
             errors: [{
-                message: "Unnecessary use of conditional expression for default assignment.",
+                messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 7
+                column: 1,
+                endLine: 1,
+                endColumn: 30
             }]
         },
         {
@@ -213,10 +243,12 @@ ruleTester.run("no-unneeded-ternary", rule, {
             options: [{ defaultAssignment: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Unnecessary use of conditional expression for default assignment.",
+                messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 24
+                column: 18,
+                endLine: 1,
+                endColumn: 39
             }]
         },
         {
@@ -224,10 +256,12 @@ ruleTester.run("no-unneeded-ternary", rule, {
             output: "var a = foo || 'No';",
             options: [{ defaultAssignment: false }],
             errors: [{
-                message: "Unnecessary use of conditional expression for default assignment.",
+                messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 15
+                column: 9,
+                endLine: 1,
+                endColumn: 25
             }]
         },
         {
@@ -235,10 +269,12 @@ ruleTester.run("no-unneeded-ternary", rule, {
             output: "var a = ((foo)) || ((((((((((((((bar))))))))))))));",
             options: [{ defaultAssignment: false }],
             errors: [{
-                message: "Unnecessary use of conditional expression for default assignment.",
+                messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 24
+                column: 9,
+                endLine: 1,
+                endColumn: 66
             }]
         },
         {
@@ -247,10 +283,12 @@ ruleTester.run("no-unneeded-ternary", rule, {
             options: [{ defaultAssignment: false }],
             parserOptions: { ecmaVersion: 2015 },
             errors: [{
-                message: "Unnecessary use of conditional expression for default assignment.",
+                messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 13
+                column: 9,
+                endLine: 1,
+                endColumn: 23
             }]
         },
         {
@@ -259,10 +297,12 @@ ruleTester.run("no-unneeded-ternary", rule, {
             options: [{ defaultAssignment: false }],
             parserOptions: { ecmaVersion: 2015 },
             errors: [{
-                message: "Unnecessary use of conditional expression for default assignment.",
+                messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 13
+                column: 9,
+                endLine: 1,
+                endColumn: 22
             }]
         },
         {
@@ -271,10 +311,12 @@ ruleTester.run("no-unneeded-ternary", rule, {
             options: [{ defaultAssignment: false }],
             parserOptions: { ecmaVersion: 2015 },
             errors: [{
-                message: "Unnecessary use of conditional expression for default assignment.",
+                messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 13
+                column: 9,
+                endLine: 1,
+                endColumn: 25
             }]
         },
         {
@@ -283,10 +325,12 @@ ruleTester.run("no-unneeded-ternary", rule, {
             options: [{ defaultAssignment: false }],
             parserOptions: { ecmaVersion: 2015 },
             errors: [{
-                message: "Unnecessary use of conditional expression for default assignment.",
+                messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 13
+                column: 9,
+                endLine: 1,
+                endColumn: 24
             }]
         },
         {
@@ -295,10 +339,12 @@ ruleTester.run("no-unneeded-ternary", rule, {
             options: [{ defaultAssignment: false }],
             parserOptions: { ecmaVersion: 2015 },
             errors: [{
-                message: "Unnecessary use of conditional expression for default assignment.",
+                messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 13
+                column: 9,
+                endLine: 1,
+                endColumn: 27
             }]
         },
         {
@@ -307,10 +353,12 @@ ruleTester.run("no-unneeded-ternary", rule, {
             options: [{ defaultAssignment: false }],
             parserOptions: { ecmaVersion: 2015 },
             errors: [{
-                message: "Unnecessary use of conditional expression for default assignment.",
+                messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 13
+                column: 9,
+                endLine: 1,
+                endColumn: 18
             }]
         },
         {
@@ -319,10 +367,12 @@ ruleTester.run("no-unneeded-ternary", rule, {
             options: [{ defaultAssignment: false }],
             parserOptions: { ecmaVersion: 2015 },
             errors: [{
-                message: "Unnecessary use of conditional expression for default assignment.",
+                messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 13
+                column: 9,
+                endLine: 1,
+                endColumn: 23
             }]
         },
         {
@@ -330,10 +380,12 @@ ruleTester.run("no-unneeded-ternary", rule, {
             output: "f(x || 1);",
             options: [{ defaultAssignment: false }],
             errors: [{
-                message: "Unnecessary use of conditional expression for default assignment.",
+                messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 7
+                column: 3,
+                endLine: 1,
+                endColumn: 12
             }]
         },
         {
@@ -341,10 +393,12 @@ ruleTester.run("no-unneeded-ternary", rule, {
             output: "x || 1;",
             options: [{ defaultAssignment: false }],
             errors: [{
-                message: "Unnecessary use of conditional expression for default assignment.",
+                messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 5
+                column: 1,
+                endLine: 1,
+                endColumn: 10
             }]
         },
         {
@@ -352,10 +406,26 @@ ruleTester.run("no-unneeded-ternary", rule, {
             output: "var a = foo || bar;",
             options: [{ defaultAssignment: false }],
             errors: [{
-                message: "Unnecessary use of conditional expression for default assignment.",
+                messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 15
+                column: 9,
+                endLine: 1,
+                endColumn: 24
+            }]
+        },
+        {
+            code: "var a = foo ? foo : a ?? b;",
+            output: "var a = foo || (a ?? b);",
+            options: [{ defaultAssignment: false }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{
+                messageId: "unnecessaryConditionalAssignment",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 9,
+                endLine: 1,
+                endColumn: 27
             }]
         }
     ]

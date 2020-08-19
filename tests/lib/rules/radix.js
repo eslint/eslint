@@ -18,6 +18,11 @@ ruleTester.run("radix", rule, {
 
     valid: [
         "parseInt(\"10\", 10);",
+        "parseInt(\"10\", 2);",
+        "parseInt(\"10\", 36);",
+        "parseInt(\"10\", 0x10);",
+        "parseInt(\"10\", 1.6e1);",
+        "parseInt(\"10\", 10.0);",
         "parseInt(\"10\", foo);",
         "Number.parseInt(\"10\", foo);",
         {
@@ -40,13 +45,15 @@ ruleTester.run("radix", rule, {
         "Number.foo();",
         "Number[parseInt]();",
 
-        // Ignores if it's shadowed.
+        // Ignores if it's shadowed or disabled.
         "var parseInt; parseInt();",
         { code: "var parseInt; parseInt(foo);", options: ["always"] },
         { code: "var parseInt; parseInt(foo, 10);", options: ["as-needed"] },
         "var Number; Number.parseInt();",
         { code: "var Number; Number.parseInt(foo);", options: ["always"] },
-        { code: "var Number; Number.parseInt(foo, 10);", options: ["as-needed"] }
+        { code: "var Number; Number.parseInt(foo, 10);", options: ["as-needed"] },
+        { code: "/* globals parseInt:off */ parseInt(foo);", options: ["always"] },
+        { code: "Number.parseInt(foo, 10);", options: ["as-needed"], globals: { Number: "off" } }
     ],
 
     invalid: [
@@ -54,63 +61,84 @@ ruleTester.run("radix", rule, {
             code: "parseInt();",
             options: ["as-needed"],
             errors: [{
-                message: "Missing parameters.",
+                messageId: "missingParameters",
                 type: "CallExpression"
             }]
         },
         {
             code: "parseInt();",
             errors: [{
-                message: "Missing parameters.",
+                messageId: "missingParameters",
                 type: "CallExpression"
             }]
         },
         {
             code: "parseInt(\"10\");",
             errors: [{
-                message: "Missing radix parameter.",
+                messageId: "missingRadix",
                 type: "CallExpression"
             }]
         },
         {
             code: "parseInt(\"10\", null);",
             errors: [{
-                message: "Invalid radix parameter.",
+                messageId: "invalidRadix",
                 type: "CallExpression"
             }]
         },
         {
             code: "parseInt(\"10\", undefined);",
             errors: [{
-                message: "Invalid radix parameter.",
+                messageId: "invalidRadix",
                 type: "CallExpression"
             }]
         },
         {
             code: "parseInt(\"10\", true);",
             errors: [{
-                message: "Invalid radix parameter.",
+                messageId: "invalidRadix",
                 type: "CallExpression"
             }]
         },
         {
             code: "parseInt(\"10\", \"foo\");",
             errors: [{
-                message: "Invalid radix parameter.",
+                messageId: "invalidRadix",
                 type: "CallExpression"
             }]
         },
         {
             code: "parseInt(\"10\", \"123\");",
             errors: [{
-                message: "Invalid radix parameter.",
+                messageId: "invalidRadix",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "parseInt(\"10\", 1);",
+            errors: [{
+                messageId: "invalidRadix",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "parseInt(\"10\", 37);",
+            errors: [{
+                messageId: "invalidRadix",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "parseInt(\"10\", 10.5);",
+            errors: [{
+                messageId: "invalidRadix",
                 type: "CallExpression"
             }]
         },
         {
             code: "Number.parseInt();",
             errors: [{
-                message: "Missing parameters.",
+                messageId: "missingParameters",
                 type: "CallExpression"
             }]
         },
@@ -118,14 +146,35 @@ ruleTester.run("radix", rule, {
             code: "Number.parseInt();",
             options: ["as-needed"],
             errors: [{
-                message: "Missing parameters.",
+                messageId: "missingParameters",
                 type: "CallExpression"
             }]
         },
         {
             code: "Number.parseInt(\"10\");",
             errors: [{
-                message: "Missing radix parameter.",
+                messageId: "missingRadix",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "Number.parseInt(\"10\", 1);",
+            errors: [{
+                messageId: "invalidRadix",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "Number.parseInt(\"10\", 37);",
+            errors: [{
+                messageId: "invalidRadix",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "Number.parseInt(\"10\", 10.5);",
+            errors: [{
+                messageId: "invalidRadix",
                 type: "CallExpression"
             }]
         },
@@ -133,9 +182,31 @@ ruleTester.run("radix", rule, {
             code: "parseInt(\"10\", 10);",
             options: ["as-needed"],
             errors: [{
-                message: "Redundant radix parameter.",
+                messageId: "redundantRadix",
                 type: "CallExpression"
             }]
+        },
+
+        // Optional chaining
+        {
+            code: "parseInt?.(\"10\");",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "missingRadix" }]
+        },
+        {
+            code: "Number.parseInt?.(\"10\");",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "missingRadix" }]
+        },
+        {
+            code: "Number?.parseInt(\"10\");",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "missingRadix" }]
+        },
+        {
+            code: "(Number?.parseInt)(\"10\");",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "missingRadix" }]
         }
     ]
 });

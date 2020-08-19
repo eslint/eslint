@@ -27,7 +27,7 @@ This rule has a string option:
 
 * `"always"` (default) enforces newlines between the operands of a ternary expression.
 * `"always-multiline"` enforces newlines between the operands of a ternary expression if the expression spans multiple lines.
-* `"never"` disallows newlines between the operands of a ternary expression (enforcing that the entire ternary expression is on one line).
+* `"never"` disallows newlines between the operands of a ternary expression.
 
 ### always
 
@@ -134,6 +134,10 @@ Examples of **correct** code for this rule with the `"never"` option:
 foo > bar ? value1 : value2;
 
 foo > bar ? (baz > qux ? value1 : value2) : value3;
+
+foo > bar ? (
+    baz > qux ? value1 : value2
+) : value3;
 ```
 
 ## When Not To Use It

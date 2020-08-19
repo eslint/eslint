@@ -91,129 +91,283 @@ ruleTester.run("no-param-reassign", rule, {
             code: "function foo(a) { for (bar of baz) a.b; }",
             options: [{ props: true }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "function foo(bar, baz) { bar.a = true; baz.b = false; }",
+            options: [{
+                props: true,
+                ignorePropertyModificationsForRegex: ["^(foo|bar)$"],
+                ignorePropertyModificationsFor: ["baz"]
+            }]
         }
     ],
 
     invalid: [
-        { code: "function foo(bar) { bar = 13; }", errors: [{ message: "Assignment to function parameter 'bar'." }] },
-        { code: "function foo(bar) { bar += 13; }", errors: [{ message: "Assignment to function parameter 'bar'." }] },
-        { code: "function foo(bar) { (function() { bar = 13; })(); }", errors: [{ message: "Assignment to function parameter 'bar'." }] },
-        { code: "function foo(bar) { ++bar; }", errors: [{ message: "Assignment to function parameter 'bar'." }] },
-        { code: "function foo(bar) { bar++; }", errors: [{ message: "Assignment to function parameter 'bar'." }] },
-        { code: "function foo(bar) { --bar; }", errors: [{ message: "Assignment to function parameter 'bar'." }] },
-        { code: "function foo(bar) { bar--; }", errors: [{ message: "Assignment to function parameter 'bar'." }] },
-        { code: "function foo({bar}) { bar = 13; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Assignment to function parameter 'bar'." }] },
-        { code: "function foo([, {bar}]) { bar = 13; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Assignment to function parameter 'bar'." }] },
-        { code: "function foo(bar) { ({bar} = {}); }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Assignment to function parameter 'bar'." }] },
-        { code: "function foo(bar) { ({x: [, bar = 0]} = {}); }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Assignment to function parameter 'bar'." }] },
-        { code: "function foo(bar) { for (bar in baz); }", errors: [{ message: "Assignment to function parameter 'bar'." }] },
-        { code: "function foo(bar) { for (bar of baz); }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Assignment to function parameter 'bar'." }] },
+        {
+            code: "function foo(bar) { bar = 13; }",
+            errors: [{
+                messageId: "assignmentToFunctionParam",
+                data: { name: "bar" }
+            }]
+        },
+        {
+            code: "function foo(bar) { bar += 13; }",
+            errors: [{
+                messageId: "assignmentToFunctionParam",
+                data: { name: "bar" }
+            }]
+        },
+        {
+            code: "function foo(bar) { (function() { bar = 13; })(); }",
+            errors: [{
+                messageId: "assignmentToFunctionParam",
+                data: { name: "bar" }
+            }]
+        },
+        {
+            code: "function foo(bar) { ++bar; }",
+            errors: [{
+                messageId: "assignmentToFunctionParam",
+                data: { name: "bar" }
+            }]
+        },
+        {
+            code: "function foo(bar) { bar++; }",
+            errors: [{
+                messageId: "assignmentToFunctionParam",
+                data: { name: "bar" }
+            }]
+        },
+        {
+            code: "function foo(bar) { --bar; }",
+            errors: [{
+                messageId: "assignmentToFunctionParam",
+                data: { name: "bar" }
+            }]
+        },
+        {
+            code: "function foo(bar) { bar--; }",
+            errors: [{
+                messageId: "assignmentToFunctionParam",
+                data: { name: "bar" }
+            }]
+        },
+        {
+            code: "function foo({bar}) { bar = 13; }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "assignmentToFunctionParam",
+                data: { name: "bar" }
+            }]
+        },
+        {
+            code: "function foo([, {bar}]) { bar = 13; }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "assignmentToFunctionParam",
+                data: { name: "bar" }
+            }]
+        },
+        {
+            code: "function foo(bar) { ({bar} = {}); }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "assignmentToFunctionParam",
+                data: { name: "bar" }
+            }]
+        },
+        {
+            code: "function foo(bar) { ({x: [, bar = 0]} = {}); }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "assignmentToFunctionParam",
+                data: { name: "bar" }
+            }]
+        },
+        {
+            code: "function foo(bar) { for (bar in baz); }",
+            errors: [{
+                messageId: "assignmentToFunctionParam",
+                data: { name: "bar" }
+            }]
+        },
+        {
+            code: "function foo(bar) { for (bar of baz); }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "assignmentToFunctionParam",
+                data: { name: "bar" }
+            }]
+        },
 
         {
             code: "function foo(bar) { bar.a = 0; }",
             options: [{ props: true }],
-            errors: [{ message: "Assignment to property of function parameter 'bar'." }]
+            errors: [{
+                messageId: "assignmentToFunctionParamProp",
+                data: { name: "bar" }
+            }]
         },
         {
             code: "function foo(bar) { bar.get(0).a = 0; }",
             options: [{ props: true }],
-            errors: [{ message: "Assignment to property of function parameter 'bar'." }]
+            errors: [{
+                messageId: "assignmentToFunctionParamProp",
+                data: { name: "bar" }
+            }]
         },
         {
             code: "function foo(bar) { delete bar.a; }",
             options: [{ props: true }],
-            errors: [{ message: "Assignment to property of function parameter 'bar'." }]
+            errors: [{
+                messageId: "assignmentToFunctionParamProp",
+                data: { name: "bar" }
+            }]
         },
         {
             code: "function foo(bar) { ++bar.a; }",
             options: [{ props: true }],
-            errors: [{ message: "Assignment to property of function parameter 'bar'." }]
+            errors: [{
+                messageId: "assignmentToFunctionParamProp",
+                data: { name: "bar" }
+            }]
         },
         {
             code: "function foo(bar) { for (bar.a in {}); }",
             options: [{ props: true }],
-            errors: [{ message: "Assignment to property of function parameter 'bar'." }]
+            errors: [{
+                messageId: "assignmentToFunctionParamProp",
+                data: { name: "bar" }
+            }]
         },
         {
             code: "function foo(bar) { for (bar.a of []); }",
             options: [{ props: true }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Assignment to property of function parameter 'bar'." }]
+            errors: [{
+                messageId: "assignmentToFunctionParamProp",
+                data: { name: "bar" }
+            }]
         },
         {
             code: "function foo(bar) { (bar ? bar : [])[0] = 1; }",
             options: [{ props: true }],
-            errors: [{ message: "Assignment to property of function parameter 'bar'." }]
+            errors: [{
+                messageId: "assignmentToFunctionParamProp",
+                data: { name: "bar" }
+            }]
         },
         {
             code: "function foo(bar) { [bar.a] = []; }",
             options: [{ props: true }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Assignment to property of function parameter 'bar'." }]
+            errors: [{
+                messageId: "assignmentToFunctionParamProp",
+                data: { name: "bar" }
+            }]
         },
         {
             code: "function foo(bar) { [bar.a] = []; }",
             options: [{ props: true, ignorePropertyModificationsFor: ["a"] }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Assignment to property of function parameter 'bar'." }]
+            errors: [{
+                messageId: "assignmentToFunctionParamProp",
+                data: { name: "bar" }
+            }]
         },
         {
             code: "function foo(bar) { [bar.a] = []; }",
             options: [{ props: true, ignorePropertyModificationsForRegex: ["^a.*$"] }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Assignment to property of function parameter 'bar'." }]
+            errors: [{
+                messageId: "assignmentToFunctionParamProp",
+                data: { name: "bar" }
+            }]
         },
         {
             code: "function foo(bar) { [bar.a] = []; }",
             options: [{ props: true, ignorePropertyModificationsForRegex: ["^B.*$"] }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Assignment to property of function parameter 'bar'." }]
+            errors: [{
+                messageId: "assignmentToFunctionParamProp",
+                data: { name: "bar" }
+            }]
         },
         {
             code: "function foo(bar) { ({foo: bar.a} = {}); }",
             options: [{ props: true }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Assignment to property of function parameter 'bar'." }]
+            errors: [{
+                messageId: "assignmentToFunctionParamProp",
+                data: { name: "bar" }
+            }]
         },
         {
             code: "function foo(a) { ({a} = obj); }",
             options: [{ props: true }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Assignment to function parameter 'a'." }]
+            errors: [{
+                messageId: "assignmentToFunctionParam",
+                data: {
+                    name: "a"
+                }
+            }]
         },
         {
             code: "function foo(a) { ([...a] = obj); }",
             parserOptions: { ecmaVersion: 2015 },
-            errors: [{ message: "Assignment to function parameter 'a'." }]
+            errors: [{
+                messageId: "assignmentToFunctionParam",
+                data: {
+                    name: "a"
+                }
+            }]
         },
         {
             code: "function foo(a) { ({...a} = obj); }",
             parserOptions: { ecmaVersion: 2018 },
-            errors: [{ message: "Assignment to function parameter 'a'." }]
+            errors: [{
+                messageId: "assignmentToFunctionParam",
+                data: {
+                    name: "a"
+                }
+            }]
         },
         {
             code: "function foo(a) { ([...a.b] = obj); }",
             options: [{ props: true }],
             parserOptions: { ecmaVersion: 2015 },
-            errors: [{ message: "Assignment to property of function parameter 'a'." }]
+            errors: [{
+                messageId: "assignmentToFunctionParamProp",
+                data: { name: "a" }
+            }]
         },
         {
             code: "function foo(a) { ({...a.b} = obj); }",
             options: [{ props: true }],
             parserOptions: { ecmaVersion: 2018 },
-            errors: [{ message: "Assignment to property of function parameter 'a'." }]
+            errors: [{
+                messageId: "assignmentToFunctionParamProp",
+                data: { name: "a" }
+            }]
         },
         {
             code: "function foo(a) { for ({bar: a.b} in {}); }",
             options: [{ props: true }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Assignment to property of function parameter 'a'." }]
+            errors: [{
+                messageId: "assignmentToFunctionParamProp",
+                data: { name: "a" }
+            }]
         },
         {
             code: "function foo(a) { for ([a.b] of []); }",
             options: [{ props: true }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Assignment to property of function parameter 'a'." }]
+            errors: [{
+                messageId: "assignmentToFunctionParamProp",
+                data: { name: "a" }
+            }]
         }
     ]
 });

@@ -52,7 +52,7 @@ function reduceBadExampleSize({
                 comment: true,
                 eslintVisitorKeys: true,
                 eslintScopeManager: true,
-                ecmaVersion: 2018,
+                ecmaVersion: espree.latestEcmaVersion,
                 sourceType: "script"
             })
     },
@@ -76,7 +76,7 @@ function reduceBadExampleSize({
     function reproducesBadCase(updatedSourceText) {
         try {
             parser.parse(updatedSourceText);
-        } catch (err) {
+        } catch {
             return false;
         }
 

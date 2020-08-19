@@ -10,6 +10,7 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
+    util = require("util"),
     espree = require("espree"),
     astUtils = require("../../../../lib/rules/utils/ast-utils"),
     { Linter } = require("../../../../lib/linter"),
@@ -403,6 +404,105 @@ describe("ast-utils", () => {
         });
     });
 
+    describe("getStaticStringValue", () => {
+
+        /* eslint-disable quote-props */
+        const expectedResults = {
+
+            // string literals
+            "''": "",
+            "'foo'": "foo",
+
+            // boolean literals
+            "false": "false",
+            "true": "true",
+
+            // null literal
+            "null": "null",
+
+            // number literals
+            "0": "0",
+            "0.": "0",
+            ".0": "0",
+            "1": "1",
+            "1.": "1",
+            ".1": "0.1",
+            "12": "12",
+            ".12": "0.12",
+            "0.12": "0.12",
+            "12.34": "12.34",
+            "12e3": "12000",
+            "12e-3": "0.012",
+            "12.34e5": "1234000",
+            "12.34e-5": "0.0001234",
+            "011": "9",
+            "081": "81",
+            "0b11": "3",
+            "0b011": "3",
+            "0o11": "9",
+            "0o011": "9",
+            "0x11": "17",
+            "0x011": "17",
+
+            // regexp literals
+            "/a/": "/a/",
+            "/a/i": "/a/i",
+            "/[0-9]/": "/[0-9]/",
+            "/(?<zero>0)/": "/(?<zero>0)/",
+            "/(?<zero>0)/s": "/(?<zero>0)/s",
+            "/(?<=a)b/s": "/(?<=a)b/s",
+
+            // simple template literals
+            "``": "",
+            "`foo`": "foo",
+
+            // unsupported
+            "`${''}`": null,
+            "`${0}`": null,
+            "tag``": null,
+            "-0": null,
+            "-1": null,
+            "1 + 2": null,
+            "[]": null,
+            "({})": null,
+            "foo": null,
+            "undefined": null,
+            "this": null,
+            "(function () {})": null
+        };
+        /* eslint-enable quote-props */
+
+        Object.keys(expectedResults).forEach(key => {
+            it(`should return ${expectedResults[key]} for ${key}`, () => {
+                const ast = espree.parse(key, { ecmaVersion: 2018 });
+
+                assert.strictEqual(astUtils.getStaticStringValue(ast.body[0].expression), expectedResults[key]);
+            });
+        });
+
+        it("should return text of regex literal even if it's not supported natively.", () => {
+            const node = {
+                type: "Literal",
+                value: null,
+                regex: { pattern: "(?:)", flags: "u" }
+            };
+            const expectedText = "/(?:)/u";
+
+            assert.strictEqual(astUtils.getStaticStringValue(node), expectedText);
+        });
+
+        it("should return text of bigint literal even if it's not supported natively.", () => {
+            const node = {
+                type: "Literal",
+                value: null,
+                bigint: "100n"
+            };
+            const expectedText = "100n";
+
+            assert.strictEqual(astUtils.getStaticStringValue(node), expectedText);
+        });
+    });
+
     describe("getStaticPropertyName", () => {
         it("should return 'b' for `a.b`", () => {
             const ast = espree.parse("a.b");
@@ -507,6 +607,13 @@ describe("ast-utils", () => {
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "100");
+        });
+
+        it("should return '/(?<zero>0)/' for `[/(?<zero>0)/]: 1`", () => {
+            const ast = espree.parse("({[/(?<zero>0)/]: 1})", { ecmaVersion: 2018 });
+            const node = ast.body[0].expression.properties[0];
+
+            assert.strictEqual(astUtils.getStaticPropertyName(node), "/(?<zero>0)/");
         });
 
         it("should return null for `[b]: 1`", () => {
@@ -825,6 +932,53 @@ describe("ast-utils", () => {
                 const ast = espree.parse(key, { ecmaVersion: 6 });
 
                 assert.strictEqual(astUtils.isEmptyFunction(ast.body[0].expression), expectedResults[key]);
+            });
+        });
+    });
+
+    describe("getNextLocation", () => {
+
+        /* eslint-disable quote-props */
+        const expectedResults = {
+            "": [[1, 0], null],
+            "\n": [[1, 0], [2, 0], null],
+            "\r\n": [[1, 0], [2, 0], null],
+            "foo": [[1, 0], [1, 1], [1, 2], [1, 3], null],
+            "foo\n": [[1, 0], [1, 1], [1, 2], [1, 3], [2, 0], null],
+            "foo\r\n": [[1, 0], [1, 1], [1, 2], [1, 3], [2, 0], null],
+            "foo;\n": [[1, 0], [1, 1], [1, 2], [1, 3], [1, 4], [2, 0], null],
+            "a\nb": [[1, 0], [1, 1], [2, 0], [2, 1], null],
+            "a\nb\n": [[1, 0], [1, 1], [2, 0], [2, 1], [3, 0], null],
+            "a\r\nb\r\n": [[1, 0], [1, 1], [2, 0], [2, 1], [3, 0], null],
+            "a\nb\r\n": [[1, 0], [1, 1], [2, 0], [2, 1], [3, 0], null],
+            "a\n\n": [[1, 0], [1, 1], [2, 0], [3, 0], null],
+            "a\r\n\r\n": [[1, 0], [1, 1], [2, 0], [3, 0], null],
+            "\n\r\n\n\r\n": [[1, 0], [2, 0], [3, 0], [4, 0], [5, 0], null],
+            "ab\u2029c": [[1, 0], [1, 1], [1, 2], [2, 0], [2, 1], null],
+            "ab\ncde\n": [[1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2], [2, 3], [3, 0], null],
+            "a ": [[1, 0], [1, 1], [1, 2], null],
+            "a\t": [[1, 0], [1, 1], [1, 2], null],
+            "a \n": [[1, 0], [1, 1], [1, 2], [2, 0], null]
+        };
+        /* eslint-enable quote-props */
+
+        Object.keys(expectedResults).forEach(code => {
+            it(`should return expected locations for "${code}".`, () => {
+                const ast = espree.parse(code, ESPREE_CONFIG);
+                const sourceCode = new SourceCode(code, ast);
+                const locations = expectedResults[code];
+
+                for (let i = 0; i < locations.length - 1; i++) {
+                    const location = { line: locations[i][0], column: locations[i][1] };
+                    const expectedNextLocation = locations[i + 1]
+                        ? { line: locations[i + 1][0], column: locations[i + 1][1] }
+                        : null;
+
+                    assert.deepStrictEqual(
+                        astUtils.getNextLocation(sourceCode, location),
+                        expectedNextLocation
+                    );
+                }
             });
         });
     });
@@ -1222,13 +1376,43 @@ describe("ast-utils", () => {
             [["++", "+"], false],
             [["--", "-"], false],
             [["+", "++"], false],
-            [["-", "--"], false]
+            [["-", "--"], false],
+            [["a/", "b"], true],
+            [["a/", "+b"], true],
+            [["a+", "/^regex$/"], true],
+            [["a/", "/^regex$/"], false],
+            [["a+", "/**/b"], true],
+            [["a/", "/**/b"], false],
+            [["a+", "//\nb"], true],
+            [["a/", "//\nb"], false],
+            [["a/**/", "b"], true],
+            [["/**/a", "b"], false],
+            [["a", "/**/b"], true],
+            [["a", "b/**/"], false],
+            [["a", "//\nb"], true],
+            [["a", "b//"], false],
+            [["#!/usr/bin/env node", "("], false],
+            [["123invalidtoken", "("], false],
+            [["(", "123invalidtoken"], false],
+            [["(", "1n"], true],
+            [["1n", "+"], true],
+            [["1n", "in"], false]
         ]);
 
         CASES.forEach((expectedResult, tokenStrings) => {
             it(tokenStrings.join(", "), () => {
                 assert.strictEqual(astUtils.canTokensBeAdjacent(tokenStrings[0], tokenStrings[1]), expectedResult);
             });
+        });
+
+        it("#!/usr/bin/env node, (", () => {
+            assert.strictEqual(
+                astUtils.canTokensBeAdjacent(
+                    { type: "Shebang", value: "#!/usr/bin/env node" },
+                    { type: "Punctuator", value: "(" }
+                ),
+                false
+            );
         });
     });
 
@@ -1247,6 +1431,134 @@ describe("ast-utils", () => {
             const sourceCode = new SourceCode(code, ast);
 
             assert.strictEqual(astUtils.equalTokens(ast.body[0], ast.body[1], sourceCode), false);
+        });
+    });
+
+    describe("equalLiteralValue", () => {
+        describe("should return true if two regex values are same, even if it's not supported natively.", () => {
+            const patterns = [
+                {
+                    nodeA: {
+                        type: "Literal",
+                        value: /(?:)/u,
+                        regex: { pattern: "(?:)", flags: "u" }
+                    },
+                    nodeB: {
+                        type: "Literal",
+                        value: /(?:)/u,
+                        regex: { pattern: "(?:)", flags: "u" }
+                    },
+                    expected: true
+                },
+                {
+                    nodeA: {
+                        type: "Literal",
+                        value: null,
+                        regex: { pattern: "(?:)", flags: "u" }
+                    },
+                    nodeB: {
+                        type: "Literal",
+                        value: null,
+                        regex: { pattern: "(?:)", flags: "u" }
+                    },
+                    expected: true
+                },
+                {
+                    nodeA: {
+                        type: "Literal",
+                        value: null,
+                        regex: { pattern: "(?:)", flags: "u" }
+                    },
+                    nodeB: {
+                        type: "Literal",
+                        value: /(?:)/, // eslint-disable-line require-unicode-regexp
+                        regex: { pattern: "(?:)", flags: "" }
+                    },
+                    expected: false
+                },
+                {
+                    nodeA: {
+                        type: "Literal",
+                        value: null,
+                        regex: { pattern: "(?:a)", flags: "u" }
+                    },
+                    nodeB: {
+                        type: "Literal",
+                        value: null,
+                        regex: { pattern: "(?:b)", flags: "u" }
+                    },
+                    expected: false
+                }
+            ];
+
+            for (const { nodeA, nodeB, expected } of patterns) {
+                it(`should return ${expected} if it compared ${util.format("%o", nodeA)} and ${util.format("%o", nodeB)}`, () => {
+                    assert.strictEqual(astUtils.equalLiteralValue(nodeA, nodeB), expected);
+                });
+            }
+        });
+
+        describe("should return true if two bigint values are same, even if it's not supported natively.", () => {
+            const patterns = [
+                {
+                    nodeA: {
+                        type: "Literal",
+                        value: null,
+                        bigint: "1"
+                    },
+                    nodeB: {
+                        type: "Literal",
+                        value: null,
+                        bigint: "1"
+                    },
+                    expected: true
+                },
+                {
+                    nodeA: {
+                        type: "Literal",
+                        value: null,
+                        bigint: "1"
+                    },
+                    nodeB: {
+                        type: "Literal",
+                        value: null,
+                        bigint: "2"
+                    },
+                    expected: false
+                },
+                {
+                    nodeA: {
+                        type: "Literal",
+                        value: 1n,
+                        bigint: "1"
+                    },
+                    nodeB: {
+                        type: "Literal",
+                        value: 1n,
+                        bigint: "1"
+                    },
+                    expected: true
+                },
+                {
+                    nodeA: {
+                        type: "Literal",
+                        value: 1n,
+                        bigint: "1"
+                    },
+                    nodeB: {
+                        type: "Literal",
+                        value: 2n,
+                        bigint: "2"
+                    },
+                    expected: false
+                }
+            ];
+
+            for (const { nodeA, nodeB, expected } of patterns) {
+                it(`should return ${expected} if it compared ${util.format("%o", nodeA)} and ${util.format("%o", nodeB)}`, () => {
+                    assert.strictEqual(astUtils.equalLiteralValue(nodeA, nodeB), expected);
+                });
+            }
         });
     });
 

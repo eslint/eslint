@@ -41,16 +41,6 @@ ruleTester.run("use-isnan", rule, {
         // enforceForSwitchCase
         //------------------------------------------------------------------------------
 
-        "switch(NaN) { case foo: break; }",
-        "switch(foo) { case NaN: break; }",
-        {
-            code: "switch(NaN) { case foo: break; }",
-            options: [{}]
-        },
-        {
-            code: "switch(foo) { case NaN: break; }",
-            options: [{}]
-        },
         {
             code: "switch(NaN) { case foo: break; }",
             options: [{ enforceForSwitchCase: false }]
@@ -283,6 +273,24 @@ ruleTester.run("use-isnan", rule, {
         //------------------------------------------------------------------------------
 
         {
+            code: "switch(NaN) { case foo: break; }",
+            errors: [{ messageId: "switchNaN", type: "SwitchStatement", column: 1 }]
+        },
+        {
+            code: "switch(foo) { case NaN: break; }",
+            errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 15 }]
+        },
+        {
+            code: "switch(NaN) { case foo: break; }",
+            options: [{}],
+            errors: [{ messageId: "switchNaN", type: "SwitchStatement", column: 1 }]
+        },
+        {
+            code: "switch(foo) { case NaN: break; }",
+            options: [{}],
+            errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 15 }]
+        },
+        {
             code: "switch(NaN) {}",
             options: [{ enforceForSwitchCase: true }],
             errors: [{ messageId: "switchNaN", type: "SwitchStatement", column: 1 }]
@@ -377,6 +385,24 @@ ruleTester.run("use-isnan", rule, {
             code: "foo.bar.lastIndexOf(NaN)",
             options: [{ enforceForIndexOf: true }],
             errors: [{ messageId: "indexOfNaN", type: "CallExpression", data: { methodName: "lastIndexOf" } }]
+        },
+        {
+            code: "foo.indexOf?.(NaN)",
+            options: [{ enforceForIndexOf: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "indexOfNaN", data: { methodName: "indexOf" } }]
+        },
+        {
+            code: "foo?.indexOf(NaN)",
+            options: [{ enforceForIndexOf: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "indexOfNaN", data: { methodName: "indexOf" } }]
+        },
+        {
+            code: "(foo?.indexOf)(NaN)",
+            options: [{ enforceForIndexOf: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "indexOfNaN", data: { methodName: "indexOf" } }]
         }
     ]
 });

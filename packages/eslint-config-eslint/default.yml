@@ -21,7 +21,6 @@ rules:
     block-spacing: "error"
     brace-style: ["error", "1tbs"]
     camelcase: "error"
-    callback-return: ["error", ["cb", "callback", "next"]]
     class-methods-use-this: "error"
     comma-dangle: "error"
     comma-spacing: "error"
@@ -40,7 +39,6 @@ rules:
     function-paren-newline: ["error", "consistent"]
     generator-star-spacing: "error"
     guard-for-in: "error"
-    handle-callback-err: ["error", "err"]
     jsdoc/check-alignment: "error"
     jsdoc/check-param-names: "error"
     jsdoc/check-syntax: "error"
@@ -78,7 +76,6 @@ rules:
     new-parens: "error"
     no-alert: "error"
     no-array-constructor: "error"
-    no-buffer-constructor: "error"
     no-caller: "error"
     no-confusing-arrow: "error"
     no-console: "error"
@@ -97,7 +94,6 @@ rules:
     no-labels: "error"
     no-lone-blocks: "error"
     no-loop-func: "error"
-    no-mixed-requires: "error"
     no-mixed-spaces-and-tabs: ["error", false]
     no-multi-spaces: "error"
     no-multi-str: "error"
@@ -106,14 +102,12 @@ rules:
     no-new: "error"
     no-new-func: "error"
     no-new-object: "error"
-    no-new-require: "error"
     no-new-wrappers: "error"
     no-octal: "error"
     no-octal-escape: "error"
     no-param-reassign: "error"
-    no-path-concat: "error"
-    no-process-exit: "error"
     no-proto: "error"
+    no-process-exit: "off"
     no-redeclare: "error"
     no-restricted-properties: [
         "error",
@@ -140,7 +134,7 @@ rules:
     no-unmodified-loop-condition: "error"
     no-unneeded-ternary: "error"
     no-unused-expressions: "error"
-    no-unused-vars: ["error", {vars: "all", args: "after-used"}]
+    no-unused-vars: ["error", {vars: "all", args: "after-used", caughtErrors: "all"}]
     no-use-before-define: "error"
     no-useless-call: "error"
     no-useless-computed-key: "error"
@@ -151,6 +145,13 @@ rules:
     no-useless-return: "error"
     no-whitespace-before-property: "error"
     no-var: "error"
+    node/callback-return: ["error", ["cb", "callback", "next"]]
+    node/handle-callback-err: ["error", "err"]
+    node/no-deprecated-api: "error"
+    node/no-mixed-requires: "error"
+    node/no-new-require: "error"
+    node/no-path-concat: "error"
+    node/no-process-exit: "error"
     object-curly-newline: ["error", { "consistent": true, "multiline": true }]
     object-curly-spacing: ["error", "always"]
     object-property-newline: ["error", { "allowAllPropertiesOnSameLine": true }]
@@ -175,6 +176,7 @@ rules:
     prefer-const: "error"
     prefer-numeric-literals: "error"
     prefer-promise-reject-errors: "error"
+    prefer-regex-literals: "error"
     prefer-rest-params: "error"
     prefer-spread: "error"
     prefer-template: "error"
@@ -187,7 +189,11 @@ rules:
     semi-spacing: ["error", {before: false, after: true}]
     semi-style: "error"
     space-before-blocks: "error"
-    space-before-function-paren: ["error", "never"]
+    space-before-function-paren: ["error", {
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always"
+    }]
     space-in-parens: "error"
     space-infix-ops: "error"
     space-unary-ops: ["error", {words: true, nonwords: false}]
@@ -200,4 +206,4 @@ rules:
     unicode-bom: "error"
     wrap-iife: "error"
     yield-star-spacing: "error"
-    yoda: ["error", "never"]
+    yoda: ["error", "never", { exceptRange: true }]

@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Breaking/Core change
+    url: https://github.com/eslint/rfcs#how-to-submit-an-rfc
+    about: Please submit an RFC here.

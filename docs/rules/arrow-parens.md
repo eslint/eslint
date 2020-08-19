@@ -90,7 +90,7 @@ a.then((foo) => { if (true) {} });
 
 #### If Statements
 
-One of benefits of this option is that it prevents the incorrect use of arrow functions in conditionals:
+One of the benefits of this option is that it prevents the incorrect use of arrow functions in conditionals:
 
 ```js
 /*eslint-env es6*/
@@ -159,6 +159,9 @@ Examples of **incorrect** code for this rule with the `"as-needed"` option:
 a.then((foo) => {});
 a.then((foo) => a);
 a((foo) => { if (true) {} });
+const f = /** @type {number} */(a) => a + a;
+const g = /* comment */ (a) => a + a;
+const h = (a) /* comment */ => a + a;
 ```
 
 Examples of **correct** code for this rule with the `"as-needed"` option:
@@ -177,6 +180,9 @@ a.then(foo => { if (true) {} });
 (a = 10) => a;
 ([a, b]) => a;
 ({a, b}) => a;
+const f = (/** @type {number} */a) => a + a;
+const g = (/* comment */ a) => a + a;
+const h = (a /* comment */) => a + a;
 ```
 
 ### requireForBlockBody

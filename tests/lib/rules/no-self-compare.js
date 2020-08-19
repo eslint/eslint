@@ -26,19 +26,19 @@ ruleTester.run("no-self-compare", rule, {
         "foo.bar.baz === foo.bar.qux"
     ],
     invalid: [
-        { code: "if (x === x) { }", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] },
-        { code: "if (x !== x) { }", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] },
-        { code: "if (x > x) { }", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] },
-        { code: "if ('x' > 'x') { }", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] },
-        { code: "do {} while (x === x)", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] },
-        { code: "x === x", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] },
-        { code: "x !== x", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] },
-        { code: "x == x", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] },
-        { code: "x != x", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] },
-        { code: "x > x", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] },
-        { code: "x < x", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] },
-        { code: "x >= x", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] },
-        { code: "x <= x", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] },
-        { code: "foo.bar().baz.qux >= foo.bar ().baz .qux", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] }
+        { code: "if (x === x) { }", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
+        { code: "if (x !== x) { }", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
+        { code: "if (x > x) { }", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
+        { code: "if ('x' > 'x') { }", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
+        { code: "do {} while (x === x)", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
+        { code: "x === x", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
+        { code: "x !== x", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
+        { code: "x == x", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
+        { code: "x != x", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
+        { code: "x > x", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
+        { code: "x < x", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
+        { code: "x >= x", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
+        { code: "x <= x", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
+        { code: "foo.bar().baz.qux >= foo.bar ().baz .qux", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] }
     ]
 });

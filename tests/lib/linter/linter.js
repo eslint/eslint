@@ -2733,15 +2733,45 @@ describe("Linter", () => {
     });
 
     describe("when evaluating code with comments which have colon in its value", () => {
-        const code = "/* eslint max-len: [2, 100, 2, {ignoreUrls: true, ignorePattern: \"data:image\\/|\\s*require\\s*\\(|^\\s*loader\\.lazy|-\\*-\"}] */\nalert('test');";
+        const code = String.raw`
+/* eslint max-len: [2, 100, 2, {ignoreUrls: true, ignorePattern: "data:image\\/|\\s*require\\s*\\(|^\\s*loader\\.lazy|-\\*-"}] */
+alert('test');
+`;
 
         it("should not parse errors, should report a violation", () => {
             const messages = linter.verify(code, {}, filename);
 
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].ruleId, "max-len");
-            assert.strictEqual(messages[0].message, "This line has a length of 122. Maximum allowed is 100.");
+            assert.strictEqual(messages[0].message, "This line has a length of 129. Maximum allowed is 100.");
             assert.include(messages[0].nodeType, "Program");
+        });
+    });
+
+    describe("when evaluating code with comments that contain escape sequences", () => {
+        const code = String.raw`
+/* eslint max-len: ["error", 1, { ignoreComments: true, ignorePattern: "console\\.log\\(" }] */
+console.log("test");
+consolexlog("test2");
+var a = "test2";
+`;
+
+        it("should validate correctly", () => {
+            const config = { rules: {} };
+            const messages = linter.verify(code, config, filename);
+            const [message1, message2] = messages;
+
+            assert.strictEqual(messages.length, 2);
+            assert.strictEqual(message1.ruleId, "max-len");
+            assert.strictEqual(message1.message, "This line has a length of 21. Maximum allowed is 1.");
+            assert.strictEqual(message1.line, 4);
+            assert.strictEqual(message1.column, 1);
+            assert.include(message1.nodeType, "Program");
+            assert.strictEqual(message2.ruleId, "max-len");
+            assert.strictEqual(message2.message, "This line has a length of 16. Maximum allowed is 1.");
+            assert.strictEqual(message2.line, 5);
+            assert.strictEqual(message2.column, 1);
+            assert.include(message2.nodeType, "Program");
         });
     });
 
@@ -3759,6 +3789,324 @@ describe("Linter", () => {
             linter.verify("x", { rules: { "foo-bar-baz": "error" } });
             assert(spy.calledOnce);
         });
+
+        describe("descriptions in directive comments", () => {
+            it("should ignore the part preceded by '--' in '/*eslint*/'.", () => {
+                const aaa = sinon.stub().returns({});
+                const bbb = sinon.stub().returns({});
+
+                linter.defineRule("aaa", { create: aaa });
+                linter.defineRule("bbb", { create: bbb });
+                const messages = linter.verify(`
+                    /*eslint aaa:error -- bbb:error */
+                    console.log("hello")
+                `, {});
+
+                // Don't include syntax error of the comment.
+                assert.deepStrictEqual(messages, []);
+
+                // Use only `aaa`.
+                assert.strictEqual(aaa.callCount, 1);
+                assert.strictEqual(bbb.callCount, 0);
+            });
+
+            it("should ignore the part preceded by '--' in '/*eslint-env*/'.", () => {
+                const messages = linter.verify(`
+                    /*eslint-env es2015 -- es2017 */
+                    var Promise = {}
+                    var Atomics = {}
+                `, { rules: { "no-redeclare": "error" } });
+
+                // Don't include `Atomics`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 25,
+                        endColumn: 32,
+                        endLine: 3,
+                        line: 3,
+                        message: "'Promise' is already defined as a built-in global variable.",
+                        messageId: "redeclaredAsBuiltin",
+                        nodeType: "Identifier",
+                        ruleId: "no-redeclare",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should ignore the part preceded by '--' in '/*global*/'.", () => {
+                const messages = linter.verify(`
+                    /*global aaa -- bbb */
+                    var aaa = {}
+                    var bbb = {}
+                `, { rules: { "no-redeclare": "error" } });
+
+                // Don't include `bbb`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 30,
+                        endColumn: 33,
+                        line: 2,
+                        endLine: 2,
+                        message: "'aaa' is already defined by a variable declaration.",
+                        messageId: "redeclaredBySyntax",
+                        nodeType: "Block",
+                        ruleId: "no-redeclare",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should ignore the part preceded by '--' in '/*globals*/'.", () => {
+                const messages = linter.verify(`
+                    /*globals aaa -- bbb */
+                    var aaa = {}
+                    var bbb = {}
+                `, { rules: { "no-redeclare": "error" } });
+
+                // Don't include `bbb`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 31,
+                        endColumn: 34,
+                        line: 2,
+                        endLine: 2,
+                        message: "'aaa' is already defined by a variable declaration.",
+                        messageId: "redeclaredBySyntax",
+                        nodeType: "Block",
+                        ruleId: "no-redeclare",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should ignore the part preceded by '--' in '/*exported*/'.", () => {
+                const messages = linter.verify(`
+                    /*exported aaa -- bbb */
+                    var aaa = {}
+                    var bbb = {}
+                `, { rules: { "no-unused-vars": "error" } });
+
+                // Don't include `aaa`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 25,
+                        endColumn: 28,
+                        endLine: 4,
+                        line: 4,
+                        message: "'bbb' is assigned a value but never used.",
+                        messageId: "unusedVar",
+                        nodeType: "Identifier",
+                        ruleId: "no-unused-vars",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should ignore the part preceded by '--' in '/*eslint-disable*/'.", () => {
+                const messages = linter.verify(`
+                    /*eslint-disable no-redeclare -- no-unused-vars */
+                    var aaa = {}
+                    var aaa = {}
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+
+                // Do include `no-unused-vars` but not `no-redeclare`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 25,
+                        endLine: 4,
+                        endColumn: 28,
+                        line: 4,
+                        message: "'aaa' is assigned a value but never used.",
+                        messageId: "unusedVar",
+                        nodeType: "Identifier",
+                        ruleId: "no-unused-vars",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should ignore the part preceded by '--' in '/*eslint-enable*/'.", () => {
+                const messages = linter.verify(`
+                    /*eslint-disable no-redeclare, no-unused-vars */
+                    /*eslint-enable no-redeclare -- no-unused-vars */
+                    var aaa = {}
+                    var aaa = {}
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+
+                // Do include `no-redeclare` but not `no-unused-vars`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 25,
+                        endLine: 5,
+                        endColumn: 28,
+                        line: 5,
+                        message: "'aaa' is already defined.",
+                        messageId: "redeclared",
+                        nodeType: "Identifier",
+                        ruleId: "no-redeclare",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should ignore the part preceded by '--' in '//eslint-disable-line'.", () => {
+                const messages = linter.verify(`
+                    var aaa = {} //eslint-disable-line no-redeclare -- no-unused-vars
+                    var aaa = {} //eslint-disable-line no-redeclare -- no-unused-vars
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+
+                // Do include `no-unused-vars` but not `no-redeclare`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 25,
+                        endLine: 3,
+                        endColumn: 28,
+                        line: 3,
+                        message: "'aaa' is assigned a value but never used.",
+                        messageId: "unusedVar",
+                        nodeType: "Identifier",
+                        ruleId: "no-unused-vars",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should ignore the part preceded by '--' in '/*eslint-disable-line*/'.", () => {
+                const messages = linter.verify(`
+                    var aaa = {} /*eslint-disable-line no-redeclare -- no-unused-vars */
+                    var aaa = {} /*eslint-disable-line no-redeclare -- no-unused-vars */
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+
+                // Do include `no-unused-vars` but not `no-redeclare`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 25,
+                        endLine: 3,
+                        endColumn: 28,
+                        line: 3,
+                        message: "'aaa' is assigned a value but never used.",
+                        messageId: "unusedVar",
+                        nodeType: "Identifier",
+                        ruleId: "no-unused-vars",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should ignore the part preceded by '--' in '//eslint-disable-next-line'.", () => {
+                const messages = linter.verify(`
+                    //eslint-disable-next-line no-redeclare -- no-unused-vars
+                    var aaa = {}
+                    //eslint-disable-next-line no-redeclare -- no-unused-vars
+                    var aaa = {}
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+
+                // Do include `no-unused-vars` but not `no-redeclare`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 25,
+                        endLine: 5,
+                        endColumn: 28,
+                        line: 5,
+                        message: "'aaa' is assigned a value but never used.",
+                        messageId: "unusedVar",
+                        nodeType: "Identifier",
+                        ruleId: "no-unused-vars",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should ignore the part preceded by '--' in '/*eslint-disable-next-line*/'.", () => {
+                const messages = linter.verify(`
+                    /*eslint-disable-next-line no-redeclare -- no-unused-vars */
+                    var aaa = {}
+                    /*eslint-disable-next-line no-redeclare -- no-unused-vars */
+                    var aaa = {}
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+
+                // Do include `no-unused-vars` but not `no-redeclare`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 25,
+                        endLine: 5,
+                        endColumn: 28,
+                        line: 5,
+                        message: "'aaa' is assigned a value but never used.",
+                        messageId: "unusedVar",
+                        nodeType: "Identifier",
+                        ruleId: "no-unused-vars",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should not ignore the part preceded by '--' if the '--' is not surrounded by whitespaces.", () => {
+                const rule = sinon.stub().returns({});
+
+                linter.defineRule("a--rule", { create: rule });
+                const messages = linter.verify(`
+                    /*eslint a--rule:error */
+                    console.log("hello")
+                `, {});
+
+                // Don't include syntax error of the comment.
+                assert.deepStrictEqual(messages, []);
+
+                // Use `a--rule`.
+                assert.strictEqual(rule.callCount, 1);
+            });
+
+            it("should ignore the part preceded by '--' even if the '--' is longer than 2.", () => {
+                const aaa = sinon.stub().returns({});
+                const bbb = sinon.stub().returns({});
+
+                linter.defineRule("aaa", { create: aaa });
+                linter.defineRule("bbb", { create: bbb });
+                const messages = linter.verify(`
+                    /*eslint aaa:error -------- bbb:error */
+                    console.log("hello")
+                `, {});
+
+                // Don't include syntax error of the comment.
+                assert.deepStrictEqual(messages, []);
+
+                // Use only `aaa`.
+                assert.strictEqual(aaa.callCount, 1);
+                assert.strictEqual(bbb.callCount, 0);
+            });
+
+            it("should ignore the part preceded by '--' with line breaks.", () => {
+                const aaa = sinon.stub().returns({});
+                const bbb = sinon.stub().returns({});
+
+                linter.defineRule("aaa", { create: aaa });
+                linter.defineRule("bbb", { create: bbb });
+                const messages = linter.verify(`
+                    /*eslint aaa:error
+                        --------
+                        bbb:error */
+                    console.log("hello")
+                `, {});
+
+                // Don't include syntax error of the comment.
+                assert.deepStrictEqual(messages, []);
+
+                // Use only `aaa`.
+                assert.strictEqual(aaa.callCount, 1);
+                assert.strictEqual(bbb.callCount, 0);
+            });
+        });
     });
 
     describe("context.getScope()", () => {
@@ -4351,6 +4699,86 @@ describe("Linter", () => {
         });
     });
 
+    describe("suggestions", () => {
+        it("provides suggestion information for tools to use", () => {
+            linter.defineRule("rule-with-suggestions", context => ({
+                Program(node) {
+                    context.report({
+                        node,
+                        message: "Incorrect spacing",
+                        suggest: [{
+                            desc: "Insert space at the beginning",
+                            fix: fixer => fixer.insertTextBefore(node, " ")
+                        }, {
+                            desc: "Insert space at the end",
+                            fix: fixer => fixer.insertTextAfter(node, " ")
+                        }]
+                    });
+                }
+            }));
+
+            const messages = linter.verify("var a = 1;", { rules: { "rule-with-suggestions": "error" } });
+
+            assert.deepStrictEqual(messages[0].suggestions, [{
+                desc: "Insert space at the beginning",
+                fix: {
+                    range: [0, 0],
+                    text: " "
+                }
+            }, {
+                desc: "Insert space at the end",
+                fix: {
+                    range: [10, 10],
+                    text: " "
+                }
+            }]);
+        });
+
+        it("supports messageIds for suggestions", () => {
+            linter.defineRule("rule-with-suggestions", {
+                meta: {
+                    messages: {
+                        suggestion1: "Insert space at the beginning",
+                        suggestion2: "Insert space at the end"
+                    }
+                },
+                create: context => ({
+                    Program(node) {
+                        context.report({
+                            node,
+                            message: "Incorrect spacing",
+                            suggest: [{
+                                messageId: "suggestion1",
+                                fix: fixer => fixer.insertTextBefore(node, " ")
+                            }, {
+                                messageId: "suggestion2",
+                                fix: fixer => fixer.insertTextAfter(node, " ")
+                            }]
+                        });
+                    }
+                })
+            });
+
+            const messages = linter.verify("var a = 1;", { rules: { "rule-with-suggestions": "error" } });
+
+            assert.deepStrictEqual(messages[0].suggestions, [{
+                messageId: "suggestion1",
+                desc: "Insert space at the beginning",
+                fix: {
+                    range: [0, 0],
+                    text: " "
+                }
+            }, {
+                messageId: "suggestion2",
+                desc: "Insert space at the end",
+                fix: {
+                    range: [10, 10],
+                    text: " "
+                }
+            }]);
+        });
+    });
+
     describe("mutability", () => {
         let linter1 = null;
         let linter2 = null;
@@ -4365,7 +4793,7 @@ describe("Linter", () => {
                 assert.sameDeepMembers(Array.from(linter1.getRules().keys()), Array.from(linter2.getRules().keys()));
             });
 
-            it("loading rule in one doesnt change the other", () => {
+            it("loading rule in one doesn't change the other", () => {
                 linter1.defineRule("mock-rule", () => ({}));
 
                 assert.isTrue(linter1.getRules().has("mock-rule"), "mock rule is present");
@@ -4602,6 +5030,19 @@ describe("Linter", () => {
             });
         });
 
+        it("does not include suggestions in autofix results", () => {
+            const fixResult = linter.verifyAndFix("var foo = /\\#/", {
+                rules: {
+                    semi: 2,
+                    "no-useless-escape": 2
+                }
+            });
+
+            assert.strictEqual(fixResult.output, "var foo = /\\#/;");
+            assert.strictEqual(fixResult.fixed, true);
+            assert.strictEqual(fixResult.messages[0].suggestions.length > 0, true);
+        });
+
         it("does not apply autofixes when fix argument is `false`", () => {
             const fixResult = linter.verifyAndFix("var a", {
                 rules: {
@@ -4804,6 +5245,30 @@ describe("Linter", () => {
             const messages = linter.verify(code, { parser: "unknown-logical-operator-nested" }, filename, true);
 
             assert.strictEqual(messages.length, 0);
+        });
+
+        it("should not throw or return errors when the custom parser returns unknown AST nodes", () => {
+            const code = "foo && bar %% baz";
+
+            const nodes = [];
+
+            linter.defineRule("collect-node-types", () => ({
+                "*"(node) {
+                    nodes.push(node.type);
+                }
+            }));
+
+            linter.defineParser("non-js-parser", testParsers.nonJSParser);
+
+            const messages = linter.verify(code, {
+                parser: "non-js-parser",
+                rules: {
+                    "collect-node-types": "error"
+                }
+            }, filename, true);
+
+            assert.strictEqual(messages.length, 0);
+            assert.isTrue(nodes.length > 0);
         });
 
         it("should strip leading line: prefix from parser error", () => {

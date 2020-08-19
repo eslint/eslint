@@ -62,12 +62,13 @@ The source file for a rule exports an object with the following properties.
     * `category` (string) specifies the heading under which the rule is listed in the [rules index](../rules/)
     * `recommended` (boolean) is whether the `"extends": "eslint:recommended"` property in a [configuration file](../user-guide/configuring.md#extending-configuration-files) enables the rule
     * `url` (string) specifies the URL at which the full documentation can be accessed
+    * `suggestion` (boolean) specifies whether rules can return suggestions (defaults to false if omitted)
 
     In a custom rule or plugin, you can omit `docs` or include any properties that you need in it.
 
 * `fixable` (string) is either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../user-guide/command-line-interface.md#fix) automatically fixes problems reported by the rule
 
-    **Important:** Without the `fixable` property, ESLint does not [apply fixes](#applying-fixes) even if the rule implements `fix` functions. Omit the `fixable` property if the rule is not fixable.
+    **Important:** the `fixable` property is mandatory for fixable rules. If this property isn't specified, ESLint will throw an error whenever the rule attempts to produce a fix. Omit the `fixable` property if the rule is not fixable.
 
 * `schema` (array) specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../user-guide/configuring.md#configuring-rules)
 
@@ -139,9 +140,9 @@ Additionally, the `context` object has the following methods:
     * Otherwise, if the node does not declare any variables, an empty array is returned.
 * `getFilename()` - returns the filename associated with the source.
 * `getScope()` - returns the [scope](./scope-manager-interface.md#scope-interface) of the currently-traversed node. This information can be used to track references to variables.
-* `getSourceCode()` - returns a [`SourceCode`](#contextgetsourcecode) object that you can use to work with the source that was passed to ESLint.
+* `getSourceCode()` - returns a [`SourceCode`](#context-getsourcecode) object that you can use to work with the source that was passed to ESLint.
 * `markVariableAsUsed(name)` - marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars.md) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
-* `report(descriptor)` - reports a problem in the code (see the [dedicated section](#contextreport)).
+* `report(descriptor)` - reports a problem in the code (see the [dedicated section](#context-report)).
 
 **Note:** Earlier versions of ESLint supported additional methods on the `context` object. Those methods were removed in the new format and should not be relied upon.
 
@@ -300,7 +301,7 @@ context.report({
 
 Here, the `fix()` function is used to insert a semicolon after the node. Note that a fix is not immediately applied, and may not be applied at all if there are conflicts with other fixes. After applying fixes, ESLint will run all of the enabled rules again on the fixed code, potentially applying more fixes. This process will repeat up to 10 times, or until no more fixable problems are found. Afterwards, any remaining problems will be reported as usual.
 
-**Important:** Unless the rule [exports](#rule-basics) the `meta.fixable` property, ESLint does not apply fixes even if the rule implements `fix` functions.
+**Important:** The `meta.fixable` property is mandatory for fixable rules. ESLint will throw an error if a rule that implements `fix` functions does not [export](#rule-basics) the `meta.fixable` property.
 
 The `fixer` object has the following methods:
 
@@ -343,6 +344,119 @@ Best practices for fixes:
         ```
 
     * This fixer can just select a quote type arbitrarily. If it guesses wrong, the resulting code will be automatically reported and fixed by the [`quotes`](/docs/rules/quotes.md) rule.
+
+### Providing Suggestions
+
+In some cases fixes aren't appropriate to be automatically applied, for example, if a fix potentially changes functionality or if there are multiple valid ways to fix a rule depending on the implementation intent (see the best practices for [applying fixes](#applying-fixes) listed above). In these cases, there is an alternative `suggest` option on `context.report()` that allows other tools, such as editors, to expose helpers for users to manually apply a suggestion.
+
+In order to provide suggestions, use the `suggest` key in the report argument with an array of suggestion objects. The suggestion objects represent individual suggestions that could be applied and require either a `desc` key string that describes what applying the suggestion would do or a `messageId` key (see [below](#suggestion-messageids)), and a `fix` key that is a function defining the suggestion result. This `fix` function follows the same API as regular fixes (described above in [applying fixes](#applying-fixes)).
+
+```js
+{% raw %}
+context.report({
+    node: node,
+    message: "Unnecessary escape character: \\{{character}}.",
+    data: { character },
+    suggest: [
+        {
+            desc: "Remove the `\\`. This maintains the current functionality.",
+            fix: function(fixer) {
+                return fixer.removeRange(range);
+            }
+        },
+        {
+            desc: "Replace the `\\` with `\\\\` to include the actual backslash character.",
+            fix: function(fixer) {
+                return fixer.insertTextBeforeRange(range, "\\");
+            }
+        }
+    ]
+});
+{% endraw %}
+```
+
+Note: Suggestions will be applied as a stand-alone change, without triggering multipass fixes. Each suggestion should focus on a singular change in the code and should not try to conform to user defined styles. For example, if a suggestion is adding a new statement into the codebase, it should not try to match correct indentation, or confirm to user preferences on presence/absence of semicolumns. All of those things can be corrected by multipass autofix when the user triggers it.
+
+Best practices for suggestions:
+
+1. Don't try to do too much and suggest large refactors that could introduce a lot of breaking changes.
+1. As noted above, don't try to conform to user-defined styles.
+
+#### Suggestion `messageId`s
+
+Instead of using a `desc` key for suggestions a `messageId` can be used instead. This works the same way as `messageId`s for the overall error (see [messageIds](#messageIds)). Here is an example of how to use it in a rule:
+
+```js
+{% raw %}
+module.exports = {
+    meta: {
+        messages: {
+            unnecessaryEscape: "Unnecessary escape character: \\{{character}}.",
+            removeEscape: "Remove the `\\`. This maintains the current functionality.",
+            escapeBackslash: "Replace the `\\` with `\\\\` to include the actual backslash character."
+        }
+    },
+    create: function(context) {
+        // ...
+        context.report({
+            node: node,
+            messageId: 'unnecessaryEscape',
+            data: { character },
+            suggest: [
+                {
+                    messageId: "removeEscape",
+                    fix: function(fixer) {
+                        return fixer.removeRange(range);
+                    }
+                },
+                {
+                    messageId: "escapeBackslash",
+                    fix: function(fixer) {
+                        return fixer.insertTextBeforeRange(range, "\\");
+                    }
+                }
+            ]
+        });
+    }
+};
+{% endraw %}
+```
+
+#### Placeholders in suggestion messages
+
+You can also use placeholders in the suggestion message. This works the same way as placeholders for the overall error (see [using message placeholders](#using-message-placeholders)).
+
+Please note that you have to provide `data` on the suggestion's object. Suggestion messages cannot use properties from the overall error's `data`.
+
+```js
+{% raw %}
+module.exports = {
+    meta: {
+        messages: {
+            unnecessaryEscape: "Unnecessary escape character: \\{{character}}.",
+            removeEscape: "Remove `\\` before {{character}}.",
+        }
+    },
+    create: function(context) {
+        // ...
+        context.report({
+            node: node,
+            messageId: "unnecessaryEscape",
+            data: { character }, // data for the unnecessaryEscape overall message
+            suggest: [
+                {
+                    messageId: "removeEscape",
+                    data: { character }, // data for the removeEscape suggestion message
+                    fix: function(fixer) {
+                        return fixer.removeRange(range);
+                    }
+                }
+            ]
+        });
+    }
+};
+{% endraw %}
+```
 
 ### context.options
 
@@ -392,7 +506,7 @@ Once you have an instance of `SourceCode`, you can use the methods on it to work
 * `getCommentsAfter(nodeOrToken)` - returns an array of comment tokens that occur directly after the given node or token.
 * `getCommentsInside(node)` - returns an array of all comment tokens inside a given node.
 * `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none.
-* `isSpaceBetweenTokens(first, second)` - returns true if there is a whitespace character between the two tokens.
+* `isSpaceBetween(nodeOrToken, nodeOrToken)` - returns true if there is a whitespace character between the two tokens or, if given a node, the last token of the first node and the first token of the second node.
 * `getFirstToken(node, skipOptions)` - returns the first token representing the given node.
 * `getFirstTokens(node, countOptions)` - returns the first `count` tokens representing the given node.
 * `getLastToken(node, skipOptions)` - returns the last token representing the given node.
@@ -447,6 +561,7 @@ Please note that the following methods have been deprecated and will be removed 
 * `getComments()` - replaced by `getCommentsBefore()`, `getCommentsAfter()`, and `getCommentsInside()`
 * `getTokenOrCommentBefore()` - replaced by `getTokenBefore()` with the `{ includeComments: true }` option
 * `getTokenOrCommentAfter()` - replaced by `getTokenAfter()` with the `{ includeComments: true }` option
+* `isSpaceBetweenTokens()` - replaced by `isSpaceBetween()`
 
 ### Options Schemas
 
@@ -618,5 +733,5 @@ The thing that makes ESLint different from other linters is the ability to defin
 Runtime rules are written in the same format as all other rules. Create your rule as you would any other and then follow these steps:
 
 1. Place all of your runtime rules in the same directory (e.g., `eslint_rules`).
-2. Create a [configuration file](../user-guide/configuring.md) and specify your rule ID error level under the `rules` key. Your rule will not run unless it has a value of `1` or `2` in the configuration file.
+2. Create a [configuration file](../user-guide/configuring.md) and specify your rule ID error level under the `rules` key. Your rule will not run unless it has a value of `"warn"` or `"error"` in the configuration file.
 3. Run the [command line interface](../user-guide/command-line-interface.md) using the `--rulesdir` option to specify the location of your runtime rules.

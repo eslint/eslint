@@ -75,16 +75,34 @@ ruleTester.run("object-property-newline", rule, {
             output: "var obj = { k1: 'val1',\nk2: 'val2',\nk3: 'val3' };",
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 25
+                    column: 25,
+                    endLine: 1,
+                    endColumn: 27
                 },
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 37
+                    column: 37,
+                    endLine: 1,
+                    endColumn: 39
+                }
+            ]
+        },
+        {
+            code: "var obj = { k1: 'val1', k2: \n'val2', \nk3: 'val3' };",
+            output: "var obj = { k1: 'val1',\nk2: \n'val2', \nk3: 'val3' };",
+            errors: [
+                {
+                    messageId: "propertiesOnNewline",
+                    type: "ObjectExpression",
+                    line: 1,
+                    column: 25,
+                    endLine: 1,
+                    endColumn: 27
                 }
             ]
         },
@@ -93,10 +111,12 @@ ruleTester.run("object-property-newline", rule, {
             output: "var obj = {\nk1: 'val1',\nk2: 'val2'\n};",
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 2,
-                    column: 13
+                    column: 13,
+                    endLine: 2,
+                    endColumn: 15
                 }
             ]
         },
@@ -105,16 +125,20 @@ ruleTester.run("object-property-newline", rule, {
             output: "var obj = {\nk1: 'val1',\nk2: 'val2',\nk3: 'val3',\nk4: 'val4'\n};",
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 2,
-                    column: 13
+                    column: 13,
+                    endLine: 2,
+                    endColumn: 15
                 },
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 3,
-                    column: 13
+                    column: 13,
+                    endLine: 3,
+                    endColumn: 15
                 }
             ]
         },
@@ -123,10 +147,12 @@ ruleTester.run("object-property-newline", rule, {
             output: "var obj = {k1: ['foo', 'bar'],\nk2: 'val1'};",
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 32
+                    column: 32,
+                    endLine: 1,
+                    endColumn: 34
                 }
             ]
         },
@@ -135,10 +161,12 @@ ruleTester.run("object-property-newline", rule, {
             output: "var obj = {k1: [\n'foo', 'bar'\n],\nk2: 'val1'};",
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 3,
-                    column: 4
+                    column: 4,
+                    endLine: 3,
+                    endColumn: 6
                 }
             ]
         },
@@ -147,22 +175,28 @@ ruleTester.run("object-property-newline", rule, {
             output: "var obj = {\nk1: 'val1',\nk2: {e1: 'foo',\ne2: 'bar'},\nk3: 'val2'\n};",
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 2,
-                    column: 13
+                    column: 13,
+                    endLine: 2,
+                    endColumn: 15
                 },
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 2,
-                    column: 29
+                    column: 29,
+                    endLine: 2,
+                    endColumn: 31
                 },
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 2,
-                    column: 41
+                    column: 41,
+                    endLine: 2,
+                    endColumn: 43
                 }
             ]
         },
@@ -171,10 +205,12 @@ ruleTester.run("object-property-newline", rule, {
             output: "var obj = {\nk1: 'val1',\nk2: {e1: 'foo',\ne2: 'bar'},\nk3: 'val2'\n};",
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 3,
-                    column: 17
+                    column: 17,
+                    endLine: 3,
+                    endColumn: 19
                 }
             ]
         },
@@ -183,10 +219,12 @@ ruleTester.run("object-property-newline", rule, {
             output: "var obj = { k1: 'val1',\nk2: [\n'val2a', 'val2b', 'val2c'\n],\nk3: 'val3' };",
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 4,
-                    column: 4
+                    column: 4,
+                    endLine: 4,
+                    endColumn: 6
                 }
             ]
         },
@@ -196,10 +234,12 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 25
+                    column: 25,
+                    endLine: 1,
+                    endColumn: 26
                 }
             ]
         },
@@ -209,10 +249,12 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 2018 },
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 25
+                    column: 25,
+                    endLine: 1,
+                    endColumn: 28
                 }
             ]
         },
@@ -222,10 +264,12 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 2018 },
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 2,
-                    column: 13
+                    column: 13,
+                    endLine: 2,
+                    endColumn: 16
                 }
             ]
         },
@@ -234,10 +278,12 @@ ruleTester.run("object-property-newline", rule, {
             output: "foo({ k1: 'val1',\nk2: 'val2' });",
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 19
+                    column: 19,
+                    endLine: 1,
+                    endColumn: 21
                 }
             ]
         },
@@ -246,10 +292,12 @@ ruleTester.run("object-property-newline", rule, {
             output: "foo({\nk1: 'val1',\nk2: 'val2'\n});",
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 2,
-                    column: 13
+                    column: 13,
+                    endLine: 2,
+                    endColumn: 15
                 }
             ]
         },
@@ -259,10 +307,12 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 10
+                    column: 10,
+                    endLine: 1,
+                    endColumn: 11
                 }
             ]
         },
@@ -272,10 +322,12 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 2,
-                    column: 4
+                    column: 4,
+                    endLine: 2,
+                    endColumn: 5
                 }
             ]
         },
@@ -285,10 +337,12 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 2,
-                    column: 11
+                    column: 11,
+                    endLine: 2,
+                    endColumn: 14
                 }
             ]
         },
@@ -298,10 +352,12 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 2,
-                    column: 15
+                    column: 15,
+                    endLine: 2,
+                    endColumn: 18
                 }
             ]
         },
@@ -311,10 +367,12 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 19
+                    column: 19,
+                    endLine: 1,
+                    endColumn: 20
                 }
             ]
         },
@@ -324,10 +382,12 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 2018 },
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 19
+                    column: 19,
+                    endLine: 1,
+                    endColumn: 22
                 }
             ]
         },
@@ -337,10 +397,12 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 2018 },
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 2,
-                    column: 13
+                    column: 13,
+                    endLine: 2,
+                    endColumn: 16
                 }
             ]
         },
@@ -349,10 +411,12 @@ ruleTester.run("object-property-newline", rule, {
             output: "var obj = {\na: {\nb: 1,\nc: 2\n},\nd: 2\n};",
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 5,
-                    column: 4
+                    column: 4,
+                    endLine: 5,
+                    endColumn: 5
                 }
             ]
         },
@@ -361,10 +425,12 @@ ruleTester.run("object-property-newline", rule, {
             output: "({ foo: 1 /* comment */,\nbar: 2 })",
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 26
+                    column: 26,
+                    endLine: 1,
+                    endColumn: 29
                 }
             ]
         },
@@ -373,10 +439,12 @@ ruleTester.run("object-property-newline", rule, {
             output: null, // not fixed due to comment
             errors: [
                 {
-                    message: "Object properties must go on a new line.",
+                    messageId: "propertiesOnNewline",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 26
+                    column: 26,
+                    endLine: 1,
+                    endColumn: 29
                 }
             ]
         },
@@ -388,10 +456,12 @@ ruleTester.run("object-property-newline", rule, {
             options: [{ allowAllPropertiesOnSameLine: true }],
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    messageId: "propertiesOnNewlineAll",
                     type: "ObjectExpression",
                     line: 3,
-                    column: 13
+                    column: 13,
+                    endLine: 3,
+                    endColumn: 15
                 }
             ]
         },
@@ -401,16 +471,20 @@ ruleTester.run("object-property-newline", rule, {
             options: [{ allowAllPropertiesOnSameLine: true }],
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    messageId: "propertiesOnNewlineAll",
                     type: "ObjectExpression",
                     line: 3,
-                    column: 9
+                    column: 9,
+                    endLine: 3,
+                    endColumn: 11
                 },
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    messageId: "propertiesOnNewlineAll",
                     type: "ObjectExpression",
                     line: 3,
-                    column: 21
+                    column: 21,
+                    endLine: 3,
+                    endColumn: 23
                 }
             ]
         },
@@ -420,10 +494,12 @@ ruleTester.run("object-property-newline", rule, {
             options: [{ allowAllPropertiesOnSameLine: true }],
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    messageId: "propertiesOnNewlineAll",
                     type: "ObjectExpression",
                     line: 4,
-                    column: 4
+                    column: 4,
+                    endLine: 4,
+                    endColumn: 6
                 }
             ]
         },
@@ -433,10 +509,12 @@ ruleTester.run("object-property-newline", rule, {
             options: [{ allowAllPropertiesOnSameLine: true }],
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    messageId: "propertiesOnNewlineAll",
                     type: "ObjectExpression",
                     line: 3,
-                    column: 4
+                    column: 4,
+                    endLine: 3,
+                    endColumn: 6
                 }
             ]
         },
@@ -446,16 +524,20 @@ ruleTester.run("object-property-newline", rule, {
             options: [{ allowAllPropertiesOnSameLine: true }],
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    messageId: "propertiesOnNewlineAll",
                     type: "ObjectExpression",
                     line: 2,
-                    column: 13
+                    column: 13,
+                    endLine: 2,
+                    endColumn: 15
                 },
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    messageId: "propertiesOnNewlineAll",
                     type: "ObjectExpression",
                     line: 4,
-                    column: 4
+                    column: 4,
+                    endLine: 4,
+                    endColumn: 6
                 }
             ]
         },
@@ -465,10 +547,12 @@ ruleTester.run("object-property-newline", rule, {
             options: [{ allowAllPropertiesOnSameLine: true }],
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    messageId: "propertiesOnNewlineAll",
                     type: "ObjectExpression",
                     line: 4,
-                    column: 4
+                    column: 4,
+                    endLine: 4,
+                    endColumn: 6
                 }
             ]
         },
@@ -479,10 +563,12 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    messageId: "propertiesOnNewlineAll",
                     type: "ObjectExpression",
                     line: 2,
-                    column: 14
+                    column: 14,
+                    endLine: 2,
+                    endColumn: 16
                 }
             ]
         },
@@ -493,10 +579,12 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 2018 },
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    messageId: "propertiesOnNewlineAll",
                     type: "ObjectExpression",
                     line: 3,
-                    column: 13
+                    column: 13,
+                    endLine: 3,
+                    endColumn: 16
                 }
             ]
         },
@@ -507,10 +595,12 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 2018 },
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    messageId: "propertiesOnNewlineAll",
                     type: "ObjectExpression",
                     line: 3,
-                    column: 13
+                    column: 13,
+                    endLine: 3,
+                    endColumn: 15
                 }
             ]
         },
@@ -521,10 +611,12 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    messageId: "propertiesOnNewlineAll",
                     type: "ObjectExpression",
                     line: 2,
-                    column: 14
+                    column: 14,
+                    endLine: 2,
+                    endColumn: 16
                 }
             ]
         },
@@ -535,10 +627,12 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 2018 },
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    messageId: "propertiesOnNewlineAll",
                     type: "ObjectExpression",
                     line: 3,
-                    column: 13
+                    column: 13,
+                    endLine: 3,
+                    endColumn: 16
                 }
             ]
         },
@@ -549,10 +643,12 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 2018 },
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    messageId: "propertiesOnNewlineAll",
                     type: "ObjectExpression",
                     line: 3,
-                    column: 13
+                    column: 13,
+                    endLine: 3,
+                    endColumn: 15
                 }
             ]
         },
@@ -564,10 +660,12 @@ ruleTester.run("object-property-newline", rule, {
             options: [{ allowMultiplePropertiesPerLine: true }],
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    messageId: "propertiesOnNewlineAll",
                     type: "ObjectExpression",
                     line: 3,
-                    column: 13
+                    column: 13,
+                    endLine: 3,
+                    endColumn: 15
                 }
             ]
         }

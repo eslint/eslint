@@ -45,6 +45,8 @@ dynamically generated regular expressions.
 Examples of **incorrect** code for this rule:
 
 ```js
+/*eslint prefer-regex-literals: "error"*/
+
 new RegExp("abc");
 
 new RegExp("abc", "u");
@@ -63,6 +65,8 @@ new RegExp(String.raw`^\d\.$`);
 Examples of **correct** code for this rule:
 
 ```js
+/*eslint prefer-regex-literals: "error"*/
+
 /abc/;
 
 /abc/u;
@@ -81,7 +85,39 @@ new RegExp(prefix + "abc");
 
 RegExp(`${prefix}abc`);
 
-new RegExp(String.raw`^\d\. ${sufix}`);
+new RegExp(String.raw`^\d\. ${suffix}`);
+```
+
+## Options
+
+This rule has an object option:
+
+* `disallowRedundantWrapping` set to `true` additionally checks for unnecessarily wrapped regex literals (Default `false`).
+
+### `disallowRedundantWrapping`
+
+By default, this rule doesn’t check when a regex literal is unnecessarily wrapped in a `RegExp` constructor call. When the option `disallowRedundantWrapping` is set to `true`, the rule will also disallow such unnecessary patterns.
+
+Examples of `incorrect` code for `{ "disallowRedundantWrapping": true }`
+
+```js
+/*eslint prefer-regex-literals: ["error", {"disallowRedundantWrapping": true}]*/
+
+new RegExp(/abc/);
+
+new RegExp(/abc/, 'u');
+```
+
+Examples of `correct` code for `{ "disallowRedundantWrapping": true }`
+
+```js
+/*eslint prefer-regex-literals: ["error", {"disallowRedundantWrapping": true}]*/
+
+/abc/;
+
+/abc/u;
+
+new RegExp(/abc/, flags);
 ```
 
 ## Further Reading
