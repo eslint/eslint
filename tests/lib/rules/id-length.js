@@ -80,7 +80,8 @@ ruleTester.run("id-length", rule, {
         { code: "let foo = { [a + b]: 1 };", options: [{ properties: "always" }], parserOptions: { ecmaVersion: 6 } },
         { code: "function BEFORE_send() {};", options: [{ min: 3, max: 5, exceptionPatterns: ["^BEFORE_"] }] },
         { code: "function BEFORE_send() {};", options: [{ min: 3, max: 5, exceptionPatterns: ["^BEFORE_", "send$"] }] },
-        { code: "function BEFORE_send() {};", options: [{ min: 3, max: 5, exceptionPatterns: ["send$", "^A", "Z*"] }] }
+        { code: "function BEFORE_send() {};", options: [{ min: 3, max: 5, exceptionPatterns: ["^BEFORE_", "^A", "Z*"] }] },
+        { code: "var x = 1 ;", options: [{ min: 3, max: 5, exceptionPatterns: ["[x-z]"] }] }
     ],
     invalid: [
         { code: "var x = 1;", errors: [tooShortError] },

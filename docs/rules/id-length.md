@@ -220,25 +220,25 @@ const { a: x } = foo;
 
 ### exceptionPatterns
 
-Examples of additional **correct** code for this rule with the `{ "exceptionPatterns": ["^x_", "_send$"] }` option:
+Examples of additional **correct** code for this rule with the `{ "exceptionPatterns": ["E|S", "[x-z]"] }` option:
 
 ```js
-/*eslint id-length: ["error", { "exceptionPatterns": ["^x_", "_send$"] }]*/
+/*eslint id-length: ["error", { "exceptionPatterns": ["E|S", "[x-z]"] }]*/
 /*eslint-env es6*/
 
-var x_value = 5;
-function longFunction_send() { return 42; }
-obj.x_longName = document.body;
-var foo = function (x_value) { /* do stuff */ };
+var E = 5;
+function S() { return 42; }
+obj.x = document.body;
+var foo = function (x) { /* do stuff */ };
 try {
     dangerousStuff();
-} catch (x_value) {
+} catch (x) {
     // ignore as many do
 }
-(x_value) => {return x_value * x_value};
-var [x_value] = arr;
-const { x_value } = foo;
-const { a: x_value } = foo;
+(y) => {return  y * y};
+var [E] = arr;
+const { y } = foo;
+const { a: z } = foo;
 ```
 
 ## Related Rules
