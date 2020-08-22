@@ -213,6 +213,7 @@
     "no-useless-catch": "suggestion",
     "no-useless-computed-key": "suggestion",
     "no-useless-concat": "suggestion",
+    "no-useless-continue": "suggestion",
     "no-useless-constructor": "suggestion",
     "no-useless-escape": "suggestion",
     "no-useless-rename": "suggestion",
