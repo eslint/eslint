@@ -325,29 +325,43 @@ Examples of **incorrect** code for this rule with the default `{ "consistent": t
 /*eslint object-curly-newline: ["error", { "consistent": true }]*/
 /*eslint-env es6*/
 
-let a = {foo: 1
+let a = {
 };
-let b = {
+let b = {foo: 1
+};
+let c = {
     foo: 1};
-let c = {foo: 1, bar: 2
+let d = {foo: 1, bar: 2
 };
-let d = {
+let e = {
     foo: 1, bar: 2};
-let e = {foo: function() {
+let f = {foo: function() {
     dosomething();
 }};
+let g = {
+    foo: function() {
+    dosomething();}};
 
-let {f
+let {
 } = obj;
 let {
-    g} = obj;
-let {h, i
+    h} = obj;
+let {i, j
 } = obj;
 let {
-    j, k} = obj;
-let {l = function() {
+    k, l} = obj;
+let {m, n
+} = obj;
+let {
+    o, p
+} = obj;
+let {q = function() {
     dosomething();
 }} = obj;
+let {
+    r = function() {
+        dosomething();
+    }} = obj;
 ```
 
 Examples of **correct** code for this rule with the default `{ "consistent": true }` option:
