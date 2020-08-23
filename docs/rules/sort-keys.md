@@ -198,7 +198,7 @@ let obj = {
 Examples of **correct** code for the `{minKeys: 4}` option:
 
 ```js
-/*eslint sort-keys: ["error", "asc", {minKeys: 4}]*//
+/*eslint sort-keys: ["error", "asc", {minKeys: 4}]*/
 /*eslint-env es6*/
 
 // 3 keys
@@ -220,7 +220,7 @@ let obj = {
 Examples of **incorrect** code for the `{allowLineSeparatedGroups: true}` option:
 
 ```js
-/*eslint sort-keys: ["error", "asc", {allowLineSeparatedGroups: true}]*//
+/*eslint sort-keys: ["error", "asc", {allowLineSeparatedGroups: true}]*/
 /*eslint-env es6*/
 
 // Each group follows the sort-keys rule.
