@@ -325,41 +325,43 @@ Examples of **incorrect** code for this rule with the default `{ "consistent": t
 /*eslint object-curly-newline: ["error", { "consistent": true }]*/
 /*eslint-env es6*/
 
-let a = {
+let empty1 = {};
+let empty2 = {
 };
-let b = {foo: 1
+
+let a = {foo: 1
 };
-let c = {
+let b = {
     foo: 1};
-let d = {foo: 1, bar: 2
+let c = {foo: 1, bar: 2
 };
-let e = {
+let d = {
     foo: 1, bar: 2};
-let f = {foo: function() {
+let e = {foo: function() {
     dosomething();
 }};
-let g = {
+let f = {
     foo: function() {
     dosomething();}};
 
 let {
 } = obj;
 let {
-    h} = obj;
-let {i, j
+    g} = obj;
+let {h, i
 } = obj;
 let {
-    k, l} = obj;
-let {m, n
+    j, k} = obj;
+let {l, m
 } = obj;
 let {
-    o, p
+    n, o
 } = obj;
-let {q = function() {
+let {p = function() {
     dosomething();
 }} = obj;
 let {
-    r = function() {
+    q = function() {
         dosomething();
     }} = obj;
 ```
@@ -370,40 +372,39 @@ Examples of **correct** code for this rule with the default `{ "consistent": tru
 /*eslint object-curly-newline: ["error", { "consistent": true }]*/
 /*eslint-env es6*/
 
-let a = {};
-let b = {foo: 1};
-let c = {
+let a = {foo: 1};
+let b = {
     foo: 1
 };
-let d = {
+let c = {
     foo: 1, bar: 2
 };
-let e = {
+let d = {
     foo: 1,
     bar: 2
 };
-let f = {foo: function() {dosomething();}};
-let g = {
+let e = {foo: function() {dosomething();}};
+let f = {
     foo: function() {
         dosomething();
     }
 };
 
 let {} = obj;
-let {h} = obj;
-let {i, j} = obj;
+let {g} = obj;
+let {h, i} = obj;
 let {
-    k, l
+    j, k
 } = obj;
-let {m,
-    n} = obj;
+let {l,
+    m} = obj;
 let {
-    o,
-    p
+    n,
+    o
 } = obj;
-let {q = function() {dosomething();}} = obj;
+let {p = function() {dosomething();}} = obj;
 let {
-    r = function() {
+    q = function() {
         dosomething();
     }
 } = obj;
