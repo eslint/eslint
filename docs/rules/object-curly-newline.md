@@ -325,10 +325,6 @@ Examples of **incorrect** code for this rule with the default `{ "consistent": t
 /*eslint object-curly-newline: ["error", { "consistent": true }]*/
 /*eslint-env es6*/
 
-let empty1 = {};
-let empty2 = {
-};
-
 let a = {foo: 1
 };
 let b = {
@@ -372,6 +368,10 @@ Examples of **correct** code for this rule with the default `{ "consistent": tru
 /*eslint object-curly-newline: ["error", { "consistent": true }]*/
 /*eslint-env es6*/
 
+
+let empty1 = {};
+let empty2 = {
+};
 let a = {foo: 1};
 let b = {
     foo: 1
