@@ -341,22 +341,24 @@ let f = {
     foo: function() {
     dosomething();}};
 
-let {
-    g} = obj;
-let {h, i
+let {g
 } = obj;
 let {
-    j, k} = obj;
-let {l, m
+    h} = obj;
+let {i, j
+} = obj;
+let {k, l
 } = obj;
 let {
-    n, o
-} = obj;
-let {p = function() {
+    m, n} = obj;
+let {
+    o, p} = obj;
+let {q = function() {
     dosomething();
-}} = obj;
+    }
+} = obj;
 let {
-    q = function() {
+    r = function() {
         dosomething();
     }} = obj;
 ```
@@ -393,19 +395,22 @@ let {} = obj;
 let {
 } = obj;
 let {g} = obj;
-let {h, i} = obj;
 let {
-    j, k
+    h
 } = obj;
-let {l,
-    m} = obj;
+let {i, j} = obj;
 let {
-    n,
-    o
+    k, l
 } = obj;
-let {p = function() {dosomething();}} = obj;
+let {m,
+    n} = obj;
 let {
-    q = function() {
+    o,
+    p
+} = obj;
+let {q = function() {dosomething();}} = obj;
+let {
+    r = function() {
         dosomething();
     }
 } = obj;
