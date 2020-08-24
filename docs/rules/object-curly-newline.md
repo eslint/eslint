@@ -342,8 +342,6 @@ let f = {
     dosomething();}};
 
 let {
-} = obj;
-let {
     g} = obj;
 let {h, i
 } = obj;
@@ -392,6 +390,8 @@ let f = {
 };
 
 let {} = obj;
+let {
+} = obj;
 let {g} = obj;
 let {h, i} = obj;
 let {
