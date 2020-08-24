@@ -1,6 +1,6 @@
 # Checks whether the final clause of a switch statement ends in unnecessary `break;`. (switch-final-break)
 
-The final clause of a switch statement can end with an unnecessary `break;` statement, which can lead to inconsistent within a codebase.
+The final clause of a switch statement can end with an unnecessary `break;` statement, which can lead to inconsistency within a codebase.
 This rule improve codebase consistency by preventing this last `break;` statement.
 
 ## Options
