@@ -85,4 +85,4 @@ switch (x) {
 
 ## When Not To Use It
 
-You can safely disable this rule if you do not care about enforcing consistent in the last clause of a switch statement regarding the use of the `break` statement.
+You can safely disable this rule if you do not care about the consistent use of  `break` statement in the last clause of a switch statement.
