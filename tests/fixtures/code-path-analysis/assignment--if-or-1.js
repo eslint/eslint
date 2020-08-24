@@ -7,7 +7,6 @@ if (a ||= b) {
     foo();
 }
 
-
 /*DOT
 digraph {
     node[shape=box,style="rounded,filled",fillcolor=white];

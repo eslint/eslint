@@ -12,7 +12,6 @@ if ((a &&= b) && c) {
     baz();
 }
 
-
 /*DOT
 digraph {
     node[shape=box,style="rounded,filled",fillcolor=white];
