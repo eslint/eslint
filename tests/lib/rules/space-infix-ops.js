@@ -47,7 +47,11 @@ ruleTester.run("space-infix-ops", rule, {
         { code: "const foo = function(a: number = 0): Bar { };", parser: parser("type-annotations/function-expression-type-annotation"), parserOptions: { ecmaVersion: 6 } },
 
         // TypeScript Type Aliases
-        { code: "type Foo<T> = T;", parser: parser("typescript-parsers/type-alias"), parserOptions: { ecmaVersion: 6 } }
+        { code: "type Foo<T> = T;", parser: parser("typescript-parsers/type-alias"), parserOptions: { ecmaVersion: 6 } },
+
+        { code: "a &&= b", parserOptions: { ecmaVersion: 2021 } },
+        { code: "a ||= b", parserOptions: { ecmaVersion: 2021 } },
+        { code: "a ??= b", parserOptions: { ecmaVersion: 2021 } }
     ],
     invalid: [
         {
@@ -408,7 +412,6 @@ ruleTester.run("space-infix-ops", rule, {
         },
 
         // Type Annotations
-
         {
             code: "var a: Foo= b;",
             output: "var a: Foo = b;",
@@ -432,6 +435,49 @@ ruleTester.run("space-infix-ops", rule, {
                 line: 1,
                 column: 23,
                 type: "AssignmentPattern"
+            }]
+        },
+
+        {
+            code: "a&&=b",
+            output: "a &&= b",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "missingSpace",
+                data: { operator: "&&=" },
+                line: 1,
+                column: 2,
+                endLine: 1,
+                endColumn: 5,
+                type: "AssignmentExpression"
+            }]
+        },
+        {
+            code: "a ||=b",
+            output: "a ||= b",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "missingSpace",
+                data: { operator: "||=" },
+                line: 1,
+                column: 3,
+                endLine: 1,
+                endColumn: 6,
+                type: "AssignmentExpression"
+            }]
+        },
+        {
+            code: "a??= b",
+            output: "a ??= b",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "missingSpace",
+                data: { operator: "??=" },
+                line: 1,
+                column: 2,
+                endLine: 1,
+                endColumn: 5,
+                type: "AssignmentExpression"
             }]
         }
     ]
