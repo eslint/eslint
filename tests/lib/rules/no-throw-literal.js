@@ -30,7 +30,10 @@ ruleTester.run("no-throw-literal", rule, {
         "throw new foo();", // NewExpression
         "throw foo.bar;", // MemberExpression
         "throw foo[bar];", // MemberExpression
-        "throw foo = new Error();", // AssignmentExpression
+        "throw foo = new Error();", // AssignmentExpression with the `=` operator
+        { code: "throw foo &&= 'literal'", parserOptions: { ecmaVersion: 2021 } }, // AssignmentExpression with a logical operator
+        { code: "throw foo.bar ||= 'literal'", parserOptions: { ecmaVersion: 2021 } }, // AssignmentExpression with a logical operator
+        { code: "throw foo[bar] ??= 'literal'", parserOptions: { ecmaVersion: 2021 } }, // AssignmentExpression with a logical operator
         "throw 1, 2, new Error();", // SequenceExpression
         "throw 'literal' && new Error();", // LogicalExpression (right)
         "throw new Error() || 'literal';", // LogicalExpression (left)
@@ -104,7 +107,21 @@ ruleTester.run("no-throw-literal", rule, {
 
         // AssignmentExpression
         {
-            code: "throw foo = 'error';",
+            code: "throw foo = 'error';", // RHS is a literal
+            errors: [{
+                messageId: "object",
+                type: "ThrowStatement"
+            }]
+        },
+        {
+            code: "throw foo += new Error();", // evaluates to a primitive value, or throws while evaluating
+            errors: [{
+                messageId: "object",
+                type: "ThrowStatement"
+            }]
+        },
+        {
+            code: "throw foo &= new Error();", // evaluates to a primitive value, or throws while evaluating
             errors: [{
                 messageId: "object",
                 type: "ThrowStatement"

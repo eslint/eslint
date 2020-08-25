@@ -1014,12 +1014,27 @@ describe("ast-utils", () => {
             "foo.bar": true,
             "(foo = bar)": true,
             "(foo = 1)": false,
+            "(foo += bar)": false,
+            "(foo -= bar)": false,
+            "(foo *= bar)": false,
+            "(foo /= bar)": false,
+            "(foo %= bar)": false,
+            "(foo **= bar)": false,
+            "(foo <<= bar)": false,
+            "(foo >>= bar)": false,
+            "(foo >>>= bar)": false,
+            "(foo &= bar)": false,
+            "(foo |= bar)": false,
+            "(foo ^= bar)": false,
             "(1, 2, 3)": false,
             "(foo, 2, 3)": false,
             "(1, 2, foo)": true,
             "1 && 2": false,
             "1 && foo": true,
             "foo && 2": true,
+            "foo &&= 2": true,
+            "foo.bar ??= 2": true,
+            "foo[bar] ||= 2": true,
             "foo ? 1 : 2": false,
             "foo ? bar : 2": true,
             "foo ? 1 : bar": true,
@@ -1029,7 +1044,7 @@ describe("ast-utils", () => {
 
         Object.keys(EXPECTED_RESULTS).forEach(key => {
             it(`returns ${EXPECTED_RESULTS[key]} for ${key}`, () => {
-                const ast = espree.parse(key, { ecmaVersion: 6 });
+                const ast = espree.parse(key, { ecmaVersion: 2021 });
 
                 assert.strictEqual(astUtils.couldBeError(ast.body[0].expression), EXPECTED_RESULTS[key]);
             });
