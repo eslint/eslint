@@ -1639,4 +1639,28 @@ describe("ast-utils", () => {
             });
         });
     });
+
+    describe("isLogicalAssignmentOperator", () => {
+        const expectedResults = {
+            "&&=": true,
+            "||=": true,
+            "??=": true,
+            "&&": false,
+            "||": false,
+            "??": false,
+            "=": false,
+            "&=": false,
+            "|=": false,
+            "+=": false,
+            "**=": false,
+            "==": false,
+            "===": false
+        };
+
+        Object.entries(expectedResults).forEach(([key, value]) => {
+            it(`should return ${value} for ${key}`, () => {
+                assert.strictEqual(astUtils.isLogicalAssignmentOperator(key), value);
+            });
+        });
+    });
 });

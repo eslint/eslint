@@ -23,6 +23,8 @@ JavaScript provides shorthand operators that combine variable assignment and som
 
 This rule requires or disallows assignment operator shorthand where possible.
 
+The rule applies to the operators listed in the above table.
+
 ## Options
 
 This rule has a single string option:
