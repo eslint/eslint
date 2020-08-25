@@ -57,7 +57,48 @@ ruleTester.run("operator-linebreak", rule, {
         { code: "1 + 1\n", options: ["none"] },
         { code: "answer = everything ? 42 : foo;", options: ["none"] },
         { code: "answer = everything \n?\n 42 : foo;", options: [null, { overrides: { "?": "ignore" } }] },
-        { code: "answer = everything ? 42 \n:\n foo;", options: [null, { overrides: { ":": "ignore" } }] }
+        { code: "answer = everything ? 42 \n:\n foo;", options: [null, { overrides: { ":": "ignore" } }] },
+
+        {
+            code: "a \n &&= b",
+            options: ["after", { overrides: { "&&=": "ignore" } }],
+            parserOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "a ??= \n b",
+            options: ["before", { overrides: { "??=": "ignore" } }],
+            parserOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "a ||= \n b",
+            options: ["after", { overrides: { "=": "before" } }],
+            parserOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "a \n &&= b",
+            options: ["before", { overrides: { "&=": "after" } }],
+            parserOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "a \n ||= b",
+            options: ["before", { overrides: { "|=": "after" } }],
+            parserOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "a &&= \n b",
+            options: ["after", { overrides: { "&&": "before" } }],
+            parserOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "a ||= \n b",
+            options: ["after", { overrides: { "||": "before" } }],
+            parserOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "a ??= \n b",
+            options: ["after", { overrides: { "??": "before" } }],
+            parserOptions: { ecmaVersion: 2021 }
+        }
     ],
 
     invalid: [
@@ -637,6 +678,97 @@ ruleTester.run("operator-linebreak", rule, {
             errors: [{
                 messageId: "operatorAtBeginning",
                 data: { operator: "??" }
+            }]
+        },
+
+        {
+            code: "a \n  &&= b",
+            output: "a &&= \n  b",
+            options: ["after"],
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "operatorAtEnd",
+                data: { operator: "&&=" },
+                type: "AssignmentExpression",
+                line: 2,
+                column: 3,
+                endLine: 2,
+                endColumn: 6
+            }]
+        },
+        {
+            code: "a ||=\n b",
+            output: "a\n ||= b",
+            options: ["before"],
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "operatorAtBeginning",
+                data: { operator: "||=" },
+                type: "AssignmentExpression",
+                line: 1,
+                column: 3,
+                endLine: 1,
+                endColumn: 6
+            }]
+        },
+        {
+            code: "a  ??=\n b",
+            output: "a  ??= b",
+            options: ["none"],
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "noLinebreak",
+                data: { operator: "??=" },
+                type: "AssignmentExpression",
+                line: 1,
+                column: 4,
+                endLine: 1,
+                endColumn: 7
+            }]
+        },
+        {
+            code: "a \n  &&= b",
+            output: "a   &&= b",
+            options: ["before", { overrides: { "&&=": "none" } }],
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "noLinebreak",
+                data: { operator: "&&=" },
+                type: "AssignmentExpression",
+                line: 2,
+                column: 3,
+                endLine: 2,
+                endColumn: 6
+            }]
+        },
+        {
+            code: "a ||=\nb",
+            output: "a\n||= b",
+            options: ["after", { overrides: { "||=": "before" } }],
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "operatorAtBeginning",
+                data: { operator: "||=" },
+                type: "AssignmentExpression",
+                line: 1,
+                column: 3,
+                endLine: 1,
+                endColumn: 6
+            }]
+        },
+        {
+            code: "a\n??=b",
+            output: "a??=\nb",
+            options: ["none", { overrides: { "??=": "after" } }],
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "operatorAtEnd",
+                data: { operator: "??=" },
+                type: "AssignmentExpression",
+                line: 2,
+                column: 1,
+                endLine: 2,
+                endColumn: 4
             }]
         }
     ]
