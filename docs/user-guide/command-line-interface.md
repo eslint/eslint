@@ -80,6 +80,7 @@ Miscellaneous:
   --init                         Run config initialization wizard - default: false
   --env-info                     Output execution environment information - default: false
   --no-error-on-unmatched-pattern  Prevent errors when pattern is unmatched - default: false
+  --max-errors Int               Number of errors to allow before triggering nonzero exit code - default: 0
   --debug                        Output debugging information
   -h, --help                     Show help
   -v, --version                  Output the version number
@@ -319,6 +320,16 @@ Example:
 
     eslint --max-warnings 10 file.js
 
+#### `--max-errors`
+
+This option allows you to specify an error threshold, which can be used to force ESLint to exit with a success status up to a specific number of error-level rule violations in your project.
+
+Normally, if ESLint runs and finds any errors, it will exit with an error exit status. However, if `--max-errors` is specified and the total error count is less than the specified threshold, ESLint will exit with a success status. Specifying a threshold of `0` or omitting this option will prevent this behavior.
+
+Example:
+
+    eslint --max-errors 10 file.js
+
 ### Output
 
 #### `-o`, `--output-file`
@@ -489,6 +500,6 @@ A more detailed breakdown of supported patterns and directories ESLint ignores b
 
 When linting files, ESLint will exit with one of the following exit codes:
 
-* `0`: Linting was successful and there are no linting errors. If the `--max-warnings` flag is set to `n`, the number of linting warnings is at most `n`.
-* `1`: Linting was successful and there is at least one linting error, or there are more linting warnings than allowed by the `--max-warnings` option.
+* `0`: Linting was successful and there are no linting errors. If the `---max-errors` flag is set to `y`, the number of linting errors is at most `y` If the `--max-warnings` flag is set to `n`, the number of linting warnings is at most `n`.
+* `1`: Linting was successful and there is at least one linting error and more than allowed by the `---max-errors` flag, or there are more linting warnings than allowed by the `--max-warnings` option.
 * `2`: Linting was unsuccessful due to a configuration problem or an internal error.

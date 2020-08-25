@@ -785,6 +785,36 @@ describe("cli", () => {
         });
     });
 
+    describe("when given the max-errors flag", () => {
+        it("should not change exit code if errors count under threshold", async () => {
+            const filePath = getFixturePath("max-errors");
+            const exitCode = await cli.execute(`--no-ignore --max-errors 10 ${filePath}`);
+
+            assert.strictEqual(exitCode, 0);
+        });
+
+        it("should exit with exit code 1 if error count exceeds threshold", async () => {
+            const filePath = getFixturePath("max-errors");
+            const exitCode = await cli.execute(`--no-ignore --max-errors 5 ${filePath}`);
+
+            assert.strictEqual(exitCode, 1);
+        });
+
+        it("should not change exit code if error count equals threshold", async () => {
+            const filePath = getFixturePath("max-errors");
+            const exitCode = await cli.execute(`--no-ignore --max-errors 6 ${filePath}`);
+
+            assert.strictEqual(exitCode, 0);
+        });
+
+        it("should not change exit code if flag is not specified and there are errors", async () => {
+            const filePath = getFixturePath("max-errors");
+            const exitCode = await cli.execute(filePath);
+
+            assert.strictEqual(exitCode, 1);
+        });
+    });
+
     describe("when passed --no-inline-config", () => {
         let localCLI;
 
