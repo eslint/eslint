@@ -98,7 +98,19 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         "[foo] = array;",
         "foo += array[0]",
+        {
+            code: "foo &&= array[0]",
+            parserOptions: { ecmaVersion: 2021 }
+        },
         "foo += bar.foo",
+        {
+            code: "foo ||= bar.foo",
+            parserOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "foo ??= bar['foo']",
+            parserOptions: { ecmaVersion: 2021 }
+        },
         {
             code: "foo = object.foo;",
             options: [{ AssignmentExpression: { object: false } }, { enforceForRenamedProperties: true }]
