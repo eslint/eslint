@@ -22,7 +22,12 @@ ruleTester.run("no-bitwise", rule, {
     valid: [
         "a + b",
         "!a",
+        "a && b",
+        "a || b",
         "a += b",
+        { code: "a &&= b", parserOptions: { ecmaVersion: 2021 } },
+        { code: "a ||= b", parserOptions: { ecmaVersion: 2021 } },
+        { code: "a ??= b", parserOptions: { ecmaVersion: 2021 } },
         { code: "~[1, 2, 3].indexOf(1)", options: [{ allow: ["~"] }] },
         { code: "~1<<2 === -8", options: [{ allow: ["~", "<<"] }] },
         { code: "a|0", options: [{ int32Hint: true }] },
