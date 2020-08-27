@@ -1512,9 +1512,8 @@ describe("ConfigArrayFactory", () => {
             } catch (err) {
                 assert.strictEqual(err.messageTemplate, "plugin-invalid");
                 assert.deepStrictEqual(err.messageData, {
-                    pluginName: "plugin:nonexistent-plugin",
-                    resolvePluginsRelativeTo: process.cwd(),
-                    importerName: "whatever"
+                    configName: "plugin:nonexistent-plugin",
+                    importerName: path.join(process.cwd(), "whatever")
                 });
                 return;
             }
