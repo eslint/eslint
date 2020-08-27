@@ -335,19 +335,32 @@ let d = {
     foo: 1, bar: 2};
 let e = {foo: function() {
     dosomething();
-}};
+    }
+};
+let f = {
+    foo: function() {
+    dosomething();}};
 
-let {f
+let {g
 } = obj;
 let {
-    g} = obj;
-let {h, i
+    h} = obj;
+let {i, j
+} = obj;
+let {k, l
 } = obj;
 let {
-    j, k} = obj;
-let {l = function() {
+    m, n} = obj;
+let {
+    o, p} = obj;
+let {q = function() {
     dosomething();
-}} = obj;
+    }
+} = obj;
+let {
+    r = function() {
+        dosomething();
+    }} = obj;
 ```
 
 Examples of **correct** code for this rule with the default `{ "consistent": true }` option:
@@ -356,27 +369,35 @@ Examples of **correct** code for this rule with the default `{ "consistent": tru
 /*eslint object-curly-newline: ["error", { "consistent": true }]*/
 /*eslint-env es6*/
 
-let a = {};
-let b = {foo: 1};
-let c = {
+
+let empty1 = {};
+let empty2 = {
+};
+let a = {foo: 1};
+let b = {
     foo: 1
 };
-let d = {
+let c = {
     foo: 1, bar: 2
 };
-let e = {
+let d = {
     foo: 1,
     bar: 2
 };
-let f = {foo: function() {dosomething();}};
-let g = {
+let e = {foo: function() {dosomething();}};
+let f = {
     foo: function() {
         dosomething();
     }
 };
 
 let {} = obj;
-let {h} = obj;
+let {
+} = obj;
+let {g} = obj;
+let {
+    h
+} = obj;
 let {i, j} = obj;
 let {
     k, l
