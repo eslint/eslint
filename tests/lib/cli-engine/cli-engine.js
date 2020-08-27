@@ -12,7 +12,6 @@
 const assert = require("chai").assert,
     path = require("path"),
     sinon = require("sinon"),
-    leche = require("leche"),
     shell = require("shelljs"),
     fs = require("fs"),
     os = require("os"),
@@ -4469,7 +4468,9 @@ describe("CLIEngine", () => {
         });
 
         it("should call fs.writeFileSync() for each result with output", () => {
-            const fakeFS = leche.fake(fs),
+            const fakeFS = {
+                    writeFileSync: () => {}
+                },
                 localCLIEngine = proxyquire("../../../lib/cli-engine/cli-engine", {
                     fs: fakeFS
                 }).CLIEngine,
@@ -4486,7 +4487,6 @@ describe("CLIEngine", () => {
                     ]
                 };
 
-            fakeFS.writeFileSync = function() {};
             const spy = sinon.spy(fakeFS, "writeFileSync");
 
             localCLIEngine.outputFixes(report);
@@ -4498,7 +4498,9 @@ describe("CLIEngine", () => {
         });
 
         it("should call fs.writeFileSync() for each result with output and not at all for a result without output", () => {
-            const fakeFS = leche.fake(fs),
+            const fakeFS = {
+                    writeFileSync: () => {}
+                },
                 localCLIEngine = proxyquire("../../../lib/cli-engine/cli-engine", {
                     fs: fakeFS
                 }).CLIEngine,
@@ -4518,7 +4520,6 @@ describe("CLIEngine", () => {
                     ]
                 };
 
-            fakeFS.writeFileSync = function() {};
             const spy = sinon.spy(fakeFS, "writeFileSync");
 
             localCLIEngine.outputFixes(report);
@@ -4555,12 +4556,12 @@ describe("CLIEngine", () => {
 
     describe("resolveFileGlobPatterns", () => {
 
-        leche.withData([
+        [
             [".", ["**/*.{js}"]],
             ["./", ["**/*.{js}"]],
             ["../", ["../**/*.{js}"]],
             ["", []]
-        ], (input, expected) => {
+        ].forEach(([input, expected]) => {
 
             it(`should correctly resolve ${input} to ${expected}`, () => {
                 const engine = new CLIEngine();

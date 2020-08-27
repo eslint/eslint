@@ -124,6 +124,18 @@ ruleTester.run("no-alert", rule, {
             code: "function foo() { var globalThis = bar; globalThis.alert(); }\nglobalThis.alert();",
             env: { es2020: true },
             errors: [{ messageId: "unexpected", data: { name: "alert" }, type: "CallExpression", line: 2, column: 1 }]
+        },
+
+        // Optional chaining
+        {
+            code: "window?.alert(foo)",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected", data: { name: "alert" } }]
+        },
+        {
+            code: "(window?.alert)(foo)",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected", data: { name: "alert" } }]
         }
     ]
 });

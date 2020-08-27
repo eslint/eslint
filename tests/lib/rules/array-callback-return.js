@@ -443,6 +443,33 @@ ruleTester.run("array-callback-return", rule, {
                 endLine: 2,
                 endColumn: 20
             }]
+        },
+
+        // Optional chaining
+        {
+            code: "foo?.filter(() => { console.log('hello') })",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedInside", data: { name: "arrow function", arrayMethodName: "Array.prototype.filter" } }]
+        },
+        {
+            code: "(foo?.filter)(() => { console.log('hello') })",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedInside", data: { name: "arrow function", arrayMethodName: "Array.prototype.filter" } }]
+        },
+        {
+            code: "Array?.from([], () => { console.log('hello') })",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedInside", data: { name: "arrow function", arrayMethodName: "Array.from" } }]
+        },
+        {
+            code: "(Array?.from)([], () => { console.log('hello') })",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedInside", data: { name: "arrow function", arrayMethodName: "Array.from" } }]
+        },
+        {
+            code: "foo?.filter((function() { return () => { console.log('hello') } })?.())",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedInside", data: { name: "arrow function", arrayMethodName: "Array.prototype.filter" } }]
         }
     ]
 });

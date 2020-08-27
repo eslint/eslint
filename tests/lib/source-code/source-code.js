@@ -13,7 +13,6 @@ const fs = require("fs"),
     assert = require("chai").assert,
     espree = require("espree"),
     sinon = require("sinon"),
-    leche = require("leche"),
     { Linter } = require("../../../lib/linter"),
     SourceCode = require("../../../lib/source-code/source-code"),
     astUtils = require("../../../lib/shared/ast-utils");
@@ -1791,13 +1790,13 @@ describe("SourceCode", () => {
 
     describe("isSpaceBetween()", () => {
         describe("should return true when there is at least one whitespace character between two tokens", () => {
-            leche.withData([
+            [
                 ["let foo", true],
                 ["let  foo", true],
                 ["let /**/ foo", true],
                 ["let/**/foo", false],
                 ["let/*\n*/foo", false]
-            ], (code, expected) => {
+            ].forEach(([code, expected]) => {
                 describe("when the first given is located before the second", () => {
                     it(code, () => {
                         const ast = espree.parse(code, DEFAULT_CONFIG),
@@ -1829,7 +1828,7 @@ describe("SourceCode", () => {
                 });
             });
 
-            leche.withData([
+            [
                 ["a+b", false],
                 ["a +b", true],
                 ["a/**/+b", false],
@@ -1861,7 +1860,7 @@ describe("SourceCode", () => {
                 ["a/* */+ ` /*\n*/ `/* */+c", true],
                 ["a/* */+` /*\n*/ ` /* */+c", true],
                 ["a/* */+ ` /*\n*/ ` /* */+c", true]
-            ], (code, expected) => {
+            ].forEach(([code, expected]) => {
                 describe("when the first given is located before the second", () => {
                     it(code, () => {
                         const ast = espree.parse(code, DEFAULT_CONFIG),
@@ -1895,7 +1894,7 @@ describe("SourceCode", () => {
         });
 
         describe("should return true when there is at least one whitespace character between a token and a node", () => {
-            leche.withData([
+            [
                 [";let foo = bar", false],
                 [";/**/let foo = bar", false],
                 [";/* */let foo = bar", false],
@@ -1923,7 +1922,7 @@ describe("SourceCode", () => {
                 [";/* */\nlet foo = bar", true],
                 [";\n/**/\nlet foo = bar", true],
                 [";\n/* */\nlet foo = bar", true]
-            ], (code, expected) => {
+            ].forEach(([code, expected]) => {
                 describe("when the first given is located before the second", () => {
                     it(code, () => {
                         const ast = espree.parse(code, DEFAULT_CONFIG),
@@ -1957,7 +1956,7 @@ describe("SourceCode", () => {
         });
 
         describe("should return true when there is at least one whitespace character between a node and a token", () => {
-            leche.withData([
+            [
                 ["let foo = bar;;", false],
                 ["let foo = bar;;;", false],
                 ["let foo = 1; let bar = 2;;", true],
@@ -1985,7 +1984,7 @@ describe("SourceCode", () => {
                 ["let foo = bar;/* */\n;", true],
                 ["let foo = bar;\n/**/\n;", true],
                 ["let foo = bar;\n/* */\n;", true]
-            ], (code, expected) => {
+            ].forEach(([code, expected]) => {
                 describe("when the first given is located before the second", () => {
                     it(code, () => {
                         const ast = espree.parse(code, DEFAULT_CONFIG),
@@ -2019,7 +2018,7 @@ describe("SourceCode", () => {
         });
 
         describe("should return true when there is at least one whitespace character between two nodes", () => {
-            leche.withData([
+            [
                 ["let foo = bar;let baz = qux;", false],
                 ["let foo = bar;/**/let baz = qux;", false],
                 ["let foo = bar;/* */let baz = qux;", false],
@@ -2045,7 +2044,7 @@ describe("SourceCode", () => {
                 ["let foo = bar;\n/**/\nlet baz = qux;", true],
                 ["let foo = bar;\n/* */\nlet baz = qux;", true],
                 ["let foo = 1;let foo2 = 2; let foo3 = 3;", true]
-            ], (code, expected) => {
+            ].forEach(([code, expected]) => {
                 describe("when the first given is located before the second", () => {
                     it(code, () => {
                         const ast = espree.parse(code, DEFAULT_CONFIG),
@@ -2142,9 +2141,9 @@ describe("SourceCode", () => {
         });
 
         describe("should return false either of the arguments' location is inside the other one", () => {
-            leche.withData([
+            [
                 ["let foo = bar;", false]
-            ], (code, expected) => {
+            ].forEach(([code, expected]) => {
                 it(code, () => {
                     const ast = espree.parse(code, DEFAULT_CONFIG),
                         sourceCode = new SourceCode(code, ast);
@@ -2187,13 +2186,13 @@ describe("SourceCode", () => {
 
     describe("isSpaceBetweenTokens()", () => {
         describe("should return true when there is at least one whitespace character between two tokens", () => {
-            leche.withData([
+            [
                 ["let foo", true],
                 ["let  foo", true],
                 ["let /**/ foo", true],
                 ["let/**/foo", false],
                 ["let/*\n*/foo", false]
-            ], (code, expected) => {
+            ].forEach(([code, expected]) => {
                 describe("when the first given is located before the second", () => {
                     it(code, () => {
                         const ast = espree.parse(code, DEFAULT_CONFIG),
@@ -2225,7 +2224,7 @@ describe("SourceCode", () => {
                 });
             });
 
-            leche.withData([
+            [
                 ["a+b", false],
                 ["a +b", true],
                 ["a/**/+b", false],
@@ -2257,7 +2256,7 @@ describe("SourceCode", () => {
                 ["a/* */+ ` /*\n*/ `/* */+c", true],
                 ["a/* */+` /*\n*/ ` /* */+c", true],
                 ["a/* */+ ` /*\n*/ ` /* */+c", true]
-            ], (code, expected) => {
+            ].forEach(([code, expected]) => {
                 describe("when the first given is located before the second", () => {
                     it(code, () => {
                         const ast = espree.parse(code, DEFAULT_CONFIG),
@@ -2291,7 +2290,7 @@ describe("SourceCode", () => {
         });
 
         describe("should return true when there is at least one whitespace character between a token and a node", () => {
-            leche.withData([
+            [
                 [";let foo = bar", false],
                 [";/**/let foo = bar", false],
                 [";/* */let foo = bar", false],
@@ -2319,7 +2318,7 @@ describe("SourceCode", () => {
                 [";/* */\nlet foo = bar", true],
                 [";\n/**/\nlet foo = bar", true],
                 [";\n/* */\nlet foo = bar", true]
-            ], (code, expected) => {
+            ].forEach(([code, expected]) => {
                 describe("when the first given is located before the second", () => {
                     it(code, () => {
                         const ast = espree.parse(code, DEFAULT_CONFIG),
@@ -2353,7 +2352,7 @@ describe("SourceCode", () => {
         });
 
         describe("should return true when there is at least one whitespace character between a node and a token", () => {
-            leche.withData([
+            [
                 ["let foo = bar;;", false],
                 ["let foo = bar;;;", false],
                 ["let foo = 1; let bar = 2;;", true],
@@ -2381,7 +2380,7 @@ describe("SourceCode", () => {
                 ["let foo = bar;/* */\n;", true],
                 ["let foo = bar;\n/**/\n;", true],
                 ["let foo = bar;\n/* */\n;", true]
-            ], (code, expected) => {
+            ].forEach(([code, expected]) => {
                 describe("when the first given is located before the second", () => {
                     it(code, () => {
                         const ast = espree.parse(code, DEFAULT_CONFIG),
@@ -2415,7 +2414,7 @@ describe("SourceCode", () => {
         });
 
         describe("should return true when there is at least one whitespace character between two nodes", () => {
-            leche.withData([
+            [
                 ["let foo = bar;let baz = qux;", false],
                 ["let foo = bar;/**/let baz = qux;", false],
                 ["let foo = bar;/* */let baz = qux;", false],
@@ -2441,7 +2440,7 @@ describe("SourceCode", () => {
                 ["let foo = bar;\n/**/\nlet baz = qux;", true],
                 ["let foo = bar;\n/* */\nlet baz = qux;", true],
                 ["let foo = 1;let foo2 = 2; let foo3 = 3;", true]
-            ], (code, expected) => {
+            ].forEach(([code, expected]) => {
                 describe("when the first given is located before the second", () => {
                     it(code, () => {
                         const ast = espree.parse(code, DEFAULT_CONFIG),
@@ -2538,9 +2537,9 @@ describe("SourceCode", () => {
         });
 
         describe("should return false either of the arguments' location is inside the other one", () => {
-            leche.withData([
+            [
                 ["let foo = bar;", false]
-            ], (code, expected) => {
+            ].forEach(([code, expected]) => {
                 it(code, () => {
                     const ast = espree.parse(code, DEFAULT_CONFIG),
                         sourceCode = new SourceCode(code, ast);

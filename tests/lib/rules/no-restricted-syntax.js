@@ -128,6 +128,35 @@ ruleTester.run("no-restricted-syntax", rule, {
             code: "console.log(/a/i);",
             options: ["Literal[regex.flags=/./]"],
             errors: [{ messageId: "restrictedSyntax", data: { message: "Using 'Literal[regex.flags=/./]' is not allowed." }, type: "Literal" }]
+        },
+
+        // Optional chaining
+        {
+            code: "var foo = foo?.bar?.();",
+            options: ["ChainExpression"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "restrictedSyntax", data: { message: "Using 'ChainExpression' is not allowed." }, type: "ChainExpression" }]
+        },
+        {
+            code: "var foo = foo?.bar?.();",
+            options: ["[optional=true]"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "restrictedSyntax", data: { message: "Using '[optional=true]' is not allowed." }, type: "CallExpression" },
+                { messageId: "restrictedSyntax", data: { message: "Using '[optional=true]' is not allowed." }, type: "MemberExpression" }
+            ]
         }
+
+        /*
+         * TODO(mysticatea): fix https://github.com/estools/esquery/issues/110
+         * {
+         *     code: "a?.b",
+         *     options: [":nth-child(1)"],
+         *     parserOptions: { ecmaVersion: 2020 },
+         *     errors: [
+         *         { messageId: "restrictedSyntax", data: { message: "Using ':nth-child(1)' is not allowed." }, type: "ExpressionStatement" }
+         *     ]
+         * }
+         */
     ]
 });

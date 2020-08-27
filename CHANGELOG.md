@@ -1,3 +1,60 @@
+v7.7.0 - August 14, 2020
+
+* [`b46f3ee`](https://github.com/eslint/eslint/commit/b46f3ee0dae4add9df99cae940b641ad8de58b9e) Update: allowFunctionParams option in no-underscore-dangle (fixes 12579) (#13545) (Sunghyun Cho)
+* [`26aa245`](https://github.com/eslint/eslint/commit/26aa2452b5f407fabc25dad21182180e4d3be532) Docs: clarify "case" specifier in padding-line-between-statements (#13562) (Milos Djermanovic)
+* [`082891c`](https://github.com/eslint/eslint/commit/082891c042d72953fe86cd3ce9c96e661760793d) Docs: Update semantic versioning policy (#13563) (Nicholas C. Zakas)
+* [`4e0b672`](https://github.com/eslint/eslint/commit/4e0b672eb4bf39f7502a550b08b25a56a196f19f) Fix: revert "Update: disallow multiple options in comma-dangle schema" (#13564) (Kai Cataldo)
+* [`254990e`](https://github.com/eslint/eslint/commit/254990e87914457ca25ea2d7ee012964e56fc9e5) Fix: indent for async arrow functions (fixes #13497) (#13544) (Anix)
+* [`28ca339`](https://github.com/eslint/eslint/commit/28ca339259b07c96c73f2ef28cbf112b96395855) Sponsors: Sync README with website (ESLint Jenkins)
+* [`2e4158d`](https://github.com/eslint/eslint/commit/2e4158d3ec9cfed6400bf70795fd7171e96ff9b3) Sponsors: Sync README with website (ESLint Jenkins)
+* [`488d159`](https://github.com/eslint/eslint/commit/488d1595aef43c4d52cccdb2c97977884f0375a8) Sponsors: Sync README with website (ESLint Jenkins)
+* [`c44306e`](https://github.com/eslint/eslint/commit/c44306e52778309a79232ceab8b55a9aa0f2dfda) Sponsors: Sync README with website (ESLint Jenkins)
+* [`6677180`](https://github.com/eslint/eslint/commit/6677180495e16a02d150d0552e7e5d5f6b77fcc5) Sponsors: Sync README with website (ESLint Jenkins)
+* [`07db7b8`](https://github.com/eslint/eslint/commit/07db7b8080c2f68ee28e7d447db356c33e6fddce) Sponsors: Sync README with website (ESLint Jenkins)
+* [`d4ce4d3`](https://github.com/eslint/eslint/commit/d4ce4d3b8492c3e4654ed1f51f2c48e6c0ad272f) Sponsors: Sync README with website (ESLint Jenkins)
+* [`284e954`](https://github.com/eslint/eslint/commit/284e954f93126c50e0aa9b88f42afb03a47ad967) Sponsors: Sync README with website (ESLint Jenkins)
+* [`ae9b54e`](https://github.com/eslint/eslint/commit/ae9b54e59b01aa9f50ee31f5b6787d86e6b59de6) Sponsors: Sync README with website (ESLint Jenkins)
+* [`9124a15`](https://github.com/eslint/eslint/commit/9124a1599638a1caf4b7e252d1cb66abdc5e51c6) Chore: remove leche (fixes #13287) (#13533) (Mark de Dios)
+* [`5c4c7f5`](https://github.com/eslint/eslint/commit/5c4c7f515c2e8e83f2186a66ddce75d6477abeb0) Sponsors: Sync README with website (ESLint Jenkins)
+* [`48d8ec8`](https://github.com/eslint/eslint/commit/48d8ec8cf320c69aed17c6b6c78f19e7c1e587ca) Sponsors: Sync README with website (ESLint Jenkins)
+
+v7.6.0 - July 31, 2020
+
+* [`ecb2b73`](https://github.com/eslint/eslint/commit/ecb2b7343a0d14fb57d297a16be6c1b176fb3dbf) Update: require `meta` for fixable rules in RuleTester (refs #13349) (#13489) (Milos Djermanovic)
+* [`6fb4edd`](https://github.com/eslint/eslint/commit/6fb4edde3b7a7ae2faf8ac956a7342fbf80865fc) Docs: fix broken links in developer guide (#13518) (Sam Chen)
+* [`318fe10`](https://github.com/eslint/eslint/commit/318fe103dbf2548eee293ff456ef0b829dbe3db3) Fix: Do not output `undefined` as line and column when it's unavailable (#13519) (haya14busa)
+* [`493b5b4`](https://github.com/eslint/eslint/commit/493b5b40cae7a076fdeb19740f8c88fb4ae9c1fb) Sponsors: Sync README with website (ESLint Jenkins)
+* [`f100143`](https://github.com/eslint/eslint/commit/f100143fa5f529aacb2b50e650a00d2697ca4c54) Sponsors: Sync README with website (ESLint Jenkins)
+* [`16b10fe`](https://github.com/eslint/eslint/commit/16b10fe8ba3c78939d5ada4a25caf2f0c9e6a058) Fix: Update the chatroom link to go directly to help channel (#13536) (Nicholas C. Zakas)
+* [`f937eb9`](https://github.com/eslint/eslint/commit/f937eb95407f60d3772bcb956e227aaf99e48777) Sponsors: Sync README with website (ESLint Jenkins)
+* [`e71e298`](https://github.com/eslint/eslint/commit/e71e2980cd2e319afc70d8c859c7ffd59cf4157b) Update: Change no-duplicate-case to comparing tokens (fixes #13485) (#13494) (Yosuke Ota)
+* [`6c4aea4`](https://github.com/eslint/eslint/commit/6c4aea44fd78e1eecea5fe3c37e1921e3b1e98a6) Docs: add ECMAScript 2020 to README (#13510) (Milos Djermanovic)
+
+v7.5.0 - July 18, 2020
+
+* [`6ea3178`](https://github.com/eslint/eslint/commit/6ea3178776eae0e40c3f5498893e8aab0e23686b) Update: optional chaining support (fixes #12642) (#13416) (Toru Nagashima)
+* [`540b1af`](https://github.com/eslint/eslint/commit/540b1af77278ae649b621aa8d4bf8d6de03c3155) Chore: enable consistent-meta-messages internal rule (#13487) (Milos Djermanovic)
+* [`885a145`](https://github.com/eslint/eslint/commit/885a1455691265db88dc0befe9b48a69d69e8b9c) Docs: clarify behavior if `meta.fixable` is omitted (refs #13349) (#13493) (Milos Djermanovic)
+* [`1a01b42`](https://github.com/eslint/eslint/commit/1a01b420eaab0de03dab5cc190a9f2a860c21a84) Docs: Update technology sponsors in README (#13478) (Nicholas C. Zakas)
+* [`6ed9e8e`](https://github.com/eslint/eslint/commit/6ed9e8e4ff038c0259b0e7fe7ab7f4fd4ec55801) Upgrade: lodash@4.17.19 (#13499) (Yohan Siguret)
+* [`45cdf00`](https://github.com/eslint/eslint/commit/45cdf00da6aeff3d584d37b0710fc8d6ad9456d6) Sponsors: Sync README with website (ESLint Jenkins)
+* [`f1cc725`](https://github.com/eslint/eslint/commit/f1cc725ba1b8646dcf06a83716d96ad9bb726172) Docs: fix linebreaks between versions in changelog (#13488) (Milos Djermanovic)
+* [`f4d7b9e`](https://github.com/eslint/eslint/commit/f4d7b9e1a599346b2f21ff9de003b311b51411e6) Update: deprecate id-blacklist rule (#13465) (Dimitri Mitropoulos)
+* [`e14a645`](https://github.com/eslint/eslint/commit/e14a645aa495558081490f990ba221e21aa6b27c) Chore: use espree.latestEcmaVersion in fuzzer (#13484) (Milos Djermanovic)
+* [`61097fe`](https://github.com/eslint/eslint/commit/61097fe5cc275d414a0c8e19b31c6060cb5568b7) Docs: Update int rule level to string (#13483) (Brandon Mills)
+* [`c8f9c82`](https://github.com/eslint/eslint/commit/c8f9c8210cf4b9da8f07922093d7b219abad9f10) Update: Improve report location no-irregular-whitespace (refs #12334) (#13462) (Milos Djermanovic)
+* [`f2e68ec`](https://github.com/eslint/eslint/commit/f2e68ec1d6cee6299e8a5cdf76c522c11d3008dd) Build: update webpack resolve.mainFields to match website config (#13457) (Milos Djermanovic)
+* [`a96bc5e`](https://github.com/eslint/eslint/commit/a96bc5ec06f3a48bfe458bccd68d4d3b2a280ed9) Fix: arrow-body-style fixer for `in` wrap (fixes #11849) (#13228) (Anix)
+* [`748734f`](https://github.com/eslint/eslint/commit/748734fdd497fbf61f3a616ff4a09169135b9396) Upgrade: Updated puppeteer version to v4.0.0 (#13444) (odidev)
+* [`e951457`](https://github.com/eslint/eslint/commit/e951457b7aaa1b12b135588d36e3f4db4d7b8463) Docs: fix wording in configuring.md (#13469) (Piper)
+* [`0af1d28`](https://github.com/eslint/eslint/commit/0af1d2828d27885483737867653ba1659af72005) Update: add allowSeparatedGroups option to sort-imports (fixes #12951) (#13455) (Milos Djermanovic)
+* [`1050ee7`](https://github.com/eslint/eslint/commit/1050ee78a95da9484ff333dc1c74dac64c05da6f) Update: Improve report location for no-unneeded-ternary (refs #12334) (#13456) (Milos Djermanovic)
+* [`b77b420`](https://github.com/eslint/eslint/commit/b77b4202bd1d5d1306f6f645e88d7a41a51715db) Update: Improve report location for max-len (refs #12334) (#13458) (Milos Djermanovic)
+* [`095194c`](https://github.com/eslint/eslint/commit/095194c0fc0eb02aa69fde6b4280696e0e4de214) Fix: add end location to reports in object-curly-newline (refs #12334) (#13460) (Milos Djermanovic)
+* [`10251bb`](https://github.com/eslint/eslint/commit/10251bbaeba80ac15244f385fc42cf2f2a30e5d2) Fix: add end location to reports in keyword-spacing (refs #12334) (#13461) (Milos Djermanovic)
+* [`2ea7ee5`](https://github.com/eslint/eslint/commit/2ea7ee51a4e05ee76a6dae5954c3b6263b0970a3) Sponsors: Sync README with website (ESLint Jenkins)
+* [`b55fd3b`](https://github.com/eslint/eslint/commit/b55fd3b8c05a29a465a794a524b06c1a28cddf0c) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.4.0 - July 3, 2020
 
 * [`f21bad2`](https://github.com/eslint/eslint/commit/f21bad2680406a2671b877f8dba47f4475d0cc64) Docs: fix description for `never` in multiline-ternary (fixes #13368) (#13452) (Milos Djermanovic)
@@ -18,9 +75,11 @@ v7.4.0 - July 3, 2020
 * [`0655f66`](https://github.com/eslint/eslint/commit/0655f66525d167ca1288167b79a77087cfc8fcf6) Update: improve report location in arrow-body-style (refs #12334) (#13424) (YeonJuan)
 * [`d53d69a`](https://github.com/eslint/eslint/commit/d53d69af08cfe55f42e0a0ca725b1014dabccc21) Update: prefer-regex-literal detect regex literals (fixes #12840) (#12842) (Mathias Schreck)
 * [`004adae`](https://github.com/eslint/eslint/commit/004adae3f959414f56e44e5884f6221e9dcda142) Update: rename id-blacklist to id-denylist (fixes #13407) (#13408) (Kai Cataldo)
+
 v7.3.1 - June 22, 2020
 
 * [`de77c11`](https://github.com/eslint/eslint/commit/de77c11e7515f2097ff355ddc0d7b6db9c83c892) Fix: Replace Infinity with Number.MAX_SAFE_INTEGER (fixes #13427) (#13435) (Nicholas C. Zakas)
+
 v7.3.0 - June 19, 2020
 
 * [`638a6d6`](https://github.com/eslint/eslint/commit/638a6d6be18b4a37cfdc7223e1f5acd3718694be) Update: add missing `additionalProperties: false` to some rules' schema (#13198) (Milos Djermanovic)
@@ -45,6 +104,7 @@ v7.3.0 - June 19, 2020
 * [`0f1f5ed`](https://github.com/eslint/eslint/commit/0f1f5ed2a20b8fb575d4360316861cf4c2b9b7bc) Docs: Add security policy link to README (#13403) (Nicholas C. Zakas)
 * [`9e9ba89`](https://github.com/eslint/eslint/commit/9e9ba897c566601cfe90522099c635ea316b235f) Sponsors: Sync README with website (ESLint Jenkins)
 * [`ca59fb9`](https://github.com/eslint/eslint/commit/ca59fb95a395c0a02ed23768a70e086480ab1f6d) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.2.0 - June 5, 2020
 
 * [`b735a48`](https://github.com/eslint/eslint/commit/b735a485e77bcc791e4c4c6b8716801d94e98b2c) Update: add enforceForFunctionPrototypeMethods option to no-extra-parens (#12895) (Milos Djermanovic)

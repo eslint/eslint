@@ -37,6 +37,7 @@ ruleTester.run("no-extend-native", rule, {
             code: "Object.prototype.g = 0",
             options: [{ exceptions: ["Object"] }]
         },
+        "obj[Object.prototype] = 0",
 
         // https://github.com/eslint/eslint/issues/4438
         "Object.defineProperty()",
@@ -137,5 +138,29 @@ ruleTester.run("no-extend-native", rule, {
             data: { builtin: "Object" },
             type: "AssignmentExpression"
         }]
-    }]
+    },
+
+    // Optional chaining
+    {
+        code: "(Object?.prototype).p = 0",
+        parserOptions: { ecmaVersion: 2020 },
+        errors: [{ messageId: "unexpected", data: { builtin: "Object" } }]
+    },
+    {
+        code: "Object.defineProperty(Object?.prototype, 'p', { value: 0 })",
+        parserOptions: { ecmaVersion: 2020 },
+        errors: [{ messageId: "unexpected", data: { builtin: "Object" } }]
+    },
+    {
+        code: "Object?.defineProperty(Object.prototype, 'p', { value: 0 })",
+        parserOptions: { ecmaVersion: 2020 },
+        errors: [{ messageId: "unexpected", data: { builtin: "Object" } }]
+    },
+    {
+        code: "(Object?.defineProperty)(Object.prototype, 'p', { value: 0 })",
+        parserOptions: { ecmaVersion: 2020 },
+        errors: [{ messageId: "unexpected", data: { builtin: "Object" } }]
+    }
+
+    ]
 });
