@@ -335,7 +335,7 @@ let d = {
     foo: 1, bar: 2};
 let e = {foo: function() {
     dosomething();
-	}
+    }
 };
 let f = {
     foo: function() {
