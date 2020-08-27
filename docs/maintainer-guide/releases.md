@@ -33,7 +33,7 @@ On the day of a scheduled release, the release team should follow these steps:
     * Small bugfixes written by a team member.
 1. Log into Jenkins and schedule a build for the "ESLint Release" job.
 1. Watch the console output of the build on Jenkins. At some point, the build will pause and a link will be produced with an input field for a six-digit 2FA code.
-1. Enter the current six-digit 2FA code from your authenticator app. (Also see: [npm-2fa](./npm-2fa))
+1. Enter the current six-digit 2FA code from your authenticator app.
 1. Continue the build and wait for it to finish.
 1. Update the release blog post with a "Highlights" section, including new rules and anything else that's important.
 1. Make a release announcement in the public chatroom.
