@@ -82,7 +82,7 @@ This rule has an object option:
 * `"properties": always` (default) enforces identifier length convention for property names
 * `"properties": never` ignores identifier length convention for property names
 * `"exceptions"` allows an array of specified identifier names
-* `"exceptionPatterns"` allows an array of identifiers matching the pattern.
+* `"exceptionPatterns"` array of strings representing regular expression patterns, allows identifiers that match any of the patterns.
 
 ### min
 
