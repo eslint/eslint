@@ -16,7 +16,7 @@ function a(x) {
 
 ## Rule Details
 
-This rule is aimed at reducing code complexity by capping the amount of cyclomatic complexity allowed in a program. As such, it will warn when the cyclomatic complexity crosses the configured threshold (default is `20`).
+This rule is aimed at reducing code complexity by capping the amount of cyclomatic complexity allowed in a program. As such, it will warn when the cyclomatic complexity crosses the configured threshold (default is `12`).
 
 Examples of **incorrect** code for a maximum of 2:
 
