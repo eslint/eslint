@@ -3,5 +3,5 @@
     description: "An AST-based pattern checker for JavaScript."
     entry: eslint
     language: node
-    types: ['.js', '.jsx', '.mjs']
+    types: ['javascript']
     minimum_pre_commit_version: 0.15.0
