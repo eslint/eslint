@@ -209,6 +209,42 @@ ruleTester.run("sort-keys", rule, {
             `,
             options: ["asc", { allowLineSeparatedGroups: true }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: `
+                var obj = {
+                  b,
+
+                  [foo + bar]: 1,
+                  a // sort-keys: 'a' should be before 'b'
+                }
+            `,
+            options: ["asc", { allowLineSeparatedGroups: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: `
+                var obj = {
+                    c: 1,
+                    d: 2,
+
+                    a() {
+
+                    },
+                    // abce
+                    f: 3,
+
+                    /*
+
+
+                    */
+                    [a+b]: 1,
+                    cc: 1,
+                    e: 2
+                }
+            `,
+            options: ["asc", { allowLineSeparatedGroups: true }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -1854,6 +1890,68 @@ ruleTester.run("sort-keys", rule, {
                         order: "asc",
                         thisName: "a",
                         prevName: "c"
+                    }
+                }
+            ]
+        },
+        {
+            code: `
+                 var obj = {
+                    b: 1,
+                    c () {
+
+                    },
+                    // comment
+                    a: 3
+                  }
+             `,
+            options: ["asc", { allowLineSeparatedGroups: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "a",
+                        prevName: "c"
+                    }
+                }
+            ]
+        },
+        {
+            code: `
+                var obj = {
+                    c: 1,
+                    d: 2,
+
+                    a() {
+
+                    },
+                    // abce
+                    f: 3,
+
+                    /*
+
+
+                    */
+                    [a+b]: 1,
+                    e: 4,
+                    cc: 1
+                }
+            `,
+            options: ["asc", { allowLineSeparatedGroups: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "cc",
+                        prevName: "e"
                     }
                 }
             ]
