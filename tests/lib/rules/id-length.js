@@ -77,7 +77,12 @@ ruleTester.run("id-length", rule, {
         { code: "var {x} = foo;", options: [{ properties: "never" }], parserOptions: { ecmaVersion: 6 } },
         { code: "var {x, y: {z}} = foo;", options: [{ properties: "never" }], parserOptions: { ecmaVersion: 6 } },
         { code: "let foo = { [a]: 1 };", options: [{ properties: "always" }], parserOptions: { ecmaVersion: 6 } },
-        { code: "let foo = { [a + b]: 1 };", options: [{ properties: "always" }], parserOptions: { ecmaVersion: 6 } }
+        { code: "let foo = { [a + b]: 1 };", options: [{ properties: "always" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "function BEFORE_send() {};", options: [{ min: 3, max: 5, exceptionPatterns: ["^BEFORE_"] }] },
+        { code: "function BEFORE_send() {};", options: [{ min: 3, max: 5, exceptionPatterns: ["^BEFORE_", "send$"] }] },
+        { code: "function BEFORE_send() {};", options: [{ min: 3, max: 5, exceptionPatterns: ["^BEFORE_", "^A", "^Z"] }] },
+        { code: "function BEFORE_send() {};", options: [{ min: 3, max: 5, exceptionPatterns: ["^A", "^BEFORE_", "^Z"] }] },
+        { code: "var x = 1 ;", options: [{ min: 3, max: 5, exceptionPatterns: ["[x-z]"] }] }
     ],
     invalid: [
         { code: "var x = 1;", errors: [tooShortError] },
@@ -437,6 +442,27 @@ ruleTester.run("id-length", rule, {
             code: "var foo = {x: prop};",
             options: [{ properties: "always" }],
             parserOptions: { ecmaVersion: 6 },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "function BEFORE_send() {};",
+            options: [{ min: 3, max: 5 }],
+            errors: [
+                tooLongError
+            ]
+        },
+        {
+            code: "function NOTMATCHED_send() {};",
+            options: [{ min: 3, max: 5, exceptionPatterns: ["^BEFORE_"] }],
+            errors: [
+                tooLongError
+            ]
+        },
+        {
+            code: "function N() {};",
+            options: [{ min: 3, max: 5, exceptionPatterns: ["^BEFORE_"] }],
             errors: [
                 tooShortError
             ]
