@@ -136,7 +136,7 @@ describe("configInitializer", () => {
                 assert.deepStrictEqual(config.rules.quotes, ["error", "single"]);
                 assert.deepStrictEqual(config.rules["linebreak-style"], ["error", "unix"]);
                 assert.deepStrictEqual(config.rules.semi, ["error", "always"]);
-                assert.strictEqual(config.env.es2020, true);
+                assert.strictEqual(config.env.es2021, true);
                 assert.strictEqual(config.parserOptions.ecmaVersion, espree.latestEcmaVersion);
                 assert.strictEqual(config.parserOptions.sourceType, "module");
                 assert.strictEqual(config.env.browser, true);
