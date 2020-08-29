@@ -40,7 +40,6 @@ ruleTester.run("constructor-super", rule, {
         "class A extends (B &&= C) { constructor() { super(); } }",
         "class A extends (B ||= C) { constructor() { super(); } }",
         "class A extends (B ??= C) { constructor() { super(); } }",
-        "class A extends (B &&= 5) { constructor() { super(); } }",
         "class A extends (B ||= 5) { constructor() { super(); } }",
         "class A extends (B ??= 5) { constructor() { super(); } }",
         "class A extends (B || C) { constructor() { super(); } }",
@@ -125,6 +124,12 @@ ruleTester.run("constructor-super", rule, {
         },
         {
             code: "class A extends (B = 5) { constructor() { super(); } }",
+            errors: [{ messageId: "badSuper", type: "CallExpression" }]
+        },
+        {
+
+            // `B &&= 5` evaluates either to a falsy value of `B` (which, then, cannot be an Error object), or to '5'
+            code: "class A extends (B &&= 5) { constructor() { super(); } }",
             errors: [{ messageId: "badSuper", type: "CallExpression" }]
         },
         {
