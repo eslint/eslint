@@ -1,9 +1,8 @@
-ESLint couldn't find the plugin "<%- pluginName %>".
+"<%= configName %>" is invalid syntax for a config specifier.
 
-(The package "<%- pluginName %>" was not found when loaded as a Node module from the directory "<%- resolvePluginsRelativeTo %>".)
+* If your intention is to extend from a configuration exported from the plugin, add the configuration name after a slash: e.g. "<%= configName %>/myConfig".
+* If this is the name of a shareable config instead of a plugin, remove the "plugin:" prefix: i.e. "<%= configName.slice("plugin:".length) %>".
 
-It looks like this might not be a valid plugin name. Did you use the name of a shareable config instead of a plugin?
-
-The plugin "<%- pluginName %>" was referenced from the config file in "<%- importerName %>".
+'"<%- configName %>"' was referenced from the config file in "<%- importerName %>".
 
 If you still can't figure out the problem, please stop by https://eslint.org/chat/help to chat with the team.
