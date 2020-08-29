@@ -843,6 +843,24 @@ ruleTester.run("no-whitespace-before-property", rule, {
             }]
         },
         {
+            code: "5_000       .toExponential()",
+            output: null, // Not fixed,
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "unexpectedWhitespace",
+                data: { propName: "toExponential" }
+            }]
+        },
+        {
+            code: "5_000_00       .toExponential()",
+            output: null, // Not fixed,
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "unexpectedWhitespace",
+                data: { propName: "toExponential" }
+            }]
+        },
+        {
             code: "5. .toExponential()",
             output: "5..toExponential()",
             errors: [{
@@ -859,8 +877,26 @@ ruleTester.run("no-whitespace-before-property", rule, {
             }]
         },
         {
+            code: "5.0_0 .toExponential()",
+            output: "5.0_0.toExponential()",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "unexpectedWhitespace",
+                data: { propName: "toExponential" }
+            }]
+        },
+        {
             code: "0x5 .toExponential()",
             output: "0x5.toExponential()",
+            errors: [{
+                messageId: "unexpectedWhitespace",
+                data: { propName: "toExponential" }
+            }]
+        },
+        {
+            code: "0x56_78 .toExponential()",
+            output: "0x56_78.toExponential()",
+            parserOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "unexpectedWhitespace",
                 data: { propName: "toExponential" }
