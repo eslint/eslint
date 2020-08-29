@@ -48,6 +48,12 @@ ruleTester.run("no-extend-native", rule, {
         {
             code: "{ let Object = function() {}; Object.prototype.p = 0 }",
             parserOptions: { ecmaVersion: 6 }
+        },
+
+        // TODO(mdjermanovic): This test should become `invalid` in the next major version, when we upgrade the `globals` package.
+        {
+            code: "WeakRef.prototype.p = 0",
+            env: { es2021: true }
         }
     ],
     invalid: [{
