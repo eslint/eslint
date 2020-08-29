@@ -128,7 +128,7 @@ ruleTester.run("constructor-super", rule, {
         },
         {
 
-            // `B &&= 5` evaluates either to a falsy value of `B` (which, then, cannot be an Error object), or to '5'
+            // `B &&= 5` evaluates either to a falsy value of `B` (which, then, cannot be a constructor), or to '5'
             code: "class A extends (B &&= 5) { constructor() { super(); } }",
             errors: [{ messageId: "badSuper", type: "CallExpression" }]
         },
