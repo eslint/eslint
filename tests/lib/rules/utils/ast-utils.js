@@ -737,21 +737,65 @@ describe("ast-utils", () => {
 
     {
         const expectedResults = {
-            5: true,
             0: true,
+            5: true,
+            50: true,
+            123: true,
+            "1_0": true,
+            "1_0_1": true,
+            "12_3": true,
+            "5_000": true,
+            "500_0": true,
+            "500_00": true,
+            "5_000_00": true,
+            "1_234_56": true,
+            "1_2_3_4": true,
+            "11_22_33_44": true,
+            "1_23_4_56_7_89": true,
+            "0.": false,
             "5.": false,
+            ".0": false,
+            ".5": false,
             "5.0": false,
+            "5.00_00": false,
+            "5.0_1": false,
+            "0.1_0": false,
+            "5.1_2": false,
+            "1.23_45": false,
+            ".0_1": false,
+            ".12_34": false,
             "05": false,
             "0x5": false,
+            "0b11_01": false,
+            "0o0_1": false,
+            "0x56_78": false,
             "5e0": false,
+            "0.e1": false,
+            ".0e1": false,
+            "5e0_1": false,
+            "5e1_000": false,
+            "5e12_34": false,
             "5e-0": false,
+            "5e-0_1": false,
+            "5e-1_2": false,
+            "1_2.3_4e5_6": false,
+            "1n": false,
+            "1_2n": false,
+            "1_000n": false,
             "'5'": false
         };
+
+        const ecmaVersion = espree.latestEcmaVersion;
 
         describe("isDecimalInteger", () => {
             Object.keys(expectedResults).forEach(key => {
                 it(`should return ${expectedResults[key]} for ${key}`, () => {
-                    assert.strictEqual(astUtils.isDecimalInteger(espree.parse(key).body[0].expression), expectedResults[key]);
+                    assert.strictEqual(
+                        astUtils.isDecimalInteger(
+                            espree.parse(key, { ecmaVersion }).body[0].expression
+                        ),
+                        expectedResults[key]
+                    );
                 });
             });
         });
@@ -759,7 +803,12 @@ describe("ast-utils", () => {
         describe("isDecimalIntegerNumericToken", () => {
             Object.keys(expectedResults).forEach(key => {
                 it(`should return ${expectedResults[key]} for ${key}`, () => {
-                    assert.strictEqual(astUtils.isDecimalIntegerNumericToken(espree.tokenize(key)[0]), expectedResults[key]);
+                    assert.strictEqual(
+                        astUtils.isDecimalIntegerNumericToken(
+                            espree.tokenize(key, { ecmaVersion })[0]
+                        ),
+                        expectedResults[key]
+                    );
                 });
             });
         });
