@@ -1032,7 +1032,7 @@ describe("ast-utils", () => {
             "1 && 2": false,
             "1 && foo": true,
             "foo && 2": true,
-            "foo &&= 2": true,
+            "foo &&= 2": false,
             "foo.bar ??= 2": true,
             "foo[bar] ||= 2": true,
             "foo ? 1 : 2": false,

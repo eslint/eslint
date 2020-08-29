@@ -31,7 +31,6 @@ ruleTester.run("no-throw-literal", rule, {
         "throw foo.bar;", // MemberExpression
         "throw foo[bar];", // MemberExpression
         "throw foo = new Error();", // AssignmentExpression with the `=` operator
-        { code: "throw foo &&= 'literal'", parserOptions: { ecmaVersion: 2021 } }, // AssignmentExpression with a logical operator
         { code: "throw foo.bar ||= 'literal'", parserOptions: { ecmaVersion: 2021 } }, // AssignmentExpression with a logical operator
         { code: "throw foo[bar] ??= 'literal'", parserOptions: { ecmaVersion: 2021 } }, // AssignmentExpression with a logical operator
         "throw 1, 2, new Error();", // SequenceExpression
@@ -122,6 +121,14 @@ ruleTester.run("no-throw-literal", rule, {
         },
         {
             code: "throw foo &= new Error();", // evaluates to a primitive value, or throws while evaluating
+            errors: [{
+                messageId: "object",
+                type: "ThrowStatement"
+            }]
+        },
+        {
+            code: "throw foo &&= 'literal'", // evaluates either to a falsy value of `foo` (which, then, cannot be an Error object), or to 'literal'
+            parserOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "object",
                 type: "ThrowStatement"

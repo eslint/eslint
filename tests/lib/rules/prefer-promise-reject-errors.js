@@ -54,7 +54,7 @@ ruleTester.run("prefer-promise-reject-errors", rule, {
         "Promise.reject(foo = new Error())",
         "Promise.reject(foo ||= 5)",
         "Promise.reject(foo.bar ??= 5)",
-        "Promise.reject(foo[bar] &&= 5)"
+        "Promise.reject(foo[bar] ??= 5)"
     ],
 
     invalid: [
@@ -114,7 +114,10 @@ ruleTester.run("prefer-promise-reject-errors", rule, {
         "Promise.reject(foo **= new Error())",
         "Promise.reject(foo <<= new Error())",
         "Promise.reject(foo |= new Error())",
-        "Promise.reject(foo &= new Error())"
+        "Promise.reject(foo &= new Error())",
+
+        // evaluates either to a falsy value of `foo` (which, then, cannot be an Error object), or to `5`
+        "Promise.reject(foo &&= 5)"
 
     ].map(invalidCase => {
         const errors = { errors: [{ messageId: "rejectAnError", type: "CallExpression" }] };
