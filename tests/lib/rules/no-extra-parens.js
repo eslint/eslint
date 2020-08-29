@@ -44,7 +44,7 @@ function invalid(code, output, type, line, config) {
 
 const ruleTester = new RuleTester({
     parserOptions: {
-        ecmaVersion: 2020,
+        ecmaVersion: 2021,
         ecmaFeatures: {
             jsx: true
         }
@@ -190,6 +190,8 @@ ruleTester.run("no-extra-parens", rule, {
 
         // special cases
         "(0).a",
+        "(5_000).a",
+        "(5_000_00).a",
         "(function(){ }())",
         "({a: function(){}}.a());",
         "({a:0}.a ? b : c)",
@@ -775,7 +777,9 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("(a).b", "a.b", "Identifier"),
         invalid("(0)[a]", "0[a]", "Literal"),
         invalid("(0.0).a", "0.0.a", "Literal"),
+        invalid("(0.0_0).a", "0.0_0.a", "Literal"),
         invalid("(0xBEEF).a", "0xBEEF.a", "Literal"),
+        invalid("(0xBE_EF).a", "0xBE_EF.a", "Literal"),
         invalid("(1e6).a", "1e6.a", "Literal"),
         invalid("(0123).a", "0123.a", "Literal"),
         invalid("a[(function() {})]", "a[function() {}]", "FunctionExpression"),

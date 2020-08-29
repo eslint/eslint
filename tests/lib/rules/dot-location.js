@@ -232,6 +232,34 @@ ruleTester.run("dot-location", rule, {
             errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }]
         },
         {
+            code: "5_000\n.toExponential()",
+            output: "5_000 .\ntoExponential()",
+            options: ["object"],
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }]
+        },
+        {
+            code: "5_000_00\n.toExponential()",
+            output: "5_000_00 .\ntoExponential()",
+            options: ["object"],
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }]
+        },
+        {
+            code: "5.000_000\n.toExponential()",
+            output: "5.000_000.\ntoExponential()",
+            options: ["object"],
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }]
+        },
+        {
+            code: "0b1010_1010\n.toExponential()",
+            output: "0b1010_1010.\ntoExponential()",
+            options: ["object"],
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }]
+        },
+        {
             code: "foo /* a */ . /* b */ \n /* c */ bar",
             output: "foo /* a */  /* b */ \n /* c */ .bar",
             options: ["property"],
