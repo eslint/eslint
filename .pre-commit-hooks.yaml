@@ -1,7 +1,7 @@
 -   id: eslint
     name: eslint
-    description: "An AST-based pattern checker for JavaScript."
     entry: eslint
+    description: "An AST-based pattern checker for JavaScript."
     language: node
     types: ['javascript']
-    minimum_pre_commit_version: 0.15.0
+    require_serial: false
