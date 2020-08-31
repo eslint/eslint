@@ -368,6 +368,57 @@ ruleTester.run("no-param-reassign", rule, {
                 messageId: "assignmentToFunctionParamProp",
                 data: { name: "a" }
             }]
+        },
+        {
+            code: "function foo(a) { a &&= b; }",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "assignmentToFunctionParam",
+                data: { name: "a" }
+            }]
+        },
+        {
+            code: "function foo(a) { a ||= b; }",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "assignmentToFunctionParam",
+                data: { name: "a" }
+            }]
+        },
+        {
+            code: "function foo(a) { a ??= b; }",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "assignmentToFunctionParam",
+                data: { name: "a" }
+            }]
+        },
+        {
+            code: "function foo(a) { a.b &&= c; }",
+            options: [{ props: true }],
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "assignmentToFunctionParamProp",
+                data: { name: "a" }
+            }]
+        },
+        {
+            code: "function foo(a) { a.b.c ||= d; }",
+            options: [{ props: true }],
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "assignmentToFunctionParamProp",
+                data: { name: "a" }
+            }]
+        },
+        {
+            code: "function foo(a) { a[b] ??= c; }",
+            options: [{ props: true }],
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "assignmentToFunctionParamProp",
+                data: { name: "a" }
+            }]
         }
     ]
 });

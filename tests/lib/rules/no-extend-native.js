@@ -166,6 +166,23 @@ ruleTester.run("no-extend-native", rule, {
         code: "(Object?.defineProperty)(Object.prototype, 'p', { value: 0 })",
         parserOptions: { ecmaVersion: 2020 },
         errors: [{ messageId: "unexpected", data: { builtin: "Object" } }]
+    },
+
+    // Logical assignments
+    {
+        code: "Array.prototype.p &&= 0",
+        parserOptions: { ecmaVersion: 2021 },
+        errors: [{ messageId: "unexpected", data: { builtin: "Array" } }]
+    },
+    {
+        code: "Array.prototype.p ||= 0",
+        parserOptions: { ecmaVersion: 2021 },
+        errors: [{ messageId: "unexpected", data: { builtin: "Array" } }]
+    },
+    {
+        code: "Array.prototype.p ??= 0",
+        parserOptions: { ecmaVersion: 2021 },
+        errors: [{ messageId: "unexpected", data: { builtin: "Array" } }]
     }
 
     ]
