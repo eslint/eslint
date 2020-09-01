@@ -1,3 +1,10 @@
+v7.8.1 - September 1, 2020
+
+* [`f542b5d`](https://github.com/eslint/eslint/commit/f542b5d0679b73326ad249fc44a54c3f848bd3e6) Fix: Update broken @eslint/eslintrc version (fixes #13641) (#13647) (Nicholas C. Zakas)
+* [`c1b5696`](https://github.com/eslint/eslint/commit/c1b56966c2354e12d16e8394443de49fa54f4290) Sponsors: Sync README with website (ESLint Jenkins)
+* [`8ddeda0`](https://github.com/eslint/eslint/commit/8ddeda01afdb1e9656a43853b8e25c9c4582e6ad) Sponsors: Sync README with website (ESLint Jenkins)
+* [`e02e2fe`](https://github.com/eslint/eslint/commit/e02e2fe019a1ed9a34a7b96e4c8961c35093b0ce) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.8.0 - August 31, 2020
 
 * [`58abd93`](https://github.com/eslint/eslint/commit/58abd9311900a8af5a3c0963daaf64675bdd8383) Update: support logical assignments in code path analysis (refs #13569) (#13612) (Milos Djermanovic)
