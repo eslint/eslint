@@ -36,7 +36,7 @@ It is also possible to install ESLint globally rather than locally (using `npm i
 
 ## Configuration
 
-**Note:** If you are coming from a version before 1.0.0 please see the [migration guide](migrating-to-1.0.0.md).
+**Note:** If you are coming from a version before 1.0.0, please see the [migration guide](migrating-to-1.0.0.md).
 
 After running `eslint --init`, you'll have a `.eslintrc.{js,yml,json}` file in your directory. In it, you'll see some rules configured like this:
 
