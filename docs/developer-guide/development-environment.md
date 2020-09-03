@@ -6,7 +6,7 @@ ESLint has a very lightweight development environment that makes updating code f
 
 Go to <https://nodejs.org/> to download and install the latest stable version for your operating system.
 
-Most of the installers already come with [npm](https://www.npmjs.com/) but if for some reason npm doesn't work on your system, you can install it manually using the instructions on the site.
+Most of the installers already come with [npm](https://www.npmjs.com/). If for some reason npm doesn't work on your system, you can install it manually using the instructions on the site.
 
 ## Step 2: Fork and checkout your own ESLint repository
 
