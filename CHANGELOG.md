@@ -1,3 +1,36 @@
+v7.8.1 - September 1, 2020
+
+* [`f542b5d`](https://github.com/eslint/eslint/commit/f542b5d0679b73326ad249fc44a54c3f848bd3e6) Fix: Update broken @eslint/eslintrc version (fixes #13641) (#13647) (Nicholas C. Zakas)
+* [`c1b5696`](https://github.com/eslint/eslint/commit/c1b56966c2354e12d16e8394443de49fa54f4290) Sponsors: Sync README with website (ESLint Jenkins)
+* [`8ddeda0`](https://github.com/eslint/eslint/commit/8ddeda01afdb1e9656a43853b8e25c9c4582e6ad) Sponsors: Sync README with website (ESLint Jenkins)
+* [`e02e2fe`](https://github.com/eslint/eslint/commit/e02e2fe019a1ed9a34a7b96e4c8961c35093b0ce) Sponsors: Sync README with website (ESLint Jenkins)
+
+v7.8.0 - August 31, 2020
+
+* [`58abd93`](https://github.com/eslint/eslint/commit/58abd9311900a8af5a3c0963daaf64675bdd8383) Update: support logical assignments in code path analysis (refs #13569) (#13612) (Milos Djermanovic)
+* [`db7488e`](https://github.com/eslint/eslint/commit/db7488e6326fd1b7ea04c5062beb1c5f75fc15ed) Update: support logical assignments in core rules (refs #13569) (#13618) (Milos Djermanovic)
+* [`3729219`](https://github.com/eslint/eslint/commit/372921924778f2e525535985e17c97b988546210) Docs: Update Step 1 of Development Environment documentation (klkhan)
+* [`a320324`](https://github.com/eslint/eslint/commit/a32032430a0779a4e3b2d137d4d0682844084b82) Chore: Test formatted integers in no-dupe-keys (refs #13568) (#13626) (Brandon Mills)
+* [`88a9ade`](https://github.com/eslint/eslint/commit/88a9ade7643bb166efbab45cee15f3269496f4be) Update: add es2021 environment (refs #13602) (#13603) (Milos Djermanovic)
+* [`0003dc0`](https://github.com/eslint/eslint/commit/0003dc0f966f2b47555595586f84eb3163cb0179) Update: support numeric separators (refs #13568) (#13581) (Milos Djermanovic)
+* [`96b11a0`](https://github.com/eslint/eslint/commit/96b11a0717bf32b94ec768611574372320fb774b) Update: Add exceptionPatterns to id-length rule (fixes #13094) (#13576) (sodam)
+* [`3439fea`](https://github.com/eslint/eslint/commit/3439fea5c0ed330d01d874b0c9df51dd51ae792c) Update: support numeric-separator in no-loss-of-precision (refs #13568) (#13574) (Anix)
+* [`ed64767`](https://github.com/eslint/eslint/commit/ed64767859d776145d68145419a61f5379b4dd63) Update: add comment to message in no-warning-comments (fixes #12327) (#13522) (Anix)
+* [`e60ec07`](https://github.com/eslint/eslint/commit/e60ec07fad0c1d4c966f28d214c5379da753ff4e) Sponsors: Sync README with website (ESLint Jenkins)
+* [`483bf7f`](https://github.com/eslint/eslint/commit/483bf7f3cc40e0d866798d6ca9ee1c19aa77ddd2) Docs: fix examples in object-curly-newline (#13605) (Soobin Bak)
+* [`1c35d57`](https://github.com/eslint/eslint/commit/1c35d57b0a5f374cc55f1727a7561bcab1962e83) Docs: Remove stale Keybase 2FA instructions (#13622) (Brandon Mills)
+* [`82669fa`](https://github.com/eslint/eslint/commit/82669fa66670a00988db5b1d10fe8f3bf30be84e) Chore: Extract some functionality to eslintrc (refs #13481) (#13613) (Nicholas C. Zakas)
+* [`4111d21`](https://github.com/eslint/eslint/commit/4111d21a046b73892e2c84f92815a21ef4db63e1) Docs: Fix typo and missing article before noun in docs (#13611) (Patrice Sandhu)
+* [`091e52a`](https://github.com/eslint/eslint/commit/091e52ae1ca408f3e668f394c14d214c9ce806e6) Upgrade: espree@7.3.0 (refs #13568) (#13609) (Kai Cataldo)
+* [`05074fb`](https://github.com/eslint/eslint/commit/05074fb2c243e904e8c09d714ad9d084acdd80d2) Sponsors: Sync README with website (ESLint Jenkins)
+* [`bdb65ec`](https://github.com/eslint/eslint/commit/bdb65ec2e672c9815bee356b61d1cd60a1072152) Chore: add 3rd party parsers in BUG_REPORT template (#13606) (YeonJuan)
+* [`f954476`](https://github.com/eslint/eslint/commit/f954476fb6b0664679c73babd5e8a0647572b81f) Chore: add common 3rd party parsers to issue template (#13596) (Kai Cataldo)
+* [`2bee6d2`](https://github.com/eslint/eslint/commit/2bee6d256ae0516c9a9003bb3fdca24ff93253b5) Chore: Mark config-related files (refs #13481) (#13597) (Nicholas C. Zakas)
+* [`66442a9`](https://github.com/eslint/eslint/commit/66442a9faf9872db4a40f56dde28c48f4d02fc7b) Update: Add no-magic-numbers 'ignoreDefaultValues' option (#12611) (Dieter Luypaert)
+* [`b487164`](https://github.com/eslint/eslint/commit/b487164d01dd0bf66fdf2df0e374ce1c3bdb0339) Docs: add exponentiation operators to operator-assignment documentation (#13577) (Milos Djermanovic)
+* [`2f27836`](https://github.com/eslint/eslint/commit/2f27836e989f3dfe236e34054b490febc359bc48) Sponsors: Sync README with website (ESLint Jenkins)
+* [`60eafc1`](https://github.com/eslint/eslint/commit/60eafc15075f38955cb6816bf1f0bcf6e6e6d3a6) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.7.0 - August 14, 2020
 
 * [`b46f3ee`](https://github.com/eslint/eslint/commit/b46f3ee0dae4add9df99cae940b641ad8de58b9e) Update: allowFunctionParams option in no-underscore-dangle (fixes 12579) (#13545) (Sunghyun Cho)

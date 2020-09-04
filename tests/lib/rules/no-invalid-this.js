@@ -719,6 +719,24 @@ const patterns = [
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
+    {
+        code: "obj.method &&= function () { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 2021 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "obj.method ||= function () { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 2021 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "obj.method ??= function () { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 2021 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
     }
 ];
 
