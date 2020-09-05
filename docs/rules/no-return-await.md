@@ -32,17 +32,17 @@ async function foo() {
     return;
 }
 
+// This is essentially the same as `return await bar();`, but the rule checks only `await` in `return` statements
+async function foo() {
+    const x = await bar();
+    return x;
+}
+
 // In this example the `await` is necessary to be able to catch errors thrown from `bar()`
 async function foo() {
     try {
         return await bar();
     } catch (error) {}
-}
-
-// This is essentially the same as `return await bar();`, but the rule checks only `await` in `return` statements
-async function foo() {
-    const x = await bar();
-    return x;
 }
 ```
 
