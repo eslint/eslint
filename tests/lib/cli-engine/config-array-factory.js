@@ -1518,13 +1518,13 @@ describe("ConfigArrayFactory", () => {
         it("should throw an error with a message template when a plugin config specifier is missing config name", () => {
             try {
                 applyExtends({
-                    extends: "plugin:nonexistent-plugin",
+                    extends: "plugin:some-plugin",
                     rules: { eqeqeq: 2 }
                 });
             } catch (err) {
                 assert.strictEqual(err.messageTemplate, "plugin-invalid");
                 assert.deepStrictEqual(err.messageData, {
-                    configName: "plugin:nonexistent-plugin",
+                    configName: "plugin:some-plugin",
                     importerName: path.join(process.cwd(), "whatever")
                 });
                 return;
