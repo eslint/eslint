@@ -67,7 +67,7 @@ The default for each option is `"never"` unless otherwise specified.
 * `imports` is for import declarations of ES Modules. (e.g. `import {a,} from "foo";`)
 * `exports` is for export declarations of ES Modules. (e.g. `export {a,};`)
 * `functions` is for function declarations and function calls. (e.g. `(function(a,){ })(b,);`)
-    * `functions` should only be enabled when linting ECMAScript 2017 or higher.
+    * `functions` will be ignored unless `parserOptions.ecmaVersion` is specified as 8 or higher.
 
 ### never
 
