@@ -1515,7 +1515,7 @@ describe("ConfigArrayFactory", () => {
             }, /Failed to load config "plugin:invalid-config\/bar" to extend from./u);
         });
 
-        it("should throw an error with a message template when a plugin referenced for a plugin config is invalid", () => {
+        it("should throw an error with a message template when a plugin config specifier is missing config name", () => {
             try {
                 applyExtends({
                     extends: "plugin:nonexistent-plugin",
