@@ -214,13 +214,33 @@ ruleTester.run("sort-keys", rule, {
             code: `
                 var obj = {
                   b,
-
-                  [foo + bar]: 1,
+                  ...z,
+                  a // sort-keys: 'a' should be before 'b'
+                }
+            `,
+            options: ["asc", { allowLineSeparatedGroups: true }],
+            parserOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: `
+                var obj = {
+                  b,
+                  [a+b]: 1,
                   a // sort-keys: 'a' should be before 'b'
                 }
             `,
             options: ["asc", { allowLineSeparatedGroups: true }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: `
+                var obj = {
+                    c: "/*",
+
+                    a: "*/", // Error. Expected object keys to be in ascending order. 'a' should be before 'c'.
+                }
+            `,
+            options: ["asc", { allowLineSeparatedGroups: true }]
         },
         {
             code: `
@@ -245,6 +265,43 @@ ruleTester.run("sort-keys", rule, {
             `,
             options: ["asc", { allowLineSeparatedGroups: true }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: `
+                var obj = {
+                    c: 1,
+                    d: 2,
+
+                    a() {
+
+                    },
+                    // abce
+                    f: 3,
+
+                    /*
+
+
+                    */
+
+                    e: 4,
+                    [a+b]: 1,
+                    cc: 1
+                }
+            `,
+            options: ["asc", { allowLineSeparatedGroups: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "cc",
+                        prevName: "e"
+                    }
+                }
+            ]
         }
     ],
     invalid: [
