@@ -3193,7 +3193,7 @@ describe("ESLint", () => {
                 `);
             });
 
-            it("should use overriden processor; should report HTML blocks but not fix HTML blocks if the processor for '*.html' didn't support autofix.", async () => {
+            it("should use overridden processor; should report HTML blocks but not fix HTML blocks if the processor for '*.html' didn't support autofix.", async () => {
                 ESLint = defineESLintWithInMemoryFileSystem({
                     cwd: () => root,
                     files: {
