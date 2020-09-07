@@ -108,7 +108,7 @@ Examples of additional **correct** code for this rule with the `"double", { "avo
 ```js
 /*eslint quotes: ["error", "double", { "avoidEscape": true }]*/
 
-var single = 'a string containing "double" quotes';
+var double = "a string containing 'single' quotes";
 ```
 
 Examples of additional **correct** code for this rule with the `"single", { "avoidEscape": true }` options:
@@ -116,7 +116,7 @@ Examples of additional **correct** code for this rule with the `"single", { "avo
 ```js
 /*eslint quotes: ["error", "single", { "avoidEscape": true }]*/
 
-var double = "a string containing 'single' quotes";
+var single = 'a string containing "double" quotes';
 ```
 
 Examples of additional **correct** code for this rule with the `"backtick", { "avoidEscape": true }` options:
@@ -124,7 +124,8 @@ Examples of additional **correct** code for this rule with the `"backtick", { "a
 ```js
 /*eslint quotes: ["error", "backtick", { "avoidEscape": true }]*/
 
-var double = "a string containing `backtick` quotes"
+var single = `a string containing 'sinlge' quotes`
+var double = `a string containing "double" quotes`
 ```
 
 ### allowTemplateLiterals
