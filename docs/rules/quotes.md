@@ -124,7 +124,8 @@ Examples of additional **correct** code for this rule with the `"backtick", { "a
 ```js
 /*eslint quotes: ["error", "backtick", { "avoidEscape": true }]*/
 
-var double = "a string containing `backtick` quotes"
+var single = `a string containing 'sinlge' quotes`
+var double = `a string containing "double" quotes`
 ```
 
 ### allowTemplateLiterals
