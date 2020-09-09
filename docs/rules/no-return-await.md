@@ -11,6 +11,8 @@ This rule aims to prevent a likely common performance hazard due to a lack of un
 Examples of **incorrect** code for this rule:
 
 ```js
+/*eslint no-return-await: "error"*/
+
 async function foo() {
     return await bar();
 }
@@ -19,6 +21,8 @@ async function foo() {
 Examples of **correct** code for this rule:
 
 ```js
+/*eslint no-return-await: "error"*/
+
 async function foo() {
     return bar();
 }
@@ -28,19 +32,19 @@ async function foo() {
     return;
 }
 
+// This is essentially the same as `return await bar();`, but the rule checks only `await` in `return` statements
 async function foo() {
     const x = await bar();
     return x;
 }
 
+// In this example the `await` is necessary to be able to catch errors thrown from `bar()`
 async function foo() {
     try {
         return await bar();
     } catch (error) {}
 }
 ```
-
-In the last example the `await` is necessary to be able to catch errors thrown from `bar()`.
 
 ## When Not To Use It
 
