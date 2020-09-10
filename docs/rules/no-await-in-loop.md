@@ -42,6 +42,8 @@ This rule disallows the use of `await` within loop bodies.
 Examples of **correct** code for this rule:
 
 ```js
+/*eslint no-await-in-loop: "error"*/
+
 async function foo(things) {
   const results = [];
   for (const thing of things) {
@@ -56,6 +58,8 @@ async function foo(things) {
 Examples of **incorrect** code for this rule:
 
 ```js
+/*eslint no-await-in-loop: "error"*/
+
 async function foo(things) {
   const results = [];
   for (const thing of things) {
