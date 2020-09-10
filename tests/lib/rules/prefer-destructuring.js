@@ -353,6 +353,224 @@ ruleTester.run("prefer-destructuring", rule, {
                 data: { type: "object" },
                 type: "VariableDeclarator"
             }]
+        },
+
+        // comments
+        {
+            code: "var /* comment */ foo = object.foo;",
+            output: "var /* comment */ {foo} = object;",
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var a, /* comment */foo = object.foo;",
+            output: "var a, /* comment */{foo} = object;",
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo /* comment */ = object.foo;",
+            output: null,
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var a, foo /* comment */ = object.foo;",
+            output: null,
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo /* comment */ = object.foo, a;",
+            output: null,
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo // comment\n = object.foo;",
+            output: null,
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = /* comment */ object.foo;",
+            output: null,
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = // comment\n object.foo;",
+            output: null,
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = (/* comment */ object).foo;",
+            output: null,
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = (object /* comment */).foo;",
+            output: null,
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = bar(/* comment */).foo;",
+            output: "var {foo} = bar(/* comment */);",
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = bar/* comment */.baz.foo;",
+            output: "var {foo} = bar/* comment */.baz;",
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = bar[// comment\nbaz].foo;",
+            output: "var {foo} = bar[// comment\nbaz];",
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo // comment\n = bar(/* comment */).foo;",
+            output: null,
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = bar/* comment */.baz/* comment */.foo;",
+            output: null,
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = object// comment\n.foo;",
+            output: null,
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = object./* comment */foo;",
+            output: null,
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = (/* comment */ object.foo);",
+            output: null,
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = (object.foo /* comment */);",
+            output: null,
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = object.foo/* comment */;",
+            output: "var {foo} = object/* comment */;",
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = object.foo// comment",
+            output: "var {foo} = object// comment",
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = object.foo/* comment */, a;",
+            output: "var {foo} = object/* comment */, a;",
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = object.foo// comment\n, a;",
+            output: "var {foo} = object// comment\n, a;",
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = object.foo, /* comment */ a;",
+            output: "var {foo} = object, /* comment */ a;",
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
         }
     ]
 });
