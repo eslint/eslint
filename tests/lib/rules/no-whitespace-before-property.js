@@ -843,6 +843,22 @@ ruleTester.run("no-whitespace-before-property", rule, {
             }]
         },
         {
+            code: "08      .toExponential()",
+            output: null, // Not fixed
+            errors: [{
+                messageId: "unexpectedWhitespace",
+                data: { propName: "toExponential" }
+            }]
+        },
+        {
+            code: "0192    .toExponential()",
+            output: null, // Not fixed
+            errors: [{
+                messageId: "unexpectedWhitespace",
+                data: { propName: "toExponential" }
+            }]
+        },
+        {
             code: "5_000       .toExponential()",
             output: null, // Not fixed,
             parserOptions: { ecmaVersion: 2021 },
