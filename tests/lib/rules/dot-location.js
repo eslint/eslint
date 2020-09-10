@@ -232,6 +232,24 @@ ruleTester.run("dot-location", rule, {
             errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }]
         },
         {
+            code: "01\n.toExponential()",
+            output: "01.\ntoExponential()",
+            options: ["object"],
+            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }]
+        },
+        {
+            code: "08\n.toExponential()",
+            output: "08 .\ntoExponential()",
+            options: ["object"],
+            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }]
+        },
+        {
+            code: "0190\n.toExponential()",
+            output: "0190 .\ntoExponential()",
+            options: ["object"],
+            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }]
+        },
+        {
             code: "5_000\n.toExponential()",
             output: "5_000 .\ntoExponential()",
             options: ["object"],

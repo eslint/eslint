@@ -230,6 +230,31 @@ ruleTester.run("dot-notation", rule, {
             errors: [{ messageId: "useDot", data: { key: q("prop") } }]
         },
         {
+            code: "01['prop']",
+            output: "01.prop",
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "01234567['prop']",
+            output: "01234567.prop",
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "08['prop']",
+            output: "08 .prop",
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "090['prop']",
+            output: "090 .prop",
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "018['prop']",
+            output: "018 .prop",
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
             code: "5_000['prop']",
             output: "5_000 .prop",
             parserOptions: { ecmaVersion: 2021 },
