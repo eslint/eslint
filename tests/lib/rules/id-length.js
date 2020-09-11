@@ -113,6 +113,13 @@ ruleTester.run("id-length", rule, {
             ]
         },
         {
+            code: "var toString;",
+            options: [{ max: 5 }],
+            errors: [
+                tooLongError
+            ]
+        },
+        {
             code: "(a) => { a * a };",
             parserOptions: { ecmaVersion: 6 },
             errors: [
@@ -198,6 +205,19 @@ ruleTester.run("id-length", rule, {
                     data: { name: "b", min: 2 },
                     line: 1,
                     column: 19,
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var hasOwnProperty;",
+            options: [{ max: 10, exceptions: [] }],
+            errors: [
+                {
+                    messageId: "tooLong",
+                    data: { name: "hasOwnProperty", max: 10 },
+                    line: 1,
+                    column: 5,
                     type: "Identifier"
                 }
             ]
