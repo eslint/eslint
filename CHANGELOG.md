@@ -1,3 +1,22 @@
+v7.9.0 - September 12, 2020
+
+* [`3ca2700`](https://github.com/eslint/eslint/commit/3ca27004ece5016ba7aed775f01ad13bc9282296) Fix: Corrected notice for invalid (:) plugin names (#13473) (Josh Goldberg)
+* [`fc5783d`](https://github.com/eslint/eslint/commit/fc5783d2ff9e3b0d7a1f9664928d49270b4a6c01) Docs: Fix leaky anchors in v4 migration page (#13635) (Timo Tijhof)
+* [`f1d07f1`](https://github.com/eslint/eslint/commit/f1d07f112be96c64dfdaa154aa9ac81985b16238) Docs: Provide install commands for Yarn (#13661) (Nikita Baksalyar)
+* [`29d1cdc`](https://github.com/eslint/eslint/commit/29d1cdceedd6c056a39149723cf9ff2fbb260cbf) Fix: prefer-destructuring removes comments (refs #13678) (#13682) (Milos Djermanovic)
+* [`b4da0a7`](https://github.com/eslint/eslint/commit/b4da0a7ca7995435bdfc116fd374eb0649470131) Docs: fix typo in working with plugins docs (#13683) (啸生)
+* [`6f87db7`](https://github.com/eslint/eslint/commit/6f87db7c318225e48ccbbf0bec8b3758ea839b82) Update: fix id-length false negatives on Object.prototype property names (#13670) (Milos Djermanovic)
+* [`361ac4d`](https://github.com/eslint/eslint/commit/361ac4d895c15086fb4351d4dca1405b2fdc4bd5) Fix: NonOctalDecimalIntegerLiteral is decimal integer (fixes #13588) (#13664) (Milos Djermanovic)
+* [`f260716`](https://github.com/eslint/eslint/commit/f260716695064e4b4193337107b60401bd4b3f20) Docs: update outdated link (#13677) (klkhan)
+* [`5138c91`](https://github.com/eslint/eslint/commit/5138c913c256e4266ffb68278783af45bf70af84) Docs: add missing eslint directive comments in no-await-in-loop (#13673) (Milos Djermanovic)
+* [`17b58b5`](https://github.com/eslint/eslint/commit/17b58b528df62bf96813d50c087cafdf83306810) Docs: clarify correct example in no-return-await (fixes #13656) (#13657) (Milos Djermanovic)
+* [`9171f0a`](https://github.com/eslint/eslint/commit/9171f0a99bb4d7c53f109b1c2b215004a7c27713) Chore: fix typo (#13660) (Nitin Kumar)
+* [`6d9f8fb`](https://github.com/eslint/eslint/commit/6d9f8fbb7ed4361b475fb50d04e6d25744d5b1a2) Sponsors: Sync README with website (ESLint Jenkins)
+* [`97b0dd9`](https://github.com/eslint/eslint/commit/97b0dd9a1af1ae4ae3857adcfe6eeac7837101ed) Sponsors: Sync README with website (ESLint Jenkins)
+* [`deab125`](https://github.com/eslint/eslint/commit/deab125fc9220dab43baeb32c6cf78942ad25a83) Sponsors: Sync README with website (ESLint Jenkins)
+* [`bf2e367`](https://github.com/eslint/eslint/commit/bf2e367bf4f6fde9930af9de8b8d8bc3d8b5782f) Sponsors: Sync README with website (ESLint Jenkins)
+* [`8929208`](https://github.com/eslint/eslint/commit/89292084bf91ba5ae5bf966c6c56fa3da139ce57) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.8.1 - September 1, 2020
 
 * [`f542b5d`](https://github.com/eslint/eslint/commit/f542b5d0679b73326ad249fc44a54c3f848bd3e6) Fix: Update broken @eslint/eslintrc version (fixes #13641) (#13647) (Nicholas C. Zakas)
