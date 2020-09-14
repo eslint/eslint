@@ -57,7 +57,16 @@ ruleTester.run("no-shadow", rule, {
         { code: "function foo() { var top = 0; }", env: { browser: true } },
         { code: "var Object = 0;", options: [{ builtinGlobals: true }] },
         { code: "var top = 0;", options: [{ builtinGlobals: true }], env: { browser: true } },
-        { code: "function foo(cb) { (function (cb) { cb(42); })(cb); }", options: [{ allow: ["cb"] }] }
+        { code: "function foo(cb) { (function (cb) { cb(42); })(cb); }", options: [{ allow: ["cb"] }] },
+        { code: "const a = [].find(a=>a)", parserOptions: { ecmaVersion: 6 } },
+        { code: "const [a = [].find(a => true)] = dummy", parserOptions: { ecmaVersion: 6 } },
+        { code: "const { a = [].find(a => true) } = dummy", parserOptions: { ecmaVersion: 6 } },
+        { code: "function func(a = [].find(a => true)) {}", parserOptions: { ecmaVersion: 6 } },
+        { code: "for (const a in [].find(a => true)) {}", parserOptions: { ecmaVersion: 6 } },
+        { code: "for (const a of [].find(a => true)) {}", parserOptions: { ecmaVersion: 6 } },
+        { code: "const a = [].map(a => true).filter(a => a === 'b')", parserOptions: { ecmaVersion: 6 } },
+        { code: "const { a } = (({ a }) => ({ a }))();", parserOptions: { ecmaVersion: 6 } },
+        { code: "const { a } = function() { const a = 1; return { a } }();", parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
@@ -526,6 +535,15 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 31
+            }]
+        },
+        {
+            code: "[].filter(a => a.find(a => a > 10));",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "noShadow",
+                data: { name: "a" },
+                type: "Identifier"
             }]
         }
     ]
