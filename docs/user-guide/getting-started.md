@@ -20,7 +20,7 @@ npm install eslint --save-dev
 yarn add eslint --dev
 ```
 
-You should then set up a configuration file:
+You should then set up a configuration file, and the easiest way to do that is to use the `--init` flag:
 
 ```
 $ npx eslint --init
@@ -29,6 +29,8 @@ $ npx eslint --init
 
 $ yarn run eslint --init
 ```
+
+**Note:** `--init` assumes you have a `package.json` file already. If you don't, make sure to run `npm init` or `yarn create` beforehand.
 
 After that, you can run ESLint on any file or directory like this:
 
