@@ -30,7 +30,7 @@ $ npx eslint --init
 $ yarn run eslint --init
 ```
 
-**Note:** `--init` assumes you have a `package.json` file already. If you don't, make sure to run `npm init` or `yarn create` beforehand.
+**Note:** `--init` assumes you have a `package.json` file already. If you don't, make sure to run `npm init` or `yarn init` beforehand.
 
 After that, you can run ESLint on any file or directory like this:
 
