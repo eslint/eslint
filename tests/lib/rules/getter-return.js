@@ -218,11 +218,11 @@ ruleTester.run("getter-return", rule, {
         },
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){if(bar) {return true;}}});", errors: [{ messageId: "expectedAlways" }] },
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){ ~function () { return true; }()}});", errors: [{ messageId: "expected" }] },
+
+        // option: {allowImplicit: true}
         { code: "Object.defineProperties(foo, { bar: { get: function () {}} });", options, errors: [{ messageId: "expected" }] },
         { code: "Object.defineProperties(foo, { bar: { get: function (){if(bar) {return true;}}}});", options, errors: [{ messageId: "expectedAlways" }] },
         { code: "Object.defineProperties(foo, { bar: { get: function () {~function () { return true; }()}} });", options, errors: [{ messageId: "expected" }] },
-
-        // option: {allowImplicit: true}
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", options, errors: [{ messageId: "expected" }] },
 
         // Optional chaining
