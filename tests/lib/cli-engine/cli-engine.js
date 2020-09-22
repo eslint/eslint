@@ -3019,7 +3019,7 @@ describe("CLIEngine", () => {
                 return prepare();
             });
 
-            afterEach(() => cleanup());
+            afterEach(cleanup);
 
             it("should not report 'no-console' error.", () => {
                 const { results } = engine.executeOnFiles("a.js");
@@ -3064,7 +3064,7 @@ describe("CLIEngine", () => {
                 return prepare();
             });
 
-            afterEach(() => cleanup());
+            afterEach(cleanup);
 
             it("should throw fatal error.", () => {
                 assert.throws(() => {
@@ -3116,7 +3116,7 @@ describe("CLIEngine", () => {
                 return prepare();
             });
 
-            afterEach(() => cleanup());
+            afterEach(cleanup);
 
 
             it("should not crash.", () => {
