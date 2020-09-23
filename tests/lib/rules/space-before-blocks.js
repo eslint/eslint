@@ -10,7 +10,8 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/space-before-blocks"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester"),
+    fixtureParser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -554,6 +555,21 @@ ruleTester.run("space-before-blocks", rule, {
             output: "class test{ constructor() {} }",
             options: classesNeverOthersOffArgs,
             parserOptions: { ecmaVersion: 6 },
+            errors: [expectedNoSpacingError]
+        },
+
+        // https://github.com/eslint/eslint/issues/13553
+        {
+            code: "class A { foo(bar: string): void{} }",
+            output: "class A { foo(bar: string): void {} }",
+            parser: fixtureParser("space-before-blocks", "return-type-keyword-1"),
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "function foo(): null {}",
+            output: "function foo(): null{}",
+            options: neverArgs,
+            parser: fixtureParser("space-before-blocks", "return-type-keyword-2"),
             errors: [expectedNoSpacingError]
         }
     ]
