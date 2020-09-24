@@ -84,7 +84,7 @@ class Foo{
 Examples of **correct** code for this rule with the object option:
 
 ```js
-/* eslint lines-between-class-members: ["error", "always", { exceptAfterSingleLine: true }]*/
+/* eslint lines-between-class-members: ["error", "always", { "exceptAfterSingleLine": true }]*/
 class Foo{
   bar(){} // single line class member
   baz(){
