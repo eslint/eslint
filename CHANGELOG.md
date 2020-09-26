@@ -1,3 +1,18 @@
+v7.10.0 - September 26, 2020
+
+* [`6919fbb`](https://github.com/eslint/eslint/commit/6919fbb83f86552b0f49ae749da866e4edc7c46a) Docs: Clarify that ignorePattern should be a string (refs #13029) (#13718) (Brandon Mills)
+* [`07d9bea`](https://github.com/eslint/eslint/commit/07d9bea7c6f953e8f754afffc9752edcee799431) Update: Add ignorePattern to no-inline-comments (#13029) (Edie Lemoine)
+* [`d79bbe9`](https://github.com/eslint/eslint/commit/d79bbe982930b53358d34ad91cc6e5eaac8ddede) Docs: fix typo (#13717) (Alexander Liu)
+* [`9b8490e`](https://github.com/eslint/eslint/commit/9b8490ee6391c986b1314540a92b71d8c1e0efc4) Docs: grammatical error (#13687) (rajdeep)
+* [`cb44e93`](https://github.com/eslint/eslint/commit/cb44e93f4780e925a75a68ce2f7f6d065b5f756c) Fix: prefer-destructuring invalid autofix with computed property access (#13704) (Milos Djermanovic)
+* [`46c73b1`](https://github.com/eslint/eslint/commit/46c73b159a5ceed2f7f26f254fd97e459fb0e81a) Upgrade: eslint-scope@5.1.1 (#13716) (Milos Djermanovic)
+* [`b7b12ba`](https://github.com/eslint/eslint/commit/b7b12ba0bd4e9c66883f11e97de8ed84b600cdaa) Chore: Move comment to make tests more organized (#13707) (Yusuke Tanaka)
+* [`51674a4`](https://github.com/eslint/eslint/commit/51674a4113a1ca877094606bbf4938ab06cc1aad) Docs: Add missing quotes (#13714) (Lucio Paiva)
+* [`7c34a98`](https://github.com/eslint/eslint/commit/7c34a982aaf93a02348f56c9ce887c7dcf51b5bd) Chore: remove mistakenly added file (#13710) (Milos Djermanovic)
+* [`30b76c9`](https://github.com/eslint/eslint/commit/30b76c9a13fae3dff59f7db406d6c66f11152973) Docs: Clarify package.json requirement in Getting Started (refs #13549) (#13696) (Nicholas C. Zakas)
+* [`044560d`](https://github.com/eslint/eslint/commit/044560dcc74db98b28e293da2e2f3b41ecbf5884) Sponsors: Sync README with website (ESLint Jenkins)
+* [`54000d1`](https://github.com/eslint/eslint/commit/54000d13f27d5255851b5ac0606ad027e2b8d331) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.9.0 - September 12, 2020
 
 * [`3ca2700`](https://github.com/eslint/eslint/commit/3ca27004ece5016ba7aed775f01ad13bc9282296) Fix: Corrected notice for invalid (:) plugin names (#13473) (Josh Goldberg)
