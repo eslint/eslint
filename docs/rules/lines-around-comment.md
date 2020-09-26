@@ -437,7 +437,7 @@ const [
 
 ### ignorePattern
 
-By default this rule ignores comments starting with the following words: `eslint`, `jshint`, `jslint`, `istanbul`, `global`, `exported`, `jscs`. An alternative regular expression can be provided.
+By default this rule ignores comments starting with the following words: `eslint`, `jshint`, `jslint`, `istanbul`, `global`, `exported`, `jscs`. To ignore more comments in addition to the defaults, set the `ignorePattern` option to a string pattern that will be passed to the [`RegExp` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp).
 
 Examples of **correct** code for the `ignorePattern` option:
 
