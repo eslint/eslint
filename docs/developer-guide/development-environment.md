@@ -23,7 +23,7 @@ You must be connected to the Internet for this step to work. You'll see a lot of
 
 ## Step 3: Add the upstream source
 
-The *upstream source* is the main ESLint repository that active development happens on. While you won't have push access to upstream, you will have pull access, allowing you to pull in the latest code whenever you want.
+The *upstream source* is the main ESLint repository where active development happens. While you won't have push access to upstream, you will have pull access, allowing you to pull in the latest code whenever you want.
 
 To add the upstream source for ESLint, run the following in your repository:
 
