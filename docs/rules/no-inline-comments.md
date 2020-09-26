@@ -92,7 +92,7 @@ var quux = (
 
 ### ignorePattern
 
-A regular expression can be provided to make this rule ignore specific comments.
+To make this rule ignore specific comments, set the `ignorePattern` option to a string pattern that will be passed to the [`RegExp` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp).
 
 Examples of **correct** code for the `ignorePattern` option:
 
