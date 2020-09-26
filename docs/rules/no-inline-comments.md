@@ -87,3 +87,25 @@ var quux = (
     </div>
 )
 ```
+
+## Options
+
+### ignorePattern
+
+A regular expression can be provided to make this rule ignore specific comments.
+
+Examples of **correct** code for the `ignorePattern` option:
+
+```js
+/*eslint no-inline-comments: ["error", { "ignorePattern": "webpackChunkName:\\s.+" }]*/
+
+import(/* webpackChunkName: "my-chunk-name" */ './locale/en');
+```
+
+Examples of **incorrect** code for the `ignorePattern` option:
+
+```js
+/*eslint no-inline-comments: ["error", { "ignorePattern": "something" }] */
+
+var foo = 4; // other thing
+```

@@ -88,7 +88,24 @@ ruleTester.run("no-inline-comments", rule, {
                comment
             */}
             </div>
-        )`
+        )`,
+        {
+            code: "import(/* webpackChunkName: \"my-chunk-name\" */ './locale/en');",
+            options: [
+                {
+                    ignorePattern: "(?:webpackChunkName):\\s.+"
+                }
+            ],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "var foo = 2; // Note: This comment is legal.",
+            options: [
+                {
+                    ignorePattern: "Note: "
+                }
+            ]
+        }
     ],
 
     invalid: [
@@ -101,11 +118,29 @@ ruleTester.run("no-inline-comments", rule, {
             errors: [blockError]
         },
         {
+            code: "/* something */ var a = 2;",
+            options: [
+                {
+                    ignorePattern: "otherthing"
+                }
+            ],
+            errors: [blockError]
+        },
+        {
             code: "var a = 3; //A comment inline with code",
             errors: [lineError]
         },
         {
             code: "var a = 3; // someday use eslint-disable-line here",
+            errors: [lineError]
+        },
+        {
+            code: "var a = 3; // other line comment",
+            options: [
+                {
+                    ignorePattern: "something"
+                }
+            ],
             errors: [lineError]
         },
         {
