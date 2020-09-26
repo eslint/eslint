@@ -238,6 +238,16 @@ ruleTester.run("prefer-destructuring", rule, {
             }]
         },
         {
+            code: "var foo = object[foo];",
+            output: null,
+            options: [{ object: true }, { enforceForRenamedProperties: true }],
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
             code: "var foo = object['foo'];",
             output: null,
             errors: [{
