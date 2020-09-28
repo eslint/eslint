@@ -3169,12 +3169,14 @@ describe("CLIEngine", () => {
                 `
             };
 
-            /* eslint-disable-next-line func-style*/
-            let cleanup = () => {};
+            let cleanup;
+
+            beforeEach(() => {
+                cleanup = () => {};
+            });
 
             afterEach(async () => {
                 await cleanup();
-                cleanup = () => {};
             });
 
             it("should lint only JavaScript blocks if '--ext' was not given.", async () => {
@@ -3189,8 +3191,8 @@ describe("CLIEngine", () => {
                     }
                 });
 
-                await teardown.prepare();
                 cleanup = teardown.cleanup;
+                await teardown.prepare();
                 engine = new CLIEngine({ cwd: teardown.getPath() });
 
                 const { results } = engine.executeOnFiles(["test.md"]);
