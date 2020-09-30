@@ -121,8 +121,17 @@ ruleTester.run("max-len", rule, {
             parserOptions: { ecmaFeatures: { jsx: true } }
         },
         {
+            code: "var foo = veryLongIdentifier; var str = 'this is a very long string';",
+            options: [29, 4, { ignoreStrings: { minLength: 20 } }]
+        },
+        {
             code: "var foo = veryLongIdentifier;\nvar bar = `this is a very long string`;",
             options: [29, 4, { ignoreTemplateLiterals: true }],
+            parserOptions
+        },
+        {
+            code: "var foo = `this is a very long string`;",
+            options: [29, 4, { ignoreTemplateLiterals: { minLength: 28 } }],
             parserOptions
         },
         {
@@ -138,6 +147,10 @@ ruleTester.run("max-len", rule, {
         {
             code: "var foo = /this is a very long pattern/;",
             options: [29, 4, { ignoreRegExpLiterals: true }]
+        },
+        {
+            code: "var foo = /this is a very long pattern/;",
+            options: [29, 4, { ignoreRegExpLiterals: { minLength: 29 } }]
         },
 
         // check indented comment lines - https://github.com/eslint/eslint/issues/6322
@@ -821,6 +834,52 @@ ruleTester.run("max-len", rule, {
                     column: 1,
                     endLine: 1,
                     endColumn: 59
+                }
+            ]
+        },
+        {
+            code: "var foo = /this is a very long pattern/;",
+            options: [29, 4, { ignoreRegExpLiterals: { minLength: 30 } }],
+            errors: [
+                {
+                    messageId: "max",
+                    data: { lineLength: 40, maxLength: 29 },
+                    type: "Program",
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 41
+                }
+            ]
+        },
+        {
+            code: "var foo = veryLongIdentifier; var str = 'this is short str';",
+            options: [29, 4, { ignoreStrings: { minLength: 20 } }],
+            errors: [
+                {
+                    messageId: "max",
+                    data: { lineLength: 60, maxLength: 29 },
+                    type: "Program",
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 61
+                }
+            ]
+        },
+        {
+            code: "var foo = veryLongIdentifier; var str = `this is ${short}!`;",
+            options: [29, 4, { ignoreStrings: { minLength: 20 } }],
+            parserOptions,
+            errors: [
+                {
+                    messageId: "max",
+                    data: { lineLength: 60, maxLength: 29 },
+                    type: "Program",
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 61
                 }
             ]
         },

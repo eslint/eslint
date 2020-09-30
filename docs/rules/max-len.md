@@ -21,9 +21,9 @@ This rule has a number or object option:
 * `"ignoreComments": true` ignores all trailing comments and comments on their own line
 * `"ignoreTrailingComments": true` ignores only trailing comments
 * `"ignoreUrls": true` ignores lines that contain a URL
-* `"ignoreStrings": true` ignores lines that contain a double-quoted or single-quoted string
-* `"ignoreTemplateLiterals": true` ignores lines that contain a template literal
-* `"ignoreRegExpLiterals": true` ignores lines that contain a RegExp literal
+* `"ignoreStrings": true | {minLength: number}` ignores lines that contain a double-quoted or single-quoted string (minimum string length that makes the line ignored can be optionally specified)
+* `"ignoreTemplateLiterals": true | {minLength: number}` ignores lines that contain a template literal (minimum template literal length that makes the line ignored can be optionally specified)
+* `"ignoreRegExpLiterals": true | {minLength: number}` ignores lines that contain a RegExp literal  (minimum RegExp literl length that makes the line ignored can be optionally specified)
 
 ### code
 
