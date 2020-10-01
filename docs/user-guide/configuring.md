@@ -13,6 +13,26 @@ There are several pieces of information that can be configured:
 
 All of these options give you fine-grained control over how ESLint treats your code.
 
+## Table of Contents
+- [Specifying Parser Options](#specifying-parser-options)
+- [Specifying Parser](#specifying-parser)
+- [Specifying Processor](#specifying-processor)
+- [Specifying Environments](#specifying-environments)
+- [Specifying Globals](#specifying-globals)
+- [Configuring Plugins](#configuring-plugins)
+- [Configuring Rules](#configuring-rules)
+- [Disabling Rules with Inline Comments](#disabling-rules-with-inline-comments)
+- [Configuring Inline Comment Behaviors](#configuring-inline-comment-behaviors)
+- [Adding Shared Settings](#adding-shared-settings)
+- [Using Configuration Files](#using-configuration-files)
+- [Configuration File Formats](#configuration-file-formats)
+- [Configuration Cascading and Hierarchy](#configuration-cascading-and-hierarchy)
+- [Extending Configuration Files](#extending-configuration-files)
+- [Configuration Based on Glob Patterns](#configuration-based-on-glob-patterns)
+- [Comments in Configuration Files](#comments-in-configuration-files)
+- [Ignoring Files and Directories](#ignoring-files-and-directories)
+- [Personal Configuration File (deprecated)](#personal-configuration-file-deprecated)
+
 ## Specifying Parser Options
 
 ESLint allows you to specify the JavaScript language options you want to support. By default, ESLint expects ECMAScript 5 syntax. You can override that setting to enable support for other ECMAScript versions as well as JSX by using parser options.
