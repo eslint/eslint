@@ -91,7 +91,8 @@ function getErrorMessage(error) {
 
             return template(error.messageData || {});
         } catch {
-
+            //log if Template error is handled or occured
+            console.log('Handled template error');
             // Ignore template error then fallback to use `error.stack`.
         }
     }
