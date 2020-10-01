@@ -14,6 +14,7 @@ There are several pieces of information that can be configured:
 All of these options give you fine-grained control over how ESLint treats your code.
 
 ## Table of Contents
+
 * [Specifying Parser Options](#specifying-parser-options)
 * [Specifying Parser](#specifying-parser)
 * [Specifying Processor](#specifying-processor)
