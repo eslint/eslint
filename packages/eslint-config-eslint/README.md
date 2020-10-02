@@ -1,4 +1,4 @@
-[![NPM version][npm-image]][npm-url]
+[![npm version][npm-image]][npm-url]
 
 # ESLint Configuration
 
