@@ -21,9 +21,9 @@
 
 ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code. In many ways, it is similar to JSLint and JSHint with a few exceptions:
 
-* ESLint uses [Espree](https://github.com/eslint/espree) for JavaScript parsing.
-* ESLint uses an AST to evaluate patterns in code.
-* ESLint is completely pluggable, every single rule is a plugin and you can add more at runtime.
+-   ESLint uses [Espree](https://github.com/eslint/espree) for JavaScript parsing.
+-   ESLint uses an AST to evaluate patterns in code.
+-   ESLint is completely pluggable, every single rule is a plugin and you can add more at runtime.
 
 ## Table of Contents
 
@@ -66,7 +66,8 @@ $ ./node_modules/.bin/eslint yourfile.js
 
 After running `eslint --init`, you'll have a `.eslintrc` file in your directory. In it, you'll see some rules configured like this:
 
-```json
+```
+json
 {
     "rules": {
         "semi": ["error", "always"],
@@ -77,9 +78,9 @@ After running `eslint --init`, you'll have a `.eslintrc` file in your directory.
 
 The names `"semi"` and `"quotes"` are the names of [rules](https://eslint.org/docs/rules) in ESLint. The first value is the error level of the rule and can be one of these values:
 
-* `"off"` or `0` - turn the rule off
-* `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
-* `"error"` or `2` - turn the rule on as an error (exit code will be 1)
+-   `"off"` or `0` - turn the rule off
+-   `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
+-   `"error"` or `2` - turn the rule on as an error (exit code will be 1)
 
 The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the [configuration docs](https://eslint.org/docs/user-guide/configuring)).
 
@@ -91,10 +92,10 @@ ESLint adheres to the [JS Foundation Code of Conduct](https://js.foundation/comm
 
 Before filing an issue, please be sure to read the guidelines for what you're reporting:
 
-* [Bug Report](https://eslint.org/docs/developer-guide/contributing/reporting-bugs)
-* [Propose a New Rule](https://eslint.org/docs/developer-guide/contributing/new-rules)
-* [Proposing a Rule Change](https://eslint.org/docs/developer-guide/contributing/rule-changes)
-* [Request a Change](https://eslint.org/docs/developer-guide/contributing/changes)
+-   [Bug Report](https://eslint.org/docs/developer-guide/contributing/reporting-bugs)
+-   [Propose a New Rule](https://eslint.org/docs/developer-guide/contributing/new-rules)
+-   [Proposing a Rule Change](https://eslint.org/docs/developer-guide/contributing/rule-changes)
+-   [Request a Change](https://eslint.org/docs/developer-guide/contributing/changes)
 
 ## <a name="faq"></a>Frequently Asked Questions
 
@@ -112,13 +113,13 @@ No, ESLint does both traditional linting (looking for problematic patterns) and 
 
 ### Why can't ESLint find my plugins?
 
-* Make sure your plugins (and ESLint) are both in your project's `package.json` as devDependencies (or dependencies, if your project uses ESLint at runtime).
-* Make sure you have run `npm install` and all your dependencies are installed.
-* Make sure your plugins' peerDependencies have been installed as well. You can use `npm view eslint-plugin-myplugin peerDependencies` to see what peer dependencies `eslint-plugin-myplugin` has.
+-   Make sure your plugins (and ESLint) are both in your project's `package.json` as devDependencies (or dependencies, if your project uses ESLint at runtime).
+-   Make sure you have run `npm install` and all your dependencies are installed.
+-   Make sure your plugins' peerDependencies have been installed as well. You can use `npm view eslint-plugin-myplugin peerDependencies` to see what peer dependencies `eslint-plugin-myplugin` has.
 
 ### Does ESLint support JSX?
 
-Yes, ESLint natively supports parsing JSX syntax (this must be enabled in [configuration](https://eslint.org/docs/user-guide/configuring)). Please note that supporting JSX syntax *is not* the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) if you are using React and want React semantics.
+Yes, ESLint natively supports parsing JSX syntax (this must be enabled in [configuration](https://eslint.org/docs/user-guide/configuring)). Please note that supporting JSX syntax _is not_ the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) if you are using React and want React semantics.
 
 ### What ECMAScript versions does ESLint support?
 
@@ -148,31 +149,31 @@ ESLint takes security seriously. We work hard to ensure that ESLint is safe for 
 
 ESLint follows [semantic versioning](https://semver.org). However, due to the nature of ESLint as a code quality tool, it's not always clear when a minor or major version bump occurs. To help clarify this for everyone, we've defined the following semantic versioning policy for ESLint:
 
-* Patch release (intended to not break your lint build)
-    * A bug fix in a rule that results in ESLint reporting fewer linting errors.
-    * A bug fix to the CLI or core (including formatters).
-    * Improvements to documentation.
-    * Non-user-facing changes such as refactoring code, adding, deleting, or modifying tests, and increasing test coverage.
-    * Re-releasing after a failed release (i.e., publishing a release that doesn't work for anyone).
-* Minor release (might break your lint build)
-    * A bug fix in a rule that results in ESLint reporting more linting errors.
-    * A new rule is created.
-    * A new option to an existing rule that does not result in ESLint reporting more linting errors by default.
-    * An existing rule is deprecated.
-    * A new CLI capability is created.
-    * New capabilities to the public API are added (new classes, new methods, new arguments to existing methods, etc.).
-    * A new formatter is created.
-    * `eslint:recommended` is updated and will result in strictly fewer linting errors (e.g., rule removals).
-* Major release (likely to break your lint build)
-    * `eslint:recommended` is updated and may result in new linting errors (e.g., rule additions, most rule option updates).
-    * A new option to an existing rule that results in ESLint reporting more linting errors by default.
-    * An existing formatter is removed.
-    * Part of the public API is removed or changed in an incompatible way. The public API includes:
-        * Rule schemas
-        * Configuration schema
-        * Command-line options
-        * Node.js API
-        * Rule, formatter, parser, plugin APIs
+-   Patch release (intended to not break your lint build)
+    -   A bug fix in a rule that results in ESLint reporting fewer linting errors.
+    -   A bug fix to the CLI or core (including formatters).
+    -   Improvements to documentation.
+    -   Non-user-facing changes such as refactoring code, adding, deleting, or modifying tests, and increasing test coverage.
+    -   Re-releasing after a failed release (i.e., publishing a release that doesn't work for anyone).
+-   Minor release (might break your lint build)
+    -   A bug fix in a rule that results in ESLint reporting more linting errors.
+    -   A new rule is created.
+    -   A new option to an existing rule that does not result in ESLint reporting more linting errors by default.
+    -   An existing rule is deprecated.
+    -   A new CLI capability is created.
+    -   New capabilities to the public API are added (new classes, new methods, new arguments to existing methods, etc.).
+    -   A new formatter is created.
+    -   `eslint:recommended` is updated and will result in strictly fewer linting errors (e.g., rule removals).
+-   Major release (likely to break your lint build)
+    -   `eslint:recommended` is updated and may result in new linting errors (e.g., rule additions, most rule option updates).
+    -   A new option to an existing rule that results in ESLint reporting more linting errors by default.
+    -   An existing formatter is removed.
+    -   Part of the public API is removed or changed in an incompatible way. The public API includes:
+        -   Rule schemas
+        -   Configuration schema
+        -   Command-line options
+        -   Node.js API
+        -   Rule, formatter, parser, plugin APIs
 
 According to our policy, any minor update may report more linting errors than the previous release (ex: from a bug fix). As such, we recommend using the tilde (`~`) in `package.json` e.g. `"eslint": "~3.1.0"` to guarantee the results of your builds.
 
@@ -218,7 +219,6 @@ Milos Djermanovic
 </a>
 </td></tr></tbody></table>
 
-
 ### Reviewers
 
 The people who review and implement new features.
@@ -229,9 +229,6 @@ The people who review and implement new features.
 薛定谔的猫
 </a>
 </td></tr></tbody></table>
-
-
-
 
 ### Committers
 
@@ -254,7 +251,6 @@ YeonJuan
 </a>
 </td></tr></tbody></table>
 
-
 <!--teamend-->
 
 ## <a name="sponsors"></a>Sponsors
@@ -271,6 +267,6 @@ The following companies, organizations, and individuals support ESLint's ongoing
 
 ## <a name="technology-sponsors"></a>Technology Sponsors
 
-* Site search ([eslint.org](https://eslint.org)) is sponsored by [Algolia](https://www.algolia.com)
-* Hosting for ([eslint.org](https://eslint.org)) is sponsored by [Netlify](https://www.netlify.com)
-* Password management is sponsored by [1Password](https://www.1password.com)
+-   Site search ([eslint.org](https://eslint.org)) is sponsored by [Algolia](https://www.algolia.com)
+-   Hosting for ([eslint.org](https://eslint.org)) is sponsored by [Netlify](https://www.netlify.com)
+-   Password management is sponsored by [1Password](https://www.1password.com)
