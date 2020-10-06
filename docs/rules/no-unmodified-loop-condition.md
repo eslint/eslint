@@ -31,6 +31,8 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-unmodified-loop-condition: "error"*/
 
+var node = somthing;
+
 while (node) {
     doSomething(node);
 }
