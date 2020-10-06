@@ -9,6 +9,7 @@ Introduced in ES2018, object spread is a declarative alternative which may perfo
 Examples of **incorrect** code for this rule:
 
 ```js
+/*eslint prefer-object-spread: "error"*/
 
 Object.assign({}, foo)
 
@@ -31,6 +32,7 @@ Object.assign({ foo: bar });
 Examples of **correct** code for this rule:
 
 ```js
+/*eslint prefer-object-spread: "error"*/
 
 Object.assign(...foo);
 
