@@ -363,6 +363,15 @@ ruleTester.run("no-extra-parens", rule, {
             "}"
         ].join("\n"),
 
+        // linebreaks before postfix update operators are not allowed
+        "(a\n)++",
+        "(a\n)--",
+        "(a\n\n)++",
+        "(a.b\n)--",
+        "(a\n.b\n)++",
+        "(a[\nb\n]\n)--",
+        "(a[b]\n\n)++",
+
         // async/await
         "async function a() { await (a + b) }",
         "async function a() { await (a + await b) }",
@@ -755,6 +764,18 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("+((bar-foo))", "+(bar-foo)", "BinaryExpression"),
         invalid("++(foo)", "++foo", "Identifier"),
         invalid("--(foo)", "--foo", "Identifier"),
+        invalid("++\n(foo)", "++\nfoo", "Identifier"),
+        invalid("--\n(foo)", "--\nfoo", "Identifier"),
+        invalid("++(\nfoo)", "++\nfoo", "Identifier"),
+        invalid("--(\nfoo)", "--\nfoo", "Identifier"),
+        invalid("(foo)++", "foo++", "Identifier"),
+        invalid("(foo)--", "foo--", "Identifier"),
+        invalid("((foo)\n)++", "(foo\n)++", "Identifier"),
+        invalid("((foo\n))--", "(foo\n)--", "Identifier"),
+        invalid("((foo\n)\n)++", "(foo\n\n)++", "Identifier"),
+        invalid("(a\n.b)--", "a\n.b--", "MemberExpression"),
+        invalid("(a.\nb)++", "a.\nb++", "MemberExpression"),
+        invalid("(a\n[\nb\n])--", "a\n[\nb\n]--", "MemberExpression"),
         invalid("(a || b) ? c : d", "a || b ? c : d", "LogicalExpression"),
         invalid("a ? (b = c) : d", "a ? b = c : d", "AssignmentExpression"),
         invalid("a ? b : (c = d)", "a ? b : c = d", "AssignmentExpression"),
