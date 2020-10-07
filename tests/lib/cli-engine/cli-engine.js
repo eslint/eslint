@@ -3175,9 +3175,7 @@ describe("CLIEngine", () => {
                 cleanup = () => {};
             });
 
-            afterEach(async () => {
-                await cleanup();
-            });
+            afterEach(() => cleanup());
 
             it("should lint only JavaScript blocks if '--ext' was not given.", async () => {
                 const teardown = createCustomTeardown({
@@ -3664,13 +3662,13 @@ describe("CLIEngine", () => {
         describe("glob pattern '[ab].js'", () => {
             const root = getFixturePath("cli-engine/unmatched-glob");
 
-            /* eslint-disable-next-line func-style */
-            let cleanup = () => {};
+            let cleanup;
 
-            afterEach(async () => {
-                await cleanup();
-                cleanup = () => {};
+            beforeEach(() => {
+                cleanup = () => { };
             });
+
+            afterEach(() => cleanup());
 
             it("should match '[ab].js' if existed.", async () => {
 
@@ -3723,13 +3721,13 @@ describe("CLIEngine", () => {
         describe("with 'noInlineConfig' setting", () => {
             const root = getFixturePath("cli-engine/noInlineConfig");
 
-            /* eslint-disable-next-line func-style */
-            let cleanup = () => { };
+            let cleanup;
 
-            afterEach(async () => {
-                await cleanup();
+            beforeEach(() => {
                 cleanup = () => { };
             });
+
+            afterEach(() => cleanup());
 
             it("should warn directive comments if 'noInlineConfig' was given.", async () => {
 
@@ -3780,13 +3778,13 @@ describe("CLIEngine", () => {
         describe("with 'reportUnusedDisableDirectives' setting", () => {
             const root = getFixturePath("cli-engine/reportUnusedDisableDirectives");
 
-            /* eslint-disable-next-line func-style */
-            let cleanup = () => { };
+            let cleanup;
 
-            afterEach(async () => {
-                await cleanup();
+            beforeEach(() => {
                 cleanup = () => { };
             });
+
+            afterEach(() => cleanup());
 
             it("should warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives' was given.", async () => {
                 const teardown = createCustomTeardown({
@@ -3898,12 +3896,15 @@ describe("CLIEngine", () => {
         describe("don't ignore the entry directory.", () => {
             const root = getFixturePath("cli-engine/dont-ignore-entry-dir");
 
-            /* eslint-disable-next-line func-style */
-            let cleanup = () => { };
+            let cleanup;
+
+            beforeEach(() => {
+                cleanup = () => {};
+            });
 
             afterEach(async () => {
                 await cleanup();
-                cleanup = () => { };
+                shell.rm(path.resolve(root, "../.eslintrc.json"));
             });
 
             it("'executeOnFiles(\".\")' should not load config files from outside of \".\".", async () => {
