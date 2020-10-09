@@ -105,6 +105,7 @@
     "eslint-release": "^2.0.0",
     "eslump": "^2.0.0",
     "esprima": "^4.0.1",
+    "fs-teardown": "^0.1.0",
     "glob": "^7.1.6",
     "jsdoc": "^3.5.5",
     "karma": "^4.0.1",
