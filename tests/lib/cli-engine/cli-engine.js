@@ -3904,7 +3904,12 @@ describe("CLIEngine", () => {
 
             afterEach(async () => {
                 await cleanup();
-                shell.rm(path.resolve(root, "../.eslintrc.json"));
+
+                const configFilePath = path.resolve(root, "../.eslintrc.json");
+
+                if (shell.test("-e", configFilePath)) {
+                    shell.rm(configFilePath);
+                }
             });
 
             it("'executeOnFiles(\".\")' should not load config files from outside of \".\".", async () => {
