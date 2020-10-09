@@ -6,6 +6,7 @@ Some people consider large files a code smell. Large files tend to do a lot of t
 
 This rule enforces a maximum number of lines per file, in order to aid in maintainability and reduce complexity.
 
+Please note that most editors show an additional empty line at the end if the file ends with a line break. This rule does not count that extra line.
 
 ## Options
 

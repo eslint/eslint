@@ -21,8 +21,15 @@ ruleTester.run("max-lines", rule, {
     valid: [
         "var x;",
         "var xy;\nvar xy;",
+        { code: "A", options: [1] },
+        { code: "A\n", options: [1] },
+        { code: "A\r", options: [1] },
+        { code: "A\r\n", options: [1] },
         { code: "var xy;\nvar xy;", options: [2] },
+        { code: "var xy;\nvar xy;\n", options: [2] },
         { code: "var xy;\nvar xy;", options: [{ max: 2 }] },
+        { code: "// comment\n", options: [{ max: 0, skipComments: true }] },
+        { code: "foo;\n /* comment */\n", options: [{ max: 1, skipComments: true }] },
         {
             code: [
                 "//a single line comment",
@@ -234,6 +241,50 @@ ruleTester.run("max-lines", rule, {
             ]
         },
         {
+
+            // Questionable. Makes sense to report this, and makes sense to not report this.
+            code: "",
+            options: [{ max: 0 }],
+            errors: [
+                {
+                    messageId: "exceed",
+                    data: { max: 0, actual: 1 },
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 1
+                }
+            ]
+        },
+        {
+            code: " ",
+            options: [{ max: 0 }],
+            errors: [
+                {
+                    messageId: "exceed",
+                    data: { max: 0, actual: 1 },
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 2
+                }
+            ]
+        },
+        {
+            code: "\n",
+            options: [{ max: 0 }],
+            errors: [
+                {
+                    messageId: "exceed",
+                    data: { max: 0, actual: 1 },
+                    line: 1,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 1
+                }
+            ]
+        },
+        {
             code: "A",
             options: [{ max: 0 }],
             errors: [
@@ -244,6 +295,62 @@ ruleTester.run("max-lines", rule, {
                     column: 1,
                     endLine: 1,
                     endColumn: 2
+                }
+            ]
+        },
+        {
+            code: "A\n",
+            options: [{ max: 0 }],
+            errors: [
+                {
+                    messageId: "exceed",
+                    data: { max: 0, actual: 1 },
+                    line: 1,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 1
+                }
+            ]
+        },
+        {
+            code: "A\n ",
+            options: [{ max: 0 }],
+            errors: [
+                {
+                    messageId: "exceed",
+                    data: { max: 0, actual: 2 },
+                    line: 1,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 2
+                }
+            ]
+        },
+        {
+            code: "A\n ",
+            options: [{ max: 1 }],
+            errors: [
+                {
+                    messageId: "exceed",
+                    data: { max: 1, actual: 2 },
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 2
+                }
+            ]
+        },
+        {
+            code: "A\n\n",
+            options: [{ max: 1 }],
+            errors: [
+                {
+                    messageId: "exceed",
+                    data: { max: 1, actual: 2 },
+                    line: 2,
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 1
                 }
             ]
         },
@@ -269,7 +376,7 @@ ruleTester.run("max-lines", rule, {
             errors: [
                 {
                     messageId: "exceed",
-                    data: { max: 2, actual: 4 },
+                    data: { max: 2, actual: 3 },
                     line: 3,
                     column: 1,
                     endLine: 4,
@@ -283,7 +390,7 @@ ruleTester.run("max-lines", rule, {
             errors: [
                 {
                     messageId: "exceed",
-                    data: { max: 2, actual: 4 },
+                    data: { max: 2, actual: 3 },
                     line: 3,
                     column: 1,
                     endLine: 4,
@@ -352,6 +459,26 @@ ruleTester.run("max-lines", rule, {
                 "var x",
                 "var c;",
                 "console.log",
+                "/* block comments */\n"
+            ].join("\n"),
+            options: [{ max: 2, skipComments: true }],
+            errors: [
+                {
+                    messageId: "exceed",
+                    data: { max: 2, actual: 4 },
+                    line: 3,
+                    column: 1,
+                    endLine: 6,
+                    endColumn: 1
+                }
+            ]
+        },
+        {
+            code: [
+                "var a = 'a'; ",
+                "var x",
+                "var c;",
+                "console.log",
                 "/** block \n\n comments */"
             ].join("\n"),
             options: [{ max: 2, skipComments: true }],
@@ -363,6 +490,25 @@ ruleTester.run("max-lines", rule, {
                     column: 1,
                     endLine: 7,
                     endColumn: 13
+                }
+            ]
+        },
+        {
+            code: [
+                "var a = 'a'; ",
+                "",
+                "",
+                "// comment"
+            ].join("\n"),
+            options: [{ max: 2, skipComments: true }],
+            errors: [
+                {
+                    messageId: "exceed",
+                    data: { max: 2, actual: 3 },
+                    line: 3,
+                    column: 1,
+                    endLine: 4,
+                    endColumn: 11
                 }
             ]
         },
