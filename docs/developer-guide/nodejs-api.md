@@ -16,10 +16,10 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
     * [static version][eslint-version]
     * [static outputFixes()][eslint-outputFixes]
     * [static getErrorResults()][eslint-getErrorResults]
-    * [LintResult type](#-lintresult-type)
-    * [LintMessage type](#-lintmessage-type)
-    * [EditInfo type](#-editinfo-type)
-    * [Formatter type](#-formatter-type)
+    * [LintResult type][lintresult]
+    * [LintMessage type][lintmessage]
+    * [EditInfo type][editinfo]
+    * [Formatter type][formatter]
 * [SourceCode](#sourcecode)
     * [splitLines()](#sourcecode-splitlines)
 * [Linter](#linter)
