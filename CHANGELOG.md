@@ -1,3 +1,19 @@
+v7.11.0 - October 9, 2020
+
+* [`23e966f`](https://github.com/eslint/eslint/commit/23e966f6cf2a6c6b699dff5d6950ece3cc396498) Chore: Refactor CLIEngine tests (refs #13481) (#13709) (Nicholas C. Zakas)
+* [`fa9429a`](https://github.com/eslint/eslint/commit/fa9429aac0ffed505f3f02e8fc75f646c69f5c61) Fix: don't count line after EOF in max-lines (#13735) (Milos Djermanovic)
+* [`d973675`](https://github.com/eslint/eslint/commit/d973675a5c06a2bd4f8ce640c78b67842cfebfd4) Docs: Update anchor links to use existing linkrefs (refs #13715) (#13741) (Brandon Mills)
+* [`2c6d774`](https://github.com/eslint/eslint/commit/2c6d774c89dcd14f386bd9d73d451fa2a892c3ef) Docs: Fix typos (#13730) (Frieder Bluemle)
+* [`cc468c0`](https://github.com/eslint/eslint/commit/cc468c01021385a028de727eefcd442e7f34875c) Upgrade: eslint-visitor-keys@2.0.0 (#13732) (Milos Djermanovic)
+* [`ab0ac6c`](https://github.com/eslint/eslint/commit/ab0ac6c532fb7b7d49779c8913146244d680743b) Docs: Fix anchor links (#13715) (Gary Moore)
+* [`27f0de6`](https://github.com/eslint/eslint/commit/27f0de62e6281c28043be38ef051818c9edc15cd) Fix: account for linebreaks before postfix `++`/`--` in no-extra-parens (#13731) (Milos Djermanovic)
+* [`da78fa1`](https://github.com/eslint/eslint/commit/da78fa11632a2908db4ac494012a16f5d5a88a64) Update: support async arrow fn in function-paren-newline (fixes #13728) (#13729) (Michal Dziekonski)
+* [`fe301b8`](https://github.com/eslint/eslint/commit/fe301b8cc0762d7f4edd59603ca51ed0ec0c2a43) Docs: Add configuration comments in examples (#13738) (YeonJuan)
+* [`504408c`](https://github.com/eslint/eslint/commit/504408cd65e9d8827b2b8bbeb8f589df90eee523) Sponsors: Sync README with website (ESLint Jenkins)
+* [`3900659`](https://github.com/eslint/eslint/commit/390065985b2289ad4412a83598e3e833c382d27e) Sponsors: Sync README with website (ESLint Jenkins)
+* [`c1974b3`](https://github.com/eslint/eslint/commit/c1974b3f7169a8e5fab7007df92d02d8c1a8d5a3) Sponsors: Sync README with website (ESLint Jenkins)
+* [`6f4abe5`](https://github.com/eslint/eslint/commit/6f4abe5d5ade2711cc4c21bc8485af952763c2d3) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.10.0 - September 26, 2020
 
 * [`6919fbb`](https://github.com/eslint/eslint/commit/6919fbb83f86552b0f49ae749da866e4edc7c46a) Docs: Clarify that ignorePattern should be a string (refs #13029) (#13718) (Brandon Mills)
