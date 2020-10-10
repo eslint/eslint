@@ -101,6 +101,7 @@
     "no-dupe-class-members": "problem",
     "no-dupe-else-if": "problem",
     "no-dupe-keys": "problem",
+    "no-dupe-ternary-expressions": "problem",
     "no-duplicate-case": "problem",
     "no-duplicate-imports": "problem",
     "no-else-return": "suggestion",
