@@ -289,19 +289,20 @@ ruleTester.run("sort-keys", rule, {
                 }
             `,
             options: ["asc", { allowLineSeparatedGroups: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [
-                {
-                    messageId: "sortKeys",
-                    data: {
-                        natural: "",
-                        insensitive: "",
-                        order: "asc",
-                        thisName: "cc",
-                        prevName: "e"
-                    }
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: `
+                var obj = {
+                    b,
+                    /*
+                    */ //
+
+                    a
                 }
-            ]
+            `,
+            options: ["asc", { allowLineSeparatedGroups: true }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
