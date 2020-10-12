@@ -10,7 +10,7 @@ const os = require("os");
 const { assert } = require("chai");
 const sh = require("shelljs");
 const { CascadingConfigArrayFactory } =
-    require("../../../lib/cli-engine/cascading-config-array-factory");
+    require("@eslint/eslintrc/lib/cascading-config-array-factory");
 const { defineFileEnumeratorWithInMemoryFileSystem } = require("../../_utils");
 
 describe("FileEnumerator", () => {

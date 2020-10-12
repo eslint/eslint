@@ -19,7 +19,7 @@ const fCache = require("file-entry-cache");
 const sinon = require("sinon");
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 const shell = require("shelljs");
-const { CascadingConfigArrayFactory } = require("../../../lib/cli-engine/cascading-config-array-factory");
+const { CascadingConfigArrayFactory } = require("@eslint/eslintrc/lib/cascading-config-array-factory");
 const hash = require("../../../lib/cli-engine/hash");
 const { unIndent, defineESLintWithInMemoryFileSystem } = require("../../_utils");
 

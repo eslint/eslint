@@ -16,7 +16,7 @@ const assert = require("chai").assert,
     fs = require("fs"),
     os = require("os"),
     hash = require("../../../lib/cli-engine/hash"),
-    { CascadingConfigArrayFactory } = require("../../../lib/cli-engine/cascading-config-array-factory"),
+    { CascadingConfigArrayFactory } = require("@eslint/eslintrc/lib/cascading-config-array-factory"),
     { unIndent } = require("../../_utils");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
@@ -1306,6 +1306,10 @@ describe("CLIEngine", () => {
         });
 
         it("should throw an error when all given files are ignored", () => {
+
+            engine = new CLIEngine({
+                ignorePath: getFixturePath(".eslintignore")
+            });
 
             assert.throws(() => {
                 engine.executeOnFiles(["tests/fixtures/cli-engine/"]);
