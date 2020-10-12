@@ -345,6 +345,24 @@ Best practices for fixes:
 
     * This fixer can just select a quote type arbitrarily. If it guesses wrong, the resulting code will be automatically reported and fixed by the [`quotes`](/docs/rules/quotes.md) rule.
 
+Note: Making fixes as small as possible is a best practice, but in some cases it may be correct to extend the range of the fix in order to intentionally prevent other rules from making fixes in a surrounding range in the same pass. For instance, if replacement text declares a new variable, it can be useful to prevent other changes in the scope of the variable as they might cause name collisions.
+
+The following example replaces `node` and also ensures that no other fixes will be applied in the range of `node.parent` in the same pass:
+
+```js
+context.report({
+    node,
+    message,
+    *fix(fixer) {
+        yield fixer.replaceText(node, replacementText);
+
+        // extend range of the fix to the range of `node.parent`
+        yield fixer.insertTextBefore(node.parent, "");
+        yield fixer.insertTextAfter(node.parent, "");
+    }
+});
+```
+
 ### Providing Suggestions
 
 In some cases fixes aren't appropriate to be automatically applied, for example, if a fix potentially changes functionality or if there are multiple valid ways to fix a rule depending on the implementation intent (see the best practices for [applying fixes](#applying-fixes) listed above). In these cases, there is an alternative `suggest` option on `context.report()` that allows other tools, such as editors, to expose helpers for users to manually apply a suggestion.
