@@ -11,7 +11,8 @@ const { assert } = require("chai");
 const sh = require("shelljs");
 const { CascadingConfigArrayFactory } =
     require("@eslint/eslintrc/lib/cascading-config-array-factory");
-const { defineFileEnumeratorWithInMemoryFileSystem } = require("../../_utils");
+const { createCustomTeardown } = require("../../_utils");
+const { FileEnumerator } = require("../../../lib/cli-engine/file-enumerator");
 
 describe("FileEnumerator", () => {
     describe("'iterateFiles(patterns)' method should iterate files and configs.", () => {
@@ -19,21 +20,15 @@ describe("FileEnumerator", () => {
             const root = path.join(os.tmpdir(), "eslint/file-enumerator");
             const files = {
                 /* eslint-disable quote-props */
-                "lib": {
-                    "nested": {
-                        "one.js": "",
-                        "two.js": "",
-                        "parser.js": "",
-                        ".eslintrc.yml": "parser: './parser'"
-                    },
-                    "one.js": "",
-                    "two.js": ""
-                },
-                "test": {
-                    "one.js": "",
-                    "two.js": "",
-                    ".eslintrc.yml": "env: { mocha: true }"
-                },
+                "lib/nested/one.js": "",
+                "lib/nested/two.js": "",
+                "lib/nested/parser.js": "",
+                "lib/nested/.eslintrc.yml": "parser: './parser'",
+                "lib/one.js": "",
+                "lib/two.js": "",
+                "test/one.js": "",
+                "test/two.js": "",
+                "test/.eslintrc.yml": "env: { mocha: true }",
                 ".eslintignore": "/lib/nested/parser.js",
                 ".eslintrc.json": JSON.stringify({
                     rules: {
@@ -43,14 +38,17 @@ describe("FileEnumerator", () => {
                 })
                 /* eslint-enable quote-props */
             };
-            const { FileEnumerator } = defineFileEnumeratorWithInMemoryFileSystem({ cwd: () => root, files });
+            const { prepare, cleanup, getPath } = createCustomTeardown({ cwd: root, files });
 
             /** @type {FileEnumerator} */
             let enumerator;
 
-            beforeEach(() => {
-                enumerator = new FileEnumerator();
+            beforeEach(async () => {
+                await prepare();
+                enumerator = new FileEnumerator({ cwd: getPath() });
             });
+
+            afterEach(cleanup);
 
             it("should ignore empty strings.", () => {
                 Array.from(enumerator.iterateFiles(["lib/*.js", ""])); // don't throw "file not found" error.
@@ -177,7 +175,6 @@ describe("FileEnumerator", () => {
 
         // This group moved from 'tests/lib/util/glob-utils.js' when refactoring to keep the cumulated test cases.
         describe("with 'tests/fixtures/glob-utils' files", () => {
-            const { FileEnumerator } = require("../../../lib/cli-engine/file-enumerator");
             let fixtureDir;
 
             /**
