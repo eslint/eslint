@@ -19,7 +19,6 @@ describe("FileEnumerator", () => {
         describe("with three directories ('lib', 'lib/nested', 'test') that contains 'one.js' and 'two.js'", () => {
             const root = path.join(os.tmpdir(), "eslint/file-enumerator");
             const files = {
-                /* eslint-disable quote-props */
                 "lib/nested/one.js": "",
                 "lib/nested/two.js": "",
                 "lib/nested/parser.js": "",
@@ -36,7 +35,6 @@ describe("FileEnumerator", () => {
                         "no-unused-vars": "error"
                     }
                 })
-                /* eslint-enable quote-props */
             };
             const { prepare, cleanup, getPath } = createCustomTeardown({ cwd: root, files });
 
