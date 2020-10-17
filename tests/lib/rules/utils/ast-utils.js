@@ -1645,7 +1645,7 @@ describe("ast-utils", () => {
         });
     });
 
-    describe("hasOctalEscapeSequence", () => {
+    describe("hasOctalOrNonOctalDecimalEscapeSequence", () => {
 
         /* eslint-disable quote-props */
         const expectedResults = {
@@ -1725,7 +1725,7 @@ describe("ast-utils", () => {
             it(`should return ${expectedResults[key]} for ${key}`, () => {
                 const ast = espree.parse(`"${key}"`);
 
-                assert.strictEqual(astUtils.hasOctalEscapeSequence(ast.body[0].expression.raw), expectedResults[key]);
+                assert.strictEqual(astUtils.hasOctalOrNonOctalDecimalEscapeSequence(ast.body[0].expression.raw), expectedResults[key]);
             });
         });
     });
