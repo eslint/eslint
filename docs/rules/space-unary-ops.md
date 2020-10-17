@@ -75,7 +75,7 @@ new[foo][0];
 delete(foo.bar);
 
 // ReferenceError: "deletefoo" is not defined (space is required here for correct syntax)
-deletefoo.bar; 
+deletefoo.bar;
 
 ++ foo;
 
