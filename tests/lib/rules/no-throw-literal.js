@@ -152,6 +152,13 @@ ruleTester.run("no-throw-literal", rule, {
                 type: "ThrowStatement"
             }]
         },
+        {
+            code: "throw foo && 'literal'", // evaluates either to a falsy value of `foo` (which, then, cannot be an Error object), or to 'literal'
+            errors: [{
+                messageId: "object",
+                type: "ThrowStatement"
+            }]
+        },
 
         // ConditionalExpression
         {
