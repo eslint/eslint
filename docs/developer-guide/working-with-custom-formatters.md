@@ -11,7 +11,7 @@ module.exports = function(results) {
 };
 ```
 
-To run ESLint with this formatter, you can use the `-f` (or `--formatter`) command line flag:
+To run ESLint with this formatter, you can use the `-f` (or `--format`) command line flag:
 
 ```bash
 eslint -f ./my-awesome-formatter.js src/
@@ -50,7 +50,7 @@ The [Using Rule metadata](#using-rule-metadata) example shows how to use the `da
 
 ## Packaging the Custom Formatter
 
-Custom formatters can also be distributed through npm packages. To do so, create an npm package with a name in the format of `eslint-formatter-*`, where `*` is the name of your formatter (such as `eslint-formatter-awesome`). Projects should then install the package and can use the custom formatter with the `-f` (or `--formatter`) flag like this:
+Custom formatters can also be distributed through npm packages. To do so, create an npm package with a name in the format of `eslint-formatter-*`, where `*` is the name of your formatter (such as `eslint-formatter-awesome`). Projects should then install the package and can use the custom formatter with the `-f` (or `--format`) flag like this:
 
 ```bash
 eslint -f awesome src/
