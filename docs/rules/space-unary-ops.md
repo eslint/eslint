@@ -74,9 +74,6 @@ new[foo][0];
 
 delete(foo.bar);
 
-// ReferenceError: "deletefoo" is not defined (space is required here for correct syntax)
-deletefoo.bar;
-
 ++ foo;
 
 foo --;
@@ -119,9 +116,6 @@ new [foo][0];
 
 // Word unary operator "delete" is followed by a whitespace.
 delete (foo.bar);
-
-// Word unary operator "delete" is followed by a whitespace.
-delete foo.bar;
 
 // Unary operator "++" is not followed by whitespace.
 ++foo;
