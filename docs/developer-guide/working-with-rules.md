@@ -382,6 +382,8 @@ Best practices for suggestions:
 1. Don't try to do too much and suggest large refactors that could introduce a lot of breaking changes.
 1. As noted above, don't try to conform to user-defined styles.
 
+Suggestions are intended to provide fixes. ESLint will automatically remove the whole suggestion from the linting output if the suggestion's `fix` function returned `null` or an empty array/sequence.
+
 #### Suggestion `messageId`s
 
 Instead of using a `desc` key for suggestions a `messageId` can be used instead. This works the same way as `messageId`s for the overall error (see [messageIds](#messageIds)). Here is an example of how to use it in a rule:
