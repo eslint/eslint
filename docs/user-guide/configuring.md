@@ -25,7 +25,7 @@ All of these options give you fine-grained control over how ESLint treats your c
 * [Disabling Rules with Inline Comments](#disabling-rules-with-inline-comments)
 * [Configuring Inline Comment Behaviors](#configuring-inline-comment-behaviors)
 * [Adding Shared Settings](#adding-shared-settings)
-* [Using Configuration Files](#using-configuration-files)
+* [Using Configuration Files](#using-configuration-files-1)
 * [Configuration File Formats](#configuration-file-formats)
 * [Configuration Cascading and Hierarchy](#configuration-cascading-and-hierarchy)
 * [Extending Configuration Files](#extending-configuration-files)
