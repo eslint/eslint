@@ -211,7 +211,16 @@ describe("FileEnumerator", () => {
                 );
             }
 
-            before(() => {
+            before(function() {
+
+                /*
+                 * GitHub Actions Windows and macOS runners occasionally
+                 * exhibit extremely slow filesystem operations, during which
+                 * copying fixtures exceeds the default test timeout, so raise
+                 * it just for this hook. Mocha uses `this` to set timeouts on
+                 * an individual hook level.
+                 */
+                this.timeout(60 * 1000); // eslint-disable-line no-invalid-this
                 fixtureDir = `${os.tmpdir()}/eslint/tests/fixtures/`;
                 sh.mkdir("-p", fixtureDir);
                 sh.cp("-r", "./tests/fixtures/*", fixtureDir);
