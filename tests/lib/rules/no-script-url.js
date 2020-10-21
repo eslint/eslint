@@ -30,6 +30,10 @@ ruleTester.run("no-script-url", rule, {
         {
             code: "var url = `${foo}javascript:`",
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var a = foo`javaScript:`;",
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
