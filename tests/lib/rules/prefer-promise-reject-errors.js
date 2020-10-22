@@ -117,6 +117,7 @@ ruleTester.run("prefer-promise-reject-errors", rule, {
         "Promise.reject(foo &= new Error())",
 
         // evaluates either to a falsy value of `foo` (which, then, cannot be an Error object), or to `5`
+        "Promise.reject(foo && 5)",
         "Promise.reject(foo &&= 5)"
 
     ].map(invalidCase => {
