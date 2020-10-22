@@ -91,7 +91,6 @@ ruleTester.run("no-func-assign", rule, {
         },
         {
             code: "var a = function foo() { foo = 123; };",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "isAFunction",
                 data: { name: "foo" },
