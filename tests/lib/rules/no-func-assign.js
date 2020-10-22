@@ -88,6 +88,14 @@ ruleTester.run("no-func-assign", rule, {
                 data: { name: "foo" },
                 type: "Identifier"
             }]
+        },
+        {
+            code: "var a = function foo() { foo = 123; };",
+            errors: [{
+                messageId: "isAFunction",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
         }
     ]
 });
