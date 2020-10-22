@@ -8,14 +8,14 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
 
 * [ESLint]
     * [constructor()][eslint-constructor]
-    * [lintFiles()][eslint-lintFiles]
-    * [lintText()][eslint-lintText]
-    * [calculateConfigForFile()][eslint-calculateConfigForFile]
-    * [isPathIgnored()][eslint-isPathIgnored]
-    * [loadFormatter()][eslint-loadFormatter]
+    * [lintFiles()][eslint-lintfiles]
+    * [lintText()][eslint-linttext]
+    * [calculateConfigForFile()][eslint-calculateconfigforfile]
+    * [isPathIgnored()][eslint-ispathignored]
+    * [loadFormatter()][eslint-loadformatter]
     * [static version][eslint-version]
-    * [static outputFixes()][eslint-outputFixes]
-    * [static getErrorResults()][eslint-getErrorResults]
+    * [static outputFixes()][eslint-outputfixes]
+    * [static getErrorResults()][eslint-geterrorresults]
     * [LintResult type][lintresult]
     * [LintMessage type][lintmessage]
     * [EditInfo type][editinfo]
@@ -1383,14 +1383,14 @@ ruleTester.run("my-rule", myRule, {
 [thirdparty-formatters]: https://www.npmjs.com/search?q=eslintformatter
 [eslint]: #eslint-class
 [eslint-constructor]: #-new-eslintoptions
-[eslint-lintfiles]: #-eslintlintFilespatterns
-[eslint-linttext]: #-eslintlintTextcode-options
-[eslint-calculateconfigforfile]: #-eslintcalculateConfigForFilefilePath
-[eslint-ispathignored]: #-eslintisPathIgnoredfilePath
-[eslint-loadformatter]: #-eslintloadFormatternameOrPath
+[eslint-lintfiles]: #-eslintlintfilespatterns
+[eslint-linttext]: #-eslintlinttextcode-options
+[eslint-calculateconfigforfile]: #-eslintcalculateconfigforfilefilepath
+[eslint-ispathignored]: #-eslintispathignoredfilepath
+[eslint-loadformatter]: #-eslintloadformatternameorpath
 [eslint-version]: #-eslintversion
-[eslint-outputfixes]: #-eslintoutputFixesresults
-[eslint-geterrorresults]: #-eslintgetErrorResultsresults
+[eslint-outputfixes]: #-eslintoutputfixesresults
+[eslint-geterrorresults]: #-eslintgeterrorresultsresults
 [lintresult]: #-lintresult-type
 [lintmessage]: #-lintmessage-type
 [editinfo]: #-editinfo-type
