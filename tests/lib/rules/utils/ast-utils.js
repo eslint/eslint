@@ -1099,7 +1099,10 @@ describe("ast-utils", () => {
             "(1, 2, foo)": true,
             "1 && 2": false,
             "1 && foo": true,
-            "foo && 2": true,
+            "foo && 2": false,
+
+            // A future improvement could detect the left side as statically falsy, making this false.
+            "false && foo": true,
             "foo &&= 2": false,
             "foo.bar ??= 2": true,
             "foo[bar] ||= 2": true,
