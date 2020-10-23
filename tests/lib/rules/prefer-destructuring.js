@@ -189,6 +189,51 @@ ruleTester.run("prefer-destructuring", rule, {
             }]
         },
         {
+            code: "var foo = (a, b).foo;",
+            output: "var {foo} = (a, b);",
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var length = (() => {}).length;",
+            output: "var {length} = () => {};",
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = (a = b).foo;",
+            output: "var {foo} = a = b;",
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = (a || b).foo;",
+            output: "var {foo} = a || b;",
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = (f()).foo;",
+            output: "var {foo} = f();",
+            errors: [{
+                messageId: "preferDestructuring",
+                data: { type: "object" },
+                type: "VariableDeclarator"
+            }]
+        },
+        {
             code: "var foo = object.bar.foo;",
             output: "var {foo} = object.bar;",
             errors: [{
