@@ -3800,7 +3800,7 @@ describe("ESLint", () => {
                 }
             });
 
-            it("'executeOnFiles(\".\")' should not load config files from outside of \".\".", async () => {
+            it("'lintFiles(\".\")' should not load config files from outside of \".\".", async () => {
                 const teardown = createCustomTeardown({
                     cwd: root,
                     files: {
