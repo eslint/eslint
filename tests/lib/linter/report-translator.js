@@ -553,6 +553,224 @@ describe("createReportTranslator", () => {
                 }
             );
         });
+
+        it("should remove the whole suggestion if 'fix' function returned `null`.", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    desc: "A suggestion for the issue",
+                    fix: () => null
+                }]
+            };
+
+            assert.deepStrictEqual(
+                translateReport(reportDescriptor),
+                {
+                    ruleId: "foo-rule",
+                    severity: 2,
+                    message: "foo",
+                    line: 2,
+                    column: 1,
+                    nodeType: "ExpressionStatement"
+                }
+            );
+        });
+
+        it("should remove the whole suggestion if 'fix' function returned an empty array.", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    desc: "A suggestion for the issue",
+                    fix: () => []
+                }]
+            };
+
+            assert.deepStrictEqual(
+                translateReport(reportDescriptor),
+                {
+                    ruleId: "foo-rule",
+                    severity: 2,
+                    message: "foo",
+                    line: 2,
+                    column: 1,
+                    nodeType: "ExpressionStatement"
+                }
+            );
+        });
+
+        it("should remove the whole suggestion if 'fix' function returned an empty sequence.", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    desc: "A suggestion for the issue",
+                    *fix() {}
+                }]
+            };
+
+            assert.deepStrictEqual(
+                translateReport(reportDescriptor),
+                {
+                    ruleId: "foo-rule",
+                    severity: 2,
+                    message: "foo",
+                    line: 2,
+                    column: 1,
+                    nodeType: "ExpressionStatement"
+                }
+            );
+        });
+
+        // This isn't offically supported, but autofix works the same way
+        it("should remove the whole suggestion if 'fix' function didn't return anything.", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    desc: "A suggestion for the issue",
+                    fix() {}
+                }]
+            };
+
+            assert.deepStrictEqual(
+                translateReport(reportDescriptor),
+                {
+                    ruleId: "foo-rule",
+                    severity: 2,
+                    message: "foo",
+                    line: 2,
+                    column: 1,
+                    nodeType: "ExpressionStatement"
+                }
+            );
+        });
+
+        it("should keep suggestion before a removed suggestion.", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    desc: "Suggestion with a fix",
+                    fix: () => ({ range: [1, 2], text: "foo" })
+                }, {
+                    desc: "Suggestion without a fix",
+                    fix: () => null
+                }]
+            };
+
+            assert.deepStrictEqual(
+                translateReport(reportDescriptor),
+                {
+                    ruleId: "foo-rule",
+                    severity: 2,
+                    message: "foo",
+                    line: 2,
+                    column: 1,
+                    nodeType: "ExpressionStatement",
+                    suggestions: [{
+                        desc: "Suggestion with a fix",
+                        fix: { range: [1, 2], text: "foo" }
+                    }]
+                }
+            );
+        });
+
+        it("should keep suggestion after a removed suggestion.", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    desc: "Suggestion without a fix",
+                    fix: () => null
+                }, {
+                    desc: "Suggestion with a fix",
+                    fix: () => ({ range: [1, 2], text: "foo" })
+                }]
+            };
+
+            assert.deepStrictEqual(
+                translateReport(reportDescriptor),
+                {
+                    ruleId: "foo-rule",
+                    severity: 2,
+                    message: "foo",
+                    line: 2,
+                    column: 1,
+                    nodeType: "ExpressionStatement",
+                    suggestions: [{
+                        desc: "Suggestion with a fix",
+                        fix: { range: [1, 2], text: "foo" }
+                    }]
+                }
+            );
+        });
+
+        it("should remove multiple suggestions that didn't provide a fix and keep those that did.", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    desc: "Keep #1",
+                    fix: () => ({ range: [1, 2], text: "foo" })
+                }, {
+                    desc: "Remove #1",
+                    fix() {
+                        return null;
+                    }
+                }, {
+                    desc: "Keep #2",
+                    fix: () => ({ range: [1, 2], text: "bar" })
+                }, {
+                    desc: "Remove #2",
+                    fix() {
+                        return [];
+                    }
+                }, {
+                    desc: "Keep #3",
+                    fix: () => ({ range: [1, 2], text: "baz" })
+                }, {
+                    desc: "Remove #3",
+                    *fix() {}
+                }, {
+                    desc: "Keep #4",
+                    fix: () => ({ range: [1, 2], text: "quux" })
+                }]
+            };
+
+            assert.deepStrictEqual(
+                translateReport(reportDescriptor),
+                {
+                    ruleId: "foo-rule",
+                    severity: 2,
+                    message: "foo",
+                    line: 2,
+                    column: 1,
+                    nodeType: "ExpressionStatement",
+                    suggestions: [{
+                        desc: "Keep #1",
+                        fix: { range: [1, 2], text: "foo" }
+                    }, {
+                        desc: "Keep #2",
+                        fix: { range: [1, 2], text: "bar" }
+                    }, {
+                        desc: "Keep #3",
+                        fix: { range: [1, 2], text: "baz" }
+                    }, {
+                        desc: "Keep #4",
+                        fix: { range: [1, 2], text: "quux" }
+                    }]
+                }
+            );
+        });
     });
 
     describe("message interpolation", () => {
