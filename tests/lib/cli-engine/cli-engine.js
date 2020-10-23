@@ -16,33 +16,11 @@ const assert = require("chai").assert,
     fs = require("fs"),
     os = require("os"),
     hash = require("../../../lib/cli-engine/hash"),
-    { CascadingConfigArrayFactory } = require("../../../lib/cli-engine/cascading-config-array-factory"),
-    { unIndent } = require("../../_utils");
+    { CascadingConfigArrayFactory } = require("@eslint/eslintrc/lib/cascading-config-array-factory"),
+    { unIndent, createCustomTeardown } = require("../../_utils");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 const fCache = require("file-entry-cache");
-const { createTeardown, addFile } = require("fs-teardown");
-
-//-----------------------------------------------------------------------------
-// Helpers
-//-----------------------------------------------------------------------------
-
-/**
- * Creates a new filesystem volume at the given location with the given files.
- * @param {Object} desc A description of the filesystem volume to create.
- * @param {string} desc.cwd The current working directory ESLint is using.
- * @param {Object} desc.files A map of filename to file contents to create.
- * @returns {Teardown} An object with prepare(), cleanup(), and getPath()
- *      methods.
- */
-function createCustomTeardown({ cwd, files }) {
-    const { prepare, cleanup, getPath } = createTeardown(
-        cwd,
-        ...Object.keys(files).map(filename => addFile(filename, files[filename]))
-    );
-
-    return { prepare, cleanup, getPath };
-}
 
 //------------------------------------------------------------------------------
 // Tests
@@ -1314,6 +1292,10 @@ describe("CLIEngine", () => {
         });
 
         it("should throw an error when all given files are ignored", () => {
+
+            engine = new CLIEngine({
+                ignorePath: getFixturePath(".eslintignore")
+            });
 
             assert.throws(() => {
                 engine.executeOnFiles(["tests/fixtures/cli-engine/"]);
@@ -3747,10 +3729,9 @@ describe("CLIEngine", () => {
                     }
                 });
 
-                engine = new CLIEngine({ cwd: teardown.getPath() });
-
                 await teardown.prepare();
                 cleanup = teardown.cleanup;
+                engine = new CLIEngine({ cwd: teardown.getPath() });
 
                 const { results } = engine.executeOnFiles(["test.js"]);
                 const messages = results[0].messages;
@@ -3770,10 +3751,9 @@ describe("CLIEngine", () => {
                     }
                 });
 
-                engine = new CLIEngine({ cwd: teardown.getPath() });
-
                 await teardown.prepare();
                 cleanup = teardown.cleanup;
+                engine = new CLIEngine({ cwd: teardown.getPath() });
 
                 const { results } = engine.executeOnFiles(["test.js"]);
                 const messages = results[0].messages;
@@ -3803,10 +3783,9 @@ describe("CLIEngine", () => {
                     }
                 });
 
-                engine = new CLIEngine({ cwd: teardown.getPath() });
-
                 await teardown.prepare();
                 cleanup = teardown.cleanup;
+                engine = new CLIEngine({ cwd: teardown.getPath() });
 
                 const { results } = engine.executeOnFiles(["test.js"]);
                 const messages = results[0].messages;
@@ -3826,13 +3805,13 @@ describe("CLIEngine", () => {
                         }
                     });
 
+                    await teardown.prepare();
+                    cleanup = teardown.cleanup;
+
                     engine = new CLIEngine({
                         cwd: teardown.getPath(),
                         reportUnusedDisableDirectives: "off"
                     });
-
-                    await teardown.prepare();
-                    cleanup = teardown.cleanup;
 
                     const { results } = engine.executeOnFiles(["test.js"]);
                     const messages = results[0].messages;
@@ -3849,13 +3828,13 @@ describe("CLIEngine", () => {
                         }
                     });
 
+                    await teardown.prepare();
+                    cleanup = teardown.cleanup;
+
                     engine = new CLIEngine({
                         cwd: teardown.getPath(),
                         reportUnusedDisableDirectives: "error"
                     });
-
-                    await teardown.prepare();
-                    cleanup = teardown.cleanup;
 
                     const { results } = engine.executeOnFiles(["test.js"]);
                     const messages = results[0].messages;
@@ -3930,10 +3909,9 @@ describe("CLIEngine", () => {
                     }
                 });
 
-                engine = new CLIEngine({ cwd: teardown.getPath() });
-
                 await teardown.prepare();
                 cleanup = teardown.cleanup;
+                engine = new CLIEngine({ cwd: teardown.getPath() });
 
                 // Don't throw "failed to load config file" error.
                 engine.executeOnFiles(".");
@@ -3949,10 +3927,10 @@ describe("CLIEngine", () => {
                     }
                 });
 
-                engine = new CLIEngine({ cwd: teardown.getPath() });
-
                 await teardown.prepare();
                 cleanup = teardown.cleanup;
+                engine = new CLIEngine({ cwd: teardown.getPath() });
+
 
                 // Don't throw "file not found" error.
                 engine.executeOnFiles(".");
@@ -3968,10 +3946,9 @@ describe("CLIEngine", () => {
                     }
                 });
 
-                engine = new CLIEngine({ cwd: teardown.getPath() });
-
                 await teardown.prepare();
                 cleanup = teardown.cleanup;
+                engine = new CLIEngine({ cwd: teardown.getPath() });
 
                 // Don't throw "file not found" error.
                 engine.executeOnFiles("subdir");
