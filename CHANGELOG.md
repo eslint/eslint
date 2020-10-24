@@ -1,3 +1,30 @@
+v7.12.0 - October 23, 2020
+
+* [`cbf3585`](https://github.com/eslint/eslint/commit/cbf3585f1d6c60414c07380367a8b4505ee3538d) Update: skip keyword check for fns in space-before-blocks (fixes #13553) (#13712) (Milos Djermanovic)
+* [`256f656`](https://github.com/eslint/eslint/commit/256f656455b47bcf9ed3fc30fbf72532678f97da) Fix: autofix shouldn't produce template literals with `\8` or `\9` (#13737) (Milos Djermanovic)
+* [`b165aa5`](https://github.com/eslint/eslint/commit/b165aa5f4d4d19328f13ab80e5f058cbce94c3a6) Fix: yoda rule autofix produces syntax errors with adjacent tokens (#13760) (Milos Djermanovic)
+* [`3175316`](https://github.com/eslint/eslint/commit/3175316db26aebef4b19e269aca90c8ce3955363) Fix: prefer-destructuring invalid autofix with comma operator (#13761) (Milos Djermanovic)
+* [`1a9f171`](https://github.com/eslint/eslint/commit/1a9f17151a4e93eb17c8a2bf4f0a5320cce616de) Chore: Remove more ESLintRC-related files (refs #13481) (#13762) (Nicholas C. Zakas)
+* [`bfddced`](https://github.com/eslint/eslint/commit/bfddcedace5587d662c840c2edf33062b54a178e) Update: remove suggestion if it didn't provide a fix (fixes #13723) (#13772) (Milos Djermanovic)
+* [`5183b14`](https://github.com/eslint/eslint/commit/5183b14a2420b42b4089fb134a61ae57142f31fd) Update: check template literal in no-script-url (#13775) (YeonJuan)
+* [`bfe97d2`](https://github.com/eslint/eslint/commit/bfe97d2332e711ca76b1fd2e7f8548b0cc84cb1c) Sponsors: Sync README with website (ESLint Jenkins)
+* [`6c51ade`](https://github.com/eslint/eslint/commit/6c51adeb86f1de292cd02d2ee19f7b56182e358b) Sponsors: Sync README with website (ESLint Jenkins)
+* [`603de04`](https://github.com/eslint/eslint/commit/603de04cab5e700df12999af2918decd4da9d11b) Update: treat all literals like boolean literal in no-constant-condition (#13245) (Zen)
+* [`289aa6f`](https://github.com/eslint/eslint/commit/289aa6fcef3874ba5f86455f9302dc4209ea83e5) Sponsors: Sync README with website (ESLint Jenkins)
+* [`9a1f669`](https://github.com/eslint/eslint/commit/9a1f6694e59eb3e584d4c5a98b98675c895a9783) Sponsors: Sync README with website (ESLint Jenkins)
+* [`637f818`](https://github.com/eslint/eslint/commit/637f8187404ded600fb3d4013b3cd495d5ae675b) Docs: add more examples for no-func-assign (fixes #13705) (#13777) (Nitin Kumar)
+* [`17cc0dd`](https://github.com/eslint/eslint/commit/17cc0dd9b5d2d500359c36881cd3e5637443c133) Chore: add test case for no-func-assign (refs #13705) (#13783) (Nitin Kumar)
+* [`dee0f77`](https://github.com/eslint/eslint/commit/dee0f7764a1d5a323c89b22c4db94acee2b3c718) Docs: add TOC to user-guide/configuring.md (#13727) (metasean)
+* [`0510621`](https://github.com/eslint/eslint/commit/05106212985cb1ffa1e6fa996a57f6fd2fc3c970) Update: Fix && vs || short-circuiting false negatives (fixes #13634) (#13769) (Brandon Mills)
+* [`8b6ed69`](https://github.com/eslint/eslint/commit/8b6ed691c48189b7d096339441a78cb5874d4137) Sponsors: Sync README with website (ESLint Jenkins)
+* [`1457509`](https://github.com/eslint/eslint/commit/145750991b04fd4cfb3fff3c5d4211a4428e011c) Docs: fix broken links in Node.js API docs (#13771) (Laura Barluzzi)
+* [`7c813d4`](https://github.com/eslint/eslint/commit/7c813d458f9aedf7a94351d137728a4647542879) Docs: Fix typo in v7 migration page (#13778) (Yusuke Sasaki)
+* [`b025795`](https://github.com/eslint/eslint/commit/b0257953be704d0bb387fc15afd7859fd6f19ba5) Docs: Fix the format option name in the document (#13770) (Hideki Igarashi)
+* [`84fd591`](https://github.com/eslint/eslint/commit/84fd591c234accc41bb5af555f178825012fd35d) Chore: Increase Mocha timeout for copying fixtures (#13768) (Brandon Mills)
+* [`1faeb84`](https://github.com/eslint/eslint/commit/1faeb84e663d88c5d85a3cb3f15cd224cc552c2d) Docs: clarify that space-unary-ops doesn't apply when space is required (#13767) (Taylor Morgan)
+* [`67c0605`](https://github.com/eslint/eslint/commit/67c06059dd1ddcee6f369c650ce71220da1510c3) Update: check computed keys in no-prototype-builtins (fixes #13088) (#13755) (Milos Djermanovic)
+* [`b5e011c`](https://github.com/eslint/eslint/commit/b5e011c865e95d700d29cb9a4ba71c671d99e423) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.11.0 - October 9, 2020
 
 * [`23e966f`](https://github.com/eslint/eslint/commit/23e966f6cf2a6c6b699dff5d6950ece3cc396498) Chore: Refactor CLIEngine tests (refs #13481) (#13709) (Nicholas C. Zakas)
