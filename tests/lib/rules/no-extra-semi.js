@@ -25,6 +25,7 @@ ruleTester.run("no-extra-semi", rule, {
         "for(;;);",
         "while(0);",
         "do;while(0);",
+        "if(true);else{}",
         "for(a in b);",
         { code: "for(a of b);", parserOptions: { ecmaVersion: 6 } },
         "foo: ;",
