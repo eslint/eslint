@@ -18,6 +18,7 @@ function foo() {
 };
 
 if (x === 5);
+// code
 
 ```
 
@@ -32,7 +33,9 @@ var foo = function() {
     // code
 };
 
-if (x === 5) {}
+if (x === 5) {
+    // code
+}
 ```
 
 ## When Not To Use It
