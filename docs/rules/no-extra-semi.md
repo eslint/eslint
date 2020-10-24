@@ -17,6 +17,8 @@ function foo() {
     // code
 };
 
+if (x === 5);
+
 ```
 
 Examples of **correct** code for this rule:
@@ -30,11 +32,14 @@ var foo = function() {
     // code
 };
 
+if (x === 5) {}
 ```
 
 ## When Not To Use It
 
 If you intentionally use extra semicolons then you can disable this rule.
+
+If you intentionally use an `if` without a body, please let us know.
 
 ## Related Rules
 

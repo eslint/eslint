@@ -27,8 +27,6 @@ ruleTester.run("no-extra-semi", rule, {
         "do;while(0);",
         "for(a in b);",
         { code: "for(a of b);", parserOptions: { ecmaVersion: 6 } },
-        "if(true);",
-        "if(true); else;",
         "foo: ;",
         "with(foo);",
 
@@ -81,14 +79,14 @@ ruleTester.run("no-extra-semi", rule, {
             errors: [{ messageId: "unexpected", type: "EmptyStatement" }]
         },
         {
-            code: "if(true);;",
-            output: "if(true);",
-            errors: [{ messageId: "unexpected", type: "EmptyStatement" }]
+            code: "if(true);",
+            output: null,
+            errors: [{ messageId: "wrong", type: "EmptyStatement" }]
         },
         {
-            code: "if(true){} else;;",
-            output: "if(true){} else;",
-            errors: [{ messageId: "unexpected", type: "EmptyStatement" }]
+            code: "if(true){} else;",
+            output: null,
+            errors: [{ messageId: "wrong", type: "EmptyStatement" }]
         },
         {
             code: "if(true){;} else {;}",
