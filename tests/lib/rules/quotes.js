@@ -614,6 +614,19 @@ ruleTester.run("quotes", rule, {
                     type: "Literal"
                 }
             ]
+        },
+        {
+            code: "var nonOctalDecimalEscape = '\\8'",
+            output: null,
+            options: ["backtick"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "backtick" },
+                    type: "Literal"
+                }
+            ]
         }
     ]
 });

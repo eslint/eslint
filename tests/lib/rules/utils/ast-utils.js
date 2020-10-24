@@ -1648,7 +1648,7 @@ describe("ast-utils", () => {
         });
     });
 
-    describe("hasOctalEscapeSequence", () => {
+    describe("hasOctalOrNonOctalDecimalEscapeSequence", () => {
 
         /* eslint-disable quote-props */
         const expectedResults = {
@@ -1683,19 +1683,24 @@ describe("ast-utils", () => {
             "\\\\\\1": true,
             "\\\\\\01": true,
             "\\\\\\08": true,
+            "\\8": true,
+            "\\9": true,
+            "a\\8a": true,
+            "\\0\\8": true,
+            "\\8\\0": true,
+            "\\80": true,
+            "\\81": true,
+            "\\\\\\8": true,
+            "\\\n\\1": true,
+            "foo\\\nbar\\2baz": true,
+            "\\\n\\8": true,
+            "foo\\\nbar\\9baz": true,
 
             "\\0": false,
-            "\\8": false,
-            "\\9": false,
             " \\0": false,
             "\\0 ": false,
             "a\\0": false,
             "\\0a": false,
-            "a\\8a": false,
-            "\\0\\8": false,
-            "\\8\\0": false,
-            "\\80": false,
-            "\\81": false,
             "\\\\": false,
             "\\\\0": false,
             "\\\\01": false,
@@ -1703,7 +1708,6 @@ describe("ast-utils", () => {
             "\\\\1": false,
             "\\\\12": false,
             "\\\\\\0": false,
-            "\\\\\\8": false,
             "\\0\\\\": false,
             "0": false,
             "1": false,
@@ -1713,7 +1717,10 @@ describe("ast-utils", () => {
             "80": false,
             "12": false,
             "\\a": false,
-            "\\n": false
+            "\\n": false,
+            "\\\n": false,
+            "foo\\\nbar": false,
+            "128\\\n349": false
         };
         /* eslint-enable quote-props */
 
@@ -1721,7 +1728,7 @@ describe("ast-utils", () => {
             it(`should return ${expectedResults[key]} for ${key}`, () => {
                 const ast = espree.parse(`"${key}"`);
 
-                assert.strictEqual(astUtils.hasOctalEscapeSequence(ast.body[0].expression.raw), expectedResults[key]);
+                assert.strictEqual(astUtils.hasOctalOrNonOctalDecimalEscapeSequence(ast.body[0].expression.raw), expectedResults[key]);
             });
         });
     });

@@ -195,6 +195,11 @@ ruleTester.run("prefer-template", rule, {
             errors
         },
         {
+            code: "foo + 'does not autofix non-octal decimal escape sequence' + '\\8'",
+            output: null,
+            errors
+        },
+        {
             code: "foo + '\\n other text \\033'",
             output: null,
             errors
