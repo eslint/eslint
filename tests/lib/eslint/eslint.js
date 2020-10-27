@@ -3919,6 +3919,26 @@ describe("ESLint", () => {
 
             await assert.rejects(() => eslint.calculateConfigForFile(null), /'filePath' must be a non-empty string/u);
         });
+
+        // https://github.com/eslint/eslint/issues/13793
+        it("should throw with an invalid built-in rule config", async () => {
+            const options = {
+                baseConfig: {
+                    rules: {
+                        "no-alert": ["error", {
+                            thisDoesNotExist: true
+                        }]
+                    }
+                }
+            };
+            const engine = new ESLint(options);
+            const filePath = getFixturePath("single-quoted.js");
+
+            await assert.rejects(
+                () => engine.calculateConfigForFile(filePath),
+                /Configuration for rule "no-alert" is invalid:/u
+            );
+        });
     });
 
     describe("isPathIgnored", () => {
