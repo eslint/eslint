@@ -1,3 +1,9 @@
+v7.12.1 - October 26, 2020
+
+* [`08f33e8`](https://github.com/eslint/eslint/commit/08f33e8b9a353c3183be6f937785db7a30fb90eb) Upgrade: @eslint/eslintrc to fix rule schema validation (fixes #13793) (#13794) (Brandon Mills)
+* [`aeef485`](https://github.com/eslint/eslint/commit/aeef485dc790571b1a82ac09904329e0226b66a9) Fix: Pass internal config paths in FileEnumerator default (fixes #13789) (#13792) (Brandon Mills)
+* [`631ae8b`](https://github.com/eslint/eslint/commit/631ae8b50e5f7975f10860e9e763b70b4f25182e) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.12.0 - October 23, 2020
 
 * [`cbf3585`](https://github.com/eslint/eslint/commit/cbf3585f1d6c60414c07380367a8b4505ee3538d) Update: skip keyword check for fns in space-before-blocks (fixes #13553) (#13712) (Milos Djermanovic)
