@@ -75,6 +75,7 @@ Caching:
   --cache                        Only check changed files - default: false
   --cache-file path::String      Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
   --cache-location path::String  Path to the cache file or directory
+  --cache-strategy String        Strategy to use for detecting changed files - either: metadata or content - default: metadata
 
 Miscellaneous:
   --init                         Run config initialization wizard - default: false
@@ -439,6 +440,16 @@ If a directory is specified, a cache file will be created inside the specified f
 Example:
 
     eslint "src/**/*.js" --cache --cache-location "/Users/user/.eslintcache/"
+
+#### `--cache-strategy`
+
+Strategy for the cache to use for detecting changed files. Can be either `metadata` or `content`. If no strategy is specified, `metadata` will be used.
+
+The `content` strategy can be useful in cases where the modification time of your files change even if their contents have not.
+
+Examples:
+
+    eslint "src/**/*.js" --cache --cache-strategy content
 
 ### Miscellaneous
 
