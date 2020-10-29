@@ -20,18 +20,32 @@ const assert = require("chai").assert,
 //-----------------------------------------------------------------------------
 
 describe("LintResultCache", () => {
-    const fixturePath = path.resolve(__dirname, "../../fixtures/lint-result-cache");
+    const fixturePath = path.resolve(
+        __dirname,
+        "../../fixtures/lint-result-cache"
+    );
     const cacheFileLocation = path.join(fixturePath, ".eslintcache");
     const fileEntryCacheStubs = {};
 
     let LintResultCache,
         hashStub,
+        sandbox,
         fakeConfig,
         fakeErrorResults,
-        fakeErrorResultsAutofix;
+        fakeErrorResultsAutofix,
+        fakeConfigHelper;
 
     before(() => {
-        hashStub = sinon.stub();
+        sandbox = sinon.createSandbox();
+
+        fakeConfigHelper = {
+            getConfig: sandbox.stub(),
+            options: {
+                cacheStrategy: "metadata"
+            }
+        };
+
+        hashStub = sandbox.stub();
 
         let shouldFix = false;
 
@@ -44,17 +58,25 @@ describe("LintResultCache", () => {
         });
 
         // Get results without autofixing...
-        fakeErrorResults = cliEngine.executeOnFiles([path.join(fixturePath, "test-with-errors.js")]).results[0];
+        fakeErrorResults = cliEngine.executeOnFiles([
+            path.join(fixturePath, "test-with-errors.js")
+        ]).results[0];
 
         // ...and with autofixing
         shouldFix = true;
-        fakeErrorResultsAutofix = cliEngine.executeOnFiles([path.join(fixturePath, "test-with-errors.js")]).results[0];
+        fakeErrorResultsAutofix = cliEngine.executeOnFiles([
+            path.join(fixturePath, "test-with-errors.js")
+        ]).results[0];
 
         // Set up LintResultCache with fake fileEntryCache module
-        LintResultCache = proxyquire("../../../lib/cli-engine/lint-result-cache.js", {
-            "file-entry-cache": fileEntryCacheStubs,
-            "./hash": hashStub
-        });
+        LintResultCache = proxyquire(
+            "../../../lib/cli-engine/lint-result-cache.js",
+            {
+                "file-entry-cache": fileEntryCacheStubs,
+                "./hash": hashStub
+            },
+            { options: {} }
+        );
     });
 
     afterEach(done => {
@@ -71,11 +93,32 @@ describe("LintResultCache", () => {
 
     describe("constructor", () => {
         it("should throw an error if cache file path is not provided", () => {
-            assert.throws(() => new LintResultCache(), /Cache file location is required/u);
+            assert.throws(
+                () => new LintResultCache(),
+                /Cache file location is required/u
+            );
         });
 
-        it("should successfully create an instance if cache file location is provided", () => {
-            const instance = new LintResultCache(cacheFileLocation);
+        it("should throw an error if config helper is not provided", () => {
+            assert.throws(
+                () => new LintResultCache(cacheFileLocation),
+                /Config helper is required/u
+            );
+        });
+
+        it("should throw an error if cacheStrategy is an invalid value", () => {
+            const invalidConfigHelper = Object.assign({}, fakeConfigHelper, {
+                options: { cacheStrategy: "foo" }
+            });
+
+            assert.throws(
+                () => new LintResultCache(cacheFileLocation, invalidConfigHelper),
+                /Cache strategy must be one of/u
+            );
+        });
+
+        it("should successfully create an instance if cache file location and config helper are provided", () => {
+            const instance = new LintResultCache(cacheFileLocation, fakeConfigHelper);
 
             assert.ok(instance, "Instance should have been created successfully");
         });
@@ -85,9 +128,7 @@ describe("LintResultCache", () => {
         const filePath = path.join(fixturePath, "test-with-errors.js");
         const hashOfConfig = "hashOfConfig";
 
-        let cacheEntry,
-            getFileDescriptorStub,
-            lintResultsCache;
+        let cacheEntry, getFileDescriptorStub, lintResultsCache;
 
         before(() => {
             getFileDescriptorStub = sinon.stub();
@@ -112,12 +153,11 @@ describe("LintResultCache", () => {
                 }
             };
 
-            getFileDescriptorStub.withArgs(filePath)
-                .returns(cacheEntry);
+            getFileDescriptorStub.withArgs(filePath).returns(cacheEntry);
 
             fakeConfig = {};
 
-            lintResultsCache = new LintResultCache(cacheFileLocation);
+            lintResultsCache = new LintResultCache(cacheFileLocation, fakeConfigHelper);
         });
 
         describe("when calculating the hashing", () => {
@@ -127,7 +167,7 @@ describe("LintResultCache", () => {
                     "../../package.json": { version },
                     "./hash": hashStub
                 });
-                const newLintResultCache = new NewLintResultCache(cacheFileLocation);
+                const newLintResultCache = new NewLintResultCache(cacheFileLocation, fakeConfigHelper);
 
                 newLintResultCache.getCachedLintResults(filePath, fakeConfig);
                 assert.ok(hashStub.calledOnce);
@@ -141,7 +181,7 @@ describe("LintResultCache", () => {
                 const NewLintResultCache = proxyquire("../../../lib/cli-engine/lint-result-cache.js", {
                     "./hash": hashStub
                 });
-                const newLintResultCache = new NewLintResultCache(cacheFileLocation);
+                const newLintResultCache = new NewLintResultCache(cacheFileLocation, fakeConfigHelper);
 
                 newLintResultCache.getCachedLintResults(filePath, fakeConfig);
                 assert.ok(hashStub.calledOnce);
@@ -156,7 +196,10 @@ describe("LintResultCache", () => {
             });
 
             it("should return null", () => {
-                const result = lintResultsCache.getCachedLintResults(filePath, fakeConfig);
+                const result = lintResultsCache.getCachedLintResults(
+                    filePath,
+                    fakeConfig
+                );
 
                 assert.ok(getFileDescriptorStub.calledOnce);
                 assert.isNull(result);
@@ -169,7 +212,10 @@ describe("LintResultCache", () => {
             });
 
             it("should return null", () => {
-                const result = lintResultsCache.getCachedLintResults(filePath, fakeConfig);
+                const result = lintResultsCache.getCachedLintResults(
+                    filePath,
+                    fakeConfig
+                );
 
                 assert.ok(getFileDescriptorStub.calledOnce);
                 assert.isNull(result);
@@ -183,7 +229,10 @@ describe("LintResultCache", () => {
             });
 
             it("should return null", () => {
-                const result = lintResultsCache.getCachedLintResults(filePath, fakeConfig);
+                const result = lintResultsCache.getCachedLintResults(
+                    filePath,
+                    fakeConfig
+                );
 
                 assert.ok(getFileDescriptorStub.calledOnce);
                 assert.isNull(result);
@@ -196,10 +245,16 @@ describe("LintResultCache", () => {
             });
 
             it("should return expected results", () => {
-                const result = lintResultsCache.getCachedLintResults(filePath, fakeConfig);
+                const result = lintResultsCache.getCachedLintResults(
+                    filePath,
+                    fakeConfig
+                );
 
                 assert.deepStrictEqual(result, fakeErrorResults);
-                assert.ok(result.source, "source property should be hydrated from filesystem");
+                assert.ok(
+                    result.source,
+                    "source property should be hydrated from filesystem"
+                );
             });
         });
     });
@@ -208,9 +263,7 @@ describe("LintResultCache", () => {
         const filePath = path.join(fixturePath, "test-with-errors.js");
         const hashOfConfig = "hashOfConfig";
 
-        let cacheEntry,
-            getFileDescriptorStub,
-            lintResultsCache;
+        let cacheEntry, getFileDescriptorStub, lintResultsCache;
 
         before(() => {
             getFileDescriptorStub = sinon.stub();
@@ -229,19 +282,22 @@ describe("LintResultCache", () => {
                 meta: {}
             };
 
-            getFileDescriptorStub.withArgs(filePath)
-                .returns(cacheEntry);
+            getFileDescriptorStub.withArgs(filePath).returns(cacheEntry);
 
             fakeConfig = {};
 
             hashStub.returns(hashOfConfig);
 
-            lintResultsCache = new LintResultCache(cacheFileLocation);
+            lintResultsCache = new LintResultCache(cacheFileLocation, fakeConfigHelper);
         });
 
         describe("When lint result has output property", () => {
             it("does not modify file entry", () => {
-                lintResultsCache.setCachedLintResults(filePath, fakeConfig, fakeErrorResultsAutofix);
+                lintResultsCache.setCachedLintResults(
+                    filePath,
+                    fakeConfig,
+                    fakeErrorResultsAutofix
+                );
 
                 assert.notProperty(cacheEntry.meta, "results");
                 assert.notProperty(cacheEntry.meta, "hashOfConfig");
@@ -254,7 +310,11 @@ describe("LintResultCache", () => {
             });
 
             it("does not modify file entry", () => {
-                lintResultsCache.setCachedLintResults(filePath, fakeConfig, fakeErrorResults);
+                lintResultsCache.setCachedLintResults(
+                    filePath,
+                    fakeConfig,
+                    fakeErrorResults
+                );
 
                 assert.notProperty(cacheEntry.meta, "results");
                 assert.notProperty(cacheEntry.meta, "hashOfConfig");
@@ -263,7 +323,11 @@ describe("LintResultCache", () => {
 
         describe("When file is found on filesystem", () => {
             beforeEach(() => {
-                lintResultsCache.setCachedLintResults(filePath, fakeConfig, fakeErrorResults);
+                lintResultsCache.setCachedLintResults(
+                    filePath,
+                    fakeConfig,
+                    fakeErrorResults
+                );
             });
 
             it("stores hash of config in file entry", () => {
@@ -271,11 +335,9 @@ describe("LintResultCache", () => {
             });
 
             it("stores results (except source) in file entry", () => {
-                const expectedCachedResults = Object.assign(
-                    {},
-                    fakeErrorResults,
-                    { source: null }
-                );
+                const expectedCachedResults = Object.assign({}, fakeErrorResults, {
+                    source: null
+                });
 
                 assert.deepStrictEqual(cacheEntry.meta.results, expectedCachedResults);
             });
@@ -295,11 +357,9 @@ describe("LintResultCache", () => {
             });
 
             it("stores results (except source) in file entry", () => {
-                const expectedCachedResults = Object.assign(
-                    {},
-                    fakeErrorResults,
-                    { source: null }
-                );
+                const expectedCachedResults = Object.assign({}, fakeErrorResults, {
+                    source: null
+                });
 
                 assert.deepStrictEqual(cacheEntry.meta.results, expectedCachedResults);
             });
@@ -307,8 +367,7 @@ describe("LintResultCache", () => {
     });
 
     describe("reconcile", () => {
-        let reconcileStub,
-            lintResultsCache;
+        let reconcileStub, lintResultsCache;
 
         before(() => {
             reconcileStub = sinon.stub();
@@ -323,7 +382,7 @@ describe("LintResultCache", () => {
         });
 
         beforeEach(() => {
-            lintResultsCache = new LintResultCache(cacheFileLocation);
+            lintResultsCache = new LintResultCache(cacheFileLocation, fakeConfigHelper);
         });
 
         it("calls reconcile on the underlying cache", () => {
