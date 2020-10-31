@@ -65,6 +65,22 @@ ruleTester.run("no-return-assign", rule, {
         {
             code: "const foo = (a) => (b) => (a = b)",
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "() => ((a = b), c)",
+            options: ["except-parens"]
+        },
+        {
+            code: "() => (a, (b = c))",
+            options: ["except-parens"]
+        },
+        {
+            code: "function x() { return (a = b, c); }",
+            options: ["always", { ignoreSideEffects: true }]
+        },
+        {
+            code: "() => (a = b, c)",
+            options: ["always", { ignoreSideEffects: true }]
         }
     ],
     invalid: [
@@ -175,6 +191,36 @@ ruleTester.run("no-return-assign", rule, {
                     type: "ArrowFunctionExpression"
                 }
             ]
+        },
+        {
+            code: "() => { return (a, (b = c)); };",
+            options: ["always", { ignoreSideEffects: true }],
+            errors: [{ messageId: "returnAssignment", type: "ReturnStatement" }]
+        },
+        {
+            code: "() => { return (a, b = c); };",
+            options: ["except-parens", { ignoreSideEffects: true }],
+            errors: [{ messageId: "returnAssignment", type: "ReturnStatement" }]
+        },
+        {
+            code: "() => (a, b = c)",
+            options: ["except-parens", { ignoreSideEffects: true }],
+            errors: [{ messageId: "arrowAssignment", type: "ArrowFunctionExpression" }]
+        },
+        {
+            code: "() => { return ((a = b), c); };",
+            options: ["always"],
+            errors: [{ messageId: "sideEffectAssignment", type: "SequenceExpression" }]
+        },
+        {
+            code: "() => { return (a = b, c); };",
+            options: ["except-parens"],
+            errors: [{ messageId: "sideEffectAssignment", type: "SequenceExpression" }]
+        },
+        {
+            code: "() => (a = b, c)",
+            options: ["except-parens"],
+            errors: [{ messageId: "sideEffectAssignment", type: "SequenceExpression" }]
         }
     ]
 });
