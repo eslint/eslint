@@ -14,7 +14,7 @@
 [Rules](https://eslint.org/docs/rules/) |
 [Contributing](https://eslint.org/docs/developer-guide/contributing) |
 [Reporting Bugs](https://eslint.org/docs/developer-guide/contributing/reporting-bugs) |
-[Code of Conduct](https://js.foundation/community/code-of-conduct) |
+[Code of Conduct](https://eslint.org/conduct) |
 [Twitter](https://twitter.com/geteslint) |
 [Mailing List](https://groups.google.com/group/eslint) |
 [Chat Room](https://eslint.org/chat)
@@ -85,7 +85,7 @@ The three error levels allow you fine-grained control over how ESLint applies ru
 
 ## <a name="code-of-conduct"></a>Code of Conduct
 
-ESLint adheres to the [JS Foundation Code of Conduct](https://js.foundation/community/code-of-conduct).
+ESLint adheres to the [JS Foundation Code of Conduct](https://eslint.org/conduct).
 
 ## <a name="filing-issues"></a>Filing Issues
 
