@@ -720,6 +720,8 @@ Rule   | Time (ms) | Relative
 quotes |    18.066 |   100.0%
 ```
 
+To see a longer list of results (more than 10), set the environment variable to another value such as `TIMING=50` or `TIMING=all`.
+
 ## Rule Naming Conventions
 
 The rule naming conventions for ESLint are fairly simple:
