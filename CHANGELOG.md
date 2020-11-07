@@ -1,3 +1,11 @@
+v7.13.0 - November 6, 2020
+
+* [`254e00f`](https://github.com/eslint/eslint/commit/254e00fea8745ff5a8bcc8cb874fcfd02996d81b) New: Configurable List Size For Per-Rule Performance Metrics (#13812) (Bryan Mishkin)
+* [`6c3c710`](https://github.com/eslint/eslint/commit/6c3c710ade7cd8654990f1adb55b58f038eab92d) Docs: fix broken url in docs (#13815) (SaintMalik)
+* [`4a09149`](https://github.com/eslint/eslint/commit/4a091495a236d231a5065ece972719a0c4dd1b77) Sponsors: Sync README with website (ESLint Jenkins)
+* [`fb6fcbf`](https://github.com/eslint/eslint/commit/fb6fcbfe0a8c41b92f0a33ab90f159037bd195e2) Docs: Fix reference to Code of Conduct (#13797) (Tobias Nießen)
+* [`1b89ebe`](https://github.com/eslint/eslint/commit/1b89ebe1bdbef7de6001100945b8f71429df302c) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.12.1 - October 26, 2020
 
 * [`08f33e8`](https://github.com/eslint/eslint/commit/08f33e8b9a353c3183be6f937785db7a30fb90eb) Upgrade: @eslint/eslintrc to fix rule schema validation (fixes #13793) (#13794) (Brandon Mills)
