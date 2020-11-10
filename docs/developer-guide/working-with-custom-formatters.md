@@ -226,7 +226,7 @@ module.exports = function(results, data) {
                     "\n" +
                     msg.type +
                     " " +
-                    msg.ruleId + (msg.ruleUrl ? " (" + msg.ruleUrl + ")" : ""
+                    msg.ruleId + (msg.ruleUrl ? " (" + msg.ruleUrl + ")" : "") +
                     "\n  " +
                     msg.filePath +
                     ":" +
