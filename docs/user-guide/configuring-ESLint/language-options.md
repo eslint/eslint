@@ -1,6 +1,5 @@
 # Language Options
 
-Some basic intro to the section
 
 * [Specifying Environments](#specifying-environments)
 * [Specifying Globals](#specifying-globals)
