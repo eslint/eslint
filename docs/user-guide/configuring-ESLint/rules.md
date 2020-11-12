@@ -2,8 +2,8 @@
 
 Some intro to the section with a link to the Rules page here
 
-* Configuring Rules
-* Disabling Rules
+* [Configuring Rules](#configuring-rules)
+* [Disabling Rules](#disabling-rules)
 
 ## Configuring Rules
 
