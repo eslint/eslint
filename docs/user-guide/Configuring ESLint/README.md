@@ -15,14 +15,14 @@ All of these options give you fine-grained control over how ESLint treats your c
 
 ## Table of Contents
 
-[**Configuration Files**](configuring-files)
-* [Configuration File Formats](./configuring-files#configuration-file-formats)
+[**Configuration Files**](configuration-files)
+* [Configuration File Formats](./configuration-files#configuration-file-formats)
 * [Using Configuration Files](./configuring-files#using-configuration-files)
-* [Adding Shared Settings](./configuring-files#adding-shared-settings)
-* [Cascading and Hierarchy](./configuring-files#cascading-and-hierarchy)
+* [Adding Shared Settings](./configuration-files#adding-shared-settings)
+* [Cascading and Hierarchy](./configuration-files#cascading-and-hierarchy)
 * [Extending Configuration Files](./configuring-files#extending-configuration-files)
-* [Configuration Based on Glob Patterns](./configuring-files#configuration-based-on-glon-patterns)
-* [Personal Configuration Files](./configuring-files#personal-configuration-files)
+* [Configuration Based on Glob Patterns](./configuration-files#configuration-based-on-glon-patterns)
+* [Personal Configuration Files](./configuration-files#personal-configuration-files)
 
 [**Language Options**](language-options)
 * [Specifying Environments](./language-options#specifying-environments)
