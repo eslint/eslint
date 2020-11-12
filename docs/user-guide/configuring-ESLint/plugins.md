@@ -2,9 +2,9 @@
 
 Some intro to the section
 
-* Specifying Parser
-* Specifying Processor
-* Configuring Plugins
+* [Specifying Parser](#specifying-parser)
+* [Specifying Processor](#specifying-processor)
+* [Configuring Plugins](#configuring-plugins)
 
 ## Specifying Parser
 
