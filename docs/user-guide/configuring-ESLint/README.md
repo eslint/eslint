@@ -8,8 +8,8 @@ Following are some of the important pieces of information that you can configure
 
 * [**Environments**](./language-options#specifying-environments) - which environments your script is designed to run in. Each environment brings with it a certain set of predefined global variables.
 * [**Globals**](./language-options#specifying-globals) - the additional global variables your script accesses during execution.
-* [**Rules**](rules) - which rules are enabled and at what error level.
-* [**Plugins**](plugins) - the use of third-party plugins in ESLint.
+* [**Rules**](rules.md) - which rules are enabled and at what error level.
+* [**Plugins**](plugins.md) - the use of third-party plugins in ESLint.
 
 All of these options give you fine-grained control over how ESLint treats your code.
 
