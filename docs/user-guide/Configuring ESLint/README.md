@@ -15,7 +15,7 @@ All of these options give you fine-grained control over how ESLint treats your c
 
 ## Table of Contents
 
-[**Configuration Files**](configuration-files)
+[**Configuration Files**](configuration-files.md)
 * [Configuration File Formats](./configuration-files#configuration-file-formats)
 * [Using Configuration Files](./configuring-files#using-configuration-files)
 * [Adding Shared Settings](./configuration-files#adding-shared-settings)
@@ -24,21 +24,21 @@ All of these options give you fine-grained control over how ESLint treats your c
 * [Configuration Based on Glob Patterns](./configuration-files#configuration-based-on-glon-patterns)
 * [Personal Configuration Files](./configuration-files#personal-configuration-files)
 
-[**Language Options**](language-options)
+[**Language Options**](language-options.md)
 * [Specifying Environments](./language-options#specifying-environments)
 * [Specifying Globals](./language-options#specifying-globals)
 * [Specifying Parser Options](./language-options#specifying-parser-options)
 
-[**Rules**](rules)
+[**Rules**](rules.md)
 * [Configuring Rules](./rules#configuring-rules)
 * [Disabling Rules](./rules#disabling-rules)
 
-[**Plugins**](plugins)
+[**Plugins**](plugins.md)
 * [Specifying Parser](./plugins#specifying-parser)
 * [Specifying Processor](./plugins#specifying-processor)
 * [Configuring Plugins](./plugins#configuring-plugins)
 
-[**Ignoring Code**](ignoring-code)
+[**Ignoring Code**](ignoring-code.md)
 * [`ignorePatterns` in config files](./ignoring-code#ignorepatterns-in-config-files)
 * [`.eslintignore`](./ignoring-code#eslintignore)
 * [Using an Alternate File](./ignoring-code#using-an-alternate-file)
