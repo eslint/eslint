@@ -6,7 +6,7 @@ ESLint is designed to be completely configurable. You can turn off every rule an
 
 Following are some of the important pieces of information that you can configure in ESLint:
 
-* [**Environments**](./language-options#specifying-environments) - which environments your script is designed to run in. Each environment brings with it a certain set of predefined global variables.
+* [**Environments**](./language-options.md#specifying-environments) - which environments your script is designed to run in. Each environment brings with it a certain set of predefined global variables.
 * [**Globals**](./language-options.md#specifying-globals) - the additional global variables your script accesses during execution.
 * [**Rules**](rules.md) - which rules are enabled and at what error level.
 * [**Plugins**](plugins.md) - the use of third-party plugins in ESLint.
@@ -16,32 +16,32 @@ All of these options give you fine-grained control over how ESLint treats your c
 ## Table of Contents
 
 [**Configuration Files**](configuration-files.md)
-* [Configuration File Formats](./configuration-files#configuration-file-formats)
-* [Using Configuration Files](./configuring-files#using-configuration-files)
-* [Adding Shared Settings](./configuration-files#adding-shared-settings)
-* [Cascading and Hierarchy](./configuration-files#cascading-and-hierarchy)
-* [Extending Configuration Files](./configuring-files#extending-configuration-files)
-* [Configuration Based on Glob Patterns](./configuration-files#configuration-based-on-glon-patterns)
-* [Personal Configuration Files](./configuration-files#personal-configuration-files)
+* [Configuration File Formats](./configuration-files.md#configuration-file-formats)
+* [Using Configuration Files](./configuration-files.md#using-configuration-files)
+* [Adding Shared Settings](./configuration-files.md#adding-shared-settings)
+* [Cascading and Hierarchy](./configuration-files.md#cascading-and-hierarchy)
+* [Extending Configuration Files](./configuring-files.md#extending-configuration-files)
+* [Configuration Based on Glob Patterns](./configuration-files.md#configuration-based-on-glon-patterns)
+* [Personal Configuration Files](./configuration-files.md#personal-configuration-files)
 
 [**Language Options**](language-options.md)
-* [Specifying Environments](./language-options#specifying-environments)
-* [Specifying Globals](./language-options#specifying-globals)
-* [Specifying Parser Options](./language-options#specifying-parser-options)
+* [Specifying Environments](./language-options.md#specifying-environments)
+* [Specifying Globals](./language-options.md#specifying-globals)
+* [Specifying Parser Options](./language-options.md#specifying-parser-options)
 
 [**Rules**](rules.md)
-* [Configuring Rules](./rules#configuring-rules)
-* [Disabling Rules](./rules#disabling-rules)
+* [Configuring Rules](./rules.md#configuring-rules)
+* [Disabling Rules](./rules.md#disabling-rules)
 
 [**Plugins**](plugins.md)
-* [Specifying Parser](./plugins#specifying-parser)
-* [Specifying Processor](./plugins#specifying-processor)
-* [Configuring Plugins](./plugins#configuring-plugins)
+* [Specifying Parser](./plugins.md#specifying-parser)
+* [Specifying Processor](./plugins.md#specifying-processor)
+* [Configuring Plugins](./plugins.md#configuring-plugins)
 
 [**Ignoring Code**](ignoring-code.md)
-* [`ignorePatterns` in config files](./ignoring-code#ignorepatterns-in-config-files)
-* [`.eslintignore`](./ignoring-code#eslintignore)
-* [Using an Alternate File](./ignoring-code#using-an-alternate-file)
-* [Using eslintIgnore in package.json](./ignoring-code#using-eslintignore-in-package.json)
-* [Ignored File Warnings](./ignoring-code#ignored-file-warnings)
-* [Disabling Comments](./ignoring-code#disabling-comments)
+* [`ignorePatterns` in config files](./ignoring-code.md#ignorepatterns-in-config-files)
+* [`.eslintignore`](./ignoring-code.md#eslintignore)
+* [Using an Alternate File](./ignoring-code.md#using-an-alternate-file)
+* [Using eslintIgnore in package.json](./ignoring-code.md#using-eslintignore-in-package.json)
+* [Ignored File Warnings](./ignoring-code.md#ignored-file-warnings)
+* [Disabling Comments](./ignoring-code.md#disabling-comments)
