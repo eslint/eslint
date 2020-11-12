@@ -231,7 +231,7 @@ rules:
 
 A [plugin](https://eslint.org/docs/developer-guide/working-with-plugins) is an npm package that usually exports rules. Some plugins also export one or more named [configurations](https://eslint.org/docs/developer-guide/working-with-plugins#configs-in-plugins). Make sure the package has been installed in a directory where ESLint can require it.
 
-The `plugins` [property value](./plugins#configuring-plugins) can omit the `eslint-plugin-` prefix of the package name.
+The `plugins` [property value](./plugins.md#configuring-plugins) can omit the `eslint-plugin-` prefix of the package name.
 
 The `extends` property value can consist of:
 
