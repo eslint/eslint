@@ -1,5 +1,4 @@
 # Configuration Files
-Some intro about config files here
 
 * [Configuration File Formats](#configuration-file-formats)
 * [Using Configuration Files](#using-configuration-files)
