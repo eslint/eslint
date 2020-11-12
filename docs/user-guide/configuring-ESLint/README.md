@@ -44,4 +44,4 @@ All of these options give you fine-grained control over how ESLint treats your c
 * [Using an Alternate File](./ignoring-code.md#using-an-alternate-file)
 * [Using eslintIgnore in package.json](./ignoring-code.md#using-eslintignore-in-package.json)
 * [Ignored File Warnings](./ignoring-code.md#ignored-file-warnings)
-* [Disabling Comments](./ignoring-code.md#disabling-comments)
+* [Disabling Inline Comments](./ignoring-code.md#disabling-inline-comments)
