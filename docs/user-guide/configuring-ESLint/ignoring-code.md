@@ -2,12 +2,12 @@
 
 Some intro to the section
 
-* `ignorePatterns` in config files
-* `.eslintignore`
-* Using an Alternate File
-* Using eslintIgnore in package.json
-* Ignored File Warnings
-* Disabling Comments
+* `ignorePatterns` in config files (#ignorepatterns-in-config-files)
+* `.eslintignore` (#.eslintignore)
+* Using an Alternate File (#using-an-alternate-file)
+* Using eslintIgnore in package.json (#using-eslintignore-in-package.json)
+* Ignored File Warnings (#ignored-file-warnings)
+* Disabling Comments (#disabling-comments)
 
 ## `ignorePatterns` in config files
 
