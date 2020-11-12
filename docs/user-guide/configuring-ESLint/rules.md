@@ -1,6 +1,5 @@
 # Rules
 
-Some intro to the section with a link to the Rules page here
 
 * [Configuring Rules](#configuring-rules)
 * [Disabling Rules](#disabling-rules)
