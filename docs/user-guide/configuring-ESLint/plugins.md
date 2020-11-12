@@ -1,6 +1,5 @@
 # Plugins
 
-Some intro to the section
 
 * [Specifying Parser](#specifying-parser)
 * [Specifying Processor](#specifying-processor)
