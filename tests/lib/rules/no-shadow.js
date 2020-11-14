@@ -64,7 +64,11 @@ ruleTester.run("no-shadow", rule, {
             code: "function a(x) { var b = function c() { var x = 'foo'; }; }",
             errors: [{
                 messageId: "noShadow",
-                data: { name: "x" },
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 12
+                },
                 type: "Identifier",
                 line: 1,
                 column: 44
@@ -75,7 +79,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "x" },
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 10
+                },
                 type: "Identifier",
                 line: 1,
                 column: 38
@@ -85,7 +93,11 @@ ruleTester.run("no-shadow", rule, {
             code: "function a(x) { var b = function () { var x = 'foo'; }; }",
             errors: [{
                 messageId: "noShadow",
-                data: { name: "x" },
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 12
+                },
                 type: "Identifier",
                 line: 1,
                 column: 43
@@ -95,7 +107,11 @@ ruleTester.run("no-shadow", rule, {
             code: "var x = 1; function a(x) { return ++x; }",
             errors: [{
                 messageId: "noShadow",
-                data: { name: "x" },
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 5
+                },
                 type: "Identifier",
                 line: 1,
                 column: 23
@@ -105,7 +121,11 @@ ruleTester.run("no-shadow", rule, {
             code: "var a=3; function b() { var a=10; }",
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 5
+                },
                 type: "Identifier"
             }]
         },
@@ -113,7 +133,11 @@ ruleTester.run("no-shadow", rule, {
             code: "var a=3; function b() { var a=10; }; setTimeout(function() { b(); }, 0);",
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 5
+                },
                 type: "Identifier"
             }]
         },
@@ -122,11 +146,19 @@ ruleTester.run("no-shadow", rule, {
             errors: [
                 {
                     messageId: "noShadow",
-                    data: { name: "a" },
+                    data: {
+                        name: "a",
+                        shadowedLine: 1,
+                        shadowedColumn: 5
+                    },
                     type: "Identifier"
                 }, {
                     messageId: "noShadow",
-                    data: { name: "b" },
+                    data: {
+                        name: "b",
+                        shadowedLine: 1,
+                        shadowedColumn: 19
+                    },
                     type: "Identifier"
                 }
             ]
@@ -136,7 +168,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "x" },
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 5
+                },
                 type: "Identifier"
             }]
         },
@@ -145,7 +181,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "x" },
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 5
+                },
                 type: "Identifier"
             }]
         },
@@ -154,7 +194,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 21
+                },
                 type: "Identifier"
             }]
         },
@@ -163,7 +207,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 27
+                },
                 type: "Identifier"
             }]
         },
@@ -172,7 +220,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 36
+                },
                 type: "Identifier"
             }]
         },
@@ -181,7 +233,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 36
+                },
                 type: "Identifier"
             }]
         },
@@ -190,7 +246,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 30
+                },
                 type: "Identifier"
             }]
         },
@@ -200,7 +260,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 16
+                },
                 type: "Identifier"
             }]
         },
@@ -210,7 +274,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 16
+                },
                 type: "Identifier"
             }]
         },
@@ -220,7 +288,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 21
+                },
                 type: "Identifier"
             }]
         },
@@ -230,7 +302,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 24
+                },
                 type: "Identifier"
             }]
         },
@@ -240,7 +316,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 22
+                },
                 type: "Identifier"
             }]
         },
@@ -250,7 +330,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 27
+                },
                 type: "Identifier"
             }]
         },
@@ -260,7 +344,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 31
+                },
                 type: "Identifier"
             }]
         },
@@ -270,7 +358,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 31
+                },
                 type: "Identifier"
             }]
         },
@@ -280,7 +372,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 36
+                },
                 type: "Identifier"
             }]
         },
@@ -290,7 +386,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 31
+                },
                 type: "Identifier"
             }]
         },
@@ -300,7 +400,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 31
+                },
                 type: "Identifier"
             }]
         },
@@ -310,7 +414,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 36
+                },
                 type: "Identifier"
             }]
         },
@@ -320,7 +428,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 25
+                },
                 type: "Identifier"
             }]
         },
@@ -330,7 +442,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 25
+                },
                 type: "Identifier"
             }]
         },
@@ -340,7 +456,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 30
+                },
                 type: "Identifier"
             }]
         },
@@ -348,7 +468,11 @@ ruleTester.run("no-shadow", rule, {
             code: "(function a() { function a(){} })()",
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 11
+                },
                 type: "Identifier"
             }]
         },
@@ -357,7 +481,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 11
+                },
                 type: "Identifier"
             }]
         },
@@ -365,7 +493,11 @@ ruleTester.run("no-shadow", rule, {
             code: "(function a() { (function a(){}); })()",
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 11
+                },
                 type: "Identifier"
             }]
         },
@@ -374,7 +506,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 11
+                },
                 type: "Identifier"
             }]
         },
@@ -382,7 +518,11 @@ ruleTester.run("no-shadow", rule, {
             code: "(function() { var a = function(a) {}; })()",
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 19
+                },
                 type: "Identifier"
             }]
         },
@@ -390,7 +530,11 @@ ruleTester.run("no-shadow", rule, {
             code: "(function() { var a = function() { function a() {} }; })()",
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 19
+                },
                 type: "Identifier"
             }]
         },
@@ -399,7 +543,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 19
+                },
                 type: "Identifier"
             }]
         },
@@ -407,7 +555,11 @@ ruleTester.run("no-shadow", rule, {
             code: "(function() { var a = function() { (function a() {}); }; })()",
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 19
+                },
                 type: "Identifier"
             }]
         },
@@ -416,7 +568,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 19
+                },
                 type: "Identifier"
             }]
         },
@@ -425,7 +581,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "a" },
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 19
+                },
                 type: "Identifier"
             }]
         },
@@ -434,7 +594,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "A" },
+                data: {
+                    name: "A",
+                    shadowedLine: 1,
+                    shadowedColumn: 7
+                },
                 type: "Identifier"
             }]
         },
@@ -443,14 +607,22 @@ ruleTester.run("no-shadow", rule, {
             errors: [
                 {
                     messageId: "noShadow",
-                    data: { name: "a" },
+                    data: {
+                        name: "a",
+                        shadowedLine: 1,
+                        shadowedColumn: 11
+                    },
                     type: "Identifier",
                     line: 1,
                     column: 26
                 },
                 {
                     messageId: "noShadow",
-                    data: { name: "a" },
+                    data: {
+                        name: "a",
+                        shadowedLine: 1,
+                        shadowedColumn: 26
+                    },
                     type: "Identifier",
                     line: 1,
                     column: 40
@@ -462,7 +634,11 @@ ruleTester.run("no-shadow", rule, {
             options: [{ builtinGlobals: true }],
             errors: [{
                 messageId: "noShadow",
-                data: { name: "Object" },
+                data: {
+                    name: "Object",
+                    shadowedLine: 0,
+                    shadowedColumn: 0
+                },
                 type: "Identifier"
             }]
         },
@@ -472,7 +648,11 @@ ruleTester.run("no-shadow", rule, {
             env: { browser: true },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "top" },
+                data: {
+                    name: "top",
+                    shadowedLine: 0,
+                    shadowedColumn: 0
+                },
                 type: "Identifier"
             }]
         },
@@ -482,7 +662,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "Object" },
+                data: {
+                    name: "Object",
+                    shadowedLine: 0,
+                    shadowedColumn: 0
+                },
                 type: "Identifier"
             }]
         },
@@ -493,7 +677,11 @@ ruleTester.run("no-shadow", rule, {
             env: { browser: true },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "top" },
+                data: {
+                    name: "top",
+                    shadowedLine: 0,
+                    shadowedColumn: 0
+                },
                 type: "Identifier"
             }]
         },
@@ -503,7 +691,11 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "Object" },
+                data: {
+                    name: "Object",
+                    shadowedLine: 0,
+                    shadowedColumn: 0
+                },
                 type: "Identifier"
             }]
         },
@@ -514,7 +706,11 @@ ruleTester.run("no-shadow", rule, {
             env: { browser: true },
             errors: [{
                 messageId: "noShadow",
-                data: { name: "top" },
+                data: {
+                    name: "top",
+                    shadowedLine: 0,
+                    shadowedColumn: 0
+                },
                 type: "Identifier"
             }]
         },
@@ -522,7 +718,11 @@ ruleTester.run("no-shadow", rule, {
             code: "function foo(cb) { (function (cb) { cb(42); })(cb); }",
             errors: [{
                 messageId: "noShadow",
-                data: { name: "cb" },
+                data: {
+                    name: "cb",
+                    shadowedLine: 1,
+                    shadowedColumn: 14
+                },
                 type: "Identifier",
                 line: 1,
                 column: 31
