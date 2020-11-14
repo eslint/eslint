@@ -1,4 +1,5 @@
 # Configuring ESLint
+
 ESLint is designed to be completely configurable. You can turn off every rule and run only with basic syntax validation, or mix and match the bundled rules and your custom rules to make ESLint perfect for your project. There are two primary ways to configure ESLint:
 
 1. **Configuration Comments** - use JavaScript comments to embed configuration information directly into a file.
