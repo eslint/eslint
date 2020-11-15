@@ -62,7 +62,6 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("no-nonoctal-decimal-escape", rule, {
     valid: [
-
         "8",
         "var \\u8888",
         "/\\8/",
