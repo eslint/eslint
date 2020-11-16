@@ -164,6 +164,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
         { code: "`\u205f`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "`\u3000`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
 
+        { code: "const error = ` \u3000 `;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const error = `\n\u3000`;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const error = `\u3000\n`;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const error = `\n\u3000\n`;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const error = `foo\u3000bar\nfoo\u3000bar`;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
+
         // Unicode BOM.
         "\uFEFFconsole.log('hello BOM');"
     ],
@@ -538,6 +544,110 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     type: "Program",
                     line: 1,
                     column: 14
+                }
+            ]
+        },
+        {
+            code: "\u3000\n`\u3000template`",
+            options: [{ skipTemplates: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "\u3000\n`\u3000multiline\ntemplate`",
+            options: [{ skipTemplates: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "\u3000`\u3000template`",
+            options: [{ skipTemplates: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "\u3000`\u3000multiline\ntemplate`",
+            options: [{ skipTemplates: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "`\u3000template`\u3000",
+            options: [{ skipTemplates: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 12
+                }
+            ]
+        },
+        {
+            code: "`\u3000multiline\ntemplate`\u3000",
+            options: [{ skipTemplates: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 2,
+                    column: 10
+                }
+            ]
+        },
+        {
+            code: "`\u3000template`\n\u3000",
+            options: [{ skipTemplates: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "`\u3000multiline\ntemplate`\n\u3000",
+            options: [{ skipTemplates: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 3,
+                    column: 1
                 }
             ]
         },
