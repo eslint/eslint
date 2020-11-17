@@ -22,6 +22,8 @@ new (obj?.foo)();
 [...obj?.foo];
 
 bar(...obj?.foo);
+
+1 in obj?.foo;
 ```
 
 Examples of **correct** code for this rule:

@@ -32,8 +32,8 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
         "obj?.foo?.()();",
         "const {foo} = obj?.baz || {};",
         "bar(...obj?.foo ?? []);",
-
         "var bar = {...foo?.bar};",
+        "foo?.bar in {};",
 
         // The default value option disallowArithmeticOperators is false
         "obj?.foo - bar;",
@@ -88,6 +88,17 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
         },
         {
             code: "(obj?.foo).bar",
+            errors: [
+                {
+                    messageId: "unsafeOptionalChain",
+                    type: "ChainExpression",
+                    line: 1,
+                    column: 2
+                }
+            ]
+        },
+        {
+            code: "(obj?.foo)[1];",
             errors: [
                 {
                     messageId: "unsafeOptionalChain",
@@ -164,6 +175,17 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
             ]
         },
         {
+            code: "1 in foo?.bar;",
+            errors: [
+                {
+                    messageId: "unsafeOptionalChain",
+                    type: "ChainExpression",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
             code: "const {foo} = obj?.bar;",
             errors: [
                 {
@@ -193,6 +215,17 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
                     type: "ChainExpression",
                     line: 1,
                     column: 15
+                }
+            ]
+        },
+        {
+            code: "([foo] = obj?.bar);",
+            errors: [
+                {
+                    messageId: "unsafeOptionalChain",
+                    type: "ChainExpression",
+                    line: 1,
+                    column: 10
                 }
             ]
         },
