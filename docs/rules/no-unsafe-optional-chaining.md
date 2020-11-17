@@ -1,6 +1,11 @@
 # disallow optional chaining that possibly errors (no-unsafe-optional-chaining)
 
-The optional chaining(`?.`) expression can short-circuit with `undefined`. Therefore, treating an evaluated optional chaining expression as a function, object, number, etc., can cause TypeError or unexpected results.
+The optional chaining(`?.`) expression can short-circuit with `undefined`. Therefore, treating an evaluated optional chaining expression as a function, object, number, etc., can cause TypeError or unexpected result. For example:
+
+```js
+var obj = {};
+(obj?.foo)(); // TypeError: obj?.foo is not a function
+```
 
 ## Rule Details
 
