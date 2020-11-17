@@ -164,6 +164,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
         { code: "`\u205f`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "`\u3000`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
 
+        { code: "`\u3000${foo}\u3000`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "const error = ` \u3000 `;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "const error = `\n\u3000`;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "const error = `\u3000\n`;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
@@ -544,6 +545,19 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     type: "Program",
                     line: 1,
                     column: 14
+                }
+            ]
+        },
+        {
+            code: "`something ${10\u3000} another thing`",
+            options: [{ skipTemplates: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 16
                 }
             ]
         },
