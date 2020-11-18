@@ -80,6 +80,7 @@ And in YAML:
 ---
   settings:
     sharedData: "Hello"
+```
 
 ## Cascading and Hierarchy
 
@@ -313,7 +314,7 @@ module.exports = {
 
 <b>v4.1.0+.</b> Sometimes a more fine-controlled configuration is necessary, for example, if the configuration for files within the same directory has to be different. Therefore you can provide configurations under the `overrides` key that will only apply to files that match specific glob patterns, using the same format you would pass on the command line (e.g., `app/**/*.test.js`).
 
-### How does it work
+### How do overrides work?
 
 * The patterns are applied against the file path relative to the directory of the config file. For example, if your config file has the path `/Users/john/workspace/any-project/.eslintrc.js` and the file you want to lint has the path `/Users/john/workspace/any-project/lib/util.js`, then the pattern provided in `.eslintrc.js` will be executed against the relative path `lib/util.js`.
 * Glob pattern overrides have higher precedence than the regular configuration in the same config file. Multiple overrides within the same config are applied in order. That is, the last override block in a config file always has the highest precedence.
