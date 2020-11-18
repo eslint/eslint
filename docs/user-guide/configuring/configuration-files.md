@@ -35,7 +35,7 @@ There are two ways to use configuration files.
 
 The first way to use configuration files is via `.eslintrc.*` and `package.json` files. ESLint will automatically look for them in the directory of the file to be linted, and in successive parent directories all the way up to the root directory of the filesystem (unless `root: true` is specified). This option is useful when you want different configurations for different parts of a project or when you want others to be able to use ESLint directly without needing to remember to pass in the configuration file.
 
-The second is to save the file wherever you would like and pass its location to the CLI using the `-c` option, such as:
+The second way to use configuration files is to save the file wherever you would like and pass its location to the CLI using the `-c` option, such as:
 
     eslint -c myconfig.json myfiletotest.js
 
