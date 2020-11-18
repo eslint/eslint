@@ -29,6 +29,14 @@ new (obj?.foo)();
 bar(...obj?.foo);
 
 1 in obj?.foo;
+
+bar instanceof obj?.foo;
+
+for (bar of obj?.foo);
+
+[{ bar } = obj?.foo] = [];
+
+with (obj?.foo);
 ```
 
 Examples of **correct** code for this rule:
