@@ -285,7 +285,7 @@ If you configure ESLint to automatically enable new rules when you upgrade, ESLi
 
 You might enable all core rules as a shortcut to explore rules and options while you decide on the configuration for a project, especially if you rarely override options or disable rules. The default options for rules are not endorsements by ESLint (for example, the default option for the [`quotes`](https://eslint.org/docs/rules/quotes) rule does not mean double quotes are better than single quotes).
 
-If your configuration extends all core rules: after you upgrade to a newer major or minor version of ESLint, review the reported problems before you use the `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#fix), so you know if a new fixable rule will make changes to the code.
+If your configuration extends `eslint:all`, after you upgrade to a newer major or minor version of ESLint, review the reported problems before you use the `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#fix), so you know if a new fixable rule will make changes to the code.
 
 Example of a configuration file in JavaScript format:
 
