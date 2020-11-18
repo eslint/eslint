@@ -177,7 +177,7 @@ The `rules` property can do any of the following to extend (or override) the set
     * Derived config: `"quotes": ["error", "single"]`
     * Resulting actual config: `"quotes": ["error", "single"]
 
-### Using eslint-recommended
+### Using `eslint:recommended`
 
 Using `"eslint:recommended"` in the `extends` property enables a subset of core rules that report common problems (these rules are identified with a checkmark (recommended) on the [rules page](https://eslint.org/docs/rules/)). The `eslint:recommended` config only changes with major versions of ESLint.
 
