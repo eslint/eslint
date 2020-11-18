@@ -12,6 +12,8 @@ Why would you want to restrict imports?
 
 This rule allows you to specify imports that you don't want to use in your application.
 
+It applies to static imports only, not dynamic ones.
+
 ## Options
 
 The syntax to specify restricted imports looks like this:
