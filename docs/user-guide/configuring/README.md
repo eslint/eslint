@@ -5,7 +5,7 @@ ESLint is designed to be completely configurable. You can turn off every rule an
 1. **Configuration Comments** - use JavaScript comments to embed configuration information directly into a file.
 1. **Configuration Files** - use a JavaScript, JSON, or YAML file to specify configuration information for an entire directory and all of its subdirectories. This can be in the form of an [`.eslintrc.*`](./configuring-files#configuration-file-formats) file or an `eslintConfig` field in a [`package.json`](https://docs.npmjs.com/files/package.json) file, both of which ESLint will look for and read automatically, or you can specify a configuration file on the [command line](https://eslint.org/docs/user-guide/command-line-interface).
 
-Following are some of the important pieces of information that you can configure in ESLint:
+Here are some of the options that you can configure in ESLint:
 
 * [**Environments**](./language-options.md#specifying-environments) - which environments your script is designed to run in. Each environment brings with it a certain set of predefined global variables.
 * [**Globals**](./language-options.md#specifying-globals) - the additional global variables your script accesses during execution.
