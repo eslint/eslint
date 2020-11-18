@@ -379,7 +379,7 @@ If you specified the [`--ext`](https://eslint.org/docs/user-guide/command-line-i
 
 `~/` refers to [the home directory of the current user on your preferred operating system](https://nodejs.org/api/os.html#os_os_homedir). The personal configuration file being referred to here is `~/.eslintrc.*` file, which is currently handled differently than other configuration files.
 
-### How does ESLint find personal configuration files
+### How does ESLint find personal configuration files?
 
 If `eslint` could not find any configuration file in the project, `eslint` loads `~/.eslintrc.*` file.
 
