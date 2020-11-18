@@ -385,7 +385,7 @@ If `eslint` could not find any configuration file in the project, `eslint` loads
 
 If `eslint` could find configuration files in the project, `eslint` ignores `~/.eslintrc.*` file even if it's in an ancestor directory of the project directory.
 
-### How do personal configuration files behave
+### How do personal configuration files behave?
 
 `~/.eslintrc.*` files behave similarly to regular configuration files, with some exceptions:
 
