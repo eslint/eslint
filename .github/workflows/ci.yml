@@ -26,7 +26,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [14.x, 13.x, 12.x, 10.x, "10.12.0"]
+        node: [15.x, 14.x, 13.x, 12.x, 10.x, "10.12.0"]
         include:
         - os: windows-latest
           node: "12.x"
@@ -40,6 +40,10 @@ jobs:
         node-version: ${{ matrix.node }}
     - name: Install Packages
       run: npm install
+      if: ${{ !startswith(matrix.node, '15') }}
+    - name: Install Packages
+      run: npm install --legacy-peer-deps
+      if: ${{ startswith(matrix.node, '15') }}
     - name: Test
       run: node Makefile mocha
     - name: Fuzz Test
