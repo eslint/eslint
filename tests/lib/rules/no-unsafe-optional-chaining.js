@@ -34,6 +34,7 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
         "bar(...obj?.foo ?? []);",
         "var bar = {...foo?.bar};",
         "foo?.bar in {};",
+        "[foo = obj?.bar] = [];",
 
         // The default value option disallowArithmeticOperators is false
         "obj?.foo - bar;",
@@ -175,17 +176,6 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
             ]
         },
         {
-            code: "1 in foo?.bar;",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 6
-                }
-            ]
-        },
-        {
             code: "const {foo} = obj?.bar;",
             errors: [
                 {
@@ -241,6 +231,39 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
             ]
         },
         {
+            code: "[{ foo } = obj?.bar] = [];",
+            errors: [
+                {
+                    messageId: "unsafeOptionalChain",
+                    type: "ChainExpression",
+                    line: 1,
+                    column: 12
+                }
+            ]
+        },
+        {
+            code: "({bar: [ foo ] = obj?.prop} = {});",
+            errors: [
+                {
+                    messageId: "unsafeOptionalChain",
+                    type: "ChainExpression",
+                    line: 1,
+                    column: 18
+                }
+            ]
+        },
+        {
+            code: "[[ foo ] = obj?.bar] = [];",
+            errors: [
+                {
+                    messageId: "unsafeOptionalChain",
+                    type: "ChainExpression",
+                    line: 1,
+                    column: 12
+                }
+            ]
+        },
+        {
             code: "class A extends obj?.foo {}",
             errors: [
                 {
@@ -251,6 +274,61 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
                 }
             ]
         },
+
+        // unsafe relational operations
+        {
+            code: "foo instanceof obj?.prop",
+            errors: [
+                {
+                    messageId: "unsafeOptionalChain",
+                    type: "ChainExpression",
+                    line: 1,
+                    column: 16
+                }
+            ]
+        },
+        {
+            code: "1 in foo?.bar;",
+            errors: [
+                {
+                    messageId: "unsafeOptionalChain",
+                    type: "ChainExpression",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+
+        // unsafe `for...of`
+        {
+            code: "for (foo of obj?.bar);",
+            errors: [
+                {
+                    messageId: "unsafeOptionalChain",
+                    type: "ChainExpression",
+                    line: 1,
+                    column: 13
+                }
+            ]
+        },
+
+        // unsafe `with`
+        {
+            code: "with (obj?.foo) {};",
+            parserOptions: {
+                sourceType: "script"
+            },
+            errors: [
+                {
+                    messageId: "unsafeOptionalChain",
+                    type: "ChainExpression",
+                    line: 1,
+                    column: 7
+                }
+            ]
+        },
+
+        // unsafe arithmetic operations
         {
             code: "obj?.foo + bar;",
             options: [{
