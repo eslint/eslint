@@ -181,7 +181,7 @@ The `rules` property can do any of the following to extend (or override) the set
 
 Using `"eslint:recommended"` in the `extends` property enables a subset of core rules that report common problems (these rules are identified with a checkmark (recommended) on the [rules page](https://eslint.org/docs/rules/)). The `eslint:recommended` config only changes with major versions of ESLint.
 
-If your configuration extends the recommended rules: after you upgrade to a newer major version of ESLint, review the reported problems before you use the `--fix` option on the [command line]((https://eslint.org/docs/user-guide/command-line-interface)#fix), so you know if a new fixable recommended rule will make changes to the code.
+If your configuration extends the `eslint:recommended`, be sure to review the reported problems after upgrading to a new major version of ESLint before you use the `--fix` option on the [command line]((https://eslint.org/docs/user-guide/command-line-interface)#fix). Doing so ensures you'll be aware of the new changes ESLint might make to your code.
 
 The `eslint --init` command can create a configuration so you can extend the recommended rules.
 
