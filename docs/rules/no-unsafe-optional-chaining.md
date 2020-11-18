@@ -18,6 +18,8 @@ Examples of **incorrect** code for this rule:
 
 (obj?.foo)();
 
+(obj?.foo ?? obj?.bar)();
+
 (obj?.foo).bar;
 
 (obj?.foo)`template`;
@@ -45,6 +47,8 @@ Examples of **correct** code for this rule:
 /*eslint no-unsafe-optional-chaining: "error"*/
 
 (obj?.foo)?.();
+
+(obj?.foo ?? bar).();
 
 obj?.foo?.bar;
 
