@@ -7,7 +7,7 @@ Although not being specified in the language until ECMAScript 2021, `\8` and `\9
 "\9" === "9"; // true
 ```
 
-Since ECMAScript 2021, these escape sequences are specified as non-octal decimal escape sequences, retaining the same behavior.
+Since ECMAScript 2021, these escape sequences are specified as [non-octal decimal escape sequences](https://tc39.es/ecma262/#prod-annexB-NonOctalDecimalEscapeSequence), retaining the same behavior.
 
 Nevertheless, the ECMAScript specification treats `\8` and `\9` in string literals as a legacy feature. This syntax is optional if the ECMAScript host is not a web browser. Browsers still have to support it, but only in non-strict mode.
 
@@ -52,6 +52,10 @@ var baz = "Don't use \\8 and \\9 escapes.";
 
 var quux = "\0\u0038";
 ```
+
+## Further Reading
+
+* [NonOctalDecimalEscapeSequence](https://tc39.es/ecma262/#prod-annexB-NonOctalDecimalEscapeSequence) in ECMAScript specification
 
 ## Related Rules
 
