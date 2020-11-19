@@ -48,14 +48,17 @@ switch (foo) {
         let x = 1;
         break;
     }
+
     case 2: {
         const y = 2;
         break;
     }
+
     case 3: {
         function f() {}
         break;
     }
+
     case 4:
         // Declarations using var without brackets are valid due to function-scope hoisting
         var z = 4;
