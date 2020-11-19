@@ -16,7 +16,6 @@ ESLint supports configuration files in several formats:
 * **JavaScript (ESM)** - use `.eslintrc.cjs` when running ESLint in JavaScript packages that specify `"type":"module"` in their `package.json`. Note that ESLint does not support ESM configuration at this time.
 * **YAML** - use `.eslintrc.yaml` or `.eslintrc.yml` to define the configuration structure.
 * **JSON** - use `.eslintrc.json` to define the configuration structure. ESLint's JSON files also allow JavaScript-style comments.
-* **Deprecated** - use `.eslintrc`, which can be either JSON or YAML.
 * **package.json** - create an `eslintConfig` property in your `package.json` file and define your configuration there.
 
 If there are multiple configuration files in the same directory, ESLint will only use one. The priority order is as follows:
@@ -26,7 +25,6 @@ If there are multiple configuration files in the same directory, ESLint will onl
 1. `.eslintrc.yaml`
 1. `.eslintrc.yml`
 1. `.eslintrc.json`
-1. `.eslintrc`
 1. `package.json`
 
 ## Using Configuration Files
@@ -88,11 +86,11 @@ When using `.eslintrc.*` and `package.json` files for configuration, you can tak
 
 ```text
 your-project
-├── .eslintrc
+├── .eslintrc.json
 ├── lib
 │ └── source.js
 └─┬ tests
-  ├── .eslintrc
+  ├── .eslintrc.json
   └── test.js
 ```
 
@@ -106,7 +104,7 @@ your-project
 ├── lib
 │ └── source.js
 └─┬ tests
-  ├── .eslintrc
+  ├── .eslintrc.json
   └── test.js
 ```
 
@@ -133,9 +131,9 @@ For example, consider `projectA` which has `"root": true` set in the `.eslintrc`
 home
 └── user
     └── projectA
-        ├── .eslintrc  <- Not used
+        ├── .eslintrc.json  <- Not used
         └── lib
-            ├── .eslintrc  <- { "root": true }
+            ├── .eslintrc.json  <- { "root": true }
             └── main.js
 ```
 
