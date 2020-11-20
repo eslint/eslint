@@ -1,3 +1,16 @@
+v7.14.0 - November 20, 2020
+
+* [`5f09073`](https://github.com/eslint/eslint/commit/5f0907399a9666dec78c74384c8969c01483c30e) Update: fix 'skip' options in no-irregular-whitespace (fixes #13852) (#13853) (Milos Djermanovic)
+* [`1861b40`](https://github.com/eslint/eslint/commit/1861b4086f1018f43ab19744d866d5da986c500d) Docs: correct the function-call-argument-newline 'default' descriptions (#13866) (Trevin Hofmann)
+* [`98c00c4`](https://github.com/eslint/eslint/commit/98c00c41d2aecb3a990393d430694f4ce6b47de5) New: Add no-nonoctal-decimal-escape rule (fixes #13765) (#13845) (Milos Djermanovic)
+* [`95d2fe6`](https://github.com/eslint/eslint/commit/95d2fe6057498fc1cc2193d28c8c2d1593224b33) Chore: remove eslint comment from no-octal-escape tests (#13846) (Milos Djermanovic)
+* [`2004b7e`](https://github.com/eslint/eslint/commit/2004b7ecd3db0d4e7376cc3344246f7b9ada5801) Fix: enable debug logs for @eslint/eslintrc (fixes #13850) (#13861) (Milos Djermanovic)
+* [`d2239a1`](https://github.com/eslint/eslint/commit/d2239a1fdec452e24ede04e990d16d42516fa538) Fix: no-useless-constructor crash on bodyless constructor (fixes #13830) (#13842) (Ari Perkkiö)
+* [`eda0aa1`](https://github.com/eslint/eslint/commit/eda0aa18498dd85eb618873e8e0f4ac97032cfca) Docs: no-restricted-imports is only for static imports (#13863) (Robat Williams)
+* [`042ae44`](https://github.com/eslint/eslint/commit/042ae44682a8a6c5037d920689124e2304056dd8) Docs: Fix JS syntax and doc URL in working-with-custom-formatters.md (#13828) (Raphael LANG)
+* [`038dc73`](https://github.com/eslint/eslint/commit/038dc73c99ae68eae2035ef303f3a947053c8f05) Chore: Test on Node.js 15 (#13844) (Brandon Mills)
+* [`37a06d6`](https://github.com/eslint/eslint/commit/37a06d633d3669f0f43236141dc43465b8bc7ec5) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.13.0 - November 6, 2020
 
 * [`254e00f`](https://github.com/eslint/eslint/commit/254e00fea8745ff5a8bcc8cb874fcfd02996d81b) New: Configurable List Size For Per-Rule Performance Metrics (#13812) (Bryan Mishkin)
