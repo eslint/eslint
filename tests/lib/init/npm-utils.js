@@ -174,20 +174,30 @@ describe("npmUtils", () => {
         it("should invoke npm to install a single desired package", () => {
             const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
 
-            npmUtils.installSyncSaveDev("desired-package");
+            npmUtils.installSyncSaveDev("desired-package", "npm");
             assert(stub.calledOnce);
             assert.strictEqual(stub.firstCall.args[0], "npm");
-            assert.deepStrictEqual(stub.firstCall.args[1], ["i", "--save-dev", "desired-package"]);
+            assert.deepStrictEqual(stub.firstCall.args[1], ["install", "-D", "desired-package"]);
+            stub.restore();
+        });
+
+        it("should invoke yarn to install a single desired package", () => {
+            const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
+
+            npmUtils.installSyncSaveDev("desired-package", "yarn");
+            assert(stub.calledOnce);
+            assert.strictEqual(stub.firstCall.args[0], "yarn");
+            assert.deepStrictEqual(stub.firstCall.args[1], ["add", "-D", "desired-package"]);
             stub.restore();
         });
 
         it("should accept an array of packages to install", () => {
             const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
 
-            npmUtils.installSyncSaveDev(["first-package", "second-package"]);
+            npmUtils.installSyncSaveDev(["first-package", "second-package"], "npm");
             assert(stub.calledOnce);
             assert.strictEqual(stub.firstCall.args[0], "npm");
-            assert.deepStrictEqual(stub.firstCall.args[1], ["i", "--save-dev", "first-package", "second-package"]);
+            assert.deepStrictEqual(stub.firstCall.args[1], ["install", "-D", "first-package", "second-package"]);
             stub.restore();
         });
 
