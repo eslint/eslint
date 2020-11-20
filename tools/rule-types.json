@@ -156,6 +156,7 @@
     "no-new-require": "suggestion",
     "no-new-symbol": "problem",
     "no-new-wrappers": "suggestion",
+    "no-nonoctal-decimal-escape": "suggestion",
     "no-obj-calls": "problem",
     "no-octal": "suggestion",
     "no-octal-escape": "suggestion",
