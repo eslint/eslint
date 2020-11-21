@@ -21,7 +21,6 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
         "var foo;",
         "class Foo {}",
         "!!obj?.foo",
-
         "obj?.foo();",
         "obj?.foo?.();",
         "(obj?.foo ?? bar)();",
@@ -31,9 +30,12 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
         "obj?.foo.bar;",
         "obj?.foo?.bar;",
         "(obj?.foo)?.bar;",
+        "(obj?.foo)?.bar.baz;",
+        "(obj?.foo)?.().bar",
         "(obj?.foo ?? bar).baz;",
         "(obj?.foo ?? val)`template`",
         "new (obj?.foo ?? val)()",
+        "new bar();",
         "obj?.foo?.()();",
         "const {foo} = obj?.baz || {};",
         "bar(...obj?.foo ?? []);",
@@ -76,83 +78,52 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
     ],
 
     invalid: [
-        {
-            code: "(obj?.foo)();",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 2
-                }
-            ]
-        },
-        {
-            code: "(obj?.foo ?? bar?.baz)();",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 14
-                }
-            ]
-        },
-        {
-            code: "(obj?.foo || bar?.baz)();",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 14
-                }
-            ]
-        },
-        {
-            code: "(obj?.foo && bar)();",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 2
-                }
-            ]
-        },
-        {
-            code: "(bar && obj?.foo)();",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 9
-                }
-            ]
-        },
-        {
-            code: "(obj?.foo?.())();",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 2
-                }
-            ]
-        },
-        {
-            code: "(obj?.foo).bar",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 2
-                }
-            ]
-        },
+        ...[
+            "(obj?.foo)();",
+            "(obj?.foo ?? bar?.baz)();",
+            "(obj?.foo || bar?.baz)();",
+            "(obj?.foo && bar)();",
+            "(bar && obj?.foo)();",
+            "(obj?.foo?.())();",
+            "(obj?.foo).bar",
+            "(obj?.foo)[1];",
+            "(obj?.foo)`template`",
+            "new (obj?.foo)();",
+            "new (obj?.foo?.())()",
+            "new (obj?.foo?.() || obj?.bar)()",
+
+            // spread
+            "[...obj?.foo];",
+            "bar(...obj?.foo);",
+            "new Bar(...obj?.foo);",
+
+            // destructuring
+            "const {foo} = obj?.bar;",
+            "const {foo} = obj?.bar();",
+            "const [foo] = obj?.bar;",
+            "const [foo] = obj?.bar || obj?.foo;",
+            "([foo] = obj?.bar);",
+            "const [foo] = obj?.bar?.();",
+            "[{ foo } = obj?.bar] = [];",
+            "({bar: [ foo ] = obj?.prop} = {});",
+            "[[ foo ] = obj?.bar] = [];",
+
+            // class declaration
+            "class A extends obj?.foo {}",
+
+            // class expression
+            "var a = class A extends obj?.foo {}",
+
+            // relational operations
+            "foo instanceof obj?.prop",
+            "1 in foo?.bar;",
+
+            // for...of
+            "for (foo of obj?.bar);"
+        ].map(code => ({
+            code,
+            errors: [{ messageId: "unsafeOptionalChain", type: "ChainExpression" }]
+        })),
         {
             code: "(obj?.foo && obj?.baz).bar",
             errors: [
@@ -171,260 +142,6 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
             ]
         },
         {
-            code: "(obj?.foo)[1];",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 2
-                }
-            ]
-        },
-        {
-            code: "(obj?.foo)`template`",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 2
-                }
-            ]
-        },
-        {
-            code: "new (obj?.foo)();",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 6
-                }
-            ]
-        },
-        {
-            code: "new (obj?.foo?.())()",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 6
-                }
-            ]
-        },
-        {
-            code: "new (obj?.foo?.() || obj?.bar)()",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 22
-                }
-            ]
-        },
-        {
-            code: "[...obj?.foo];",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 5
-                }
-            ]
-        },
-        {
-            code: "[...(obj?.foo && obj?.bar)];",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 6
-                },
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 18
-                }
-            ]
-        },
-        {
-            code: "bar(...obj?.foo);",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 8
-                }
-            ]
-        },
-        {
-            code: "new Bar(...obj?.foo);",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 12
-                }
-            ]
-        },
-        {
-            code: "const {foo} = obj?.bar;",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 15
-                }
-            ]
-        },
-        {
-            code: "const {foo} = obj?.bar();",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 15
-                }
-            ]
-        },
-        {
-            code: "const [foo] = obj?.bar;",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 15
-                }
-            ]
-        },
-        {
-            code: "const [foo] = obj?.bar || obj?.foo;",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 27
-                }
-            ]
-        },
-        {
-            code: "([foo] = obj?.bar);",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 10
-                }
-            ]
-        },
-        {
-            code: "const [foo] = obj?.bar?.();",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 15
-                }
-            ]
-        },
-        {
-            code: "[{ foo } = obj?.bar] = [];",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 12
-                }
-            ]
-        },
-        {
-            code: "({bar: [ foo ] = obj?.prop} = {});",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 18
-                }
-            ]
-        },
-        {
-            code: "[[ foo ] = obj?.bar] = [];",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 12
-                }
-            ]
-        },
-        {
-            code: "class A extends obj?.foo {}",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 17
-                }
-            ]
-        },
-
-        // unsafe relational operations
-        {
-            code: "foo instanceof obj?.prop",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 16
-                }
-            ]
-        },
-        {
-            code: "1 in foo?.bar;",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 6
-                }
-            ]
-        },
-
-        // unsafe `for...of`
-        {
-            code: "for (foo of obj?.bar);",
-            errors: [
-                {
-                    messageId: "unsafeOptionalChain",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 13
-                }
-            ]
-        },
-
-        // unsafe `with`
-        {
             code: "with (obj?.foo) {};",
             parserOptions: {
                 sourceType: "script"
@@ -438,203 +155,25 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
                 }
             ]
         },
-
-        // unsafe arithmetic operations
-        {
-            code: "obj?.foo + bar;",
-            options: [{
-                disallowArithmeticOperators: true
-            }],
-            errors: [
-                {
-                    messageId: "unsafeArithmetic",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 1
-                }
-            ]
-        },
-        {
-            code: "(foo || obj?.foo) + bar;",
-            options: [{
-                disallowArithmeticOperators: true
-            }],
-            errors: [
-                {
-                    messageId: "unsafeArithmetic",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 9
-                }
-            ]
-        },
-        {
-            code: "bar + (foo || obj?.foo);",
-            options: [{
-                disallowArithmeticOperators: true
-            }],
-            errors: [
-                {
-                    messageId: "unsafeArithmetic",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 15
-                }
-            ]
-        },
-        {
-            code: "obj?.foo - bar;",
-            options: [{
-                disallowArithmeticOperators: true
-            }],
-            errors: [
-                {
-                    messageId: "unsafeArithmetic",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 1
-                }
-            ]
-        },
-        {
-            code: "obj?.foo * bar;",
-            options: [{
-                disallowArithmeticOperators: true
-            }],
-            errors: [
-                {
-                    messageId: "unsafeArithmetic",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 1
-                }
-            ]
-        },
-        {
-            code: "obj?.foo / bar;",
-            options: [{
-                disallowArithmeticOperators: true
-            }],
-            errors: [
-                {
-                    messageId: "unsafeArithmetic",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 1
-                }
-            ]
-        },
-        {
-            code: "obj?.foo % bar;",
-            options: [{
-                disallowArithmeticOperators: true
-            }],
-            errors: [
-                {
-                    messageId: "unsafeArithmetic",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 1
-                }
-            ]
-        },
-        {
-            code: "obj?.foo ** bar;",
-            options: [{
-                disallowArithmeticOperators: true
-            }],
-            errors: [
-                {
-                    messageId: "unsafeArithmetic",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 1
-                }
-            ]
-        },
-        {
-            code: "+obj?.foo;",
-            options: [{
-                disallowArithmeticOperators: true
-            }],
-            errors: [
-                {
-                    messageId: "unsafeArithmetic",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 2
-                }
-            ]
-        },
-        {
-            code: "-obj?.foo;",
-            options: [{
-                disallowArithmeticOperators: true
-            }],
-            errors: [
-                {
-                    messageId: "unsafeArithmetic",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 2
-                }
-            ]
-        },
-        {
-            code: "bar += obj?.foo;",
-            options: [{
-                disallowArithmeticOperators: true
-            }],
-            errors: [
-                {
-                    messageId: "unsafeArithmetic",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 8
-                }
-            ]
-        },
-        {
-            code: "bar -= obj?.foo;",
-            options: [{
-                disallowArithmeticOperators: true
-            }],
-            errors: [
-                {
-                    messageId: "unsafeArithmetic",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 8
-                }
-            ]
-        },
-        {
-            code: "bar %= obj?.foo;",
-            options: [{
-                disallowArithmeticOperators: true
-            }],
-            errors: [
-                {
-                    messageId: "unsafeArithmetic",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 8
-                }
-            ]
-        },
-        {
-            code: "bar **= obj?.foo;",
-            options: [{
-                disallowArithmeticOperators: true
-            }],
-            errors: [
-                {
-                    messageId: "unsafeArithmetic",
-                    type: "ChainExpression",
-                    line: 1,
-                    column: 9
-                }
-            ]
-        }
+        ...[
+            "obj?.foo + bar;",
+            "(foo || obj?.foo) + bar;",
+            "bar + (foo || obj?.foo);",
+            "obj?.foo - bar;",
+            "obj?.foo * bar;",
+            "obj?.foo / bar;",
+            "obj?.foo % bar;",
+            "obj?.foo ** bar;",
+            "+obj?.foo;",
+            "-obj?.foo;",
+            "bar += obj?.foo;",
+            "bar -= obj?.foo;",
+            "bar %= obj?.foo;",
+            "bar **= obj?.foo;"
+        ].map(code => ({
+            code,
+            options: [{ disallowArithmeticOperators: true }],
+            errors: [{ messageId: "unsafeArithmetic", type: "ChainExpression" }]
+        }))
     ]
 });
