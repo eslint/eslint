@@ -60,7 +60,7 @@
     "espree": "^7.3.0",
     "esquery": "^1.2.0",
     "esutils": "^2.0.2",
-    "file-entry-cache": "^5.0.1",
+    "file-entry-cache": "^6.0.0",
     "functional-red-black-tree": "^1.0.1",
     "glob-parent": "^5.0.0",
     "globals": "^12.1.0",
