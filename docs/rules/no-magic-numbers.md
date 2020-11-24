@@ -195,3 +195,25 @@ var magic = {
 var dutyFreePrice = 100,
     finalPrice = dutyFreePrice + (dutyFreePrice * magic.tax);
 ```
+
+### ignoreEnums
+
+A boolean to specify if enums used in Typescript are considered okay. `false` by default.
+
+Examples of **incorrect** code for the `{ "ignoreEnum": false }` option:
+
+```ts
+/*eslint @typescript-eslint/no-magic-numbers: ["error", { "ignoreEnum": false }]*/
+enum foo = {
+    SECOND = 1000,
+}
+```
+
+Examples of **correct** code for the `{ "ignoreEnum": true }` option:
+
+```ts
+/*eslint @typescript-eslint/no-magic-numbers: ["error", { "ignoreEnum": true }]*/
+enum foo = {
+    SECOND = 1000,
+}
+```
