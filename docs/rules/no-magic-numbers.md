@@ -195,7 +195,7 @@ var magic = {
 var dutyFreePrice = 100,
     finalPrice = dutyFreePrice + (dutyFreePrice * magic.tax);
 ```
-### `ignoreEnums`
+### ignoreEnums
 
 A boolean to specify if enums used in TypeScript are considered okay. `false` by default.
 
