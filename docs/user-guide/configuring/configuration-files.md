@@ -37,9 +37,7 @@ The second way to use configuration files is to save the file wherever you would
 
     eslint -c myconfig.json myfiletotest.js
 
-If you are using one configuration file and want ESLint to ignore any `.eslintrc.*` files, make sure to use `--no-eslintrc` along with the `-c` flag.
-
-In each case, the settings in the configuration file override default settings.
+If you are using one configuration file and want ESLint to ignore any `.eslintrc.*` files, make sure to use [`--no-eslintrc`] (https://eslint.org/docs/user-guide/command-line-interface#-no-eslintrc) along with the [`-c`] (https://eslint.org/docs/user-guide/command-line-interface#-c-config) flag.
 
 ### Comments in configuration files
 
@@ -96,7 +94,7 @@ your-project
 
 The configuration cascade works by using the closest `.eslintrc` file to the file being linted as the highest priority, then any configuration files in the parent directory, and so on. When you run ESLint on this project, all files in `lib/` will use the `.eslintrc` file at the root of the project as their configuration. When ESLint traverses into the `tests/` directory, it will then use `your-project/tests/.eslintrc` in addition to `your-project/.eslintrc`. So `your-project/tests/test.js` is linted based on the combination of the two `.eslintrc` files in its directory hierarchy, with the closest one taking priority. In this way, you can have project-level ESLint settings and also have directory-specific overrides.
 
-In the same way, if there is a `package.json` file in the root directory with an `eslintConfig` field, the configuration it describes will apply to all subdirectories beneath it, but the configuration described by the `.eslintrc` file in the tests directory will override it where there are conflicting specifications.
+In the same way, if there is a `package.json` file in the root directory with an `eslintConfig` field, the configuration it describes will apply to all subdirectories beneath it, but the configuration described by the `.eslintrc` file in the `tests/` directory will override it where there are conflicting specifications.
 
 ```text
 your-project
@@ -108,9 +106,9 @@ your-project
   └── test.js
 ```
 
-If there is an `.eslintrc` and a `package.json` file found in the same directory, `.eslintrc` will take a priority and `package.json` file will not be used.
+If there is an `.eslintrc` and a `package.json` file found in the same directory, `.eslintrc` will take priority and `package.json` file will not be used.
 
-By default, ESLint will look for configuration files in all parent folders up to the root directory. This can be useful if you want all of your projects to follow a certain convention, but can sometimes lead to unexpected results. To limit ESLint to a specific project, place `"root": true` inside the `eslintConfig` field of the `package.json` file or in the `.eslintrc.*` file at your project's root level. ESLint will stop looking in parent folders once it finds a configuration with `"root": true`.
+By default, ESLint will look for configuration files in all parent folders up to the root directory. This can be useful if you want all of your projects to follow a certain convention, but can sometimes lead to unexpected results. To limit ESLint to a specific project, place `"root": true` inside the `.eslintrc.*` file or `eslintConfig` field of the `package.json` file or in the `.eslintrc.*` file at your project's root level. ESLint will stop looking in parent folders once it finds a configuration with `"root": true`.
 
 ```js
 {
@@ -137,7 +135,7 @@ home
             └── main.js
 ```
 
-The complete configuration hierarchy, from highest precedence to lowest precedence, is as follows:
+The complete configuration hierarchy, from highest to lowest precedence, is as follows:
 
 1. Inline configuration
     1. `/*eslint-disable*/` and `/*eslint-enable*/`
@@ -150,8 +148,8 @@ The complete configuration hierarchy, from highest precedence to lowest preceden
     1. `--env`
     1. `-c`, `--config`
 1. Project-level configuration:
-    1. `.eslintrc.*` or `package.json` file in the same directory as linted file
-    1. Continue searching for `.eslintrc` and `package.json` files in ancestor directories (parent has the highest precedence, then grandparent, etc.), up to and including the root directory or until a config with `"root": true` is found.
+    1. `.eslintrc.*` or `package.json` file in the same directory as the linted file
+    1. Continue searching for `.eslintrc.*` and `package.json` files in ancestor directories up to and including the root directory or until a config with `"root": true` is found.
 
 ## Extending Configuration Files
 
@@ -178,11 +176,11 @@ The `rules` property can do any of the following to extend (or override) the set
 
 ### Using `eslint:recommended`
 
-Using `"eslint:recommended"` in the `extends` property enables a subset of core rules that report common problems (these rules are identified with a checkmark (recommended) on the [rules page](https://eslint.org/docs/rules/)). The `eslint:recommended` config only changes with major versions of ESLint.
+Using `"eslint:recommended"` in the `extends` property enables a subset of core rules that report common problems (these rules are identified with a checkmark (recommended) on the [rules page](https://eslint.org/docs/rules/)).
 
 If your configuration extends the `eslint:recommended`, be sure to review the reported problems after upgrading to a new major version of ESLint before you use the `--fix` option on the [command line]((https://eslint.org/docs/user-guide/command-line-interface)#fix). Doing so ensures you'll be aware of the new changes ESLint might make to your code.
 
-Here's an example of extending `eslint:recommended` to override some of the default options:
+Here's an example of extending `eslint:recommended` and overriding some of the set configuration options:
 
 Example of a configuration file in JavaScript format:
 
@@ -196,7 +194,7 @@ module.exports = {
         "quotes": ["error", "double"],
         "semi": ["error", "always"],
 
-        // override default options for rules from base configurations
+        // override configuration set by extending "eslint:recommended"
         "comma-dangle": ["error", "always"],
         "no-cond-assign": ["error", "always"],
 
