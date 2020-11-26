@@ -195,11 +195,11 @@ module.exports = {
         "semi": ["error", "always"],
 
         // override configuration set by extending "eslint:recommended"
-        "comma-dangle": ["error", "always"],
+        "for-direction": "off",
         "no-cond-assign": ["error", "always"],
 
         // disable rules from base configurations
-        "no-console": "off",
+         "for-direction": "off",
     }
 }
 ```
