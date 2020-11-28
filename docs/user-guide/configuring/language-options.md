@@ -7,7 +7,7 @@
 
 ## Specifying Environments
 
-An environment defines global variables that are predefined. The available environments are:
+An environment provides predefined global variables. The available environments are:
 
 * `browser` - browser global variables.
 * `node` - Node.js global variables and Node.js scoping.
