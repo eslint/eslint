@@ -1,16 +1,16 @@
 # Ignoring Code
 
 
-* [`ignorePatterns` in config files](#ignorepatterns-in-config-files)
-* [`.eslintignore`](#eslintignore)
+* [`ignorePatterns` in Config Files](#ignorepatterns-in-config-files)
+* [The `.eslintignore` File](#the-eslintignore-file)
 * [Using an Alternate File](#using-an-alternate-file)
 * [Using eslintIgnore in package.json](#using-eslintignore-in-packagejson)
 * [Ignored File Warnings](#ignored-file-warnings)
 * [Disabling Inline Comments](#disabling-inline-comments)
 
-## `ignorePatterns` in config files
+## `ignorePatterns` in Config Files
 
-You can tell ESLint to ignore specific files and directories by `ignorePatterns` in your config files. Each value of `ignorePatterns` is the same pattern as each line of `.eslintignore` in the next section.
+You can tell ESLint to ignore specific files and directories by `ignorePatterns` in your config files. Each value of `ignorePatterns` is a glob pattern similar to what you would use on the command line.
 
 ```json
 {
@@ -21,7 +21,7 @@ You can tell ESLint to ignore specific files and directories by `ignorePatterns`
 }
 ```
 
-* The `ignorePatterns` property affects only the directory that the config file is placed in.
+* Glob patterns in `ignorePatterns` are relative to the directory that the config file is placed in.
 * You cannot write `ignorePatterns` property under `overrides` property.
 * `.eslintignore` can override the `ignorePatterns` property of config files.
 
@@ -29,7 +29,7 @@ If a glob pattern starts with `/`, the pattern is relative to the base directory
 
 If a config is provided via the `--config` CLI option, the ignore patterns that start with `/` in the config are relative to the current working directory rather than the base directory of the given config. For example, if `--config configs/.eslintrc.json` is present, the ignore patterns in the config are relative to `.` rather than `./configs`.
 
-## `.eslintignore`
+## The `.eslintignore` File
 
 You can tell ESLint to ignore specific files and directories by creating an `.eslintignore` file in your project's root directory. The `.eslintignore` file is a plain text file where each line is a glob pattern indicating which paths should be omitted from linting. For example, the following will omit all JavaScript files:
 
