@@ -1854,6 +1854,83 @@ ruleTester.run("one-var", rule, {
                 line: 2,
                 column: 1
             }]
+        },
+        {
+            code: "export const foo=1, bar=2;",
+            output: "export const foo=1; export const bar=2;",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2021, sourceType: "module" },
+            errors: [{
+                messageId: "split",
+                data: { type: "const" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "const foo=1,\n bar=2;",
+            output: "const foo=1;\n const bar=2;",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2021, sourceType: "module" },
+            errors: [{
+                messageId: "split",
+                data: { type: "const" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "export const foo=1,\n bar=2;",
+            output: "export const foo=1;\n export const bar=2;",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2021, sourceType: "module" },
+            errors: [{
+                messageId: "split",
+                data: { type: "const" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "export const foo=1\n, bar=2;",
+            output: "export const foo=1\n; export const bar=2;",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2021, sourceType: "module" },
+            errors: [{
+                messageId: "split",
+                data: { type: "const" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "export const foo= a, bar=2;",
+            output: "export const foo= a; export const bar=2;",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2021, sourceType: "module" },
+            errors: [{
+                messageId: "split",
+                data: { type: "const" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "export const foo=() => a, bar=2;",
+            output: "export const foo=() => a; export const bar=2;",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2021, sourceType: "module" },
+            errors: [{
+                messageId: "split",
+                data: { type: "const" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "export const foo= a, bar=2, bar2=2;",
+            output: "export const foo= a; export const bar=2; export const bar2=2;",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2021, sourceType: "module" },
+            errors: [{
+                messageId: "split",
+                data: { type: "const" },
+                type: "VariableDeclaration"
+            }]
         }
     ]
 });
