@@ -42,6 +42,8 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
         "var bar = {...foo?.bar};",
         "foo?.bar in {};",
         "[foo = obj?.bar] = [];",
+        "(foo?.bar, bar)();",
+        "(foo?.bar ? baz : qux)();",
 
         // logical operations
         "(obj?.foo ?? bar?.baz ?? qux)();",
@@ -56,6 +58,14 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
         "obj?.foo / bar;",
         "obj?.foo % bar;",
         "obj?.foo ** bar;",
+        "+obj?.foo;",
+        "-obj?.foo;",
+        "bar += obj?.foo;",
+        "bar -= obj?.foo;",
+        "bar %= obj?.foo;",
+        "bar **= obj?.foo;",
+        "bar *= obj?.boo",
+        "bar /= obj?.boo",
 
         {
             code: "(obj?.foo || baz) + bar;",
@@ -80,8 +90,8 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
     invalid: [
         ...[
             "(obj?.foo)();",
-            "(obj?.foo ?? bar?.baz)();",
-            "(obj?.foo || bar?.baz)();",
+            "(obj.foo ?? bar?.baz)();",
+            "(obj.foo || bar?.baz)();",
             "(obj?.foo && bar)();",
             "(bar && obj?.foo)();",
             "(obj?.foo?.())();",
@@ -119,7 +129,17 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
             "1 in foo?.bar;",
 
             // for...of
-            "for (foo of obj?.bar);"
+            "for (foo of obj?.bar);",
+
+            // sequence expression
+            "(foo, obj?.foo)();",
+            "(foo, obj?.foo)[1];",
+
+            // conditional expression
+            "(a ? obj?.foo : b)();",
+            "(a ? b : obj?.foo)();",
+            "(a ? obj?.foo : b)[1];",
+            "(a ? b : obj?.foo).bar;"
         ].map(code => ({
             code,
             errors: [{ messageId: "unsafeOptionalChain", type: "ChainExpression" }]
@@ -155,10 +175,30 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
                 }
             ]
         },
+        {
+            code: "(foo ? obj?.foo : obj?.bar).bar",
+            errors: [
+                {
+                    messageId: "unsafeOptionalChain",
+                    type: "ChainExpression",
+                    line: 1,
+                    column: 8
+                },
+                {
+                    messageId: "unsafeOptionalChain",
+                    type: "ChainExpression",
+                    line: 1,
+                    column: 19
+                }
+            ]
+        },
         ...[
             "obj?.foo + bar;",
             "(foo || obj?.foo) + bar;",
             "bar + (foo || obj?.foo);",
+            "(a ? obj?.foo : b) + bar",
+            "(a ? b : obj?.foo) + bar",
+            "(foo, bar, baz?.qux) + bar",
             "obj?.foo - bar;",
             "obj?.foo * bar;",
             "obj?.foo / bar;",
@@ -166,10 +206,22 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
             "obj?.foo ** bar;",
             "+obj?.foo;",
             "-obj?.foo;",
+            "+(foo ?? obj?.foo);",
+            "+(foo || obj?.bar);",
+            "+(obj?.bar && foo);",
+            "+(foo ? obj?.foo : bar);",
+            "+(foo ? bar : obj?.foo);",
             "bar += obj?.foo;",
             "bar -= obj?.foo;",
             "bar %= obj?.foo;",
-            "bar **= obj?.foo;"
+            "bar **= obj?.foo;",
+            "bar *= obj?.boo",
+            "bar /= obj?.boo",
+            "bar += (foo ?? obj?.foo);",
+            "bar += (foo || obj?.foo);",
+            "bar += (foo && obj?.foo);",
+            "bar += (foo ? obj?.foo : bar);",
+            "bar += (foo ? bar : obj?.foo);"
         ].map(code => ({
             code,
             options: [{ disallowArithmeticOperators: true }],

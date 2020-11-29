@@ -1,15 +1,28 @@
 # disallow optional chaining that possibly errors (no-unsafe-optional-chaining)
 
-The optional chaining(`?.`) expression can short-circuit with `undefined`. Therefore, treating an evaluated optional chaining expression as a function, object, number, etc., can cause TypeError or unexpected result. For example:
+The optional chaining(`?.`) expression can short-circuit with `undefined`. Therefore, treating an evaluated optional chaining expression as a function, object, number, etc., can cause TypeError or unexpected results. For example:
 
 ```js
-var obj = {};
+var obj = undefined;
+
+1 in obj?.foo;  // TypeError
+with (obj?.foo);  // TypeError
+for (bar of obj?.foo);  // TypeError
+bar instanceof obj?.foo;  // TypeError
+const { bar } = obj?.foo;  // TypeError
+```
+
+Also, the parentheses around optional chaining can cause unexpected TypeError because it stop short-circuiting. For example:
+
+```js
+var obj = undefined;
+
 (obj?.foo)(); // TypeError: obj?.foo is not a function
 ```
 
 ## Rule Details
 
-This rule disallows some cases that might be an TypeError.
+This rule aims to detect some cases where the use of optional chaining doesn't prevent runtime errors. In particular, it flags optional chains in positions where short-circuiting to `undefined` causes throwing a TypeError afterward.
 
 Examples of **incorrect** code for this rule:
 
@@ -20,7 +33,11 @@ Examples of **incorrect** code for this rule:
 
 (obj?.foo ?? obj?.bar)();
 
+(foo ? obj?.foo : bar)();
+
 (obj?.foo).bar;
+
+(foo, obj?.bar).baz;
 
 (obj?.foo)`template`;
 
@@ -36,9 +53,15 @@ bar instanceof obj?.foo;
 
 for (bar of obj?.foo);
 
+const { bar } = obj?.foo;
+
 [{ bar } = obj?.foo] = [];
 
 with (obj?.foo);
+
+class A extends obj?.foo {};
+
+var a = class A extends obj?.foo {}
 ```
 
 Examples of **correct** code for this rule:
@@ -48,7 +71,7 @@ Examples of **correct** code for this rule:
 
 (obj?.foo)?.();
 
-(obj?.foo ?? bar).();
+(obj?.foo ?? bar)();
 
 obj?.foo?.bar;
 
@@ -56,27 +79,44 @@ obj?.foo?.bar;
 
 new (obj?.foo ?? bar)();
 
-var baz = {...obj.?foo};
+var baz = {...obj?.foo};
+
+const { bar } = obj?.foo || baz;
 ```
 
 ## Options
 
 This rule has an object option:
 
-- `disallowArithmeticOperators`: Disallow arithmetic operation on optional chaining expression (Default `false`). If this is `true`, this rule warns arithmetic operations on optional chaining expression which possibly result in `NaN`.
+- `disallowArithmeticOperators`: Disallow arithmetic operation on optional chaining expression (Default `false`). If this is `true`, this rule warns arithmetic operations on optional chaining expression, which possibly result in `NaN`.
 
 ### disallowArithmeticOperators
+
+With this option set to `true` the rule is enforced for:
+
+- Unary operators: `-`, `+`
+- Arithmetic operators: `+`, `-`, `/`, `*`, `%`, `**`
+- Assignment operators: `+=`, `-=`, `/=`, `*=`, `%=`, `**=`
 
 Examples of additional **incorrect** code for this rule with the `{ "disallowArithmeticOperators": true }` option:
 
 ```js
 /*eslint no-unsafe-optional-chaining: ["error", { "disallowArithmeticOperators": true }]*/
 
-obj?.foo + bar;
-
-obj?.foo * bar;
-
 +obj?.foo;
+-obj?.foo;
+
+obj?.foo + bar;
+obj?.foo - bar;
+obj?.foo / bar;
+obj?.foo * bar;
+obj?.foo % bar;
+obj?.foo ** bar;
 
 baz += obj?.foo;
+baz -= obj?.foo;
+baz /= obj?.foo;
+baz *= obj?.foo;
+baz %= obj?.foo;
+baz **= obj?.foo;
 ```
