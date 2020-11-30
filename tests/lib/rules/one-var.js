@@ -1931,6 +1931,17 @@ ruleTester.run("one-var", rule, {
                 data: { type: "const" },
                 type: "VariableDeclaration"
             }]
+        },
+        {
+            code: "export const foo = 1,bar = 2;",
+            output: "export const foo = 1; export const bar = 2;",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2021, sourceType: "module" },
+            errors: [{
+                messageId: "split",
+                data: { type: "const" },
+                type: "VariableDeclaration"
+            }]
         }
     ]
 });
