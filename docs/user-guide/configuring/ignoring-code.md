@@ -10,7 +10,7 @@
 
 ## `ignorePatterns` in Config Files
 
-You can tell ESLint to ignore specific files and directories by `ignorePatterns` in your config files. Each value of `ignorePatterns` is a glob pattern similar to what you would use on the command line.
+You can tell ESLint to ignore specific files and directories using `ignorePatterns` in your config files. Each value of `ignorePatterns` is a glob pattern similar to what you would use on the command line.
 
 ```json
 {
@@ -75,7 +75,7 @@ There are also some exceptions to these rules:
 
 * Allowlist and denylist rules specified via `--ignore-pattern` or `.eslintignore` are prioritized above implicit ignore rules.
 
-  For example, in this scenario, `.build/test.js` is the desired file to allowlist. Because all Dotfolders and their children are ignored by default, `.build` must first be allowlisted so that eslint because aware of its children. Then, `.build/test.js` must be explicitly allowlisted, while the rest of the content is denylisted. This is done with the following `.eslintignore` file:
+  For example, in this scenario, `.build/test.js` is the desired file to allowlist. Because all Dotfolders and their children are ignored by default, `.build` must first be allowlisted so that eslint becomes aware of its children. Then, `.build/test.js` must be explicitly allowlisted, while the rest of the content is denylisted. This is done with the following `.eslintignore` file:
 
   ```text
   # Allowlist 'test.js' in the '.build' folder
