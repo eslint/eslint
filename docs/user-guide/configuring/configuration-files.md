@@ -37,7 +37,7 @@ The second way to use configuration files is to save the file wherever you would
 
     eslint -c myconfig.json myfiletotest.js
 
-If you are using one configuration file and want ESLint to ignore any `.eslintrc.*` files, make sure to use [`--no-eslintrc`] (https://eslint.org/docs/user-guide/command-line-interface#-no-eslintrc) along with the [`-c`] (https://eslint.org/docs/user-guide/command-line-interface#-c-config) flag.
+If you are using one configuration file and want ESLint to ignore any `.eslintrc.*` files, make sure to use [`--no-eslintrc`](https://eslint.org/docs/user-guide/command-line-interface#-no-eslintrc) along with the [`-c`](https://eslint.org/docs/user-guide/command-line-interface#-c-config) flag.
 
 ### Comments in configuration files
 
@@ -206,7 +206,7 @@ module.exports = {
         "semi": ["error", "always"],
 
         // override configuration set by extending "eslint:recommended"
-        "for-direction": "off",
+        "no-empty": "warn",
         "no-cond-assign": ["error", "always"],
 
         // disable rules from base configurations
@@ -236,14 +236,14 @@ rules:
 
 ### Using a configuration from a plugin
 
-A [plugin](https://eslint.org/docs/developer-guide/working-with-plugins) is an npm package that can add various extensions to ESLint. A plugin can perform numerous functions, including but not limited to the export of rules and [configurations](https://eslint.org/docs/developer-guide/working-with-plugins#configs-in-plugins). Make sure the package has been installed in a directory where ESLint can require it.
+A [plugin](https://eslint.org/docs/developer-guide/working-with-plugins) is an npm package that can add various extensions to ESLint. A plugin can perform numerous functions, including but not limited to adding new rules and exporting [shareable configurations](https://eslint.org/docs/developer-guide/working-with-plugins#configs-in-plugins). Make sure the package has been installed in a directory where ESLint can require it.
 
 The `plugins` [property value](./plugins.md#configuring-plugins) can omit the `eslint-plugin-` prefix of the package name.
 
 The `extends` property value can consist of:
 
 * `plugin:`
-* the package name (from which you can omit the prefix, for example, `react`)
+* the package name (from which you can omit the prefix, for example, `react` is short for `eslint-plugin-react`)
 * `/`
 * the configuration name (for example, `recommended`)
 
