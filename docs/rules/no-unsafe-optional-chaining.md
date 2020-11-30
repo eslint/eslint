@@ -1,4 +1,4 @@
-# disallow optional chaining that possibly errors (no-unsafe-optional-chaining)
+# disallow use of optional chaining in contexts where the `undefined` value is not allowed (no-unsafe-optional-chaining)
 
 The optional chaining(`?.`) expression can short-circuit with `undefined`. Therefore, treating an evaluated optional chaining expression as a function, object, number, etc., can cause TypeError or unexpected results. For example:
 
