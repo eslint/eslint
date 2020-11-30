@@ -12,7 +12,7 @@ bar instanceof obj?.foo;  // TypeError
 const { bar } = obj?.foo;  // TypeError
 ```
 
-Also, the parentheses around optional chaining can cause unexpected TypeError because it stop short-circuiting. For example:
+Also, the parentheses around optional chaining in where the `undefined` not allowed can cause TypeError because it stops short-circuiting. For example:
 
 ```js
 var obj = undefined;
