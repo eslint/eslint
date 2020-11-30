@@ -80,7 +80,7 @@ Processors may make named code blocks such as `0.js` and `1.js`. ESLint handles 
 }
 ```
 
-ESLint checks the file path of named code blocks then ignores those if any `overrides` entry didn't match the file path. Be sure to make `overrides` entry if you wanted to lint named code blocks other than `*.js`.
+ESLint checks the file path of named code blocks then ignores those if any `overrides` entry didn't match the file path. Be sure to add an `overrides` entry if you want to lint named code blocks other than `*.js`.
 
 ## Configuring Plugins
 
