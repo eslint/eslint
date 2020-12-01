@@ -37,6 +37,8 @@ Examples of **incorrect** code for this rule:
 
 (obj?.foo).bar;
 
+(foo?.()).bar;
+
 (foo, obj?.bar).baz;
 
 (obj?.foo)`template`;
@@ -76,6 +78,8 @@ obj?.foo();
 (obj?.foo ?? bar)();
 
 obj?.foo.bar;
+
+foo?.()?.bar;
 
 (obj?.foo ?? bar)`template`;
 
