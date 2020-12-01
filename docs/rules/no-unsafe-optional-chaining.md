@@ -70,6 +70,7 @@ Examples of **correct** code for this rule:
 /*eslint no-unsafe-optional-chaining: "error"*/
 
 (obj?.foo)?.();
+
 obj?.foo();
 
 (obj?.foo ?? bar)();

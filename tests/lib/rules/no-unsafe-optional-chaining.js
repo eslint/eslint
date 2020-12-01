@@ -38,10 +38,20 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
         "new bar();",
         "obj?.foo?.()();",
         "const {foo} = obj?.baz || {};",
+        "const foo = obj?.bar",
+        "foo = obj?.bar",
+        "foo.bar = obj?.bar",
         "bar(...obj?.foo ?? []);",
         "var bar = {...foo?.bar};",
         "foo?.bar in {};",
+        "foo?.bar < foo?.baz;",
+        "foo?.bar <= foo?.baz;",
+        "foo?.bar > foo?.baz;",
+        "foo?.bar >= foo?.baz;",
         "[foo = obj?.bar] = [];",
+        "[foo.bar = obj?.bar] = [];",
+        "({foo = obj?.bar} = obj);",
+        "({foo: obj.bar = obj?.baz} = obj);",
         "(foo?.bar, bar)();",
         "(foo?.bar ? baz : qux)();",
 
@@ -66,23 +76,53 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
         "bar **= obj?.foo;",
         "bar *= obj?.boo",
         "bar /= obj?.boo",
-
-        {
-            code: "(obj?.foo || baz) + bar;",
+        ...[
+            "obj?.foo | bar",
+            "obj?.foo & bar",
+            "obj?.foo >> obj?.bar;",
+            "obj?.foo << obj?.bar;",
+            "obj?.foo >>> obj?.bar;",
+            "(obj?.foo || baz) + bar;",
+            "(obj?.foo ?? baz) + bar;",
+            "(obj?.foo ?? baz) - bar;",
+            "(obj?.foo ?? baz) * bar;",
+            "(obj?.foo ?? baz) / bar;",
+            "(obj?.foo ?? baz) % bar;",
+            "(obj?.foo ?? baz) ** bar;",
+            "void obj?.foo;",
+            "typeof obj?.foo;",
+            "!obj?.foo",
+            "~obj?.foo",
+            "+(obj?.foo ?? bar)",
+            "-(obj?.foo ?? bar)",
+            "bar |= obj?.foo;",
+            "bar &= obj?.foo;",
+            "bar ^= obj?.foo;",
+            "bar <<= obj?.foo;",
+            "bar >>= obj?.foo;",
+            "bar >>>= obj?.foo;",
+            "bar ||= obj?.foo",
+            "bar &&= obj?.foo",
+            "bar += (obj?.foo ?? baz);",
+            "bar -= (obj?.foo ?? baz)",
+            "bar *= (obj?.foo ?? baz)",
+            "bar /= (obj?.foo ?? baz)",
+            "bar %= (obj?.foo ?? baz);",
+            "bar **= (obj?.foo ?? baz)"
+        ].map(code => ({
+            code,
             options: [{
                 disallowArithmeticOperators: true
             }]
+        })),
+        {
+            code: "obj?.foo - bar;",
+            options: [{}]
         },
         {
-            code: "(obj?.foo ?? baz) + bar;",
+            code: "obj?.foo - bar;",
             options: [{
-                disallowArithmeticOperators: true
-            }]
-        },
-        {
-            code: "bar += obj?.foo ?? val",
-            options: [{
-                disallowArithmeticOperators: true
+                disallowArithmeticOperators: false
             }]
         }
     ],
@@ -110,6 +150,7 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
             // destructuring
             "const {foo} = obj?.bar;",
             "const {foo} = obj?.bar();",
+            "const {foo: bar} = obj?.bar();",
             "const [foo] = obj?.bar;",
             "const [foo] = obj?.bar || obj?.foo;",
             "([foo] = obj?.bar);",
