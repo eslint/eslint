@@ -17,7 +17,8 @@ Also, parentheses limit the scope of short-circuiting in chains. For example:
 ```js
 var obj = undefined;
 
-(obj?.foo)(); // TypeError: obj?.foo is not a function
+(obj?.foo)(); // TypeError
+(obj?.foo).bar; // TypeError
 ```
 
 ## Rule Details
@@ -31,13 +32,19 @@ Examples of **incorrect** code for this rule:
 
 (obj?.foo)();
 
-(obj?.foo ?? obj?.bar)();
-
-(foo ? obj?.foo : bar)();
-
 (obj?.foo).bar;
 
 (foo?.()).bar;
+
+(foo?.()).bar();
+
+(obj?.foo ?? obj?.bar)();
+
+(foo || obj?.foo)();
+
+(obj?.foo && foo)();
+
+(foo ? obj?.foo : bar)();
 
 (foo, obj?.bar).baz;
 
