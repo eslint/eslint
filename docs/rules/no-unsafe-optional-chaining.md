@@ -73,9 +73,9 @@ class A extends obj?.foo {}
 var a = class A extends obj?.foo {};
 
 async function foo () {
+    const { bar } = await obj?.foo;
    (await obj?.foo)();
    (await obj?.foo).bar;
-    const { bar } = await obj?.foo;
 }
 ```
 
@@ -104,7 +104,8 @@ const { bar } = obj?.foo || baz;
 
 async function foo () {
   const { bar } = await obj?.foo || baz;
-   await (obj?.foo)?.();
+   (await obj?.foo)?.();
+   (await obj?.foo)?.bar;
 }
 ```
 
@@ -160,6 +161,6 @@ async function foo () {
   baz /= await obj?.foo;
   baz *= await obj?.foo;
   baz %= await obj?.foo;
-  baz **=await obj?.foo;
+  baz **= await obj?.foo;
 }
 ```
