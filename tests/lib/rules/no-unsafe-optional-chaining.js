@@ -54,6 +54,17 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
         "({foo: obj.bar = obj?.baz} = obj);",
         "(foo?.bar, bar)();",
         "(foo?.bar ? baz : qux)();",
+        `
+        async function func() {
+          await obj?.foo();
+          await obj?.foo?.();
+          await bar?.baz;
+          await (foo ?? obj?.foo.baz);
+          (await bar?.baz ?? bar).baz;
+          (await bar?.baz ?? await bar).baz;
+          await (foo?.bar ? baz : qux);
+        }
+        `,
 
         // logical operations
         "(obj?.foo ?? bar?.baz ?? qux)();",
@@ -76,6 +87,20 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
         "bar **= obj?.foo;",
         "bar *= obj?.boo",
         "bar /= obj?.boo",
+        `async function func() {
+            await obj?.foo + await obj?.bar;
+            await obj?.foo - await obj?.bar;
+            await obj?.foo * await obj?.bar;
+            +await obj?.foo;
+            -await obj?.foo;
+            bar += await obj?.foo;
+            bar -= await obj?.foo;
+            bar %= await obj?.foo;
+            bar **= await obj?.foo;
+            bar *= await obj?.boo;
+            bar /= await obj?.boo;
+        }
+        `,
         ...[
             "obj?.foo | bar",
             "obj?.foo & bar",
@@ -108,7 +133,34 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
             "bar *= (obj?.foo ?? baz)",
             "bar /= (obj?.foo ?? baz)",
             "bar %= (obj?.foo ?? baz);",
-            "bar **= (obj?.foo ?? baz)"
+            "bar **= (obj?.foo ?? baz)",
+
+            `async function foo() {
+              (await obj?.foo || baz) + bar;
+              (await obj?.foo ?? baz) + bar;
+              (await obj?.foo ?? baz) - bar;
+              (await obj?.foo ?? baz) * bar;
+              (await obj?.foo ?? baz) / bar;
+              (await obj?.foo ?? baz) % bar;
+              "(await obj?.foo ?? baz) ** bar;",
+              "void await obj?.foo;",
+              "typeof await obj?.foo;",
+              "!await obj?.foo",
+              "~await obj?.foo",
+              "+(await obj?.foo ?? bar)",
+              "-(await obj?.foo ?? bar)",
+              bar |= await obj?.foo;
+              bar &= await obj?.foo;
+              bar ^= await obj?.foo;
+              bar <<= await obj?.foo;
+              bar >>= await obj?.foo;
+              bar >>>= await obj?.foo
+              bar += ((await obj?.foo) ?? baz);
+              bar -= ((await obj?.foo) ?? baz);
+              bar /= ((await obj?.foo) ?? baz);
+              bar %= ((await obj?.foo) ?? baz);
+              bar **= ((await obj?.foo) ?? baz);
+            }`
         ].map(code => ({
             code,
             options: [{
@@ -142,6 +194,19 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
             "new (obj?.foo?.())()",
             "new (obj?.foo?.() || obj?.bar)()",
 
+            `async function foo() {
+              (await obj?.foo)();
+            }`,
+            `async function foo() {
+              (await obj.foo ?? bar?.baz)();
+            }`,
+            `async function foo() {
+              (await obj?.foo || bar?.baz)();
+            }`,
+            `async function foo() {
+              (await (bar && obj?.foo))();
+            }`,
+
             // spread
             "[...obj?.foo];",
             "bar(...obj?.foo);",
@@ -158,29 +223,48 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
             "[{ foo } = obj?.bar] = [];",
             "({bar: [ foo ] = obj?.prop} = {});",
             "[[ foo ] = obj?.bar] = [];",
+            "async function foo() { const {foo} = await obj?.bar; }",
+            "async function foo() { const {foo} = await obj?.bar(); }",
+            "async function foo() { const [foo] = await obj?.bar || await obj?.foo; }",
+            "async function foo() { ([foo] = await obj?.bar); }",
 
             // class declaration
             "class A extends obj?.foo {}",
+            "async function foo() { class A extends (await obj?.foo) {}}",
 
             // class expression
             "var a = class A extends obj?.foo {}",
+            "async function foo() { var a = class A extends (await obj?.foo) {}}",
 
             // relational operations
             "foo instanceof obj?.prop",
+            "async function foo() { foo instanceof await obj?.prop }",
             "1 in foo?.bar;",
+            "async function foo() { 1 in await foo?.bar; }",
 
             // for...of
             "for (foo of obj?.bar);",
+            "async function foo() { for (foo of await obj?.bar);}",
 
             // sequence expression
             "(foo, obj?.foo)();",
             "(foo, obj?.foo)[1];",
+            "async function foo() { (await (foo, obj?.foo))(); }",
+            "async function foo() { ((foo, await obj?.foo))(); }",
+            "async function foo() { (foo, await obj?.foo)[1]; }",
+            "async function foo() { (await (foo, obj?.foo)) [1]; }",
 
             // conditional expression
             "(a ? obj?.foo : b)();",
             "(a ? b : obj?.foo)();",
             "(a ? obj?.foo : b)[1];",
-            "(a ? b : obj?.foo).bar;"
+            "(a ? b : obj?.foo).bar;",
+            "async function foo() { (await (a ? obj?.foo : b))(); }",
+            "async function foo() { (a ? await obj?.foo : b)(); }",
+            "async function foo() { (await (a ? b : obj?.foo))(); }",
+            "async function foo() { (await (a ? obj?.foo : b))[1]; }",
+            "async function foo() { (await (a ? b : obj?.foo)).bar; }",
+            "async function foo() { (a ? b : await obj?.foo).bar; }"
         ].map(code => ({
             code,
             errors: [{ messageId: "unsafeOptionalChain", type: "ChainExpression" }]
@@ -213,6 +297,20 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
                     type: "ChainExpression",
                     line: 1,
                     column: 7
+                }
+            ]
+        },
+        {
+            code: "async function foo() { with ( await obj?.foo) {}; }",
+            parserOptions: {
+                sourceType: "script"
+            },
+            errors: [
+                {
+                    messageId: "unsafeOptionalChain",
+                    type: "ChainExpression",
+                    line: 1,
+                    column: 37
                 }
             ]
         },
@@ -262,7 +360,10 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
             "bar += (foo || obj?.foo);",
             "bar += (foo && obj?.foo);",
             "bar += (foo ? obj?.foo : bar);",
-            "bar += (foo ? bar : obj?.foo);"
+            "bar += (foo ? bar : obj?.foo);",
+            "async function foo() { await obj?.foo + bar; }",
+            "async function foo() { (foo || await obj?.foo) + bar;}",
+            "async function foo() { bar + (foo || await obj?.foo); }"
         ].map(code => ({
             code,
             options: [{ disallowArithmeticOperators: true }],

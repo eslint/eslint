@@ -71,6 +71,12 @@ with (obj?.foo);
 class A extends obj?.foo {}
 
 var a = class A extends obj?.foo {};
+
+async function foo () {
+   (await obj?.foo)();
+   (await obj?.foo).bar;
+    const { bar } = await obj?.foo;
+}
 ```
 
 Examples of **correct** code for this rule:
@@ -95,6 +101,11 @@ new (obj?.foo ?? bar)();
 var baz = {...obj?.foo};
 
 const { bar } = obj?.foo || baz;
+
+async function foo () {
+  const { bar } = await obj?.foo || baz;
+   await (obj?.foo)?.();
+}
 ```
 
 ## Options
@@ -132,4 +143,23 @@ baz /= obj?.foo;
 baz *= obj?.foo;
 baz %= obj?.foo;
 baz **= obj?.foo;
+
+async function foo () {
+  +await obj?.foo;
+  -await obj?.foo;
+
+  await obj?.foo + bar;
+  await obj?.foo - bar;
+  await obj?.foo / bar;
+  await obj?.foo * bar;
+  await obj?.foo % bar;
+  await obj?.foo ** bar;
+
+  baz += await obj?.foo;
+  baz -= await obj?.foo;
+  baz /= await obj?.foo;
+  baz *= await obj?.foo;
+  baz %= await obj?.foo;
+  baz **=await obj?.foo;
+}
 ```
