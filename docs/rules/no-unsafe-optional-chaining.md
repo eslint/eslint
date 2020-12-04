@@ -147,20 +147,7 @@ baz **= obj?.foo;
 
 async function foo () {
   +await obj?.foo;
-  -await obj?.foo;
-
   await obj?.foo + bar;
-  await obj?.foo - bar;
-  await obj?.foo / bar;
-  await obj?.foo * bar;
-  await obj?.foo % bar;
-  await obj?.foo ** bar;
-
   baz += await obj?.foo;
-  baz -= await obj?.foo;
-  baz /= await obj?.foo;
-  baz *= await obj?.foo;
-  baz %= await obj?.foo;
-  baz **= await obj?.foo;
 }
 ```

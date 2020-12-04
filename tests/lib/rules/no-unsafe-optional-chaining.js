@@ -200,10 +200,13 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
               (await obj?.foo)();
             }`,
             `async function foo() {
-              (await obj.foo ?? bar?.baz)();
+              (await obj?.foo).bar;
             }`,
             `async function foo() {
-              (await obj?.foo || bar?.baz)();
+              (bar?.baz ?? await obj?.foo)();
+            }`,
+            `async function foo() {
+              (bar && await obj?.foo)();
             }`,
             `async function foo() {
               (await (bar && obj?.foo))();
