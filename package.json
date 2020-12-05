@@ -47,7 +47,7 @@
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
     "@babel/code-frame": "^7.0.0",
-    "@eslint/eslintrc": "^0.2.1",
+    "@eslint/eslintrc": "^0.2.2",
     "ajv": "^6.10.0",
     "chalk": "^4.0.0",
     "cross-spawn": "^7.0.2",
@@ -57,7 +57,7 @@
     "eslint-scope": "^5.1.1",
     "eslint-utils": "^2.1.0",
     "eslint-visitor-keys": "^2.0.0",
-    "espree": "^7.3.0",
+    "espree": "^7.3.1",
     "esquery": "^1.2.0",
     "esutils": "^2.0.2",
     "file-entry-cache": "^5.0.1",
