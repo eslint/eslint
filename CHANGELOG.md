@@ -1,3 +1,11 @@
+v7.15.0 - December 5, 2020
+
+* [`5c11aab`](https://github.com/eslint/eslint/commit/5c11aabbe8249aeb8cad29bc6a33fc20c8c683ef) Upgrade: @eslint/esintrc and espree for bug fixes (refs #13878) (#13908) (Brandon Mills)
+* [`0eb7957`](https://github.com/eslint/eslint/commit/0eb7957e27fd521317bd5c8479ce7abc1399169c) Upgrade: file-entry-cache@6.0.0 (#13877) (Rouven Weßling)
+* [`683ad00`](https://github.com/eslint/eslint/commit/683ad00c41e1ae4d889deff82b2a94318e8c2129) New: no-unsafe-optional-chaining rule (fixes #13431) (#13859) (YeonJuan)
+* [`cbc57fb`](https://github.com/eslint/eslint/commit/cbc57fb7d07c00663ed5781f5e6bc8f534cc2d76) Fix: one-var autofixing for export (fixes #13834) (#13891) (Anix)
+* [`110cf96`](https://github.com/eslint/eslint/commit/110cf962d05625a8a1bf7b5f4ec2194db150eb32) Docs: Fix a broken link in working-with-rules.md (#13875) (Anton Niklasson)
+
 v7.14.0 - November 20, 2020
 
 * [`5f09073`](https://github.com/eslint/eslint/commit/5f0907399a9666dec78c74384c8969c01483c30e) Update: fix 'skip' options in no-irregular-whitespace (fixes #13852) (#13853) (Milos Djermanovic)
