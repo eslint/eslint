@@ -205,6 +205,7 @@
     "no-unreachable-loop": "problem",
     "no-unsafe-finally": "problem",
     "no-unsafe-negation": "problem",
+    "no-unsafe-optional-chaining": "problem",
     "no-unused-expressions": "suggestion",
     "no-unused-labels": "suggestion",
     "no-unused-vars": "problem",
