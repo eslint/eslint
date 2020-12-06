@@ -5860,7 +5860,7 @@ describe("CLIEngine", () => {
                     const engine = new CLIEngine({ cwd: getPath() });
 
                     engine.executeOnFiles("*.js");
-                }, "Unexpected top-level property \"overrides[0].ignorePatterns\"");
+                }, /Unexpected top-level property/u);
             });
         });
 

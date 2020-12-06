@@ -24,8 +24,7 @@ const baseConfigProperties = {
     globals: { type: "object" },
     overrides: {
         type: "array",
-        items: { $ref: "#/definitions/overrideConfig" },
-        additionalItems: false
+        items: { $ref: "#/definitions/overrideConfig" }
     },
     parser: { type: ["string", "null"] },
     parserOptions: { type: "object" },
@@ -46,8 +45,7 @@ const configSchema = {
                 { type: "string" },
                 {
                     type: "array",
-                    items: { type: "string" },
-                    additionalItems: false
+                    items: { type: "string" }
                 }
             ]
         },
@@ -57,7 +55,6 @@ const configSchema = {
                 {
                     type: "array",
                     items: { type: "string" },
-                    additionalItems: false,
                     minItems: 1
                 }
             ]

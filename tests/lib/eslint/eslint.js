@@ -5693,7 +5693,7 @@ describe("ESLint", () => {
                     const engine = new ESLint({ cwd: getPath() });
 
                     await engine.lintFiles("*.js");
-                }, /Unexpected top-level property "overrides\[0\]\.ignorePatterns"/u);
+                }, /Unexpected top-level property/u);
             });
         });
     });
