@@ -157,7 +157,15 @@ ruleTester.run("prefer-destructuring", rule, {
 
         // Optional chaining
         "var foo = array?.[0];", // because the fixed code can throw TypeError.
-        "var foo = object?.foo;"
+        "var foo = object?.foo;",
+        "var bar = (object?.foo).bar;",
+        "var bar = (object?.foo()).bar;",
+        "var bar = (object?.foo?.()).bar;",
+        "var bar = (object?.foo)?.bar;",
+        "bar = (object?.foo).bar;",
+        "bar = (object?.foo)[0];",
+        "bar = (object?.foo()).bar;",
+        "bar = (object?.foo())[0];"
     ],
 
     invalid: [
