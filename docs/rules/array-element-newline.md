@@ -330,7 +330,7 @@ j = function bar() {
 Examples of **correct** code for this rule with the `{ "ArrayExpression": "always", "ArrayPattern": "never" }` options:
 
 ```js
-/*eslint object-curly-newline: ["error", { "ArrayExpression": "always", "ArrayPattern": "never" }]*/
+/*eslint array-element-newline: ["error", { "ArrayExpression": "always", "ArrayPattern": "never" }]*/
 
 var a = [1,
     2];
