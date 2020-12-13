@@ -46,7 +46,7 @@ You can supply any number of configurations. If a statement pair matches multipl
 - `STATEMENT_TYPE` is one (or an array) of the following:
     - A keyword (e.g. "const", or "class")
     - A space-delimited list of keywords (e.g. "export const")
-    - One of the following special keywords (cannot partake in space-delimited lists):
+    - One of the following (cannot partake in space-delimited lists):
         - `"*"` is wildcard. This matches any statements.
         - `"block"` is lonely blocks.
         - `"block-like"` is block like statements. This matches statements that the last token is the closing brace of blocks; e.g. `{ }`, `if (a) { }`, and `while (a) { }`. Also matches immediately invoked function expression statements.
@@ -59,7 +59,7 @@ You can supply any number of configurations. If a statement pair matches multipl
         - `"expression"` is expression statements.
         - `"named-export"` is named exports; e.g. `export const foo = {}`, `export function foo() {}`, and `export { foo }`.
         - `"default-export"` is default exports; e.g. `export default foo() {}`.
-        - `"all-export"` is specific exports; e.g. `export * from "foo"`.
+        - `"all-export"` is module reexports; e.g. `export * from "foo"`.
 
 - `MODIFIER_TYPE` is one of the following:
     - `"singleline-"` only treats single line `STATEMENT_TYPE`s.
