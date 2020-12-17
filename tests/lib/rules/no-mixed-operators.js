@@ -71,7 +71,14 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "&&",
                         rightOperator: "||"
-                    }
+                    },
+                    suggestions: [{
+                        messageId: "addParens",
+                        data: {
+                            higherPrecedenceOperator: "&&"
+                        },
+                        output: "(a && b) || c"
+                    }]
                 },
                 {
                     column: 8,
@@ -80,7 +87,8 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "&&",
                         rightOperator: "||"
-                    }
+                    },
+                    suggestions: []
                 }
             ]
         },
@@ -94,7 +102,14 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "&&",
                         rightOperator: "||"
-                    }
+                    },
+                    suggestions: [{
+                        messageId: "addParens",
+                        data: {
+                            higherPrecedenceOperator: "&&"
+                        },
+                        output: "(a && b > 0) || c"
+                    }]
                 },
                 {
                     column: 3,
@@ -102,7 +117,8 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "&&",
                         rightOperator: ">"
-                    }
+                    },
+                    suggestions: []
                 },
                 {
                     column: 8,
@@ -110,7 +126,14 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "&&",
                         rightOperator: ">"
-                    }
+                    },
+                    suggestions: [{
+                        messageId: "addParens",
+                        data: {
+                            higherPrecedenceOperator: ">"
+                        },
+                        output: "a && (b > 0) || c"
+                    }]
                 },
                 {
                     column: 12,
@@ -118,7 +141,8 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "&&",
                         rightOperator: "||"
-                    }
+                    },
+                    suggestions: []
                 }
             ]
         },
@@ -132,7 +156,14 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "&&",
                         rightOperator: "||"
-                    }
+                    },
+                    suggestions: [{
+                        messageId: "addParens",
+                        data: {
+                            higherPrecedenceOperator: "&&"
+                        },
+                        output: "(a && b > 0) || c"
+                    }]
                 },
                 {
                     column: 12,
@@ -140,7 +171,8 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "&&",
                         rightOperator: "||"
-                    }
+                    },
+                    suggestions: []
                 }
             ]
         },
@@ -154,7 +186,14 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "&&",
                         rightOperator: "||"
-                    }
+                    },
+                    suggestions: [{
+                        messageId: "addParens",
+                        data: {
+                            higherPrecedenceOperator: "&&"
+                        },
+                        output: "(a && b + c - d / e) || f"
+                    }]
                 },
                 {
                     column: 12,
@@ -162,7 +201,8 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "-",
                         rightOperator: "/"
-                    }
+                    },
+                    suggestions: []
                 },
                 {
                     column: 16,
@@ -170,7 +210,14 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "-",
                         rightOperator: "/"
-                    }
+                    },
+                    suggestions: [{
+                        messageId: "addParens",
+                        data: {
+                            higherPrecedenceOperator: "/"
+                        },
+                        output: "a && b + c - (d / e) || f"
+                    }]
                 },
                 {
                     column: 20,
@@ -178,7 +225,8 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "&&",
                         rightOperator: "||"
-                    }
+                    },
+                    suggestions: []
                 }
             ]
         },
@@ -192,7 +240,14 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "&&",
                         rightOperator: "||"
-                    }
+                    },
+                    suggestions: [{
+                        messageId: "addParens",
+                        data: {
+                            higherPrecedenceOperator: "&&"
+                        },
+                        output: "(a && b + c - d / e) || f"
+                    }]
                 },
                 {
                     column: 12,
@@ -200,7 +255,8 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "-",
                         rightOperator: "/"
-                    }
+                    },
+                    suggestions: []
                 },
                 {
                     column: 16,
@@ -208,7 +264,14 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "-",
                         rightOperator: "/"
-                    }
+                    },
+                    suggestions: [{
+                        messageId: "addParens",
+                        data: {
+                            higherPrecedenceOperator: "/"
+                        },
+                        output: "a && b + c - (d / e) || f"
+                    }]
                 },
                 {
                     column: 20,
@@ -216,7 +279,8 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "&&",
                         rightOperator: "||"
-                    }
+                    },
+                    suggestions: []
                 }
             ]
         },
@@ -231,7 +295,8 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "+",
                         rightOperator: "-"
-                    }
+                    },
+                    suggestions: []
                 },
                 {
                     column: 7,
@@ -240,7 +305,8 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "+",
                         rightOperator: "-"
-                    }
+                    },
+                    suggestions: []
                 }
             ]
         },
@@ -255,7 +321,8 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "*",
                         rightOperator: "/"
-                    }
+                    },
+                    suggestions: []
                 },
                 {
                     column: 7,
@@ -264,7 +331,8 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "*",
                         rightOperator: "/"
-                    }
+                    },
+                    suggestions: []
                 }
             ]
         },
@@ -279,7 +347,14 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "||",
                         rightOperator: "?:"
-                    }
+                    },
+                    suggestions: [{
+                        messageId: "addParens",
+                        data: {
+                            higherPrecedenceOperator: "||"
+                        },
+                        output: "(a || b) ? c : d"
+                    }]
                 },
                 {
                     column: 8,
@@ -288,7 +363,8 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "||",
                         rightOperator: "?:"
-                    }
+                    },
+                    suggestions: []
                 }
             ]
         },
@@ -303,7 +379,14 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "&&",
                         rightOperator: "?:"
-                    }
+                    },
+                    suggestions: [{
+                        messageId: "addParens",
+                        data: {
+                            higherPrecedenceOperator: "&&"
+                        },
+                        output: "(a && b) ? 1 : 2"
+                    }]
                 },
                 {
                     column: 8,
@@ -312,7 +395,8 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "&&",
                         rightOperator: "?:"
-                    }
+                    },
+                    suggestions: []
                 }
             ]
         },
@@ -327,7 +411,8 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "?:",
                         rightOperator: "&&"
-                    }
+                    },
+                    suggestions: []
                 },
                 {
                     column: 7,
@@ -336,7 +421,14 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "?:",
                         rightOperator: "&&"
-                    }
+                    },
+                    suggestions: [{
+                        messageId: "addParens",
+                        data: {
+                            higherPrecedenceOperator: "&&"
+                        },
+                        output: "x ? (a && b) : 0"
+                    }]
                 }
             ]
         },
@@ -351,7 +443,8 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "?:",
                         rightOperator: "&&"
-                    }
+                    },
+                    suggestions: []
                 },
                 {
                     column: 11,
@@ -360,7 +453,14 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "?:",
                         rightOperator: "&&"
-                    }
+                    },
+                    suggestions: [{
+                        messageId: "addParens",
+                        data: {
+                            higherPrecedenceOperator: "&&"
+                        },
+                        output: "x ? 0 : (a && b)"
+                    }]
                 }
             ]
         },
@@ -376,7 +476,14 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "+",
                         rightOperator: "??"
-                    }
+                    },
+                    suggestions: [{
+                        messageId: "addParens",
+                        data: {
+                            higherPrecedenceOperator: "+"
+                        },
+                        output: "(a + b) ?? c"
+                    }]
                 },
                 {
                     column: 7,
@@ -385,7 +492,8 @@ ruleTester.run("no-mixed-operators", rule, {
                     data: {
                         leftOperator: "+",
                         rightOperator: "??"
-                    }
+                    },
+                    suggestions: []
                 }
             ]
         }
