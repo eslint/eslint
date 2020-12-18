@@ -150,6 +150,18 @@ ruleTester.run("require-atomic-updates", rule, {
                 let bar = await get(foo.id);
                 foo.prop = bar.prop;
             }
+        `,
+
+        // https://github.com/eslint/eslint/issues/11954
+        `
+            let count = 0
+            let queue = []
+            async function A(...args) {
+                count += 1
+                await new Promise(resolve=>resolve())
+                count -= 1
+                return
+            }
         `
     ],
 
