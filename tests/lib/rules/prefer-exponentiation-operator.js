@@ -218,6 +218,8 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
         invalid("Math.pow(a, -b)", "a**-b"),
         invalid("Math.pow(-2, 3)", "(-2)**3"),
         invalid("Math.pow(2, -3)", "2**-3"),
+        invalid("async () => Math.pow(await a, b)", "async () => (await a)**b"),
+        invalid("async () => Math.pow(a, await b)", "async () => a**await b"),
 
         // base and exponent with a lower precedence
         invalid("Math.pow(a * b, c)", "(a * b)**c"),
