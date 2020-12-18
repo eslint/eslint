@@ -90,18 +90,3 @@ Generates `build/eslint.js`, a version of ESLint for use in the browser
 #### npm run docs
 
 Generates JSDoc documentation and places it into `/jsdoc`.
-
-#### npm run profile
-
-This command is used for intensive profiling of ESLint using Chrome Developer Tools. It starts a development server that runs through three profiles:
-
-* Large - Runs ESLint on JSHint
-* Medium - Runs ESLint on jQuery
-* Small - Runs ESLint on KnockoutJS
-
-Your browser should automatically open to the page in question. When that happens:
-
-1. Open up developer tools
-1. Click on Profiles
-
-You should start to see profiles for each run show up on the left side. If not, reload the page in the browser. Once all three profiles have completed, they will be available for inspection.
