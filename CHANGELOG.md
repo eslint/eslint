@@ -1,3 +1,18 @@
+v7.16.0 - December 18, 2020
+
+* [`a62ad6f`](https://github.com/eslint/eslint/commit/a62ad6f03151358b93b5fede022a30d67310705c) Update: fix false negative of no-extra-parens with NewExpression (#13930) (Milos Djermanovic)
+* [`f85b4c7`](https://github.com/eslint/eslint/commit/f85b4c72668c95c79fdb342b74dbd53d21baa93f) Fix: require-atomic-updates false positive across await (fixes #11954) (#13915) (buhi)
+* [`301d0c0`](https://github.com/eslint/eslint/commit/301d0c05229dbd6cfb1045d716524e8ec46fa2c1) Fix: no-constant-condition false positives with unary expressions (#13927) (Milos Djermanovic)
+* [`555c128`](https://github.com/eslint/eslint/commit/555c128b49ae6d9c100a9f8429416417edb40d13) Fix: false positive with await and ** in no-extra-parens (fixes #12739) (#13923) (Milos Djermanovic)
+* [`d93c935`](https://github.com/eslint/eslint/commit/d93c9350361d2aa1a1976c553e47ab399e51e8c9) Docs: update JSON Schema links (#13936) (Milos Djermanovic)
+* [`8d0c93a`](https://github.com/eslint/eslint/commit/8d0c93a7ef9449c7b7d082bbb4b7d8465b0d6bac) Upgrade: table@6.0.4 (#13920) (Rouven Weßling)
+* [`9247683`](https://github.com/eslint/eslint/commit/924768377a4935a95a6ff3866f9545a5a6178b53) Docs: Remove for deleted npm run profile script (#13931) (Brandon Mills)
+* [`ab240d4`](https://github.com/eslint/eslint/commit/ab240d49833b4e6e594667c1abe5b0caa8a9cf70) Fix: prefer-exponentiation-operator invalid autofix with await (#13924) (Milos Djermanovic)
+* [`dc76911`](https://github.com/eslint/eslint/commit/dc7691103554a99bdb2142561cb507f50f547e3b) Chore: Add .pre-commit-hooks.yaml file (#13628) (Álvaro Mondéjar)
+* [`2124e1b`](https://github.com/eslint/eslint/commit/2124e1b5dad30a905dc26bde9da472bf622d3f50) Docs: Fix wrong rule name (#13913) (noisyboy25)
+* [`06b5809`](https://github.com/eslint/eslint/commit/06b58096975935ec016d96dd5f333f059c270f26) Sponsors: Sync README with website (ESLint Jenkins)
+* [`26fc12f`](https://github.com/eslint/eslint/commit/26fc12f88109af9d4081bf0e16364c411bce3009) Docs: Update README team and sponsors (ESLint Jenkins)
+
 v7.15.0 - December 5, 2020
 
 * [`5c11aab`](https://github.com/eslint/eslint/commit/5c11aabbe8249aeb8cad29bc6a33fc20c8c683ef) Upgrade: @eslint/esintrc and espree for bug fixes (refs #13878) (#13908) (Brandon Mills)
