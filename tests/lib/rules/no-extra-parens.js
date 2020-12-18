@@ -377,6 +377,9 @@ ruleTester.run("no-extra-parens", rule, {
         "async function a() { await (a + await b) }",
         "async function a() { (await a)() }",
         "async function a() { new (await a) }",
+        "async function a() { await (a ** b) }",
+        "async function a() { (await a) ** b }",
+
         { code: "(foo instanceof bar) instanceof baz", options: ["all", { nestedBinaryExpressions: false }] },
         { code: "(foo in bar) in baz", options: ["all", { nestedBinaryExpressions: false }] },
         { code: "(foo + bar) + baz", options: ["all", { nestedBinaryExpressions: false }] },
@@ -1187,6 +1190,8 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("async function a() { await (+a); }", "async function a() { await +a; }", "UnaryExpression", null),
         invalid("async function a() { +(await a); }", "async function a() { +await a; }", "AwaitExpression", null),
         invalid("async function a() { await ((a,b)); }", "async function a() { await (a,b); }", "SequenceExpression", null),
+        invalid("async function a() { a ** (await b); }", "async function a() { a ** await b; }", "AwaitExpression", null),
+
         invalid("(foo) instanceof bar", "foo instanceof bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
         invalid("(foo) in bar", "foo in bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
         invalid("(foo) + bar", "foo + bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
