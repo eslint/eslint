@@ -956,6 +956,96 @@ ruleTester.run("no-useless-escape", rule, {
             }]
         },
         {
+            code: "`multiline template\r\nliteral with useless \\escape`",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                line: 2,
+                column: 22,
+                endColumn: 23,
+                message: "Unnecessary escape character: \\e.",
+                type: "TemplateElement",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "`multiline template\r\nliteral with useless escape`"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "`multiline template\r\nliteral with useless \\\\escape`"
+                }]
+            }]
+        },
+        {
+            code: "`template literal with line continuation \\\nand useless \\escape`",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                line: 2,
+                column: 13,
+                endColumn: 14,
+                message: "Unnecessary escape character: \\e.",
+                type: "TemplateElement",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "`template literal with line continuation \\\nand useless escape`"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "`template literal with line continuation \\\nand useless \\\\escape`"
+                }]
+            }]
+        },
+        {
+            code: "`template literal with line continuation \\\r\nand useless \\escape`",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                line: 2,
+                column: 13,
+                endColumn: 14,
+                message: "Unnecessary escape character: \\e.",
+                type: "TemplateElement",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "`template literal with line continuation \\\r\nand useless escape`"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "`template literal with line continuation \\\r\nand useless \\\\escape`"
+                }]
+            }]
+        },
+        {
+            code: "`template literal with mixed linebreaks \r\r\n\n\\and useless escape`",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                line: 4,
+                column: 1,
+                endColumn: 2,
+                message: "Unnecessary escape character: \\a.",
+                type: "TemplateElement",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "`template literal with mixed linebreaks \r\r\n\nand useless escape`"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "`template literal with mixed linebreaks \r\r\n\n\\\\and useless escape`"
+                }]
+            }]
+        },
+        {
+            code: "`template literal with mixed linebreaks in line continuations \\\n\\\r\\\r\n\\and useless escape`",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                line: 4,
+                column: 1,
+                endColumn: 2,
+                message: "Unnecessary escape character: \\a.",
+                type: "TemplateElement",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "`template literal with mixed linebreaks in line continuations \\\n\\\r\\\r\nand useless escape`"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "`template literal with mixed linebreaks in line continuations \\\n\\\r\\\r\n\\\\and useless escape`"
+                }]
+            }]
+        },
+        {
             code: "`\\a```",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
