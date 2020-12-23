@@ -218,6 +218,41 @@ Examples of **correct** code for the `{ "ignoreRestSiblings": true }` option:
 var { type, ...coords } = data;
 ```
 
+### ignoreAfterSiblingUsed
+
+The `ignoreAfterSiblingUsed` option is a boolean (default: `false`). When using the [array destruction pattern](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) for declaring it is possible to have unused variables before the last used variable. Sometimes it is desirable to have these named (instead of blank, ie: `a, , b`). When this option is `true` such variables are ignored. This option does not effect variables previously declared.
+
+
+Examples of **incorrect** code for the default `{ "ignoreAfterSiblingUsed": false }` option:
+
+```js
+/*eslint no-unused-vars: ["error", { "ignoreAfterSiblingUsed": false }]*/
+
+// 1 error, for variables not used
+// "a" is assigned but never used.
+const [a, b] = [1, 2];
+b;
+```
+
+```js
+/*eslint no-unused-vars: ["error", { "ignoreAfterSiblingUsed": false }]*/
+
+// 1 error, for variables not used
+// "a" is assigned but never used.
+let a, b;
+[a, b] = [1, 2];
+b;
+```
+
+Examples of **correct** code for the default `{ "ignoreAfterSiblingUsed": true }` option:
+
+```js
+/*eslint no-unused-vars: ["error", { "ignoreAfterSiblingUsed": true }]*/
+
+const [a, b] = [1, 2];
+b;
+```
+
 ### argsIgnorePattern
 
 The `argsIgnorePattern` option specifies exceptions not to check for usage: arguments whose names match a regexp pattern. For example, variables whose names begin with an underscore.
