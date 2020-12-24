@@ -23,7 +23,7 @@ You can tell ESLint to ignore specific files and directories using `ignorePatter
 
 * Glob patterns in `ignorePatterns` are relative to the directory that the config file is placed in.
 * You cannot write `ignorePatterns` property under `overrides` property.
-* `.eslintignore` can override the `ignorePatterns` property of config files.
+* Patterns defined in `.eslintignore` take precedence over the `ignorePatterns` property of config files.
 
 If a glob pattern starts with `/`, the pattern is relative to the base directory of the config file. For example, `/foo.js` in `lib/.eslintrc.json` matches to `lib/foo.js` but not `lib/subdir/foo.js`.
 
