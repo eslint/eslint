@@ -10,7 +10,7 @@
 
 ## `ignorePatterns` in Config Files
 
-You can tell ESLint to ignore specific files and directories using `ignorePatterns` in your config files. Each value of `ignorePatterns` is a glob pattern similar to what you would use on the command line.
+You can tell ESLint to ignore specific files and directories using `ignorePatterns` in your config files. `ignorePatterns` patterns follow the same rules as `.eslintignore`. Please see the [the `.eslintignore` file documentation](./ignoring-code.md#the-eslintignore-file) to learn more.
 
 ```json
 {
