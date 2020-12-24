@@ -174,7 +174,6 @@ Globals can be disabled with the string `"off"`. For example, in an environment 
 
 For historical reasons, the boolean value `false` and the string value `"readable"` are equivalent to `"readonly"`. Similarly, the boolean value `true` and the string value `"writeable"` are equivalent to `"writable"`. However, the use of older values is deprecated.
 
-**Note:** Enable the [no-global-assign](https://eslint.org/docs/rules/no-global-assign) rule to disallow modifications to read-only global variables in your code.
 
 ## Specifying Parser Options
 
