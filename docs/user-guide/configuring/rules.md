@@ -236,3 +236,28 @@ To disable rules inside of a configuration file for a group of files, use the `o
   ]
 }
 ```
+### Disabling Inline Comments
+
+To disable all inline config comments, use the `noInlineConfig` setting. For example:
+
+```json
+{
+  "rules": {...},
+  "noInlineConfig": true
+}
+```
+
+This setting is similar to [--no-inline-config](https://eslint.org/docs/user-guide/command-line-interface#--no-inline-config) CLI option.
+
+#### Report unused `eslint-disable` comments
+
+To report unused `eslint-disable` comments, use the `reportUnusedDisableDirectives` setting. For example:
+
+```json
+{
+  "rules": {...},
+  "reportUnusedDisableDirectives": true
+}
+```
+
+This setting is similar to [--report-unused-disable-directives](https://eslint.org/docs/user-guide/command-line-interface#--report-unused-disable-directives) CLI option, but doesn't fail linting (reports as `"warn"` severity).
