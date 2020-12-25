@@ -6,7 +6,6 @@
 * [Using an Alternate File](#using-an-alternate-file)
 * [Using eslintIgnore in package.json](#using-eslintignore-in-packagejson)
 * [Ignored File Warnings](#ignored-file-warnings)
-* [Disabling Inline Comments](#disabling-inline-comments)
 
 ## `ignorePatterns` in Config Files
 
@@ -61,13 +60,13 @@ Please see [`.gitignore`](https://git-scm.com/docs/gitignore)'s specification fo
 In addition to any patterns in the `.eslintignore` file, ESLint always follows a couple of implicit ignore rules even if the `--no-ignore` flag is passed. The implicit rules are as follows:
 
 * `node_modules/` is ignored.
-* Dotfiles (except for `.eslintrc.*`), as well as Dotfolders and their contents, are ignored.
+* Dot-files (except for `.eslintrc.*`), as well as Dot-folders and their contents, are ignored.
 
 There are also some exceptions to these rules:
 
-* If the path to lint is a glob pattern or directory path and contains a Dotfolder, all Dotfiles and Dotfolders will be linted. This includes sub-dotfiles and sub-dotfolders that are buried deeper in the directory structure.
+* If the path to lint is a glob pattern or directory path and contains a Dot-folder, all Dot-files and Dot-folders will be linted. This includes dot-files and dot-folders that are buried deeper in the directory structure.
 
-  For example, `eslint .config/` will lint all Dotfolders and Dotfiles in the `.config` directory, including immediate children as well as children that are deeper in the directory structure.
+  For example, `eslint .config/` will lint all Dot-folders and Dot-files in the `.config` directory, including immediate children as well as children that are deeper in the directory structure.
 
 * If the path to lint is a specific file path and the `--no-ignore` flag has been passed, ESLint will lint the file regardless of the implicit ignore rules.
 
@@ -75,7 +74,7 @@ There are also some exceptions to these rules:
 
 * Allowlist and denylist rules specified via `--ignore-pattern` or `.eslintignore` are prioritized above implicit ignore rules.
 
-  For example, in this scenario, `.build/test.js` is the desired file to allowlist. Because all Dotfolders and their children are ignored by default, `.build` must first be allowlisted so that eslint becomes aware of its children. Then, `.build/test.js` must be explicitly allowlisted, while the rest of the content is denylisted. This is done with the following `.eslintignore` file:
+  For example, in this scenario, `.build/test.js` is the desired file to allowlist. Because all Dot-folders and their children are ignored by default, `.build` must first be allowlisted so that eslint becomes aware of its children. Then, `.build/test.js` must be explicitly allowlisted, while the rest of the content is denylisted. This is done with the following `.eslintignore` file:
 
   ```text
   # Allowlist 'test.js' in the '.build' folder
@@ -140,7 +139,7 @@ foo.js
 
 This message occurs because ESLint is unsure if you wanted to actually lint the file or not. As the message indicates, you can use `--no-ignore` to omit using the ignore rules.
 
-Consider another scenario where you may want to run ESLint on a specific Dotfile or Dotfolder, but have forgotten to specifically allow those files in your `.eslintignore` file. You would run something like this:
+Consider another scenario where you may want to run ESLint on a specific Dot-file or Dot-folder, but have forgotten to specifically allow those files in your `.eslintignore` file. You would run something like this:
 
     eslint .config/foo.js
 
@@ -154,29 +153,3 @@ You would see this warning:
 ```
 
 This message occurs because, normally, this file would be ignored by ESLint's implicit ignore rules (as mentioned above). A negated ignore rule in your `.eslintignore` file would override the implicit rule and reinclude this file for linting. Additionally, in this specific case, `--no-ignore` could be used to lint the file as well.
-
-## Disabling Inline Comments
-
-To disable all inline config comments, use the `noInlineConfig` setting. For example:
-
-```json
-{
-  "rules": {...},
-  "noInlineConfig": true
-}
-```
-
-This setting is similar to [--no-inline-config](https://eslint.org/docs/user-guide/command-line-interface#--no-inline-config) CLI option.
-
-### Report unused `eslint-disable` comments
-
-To report unused `eslint-disable` comments, use the `reportUnusedDisableDirectives` setting. For example:
-
-```json
-{
-  "rules": {...},
-  "reportUnusedDisableDirectives": true
-}
-```
-
-This setting is similar to [--report-unused-disable-directives](https://eslint.org/docs/user-guide/command-line-interface#--report-unused-disable-directives) CLI option, but doesn't fail linting (reports as `"warn"` severity).
