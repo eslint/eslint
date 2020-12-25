@@ -236,6 +236,7 @@ To disable rules inside of a configuration file for a group of files, use the `o
   ]
 }
 ```
+
 ### Disabling Inline Comments
 
 To disable all inline config comments, use the `noInlineConfig` setting. For example:
