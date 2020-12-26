@@ -1041,6 +1041,15 @@ ruleTester.run("multiline-ternary", rule, {
                 endLine: 2,
                 endColumn: 9
             }]
+        },
+
+        // https://github.com/eslint/eslint/pull/12982#discussion_r409120960
+        {
+            code: "a ? // comment\nb : c;",
+            output: null,
+            errors: [{
+                messageId: "expectedConsAlt"
+            }]
         }
     ]
 });
