@@ -208,7 +208,7 @@ describe("ESLint", () => {
                     "- 'reportUnusedDisableDirectives' must be any of \"error\", \"warn\", \"off\", and null.",
                     "- 'resolvePluginsRelativeTo' must be a non-empty string or null.",
                     "- 'rulePaths' must be an array of non-empty strings.",
-                    "- 'useElintrc' must be a boolean."
+                    "- 'useEslintrc' must be a boolean."
                 ].join("\n")), "u")
             );
         });
