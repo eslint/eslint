@@ -66,7 +66,7 @@ There are also some exceptions to these rules:
 
 * If the path to lint is a glob pattern or directory path and contains a dot-folder, all dot-files and dot-folders will be linted. This includes dot-files and dot-folders that are buried deeper in the directory structure.
 
-  For example, `eslint .config/` will lint all Dot-folders and Dot-files in the `.config` directory, including immediate children as well as children that are deeper in the directory structure.
+  For example, `eslint .config/` will lint all dot-folders and dot-files in the `.config` directory, including immediate children as well as children that are deeper in the directory structure.
 
 * If the path to lint is a specific file path and the `--no-ignore` flag has been passed, ESLint will lint the file regardless of the implicit ignore rules.
 
