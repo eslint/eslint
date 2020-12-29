@@ -19,7 +19,7 @@ Examples of **incorrect** code for this rule:
 /*eslint no-multi-str: "error"*/
 
 var x = "some very \
-long line";
+long text";
 ```
 
 Examples of **correct** code for this rule:
@@ -27,8 +27,8 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-multi-str: "error"*/
 
-var x = "some very long line";
+var x = "some very long text";
 
 var x = "some very " +
-        "long line";
+        "long text";
 ```
