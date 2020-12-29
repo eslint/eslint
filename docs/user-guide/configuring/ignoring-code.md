@@ -60,7 +60,7 @@ Please see [`.gitignore`](https://git-scm.com/docs/gitignore)'s specification fo
 In addition to any patterns in the `.eslintignore` file, ESLint always follows a couple of implicit ignore rules even if the `--no-ignore` flag is passed. The implicit rules are as follows:
 
 * `node_modules/` is ignored.
-* Dot-files (except for `.eslintrc.*`), as well as Dot-folders and their contents, are ignored.
+* dot-files (except for `.eslintrc.*`), as well as dot-folders and their contents, are ignored.
 
 There are also some exceptions to these rules:
 
