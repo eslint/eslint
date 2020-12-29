@@ -74,7 +74,7 @@ There are also some exceptions to these rules:
 
 * Allowlist and denylist rules specified via `--ignore-pattern` or `.eslintignore` are prioritized above implicit ignore rules.
 
-  For example, in this scenario, `.build/test.js` is the desired file to allowlist. Because all Dot-folders and their children are ignored by default, `.build` must first be allowlisted so that eslint becomes aware of its children. Then, `.build/test.js` must be explicitly allowlisted, while the rest of the content is denylisted. This is done with the following `.eslintignore` file:
+  For example, in this scenario, `.build/test.js` is the desired file to allowlist. Because all dot-folders and their children are ignored by default, `.build` must first be allowlisted so that eslint becomes aware of its children. Then, `.build/test.js` must be explicitly allowlisted, while the rest of the content is denylisted. This is done with the following `.eslintignore` file:
 
   ```text
   # Allowlist 'test.js' in the '.build' folder
