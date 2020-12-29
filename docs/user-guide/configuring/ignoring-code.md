@@ -139,7 +139,7 @@ foo.js
 
 This message occurs because ESLint is unsure if you wanted to actually lint the file or not. As the message indicates, you can use `--no-ignore` to omit using the ignore rules.
 
-Consider another scenario where you may want to run ESLint on a specific Dot-file or Dot-folder, but have forgotten to specifically allow those files in your `.eslintignore` file. You would run something like this:
+Consider another scenario where you may want to run ESLint on a specific dot-file or dot-folder, but have forgotten to specifically allow those files in your `.eslintignore` file. You would run something like this:
 
     eslint .config/foo.js
 
