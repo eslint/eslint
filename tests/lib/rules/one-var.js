@@ -493,8 +493,48 @@ ruleTester.run("one-var", rule, {
     ],
     invalid: [
         {
+            code: "var bar = true, baz = false;",
+            output: "var bar = true; var baz = false;",
+            options: ["never"],
+            errors: [{
+                messageId: "split",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
             code: "function foo() { var bar = true, baz = false; }",
             output: "function foo() { var bar = true; var baz = false; }",
+            options: ["never"],
+            errors: [{
+                messageId: "split",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "if (foo) { var bar = true, baz = false; }",
+            output: "if (foo) { var bar = true; var baz = false; }",
+            options: ["never"],
+            errors: [{
+                messageId: "split",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "switch (foo) { case bar: var baz = true, quux = false; }",
+            output: "switch (foo) { case bar: var baz = true; var quux = false; }",
+            options: ["never"],
+            errors: [{
+                messageId: "split",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "switch (foo) { default: var baz = true, quux = false; }",
+            output: "switch (foo) { default: var baz = true; var quux = false; }",
             options: ["never"],
             errors: [{
                 messageId: "split",
@@ -1940,6 +1980,138 @@ ruleTester.run("one-var", rule, {
             errors: [{
                 messageId: "split",
                 data: { type: "const" },
+                type: "VariableDeclaration"
+            }]
+        },
+
+        // "never" should not autofix declarations in a block position
+        {
+            code: "if (foo) var x, y;",
+            output: null,
+            options: ["never"],
+            errors: [{
+                messageId: "split",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "if (foo) var x, y;",
+            output: null,
+            options: [{ var: "never" }],
+            errors: [{
+                messageId: "split",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "if (foo) var x, y;",
+            output: null,
+            options: [{ uninitialized: "never" }],
+            errors: [{
+                messageId: "splitUninitialized",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "if (foo) var x = 1, y = 1;",
+            output: null,
+            options: [{ initialized: "never" }],
+            errors: [{
+                messageId: "splitInitialized",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "if (foo) {} else var x, y;",
+            output: null,
+            options: ["never"],
+            errors: [{
+                messageId: "split",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "while (foo) var x, y;",
+            output: null,
+            options: ["never"],
+            errors: [{
+                messageId: "split",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "do var x, y; while (foo);",
+            output: null,
+            options: ["never"],
+            errors: [{
+                messageId: "split",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "do var x = f(), y = b(); while (x < y);",
+            output: null,
+            options: ["never"],
+            errors: [{
+                messageId: "split",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "for (;;) var x, y;",
+            output: null,
+            options: ["never"],
+            errors: [{
+                messageId: "split",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "for (foo in bar) var x, y;",
+            output: null,
+            options: ["never"],
+            errors: [{
+                messageId: "split",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "for (foo of bar) var x, y;",
+            output: null,
+            options: ["never"],
+            errors: [{
+                messageId: "split",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "with (foo) var x, y;",
+            output: null,
+            options: ["never"],
+            errors: [{
+                messageId: "split",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "label: var x, y;",
+            output: null,
+            options: ["never"],
+            errors: [{
+                messageId: "split",
+                data: { type: "var" },
                 type: "VariableDeclaration"
             }]
         }
