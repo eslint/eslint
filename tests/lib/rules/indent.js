@@ -2216,6 +2216,16 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+              condition1
+                ? Promise.resolve(1)
+                : condition2
+                  ? Promise.resolve(2)
+                  : Promise.resolve(3)
+            `,
+            options: [2, { offsetTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
               condition
               \t? () => {
               \t\t\treturn true
