@@ -41,6 +41,11 @@ ruleTester.run("no-control-regex", rule, {
             code: "var regex = /(?<a>\\x1f)/",
             parserOptions: { ecmaVersion: 2018 },
             errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+        },
+        {
+            code: String.raw`var regex = /(?<\u{1d49c}>.)\x1f/`,
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
         }
     ]
 });
