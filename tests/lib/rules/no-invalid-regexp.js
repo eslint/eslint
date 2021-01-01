@@ -41,7 +41,13 @@ ruleTester.run("no-invalid-regexp", rule, {
         { code: "new RegExp('(?<!a)b')", parserOptions: { ecmaVersion: 2018 } },
         { code: "new RegExp('(?<a>b)\\k<a>')", parserOptions: { ecmaVersion: 2018 } },
         { code: "new RegExp('(?<a>b)\\k<a>', 'u')", parserOptions: { ecmaVersion: 2018 } },
-        { code: "new RegExp('\\\\p{Letter}', 'u')", parserOptions: { ecmaVersion: 2018 } }
+        { code: "new RegExp('\\\\p{Letter}', 'u')", parserOptions: { ecmaVersion: 2018 } },
+
+        // ES2020
+        "new RegExp('(?<\\\\ud835\\\\udc9c>.)', 'g')",
+        "new RegExp('(?<\\\\u{1d49c}>.)', 'g')",
+        "new RegExp('(?<𝒜>.)', 'g');",
+        "new RegExp('\\\\p{Script=Nandinagari}', 'u');"
     ],
     invalid: [
         {
