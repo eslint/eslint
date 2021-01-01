@@ -1236,6 +1236,7 @@ A test case is an object with the following properties:
 * `code` (string, required): The source code that the rule should be run on
 * `options` (array, optional): The options passed to the rule. The rule severity should not be included in this list.
 * `filename` (string, optional): The filename for the given case (useful for rules that make assertions about filenames).
+* `only` (boolean, optional): Run this case exclusively for debugging in supported test frameworks.
 
 In addition to the properties above, invalid test cases can also have the following properties:
 
@@ -1335,10 +1336,13 @@ ruleTester.run("my-rule-for-no-foo", rule, {
 `RuleTester` depends on two functions to run tests: `describe` and `it`. These functions can come from various places:
 
 1. If `RuleTester.describe` and `RuleTester.it` have been set to function values, `RuleTester` will use `RuleTester.describe` and `RuleTester.it` to run tests. You can use this to customize the behavior of `RuleTester` to match a test framework that you're using.
-1. Otherwise, if `describe` and `it` are present as globals, `RuleTester` will use `global.describe` and `global.it` to run tests. This allows `RuleTester` to work when using frameworks like [Mocha](https://mochajs.org/) without any additional configuration.
-1. Otherwise, `RuleTester#run` will simply execute all of the tests in sequence, and will throw an error if one of them fails. This means you can simply execute a test file that calls `RuleTester.run` using `node`, without needing a testing framework.
 
-`RuleTester#run` calls the `describe` function with two arguments: a string describing the rule, and a callback function. The callback calls the `it` function with a string describing the test case, and a test function. The test function will return successfully if the test passes, and throw an error if the test fails. (Note that this is the standard behavior for test suites when using frameworks like [Mocha](https://mochajs.org/); this information is only relevant if you plan to customize `RuleTester.it` and `RuleTester.describe`.)
+    If `RuleTester.itOnly` has been set to a function value, `RuleTester` will call `RuleTester.itOnly` instead of `RuleTester.it` to run cases with `only: true`. If `RuleTester.itOnly` is not set but `RuleTester.it` has an `only` function property, `RuleTester` will fall back to `RuleTester.it.only`.
+
+2. Otherwise, if `describe` and `it` are present as globals, `RuleTester` will use `global.describe` and `global.it` to run tests and `global.it.only` to run cases with `only: true`. This allows `RuleTester` to work when using frameworks like [Mocha](https://mochajs.org/) without any additional configuration.
+3. Otherwise, `RuleTester#run` will simply execute all of the tests in sequence, and will throw an error if one of them fails. This means you can simply execute a test file that calls `RuleTester.run` using `node`, without needing a testing framework.
+
+`RuleTester#run` calls the `describe` function with two arguments: a string describing the rule, and a callback function. The callback calls the `it` function with a string describing the test case, and a test function. The test function will return successfully if the test passes, and throw an error if the test fails. The signature for `only` is the same as `it`. `RuleTester` calls either `it` or `only` for every case even when some cases have `only: true`, and the test framework is responsible for implementing test case exclusivity. (Note that this is the standard behavior for test suites when using frameworks like [Mocha](https://mochajs.org/); this information is only relevant if you plan to customize `RuleTester.describe`, `RuleTester.it`, or `RuleTester.itOnly`.)
 
 Example of customizing `RuleTester`:
 

@@ -544,7 +544,7 @@ target.mocha = () => {
 
     echo("Running unit tests");
 
-    lastReturn = exec(`${getBinFile("nyc")} -- ${MOCHA} -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
+    lastReturn = exec(`${getBinFile("nyc")} -- ${MOCHA} --forbid-only -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
     if (lastReturn.code !== 0) {
         errors++;
     }
