@@ -1,3 +1,17 @@
+v7.17.0 - January 1, 2021
+
+* [`e128e77`](https://github.com/eslint/eslint/commit/e128e775e9fa116a0ad68a071f1f0997589f8cd4) Update: check logical assignment in no-constant-condition (#13946) (Milos Djermanovic)
+* [`cc48713`](https://github.com/eslint/eslint/commit/cc4871369645c3409dc56ded7a555af8a9f63d51) Chore: refactor calculating range and loc in no-useless-escape (#13964) (Milos Djermanovic)
+* [`535fe47`](https://github.com/eslint/eslint/commit/535fe47fee6544b4957378f9408117c8318d4762) Update: use regexpp's default ecmaVersion in no-control-regex (#13969) (Milos Djermanovic)
+* [`83e98cd`](https://github.com/eslint/eslint/commit/83e98cd48ce3d1acf729f4fb9be40cff332abd6e) Fix: use regexpp's default ecmaVersion in no-invalid-regexp (#13968) (Milos Djermanovic)
+* [`7297363`](https://github.com/eslint/eslint/commit/7297363ea355d0e3b2a74aaec586126deb91fd93) Docs: fix examples for no-multi-str (#13966) (Milos Djermanovic)
+* [`0649871`](https://github.com/eslint/eslint/commit/06498716bfba65ed8c7217917a29a07ad267193a) Update: add autofix to rule multiline-ternary (#13958) (薛定谔的猫)
+* [`f6e7e32`](https://github.com/eslint/eslint/commit/f6e7e3231bc43c989f8c953de8e0d328bac5eea0) Fix: no-useless-escape wrong loc and fix with CRLF in template elements (#13953) (Milos Djermanovic)
+* [`19c69c0`](https://github.com/eslint/eslint/commit/19c69c0293a98634ff0d4884a0cdabc1213ebcb4) Fix: one-var shouldn't split declaration if it isn't in a statement list (#13959) (Milos Djermanovic)
+* [`e451b96`](https://github.com/eslint/eslint/commit/e451b9664aface32ad9321eaf5619c875dc76553) Docs: update build tool for webpack (#13962) (Sam Chen)
+* [`c3e9acc`](https://github.com/eslint/eslint/commit/c3e9accce2f61b04ab699fd37c90703305281aa3) Chore: fix typos (#13960) (YeonJuan)
+* [`7289ecf`](https://github.com/eslint/eslint/commit/7289ecf58ed0d2e7f0ad7f1e5004c8927a7bf805) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.16.0 - December 18, 2020
 
 * [`a62ad6f`](https://github.com/eslint/eslint/commit/a62ad6f03151358b93b5fede022a30d67310705c) Update: fix false negative of no-extra-parens with NewExpression (#13930) (Milos Djermanovic)
