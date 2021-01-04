@@ -626,7 +626,7 @@ describe("createReportTranslator", () => {
             );
         });
 
-        // This isn't offically supported, but autofix works the same way
+        // This isn't officially supported, but autofix works the same way
         it("should remove the whole suggestion if 'fix' function didn't return anything.", () => {
             const reportDescriptor = {
                 node,
