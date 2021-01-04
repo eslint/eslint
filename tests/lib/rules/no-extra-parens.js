@@ -599,6 +599,22 @@ ruleTester.run("no-extra-parens", rule, {
             options: ["functions"]
         },
         "(let)[foo]",
+
+        // ForStatement#init expression cannot start with `let[`. It would be parsed as a `let` declaration with array pattern, or a syntax error.
+        "for ((let[a]);;);",
+        "for ((let)[a];;);",
+        "for ((let[a] = 1);;);",
+        "for ((let[a]) = 1;;);",
+        "for ((let)[a] = 1;;);",
+        "for ((let[a, b] = foo);;);",
+        "for ((let[a].b = 1);;);",
+        "for ((let[a].b) = 1;;);",
+        "for ((let[a]).b = 1;;);",
+        "for ((let)[a].b = 1;;);",
+        "for ((let[a])();;);",
+        "for ((let)[a]();;);",
+        "for ((let[a]) + b;;);",
+
         "for ((let) in foo);",
         "for ((let[foo]) in bar);",
         "for ((let)[foo] in bar);",
@@ -1880,6 +1896,165 @@ ruleTester.run("no-extra-parens", rule, {
             "Identifier",
             1
         ),
+
+        // ForStatement#init expression cannot start with `let[`, but it can start with `let` if it isn't followed by `[`
+        invalid(
+            "for ((let);;);",
+            "for (let;;);",
+            "Identifier",
+            1
+        ),
+        invalid(
+            "for ((let = 1);;);",
+            "for (let = 1;;);",
+            "AssignmentExpression",
+            1
+        ),
+        invalid(
+            "for ((let) = 1;;);",
+            "for (let = 1;;);",
+            "Identifier",
+            1
+        ),
+        invalid(
+            "for ((let = []);;);",
+            "for (let = [];;);",
+            "AssignmentExpression",
+            1
+        ),
+        invalid(
+            "for ((let) = [];;);",
+            "for (let = [];;);",
+            "Identifier",
+            1
+        ),
+        invalid(
+            "for ((let());;);",
+            "for (let();;);",
+            "CallExpression",
+            1
+        ),
+        invalid(
+            "for ((let([]));;);",
+            "for (let([]);;);",
+            "CallExpression",
+            1
+        ),
+        invalid(
+            "for ((let())[a];;);",
+            "for (let()[a];;);",
+            "CallExpression",
+            1
+        ),
+        invalid(
+            "for ((let`[]`);;);",
+            "for (let`[]`;;);",
+            "TaggedTemplateExpression",
+            1
+        ),
+        invalid(
+            "for ((let.a);;);",
+            "for (let.a;;);",
+            "MemberExpression",
+            1
+        ),
+        invalid(
+            "for ((let).a;;);",
+            "for (let.a;;);",
+            "Identifier",
+            1
+        ),
+        invalid(
+            "for ((let).a = 1;;);",
+            "for (let.a = 1;;);",
+            "Identifier",
+            1
+        ),
+        invalid(
+            "for ((let).a[b];;);",
+            "for (let.a[b];;);",
+            "Identifier",
+            1
+        ),
+        invalid(
+            "for ((let.a)[b];;);",
+            "for (let.a[b];;);",
+            "MemberExpression",
+            1
+        ),
+        invalid(
+            "for ((let.a[b]);;);",
+            "for (let.a[b];;);",
+            "MemberExpression",
+            1
+        ),
+        invalid(
+            "for ((let);[];);",
+            "for (let;[];);",
+            "Identifier",
+            1
+        ),
+        invalid(
+            "for (((let[a]));;);",
+            "for ((let[a]);;);",
+            "MemberExpression",
+            1
+        ),
+        invalid(
+            "for (((let))[a];;);",
+            "for ((let)[a];;);",
+            "Identifier",
+            1
+        ),
+        invalid(
+            "for (((let[a])).b;;);",
+            "for ((let[a]).b;;);",
+            "MemberExpression",
+            1
+        ),
+        invalid(
+            "for (((let))[a].b;;);",
+            "for ((let)[a].b;;);",
+            "Identifier",
+            1
+        ),
+        invalid(
+            "for (((let)[a]).b;;);",
+            "for ((let)[a].b;;);",
+            "MemberExpression",
+            1
+        ),
+        invalid(
+            "for (((let[a]) = b);;);",
+            "for ((let[a]) = b;;);",
+            "AssignmentExpression",
+            1
+        ),
+        invalid(
+            "for (((let)[a]) = b;;);",
+            "for ((let)[a] = b;;);",
+            "MemberExpression",
+            1
+        ),
+        invalid(
+            "for (((let)[a] = b);;);",
+            "for ((let)[a] = b;;);",
+            "AssignmentExpression",
+            1
+        ),
+        invalid(
+            "for ((Let[a]);;);",
+            "for (Let[a];;);",
+            "MemberExpression",
+            1
+        ),
+        invalid(
+            "for ((lett)[a];;);",
+            "for (lett[a];;);",
+            "Identifier",
+            1
+        ),
+
         invalid(
             "for ((let.foo) in bar);",
             "for (let.foo in bar);",
