@@ -91,14 +91,6 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "[ x, { y, z }] = arr;", options: ["always", { objectsInArrays: false }], parserOptions: { ecmaVersion: 6 } },
 
         // never
-        { code: "obj[foo]", options: ["never"] },
-        { code: "obj['foo']", options: ["never"] },
-        { code: "obj['foo' + 'bar']", options: ["never"] },
-        { code: "obj['foo'+'bar']", options: ["never"] },
-        { code: "obj[obj2[foo]]", options: ["never"] },
-        { code: "obj.map(function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
-        { code: "obj['map'](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
-        { code: "obj['for' + 'Each'](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
         { code: "var arr = [1, 2, 3, 4];", options: ["never"] },
         { code: "var arr = [[1, 2], 2, 3, 4];", options: ["never"] },
         { code: "var arr = [\n1, 2, 3, 4\n];", options: ["never"] },
