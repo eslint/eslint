@@ -158,6 +158,7 @@ ESLint follows [semantic versioning](https://semver.org). However, due to the na
     * A bug fix in a rule that results in ESLint reporting more linting errors.
     * A new rule is created.
     * A new option to an existing rule that does not result in ESLint reporting more linting errors by default.
+    * A new addition to an existing rule to support a newly-added language feature (within the last 12 months) that will result in ESLint reporting more linting errors by default.
     * An existing rule is deprecated.
     * A new CLI capability is created.
     * New capabilities to the public API are added (new classes, new methods, new arguments to existing methods, etc.).
