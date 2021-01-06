@@ -22,6 +22,7 @@ ruleTester.run("space-in-parens", rule, {
     valid: [
         { code: "foo()", options: ["never"] },
         { code: "foo()", options: ["always"] },
+        { code: "foo( )", options: ["always"] },
         { code: "foo( bar )", options: ["always"] },
         { code: "foo\n(\nbar\n)\n", options: ["always"] },
         { code: "foo\n(  \nbar\n )\n", options: ["always"] },
