@@ -67,15 +67,6 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "var arr = [[ 1, 2 ], [2], 3, { 'foo': 'bar' }];", options: ["always", { arraysInArrays: false, objectsInArrays: false, singleValue: false }] },
 
         // always
-        { code: "obj[ foo ]", options: ["always"] },
-        { code: "obj[\nfoo\n]", options: ["always"] },
-        { code: "obj[ 'foo' ]", options: ["always"] },
-        { code: "obj[ 'foo' + 'bar' ]", options: ["always"] },
-        { code: "obj[ obj2[ foo ] ]", options: ["always"] },
-        { code: "obj.map(function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["always"] },
-        { code: "obj[ 'map' ](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["always"] },
-        { code: "obj[ 'for' + 'Each' ](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["always"] },
-
         { code: "var arr = [ 1, 2, 3, 4 ];", options: ["always"] },
         { code: "var arr = [ [ 1, 2 ], 2, 3, 4 ];", options: ["always"] },
         { code: "var arr = [\n1, 2, 3, 4\n];", options: ["always"] },
