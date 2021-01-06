@@ -80,6 +80,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "var arr = [ [ 1, 2 ], 2, 3, 4 ];", options: ["always"] },
         { code: "var arr = [\n1, 2, 3, 4\n];", options: ["always"] },
         { code: "var foo = [];", options: ["always"] },
+        { code: "var foo = [ ];", options: ["always"] },
 
         // singleValue: false, objectsInArrays: true, arraysInArrays
         { code: "this.db.mappings.insert([\n { alias: 'a', url: 'http://www.amazon.de' },\n { alias: 'g', url: 'http://www.google.de' }\n], function() {});", options: ["always", { singleValue: false, objectsInArrays: true, arraysInArrays: true }] },
@@ -115,6 +116,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "obj[foo\n]", options: ["never"] },
         { code: "var arr = [1,\n2,\n3,\n4\n];", options: ["never"] },
         { code: "var arr = [\n1,\n2,\n3,\n4];", options: ["never"] },
+        { code: "var arr = [];", options: ["never"] },
 
         // never - destructuring assignment
         { code: "var [x, y] = z", options: ["never"], parserOptions: { ecmaVersion: 6 } },
