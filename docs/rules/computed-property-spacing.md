@@ -14,6 +14,9 @@ var a = "prop";
 var obj = {
   [a]: "value" // computed property key in object literal (ECMAScript 6)
 };
+
+// applies to the spacing for dynamic keys (computed property key) when destructuring objects.
+const ({ [a]: someProp } = obj); // someProp now maps to the value of prop.
 ```
 
 ## Rule Details
