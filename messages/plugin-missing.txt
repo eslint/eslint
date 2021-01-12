@@ -2,7 +2,9 @@ ESLint couldn't find the plugin "<%- pluginName %>".
 
 (The package "<%- pluginName %>" was not found when loaded as a Node module from the directory "<%- resolvePluginsRelativeTo %>".)
 
-It's likely that the plugin isn't installed correctly. Try reinstalling by running the following:
+If you've referenced the plugin in the `extends` array, double check that the format is `plugin:plugin-name/config-name`. There must be a slash (`/`) followed by the config name. Please consult the documentation for the plugin for more information.
+
+If you've referenced the plugin in the `plugins` array, then it's likely the plugin isn't installed correctly. Try reinstalling by running the following:
 
     npm install <%- pluginName %>@latest --save-dev
 
