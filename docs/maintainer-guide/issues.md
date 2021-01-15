@@ -20,31 +20,49 @@ There are four primary issue categories:
 
 The first goal when evaluating an issue is to determine which category the issue falls into.
 
-## When an Issue is Opened
+## Triage Team Process
 
-When an issue is opened, the bot will automatically apply the "triage" label. Issues labeled with "triage" are the ones that need to be looked at by team members to determine what to do next.
+All of ESLint's issues, across all GitHub repositories, are managed on our [Triage Project](https://github.com/orgs/eslint/projects/2). Please use the Triage project instead of the issues list when reviewing issues to determine what to work on. The Triage project has several columns:
+
+* **Needs Triage** - issues that have not yet been reviewed by anyone
+* **Triaging** - issues that someone has reviewed but has not been able to fully triage yet
+* **Ready for Dev Team** - issues that have been triaged and have all of the information necessary for the dev team to take a look
+* **Evaluating** - the dev team is evaluating these issues to determine whether to move forward or not
+* **RFC Needed** - an RFC is needed for these issues
+* **RFC Opened** - an RFC is opened to address these issues
+* **Ready to Implement** - these issues have all of the details necessary to start implementation
+* **PR Opened** - there is an open pull request for each of these issues
+* **Completed** - the issue has been closed (either via pull request merge or by the team manually closing the issue)
+
+We make every attempt to automate movement between as many columns as we can, but sometimes moving issues needs to be done manually.
+
+### When an Issue is Opened
+
+When an issue is opened, it is automatically added to the "Needs Triage" column in the Triage project. These issues need to be evaluated by the triage team to determine whether or not to the dev team should evaluate the issue.
 
 The steps for triaging an issue are:
 
-1. Is it clear what is being requested?
-    * No: add the "needs info" label to the issue. The bot will add a comment asking for more information. You don't need to comment any further until the person who opened the issue responds with the information requested from the bot.
-    * Yes:
-        * Remove the "triage" label
-        * Label questions with the "question" label
-        * Label bug reports with the "bug" label (also use the "accepted" label if you can reproduce and verify the bug, otherwise add the "evaluating" label to indicate someone needs to verify)
-        * Label requests for changes to existing features (new rule options, new configuration options, etc.) with the "enhancement" and "evaluating" labels
-        * Label requests for completely new features (new rules, supporting a new file format, etc.) with the "feature" and "evaluating" labels
-        * Use an appropriate label for the part of the project the issue refers to:
+1. Move the issue from "Needs Triage" to "Triaging" in the Triage project
+1. Check: Has all of the information in the issue template been provided?
+    * **No:** If information is missing from the issue template, or you can't tell what is being requested, please ask the author to provide the missing information:
+        * Add the "needs info" label to the issue so we know that this issue is stalled due to lack of information.
+        * Don't move on to other steps until the necessary information has been provided.
+        * If the issue author hasn't provided the necessary information after 7 days, please close the issue. The bot will add a comment stating that the issue was closed because there was information missing. 
+    * **Yes:**
+        * If the issue is actually a question (rather than something the dev team needs to change), please [convert it to a discussion](https://docs.github.com/en/free-pro-team@latest/discussions/managing-discussions-for-your-community/moderating-discussions#converting-an-issue-to-a-discussion). You can continue the conversation as a discussion.
+        * If the issue is reporting a bug, try to reproduce the issue following the instructions in the issue. If you can reproduce the bug, please add the "repro:yes" label. (The bot will automatically remove the "repro:needed" label.) If you can't reproduce the bug, ask the author for more information about their environment or to clarify reproduction steps.
+        * For all issues, please add labels describing the part of ESLint affected:
             * "build" - related to commands run during a build (testing, linting, release scripts, etc.)
             * "cli" - related to command line input or output, or to `CLIEngine`
             * "core" - related to internal APIs
             * "documentation" - related to content on eslint.org
             * "infrastructure" - related to resources needed for builds or deployment (VMs, CI tools, bots, etc.)
-1. Once it's clear what type of issue it is, make sure all of the relevant information is provided:
-    * **Bugs**: See [bug reporting guidelines](/docs/developer-guide/contributing/reporting-bugs.md)
-    * **New Rules:** See [rule proposal guidelines](/docs/developer-guide/contributing/new-rules.md)
-    * **Rule Changes:** See [rule change proposal guidelines](/docs/developer-guide/contributing/rule-changes.md)
-    * **Other Changes:** See [change proposal guidelines](/docs/developer-guide/contributing/changes.md)
+        * Move the issue to the "Ready for Dev Team" column in the Triage project
+
+## Dev Team Process
+
+When an issue has been moved to the "Ready for Dev Team" column, any dev team member can pick up the issue to start evaluating it.
+
 1. Next steps:
     * **Questions:** answer the question and close the issue when the conversation is over.
     * **Bugs:** if you can verify the bug, add the "accepted" label and ask if they would like to submit a pull request.
@@ -118,4 +136,3 @@ In an effort to keep the issues backlog manageable, team members may also close 
 * **Unaccepted**: Close after it has been open for 21 days, as these issues do not have enough support to move forward.
 * **Accepted**: Close after 90 days if no one from the team or the community is willing to step forward and own the work to complete to it.
 * **Help wanted:** Close after 90 days if it has not been completed.
-
