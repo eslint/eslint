@@ -633,11 +633,9 @@ ruleTester.run("no-shadow", rule, {
             code: "function foo() { var Object = 0; }",
             options: [{ builtinGlobals: true }],
             errors: [{
-                messageId: "noShadow",
+                messageId: "noShadowGlobal",
                 data: {
-                    name: "Object",
-                    shadowedLine: 0,
-                    shadowedColumn: 0
+                    name: "Object"
                 },
                 type: "Identifier"
             }]
@@ -647,11 +645,9 @@ ruleTester.run("no-shadow", rule, {
             options: [{ builtinGlobals: true }],
             env: { browser: true },
             errors: [{
-                messageId: "noShadow",
+                messageId: "noShadowGlobal",
                 data: {
-                    name: "top",
-                    shadowedLine: 0,
-                    shadowedColumn: 0
+                    name: "top"
                 },
                 type: "Identifier"
             }]
@@ -661,11 +657,9 @@ ruleTester.run("no-shadow", rule, {
             options: [{ builtinGlobals: true }],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
-                messageId: "noShadow",
+                messageId: "noShadowGlobal",
                 data: {
-                    name: "Object",
-                    shadowedLine: 0,
-                    shadowedColumn: 0
+                    name: "Object"
                 },
                 type: "Identifier"
             }]
@@ -676,11 +670,9 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             env: { browser: true },
             errors: [{
-                messageId: "noShadow",
+                messageId: "noShadowGlobal",
                 data: {
-                    name: "top",
-                    shadowedLine: 0,
-                    shadowedColumn: 0
+                    name: "top"
                 },
                 type: "Identifier"
             }]
@@ -690,11 +682,9 @@ ruleTester.run("no-shadow", rule, {
             options: [{ builtinGlobals: true }],
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [{
-                messageId: "noShadow",
+                messageId: "noShadowGlobal",
                 data: {
-                    name: "Object",
-                    shadowedLine: 0,
-                    shadowedColumn: 0
+                    name: "Object"
                 },
                 type: "Identifier"
             }]
@@ -705,11 +695,9 @@ ruleTester.run("no-shadow", rule, {
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             env: { browser: true },
             errors: [{
-                messageId: "noShadow",
+                messageId: "noShadowGlobal",
                 data: {
-                    name: "top",
-                    shadowedLine: 0,
-                    shadowedColumn: 0
+                    name: "top"
                 },
                 type: "Identifier"
             }]
