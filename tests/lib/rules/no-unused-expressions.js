@@ -87,7 +87,6 @@ ruleTester.run("no-unused-expressions", rule, {
         // JSX
         {
             code: "<div />",
-            options: [{ allowJsx: true }],
             parserOptions: { ecmaFeatures: { jsx: true } }
         },
         {
@@ -168,6 +167,7 @@ ruleTester.run("no-unused-expressions", rule, {
         // JSX
         {
             code: "<div />",
+            options: [{ ignoreJSX: true }],
             parserOptions: { ecmaFeatures: { jsx: true } },
             errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
         }
