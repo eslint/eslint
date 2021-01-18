@@ -52,25 +52,28 @@ The steps for triaging an issue are:
         * If the issue is actually a question (rather than something the dev team needs to change), please [convert it to a discussion](https://docs.github.com/en/free-pro-team@latest/discussions/managing-discussions-for-your-community/moderating-discussions#converting-an-issue-to-a-discussion). You can continue the conversation as a discussion.
         * If the issue is reporting a bug, try to reproduce the issue following the instructions in the issue. If you can reproduce the bug, please add the "repro:yes" label. (The bot will automatically remove the "repro:needed" label.) If you can't reproduce the bug, ask the author for more information about their environment or to clarify reproduction steps.
         * For all issues, please add labels describing the part of ESLint affected:
+            * "3rd party plugin" - related to third-party functionality (plugins, parsers, rules, etc.)
             * "build" - related to commands run during a build (testing, linting, release scripts, etc.)
             * "cli" - related to command line input or output, or to `CLIEngine`
             * "core" - related to internal APIs
             * "documentation" - related to content on eslint.org
             * "infrastructure" - related to resources needed for builds or deployment (VMs, CI tools, bots, etc.)
+            * "rule" - related to core rules
         * Move the issue to the "Ready for Dev Team" column in the Triage project
 
 ## Dev Team Process
 
 When an issue has been moved to the "Ready for Dev Team" column, any dev team member can pick up the issue to start evaluating it.
 
+1. Move the issue into the "Evaluating" column.
 1. Next steps:
-    * **Questions:** answer the question and close the issue when the conversation is over.
     * **Bugs:** if you can verify the bug, add the "accepted" label and ask if they would like to submit a pull request.
     * **New Rules:** if you are willing to champion the rule (meaning you believe it should be included in ESLint core and you will take ownership of the process for including it), add a comment saying you will champion the issue, assign the issue to yourself, and follow the [guidelines](#championing-issues) below.
     * **Rule Changes:** if you are willing to champion the change and it would not be a breaking change (requiring a major version increment), add a comment saying that you will champion the issue, assign the issue to yourself, and follow the [guidelines](#championing-issues) below.
     * **Breaking Changes:** if you suspect or can verify that a change would be breaking, label it as "Breaking".
     * **Duplicates:** if you can verify the issue is a duplicate, add a comment mentioning the duplicate issue (such as, "Duplicate of #1234") and close the issue.
 1. Regardless of the above, always leave a comment. Don't just add labels, engage with the person who opened the issue by asking a question (request more information if necessary) or stating your opinion of the issue. If it's a verified bug, ask if the user would like to submit a pull request.
+1. If an RFC is required, move the issue to the "RFC Needed" column and comment on the issue that an RFC is needed.
 
 **Note:** "Good first issue" issues are intended to help new contributors feel welcome and empowered to make a contribution to ESLint. To ensure that new contributors are given a chance to work on these issues, issues labeled "good first issue" must be open for 30 days *from the day the issue was labeled* before a team member is permitted to work on them.
 
@@ -82,6 +85,8 @@ Issues may be labeled as "accepted" when the issue is:
 * A new rule or rule change that you're championing and [consensus](#consensus) has been reached for its inclusion in the project
 
 The "accepted" label will be added to other issues by a TSC member if it's appropriate for the roadmap.
+
+When an issue is accepted and implementation can begin, it should be moved to the "Ready to Implement" column.
 
 ## Championing Issues
 
