@@ -90,6 +90,10 @@ ruleTester.run("no-unused-expressions", rule, {
             parserOptions: { ecmaFeatures: { jsx: true } }
         },
         {
+            code: "<></>",
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
             code: "var partial = <div />",
             parserOptions: { ecmaFeatures: { jsx: true } }
         }
@@ -167,6 +171,12 @@ ruleTester.run("no-unused-expressions", rule, {
         // JSX
         {
             code: "<div />",
+            options: [{ disallowJSX: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
+        },
+        {
+            code: "<></>",
             options: [{ disallowJSX: true }],
             parserOptions: { ecmaFeatures: { jsx: true } },
             errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
