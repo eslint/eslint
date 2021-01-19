@@ -167,7 +167,7 @@ ruleTester.run("no-unused-expressions", rule, {
         // JSX
         {
             code: "<div />",
-            options: [{ ignoreJSX: true }],
+            options: [{ disallowJSX: true }],
             parserOptions: { ecmaFeatures: { jsx: true } },
             errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
         }
