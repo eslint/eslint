@@ -47,7 +47,7 @@ The steps for triaging an issue are:
     * **No:** If information is missing from the issue template, or you can't tell what is being requested, please ask the author to provide the missing information:
         * Add the "needs info" label to the issue so we know that this issue is stalled due to lack of information.
         * Don't move on to other steps until the necessary information has been provided.
-        * If the issue author hasn't provided the necessary information after 7 days, please close the issue. The bot will add a comment stating that the issue was closed because there was information missing. 
+        * If the issue author hasn't provided the necessary information after 7 days, please close the issue. The bot will add a comment stating that the issue was closed because there was information missing.
     * **Yes:**
         * If the issue is actually a question (rather than something the dev team needs to change), please [convert it to a discussion](https://docs.github.com/en/free-pro-team@latest/discussions/managing-discussions-for-your-community/moderating-discussions#converting-an-issue-to-a-discussion). You can continue the conversation as a discussion.
         * If the issue is reporting a bug, try to reproduce the issue following the instructions in the issue. If you can reproduce the bug, please add the "repro:yes" label. (The bot will automatically remove the "repro:needed" label.) If you can't reproduce the bug, ask the author for more information about their environment or to clarify reproduction steps.
