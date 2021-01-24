@@ -546,6 +546,13 @@ ruleTester.run("prefer-const", rule, {
                 { message: "'bar' is never reassigned. Use 'const' instead.", type: "Identifier" },
                 { message: "'bar' is never reassigned. Use 'const' instead.", type: "Identifier" }
             ]
+        },
+
+        // https://github.com/eslint/eslint/issues/13899
+        {
+            code: "/*eslint no-undef-init:error*/ let foo = undefined;",
+            output: "/*eslint no-undef-init:error*/ const foo = undefined;",
+            errors: 2
         }
     ]
 });
