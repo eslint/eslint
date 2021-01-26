@@ -136,7 +136,7 @@ overrides:
     processor: a-plugin/markdown
 ```
 
-See [Specifying Processor](../user-guide/configuring.md#specifying-processor) for details.
+See [Specifying Processor](../user-guide/configuring/plugins.md#specifying-processor) for details.
 
 #### File Extension-named Processor
 
@@ -197,7 +197,7 @@ If the example plugin above were called `eslint-plugin-myPlugin`, the `myConfig`
 
 ```
 
-**Note:** Please note that configuration will not enable any of the plugin's rules by default, and instead should be treated as a standalone config. This means that you must specify your plugin name in the `plugins` array as well as any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configuring Plugins](../user-guide/configuring.md#configuring-plugins) for more information.
+**Note:** Please note that configuration will not enable any of the plugin's rules by default, and instead should be treated as a standalone config. This means that you must specify your plugin name in the `plugins` array as well as any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configuring Plugins](../user-guide/configuring/plugins.md#configuring-plugins) for more information.
 
 ### Peer Dependency
 
