@@ -39,6 +39,20 @@ ruleTester.run("no-invalid-regexp", rule, {
         "new RegExp('(?<a>b)\\k<a>', 'u')",
         "new RegExp('\\\\p{Letter}', 'u')",
 
+        // unknown flags
+        "RegExp('{', flags)", // valid without the "u" flag
+        "new RegExp('{', flags)", // valid without the "u" flag
+        "RegExp('\\\\u{0}*', flags)", // valid with the "u" flag
+        "new RegExp('\\\\u{0}*', flags)", // valid with the "u" flag
+        {
+            code: "RegExp('{', flags)", // valid without the "u" flag
+            options: [{ allowConstructorFlags: ["u"] }]
+        },
+        {
+            code: "RegExp('\\\\u{0}*', flags)", // valid with the "u" flag
+            options: [{ allowConstructorFlags: ["a"] }]
+        },
+
         // ES2020
         "new RegExp('(?<\\\\ud835\\\\udc9c>.)', 'g')",
         "new RegExp('(?<\\\\u{1d49c}>.)', 'g')",
@@ -163,6 +177,48 @@ ruleTester.run("no-invalid-regexp", rule, {
                 messageId: "regexMessage",
                 data: { message: "Invalid regular expression: /\\a/u: Invalid escape" },
                 type: "NewExpression"
+            }]
+        },
+        {
+            code: String.raw`RegExp('\\u{0}*');`,
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid regular expression: /\\u{0}*/: Nothing to repeat" },
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: String.raw`new RegExp('\\u{0}*');`,
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid regular expression: /\\u{0}*/: Nothing to repeat" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: String.raw`new RegExp('\\u{0}*', '');`,
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid regular expression: /\\u{0}*/: Nothing to repeat" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: String.raw`new RegExp('\\u{0}*', 'a');`,
+            options: [{ allowConstructorFlags: ["a"] }],
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid regular expression: /\\u{0}*/: Nothing to repeat" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: String.raw`RegExp('\\u{0}*');`,
+            options: [{ allowConstructorFlags: ["a"] }],
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid regular expression: /\\u{0}*/: Nothing to repeat" },
+                type: "CallExpression"
             }]
         },
 
