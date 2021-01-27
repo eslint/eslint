@@ -10,7 +10,7 @@ Want to skip ahead and just start using ESLint? This section gives a high-level 
 
 ESLint has a lot of rules that you can configure to fine-tune it to your project. This section is an exhaustive list of every rule and link to each rule's documentation.
 
-## [Configuring](configuring.md)
+## [Configuring](configuring/)
 
 Once you've got ESLint running, you'll probably want to adjust the configuration to better suit your project. This section explains all the different ways you can configure ESLint.
 
