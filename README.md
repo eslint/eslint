@@ -187,6 +187,15 @@ ESLint follows [semantic versioning](https://semver.org). However, due to the na
 
 According to our policy, any minor update may report more linting errors than the previous release (ex: from a bug fix). As such, we recommend using the tilde (`~`) in `package.json` e.g. `"eslint": "~3.1.0"` to guarantee the results of your builds.
 
+## <a name="stylistic-rule-updates"></a>Stylistic Rule Updates
+
+Stylistic rules are frozen according to [our policy](https://eslint.org/blog/2020/05/changes-to-rules-policies) on how we evaluate new rules and rule changes.
+This means:
+
+* **Bug fixes**: We will still fix bugs in stylistic rules.
+* **New ECMAScript features**: We will also make sure stylistic rules are compatible with new ECMAScript features
+* **New options**: We will **not** add any new options to stylistic rules unless an option is the only way to fix a bug or support a newly-added ECMAScript feature.
+
 ## <a name="license"></a>License
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint?ref=badge_large)
