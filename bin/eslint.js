@@ -1,3 +1,5 @@
+# TEST
+
 #!/usr/bin/env node
 
 /**
