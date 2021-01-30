@@ -161,15 +161,69 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "a?b:c",
-            output: "a ? b:c",
-            errors: [{
-                messageId: "missingSpace",
-                data: { operator: "?" },
-                type: "ConditionalExpression",
-                line: 1,
-                column: 2,
-                endColumn: 3
-            }]
+            output: "a ? b : c",
+            errors: [
+                {
+                    messageId: "missingSpace",
+                    data: { operator: "?" },
+                    type: "ConditionalExpression",
+                    line: 1,
+                    column: 2,
+                    endColumn: 3
+                },
+                {
+                    messageId: "missingSpace",
+                    data: { operator: ":" },
+                    type: "ConditionalExpression",
+                    line: 1,
+                    column: 4,
+                    endColumn: 5
+                }
+            ]
+        },
+        {
+            code: "a? b :c",
+            output: "a ? b : c",
+            errors: [
+                {
+                    messageId: "missingSpace",
+                    data: { operator: "?" },
+                    type: "ConditionalExpression",
+                    line: 1,
+                    column: 2,
+                    endColumn: 3
+                },
+                {
+                    messageId: "missingSpace",
+                    data: { operator: ":" },
+                    type: "ConditionalExpression",
+                    line: 1,
+                    column: 6,
+                    endColumn: 7
+                }
+            ]
+        },
+        {
+            code: "a ?b: c",
+            output: "a ? b : c",
+            errors: [
+                {
+                    messageId: "missingSpace",
+                    data: { operator: "?" },
+                    type: "ConditionalExpression",
+                    line: 1,
+                    column: 3,
+                    endColumn: 4
+                },
+                {
+                    messageId: "missingSpace",
+                    data: { operator: ":" },
+                    type: "ConditionalExpression",
+                    line: 1,
+                    column: 5,
+                    endColumn: 6
+                }
+            ]
         },
         {
             code: "a?b : c",
