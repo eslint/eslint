@@ -96,6 +96,16 @@ ruleTester.run("no-unused-expressions", rule, {
         {
             code: "var partial = <div />",
             parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
+            code: "var partial = <div />",
+            options: [{ enforceForJSX: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
+            code: "var partial = <></>",
+            options: [{ enforceForJSX: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } }
         }
     ],
     invalid: [
@@ -171,13 +181,13 @@ ruleTester.run("no-unused-expressions", rule, {
         // JSX
         {
             code: "<div />",
-            options: [{ disallowJSX: true }],
+            options: [{ enforceForJSX: true }],
             parserOptions: { ecmaFeatures: { jsx: true } },
             errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
         },
         {
             code: "<></>",
-            options: [{ disallowJSX: true }],
+            options: [{ enforceForJSX: true }],
             parserOptions: { ecmaFeatures: { jsx: true } },
             errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
         }
