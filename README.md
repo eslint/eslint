@@ -35,10 +35,11 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 6. [Releases](#releases)
 7. [Security Policy](#security-policy)
 8. [Semantic Versioning Policy](#semantic-versioning-policy)
-9. [License](#license)
-10. [Team](#team)
-11. [Sponsors](#sponsors)
-12. [Technology Sponsors](#technology-sponsors)
+9. [Stylistic Rule Updates](#stylistic-rule-updates)
+10. [License](#license)
+11. [Team](#team)
+12. [Sponsors](#sponsors)
+13. [Technology Sponsors](#technology-sponsors)
 
 ## <a name="installation-and-usage"></a>Installation and Usage
 
