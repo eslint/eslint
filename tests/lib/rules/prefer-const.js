@@ -500,9 +500,11 @@ ruleTester.run("prefer-const", rule, {
                 { message: "'b' is never reassigned. Use 'const' instead.", type: "Identifier" }
             ]
         },
+
+        // The inner `let` will be auto-fixed in the second pass
         {
             code: "let someFunc = () => { let a = 1, b = 2; foo(a, b) }",
-            output: "const someFunc = () => { const a = 1, b = 2; foo(a, b) }",
+            output: "const someFunc = () => { let a = 1, b = 2; foo(a, b) }",
             errors: [
                 { message: "'someFunc' is never reassigned. Use 'const' instead.", type: "Identifier" },
                 { message: "'a' is never reassigned. Use 'const' instead.", type: "Identifier" },
@@ -546,6 +548,13 @@ ruleTester.run("prefer-const", rule, {
                 { message: "'bar' is never reassigned. Use 'const' instead.", type: "Identifier" },
                 { message: "'bar' is never reassigned. Use 'const' instead.", type: "Identifier" }
             ]
+        },
+
+        // https://github.com/eslint/eslint/issues/13899
+        {
+            code: "/*eslint no-undef-init:error*/ let foo = undefined;",
+            output: "/*eslint no-undef-init:error*/ const foo = undefined;",
+            errors: 2
         }
     ]
 });
