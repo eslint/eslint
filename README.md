@@ -193,7 +193,7 @@ Stylistic rules are frozen according to [our policy](https://eslint.org/blog/202
 This means:
 
 * **Bug fixes**: We will still fix bugs in stylistic rules.
-* **New ECMAScript features**: We will also make sure stylistic rules are compatible with new ECMAScript features
+* **New ECMAScript features**: We will also make sure stylistic rules are compatible with new ECMAScript features.
 * **New options**: We will **not** add any new options to stylistic rules unless an option is the only way to fix a bug or support a newly-added ECMAScript feature.
 
 ## <a name="license"></a>License
