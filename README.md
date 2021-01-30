@@ -35,10 +35,11 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 6. [Releases](#releases)
 7. [Security Policy](#security-policy)
 8. [Semantic Versioning Policy](#semantic-versioning-policy)
-9. [License](#license)
-10. [Team](#team)
-11. [Sponsors](#sponsors)
-12. [Technology Sponsors](#technology-sponsors)
+9. [Stylistic Rule Updates](#stylistic-rule-updates)
+10. [License](#license)
+11. [Team](#team)
+12. [Sponsors](#sponsors)
+13. [Technology Sponsors](#technology-sponsors)
 
 ## <a name="installation-and-usage"></a>Installation and Usage
 
@@ -186,6 +187,15 @@ ESLint follows [semantic versioning](https://semver.org). However, due to the na
         * Rule, formatter, parser, plugin APIs
 
 According to our policy, any minor update may report more linting errors than the previous release (ex: from a bug fix). As such, we recommend using the tilde (`~`) in `package.json` e.g. `"eslint": "~3.1.0"` to guarantee the results of your builds.
+
+## <a name="stylistic-rule-updates"></a>Stylistic Rule Updates
+
+Stylistic rules are frozen according to [our policy](https://eslint.org/blog/2020/05/changes-to-rules-policies) on how we evaluate new rules and rule changes.
+This means:
+
+* **Bug fixes**: We will still fix bugs in stylistic rules.
+* **New ECMAScript features**: We will also make sure stylistic rules are compatible with new ECMAScript features.
+* **New options**: We will **not** add any new options to stylistic rules unless an option is the only way to fix a bug or support a newly-added ECMAScript feature.
 
 ## <a name="license"></a>License
 
