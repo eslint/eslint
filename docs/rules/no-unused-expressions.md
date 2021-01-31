@@ -162,3 +162,26 @@ Examples of **correct** code for the `{ "allowTaggedTemplates": true }` option:
 
 tag`some tagged template string`;
 ```
+
+### enforceForJSX
+
+JSX is most-commonly used in the React ecosystem, where it is compiled to `React.createElement` expressions. Though free from side-effects, these calls are not automatically flagged by the `no-unused-expression` rule. If you're using React, or any other side-effect-free JSX pragma, this option can be enabled to flag these expressions.
+
+Examples of **incorrect** code for the `{ "enforceForJSX": true }` option:
+
+```jsx
+/*eslint no-unused-expressions: ["error", { "enforceForJSX": true }]*/
+
+<MyComponent />
+<></>
+```
+
+Examples of **correct** code for the `{ "enforceForJSX": true }` option:
+
+
+```jsx
+/*eslint no-unused-expressions: ["error", { "enforceForJSX": true }]*/
+
+var myComponentPartial = <MyComponent />
+var myFragment = <></>
+```
