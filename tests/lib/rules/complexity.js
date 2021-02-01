@@ -48,7 +48,7 @@ function makeError(name, complexity, max) {
     };
 }
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2021 } });
 
 ruleTester.run("complexity", rule, {
     valid: [
@@ -66,6 +66,18 @@ ruleTester.run("complexity", rule, {
         { code: "function a(x) {return x === 4 ? 3 : (x === 3 ? 2 : 1);}", options: [3] },
         { code: "function a(x) {return x || 4;}", options: [2] },
         { code: "function a(x) {x && 4;}", options: [2] },
+        { code: "function a(x) {x ?? 4;}", options: [2] },
+        { code: "function a(x) {x ||= 4;}", options: [2] },
+        { code: "function a(x) {x &&= 4;}", options: [2] },
+        { code: "function a(x) {x ??= 4;}", options: [2] },
+        { code: "function a(x) {x = 4;}", options: [1] },
+        { code: "function a(x) {x |= 4;}", options: [1] },
+        { code: "function a(x) {x &= 4;}", options: [1] },
+        { code: "function a(x) {x += 4;}", options: [1] },
+        { code: "function a(x) {x >>= 4;}", options: [1] },
+        { code: "function a(x) {x >>>= 4;}", options: [1] },
+        { code: "function a(x) {x == 4;}", options: [1] },
+        { code: "function a(x) {x === 4;}", options: [1] },
         { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: 3;}}", options: [3] },
         { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: if(x == 'foo') {5;};}}", options: [4] },
         { code: "function a(x) {while(true) {'foo';}}", options: [2] },
@@ -95,6 +107,10 @@ ruleTester.run("complexity", rule, {
         { code: "function a(x) {return x === 4 ? 3 : (x === 3 ? 2 : 1);}", options: [2], errors: 1 },
         { code: "function a(x) {return x || 4;}", options: [1], errors: 1 },
         { code: "function a(x) {x && 4;}", options: [1], errors: 1 },
+        { code: "function a(x) {x ?? 4;}", options: [1], errors: 1 },
+        { code: "function a(x) {x ||= 4;}", options: [1], errors: 1 },
+        { code: "function a(x) {x &&= 4;}", options: [1], errors: 1 },
+        { code: "function a(x) {x ??= 4;}", options: [1], errors: 1 },
         { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: 3;}}", options: [2], errors: 1 },
         { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: if(x == 'foo') {5;};}}", options: [3], errors: 1 },
         { code: "function a(x) {while(true) {'foo';}}", options: [1], errors: 1 },

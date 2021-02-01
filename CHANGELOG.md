@@ -1,3 +1,46 @@
+v7.19.0 - January 30, 2021
+
+* [`ce7f061`](https://github.com/eslint/eslint/commit/ce7f06121d9eb9cc2b3da24b4456b4d382e1413b) Update: add shadowed variable loc to message in no-shadow (fixes #13646) (#13841) (t-mangoe)
+* [`c60e23f`](https://github.com/eslint/eslint/commit/c60e23ff306a14ca6eabcadb275ed27995fcc6e4) Update: fix `let` logic in for-in and for-of loops in no-extra-parens (#14011) (Milos Djermanovic)
+* [`d76e8f6`](https://github.com/eslint/eslint/commit/d76e8f69bd791357c67ada7b5c55608acf29b622) Fix: no-useless-rename invalid autofix with parenthesized identifiers (#14032) (Milos Djermanovic)
+* [`5800d92`](https://github.com/eslint/eslint/commit/5800d921144ec330b6ee7cd03364434007331354) Docs: Clarify stylistic rule update policy (#14052) (Brandon Mills)
+* [`0ccf6d2`](https://github.com/eslint/eslint/commit/0ccf6d200147437b338cadb34546451972befd75) Docs: remove configuring.md (#14036) (Milos Djermanovic)
+* [`65bb0ab`](https://github.com/eslint/eslint/commit/65bb0abde56f72586036fff151aa2d13f1b7be6c) Chore: Clean up new issue workflow (#14040) (Nicholas C. Zakas)
+* [`e1da90f`](https://github.com/eslint/eslint/commit/e1da90fc414a3c9c16f52db4a5bd81bd4f9532a4) Fix: nested indenting for offsetTernaryExpressions: true (fixes #13971) (#13972) (Chris Brody)
+* [`1a078b9`](https://github.com/eslint/eslint/commit/1a078b9166f29cb3760435ddbc1a0da4a0974d4a) Update: check ternary `:` even if `?` was reported in space-infix-ops (#13963) (Milos Djermanovic)
+* [`fb27422`](https://github.com/eslint/eslint/commit/fb274226242eaebc1480fc9c901202986afc3c8a) Fix: extend prefer-const fixer range to whole declaration (fixes #13899) (#14033) (Nitin Kumar)
+* [`e0b05c7`](https://github.com/eslint/eslint/commit/e0b05c704f3ce6f549d14718236d22fe49fcb611) Docs: add a correct example to no-unsafe-optional-chaining (refs #14029) (#14050) (armin yahya)
+* [`46e836d`](https://github.com/eslint/eslint/commit/46e836d46442d2ec756038a2e12ba19b74394dbd) Sponsors: Sync README with website (ESLint Jenkins)
+* [`3fc4fa4`](https://github.com/eslint/eslint/commit/3fc4fa485ca9ccd5e16dbc7e53ba31452d22dc4a) Docs: update configuring links (#14038) (Milos Djermanovic)
+* [`8561c21`](https://github.com/eslint/eslint/commit/8561c2116ef89e53ebffb750066f1b00a4acdb76) Docs: fix broken links in configuring/README.md (#14046) (Milos Djermanovic)
+* [`1c309eb`](https://github.com/eslint/eslint/commit/1c309ebca4a81a0faf397103dbc621019dea8c9c) Update: fix no-invalid-regexp false negatives with no flags specified (#14018) (Milos Djermanovic)
+* [`f6602d5`](https://github.com/eslint/eslint/commit/f6602d569427e9e2a4f3b5ca3fc3a8bffb28d15e) Docs: Reorganize Configuration Documentation (#13837) (klkhan)
+* [`c753b44`](https://github.com/eslint/eslint/commit/c753b442ef67867a178ffc2ad29b4e0534f72469) Sponsors: Sync README with website (ESLint Jenkins)
+* [`a4fdb70`](https://github.com/eslint/eslint/commit/a4fdb7001aa41b9ad8bb92cc8a47b9135c94afc7) Docs: Fixed Typo (#14007) (Yash Singh)
+* [`f7ca481`](https://github.com/eslint/eslint/commit/f7ca48165d025e01c38698352cff24d1de87cc8b) Docs: Explain why we disable lock files (refs eslint/tsc-meetings#234) (#14006) (Brandon Mills)
+
+v7.18.0 - January 15, 2021
+
+* [`e3264b2`](https://github.com/eslint/eslint/commit/e3264b26a625d926a1ea96df1c4b643af5c3797c) Upgrade: @eslint/eslintrc to improve error message for invalid extends (#14009) (Milos Djermanovic)
+* [`f17c3c3`](https://github.com/eslint/eslint/commit/f17c3c371789ffa84f0cda57101e8193899adbe6) Update: check logical assignment operators in the complexity rule (#13979) (Milos Djermanovic)
+* [`672deb0`](https://github.com/eslint/eslint/commit/672deb057a14a7acad8c669189870009f1edb8a6) Docs: fix no-invalid-regexp docs regarding ecmaVersion (#13991) (Milos Djermanovic)
+* [`179a910`](https://github.com/eslint/eslint/commit/179a910b32e853bc12a9dd71f7c10e762cbeac44) Fix: --init crash on question to upgrade/downgrade ESLint (fixes #13978) (#13995) (Milos Djermanovic)
+* [`292b1c0`](https://github.com/eslint/eslint/commit/292b1c0017bc442d399f67e01d699c59e6b71453) Fix: no-extra-parens false positive with `let` identifier in for-loop (#13981) (Milos Djermanovic)
+* [`de61f94`](https://github.com/eslint/eslint/commit/de61f9444cf58a4d70e126ab3d10bf20851de7c9) Sponsors: Sync README with website (ESLint Jenkins)
+* [`9250d16`](https://github.com/eslint/eslint/commit/9250d167ceb5684669eabe93dae326e33f0684f2) Upgrade: Bump lodash to fix security issue (#13993) (Frederik Prijck)
+* [`75fea9b`](https://github.com/eslint/eslint/commit/75fea9bcdd3dde5a07e0089d9011a4df518cdbe3) Sponsors: Sync README with website (ESLint Jenkins)
+* [`f2687e7`](https://github.com/eslint/eslint/commit/f2687e71f9e2a2773f821c4dc1a02abe95b97df4) Docs: update space-in-parens related rules (#13985) (Chris Brody)
+* [`4a38bbe`](https://github.com/eslint/eslint/commit/4a38bbe81b4b29ca1a4e62d0a0cc8d525455b063) Docs: space-in-parens examples with no arguments etc. (#13987) (Chris Brody)
+* [`3e49169`](https://github.com/eslint/eslint/commit/3e491698687aa08b3b798cee0931f0872ca1bc55) Sponsors: Sync README with website (ESLint Jenkins)
+* [`c5bf1f2`](https://github.com/eslint/eslint/commit/c5bf1f2150a9fbbb9e74c04808dc3bfeda1ed321) Sponsors: Sync README with website (ESLint Jenkins)
+* [`98a729c`](https://github.com/eslint/eslint/commit/98a729c9def54cee9e5478e75e8bd6f28167d5e8) Sponsors: Sync README with website (ESLint Jenkins)
+* [`e83a696`](https://github.com/eslint/eslint/commit/e83a6962b51b05c2ddfe42b0748b405d515eeb9d) Sponsors: Sync README with website (ESLint Jenkins)
+* [`78cb483`](https://github.com/eslint/eslint/commit/78cb48345c725e9f90fd0e631c476802244df4a4) Chore: test `foo( )` with space-in-parens option "always" (#13986) (Chris Brody)
+* [`f6948f6`](https://github.com/eslint/eslint/commit/f6948f6bdc763dca0787bb2786bc9f6f9ed88f43) Docs: Update semantic versioning policy (#13970) (Nicholas C. Zakas)
+* [`0688212`](https://github.com/eslint/eslint/commit/068821248e2d2eff11152f270102d537d8fa8126) Sponsors: Sync README with website (ESLint Jenkins)
+* [`aeba5e5`](https://github.com/eslint/eslint/commit/aeba5e5e6062095a06d9b867d7e7ee75422f25b9) Chore: fix typo (#13975) (Nitin Kumar)
+* [`4ee1134`](https://github.com/eslint/eslint/commit/4ee113414bdcbea240a5d9db27da6a10df472005) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.17.0 - January 1, 2021
 
 * [`e128e77`](https://github.com/eslint/eslint/commit/e128e775e9fa116a0ad68a071f1f0997589f8cd4) Update: check logical assignment in no-constant-condition (#13946) (Milos Djermanovic)

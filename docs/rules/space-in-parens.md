@@ -36,9 +36,13 @@ Examples of **incorrect** code for this rule with the default `"never"` option:
 ```js
 /*eslint space-in-parens: ["error", "never"]*/
 
+foo( );
+
 foo( 'bar');
 foo('bar' );
 foo( 'bar' );
+
+foo( /* bar */ );
 
 var foo = ( 1 + 2 ) * 3;
 ( function () { return 'bar'; }() );
@@ -52,6 +56,8 @@ Examples of **correct** code for this rule with the default `"never"` option:
 foo();
 
 foo('bar');
+
+foo(/* bar */);
 
 var foo = (1 + 2) * 3;
 (function () { return 'bar'; }());
@@ -68,6 +74,8 @@ foo( 'bar');
 foo('bar' );
 foo('bar');
 
+foo(/* bar */);
+
 var foo = (1 + 2) * 3;
 (function () { return 'bar'; }());
 ```
@@ -78,8 +86,11 @@ Examples of **correct** code for this rule with the `"always"` option:
 /*eslint space-in-parens: ["error", "always"]*/
 
 foo();
+foo( );
 
 foo( 'bar' );
+
+foo( /* bar */ );
 
 var foo = ( 1 + 2 ) * 3;
 ( function () { return 'bar'; }() );
@@ -276,4 +287,6 @@ You can turn this rule off if you are not concerned with the consistency of spac
 
 ## Related Rules
 
-* [space-in-brackets](space-in-brackets.md) (deprecated)
+* [array-bracket-spacing](array-bracket-spacing.md)
+* [object-curly-spacing](object-curly-spacing.md)
+* [computed-property-spacing](computed-property-spacing.md)
