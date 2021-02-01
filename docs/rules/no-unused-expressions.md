@@ -178,7 +178,6 @@ Examples of **incorrect** code for the `{ "enforceForJSX": true }` option:
 
 Examples of **correct** code for the `{ "enforceForJSX": true }` option:
 
-
 ```jsx
 /*eslint no-unused-expressions: ["error", { "enforceForJSX": true }]*/
 
