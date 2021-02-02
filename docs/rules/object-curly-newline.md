@@ -1,10 +1,10 @@
-# enforce consistent line breaks inside braces (object-curly-newline)
+# enforce consistent line breaks after opening and before closing braces (object-curly-newline)
 
 A number of style guides require or disallow line breaks inside of object braces and other tokens.
 
 ## Rule Details
 
-This rule enforces consistent line breaks inside braces of object literals or destructuring assignments.
+This rule enforces consistent line breaks after opening and before closing braces of object literals or destructuring assignments.
 
 ## Options
 
@@ -538,7 +538,7 @@ export { foo as f, bar } from 'foo-bar';
 
 ## When Not To Use It
 
-If you don't want to enforce consistent line breaks inside braces, then it's safe to disable this rule.
+If you don't want to enforce consistent line breaks after opening and before closing braces, then it's safe to disable this rule.
 
 ## Related Rules
 
