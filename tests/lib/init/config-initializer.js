@@ -409,6 +409,14 @@ describe("configInitializer", () => {
                 assert.notProperty(config.rules, "no-debugger");
             });
 
+            it("should not include deprecated rules", () => {
+                assert.notProperty(config.rules, "id-blacklist");
+                assert.notProperty(config.rules, "no-negated-in-lhs");
+                assert.notProperty(config.rules, "no-process-exit");
+                assert.notProperty(config.rules, "no-spaced-func");
+                assert.notProperty(config.rules, "prefer-reflect");
+            });
+
             it("should support new ES features if using later ES version", () => {
                 const filename = getFixturePath("new-es-features");
 

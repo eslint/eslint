@@ -132,6 +132,20 @@ describe("autoconfig", () => {
                 assert.include(Object.keys(registry.rules), "eqeqeq");
             });
 
+            it("should not add deprecated rules", () => {
+                const registry = new autoconfig.Registry();
+
+                registry.populateFromCoreRules();
+
+                const { rules } = registry;
+
+                assert.notProperty(rules, "id-blacklist");
+                assert.notProperty(rules, "no-negated-in-lhs");
+                assert.notProperty(rules, "no-process-exit");
+                assert.notProperty(rules, "no-spaced-func");
+                assert.notProperty(rules, "prefer-reflect");
+            });
+
             it("should not add duplicate rules", () => {
                 const registry = new autoconfig.Registry(rulesConfig);
 
