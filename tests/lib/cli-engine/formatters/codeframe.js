@@ -86,7 +86,7 @@ describe("formatter:codeframe", () => {
                 "> 1 | var foo = 1;",
                 "    |     ^",
                 "  2 |  var bar = 2;",
-                "  3 |",
+                "  3 | ",
                 "\n",
                 "1 warning found."
             ].join("\n"));
@@ -115,7 +115,7 @@ describe("formatter:codeframe", () => {
                     "> 1 | var foo = 1;",
                     "    |     ^",
                     "  2 |  var bar = 2;",
-                    "  3 |",
+                    "  3 | ",
                     "\n",
                     "1 warning found.",
                     "1 warning potentially fixable with the `--fix` option."
@@ -147,7 +147,7 @@ describe("formatter:codeframe", () => {
                 "> 1 | var foo = 1;",
                 "    |     ^",
                 "  2 |  var bar = 2;",
-                "  3 |",
+                "  3 | ",
                 "\n",
                 "1 error found."
             ].join("\n"));
@@ -212,12 +212,12 @@ describe("formatter:codeframe", () => {
                 "error: Missing semicolon (semi) at foo.js:1:14:",
                 "> 1 | const foo = 1",
                 "    |              ^",
-                "  2 |",
+                "  2 | ",
                 "\n",
                 "error: 'foo' is assigned a value but never used (no-unused-vars) at foo.js:1:7:",
                 "> 1 | const foo = 1",
                 "    |       ^",
-                "  2 |",
+                "  2 | ",
                 "\n",
                 "2 errors found."
             ].join("\n"));
@@ -258,13 +258,13 @@ describe("formatter:codeframe", () => {
 
             assert.strictEqual(stripAnsi(result), [
                 "error: 'foo' is assigned a value but never used (no-unused-vars) at foo.js:4:11:",
-                "  2 |",
+                "  2 | ",
                 "  3 |     // a comment",
                 "> 4 |     const foo = 1;",
                 "    |           ^",
                 "  5 | }",
-                "  6 |",
-                "  7 |",
+                "  6 | ",
+                "  7 | ",
                 "\n",
                 "1 error found."
             ].join("\n"));
@@ -305,12 +305,12 @@ describe("formatter:codeframe", () => {
                 "error: Missing semicolon (semi) at foo.js:1:14:",
                 "> 1 | const foo = 1",
                 "    |              ^",
-                "  2 |",
+                "  2 | ",
                 "\n",
                 "error: Missing semicolon (semi) at bar.js:1:14:",
                 "> 1 | const bar = 2",
                 "    |              ^",
-                "  2 |",
+                "  2 | ",
                 "\n",
                 "2 errors found."
             ].join("\n"));
@@ -341,7 +341,7 @@ describe("formatter:codeframe", () => {
                 "error: Parsing error: Unexpected token { at foo.js:1:2:",
                 "> 1 | e{}",
                 "    |  ^",
-                "  2 |",
+                "  2 | ",
                 "\n",
                 "1 error found."
             ].join("\n"));
