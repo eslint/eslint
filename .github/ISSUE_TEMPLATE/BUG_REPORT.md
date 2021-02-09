@@ -16,7 +16,7 @@ assignees: ''
     1. To propose a new rule: https://eslint.org/docs/developer-guide/contributing/new-rules
     2. To request a rule change: https://eslint.org/docs/developer-guide/contributing/rule-changes
     3. To request a change that is not a bug fix, rule change, or new rule: https://eslint.org/docs/developer-guide/contributing/changes
-    4. If you have any questions, please stop by our chatroom: https://eslint.org/chat
+    4. If you have any questions, please stop by our chatroom: https://eslint.org/chat/help
 
     Note that leaving sections blank will make it difficult for us to troubleshoot and we may have to close the issue.
 -->
@@ -31,6 +31,7 @@ assignees: ''
 * **ESLint Version:**
 * **Node Version:**
 * **npm Version:**
+* **Operating System:** 
 
 **What parser (default, `@babel/eslint-parser`, `@typescript-eslint/parser`, etc.) are you using?**
 
@@ -61,7 +62,16 @@ assignees: ''
 **What did you expect to happen?**
 
 
-**What actually happened? Please include the actual, raw output from ESLint.**
+**What actually happened? Please copy-paste the actual, raw output from ESLint.**
 
+
+**Steps to reproduce this issue:**
+
+<!-- Please tell us exactly how to see the issue you're describing -->
+
+1. 
+1. 
+1. 
 
 **Are you willing to submit a pull request to fix this bug?**
+
