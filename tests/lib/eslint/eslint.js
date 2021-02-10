@@ -3886,6 +3886,26 @@ describe("ESLint", () => {
             assert.deepStrictEqual(actualConfig, expectedConfig);
         });
 
+        it("should return the config for a file that doesn't exist", async () => {
+            const engine = new ESLint();
+            const filePath = getFixturePath("does_not_exist.js");
+            const existingSiblingFilePath = getFixturePath("single-quoted.js");
+            const actualConfig = await engine.calculateConfigForFile(filePath);
+            const expectedConfig = await engine.calculateConfigForFile(existingSiblingFilePath);
+
+            assert.deepStrictEqual(actualConfig, expectedConfig);
+        });
+
+        it("should return the config for a virtual file that is a child of an existing file", async () => {
+            const engine = new ESLint();
+            const parentFileName = "single-quoted.js";
+            const filePath = getFixturePath(parentFileName, "virtual.js"); // single-quoted.js/virtual.js
+            const parentFilePath = getFixturePath(parentFileName);
+            const actualConfig = await engine.calculateConfigForFile(filePath);
+            const expectedConfig = await engine.calculateConfigForFile(parentFilePath);
+
+            assert.deepStrictEqual(actualConfig, expectedConfig);
+        });
 
         it("should return the config when run from within a subdir", async () => {
             const options = {
