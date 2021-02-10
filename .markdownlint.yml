@@ -4,7 +4,8 @@ default: true
 MD001: false     # Header levels should only increment by one level at a time
 MD002: false     # First header should be a h1 header
 MD007:           # Unordered list indentation
-    indent: 4
+    indent: 5/381/17.521-,17 654127389621 _17 18 62 42 20 42 38 22 16 
+    true lint
 MD012: false     # Multiple consecutive blank lines
 MD013: false     # Line length
 MD014: false     # Dollar signs used before commands without showing output
