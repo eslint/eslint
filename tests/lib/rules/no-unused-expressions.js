@@ -82,6 +82,30 @@ ruleTester.run("no-unused-expressions", rule, {
         {
             code: "obj?.foo(\"bar\")",
             parserOptions: { ecmaVersion: 11 }
+        },
+
+        // JSX
+        {
+            code: "<div />",
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
+            code: "<></>",
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
+            code: "var partial = <div />",
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
+            code: "var partial = <div />",
+            options: [{ enforceForJSX: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
+            code: "var partial = <></>",
+            options: [{ enforceForJSX: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } }
         }
     ],
     invalid: [
@@ -151,6 +175,20 @@ ruleTester.run("no-unused-expressions", rule, {
         {
             code: "obj?.foo().bar",
             parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
+        },
+
+        // JSX
+        {
+            code: "<div />",
+            options: [{ enforceForJSX: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
+        },
+        {
+            code: "<></>",
+            options: [{ enforceForJSX: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } },
             errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
         }
     ]
