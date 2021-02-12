@@ -40,8 +40,8 @@ The following selectors are supported:
 * nth-last-child (no ax+b support): `:nth-last-child(1)`
 * descendant: `FunctionExpression ReturnStatement`
 * child: `UnaryExpression > Literal`
-* following sibling: `ArrayExpression > Literal + SpreadElement`
-* adjacent sibling: `VariableDeclaration ~ VariableDeclaration`
+* following sibling: `VariableDeclaration ~ VariableDeclaration`
+* adjacent sibling: `ArrayExpression > Literal + SpreadElement`
 * negation: `:not(ForStatement)`
 * matches-any: `:matches([attr] > :first-child, :last-child)`
 * class of AST node: `:statement`, `:expression`, `:declaration`, `:function`, or `:pattern`
