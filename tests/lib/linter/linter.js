@@ -5293,9 +5293,11 @@ var a = "test2";
             let types = [];
             let sourceCode;
             let scopeManager;
+            let firstChildNodes = [];
 
             beforeEach(() => {
                 types = [];
+                firstChildNodes = [];
                 linter.defineRule("collect-node-types", () => ({
                     "*"(node) {
                         types.push(node.type);
@@ -5306,12 +5308,18 @@ var a = "test2";
 
                     return {};
                 });
+                linter.defineRule("esquery-option", () => ({
+                    ":first-child"(node) {
+                        firstChildNodes.push(node);
+                    }
+                }));
                 linter.defineParser("enhanced-parser2", testParsers.enhancedParser2);
                 linter.verify("@foo class A {}", {
                     parser: "enhanced-parser2",
                     rules: {
                         "collect-node-types": "error",
-                        "save-scope-manager": "error"
+                        "save-scope-manager": "error",
+                        "esquery-option": "error"
                     }
                 });
 
@@ -5349,6 +5357,13 @@ var a = "test2";
                 assert.deepStrictEqual(
                     types2,
                     ["Program", "ClassDeclaration", "Decorator", "Identifier", "Identifier", "ClassBody"]
+                );
+            });
+
+            it("esquery should use the visitorKeys (so 'visitorKeys.ClassDeclaration' includes 'experimentalDecorators')", () => {
+                assert.deepStrictEqual(
+                    firstChildNodes,
+                    [sourceCode.ast.body[0], sourceCode.ast.body[0].experimentalDecorators[0]]
                 );
             });
         });

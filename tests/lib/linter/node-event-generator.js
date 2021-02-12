@@ -11,6 +11,7 @@
 const assert = require("assert"),
     sinon = require("sinon"),
     espree = require("espree"),
+    vk = require("eslint-visitor-keys"),
     Traverser = require("../../../lib/shared/traverser"),
     EventGeneratorTester = require("../../../tools/internal-testers/event-generator-tester"),
     createEmitter = require("../../../lib/linter/safe-emitter"),
@@ -28,9 +29,11 @@ const ESPREE_CONFIG = {
     loc: true
 };
 
+const STANDARD_ESQUERY_OPTION = { visitorKeys: vk.KEYS, fallback: Traverser.getKeys };
+
 describe("NodeEventGenerator", () => {
     EventGeneratorTester.testEventGeneratorInterface(
-        new NodeEventGenerator(createEmitter())
+        new NodeEventGenerator(createEmitter(), STANDARD_ESQUERY_OPTION)
     );
 
     describe("entering a single AST node", () => {
@@ -40,7 +43,7 @@ describe("NodeEventGenerator", () => {
             emitter = Object.create(createEmitter(), { emit: { value: sinon.spy() } });
 
             ["Foo", "Bar", "Foo > Bar", "Foo:exit"].forEach(selector => emitter.on(selector, () => {}));
-            generator = new NodeEventGenerator(emitter);
+            generator = new NodeEventGenerator(emitter, STANDARD_ESQUERY_OPTION);
         });
 
         it("should generate events for entering AST node.", () => {
@@ -89,7 +92,7 @@ describe("NodeEventGenerator", () => {
             });
 
             possibleQueries.forEach(query => emitter.on(query, () => {}));
-            const generator = new NodeEventGenerator(emitter);
+            const generator = new NodeEventGenerator(emitter, STANDARD_ESQUERY_OPTION);
 
             Traverser.traverse(ast, {
                 enter(node, parent) {
@@ -308,13 +311,131 @@ describe("NodeEventGenerator", () => {
         );
     });
 
+    describe("traversing the entire non-standard AST", () => {
+
+        /**
+         * Gets a list of emitted types/selectors from the generator, in emission order
+         * @param {ASTNode} ast The AST to traverse
+         * @param {Record<string, string[]>} visitorKeys The custom visitor keys.
+         * @param {Array<string>|Set<string>} possibleQueries Selectors to detect
+         * @returns {Array[]} A list of emissions, in the order that they were emitted. Each emission is a two-element
+         * array where the first element is a string, and the second element is the emitted AST node.
+         */
+        function getEmissions(ast, visitorKeys, possibleQueries) {
+            const emissions = [];
+            const emitter = Object.create(createEmitter(), {
+                emit: {
+                    value: (selector, node) => emissions.push([selector, node])
+                }
+            });
+
+            possibleQueries.forEach(query => emitter.on(query, () => {}));
+            const generator = new NodeEventGenerator(emitter, { visitorKeys, fallback: Traverser.getKeys });
+
+            Traverser.traverse(ast, {
+                visitorKeys,
+                enter(node, parent) {
+                    node.parent = parent;
+                    generator.enterNode(node);
+                },
+                leave(node) {
+                    generator.leaveNode(node);
+                }
+            });
+
+            return emissions;
+        }
+
+        /**
+         * Creates a test case that asserts a particular sequence of generator emissions
+         * @param {ASTNode} ast The AST to traverse
+         * @param {Record<string, string[]>} visitorKeys The custom visitor keys.
+         * @param {string[]} possibleQueries A collection of selectors that rules are listening for
+         * @param {Array[]} expectedEmissions A function that accepts the AST and returns a list of the emissions that the
+         * generator is expected to produce, in order.
+         * Each element of this list is an array where the first element is a selector (string), and the second is an AST node
+         * This should only include emissions that appear in possibleQueries.
+         * @returns {void}
+         */
+        function assertEmissions(ast, visitorKeys, possibleQueries, expectedEmissions) {
+            it(possibleQueries.join("; "), () => {
+                const emissions = getEmissions(ast, visitorKeys, possibleQueries)
+                    .filter(emission => possibleQueries.indexOf(emission[0]) !== -1);
+
+                assert.deepStrictEqual(emissions, expectedEmissions(ast));
+            });
+        }
+
+        assertEmissions(
+            espree.parse("const foo = [<div/>, <div/>]", { ...ESPREE_CONFIG, ecmaFeatures: { jsx: true } }),
+            vk.KEYS,
+            ["* ~ *"],
+            ast => [
+                ["* ~ *", ast.body[0].declarations[0].init.elements[1]] // entering second JSXElement
+            ]
+        );
+
+        assertEmissions(
+            {
+
+                // Parse `class A implements B {}` with typescript-eslint.
+                type: "Program",
+                errors: [],
+                comments: [],
+                sourceType: "module",
+                body: [
+                    {
+                        type: "ClassDeclaration",
+                        id: {
+                            type: "Identifier",
+                            name: "A"
+                        },
+                        superClass: null,
+                        implements: [
+                            {
+                                type: "ClassImplements",
+                                id: {
+                                    type: "Identifier",
+                                    name: "B"
+                                },
+                                typeParameters: null
+                            }
+                        ],
+                        body: {
+                            type: "ClassBody",
+                            body: []
+                        }
+                    }
+                ]
+            },
+            vk.unionWith({
+
+                // see https://github.com/typescript-eslint/typescript-eslint/blob/e4d737b47574ff2c53cabab22853035dfe48c1ed/packages/visitor-keys/src/visitor-keys.ts#L27
+                ClassDeclaration: [
+                    "decorators",
+                    "id",
+                    "typeParameters",
+                    "superClass",
+                    "superTypeParameters",
+                    "implements",
+                    "body"
+                ]
+            }),
+            [":first-child"],
+            ast => [
+                [":first-child", ast.body[0]], // entering first ClassDeclaration
+                [":first-child", ast.body[0].implements[0]] // entering first ClassImplements
+            ]
+        );
+    });
+
     describe("parsing an invalid selector", () => {
         it("throws a useful error", () => {
             const emitter = createEmitter();
 
             emitter.on("Foo >", () => {});
             assert.throws(
-                () => new NodeEventGenerator(emitter),
+                () => new NodeEventGenerator(emitter, STANDARD_ESQUERY_OPTION),
                 /Syntax error in selector "Foo >" at position 5: Expected " ", "!", .*/u
             );
         });
