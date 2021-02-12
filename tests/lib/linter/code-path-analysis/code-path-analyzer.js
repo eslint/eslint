@@ -12,6 +12,7 @@
 const assert = require("assert"),
     fs = require("fs"),
     path = require("path"),
+    vk = require("eslint-visitor-keys"),
     { Linter } = require("../../../../lib/linter"),
     EventGeneratorTester = require("../../../../tools/internal-testers/event-generator-tester"),
     createEmitter = require("../../../../lib/linter/safe-emitter"),
@@ -19,11 +20,14 @@ const assert = require("assert"),
     CodePath = require("../../../../lib/linter/code-path-analysis/code-path"),
     CodePathAnalyzer = require("../../../../lib/linter/code-path-analysis/code-path-analyzer"),
     CodePathSegment = require("../../../../lib/linter/code-path-analysis/code-path-segment"),
-    NodeEventGenerator = require("../../../../lib/linter/node-event-generator");
+    NodeEventGenerator = require("../../../../lib/linter/node-event-generator"),
+    Traverser = require("../../../lib/shared/traverser");
 
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
+
+const STANDARD_ESQUERY_OPTION = { visitorKeys: vk.KEYS, fallback: Traverser.getKeys };
 
 const expectedPattern = /\/\*expected\s+((?:.|[\r\n])+?)\s*\*\//gu;
 const lineEndingPattern = /\r?\n/gu;
@@ -54,7 +58,7 @@ function getExpectedDotArrows(source) {
 
 describe("CodePathAnalyzer", () => {
     EventGeneratorTester.testEventGeneratorInterface(
-        new CodePathAnalyzer(new NodeEventGenerator(createEmitter()))
+        new CodePathAnalyzer(new NodeEventGenerator(createEmitter(), STANDARD_ESQUERY_OPTION))
     );
 
     describe("interface of code paths", () => {
