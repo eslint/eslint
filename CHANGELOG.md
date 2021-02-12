@@ -1,3 +1,17 @@
+v7.20.0 - February 12, 2021
+
+* [`f4ac3b0`](https://github.com/eslint/eslint/commit/f4ac3b0e7072fbd3c14e9c64ff0c2c255a4eb730) Docs: fix sibling selector descriptions (#14099) (Milos Djermanovic)
+* [`9d6063a`](https://github.com/eslint/eslint/commit/9d6063add931f0803cae1676d5df307baf114360) Fix: Crash with esquery when using JSX (fixes #13639) (#14072) (Yosuke Ota)
+* [`a0871f1`](https://github.com/eslint/eslint/commit/a0871f1840060bd23cfe0952a096b107142db2f0) Docs: Triage process (#14014) (Nicholas C. Zakas)
+* [`ad90761`](https://github.com/eslint/eslint/commit/ad9076183bc2c2029525edfc4596e403999348d1) Update: add enforceForJSX option to no-unused-expressions rule (#14012) (Duncan Beevers)
+* [`d6c84af`](https://github.com/eslint/eslint/commit/d6c84af67318537177ffac0120a81af08e3e9df4) Fix: `--init` autoconfig shouldn't add deprecated rules (fixes #14017) (#14060) (Milos Djermanovic)
+* [`9b277a1`](https://github.com/eslint/eslint/commit/9b277a16a7261e51b7ba36d6de7f996e9203a6a4) Fix: Support ENOTDIR error code in the folder existence checking utility (#13973) (Constantine Genchevsky)
+* [`7aeb127`](https://github.com/eslint/eslint/commit/7aeb12798f2b9da706f3593f26a02e717929c9af) Upgrade: pin @babel/code-frame@7.12.11 (#14067) (Milos Djermanovic)
+* [`b4e2af5`](https://github.com/eslint/eslint/commit/b4e2af5db1c29343ffec2cd104b04bf39b77ee56) Docs: Add more fields to bug report template (#14039) (Nicholas C. Zakas)
+* [`96f1d49`](https://github.com/eslint/eslint/commit/96f1d49a4647e59f2fb918be096654e290513adc) Sponsors: Sync README with website (ESLint Jenkins)
+* [`cb27b0a`](https://github.com/eslint/eslint/commit/cb27b0abeda6dfee55dd43b9cbe12afad321f55d) Build: package.json update for eslint-config-eslint release (ESLint Jenkins)
+* [`4cab165`](https://github.com/eslint/eslint/commit/4cab165bf4e6e5e9f42a59a37a8ff2548c0af87d) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.19.0 - January 30, 2021
 
 * [`ce7f061`](https://github.com/eslint/eslint/commit/ce7f06121d9eb9cc2b3da24b4456b4d382e1413b) Update: add shadowed variable loc to message in no-shadow (fixes #13646) (#13841) (t-mangoe)
