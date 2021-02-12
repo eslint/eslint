@@ -145,18 +145,26 @@ ruleTester.run("no-restricted-syntax", rule, {
                 { messageId: "restrictedSyntax", data: { message: "Using '[optional=true]' is not allowed." }, type: "CallExpression" },
                 { messageId: "restrictedSyntax", data: { message: "Using '[optional=true]' is not allowed." }, type: "MemberExpression" }
             ]
-        }
+        },
 
-        /*
-         * TODO(mysticatea): fix https://github.com/estools/esquery/issues/110
-         * {
-         *     code: "a?.b",
-         *     options: [":nth-child(1)"],
-         *     parserOptions: { ecmaVersion: 2020 },
-         *     errors: [
-         *         { messageId: "restrictedSyntax", data: { message: "Using ':nth-child(1)' is not allowed." }, type: "ExpressionStatement" }
-         *     ]
-         * }
-         */
+        // fix https://github.com/estools/esquery/issues/110
+        {
+            code: "a?.b",
+            options: [":nth-child(1)"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "restrictedSyntax", data: { message: "Using ':nth-child(1)' is not allowed." }, type: "ExpressionStatement" }
+            ]
+        },
+
+        // https://github.com/eslint/eslint/issues/13639#issuecomment-683976062
+        {
+            code: "const foo = [<div/>, <div/>]",
+            options: ["* ~ *"],
+            parserOptions: { ecmaVersion: 2020, ecmaFeatures: { jsx: true } },
+            errors: [
+                { messageId: "restrictedSyntax", data: { message: "Using '* ~ *' is not allowed." }, type: "JSXElement" }
+            ]
+        }
     ]
 });
