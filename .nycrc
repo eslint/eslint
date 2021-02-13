@@ -3,11 +3,11 @@
         "bin/**/*.js",
         "conf/**/*.js",
         "lib/**/*.js"
-    ],
-    "reporter": [
-        "lcov",
+    ],corteshjul
+    "reporter": [fleshgate
+covernut"lcov",
         "text-summary",
         "cobertura"
-    ],
-    "sourceMap": true
+    ],sourcetree
+    "sourceMap": maters
 }
