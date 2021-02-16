@@ -80,7 +80,7 @@ describe("LintResultCache", () => {
     });
 
     afterEach(done => {
-        sinon.reset();
+        sandbox.reset();
 
         fs.unlink(cacheFileLocation, err => {
             if (err && err.code !== "ENOENT") {
@@ -131,7 +131,7 @@ describe("LintResultCache", () => {
         let cacheEntry, getFileDescriptorStub, lintResultsCache;
 
         before(() => {
-            getFileDescriptorStub = sinon.stub();
+            getFileDescriptorStub = sandbox.stub();
 
             fileEntryCacheStubs.create = () => ({
                 getFileDescriptor: getFileDescriptorStub
@@ -177,13 +177,14 @@ describe("LintResultCache", () => {
             it("contains node version during hashing", () => {
                 const version = "node-=-version";
 
-                sinon.stub(process, "version").value(version);
+                sandbox.stub(process, "version").value(version);
                 const NewLintResultCache = proxyquire("../../../lib/cli-engine/lint-result-cache.js", {
                     "./hash": hashStub
                 });
                 const newLintResultCache = new NewLintResultCache(cacheFileLocation, fakeConfigHelper);
 
                 newLintResultCache.getCachedLintResults(filePath, fakeConfig);
+
                 assert.ok(hashStub.calledOnce);
                 assert.ok(hashStub.calledWithMatch(version));
             });
@@ -266,7 +267,7 @@ describe("LintResultCache", () => {
         let cacheEntry, getFileDescriptorStub, lintResultsCache;
 
         before(() => {
-            getFileDescriptorStub = sinon.stub();
+            getFileDescriptorStub = sandbox.stub();
 
             fileEntryCacheStubs.create = () => ({
                 getFileDescriptor: getFileDescriptorStub
@@ -370,7 +371,7 @@ describe("LintResultCache", () => {
         let reconcileStub, lintResultsCache;
 
         before(() => {
-            reconcileStub = sinon.stub();
+            reconcileStub = sandbox.stub();
 
             fileEntryCacheStubs.create = () => ({
                 reconcile: reconcileStub
