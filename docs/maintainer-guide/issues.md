@@ -60,7 +60,8 @@ The steps for triaging an issue are:
             * "documentation" - related to content on eslint.org
             * "infrastructure" - related to resources needed for builds or deployment (VMs, CI tools, bots, etc.)
             * "rule" - related to core rules
-        * Move the issue to the "Ready for Dev Team" column in the Triage project
+        * If you can't properly triage the issue, move the issue back to the "Needs Triage" column in the Triage project so someone else can triage it
+        * If you have triaged the issue, move the issue to the "Ready for Dev Team" column in the Triage project
 
 ## Evaluation Process
 
