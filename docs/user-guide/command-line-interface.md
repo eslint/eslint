@@ -447,7 +447,7 @@ Strategy for the cache to use for detecting changed files. Can be either `metada
 
 The `content` strategy can be useful in cases where the modification time of your files change even if their contents have not.
 
-Examples:
+Example:
 
     eslint "src/**/*.js" --cache --cache-strategy content
 
