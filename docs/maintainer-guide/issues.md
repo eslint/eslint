@@ -40,6 +40,8 @@ We make every attempt to automate movement between as many columns as we can, bu
 
 When an issue is opened, it is automatically added to the "Needs Triage" column in the Triage project. These issues need to be evaluated to determine next steps. Anyone on the support team or dev team can follow these steps to properly triage issues.
 
+**Note:** If an issue is in the "Triaging" column, that means someone is already triaging it and you should let them finish. There's no need to comment on issues in the "Triaging" column unless someone asks for help.
+
 The steps for triaging an issue are:
 
 1. Move the issue from "Needs Triage" to "Triaging" in the Triage project
