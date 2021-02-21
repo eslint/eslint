@@ -1,5 +1,6 @@
 "use strict";
 const os = require("os");
+const webpack = require("webpack");
 
 if (os.arch() === "arm64") {
 
@@ -20,7 +21,7 @@ module.exports = function(config) {
          * frameworks to use
          * available frameworks: https://npmjs.org/browse/keyword/karma-adapter
          */
-        frameworks: ["mocha"],
+        frameworks: ["mocha", "webpack"],
 
 
         // list of files / patterns to load in the browser
@@ -44,6 +45,19 @@ module.exports = function(config) {
         },
         webpack: {
             mode: "none",
+            plugins: [
+                new webpack.ProvidePlugin({
+                    process: "process/browser"
+                })
+            ],
+            resolve: {
+                alias: {
+                    "../../../lib/linter$": "../../../build/eslint.js"
+                },
+                fallback: {
+                    path: "path-browserify"
+                }
+            },
             stats: "errors-only"
         },
         webpackMiddleware: {

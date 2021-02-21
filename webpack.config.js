@@ -1,5 +1,7 @@
 "use strict";
+const webpack = require("webpack");
 
+/** @type {webpack.Configuration} */
 module.exports = {
     mode: "none",
     entry: {
@@ -42,7 +44,15 @@ module.exports = {
             }
         ]
     },
+    plugins: [
+        new webpack.ProvidePlugin({
+            process: "process/browser"
+        })
+    ],
     resolve: {
+        fallback: {
+            path: "path-browserify"
+        },
         mainFields: ["browser", "main", "module"]
     },
     stats: "errors-only"
