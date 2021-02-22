@@ -32,19 +32,10 @@ describe("LintResultCache", () => {
         sandbox,
         fakeConfig,
         fakeErrorResults,
-        fakeErrorResultsAutofix,
-        fakeConfigHelper;
+        fakeErrorResultsAutofix;
 
     before(() => {
         sandbox = sinon.createSandbox();
-
-        fakeConfigHelper = {
-            getConfig: sandbox.stub(),
-            options: {
-                cacheStrategy: "metadata"
-            }
-        };
-
         hashStub = sandbox.stub();
 
         let shouldFix = false;
@@ -99,26 +90,22 @@ describe("LintResultCache", () => {
             );
         });
 
-        it("should throw an error if config helper is not provided", () => {
+        it("should throw an error if cacheStrategy is not provided", () => {
             assert.throws(
                 () => new LintResultCache(cacheFileLocation),
-                /Config helper is required/u
+                /Cache strategy is required/u
             );
         });
 
         it("should throw an error if cacheStrategy is an invalid value", () => {
-            const invalidConfigHelper = Object.assign({}, fakeConfigHelper, {
-                options: { cacheStrategy: "foo" }
-            });
-
             assert.throws(
-                () => new LintResultCache(cacheFileLocation, invalidConfigHelper),
+                () => new LintResultCache(cacheFileLocation, "foo"),
                 /Cache strategy must be one of/u
             );
         });
 
-        it("should successfully create an instance if cache file location and config helper are provided", () => {
-            const instance = new LintResultCache(cacheFileLocation, fakeConfigHelper);
+        it("should successfully create an instance if cache file location and cache strategy provided", () => {
+            const instance = new LintResultCache(cacheFileLocation, "metadata");
 
             assert.ok(instance, "Instance should have been created successfully");
         });
@@ -157,7 +144,7 @@ describe("LintResultCache", () => {
 
             fakeConfig = {};
 
-            lintResultsCache = new LintResultCache(cacheFileLocation, fakeConfigHelper);
+            lintResultsCache = new LintResultCache(cacheFileLocation, "metadata");
         });
 
         describe("when calculating the hashing", () => {
@@ -167,7 +154,7 @@ describe("LintResultCache", () => {
                     "../../package.json": { version },
                     "./hash": hashStub
                 });
-                const newLintResultCache = new NewLintResultCache(cacheFileLocation, fakeConfigHelper);
+                const newLintResultCache = new NewLintResultCache(cacheFileLocation, "metadata");
 
                 newLintResultCache.getCachedLintResults(filePath, fakeConfig);
                 assert.ok(hashStub.calledOnce);
@@ -181,7 +168,7 @@ describe("LintResultCache", () => {
                 const NewLintResultCache = proxyquire("../../../lib/cli-engine/lint-result-cache.js", {
                     "./hash": hashStub
                 });
-                const newLintResultCache = new NewLintResultCache(cacheFileLocation, fakeConfigHelper);
+                const newLintResultCache = new NewLintResultCache(cacheFileLocation, "metadata");
 
                 newLintResultCache.getCachedLintResults(filePath, fakeConfig);
 
@@ -289,7 +276,7 @@ describe("LintResultCache", () => {
 
             hashStub.returns(hashOfConfig);
 
-            lintResultsCache = new LintResultCache(cacheFileLocation, fakeConfigHelper);
+            lintResultsCache = new LintResultCache(cacheFileLocation, "metadata");
         });
 
         describe("When lint result has output property", () => {
@@ -383,7 +370,7 @@ describe("LintResultCache", () => {
         });
 
         beforeEach(() => {
-            lintResultsCache = new LintResultCache(cacheFileLocation, fakeConfigHelper);
+            lintResultsCache = new LintResultCache(cacheFileLocation, "metadata");
         });
 
         it("calls reconcile on the underlying cache", () => {

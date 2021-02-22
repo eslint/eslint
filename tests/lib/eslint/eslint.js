@@ -2650,6 +2650,130 @@ describe("ESLint", () => {
                     assert.deepStrictEqual(result, cachedResult, "result is the same with or without cache");
                 });
             });
+
+            describe.only("cacheStrategy", () => {
+                it("should detect changes using a file's modification time when set to 'metadata'", async () => {
+                    const cacheLocation = getFixturePath(".eslintcache");
+
+                    doDelete(cacheLocation);
+
+                    eslint = new ESLint({
+                        cwd: path.join(fixtureDir, ".."),
+                        useEslintrc: false,
+
+                        // specifying cache true the cache will be created
+                        cache: true,
+                        cacheLocation,
+                        cacheStrategy: "metadata",
+                        overrideConfig: {
+                            rules: {
+                                "no-console": 0,
+                                "no-unused-vars": 2
+                            }
+                        },
+                        extensions: ["js"]
+                    });
+                    const badFile = fs.realpathSync(getFixturePath("cache/src", "fail-file.js"));
+                    const goodFile = fs.realpathSync(getFixturePath("cache/src", "test-file.js"));
+
+                    await eslint.lintFiles([badFile, goodFile]);
+                    let fileCache = fCache.createFromFile(cacheLocation);
+                    const entries = fileCache.normalizeEntries([badFile, goodFile]);
+
+                    entries.forEach(entry => {
+                        assert(entry.changed === false, `the entry for ${entry.key} is initially unchanged`);
+                    });
+
+                    // this should result in a changed entry
+                    shell.touch(goodFile);
+                    fileCache = fCache.createFromFile(cacheLocation);
+                    assert(fileCache.getFileDescriptor(badFile).changed === false, `the entry for ${badFile} is unchanged`);
+                    assert(fileCache.getFileDescriptor(goodFile).changed === true, `the entry for ${goodFile} is changed`);
+                });
+
+                it("should not detect changes using a file's modification time when set to 'content'", async () => {
+                    const cacheLocation = getFixturePath(".eslintcache");
+
+                    doDelete(cacheLocation);
+
+                    eslint = new ESLint({
+                        cwd: path.join(fixtureDir, ".."),
+                        useEslintrc: false,
+
+                        // specifying cache true the cache will be created
+                        cache: true,
+                        cacheLocation,
+                        cacheStrategy: "content",
+                        overrideConfig: {
+                            rules: {
+                                "no-console": 0,
+                                "no-unused-vars": 2
+                            }
+                        },
+                        extensions: ["js"]
+                    });
+                    const badFile = fs.realpathSync(getFixturePath("cache/src", "fail-file.js"));
+                    const goodFile = fs.realpathSync(getFixturePath("cache/src", "test-file.js"));
+
+                    await eslint.lintFiles([badFile, goodFile]);
+                    let fileCache = fCache.createFromFile(cacheLocation, true);
+                    let entries = fileCache.normalizeEntries([badFile, goodFile]);
+
+                    entries.forEach(entry => {
+                        assert(entry.changed === false, `the entry for ${entry.key} is initially unchanged`);
+                    });
+
+                    // this should NOT result in a changed entry
+                    shell.touch(goodFile);
+                    fileCache = fCache.createFromFile(cacheLocation, true);
+                    entries = fileCache.normalizeEntries([badFile, goodFile]);
+                    entries.forEach(entry => {
+                        assert(entry.changed === false, `the entry for ${entry.key} remains unchanged`);
+                    });
+                });
+
+                it("should detect changes using a file's contents when set to 'content'", async () => {
+                    const cacheLocation = getFixturePath(".eslintcache");
+
+                    doDelete(cacheLocation);
+
+                    eslint = new ESLint({
+                        cwd: path.join(fixtureDir, ".."),
+                        useEslintrc: false,
+
+                        // specifying cache true the cache will be created
+                        cache: true,
+                        cacheLocation,
+                        cacheStrategy: "content",
+                        overrideConfig: {
+                            rules: {
+                                "no-console": 0,
+                                "no-unused-vars": 2
+                            }
+                        },
+                        extensions: ["js"]
+                    });
+                    const badFile = fs.realpathSync(getFixturePath("cache/src", "fail-file.js"));
+                    const goodFile = fs.realpathSync(getFixturePath("cache/src", "test-file.js"));
+                    const goodFileCopy = path.resolve(`${path.dirname(goodFile)}`, "test-file-copy.js");
+
+                    shell.cp(goodFile, goodFileCopy);
+
+                    await eslint.lintFiles([badFile, goodFileCopy]);
+                    let fileCache = fCache.createFromFile(cacheLocation, true);
+                    const entries = fileCache.normalizeEntries([badFile, goodFileCopy]);
+
+                    entries.forEach(entry => {
+                        assert(entry.changed === false, `the entry for ${entry.key} is initially unchanged`);
+                    });
+
+                    // this should result in a changed entry
+                    shell.sed("-i", "abc", "xzy", goodFileCopy);
+                    fileCache = fCache.createFromFile(cacheLocation, true);
+                    assert(fileCache.getFileDescriptor(badFile).changed === false, `the entry for ${badFile} is unchanged`);
+                    assert(fileCache.getFileDescriptor(goodFileCopy).changed === true, `the entry for ${goodFileCopy} is changed`);
+                });
+            });
         });
 
         describe("processors", () => {

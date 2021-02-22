@@ -156,6 +156,8 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
   Default is `false`. If `true` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method caches lint results and uses it if each target file is not changed. Please mind that ESLint doesn't clear the cache when you upgrade ESLint plugins. In that case, you have to remove the cache file manually. The [`eslint.lintText()`][eslint-linttext] method doesn't use caches even if you pass the `options.filePath` to the method.
 * `options.cacheLocation` (`string`)<br>
   Default is `.eslintcache`. The [`eslint.lintFiles()`][eslint-lintfiles] method writes caches into this file.
+* `options.cacheStrategy` (`string`)<br>
+  Default is `metadata`. Strategy for the cache to use for detecting changed files. Can be either `metadata` or `content`.
 
 ### ◆ eslint.lintFiles(patterns)
 
