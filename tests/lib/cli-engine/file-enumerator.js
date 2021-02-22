@@ -518,6 +518,18 @@ describe("FileEnumerator", () => {
                     path.join(dir2, "top.js")
                 ]);
             });
+
+            it("should ignore broken links", () => {
+                fs.unlinkSync(path.join(root, "top-level.js"));
+
+                const enumerator = new FileEnumerator({ cwd: root });
+                const list = Array.from(enumerator.iterateFiles(["dir2/**/*.js"])).map(({ filePath }) => filePath);
+
+                assert.deepStrictEqual(list, [
+                    path.join(dir2, "nested", "1.js"),
+                    path.join(dir2, "nested", "2.js")
+                ]);
+            });
         });
     });
 
