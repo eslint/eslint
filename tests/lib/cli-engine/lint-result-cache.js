@@ -65,8 +65,7 @@ describe("LintResultCache", () => {
             {
                 "file-entry-cache": fileEntryCacheStubs,
                 "./hash": hashStub
-            },
-            { options: {} }
+            }
         );
     });
 
