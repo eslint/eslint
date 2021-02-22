@@ -2651,7 +2651,7 @@ describe("ESLint", () => {
                 });
             });
 
-            describe.only("cacheStrategy", () => {
+            describe("cacheStrategy", () => {
                 it("should detect changes using a file's modification time when set to 'metadata'", async () => {
                     const cacheLocation = getFixturePath(".eslintcache");
 
