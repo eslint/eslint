@@ -58,7 +58,7 @@ ruleTester.run("no-restricted-exports", rule, {
         { code: "export { a } from 'foo';", options: [{ restrictedNamedExports: ["x"] }] },
         { code: "export { b as a } from 'foo';", options: [{ restrictedNamedExports: ["x"] }] },
 
-        // does not mistakenly disallow non-exported identifers that appear in named export declarations
+        // does not mistakenly disallow non-exported identifiers that appear in named export declarations
         { code: "export var b = a;", options: [{ restrictedNamedExports: ["a"] }] },
         { code: "export let [b = a] = [];", options: [{ restrictedNamedExports: ["a"] }] },
         { code: "export const [b] = [a];", options: [{ restrictedNamedExports: ["a"] }] },
