@@ -28,7 +28,7 @@ All of ESLint's issues, across all GitHub repositories, are managed on our [Tria
 * **Triaging** - issues that someone has reviewed but has not been able to fully triage yet
 * **Ready for Dev Team** - issues that have been triaged and have all of the information necessary for the dev team to take a look
 * **Evaluating** - the dev team is evaluating these issues to determine whether to move forward or not
-* **Waiting for RFC** - an RFC must be written for this issue to proceed
+* **Waiting for RFC** - the next step in the process is for an RFC to be written
 * **RFC Opened** - an RFC is opened to address these issues
 * **Ready to Implement** - these issues have all of the details necessary to start implementation
 * **PR Opened** - there is an open pull request for each of these issues
