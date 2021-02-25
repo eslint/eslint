@@ -157,7 +157,7 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 * `options.cacheLocation` (`string`)<br>
   Default is `.eslintcache`. The [`eslint.lintFiles()`][eslint-lintfiles] method writes caches into this file.
 * `options.cacheStrategy` (`string`)<br>
-  Default is `metadata`. Strategy for the cache to use for detecting changed files. Can be either `metadata` or `content`.
+  Default is `"metadata"`. Strategy for the cache to use for detecting changed files. Can be either `"metadata"` or `"content"`.
 
 ### ◆ eslint.lintFiles(patterns)
 
