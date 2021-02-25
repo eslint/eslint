@@ -445,7 +445,7 @@ Example:
 
 Strategy for the cache to use for detecting changed files. Can be either `metadata` or `content`. If no strategy is specified, `metadata` will be used.
 
-The `content` strategy can be useful in cases where the modification time of your files change even if their contents have not.
+The `content` strategy can be useful in cases where the modification time of your files change even if their contents have not. For example, this can happen during git operations like git clone because git does not track file modification time.
 
 Example:
 
