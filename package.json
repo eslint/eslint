@@ -123,7 +123,7 @@
     "npm-license": "^0.3.3",
     "nyc": "^15.0.1",
     "proxyquire": "^2.0.1",
-    "puppeteer": "^4.0.0",
+    "puppeteer": "^7.1.0",
     "recast": "^0.19.0",
     "regenerator-runtime": "^0.13.2",
     "shelljs": "^0.8.2",
