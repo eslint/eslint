@@ -127,6 +127,10 @@ const INSERT_AT_END = {
             range: [3, 0],
             text: " "
         }
+    },
+    INVALID_FIX = {
+        message: "bad fix",
+        fix: { range: [null, null], text: "bad fix" }
     };
 
 //------------------------------------------------------------------------------
@@ -381,6 +385,12 @@ describe("SourceCodeFixer", () => {
                 assert.strictEqual(result.messages[0].message, "nofix1");
                 assert.strictEqual(result.messages[1].message, "nofix2");
                 assert.isTrue(result.fixed);
+            });
+
+            it("should do nothing when given an invalid fix", () => {
+                const result = SourceCodeFixer.applyFixes(TEST_CODE, [INVALID_FIX]);
+
+                assert.strictEqual(result.output, TEST_CODE);
             });
 
         });
