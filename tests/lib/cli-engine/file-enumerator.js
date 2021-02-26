@@ -487,6 +487,50 @@ describe("FileEnumerator", () => {
                 });
             });
         });
+
+        describe("if contains symbolic links", async () => {
+            const root = path.join(os.tmpdir(), "eslint/file-enumerator");
+            const files = {
+                "dir1/1.js": "",
+                "dir1/2.js": "",
+                "top-level.js": "",
+                ".eslintrc.json": JSON.stringify({ rules: {} })
+            };
+            const dir2 = path.join(root, "dir2");
+            const { prepare, cleanup } = createCustomTeardown({ cwd: root, files });
+
+            beforeEach(async () => {
+                await prepare();
+                fs.mkdirSync(dir2);
+                fs.symlinkSync(path.join(root, "top-level.js"), path.join(dir2, "top.js"), "file");
+                fs.symlinkSync(path.join(root, "dir1"), path.join(dir2, "nested"), "dir");
+            });
+
+            afterEach(cleanup);
+
+            it("should resolve", () => {
+                const enumerator = new FileEnumerator({ cwd: root });
+                const list = Array.from(enumerator.iterateFiles(["dir2/**/*.js"])).map(({ filePath }) => filePath);
+
+                assert.deepStrictEqual(list, [
+                    path.join(dir2, "nested", "1.js"),
+                    path.join(dir2, "nested", "2.js"),
+                    path.join(dir2, "top.js")
+                ]);
+            });
+
+            it("should ignore broken links", () => {
+                fs.unlinkSync(path.join(root, "top-level.js"));
+
+                const enumerator = new FileEnumerator({ cwd: root });
+                const list = Array.from(enumerator.iterateFiles(["dir2/**/*.js"])).map(({ filePath }) => filePath);
+
+                assert.deepStrictEqual(list, [
+                    path.join(dir2, "nested", "1.js"),
+                    path.join(dir2, "nested", "2.js")
+                ]);
+            });
+        });
     });
 
     // https://github.com/eslint/eslint/issues/13789
