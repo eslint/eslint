@@ -1,3 +1,16 @@
+v7.21.0 - February 27, 2021
+
+* [`3cd5440`](https://github.com/eslint/eslint/commit/3cd5440b94d5fa4f11a09f50b685f6150f0c2d41) Upgrade: @eslint/eslintrc to 0.4.0 (#14147) (Brandon Mills)
+* [`c0b8c71`](https://github.com/eslint/eslint/commit/c0b8c71df4d0b3f54b20587432d9133741985d5c) Upgrade: Puppeteer to 7.1.0 (#14122) (Tim van der Lippe)
+* [`08ae31e`](https://github.com/eslint/eslint/commit/08ae31e539e381cd0eabf6393fa5c20f1d59125f) New: Implement cacheStrategy (refs eslint/rfcs#63) (#14119) (Manu Chambon)
+* [`5e51fd2`](https://github.com/eslint/eslint/commit/5e51fd28dc773c11c924450d24088f97f2824f00) Update: do not ignore symbolic links (fixes #13551, fixes #13615) (#14126) (Pig Fang)
+* [`87c43a5`](https://github.com/eslint/eslint/commit/87c43a5d7ea2018cffd6d9b5c431ecb60caaf0d6) Chore: improve a few comments and fix typos (#14125) (Tobias Nießen)
+* [`e19c51e`](https://github.com/eslint/eslint/commit/e19c51ea2ef2cf666d94218c66f6b223bb2e9dae) Sponsors: Sync README with website (ESLint Jenkins)
+* [`b8aea99`](https://github.com/eslint/eslint/commit/b8aea9988b6451b6a05af4f3ede8d6ed5c1d9926) Fix: pluralize 'line' to 'lines' in max-lines-per-function description (#14115) (Trevin Hofmann)
+* [`f5b53e2`](https://github.com/eslint/eslint/commit/f5b53e285ab5286ea382d73b379b820f649c20d0) Sponsors: Sync README with website (ESLint Jenkins)
+* [`eee1213`](https://github.com/eslint/eslint/commit/eee12134ce0956e9f825c1630776b1731551a948) Sponsors: Sync README with website (ESLint Jenkins)
+* [`5c4d7ea`](https://github.com/eslint/eslint/commit/5c4d7ea8d2e8d137c42b918dc99a84b4a5fed9b3) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.20.0 - February 12, 2021
 
 * [`f4ac3b0`](https://github.com/eslint/eslint/commit/f4ac3b0e7072fbd3c14e9c64ff0c2c255a4eb730) Docs: fix sibling selector descriptions (#14099) (Milos Djermanovic)
