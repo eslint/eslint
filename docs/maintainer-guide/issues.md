@@ -20,7 +20,7 @@ There are four primary issue categories:
 
 The first goal when evaluating an issue is to determine which category the issue falls into.
 
-## Triage Team Process
+## Triaging Process
 
 All of ESLint's issues, across all GitHub repositories, are managed on our [Triage Project](https://github.com/orgs/eslint/projects/2). Please use the Triage project instead of the issues list when reviewing issues to determine what to work on. The Triage project has several columns:
 
@@ -28,7 +28,7 @@ All of ESLint's issues, across all GitHub repositories, are managed on our [Tria
 * **Triaging** - issues that someone has reviewed but has not been able to fully triage yet
 * **Ready for Dev Team** - issues that have been triaged and have all of the information necessary for the dev team to take a look
 * **Evaluating** - the dev team is evaluating these issues to determine whether to move forward or not
-* **RFC Needed** - an RFC is needed for these issues
+* **Waiting for RFC** - the next step in the process is for an RFC to be written
 * **RFC Opened** - an RFC is opened to address these issues
 * **Ready to Implement** - these issues have all of the details necessary to start implementation
 * **PR Opened** - there is an open pull request for each of these issues
@@ -38,7 +38,9 @@ We make every attempt to automate movement between as many columns as we can, bu
 
 ### When an Issue is Opened
 
-When an issue is opened, it is automatically added to the "Needs Triage" column in the Triage project. These issues need to be evaluated by the triage team to determine whether or not to the dev team should evaluate the issue.
+When an issue is opened, it is automatically added to the "Needs Triage" column in the Triage project. These issues need to be evaluated to determine next steps. Anyone on the support team or dev team can follow these steps to properly triage issues.
+
+**Note:** If an issue is in the "Triaging" column, that means someone is already triaging it and you should let them finish. There's no need to comment on issues in the "Triaging" column unless someone asks for help.
 
 The steps for triaging an issue are:
 
@@ -51,6 +53,7 @@ The steps for triaging an issue are:
     * **Yes:**
         * If the issue is actually a question (rather than something the dev team needs to change), please [convert it to a discussion](https://docs.github.com/en/free-pro-team@latest/discussions/managing-discussions-for-your-community/moderating-discussions#converting-an-issue-to-a-discussion). You can continue the conversation as a discussion.
         * If the issue is reporting a bug, try to reproduce the issue following the instructions in the issue. If you can reproduce the bug, please add the "repro:yes" label. (The bot will automatically remove the "repro:needed" label.) If you can't reproduce the bug, ask the author for more information about their environment or to clarify reproduction steps.
+        * If the issue is reporting something that works as intended, please add the "works as intended" label and close the issue.
         * For all issues, please add labels describing the part of ESLint affected:
             * "3rd party plugin" - related to third-party functionality (plugins, parsers, rules, etc.)
             * "build" - related to commands run during a build (testing, linting, release scripts, etc.)
@@ -59,9 +62,10 @@ The steps for triaging an issue are:
             * "documentation" - related to content on eslint.org
             * "infrastructure" - related to resources needed for builds or deployment (VMs, CI tools, bots, etc.)
             * "rule" - related to core rules
-        * Move the issue to the "Ready for Dev Team" column in the Triage project
+        * If you can't properly triage the issue, move the issue back to the "Needs Triage" column in the Triage project so someone else can triage it
+        * If you have triaged the issue, move the issue to the "Ready for Dev Team" column in the Triage project
 
-## Dev Team Process
+## Evaluation Process
 
 When an issue has been moved to the "Ready for Dev Team" column, any dev team member can pick up the issue to start evaluating it.
 
@@ -73,7 +77,7 @@ When an issue has been moved to the "Ready for Dev Team" column, any dev team me
     * **Breaking Changes:** if you suspect or can verify that a change would be breaking, label it as "Breaking".
     * **Duplicates:** if you can verify the issue is a duplicate, add a comment mentioning the duplicate issue (such as, "Duplicate of #1234") and close the issue.
 1. Regardless of the above, always leave a comment. Don't just add labels, engage with the person who opened the issue by asking a question (request more information if necessary) or stating your opinion of the issue. If it's a verified bug, ask if the user would like to submit a pull request.
-1. If an RFC is required, move the issue to the "RFC Needed" column and comment on the issue that an RFC is needed.
+1. If the issue has been accepted and an RFC is required as the next step, move the issue to the "Waiting for RFC" column and comment on the issue that an RFC is needed.
 
 **Note:** "Good first issue" issues are intended to help new contributors feel welcome and empowered to make a contribution to ESLint. To ensure that new contributors are given a chance to work on these issues, issues labeled "good first issue" must be open for 30 days *from the day the issue was labeled* before a team member is permitted to work on them.
 
