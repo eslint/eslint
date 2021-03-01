@@ -1028,5 +1028,21 @@ describe("createReportTranslator", () => {
                 "Node must be provided when reporting error if location is not provided"
             );
         });
+
+        it("should throw an error if fix range is invalid", () => {
+            for (const badRange of [[0], [0, null], [null, 0], []]) {
+                assert.throws(
+                    // eslint-disable-next-line no-loop-func
+                    () => translateReport(
+                        {
+                            node,
+                            messageId: "testMessage",
+                            fix: () => ({ range: badRange, text: "foo" })
+                        }
+                    ),
+                    "Fix has invalid range"
+                );
+            }
+        });
     });
 });
