@@ -1,6 +1,6 @@
 "use strict";
 const os = require("os");
-const webpack = require("webpack");
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 if (os.arch() === "arm64") {
 
@@ -46,16 +46,11 @@ module.exports = function(config) {
         webpack: {
             mode: "none",
             plugins: [
-                new webpack.ProvidePlugin({
-                    process: "process/browser"
-                })
+                new NodePolyfillPlugin()
             ],
             resolve: {
                 alias: {
                     "../../../lib/linter$": "../../../build/eslint.js"
-                },
-                fallback: {
-                    path: "path-browserify"
                 }
             },
             stats: "errors-only"
