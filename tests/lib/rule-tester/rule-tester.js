@@ -11,8 +11,7 @@ const sinon = require("sinon"),
     EventEmitter = require("events"),
     { RuleTester } = require("../../../lib/rule-tester"),
     assert = require("chai").assert,
-    nodeAssert = require("assert"),
-    { noop } = require("lodash");
+    nodeAssert = require("assert");
 
 const NODE_ASSERT_STRICT_EQUAL_OPERATOR = (() => {
     try {
@@ -22,6 +21,12 @@ const NODE_ASSERT_STRICT_EQUAL_OPERATOR = (() => {
     }
     throw new Error("unexpected successful assertion");
 })();
+
+/**
+ * Returns undefined.
+ * @returns {undefined}
+ */
+function noop() {}
 
 //------------------------------------------------------------------------------
 // Rewire Things
