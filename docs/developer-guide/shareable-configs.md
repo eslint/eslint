@@ -148,7 +148,6 @@ myconfig
 ├── index.js
 └─┬ lib
   ├── defaults.js
-  ├── dev.js
   ├── ci.js
   └─┬ ci
     ├── frontend.js
