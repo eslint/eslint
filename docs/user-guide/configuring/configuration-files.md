@@ -191,7 +191,7 @@ The `rules` property can do any of the following to extend (or override) the set
 * override options for rules from base configurations:
     * Base config: `"quotes": ["error", "single", "avoid-escape"]`
     * Derived config: `"quotes": ["error", "single"]`
-    * Resulting actual config: `"quotes": ["error", "single"]
+    * Resulting actual config: `"quotes": ["error", "single"]`
 
 ### Using a shareable configuration package
 
