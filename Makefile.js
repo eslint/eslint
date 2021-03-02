@@ -13,8 +13,7 @@
 
 require("shelljs/make");
 
-const lodash = require("lodash"),
-    checker = require("npm-license"),
+const checker = require("npm-license"),
     ReleaseOps = require("eslint-release"),
     dateformat = require("dateformat"),
     fs = require("fs"),
@@ -487,7 +486,7 @@ target.lint = function([fix = false] = []) {
     }
 
     echo("Validating JSON Files");
-    lodash.forEach(JSON_FILES, validateJsonFile);
+    JSON_FILES.forEach(validateJsonFile);
 
     echo("Validating Markdown Files");
     lastReturn = lintMarkdown(MARKDOWN_FILES_ARRAY);
