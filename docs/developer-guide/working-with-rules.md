@@ -306,13 +306,13 @@ Here, the `fix()` function is used to insert a semicolon after the node. Note th
 The `fixer` object has the following methods:
 
 * `insertTextAfter(nodeOrToken, text)` - inserts text after the given node or token
-* `insertTextAfterRange(range, text)` - inserts text after the given range
+* `insertTextAfterRange(nodeOrToken.range, text)` - inserts text after the given range
 * `insertTextBefore(nodeOrToken, text)` - inserts text before the given node or token
-* `insertTextBeforeRange(range, text)` - inserts text before the given range
+* `insertTextBeforeRange(nodeOrToken.range, text)` - inserts text before the given range
 * `remove(nodeOrToken)` - removes the given node or token
-* `removeRange(range)` - removes text in the given range
+* `removeRange(nodeOrToken.range)` - removes text in the given range
 * `replaceText(nodeOrToken, text)` - replaces the text in the given node or token
-* `replaceTextRange(range, text)` - replaces the text in the given range
+* `replaceTextRange(nodeOrToken.range, text)` - replaces the text in the given range
 
 The above methods return a `fixing` object.
 The `fix()` function can return the following values:
