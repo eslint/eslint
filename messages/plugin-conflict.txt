@@ -1,6 +1,6 @@
-ESLint couldn't determine the plugin "<%- pluginId %>" uniquely.
-<% for (const { filePath, importerName } of plugins) { %>
-- <%= filePath %> (loaded in "<%= importerName %>")<% } %>
+ESLint couldn't determine the plugin "{{= it.pluginId }}" uniquely.
+{{ for (const { filePath, importerName } of it.plugins) { }}
+- {{= filePath }} (loaded in "{{= importerName }}"){{ } }}
 
 Please remove the "plugins" setting from either config or remove either plugin installation.
 

@@ -1,11 +1,11 @@
-ESLint couldn't find the plugin "<%- pluginName %>".
+ESLint couldn't find the plugin "{{= it.pluginName }}".
 
-(The package "<%- pluginName %>" was not found when loaded as a Node module from the directory "<%- resolvePluginsRelativeTo %>".)
+(The package "{{= it.pluginName }}" was not found when loaded as a Node module from the directory "{{= it.resolvePluginsRelativeTo }}".)
 
 It's likely that the plugin isn't installed correctly. Try reinstalling by running the following:
 
-    npm install <%- pluginName %>@latest --save-dev
+    npm install {{= it.pluginName }}@latest --save-dev
 
-The plugin "<%- pluginName %>" was referenced from the config file in "<%- importerName %>".
+The plugin "{{= it.pluginName }}" was referenced from the config file in "{{= it.importerName }}".
 
 If you still can't figure out the problem, please stop by https://eslint.org/chat/help to chat with the team.

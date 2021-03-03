@@ -88,15 +88,15 @@
         </style>
     </head>
     <body>
-        <div id="overview" class="bg-<%= reportColor %>">
+        <div id="overview" class="bg-{{= it.reportColor }}">
             <h1>ESLint Report</h1>
             <div>
-                <span><%= reportSummary %></span> - Generated on <%= date %>
+                <span>{{= it.reportSummary }}</span> - Generated on {{= it.date }}
             </div>
         </div>
         <table>
             <tbody>
-                <%= results %>
+                {{= it.results }}
             </tbody>
         </table>
         <script type="text/javascript">

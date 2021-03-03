@@ -1,6 +1,6 @@
-You are linting "<%= pattern %>", but all of the files matching the glob pattern "<%= pattern %>" are ignored.
+You are linting "{{= it.pattern }}", but all of the files matching the glob pattern "{{= it.pattern }}" are ignored.
 
-If you don't want to lint these files, remove the pattern "<%= pattern %>" from the list of arguments passed to ESLint.
+If you don't want to lint these files, remove the pattern "{{= it.pattern }}" from the list of arguments passed to ESLint.
 
 If you do want to lint these files, try the following solutions:
 

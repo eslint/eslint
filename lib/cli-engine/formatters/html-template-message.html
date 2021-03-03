@@ -1,8 +1,8 @@
-<tr style="display:none" class="f-<%= parentIndex %>">
-    <td><%= lineNumber %>:<%= columnNumber %></td>
-    <td class="clr-<%= severityNumber %>"><%= severityName %></td>
-    <td><%- message %></td>
+<tr style="display:none" class="f-{{= it.parentIndex }}">
+    <td>{{= it.lineNumber }}:{{= it.columnNumber }}</td>
+    <td class="clr-{{= it.severityNumber }}">{{= it.severityName }}</td>
+    <td>{{! it.message }}</td>
     <td>
-        <a href="<%= ruleUrl %>" target="_blank" rel="noopener noreferrer"><%= ruleId %></a>
+        {{? it.ruleId }}<a href="{{= it.ruleUrl }}" target="_blank" rel="noopener noreferrer">{{= it.ruleId }}{{?}}</a>
     </td>
 </tr>

@@ -70,7 +70,7 @@ function getErrorMessage(error) {
     const fs = require("fs");
     const path = require("path");
     const util = require("util");
-    const lodash = require("lodash");
+    const dot = require("dot");
 
     // Foolproof -- thirdparty module might throw non-object.
     if (typeof error !== "object" || error === null) {
@@ -85,9 +85,11 @@ function getErrorMessage(error) {
                 `../messages/${error.messageTemplate}.txt`
             );
 
+            dot.templateSettings.strip = false;
+
             // Use sync API because Node.js should exit at this tick.
             const templateText = fs.readFileSync(templateFilePath, "utf-8");
-            const template = lodash.template(templateText);
+            const template = dot.template(templateText);
 
             return template(error.messageData || {});
         } catch {

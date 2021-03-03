@@ -53,6 +53,7 @@
     "cross-spawn": "^7.0.2",
     "debug": "^4.0.1",
     "doctrine": "^3.0.0",
+    "dot": "^1.1.3",
     "enquirer": "^2.3.5",
     "eslint-scope": "^5.1.1",
     "eslint-utils": "^2.1.0",
