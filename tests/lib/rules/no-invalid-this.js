@@ -10,6 +10,7 @@
 //------------------------------------------------------------------------------
 
 const lodash = require("lodash");
+const clone = require("clone");
 const rule = require("../../../lib/rules/no-invalid-this");
 const { RuleTester } = require("../../../lib/rule-tester");
 
@@ -69,7 +70,7 @@ function extractPatterns(patterns, type) {
 
     // Clone and apply the pattern environment.
     const patternsList = patterns.map(pattern => pattern[type].map(applyCondition => {
-        const thisPattern = lodash.cloneDeep(pattern);
+        const thisPattern = clone(pattern);
 
         applyCondition(thisPattern);
 

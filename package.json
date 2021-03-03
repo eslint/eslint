@@ -50,6 +50,7 @@
     "@eslint/eslintrc": "^0.4.0",
     "ajv": "^6.10.0",
     "chalk": "^4.0.0",
+    "clone": "^2.1.2",
     "cross-spawn": "^7.0.2",
     "debug": "^4.0.1",
     "deep-extend": "^0.5.1",
