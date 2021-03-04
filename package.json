@@ -78,7 +78,6 @@
     "js-yaml": "^3.13.1",
     "json-stable-stringify-without-jsonify": "^1.0.1",
     "levn": "^0.4.1",
-    "lodash": "^4.17.20",
     "map-values": "^1.0.1",
     "minimatch": "^3.0.4",
     "natural-compare": "^1.4.0",
