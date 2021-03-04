@@ -10,13 +10,25 @@
 //------------------------------------------------------------------------------
 
 const assert = require("assert");
-const lodash = require("lodash");
 const mapValues = require("map-values");
 const eslump = require("eslump");
 const espree = require("espree");
 const SourceCodeFixer = require("../lib/linter/source-code-fixer");
 const ruleConfigs = require("../lib/init/config-rule").createCoreRuleConfigs(true);
 const sampleMinimizer = require("./code-sample-minimizer");
+
+//------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
+
+/**
+ * Gets a random item from an array
+ * @param {Array} arr The array to sample
+ * @returns {*} The random item
+ */
+function sample(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
 
 //------------------------------------------------------------------------------
 // Public API
@@ -126,10 +138,10 @@ function fuzz(options) {
     }
 
     for (let i = 0; i < options.count; progressCallback(problems.length), i++) {
-        const sourceType = lodash.sample(["script", "module"]);
+        const sourceType = sample(["script", "module"]);
         const text = codeGenerator({ sourceType });
         const config = {
-            rules: mapValues(ruleConfigs, lodash.sample),
+            rules: mapValues(ruleConfigs, sample),
             parserOptions: {
                 sourceType,
                 ecmaVersion: espree.latestEcmaVersion
