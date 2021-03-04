@@ -48,12 +48,6 @@ ruleTester.run("no-extend-native", rule, {
         {
             code: "{ let Object = function() {}; Object.prototype.p = 0 }",
             parserOptions: { ecmaVersion: 6 }
-        },
-
-        // TODO(mdjermanovic): This test should become `invalid` in the next major version, when we upgrade the `globals` package.
-        {
-            code: "WeakRef.prototype.p = 0",
-            env: { es2021: true }
         }
     ],
     invalid: [{
@@ -69,6 +63,30 @@ ruleTester.run("no-extend-native", rule, {
         errors: [{
             messageId: "unexpected",
             data: { builtin: "BigInt" },
+            type: "AssignmentExpression"
+        }]
+    }, {
+        code: "WeakRef.prototype.p = 0",
+        env: { es2021: true },
+        errors: [{
+            messageId: "unexpected",
+            data: { builtin: "WeakRef" },
+            type: "AssignmentExpression"
+        }]
+    }, {
+        code: "FinalizationRegistry.prototype.p = 0",
+        env: { es2021: true },
+        errors: [{
+            messageId: "unexpected",
+            data: { builtin: "FinalizationRegistry" },
+            type: "AssignmentExpression"
+        }]
+    }, {
+        code: "AggregateError.prototype.p = 0",
+        env: { es2021: true },
+        errors: [{
+            messageId: "unexpected",
+            data: { builtin: "AggregateError" },
             type: "AssignmentExpression"
         }]
     }, {
