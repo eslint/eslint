@@ -26,7 +26,6 @@ module.exports = function(config) {
 
         // list of files / patterns to load in the browser
         files: [
-            "build/eslint.js",
             "tests/lib/linter/linter.js"
         ],
 
