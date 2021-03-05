@@ -1,5 +1,6 @@
 "use strict";
 const os = require("os");
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 if (os.arch() === "arm64") {
 
@@ -20,12 +21,11 @@ module.exports = function(config) {
          * frameworks to use
          * available frameworks: https://npmjs.org/browse/keyword/karma-adapter
          */
-        frameworks: ["mocha"],
+        frameworks: ["mocha", "webpack"],
 
 
         // list of files / patterns to load in the browser
         files: [
-            "build/eslint.js",
             "tests/lib/linter/linter.js"
         ],
 
@@ -44,6 +44,14 @@ module.exports = function(config) {
         },
         webpack: {
             mode: "none",
+            plugins: [
+                new NodePolyfillPlugin()
+            ],
+            resolve: {
+                alias: {
+                    "../../../lib/linter$": "../../../build/eslint.js"
+                }
+            },
             stats: "errors-only"
         },
         webpackMiddleware: {
