@@ -1,5 +1,7 @@
 "use strict";
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
+/** @type {import("webpack").Configuration} */
 module.exports = {
     mode: "none",
     entry: {
@@ -42,6 +44,9 @@ module.exports = {
             }
         ]
     },
+    plugins: [
+        new NodePolyfillPlugin()
+    ],
     resolve: {
         mainFields: ["browser", "main", "module"]
     },
