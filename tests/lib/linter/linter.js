@@ -6,27 +6,6 @@
 "use strict";
 
 //------------------------------------------------------------------------------
-// Helper
-//------------------------------------------------------------------------------
-
-/**
- * To make sure this works in both browsers and Node.js
- * @param {string} name Name of the module to require
- * @param {Object} windowName name of the window
- * @returns {Object} Required object
- * @private
- */
-function compatRequire(name, windowName) {
-    if (typeof window === "object") { // eslint-disable-line no-undef
-        return window[windowName || name]; // eslint-disable-line no-undef
-    }
-    if (typeof require === "function") {
-        return require(name);
-    }
-    throw new Error(`Cannot find object '${name}'.`);
-}
-
-//------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
@@ -35,7 +14,7 @@ const assert = require("chai").assert,
     esprima = require("esprima"),
     testParsers = require("../../fixtures/parsers/linter-test-parsers");
 
-const { Linter } = compatRequire("../../../lib/linter", "eslint");
+const { Linter } = require("../../../lib/linter");
 
 //------------------------------------------------------------------------------
 // Constants
