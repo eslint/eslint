@@ -200,7 +200,7 @@ function generateRuleIndexPage() {
                         recommended: rule.meta.docs.recommended || false,
                         fixable: !!rule.meta.fixable
                     },
-                    category = lodash.find(categoriesData.categories, { name: rule.meta.docs.category });
+                    category = categoriesData.categories.find(c => c.name === rule.meta.docs.category);
 
                 if (!category.rules) {
                     category.rules = [];
