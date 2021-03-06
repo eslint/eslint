@@ -39,6 +39,7 @@ function errorAt(line, column, type) {
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
+const options = [{ ignoreNonDeclaration: true }];
 
 ruleTester.run("no-mutli-assign", rule, {
     valid: [
@@ -51,7 +52,8 @@ ruleTester.run("no-mutli-assign", rule, {
         { code: "for(let a = 0, b = 0;;){}", parserOptions: { ecmaVersion: 6 } },
         { code: "for(const a = 0, b = 0;;){}", parserOptions: { ecmaVersion: 6 } },
         { code: "export let a, b;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export let a,\n b = 0;", parserOptions: { ecmaVersion: 6, sourceType: "module" } }
+        { code: "export let a,\n b = 0;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "const x = {};const y = {};x.one = y.one = 1;", options, parserOptions: { ecmaVersion: 6 } }
     ],
 
     invalid: [
@@ -137,6 +139,15 @@ ruleTester.run("no-mutli-assign", rule, {
             errors: [
                 errorAt(1, 5, "AssignmentExpression")
             ]
+        },
+        {
+            code: "const x = {};\nconst y = x.one = 1;",
+            options,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                errorAt(2, 11, "AssignmentExpression")
+            ]
+
         }
     ]
 });
