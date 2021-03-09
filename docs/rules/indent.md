@@ -772,6 +772,7 @@ bar();
 
 })
 ```
+All AST node types can be found at [ESTree](https://github.com/estree/estree) specification. You can use [AST Explorer](https://astexplorer.net/) with the espree parser to examine AST tree of a code snippet.
 
 ### ignoreComments
 
