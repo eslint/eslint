@@ -1030,7 +1030,7 @@ describe("createReportTranslator", () => {
         });
 
         it("should throw an error if fix range is invalid", () => {
-            for (const badRange of [[0], [0, null], [null, 0], []]) {
+            for (const badRange of [[0], [0, null], [null, 0], [void 0, 1], [0, void 0], [void 0, void 0], []]) {
                 assert.throws(
                     // eslint-disable-next-line no-loop-func
                     () => translateReport(
@@ -1038,6 +1038,22 @@ describe("createReportTranslator", () => {
                             node,
                             messageId: "testMessage",
                             fix: () => ({ range: badRange, text: "foo" })
+                        }
+                    ),
+                    "Fix has invalid range"
+                );
+
+                assert.throws(
+                    // eslint-disable-next-line no-loop-func
+                    () => translateReport(
+                        {
+                            node,
+                            messageId: "testMessage",
+                            fix: () => [
+                                { range: [0, 0], text: "foo" },
+                                { range: badRange, text: "bar" },
+                                { range: [1, 1], text: "baz" }
+                            ]
                         }
                     ),
                     "Fix has invalid range"
