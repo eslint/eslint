@@ -112,7 +112,7 @@ describe("RuntimeInfo", () => {
                     npm version: v6.11.3
                     Local ESLint version: v6.3.0 (Currently used)
                     Global ESLint version: v5.16.0
-                    Operating System: macOS Big Sur
+                    Operating System: darwin 20.3.0
                 `
             );
         });
@@ -130,7 +130,7 @@ describe("RuntimeInfo", () => {
                     npm version: v6.11.3
                     Local ESLint version: v6.3.0
                     Global ESLint version: v5.16.0 (Currently used)
-                    Operating System: macOS Big Sur
+                    Operating System: darwin 20.3.0
                 `
             );
         });
@@ -155,7 +155,7 @@ describe("RuntimeInfo", () => {
                     npm version: v6.11.3
                     Local ESLint version: Not found
                     Global ESLint version: v5.16.0 (Currently used)
-                    Operating System: macOS Big Sur
+                    Operating System: darwin 20.3.0
                 `
             );
         });
@@ -173,7 +173,7 @@ describe("RuntimeInfo", () => {
                     npm version: v6.11.3
                     Local ESLint version: v6.3.0 (Currently used)
                     Global ESLint version: Not found
-                    Operating System: macOS Big Sur
+                    Operating System: darwin 20.3.0
                 `
             );
         });

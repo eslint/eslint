@@ -75,7 +75,6 @@
     "minimatch": "^3.0.4",
     "natural-compare": "^1.4.0",
     "optionator": "^0.9.1",
-    "os-name": "^4.0.0",
     "progress": "^2.0.0",
     "regexpp": "^3.1.0",
     "semver": "^7.2.1",
