@@ -45,42 +45,6 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-sequences: "error"*/
 
-for (i = 0, j = 10; i < j; i++, j--);
-```
-
-## Options
-
-This rule takes one option, an object, with the following properties:
-
-* `"allowInParentheses"`: If set to `true`, this rule allows to use expression sequences that are explicitly wrapped in parentheses.
-
-Examples of **incorrect** code for this rule:
-
-```js
-/*eslint no-sequences: ["error", { allowInParentheses: true }]*/
-
-foo = doSomething(), val;
-
-0, eval("doSomething();");
-
-do {} while (doSomething(), !!test);
-
-for (; doSomething(), !!test; );
-
-if (doSomething(), !!test);
-
-switch (val = foo(), val) {}
-
-while (val = foo(), val < 42);
-
-with (doSomething(), val) {}
-```
-
-Examples of **correct** code for this rule:
-
-```js
-/*eslint no-sequences: ["error", { allowInParentheses: true }]*/
-
 foo = (doSomething(), val);
 
 (0, eval)("doSomething();");
@@ -96,6 +60,42 @@ switch ((val = foo(), val)) {}
 while ((val = foo(), val < 42));
 
 with ((doSomething(), val)) {}
+```
+
+## Options
+
+This rule takes one option, an object, with the following properties:
+
+* `"allowInParentheses"`: If set to `false`, this rule allows to use expression sequences that are explicitly wrapped in parentheses. Default value is `true`.
+
+Examples of **incorrect** code for this rule:
+
+```js
+/*eslint no-sequences: ["error", { allowInParentheses: false }]*/
+
+foo = (doSomething(), val);
+
+(0, eval)("doSomething();");
+
+do {} while ((doSomething(), !!test));
+
+for (; (doSomething(), !!test); );
+
+if ((doSomething(), !!test));
+
+switch ((val = foo(), val)) {}
+
+while ((val = foo(), val < 42));
+
+with ((doSomething(), val)) {}
+```
+
+Examples of **correct** code for this rule:
+
+```js
+/*eslint no-sequences: ["error", { allowInParentheses: false }]*/
+
+for (i = 0, j = 10; i < j; i++, j--);
 ```
 
 ## When Not To Use It
