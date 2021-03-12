@@ -1,3 +1,20 @@
+v7.22.0 - March 12, 2021
+
+* [`3a432d8`](https://github.com/eslint/eslint/commit/3a432d82b3a5710aff7da20302fe0b94fedc46c2) Docs: Improve documentation for indent rule (#14168) (Serkan Özel)
+* [`f62ec8d`](https://github.com/eslint/eslint/commit/f62ec8d30d925e70e4d0d40640857c587ac2e116) Update: throw error when fix range is invalid (#14142) (Jacob Bandes-Storch)
+* [`0eecad2`](https://github.com/eslint/eslint/commit/0eecad271358f753730741fcfcb2f7cc915c1fa7) Upgrade: Update lodash in package.json to V 4.17.21 (#14159) (Basem Al-Nabulsi)
+* [`5ad91aa`](https://github.com/eslint/eslint/commit/5ad91aa7df3d6bc185786e6eccd9e055fd951055) Update: report es2021 globals in no-extend-native (refs #13602) (#14177) (Milos Djermanovic)
+* [`c295581`](https://github.com/eslint/eslint/commit/c295581aca4e08ec4ae8e5ee5726a6f454a3ee26) Chore: remove leftover JSDoc from lint-result-cache (#14176) (Milos Djermanovic)
+* [`0d541f9`](https://github.com/eslint/eslint/commit/0d541f9d9d58966372e2055a8f69fb9483d56a4b) Chore: Reduce lodash usage (#14178) (Stephen Wade)
+* [`27a67d7`](https://github.com/eslint/eslint/commit/27a67d71ffa9bbd7af02ae448844e127bcf956dc) Sponsors: Sync README with website (ESLint Jenkins)
+* [`459d821`](https://github.com/eslint/eslint/commit/459d821f4a599501ceb002f9d7a5034fc45ffbb0) Chore: upgrade dependencies of browser test (#14127) (Pig Fang)
+* [`ebfb63a`](https://github.com/eslint/eslint/commit/ebfb63a682004a008f2707dbad616e5ae1630b2c) Sponsors: Sync README with website (ESLint Jenkins)
+* [`3ba029f`](https://github.com/eslint/eslint/commit/3ba029fbffd44068be93254890fc2aec3e92c212) Docs: Remove Extraneous Dash (#14164) (Danny Hurlburt)
+* [`6f4540e`](https://github.com/eslint/eslint/commit/6f4540ea7ea39775906526506fd7abd7ea97610c) Sponsors: Sync README with website (ESLint Jenkins)
+* [`ddf361c`](https://github.com/eslint/eslint/commit/ddf361ca2a2a01a9974f421e5f62270df282d0e8) Docs: Fix Formatting (#14154) (Danny Hurlburt)
+* [`c0d2ac1`](https://github.com/eslint/eslint/commit/c0d2ac16f8f9c75c62c78e9fe6a24a25ba0d7828) Sponsors: Sync README with website (ESLint Jenkins)
+* [`a8df03e`](https://github.com/eslint/eslint/commit/a8df03efe3bc47665d2112c2cdd5bead337d475d) Docs: Clarify triage process (#14117) (Nicholas C. Zakas)
+
 v7.21.0 - February 27, 2021
 
 * [`3cd5440`](https://github.com/eslint/eslint/commit/3cd5440b94d5fa4f11a09f50b685f6150f0c2d41) Upgrade: @eslint/eslintrc to 0.4.0 (#14147) (Brandon Mills)
