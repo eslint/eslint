@@ -56,6 +56,8 @@ describe("RuntimeInfo", () => {
         let logErrorStub;
         let originalProcessArgv;
         let spawnSyncStubArgs;
+        const originalOsPlatform = os.platform;
+        const originalOsRelease = os.release;
 
         beforeEach(() => {
             os.platform = () => "darwin";
@@ -97,6 +99,8 @@ describe("RuntimeInfo", () => {
             spawnSyncStub.restore();
             logErrorStub.restore();
             process.argv = originalProcessArgv;
+            os.platform = originalOsPlatform;
+            os.release = originalOsRelease;
         });
 
 
