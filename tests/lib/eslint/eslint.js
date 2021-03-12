@@ -2917,6 +2917,46 @@ describe("ESLint", () => {
                 assert.strictEqual(results[0].messages[0].ruleId, "post-processed");
             });
 
+            it("should work with absolute filename for preprocessor", async () => {
+                eslint = new ESLint({
+                    useEslintrc: false,
+                    overrideConfig: {
+                        plugins: ["test-processor"],
+                        rules: {
+                            "no-console": 2,
+                            "no-unused-vars": 2
+                        }
+                    },
+                    extensions: ["js", "txt"],
+                    ignore: false,
+                    plugins: {
+                        "test-processor": {
+                            processors: {
+                                ".txt": {
+                                    preprocess(text, filename) {
+                                        return [
+                                            {
+                                                text: text.replace("a()", "b()"),
+                                                filename
+                                            }
+                                        ];
+                                    },
+                                    postprocess(messages) {
+                                        messages[0][0].ruleId = "post-processed";
+                                        return messages[0];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                const results = await eslint.lintText("function a() {console.log(\"Test\");}", { filePath: "tests/fixtures/processors/test/test-processor.txt" });
+
+                assert.strictEqual(results[0].messages[0].message, "'b' is defined but never used.");
+                assert.strictEqual(results[0].messages[0].ruleId, "post-processed");
+            });
+
             describe("autofixing with processors", () => {
                 const HTML_PROCESSOR = Object.freeze({
                     preprocess(text) {
