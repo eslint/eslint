@@ -4,14 +4,14 @@ A number of style guides require or disallow line breaks inside of object braces
 
 ## Rule Details
 
-This rule enforces consistent line breaks after opening and before closing braces of object literals or destructuring assignments.
+More precisely, the rule requires or disallows a line break between { and its following token, and between } and its preceding token of object literals or destructuring assignments.
 
 ## Options
 
 This rule has either a string option:
 
-* `"always"` requires line breaks inside braces
-* `"never"` disallows line breaks inside braces
+* `"always"` requires line breaks after opening and before closing braces
+* `"never"` disallows line breaks after opening and before closing braces
 
 Or an object option:
 
