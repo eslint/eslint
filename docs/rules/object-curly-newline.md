@@ -4,7 +4,7 @@ A number of style guides require or disallow line breaks inside of object braces
 
 ## Rule Details
 
-More precisely, the rule requires or disallows a line break between { and its following token, and between } and its preceding token of object literals or destructuring assignments.
+This rule requires or disallows a line break between `{` and its following token, and between `}` and its preceding token of object literals or destructuring assignments.
 
 ## Options
 
