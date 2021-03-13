@@ -43,6 +43,21 @@ let a = c;
 let b = c;
 ```
 
+## Options
+
+This rule has an object option:
+
+* `"ignoreNonDeclaration": false` (default) disallows using multiple assignments to already declared variables.
+
+Examples of **correct** code for the `{ "ignoreNonDeclaration": true }` option:
+
+```js
+/*eslint no-multi-assign: ["error", { ignoreNonDeclaration: true }]*/
+const x = {};
+const y = {};
+x.one = y.one = 1; // this is allowed.
+```
+
 ## Related Rules
 
 * [max-statements-per-line](max-statements-per-line.md)
