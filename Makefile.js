@@ -21,7 +21,11 @@ const checker = require("npm-license"),
     markdownlint = require("markdownlint"),
     os = require("os"),
     path = require("path"),
-    semver = require("semver"),
+    semverInc = require("semver/functions/inc"),
+    semverLtr = require("semver/functions/ltr"),
+    semverMajor = require("semver/functions/major"),
+    semverCompare = require("semver/functions/compare"),
+    semverValid = require("semver/functions/valid"),
     ejs = require("ejs"),
     loadPerf = require("load-perf"),
     yaml = require("js-yaml"),
@@ -275,7 +279,7 @@ function generateRelease() {
 function generatePrerelease(prereleaseId) {
     ReleaseOps.generateRelease(prereleaseId);
     const releaseInfo = JSON.parse(cat(".eslint-release-info.json"));
-    const nextMajor = semver.inc(releaseInfo.version, "major");
+    const nextMajor = semverInc(releaseInfo.version, "major");
 
     echo("Generating site");
 
@@ -289,7 +293,7 @@ function generatePrerelease(prereleaseId) {
      * 4.4.0-alpha.0 --> next major = 5, current major = 4
      * 4.0.1-alpha.0 --> next major = 5, current major = 4
      */
-    if (semver.major(releaseInfo.version) === semver.major(nextMajor)) {
+    if (semverMajor(releaseInfo.version) === semverMajor(nextMajor)) {
 
         /*
          * This prerelease is for a major release (not preminor/prepatch).
@@ -346,13 +350,13 @@ function getFirstVersionOfFile(filePath) {
 
     tags = splitCommandResultToLines(tags);
     return tags.reduce((list, version) => {
-        const validatedVersion = semver.valid(version.trim());
+        const validatedVersion = semverValid(version.trim());
 
         if (validatedVersion) {
             list.push(validatedVersion);
         }
         return list;
-    }, []).sort(semver.compare)[0];
+    }, []).sort(semverCompare)[0];
 }
 
 /**
@@ -376,9 +380,9 @@ function getFirstVersionOfDeletion(filePath) {
         tags = execSilent(`git tag --contains ${deletionCommit}`);
 
     return splitCommandResultToLines(tags)
-        .map(version => semver.valid(version.trim()))
+        .map(version => semverValid(version.trim()))
         .filter(version => version)
-        .sort(semver.compare)[0];
+        .sort(semverCompare)[0];
 }
 
 /**
