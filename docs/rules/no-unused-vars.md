@@ -74,7 +74,7 @@ myFunc = setTimeout(function() {
     myFunc();
 }, 50);
 
-// Only the second argument from the descructured array is used.
+// Only the second argument from the destructured array is used.
 function getY([, y]) {
     return y;
 }
