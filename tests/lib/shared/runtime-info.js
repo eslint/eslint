@@ -12,6 +12,7 @@
 const assert = require("chai").assert;
 const sinon = require("sinon");
 const spawn = require("cross-spawn");
+const os = require("os");
 const { unIndent } = require("../../_utils");
 const RuntimeInfo = require("../../../lib/shared/runtime-info");
 const log = require("../../../lib/shared/logging");
@@ -55,8 +56,12 @@ describe("RuntimeInfo", () => {
         let logErrorStub;
         let originalProcessArgv;
         let spawnSyncStubArgs;
+        const originalOsPlatform = os.platform;
+        const originalOsRelease = os.release;
 
         beforeEach(() => {
+            os.platform = () => "darwin";
+            os.release = () => "20.3.0";
             spawnSyncStub = sinon.stub(spawn, "sync");
             logErrorStub = sinon.stub(log, "error");
             originalProcessArgv = process.argv;
@@ -94,6 +99,8 @@ describe("RuntimeInfo", () => {
             spawnSyncStub.restore();
             logErrorStub.restore();
             process.argv = originalProcessArgv;
+            os.platform = originalOsPlatform;
+            os.release = originalOsRelease;
         });
 
 
@@ -109,6 +116,7 @@ describe("RuntimeInfo", () => {
                     npm version: v6.11.3
                     Local ESLint version: v6.3.0 (Currently used)
                     Global ESLint version: v5.16.0
+                    Operating System: darwin 20.3.0
                 `
             );
         });
@@ -126,6 +134,7 @@ describe("RuntimeInfo", () => {
                     npm version: v6.11.3
                     Local ESLint version: v6.3.0
                     Global ESLint version: v5.16.0 (Currently used)
+                    Operating System: darwin 20.3.0
                 `
             );
         });
@@ -150,6 +159,7 @@ describe("RuntimeInfo", () => {
                     npm version: v6.11.3
                     Local ESLint version: Not found
                     Global ESLint version: v5.16.0 (Currently used)
+                    Operating System: darwin 20.3.0
                 `
             );
         });
@@ -167,6 +177,7 @@ describe("RuntimeInfo", () => {
                     npm version: v6.11.3
                     Local ESLint version: v6.3.0 (Currently used)
                     Global ESLint version: Not found
+                    Operating System: darwin 20.3.0
                 `
             );
         });
