@@ -12,7 +12,9 @@ import { find } from 'module';
 
 ## Rule Details
 
-This rule requires that all imports from a single module exists in a single `import` statement.
+An import that can be merged with another is a duplicate of that other.
+
+This rule requires that all imports from a single module that can be merged exists in a single `import` statement.
 
 Example of **incorrect** code for this rule:
 
@@ -31,6 +33,14 @@ Example of **correct** code for this rule:
 
 import { merge, find } from 'module';
 import something from 'another-module';
+```
+
+Example of **correct** code for this rule:
+
+```js
+// not mergable, as they would require new nodes to be created.
+import { merge } from 'module';
+import * as something from 'module';
 ```
 
 ## Options
@@ -57,4 +67,15 @@ Example of **correct** code for this rule with the `{ "includeExports": true }` 
 import { merge, find } from 'module';
 
 export { find };
+```
+
+There is a special case even the export is duplicate we ignore it, because it can't be merged with another import/export from the same source, it's when we have export with type export *.
+ 
+Example of **correct** code for this rule with the `{ "includeExports": true }` option:
+
+```js
+
+import { merge, find } from 'module';
+
+export * from 'module';
 ```
