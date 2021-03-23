@@ -23,8 +23,8 @@
     "webpack": "node Makefile.js webpack",
     "perf": "node Makefile.js perf"
   },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
   },
   "lint-staged": {
     "*.js": [
@@ -128,11 +128,11 @@
     "recast": "^0.19.0",
     "regenerator-runtime": "^0.13.2",
     "shelljs": "^0.8.2",
+    "simple-git-hooks": "^2.0.3",
     "sinon": "^9.0.1",
     "temp": "^0.9.0",
     "webpack": "^5.23.0",
-    "webpack-cli": "^4.5.0",
-    "yorkie": "^2.0.0"
+    "webpack-cli": "^4.5.0"
   },
   "keywords": [
     "ast",
