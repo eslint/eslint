@@ -70,7 +70,7 @@ export { find };
 ```
 
 There is a special case even the export is duplicate we ignore it, because it can't be merged with another import/export from the same source, it's when we have export with type export *.
- 
+
 Example of **correct** code for this rule with the `{ "includeExports": true }` option:
 
 ```js
