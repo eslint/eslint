@@ -51,6 +51,9 @@ ruleTester.run("no-sequences", rule, {
         "with ((doSomething(), val)) {}",
         { code: "a => ((doSomething(), a))", env: { es6: true } },
 
+        // options object without "allowInParentheses" property
+        { code: "var foo = (1, 2);", options: [{}] },
+
         // explicitly set option "allowInParentheses" to default value
         { code: "var foo = (1, 2);", options: [{ allowInParentheses: true }] }
     ],

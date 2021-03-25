@@ -67,12 +67,14 @@ with ((doSomething(), val)) {}
 
 This rule takes one option, an object, with the following properties:
 
-* `"allowInParentheses"`: If set to `false`, this rule allows to use expression sequences that are explicitly wrapped in parentheses. Default value is `true`.
+* `"allowInParentheses"`: If set to `false`, this rule disallows expression sequences that are explicitly wrapped in parentheses. Default value is `true`.
 
-Examples of **incorrect** code for this rule:
+### allowInParentheses
+
+Examples of **incorrect** code for this rule with the `{ "allowInParentheses": false }` option:
 
 ```js
-/*eslint no-sequences: ["error", { allowInParentheses: false }]*/
+/*eslint no-sequences: ["error", { "allowInParentheses": false }]*/
 
 foo = (doSomething(), val);
 
@@ -91,10 +93,10 @@ while ((val = foo(), val < 42));
 with ((doSomething(), val)) {}
 ```
 
-Examples of **correct** code for this rule:
+Examples of **correct** code for this rule with the `{ "allowInParentheses": false }` option:
 
 ```js
-/*eslint no-sequences: ["error", { allowInParentheses: false }]*/
+/*eslint no-sequences: ["error", { "allowInParentheses": false }]*/
 
 for (i = 0, j = 10; i < j; i++, j--);
 ```
