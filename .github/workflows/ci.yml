@@ -40,10 +40,6 @@ jobs:
         node-version: ${{ matrix.node }}
     - name: Install Packages
       run: npm install
-      if: ${{ !startswith(matrix.node, '15') }}
-    - name: Install Packages
-      run: npm install --legacy-peer-deps
-      if: ${{ startswith(matrix.node, '15') }}
     - name: Test
       run: node Makefile mocha
     - name: Fuzz Test
