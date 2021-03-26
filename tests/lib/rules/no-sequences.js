@@ -55,7 +55,11 @@ ruleTester.run("no-sequences", rule, {
         { code: "var foo = (1, 2);", options: [{}] },
 
         // explicitly set option "allowInParentheses" to default value
-        { code: "var foo = (1, 2);", options: [{ allowInParentheses: true }] }
+        { code: "var foo = (1, 2);", options: [{ allowInParentheses: true }] },
+
+        // valid code with "allowInParentheses" set to `false`
+        { code: "for ((i = 0, j = 0); test; );", options: [{ allowInParentheses: false }] },
+        { code: "for (; test; (i++, j++));", options: [{ allowInParentheses: false }] }
     ],
 
     // Examples of code that should trigger the rule

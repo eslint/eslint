@@ -67,7 +67,7 @@ with ((doSomething(), val)) {}
 
 This rule takes one option, an object, with the following properties:
 
-* `"allowInParentheses"`: If set to `false`, this rule disallows expression sequences that are explicitly wrapped in parentheses. Default value is `true`.
+* `"allowInParentheses"`: If set to `true` (default), this rule allows expression sequences that are explicitly wrapped in parentheses.
 
 ### allowInParentheses
 
