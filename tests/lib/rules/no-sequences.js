@@ -46,10 +46,20 @@ ruleTester.run("no-sequences", rule, {
         "do {} while ((doSomething(), !!test));",
         "for ((doSomething(), somethingElse()); (doSomething(), !!test); );",
         "if ((doSomething(), !!test));",
-        "switch ((doSomething(), !!test)) {}",
+        "switch ((doSomething(), val)) {}",
         "while ((doSomething(), !!test));",
         "with ((doSomething(), val)) {}",
-        { code: "a => ((doSomething(), a))", env: { es6: true } }
+        { code: "a => ((doSomething(), a))", env: { es6: true } },
+
+        // options object without "allowInParentheses" property
+        { code: "var foo = (1, 2);", options: [{}] },
+
+        // explicitly set option "allowInParentheses" to default value
+        { code: "var foo = (1, 2);", options: [{ allowInParentheses: true }] },
+
+        // valid code with "allowInParentheses" set to `false`
+        { code: "for ((i = 0, j = 0); test; );", options: [{ allowInParentheses: false }] },
+        { code: "for (; test; (i++, j++));", options: [{ allowInParentheses: false }] }
     ],
 
     // Examples of code that should trigger the rule
@@ -75,6 +85,18 @@ ruleTester.run("no-sequences", rule, {
         { code: "a => (doSomething(), a)", env: { es6: true }, errors: errors(20) },
         { code: "(1), 2", errors: errors(4) },
         { code: "((1)) , (2)", errors: errors(7) },
-        { code: "while((1) , 2);", errors: errors(11) }
+        { code: "while((1) , 2);", errors: errors(11) },
+
+        // option "allowInParentheses": do not allow sequence in parentheses
+        { code: "var foo = (1, 2);", options: [{ allowInParentheses: false }], errors: errors(13) },
+        { code: "(0,eval)(\"foo()\");", options: [{ allowInParentheses: false }], errors: errors(3) },
+        { code: "foo(a, (b, c), d);", options: [{ allowInParentheses: false }], errors: errors(10) },
+        { code: "do {} while ((doSomething(), !!test));", options: [{ allowInParentheses: false }], errors: errors(28) },
+        { code: "for (; (doSomething(), !!test); );", options: [{ allowInParentheses: false }], errors: errors(22) },
+        { code: "if ((doSomething(), !!test));", options: [{ allowInParentheses: false }], errors: errors(19) },
+        { code: "switch ((doSomething(), val)) {}", options: [{ allowInParentheses: false }], errors: errors(23) },
+        { code: "while ((doSomething(), !!test));", options: [{ allowInParentheses: false }], errors: errors(22) },
+        { code: "with ((doSomething(), val)) {}", options: [{ allowInParentheses: false }], errors: errors(21) },
+        { code: "a => ((doSomething(), a))", options: [{ allowInParentheses: false }], env: { es6: true }, errors: errors(21) }
     ]
 });
