@@ -47,15 +47,32 @@ let b = c;
 
 This rule has an object option:
 
-* `"ignoreNonDeclaration": false` (default) disallows using multiple assignments to already declared variables.
+* `"ignoreNonDeclaration"`: When set to `true`, the rule allows chains that don't include initializing a variable in a declaration. Default is `false`.
+
+### ignoreNonDeclaration
 
 Examples of **correct** code for the `{ "ignoreNonDeclaration": true }` option:
 
 ```js
 /*eslint no-multi-assign: ["error", { ignoreNonDeclaration: true }]*/
+
+let a;
+let b;
+a = b = "baz";
+
 const x = {};
 const y = {};
-x.one = y.one = 1; // this is allowed.
+x.one = y.one = 1;
+```
+
+Examples of **incorrect** code for the `{ "ignoreNonDeclaration": true }` option:
+
+```js
+/*eslint no-multi-assign: ["error", { ignoreNonDeclaration: true }]*/
+
+let a = b = "baz";
+
+const foo = bar = 1;
 ```
 
 ## Related Rules

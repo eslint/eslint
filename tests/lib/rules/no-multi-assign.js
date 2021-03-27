@@ -39,7 +39,6 @@ function errorAt(line, column, type) {
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
-const options = [{ ignoreNonDeclaration: true }];
 
 ruleTester.run("no-mutli-assign", rule, {
     valid: [
@@ -53,7 +52,8 @@ ruleTester.run("no-mutli-assign", rule, {
         { code: "for(const a = 0, b = 0;;){}", parserOptions: { ecmaVersion: 6 } },
         { code: "export let a, b;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "export let a,\n b = 0;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "const x = {};const y = {};x.one = y.one = 1;", options, parserOptions: { ecmaVersion: 6 } }
+        { code: "const x = {};const y = {};x.one = y.one = 1;", options: [{ ignoreNonDeclaration: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "let a, b;a = b = 1", options: [{ ignoreNonDeclaration: true }], parserOptions: { ecmaVersion: 6 } }
     ],
 
     invalid: [
@@ -142,12 +142,36 @@ ruleTester.run("no-mutli-assign", rule, {
         },
         {
             code: "const x = {};\nconst y = x.one = 1;",
-            options,
+            options: [{ ignoreNonDeclaration: true }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 errorAt(2, 11, "AssignmentExpression")
             ]
 
+        },
+        {
+            code: "let a, b;a = b = 1",
+            options: [{}],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                errorAt(1, 14, "AssignmentExpression")
+            ]
+        },
+        {
+            code: "let x, y;x = y = 'baz'",
+            options: [{ ignoreNonDeclaration: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                errorAt(1, 14, "AssignmentExpression")
+            ]
+        },
+        {
+            code: "const a = b = 1",
+            options: [{ ignoreNonDeclaration: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                errorAt(1, 11, "AssignmentExpression")
+            ]
         }
     ]
 });
