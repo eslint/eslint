@@ -388,5 +388,506 @@ describe("FlatConfigArray", () => {
             });
 
         });
+
+        describe("languageOptions", () => {
+
+            it("should error when an unexpected key is found", async () => {
+
+                await assertInvalidConfig([
+                    {
+                        languageOptions: {
+                            foo: true
+                        }
+                    }
+                ], "Unexpected key \"foo\" found.");
+
+            });
+
+            describe("ecmaVersion", () => {
+
+                it("should error when an unexpected value is found", async () => {
+
+                    await assertInvalidConfig([
+                        {
+                            languageOptions: {
+                                ecmaVersion: "true"
+                            }
+                        }
+                    ], "Expected a number.")
+                });
+
+                it("should merge two objects when second object has overrides", () => {
+
+                    return assertMergedResult([
+                        {
+                            languageOptions: {
+                                ecmaVersion: 2019
+                            }
+                        },
+                        {
+                            languageOptions: {
+                                ecmaVersion: 2021
+                            }
+                        }
+                    ], {
+                        languageOptions: {
+                            ecmaVersion: 2021
+                        }
+                    });
+                });
+
+                it("should merge an object and undefined into one object", () => {
+
+                    return assertMergedResult([
+                        {
+                            languageOptions: {
+                                ecmaVersion: 2021
+                            }
+                        },
+                        {
+                        }
+                    ], {
+                        languageOptions: {
+                            ecmaVersion: 2021
+                        }
+                    });
+
+                });
+
+
+                it("should merge undefined and an object into one object", () => {
+
+                    return assertMergedResult([
+                        {
+                        },
+                        {
+                            languageOptions: {
+                                ecmaVersion: 2021
+                            }
+                        }
+                    ], {
+                        languageOptions: {
+                            ecmaVersion: 2021
+                        }
+                    });
+
+                });
+
+
+            });
+
+            describe("sourceType", () => {
+
+                it("should error when an unexpected value is found", async () => {
+
+                    await assertInvalidConfig([
+                        {
+                            languageOptions: {
+                                sourceType: "true"
+                            }
+                        }
+                    ], "Expected \"script\", \"module\", or \"commonjs\".")
+                });
+
+                it("should merge two objects when second object has overrides", () => {
+
+                    return assertMergedResult([
+                        {
+                            languageOptions: {
+                                sourceType: "module"
+                            }
+                        },
+                        {
+                            languageOptions: {
+                                sourceType: "script"
+                            }
+                        }
+                    ], {
+                        languageOptions: {
+                            sourceType: "script"
+                        }
+                    });
+                });
+
+                it("should merge an object and undefined into one object", () => {
+
+                    return assertMergedResult([
+                        {
+                            languageOptions: {
+                                sourceType: "script"
+                            }
+                        },
+                        {
+                        }
+                    ], {
+                        languageOptions: {
+                            sourceType: "script"
+                        }
+                    });
+
+                });
+
+
+                it("should merge undefined and an object into one object", () => {
+
+                    return assertMergedResult([
+                        {
+                        },
+                        {
+                            languageOptions: {
+                                sourceType: "module"
+                            }
+                        }
+                    ], {
+                        languageOptions: {
+                            sourceType: "module"
+                        }
+                    });
+
+                });
+
+
+            });
+
+            describe("globals", () => {
+
+                it("should error when an unexpected value is found", async () => {
+
+                    await assertInvalidConfig([
+                        {
+                            languageOptions: {
+                                globals: "true"
+                            }
+                        }
+                    ], "Expected an object.")
+                });
+
+                it("should error when an unexpected key value is found", async () => {
+
+                    await assertInvalidConfig([
+                        {
+                            languageOptions: {
+                                globals: {
+                                    foo: "true"
+                                }
+                            }
+                        }
+                    ], "Expected \"readonly\", \"writeable\", or \"off\".")
+                });
+
+                it("should merge two objects when second object has different keys", () => {
+
+                    return assertMergedResult([
+                        {
+                            languageOptions: {
+                                globals: {
+                                    foo: "readonly"
+                                }
+                            }
+                        },
+                        {
+                            languageOptions: {
+                                globals: {
+                                    bar: "writeable"
+                                }
+                            }
+                        }
+                    ], {
+                        languageOptions: {
+                            globals: {
+                                foo: "readonly",
+                                bar: "writeable"
+                            }
+                        }
+                    });
+                });
+
+                it("should merge two objects when second object has overrides", () => {
+
+                    return assertMergedResult([
+                        {
+                            languageOptions: {
+                                globals: {
+                                    foo: "readonly"
+                                }
+                            }
+                        },
+                        {
+                            languageOptions: {
+                                globals: {
+                                    foo: "writeable"
+                                }
+                            }
+                        }
+                    ], {
+                        languageOptions: {
+                            globals: {
+                                foo: "writeable"
+                            }
+                        }
+                    });
+                });
+
+                it("should merge an object and undefined into one object", () => {
+
+                    return assertMergedResult([
+                        {
+                            languageOptions: {
+                                globals: {
+                                    foo: "readonly"
+                                }
+                            }
+                        },
+                        {
+                        }
+                    ], {
+                        languageOptions: {
+                            globals: {
+                                foo: "readonly"
+                            }
+                        }
+                    });
+
+                });
+
+
+                it("should merge undefined and an object into one object", () => {
+
+                    return assertMergedResult([
+                        {
+                        },
+                        {
+                            languageOptions: {
+                                globals: {
+                                    foo: "readonly"
+                                }
+                            }
+                        }
+                    ], {
+                        languageOptions: {
+                            globals: {
+                                foo: "readonly"
+                            }
+                        }
+                    });
+
+                });
+
+
+            });
+
+            describe("parser", () => {
+
+                it("should error when an unexpected value is found", async () => {
+
+                    await assertInvalidConfig([
+                        {
+                            languageOptions: {
+                                parser: true
+                            }
+                        }
+                    ], "Expected an object or string.")
+                });
+
+                it("should error when an unexpected value is found", async () => {
+
+                    await assertInvalidConfig([
+                        {
+                            languageOptions: {
+                                parser: "true"
+                            }
+                        }
+                    ], "Expected string in the form \"plugin-name/object-name\".")
+                });
+
+                it("should error when a value doesn't have a parse() method", async () => {
+
+                    await assertInvalidConfig([
+                        {
+                            languageOptions: {
+                                parser: {}
+                            }
+                        }
+                    ], "Expected object to have a parse() or parseForESLint() method.")
+                });
+
+                it("should merge two objects when second object has overrides", () => {
+
+                    const parser = { parse(){} };
+
+                    return assertMergedResult([
+                        {
+                            languageOptions: {
+                                parser: "foo/bar"
+                            }
+                        },
+                        {
+                            languageOptions: {
+                                parser
+                            }
+                        }
+                    ], {
+                        languageOptions: {
+                            parser
+                        }
+                    });
+                });
+
+                it("should merge an object and undefined into one object", () => {
+
+                    return assertMergedResult([
+                        {
+                            languageOptions: {
+                                parser: "foo/bar"
+                            }
+                        },
+                        {
+                        }
+                    ], {
+                        languageOptions: {
+                            parser: "foo/bar"
+                        }
+                    });
+
+                });
+
+
+                it("should merge undefined and an object into one object", () => {
+
+                    return assertMergedResult([
+                        {
+                        },
+                        {
+                            languageOptions: {
+                                parser: "foo/bar"
+                            }
+                        }
+                    ], {
+                        languageOptions: {
+                            parser: "foo/bar"
+                        }
+                    });
+
+                });
+
+            });
+
+
+            describe("parserOptions", () => {
+
+                it("should error when an unexpected value is found", async () => {
+
+                    await assertInvalidConfig([
+                        {
+                            languageOptions: {
+                                parserOptions: "true"
+                            }
+                        }
+                    ], "Expected an object.")
+                });
+
+                it("should merge two objects when second object has different keys", () => {
+
+                    return assertMergedResult([
+                        {
+                            languageOptions: {
+                                parserOptions: {
+                                    foo: "whatever"
+                                }
+                            }
+                        },
+                        {
+                            languageOptions: {
+                                parserOptions: {
+                                    bar: "baz"
+                                }
+                            }
+                        }
+                    ], {
+                        languageOptions: {
+                            parserOptions: {
+                                foo: "whatever",
+                                bar: "baz"
+                            }
+                        }
+                    });
+                });
+
+                it("should merge two objects when second object has overrides", () => {
+
+                    return assertMergedResult([
+                        {
+                            languageOptions: {
+                                parserOptions: {
+                                    foo: "whatever"
+                                }
+                            }
+                        },
+                        {
+                            languageOptions: {
+                                parserOptions: {
+                                    foo: "bar"
+                                }
+                            }
+                        }
+                    ], {
+                        languageOptions: {
+                            parserOptions: {
+                                foo: "bar"
+                            }
+                        }
+                    });
+                });
+
+                it("should merge an object and undefined into one object", () => {
+
+                    return assertMergedResult([
+                        {
+                            languageOptions: {
+                                parserOptions: {
+                                    foo: "whatever"
+                                }
+                            }
+                        },
+                        {
+                        }
+                    ], {
+                        languageOptions: {
+                            parserOptions: {
+                                foo: "whatever"
+                            }
+                        }
+                    });
+
+                });
+
+
+                it("should merge undefined and an object into one object", () => {
+
+                    return assertMergedResult([
+                        {
+                        },
+                        {
+                            languageOptions: {
+                                parserOptions: {
+                                    foo: "bar"
+                                }
+                            }
+                        }
+                    ], {
+                        languageOptions: {
+                            parserOptions: {
+                                foo: "bar"
+                            }
+                        }
+                    });
+
+                });
+
+
+            });
+
+            
+        });
     });
 });
