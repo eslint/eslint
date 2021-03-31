@@ -162,6 +162,30 @@ ruleTester.run("require-atomic-updates", rule, {
                 count -= 1
                 return
             }
+        `,
+
+        // https://github.com/eslint/eslint/issues/14208
+        `
+            async function foo(e) {
+            }
+
+            async function run() {
+              const input = [];
+              const props = [];
+
+              for(const entry of input) {
+                const prop = props.find(a => a.id === entry.id) || null;
+                await foo(entry);
+              }
+
+              for(const entry of input) {
+                const prop = props.find(a => a.id === entry.id) || null;
+              }
+
+              for(const entry2 of input) {
+                const prop = props.find(a => a.id === entry2.id) || null;
+              }
+            }
         `
     ],
 
