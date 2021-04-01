@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const lodash = require("lodash");
+const omit = require("omit");
 const clone = require("clone");
 const rule = require("../../../lib/rules/no-invalid-this");
 const { RuleTester } = require("../../../lib/rule-tester");
@@ -80,7 +80,7 @@ function extractPatterns(patterns, type) {
             thisPattern.code += " /* should error */";
         }
 
-        return lodash.omit(thisPattern, ["valid", "invalid"]);
+        return omit(["valid", "invalid"], thisPattern);
     }));
 
     // Flatten.

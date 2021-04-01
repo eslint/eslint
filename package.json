@@ -78,6 +78,7 @@
     "lodash": "^4.17.21",
     "minimatch": "^3.0.4",
     "natural-compare": "^1.4.0",
+    "omit": "^1.0.1",
     "optionator": "^0.9.1",
     "progress": "^2.0.0",
     "regexpp": "^3.1.0",
