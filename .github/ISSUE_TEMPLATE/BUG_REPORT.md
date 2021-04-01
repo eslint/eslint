@@ -2,7 +2,7 @@
 name: "\U0001F41E  Bug report"
 about: Report an issue with ESLint or rules bundled with ESLint
 title: ''
-labels: bug, "repo:needed"
+labels: bug, "repro:needed"
 assignees: ''
 
 ---
@@ -76,4 +76,3 @@ assignees: ''
 1. 
 
 **Are you willing to submit a pull request to fix this bug?**
-
