@@ -18,6 +18,19 @@ const ruleConfigs = require("../lib/init/config-rule").createCoreRuleConfigs(tru
 const sampleMinimizer = require("./code-sample-minimizer");
 
 //------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
+
+/**
+ * Gets a random item from an array
+ * @param {any[]} array The array to sample
+ * @returns {any} The random item
+ */
+function sample(array) {
+    return array[Math.floor(Math.random() * array.length)];
+}
+
+//------------------------------------------------------------------------------
 // Public API
 //------------------------------------------------------------------------------
 
@@ -125,10 +138,10 @@ function fuzz(options) {
     }
 
     for (let i = 0; i < options.count; progressCallback(problems.length), i++) {
-        const sourceType = lodash.sample(["script", "module"]);
+        const sourceType = sample(["script", "module"]);
         const text = codeGenerator({ sourceType });
         const config = {
-            rules: lodash.mapValues(ruleConfigs, lodash.sample),
+            rules: lodash.mapValues(ruleConfigs, sample),
             parserOptions: {
                 sourceType,
                 ecmaVersion: espree.latestEcmaVersion
