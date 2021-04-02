@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const assert = require("assert");
-const lodash = require("lodash");
+const mapValues = require("map-values");
 const eslump = require("eslump");
 const espree = require("espree");
 const SourceCodeFixer = require("../lib/linter/source-code-fixer");
@@ -141,7 +141,7 @@ function fuzz(options) {
         const sourceType = sample(["script", "module"]);
         const text = codeGenerator({ sourceType });
         const config = {
-            rules: lodash.mapValues(ruleConfigs, sample),
+            rules: mapValues(ruleConfigs, sample),
             parserOptions: {
                 sourceType,
                 ecmaVersion: espree.latestEcmaVersion
