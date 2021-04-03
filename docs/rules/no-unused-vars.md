@@ -214,8 +214,11 @@ Examples of **correct** code for the `{ "ignoreRestSiblings": true }` option:
 
 ```js
 /*eslint no-unused-vars: ["error", { "ignoreRestSiblings": true }]*/
-// 'type' is ignored because it has a rest property sibling.
-var { type, ...coords } = data;
+// 'foo' and 'bar' were ignored because they have a rest property sibling.
+var { foo, ...coords } = data;
+
+var bar;
+({ bar, ...coords } = data);
 ```
 
 ### argsIgnorePattern
