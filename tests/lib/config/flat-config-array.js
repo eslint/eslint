@@ -18,7 +18,7 @@ const assert = require("chai").assert;
 
 function createFlatConfigArray(configs) {
     return new FlatConfigArray(configs, {
-        basePath: __dirname
+        basePath: __dirname,
     });
 }
 
@@ -889,5 +889,132 @@ describe("FlatConfigArray", () => {
 
             
         });
+
+        describe("rules", () => {
+
+            it("should error when an unexpected value is found", async () => {
+
+                await assertInvalidConfig([
+                    {
+                        rules: true
+                    }
+                ], "Expected an object.")
+            });
+
+            it("should error when an invalid rule severity is set", async () => {
+
+                await assertInvalidConfig([
+                    {
+                        rules: {
+                            foo: true
+                        }
+                    }
+                ], "Key \"rules\": Key \"foo\": Expected a string, number, or array.")
+            });
+
+            it("should error when an invalid rule severity is set in an array", async () => {
+
+                await assertInvalidConfig([
+                    {
+                        rules: {
+                            foo: [true]
+                        }
+                    }
+                ], "Key \"rules\": Key \"foo\": Expected severity of \"off\", 0, \"warn\", 1, \"error\", or 2.")
+            });
+
+            it("should merge two objects", () => {
+
+                return assertMergedResult([
+                    {
+                        rules: {
+                            foo: 1,
+                            bar: "error"
+                        }
+                    },
+                    {
+                        rules: {
+                            baz: "warn",
+                            boom: 0
+                        }
+                    }
+                ], {
+                    rules: {
+                        foo: 1,
+                        bar: "error",
+                        baz: "warn",
+                        boom: 0
+                    }
+                });
+            });
+
+            it("should merge two objects when second object has simple overrides", () => {
+
+                return assertMergedResult([
+                    {
+                        rules: {
+                            foo: [1, "always"],
+                            bar: "error"
+                        }
+                    },
+                    {
+                        rules: {
+                            foo: "error",
+                            bar: 0
+                        }
+                    }
+                ], {
+                    rules: {
+                        foo: ["error", "always"],
+                        bar: 0
+                    }
+                });
+            });
+
+            it("should merge two objects when second object has array overrides", () => {
+
+                return assertMergedResult([
+                    {
+                        rules: {
+                            foo: 1,
+                            bar: "error"
+                        }
+                    },
+                    {
+                        rules: {
+                            foo: ["error", "never"],
+                            bar: ["warn", "foo"]
+                        }
+                    }
+                ], {
+                    rules: {
+                        foo: ["error", "never"],
+                        bar: ["warn", "foo"]
+                    }
+                });
+            });
+
+            xit("should merge an object and undefined into one object", () => {
+
+                return assertMergedResult([
+                    {
+                        rules: {
+                            a: true,
+                            b: false
+                        }
+                    },
+                    {
+                    }
+                ], {
+                    rules: {
+                        a: true,
+                        b: false
+                    }
+                });
+
+            });
+
+        });
+
     });
 });
