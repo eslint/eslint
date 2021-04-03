@@ -54,7 +54,7 @@ This rule has an object option:
 Examples of **correct** code for the `{ "ignoreNonDeclaration": true }` option:
 
 ```js
-/*eslint no-multi-assign: ["error", { ignoreNonDeclaration: true }]*/
+/*eslint no-multi-assign: ["error", { "ignoreNonDeclaration": true }]*/
 
 let a;
 let b;
@@ -68,7 +68,7 @@ x.one = y.one = 1;
 Examples of **incorrect** code for the `{ "ignoreNonDeclaration": true }` option:
 
 ```js
-/*eslint no-multi-assign: ["error", { ignoreNonDeclaration: true }]*/
+/*eslint no-multi-assign: ["error", { "ignoreNonDeclaration": true }]*/
 
 let a = b = "baz";
 
