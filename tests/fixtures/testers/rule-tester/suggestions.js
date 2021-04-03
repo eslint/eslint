@@ -1,6 +1,7 @@
 "use strict";
 
 module.exports.basic = {
+    meta: { docs: { suggestion: true } },
     create(context) {
         return {
             Identifier(node) {
@@ -25,7 +26,8 @@ module.exports.withMessageIds = {
             avoidFoo: "Avoid using identifiers named '{{ name }}'.",
             unused: "An unused key",
             renameFoo: "Rename identifier 'foo' to '{{ newName }}'"
-        }
+        },
+        docs: { suggestion: true }
     },
     create(context) {
         return {
@@ -56,5 +58,3 @@ module.exports.withMessageIds = {
         };
     }
 };
-
-

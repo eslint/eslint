@@ -396,7 +396,8 @@ module.exports = {
             unnecessaryEscape: "Unnecessary escape character: \\{{character}}.",
             removeEscape: "Remove the `\\`. This maintains the current functionality.",
             escapeBackslash: "Replace the `\\` with `\\\\` to include the actual backslash character."
-        }
+        },
+        docs: { suggestion: true }
     },
     create: function(context) {
         // ...
@@ -437,7 +438,8 @@ module.exports = {
         messages: {
             unnecessaryEscape: "Unnecessary escape character: \\{{character}}.",
             removeEscape: "Remove `\\` before {{character}}.",
-        }
+        },
+        docs: { suggestion: true }
     },
     create: function(context) {
         // ...
