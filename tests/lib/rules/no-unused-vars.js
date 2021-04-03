@@ -291,6 +291,13 @@ ruleTester.run("no-unused-vars", rule, {
             parserOptions: { ecmaVersion: 2018 }
         },
 
+        // https://github.com/eslint/eslint/issues/14163
+        {
+            code: "let foo, rest;\n({ foo, ...rest } = something);\nconsole.log(rest);",
+            options: [{ ignoreRestSiblings: true }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+
         // https://github.com/eslint/eslint/issues/10952
         "/*eslint use-every-a:1*/ !function(b, a) { return 1 }",
 
@@ -579,6 +586,23 @@ ruleTester.run("no-unused-vars", rule, {
                 {
                     line: 2,
                     column: 18,
+                    messageId: "unusedVar",
+                    data: {
+                        varName: "coords",
+                        action: "assigned a value",
+                        additional: ""
+                    }
+                }
+            ]
+        },
+        {
+            code: "let type, coords;\n({ type, ...coords } = data);\n console.log(type)",
+            options: [{ ignoreRestSiblings: true }],
+            parserOptions: { ecmaVersion: 2018 },
+            errors: [
+                {
+                    line: 2,
+                    column: 13,
                     messageId: "unusedVar",
                     data: {
                         varName: "coords",
