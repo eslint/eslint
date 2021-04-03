@@ -4680,21 +4680,25 @@ var a = "test2";
 
     describe("suggestions", () => {
         it("provides suggestion information for tools to use", () => {
-            linter.defineRule("rule-with-suggestions", context => ({
-                Program(node) {
-                    context.report({
-                        node,
-                        message: "Incorrect spacing",
-                        suggest: [{
-                            desc: "Insert space at the beginning",
-                            fix: fixer => fixer.insertTextBefore(node, " ")
-                        }, {
-                            desc: "Insert space at the end",
-                            fix: fixer => fixer.insertTextAfter(node, " ")
-                        }]
-                    });
-                }
-            }));
+            linter.defineRule("rule-with-suggestions", {
+                meta: { docs: { suggestion: true } },
+                create: context => ({
+
+                    Program(node) {
+                        context.report({
+                            node,
+                            message: "Incorrect spacing",
+                            suggest: [{
+                                desc: "Insert space at the beginning",
+                                fix: fixer => fixer.insertTextBefore(node, " ")
+                            }, {
+                                desc: "Insert space at the end",
+                                fix: fixer => fixer.insertTextAfter(node, " ")
+                            }]
+                        });
+                    }
+                })
+            });
 
             const messages = linter.verify("var a = 1;", { rules: { "rule-with-suggestions": "error" } });
 
@@ -4719,7 +4723,8 @@ var a = "test2";
                     messages: {
                         suggestion1: "Insert space at the beginning",
                         suggestion2: "Insert space at the end"
-                    }
+                    },
+                    docs: { suggestion: true }
                 },
                 create: context => ({
                     Program(node) {
@@ -4755,6 +4760,25 @@ var a = "test2";
                     text: " "
                 }
             }]);
+        });
+
+        it("should throw an error if suggestion is passed but `meta.docs.suggestion` property is not enabled", () => {
+            linter.defineRule("rule-with-suggestions", {
+                meta: { docs: {}, schema: [] },
+                create: context => ({
+                    Program(node) {
+                        context.report({
+                            node,
+                            message: "hello world",
+                            suggest: [{ desc: "convert to foo", fix: fixer => fixer.insertTextBefore(node, " ") }]
+                        });
+                    }
+                })
+            });
+
+            assert.throws(() => {
+                linter.verify("0", { rules: { "rule-with-suggestions": "error" } });
+            }, /Rules with suggestions should set the `meta\.docs\.suggestion` property to `true`\.\nOccurred while linting <input>:1$/u);
         });
     });
 
