@@ -30,6 +30,7 @@ All of ESLint's issues, across all GitHub repositories, are managed on our [Tria
 * **Evaluating** - the dev team is evaluating these issues to determine whether to move forward or not
 * **Waiting for RFC** - the next step in the process is for an RFC to be written
 * **RFC Opened** - an RFC is opened to address these issues
+* **Blocked** - the issue can't move forward due to some dependency
 * **Ready to Implement** - these issues have all of the details necessary to start implementation
 * **PR Opened** - there is an open pull request for each of these issues
 * **Completed** - the issue has been closed (either via pull request merge or by the team manually closing the issue)
@@ -77,6 +78,7 @@ When an issue has been moved to the "Ready for Dev Team" column, any dev team me
     * **Breaking Changes:** if you suspect or can verify that a change would be breaking, label it as "Breaking".
     * **Duplicates:** if you can verify the issue is a duplicate, add a comment mentioning the duplicate issue (such as, "Duplicate of #1234") and close the issue.
 1. Regardless of the above, always leave a comment. Don't just add labels, engage with the person who opened the issue by asking a question (request more information if necessary) or stating your opinion of the issue. If it's a verified bug, ask if the user would like to submit a pull request.
+1. If the issue can't be implemented because it needs an external dependency to be updated or needs to wait for another issue to be resolved, move the issue to the "Blocked" column.
 1. If the issue has been accepted and an RFC is required as the next step, move the issue to the "Waiting for RFC" column and comment on the issue that an RFC is needed.
 
 **Note:** "Good first issue" issues are intended to help new contributors feel welcome and empowered to make a contribution to ESLint. To ensure that new contributors are given a chance to work on these issues, issues labeled "good first issue" must be open for 30 days *from the day the issue was labeled* before a team member is permitted to work on them.
