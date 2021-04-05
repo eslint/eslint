@@ -264,6 +264,28 @@ ruleTester.run("no-implicit-coercion", rule, {
             }]
         },
         {
+            code: "`\\\n${foo}`",
+            output: "String(foo)",
+            options: [{ templateString: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "String(foo)" },
+                type: "TemplateLiteral"
+            }]
+        },
+        {
+            code: "`${foo}\\\n`",
+            output: "String(foo)",
+            options: [{ templateString: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "String(foo)" },
+                type: "TemplateLiteral"
+            }]
+        },
+        {
             code: "foo += \"\"",
             output: "foo = String(foo)",
             errors: [{
