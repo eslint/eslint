@@ -109,20 +109,34 @@ foo = String(foo);
 
 ### templateString
 
-Examples of **incorrect** code for the default `{ "templateString": true }` option:
+Examples of **incorrect** code for the `{ "templateString": true }` option:
 
 ```js
-/*eslint no-implicit-coercion: "error"*/
+/*eslint no-implicit-coercion: ["error", { "templateString": true }]*/
 
-`${foo}`;
+var s = `${foo}`;
+```
+
+Examples of **correct** code for the `{ "templateString": true }` option:
+
+```js
+/*eslint no-implicit-coercion: ["error", { "templateString": true }]*/
+
+var s = String(foo);
+
+var s = `a${foo}`;
+
+var s = `${foo}b`;
+
+var s = `${foo}${bar}`;
 ```
 
 Examples of **correct** code for the default `{ "templateString": false }` option:
 
 ```js
-/*eslint no-implicit-coercion: "error"*/
+/*eslint no-implicit-coercion: ["error", { "templateString": false }]*/
 
-`${foo}`;
+var s = `${foo}`;
 ```
 
 ### allow
