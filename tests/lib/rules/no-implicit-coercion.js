@@ -88,6 +88,10 @@ ruleTester.run("no-implicit-coercion", rule, {
         { code: "`${foo}` + ''", parserOptions: { ecmaVersion: 6 } },
         "foo += 'bar'",
         { code: "foo += `${bar}`", parserOptions: { ecmaVersion: 6 } },
+        { code: "`a${foo}`", options: [{ templateString: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "`${foo}b`", options: [{ templateString: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "`${foo}${bar}`", options: [{ templateString: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "tag`${foo}`", options: [{ templateString: true }], parserOptions: { ecmaVersion: 6 } },
         "+42"
     ],
     invalid: [
