@@ -204,6 +204,11 @@ describe("FlatConfigArray", () => {
 
             it("should merge two values when second is a string", () => {
 
+                const stubProcessor = {
+                    preprocess() {},
+                    postprocess() {}
+                };
+
                 return assertMergedResult([
                     {
                         processor: {
@@ -212,10 +217,24 @@ describe("FlatConfigArray", () => {
                         }
                     },
                     {
+                        plugins: {
+                            markdown: {
+                                processors: {
+                                    markdown: stubProcessor
+                                }
+                            }
+                        },
                         processor: "markdown/markdown"
                     }
                 ], {
-                    processor: "markdown/markdown"
+                    plugins: {
+                        markdown: {
+                            processors: {
+                                markdown: stubProcessor
+                            }
+                        }
+                    },
+                    processor: stubProcessor
                 });
             });
 
@@ -244,7 +263,7 @@ describe("FlatConfigArray", () => {
                     {
                         processor: "foo"
                     }
-                ], "plugin-name/object-name");
+                ], "pluginName/objectName");
             });
 
             it("should error when an empty string is used", async () => {
@@ -253,7 +272,7 @@ describe("FlatConfigArray", () => {
                     {
                         processor: ""
                     }
-                ], "plugin-name/object-name");
+                ], "pluginName/objectName");
             });
 
             it("should error when an invalid processor is used", async () => {
@@ -697,7 +716,18 @@ describe("FlatConfigArray", () => {
                                 parser: "true"
                             }
                         }
-                    ], "Expected string in the form \"plugin-name/object-name\".")
+                    ], "Expected string in the form \"pluginName/objectName\".")
+                });
+
+                it("should error when a plugin parser can't be found", async () => {
+
+                    await assertInvalidConfig([
+                        {
+                            languageOptions: {
+                                parser: "foo/bar"
+                            }
+                        }
+                    ], "Key \"parser\": Could not find \"bar\" in plugin \"foo\".")
                 });
 
                 it("should error when a value doesn't have a parse() method", async () => {
@@ -714,9 +744,17 @@ describe("FlatConfigArray", () => {
                 it("should merge two objects when second object has overrides", () => {
 
                     const parser = { parse(){} };
+                    const stubParser = { parse() { } };
 
                     return assertMergedResult([
                         {
+                            plugins: {
+                                foo: {
+                                    parsers: {
+                                        bar: stubParser
+                                    }
+                                }
+                            },
                             languageOptions: {
                                 parser: "foo/bar"
                             }
@@ -727,6 +765,13 @@ describe("FlatConfigArray", () => {
                             }
                         }
                     ], {
+                        plugins: {
+                            foo: {
+                                parsers: {
+                                    bar: stubParser
+                                }
+                            }
+                        },
                         languageOptions: {
                             parser
                         }
@@ -735,8 +780,18 @@ describe("FlatConfigArray", () => {
 
                 it("should merge an object and undefined into one object", () => {
 
+                    const stubParser = { parse() { } };
+
                     return assertMergedResult([
                         {
+                            plugins: {
+                                foo: {
+                                    parsers: {
+                                        bar: stubParser
+                                    }
+                                }
+                            },
+
                             languageOptions: {
                                 parser: "foo/bar"
                             }
@@ -744,8 +799,16 @@ describe("FlatConfigArray", () => {
                         {
                         }
                     ], {
+                        plugins: {
+                            foo: {
+                                parsers: {
+                                    bar: stubParser
+                                }
+                            }
+                        },
+
                         languageOptions: {
-                            parser: "foo/bar"
+                            parser: stubParser
                         }
                     });
 
@@ -754,17 +817,35 @@ describe("FlatConfigArray", () => {
 
                 it("should merge undefined and an object into one object", () => {
 
+                    const stubParser = { parse(){} };
+
                     return assertMergedResult([
                         {
                         },
                         {
+                            plugins: {
+                                foo: {
+                                    parsers: {
+                                        bar: stubParser
+                                    }
+                                }
+                            },
+
                             languageOptions: {
                                 parser: "foo/bar"
                             }
                         }
                     ], {
+                        plugins: {
+                            foo: {
+                                parsers: {
+                                    bar: stubParser
+                                }
+                            }
+                        },
+
                         languageOptions: {
-                            parser: "foo/bar"
+                            parser: stubParser
                         }
                     });
 
@@ -994,21 +1075,21 @@ describe("FlatConfigArray", () => {
                 });
             });
 
-            xit("should merge an object and undefined into one object", () => {
+            it("should merge an object and undefined into one object", () => {
 
                 return assertMergedResult([
                     {
                         rules: {
-                            a: true,
-                            b: false
+                            a: 0,
+                            b: 1
                         }
                     },
                     {
                     }
                 ], {
                     rules: {
-                        a: true,
-                        b: false
+                        a: 0,
+                        b: 1
                     }
                 });
 
