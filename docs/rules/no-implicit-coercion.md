@@ -36,7 +36,7 @@ This rule has three main options and one override option to allow some coercions
 -   `"boolean"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `boolean` type.
 -   `"number"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `number` type.
 -   `"string"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `string` type.
--   `"templateString"` (`false` by default) - When this is `true`, this rule warns shorter type conversions using template strings.
+-   `"disallowTemplateString"` (`false` by default) - When this is `true`, this rule warns shorter type conversions using template strings.
 -   `"allow"` (`empty` by default) - Each entry in this array can be one of `~`, `!!`, `+` or `*` that are to be allowed.
 
 Note that operator `+` in `allow` list would allow `+foo` (number coercion) as well as `"" + foo` (string coercion).
@@ -107,22 +107,22 @@ var s = String(foo);
 foo = String(foo);
 ```
 
-### templateString
+### disallowTemplateString
 
 This option is **not** affected by the `string` option.
 
-Examples of **incorrect** code for the `{ "templateString": true }` option:
+Examples of **incorrect** code for the `{ "disallowTemplateString": true }` option:
 
 ```js
-/*eslint no-implicit-coercion: ["error", { "templateString": true }]*/
+/*eslint no-implicit-coercion: ["error", { "disallowTemplateString": true }]*/
 
 var s = `${foo}`;
 ```
 
-Examples of **correct** code for the `{ "templateString": true }` option:
+Examples of **correct** code for the `{ "disallowTemplateString": true }` option:
 
 ```js
-/*eslint no-implicit-coercion: ["error", { "templateString": true }]*/
+/*eslint no-implicit-coercion: ["error", { "disallowTemplateString": true }]*/
 
 var s = String(foo);
 
@@ -133,10 +133,10 @@ var s = `${foo}b`;
 var s = `${foo}${bar}`;
 ```
 
-Examples of **correct** code for the default `{ "templateString": false }` option:
+Examples of **correct** code for the default `{ "disallowTemplateString": false }` option:
 
 ```js
-/*eslint no-implicit-coercion: ["error", { "templateString": false }]*/
+/*eslint no-implicit-coercion: ["error", { "disallowTemplateString": false }]*/
 
 var s = `${foo}`;
 ```
