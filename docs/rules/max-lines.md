@@ -18,7 +18,7 @@ This rule has a number or object option:
 
 * `"skipComments": true` ignore lines containing just comments
 
-### code
+### max
 
 Examples of **incorrect** code for this rule with a max value of `2`:
 
