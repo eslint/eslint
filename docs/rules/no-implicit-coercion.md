@@ -109,6 +109,8 @@ foo = String(foo);
 
 ### templateString
 
+This option is **not** affected by the `string` option.
+
 Examples of **incorrect** code for the `{ "templateString": true }` option:
 
 ```js
