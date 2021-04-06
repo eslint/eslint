@@ -131,6 +131,8 @@ var s = `a${foo}`;
 var s = `${foo}b`;
 
 var s = `${foo}${bar}`;
+
+var s = tag`${foo}`;
 ```
 
 Examples of **correct** code for the default `{ "disallowTemplateShorthand": false }` option:
