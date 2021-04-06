@@ -16,9 +16,41 @@ const assert = require("chai").assert;
 // Helpers
 //-----------------------------------------------------------------------------
 
+const baseConfig = {
+    plugins: {
+        "@": {
+            rules: {
+                foo: {
+                    schema: {
+                        type: "array",
+                        items: [
+                            {
+                                enum: ["always", "never"]
+                            }
+                        ],
+                        minItems: 0,
+                        maxItems: 1
+                    }
+
+                },
+                bar: {
+
+                },
+                baz: {
+
+                },
+
+                // old-style
+                boom() {}
+            }
+        }
+    }
+}
+
 function createFlatConfigArray(configs) {
     return new FlatConfigArray(configs, {
         basePath: __dirname,
+        baseConfig
     });
 }
 
@@ -65,6 +97,8 @@ describe("FlatConfigArray", () => {
                         }
                     }
                 ], {
+                    plugins: baseConfig.plugins,
+
                     settings: {
                         a: true,
                         b: false,
@@ -90,6 +124,8 @@ describe("FlatConfigArray", () => {
                         }
                     }
                 ], {
+                    plugins: baseConfig.plugins,
+
                     settings: {
                         a: false,
                         b: false,
@@ -110,6 +146,8 @@ describe("FlatConfigArray", () => {
                     {
                     }
                 ], {
+                    plugins: baseConfig.plugins,
+
                     settings: {
                         a: true,
                         b: false
@@ -144,7 +182,8 @@ describe("FlatConfigArray", () => {
                     plugins: {
                         a: pluginA,
                         b: pluginB,
-                        c: pluginC
+                        c: pluginC,
+                        ...baseConfig.plugins
                     }
                 });
             });
@@ -163,7 +202,8 @@ describe("FlatConfigArray", () => {
                 ], {
                     plugins: {
                         a: pluginA,
-                        b: pluginB
+                        b: pluginB,
+                        ...baseConfig.plugins
                     }
                 });
 
@@ -232,7 +272,8 @@ describe("FlatConfigArray", () => {
                             processors: {
                                 markdown: stubProcessor
                             }
-                        }
+                        },
+                        ...baseConfig.plugins
                     },
                     processor: stubProcessor
                 });
@@ -253,6 +294,8 @@ describe("FlatConfigArray", () => {
                         processor
                     }
                 ], {
+                    plugins: baseConfig.plugins,
+
                     processor
                 });
             });
@@ -327,6 +370,8 @@ describe("FlatConfigArray", () => {
                             }
                         }
                     ], {
+                        plugins: baseConfig.plugins,
+
                         linterOptions: {
                             noInlineConfig: false
                         }
@@ -344,6 +389,8 @@ describe("FlatConfigArray", () => {
                         {
                         }
                     ], {
+                        plugins: baseConfig.plugins,
+
                         linterOptions: {
                             noInlineConfig: false
                         }
@@ -380,6 +427,8 @@ describe("FlatConfigArray", () => {
                             }
                         }
                     ], {
+                        plugins: baseConfig.plugins,
+
                         linterOptions: {
                             reportUnusedDisableDirectives: "error"
                         }
@@ -396,6 +445,8 @@ describe("FlatConfigArray", () => {
                             }
                         }
                     ], {
+                        plugins: baseConfig.plugins,
+
                         linterOptions: {
                             reportUnusedDisableDirectives: "warn"
                         }
@@ -449,6 +500,8 @@ describe("FlatConfigArray", () => {
                             }
                         }
                     ], {
+                        plugins: baseConfig.plugins,
+
                         languageOptions: {
                             ecmaVersion: 2021
                         }
@@ -466,6 +519,8 @@ describe("FlatConfigArray", () => {
                         {
                         }
                     ], {
+                        plugins: baseConfig.plugins,
+
                         languageOptions: {
                             ecmaVersion: 2021
                         }
@@ -485,6 +540,8 @@ describe("FlatConfigArray", () => {
                             }
                         }
                     ], {
+                        plugins: baseConfig.plugins,
+
                         languageOptions: {
                             ecmaVersion: 2021
                         }
@@ -522,6 +579,8 @@ describe("FlatConfigArray", () => {
                             }
                         }
                     ], {
+                        plugins: baseConfig.plugins,
+
                         languageOptions: {
                             sourceType: "script"
                         }
@@ -539,6 +598,8 @@ describe("FlatConfigArray", () => {
                         {
                         }
                     ], {
+                        plugins: baseConfig.plugins,
+
                         languageOptions: {
                             sourceType: "script"
                         }
@@ -558,6 +619,8 @@ describe("FlatConfigArray", () => {
                             }
                         }
                     ], {
+                        plugins: baseConfig.plugins,
+
                         languageOptions: {
                             sourceType: "module"
                         }
@@ -612,6 +675,8 @@ describe("FlatConfigArray", () => {
                             }
                         }
                     ], {
+                        plugins: baseConfig.plugins,
+
                         languageOptions: {
                             globals: {
                                 foo: "readonly",
@@ -639,6 +704,8 @@ describe("FlatConfigArray", () => {
                             }
                         }
                     ], {
+                        plugins: baseConfig.plugins,
+
                         languageOptions: {
                             globals: {
                                 foo: "writeable"
@@ -660,6 +727,8 @@ describe("FlatConfigArray", () => {
                         {
                         }
                     ], {
+                        plugins: baseConfig.plugins,
+
                         languageOptions: {
                             globals: {
                                 foo: "readonly"
@@ -683,6 +752,8 @@ describe("FlatConfigArray", () => {
                             }
                         }
                     ], {
+                        plugins: baseConfig.plugins,
+
                         languageOptions: {
                             globals: {
                                 foo: "readonly"
@@ -770,7 +841,8 @@ describe("FlatConfigArray", () => {
                                 parsers: {
                                     bar: stubParser
                                 }
-                            }
+                            },
+                            ...baseConfig.plugins
                         },
                         languageOptions: {
                             parser
@@ -804,7 +876,8 @@ describe("FlatConfigArray", () => {
                                 parsers: {
                                     bar: stubParser
                                 }
-                            }
+                            },
+                            ...baseConfig.plugins
                         },
 
                         languageOptions: {
@@ -841,7 +914,8 @@ describe("FlatConfigArray", () => {
                                 parsers: {
                                     bar: stubParser
                                 }
-                            }
+                            },
+                            ...baseConfig.plugins
                         },
 
                         languageOptions: {
@@ -885,6 +959,8 @@ describe("FlatConfigArray", () => {
                             }
                         }
                     ], {
+                        plugins: baseConfig.plugins,
+
                         languageOptions: {
                             parserOptions: {
                                 foo: "whatever",
@@ -912,6 +988,8 @@ describe("FlatConfigArray", () => {
                             }
                         }
                     ], {
+                        plugins: baseConfig.plugins,
+
                         languageOptions: {
                             parserOptions: {
                                 foo: "bar"
@@ -933,6 +1011,8 @@ describe("FlatConfigArray", () => {
                         {
                         }
                     ], {
+                        plugins: baseConfig.plugins,
+
                         languageOptions: {
                             parserOptions: {
                                 foo: "whatever"
@@ -956,6 +1036,8 @@ describe("FlatConfigArray", () => {
                             }
                         }
                     ], {
+                        plugins: baseConfig.plugins,
+
                         languageOptions: {
                             parserOptions: {
                                 foo: "bar"
@@ -1004,6 +1086,17 @@ describe("FlatConfigArray", () => {
                 ], "Key \"rules\": Key \"foo\": Expected severity of \"off\", 0, \"warn\", 1, \"error\", or 2.")
             });
 
+            it("should error when rule options don't match schema", async () => {
+
+                await assertInvalidConfig([
+                    {
+                        rules: {
+                            foo: [1, "bar"]
+                        }
+                    }
+                ], /Value "bar" should be equal to one of the allowed values/)
+            });
+
             it("should merge two objects", () => {
 
                 return assertMergedResult([
@@ -1020,6 +1113,8 @@ describe("FlatConfigArray", () => {
                         }
                     }
                 ], {
+                    plugins: baseConfig.plugins,
+
                     rules: {
                         foo: 1,
                         bar: "error",
@@ -1045,6 +1140,8 @@ describe("FlatConfigArray", () => {
                         }
                     }
                 ], {
+                    plugins: baseConfig.plugins,
+
                     rules: {
                         foo: ["error", "always"],
                         bar: 0
@@ -1068,6 +1165,7 @@ describe("FlatConfigArray", () => {
                         }
                     }
                 ], {
+                    plugins: baseConfig.plugins,
                     rules: {
                         foo: ["error", "never"],
                         bar: ["warn", "foo"]
@@ -1080,16 +1178,17 @@ describe("FlatConfigArray", () => {
                 return assertMergedResult([
                     {
                         rules: {
-                            a: 0,
-                            b: 1
+                            foo: 0,
+                            bar: 1
                         }
                     },
                     {
                     }
                 ], {
+                    plugins: baseConfig.plugins,
                     rules: {
-                        a: 0,
-                        b: 1
+                        foo: 0,
+                        bar: 1
                     }
                 });
 
