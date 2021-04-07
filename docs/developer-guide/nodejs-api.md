@@ -26,7 +26,7 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
     * [verify()](#linterverify)
     * [verifyAndFix()](#linterverifyandfix)
     * [defineRule()](#linterdefinerule)
-    * [defineRules()](#linter-definerules)
+    * [defineRules()](#linterdefinerules)
     * [getRules()](#lintergetrules)
     * [defineParser()](#linterdefineparser)
     * [version](#linterversionlinterversion)
