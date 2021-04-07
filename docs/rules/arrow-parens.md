@@ -52,7 +52,7 @@ This rule has a string option and an object one.
 String options are:
 
 * `"always"` (default) requires parens around arguments in all cases.
-* `"as-needed"` enforces no braces where they can be omitted.
+* `"as-needed"` enforces no parens where they can be omitted.
 
 Object properties for variants of the `"as-needed"` option:
 
