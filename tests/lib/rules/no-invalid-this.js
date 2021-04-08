@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const omit = require("omit");
-const clone = require("clone");
+const clone = require("rfdc")();
 const rule = require("../../../lib/rules/no-invalid-this");
 const { RuleTester } = require("../../../lib/rule-tester");
 
