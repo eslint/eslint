@@ -2924,12 +2924,15 @@ describe("ESLint", () => {
                     useEslintrc: false,
                     overrideConfig: {
                         plugins: ["test-processor"],
-                        rules: {
-                            "no-console": 2,
-                            "no-unused-vars": 2
-                        }
+                        overrides: [{
+                            files: ["**/*.txt/*.txt"],
+                            rules: {
+                                "no-console": 2,
+                                "no-unused-vars": 2
+                            }
+                        }]
                     },
-                    extensions: ["js", "txt"],
+                    extensions: ["txt"],
                     ignore: false,
                     plugins: {
                         "test-processor": {
