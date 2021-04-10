@@ -186,6 +186,21 @@ ruleTester.run("require-atomic-updates", rule, {
                 const prop = props.find(a => a.id === entry2.id) || null;
               }
             }
+        `,
+
+        `
+            async function run() {
+              {
+                let entry;
+                await entry;
+              }
+              {
+                let entry;
+                () => entry;
+
+                entry = 1;
+              }
+            }
         `
     ],
 
