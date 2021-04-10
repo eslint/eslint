@@ -27,10 +27,7 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ],
+    "*.js": "eslint --fix",
     "*.md": "markdownlint"
   },
   "files": [
