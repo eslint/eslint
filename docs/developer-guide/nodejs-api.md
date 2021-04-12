@@ -1065,7 +1065,6 @@ Retrieves a formatter, which you can then use to format a report object. The arg
 * "[json](../user-guide/formatters#json)"
 * "[junit](../user-guide/formatters#junit)"
 * "[stylish](../user-guide/formatters#stylish)" (the default)
-* "[table](../user-guide/formatters#table)"
 * "[tap](../user-guide/formatters#tap)"
 * "[unix](../user-guide/formatters#unix)"
 * "[visualstudio](../user-guide/formatters#visualstudio)"

@@ -343,7 +343,6 @@ This option specifies the output format for the console. Possible formats are:
 * [json](formatters.md/#json)
 * [junit](formatters.md/#junit)
 * [stylish](formatters.md/#stylish) (the default)
-* [table](formatters.md/#table)
 * [tap](formatters.md/#tap)
 * [unix](formatters.md/#unix)
 * [visualstudio](formatters.md/#visualstudio)
