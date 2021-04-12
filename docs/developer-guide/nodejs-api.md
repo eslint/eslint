@@ -1059,7 +1059,6 @@ const isIgnored = cli.isPathIgnored("foo/bar.js");
 Retrieves a formatter, which you can then use to format a report object. The argument is either the name of a built-in formatter:
 
 * "[checkstyle](../user-guide/formatters#checkstyle)"
-* "[codeframe](../user-guide/formatters#codeframe)"
 * "[compact](../user-guide/formatters#compact)"
 * "[html](../user-guide/formatters#html)"
 * "[jslint-xml](../user-guide/formatters#jslint-xml)"

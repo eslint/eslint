@@ -46,7 +46,6 @@
   "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
-    "@babel/code-frame": "7.12.11",
     "@eslint/eslintrc": "^0.4.0",
     "ajv": "^6.10.0",
     "chalk": "^4.0.0",

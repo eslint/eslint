@@ -337,7 +337,6 @@ When specified, the given format is output into the provided file name.
 This option specifies the output format for the console. Possible formats are:
 
 * [checkstyle](formatters.md/#checkstyle)
-* [codeframe](formatters.md/#codeframe)
 * [compact](formatters.md/#compact)
 * [html](formatters.md/#html)
 * [jslint-xml](formatters.md/#jslint-xml)
