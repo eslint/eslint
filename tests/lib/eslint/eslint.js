@@ -4604,7 +4604,7 @@ describe("ESLint", () => {
             assert.strictEqual(typeof formatter.format, "function");
         });
 
-        it("should throw if a customer formatter doesn't exist", async () => {
+        it("should throw if a custom formatter doesn't exist", async () => {
             const engine = new ESLint();
             const formatterPath = getFixturePath("formatters", "doesntexist.js");
             const fullFormatterPath = path.resolve(formatterPath);
