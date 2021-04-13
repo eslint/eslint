@@ -2,7 +2,7 @@
 name: "\U0001F41E  Bug report"
 about: Report an issue with ESLint or rules bundled with ESLint
 title: ''
-labels: bug, triage
+labels: bug, repro:needed
 assignees: ''
 
 ---
@@ -34,6 +34,8 @@ assignees: ''
 * **Operating System:** 
 
 **What parser (default, `@babel/eslint-parser`, `@typescript-eslint/parser`, etc.) are you using?**
+
+<!-- if you are using a parser other than ESLint's default, please try using the default parser to verify if the issue is parser-specific -->
 
 **Please show your full configuration:**
 
@@ -74,4 +76,3 @@ assignees: ''
 1. 
 
 **Are you willing to submit a pull request to fix this bug?**
-

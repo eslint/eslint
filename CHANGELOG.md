@@ -1,3 +1,34 @@
+v7.24.0 - April 9, 2021
+
+* [`0c346c8`](https://github.com/eslint/eslint/commit/0c346c87fa83c6d1184fdafb9c0748c2e15a423d) Chore: ignore `pnpm-lock.yaml` (#14303) (Nitin Kumar)
+* [`f06ecdf`](https://github.com/eslint/eslint/commit/f06ecdf78b6d6f366434d73a6acfe7041d575223) Update: Add disallowTemplateShorthand option in no-implicit-coercion (#13579) (Remco Haszing)
+* [`71a80e3`](https://github.com/eslint/eslint/commit/71a80e38aab2dada01b808ed43d9b0e806d863c4) Docs: fix broken links in Node.js API docs toc (#14296) (u-sho (Shouhei Uechi))
+* [`bd46dc4`](https://github.com/eslint/eslint/commit/bd46dc4647faa4c3bbb5f60d4c00616a64081398) Docs: Fix incorrect reference to "braces" in arrow-parens (#14300) (emclain)
+* [`0d6235e`](https://github.com/eslint/eslint/commit/0d6235ea201b8b90761ee69bb4d46ae18899c28d) Docs: update header in max-lines (#14273) (Shinigami)
+* [`70c9216`](https://github.com/eslint/eslint/commit/70c92164017238e329e3a2d1654a0227b8f953f7) Docs: Update issue triage to include blocked column (#14275) (Nicholas C. Zakas)
+* [`abca186`](https://github.com/eslint/eslint/commit/abca186a845200fd7728c4e5f220973e640054f9) Docs: Fix typo in suggestions section (#14293) (Kevin Partington)
+* [`c4d8b0d`](https://github.com/eslint/eslint/commit/c4d8b0db62b859e721105d4bc0f4044ce346995e) Fix: no-unused-vars ignoreRestSiblings check assignments (fixes #14163) (#14264) (YeonJuan)
+* [`b51d077`](https://github.com/eslint/eslint/commit/b51d0778d76c2aa27578caca3ea82c867dced3e4) Update: add ignoreNonDeclaration to no-multi-assign rule (fixes #12545) (#14185) (t-mangoe)
+* [`c981fb1`](https://github.com/eslint/eslint/commit/c981fb1994cd04914042ced1980aa86b68ba7be9) Chore: Upgrade mocha to 8.3.2 (#14278) (Stephen Wade)
+* [`147fc04`](https://github.com/eslint/eslint/commit/147fc045e699811fab33dddf77498324ddf7e9d6) Docs: Fix `repro:needed` label in bug report template (#14285) (Milos Djermanovic)
+* [`e1cfde9`](https://github.com/eslint/eslint/commit/e1cfde93eec71a15c2df1ad660a7a6171204ba80) Docs: Update bug report template (#14276) (Nicholas C. Zakas)
+* [`c85c2f1`](https://github.com/eslint/eslint/commit/c85c2f1138a9e952655f19ee780ab0c8e35431a8) Docs: Add fatal to Node.js API LintMessage type (#14251) (Brandon Mills)
+
+v7.23.0 - March 26, 2021
+
+* [`687ccae`](https://github.com/eslint/eslint/commit/687ccae517b8b815cf21e948f80d22e2bf118a99) Update: add option "allowInParentheses" to no-sequences (fixes #14197) (#14199) (Daniel Rentz)
+* [`dbf2529`](https://github.com/eslint/eslint/commit/dbf252964d9a2b8957cfe0aed5c87a6d4a5cce24) Sponsors: Sync README with website (ESLint Jenkins)
+* [`4bdf2c1`](https://github.com/eslint/eslint/commit/4bdf2c1dade27625b601080687ce95b8c229e491) Sponsors: Sync README with website (ESLint Jenkins)
+* [`49d1697`](https://github.com/eslint/eslint/commit/49d16977d969070e5240074e76036f56631a90d3) Chore: Upgrade eslint-plugin-jsdoc to v25 and remove --legacy-peer-deps (#14244) (Brandon Mills)
+* [`43f1685`](https://github.com/eslint/eslint/commit/43f1685356b9840e09631843ad9ccf0440a498b0) Update: `--quiet` should not supress `--max-warnings` (fixes #14202) (#14242) (Milos Djermanovic)
+* [`909c727`](https://github.com/eslint/eslint/commit/909c7271b8d294bd884827ad5df02615b6ec5e82) Docs: Add valid example that shows vars in a block scope (#14230) (Ed S)
+* [`28583eb`](https://github.com/eslint/eslint/commit/28583eb8ada20f32579841bec3fbd60a018d5931) Fix: no-mixed-operators false positives with `? :` (fixes #14223) (#14226) (Milos Djermanovic)
+* [`a99eb2d`](https://github.com/eslint/eslint/commit/a99eb2dc2a297d16e40a9feef3956668716c4eb5) Fix: Clarify line breaks in object-curly-newline (fixes #14024) (#14063) (armin yahya)
+* [`8984c91`](https://github.com/eslint/eslint/commit/8984c91372e64d1e8dd2ce21b87b80977d57bff9) Update: eslint --env-info output os info (#14059) (薛定谔的猫)
+* [`2a79306`](https://github.com/eslint/eslint/commit/2a79306f71c4c80f1e3e73be2a140d07cf55c63d) Sponsors: Sync README with website (ESLint Jenkins)
+* [`ebd7026`](https://github.com/eslint/eslint/commit/ebd70263f6e6fe597613d90f4b8de84710c2f3d6) Docs: Fix typo (#14225) (Greg Finley)
+* [`a2013fc`](https://github.com/eslint/eslint/commit/a2013fcf996c8651bc760df21d900442828a6884) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.22.0 - March 12, 2021
 
 * [`3a432d8`](https://github.com/eslint/eslint/commit/3a432d82b3a5710aff7da20302fe0b94fedc46c2) Docs: Improve documentation for indent rule (#14168) (Serkan Özel)
