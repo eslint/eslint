@@ -9,7 +9,6 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const omit = require("omit");
 const clone = require("rfdc")();
 const rule = require("../../../lib/rules/no-invalid-this");
 const { RuleTester } = require("../../../lib/rule-tester");
@@ -80,7 +79,10 @@ function extractPatterns(patterns, type) {
             thisPattern.code += " /* should error */";
         }
 
-        return omit(["valid", "invalid"], thisPattern);
+        delete thisPattern.valid;
+        delete thisPattern.invalid;
+
+        return thisPattern;
     }));
 
     // Flatten.
