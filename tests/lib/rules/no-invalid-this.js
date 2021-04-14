@@ -9,7 +9,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const clone = require("rfdc")();
+const extend = require("deep-extend");
+
 const rule = require("../../../lib/rules/no-invalid-this");
 const { RuleTester } = require("../../../lib/rule-tester");
 
@@ -69,7 +70,7 @@ function extractPatterns(patterns, type) {
 
     // Clone and apply the pattern environment.
     const patternsList = patterns.map(pattern => pattern[type].map(applyCondition => {
-        const thisPattern = clone(pattern);
+        const thisPattern = extend({}, pattern);
 
         applyCondition(thisPattern);
 
