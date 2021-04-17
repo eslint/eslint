@@ -767,7 +767,7 @@ describe("FlatConfigArray", () => {
                                 parser: "true"
                             }
                         }
-                    ], "Expected string in the form \"pluginName/objectName\".");
+                    ], /Expected string in the form "pluginName\/objectName"/u);
                 });
 
                 it("should error when a plugin parser can't be found", async () => {
