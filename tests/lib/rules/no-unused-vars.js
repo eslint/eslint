@@ -1087,6 +1087,13 @@ ruleTester.run("no-unused-vars", rule, {
             parserOptions: { ecmaVersion: 2015 },
             errors: [{ ...assignedError("a"), line: 1, column: 7 }]
         },
+
+        // https://github.com/eslint/eslint/issues/14324
+        {
+            code: "let x = [];\nx = x.concat(x);",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 2, column: 1 }]
+        },
         {
 
             code: `let a = 'a';
