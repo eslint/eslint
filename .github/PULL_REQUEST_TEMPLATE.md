@@ -10,6 +10,11 @@
 
 #### What is the purpose of this pull request? (put an "X" next to an item)
 
+<!--
+    The following template is intentionally not a markdown checkbox list for the reasons
+    explained in https://github.com/eslint/eslint/pull/12848#issuecomment-580302888
+--->
+
 [ ] Documentation update
 [ ] Bug fix ([template](https://raw.githubusercontent.com/eslint/eslint/master/templates/bug-report.md))
 [ ] New rule ([template](https://raw.githubusercontent.com/eslint/eslint/master/templates/rule-proposal.md))
