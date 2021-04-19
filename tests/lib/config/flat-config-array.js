@@ -192,6 +192,24 @@ describe("FlatConfigArray", () => {
                     b: false
                 }
             }));
+            
+            it("should merge undefined and an object into one object", () => assertMergedResult([
+                {
+                },
+                {
+                    settings: {
+                        a: true,
+                        b: false
+                    }
+                }
+            ], {
+                plugins: baseConfig.plugins,
+
+                settings: {
+                    a: true,
+                    b: false
+                }
+            }));
 
         });
 
