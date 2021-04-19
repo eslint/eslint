@@ -1163,6 +1163,28 @@ describe("FlatConfigArray", () => {
                     bar: ["warn", "foo"]
                 }
             }));
+            
+            it("should merge two objects and clear options when second object overrides without options", () => assertMergedResult([
+                {
+                    rules: {
+                        foo: [1, "always"],
+                        bar: "error"
+                    }
+                },
+                {
+                    rules: {
+                        foo: ["error"],
+                        bar: 0
+                    }
+                }
+            ], {
+                plugins: baseConfig.plugins,
+
+                rules: {
+                    foo: ["error"],
+                    bar: 0
+                }
+            }));
 
             it("should merge an object and undefined into one object", () => assertMergedResult([
                 {
