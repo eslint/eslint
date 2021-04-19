@@ -438,6 +438,22 @@ describe("FlatConfigArray", () => {
                         noInlineConfig: false
                     }
                 }));
+                
+                it("should merge undefined and an object into one object", () => assertMergedResult([
+                    {
+                    },
+                    {
+                        linterOptions: {
+                            noInlineConfig: false
+                        }
+                    }
+                ], {
+                    plugins: baseConfig.plugins,
+
+                    linterOptions: {
+                        noInlineConfig: false
+                    }
+                }));
 
 
             });
