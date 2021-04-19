@@ -192,7 +192,7 @@ describe("FlatConfigArray", () => {
                     b: false
                 }
             }));
-            
+
             it("should merge undefined and an object into one object", () => assertMergedResult([
                 {
                 },
@@ -438,7 +438,7 @@ describe("FlatConfigArray", () => {
                         noInlineConfig: false
                     }
                 }));
-                
+
                 it("should merge undefined and an object into one object", () => assertMergedResult([
                     {
                     },
@@ -522,6 +522,26 @@ describe("FlatConfigArray", () => {
                 ], "Unexpected key \"foo\" found.");
 
             });
+
+            it("should merge two languageOptions objects with different properties", assertMergedResult([
+                {
+                    languageOptions: {
+                        ecmaVersion: 2019
+                    }
+                },
+                {
+                    languageOptions: {
+                        sourceType: "commonjs"
+                    }
+                }
+            ], {
+                plugins: baseConfig.plugins,
+
+                languageOptions: {
+                    ecmaVersion: 2019,
+                    sourceType: "commonjs"
+                }
+            }));
 
             describe("ecmaVersion", () => {
 
@@ -1074,7 +1094,7 @@ describe("FlatConfigArray", () => {
                     }
                 ], "Key \"rules\": Key \"foo\": Expected a string, number, or array.");
             });
-            
+
             it("should error when an invalid rule severity of the right type is set", async () => {
 
                 await assertInvalidConfig([
@@ -1174,7 +1194,7 @@ describe("FlatConfigArray", () => {
                     bar: ["warn", "foo"]
                 }
             }));
-            
+
             it("should merge two objects and clear options when second object overrides without options", () => assertMergedResult([
                 {
                     rules: {
