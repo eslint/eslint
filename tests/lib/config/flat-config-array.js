@@ -523,7 +523,7 @@ describe("FlatConfigArray", () => {
 
             });
 
-            it("should merge two languageOptions objects with different properties", assertMergedResult([
+            it("should merge two languageOptions objects with different properties", () => assertMergedResult([
                 {
                     languageOptions: {
                         ecmaVersion: 2019
