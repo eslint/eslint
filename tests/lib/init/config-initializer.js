@@ -207,6 +207,64 @@ describe("configInitializer", () => {
             });
         });
 
+        describe("writeFile()", () => {
+            it("should create eslintrc.json", () => {
+                const config = init.processAnswers(answers);
+                const filePath = path.resolve(__dirname, ".eslintrc.json");
+
+                init.writeFile(config, answers.format, { filePath: __dirname });
+
+                assert.isTrue(fs.existsSync(filePath));
+
+                fs.unlinkSync(filePath);
+            });
+
+            it("should create eslintrc.js", () => {
+                answers.format = "JavaScript";
+
+                const config = init.processAnswers(answers);
+                const filePath = path.resolve(__dirname, ".eslintrc.js");
+
+                init.writeFile(config, answers.format, { filePath: __dirname });
+
+                assert.isTrue(fs.existsSync(filePath));
+
+                fs.unlinkSync(filePath);
+            });
+
+            it("should create eslintrc.yml", () => {
+                answers.format = "YAML";
+
+                const config = init.processAnswers(answers);
+                const filePath = path.resolve(__dirname, ".eslintrc.yml");
+
+                init.writeFile(config, answers.format, { filePath: __dirname });
+
+                assert.isTrue(fs.existsSync(filePath));
+
+                fs.unlinkSync(filePath);
+            });
+
+            it("should create eslintrc.cjs", () => {
+                answers.format = "JavaScript";
+
+                // create package.json with "type": "module"
+                const pkgJSONContens = { type: "module" };
+
+                fs.writeFileSync(path.resolve(__dirname, "package.json"), JSON.stringify(pkgJSONContens));
+
+                const config = init.processAnswers(answers);
+                const filePath = path.resolve(__dirname, ".eslintrc.cjs");
+
+                init.writeFile(config, answers.format, { filePath: __dirname, startDir: __dirname });
+
+                assert.isTrue(fs.existsSync(filePath));
+
+                fs.unlinkSync(filePath);
+                fs.unlinkSync(path.resolve(__dirname, "package.json"));
+            });
+        });
+
         describe("guide", () => {
             it("should support the google style guide", () => {
                 const config = { extends: "google" };
