@@ -245,6 +245,7 @@ describe("configInitializer", () => {
                 fs.unlinkSync(filePath);
             });
 
+            // For https://github.com/eslint/eslint/issues/14137
             it("should create eslintrc.cjs", () => {
                 answers.format = "JavaScript";
 
@@ -255,6 +256,25 @@ describe("configInitializer", () => {
 
                 const config = init.processAnswers(answers);
                 const filePath = path.resolve(__dirname, ".eslintrc.cjs");
+
+                init.writeFile(config, answers.format, { filePath: __dirname, startDir: __dirname });
+
+                assert.isTrue(fs.existsSync(filePath));
+
+                fs.unlinkSync(filePath);
+                fs.unlinkSync(path.resolve(__dirname, "package.json"));
+            });
+
+            it("should create eslintrc.json even with type: 'module'", () => {
+                answers.format = "JSON";
+
+                // create package.json with "type": "module"
+                const pkgJSONContens = { type: "module" };
+
+                fs.writeFileSync(path.resolve(__dirname, "package.json"), JSON.stringify(pkgJSONContens));
+
+                const config = init.processAnswers(answers);
+                const filePath = path.resolve(__dirname, ".eslintrc.json");
 
                 init.writeFile(config, answers.format, { filePath: __dirname, startDir: __dirname });
 
