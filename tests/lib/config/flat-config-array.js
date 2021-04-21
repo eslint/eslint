@@ -853,25 +853,25 @@ describe("FlatConfigArray", () => {
 
                     return assertMergedResult([
                         {
+                            languageOptions: {
+                                parser
+                            }
+                        },
+                        {
                             plugins: {
-                                foo: {
+                                "@foo/baz": {
                                     parsers: {
                                         bar: stubParser
                                     }
                                 }
                             },
                             languageOptions: {
-                                parser: "foo/bar"
-                            }
-                        },
-                        {
-                            languageOptions: {
-                                parser
+                                parser: "@foo/baz/bar"
                             }
                         }
                     ], {
                         plugins: {
-                            foo: {
+                            "@foo/baz": {
                                 parsers: {
                                     bar: stubParser
                                 }
@@ -879,7 +879,7 @@ describe("FlatConfigArray", () => {
                             ...baseConfig.plugins
                         },
                         languageOptions: {
-                            parser
+                            parser: stubParser
                         }
                     });
                 });
@@ -1203,17 +1203,32 @@ describe("FlatConfigArray", () => {
                     }
                 },
                 {
+                    plugins: {
+                        "foo/baz": {
+                            rules: {
+                                bang: {}
+                            }
+                        }
+                    },
                     rules: {
                         foo: ["error"],
-                        bar: 0
+                        bar: 0,
+                        "foo/baz/bang": "error"
                     }
                 }
             ], {
-                plugins: baseConfig.plugins,
-
+                plugins: {
+                    ...baseConfig.plugins,
+                    "foo/baz": {
+                        rules: {
+                            bang: {}
+                        }
+                    }
+                },
                 rules: {
                     foo: ["error"],
-                    bar: 0
+                    bar: 0,
+                    "foo/baz/bang": "error"
                 }
             }));
 
