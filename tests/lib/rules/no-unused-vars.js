@@ -1108,6 +1108,24 @@ ruleTester.run("no-unused-vars", rule, {
             errors: [{ ...assignedError("a"), line: 2, column: 13 }, { ...definedError("foo"), line: 3, column: 22 }]
         },
         {
+            code: `let foo;
+            init();
+            foo = foo + 2;
+            function init() {
+                foo = 1;
+            }`,
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("foo"), line: 3, column: 13 }]
+        },
+        {
+            code: `function foo(n) {
+                if (n < 2) return 1;
+                return n * foo(n - 1);
+            }`,
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ ...definedError("foo"), line: 1, column: 10 }]
+        },
+        {
             code: `let c = 'c'
 c = 10
 function foo1() {
