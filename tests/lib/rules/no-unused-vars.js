@@ -1105,7 +1105,7 @@ ruleTester.run("no-unused-vars", rule, {
                 }
             }`,
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{ ...definedError("foo"), line: 3, column: 22 }, { ...assignedError("a"), line: 6, column: 21 }]
+            errors: [{ ...assignedError("a"), line: 2, column: 13 }, { ...definedError("foo"), line: 3, column: 22 }]
         },
         {
             code: `let c = 'c'
