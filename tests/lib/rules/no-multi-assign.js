@@ -53,7 +53,9 @@ ruleTester.run("no-mutli-assign", rule, {
         { code: "export let a, b;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "export let a,\n b = 0;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "const x = {};const y = {};x.one = y.one = 1;", options: [{ ignoreNonDeclaration: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "let a, b;a = b = 1", options: [{ ignoreNonDeclaration: true }], parserOptions: { ecmaVersion: 6 } }
+        { code: "let a, b;a = b = 1", options: [{ ignoreNonDeclaration: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "let b;\nlet a = b ??= 1;", options: [{ ignoreOperators: ["??="] }], parserOptions: { ecmaVersion: 12 } },
+        { code: "let b, c;\nlet a = b ||= c ??= 0;", options: [{ ignoreOperators: ["??=", "||="] }], parserOptions: { ecmaVersion: 12 } }
     ],
 
     invalid: [
@@ -171,6 +173,21 @@ ruleTester.run("no-mutli-assign", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 errorAt(1, 11, "AssignmentExpression")
+            ]
+        },
+        {
+            code: "let b;\nlet a = b ??= 1;",
+            parserOptions: { ecmaVersion: 12 },
+            errors: [
+                errorAt(2, 9, "AssignmentExpression")
+            ]
+        },
+        {
+            code: "let b, c;\nlet a = b ||= c ??= 0;",
+            options: [{ ignoreOperators: ["??="] }],
+            parserOptions: { ecmaVersion: 12 },
+            errors: [
+                errorAt(2, 9, "AssignmentExpression")
             ]
         }
     ]
