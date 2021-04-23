@@ -1062,7 +1062,7 @@ ruleTester.run("no-unused-vars", rule, {
             code: `let myArray = [1,2,3,4].filter((x) => x == 0);
     myArray = myArray.filter((x) => x == 1);`,
             parserOptions: { ecmaVersion: 2015 },
-            errors: [{ ...assignedError("myArray"), line: 2, column: 15 }]
+            errors: [{ ...assignedError("myArray"), line: 2, column: 5 }]
         },
         {
             code: "const a = 1; a += 1;",
@@ -1071,21 +1071,28 @@ ruleTester.run("no-unused-vars", rule, {
         },
         {
             code: "var a = function() { a(); };",
-            errors: [{ ...assignedError("a"), line: 1, column: 22 }]
+            errors: [{ ...assignedError("a"), line: 1, column: 5 }]
         },
         {
             code: "var a = function(){ return function() { a(); } };",
-            errors: [{ ...assignedError("a"), line: 1, column: 41 }]
+            errors: [{ ...assignedError("a"), line: 1, column: 5 }]
         },
         {
             code: "const a = () => { a(); };",
             parserOptions: { ecmaVersion: 2015 },
-            errors: [{ ...assignedError("a"), line: 1, column: 19 }]
+            errors: [{ ...assignedError("a"), line: 1, column: 7 }]
         },
         {
             code: "const a = () => () => { a(); };",
             parserOptions: { ecmaVersion: 2015 },
-            errors: [{ ...assignedError("a"), line: 1, column: 25 }]
+            errors: [{ ...assignedError("a"), line: 1, column: 7 }]
+        },
+
+        // https://github.com/eslint/eslint/issues/14324
+        {
+            code: "let x = [];\nx = x.concat(x);",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 2, column: 1 }]
         },
         {
 
@@ -1098,7 +1105,25 @@ ruleTester.run("no-unused-vars", rule, {
                 }
             }`,
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{ ...definedError("foo"), line: 3, column: 22 }, { ...assignedError("a"), line: 6, column: 21 }]
+            errors: [{ ...assignedError("a"), line: 2, column: 13 }, { ...definedError("foo"), line: 3, column: 22 }]
+        },
+        {
+            code: `let foo;
+            init();
+            foo = foo + 2;
+            function init() {
+                foo = 1;
+            }`,
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("foo"), line: 3, column: 13 }]
+        },
+        {
+            code: `function foo(n) {
+                if (n < 2) return 1;
+                return n * foo(n - 1);
+            }`,
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ ...definedError("foo"), line: 1, column: 10 }]
         },
         {
             code: `let c = 'c'
