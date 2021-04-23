@@ -1,3 +1,17 @@
+v7.25.0 - April 23, 2021
+
+* [`5df5e4a`](https://github.com/eslint/eslint/commit/5df5e4a9976964fcf4dc67e241d4e22ec1370fe0) Update: highlight last write reference for no-unused-vars (fixes #14324) (#14335) (Nitin Kumar)
+* [`0023872`](https://github.com/eslint/eslint/commit/00238729329b86b4f8af89ebfe278da3095a6075) Docs: Add deprecated note to `working-with-rules-deprecated` page (#14344) (Michael Novotny)
+* [`36fca70`](https://github.com/eslint/eslint/commit/36fca70fa29ab65080076810de98e09133254b8a) Chore: Upgrade eslump to 3.0.0 (#14350) (Stephen Wade)
+* [`59b689a`](https://github.com/eslint/eslint/commit/59b689a0b3fa658b8380431007cc1facb4617a3b) Chore: add node v16 (#14355) (薛定谔的猫)
+* [`35a1f5e`](https://github.com/eslint/eslint/commit/35a1f5e967e4e87360d3e70d3fca0f7adeeaa1d7) Sponsors: Sync README with website (ESLint Jenkins)
+* [`fb0a92b`](https://github.com/eslint/eslint/commit/fb0a92b3d2fed4a17bc39b7f02c540cd1175ec7d) Chore: rename misspelled identifier in test (#14346) (Tobias Nießen)
+* [`f2babb1`](https://github.com/eslint/eslint/commit/f2babb1069194166e0ac1afd1269bbd06ac299b6) Docs: update pull request template (#14336) (Nitin Kumar)
+* [`02dde29`](https://github.com/eslint/eslint/commit/02dde29eeb523ca24bc4ae7797d38627c3ba9fe9) Docs: Fix anchor in 'docs/developer-guide/working-with-rules.md' (#14332) (Nate-Wilkins)
+* [`07d14c3`](https://github.com/eslint/eslint/commit/07d14c304c358fbc9c3d318e1377d2b2bda9179f) Chore: remove extraneous command from lint-staged config (#14314) (James George)
+* [`41b3570`](https://github.com/eslint/eslint/commit/41b3570b6c014c534bb3208ed00050fd99842101) Update: lint code block with same extension but different content (#14227) (JounQin)
+* [`eb29996`](https://github.com/eslint/eslint/commit/eb299966bdc3920dd2c6f9774d95103d242fc409) Docs: add more examples with arrow functions for no-sequences rule (#14313) (Nitin Kumar)
+
 v7.24.0 - April 9, 2021
 
 * [`0c346c8`](https://github.com/eslint/eslint/commit/0c346c87fa83c6d1184fdafb9c0748c2e15a423d) Chore: ignore `pnpm-lock.yaml` (#14303) (Nitin Kumar)
