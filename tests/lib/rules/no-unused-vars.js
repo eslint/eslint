@@ -996,6 +996,27 @@ ruleTester.run("no-unused-vars", rule, {
             ]
         },
         {
+            code: `let x = 0;
+            x++; x = 0;`,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 2, column: 18 }]
+        },
+
+        // https://github.com/eslint/eslint/issues/14325
+        {
+            code: `let x = 0;
+            x++, x = 0;`,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 2, column: 18 }]
+        },
+        {
+            code: `let x = 0;
+            x++, x = 0;
+            x=3;`,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 3, column: 13 }]
+        },
+        {
             code: "(function ({ a, b }, { c } ) { return b; })();",
             parserOptions: { ecmaVersion: 2015 },
             errors: [
