@@ -271,7 +271,7 @@ describe("FlatConfigArray", () => {
                             a: pluginC
                         }
                     }
-                ], "redefine plugin");
+                ], "Cannot redefine plugin \"a\".");
             });
 
             it("should error when plugin is not an object", async () => {
@@ -371,7 +371,19 @@ describe("FlatConfigArray", () => {
                     {
                         processor: {}
                     }
-                ], "preprocess() and a postprocess()");
+                ], "Object must have a preprocess() and a postprocess() method.");
+
+            });
+
+            it("should error when a processor cannot be found in a plugin", async () => {
+                await assertInvalidConfig([
+                    {
+                        plugins: {
+                            foo: {}
+                        },
+                        processor: "foo/bar"
+                    }
+                ], /Could not find "bar" in plugin "foo"/u);
 
             });
 
@@ -703,6 +715,32 @@ describe("FlatConfigArray", () => {
                             }
                         }
                     ], "Expected \"readonly\", \"writeable\", or \"off\".");
+                });
+
+                it("should error when a global has leading whitespace", async () => {
+
+                    await assertInvalidConfig([
+                        {
+                            languageOptions: {
+                                globals: {
+                                    " foo": "readonly"
+                                }
+                            }
+                        }
+                    ], /Global " foo" has leading or trailing whitespace/u);
+                });
+
+                it("should error when a global has trailing whitespace", async () => {
+
+                    await assertInvalidConfig([
+                        {
+                            languageOptions: {
+                                globals: {
+                                    "foo ": "readonly"
+                                }
+                            }
+                        }
+                    ], /Global "foo " has leading or trailing whitespace/u);
                 });
 
                 it("should merge two objects when second object has different keys", () => assertMergedResult([
