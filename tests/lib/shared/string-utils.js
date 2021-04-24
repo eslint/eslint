@@ -19,6 +19,7 @@ const { upperCaseFirst } = require("../../../lib/shared/string-utils");
 
 describe("upperCaseFirst", () => {
     it("uppercases the first letter of a string", () => {
+        assert(upperCaseFirst("e") === "E");
         assert(upperCaseFirst("alphabet") === "Alphabet");
         assert(upperCaseFirst("one two three") === "One two three");
     });
@@ -29,6 +30,7 @@ describe("upperCaseFirst", () => {
     });
 
     it("does not change the case if the first letter is already uppercase", () => {
+        assert(upperCaseFirst("E") === "E");
         assert(upperCaseFirst("Alphabet") === "Alphabet");
         assert(upperCaseFirst("One Two Three") === "One Two Three");
     });
