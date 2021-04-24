@@ -27,6 +27,7 @@ const proxyquire = require("proxyquire").noPreserveCache();
 //------------------------------------------------------------------------------
 
 let answers = {};
+let pkgJSONContens = {};
 
 describe("configInitializer", () => {
 
@@ -204,84 +205,6 @@ describe("configInitializer", () => {
                 const config = init.processAnswers(answers);
 
                 assert.isTrue(config.env.commonjs);
-            });
-        });
-
-        describe("writeFile()", () => {
-            it("should create eslintrc.json", () => {
-                const config = init.processAnswers(answers);
-                const filePath = path.resolve(__dirname, ".eslintrc.json");
-
-                init.writeFile(config, answers.format, { filePath: __dirname });
-
-                assert.isTrue(fs.existsSync(filePath));
-
-                fs.unlinkSync(filePath);
-            });
-
-            it("should create eslintrc.js", () => {
-                answers.format = "JavaScript";
-
-                const config = init.processAnswers(answers);
-                const filePath = path.resolve(__dirname, ".eslintrc.js");
-
-                init.writeFile(config, answers.format, { filePath: __dirname });
-
-                assert.isTrue(fs.existsSync(filePath));
-
-                fs.unlinkSync(filePath);
-            });
-
-            it("should create eslintrc.yml", () => {
-                answers.format = "YAML";
-
-                const config = init.processAnswers(answers);
-                const filePath = path.resolve(__dirname, ".eslintrc.yml");
-
-                init.writeFile(config, answers.format, { filePath: __dirname });
-
-                assert.isTrue(fs.existsSync(filePath));
-
-                fs.unlinkSync(filePath);
-            });
-
-            // For https://github.com/eslint/eslint/issues/14137
-            it("should create eslintrc.cjs", () => {
-                answers.format = "JavaScript";
-
-                // create package.json with "type": "module"
-                const pkgJSONContens = { type: "module" };
-
-                fs.writeFileSync(path.resolve(__dirname, "package.json"), JSON.stringify(pkgJSONContens));
-
-                const config = init.processAnswers(answers);
-                const filePath = path.resolve(__dirname, ".eslintrc.cjs");
-
-                init.writeFile(config, answers.format, { filePath: __dirname, startDir: __dirname });
-
-                assert.isTrue(fs.existsSync(filePath));
-
-                fs.unlinkSync(filePath);
-                fs.unlinkSync(path.resolve(__dirname, "package.json"));
-            });
-
-            it("should create eslintrc.json even with type: 'module'", () => {
-                answers.format = "JSON";
-
-                // create package.json with "type": "module"
-                const pkgJSONContens = { type: "module" };
-
-                fs.writeFileSync(path.resolve(__dirname, "package.json"), JSON.stringify(pkgJSONContens));
-
-                const config = init.processAnswers(answers);
-                const filePath = path.resolve(__dirname, ".eslintrc.json");
-
-                init.writeFile(config, answers.format, { filePath: __dirname, startDir: __dirname });
-
-                assert.isTrue(fs.existsSync(filePath));
-
-                fs.unlinkSync(filePath);
-                fs.unlinkSync(path.resolve(__dirname, "package.json"));
             });
         });
 
@@ -531,6 +454,126 @@ describe("configInitializer", () => {
                     config = init.processAnswers(answers);
                 }, "No files matching 'not-a-real-filename' were found.");
             });
+        });
+    });
+
+    describe("writeFile()", () => {
+
+        beforeEach(() => {
+            answers = {
+                purpose: "style",
+                source: "prompt",
+                extendDefault: true,
+                indent: 2,
+                quotes: "single",
+                linebreak: "unix",
+                semi: true,
+                moduleType: "esm",
+                es6Globals: true,
+                env: ["browser"],
+                format: "JSON"
+            };
+
+            pkgJSONContens = {
+                name: "config-initializer",
+                version: "1.0.0"
+            };
+        });
+
+        afterEach(() => {
+            process.chdir(originalDir);
+        });
+
+        it("should create eslintrc.json", () => {
+            process.chdir(fixtureDir);
+
+            const config = init.processAnswers(answers);
+            const filePath = path.resolve(process.cwd(), ".eslintrc.json");
+
+            fs.writeFileSync(path.resolve(process.cwd(), "package.json"), JSON.stringify(pkgJSONContens));
+
+            init.writeFile(config, answers.format);
+
+            assert.isTrue(fs.existsSync(filePath));
+
+            fs.unlinkSync(filePath);
+        });
+
+        it("should create eslintrc.js", () => {
+            answers.format = "JavaScript";
+
+            process.chdir(fixtureDir);
+
+            const config = init.processAnswers(answers);
+            const filePath = path.resolve(process.cwd(), ".eslintrc.js");
+
+            fs.writeFileSync(path.resolve(process.cwd(), "package.json"), JSON.stringify(pkgJSONContens));
+
+            init.writeFile(config, answers.format);
+
+            assert.isTrue(fs.existsSync(filePath));
+
+            fs.unlinkSync(filePath);
+        });
+
+        it("should create eslintrc.yml", () => {
+            answers.format = "YAML";
+
+            process.chdir(fixtureDir);
+
+            const config = init.processAnswers(answers);
+            const filePath = path.resolve(process.cwd(), ".eslintrc.yml");
+
+            fs.writeFileSync(path.resolve(process.cwd(), "package.json"), JSON.stringify(pkgJSONContens));
+
+            init.writeFile(config, answers.format);
+
+            assert.isTrue(fs.existsSync(filePath));
+
+            fs.unlinkSync(filePath);
+        });
+
+        // For https://github.com/eslint/eslint/issues/14137
+        it("should create eslintrc.cjs", () => {
+            answers.format = "JavaScript";
+
+            process.chdir(fixtureDir);
+
+            // create package.json with "type": "module"
+            pkgJSONContens.type = "module";
+
+            fs.writeFileSync(path.resolve(process.cwd(), "package.json"), JSON.stringify(pkgJSONContens));
+
+            const config = init.processAnswers(answers);
+            const filePath = path.resolve(process.cwd(), ".eslintrc.cjs");
+
+            init.writeFile(config, answers.format);
+
+            assert.isTrue(fs.existsSync(filePath));
+
+            fs.unlinkSync(filePath);
+            fs.unlinkSync(path.resolve(process.cwd(), "package.json"));
+        });
+
+        it("should create eslintrc.json even with type: 'module'", () => {
+            answers.format = "JSON";
+
+            process.chdir(fixtureDir);
+
+            // create package.json with "type": "module"
+            pkgJSONContens.type = "module";
+
+            fs.writeFileSync(path.resolve(process.cwd(), "package.json"), JSON.stringify(pkgJSONContens));
+
+            const config = init.processAnswers(answers);
+            const filePath = path.resolve(process.cwd(), ".eslintrc.json");
+
+            init.writeFile(config, answers.format);
+
+            assert.isTrue(fs.existsSync(filePath));
+
+            fs.unlinkSync(filePath);
+            fs.unlinkSync(path.resolve(process.cwd(), "package.json"));
         });
     });
 });
