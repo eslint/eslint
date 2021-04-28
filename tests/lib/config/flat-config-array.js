@@ -710,7 +710,7 @@ describe("FlatConfigArray", () => {
                         {
                             languageOptions: {
                                 globals: {
-                                    foo: "true"
+                                    foo: "truex"
                                 }
                             }
                         }
@@ -1242,7 +1242,7 @@ describe("FlatConfigArray", () => {
                 },
                 {
                     plugins: {
-                        "foo/baz": {
+                        "foo/baz/boom": {
                             rules: {
                                 bang: {}
                             }
@@ -1251,13 +1251,13 @@ describe("FlatConfigArray", () => {
                     rules: {
                         foo: ["error"],
                         bar: 0,
-                        "foo/baz/bang": "error"
+                        "foo/baz/boom/bang": "error"
                     }
                 }
             ], {
                 plugins: {
                     ...baseConfig.plugins,
-                    "foo/baz": {
+                    "foo/baz/boom": {
                         rules: {
                             bang: {}
                         }
@@ -1266,7 +1266,7 @@ describe("FlatConfigArray", () => {
                 rules: {
                     foo: ["error"],
                     bar: 0,
-                    "foo/baz/bang": "error"
+                    "foo/baz/boom/bang": "error"
                 }
             }));
 
