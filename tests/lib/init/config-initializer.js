@@ -240,6 +240,14 @@ describe("configInitializer", () => {
                 assert.include(modules, "eslint-config-standard@latest");
             });
 
+            it("should support the xo style guide", () => {
+                const config = { extends: "xo" };
+                const modules = init.getModulesList(config);
+
+                assert.deepStrictEqual(config, { extends: "xo", installedESLint: true });
+                assert.include(modules, "eslint-config-xo@latest");
+            });
+
             it("should install required sharable config", () => {
                 const config = { extends: "google" };
 
