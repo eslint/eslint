@@ -754,7 +754,7 @@ describe("FlatConfigArray", () => {
                     {
                         languageOptions: {
                             globals: {
-                                bar: "writeable"
+                                bar: "writable"
                             }
                         }
                     }
@@ -764,7 +764,7 @@ describe("FlatConfigArray", () => {
                     languageOptions: {
                         globals: {
                             foo: "readonly",
-                            bar: "writeable"
+                            bar: "writable"
                         }
                     }
                 }));
@@ -773,7 +773,7 @@ describe("FlatConfigArray", () => {
                     {
                         languageOptions: {
                             globals: {
-                                foo: "readonly"
+                                foo: null
                             }
                         }
                     },
@@ -798,7 +798,7 @@ describe("FlatConfigArray", () => {
                     {
                         languageOptions: {
                             globals: {
-                                foo: "readonly"
+                                foo: "readable"
                             }
                         }
                     },
@@ -809,7 +809,7 @@ describe("FlatConfigArray", () => {
 
                     languageOptions: {
                         globals: {
-                            foo: "readonly"
+                            foo: "readable"
                         }
                     }
                 }));
@@ -821,7 +821,7 @@ describe("FlatConfigArray", () => {
                     {
                         languageOptions: {
                             globals: {
-                                foo: "readonly"
+                                foo: "false"
                             }
                         }
                     }
@@ -830,7 +830,7 @@ describe("FlatConfigArray", () => {
 
                     languageOptions: {
                         globals: {
-                            foo: "readonly"
+                            foo: "false"
                         }
                     }
                 }));
