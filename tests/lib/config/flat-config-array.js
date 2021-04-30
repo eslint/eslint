@@ -43,7 +43,18 @@ const baseConfig = {
                 },
 
                 // old-style
-                boom() {}
+                boom() {},
+
+                foo2: {
+                    schema: {
+                        type: "array",
+                        items: {
+                            type: "string"
+                        },
+                        uniqueItems: true,
+                        minItems: 1
+                    }
+                }
             }
         }
     }
@@ -714,7 +725,7 @@ describe("FlatConfigArray", () => {
                                 }
                             }
                         }
-                    ], "Expected \"readonly\", \"writeable\", or \"off\".");
+                    ], "Expected \"readonly\", \"writable\", or \"off\".");
                 });
 
                 it("should error when a global has leading whitespace", async () => {
@@ -1164,6 +1175,17 @@ describe("FlatConfigArray", () => {
                         }
                     }
                 ], /Value "bar" should be equal to one of the allowed values/u);
+            });
+
+            it("should error when rule options don't match schema requiring at least one item", async () => {
+
+                await assertInvalidConfig([
+                    {
+                        rules: {
+                            foo2: 1
+                        }
+                    }
+                ], /Value \[\] should NOT have fewer than 1 items/u);
             });
 
             it("should merge two objects", () => assertMergedResult([
