@@ -725,7 +725,7 @@ describe("FlatConfigArray", () => {
                                 }
                             }
                         }
-                    ], "Expected \"readonly\", \"writable\", or \"off\".");
+                    ], "Key \"foo\": Expected \"readonly\", \"writable\", or \"off\".");
                 });
 
                 it("should error when a global has leading whitespace", async () => {
