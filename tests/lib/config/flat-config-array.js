@@ -186,6 +186,35 @@ describe("FlatConfigArray", () => {
                 }
             }));
 
+            it("should deeply merge two objects when second object has overrides", () => assertMergedResult([
+                {
+                    settings: {
+                        object: {
+                            a: true,
+                            b: false
+                        }
+                    }
+                },
+                {
+                    settings: {
+                        object: {
+                            c: true,
+                            a: false
+                        }
+                    }
+                }
+            ], {
+                plugins: baseConfig.plugins,
+
+                settings: {
+                    object: {
+                        a: false,
+                        b: false,
+                        c: true
+                    }
+                }
+            }));
+
             it("should merge an object and undefined into one object", () => assertMergedResult([
                 {
                     settings: {
@@ -1046,6 +1075,38 @@ describe("FlatConfigArray", () => {
                         parserOptions: {
                             foo: "whatever",
                             bar: "baz"
+                        }
+                    }
+                }));
+
+                it("should deeply merge two objects when second object has different keys", () => assertMergedResult([
+                    {
+                        languageOptions: {
+                            parserOptions: {
+                                ecmaFeatures: {
+                                    jsx: true
+                                }
+                            }
+                        }
+                    },
+                    {
+                        languageOptions: {
+                            parserOptions: {
+                                ecmaFeatures: {
+                                    globalReturn: true
+                                }
+                            }
+                        }
+                    }
+                ], {
+                    plugins: baseConfig.plugins,
+
+                    languageOptions: {
+                        parserOptions: {
+                            ecmaFeatures: {
+                                jsx: true,
+                                globalReturn: true
+                            }
                         }
                     }
                 }));
