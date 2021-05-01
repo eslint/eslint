@@ -53,6 +53,7 @@ ruleTester.run("require-atomic-updates", rule, {
         "let foo; async function x() { foo = condition ? foo : await bar; }",
         "async function x() { let foo; bar(() => { let foo; blah(foo); }); foo += await result; }",
         "let foo; async function x() { foo = foo + 1; await bar; }",
+        "async function x() { foo += await bar; }",
 
 
         /*
@@ -201,6 +202,13 @@ ruleTester.run("require-atomic-updates", rule, {
                 entry = 1;
               }
             }
+        `,
+
+        `
+            async function run() {
+                await a;
+                b = 1;
+            }
         `
     ],
 
@@ -290,7 +298,7 @@ ruleTester.run("require-atomic-updates", rule, {
             errors: [COMPUTED_PROPERTY_ERROR, STATIC_PROPERTY_ERROR]
         },
         {
-            code: "async function x() { foo += await bar; }",
+            code: "let foo = ''; async function x() { foo += await bar; }",
             errors: [VARIABLE_ERROR]
         },
         {
