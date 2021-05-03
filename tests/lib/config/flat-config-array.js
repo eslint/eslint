@@ -109,6 +109,20 @@ async function assertInvalidConfig(values, message) {
     }, message);
 }
 
+/**
+ * Normalizes the rule configs to an array with severity to match
+ * how Flat Config merges rule options.
+ * @param {Object} rulesConfig The rules config portion of a config.
+ * @returns {Array} The rules config object.
+ */
+function normalizeRuleConfig(rulesConfig) {
+    for (const ruleId of Object.keys(rulesConfig)) {
+        rulesConfig[ruleId] = [2];
+    }
+
+    return rulesConfig;
+}
+
 //-----------------------------------------------------------------------------
 // Tests
 //-----------------------------------------------------------------------------
@@ -122,7 +136,7 @@ describe("FlatConfigArray", () => {
             await configs.normalize();
             const config = configs.getConfig("foo.js");
 
-            assert.deepStrictEqual(config.rules, recommendedConfig.rules);
+            assert.deepStrictEqual(config.rules, normalizeRuleConfig(recommendedConfig.rules));
         });
 
         it("eslint:all is replaced with an actual config", async () => {
@@ -131,7 +145,7 @@ describe("FlatConfigArray", () => {
             await configs.normalize();
             const config = configs.getConfig("foo.js");
 
-            assert.deepStrictEqual(config.rules, allConfig.rules);
+            assert.deepStrictEqual(config.rules, normalizeRuleConfig(allConfig.rules));
         });
     });
 
@@ -1266,10 +1280,10 @@ describe("FlatConfigArray", () => {
                 plugins: baseConfig.plugins,
 
                 rules: {
-                    foo: 1,
-                    bar: "error",
-                    baz: "warn",
-                    boom: 0
+                    foo: [1],
+                    bar: [2],
+                    baz: [1],
+                    boom: [0]
                 }
             }));
 
@@ -1290,8 +1304,8 @@ describe("FlatConfigArray", () => {
                 plugins: baseConfig.plugins,
 
                 rules: {
-                    foo: ["error", "always"],
-                    bar: 0
+                    foo: [2, "always"],
+                    bar: [0]
                 }
             }));
 
@@ -1311,8 +1325,8 @@ describe("FlatConfigArray", () => {
             ], {
                 plugins: baseConfig.plugins,
                 rules: {
-                    foo: ["error", "never"],
-                    bar: ["warn", "foo"]
+                    foo: [2, "never"],
+                    bar: [1, "foo"]
                 }
             }));
 
@@ -1347,9 +1361,9 @@ describe("FlatConfigArray", () => {
                     }
                 },
                 rules: {
-                    foo: ["error"],
-                    bar: 0,
-                    "foo/baz/boom/bang": "error"
+                    foo: [2],
+                    bar: [0],
+                    "foo/baz/boom/bang": [2]
                 }
             }));
 
@@ -1365,8 +1379,31 @@ describe("FlatConfigArray", () => {
             ], {
                 plugins: baseConfig.plugins,
                 rules: {
-                    foo: 0,
-                    bar: 1
+                    foo: [0],
+                    bar: [1]
+                }
+            }));
+
+            it("should merge a rule that doesn't exist without error when the rule is off", () => assertMergedResult([
+                {
+                    rules: {
+                        foo: 0,
+                        bar: 1
+                    }
+                },
+                {
+                    rules: {
+                        nonExistentRule: 0,
+                        nonExistentRule2: ["off", "bar"]
+                    }
+                }
+            ], {
+                plugins: baseConfig.plugins,
+                rules: {
+                    foo: [0],
+                    bar: [1],
+                    nonExistentRule: [0],
+                    nonExistentRule2: [0, "bar"]
                 }
             }));
 
