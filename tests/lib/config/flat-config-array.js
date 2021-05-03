@@ -1330,7 +1330,7 @@ describe("FlatConfigArray", () => {
                 }
             }));
 
-            it("should merge two objects and clear options when second object overrides without options", () => assertMergedResult([
+            it("should merge two objects and options when second object overrides without options", () => assertMergedResult([
                 {
                     rules: {
                         foo: [1, "always"],
@@ -1361,7 +1361,7 @@ describe("FlatConfigArray", () => {
                     }
                 },
                 rules: {
-                    foo: [2],
+                    foo: [2, "always"],
                     bar: [0],
                     "foo/baz/boom/bang": [2]
                 }
