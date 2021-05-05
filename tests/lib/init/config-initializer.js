@@ -28,6 +28,7 @@ const proxyquire = require("proxyquire").noPreserveCache();
 
 let answers = {};
 let pkgJSONContents = {};
+let pkgJSONPath = "";
 
 describe("configInitializer", () => {
 
@@ -478,6 +479,10 @@ describe("configInitializer", () => {
                 name: "config-initializer",
                 version: "1.0.0"
             };
+
+            process.chdir(fixtureDir);
+
+            pkgJSONPath = path.resolve(fixtureDir, "package.json");
         });
 
         afterEach(() => {
@@ -485,67 +490,59 @@ describe("configInitializer", () => {
         });
 
         it("should create .eslintrc.json", () => {
-            process.chdir(fixtureDir);
-
             const config = init.processAnswers(answers);
             const filePath = path.resolve(fixtureDir, ".eslintrc.json");
 
-            fs.writeFileSync(path.resolve(fixtureDir, "package.json"), JSON.stringify(pkgJSONContents));
+            fs.writeFileSync(pkgJSONPath, JSON.stringify(pkgJSONContents));
 
             init.writeFile(config, answers.format);
 
             assert.isTrue(fs.existsSync(filePath));
 
             fs.unlinkSync(filePath);
-            fs.unlinkSync(path.resolve(fixtureDir, "package.json"));
+            fs.unlinkSync(pkgJSONPath);
         });
 
         it("should create .eslintrc.js", () => {
             answers.format = "JavaScript";
 
-            process.chdir(fixtureDir);
-
             const config = init.processAnswers(answers);
             const filePath = path.resolve(fixtureDir, ".eslintrc.js");
 
-            fs.writeFileSync(path.resolve(fixtureDir, "package.json"), JSON.stringify(pkgJSONContents));
+            fs.writeFileSync(pkgJSONPath, JSON.stringify(pkgJSONContents));
 
             init.writeFile(config, answers.format);
 
             assert.isTrue(fs.existsSync(filePath));
 
             fs.unlinkSync(filePath);
-            fs.unlinkSync(path.resolve(fixtureDir, "package.json"));
+            fs.unlinkSync(pkgJSONPath);
         });
 
         it("should create .eslintrc.yml", () => {
             answers.format = "YAML";
 
-            process.chdir(fixtureDir);
-
             const config = init.processAnswers(answers);
             const filePath = path.resolve(fixtureDir, ".eslintrc.yml");
 
-            fs.writeFileSync(path.resolve(fixtureDir, "package.json"), JSON.stringify(pkgJSONContents));
+            fs.writeFileSync(pkgJSONPath, JSON.stringify(pkgJSONContents));
 
             init.writeFile(config, answers.format);
 
             assert.isTrue(fs.existsSync(filePath));
 
             fs.unlinkSync(filePath);
-            fs.unlinkSync(path.resolve(fixtureDir, "package.json"));
+            fs.unlinkSync(pkgJSONPath);
         });
 
         // For https://github.com/eslint/eslint/issues/14137
         it("should create .eslintrc.cjs", () => {
             answers.format = "JavaScript";
 
-            process.chdir(fixtureDir);
-
             // create package.json with "type": "module"
             pkgJSONContents.type = "module";
 
-            fs.writeFileSync(path.resolve(fixtureDir, "package.json"), JSON.stringify(pkgJSONContents));
+            fs.writeFileSync(pkgJSONPath, JSON.stringify(pkgJSONContents));
 
             const config = init.processAnswers(answers);
             const filePath = path.resolve(fixtureDir, ".eslintrc.cjs");
@@ -555,18 +552,16 @@ describe("configInitializer", () => {
             assert.isTrue(fs.existsSync(filePath));
 
             fs.unlinkSync(filePath);
-            fs.unlinkSync(path.resolve(fixtureDir, "package.json"));
+            fs.unlinkSync(pkgJSONPath);
         });
 
         it("should create .eslintrc.json even with type: 'module'", () => {
             answers.format = "JSON";
 
-            process.chdir(fixtureDir);
-
             // create package.json with "type": "module"
             pkgJSONContents.type = "module";
 
-            fs.writeFileSync(path.resolve(fixtureDir, "package.json"), JSON.stringify(pkgJSONContents));
+            fs.writeFileSync(pkgJSONPath, JSON.stringify(pkgJSONContents));
 
             const config = init.processAnswers(answers);
             const filePath = path.resolve(fixtureDir, ".eslintrc.json");
@@ -576,7 +571,7 @@ describe("configInitializer", () => {
             assert.isTrue(fs.existsSync(filePath));
 
             fs.unlinkSync(filePath);
-            fs.unlinkSync(path.resolve(fixtureDir, "package.json"));
+            fs.unlinkSync(pkgJSONPath);
         });
     });
 });
