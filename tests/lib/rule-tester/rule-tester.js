@@ -1813,6 +1813,17 @@ describe("RuleTester", () => {
                 });
             }, /Invalid suggestion property name 'outpt'/u);
         });
+
+        it("should throw an error if a rule that doesn't have `meta.hasSuggestions` enabled produces suggestions", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-missing-hasSuggestions-property", require("../../fixtures/testers/rule-tester/suggestions").withoutHasSuggestionsProperty, {
+                    valid: [],
+                    invalid: [
+                        { code: "var foo = bar;", output: "5", errors: 1 }
+                    ]
+                });
+            }, "Rules with suggestions must set the `meta.hasSuggestions` property to `true`.");
+        });
     });
 
     describe("naming test cases", () => {

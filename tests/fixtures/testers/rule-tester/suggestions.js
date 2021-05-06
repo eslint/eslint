@@ -1,6 +1,7 @@
 "use strict";
 
 module.exports.basic = {
+    meta: { hasSuggestions: true },
     create(context) {
         return {
             Identifier(node) {
@@ -25,7 +26,8 @@ module.exports.withMessageIds = {
             avoidFoo: "Avoid using identifiers named '{{ name }}'.",
             unused: "An unused key",
             renameFoo: "Rename identifier 'foo' to '{{ newName }}'"
-        }
+        },
+        hasSuggestions: true
     },
     create(context) {
         return {
@@ -57,4 +59,16 @@ module.exports.withMessageIds = {
     }
 };
 
-
+module.exports.withoutHasSuggestionsProperty = {
+    create(context) {
+        return {
+            Identifier(node) {
+                context.report({
+                    node,
+                    message: "some message",
+                    suggest: [{ desc: "some suggestion", fix: fixer => fixer.replaceText(node, 'bar') }]
+                });
+            }
+        };
+    }
+};
