@@ -16,12 +16,6 @@ const SourceCodeFixer = require("../lib/linter/source-code-fixer");
 const ruleConfigs = require("../lib/init/config-rule").createCoreRuleConfigs(true);
 const sampleMinimizer = require("./code-sample-minimizer");
 
-/*
- * TODO(stephenwade): Replace this with helper function using Object.fromEntries
- * when we drop support for Node v10
- */
-const mapValues = require("map-values");
-
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
@@ -143,10 +137,16 @@ function fuzz(options) {
     }
 
     for (let i = 0; i < options.count; progressCallback(problems.length), i++) {
+        const rules = {};
+
+        for (const [id, configs] of Object.entries(ruleConfigs)) {
+            rules[id] = sample(configs);
+        }
+
         const sourceType = sample(["script", "module"]);
         const text = codeGenerator({ sourceType });
         const config = {
-            rules: mapValues(ruleConfigs, sample),
+            rules,
             parserOptions: {
                 sourceType,
                 ecmaVersion: espree.latestEcmaVersion
