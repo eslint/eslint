@@ -116,11 +116,15 @@ async function assertInvalidConfig(values, message) {
  * @returns {Array} The rules config object.
  */
 function normalizeRuleConfig(rulesConfig) {
-    for (const ruleId of Object.keys(rulesConfig)) {
-        rulesConfig[ruleId] = [2];
+    const rulesConfigCopy = {
+        ...rulesConfig
+    };
+
+    for (const ruleId of Object.keys(rulesConfigCopy)) {
+        rulesConfigCopy[ruleId] = [2];
     }
 
-    return rulesConfig;
+    return rulesConfigCopy;
 }
 
 //-----------------------------------------------------------------------------
@@ -181,13 +185,16 @@ describe("FlatConfigArray", () => {
                 {
                     settings: {
                         a: true,
-                        b: false
+                        b: false,
+                        d: [1, 2],
+                        e: [5, 6]
                     }
                 },
                 {
                     settings: {
                         c: true,
-                        a: false
+                        a: false,
+                        d: [3, 4]
                     }
                 }
             ], {
@@ -196,7 +203,9 @@ describe("FlatConfigArray", () => {
                 settings: {
                     a: false,
                     b: false,
-                    c: true
+                    c: true,
+                    d: [3, 4],
+                    e: [5, 6]
                 }
             }));
 
@@ -1120,6 +1129,34 @@ describe("FlatConfigArray", () => {
                             ecmaFeatures: {
                                 jsx: true,
                                 globalReturn: true
+                            }
+                        }
+                    }
+                }));
+
+                it("should deeply merge two objects when second object has missing key", () => assertMergedResult([
+                    {
+                        languageOptions: {
+                            parserOptions: {
+                                ecmaFeatures: {
+                                    jsx: true
+                                }
+                            }
+                        }
+                    },
+                    {
+                        languageOptions: {
+                            ecmaVersion: 2021
+                        }
+                    }
+                ], {
+                    plugins: baseConfig.plugins,
+
+                    languageOptions: {
+                        ecmaVersion: 2021,
+                        parserOptions: {
+                            ecmaFeatures: {
+                                jsx: true
                             }
                         }
                     }
