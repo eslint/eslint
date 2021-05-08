@@ -1,3 +1,14 @@
+v7.26.0 - May 7, 2021
+
+* [`aaf65e6`](https://github.com/eslint/eslint/commit/aaf65e629adb74401092c3ccc9cb4e4bd1c8609b) Upgrade: eslintrc for ModuleResolver fix (#14577) (Brandon Mills)
+* [`ae6dbd1`](https://github.com/eslint/eslint/commit/ae6dbd148aaca83e4bd04b9351b54029c50fac8a) Fix: track variables, not names in require-atomic-updates (fixes #14208) (#14282) (Patrick Ahmetovic)
+* [`6a86e50`](https://github.com/eslint/eslint/commit/6a86e5018a3733049c09261bcabae422fbea893d) Chore: remove loose-parser tests (fixes #14315) (#14569) (Milos Djermanovic)
+* [`ee3a3ea`](https://github.com/eslint/eslint/commit/ee3a3ead893d185cc4b1ae9041940cb0968767e1) Fix: create `.eslintrc.cjs` for `module` type (#14304) (Nitin Kumar)
+* [`6791dec`](https://github.com/eslint/eslint/commit/6791decfc58b7b09cfd0aabd15a3d14148aae073) Docs: fix example for require-atomic-updates (#14562) (Milos Djermanovic)
+* [`388eb7e`](https://github.com/eslint/eslint/commit/388eb7e14039b8951462b311d6121002ca5232cb) Sponsors: Sync README with website (ESLint Jenkins)
+* [`f071d1e`](https://github.com/eslint/eslint/commit/f071d1ef91286bf2e3fb63d9b679ff7702819a1e) Update: Add automated suggestion to `radix` rule for parsing decimals (#14291) (Bryan Mishkin)
+* [`0b6a3f3`](https://github.com/eslint/eslint/commit/0b6a3f31e6e78825114f82d4e0aed9cd72f784ac) New: Include XO style guide in `eslint --init` (#14193) (Federico Brigante)
+
 v7.25.0 - April 23, 2021
 
 * [`5df5e4a`](https://github.com/eslint/eslint/commit/5df5e4a9976964fcf4dc67e241d4e22ec1370fe0) Update: highlight last write reference for no-unused-vars (fixes #14324) (#14335) (Nitin Kumar)
