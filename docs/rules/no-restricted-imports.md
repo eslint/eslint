@@ -75,6 +75,17 @@ or like this if you need to restrict only certain imports from a module:
 }]
 ```
 
+Or like this if you want to apply a custom message to pattern matches:
+
+```json
+"no-restricted-imports": ["error", {
+    "patterns": [{
+      "group": ["import1/private/*", "import2/*", "!import2/good"],
+      "message": "import1 private modules and most of import2 are deprecated, please don't use them in new code"
+    }]
+}]
+```
+
 The custom message will be appended to the default error message. Please note that you may not specify custom error messages for restricted patterns as a particular import may match more than one pattern.
 
 To restrict the use of all Node.js core imports (via https://github.com/nodejs/node/tree/master/lib):

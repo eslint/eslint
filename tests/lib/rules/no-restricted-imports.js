@@ -38,6 +38,10 @@ ruleTester.run("no-restricted-imports", rule, {
             options: [{ patterns: ["foo/*", "!foo/bar"] }]
         },
         {
+            code: "import withPatterns from \"foo/bar\";",
+            options: [{ patterns: [{ group: ["foo/*", "!foo/bar"], message: "foo is forbidden, use bar instead" }] }]
+        },
+        {
             code: "import AllowedObject from \"foo\";",
             options: [{
                 paths: [{
@@ -236,6 +240,16 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{ patterns: ["bar"] }],
         errors: [{
             message: "'foo/bar' import is restricted from being used by a pattern.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 36
+        }]
+    }, {
+        code: "import withPatterns from \"foo/baz\";",
+        options: [{ patterns: [{ group: ["foo/*", "!foo/bar"], message: "foo is forbidden, use foo/bar instead" }] }],
+        errors: [{
+            message: "'foo/baz' import is restricted from being used by a pattern. foo is forbidden, use foo/bar instead",
             type: "ImportDeclaration",
             line: 1,
             column: 1,
