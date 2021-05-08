@@ -240,6 +240,11 @@ Milos Djermanovic
 The people who review and implement new features.
 
 <table><tbody><tr><td align="center" valign="top" width="11%">
+<a href="https://github.com/mysticatea">
+<img src="https://github.com/mysticatea.png?s=75" width="75" height="75"><br />
+Toru Nagashima
+</a>
+</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/aladdin-add">
 <img src="https://github.com/aladdin-add.png?s=75" width="75" height="75"><br />
 薛定谔的猫
