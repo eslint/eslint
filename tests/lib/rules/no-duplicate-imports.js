@@ -17,7 +17,7 @@ const rule = require("../../../lib/rules/no-duplicate-imports"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({
-    parserOptions: { ecmaVersion: 6, sourceType: "module" }
+    parserOptions: { ecmaVersion: 12, sourceType: "module" }
 });
 
 ruleTester.run("no-duplicate-imports", rule, {
@@ -35,10 +35,6 @@ ruleTester.run("no-duplicate-imports", rule, {
             options: [{ includeExports: true }]
         },
         {
-            code: 'import os from "os";\nexport * from "hello";',
-            options: [{ includeExports: true }]
-        },
-        {
             code: 'import os from "os";\nexport { hello as hi } from "hello";',
             options: [{ includeExports: true }]
         },
@@ -48,29 +44,27 @@ ruleTester.run("no-duplicate-imports", rule, {
         },
         {
             code:
-                'import { merge } from "lodash-es";\nexport { merge as lodashMerge }',
-            options: [{ includeExports: true }]
-        },
-
-        // ignore `export * from` declarations, they cannot be merged with any other import/export declarations
-        {
-            code: "import os from 'os'; export * from 'os';",
+                  'import { merge } from "lodash-es";\nexport { merge as lodashMerge }',
             options: [{ includeExports: true }]
         },
         {
-            code: "export * from 'os'; import { a } from 'os';",
+            code: "import * as foo from 'os';\nexport {too} from 'os';",
             options: [{ includeExports: true }]
         },
         {
-            code: "import * as ns from 'os'; export * from 'os';",
+            code: "import os from 'os';\n export * from 'os';",
             options: [{ includeExports: true }]
         },
         {
-            code: "export * from 'os'; export { a } from 'os';",
+            code: "import * as ns from 'os';\nexport * from 'os';",
             options: [{ includeExports: true }]
         },
         {
-            code: "export { a as b } from 'os'; export * from 'os';",
+            code: "export * from 'os';\nexport { a } from 'os';",
+            options: [{ includeExports: true }]
+        },
+        {
+            code: "export { a as b } from 'os';\nexport * from 'os';",
             options: [{ includeExports: true }]
         }
     ],
@@ -87,7 +81,7 @@ ruleTester.run("no-duplicate-imports", rule, {
         },
         {
             code:
-                'import { merge } from "lodash-es";import { find } from "lodash-es";',
+                  'import { merge } from "lodash-es";\nimport { find } from "lodash-es";',
             errors: [
                 {
                     messageId: "import",
@@ -98,29 +92,7 @@ ruleTester.run("no-duplicate-imports", rule, {
         },
         {
             code:
-                'import os from "os";\nimport { something } from "os";\nimport * as foobar from "os";',
-            errors: [
-                {
-                    messageId: "import",
-                    data: { module: "os" },
-                    type: "ImportDeclaration"
-                }
-            ]
-        },
-        {
-            code:
-                'import os from "os";\nimport * as foobar from "os";\nimport { something } from "os";',
-            errors: [
-                {
-                    messageId: "import",
-                    data: { module: "os" },
-                    type: "ImportDeclaration"
-                }
-            ]
-        },
-        {
-            code:
-                'import os from "os";\nimport * as foobar1 from "os";\nimport * as foobar2 from "os";',
+                  'import os from "os";\nimport { something } from "os";\nimport * as foobar from "os";',
             errors: [
                 {
                     messageId: "import",
@@ -136,7 +108,23 @@ ruleTester.run("no-duplicate-imports", rule, {
         },
         {
             code:
-                'import { merge } from "lodash-es";import _ from "lodash-es";',
+                  'import os from "os";\nimport * as foobar1 from "os";\nimport * as foobar2 from "os";',
+            errors: [
+                {
+                    messageId: "import",
+                    data: { module: "os" },
+                    type: "ImportDeclaration"
+                },
+                {
+                    messageId: "import",
+                    data: { module: "os" },
+                    type: "ImportDeclaration"
+                }
+            ]
+        },
+        {
+            code:
+                  'import { merge } from "lodash-es";\nimport _ from "lodash-es";',
             errors: [
                 {
                     messageId: "import",
@@ -147,7 +135,7 @@ ruleTester.run("no-duplicate-imports", rule, {
         },
         {
             code:
-                'import foo, { merge } from "module";\nimport { baz } from "module";',
+                  'import foo, { merge } from "module";\nimport { baz } from "module";',
             errors: [
                 {
                     messageId: "import",
@@ -158,7 +146,7 @@ ruleTester.run("no-duplicate-imports", rule, {
         },
         {
             code:
-                'import * as namespace from "lodash-es";\nimport { merge } from "lodash-es";\nimport { baz } from "lodash-es";',
+                  'import * as modns from "lodash-es";\nimport { merge } from "lodash-es";\nimport { baz } from "lodash-es";',
             errors: [
                 {
                     messageId: "import",
@@ -180,11 +168,11 @@ ruleTester.run("no-duplicate-imports", rule, {
         },
         {
             code:
-                'import os from "os"; export { os as foobar } from "os";\nexport { something } from "os";',
+                  'import os from "os"; export { os as foobar } from "os";\nexport { something } from "os";',
             options: [{ includeExports: true }],
             errors: [
                 {
-                    messageId: "exportAs",
+                    messageId: "importAs",
                     data: { module: "os" },
                     type: "ExportNamedDeclaration"
                 },
@@ -194,7 +182,7 @@ ruleTester.run("no-duplicate-imports", rule, {
                     type: "ExportNamedDeclaration"
                 },
                 {
-                    messageId: "exportAs",
+                    messageId: "importAs",
                     data: { module: "os" },
                     type: "ExportNamedDeclaration"
                 }
@@ -205,19 +193,42 @@ ruleTester.run("no-duplicate-imports", rule, {
             options: [{ includeExports: true }],
             errors: [
                 {
-                    messageId: "exportAs",
+                    messageId: "importAs",
                     data: { module: "os" },
                     type: "ExportNamedDeclaration"
                 }
             ]
         },
         {
-            code: "export * from 'os'; export * from 'os';",
+            code: "export * from 'os';\nexport * from 'os';",
             options: [{ includeExports: true }],
             errors: [
                 {
                     messageId: "export",
                     data: { module: "os" },
+                    type: "ExportAllDeclaration"
+                }
+            ]
+        },
+        {
+            code: "import 'os';\nexport * from 'os';",
+            options: [{ includeExports: true }],
+            errors: [
+                {
+                    messageId: "importAs",
+                    data: { module: "os" },
+                    type: "ExportAllDeclaration"
+                }
+            ]
+        },
+        {
+            code:
+                  "import * as modns from 'mod';\nexport * as  modns from 'mod';",
+            options: [{ includeExports: true }],
+            errors: [
+                {
+                    messageId: "importAs",
+                    data: { module: "mod" },
                     type: "ExportAllDeclaration"
                 }
             ]
