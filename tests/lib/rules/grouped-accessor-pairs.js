@@ -16,7 +16,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("grouped-accessor-pairs", rule, {
     valid: [
@@ -134,7 +134,19 @@ ruleTester.run("grouped-accessor-pairs", rule, {
         "({ get a(){}, b: 1, set a(foo){}, c: 2, get a(){} })",
         "({ set a(foo){}, b: 1, set 'a'(bar){}, c: 2, get a(){} })",
         "class A { get [a](){} b(){} get [a](){} c(){} set [a](foo){} }",
-        "(class { static set a(foo){} b(){} static get a(){} static c(){} static set a(bar){} })"
+        "(class { static set a(foo){} b(){} static get a(){} static c(){} static set a(bar){} })",
+
+        // public and private
+        "class A { get '#abc'(){} b(){} set #abc(foo){} }",
+        "class A { get #abc(){} b(){} set '#abc'(foo){} }",
+        {
+            code: "class A { set '#abc'(foo){} get #abc(){} }",
+            options: ["getBeforeSet"]
+        },
+        {
+            code: "class A { set #abc(foo){} get '#abc'(){} }",
+            options: ["getBeforeSet"]
+        }
     ],
 
     invalid: [
@@ -171,6 +183,14 @@ ruleTester.run("grouped-accessor-pairs", rule, {
         {
             code: "class A { static get [a](){} b(){} static set [a](foo){} }",
             errors: [{ messageId: "notGrouped", data: { formerName: "static getter", latterName: "static setter" }, type: "MethodDefinition", column: 36 }]
+        },
+        {
+            code: "class A { get '#abc'(){} b(){} set '#abc'(foo){} }",
+            errors: [{ messageId: "notGrouped", data: { formerName: "getter '#abc'", latterName: "setter '#abc'" }, type: "MethodDefinition", column: 32 }]
+        },
+        {
+            code: "class A { get #abc(){} b(){} set #abc(foo){} }",
+            errors: [{ messageId: "notGrouped", data: { formerName: "private getter #abc", latterName: "private setter #abc" }, type: "MethodDefinition", column: 30 }]
         },
 
         // basic ordering tests with full messages
@@ -213,6 +233,16 @@ ruleTester.run("grouped-accessor-pairs", rule, {
             code: "class A { static set [abc](foo){} static get [abc](){} }",
             options: ["getBeforeSet"],
             errors: [{ messageId: "invalidOrder", data: { formerName: "static setter", latterName: "static getter" }, type: "MethodDefinition", column: 35 }]
+        },
+        {
+            code: "class A { set '#abc'(foo){} get '#abc'(){} }",
+            options: ["getBeforeSet"],
+            errors: [{ messageId: "invalidOrder", data: { latterName: "getter '#abc'", formerName: "setter '#abc'" }, type: "MethodDefinition", column: 29 }]
+        },
+        {
+            code: "class A { set #abc(foo){} get #abc(){} }",
+            options: ["getBeforeSet"],
+            errors: [{ messageId: "invalidOrder", data: { latterName: "private getter #abc", formerName: "private setter #abc" }, type: "MethodDefinition", column: 27 }]
         },
 
         // ordering option does not affect the grouping check
@@ -405,6 +435,11 @@ ruleTester.run("grouped-accessor-pairs", rule, {
         {
             code: "class A { get a(){} a(){} set a(foo){} }",
             errors: [{ messageId: "notGrouped", data: { formerName: "getter 'a'", latterName: "setter 'a'" }, type: "MethodDefinition", column: 27 }]
+        },
+        {
+            code: "class A { get a(){} a; set a(foo){} }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "notGrouped", data: { formerName: "getter 'a'", latterName: "setter 'a'" }, type: "MethodDefinition", column: 24 }]
         },
 
         // full location tests
