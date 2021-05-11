@@ -58,7 +58,8 @@ ruleTester.run("dot-notation", rule, {
         "a[undefined];",
         "a[void 0];",
         "a[b()];",
-        { code: "a[/(?<zero>0)/];", parserOptions: { ecmaVersion: 2018 } }
+        { code: "a[/(?<zero>0)/];", parserOptions: { ecmaVersion: 2018 } },
+        { code: "class C { foo() { this['#a'] } }", parserOptions: { ecmaVersion: 2022 } }
     ],
     invalid: [
         {
