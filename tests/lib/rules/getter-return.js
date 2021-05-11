@@ -16,7 +16,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
 const expectedError = { messageId: "expected", data: { name: "getter 'bar'" } };
 const expectedAlwaysError = { messageId: "expectedAlways", data: { name: "getter 'bar'" } };
 const options = [{ allowImplicit: true }];
@@ -72,7 +72,8 @@ ruleTester.run("getter-return", rule, {
         "var foo = { bar: function(){return;} };",
         "var foo = { bar: function(){return true;} };",
         "var foo = { get: function () {} }",
-        "var foo = { get: () => {}};"
+        "var foo = { get: () => {}};",
+        "class C { get; foo() {} }"
     ],
 
     invalid: [
@@ -187,7 +188,7 @@ ruleTester.run("getter-return", rule, {
             code: "Object.defineProperty(foo, 'bar', { get: function getfoo (){}});",
             errors: [{
                 messageId: "expected",
-                data: { name: "method 'getfoo'" },
+                data: { name: "method 'get'" },
                 line: 1,
                 column: 37,
                 endLine: 1,
@@ -209,11 +210,11 @@ ruleTester.run("getter-return", rule, {
             code: "Object.defineProperty(foo, 'bar', { get: () => {}});",
             errors: [{
                 messageId: "expected",
-                data: { name: "arrow function 'get'" },
+                data: { name: "method 'get'" },
                 line: 1,
-                column: 45,
+                column: 37,
                 endLine: 1,
-                endColumn: 47
+                endColumn: 42
             }]
         },
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){if(bar) {return true;}}});", errors: [{ messageId: "expectedAlways" }] },
