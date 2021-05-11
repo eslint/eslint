@@ -99,6 +99,16 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["always", { enforceForClassMembers: false }],
             parserOptions: { ecmaVersion: 6 }
         },
+        {
+            code: "class A { [ a ]; }",
+            options: ["never", { enforceForClassMembers: false }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class A { [a]; }",
+            options: ["always", { enforceForClassMembers: false }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
 
         // valid spacing
         {
@@ -141,6 +151,16 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["always", { enforceForClassMembers: true }],
             parserOptions: { ecmaVersion: 6 }
         },
+        {
+            code: "A = class { [a]; static [a]; [a] = 0; static [a] = 0; }",
+            options: ["never", { enforceForClassMembers: true }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "A = class { [ a ]; static [ a ]; [ a ] = 0; static [ a ] = 0; }",
+            options: ["always", { enforceForClassMembers: true }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
 
         // non-computed
         {
@@ -152,6 +172,16 @@ ruleTester.run("computed-property-spacing", rule, {
             code: "A = class {a(){}get b(){}set b(foo){}static c(){}static get d(){}static set d(bar){}}",
             options: ["always", { enforceForClassMembers: true }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "A = class { foo; #a; static #b; #c = 0; static #d = 0; }",
+            options: ["never", { enforceForClassMembers: true }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "A = class { foo; #a; static #b; #c = 0; static #d = 0; }",
+            options: ["always", { enforceForClassMembers: true }],
+            parserOptions: { ecmaVersion: 2022 }
         },
 
         // handling of parens and comments
@@ -1349,6 +1379,62 @@ ruleTester.run("computed-property-spacing", rule, {
                 }
             ]
         },
+        {
+            code: "class A { [ a]; [b ]; [ c ]; [ a] = 0; [b ] = 0; [ c ] = 0; }",
+            output: "class A { [a]; [b]; [c]; [a] = 0; [b] = 0; [c] = 0; }",
+            options: ["never", { enforceForClassMembers: true }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    column: 12,
+                    endColumn: 13
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    column: 19,
+                    endColumn: 20
+                },
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    column: 24,
+                    endColumn: 25
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    column: 26,
+                    endColumn: 27
+                },
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    column: 31,
+                    endColumn: 32
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    column: 42,
+                    endColumn: 43
+                },
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    column: 51,
+                    endColumn: 52
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    column: 53,
+                    endColumn: 54
+                }
+            ]
+        },
 
         // always - classes
         {
@@ -1542,6 +1628,54 @@ ruleTester.run("computed-property-spacing", rule, {
                     column: 95,
                     endLine: 1,
                     endColumn: 96
+                }
+            ]
+        },
+        {
+            code: "class A { [ a]; [b ]; [c]; [ a] = 0; [b ] = 0; [c] = 0; }",
+            output: "class A { [ a ]; [ b ]; [ c ]; [ a ] = 0; [ b ] = 0; [ c ] = 0; }",
+            options: ["always", { enforceForClassMembers: true }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    messageId: "missingSpaceBefore",
+                    column: 14,
+                    endColumn: 15
+                },
+                {
+                    messageId: "missingSpaceAfter",
+                    column: 17,
+                    endColumn: 18
+                },
+                {
+                    messageId: "missingSpaceAfter",
+                    column: 23,
+                    endColumn: 24
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    column: 25,
+                    endColumn: 26
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    column: 31,
+                    endColumn: 32
+                },
+                {
+                    messageId: "missingSpaceAfter",
+                    column: 38,
+                    endColumn: 39
+                },
+                {
+                    messageId: "missingSpaceAfter",
+                    column: 48,
+                    endColumn: 49
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    column: 50,
+                    endColumn: 51
                 }
             ]
         },
