@@ -16,7 +16,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("no-dupe-class-members", rule, {
     valid: [
@@ -51,7 +51,12 @@ ruleTester.run("no-dupe-class-members", rule, {
         "class A { [-1]() {} ['-1']() {} }",
 
         // not supported by this rule
-        "class A { [foo]() {} [foo]() {} }"
+        "class A { [foo]() {} [foo]() {} }",
+
+        // private and public
+        "class A { foo; static foo; }",
+        "class A { foo; #foo; }",
+        "class A { '#foo'; #foo; }"
     ],
     invalid: [
         {
@@ -217,6 +222,17 @@ ruleTester.run("no-dupe-class-members", rule, {
             errors: [
                 { type: "MethodDefinition", line: 1, column: 29, messageId: "unexpected", data: { name: "foo" } }
             ]
+        },
+        {
+            code: "class A { foo; foo; }",
+            errors: [
+                { type: "PropertyDefinition", line: 1, column: 16, messageId: "unexpected", data: { name: "foo" } }
+            ]
         }
+
+        /*
+         * This is syntax error
+         * { code: "class A { #foo; #foo; }" }
+         */
     ]
 });
