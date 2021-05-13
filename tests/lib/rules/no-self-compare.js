@@ -23,7 +23,15 @@ ruleTester.run("no-self-compare", rule, {
         "if (x === y) { }",
         "if (1 === 2) { }",
         "y=x*x",
-        "foo.bar.baz === foo.bar.qux"
+        "foo.bar.baz === foo.bar.qux",
+        {
+            code: "class C { #field; foo() { this.#field === this['#field']; } }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #field; foo() { this['#field'] === this.#field; } }",
+            parserOptions: { ecmaVersion: 2022 }
+        }
     ],
     invalid: [
         { code: "if (x === x) { }", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
@@ -39,6 +47,11 @@ ruleTester.run("no-self-compare", rule, {
         { code: "x < x", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
         { code: "x >= x", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
         { code: "x <= x", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
-        { code: "foo.bar().baz.qux >= foo.bar ().baz .qux", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] }
+        { code: "foo.bar().baz.qux >= foo.bar ().baz .qux", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
+        {
+            code: "class C { #field; foo() { this.#field === this.#field; } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }]
+        }
     ]
 });
