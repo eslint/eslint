@@ -50,6 +50,12 @@ ruleTester.run("no-useless-call", rule, {
         {
             code: "obj?.foo.bar.call(obj.foo, 1, 2);",
             parserOptions: { ecmaVersion: 2020 }
+        },
+
+        // Private members
+        {
+            code: "class C { #call; wrap(foo) { foo.#call(undefined, 1, 2); } }",
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
