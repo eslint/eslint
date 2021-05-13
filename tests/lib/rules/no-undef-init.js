@@ -148,6 +148,32 @@ ruleTester.run("no-undef-init", rule, {
             output: "let a//comment\n, b;",
             parserOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unnecessaryUndefinedInit", data: { name: "a" }, type: "VariableDeclarator" }]
+        },
+
+        // Class fields
+        {
+            code: "class C { field = undefined; }",
+            output: "class C { field; }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessaryUndefinedInit", data: { name: "field" }, type: "PropertyDefinition" }]
+        },
+        {
+            code: "class C { field = undefined }",
+            output: "class C { field }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessaryUndefinedInit", data: { name: "field" }, type: "PropertyDefinition" }]
+        },
+        {
+            code: "class C { #field = undefined; }",
+            output: "class C { #field; }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessaryUndefinedInit", data: { name: "#field" }, type: "PropertyDefinition" }]
+        },
+        {
+            code: "class C { '#field' = undefined; }",
+            output: "class C { '#field'; }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessaryUndefinedInit", data: { name: "'#field'" }, type: "PropertyDefinition" }]
         }
     ]
 });
