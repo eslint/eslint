@@ -16,7 +16,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("no-this-before-super", rule, {
     valid: [
@@ -97,7 +97,13 @@ ruleTester.run("no-this-before-super", rule, {
                     }
                 }
             }
-        `
+        `,
+
+        // Class field initializers are always evaluated after `super()`.
+        "class C { field = this.toString(); }",
+        "class C extends B { field = this.foo(); }",
+        "class C extends B { field = this.foo(); constructor() { super(); } }",
+        "class C extends B { field = this.foo(); constructor() { } }" // < in this case, initializers are never evaluated.
     ],
     invalid: [
 
