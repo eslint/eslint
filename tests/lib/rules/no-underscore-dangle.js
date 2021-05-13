@@ -69,7 +69,9 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "function foo([_bar] = []) {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 } },
         { code: "function foo( { _bar }) {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 } },
         { code: "function foo( { _bar = 0 } = {}) {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo(...[_bar]) {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 2016 } }
+        { code: "function foo(...[_bar]) {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 2016 } },
+        { code: "class foo { _field; }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class foo { #_field; }", parserOptions: { ecmaVersion: 2022 } }
     ],
     invalid: [
         { code: "var _foo = 1", errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_foo" }, type: "VariableDeclarator" }] },
@@ -96,8 +98,17 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "const foo = (_bar = 0) => {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "AssignmentPattern" }] },
         { code: "function foo(..._bar) {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "RestElement" }] },
         { code: "const foo = { onClick(..._bar) { } }", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "RestElement" }] },
-        { code: "const foo = (..._bar) => {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "RestElement" }] }
-
-
+        { code: "const foo = (..._bar) => {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "RestElement" }] },
+        {
+            code: "class foo { #_bar() {} }",
+            options: [{ enforceInMethodNames: true }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "#_bar" } }]
+        }, {
+            code: "class foo { #bar_() {} }",
+            options: [{ enforceInMethodNames: true }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "#bar_" } }]
+        }
     ]
 });
