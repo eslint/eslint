@@ -140,6 +140,16 @@ ruleTester.run("no-unexpected-multiline", rule, {
         {
             code: "var a = b?.\n  [a, b, c].forEach(doSomething)",
             parserOptions: { ecmaVersion: 2020 }
+        },
+
+        // Class fields
+        {
+            code: "class C { field1\n[field2]; }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { field1\n*gen() {} }",
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -321,6 +331,23 @@ ruleTester.run("no-unexpected-multiline", rule, {
                     messageId: "taggedTemplate"
                 }
             ]
+        },
+
+        // Class fields
+        {
+            code: "class C { field1 = obj\n[field2]; }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 2,
+                    messageId: "property"
+                }
+            ]
         }
+
+        // "class C { field1 = obj\n*gen() {} }" is syntax error: Unexpected token '{'
     ]
 });
