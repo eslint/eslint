@@ -57,7 +57,8 @@ ruleTester.run("no-shadow", rule, {
         { code: "function foo() { var top = 0; }", env: { browser: true } },
         { code: "var Object = 0;", options: [{ builtinGlobals: true }] },
         { code: "var top = 0;", options: [{ builtinGlobals: true }], env: { browser: true } },
-        { code: "function foo(cb) { (function (cb) { cb(42); })(cb); }", options: [{ allow: ["cb"] }] }
+        { code: "function foo(cb) { (function (cb) { cb(42); })(cb); }", options: [{ allow: ["cb"] }] },
+        { code: "class C { foo; foo() { let foo; } }", parserOptions: { ecmaVersion: 2022 } }
     ],
     invalid: [
         {
