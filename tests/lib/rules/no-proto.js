@@ -23,7 +23,8 @@ ruleTester.run("no-proto", rule, {
         "var a = test[__proto__];",
         "var __proto__ = null;",
         { code: "foo[`__proto`] = null;", parserOptions: { ecmaVersion: 6 } },
-        { code: "foo[`__proto__\n`] = null;", parserOptions: { ecmaVersion: 6 } }
+        { code: "foo[`__proto__\n`] = null;", parserOptions: { ecmaVersion: 6 } },
+        { code: "class C { #__proto__; foo() { this.#__proto__; } }", parserOptions: { ecmaVersion: 2022 } }
     ],
     invalid: [
         { code: "var a = test.__proto__;", errors: [{ messageId: "unexpectedProto", type: "MemberExpression" }] },
