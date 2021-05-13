@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/no-useless-computed-key"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("no-useless-computed-key", rule, {
     valid: [
@@ -41,6 +41,7 @@ ruleTester.run("no-useless-computed-key", rule, {
         { code: "(class { ['x']() {} })", options: [{ enforceForClassMembers: false }] },
         { code: "class Foo { static ['constructor']() {} }", options: [{ enforceForClassMembers: false }] },
         { code: "class Foo { ['prototype']() {} }", options: [{ enforceForClassMembers: false }] },
+        { code: "class Foo { a }", options: [{ enforceForClassMembers: true }] },
 
         /*
          * Well-known browsers throw syntax error bigint literals on property names,
@@ -477,6 +478,42 @@ ruleTester.run("no-useless-computed-key", rule, {
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'prototype'" },
                 type: "MethodDefinition"
+            }]
+        }, {
+            code: "class Foo { ['0'] }",
+            output: "class Foo { '0' }",
+            options: [{ enforceForClassMembers: true }],
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "'0'" },
+                type: "PropertyDefinition"
+            }]
+        }, {
+            code: "class Foo { ['0'] = 0 }",
+            output: "class Foo { '0' = 0 }",
+            options: [{ enforceForClassMembers: true }],
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "'0'" },
+                type: "PropertyDefinition"
+            }]
+        }, {
+            code: "class Foo { static[0] }",
+            output: "class Foo { static 0 }",
+            options: [{ enforceForClassMembers: true }],
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "0" },
+                type: "PropertyDefinition"
+            }]
+        }, {
+            code: "class Foo { ['#foo'] }",
+            output: "class Foo { '#foo' }",
+            options: [{ enforceForClassMembers: true }],
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "'#foo'" },
+                type: "PropertyDefinition"
             }]
         }
     ]
