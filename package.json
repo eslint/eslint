@@ -52,7 +52,7 @@
     "doctrine": "^3.0.0",
     "enquirer": "^2.3.5",
     "eslint-scope": "github:eslint/eslint-scope#7d0944b0e2d20d77f765984a9f18ec873c98d5cb",
-    "eslint-utils": "^2.1.0",
+    "eslint-utils": "^3.0.0",
     "eslint-visitor-keys": "^2.1.0",
     "espree": "github:eslint/espree#1c744b3a602b783926344811a9459b92afe57444",
     "esquery": "^1.4.0",

@@ -40,7 +40,7 @@ function invalid(code, output) {
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("prefer-exponentiation-operator", rule, {
     valid: [
@@ -78,7 +78,9 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
                 globalThis.Math.pow(a, b)
             `,
             env: { es2020: true }
-        }
+        },
+
+        "class C { #pow; foo() { Math.#pow(a, b); } }"
     ],
 
     invalid: [
