@@ -48,6 +48,8 @@ ruleTester.run("no-eval", rule, {
         "var obj = {}; obj.foo = function() { this.eval('foo'); }",
         { code: "class A { foo() { this.eval(); } }", parserOptions: { ecmaVersion: 6 } },
         { code: "class A { static foo() { this.eval(); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A { field = this.eval(); }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A { field = () => this.eval(); }", parserOptions: { ecmaVersion: 2022 } },
 
         // Allows indirect eval
         { code: "(0, eval)('foo')", options: [{ allowIndirect: true }] },
