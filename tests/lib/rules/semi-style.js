@@ -33,6 +33,8 @@ ruleTester.run("semi-style", rule, {
         { code: "for(a;b;c);", options: ["last"] },
         { code: "for(a;\nb;\nc);", options: ["last"] },
         { code: "for((a\n);\n(b\n);\n(c));", options: ["last"] },
+        { code: "class C { a; b; }", options: ["last"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C {\na;\nb;\n}", options: ["last"], parserOptions: { ecmaVersion: 2022 } },
         { code: "if(a)foo;\nbar", options: ["last"] },
         { code: ";", options: ["first"] },
         { code: ";foo;bar;baz;", options: ["first"] },
@@ -40,6 +42,8 @@ ruleTester.run("semi-style", rule, {
         { code: "for(a;b;c);", options: ["first"] },
         { code: "for(a;\nb;\nc);", options: ["first"] },
         { code: "for((a\n);\n(b\n);\n(c));", options: ["first"] },
+        { code: "class C { a ;b }", options: ["first"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C {\na\n;b\n}", options: ["first"], parserOptions: { ecmaVersion: 2022 } },
 
         // edge cases
         {
@@ -378,6 +382,32 @@ ruleTester.run("semi-style", rule, {
             code: "foo/**/;\nbar",
             output: null,
             options: ["first"],
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the beginning of the next line"
+                }
+            }]
+        },
+
+        // Class fields
+        {
+            code: "class C { foo\n;bar }",
+            output: "class C { foo;\nbar }",
+            options: ["last"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
+        },
+        {
+            code: "class C { foo;\nbar }",
+            output: "class C { foo\n;bar }",
+            options: ["first"],
+            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "expectedSemiColon",
                 data: {
