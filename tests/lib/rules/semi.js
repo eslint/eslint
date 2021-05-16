@@ -230,6 +230,82 @@ ruleTester.run("semi", rule, {
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { ecmaVersion: 2015 }
+        },
+
+        // Class fields
+        {
+            code: "class C { foo; }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo = obj\n;[bar] }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo;\n[bar]; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo\n;[bar] }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo\n[bar] }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo\n;[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo\n[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo = () => {}\n;[bar] }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo = () => {}\n[bar] }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo = () => {}\n;[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo = () => {}\n[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo() {} }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo() {}; }", // no-extra-semi reports it
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -1196,6 +1272,63 @@ ruleTester.run("semi", rule, {
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { ecmaVersion: 2015 },
+            errors: ["Extra semicolon."]
+        },
+
+        // Class fields
+        {
+            code: "class C { foo }",
+            output: "class C { foo; }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: ["Missing semicolon."]
+        },
+        {
+            code: "class C { foo }",
+            output: "class C { foo; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: ["Missing semicolon."]
+        },
+        {
+            code: "class C { foo; }",
+            output: "class C { foo }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: ["Extra semicolon."]
+        },
+        {
+            code: "class C { foo\n[bar]; }",
+            output: "class C { foo;\n[bar]; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: ["Missing semicolon."]
+        },
+        {
+            code: "class C { foo\n[bar] }",
+            output: "class C { foo;\n[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: ["Missing semicolon."]
+        },
+        {
+            code: "class C { foo\n;[bar] }",
+            output: "class C { foo\n[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: ["Extra semicolon."]
+        },
+        {
+            code: "class C { foo = () => {}\n[bar] }",
+            output: "class C { foo = () => {};\n[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: ["Missing semicolon."]
+        },
+        {
+            code: "class C { foo = () => {}\n;[bar] }",
+            output: "class C { foo = () => {}\n[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { ecmaVersion: 2022 },
             errors: ["Extra semicolon."]
         }
     ]
