@@ -16,7 +16,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("prefer-regex-literals", rule, {
     valid: [
@@ -124,6 +124,10 @@ ruleTester.run("prefer-regex-literals", rule, {
         {
             code: "new globalThis.RegExp('a');",
             env: { es2017: true }
+        },
+        {
+            code: "class C { #RegExp; foo() { globalThis.#RegExp('a'); } }",
+            env: { es2020: true }
         }
     ],
 
