@@ -57,7 +57,24 @@ ruleTester.run("semi-spacing", rule, {
         { code: "function foo() { return 2; }", options: [{ after: false }] },
         { code: "for ( var i = 0;i < results.length; ) {}", options: [{ after: false }] },
 
-        "do {} while (true); foo"
+        "do {} while (true); foo",
+
+        // Class fields
+        {
+            code: "class C { foo; bar; method() {} }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+
+        // Empty are ignored (`no-extra-semi` rule will remove those)
+        "foo; ;;;;;;;;;",
+        {
+            code: "class C { foo; ;;;;;;;;;; }",
+            parserOptions: { ecmaVersion: 2022 }
+        }
     ],
     invalid: [
         {
@@ -417,6 +434,55 @@ ruleTester.run("semi-spacing", rule, {
                 endLine: 1,
                 endColumn: 22
             }]
+        },
+
+        // Class fields
+        {
+            code: "class C { foo ;bar;}",
+            output: "class C { foo; bar;}",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    messageId: "unexpectedWhitespaceBefore",
+                    type: "PropertyDefinition",
+                    line: 1,
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 15
+                },
+                {
+                    messageId: "missingWhitespaceAfter",
+                    type: "PropertyDefinition",
+                    line: 1,
+                    column: 15,
+                    endLine: 1,
+                    endColumn: 16
+                }
+            ]
+        },
+        {
+            code: "class C { foo; bar ; }",
+            output: "class C { foo ;bar ; }",
+            options: [{ before: true, after: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    messageId: "missingWhitespaceBefore",
+                    type: "PropertyDefinition",
+                    line: 1,
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 15
+                },
+                {
+                    messageId: "unexpectedWhitespaceAfter",
+                    type: "PropertyDefinition",
+                    line: 1,
+                    column: 15,
+                    endLine: 1,
+                    endColumn: 16
+                }
+            ]
         }
     ]
 });
