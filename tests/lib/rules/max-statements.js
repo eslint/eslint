@@ -127,7 +127,7 @@ ruleTester.run("max-statements", rule, {
             code: "var foo = { thing: () => { var bar = 1; var baz = 2; var baz2; } }",
             options: [2],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "exceed", data: { name: "Arrow function 'thing'", count: "3", max: 2 } }]
+            errors: [{ messageId: "exceed", data: { name: "Method 'thing'", count: "3", max: 2 } }]
         },
         {
             code: "var foo = { thing: function() { var bar = 1; var baz = 2; var baz2; } }",
