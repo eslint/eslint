@@ -58,6 +58,10 @@ ruleTester.run("prefer-numeric-literals", rule, {
         {
             code: "parseInt(1n, 2);",
             parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "class C { #parseInt; foo() { Number.#parseInt(\"111110111\", 2); } }",
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
