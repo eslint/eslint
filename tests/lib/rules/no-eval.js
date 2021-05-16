@@ -125,6 +125,13 @@ ruleTester.run("no-eval", rule, {
             parserOptions: { ecmaVersion: 2020 },
             globals: { window: "readonly" },
             errors: [{ messageId: "unexpected" }]
+        },
+
+        // Class fields
+        {
+            code: "class C { [this.eval('foo')] }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpected" }]
         }
     ]
 });
