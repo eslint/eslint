@@ -38,6 +38,8 @@ ruleTester.run("quotes", rule, {
         { code: "var foo = \"a string containing `backtick` quotes\";", options: ["backtick", { avoidEscape: true }] },
         { code: "var foo = <div id=\"foo\"></div>;", options: ["backtick"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
         { code: "var foo = <div>Hello world</div>;", options: ["backtick"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
+        { code: "class C { \"f\"; \"m\"() {} }", options: ["double"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { 'f'; 'm'() {} }", options: ["single"], parserOptions: { ecmaVersion: 2022 } },
 
         // Backticks are only okay if they have substitutions, contain a line break, or are tagged
         { code: "var foo = `back\ntick`;", options: ["single"], parserOptions: { ecmaVersion: 6 } },
@@ -74,7 +76,8 @@ ruleTester.run("quotes", rule, {
         // `backtick` should not warn property/method names (not computed).
         { code: "var obj = {\"key0\": 0, 'key1': 1};", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
         { code: "class Foo { 'bar'(){} }", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
-        { code: "class Foo { static ''(){} }", options: ["backtick"], parserOptions: { ecmaVersion: 6 } }
+        { code: "class Foo { static ''(){} }", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
+        { code: "class C { \"double\"; 'single'; }", options: ["backtick"], parserOptions: { ecmaVersion: 2022 } }
     ],
     invalid: [
         {
@@ -620,6 +623,87 @@ ruleTester.run("quotes", rule, {
             output: null,
             options: ["backtick"],
             parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "backtick" },
+                    type: "Literal"
+                }
+            ]
+        },
+
+
+        // class members
+        {
+            code: "class C { 'foo'; }",
+            output: "class C { \"foo\"; }",
+            options: ["double"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "doublequote" },
+                    type: "Literal"
+                }
+            ]
+        },
+        {
+            code: "class C { 'foo'() {} }",
+            output: "class C { \"foo\"() {} }",
+            options: ["double"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "doublequote" },
+                    type: "Literal"
+                }
+            ]
+        },
+        {
+            code: "class C { \"foo\"; }",
+            output: "class C { 'foo'; }",
+            options: ["single"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "singlequote" },
+                    type: "Literal"
+                }
+            ]
+        },
+        {
+            code: "class C { \"foo\"() {} }",
+            output: "class C { 'foo'() {} }",
+            options: ["single"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "singlequote" },
+                    type: "Literal"
+                }
+            ]
+        },
+        {
+            code: "class C { [\"foo\"]; }",
+            output: "class C { [`foo`]; }",
+            options: ["backtick"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "backtick" },
+                    type: "Literal"
+                }
+            ]
+        },
+        {
+            code: "class C { foo = \"foo\"; }",
+            output: "class C { foo = `foo`; }",
+            options: ["backtick"],
+            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "wrongQuotes",
