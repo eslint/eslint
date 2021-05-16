@@ -743,6 +743,18 @@ const patterns = [
 
     // Class fields.
     {
+        code: "class C { field = console.log(this); }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "class C { field = z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
         code: "class C { field = function () { console.log(this); z(x => console.log(x, this)); }; }",
         parserOptions: { ecmaVersion: 2022 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
@@ -753,6 +765,13 @@ const patterns = [
         parserOptions: { ecmaVersion: 2022 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
+    },
+    {
+        code: "class C { [this.foo]; }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [NORMAL], // the global this in non-strict mode is OK.
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+        errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
     }
 ];
 
