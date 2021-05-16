@@ -76,6 +76,10 @@ ruleTester.run("prefer-object-spread", rule, {
                 `,
             env: { es2020: true }
         },
+        {
+            code: "class C { #assign; foo() { Object.#assign({}, foo); } }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
 
         // ignore Object.assign() with > 1 arguments if any of the arguments is an object expression with a getter/setter
         "Object.assign({ get a() {} }, {})",
