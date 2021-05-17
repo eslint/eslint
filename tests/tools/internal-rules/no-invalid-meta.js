@@ -27,7 +27,6 @@ ruleTester.run("no-invalid-meta", rule, {
             "    meta: {",
             "        docs: {",
             "            description: 'some rule',",
-            "            category: 'Internal',",
             "            recommended: false",
             "        },",
             "        schema: []",
@@ -51,7 +50,6 @@ ruleTester.run("no-invalid-meta", rule, {
             "    meta: {",
             "        docs: {",
             "            description: 'some rule',",
-            "            category: 'Internal',",
             "            recommended: false",
             "        },",
             "        schema: []",
@@ -73,7 +71,6 @@ ruleTester.run("no-invalid-meta", rule, {
             "    meta: {",
             "        docs: {",
             "            description: 'some rule',",
-            "            category: 'Internal',",
             "            recommended: false",
             "        },",
             "        schema: [],",
@@ -156,31 +153,6 @@ ruleTester.run("no-invalid-meta", rule, {
                 "    meta: {",
                 "        docs: {",
                 "            description: 'some rule',",
-                "            recommended: false",
-                "        },",
-                "        schema: []",
-                "    },",
-
-                "    create: function(context) {",
-                "        return {",
-                "            Program: function(node) {}",
-                "        };",
-                "    }",
-                "};"
-            ].join("\n"),
-            errors: [{
-                messageId: "missingMetaDocsCategory",
-                line: 2,
-                column: 5
-            }]
-        },
-        {
-            code: [
-                "module.exports = {",
-                "    meta: {",
-                "        docs: {",
-                "            description: 'some rule',",
-                "            category: 'Internal'",
                 "        },",
                 "        schema: []",
                 "    },",
