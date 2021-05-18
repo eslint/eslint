@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for global-require
  * @author Jamund Ferguson
- * @copyright 2015 Jamund Ferguson. All rights reserved.
  */
 
 "use strict";
@@ -10,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/global-require"),
+const rule = require("../../../lib/rules/global-require"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
-var valid = [
+const valid = [
     { code: "var x = require('y');" },
     { code: "if (x) { x.require('y'); }" },
     { code: "var x;\nx = require('y');" },
@@ -29,94 +28,55 @@ var valid = [
     { code: "require('y');" },
     { code: "function x(){}\n\n\nx();\n\n\nif (x > y) {\n\tdoSomething()\n\n}\n\nvar x = require('y').foo;" },
     { code: "var logger = require(DEBUG ? 'dev-logger' : 'logger');" },
-    { code: "var logger = DEBUG ? require('dev-logger') : require('logger');" }
+    { code: "var logger = DEBUG ? require('dev-logger') : require('logger');" },
+    { code: "function localScopedRequire(require) { require('y'); }" },
+    { code: "var someFunc = require('./someFunc'); someFunc(function(require) { return('bananas'); });" }
 ];
 
-var message = message;
-var type = type;
+const error = { messageId: "unexpected", type: "CallExpression" };
 
-var invalid = [
+const invalid = [
 
     // block statements
     {
         code: "if (process.env.NODE_ENV === 'DEVELOPMENT') {\n\trequire('debug');\n}",
-        errors: [{
-            line: 2,
-            column: 2,
-            message: message,
-            type: type
-        }]
+        errors: [error]
     },
     {
         code: "var x; if (y) { x = require('debug'); }",
-        errors: [{
-            line: 1,
-            column: 21,
-            message: message,
-            type: type
-        }]
+        errors: [error]
     },
     {
         code: "var x; if (y) { x = require('debug').baz; }",
-        errors: [{
-            line: 1,
-            column: 21,
-            message: message,
-            type: type
-        }]
+        errors: [error]
     },
     {
         code: "function x() { require('y') }",
-        errors: [{
-            line: 1,
-            column: 16,
-            message: message,
-            type: type
-        }]
+        errors: [error]
     },
     {
         code: "try { require('x'); } catch (e) { console.log(e); }",
-        errors: [{
-            line: 1,
-            column: 7,
-            message: message,
-            type: type
-        }]
+        errors: [error]
     },
 
     // non-block statements
     {
         code: "var getModule = x => require(x);",
-        ecmaFeatures: { arrowFunctions: true },
-        errors: [{
-            line: 1,
-            column: 22,
-            message: message,
-            type: type
-        }]
+        parserOptions: { ecmaVersion: 6 },
+        errors: [error]
     },
     {
         code: "var x = (x => require(x))('weird')",
-        ecmaFeatures: { arrowFunctions: true },
-        errors: [{
-            line: 1,
-            column: 15,
-            message: message,
-            type: type
-        }]
+        parserOptions: { ecmaVersion: 6 },
+        errors: [error]
     },
     {
         code: "switch(x) { case '1': require('1'); break; }",
-        errors: [{
-            line: 1,
-            column: 23,
-            message: message,
-            type: type
-        }]
+        errors: [error]
     }
 ];
 
 ruleTester.run("global-require", rule, {
-    valid: valid,
-    invalid: invalid
+    valid,
+    invalid
 });

@@ -15,51 +15,51 @@ But the modification is a mistake in most cases.
 
 This rule is aimed to flag modifying variables of class declarations.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-class-assign: 2*/
+/*eslint no-class-assign: "error"*/
 /*eslint-env es6*/
 
 class A { }
-A = 0;         /*error `A` is a class.*/
+A = 0;
 ```
 
 ```js
-/*eslint no-class-assign: 2*/
+/*eslint no-class-assign: "error"*/
 /*eslint-env es6*/
 
-A = 0;         /*error `A` is a class.*/
+A = 0;
 class A { }
 ```
 
 ```js
-/*eslint no-class-assign: 2*/
+/*eslint no-class-assign: "error"*/
 /*eslint-env es6*/
 
 class A {
     b() {
-        A = 0; /*error `A` is a class.*/
+        A = 0;
     }
 }
 ```
 
 ```js
-/*eslint no-class-assign: 2*/
+/*eslint no-class-assign: "error"*/
 /*eslint-env es6*/
 
 let A = class A {
     b() {
-        A = 0; /*error `A` is a class.*/
+        A = 0;
         // `let A` is shadowed by the class name.
     }
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-class-assign: 2*/
+/*eslint no-class-assign: "error"*/
 /*eslint-env es6*/
 
 let A = class A { }
@@ -67,7 +67,7 @@ A = 0; // A is a variable.
 ```
 
 ```js
-/*eslint no-class-assign: 2*/
+/*eslint no-class-assign: "error"*/
 /*eslint-env es6*/
 
 let A = class {
@@ -88,6 +88,6 @@ class A {
 }
 ```
 
-## When Not to Use It
+## When Not To Use It
 
 If you don't want to be notified about modifying variables of class declarations, you can safely disable this rule.

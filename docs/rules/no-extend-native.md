@@ -24,28 +24,46 @@ A common suggestion to avoid this problem would be to wrap the inside of the `fo
 
 ## Rule Details
 
-Disallows directly modifying the prototype of builtin objects by looking for the following styles:
+Disallows directly modifying the prototype of builtin objects.
 
-* `Object.prototype.a = "a";`
-* `Object.defineProperty(Array.prototype, "times", {value: 999});`
+Examples of **incorrect** code for this rule:
 
-It *does not* check for any of the following less obvious approaches:
+```js
+/*eslint no-extend-native: "error"*/
 
-* `var x = Object; x.prototype.thing = a;`
-* `eval("Array.prototype.forEach = 'muhahaha'");`
-* `with(Array) { prototype.thing = 'thing'; };`
-* `window.Function.prototype.bind = 'tight';`
+Object.prototype.a = "a";
+Object.defineProperty(Array.prototype, "times", { value: 999 });
+```
 
 ## Options
 
-This rule accepts an `exceptions` option, which can be used to specify a list of builtins for which extensions will be allowed:
+This rule accepts an `exceptions` option, which can be used to specify a list of builtins for which extensions will be allowed.
 
-```json
-{
-    "rules": {
-        "no-extend-native": [2, {"exceptions": ["Object"]}]
-    }
-}
+### exceptions
+
+Examples of **correct** code for the sample `{ "exceptions": ["Object"] }` option:
+
+```js
+/*eslint no-extend-native: ["error", { "exceptions": ["Object"] }]*/
+
+Object.prototype.a = "a";
+```
+
+## Known Limitations
+
+This rule *does not* report any of the following less obvious approaches to modify the prototype of builtin objects:
+
+```js
+var x = Object;
+x.prototype.thing = a;
+
+eval("Array.prototype.forEach = 'muhahaha'");
+
+with(Array) {
+    prototype.thing = 'thing';
+};
+
+window.Function.prototype.bind = 'tight';
 ```
 
 ## When Not To Use It
@@ -54,4 +72,4 @@ You may want to disable this rule when working with polyfills that try to patch 
 
 ## Related Rules
 
-* [no-native-reassign](no-native-reassign.md)
+* [no-global-assign](no-global-assign.md)

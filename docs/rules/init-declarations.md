@@ -1,4 +1,4 @@
-# Enforce/Disallow Variable Initializations (init-declarations)
+# require or disallow initialization in variable declarations (init-declarations)
 
 In JavaScript, variables can be assigned during declaration, or at any point afterwards using an assignment statement. For example, in the following code, `foo` is initialized during declaration, while `bar` is initialized later.
 
@@ -26,24 +26,20 @@ bar = 2;
 
 This rule aims to bring consistency to variable initializations and declarations.
 
-### Options
+## Options
 
 The rule takes two options:
 
 1. A string which must be either `"always"` (the default), to enforce initialization at declaration, or `"never"` to disallow initialization during declaration. This rule applies to `var`, `let`, and `const` variables, however `"never"` is ignored for `const` variables, as unassigned `const`s generate a parse error.
 2. An object that further controls the behavior of this rule. Currently, the only available parameter is `ignoreForLoopInit`, which indicates if initialization at declaration is allowed in `for` loops when `"never"` is set, since it is a very typical use case.
 
-### Options
-
-This rule is configured by passing in the string `"always"` (the default)
-
 You can configure the rule as follows:
 
-(default) All variables must be initialized at declaration
+Variables must be initialized at declaration (default)
 
 ```json
 {
-    "init-declarations": [2, "always"],
+    "init-declarations": ["error", "always"],
 }
 ```
 
@@ -51,7 +47,7 @@ Variables must not be initialized at declaration
 
 ```json
 {
-    "init-declarations": [2, "never"]
+    "init-declarations": ["error", "never"]
 }
 ```
 
@@ -59,26 +55,28 @@ Variables must not be initialized at declaration, except in for loops, where it 
 
 ```json
 {
-    "init-declarations": [2, "never", { "ignoreForLoopInit": true }]
+    "init-declarations": ["error", "never", { "ignoreForLoopInit": true }]
 }
 ```
 
-When configured with `"always"` (the default), the following patterns are considered problems:
+### always
+
+Examples of **incorrect** code for the default `"always"` option:
 
 ```js
-/*eslint init-declarations: [2, "always"]*/
+/*eslint init-declarations: ["error", "always"]*/
 /*eslint-env es6*/
 
 function foo() {
-    var bar;     /*error Variable 'bar' should be initialized on declaration.*/
-    let baz;     /*error Variable 'baz' should be initialized on declaration.*/
+    var bar;
+    let baz;
 }
 ```
 
-The following patterns are not considered problems with `"always"`.
+Examples of **correct** code for the default `"always"` option:
 
 ```js
-/*eslint init-declarations: [2, "always"]*/
+/*eslint init-declarations: ["error", "always"]*/
 /*eslint-env es6*/
 
 function foo() {
@@ -88,24 +86,26 @@ function foo() {
 }
 ```
 
-When configured with `"never"`, the following patterns are considered problems.
+### never
+
+Examples of **incorrect** code for the `"never"` option:
 
 ```js
-/*eslint init-declarations: [2, "never"]*/
+/*eslint init-declarations: ["error", "never"]*/
 /*eslint-env es6*/
 
 function foo() {
-    var bar = 1;   /*error Variable 'bar' should not be initialized on declaration.*/
-    let baz = 2;   /*error Variable 'baz' should not be initialized on declaration.*/
+    var bar = 1;
+    let baz = 2;
 
-    for (var i = 0; i < 1; i++) {}  /*error Variable 'i' should not be initialized on declaration.*/
+    for (var i = 0; i < 1; i++) {}
 }
 ```
 
-The following patterns are not considered problems with `"never"`. Note that `const` variable initializations are ignored with `"never"`.
+Examples of **correct** code for the `"never"` option:
 
 ```js
-/*eslint init-declarations: [2, "never"]*/
+/*eslint init-declarations: ["error", "never"]*/
 /*eslint-env es6*/
 
 function foo() {
@@ -115,13 +115,17 @@ function foo() {
 }
 ```
 
-With `"ignoreForLoopInit"` enabled, the following pattern is not considered a problem.
+The `"never"` option ignores `const` variable initializations.
+
+### ignoreForLoopInit
+
+Examples of **correct** code for the `"never", { "ignoreForLoopInit": true }` options:
 
 ```js
-/*eslint init-declarations: [2, "never", { "ignoreForLoopInit": true }]*/
+/*eslint init-declarations: ["error", "never", { "ignoreForLoopInit": true }]*/
 for (var i = 0; i < 1; i++) {}
 ```
 
-### When Not To Use It
+## When Not To Use It
 
 When you are indifferent as to how your variables are initialized.

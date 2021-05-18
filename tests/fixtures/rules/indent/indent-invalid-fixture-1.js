@@ -3,7 +3,7 @@ if (a) {
   var d = e
     * f;
     var e = f; // <-
-// NO ERROR: DON'T VALIDATE EMPTY OR COMMENT ONLY LINES
+// ->
   function g() {
     if (h) {
       var i = j;
@@ -26,7 +26,7 @@ if (a) {
     u++;
   }
 
-    for (;;) { // <- Fix this when issue #3737 gets resolved
+    for (;;) {
       v++; // <-
   }
 
@@ -43,7 +43,7 @@ if (a) {
 /**/var b; // NO ERROR: single line multi-line comments followed by code is OK
 /*
  *
- */ var b; // ERROR: multi-line comments followed by code is not OK
+ */ var b; // NO ERROR: multi-line comments followed by code is OK
 
 var arr = [
   a,
@@ -135,22 +135,22 @@ switch (a) {
 }
 
 a.b('hi')
-   .c(a.b()) // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
-   .d(); // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+   .c(a.b()) // <-
+   .d(); // <-
 
 if ( a ) {
   if ( b ) {
 d.e(f) // ->
-  .g() // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
-  .h(); // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+  .g() // ->
+  .h(); // ->
 
     i.j(m)
       .k() // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
       .l(); // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
 
       n.o(p) // <-
-        .q() // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
-        .r(); // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+        .q() // <-
+        .r(); // <-
   }
 }
 
@@ -189,7 +189,7 @@ if ( a
 var x; // ->
   var c,
     d = function(a,
-                  b) {
+                  b) { // <-
     a; // ->
       b;
         c; // <-
@@ -224,11 +224,11 @@ a(
 a({ d: 1 });
 
 aa(
-   b({ // NO ERROR: aligned with previous opening paren
-     c: d,
+   b({ // NO ERROR: CallExpression args not linted by default
+    c: d, // ->
      e: f,
      f: g
-   })
+  }) // ->
 );
 
 aaaaaa(
@@ -242,10 +242,10 @@ aaaaaa(
 a(b, c,
   d, e,
     f, g  // NO ERROR: alignment of arguments of callExpression not checked
-  );  // NO ERROR: this has nothing to do with indentation, this is CallExpression spacing
+  );  // <-
 
 a(
-  ); // NO ERROR: this has nothing to do with indentation, this is CallExpression spacing
+  ); // <-
 
 aaaaaa(
   b,
@@ -293,7 +293,7 @@ $(b)
 
 a
   .b('c',
-           'd'); // NO ERROR: this has nothing to do with indentation, this is CallExpression spacing
+           'd'); // NO ERROR: CallExpression args not linted by default
 
 a
   .b('c', [ 'd', function(e) {
@@ -415,7 +415,7 @@ a( "very very long multi line" +
   b();
 a(); // ->
     c(); // <-
-});
+    }); // <-
 
 a = function(content, dom) {
   b();
@@ -439,9 +439,9 @@ b(); // ->
 
 a('This is a terribly long description youll ' +
   'have to read', function () {
-  b();
-  c();
-});
+    b(); // <-
+    c(); // <-
+  }); // <-
 
 if (
   array.some(function(){
@@ -496,8 +496,8 @@ function test() {
 function a(b) {
   switch(x) {
     case 1:
-        {
-        a();
+        { // <-
+      a(); // ->
       }
       break;
     default:

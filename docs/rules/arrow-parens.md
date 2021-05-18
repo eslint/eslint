@@ -45,34 +45,39 @@ The rule can also be configured to discourage the use of parens when they are no
 a => {}
 ```
 
-### Options
+## Options
 
-The rule takes one option, a string, which could be either "always" or "as-needed". The default is "always".
+This rule has a string option and an object one.
 
-You can set the option in configuration like this:
+String options are:
 
-"arrow-parens": [2, "always"]
+* `"always"` (default) requires parens around arguments in all cases.
+* `"as-needed"` allows omitting parens when there is only one argument.
 
-#### "always"
+Object properties for variants of the `"as-needed"` option:
 
-When the rule is set to `"always"` the following patterns are considered problems:
+* `"requireForBlockBody": true` modifies the as-needed rule in order to require parens if the function body is in an instructions block (surrounded by braces).
+
+### always
+
+Examples of **incorrect** code for this rule with the default `"always"` option:
 
 ```js
-/*eslint arrow-parens: [2, "always"]*/
+/*eslint arrow-parens: ["error", "always"]*/
 /*eslint-env es6*/
 
-a => {};                     /*error Expected parentheses around arrow function argument.*/
-a => a;                      /*error Expected parentheses around arrow function argument.*/
-a => {'\n'};                 /*error Expected parentheses around arrow function argument.*/
-a.then(foo => {});           /*error Expected parentheses around arrow function argument.*/
-a.then(foo => a);            /*error Expected parentheses around arrow function argument.*/
-a(foo => { if (true) {}; }); /*error Expected parentheses around arrow function argument.*/
+a => {};
+a => a;
+a => {'\n'};
+a.then(foo => {});
+a.then(foo => a);
+a(foo => { if (true) {} });
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the default `"always"` option:
 
 ```js
-/*eslint arrow-parens: [2, "always"]*/
+/*eslint arrow-parens: ["error", "always"]*/
 /*eslint-env es6*/
 
 () => {};
@@ -80,12 +85,12 @@ The following patterns are not considered problems:
 (a) => a;
 (a) => {'\n'}
 a.then((foo) => {});
-a.then((foo) => { if (true) {}; });
+a.then((foo) => { if (true) {} });
 ```
 
-##### If Statements
+#### If Statements
 
-One benefits of this option is that it prevents the incorrect use of arrow functions in conditionals:
+One of benefits of this option is that it prevents the incorrect use of arrow functions in conditionals:
 
 ```js
 /*eslint-env es6*/
@@ -97,11 +102,12 @@ if (a => b) {
  console.log('bigger');
 } else {
  console.log('smaller');
-};
+}
 // outputs 'bigger', not smaller as expected
 ```
 
 The contents of the `if` statement is an arrow function, not a comparison.
+
 If the arrow function is intentional, it should be wrapped in parens to remove ambiguity.
 
 ```js
@@ -114,8 +120,8 @@ if ((a) => b) {
  console.log('truthy value returned');
 } else {
  console.log('falsey value returned');
-};
-// outputs 'falsey value returned'
+}
+// outputs 'truthy value returned'
 ```
 
 The following is another example of this behavior:
@@ -139,27 +145,26 @@ var a = 1, b = 2, c = 3, d = 4;
 var f = (a) => b ? c: d;
 ```
 
+### as-needed
 
-#### "as-needed"
-
-When the rule is set to `"as-needed"` the following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `"as-needed"` option:
 
 ```js
-/*eslint arrow-parens: [2, "as-needed"]*/
+/*eslint arrow-parens: ["error", "as-needed"]*/
 /*eslint-env es6*/
 
-(a) => {};                     /*error Unexpected parentheses around single function argument*/
-(a) => a;                      /*error Unexpected parentheses around single function argument*/
-(a) => {'\n'};                 /*error Unexpected parentheses around single function argument*/
-a.then((foo) => {});           /*error Unexpected parentheses around single function argument*/
-a.then((foo) => a);            /*error Unexpected parentheses around single function argument*/
-a((foo) => { if (true) {}; }); /*error Unexpected parentheses around single function argument*/
+(a) => {};
+(a) => a;
+(a) => {'\n'};
+a.then((foo) => {});
+a.then((foo) => a);
+a((foo) => { if (true) {} });
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `"as-needed"` option:
 
 ```js
-/*eslint arrow-parens: [2, "as-needed"]*/
+/*eslint arrow-parens: ["error", "as-needed"]*/
 /*eslint-env es6*/
 
 () => {};
@@ -167,9 +172,52 @@ a => {};
 a => a;
 a => {'\n'};
 a.then(foo => {});
-a.then(foo => { if (true) {}; });
+a.then(foo => { if (true) {} });
 (a, b, c) => a;
 (a = 10) => a;
 ([a, b]) => a;
 ({a, b}) => a;
 ```
+
+### requireForBlockBody
+
+Examples of **incorrect** code for the `{ "requireForBlockBody": true }` option:
+
+```js
+/*eslint arrow-parens: [2, "as-needed", { "requireForBlockBody": true }]*/
+/*eslint-env es6*/
+
+(a) => a;
+a => {};
+a => {'\n'};
+a.map((x) => x * x);
+a.map(x => {
+  return x * x;
+});
+a.then(foo => {});
+```
+
+Examples of **correct** code for the `{ "requireForBlockBody": true }` option:
+
+```js
+/*eslint arrow-parens: [2, "as-needed", { "requireForBlockBody": true }]*/
+/*eslint-env es6*/
+
+(a) => {};
+(a) => {'\n'};
+a => ({});
+() => {};
+a => a;
+a.then((foo) => {});
+a.then((foo) => { if (true) {} });
+a((foo) => { if (true) {} });
+(a, b, c) => a;
+(a = 10) => a;
+([a, b]) => a;
+({a, b}) => a;
+```
+
+## Further Reading
+
+* The `"as-needed", { "requireForBlockBody": true }` rule is directly inspired by the Airbnb
+ [JS Style Guide](https://github.com/airbnb/javascript#arrows--one-arg-parens).

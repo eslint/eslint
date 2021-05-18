@@ -1,4 +1,4 @@
-# Require Spaces Around Infix Operators (space-infix-ops)
+# require spacing around infix operators (space-infix-ops)
 
 While formatting preferences are very personal, a number of style guides require spaces around operators, such as:
 
@@ -14,18 +14,16 @@ var sum = i+++2;
 
 While this is valid JavaScript syntax, it is hard to determine what the author intended.
 
-**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
-
 ## Rule Details
 
 This rule is aimed at ensuring there are spaces around infix operators.
 
-### Options
+## Options
 
 This rule accepts a single options argument with the following defaults:
 
 ```json
-"space-infix-ops": [2, {"int32Hint": false}]
+"space-infix-ops": ["error", {"int32Hint": false}]
 ```
 
 ### `int32Hint`
@@ -36,31 +34,31 @@ Set the `int32Hint` option to `true` (default is `false`) to allow write `a|0` w
 var foo = bar|0; // `foo` is forced to be signed 32 bit integer
 ```
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint space-infix-ops: 2*/
+/*eslint space-infix-ops: "error"*/
 /*eslint-env es6*/
 
-a+b                   /*error Infix operators must be spaced.*/
+a+b
 
-a+ b                  /*error Infix operators must be spaced.*/
+a+ b
 
-a +b                  /*error Infix operators must be spaced.*/
+a +b
 
-a?b:c                 /*error Infix operators must be spaced.*/
+a?b:c
 
-const a={b:1};        /*error Infix operators must be spaced.*/
+const a={b:1};
 
-var {a=0}=bar;        /*error Infix operators must be spaced.*/
+var {a=0}=bar;
 
-function foo(a=0) { } /*error Infix operators must be spaced.*/
+function foo(a=0) { }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint space-infix-ops: 2*/
+/*eslint space-infix-ops: "error"*/
 /*eslint-env es6*/
 
 a + b
@@ -75,3 +73,7 @@ var {a = 0} = bar;
 
 function foo(a = 0) { }
 ```
+
+## When Not To Use It
+
+You can turn this rule off if you are not concerned with the consistency of spacing around infix operators.

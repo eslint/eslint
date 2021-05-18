@@ -16,31 +16,38 @@ var str = `Hello, ${name}!`;
 
 This rule is aimed to flag usage of `+` operators with strings.
 
-The following patterns are considered problems:
+## Examples
+
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint prefer-template: 2*/
+/*eslint prefer-template: "error"*/
 
-var str = "Hello, " + name + "!";           /*error Unexpected string concatenation.*/
-var str = "Time: " + (12 * 60 * 60 * 1000); /*error Unexpected string concatenation.*/
+var str = "Hello, " + name + "!";
+var str = "Time: " + (12 * 60 * 60 * 1000);
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint prefer-template: 2*/
+/*eslint prefer-template: "error"*/
 /*eslint-env es6*/
 
 var str = "Hello World!";
 var str = `Hello, ${name}!`;
-var str = `Time: ${12 * 60 * 60}`;
+var str = `Time: ${12 * 60 * 60 * 1000}`;
 
 // This is reported by `no-useless-concat`.
 var str = "Hello, " + "World!";
 ```
 
-## When Not to Use It
+## When Not To Use It
 
 This rule should not be used in ES3/5 environments.
 
 In ES2015 (ES6) or later, if you don't want to be notified about string concatenation, you can safely disable this rule.
+
+## Related Rules
+
+* [no-useless-concat](no-useless-concat.md)
+* [quotes](quotes.md)

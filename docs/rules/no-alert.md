@@ -1,6 +1,6 @@
 # Disallow Use of Alert (no-alert)
 
-JavaScripts' alert, confirm, and prompt functions are widely considered to be obtrusive as UI elements and should be replaced by a more appropriate custom UI implementation. Furthermore, alert is often used while debugging code, which should be removed before deployment to production.
+JavaScript's `alert`, `confirm`, and `prompt` functions are widely considered to be obtrusive as UI elements and should be replaced by a more appropriate custom UI implementation. Furthermore, `alert` is often used while debugging code, which should be removed before deployment to production.
 
 ```js
 alert("here!");
@@ -10,22 +10,22 @@ alert("here!");
 
 This rule is aimed at catching debugging code that should be removed and popup UI elements that should be replaced with less obtrusive, custom UIs. As such, it will warn when it encounters `alert`, `prompt`, and `confirm` function calls which are not shadowed.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-alert: 2*/
+/*eslint no-alert: "error"*/
 
-alert("here!");                          /*error Unexpected alert.*/
+alert("here!");
 
-confirm("Are you sure?");                /*error Unexpected confirm.*/
+confirm("Are you sure?");
 
-prompt("What's your name?", "John Doe"); /*error Unexpected prompt.*/
+prompt("What's your name?", "John Doe");
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-alert: 2*/
+/*eslint no-alert: "error"*/
 
 customAlert("Something happened!");
 

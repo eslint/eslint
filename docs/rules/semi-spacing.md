@@ -22,7 +22,7 @@ This rule doesn't check spacing in the following cases:
 
 * The spacing around the semicolon in a for loop with an empty condition (`for(;;)`).
 
-### Options
+## Options
 
 The rule takes one option, an object, which has two keys `before` and `after` having boolean values `true` or `false`.
 If `before` is `true`, space is enforced before semicolons and if it's `false`, space is disallowed before semicolons.
@@ -32,30 +32,30 @@ The `after` option will be only applied if a semicolon is not at the end of line
 The default is `{"before": false, "after": true}`.
 
 ```json
-    "semi-spacing": [2, {"before": false, "after": true}]
+    "semi-spacing": ["error", {"before": false, "after": true}]
 ```
 
-#### {"before": false, "after": true}
+### `{"before": false, "after": true}`
 
 This is the default option. It enforces spacing after semicolons and disallows spacing before semicolons.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint semi-spacing: 2*/
+/*eslint semi-spacing: "error"*/
 
-var foo ;                      /*error Unexpected whitespace before semicolon.*/
-var foo;var bar;               /*error Missing whitespace after semicolon.*/
-throw new Error("error") ;     /*error Unexpected whitespace before semicolon.*/
-while (a) { break ; }          /*error Unexpected whitespace before semicolon.*/
-for (i = 0 ; i < 10 ; i++) {}  /*error Unexpected whitespace before semicolon.*/
-for (i = 0;i < 10;i++) {}      /*error Missing whitespace after semicolon.*/
+var foo ;
+var foo;var bar;
+throw new Error("error") ;
+while (a) { break ; }
+for (i = 0 ; i < 10 ; i++) {}
+for (i = 0;i < 10;i++) {}
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint semi-spacing: 2*/
+/*eslint semi-spacing: "error"*/
 
 var foo;
 var foo; var bar;
@@ -67,27 +67,27 @@ if (true) {;}
 ;foo();
 ```
 
-#### {"before": true, "after": false}
+### `{"before": true, "after": false}`
 
 This option enforces spacing before semicolons and disallows spacing after semicolons.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `{"before": true, "after": false}` option:
 
 ```js
-/*eslint semi-spacing: [2, { "before": true, "after": false }]*/
+/*eslint semi-spacing: ["error", { "before": true, "after": false }]*/
 
-var foo;                    /*error Missing whitespace before semicolon.*/
-var foo ; var bar;          /*error Missing whitespace before semicolon.*/ /*error Unexpected whitespace after semicolon.*/
-throw new Error("error");   /*error Missing whitespace before semicolon.*/
-while (a) { break; }        /*error Missing whitespace before semicolon.*/ /*error Unexpected whitespace after semicolon.*/
-for (i = 0;i < 10;i++) {}   /*error Missing whitespace before semicolon.*/
-for (i = 0; i < 10; i++) {} /*error Missing whitespace before semicolon.*/ /*error Unexpected whitespace after semicolon.*/
+var foo;
+var foo ; var bar;
+throw new Error("error");
+while (a) { break; }
+for (i = 0;i < 10;i++) {}
+for (i = 0; i < 10; i++) {}
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `{"before": true, "after": false}` option:
 
 ```js
-/*eslint semi-spacing: [2, { "before": true, "after": false }]*/
+/*eslint semi-spacing: ["error", { "before": true, "after": false }]*/
 
 var foo ;
 var foo ;var bar ;

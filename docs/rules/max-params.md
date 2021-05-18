@@ -1,4 +1,4 @@
-# Limit Maximum Number of Parameters (max-params)
+# enforce a maximum number of parameters in function definitions (max-params)
 
 Functions that take numerous parameters can be difficult to read and write because it requires the memorization of what each parameter is, its type, and the order they should appear in. As a result, many coders adhere to a convention that caps the number of parameters a function can take.
 
@@ -10,26 +10,46 @@ function foo (bar, baz, qux, qxx) { // four parameters, may be too many
 
 ## Rule Details
 
-This rule is aimed at making functions easier to read and write by capping the number of formal arguments a function can accept. As such it will warn when it encounters a function that accepts more than the configured maximum number of parameters.
+This rule enforces a maximum number of parameters allowed in function definitions.
 
-The following patterns are considered problems:
+## Options
+
+This rule has a number or object option:
+
+* `"max"` (default `3`) enforces a maximum number of parameters in function definitions
+
+**Deprecated:** The object property `maximum` is deprecated; please use the object property `max` instead.
+
+### max
+
+Examples of **incorrect** code for this rule with the default `{ "max": 3 }` option:
 
 ```js
-/*eslint max-params: [2, 3]*/
+/*eslint max-params: ["error", 3]*/
+/*eslint-env es6*/
 
-function foo (bar, baz, qux, qxx) { /*error This function has too many parameters (4). Maximum allowed is 3.*/
+function foo (bar, baz, qux, qxx) {
     doSomething();
 }
+
+let foo = (bar, baz, qux, qxx) => {
+    doSomething();
+};
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the default `{ "max": 3 }` option:
 
 ```js
-/*eslint max-params: [2, 3]*/
+/*eslint max-params: ["error", 3]*/
+/*eslint-env es6*/
 
 function foo (bar, baz, qux) {
     doSomething();
 }
+
+let foo = (bar, baz, qux) => {
+    doSomething();
+};
 ```
 
 ## Related Rules
@@ -37,5 +57,7 @@ function foo (bar, baz, qux) {
 * [complexity](complexity.md)
 * [max-depth](max-depth.md)
 * [max-len](max-len.md)
+* [max-lines](max-lines.md)
+* [max-lines-per-function](max-lines-per-function.md)
 * [max-nested-callbacks](max-nested-callbacks.md)
 * [max-statements](max-statements.md)

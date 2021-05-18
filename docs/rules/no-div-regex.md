@@ -1,4 +1,4 @@
-# Disallow Regexs That Look Like Division (no-div-regex)
+# Disallow Regular Expressions That Look Like Division (no-div-regex)
 
 Require regex literals to escape division operators.
 
@@ -10,18 +10,18 @@ function bar() { return /=foo/; }
 
 This is used to disambiguate the division operator to not confuse users.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-div-regex: 2*/
+/*eslint no-div-regex: "error"*/
 
-function bar() { return /=foo/; } /*error A regular expression literal can be confused with '/='.*/
+function bar() { return /=foo/; }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-div-regex: 2*/
+/*eslint no-div-regex: "error"*/
 
 function bar() { return /\=foo/; }
 ```

@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for consistent-this rule.
  * @author Raphael Pigulla
- * @copyright 2015 Timothy Jones. All rights reserved.
- * @copyright 2015 David Aurelio. All rights reserved.
  */
 
 "use strict";
@@ -10,7 +8,7 @@
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
-var rule = require("../../../lib/rules/consistent-this"),
+const rule = require("../../../lib/rules/consistent-this"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -20,15 +18,15 @@ var rule = require("../../../lib/rules/consistent-this"),
 /**
  * A destructuring Test
  * @param {string} code source code
- * @returns {object} Suitable object
+ * @returns {Object} Suitable object
  * @private
  */
 function destructuringTest(code) {
     return {
-        code: code,
+        code,
         options: ["self"],
         env: { es6: true },
-        ecmaFeatures: { destructuring: true }
+        parserOptions: { ecmaVersion: 6 }
     };
 }
 
@@ -36,9 +34,11 @@ function destructuringTest(code) {
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("consistent-this", rule, {
     valid: [
+        "var foo = 42, that = this",
         { code: "var foo = 42, self = this", options: ["self"] },
         { code: "var self = 42", options: ["that"] },
         { code: "var self", options: ["that"] },
@@ -47,22 +47,23 @@ ruleTester.run("consistent-this", rule, {
         { code: "var foo, self; foo = 42; self = this", options: ["self"] },
         { code: "self = 42", options: ["that"] },
         { code: "var foo = {}; foo.bar = this", options: ["self"] },
+        { code: "var self = this; var vm = this;", options: ["self", "vm"] },
         destructuringTest("var {foo, bar} = this"),
         destructuringTest("({foo, bar} = this)"),
         destructuringTest("var [foo, bar] = this"),
         destructuringTest("[foo, bar] = this")
     ],
     invalid: [
-        { code: "var context = this", options: ["that"], errors: [{ message: "Unexpected alias 'context' for 'this'.", type: "VariableDeclarator"}] },
-        { code: "var that = this", options: ["self"], errors: [{ message: "Unexpected alias 'that' for 'this'.", type: "VariableDeclarator"}] },
-        { code: "var foo = 42, self = this", options: ["that"], errors: [{ message: "Unexpected alias 'self' for 'this'.", type: "VariableDeclarator"}] },
-        { code: "var self = 42", options: ["self"], errors: [{ message: "Designated alias 'self' is not assigned to 'this'.", type: "VariableDeclarator"}] },
-        { code: "var self", options: ["self"], errors: [{ message: "Designated alias 'self' is not assigned to 'this'.", type: "VariableDeclarator"}] },
-        { code: "var self; self = 42", options: ["self"], errors: [{ message: "Designated alias 'self' is not assigned to 'this'.", type: "VariableDeclarator"}, { message: "Designated alias 'self' is not assigned to 'this'.", type: "AssignmentExpression"}] },
-        { code: "context = this", options: ["that"], errors: [{ message: "Unexpected alias 'context' for 'this'.", type: "AssignmentExpression"}] },
-        { code: "that = this", options: ["self"], errors: [{ message: "Unexpected alias 'that' for 'this'.", type: "AssignmentExpression"}] },
-        { code: "self = this", options: ["that"], errors: [{ message: "Unexpected alias 'self' for 'this'.", type: "AssignmentExpression"}] },
-        { code: "self += this", options: ["self"], errors: [{ message: "Designated alias 'self' is not assigned to 'this'.", type: "AssignmentExpression"}] },
-        { code: "var self; (function() { self = this; }())", options: ["self"], errors: [{ message: "Designated alias 'self' is not assigned to 'this'.", type: "VariableDeclarator"}] }
+        { code: "var context = this", errors: [{ messageId: "unexpectedAlias", data: { name: "context" }, type: "VariableDeclarator" }] },
+        { code: "var that = this", options: ["self"], errors: [{ messageId: "unexpectedAlias", data: { name: "that" }, type: "VariableDeclarator" }] },
+        { code: "var foo = 42, self = this", options: ["that"], errors: [{ messageId: "unexpectedAlias", data: { name: "self" }, type: "VariableDeclarator" }] },
+        { code: "var self = 42", options: ["self"], errors: [{ messageId: "aliasNotAssignedToThis", data: { name: "self" }, type: "VariableDeclarator" }] },
+        { code: "var self", options: ["self"], errors: [{ messageId: "aliasNotAssignedToThis", data: { name: "self" }, type: "VariableDeclarator" }] },
+        { code: "var self; self = 42", options: ["self"], errors: [{ messageId: "aliasNotAssignedToThis", data: { name: "self" }, type: "VariableDeclarator" }, { messageId: "aliasNotAssignedToThis", data: { name: "self" }, type: "AssignmentExpression" }] },
+        { code: "context = this", options: ["that"], errors: [{ messageId: "unexpectedAlias", data: { name: "context" }, type: "AssignmentExpression" }] },
+        { code: "that = this", options: ["self"], errors: [{ messageId: "unexpectedAlias", data: { name: "that" }, type: "AssignmentExpression" }] },
+        { code: "self = this", options: ["that"], errors: [{ messageId: "unexpectedAlias", data: { name: "self" }, type: "AssignmentExpression" }] },
+        { code: "self += this", options: ["self"], errors: [{ messageId: "aliasNotAssignedToThis", data: { name: "self" }, type: "AssignmentExpression" }] },
+        { code: "var self; (function() { self = this; }())", options: ["self"], errors: [{ messageId: "aliasNotAssignedToThis", data: { name: "self" }, type: "VariableDeclarator" }] }
     ]
 });

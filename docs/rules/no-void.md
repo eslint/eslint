@@ -16,7 +16,7 @@ The common case of using `void` operator is to get a "pure" `undefined` value as
     return undefined;
 })();
 
-// will throw TypeError is ES5+
+// will throw TypeError in ES5+
 (function(){
     'use strict';
     undefined = 1;
@@ -30,7 +30,7 @@ foo = void 0;
 foo = undefined;
 ```
 
-When used with IIFE (immediately-invoked function expression) `void` can be used to force the function keyword to be treated as an expression instead of a declaration:
+When used with IIFE (immediately-invoked function expression), `void` can be used to force the function keyword to be treated as an expression instead of a declaration:
 
 ```js
 var foo = 1;
@@ -42,20 +42,20 @@ void function(){ foo = 1; }() // will assign foo a value of 1
 function(){ foo = 1; }() // will throw SyntaxError
 ```
 
-Some code styles prohibit `void` operator marking it as non-obvious and hard to read.
+Some code styles prohibit `void` operator, marking it as non-obvious and hard to read.
 
 ## Rule Details
 
 This rule aims to eliminate use of void operator.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-void: 2*/
+/*eslint no-void: "error"*/
 
-void foo              /*error Expected 'undefined' and instead saw 'void'.*/
+void foo
 
-var foo = void bar(); /*error Expected 'undefined' and instead saw 'void'.*/
+var foo = void bar();
 ```
 
 ## When Not To Use It
@@ -65,7 +65,7 @@ If you intentionally use the `void` operator then you can disable this rule.
 ## Further Reading
 
 * [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/void)
-* [Bad Parts: Appendix B - JavaScript: The Good Parts by Douglas Crockford](http://oreilly.com/javascript/excerpts/javascript-good-parts/bad-parts.html)
+* [Bad Parts: Appendix B - JavaScript: The Good Parts by Douglas Crockford](https://oreilly.com/javascript/excerpts/javascript-good-parts/bad-parts.html)
 
 ## Related Rules
 

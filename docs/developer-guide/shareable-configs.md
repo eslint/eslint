@@ -1,10 +1,14 @@
 # Shareable Configs
 
-The configuration that you have in your `.eslintrc` file is an important part of your project, and as such, you may want to share it with other projects or people. Shareable configs allow you to publish your configuration settings on [npm](https://npmjs.com) and have others download and use it in their ESLint projects.
+The configuration that you have in your `.eslintrc` file is an important part of your project, and as such, you may want to share it with other projects or people. Shareable configs allow you to publish your configuration settings on [npm](https://www.npmjs.com/) and have others download and use it in their ESLint projects.
 
 ## Creating a Shareable Config
 
-Shareable configs are simply npm packages that export a configuration object. To start, [create a Node.js module](https://docs.npmjs.com/getting-started/creating-node-modules) like you normally would. Make sure the module name begins with `eslint-config-`, such as `eslint-config-myconfig`. Create a new `index.js` file and export an object containing your settings:
+Shareable configs are simply npm packages that export a configuration object. To start, [create a Node.js module](https://docs.npmjs.com/getting-started/creating-node-modules) like you normally would. Make sure the module name begins with `eslint-config-`, such as `eslint-config-myconfig`.
+
+npm [scoped modules](https://docs.npmjs.com/misc/scope) are also supported, by naming or prefixing the module with `@scope/eslint-config`, such as `@scope/eslint-config` or `@scope/eslint-config-myconfig`.
+
+Create a new `index.js` file and export an object containing your settings:
 
 ```js
 module.exports = {
@@ -20,11 +24,19 @@ module.exports = {
 };
 ```
 
-Since `index.js` is just JavaScript, you can optionally read these settings for a file or generate them dynamically.
+Since `index.js` is just JavaScript, you can optionally read these settings from a file or generate them dynamically.
 
 ## Publishing a Shareable Config
 
 Once your shareable config is ready, you can [publish to npm](https://docs.npmjs.com/getting-started/publishing-npm-packages) to share with others. We recommend using the `eslint` and `eslintconfig` keywords so others can easily find your module.
+
+You should declare your dependency on ESLint in `package.json` using the [peerDependencies](https://docs.npmjs.com/files/package.json#peerdependencies) field. The recommended way to declare a dependency for future proof compatibility is with the ">=" range syntax, using the lowest required ESLint version. For example:
+
+```
+"peerDependencies": {
+    "eslint": ">= 3"
+}
+```
 
 You can also test your shareable config on your computer before publishing by linking your module globally. Type:
 
@@ -58,6 +70,35 @@ You can also omit the `eslint-config-` and it will be automatically assumed by E
 }
 ```
 
+### npm scoped modules
+
+npm [scoped modules](https://docs.npmjs.com/misc/scope) are also supported in a number of ways.
+
+
+By using the module name:
+
+```json
+{
+    "extends": "@scope/eslint-config"
+}
+```
+
+You can also omit the `eslint-config` and it will be automatically assumed by ESLint:
+
+```json
+{
+    "extends": "@scope"
+}
+```
+
+The module name can also be customized, just note that when using [scoped modules](https://docs.npmjs.com/misc/scope) it is not possible to omit the `eslint-config-` prefix. Doing so would result in package naming conflicts, and thus in resolution errors in most of cases. For example a package named `@scope/eslint-config-myconfig` vs `@scope/my-config`, since both are valid scoped package names, the configuration should be specified as:
+
+```json
+{
+    "extends": "@scope/eslint-config-myconfig"
+}
+```
+
 You can override settings from the shareable config by adding them directly into your `.eslintrc` file.
 
 ## Sharing Multiple Configs
@@ -69,7 +110,7 @@ As an example, you can create a file called `my-special-config.js` in the root o
 ```js
 module.exports = {
     rules: {
-        quotes: [2, "double"];
+        quotes: [2, "double"]
     }
 };
 ```
@@ -79,6 +120,14 @@ Then, assuming you're using the package name `eslint-config-myconfig`, you can a
 ```json
 {
     "extends": "myconfig/my-special-config"
+}
+```
+
+When using [scoped modules](https://docs.npmjs.com/misc/scope) it is not possible to omit the `eslint-config` namespace. Doing so would result in resolution errors as explained above. Assuming the package name is `@scope/eslint-config`, the additional config can be accessed as:
+
+```json
+{
+    "extends": "@scope/eslint-config/my-special-config"
 }
 ```
 

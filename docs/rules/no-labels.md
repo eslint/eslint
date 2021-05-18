@@ -20,31 +20,47 @@ While convenient in some cases, labels tend to be used only rarely and are frown
 
 This rule aims to eliminate the use of labeled statements in JavaScript. It will warn whenever a labeled statement is encountered and whenever `break` or `continue` are used with a label.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-labels: 2*/
+/*eslint no-labels: "error"*/
 
-label:                   /*error Unexpected labeled statement.*/
+label:
     while(true) {
         // ...
     }
 
-label:                   /*error Unexpected labeled statement.*/
+label:
     while(true) {
-        break label;     /*error Unexpected label in break statement.*/
+        break label;
     }
 
-label:                  /*error Unexpected labeled statement.*/
+label:
     while(true) {
-        continue label; /*error Unexpected label in continue statement.*/
+        continue label;
+    }
+
+label:
+    switch (a) {
+    case 0:
+        break label;
+    }
+
+label:
+    {
+        break label;
+    }
+
+label:
+    if (a) {
+        break label;
     }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-labels: 2*/
+/*eslint no-labels: "error"*/
 
 var f = {
     label: "foo"
@@ -59,6 +75,49 @@ while (true) {
 }
 ```
 
+## Options
+
+The options allow labels with loop or switch statements:
+
+* `"allowLoop"` (`boolean`, default is `false`) - If this option was set `true`, this rule ignores labels which are sticking to loop statements.
+* `"allowSwitch"` (`boolean`, default is `false`) - If this option was set `true`, this rule ignores labels which are sticking to switch statements.
+
+Actually labeled statements in JavaScript can be used with other than loop and switch statements.
+However, this way is ultra rare, not well-known, so this would be confusing developers.
+
+### allowLoop
+
+Examples of **correct** code for the `{ "allowLoop": true }` option:
+
+```js
+/*eslint no-labels: ["error", { "allowLoop": true }]*/
+
+label:
+    while (true) {
+        break label;
+    }
+```
+
+### allowSwitch
+
+Examples of **correct** code for the `{ "allowSwitch": true }` option:
+
+```js
+/*eslint no-labels: ["error", { "allowSwitch": true }]*/
+
+label:
+    switch (a) {
+        case 0:
+            break label;
+    }
+```
+
 ## When Not To Use It
 
-If you need to use labeled statements, then you can safely disable this rule.
+If you need to use labeled statements everywhere, then you can safely disable this rule.
+
+## Related Rules
+
+* [no-extra-label](./no-extra-label.md)
+* [no-label-var](./no-label-var.md)
+* [no-unused-labels](./no-unused-labels.md)

@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for no-empty rule.
  * @author Nicholas C. Zakas
- * @copyright Nicholas C. Zakas. All rights reserved.
- * @copyright 2015 Dieter Oberkofler. All rights reserved.
  */
 
 "use strict";
@@ -11,14 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-empty"),
+const rule = require("../../../lib/rules/no-empty"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("no-empty", rule, {
     valid: [
         "if (foo) { bar() }",
@@ -27,7 +26,7 @@ ruleTester.run("no-empty", rule, {
         "try { foo() } catch (ex) { foo() }",
         "switch(foo) {case 'foo': break;}",
         "(function() { }())",
-        { code: "var foo = () => {};", ecmaFeatures: { arrowFunctions: true } },
+        { code: "var foo = () => {};", parserOptions: { ecmaVersion: 6 } },
         "function foo() { }",
         "if (foo) {/* empty */}",
         "while (foo) {/* empty */}",
@@ -40,15 +39,42 @@ ruleTester.run("no-empty", rule, {
         "try { foo() } catch (ex) {/* test111 */}",
         "if (foo) { bar() } else { // nothing in me \n}",
         "if (foo) { bar() } else { /**/ \n}",
-        "if (foo) { bar() } else { // \n}"
+        "if (foo) { bar() } else { // \n}",
+        { code: "try { foo(); } catch (ex) {}", options: [{ allowEmptyCatch: true }] },
+        { code: "try { foo(); } catch (ex) {} finally { bar(); }", options: [{ allowEmptyCatch: true }] }
     ],
     invalid: [
-        { code: "try {} catch (ex) {throw ex}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
-        { code: "try { foo() } catch (ex) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
-        { code: "try { foo() } catch (ex) {throw ex} finally {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
-        { code: "if (foo) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
-        { code: "while (foo) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
-        { code: "for (;foo;) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
-        { code: "switch(foo) {}", errors: [{ message: "Empty switch statement.", type: "SwitchStatement"}] }
+        { code: "try {} catch (ex) {throw ex}", errors: [{ messageId: "unexpected", data: { type: "block" }, type: "BlockStatement" }] },
+        { code: "try { foo() } catch (ex) {}", errors: [{ messageId: "unexpected", data: { type: "block" }, type: "BlockStatement" }] },
+        { code: "try { foo() } catch (ex) {throw ex} finally {}", errors: [{ messageId: "unexpected", data: { type: "block" }, type: "BlockStatement" }] },
+        { code: "if (foo) {}", errors: [{ messageId: "unexpected", data: { type: "block" }, type: "BlockStatement" }] },
+        { code: "while (foo) {}", errors: [{ messageId: "unexpected", data: { type: "block" }, type: "BlockStatement" }] },
+        { code: "for (;foo;) {}", errors: [{ messageId: "unexpected", data: { type: "block" }, type: "BlockStatement" }] },
+        { code: "switch(foo) {}", errors: [{ messageId: "unexpected", data: { type: "switch" }, type: "SwitchStatement" }] },
+        {
+            code: "try {} catch (ex) {}",
+            options: [{ allowEmptyCatch: true }],
+            errors: [{ messageId: "unexpected", data: { type: "block" }, type: "BlockStatement" }]
+        },
+        {
+            code: "try { foo(); } catch (ex) {} finally {}",
+            options: [{ allowEmptyCatch: true }],
+            errors: [{ messageId: "unexpected", data: { type: "block" }, type: "BlockStatement" }]
+        },
+        {
+            code: "try {} catch (ex) {} finally {}",
+            options: [{ allowEmptyCatch: true }],
+            errors: [
+                { messageId: "unexpected", data: { type: "block" }, type: "BlockStatement" },
+                { messageId: "unexpected", data: { type: "block" }, type: "BlockStatement" }
+            ]
+        },
+        {
+            code: "try { foo(); } catch (ex) {} finally {}",
+            errors: [
+                { messageId: "unexpected", data: { type: "block" }, type: "BlockStatement" },
+                { messageId: "unexpected", data: { type: "block" }, type: "BlockStatement" }
+            ]
+        }
     ]
 });

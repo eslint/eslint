@@ -1,9 +1,6 @@
 /**
  * @fileoverview No mixed linebreaks
  * @author Erik Mueller
- * @copyright 2015 Varun Verma. All rights reserverd.
- * @copyright 2015 James Whitney. All rights reserved.
- * @copyright 2015 Erik Mueller. All rights reserved.
  */
 "use strict";
 
@@ -11,24 +8,19 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/linebreak-style"),
+const rule = require("../../../lib/rules/linebreak-style"),
     RuleTester = require("../../../lib/testers/rule-tester");
-
-var EXPECTED_LF_MSG = "Expected linebreaks to be 'LF' but found 'CRLF'.",
-    EXPECTED_CRLF_MSG = "Expected linebreaks to be 'CRLF' but found 'LF'.";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("linebreak-style", rule, {
 
     valid: [
-        {
-            code: "var a = 'a',\n b = 'b';\n\n function foo(params) {\n /* do stuff */ \n }\n",
-            args: [2]
-        },
+        "var a = 'a',\n b = 'b';\n\n function foo(params) {\n /* do stuff */ \n }\n",
         {
             code: "var a = 'a',\n b = 'b';\n\n function foo(params) {\n /* do stuff */ \n }\n",
             options: ["unix"]
@@ -51,11 +43,10 @@ ruleTester.run("linebreak-style", rule, {
         {
             code: "var a = 'a';\r\n",
             output: "var a = 'a';\n",
-            args: [2],
             errors: [{
                 line: 1,
                 column: 13,
-                message: EXPECTED_LF_MSG
+                messageId: "expectedLF"
             }]
         },
         {
@@ -65,7 +56,7 @@ ruleTester.run("linebreak-style", rule, {
             errors: [{
                 line: 1,
                 column: 13,
-                message: EXPECTED_LF_MSG
+                messageId: "expectedLF"
             }]
         },
         {
@@ -75,22 +66,21 @@ ruleTester.run("linebreak-style", rule, {
             errors: [{
                 line: 1,
                 column: 13,
-                message: EXPECTED_CRLF_MSG
+                messageId: "expectedCRLF"
             }]
         },
         {
             code: "var a = 'a',\n b = 'b';\n\n function foo(params) {\r\n /* do stuff */ \n }\r\n",
             output: "var a = 'a',\n b = 'b';\n\n function foo(params) {\n /* do stuff */ \n }\n",
-            args: [2],
             errors: [{
                 line: 4,
                 column: 24,
-                message: EXPECTED_LF_MSG
+                messageId: "expectedLF"
             },
             {
                 line: 6,
                 column: 3,
-                message: EXPECTED_LF_MSG
+                messageId: "expectedLF"
             }]
         },
         {
@@ -100,17 +90,17 @@ ruleTester.run("linebreak-style", rule, {
             errors: [{
                 line: 3,
                 column: 1,
-                message: EXPECTED_CRLF_MSG
+                messageId: "expectedCRLF"
             },
             {
                 line: 5,
                 column: 1,
-                message: EXPECTED_CRLF_MSG
+                messageId: "expectedCRLF"
             },
             {
                 line: 6,
                 column: 17,
-                message: EXPECTED_CRLF_MSG
+                messageId: "expectedCRLF"
             }]
         }
     ]

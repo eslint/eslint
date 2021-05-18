@@ -31,38 +31,46 @@ In this case, each function created within the loop returns a different number a
 
 This error is raised to highlight a piece of code that may not work as you expect it to and could also indicate a misunderstanding of how the language works. Your code may run without any problems if you do not fix this error, but in some situations it could behave unexpectedly.
 
-The following patterns are considered problems:
+This rule disallows any function within a loop that contains unsafe references (e.g. to modified variables from the outer scope).
+
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-loop-func: 2*/
+/*eslint no-loop-func: "error"*/
 /*eslint-env es6*/
 
 for (var i=10; i; i--) {
-    (function() { return i; })();     /*error Don't make functions within a loop*/
+    (function() { return i; })();
 }
 
 while(i) {
-    var a = function() { return i; }; /*error Don't make functions within a loop*/
+    var a = function() { return i; };
     a();
 }
 
 do {
-    function a() { return i; };      /*error Don't make functions within a loop*/
+    function a() { return i; };
     a();
 } while (i);
 
 let foo = 0;
-for (let i=10; i; i--) {
-    // Bad, function is referencing block scoped variable in the outer scope.
-    var a = function() { return foo; }; /*error Don't make functions within a loop*/
-    a();
+for (let i = 0; i < 10; ++i) {
+    //Bad, `foo` is not in the loop-block's scope and `foo` is modified in/after the loop
+    setTimeout(() => console.log(foo));
+    foo += 1;
 }
+
+for (let i = 0; i < 10; ++i) {
+    //Bad, `foo` is not in the loop-block's scope and `foo` is modified in/after the loop
+    setTimeout(() => console.log(foo));
+}
+foo = 100;
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-loop-func: 2*/
+/*eslint no-loop-func: "error"*/
 /*eslint-env es6*/
 
 var a = function() {};
@@ -77,11 +85,14 @@ for (var i=10; i; i--) {
 }
 
 for (let i=10; i; i--) {
-    var a = function() { return i; }; // OK, all references are referring to block scoped variable in the loop.
+    var a = function() { return i; }; // OK, all references are referring to block scoped variables in the loop.
     a();
 }
+
+var foo = 100;
+for (let i=10; i; i--) {
+    var a = function() { return foo; }; // OK, all references are referring to never modified variables.
+    a();
+}
+//... no modifications of foo after this loop ...
 ```
-
-## Further Reading
-
-* [Don't make functions within a loop](http://jslinterrors.com/dont-make-functions-within-a-loop/)

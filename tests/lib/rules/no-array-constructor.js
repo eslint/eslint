@@ -9,14 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-array-constructor"),
+const rule = require("../../../lib/rules/no-array-constructor"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("no-array-constructor", rule, {
     valid: [
         "new Array(x)",
@@ -29,9 +30,9 @@ ruleTester.run("no-array-constructor", rule, {
         "Array.foo()"
     ],
     invalid: [
-        { code: "new Array()", errors: [{ message: "The array literal notation [] is preferrable.", type: "NewExpression"}] },
-        { code: "new Array", errors: [{ message: "The array literal notation [] is preferrable.", type: "NewExpression"}] },
-        { code: "new Array(x, y)", errors: [{ message: "The array literal notation [] is preferrable.", type: "NewExpression"}] },
-        { code: "new Array(0, 1, 2)", errors: [{ message: "The array literal notation [] is preferrable.", type: "NewExpression"}] }
+        { code: "new Array()", errors: [{ messageId: "preferLiteral", type: "NewExpression" }] },
+        { code: "new Array", errors: [{ messageId: "preferLiteral", type: "NewExpression" }] },
+        { code: "new Array(x, y)", errors: [{ messageId: "preferLiteral", type: "NewExpression" }] },
+        { code: "new Array(0, 1, 2)", errors: [{ messageId: "preferLiteral", type: "NewExpression" }] }
     ]
 });

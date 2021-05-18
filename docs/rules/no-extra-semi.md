@@ -1,30 +1,28 @@
-# Disallow Extra Semicolons (no-extra-semi)
+# disallow unnecessary semicolons (no-extra-semi)
 
-JavaScript will more or less let you put semicolons after any statement without complaining. Typos and misunderstandings about where semicolons are required can lead to extra semicolons that are unnecessary.
-
-**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+Typing mistakes and misunderstandings about where semicolons are required can lead to semicolons that are unnecessary. While not technically an error, extra semicolons can cause confusion when reading code.
 
 ## Rule Details
 
-This rule is aimed at eliminating extra unnecessary semicolons. While not technically an error, extra semicolons can be a source of confusion when reading code.
+This rule disallows unnecessary semicolons.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-extra-semi: 2*/
+/*eslint no-extra-semi: "error"*/
 
-var x = 5;;      /*error Unnecessary semicolon.*/
+var x = 5;;
 
 function foo() {
     // code
-};               /*error Unnecessary semicolon.*/
+};
 
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-extra-semi: 2*/
+/*eslint no-extra-semi: "error"*/
 
 var x = 5;
 
@@ -41,4 +39,4 @@ If you intentionally use extra semicolons then you can disable this rule.
 ## Related Rules
 
 * [semi](semi.md)
-* [no-space-before-semi](no-space-before-semi.md)
+* [semi-spacing](semi-spacing.md)

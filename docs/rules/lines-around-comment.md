@@ -1,72 +1,72 @@
-# Enforce empty lines around comments (lines-around-comment)
+# require empty lines around comments (lines-around-comment)
 
 Many style guides require empty lines before or after comments. The primary goal
 of these rules is to make the comments easier to read and improve readability of the code.
 
 ## Rule Details
 
-This rule allows you to specify whether an empty line should be found
-before or after a comment. It can be enabled separately for both block (`/*`)
-and line (`//`) comments, and does not apply to comments that appear on the same
-line as code.
+This rule requires empty lines before and/or after comments. It can be enabled separately for both block (`/*`) and line (`//`) comments. This rule does not apply to comments that appear on the same line as code and does not require empty lines at the beginning or end of a file.
+
+## Options
+
+This rule has an object option:
+
+* `"beforeBlockComment": true` (default) requires an empty line before block comments
+* `"afterBlockComment": true` requires an empty line after block comments
+* `"beforeLineComment": true` requires an empty line before line comments
+* `"afterLineComment": true` requires an empty line after line comments
+* `"allowBlockStart": true` allows comments to appear at the start of block statements
+* `"allowBlockEnd": true` allows comments to appear at the end of block statements
+* `"allowObjectStart": true` allows comments to appear at the start of object literals
+* `"allowObjectEnd": true` allows comments to appear at the end of object literals
+* `"allowArrayStart": true` allows comments to appear at the start of array literals
+* `"allowArrayEnd": true` allows comments to appear at the end of array literals
+* `"allowClassStart": true` allows comments to appear at the start of classes
+* `"allowClassEnd": true` allows comments to appear at the end of classes
+* `"applyDefaultIgnorePatterns"` enables or disables the default comment patterns to be ignored by the rule
+* `"ignorePattern"` custom patterns to be ignored by the rule
 
 
-By default an empty line is required above a block comment,
-such as in the following example:
+### beforeBlockComment
 
-```js
-var x = 0;
-
-/**
- * The vertical position.
- */
-var y = 10;
-```
-
-The following would *not* pass the rule:
-
-```js
-var x = 0;
-/* the vertical position */
-var y = 10;
-```
-
-### Options
-
-This rule has 10 options:
-
-1. `beforeBlockComment` (enabled by default)
-2. `afterBlockComment`
-3. `beforeLineComment`
-4. `afterLineComment`
-5. `allowBlockStart`
-6. `allowBlockEnd`
-7. `allowObjectStart`
-8. `allowObjectEnd`
-9. `allowArrayStart`
-10. `allowArrayEnd`
-
-Any combination of these rules may be applied at the same time.
-
-
-```json
-{
-    "lines-around-comment": [2, { "beforeBlockComment": true, "beforeLineComment": true }]
-}
-```
-
-When set to `false` the option is simply ignored.
-
-
-#### Block Comments
-
-Block comments are any comment that start with `/*` and need not extend to multiple lines.
-
-With both `beforeBlockComment` and `afterBlockComment` set to `true` the following code
-would not warn:
+Examples of **incorrect** code for this rule with the default `{ "beforeBlockComment": true }` option:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeBlockComment": true, "afterBlockComment": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeBlockComment": true }]*/
+
+var night = "long";
+/* what a great and wonderful day */
+var day = "great"
+```
+
+Examples of **correct** code for this rule with the default `{ "beforeBlockComment": true }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "beforeBlockComment": true }]*/
+
+var night = "long";
+
+/* what a great and wonderful day */
+var day = "great"
+```
+
+### afterBlockComment
+
+Examples of **incorrect** code for this rule with the `{ "afterBlockComment": true }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "afterBlockComment": true }]*/
+
+var night = "long";
+
+/* what a great and wonderful day */
+var day = "great"
+```
+
+Examples of **correct** code for this rule with the `{ "afterBlockComment": true }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "afterBlockComment": true }]*/
 
 var night = "long";
 
@@ -75,60 +75,22 @@ var night = "long";
 var day = "great"
 ```
 
-This however would provide 2 warnings:
+### beforeLineComment
+
+Examples of **incorrect** code for this rule with the `{ "beforeLineComment": true }` option:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeBlockComment": true, "afterBlockComment": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true }]*/
 
 var night = "long";
-/* what a great and wonderful day */  /*error Expected line before comment.*/ /*error Expected line after comment.*/
-var day = "great"
-```
-
-With only `beforeBlockComment` set to `true` the following code
-would not warn:
-
-```js
-/*eslint lines-around-comment: [2, { "beforeBlockComment": true }]*/
-
-var night = "long";
-
-/* what a great and wonderful day */
-var day = "great"
-```
-
-But this would cause 1 warning:
-
-```js
-/*eslint lines-around-comment: [2, { "beforeBlockComment": true }]*/
-
-var night = "long";
-/* what a great and wonderful day */     /*error Expected line before comment.*/
-var day = "great"
-```
-
-#### Line Comments
-
-Line comments are any comments that start with `//`.
-
-With both `beforeLineComment` and `afterLineComment` set to `true` the following code
-would not warn:
-
-```js
-/*eslint lines-around-comment: [2, { "beforeLineComment": true, "afterLineComment": true }]*/
-
-var night = "long";
-
 // what a great and wonderful day
-
 var day = "great"
 ```
 
-With only `beforeLineComment` set to `true` the following code
-would not warn:
+Examples of **correct** code for this rule with the `{ "beforeLineComment": true }` option:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeLineComment": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true }]*/
 
 var night = "long";
 
@@ -136,17 +98,35 @@ var night = "long";
 var day = "great"
 ```
 
-### Exceptions
+### afterLineComment
 
-#### `allowBlockStart` option
-
-When this option is set to `true`, it allows the comment to be present at the start of any block statement without any space above it. This option can be useful when combined with options `beforeLineComment` and `beforeBlockComment` only.
-
-With both `beforeLineComment` and `allowBlockStart` set to `true` the following code
-would not warn:
+Examples of **incorrect** code for this rule with the `{ "afterLineComment": true }` option:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeLineComment": true, "allowBlockStart": true }]*/
+/*eslint lines-around-comment: ["error", { "afterLineComment": true }]*/
+
+var night = "long";
+// what a great and wonderful day
+var day = "great"
+```
+
+Examples of **correct** code for this rule with the `{ "afterLineComment": true }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "afterLineComment": true }]*/
+
+var night = "long";
+// what a great and wonderful day
+
+var day = "great"
+```
+
+### allowBlockStart
+
+Examples of **correct** code for this rule with the `{ "beforeLineComment": true, "allowBlockStart": true }` options:
+
+```js
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowBlockStart": true }]*/
 
 function foo(){
     // what a great and wonderful day
@@ -155,11 +135,10 @@ function foo(){
 }
 ```
 
-With both `beforeBlockComment` and `allowBlockStart` set to `true` the following code
-would not warn:
+Examples of **correct** code for this rule with the `{ "beforeBlockComment": true, "allowBlockStart": true }` options:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeBlockComment": true, "allowBlockStart": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowBlockStart": true }]*/
 
 function foo(){
     /* what a great and wonderful day */
@@ -168,15 +147,12 @@ function foo(){
 }
 ```
 
-#### `allowBlockEnd` option
+### allowBlockEnd
 
-When this option is set to `true`, it allows the comment to be present at the end of any block statement without any space below it. This option can be useful when combined with options `afterLineComment` and `afterBlockComment` only.
-
-With both `afterLineComment` and `allowBlockEnd` set to `true` the following code
-would not warn:
+Examples of **correct** code for this rule with the `{ "afterLineComment": true, "allowBlockEnd": true }` option:
 
 ```js
-/*eslint lines-around-comment: [2, { "afterLineComment": true, "allowBlockEnd": true }]*/
+/*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowBlockEnd": true }]*/
 
 function foo(){
     var day = "great"
@@ -185,11 +161,10 @@ function foo(){
 }
 ```
 
-With both `afterBlockComment` and `allowBlockEnd` set to `true` the following code
-would not warn:
+Examples of **correct** code for this rule with the `{ "afterBlockComment": true, "allowBlockEnd": true }` option:
 
 ```js
-/*eslint lines-around-comment: [2, { "afterBlockComment": true, "allowBlockEnd": true }]*/
+/*eslint lines-around-comment: ["error", { "afterBlockComment": true, "allowBlockEnd": true }]*/
 
 function foo(){
     var day = "great"
@@ -199,15 +174,107 @@ function foo(){
 }
 ```
 
-#### `allowObjectStart` option
+### allowClassStart
 
-When this option is set to `true`, it allows the comment to be present at the start of any object-like statement without any space above it. This option can be useful when combined with options `beforeLineComment` and `beforeBlockComment` only.
-
-With both `beforeLineComment` and `allowObjectStart` set to `true` the following code
-would not warn:
+Examples of **incorrect** code for this rule with the `{ "beforeLineComment": true, "allowClassStart": false }` option:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeLineComment": true, "allowObjectStart": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowClassStart": false }]*/
+
+class foo {
+    // what a great and wonderful day
+    day() {}
+};
+```
+
+Examples of **correct** code for this rule with the `{ "beforeLineComment": true, "allowClassStart": false }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowClassStart": false }]*/
+
+class foo {
+
+    // what a great and wonderful day
+    day() {}
+};
+```
+
+Examples of **correct** code for this rule with the `{ "beforeLineComment": true, "allowClassStart": true }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowClassStart": true }]*/
+
+class foo {
+    // what a great and wonderful day
+    day() {}
+};
+```
+
+Examples of **incorrect** code for this rule with the `{ "beforeBlockComment": true, "allowClassStart": false }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowClassStart": false }]*/
+
+class foo {
+    /* what a great and wonderful day */
+    day() {}
+};
+```
+
+Examples of **correct** code for this rule with the `{ "beforeBlockComment": true, "allowClassStart": false }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowClassStart": false }]*/
+
+class foo {
+
+    /* what a great and wonderful day */
+    day() {}
+};
+```
+
+Examples of **correct** code for this rule with the `{ "beforeBlockComment": true, "allowClassStart": true }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowClassStart": true }]*/
+
+class foo {
+    /* what a great and wonderful day */
+    day() {}
+};
+```
+
+### allowClassEnd
+
+Examples of **correct** code for this rule with the `{ "afterLineComment": true, "allowClassEnd": true }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowClassEnd": true }]*/
+
+class foo {
+    day() {}
+    // what a great and wonderful day
+};
+```
+
+Examples of **correct** code for this rule with the `{ "afterBlockComment": true, "allowClassEnd": true }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "afterBlockComment": true, "allowClassEnd": true }]*/
+
+class foo {
+    day() {}
+
+    /* what a great and wonderful day */
+};
+```
+
+### allowObjectStart
+
+Examples of **correct** code for this rule with the `{ "beforeLineComment": true, "allowObjectStart": true }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowObjectStart": true }]*/
 
 var foo = {
     // what a great and wonderful day
@@ -225,11 +292,10 @@ const {
 } = {day: "great"};
 ```
 
-With both `beforeBlockComment` and `allowObjectStart` set to `true` the following code
-would not warn:
+Examples of **correct** code for this rule with the `{ "beforeBlockComment": true, "allowObjectStart": true }` option:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeBlockComment": true, "allowObjectStart": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowObjectStart": true }]*/
 
 var foo = {
     /* what a great and wonderful day */
@@ -247,15 +313,12 @@ const {
 } = {day: "great"};
 ```
 
-#### `allowObjectEnd` option
+### allowObjectEnd
 
-When this option is set to `true`, it allows the comment to be present at the end of any object-like statement without any space below it. This option can be useful when combined with options `afterLineComment` and `afterBlockComment` only.
-
-With both `afterLineComment` and `allowObjectEnd` set to `true` the following code
-would not warn:
+Examples of **correct** code for this rule with the `{ "afterLineComment": true, "allowObjectEnd": true }` option:
 
 ```js
-/*eslint lines-around-comment: [2, { "afterLineComment": true, "allowObjectEnd": true }]*/
+/*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowObjectEnd": true }]*/
 
 var foo = {
     day: "great"
@@ -273,11 +336,10 @@ const {
 } = {day: "great"};
 ```
 
-With both `afterBlockComment` and `allowObjectEnd` set to `true` the following code
-would not warn:
+Examples of **correct** code for this rule with the `{ "afterBlockComment": true, "allowObjectEnd": true }` option:
 
 ```js
-/*eslint lines-around-comment: [2, { "afterBlockComment": true, "allowObjectEnd": true }]*/
+/*eslint lines-around-comment: ["error", { "afterBlockComment": true, "allowObjectEnd": true }]*/
 
 var foo = {
     day: "great"
@@ -298,15 +360,12 @@ const {
 } = {day: "great"};
 ```
 
-#### `allowArrayStart` option
+### allowArrayStart
 
-When this option is set to `true`, it allows the comment to be present at the start of any array-like statement without any space above it. This option can be useful when combined with options `beforeLineComment` and `beforeBlockComment` only.
-
-With both `beforeLineComment` and `allowArrayStart` set to `true` the following code
-would not warn:
+Examples of **correct** code for this rule with the `{ "beforeLineComment": true, "allowArrayStart": true }` option:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeLineComment": true, "allowArrayStart": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowArrayStart": true }]*/
 
 var day = [
     // what a great and wonderful day
@@ -320,11 +379,10 @@ const [
 ] = ["great", "not great"];
 ```
 
-With both `beforeBlockComment` and `allowArrayStart` set to `true` the following code
-would not warn:
+Examples of **correct** code for this rule with the `{ "beforeBlockComment": true, "allowArrayStart": true }` option:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeBlockComment": true, "allowArrayStart": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowArrayStart": true }]*/
 
 var day = [
     /* what a great and wonderful day */
@@ -338,15 +396,12 @@ const [
 ] = ["great", "not great"];
 ```
 
-#### `allowArrayEnd` option
+### allowArrayEnd
 
-When this option is set to `true`, it allows the comment to be present at the end of any array-like statement without any space below it. This option can be useful when combined with options `afterLineComment` and `afterBlockComment` only.
-
-With both `afterLineComment` and `allowArrayEnd` set to `true` the following code
-would not warn:
+Examples of **correct** code for this rule with the `{ "afterLineComment": true, "allowArrayEnd": true }` option:
 
 ```js
-/*eslint lines-around-comment: [2, { "afterLineComment": true, "allowArrayEnd": true }]*/
+/*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowArrayEnd": true }]*/
 
 var day = [
     "great",
@@ -360,11 +415,10 @@ const [
 ] = ["great", "not great"];
 ```
 
-With both `afterBlockComment` and `allowArrayEnd` set to `true` the following code
-would not warn:
+Examples of **correct** code for this rule with the `{ "afterBlockComment": true, "allowArrayEnd": true }` option:
 
 ```js
-/*eslint lines-around-comment: [2, { "afterBlockComment": true, "allowArrayEnd": true }]*/
+/*eslint lines-around-comment: ["error", { "afterBlockComment": true, "allowArrayEnd": true }]*/
 
 var day = [
     "great",
@@ -380,28 +434,65 @@ const [
 ] = ["great", "not great"];
 ```
 
-#### Inline comments
 
-Inline comments are always excluded from the rule.
+### ignorePattern
 
-The following would be acceptable:
+By default this rule ignores comments starting with the following words: `eslint`, `jshint`, `jslint`, `istanbul`, `global`, `exported`, `jscs`. An alternative regular expression can be provided.
+
+Examples of **correct** code for the `ignorePattern` option:
 
 ```js
-/*eslint lines-around-comment: 2*/
+/*eslint lines-around-comment: ["error"]*/
 
-var x = 0;
-var y = 10; /* the vertical position */
+foo();
+/* eslint mentioned in this comment */,
+bar();
+
+
+/*eslint lines-around-comment: ["error", { "ignorePattern": "pragma" }] */
+
+foo();
+/* a valid comment using pragma in it */
 ```
 
-Empty lines are also not required at the beginning or end of a file.
+Examples of **incorrect** code for the `ignorePattern` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "ignorePattern": "pragma" }] */
+
+1 + 1;
+/* something else */
+```
+
+### applyDefaultIgnorePatterns
+
+Default ignore patterns are applied even when `ignorePattern` is provided. If you want to omit default patterns, set this option to `false`.
+
+Examples of **correct** code for the `{ "applyDefaultIgnorePatterns": false }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "ignorePattern": "pragma", applyDefaultIgnorePatterns: false }] */
+
+foo();
+/* a valid comment using pragma in it */
+```
+
+Examples of **incorrect** code for the `{ "applyDefaultIgnorePatterns": false }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "applyDefaultIgnorePatterns": false }] */
+
+foo();
+/* eslint mentioned in comment */
+
+```
+
 
 ## When Not To Use It
 
-Many people enjoy a terser code style and don't mind comments bumping up against code. If you
-fall into that category this rule is not for you.
+Many people enjoy a terser code style and don't mind comments bumping up against code. If you fall into that category this rule is not for you.
 
 ## Related Rules
 
 * [space-before-blocks](space-before-blocks.md)
 * [spaced-comment](spaced-comment.md)
-* [spaced-line-comment](spaced-line-comment.md) (deprecated)

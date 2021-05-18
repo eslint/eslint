@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-eslint",
-  "version": "1.0.1",
+  "version": "5.0.1",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "Default ESLint configuration for ESLint projects.",
   "scripts": {
@@ -17,10 +17,10 @@
     "type": "git",
     "url": "https://github.com/eslint/eslint"
   },
-  "homepage": "http://eslint.org",
+  "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
-  "dependencies": {
-    "js-yaml": "^3.4.3"
+  "peerDependencies": {
+    "eslint-plugin-node": "^6.0.1 || ^7.0.1 || ^8.0.0"
   },
   "keywords": [
     "eslintconfig",

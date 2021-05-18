@@ -1,4 +1,4 @@
-# Disallow unncessary concatenation of strings (no-useless-concat)
+# Disallow unnecessary concatenation of strings (no-useless-concat)
 
 It's unnecessary to concatenate two strings together, such as:
 
@@ -16,24 +16,25 @@ var foo = "ab";
 
 This rule aims to flag the concatenation of 2 literals when they could be combined into a single literal. Literals can be strings or template literals.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-useless-concat: 2*/
+/*eslint no-useless-concat: "error"*/
 /*eslint-env es6*/
 
+var a = `some` + `string`;
+
 // these are the same as "10"
-var a = `some` + `string`; /*error Unexpected string concatenation of literals.*/
-var a = '1' + '0';         /*error Unexpected string concatenation of literals.*/
-var a = '1' + `0`;         /*error Unexpected string concatenation of literals.*/
-var a = `1` + '0';         /*error Unexpected string concatenation of literals.*/
-var a = `1` + `0`;         /*error Unexpected string concatenation of literals.*/
+var a = '1' + '0';
+var a = '1' + `0`;
+var a = `1` + '0';
+var a = `1` + `0`;
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-useless-concat: 2*/
+/*eslint no-useless-concat: "error"*/
 
 // when a non string is included
 var c = a + b;

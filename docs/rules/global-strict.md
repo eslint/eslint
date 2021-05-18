@@ -1,6 +1,6 @@
-# Global Strict Mode (global-strict)
+# global-strict: require or disallow strict mode directives in the global scope
 
-**Replacement notice**: This rule was removed in ESLint v1.0 and replaced by the [strict](strict.md) rule. `"global"` mode in the strict rule is most similar to this rule.
+(removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [strict](strict.md) rule. The `"global"` option in the new rule is most similar to the removed rule.
 
 Strict mode is enabled by using the following pragma in your code:
 
@@ -16,7 +16,7 @@ However, if you're using Node.js, you may want to turn strict mode on globally. 
 
 This rule requires or disallows global strict mode invoked by a `"use strict"` pragma in the global scope.
 
-The following pattern is under strict mode globally and is considered valid with the "always" option and a warning with the "never" option.
+The following pattern is under strict mode globally and is considered valid with the `"always"` option and a warning with the `"never"` option.
 
 ```js
 "use strict";
@@ -26,7 +26,7 @@ function foo() {
 }
 ```
 
-The following patterns apply strict mode only to functions so are valid with the "never" option but are problems with the "always" option.
+The following patterns apply strict mode only to functions so are valid with the `"never"` option but are problems with the `"always"` option.
 
 ```js
 function foo() {
@@ -42,16 +42,16 @@ function foo() {
 }());
 ```
 
-### Options
+## Options
 
 ```json
-"global-strict": [2, "always"]
+"global-strict": ["error", "always"]
 ```
 
 Requires that every file have a top-level `"use strict"` statement.
 
 ```json
-"global-strict": [2, "never"]
+"global-strict": ["error", "never"]
 ```
 
 Warns whenever `"use strict"` is used in the global scope such that it could contaminate concatenated files.

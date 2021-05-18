@@ -1,12 +1,22 @@
-# Require Consistent Returns (consistent-return)
+# require `return` statements to either always or never specify values (consistent-return)
 
-One of the confusing aspects of JavaScript is that any function may or may not return a value at any point in time. When a function exits without any `return` statement executing, the function returns `undefined`. Similarly, calling `return` without specifying any value will cause the function to return `undefined`. Only when `return` is called with a value is there a change in the function's return value.
+Unlike statically-typed languages which enforce that a function returns a specified type of value, JavaScript allows different code paths in a function to return different types of values.
 
-Unlike statically-typed languages that will catch when a function doesn't return the type of data expected, JavaScript has no such checks, meaning that it's easy to make mistakes such as this:
+A confusing aspect of JavaScript is that a function returns `undefined` if any of the following are true:
+
+* it does not execute a `return` statement before it exits
+* it executes `return` which does not specify a value explicitly
+* it executes `return undefined`
+* it executes `return void` followed by an expression (for example, a function call)
+* it executes `return` followed by any other expression which evaluates to `undefined`
+
+If any code paths in a function return a value explicitly but some code path do not return a value explicitly, it might be a typing mistake, especially in a large function. In the following example:
+
+* a code path through the function returns a Boolean value `true`
+* another code path does not return a value explicitly, therefore returns `undefined` implicitly
 
 ```js
 function doSomething(condition) {
-
     if (condition) {
         return true;
     } else {
@@ -14,49 +24,119 @@ function doSomething(condition) {
     }
 }
 ```
-
-Here, one branch of the function returns `true`, a Boolean value, while the other exits without specifying any value (and so returns `undefined`). This may be an indicator of a coding error, especially if this pattern is found in larger functions.
 
 ## Rule Details
 
-This rule is aimed at ensuring all `return` statements either specify a value or don't specify a value.
+This rule requires `return` statements to either always or never specify values. This rule ignores function definitions where the name begins with an uppercase letter, because constructors (when invoked with the `new` operator) return the instantiated object implicitly if they do not return another object explicitly.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint consistent-return: 2*/
+/*eslint consistent-return: "error"*/
 
 function doSomething(condition) {
-
     if (condition) {
         return true;
     } else {
-        return;      /*error Expected a return value.*/
+        return;
     }
 }
 
 function doSomething(condition) {
-
     if (condition) {
-        return;
-    } else {
-        return true; /*error Expected no return value.*/
+        return true;
     }
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint consistent-return: 2*/
+/*eslint consistent-return: "error"*/
 
 function doSomething(condition) {
-
     if (condition) {
         return true;
     } else {
         return false;
     }
+}
+
+function Foo() {
+    if (!(this instanceof Foo)) {
+        return new Foo();
+    }
+
+    this.a = 0;
+}
+```
+
+## Options
+
+This rule has an object option:
+
+* `"treatUndefinedAsUnspecified": false` (default) always either specify values or return `undefined` implicitly only.
+* `"treatUndefinedAsUnspecified": true` always either specify values or return `undefined` explicitly or implicitly.
+
+### treatUndefinedAsUnspecified
+
+Examples of **incorrect** code for this rule with the default `{ "treatUndefinedAsUnspecified": false }` option:
+
+```js
+/*eslint consistent-return: ["error", { "treatUndefinedAsUnspecified": false }]*/
+
+function foo(callback) {
+    if (callback) {
+        return void callback();
+    }
+    // no return statement
+}
+
+function bar(condition) {
+    if (condition) {
+        return undefined;
+    }
+    // no return statement
+}
+```
+
+Examples of **incorrect** code for this rule with the `{ "treatUndefinedAsUnspecified": true }` option:
+
+```js
+/*eslint consistent-return: ["error", { "treatUndefinedAsUnspecified": true }]*/
+
+function foo(callback) {
+    if (callback) {
+        return void callback();
+    }
+    return true;
+}
+
+function bar(condition) {
+    if (condition) {
+        return undefined;
+    }
+    return true;
+}
+```
+
+Examples of **correct** code for this rule with the `{ "treatUndefinedAsUnspecified": true }` option:
+
+```js
+/*eslint consistent-return: ["error", { "treatUndefinedAsUnspecified": true }]*/
+
+function foo(callback) {
+    if (callback) {
+        return void callback();
+    }
+    // no return statement
+}
+
+function bar(condition) {
+    if (condition) {
+        return undefined;
+    }
+    // no return statement
 }
 ```
 

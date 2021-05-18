@@ -9,33 +9,33 @@ This rule restricts what can be thrown as an exception.  When it was first creat
 
 This rule is aimed at maintaining consistency when throwing exception by disallowing to throw literals and other expressions which cannot possibly be an `Error` object.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-throw-literal: 2*/
+/*eslint no-throw-literal: "error"*/
 /*eslint-env es6*/
 
-throw "error";         /*error Expected an object to be thrown.*/
+throw "error";
 
-throw 0;               /*error Expected an object to be thrown.*/
+throw 0;
 
-throw undefined;       /*error Do not throw undefined.*/
+throw undefined;
 
-throw null;            /*error Expected an object to be thrown.*/
+throw null;
 
 var err = new Error();
-throw "an " + err;     /*error Expected an object to be thrown.*/
+throw "an " + err;
 // err is recast to a string literal
 
 var err = new Error();
-throw `${err}`         /*error Expected an object to be thrown.*/
+throw `${err}`
 
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-throw-literal: 2*/
+/*eslint no-throw-literal: "error"*/
 
 throw new Error();
 
@@ -51,12 +51,14 @@ try {
 }
 ```
 
-### Known Limitations
+## Known Limitations
 
-Due to the limits of static analysis, this rule cannot guarantee that you will only throw `Error` objects.  For instance, the following cases do not throw an `Error` object, but they will not be considered problems:
+Due to the limits of static analysis, this rule cannot guarantee that you will only throw `Error` objects.
+
+Examples of **correct** code for this rule, but which do not throw an `Error` object:
 
 ```js
-/*eslint no-throw-literal: 2*/
+/*eslint no-throw-literal: "error"*/
 
 var err = "error";
 throw err;

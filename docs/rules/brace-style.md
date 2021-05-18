@@ -1,8 +1,8 @@
 # Require Brace Style (brace-style)
 
-Brace style is closely related to [indent style](http://en.wikipedia.org/wiki/Indent_style) in programming and describes the placement of curly braces relative to their control statement and body. There are probably a dozen, if not more, brace styles in the world.
+Brace style is closely related to [indent style](https://en.wikipedia.org/wiki/Indent_style) in programming and describes the placement of braces relative to their control statement and body. There are probably a dozen, if not more, brace styles in the world.
 
-The *one true brace style* is one of the most common brace styles in JavaScript, in which the opening curly brace of a block is placed on the same line as its corresponding statement or declaration. For example:
+The *one true brace style* is one of the most common brace styles in JavaScript, in which the opening brace of a block is placed on the same line as its corresponding statement or declaration. For example:
 
 ```js
 if (foo) {
@@ -12,7 +12,7 @@ if (foo) {
 }
 ```
 
-One common variant of one true brace style is called Stroustrup, in which the `else` statements in an `if-else` construct, as well as `catch` and `finally`, must be on its own line after the preceding closing brace, as in this example:
+One common variant of one true brace style is called Stroustrup, in which the `else` statements in an `if-else` construct, as well as `catch` and `finally`, must be on its own line after the preceding closing brace. For example:
 
 ```js
 if (foo) {
@@ -23,7 +23,7 @@ else {
 }
 ```
 
-Another style is called [Allman](https://en.wikipedia.org/wiki/Indent_style#Allman_style), in which all the braces are expected to be on their own lines without any extra indentation:
+Another style is called [Allman](https://en.wikipedia.org/wiki/Indent_style#Allman_style), in which all the braces are expected to be on their own lines without any extra indentation. For example:
 
 ```js
 if (foo)
@@ -40,41 +40,41 @@ While no style is considered better than the other, most developers agree that h
 
 ## Rule Details
 
-This rule is aimed at enforcing a particular brace style in JavaScript. As such, it warns whenever it sees a statement or declaration that does not adhere to the one true brace style.
+This rule enforces consistent brace style for blocks.
 
-### Options
+## Options
 
-The rule takes two options:
+This rule has a string option:
 
-1. A string which must be either "1tbs", "stroustrup" or "allman". The default is "1tbs".
-2. An object that further controls the behaviour of this rule. Currently, the only available parameter is `allowSingleLine`, which indicates whether start and end braces may be on the same line.
+* `"1tbs"` (default) enforces one true brace style
+* `"stroustrup"` enforces Stroustrup style
+* `"allman"` enforces Allman style
 
-You can set the style in configuration like this:
+This rule has an object option for an exception:
 
-```json
-"brace-style": [2, "stroustrup", { "allowSingleLine": true }]
-```
+* `"allowSingleLine": true` (default `false`) allows the opening and closing braces for a block to be on the *same* line
 
-#### "1tbs"
+### 1tbs
 
-This is the default setting for this rule and enforces one true brace style. While using this setting, the following patterns are considered problems:
+Examples of **incorrect** code for this rule with the default `"1tbs"` option:
 
 ```js
-/*eslint brace-style: 2*/
-function foo()       /*error Opening curly brace does not appear on the same line as controlling statement.*/
+/*eslint brace-style: "error"*/
+
+function foo()
 {
   return true;
 }
 
-if (foo)             /*error Opening curly brace does not appear on the same line as controlling statement.*/
+if (foo)
 {
   bar();
 }
 
-try                  /*error Opening curly brace does not appear on the same line as controlling statement.*/
+try
 {
   somethingRisky();
-} catch(e)           /*error Opening curly brace does not appear on the same line as controlling statement.*/
+} catch(e)
 {
   handleError();
 }
@@ -82,15 +82,15 @@ try                  /*error Opening curly brace does not appear on the same lin
 if (foo) {
   bar();
 }
-else {              /*error Closing curly brace does not appear on the same line as the subsequent block.*/
+else {
   baz();
 }
 ```
 
-The following patterns use the one true brace style and are not considered problems:
+Examples of **correct** code for this rule with the default `"1tbs"` option:
 
 ```js
-/*eslint brace-style: 2*/
+/*eslint brace-style: "error"*/
 
 function foo() {
   return true;
@@ -117,10 +117,10 @@ if (foo) bar();
 else if (baz) boom();
 ```
 
-With one-line form enabled, the following is also valid:
+Examples of **correct** code for this rule with the `"1tbs", { "allowSingleLine": true }` options:
 
 ```js
-/*eslint brace-style: [2, "1tbs", { "allowSingleLine": true }]*/
+/*eslint brace-style: ["error", "1tbs", { "allowSingleLine": true }]*/
 
 function nop() { return; }
 
@@ -131,43 +131,42 @@ if (foo) { bar(); } else { baz(); }
 try { somethingRisky(); } catch(e) { handleError(); }
 ```
 
-#### "stroustrup"
+### stroustrup
 
-
-This enforces Stroustrup style. While using this setting, the following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `"stroustrup"` option:
 
 ```js
-/*eslint brace-style: [2, "stroustrup"]*/
+/*eslint brace-style: ["error", "stroustrup"]*/
 
-function foo()        /*error Opening curly brace does not appear on the same line as controlling statement.*/
+function foo()
 {
   return true;
 }
 
-if (foo)              /*error Opening curly brace does not appear on the same line as controlling statement.*/
+if (foo)
 {
   bar();
 }
 
-try                   /*error Opening curly brace does not appear on the same line as controlling statement.*/
+try
 {
   somethingRisky();
-} catch(e)            /*error Opening curly brace does not appear on the same line as controlling statement.*/ /*error Closing curly brace appears on the same line as the subsequent block.*/
+} catch(e)
 {
   handleError();
 }
 
 if (foo) {
   bar();
-} else {              /*error Closing curly brace appears on the same line as the subsequent block.*/
+} else {
   baz();
 }
 ```
 
-The following patterns use the Stroustrup style and are not considered problems:
+Examples of **correct** code for this rule with the `"stroustrup"` option:
 
 ```js
-/*eslint brace-style: [2, "stroustrup"]*/
+/*eslint brace-style: ["error", "stroustrup"]*/
 
 function foo() {
   return true;
@@ -196,10 +195,10 @@ if (foo) bar();
 else if (baz) boom();
 ```
 
-With one-line form enabled, the following is also valid:
+Examples of **correct** code for this rule with the `"stroustrup", { "allowSingleLine": true }` options:
 
 ```js
-/*eslint brace-style: [2, "stroustrup", { "allowSingleLine": true }]*/
+/*eslint brace-style: ["error", "stroustrup", { "allowSingleLine": true }]*/
 
 function nop() { return; }
 
@@ -212,41 +211,40 @@ try { somethingRisky(); }
 catch(e) { handleError(); }
 ```
 
-#### "allman"
+### allman
 
-
-This enforces Allman style. While using this setting, the following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `"allman"` option:
 
 ```js
-/*eslint brace-style: [2, "allman"]*/
+/*eslint brace-style: ["error", "allman"]*/
 
-function foo() {     /*error Opening curly brace appears on the same line as controlling statement.*/
+function foo() {
   return true;
 }
 
 if (foo)
 {
-  bar(); }           /*error Closing curly brace should be on the same line as opening curly brace or on the line after the previous block.*/
+  bar(); }
 
 try
 {
   somethingRisky();
-} catch(e)           /*error Closing curly brace appears on the same line as the subsequent block.*/
+} catch(e)
 {
   handleError();
 }
 
-if (foo) {           /*error Opening curly brace appears on the same line as controlling statement.*/ /*error Opening curly brace appears on the same line as controlling statement.*/
+if (foo) {
   bar();
-} else {             /*error Closing curly brace appears on the same line as the subsequent block.*/
+} else {
   baz();
 }
 ```
 
-The following patterns use the Allman style and are not considered problems:
+Examples of **correct** code for this rule with the `"allman"` option:
 
 ```js
-/*eslint brace-style: [2, "allman"]*/
+/*eslint brace-style: ["error", "allman"]*/
 
 function foo()
 {
@@ -281,10 +279,10 @@ if (foo) bar();
 else if (baz) boom();
 ```
 
-With one-line form enabled, the following is also valid:
+Examples of **correct** code for this rule with the `"allman", { "allowSingleLine": true }` options:
 
 ```js
-/*eslint brace-style: [2, "allman", { "allowSingleLine": true }]*/
+/*eslint brace-style: ["error", "allman", { "allowSingleLine": true }]*/
 
 function nop() { return; }
 
@@ -299,8 +297,8 @@ catch(e) { handleError(); }
 
 ## When Not To Use It
 
-If your project will not be using the one true brace style, turn this rule off.
+If you don't want to enforce a particular brace style, don't enable this rule.
 
 ## Further Reading
 
-* [Indent style](http://en.wikipedia.org/wiki/Indent_style)
+* [Indent style](https://en.wikipedia.org/wiki/Indent_style)

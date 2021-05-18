@@ -2,19 +2,17 @@
 
 The `vars-on-top` rule generates warnings when variable declarations are not used serially at the top of a function scope or the top of a program.
 By default variable declarations are always moved (“hoisted”) invisibly to the top of their containing scope by the JavaScript interpreter.
-This rule forces the programmer to represent that behaviour by manually moving the variable declaration to the top of its containing scope.
+This rule forces the programmer to represent that behavior by manually moving the variable declaration to the top of its containing scope.
 
 ## Rule Details
 
 This rule aims to keep all variable declarations in the leading series of statements.
 Allowing multiple declarations helps promote maintainability and is thus allowed.
 
-### Examples
-
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint vars-on-top: 2*/
+/*eslint vars-on-top: "error"*/
 
 // Variable declarations in a block:
 function doSomething() {
@@ -22,23 +20,27 @@ function doSomething() {
     if (true) {
         first = true;
     }
-    var second;                 /*error All "var" declarations must be at the top of the function scope.*/
+    var second;
 }
 
 // Variable declaration in for initializer:
 function doSomething() {
-    for (var i=0; i<10; i++) {} /*error All "var" declarations must be at the top of the function scope.*/
+    for (var i=0; i<10; i++) {}
 }
+```
+
+```js
+/*eslint vars-on-top: "error"*/
 
 // Variables after other statements:
 f();
-var a;                          /*error All "var" declarations must be at the top of the function scope.*/
+var a;
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint vars-on-top: 2*/
+/*eslint vars-on-top: "error"*/
 
 function doSomething() {
     var first;
@@ -55,14 +57,14 @@ function doSomething() {
 ```
 
 ```js
-/*eslint vars-on-top: 2*/
+/*eslint vars-on-top: "error"*/
 
 var a;
 f();
 ```
 
 ```js
-/*eslint vars-on-top: 2*/
+/*eslint vars-on-top: "error"*/
 
 // Directives may precede variable declarations.
 "use strict";

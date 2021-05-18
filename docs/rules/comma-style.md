@@ -1,119 +1,62 @@
 # Comma style (comma-style)
 
-Comma Style rule enforces comma styles for a list of things separated by commas. There are two comma styles primarily in JavaScript. The standard one in which commas are placed at the end of the line. And Comma-First, in which, commas are placed at the start of the next line after the list item.
+The Comma Style rule enforces styles for comma-separated lists. There are two comma styles primarily used in JavaScript:
 
-One of the justifications for using Comma-First is that it helps tracking missing and trailing commas.
-In case linting is turned off, missing commas in variable declarations lead to leakage of global variables and trailing commas lead to errors in older versions of IE.
+* The standard style, in which commas are placed at the end of the current line
+* Comma First style, in which commas are placed at the start of the next line
 
+One of the justifications for using Comma First style is that it can help track missing and trailing commas. These are problematic because missing commas in variable declarations can lead to the leakage of global variables and trailing commas can lead to errors in older versions of IE.
 
 ## Rule Details
 
-This rule is aimed at enforcing a particular comma style in JavaScript. As such, it warns whenever it sees a variable declaration, object property and array element that does not adhere to a particular comma style. It doesn't support cases where there are line breaks before and after comma (lone commas) with in declarations, properties and elements. It also avoids single line declaration cases.
+This rule enforce consistent comma style in array literals, object literals, and variable declarations.
 
-### Options
+This rule does not apply in either of the following cases:
 
-The rule takes an option, a string, which could be either "last" or "first". The default is "last".
+* comma preceded and followed by linebreak (lone comma)
+* single-line array literals, object literals, and variable declarations
 
-You can set the style in configuration like this:
+## Options
 
-```json
-"comma-style": [2, "first"]
-```
+This rule has a string option:
 
-#### "last"
+* `"last"` (default) requires a comma after and on the same line as an array element, object property, or variable declaration
+* `"first"` requires a comma before and on the same line as an array element, object property, or variable declaration
 
-This is the default setting for this rule. This option requires that the comma be placed after and be in the same line as the variable declaration, object property and array element.
+This rule also accepts an additional `exceptions` object:
 
-While using this setting, the following patterns are considered problems:
+* `"exceptions"` has properties whose names correspond to node types in the abstract syntax tree (AST) of JavaScript code:
+
+    * `"ArrayExpression": true` ignores comma style in array literals
+    * `"ArrayPattern": true` ignores comma style in array patterns of destructuring
+    * `"ArrowFunctionExpression": true` ignores comma style in the parameters of arrow function expressions
+    * `"CallExpression": true` ignores comma style in the arguments of function calls
+    * `"FunctionDeclaration": true` ignores comma style in the parameters of function declarations
+    * `"FunctionExpression": true` ignores comma style in the parameters of function expressions
+    * `"ImportDeclaration": true` ignores comma style in the specifiers of import declarations
+    * `"ObjectExpression": true` ignores comma style in object literals
+    * `"ObjectPattern": true` ignores comma style in object patterns of destructuring
+    * `"VariableDeclaration": true` ignores comma style in variable declarations
+    * `"NewExpression": true` ignores comma style in the parameters of constructor expressions
+
+A way to determine the node types as defined by [ESTree](https://github.com/estree/estree) is to use the [online demo](https://eslint.org/parser).
+
+### last
+
+Examples of **incorrect** code for this rule with the default `"last"` option:
 
 ```js
-/*eslint comma-style: [2, "last"]*/
+/*eslint comma-style: ["error", "last"]*/
 
 var foo = 1
-,                        /*error Bad line breaking before and after ','.*/
+,
 bar = 2;
 
 var foo = 1
-  , bar = 2;             /*error ',' should be placed last.*/
-
-
-var foo = ["apples"
-           , "oranges"]; /*error ',' should be placed last.*/
-
-
-function bar() {
-    return {
-        "a": 1
-        ,"b:": 2         /*error ',' should be placed last.*/
-    };
-}
-
-```
-
-The following patterns are not considered problems:
-
-```js
-/*eslint comma-style: [2, "last"]*/
-
-var foo = 1, bar = 2;
-
-var foo = 1,
-    bar = 2;
-
-
-var foo = ["apples",
-           "oranges"];
-
-
-function bar() {
-    return {
-        "a": 1,
-        "b:": 2
-    };
-}
-
-```
-
-#### "first"
-
-This option requires that the comma be placed before and be in the same line as the variable declaration, object property and array element.
-
-While using this setting, the following patterns are considered problems:
-
-```js
-/*eslint comma-style: [2, "first"]*/
-
-var foo = 1,
-    bar = 2;           /*error ',' should be placed first.*/
-
-
-var foo = ["apples",
-           "oranges"]; /*error ',' should be placed first.*/
-
-
-function bar() {
-    return {
-        "a": 1,
-        "b:": 2        /*error ',' should be placed first.*/
-    };
-}
-
-```
-
-The following patterns are not considered problems:
-
-```js
-/*eslint comma-style: [2, "first"]*/
-
-var foo = 1, bar = 2;
-
-var foo = 1
-    ,bar = 2;
-
+  , bar = 2;
 
 var foo = ["apples"
-          ,"oranges"];
-
+           , "oranges"];
 
 function bar() {
     return {
@@ -121,34 +64,88 @@ function bar() {
         ,"b:": 2
     };
 }
-
 ```
 
-#### Exceptions
-
-Exceptions of the following nodes may be passed in order to tell ESLint to ignore nodes of certain types.
-
-```text
-ArrayExpression,
-ObjectExpression,
-VariableDeclaration
-```
-
-An example use case is if a user wanted to only enforce comma style in var statements.
-
-The following is considered a warning:
+Examples of **correct** code for this rule with the default `"last"` option:
 
 ```js
-/*eslint comma-style: [2, "first", {exceptions: {ArrayExpression: true, ObjectExpression: true} }]*/
+/*eslint comma-style: ["error", "last"]*/
+
+var foo = 1, bar = 2;
+
+var foo = 1,
+    bar = 2;
+
+var foo = ["apples",
+           "oranges"];
+
+function bar() {
+    return {
+        "a": 1,
+        "b:": 2
+    };
+}
+```
+
+### first
+
+Examples of **incorrect** code for this rule with the `"first"` option:
+
+```js
+/*eslint comma-style: ["error", "first"]*/
+
+var foo = 1,
+    bar = 2;
+
+var foo = ["apples",
+           "oranges"];
+
+function bar() {
+    return {
+        "a": 1,
+        "b:": 2
+    };
+}
+```
+
+Examples of **correct** code for this rule with the `"first"` option:
+
+```js
+/*eslint comma-style: ["error", "first"]*/
+
+var foo = 1, bar = 2;
+
+var foo = 1
+    ,bar = 2;
+
+var foo = ["apples"
+          ,"oranges"];
+
+function bar() {
+    return {
+        "a": 1
+        ,"b:": 2
+    };
+}
+```
+
+### exceptions
+
+An example use case is to enforce comma style *only* in var statements.
+
+Examples of **incorrect** code for this rule with sample `"first", { "exceptions": { … } }` options:
+
+```js
+/*eslint comma-style: ["error", "first", { "exceptions": { "ArrayExpression": true, "ObjectExpression": true } }]*/
 
 var o = {},
-    a = []; /*error ',' should be placed first.*/
+    a = [];
 ```
 
-But the following would not be a warning:
+Examples of **correct** code for this rule with sample `"first", { "exceptions": { … } }` options:
 
 ```js
-/*eslint comma-style: [2, "first", {exceptions: {ArrayExpression: true, ObjectExpression: true} }]*/
+/*eslint comma-style: ["error", "first", { "exceptions": { "ArrayExpression": true, "ObjectExpression": true } }]*/
 
 var o = {fst:1,
          snd: [1,
@@ -158,12 +155,12 @@ var o = {fst:1,
 
 ## When Not To Use It
 
-If your project will not be using one true comma style, turn this rule off.
+This rule can safely be turned off if your project does not care about enforcing a consistent comma style.
 
 
 ## Further Reading
 
-For the first option in comma-style rule:
+For more information on the Comma First style:
 
 * [A better coding convention for lists and object literals in JavaScript by isaacs](https://gist.github.com/isaacs/357981)
 * [npm coding style guideline](https://docs.npmjs.com/misc/coding-style)

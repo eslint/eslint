@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for no-process-env rule.
  * @author Vignesh Anand
- * @copyright 2014 Vignesh Anand. All rights reserved.
  */
 "use strict";
 
@@ -9,14 +8,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-process-env"),
+const rule = require("../../../lib/rules/no-process-env"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("no-process-env", rule, {
 
     valid: [

@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/wrap-regex"),
+const rule = require("../../../lib/rules/wrap-regex"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -17,7 +17,8 @@ var rule = require("../../../lib/rules/wrap-regex"),
 //------------------------------------------------------------------------------
 
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("wrap-regex", rule, {
     valid: [
         "(/foo/).test(bar);",
@@ -27,10 +28,22 @@ ruleTester.run("wrap-regex", rule, {
         "a[/b/];"
     ],
     invalid: [
-        { code: "/foo/.test(bar);",
-          errors: [{ message: "Wrap the regexp literal in parens to disambiguate the slash.", type: "Literal"}] },
-        { code: "/foo/ig.test(bar);",
-          errors: [{ message: "Wrap the regexp literal in parens to disambiguate the slash.", type: "Literal"}] }
+        {
+            code: "/foo/.test(bar);",
+            output: "(/foo/).test(bar);",
+            errors: [{ message: "Wrap the regexp literal in parens to disambiguate the slash.", type: "Literal" }]
+        },
+        {
+            code: "/foo/ig.test(bar);",
+            output: "(/foo/ig).test(bar);",
+            errors: [{ message: "Wrap the regexp literal in parens to disambiguate the slash.", type: "Literal" }]
+        },
 
+        // https://github.com/eslint/eslint/issues/10573
+        {
+            code: "if(/foo/ig.test(bar));",
+            output: "if((/foo/ig).test(bar));",
+            errors: [{ message: "Wrap the regexp literal in parens to disambiguate the slash.", type: "Literal" }]
+        }
     ]
 });

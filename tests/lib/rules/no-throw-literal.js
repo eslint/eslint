@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for no-throw-literal rule.
  * @author Dieter Oberkofler
- * @copyright 2015 Dieter Oberkofler. All rights reserved.
  */
 
 "use strict";
@@ -10,14 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-throw-literal"),
+const rule = require("../../../lib/rules/no-throw-literal"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("no-throw-literal", rule, {
     valid: [
         "throw new Error();",
@@ -36,8 +36,9 @@ ruleTester.run("no-throw-literal", rule, {
         "throw new Error() || 'literal';", // LogicalExpression (left)
         "throw foo ? new Error() : 'literal';", // ConditionalExpression (consequent)
         "throw foo ? 'literal' : new Error();", // ConditionalExpression (alternate)
-        { code: "throw tag `${foo}`;", ecmaFeatures: {templateStrings: true} }, // TaggedTemplateExpression
-        { code: "function* foo() { var index = 0; throw yield index++; }", ecmaFeatures: {generators: true} } // YieldExpression
+        { code: "throw tag `${foo}`;", parserOptions: { ecmaVersion: 6 } }, // TaggedTemplateExpression
+        { code: "function* foo() { var index = 0; throw yield index++; }", parserOptions: { ecmaVersion: 6 } }, // YieldExpression
+        { code: "async function foo() { throw await bar; }", parserOptions: { ecmaVersion: 8 } } // AwaitExpression
     ],
     invalid: [
         {
@@ -75,6 +76,7 @@ ruleTester.run("no-throw-literal", rule, {
                 type: "ThrowStatement"
             }]
         },
+
         // String concatenation
         {
             code: "throw 'a' + 'b';",
@@ -90,6 +92,7 @@ ruleTester.run("no-throw-literal", rule, {
                 type: "ThrowStatement"
             }]
         },
+
         // AssignmentExpression
         {
             code: "throw foo = 'error';",
@@ -98,6 +101,7 @@ ruleTester.run("no-throw-literal", rule, {
                 type: "ThrowStatement"
             }]
         },
+
         // SequenceExpression
         {
             code: "throw new Error(), 1, 2, 3;",
@@ -106,6 +110,7 @@ ruleTester.run("no-throw-literal", rule, {
                 type: "ThrowStatement"
             }]
         },
+
         // LogicalExpression
         {
             code: "throw 'literal' && 'not an Error';",
@@ -114,6 +119,7 @@ ruleTester.run("no-throw-literal", rule, {
                 type: "ThrowStatement"
             }]
         },
+
         // ConditionalExpression
         {
             code: "throw foo ? 'not an Error' : 'literal';",
@@ -122,10 +128,11 @@ ruleTester.run("no-throw-literal", rule, {
                 type: "ThrowStatement"
             }]
         },
+
         // TemplateLiteral
         {
             code: "throw `${err}`;",
-            ecmaFeatures: {templateStrings: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Expected an object to be thrown.",
                 type: "ThrowStatement"

@@ -1,4 +1,4 @@
-# Disallow Function Assignment (no-func-assign)
+# disallow reassigning `function` declarations (no-func-assign)
 
 JavaScript functions can be written as a FunctionDeclaration `function foo() { ... }` or as a FunctionExpression `var foo = function() { ... };`. While a JavaScript interpreter might tolerate it, overwriting/reassigning a function written as a FunctionDeclaration is often indicative of a mistake or issue.
 
@@ -9,34 +9,34 @@ foo = bar;
 
 ## Rule Details
 
-This rule is aimed at flagging probable mistakes and issues in the form of overwriting a function that was written as a FunctionDeclaration. As such it will warn when this issue is encountered.
+This rule disallows reassigning `function` declarations.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-func-assign: 2*/
+/*eslint no-func-assign: "error"*/
 
 function foo() {}
-foo = bar;        /*error 'foo' is a function.*/
+foo = bar;
 
 function foo() {
-    foo = bar;    /*error 'foo' is a function.*/
+    foo = bar;
 }
 ```
 
-Unlike the same rule in JSHint, the following pattern is also considered a warning:
+Examples of **incorrect** code for this rule, unlike the corresponding rule in JSHint:
 
 ```js
-/*eslint no-func-assign: 2*/
+/*eslint no-func-assign: "error"*/
 
-foo = bar;        /*error 'foo' is a function.*/
+foo = bar;
 function foo() {}
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-func-assign: 2*/
+/*eslint no-func-assign: "error"*/
 
 var foo = function () {}
 foo = bar;

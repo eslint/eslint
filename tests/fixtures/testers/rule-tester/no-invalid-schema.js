@@ -1,7 +1,7 @@
 /**
- ** @fileoverview Test rule to flag invalid schemas
- ** @author Brandon Mills
- **/
+ * @fileoverview Test rule to flag invalid schemas
+ * @author Brandon Mills
+ */
 
 //------------------------------------------------------------------------------
 // Rule Definition

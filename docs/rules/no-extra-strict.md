@@ -1,6 +1,6 @@
-# Disallow Unnecessary Strict Pragma (no-extra-strict)
+# no-extra-strict: disallow strict mode directives when already in strict mode
 
-**Replacement notice**: This rule was removed in ESLint v1.0 and replaced by the [strict](strict.md) rule. Both `"global"` and `"function"` mode in the strict rule implement this rule's behavior.
+(removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [strict](strict.md) rule. The `"global"` or `"function"` options in the new rule are similar to the removed rule.
 
 The `"use strict";` directive applies to the scope in which it appears and all inner scopes contained within that scope. Therefore, using the `"use strict";` directive in one of these inner scopes is unnecessary.
 
@@ -17,7 +17,7 @@ The `"use strict";` directive applies to the scope in which it appears and all i
 
 This rule is aimed at preventing unnecessary `"use strict";` directives. As such, it will warn when it encounters a `"use strict";` directive when already in strict mode.
 
-The following patterns are considered problems:
+Example of **incorrect** code for this rule:
 
 ```js
 "use strict";
@@ -28,7 +28,7 @@ The following patterns are considered problems:
 }());
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 "use strict";
@@ -37,8 +37,6 @@ The following patterns are not considered problems:
     var foo = true;
 }());
 ```
-
-
 
 ```js
 (function () {
@@ -49,4 +47,4 @@ The following patterns are not considered problems:
 
 ## Further Reading
 
-* [The ECMAScript 5 Annotated Specification - Strict Mode](http://es5.github.io/#C)
+* [The ECMAScript 5 Annotated Specification - Strict Mode](https://es5.github.io/#C)

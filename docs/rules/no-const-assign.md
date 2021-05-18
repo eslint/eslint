@@ -9,36 +9,36 @@ Under non ES2015 environment, it might be ignored merely.
 
 This rule is aimed to flag modifying variables that are declared using `const` keyword.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-const-assign: 2*/
+/*eslint no-const-assign: "error"*/
 /*eslint-env es6*/
 
 const a = 0;
-a = 1;       /*error `a` is constant.*/
+a = 1;
 ```
 
 ```js
-/*eslint no-const-assign: 2*/
+/*eslint no-const-assign: "error"*/
 /*eslint-env es6*/
 
 const a = 0;
-a += 1;      /*error `a` is constant.*/
+a += 1;
 ```
 
 ```js
-/*eslint no-const-assign: 2*/
+/*eslint no-const-assign: "error"*/
 /*eslint-env es6*/
 
 const a = 0;
-++a;         /*error `a` is constant.*/
+++a;
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-const-assign: 2*/
+/*eslint no-const-assign: "error"*/
 /*eslint-env es6*/
 
 const a = 0;
@@ -46,7 +46,7 @@ console.log(a);
 ```
 
 ```js
-/*eslint no-const-assign: 2*/
+/*eslint no-const-assign: "error"*/
 /*eslint-env es6*/
 
 for (const a in [1, 2, 3]) { // `a` is re-defined (not modified) on each loop step.
@@ -55,7 +55,7 @@ for (const a in [1, 2, 3]) { // `a` is re-defined (not modified) on each loop st
 ```
 
 ```js
-/*eslint no-const-assign: 2*/
+/*eslint no-const-assign: "error"*/
 /*eslint-env es6*/
 
 for (const a of [1, 2, 3]) { // `a` is re-defined (not modified) on each loop step.
@@ -63,6 +63,6 @@ for (const a of [1, 2, 3]) { // `a` is re-defined (not modified) on each loop st
 }
 ```
 
-## When Not to Use It
+## When Not To Use It
 
 If you don't want to be notified about modifying variables that are declared using `const` keyword, you can safely disable this rule.

@@ -1,6 +1,6 @@
-# Enforce Function Style (func-style)
+# enforce the consistent use of either `function` declarations or expressions (func-style)
 
-There are two ways of defining functions in JavaScript: function declarations and function expressions. Declarations have the `function` keyword first, followed by a name, followed by its arguments and the function body, such as:
+There are two ways of defining functions in JavaScript: `function` declarations and `function` expressions. Declarations contain the `function` keyword first, followed by a name and then its arguments and the function body, for example:
 
 ```js
 function doSomething() {
@@ -8,7 +8,7 @@ function doSomething() {
 }
 ```
 
-Equivalent function expressions begin with the `var` keyword, followed by a name, and then the function itself, such as:
+Equivalent function expressions begin with the `var` keyword, followed by a name and then the function itself, such as:
 
 ```js
 var doSomething = function() {
@@ -16,7 +16,7 @@ var doSomething = function() {
 };
 ```
 
-The primary difference between function declarations and function expressions is that declarations are *hoisted* to the top of the scope in which they are defined, which allows you to write code that uses the function before the declaration. For example:
+The primary difference between `function` declarations and `function expressions` is that declarations are *hoisted* to the top of the scope in which they are defined, which allows you to write code that uses the function before its declaration. For example:
 
 ```js
 doSomething();
@@ -26,9 +26,9 @@ function doSomething() {
 }
 ```
 
-Although this code might seem like an error, it actually works fine because JavaScript engines hoist the function declarations to the top of the scope. That means this code is treated as if the declaration came before the invocation.
+Although this code might seem like an error, it actually works fine because JavaScript engines hoist the `function` declarations to the top of the scope. That means this code is treated as if the declaration came before the invocation.
 
-For function expressions, you must define the function before it is used, otherwise it causes an error. Example:
+For `function` expressions, you must define the function before it is used, otherwise it causes an error. Example:
 
 ```js
 doSomething();  // error!
@@ -44,36 +44,59 @@ Due to these different behaviors, it is common to have guidelines as to which st
 
 ## Rule Details
 
-This error is aimed at enforcing a particular type of function style throughout a JavaScript file, either declarations or expressions. You can specify which you prefer in the configuration.
+This rule enforces a particular type of `function` style throughout a JavaScript file, either declarations or expressions. You can specify which you prefer in the configuration.
 
-The following patterns are considered problems:
+## Options
+
+This rule has a string option:
+
+* `"expression"` (default) requires the use of function expressions instead of function declarations
+* `"declaration"` requires the use of function declarations instead of function expressions
+
+This rule has an object option for an exception:
+
+* `"allowArrowFunctions": true` (default `false`) allows the use of arrow functions (honoured only when using `declaration`)
+
+### expression
+
+Examples of **incorrect** code for this rule with the default `"expression"` option:
 
 ```js
-/*eslint func-style: [2, "declaration"]*/
+/*eslint func-style: ["error", "expression"]*/
 
-var foo = function() {  /*error Expected a function declaration.*/
-    // ...
-};
-```
-
-```js
-/*eslint func-style: [2, "expression"]*/
-
-function foo() {  /*error Expected a function expression.*/
+function foo() {
     // ...
 }
 ```
 
-```js
-/*eslint func-style: [2, "declaration"]*/
+Examples of **correct** code for this rule with the default `"expression"` option:
 
-var foo = () => {};  /*error Expected a function declaration.*/
+```js
+/*eslint func-style: ["error", "expression"]*/
+
+var foo = function() {
+    // ...
+};
 ```
 
-The following patterns are not considered problems:
+### declaration
+
+Examples of **incorrect** code for this rule with the `"declaration"` option:
 
 ```js
-/*eslint func-style: [2, "declaration"]*/
+/*eslint func-style: ["error", "declaration"]*/
+
+var foo = function() {
+    // ...
+};
+
+var foo = () => {};
+```
+
+Examples of **correct** code for this rule with the `"declaration"` option:
+
+```js
+/*eslint func-style: ["error", "declaration"]*/
 
 function foo() {
     // ...
@@ -85,40 +108,15 @@ SomeObject.foo = function() {
 };
 ```
 
-```js
-/*eslint func-style: [2, "expression"]*/
+### allowArrowFunctions
 
-var foo = function() {
-    // ...
-};
-```
+Examples of additional **correct** code for this rule with the `"declaration", { "allowArrowFunctions": true }` options:
 
 ```js
-/*eslint func-style: [2, "declaration", { "allowArrowFunctions": true }]*/
+/*eslint func-style: ["error", "declaration", { "allowArrowFunctions": true }]*/
 
 var foo = () => {};
 ```
-
-
-### Options
-
-```json
-"func-style": [2, "declaration"]
-```
-
-This reports an error if any function expressions are used where function declarations are expected. You can specify to use expressions instead:
-
-```json
-"func-style": [2, "expression"]
-```
-
-This configuration reports an error when function declarations are used instead of function expressions.
-
-```json
-"func-style": [2, "expression", { "allowArrowFunctions": true }]
-```
-
-This configuration works as expression setting works but does not check for arrow functions.
 
 ## When Not To Use It
 

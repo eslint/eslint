@@ -1,6 +1,6 @@
 # Disallow Use of the Comma Operator (no-sequences)
 
-The comma operator includes multiple expressions where only one is expected. It evaluates each operand from left to right and returns the value of the last operand. However, this frequently obscures side effects, and its use is often an accident. Here are some examples of its use:
+The comma operator includes multiple expressions where only one is expected. It evaluates each operand from left to right and returns the value of the last operand. However, this frequently obscures side effects, and its use is often an accident. Here are some examples of sequences:
 
 ```js
 var a = (3, 5); // a = 5
@@ -9,7 +9,7 @@ a = b += 5, a + b;
 
 while (a = next(), a && a.length);
 
-(0,eval)("doSomething();");
+(0, eval)("doSomething();");
 ```
 
 ## Rule Details
@@ -19,34 +19,36 @@ This rule forbids the use of the comma operator, with the following exceptions:
 * In the initialization or update portions of a `for` statement.
 * If the expression sequence is explicitly wrapped in parentheses.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-sequences: 2*/
+/*eslint no-sequences: "error"*/
 
-foo = doSomething, val;              /*error Unexpected use of comma operator.*/
+foo = doSomething(), val;
 
-do {} while (doSomething(), !!test); /*error Unexpected use of comma operator.*/
+0, eval("doSomething();");
 
-for (; doSomething(), !!test; );     /*error Unexpected use of comma operator.*/
+do {} while (doSomething(), !!test);
 
-if (doSomething(), !!test);          /*error Unexpected use of comma operator.*/
+for (; doSomething(), !!test; );
 
-switch (val = foo(), val) {}         /*error Unexpected use of comma operator.*/
+if (doSomething(), !!test);
 
-while (val = foo(), val < 42);       /*error Unexpected use of comma operator.*/
+switch (val = foo(), val) {}
 
-with (doSomething(), val) {}         /*error Unexpected use of comma operator.*/
+while (val = foo(), val < 42);
+
+with (doSomething(), val) {}
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-sequences: 2*/
+/*eslint no-sequences: "error"*/
 
 foo = (doSomething(), val);
 
-(0,eval)("doSomething();");
+(0, eval)("doSomething();");
 
 do {} while ((doSomething(), !!test));
 
@@ -64,3 +66,12 @@ while ((val = foo(), val < 42));
 ## When Not To Use It
 
 Disable this rule if sequence expressions with the comma operator are acceptable.
+Another case is where you might want to report all usages of the comma operator, even if they are wrapped in parentheses or in a for loop. You can achieve this using rule `no-restricted-syntax`:
+
+```js
+{
+    "rules": {
+        "no-restricted-syntax": ["error", "SequenceExpression"]
+    }
+}
+```

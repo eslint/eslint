@@ -1,14 +1,16 @@
-# No irregular whitespace (no-irregular-whitespace)
+# disallow irregular whitespace (no-irregular-whitespace)
 
 Invalid or irregular whitespace causes issues with ECMAScript 5 parsers and also makes code harder to debug in a similar nature to mixed tabs and spaces.
 
-Various whitespace characters can be inputted by programmers by mistake for example from copying or keyboard shortcuts. Pressing Alt + Space on OS X adds in a non breaking space character for example.
+Various whitespace characters can be inputted by programmers by mistake for example from copying or keyboard shortcuts. Pressing Alt + Space on macOS adds in a non breaking space character for example.
+
+A simple fix for this problem could be to rewrite the offending line from scratch. This might also be a problem introduced by the text editor: if rewriting the line does not fix it, try using a different editor.
 
 Known issues these spaces cause:
 
 * Zero Width Space
     * Is NOT considered a separator for tokens and is often parsed as an `Unexpected token ILLEGAL`
-    * Is NOT shown in modern browsers making code repository software expected to resolve the visualisation
+    * Is NOT shown in modern browsers making code repository software expected to resolve the visualization
 * Line Separator
     * Is NOT a valid character within JSON which would cause parse errors
 
@@ -16,7 +18,7 @@ Known issues these spaces cause:
 
 This rule is aimed at catching invalid whitespace that is not a normal tab and space. Some of these characters may cause issues in modern browsers and others will be a debugging issue to spot.
 
-With this rule enabled the following characters will cause warnings outside of strings:
+This rule disallows the following characters except where the options allow:
 
     \u000B - Line Tabulation (\v) - <VT>
     \u000C - Form Feed (\f) - <FF>
@@ -43,51 +45,120 @@ With this rule enabled the following characters will cause warnings outside of s
     \u205f - Medium Mathematical Space
     \u3000 - Ideographic Space
 
-The following examples are considered problems:
+## Options
+
+This rule has an object option for exceptions:
+
+* `"skipStrings": true` (default) allows any whitespace characters in string literals
+* `"skipComments": true` allows any whitespace characters in comments
+* `"skipRegExps": true` allows any whitespace characters in regular expression literals
+* `"skipTemplates": true` allows any whitespace characters in template literals
+
+### skipStrings
+
+Examples of **incorrect** code for this rule with the default `{ "skipStrings": true }` option:
 
 ```js
-/*eslint no-irregular-whitespace: 2*/
+/*eslint no-irregular-whitespace: "error"*/
 
-function thing() /*<NBSP>*/{ /*error Irregular whitespace not allowed*/
-  return 'test';
+function thing() /*<NBSP>*/{
+    return 'test';
 }
 
-function thing( /*<NBSP>*/){ /*error Irregular whitespace not allowed*/
-  return 'test';
+function thing( /*<NBSP>*/){
+    return 'test';
 }
 
-function thing /*<NBSP>*/(){ /*error Irregular whitespace not allowed*/
-  return 'test';
+function thing /*<NBSP>*/(){
+    return 'test';
 }
 
-function thing᠎/*<MVS>*/(){   /*error Irregular whitespace not allowed*/
-  return 'test';
-}
-
-function thing() {
-  return 'test'; /*<ENSP>*/  /*error Irregular whitespace not allowed*/
+function thing᠎/*<MVS>*/(){
+    return 'test';
 }
 
 function thing() {
-  return 'test'; /*<NBSP>*/  /*error Irregular whitespace not allowed*/
+    return 'test'; /*<ENSP>*/
+}
+
+function thing() {
+    return 'test'; /*<NBSP>*/
+}
+
+function thing() {
+    // Description <NBSP>: some descriptive text
+}
+
+/*
+Description <NBSP>: some descriptive text
+*/
+
+function thing() {
+    return / <NBSP>regexp/;
+}
+
+/*eslint-env es6*/
+function thing() {
+    return `template <NBSP>string`;
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the default `{ "skipStrings": true }` option:
 
 ```js
-/*eslint no-irregular-whitespace: 2*/
+/*eslint no-irregular-whitespace: "error"*/
 
 function thing() {
-  return ' <NBSP>thing';
+    return ' <NBSP>thing';
 }
 
 function thing() {
-  return '​<ZWSP>thing';
+    return '​<ZWSP>thing';
 }
 
 function thing() {
-  return 'th <NBSP>ing';
+    return 'th <NBSP>ing';
+}
+```
+
+### skipComments
+
+Examples of additional **correct** code for this rule with the `{ "skipComments": true }` option:
+
+```js
+/*eslint no-irregular-whitespace: ["error", { "skipComments": true }]*/
+
+function thing() {
+    // Description <NBSP>: some descriptive text
+}
+
+/*
+Description <NBSP>: some descriptive text
+*/
+```
+
+### skipRegExps
+
+Examples of additional **correct** code for this rule with the `{ "skipRegExps": true }` option:
+
+```js
+/*eslint no-irregular-whitespace: ["error", { "skipRegExps": true }]*/
+
+function thing() {
+    return / <NBSP>regexp/;
+}
+```
+
+### skipTemplates
+
+Examples of additional **correct** code for this rule with the `{ "skipTemplates": true }` option:
+
+```js
+/*eslint no-irregular-whitespace: ["error", { "skipTemplates": true }]*/
+/*eslint-env es6*/
+
+function thing() {
+    return `template <NBSP>string`;
 }
 ```
 

@@ -1,66 +1,65 @@
-# Limit Maximum Depth (max-depth)
+# enforce a maximum depth that blocks can be nested (max-depth)
 
-The `max-depth` rule allows you to specify the maximum depth blocks can be nested.
-
-```js
-function foo() {
-  for (;;) { // Nested 1 deep.
-    if (true) { // Nested 2 deep.
-      if (true) { // Nested 3 deep.
-
-      }
-    }
-  }
-}
-```
+Many developers consider code difficult to read if blocks are nested beyond a certain depth.
 
 ## Rule Details
 
-This rule aims to reduce the complexity of your code by allowing you to configure the maximum depth blocks can be nested in a function. As such, it will warn when blocks are nested too deeply.
+This rule enforces a maximum depth that blocks can be nested to reduce code complexity.
 
-### Options
+## Options
 
-The default depth above which this rule will warn is `4`.  You can configure the depth as an option by using the second argument in your configuration. For example, this sets the rule as an error with a maximum depth of 10:
+This rule has a number or object option:
 
-```json
-"max-depth": [2, 10]
-```
+* `"max"` (default `4`) enforces a maximum depth that blocks can be nested
 
-The following patterns are considered problems:
+**Deprecated:** The object property `maximum` is deprecated; please use the object property `max` instead.
+
+### max
+
+Examples of **incorrect** code for this rule with the default `{ "max": 4 }` option:
 
 ```js
-/*eslint max-depth: [2, 2]*/
+/*eslint max-depth: ["error", 4]*/
+/*eslint-env es6*/
 
 function foo() {
-  for (;;) {
-    if (true) {
-      if (true) { /*error Blocks are nested too deeply (3).*/
-
-      }
+    for (;;) { // Nested 1 deep
+        let val = () => (param) => { // Nested 2 deep
+            if (true) { // Nested 3 deep
+                if (true) { // Nested 4 deep
+                    if (true) { // Nested 5 deep
+                    }
+                }
+            }
+        };
     }
-  }
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the default `{ "max": 4 }` option:
 
 ```js
-/*eslint max-depth: [2, 2]*/
+/*eslint max-depth: ["error", 4]*/
+/*eslint-env es6*/
 
 function foo() {
-  for (;;) {
-    if (true) {
-
+    for (;;) { // Nested 1 deep
+        let val = () => (param) => { // Nested 2 deep
+           if (true) { // Nested 3 deep
+                if (true) { // Nested 4 deep
+                }
+            }
+        };
     }
-  }
 }
 ```
-
 
 ## Related Rules
 
 * [complexity](complexity.md)
 * [max-len](max-len.md)
+* [max-lines](max-lines.md)
+* [max-lines-per-function](max-lines-per-function.md)
 * [max-nested-callbacks](max-nested-callbacks.md)
 * [max-params](max-params.md)
 * [max-statements](max-statements.md)

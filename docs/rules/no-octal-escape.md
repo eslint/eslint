@@ -1,6 +1,6 @@
-# Disallow Octal Escapes (no-octal-escape)
+# disallow octal escape sequences in string literals (no-octal-escape)
 
-As of version 5 of the ECMAScript specification, octal escape sequences are a deprecated feature and should not be used. It is recommended that Unicode escapes be used instead.
+As of the ECMAScript 5 specification, octal escape sequences in string literals are deprecated and should not be used. Unicode escape sequences should be used instead.
 
 ```js
 var foo = "Copyright \251";
@@ -8,20 +8,22 @@ var foo = "Copyright \251";
 
 ## Rule Details
 
-The rule is aimed at preventing the use of a deprecated JavaScript feature, the use of octal escape sequences. As such it will warn whenever an octal escape sequence is found in a string literal.
+This rule disallows octal escape sequences in string literals.
 
-The following patterns are considered problems:
+If ESLint parses code in strict mode, the parser (instead of this rule) reports the error.
+
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-octal-escape: 2*/
+/*eslint no-octal-escape: "error"*/
 
-var foo = "Copyright \251"; /*error Don't use octal: '\251'. Use '\u....' instead.*/
+var foo = "Copyright \251";
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-octal-escape: 2*/
+/*eslint no-octal-escape: "error"*/
 
 var foo = "Copyright \u00A9";   // unicode
 

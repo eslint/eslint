@@ -1,4 +1,8 @@
-# Require or disallow spaces following keywords (space-after-keywords)
+# space-after-keywords: enforce consistent spacing after keywords
+
+(removed) This rule was **removed** in ESLint v2.0 and replaced by the [keyword-spacing](keyword-spacing.md) rule.
+
+(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixed problems reported by this rule.
 
 Some style guides will require or disallow spaces following the certain keywords.
 
@@ -16,8 +20,6 @@ if(condition) {
 }
 ```
 
-**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
-
 ## Rule Details
 
 This rule will enforce consistency of spacing after the keywords `if`, `else`, `for`, `while`, `do`, `switch`, `try`, `catch`, `finally`, and `with`.
@@ -25,28 +27,28 @@ This rule will enforce consistency of spacing after the keywords `if`, `else`, `
 This rule takes one argument. If it is `"always"` then the keywords must be followed by at least one space. If `"never"`
 then there should be no spaces following. The default is `"always"`.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint space-after-keywords: 2*/
+/*eslint space-after-keywords: "error"*/
 
-if(a) {}         /*error Keyword "if" must be followed by whitespace.*/
+if(a) {}
 
-if (a) {} else{} /*error Keyword "else" must be followed by whitespace.*/
+if (a) {} else{}
 
-do{} while (a);  /*error Keyword "do" must be followed by whitespace.*/
+do{} while (a);
 ```
 
 ```js
-/*eslint space-after-keywords: [2, "never"]*/
+/*eslint space-after-keywords: ["error", "never"]*/
 
-if (a) {}        /*error Keyword "if" must not be followed by whitespace.*/
+if (a) {}
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint space-after-keywords: 2*/
+/*eslint space-after-keywords: "error"*/
 
 if (a) {}
 
@@ -54,7 +56,7 @@ if (a) {} else {}
 ```
 
 ```js
-/*eslint space-after-keywords: [2, "never"]*/
+/*eslint space-after-keywords: ["error", "never"]*/
 
 if(a) {}
 ```

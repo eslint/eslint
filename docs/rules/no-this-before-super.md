@@ -8,44 +8,46 @@ This rule checks `this`/`super` keywords in constructors, then reports those tha
 
 This rule is aimed to flag `this`/`super` keywords before `super()` callings.
 
-The following patterns are considered problems:
+## Examples
+
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-this-before-super: 2*/
+/*eslint no-this-before-super: "error"*/
 /*eslint-env es6*/
 
 class A extends B {
     constructor() {
-        this.a = 0;        /*error "this" is not allowed before super()*/
+        this.a = 0;
         super();
     }
 }
 
 class A extends B {
     constructor() {
-        this.foo();        /*error "this" is not allowed before super()*/
+        this.foo();
         super();
     }
 }
 
 class A extends B {
     constructor() {
-        super.foo();       /*error "super" is not allowed before super()*/
+        super.foo();
         super();
     }
 }
 
 class A extends B {
     constructor() {
-        super(this.foo()); /*error "this" is not allowed before super()*/
+        super(this.foo());
     }
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-this-before-super: 2*/
+/*eslint no-this-before-super: "error"*/
 /*eslint-env es6*/
 
 class A {
@@ -68,6 +70,6 @@ class A extends B {
 }
 ```
 
-## When Not to Use It
+## When Not To Use It
 
 If you don't want to be notified about using `this`/`super` before `super()` in constructors, you can safely disable this rule.

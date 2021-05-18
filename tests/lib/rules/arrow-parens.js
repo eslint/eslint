@@ -9,127 +9,256 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/arrow-parens"),
+const baseParser = require("../../fixtures/fixture-parser"),
+    rule = require("../../../lib/rules/arrow-parens"),
     RuleTester = require("../../../lib/testers/rule-tester");
+
+const parser = baseParser.bind(null, "arrow-parens");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
-var valid = [
-    { code: "() => {}", ecmaFeatures: { arrowFunctions: true } },
-    { code: "(a) => {}", ecmaFeatures: { arrowFunctions: true } },
-    { code: "(a) => a", ecmaFeatures: { arrowFunctions: true } },
-    { code: "(a) => {\n}", ecmaFeatures: { arrowFunctions: true } },
-    { code: "a.then((foo) => {});", ecmaFeatures: { arrowFunctions: true } },
-    { code: "a.then((foo) => { if (true) {}; });", ecmaFeatures: { arrowFunctions: true } },
+const valid = [
 
-    // as-needed
-    { code: "() => {}", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true } },
-    { code: "a => {}", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true } },
-    { code: "a => a", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true } },
-    { code: "([a, b]) => {}", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true, destructuring: true } },
-    { code: "({ a, b }) => {}", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true, destructuring: true } },
-    { code: "(a = 10) => {}", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true, destructuring: true, defaultParams: true } },
-    { code: "(...a) => a[0]", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true, restParams: true } },
-    { code: "(a, b) => {}", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true } }
+    // "always" (by default)
+    "() => {}",
+    "(a) => {}",
+    "(a) => a",
+    "(a) => {\n}",
+    "a.then((foo) => {});",
+    "a.then((foo) => { if (true) {}; });",
+    { code: "a.then(async (foo) => { if (true) {}; });", parserOptions: { ecmaVersion: 8 } },
 
+    // "always" (explicit)
+    { code: "() => {}", options: ["always"] },
+    { code: "(a) => {}", options: ["always"] },
+    { code: "(a) => a", options: ["always"] },
+    { code: "(a) => {\n}", options: ["always"] },
+    { code: "a.then((foo) => {});", options: ["always"] },
+    { code: "a.then((foo) => { if (true) {}; });", options: ["always"] },
+    { code: "a.then(async (foo) => { if (true) {}; });", options: ["always"], parserOptions: { ecmaVersion: 8 } },
+
+    // "as-needed"
+    { code: "() => {}", options: ["as-needed"] },
+    { code: "a => {}", options: ["as-needed"] },
+    { code: "a => a", options: ["as-needed"] },
+    { code: "([a, b]) => {}", options: ["as-needed"] },
+    { code: "({ a, b }) => {}", options: ["as-needed"] },
+    { code: "(a = 10) => {}", options: ["as-needed"] },
+    { code: "(...a) => a[0]", options: ["as-needed"] },
+    { code: "(a, b) => {}", options: ["as-needed"] },
+    { code: "async ([a, b]) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 8 } },
+    { code: "async (a, b) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 8 } },
+    { code: "(a: T) => a", options: ["as-needed"], parser: parser("identifer-type") },
+    { code: "(a): T => a", options: ["as-needed"], parser: parser("return-type") },
+
+    // "as-needed", { "requireForBlockBody": true }
+    { code: "() => {}", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "a => a", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "([a, b]) => {}", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "([a, b]) => a", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "({ a, b }) => {}", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "({ a, b }) => a + b", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "(a = 10) => {}", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "(...a) => a[0]", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "(a, b) => {}", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "a => ({})", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "async a => ({})", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
+    { code: "async a => a", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
+    { code: "(a: T) => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("identifer-type") },
+    { code: "(a): T => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("return-type") }
 ];
 
-var message = message;
-var asNeededMessage = asNeededMessage;
-var type = type;
+const type = "ArrowFunctionExpression";
 
-var invalid = [
+const invalid = [
+
+    // "always" (by default)
     {
         code: "a => {}",
-        ecmaFeatures: { arrowFunctions: true },
+        output: "(a) => {}",
         errors: [{
             line: 1,
             column: 1,
-            message: message,
-            type: type
+            messageId: "expectedParens",
+            type
         }]
     },
     {
         code: "a => a",
-        ecmaFeatures: { arrowFunctions: true },
+        output: "(a) => a",
         errors: [{
             line: 1,
             column: 1,
-            message: message,
-            type: type
+            messageId: "expectedParens",
+            type
         }]
     },
     {
         code: "a => {\n}",
-        ecmaFeatures: { arrowFunctions: true },
+        output: "(a) => {\n}",
         errors: [{
             line: 1,
             column: 1,
-            message: message,
-            type: type
+            messageId: "expectedParens",
+            type
         }]
     },
     {
         code: "a.then(foo => {});",
-        ecmaFeatures: { arrowFunctions: true },
+        output: "a.then((foo) => {});",
         errors: [{
             line: 1,
             column: 8,
-            message: message,
-            type: type
+            messageId: "expectedParens",
+            type
         }]
     },
     {
         code: "a.then(foo => a);",
-        ecmaFeatures: { arrowFunctions: true },
+        output: "a.then((foo) => a);",
         errors: [{
             line: 1,
             column: 8,
-            message: message,
-            type: type
+            messageId: "expectedParens",
+            type
         }]
     },
     {
         code: "a(foo => { if (true) {}; });",
-        ecmaFeatures: { arrowFunctions: true },
+        output: "a((foo) => { if (true) {}; });",
         errors: [{
             line: 1,
             column: 3,
-            message: message,
-            type: type
+            messageId: "expectedParens",
+            type
+        }]
+    },
+    {
+        code: "a(async foo => { if (true) {}; });",
+        output: "a(async (foo) => { if (true) {}; });",
+        parserOptions: { ecmaVersion: 8 },
+        errors: [{
+            line: 1,
+            column: 3,
+            messageId: "expectedParens",
+            type
         }]
     },
 
-    // as-needed
+    // "as-needed"
     {
         code: "(a) => a",
+        output: "a => a",
         options: ["as-needed"],
-        ecmaFeatures: { arrowFunctions: true },
         errors: [{
             line: 1,
             column: 1,
-            message: asNeededMessage,
-            type: type
+            messageId: "unexpectedParens",
+            type
         }]
     },
     {
-        code: "(b) => b",
+        code: "(a,) => a",
+        output: "a => a",
         options: ["as-needed"],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 8 },
         errors: [{
             line: 1,
             column: 1,
-            message: asNeededMessage,
-            type: type
+            messageId: "unexpectedParens",
+            type
+        }]
+    },
+    {
+        code: "async (a) => a",
+        output: "async a => a",
+        options: ["as-needed"],
+        parserOptions: { ecmaVersion: 8 },
+        errors: [{
+            line: 1,
+            column: 1,
+            messageId: "unexpectedParens",
+            type
+        }]
+    },
+    {
+        code: "async(a) => a",
+        output: "async a => a",
+        options: ["as-needed"],
+        parserOptions: { ecmaVersion: 8 },
+        errors: [{
+            line: 1,
+            column: 1,
+            messageId: "unexpectedParens",
+            type
+        }]
+    },
+
+    // "as-needed", { "requireForBlockBody": true }
+    {
+        code: "a => {}",
+        output: "(a) => {}",
+        options: ["as-needed", { requireForBlockBody: true }],
+        errors: [{
+            line: 1,
+            column: 1,
+            messageId: "expectedParensBlock",
+            type
+        }]
+    },
+    {
+        code: "(a) => a",
+        output: "a => a",
+        options: ["as-needed", { requireForBlockBody: true }],
+        errors: [{
+            line: 1,
+            column: 1,
+            messageId: "unexpectedParensInline",
+            type
+        }]
+    },
+    {
+        code: "async a => {}",
+        output: "async (a) => {}",
+        options: ["as-needed", { requireForBlockBody: true }],
+        parserOptions: { ecmaVersion: 8 },
+        errors: [{
+            line: 1,
+            column: 1,
+            messageId: "expectedParensBlock",
+            type
+        }]
+    },
+    {
+        code: "async (a) => a",
+        output: "async a => a",
+        options: ["as-needed", { requireForBlockBody: true }],
+        parserOptions: { ecmaVersion: 8 },
+        errors: [{
+            line: 1,
+            column: 1,
+            messageId: "unexpectedParensInline",
+            type
+        }]
+    },
+    {
+        code: "async(a) => a",
+        output: "async a => a",
+        options: ["as-needed", { requireForBlockBody: true }],
+        parserOptions: { ecmaVersion: 8 },
+        errors: [{
+            line: 1,
+            column: 1,
+            messageId: "unexpectedParensInline",
+            type
         }]
     }
-
 ];
 
 ruleTester.run("arrow-parens", rule, {
-    valid: valid,
-    invalid: invalid
+    valid,
+    invalid
 });

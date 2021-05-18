@@ -1,4 +1,4 @@
-# Quoting Style for Property Names (quote-props)
+# require quotes around object literal property names (quote-props)
 
 Object literal property names can be defined in two ways: using literals or using strings. For example, these two objects are equivalent:
 
@@ -32,23 +32,33 @@ This may look alright at first sight, but this code in fact throws a syntax erro
 
 ## Rule Details
 
-This rule aims to enforce use of quotes in property names and as such will flag any properties that don't use quotes (default behavior).
+This rule requires quotes around object literal property names.
 
-### Options
+## Options
 
-There are four behaviors for this rule: `"always"` (default), `"as-needed"`, `"consistent"` and `"consistent-as-needed"`. You can define these options in your configuration as:
+This rule has two options, a string option and an object option.
 
-```json
-{
-    "quote-props": [2, "as-needed"]
-}
-```
+String option:
 
-#### always
+* `"always"` (default) requires quotes around all object literal property names
+* `"as-needed"` disallows quotes around object literal property names that are not strictly required
+* `"consistent"` enforces a consistent quote style; in a given object, either all of the properties should be quoted, or none of the properties should be quoted
+* `"consistent-as-needed"` requires quotes around all object literal property names if any name strictly requires quotes, otherwise disallows quotes around object property names
 
-When configured with `"always"` as the first option (the default), quoting for all properties will be enforced. Some believe that ensuring property names in object literals are always wrapped in quotes is generally a good idea, since [depending on the property name you may need to quote them anyway](https://mathiasbynens.be/notes/javascript-properties). Consider this example:
+Object option:
+
+* `"keywords": true` requires quotes around language keywords used as object property names (only applies when using `as-needed` or `consistent-as-needed`)
+* `"unnecessary": true` (default) disallows quotes around object literal property names that are not strictly required (only applies when using `as-needed`)
+* `"unnecessary": false` allows quotes around object literal property names that are not strictly required (only applies when using `as-needed`)
+* `"numbers": true` requires quotes around numbers used as object property names (only applies when using `as-needed`)
+
+### always
+
+Examples of **incorrect** code for this rule with the default `"always"` option:
 
 ```js
+/*eslint quote-props: ["error", "always"]*/
+
 var object = {
     foo: "bar",
     baz: 42,
@@ -56,42 +66,10 @@ var object = {
 };
 ```
 
-Here, the properties `foo` and `baz` are not wrapped in quotes, but `qux-lorem` is, because it doesn’t work without the quotes. This is rather inconsistent. Instead, you may prefer to quote names of all properties:
+Examples of **correct** code for this rule with the default `"always"` option:
 
 ```js
-var object = {
-    "foo": "bar",
-    "baz": 42,
-    "qux-lorem": true
-};
-```
-
-or, if you prefer single quotes:
-
-```js
-var object = {
-    'foo': 'bar',
-    'baz': 42,
-    'qux-lorem': true
-};
-```
-
-When configured with `"always"` as the first option (the default), quoting for all properties will be enforced. The following patterns are considered problems:
-
-```js
-/*eslint quote-props: [2, "always"]*/
-
-var object = {
-    foo: "bar",         /*error Unquoted property `foo` found.*/
-    baz: 42,            /*error Unquoted property `baz` found.*/
-    "qux-lorem": true
-};
-```
-
-The following patterns are not considered problems:
-
-```js
-/*eslint quote-props: [2, "always"]*/
+/*eslint quote-props: ["error", "always"]*/
 /*eslint-env es6*/
 
 var object1 = {
@@ -113,25 +91,25 @@ var object3 = {
 };
 ```
 
-#### as-needed
+### as-needed
 
-When configured with `"as-needed"` as the first option, quotes will be enforced when they are strictly required, and unnecessary quotes will cause warnings. The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `"as-needed"` option:
 
 ```js
-/*eslint quote-props: [2, "as-needed"]*/
+/*eslint quote-props: ["error", "as-needed"]*/
 
 var object = {
-    "a": 0,    /*error Unnecessarily quoted property `a` found.*/
-    "0": 0,    /*error Unnecessarily quoted property `0` found.*/
-    "true": 0, /*error Unnecessarily quoted property `true` found.*/
-    "null": 0  /*error Unnecessarily quoted property `null` found.*/
+    "a": 0,
+    "0": 0,
+    "true": 0,
+    "null": 0
 };
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `"as-needed"` option:
 
 ```js
-/*eslint quote-props: [2, "as-needed"]*/
+/*eslint quote-props: ["error", "as-needed"]*/
 /*eslint-env es6*/
 
 var object1 = {
@@ -155,93 +133,29 @@ var object3 = {
 };
 ```
 
-When the `"as-needed"` mode is selected, an additional `keywords` option can be provided. This flag indicates whether language keywords can be used unquoted as properties. By default it is set to `false`.
+### consistent
 
-```json
-{
-    "quote-props": [2, "as-needed", { "keywords": true }]
-}
-```
-
-When `keywords` is set to `true`, the following patterns become problems:
+Examples of **incorrect** code for this rule with the `"consistent"` option:
 
 ```js
-/*eslint quote-props: [2, "as-needed", { "keywords": true }]*/
+/*eslint quote-props: ["error", "consistent"]*/
 
-var x = {
-    while: 1,       /*error Unquoted reserved word `while` used as key.*/
-    volatile: "foo" /*error Unquoted reserved word `volatile` used as key.*/
-};
-```
-
-Another modifier for this rule is the `unnecessary` option which defaults to `true`. Setting this to `false` will prevent the rule from complaining about unnecessarily quoted properties. This comes in handy when you _only_ care about quoting keywords.
-
-```json
-{
-    "quote-props": [2, "as-needed", { "keywords": true, "unnecessary": false }]
-}
-```
-
-When `unnecessary` is set to `false`, the following patterns _stop_ being problems:
-
-```js
-/*eslint quote-props: [2, "as-needed", { "keywords": true, "unnecessary": false }]*/
-
-var x = {
-    "while": 1,
-    "foo": "bar"  // Would normally have caused a warning
-};
-```
-
-A `numbers` flag, with default value `false`, can also be used as a modifier for the `"as-needed"` mode. When it is set to `true`, numeric literals should always be quoted.
-
-```json
-{
-    "quote-props": [2, "as-needed", {"numbers": true}]
-}
-```
-
-When `numbers` is set to `true`, the following patterns become problems:
-
-```js
-/*eslint quote-props: [2, "as-needed", { "numbers": true }]*/
-
-var x = {
-    100: 1 /*error Unquoted number literal `100` used as key.*/
-}
-```
-
-and the following patterns _stop_ being problems:
-
-```js
-var x = {
-    "100": 1
-}
-```
-
-#### consistent
-
-When configured with `"consistent"`, the patterns below are considered problems. Basically `"consistent"` means all or no properties are expected to be quoted, in other words quoting style can't be mixed within an object. Please note the latter situation (no quotation at all) isn't always possible as some property names require quoting.
-
-```js
-/*eslint quote-props: [2, "consistent"]*/
-
-var object1 = {        /*error Inconsistently quoted property `baz` found.*/ /*error Inconsistently quoted property `qux-lorem` found.*/
+var object1 = {
     foo: "bar",
     "baz": 42,
     "qux-lorem": true
 };
 
-var object2 = {        /*error Inconsistently quoted property `baz` found.*/
+var object2 = {
     'foo': 'bar',
     baz: 42
 };
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `"consistent"` option:
 
 ```js
-/*eslint quote-props: [2, "consistent"]*/
+/*eslint quote-props: ["error", "consistent"]*/
 
 var object1 = {
     "foo": "bar",
@@ -260,29 +174,29 @@ var object3 = {
 };
 ```
 
-#### consistent-as-needed
+### consistent-as-needed
 
-When configured with `"consistent-as-needed"`, the behavior is similar to `"consistent"` with one difference. Namely, properties' quoting should be consistent (as in `"consistent"`) but whenever all quotes are redundant a warning is raised. In other words if at least one property name has to be quoted (like `qux-lorem`) then all property names must be quoted, otherwise no properties can be quoted. The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `"consistent-as-needed"` option:
 
 ```js
-/*eslint quote-props: [2, "consistent-as-needed"]*/
+/*eslint quote-props: ["error", "consistent-as-needed"]*/
 
-var object1 = {         /*error Inconsistently quoted property `baz` found.*/ /*error Inconsistently quoted property `qux-lorem` found.*/
+var object1 = {
     foo: "bar",
     "baz": 42,
     "qux-lorem": true
 };
 
-var object2 = {         /*error Properties shouldn't be quoted as all quotes are redundant.*/
+var object2 = {
     'foo': 'bar',
     'baz': 42
 };
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `"consistent-as-needed"` option:
 
 ```js
-/*eslint quote-props: [2, "consistent-as-needed"]*/
+/*eslint quote-props: ["error", "consistent-as-needed"]*/
 
 var object1 = {
     "foo": "bar",
@@ -296,23 +210,53 @@ var object2 = {
 };
 ```
 
-When the `"consistent-as-needed"` mode is selected, an additional `keywords` option can be provided. This flag indicates whether language keywords can be used unquoted as properties. By default it is set to `false`.
+### keywords
 
-```json
-{
-    "quote-props": [2, "consistent-as-needed", { "keywords": true }]
-}
-```
-
-When `keywords` is set to `true`, the following patterns are considered problems:
+Examples of additional **incorrect** code for this rule with the `"as-needed", { "keywords": true }` options:
 
 ```js
-/*eslint quote-props: [2, "consistent-as-needed", { "keywords": true }]*/
+/*eslint quote-props: ["error", "as-needed", { "keywords": true }]*/
 
-var x = {           /*error Properties should be quoted as `while` is a reserved word.*/ /*error Properties should be quoted as `volatile` is a reserved word.*/
+var x = {
     while: 1,
     volatile: "foo"
 };
+```
+
+Examples of additional **incorrect** code for this rule with the `"consistent-as-needed", { "keywords": true }` options:
+
+```js
+/*eslint quote-props: ["error", "consistent-as-needed", { "keywords": true }]*/
+
+var x = {
+    "prop": 1,
+    "bar": "foo"
+};
+```
+
+### unnecessary
+
+Examples of additional **correct** code for this rule with the `"as-needed", { "unnecessary": false }` options:
+
+```js
+/*eslint quote-props: ["error", "as-needed", { "keywords": true, "unnecessary": false }]*/
+
+var x = {
+    "while": 1,
+    "foo": "bar"  // Would normally have caused a warning
+};
+```
+
+### numbers
+
+Examples of additional **incorrect** code for this rule with the `"as-needed", { "numbers": true }` options:
+
+```js
+/*eslint quote-props: ["error", "as-needed", { "numbers": true }]*/
+
+var x = {
+    100: 1
+}
 ```
 
 ## When Not To Use It
@@ -321,5 +265,5 @@ If you don't care if property names are consistently wrapped in quotes or not, a
 
 ## Further Reading
 
-* [Reserved words as property names](http://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names)
+* [Reserved words as property names](https://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names)
 * [Unquoted property names / object keys in JavaScript](https://mathiasbynens.be/notes/javascript-properties)

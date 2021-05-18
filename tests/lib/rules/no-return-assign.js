@@ -9,21 +9,29 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-return-assign"),
+const rule = require("../../../lib/rules/no-return-assign"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var error = {
+const error = {
     message: "Return statement should not contain assignment.",
     type: "ReturnStatement"
 };
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("no-return-assign", rule, {
     valid: [
+        {
+            code: "module.exports = {'a': 1};",
+            parserOptions: {
+                sourceType: "module"
+            }
+        },
+        "var result = a * b;",
         "function x() { var result = a * b; return result; }",
         "function x() { return (result = a * b); }",
         {
@@ -37,6 +45,20 @@ ruleTester.run("no-return-assign", rule, {
         {
             code: "function x() { var result = a * b; return result; }",
             options: ["always"]
+        },
+        {
+            code: "function x() { return function y() { result = a * b }; }",
+            options: ["always"]
+        },
+        {
+            code: "() => { return (result = a * b); }",
+            options: ["except-parens"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "() => (result = a * b)",
+            options: ["except-parens"],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -59,12 +81,27 @@ ruleTester.run("no-return-assign", rule, {
             errors: [error]
         },
         {
+            code: "() => { return result = a * b; }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [error]
+        },
+        {
+            code: "() => result = a * b",
+            parserOptions: { ecmaVersion: 6 },
+            errors: ["Arrow function should not return assignment."]
+        },
+        {
             code: "function x() { return result = a * b; };",
             options: ["always"],
             errors: [error]
         },
         {
             code: "function x() { return (result = a * b); };",
+            options: ["always"],
+            errors: [error]
+        },
+        {
+            code: "function x() { return result || (result = a * b); };",
             options: ["always"],
             errors: [error]
         }

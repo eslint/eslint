@@ -1,6 +1,6 @@
-# Disallow Unreachable Code (no-unreachable)
+# disallow unreachable code after `return`, `throw`, `continue`, and `break` statements (no-unreachable)
 
-A number of statements unconditionally exit a block of code. Any statements after that will not be executed and may be an error. The presence of unreachable code is usually a sign of a coding error.
+Because the `return`, `throw`, `break`, and `continue` statements unconditionally exit a block of code, any statements after them cannot be executed. Unreachable statements are usually a mistake.
 
 ```js
 function fn() {
@@ -12,36 +12,48 @@ function fn() {
 
 ## Rule Details
 
-This rule is aimed at detecting unreachable code. It produces an error when a statements in a block exist after a `return`, `throw`, `break`, or `continue` statement. The rule checks inside the program root, block statements, and switch cases.
+This rule disallows unreachable code after `return`, `throw`, `continue`, and `break` statements.
 
-The following are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-unreachable: 2*/
+/*eslint no-unreachable: "error"*/
 
 function foo() {
     return true;
-    console.log("done");      /*error Found unexpected statement after a return.*/
+    console.log("done");
 }
 
 function bar() {
     throw new Error("Oops!");
-    console.log("done");      /*error Found unexpected statement after a throw.*/
+    console.log("done");
 }
 
 while(value) {
     break;
-    console.log("done");      /*error Found unexpected statement after a break.*/
+    console.log("done");
 }
 
 throw new Error("Oops!");
-console.log("done");          /*error Found unexpected statement after a throw.*/
+console.log("done");
+
+function baz() {
+    if (Math.random() < 0.5) {
+        return;
+    } else {
+        throw new Error();
+    }
+    console.log("done");
+}
+
+for (;;) {}
+console.log("done");
 ```
 
-The following patterns are not considered problems (due to JavaScript function and variable hoisting):
+Examples of **correct** code for this rule, because of JavaScript function and variable hoisting:
 
 ```js
-/*eslint no-unreachable: 2*/
+/*eslint no-unreachable: "error"*/
 
 function foo() {
     return bar();

@@ -9,7 +9,7 @@ var count = people.length;
 var enoughFood = count > sandwiches.length;
 
 if (enoughFood) {
-    var count = sandwiches.length; // accidently overriding the count variable
+    var count = sandwiches.length; // accidentally overriding the count variable
     console.log("We have " + count + " sandwiches for everyone. Plenty for all!");
 }
 
@@ -21,27 +21,26 @@ console.log("We have " + count + " people and " + sandwiches.length + " sandwich
 
 This rule is aimed at discouraging the use of `var` and encouraging the use of `const` or `let` instead.
 
-The following patterns are considered problems:
+## Examples
+
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-var: 2*/
+/*eslint no-var: "error"*/
 
-var x = "y";     /*error Unexpected var, use let or const instead.*/
-var CONFIG = {}; /*error Unexpected var, use let or const instead.*/
+var x = "y";
+var CONFIG = {};
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-var: 2*/
+/*eslint no-var: "error"*/
 /*eslint-env es6*/
 
 let x = "y";
 const CONFIG = {};
 ```
-
-If you intend to use this rule, you must set `blockBindings` to `true` in the `ecmaFeatures` configuration object,
-which will give ESLint the ability to read `let` and `const` variables.
 
 ## When Not To Use It
 

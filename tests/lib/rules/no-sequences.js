@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-sequences"),
+const rule = require("../../../lib/rules/no-sequences"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -18,7 +18,7 @@ var rule = require("../../../lib/rules/no-sequences"),
 /**
  * Create error message object for failure cases
  * @param {int} column column of the error
- * @returns {object} returns the error messages collection
+ * @returns {Object} returns the error messages collection
  * @private
  */
 function errors(column) {
@@ -26,11 +26,12 @@ function errors(column) {
         message: "Unexpected use of comma operator.",
         type: "SequenceExpression",
         line: 1,
-        column: column
+        column
     }];
 }
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("no-sequences", rule, {
 
     // Examples of code that should not trigger the rule
@@ -47,7 +48,8 @@ ruleTester.run("no-sequences", rule, {
         "if ((doSomething(), !!test));",
         "switch ((doSomething(), !!test)) {}",
         "while ((doSomething(), !!test));",
-        "with ((doSomething(), val)) {}"
+        "with ((doSomething(), val)) {}",
+        { code: "a => ((doSomething(), a))", env: { es6: true } }
     ],
 
     // Examples of code that should trigger the rule
@@ -58,6 +60,7 @@ ruleTester.run("no-sequences", rule, {
         { code: "if (doSomething(), !!test);", errors: errors(18) },
         { code: "switch (doSomething(), val) {}", errors: errors(22) },
         { code: "while (doSomething(), !!test);", errors: errors(21) },
-        { code: "with (doSomething(), val) {}", errors: errors(20) }
+        { code: "with (doSomething(), val) {}", errors: errors(20) },
+        { code: "a => (doSomething(), a)", env: { es6: true }, errors: errors(20) }
     ]
 });

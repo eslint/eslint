@@ -16,58 +16,53 @@ var b = universe
 
 This rule aims to enforce newline consistency in member expressions. This rule prevents the use of mixed newlines around the dot in a member expression.
 
-### Options
+## Options
 
-The rule takes one option, a string, which can be either `object` or `property`.
-If it is `object`, the dot in a member expression should be on the same line as the object portion.
-If it is `property`, the dot in a member expression should be on the same line as the property portion.
+The rule takes one option, a string:
 
-If unset, the default behavior is `"object"`.
+* If it is `"object"` (default), the dot in a member expression should be on the same line as the object portion.
+* If it is `"property"`, the dot in a member expression should be on the same line as the property portion.
 
-```json
-    "dot-location": [2, "object"]
-```
+### object
 
-#### "object"
+The default `"object"` option requires the dot to be on the same line as the object.
 
-This is the default option. It requires the dot to be on the same line as the object.
-
-The following patterns are considered problems:
+Examples of **incorrect** code for the default `"object"` option:
 
 ```js
-/*eslint dot-location: [2, "object"]*/
+/*eslint dot-location: ["error", "object"]*/
 
 var foo = object
-.property;       /*error Expected dot to be on same line as object.*/
+.property;
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for the default `"object"` option:
 
 ```js
-/*eslint dot-location: [2, "object"]*/
+/*eslint dot-location: ["error", "object"]*/
 
 var foo = object.
 property;
 var bar = object.property;
 ```
 
-#### "property"
+### property
 
-This option requires the dot to be on the same line as the property.
+The `"property"` option requires the dot to be on the same line as the property.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for the `"property"` option:
 
 ```js
-/*eslint dot-location: [2, "property"]*/
+/*eslint dot-location: ["error", "property"]*/
 
-var foo = object. /*error Expected dot to be on same line as property.*/
+var foo = object.
 property;
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for the `"property"` option:
 
 ```js
-/*eslint dot-location: [2, "property"]*/
+/*eslint dot-location: ["error", "property"]*/
 
 var foo = object
 .property;

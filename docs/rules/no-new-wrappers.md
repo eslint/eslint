@@ -39,24 +39,24 @@ For these reasons, it's considered a best practice to avoid using primitive wrap
 
 This rule aims to eliminate the use of `String`, `Number`, and `Boolean` with the `new` operator. As such, it warns whenever it sees `new String`, `new Number`, or `new Boolean`.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-new-wrappers: 2*/
+/*eslint no-new-wrappers: "error"*/
 
-var stringObject = new String("Hello world"); /*error Do not use String as a constructor.*/
-var numberObject = new Number(33);            /*error Do not use Number as a constructor.*/
-var booleanObject = new Boolean(false);       /*error Do not use Boolean as a constructor.*/
+var stringObject = new String("Hello world");
+var numberObject = new Number(33);
+var booleanObject = new Boolean(false);
 
-var stringObject = new String;                /*error Do not use String as a constructor.*/
-var numberObject = new Number;                /*error Do not use Number as a constructor.*/
-var booleanObject = new Boolean;              /*error Do not use Boolean as a constructor.*/
+var stringObject = new String;
+var numberObject = new Number;
+var booleanObject = new Boolean;
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-new-wrappers: 2*/
+/*eslint no-new-wrappers: "error"*/
 
 var text = String(someValue);
 var num = Number(someValue);

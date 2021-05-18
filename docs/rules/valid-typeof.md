@@ -1,30 +1,56 @@
-# Ensures that the results of typeof are compared against a valid string (valid-typeof)
+# enforce comparing `typeof` expressions against valid strings (valid-typeof)
 
-For a vast majority of use-cases, the only valid results of the `typeof` operator will be one of the following: `"undefined"`, `"object"`, `"boolean"`, `"number"`, `"string"`, and `"function"`. When the result of a `typeof` operation is compared against a string that is not one of these strings, it is usually a typo. This rule ensures that when the result of a `typeof` operation is compared against a string, that string is in the aforementioned set.
+For a vast majority of use cases, the result of the `typeof` operator is one of the following string literals: `"undefined"`, `"object"`, `"boolean"`, `"number"`, `"string"`, `"function"` and `"symbol"`. It is usually a typing mistake to compare the result of a `typeof` operator to other string literals.
 
 ## Rule Details
 
-This rule aims to prevent errors from likely typos by ensuring that when the result of a `typeof` operation is compared against a string, that the string is a valid value.
+This rule enforces comparing `typeof` expressions to valid string literals.
 
-The following patterns are considered problems:
+## Options
+
+This rule has an object option:
+
+* `"requireStringLiterals": true` requires `typeof` expressions to only be compared to string literals or other `typeof` expressions, and disallows comparisons to any other value.
+
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint valid-typeof: 2*/
+/*eslint valid-typeof: "error"*/
 
-typeof foo === "strnig"   /*error Invalid typeof comparison value*/
-typeof foo == "undefimed" /*error Invalid typeof comparison value*/
-typeof bar != "nunber"    /*error Invalid typeof comparison value*/
-typeof bar !== "fucntion" /*error Invalid typeof comparison value*/
+typeof foo === "strnig"
+typeof foo == "undefimed"
+typeof bar != "nunber"
+typeof bar !== "fucntion"
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint valid-typeof: 2*/
+/*eslint valid-typeof: "error"*/
 
 typeof foo === "string"
 typeof bar == "undefined"
 typeof foo === baz
+typeof bar === typeof qux
+```
+
+Examples of **incorrect** code with the `{ "requireStringLiterals": true }` option:
+
+```js
+typeof foo === undefined
+typeof bar == Object
+typeof baz === "strnig"
+typeof qux === "some invalid type"
+typeof baz === anotherVariable
+typeof foo == 5
+```
+
+Examples of **correct** code with the `{ "requireStringLiterals": true }` option:
+
+```js
+typeof foo === "undefined"
+typeof bar == "object"
+typeof baz === "string"
 typeof bar === typeof qux
 ```
 

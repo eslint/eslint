@@ -22,25 +22,25 @@ For this reason, it is usually best to disallow this particular expression.
 
 ## Rule Details
 
-This rule aims to eliminate use of the `new require` expression. As such, it warns whenever `new require` is found in code.
+This rule aims to eliminate use of the `new require` expression.
 
-The following pattern is considered a warning:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-new-require: 2*/
+/*eslint no-new-require: "error"*/
 
-var appHeader = new require('app-header'); /*error Unexpected use of new with require.*/
+var appHeader = new require('app-header');
 ```
 
-The following pattern is not a warning:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-new-require: 2*/
+/*eslint no-new-require: "error"*/
 
 var AppHeader = require('app-header');
+var appHeader = new AppHeader();
 ```
 
 ## When Not To Use It
 
 If you are using a custom implementation of `require` and your code will never be used in projects where a standard `require` (CommonJS, Node.js, AMD) is expected, you can safely turn this rule off.
-

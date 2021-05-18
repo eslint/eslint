@@ -19,23 +19,25 @@ if (somethingBadHappened) {
 
 By throwing an error in this way, other parts of the application have an opportunity to handle the error rather than stopping the application altogether. If the error bubbles all the way up to the process without being handled, then the process will exit and a non-zero exit code will returned, so the end result is the same.
 
+If you are using `process.exit()` only for specifying the exit code, you can set [`process.exitCode`](https://nodejs.org/api/process.html#process_process_exitcode) (introduced in Node.js 0.11.8) instead.
+
 ## Rule Details
 
 This rule aims to prevent the use of `process.exit()` in Node.js JavaScript. As such, it warns whenever `process.exit()` is found in code.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-process-exit: 2*/
+/*eslint no-process-exit: "error"*/
 
-process.exit(1); /*error Don't use process.exit(); throw an error instead.*/
-process.exit(0); /*error Don't use process.exit(); throw an error instead.*/
+process.exit(1);
+process.exit(0);
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-process-exit: 2*/
+/*eslint no-process-exit: "error"*/
 
 Process.exit();
 var exit = process.exit;

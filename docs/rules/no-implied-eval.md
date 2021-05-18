@@ -2,7 +2,7 @@
 
 It's considered a good practice to avoid using `eval()` in JavaScript. There are security and performance implications involved with doing so, which is why many linters (including ESLint) recommend disallowing `eval()`. However, there are some other ways to pass a string and have it interpreted as JavaScript code that have similar concerns.
 
-The first is using `setTimeout()`, `setInterval()` or `execScript()` (Internet Explorer only), both of which can accept a string of JavaScript code as their first argument. For example:
+The first is using `setTimeout()`, `setInterval()` or `execScript()` (Internet Explorer only), all of which can accept a string of JavaScript code as their first argument. For example:
 
 ```js
 setTimeout("alert('Hi!');", 100);
@@ -24,26 +24,26 @@ The best practice is to always use a function for the first argument of `setTime
 
 This rule aims to eliminate implied `eval()` through the use of `setTimeout()`, `setInterval()` or `execScript()`. As such, it will warn when either function is used with a string as the first argument.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-implied-eval: 2*/
+/*eslint no-implied-eval: "error"*/
 
-setTimeout("alert('Hi!');", 100);    /*error Implied eval. Consider passing a function instead of a string.*/
+setTimeout("alert('Hi!');", 100);
 
-setInterval("alert('Hi!');", 100);   /*error Implied eval. Consider passing a function instead of a string.*/
+setInterval("alert('Hi!');", 100);
 
-execScript("alert('Hi!')");          /*error Implied eval. Consider passing a function instead of a string.*/
+execScript("alert('Hi!')");
 
-window.setTimeout("count = 5", 10);  /*error Implied eval. Consider passing a function instead of a string.*/
+window.setTimeout("count = 5", 10);
 
-window.setInterval("foo = bar", 10); /*error Implied eval. Consider passing a function instead of a string.*/
+window.setInterval("foo = bar", 10);
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-implied-eval: 2*/
+/*eslint no-implied-eval: "error"*/
 
 setTimeout(function() {
     alert("Hi!");
@@ -57,10 +57,6 @@ setInterval(function() {
 ## When Not To Use It
 
 If you want to allow `setTimeout()` and `setInterval()` with string arguments, then you can safely disable this rule.
-
-## Further Reading
-
-* [Implied eval is evil. Pass a function instead of a string.](http://jslinterrors.com/implied-eval-is-evil-pass-a-function-instead-of-a-string/)
 
 ## Related Rules
 

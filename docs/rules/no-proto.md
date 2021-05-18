@@ -6,25 +6,25 @@
 
 When an object is created `__proto__` is set to the original prototype property of the object’s constructor function. `getPrototypeOf` is the preferred method of getting "the prototype".
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-proto: 2*/
+/*eslint no-proto: "error"*/
 
-var a = obj.__proto__;    /*error The '__proto__' property is deprecated.*/
+var a = obj.__proto__;
 
-var a = obj["__proto__"]; /*error The '__proto__' property is deprecated.*/
+var a = obj["__proto__"];
 ```
 
-The following patterns are considered okay and could be used alternatively:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-proto: 2*/
+/*eslint no-proto: "error"*/
 
 var a = Object.getPrototypeOf(obj);
 ```
 
-## When not to use
+## When Not To Use It
 
 If you need to support legacy browsers, you might want to turn this rule off, since support for `getPrototypeOf` is not yet universal.
 

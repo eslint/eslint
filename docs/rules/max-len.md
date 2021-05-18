@@ -1,63 +1,156 @@
-# Limit Maximum Length of Line (max-len)
+# enforce a maximum line length (max-len)
 
 Very long lines of code in any language can be difficult to read. In order to aid in readability and maintainability many coders have developed a convention to limit lines of code to X number of characters (traditionally 80 characters).
 
 ```js
-// max-len: [1, 80, 4]; // maximum length of 80 characters
-var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" }, "difficult": "to read" }; // too long
+var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" }, "difficult": "to read" }; // very long
 ```
-
 
 ## Rule Details
 
-This rule is aimed at increasing code readability and maintainability by enforcing a line length convention. As such it will warn on lines that exceed the configured maximum.
+This rule enforces a maximum line length to increase code readability and maintainability. The length of a line is defined as the number of Unicode characters in the line.
 
-**Note:** This rule calculates the length of a line via code points, not characters. That means if you use a double-byte character in your code, it will count as 2 code points instead of 1, and 2 will be used to calculate line length. This is a technical limitation of JavaScript that is made easier with ES2015, and we will look to update this when ES2015 is available in Node.js.
+## Options
 
-The following patterns are considered problems:
+This rule has a number or object option:
+
+* `"code"` (default `80`) enforces a maximum line length
+* `"tabWidth"` (default `4`) specifies the character width for tab characters
+* `"comments"` enforces a maximum line length for comments; defaults to value of `code`
+* `"ignorePattern"` ignores lines matching a regular expression; can only match a single line and need to be double escaped when written in YAML or JSON
+* `"ignoreComments": true` ignores all trailing comments and comments on their own line
+* `"ignoreTrailingComments": true` ignores only trailing comments
+* `"ignoreUrls": true` ignores lines that contain a URL
+* `"ignoreStrings": true` ignores lines that contain a double-quoted or single-quoted string
+* `"ignoreTemplateLiterals": true` ignores lines that contain a template literal
+* `"ignoreRegExpLiterals": true` ignores lines that contain a RegExp literal
+
+### code
+
+Examples of **incorrect** code for this rule with the default `{ "code": 80 }` option:
 
 ```js
-/*eslint max-len: [2, 80, 4]*/ // maximum length of 80 characters
+/*eslint max-len: ["error", { "code": 80 }]*/
 
-var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" }, "difficult": "to read" }; /*error Line 3 exceeds the maximum line length of 80.*/
+var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" }, "difficult": "to read" };
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the default `{ "code": 80 }` option:
 
 ```js
-/*eslint max-len: [2, 80, 4]*/ // maximum length of 80 characters
+/*eslint max-len: ["error", { "code": 80 }]*/
 
 var foo = {
-    "bar": "This is a bar.",
-    "baz": {
-        "qux": "This is a qux"
-    },
-    "difficult": "to read"
+  "bar": "This is a bar.",
+  "baz": { "qux": "This is a qux" },
+  "easier": "to read"
 };
 ```
 
-### Options
+### tabWidth
 
-The `max-len` rule has two required options:
+Examples of **incorrect** code for this rule with the default `{ "tabWidth": 4 }` option:
 
-* The total number of characters allowed on each line of code. This character count includes indentation.
-* The character count to use whenever a tab character is encountered.
+```js
+/*eslint max-len: ["error", { "code": 80, "tabWidth": 4 }]*/
 
-For example, to specify a maximum line length of 80 characters with each tab counting as 4 characters, use the following configuration:
-
-```json
-"max-len": [2, 80, 4]
+\t  \t  var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" } };
 ```
 
-There are additional optional arguments to ignore comments, lines with URLs, or lines matching a regular expression.
+Examples of **correct** code for this rule with the default `{ "tabWidth": 4 }` option:
 
-```json
-"max-len": [2, 80, 4, {"ignoreComments": true, "ignoreUrls": true, "ignorePattern": "^\\s*var\\s.+=\\s*require\\s*\\("}]
+```js
+/*eslint max-len: ["error", { "code": 80, "tabWidth": 4 }]*/
+
+\t  \t  var foo = {
+\t  \t  \t  \t  "bar": "This is a bar.",
+\t  \t  \t  \t  "baz": { "qux": "This is a qux" }
+\t  \t  };
 ```
 
-The `ignoreComments` option only ignores trailing comments and comments on their own line. For example, `function foo(/*string*/ bar) { /* ... */ }` isn't collapsed.
+### comments
 
-Be aware that regular expressions can only match a single line and need to be doubly escaped when written in YAML or JSON.
+Examples of **incorrect** code for this rule with the `{ "comments": 65 }` option:
+
+```js
+/*eslint max-len: ["error", { "comments": 65 }]*/
+
+/**
+ * This is a comment that violates the maximum line length we have specified
+**/
+```
+
+### ignoreComments
+
+Examples of **correct** code for this rule with the `{ "ignoreComments": true }` option:
+
+```js
+/*eslint max-len: ["error", { "ignoreComments": true }]*/
+
+/**
+ * This is a really really really really really really really really really long comment
+**/
+```
+
+### ignoreTrailingComments
+
+Examples of **correct** code for this rule with the `{ "ignoreTrailingComments": true }` option:
+
+```js
+/*eslint max-len: ["error", { "ignoreTrailingComments": true }]*/
+
+var foo = 'bar'; // This is a really really really really really really really long comment
+```
+
+### ignoreUrls
+
+Examples of **correct** code for this rule with the `{ "ignoreUrls": true }` option:
+
+```js
+/*eslint max-len: ["error", { "ignoreUrls": true }]*/
+
+var url = 'https://www.example.com/really/really/really/really/really/really/really/long';
+```
+
+### ignoreStrings
+
+Examples of **correct** code for this rule with the `{ "ignoreStrings": true }` option:
+
+```js
+/*eslint max-len: ["error", { "ignoreStrings": true }]*/
+
+var longString = 'this is a really really really really really long string!';
+```
+
+### ignoreTemplateLiterals
+
+Examples of **correct** code for this rule with the `{ "ignoreTemplateLiterals": true }` option:
+
+```js
+/*eslint max-len: ["error", { "ignoreTemplateLiterals": true }]*/
+
+var longTemplateLiteral = `this is a really really really really really long template literal!`;
+```
+
+### ignoreRegExpLiterals
+
+Examples of **correct** code for this rule with the `{ "ignoreRegExpLiterals": true }` option:
+
+```js
+/*eslint max-len: ["error", { "ignoreRegExpLiterals": true }]*/
+
+var longRegExpLiteral = /this is a really really really really really long regular expression!/;
+```
+
+### ignorePattern
+
+Examples of **correct** code for this rule with the `ignorePattern` option:
+
+```js
+/*eslint max-len: ["error", { "ignorePattern": "^\\s*var\\s.+=\\s*require\\s*\\(" }]*/
+
+var dep = require('really/really/really/really/really/really/really/really/long/module');
+```
 
 ## Related Rules
 

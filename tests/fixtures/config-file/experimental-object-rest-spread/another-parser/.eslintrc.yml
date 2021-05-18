@@ -1,0 +1,6 @@
+root: true
+
+parser: ./parser.js
+parserOptions:
+  ecmaFeatures:
+    experimentalObjectRestSpread: true

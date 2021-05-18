@@ -1,27 +1,26 @@
-# Disallow Controls Characters in Regular Expressions (no-control-regex)
+# disallow control characters in regular expressions (no-control-regex)
 
 Control characters are special, invisible characters in the ASCII range 0-31. These characters are rarely used in JavaScript strings so a regular expression containing these characters is most likely a mistake.
 
 ## Rule Details
 
-This rule is aimed at ensuring all regular expressions don't use control characters.
+This rule disallows control characters in regular expressions.
 
-
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-control-regex: 2*/
+/*eslint no-control-regex: "error"*/
 
-var pattern1 = /\\x1f/;
-var pattern2 = new RegExp("\x1f"); /*error Unexpected control character in regular expression.*/
+var pattern1 = /\x1f/;
+var pattern2 = new RegExp("\x1f");
 ```
 
-The following patterns do not cause a warning:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-control-regex: 2*/
+/*eslint no-control-regex: "error"*/
 
-var pattern1 = /\\x20/;
+var pattern1 = /\x20/;
 var pattern2 = new RegExp("\x20");
 ```
 
@@ -33,4 +32,3 @@ If you need to use control character pattern matching, then you should turn this
 
 * [no-div-regex](no-div-regex.md)
 * [no-regex-spaces](no-regex-spaces.md)
-

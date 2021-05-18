@@ -1,67 +1,108 @@
 # Require IIFEs to be Wrapped (wrap-iife)
 
-Require immediate function invocation to be wrapped in parentheses.
+You can immediately invoke function expressions, but not function declarations. A common technique to create an immediately-invoked function expression (IIFE) is to wrap a function declaration in parentheses. The opening parentheses causes the contained function to be parsed as an expression, rather than a declaration.
 
 ```js
+// function expression could be unwrapped
 var x = function () { return { y: 1 };}();
+
+// function declaration must be wrapped
+function () { /* side effects */ }(); // SyntaxError
 ```
 
 ## Rule Details
 
-Since function statements cannot be immediately invoked, and function expressions can be, a common technique to create an immediately-invoked function expression is to simply wrap a function statement in parentheses. The opening parentheses causes the contained function to be parsed as an expression, rather than a declaration.
+This rule requires all immediately-invoked function expressions to be wrapped in parentheses.
 
-### Options
+## Options
 
-The rule takes one option which can enforce a consistent wrapping style. The default is `outside`.
+This rule has two options, a string option and an object option.
 
-```json
-"wrap-iife": [2, "outside"]
-```
+String option:
 
-This configures the rule to enforce wrapping always the call expression.
+* `"outside"` enforces always wrapping the *call* expression. The default is `"outside"`.
+* `"inside"` enforces always wrapping the *function* expression.
+* `"any"` enforces always wrapping, but allows either style.
 
-```json
-"wrap-iife": [2, "inside"]
-```
+Object option:
 
-This configures the rule to enforce wrapping always the function expression.
+* `"functionPrototypeMethods": true` additionally enforces wrapping function expressions invoked using `.call` and `.apply`. The default is `false`.
 
-```json
-"wrap-iife": [2, "any"]
-```
+### outside
 
-This allows any wrapping style.
-
-The following patterns are considered problems:
+Examples of **incorrect** code for the default `"outside"` option:
 
 ```js
-/*eslint wrap-iife: 2*/
+/*eslint wrap-iife: ["error", "outside"]*/
 
-var x = function () { return { y: 1 };}(); /*error Wrap an immediate function invocation in parentheses.*/
+var x = function () { return { y: 1 };}(); // unwrapped
+var x = (function () { return { y: 1 };})(); // wrapped function expression
 ```
 
-```js
-/*eslint wrap-iife: [2, "outside"]*/
+Examples of **correct** code for the default `"outside"` option:
 
-var x = (function () { return { y: 1 };})(); /*error Move the invocation into the parens that contain the function.*/
+```js
+/*eslint wrap-iife: ["error", "outside"]*/
+
+var x = (function () { return { y: 1 };}()); // wrapped call expression
 ```
 
-```js
-/*eslint wrap-iife: [2, "inside"]*/
+### inside
 
-var x = (function () { return { y: 1 };}()); /*error Wrap only the function expression in parens.*/
+Examples of **incorrect** code for the `"inside"` option:
+
+```js
+/*eslint wrap-iife: ["error", "inside"]*/
+
+var x = function () { return { y: 1 };}(); // unwrapped
+var x = (function () { return { y: 1 };}()); // wrapped call expression
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for the `"inside"` option:
 
 ```js
-/*eslint wrap-iife: [2, "inside"]*/
+/*eslint wrap-iife: ["error", "inside"]*/
 
-var x = (function () { return { y: 1 };})();
+var x = (function () { return { y: 1 };})(); // wrapped function expression
 ```
 
-```js
-/*eslint wrap-iife: [2, "outside"]*/
+### any
 
-var x = (function () { return { y: 1 };}());
+Examples of **incorrect** code for the `"any"` option:
+
+```js
+/*eslint wrap-iife: ["error", "any"]*/
+
+var x = function () { return { y: 1 };}(); // unwrapped
+```
+
+Examples of **correct** code for the `"any"` option:
+
+```js
+/*eslint wrap-iife: ["error", "any"]*/
+
+var x = (function () { return { y: 1 };}()); // wrapped call expression
+var x = (function () { return { y: 1 };})(); // wrapped function expression
+```
+
+### functionPrototypeMethods
+
+Examples of **incorrect** code for this rule with the `"inside", { "functionPrototypeMethods": true }` options:
+
+```js
+/* eslint wrap-iife: [2, "inside", { functionPrototypeMethods: true }] */
+
+var x = function(){ foo(); }()
+var x = (function(){ foo(); }())
+var x = function(){ foo(); }.call(bar)
+var x = (function(){ foo(); }.call(bar))
+```
+
+Examples of **correct** code for this rule with the `"inside", { "functionPrototypeMethods": true }` options:
+
+```js
+/* eslint wrap-iife: [2, "inside", { functionPrototypeMethods: true }] */
+
+var x = (function(){ foo(); })()
+var x = (function(){ foo(); }).call(bar)
 ```

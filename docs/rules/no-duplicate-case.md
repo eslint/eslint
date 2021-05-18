@@ -1,33 +1,15 @@
 # Rule to disallow a duplicate case label (no-duplicate-case)
 
-A switch statements with duplicate case labels is normally an indication of a programmer error.
-
-In the following example the 3rd case label uses again the literal 1 that has already been used in the first case label.
-Most likely the case block was copied from above and it was forgotten to change the literal.
-
-```js
-var a = 1;
-
-switch (a) {
-    case 1:
-        break;
-    case 2:
-        break;
-    case 1:         // duplicate literal 1
-        break;
-    default:
-        break;
-}
-```
+If a `switch` statement has duplicate test expressions in `case` clauses, it is likely that a programmer copied a `case` clause but forgot to change the test expression.
 
 ## Rule Details
 
-This inspection reports any duplicated case labels on JavaScript switch statements.
+This rule disallows duplicate test expressions in `case` clauses of `switch` statements.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-duplicate-case: 2*/
+/*eslint no-duplicate-case: "error"*/
 
 var a = 1,
     one = 1;
@@ -35,20 +17,9 @@ var a = 1,
 switch (a) {
     case 1:
         break;
-    case 1:      /*error Duplicate case label.*/
-        break;
     case 2:
         break;
-    default:
-        break;
-}
-
-switch (a) {
-    case "1":
-        break;
-    case "1":    /*error Duplicate case label.*/
-        break;
-    case "2":
+    case 1:         // duplicate test expression
         break;
     default:
         break;
@@ -57,26 +28,62 @@ switch (a) {
 switch (a) {
     case one:
         break;
-    case one:    /*error Duplicate case label.*/
-        break;
     case 2:
+        break;
+    case one:         // duplicate test expression
+        break;
+    default:
+        break;
+}
+
+switch (a) {
+    case "1":
+        break;
+    case "2":
+        break;
+    case "1":         // duplicate test expression
         break;
     default:
         break;
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-duplicate-case: 2*/
+/*eslint no-duplicate-case: "error"*/
 
-var a = 1;
+var a = 1,
+    one = 1;
 
 switch (a) {
     case 1:
         break;
     case 2:
+        break;
+    case 3:
+        break;
+    default:
+        break;
+}
+
+switch (a) {
+    case one:
+        break;
+    case 2:
+        break;
+    case 3:
+        break;
+    default:
+        break;
+}
+
+switch (a) {
+    case "1":
+        break;
+    case "2":
+        break;
+    case "3":
         break;
     default:
         break;

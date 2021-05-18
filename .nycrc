@@ -1,0 +1,12 @@
+{
+    "include": [
+        "bin/**/*.js",
+        "conf/**/*.js",
+        "lib/**/*.js"
+    ],
+    "reporter": [
+        "lcov",
+        "text-summary"
+    ],
+    "sourceMap": true
+}

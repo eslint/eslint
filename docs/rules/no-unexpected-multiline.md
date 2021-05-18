@@ -1,36 +1,46 @@
-# Avoid unexpected multiline expressions (no-unexpected-multiline)
+# disallow confusing multiline expressions (no-unexpected-multiline)
 
-Semicolons are optional in JavaScript, via a process called automatic semicolon insertion (ASI). See the documentation for [semi](./semi.md) for a fuller discussion of that feature.
+Semicolons are usually optional in JavaScript, because of automatic semicolon insertion (ASI). You can require or disallow semicolons with the [semi](./semi.md) rule.
 
-The rules for ASI are relatively straightforward: In short, as once described by Isaac Schlueter, a `\n` character always ends a statement (just like a semicolon) unless one of the following is true:
+The rules for ASI are relatively straightforward: As once described by Isaac Schlueter, a newline character always ends a statement, just like a semicolon, **except** where one of the following is true:
 
-1. The statement has an unclosed paren, array literal, or object literal or ends in some other way that is not a valid way to end a statement. (For instance, ending with `.` or `,`.)
-2. The line is `--` or `++` (in which case it will decrement/increment the next token.)
-3. It is a `for()`, `while()`, `do`, `if()`, or `else`, and there is no `{`
-4. The next line starts with `[`, `(`, `+`, `*`, `/`, `-`, `,`, `.`, or some other binary operator that can only be found between two tokens in a single expression.
+* The statement has an unclosed paren, array literal, or object literal or ends in some other way that is not a valid way to end a statement. (For instance, ending with `.` or `,`.)
+* The line is `--` or `++` (in which case it will decrement/increment the next token.)
+* It is a `for()`, `while()`, `do`, `if()`, or `else`, and there is no `{`
+* The next line starts with `[`, `(`, `+`, `*`, `/`, `-`, `,`, `.`, or some other binary operator that can only be found between two tokens in a single expression.
 
-This particular rule aims to spot scenarios where a newline looks like it is ending a statement, but is not.
+In the exceptions where a newline does **not** end a statement, a typing mistake to omit a semicolon causes two unrelated consecutive lines to be interpreted as one expression. Especially for a coding style without semicolons, readers might overlook the mistake. Although syntactically correct, the code might throw exceptions when it is executed.
 
 ## Rule Details
 
-This rule is aimed at ensuring that two unrelated consecutive lines are not accidentially interpreted as a single expression.
+This rule disallows confusing multiline expressions where a newline looks like it is ending a statement, but is not.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-unexpected-multiline: 2*/
+/*eslint no-unexpected-multiline: "error"*/
 
 var foo = bar
-(1 || 2).baz();               /*error Unexpected newline between function and ( of function call.*/
+(1 || 2).baz();
 
 var hello = 'world'
-[1, 2, 3].forEach(addNumber); /*error Unexpected newline between object and [ of property access.*/
+[1, 2, 3].forEach(addNumber);
+
+let x = function() {}
+`hello`
+
+let x = function() {}
+x
+`hello`
+
+let x = foo
+/regex/g.test(bar)
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-unexpected-multiline: 2*/
+/*eslint no-unexpected-multiline: "error"*/
 
 var foo = bar;
 (1 || 2).baz();
@@ -43,6 +53,12 @@ var hello = 'world';
 
 var hello = 'world'
 void [1, 2, 3].forEach(addNumber);
+
+let x = function() {};
+`hello`
+
+let tag = function() {}
+tag `hello`
 ```
 
 ## When Not To Use It
@@ -53,6 +69,6 @@ Note that the patterns considered problems are **not** flagged by the [semi](sem
 
 ## Related Rules
 
+* [func-call-spacing](func-call-spacing.md)
 * [semi](semi.md)
-* [no-spaced-func](no-spaced-func.md)
 * [space-unary-ops](space-unary-ops.md)

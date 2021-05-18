@@ -2,69 +2,46 @@
 
 Assignment to variables declared as function parameters can be misleading and lead to confusing behavior, as modifying function parameters will also mutate the `arguments` object. Often, assignment to function parameters is unintended and indicative of a mistake or programmer error.
 
+This rule can be also configured to fail when function parameters are modified. Side effects on parameters can cause counter-intuitive execution flow and make errors difficult to track down.
+
 ## Rule Details
 
-This rule aims to prevent unintended behavior caused by overwriting function parameters.
+This rule aims to prevent unintended behavior caused by modification or reassignment of function parameters.
 
-### Options
+Examples of **incorrect** code for this rule:
 
-This rule takes one option, an object, with a property `"props"`.
+```js
+/*eslint no-param-reassign: "error"*/
 
-```json
-{
-    "no-param-reassign": [2, {"props": false}]
+function foo(bar) {
+    bar = 13;
+}
+
+function foo(bar) {
+    bar++;
 }
 ```
 
-* `props` (`false` by default) - If `true` is set, this rule warns modifying of properties of parameters.
-
-
-### The following patterns are considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-param-reassign: 2*/
+/*eslint no-param-reassign: "error"*/
 
 function foo(bar) {
-    bar = 13;       /*error Assignment to function parameter 'bar'.*/
-}
-
-function foo(bar) {
-    bar++;          /*error Assignment to function parameter 'bar'.*/
+    var baz = bar;
 }
 ```
 
-When `{"props": true}`:
+## Options
+
+This rule takes one option, an object, with a boolean property `"props"` and an array `"ignorePropertyModificationsFor"`. `"props"` is `false` by default. If `"props"` is set to `true`, this rule warns against the modification of parameter properties unless they're included in `"ignorePropertyModificationsFor"`, which is an empty array by default.
+
+### props
+
+Examples of **correct** code for the default `{ "props": false }` option:
 
 ```js
-/*eslint no-param-reassign: [2, { "props": true }]*/
-
-function foo(bar) {
-    bar.prop = "value"; /*error Assignment to function parameter 'bar'.*/
-}
-
-function foo(bar) {
-    delete bar.aaa;     /*error Assignment to function parameter 'bar'.*/
-}
-
-function foo(bar) {
-    bar.aaa++;          /*error Assignment to function parameter 'bar'.*/
-}
-```
-
-### The following patterns are not considered problems:
-
-```js
-/*eslint no-param-reassign: 2*/
-
-function foo(a) {
-    var b = a;
-}
-```
-
-When `{"props": false}`:
-
-```js
-/*eslint no-param-reassign: [2, { "props": false }]*/
+/*eslint no-param-reassign: ["error", { "props": false }]*/
 
 function foo(bar) {
     bar.prop = "value";
@@ -79,10 +56,47 @@ function foo(bar) {
 }
 ```
 
+Examples of **incorrect** code for the `{ "props": true }` option:
+
+```js
+/*eslint no-param-reassign: ["error", { "props": true }]*/
+
+function foo(bar) {
+    bar.prop = "value";
+}
+
+function foo(bar) {
+    delete bar.aaa;
+}
+
+function foo(bar) {
+    bar.aaa++;
+}
+```
+
+Examples of **correct** code for the `{ "props": true }` option with `"ignorePropertyModificationsFor"` set:
+
+```js
+/*eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["bar"] }]*/
+
+function foo(bar) {
+    bar.prop = "value";
+}
+
+function foo(bar) {
+    delete bar.aaa;
+}
+
+function foo(bar) {
+    bar.aaa++;
+}
+```
+
+
 ## When Not To Use It
 
 If you want to allow assignment to function parameters, then you can safely disable this rule.
 
 ## Further Reading
 
-* [JavaScript: Don’t Reassign Your Function Arguments](http://spin.atomicobject.com/2011/04/10/javascript-don-t-reassign-your-function-arguments/)
+* [JavaScript: Don’t Reassign Your Function Arguments](https://spin.atomicobject.com/2011/04/10/javascript-don-t-reassign-your-function-arguments/)

@@ -19,32 +19,34 @@ foo.bar(); // goodbye
 
 This rule is aimed to flag the use of duplicate names in class members.
 
-The following patterns are considered problems:
+## Examples
+
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-dupe-class-members: 2*/
+/*eslint no-dupe-class-members: "error"*/
 /*eslint-env es6*/
 
 class Foo {
   bar() { }
-  bar() { }          /*error Duplicate name "bar".*/
+  bar() { }
 }
 
 class Foo {
   bar() { }
-  get bar() { }      /*error Duplicate name "bar".*/
+  get bar() { }
 }
 
 class Foo {
   static bar() { }
-  static bar() { }   /*error Duplicate name "bar".*/
+  static bar() { }
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-dupe-class-members: 2*/
+/*eslint no-dupe-class-members: "error"*/
 /*eslint-env es6*/
 
 class Foo {
@@ -63,7 +65,7 @@ class Foo {
 }
 ```
 
-## When Not to Use It
+## When Not To Use It
 
 This rule should not be used in ES3/5 environments.
 

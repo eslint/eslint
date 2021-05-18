@@ -11,7 +11,7 @@ var b = ~foo.indexOf(".");
 var n = +foo;
 var n = 1 * foo;
 var s = "" + foo;
-foo += "";
+foo += ``;
 ```
 
 Those can be replaced with the following code:
@@ -29,87 +29,96 @@ foo = String(foo);
 
 This rule is aimed to flag shorter notations for the type conversion, then suggest a more self-explanatory notation.
 
-### Options
+## Options
 
-This rule has three options.
-
-```json
-{
-  "rules": {
-    "no-implicit-coercion": [2, {"boolean": true, "number": true, "string": true}]
-  }
-}
-```
+This rule has three main options and one override option to allow some coercions as required.
 
 * `"boolean"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `boolean` type.
 * `"number"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `number` type.
 * `"string"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `string` type.
+* `"allow"` (`empty` by default) - Each entry in this array can be one of `~`, `!!`, `+` or `*` that are to be allowed.
 
-#### boolean
+Note that operator `+` in `allow` list would allow `+foo` (number coercion) as well as `"" + foo` (string coercion).
 
-The following patterns are considered problems:
+### boolean
+
+Examples of **incorrect** code for the default `{ "boolean": true }` option:
 
 ```js
-/*eslint no-implicit-coercion: 2*/
+/*eslint no-implicit-coercion: "error"*/
 
-var b = !!foo;             /*error use `Boolean(foo)` instead.*/
-var b = ~foo.indexOf("."); /*error use `foo.indexOf(".") !== -1` instead.*/
-// only with `indexOf`/`lastIndexOf` method calling.
-
+var b = !!foo;
+var b = ~foo.indexOf(".");
+// bitwise not is incorrect only with `indexOf`/`lastIndexOf` method calling.
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for the default `{ "boolean": true }` option:
 
 ```js
-/*eslint no-implicit-coercion: 2*/
+/*eslint no-implicit-coercion: "error"*/
 
 var b = Boolean(foo);
 var b = foo.indexOf(".") !== -1;
 
-var n = ~foo; // This is a just binary negating.
+var n = ~foo; // This is a just bitwise not.
 ```
 
-#### number
+### number
 
-The following patterns are considered problems:
+Examples of **incorrect** code for the default `{ "number": true }` option:
 
 ```js
-/*eslint no-implicit-coercion: 2*/
+/*eslint no-implicit-coercion: "error"*/
 
-var n = +foo;    /*error use `Number(foo)` instead.*/
-var n = 1 * foo; /*error use `Number(foo)` instead.*/
+var n = +foo;
+var n = 1 * foo;
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for the default `{ "number": true }` option:
 
 ```js
-/*eslint no-implicit-coercion: 2*/
+/*eslint no-implicit-coercion: "error"*/
 
-var b = Number(foo);
-var b = parseFloat(foo);
-var b = parseInt(foo, 10);
+var n = Number(foo);
+var n = parseFloat(foo);
+var n = parseInt(foo, 10);
 ```
 
-#### string
+### string
 
-The following patterns are considered problems:
+Examples of **incorrect** code for the default `{ "string": true }` option:
 
 ```js
-/*eslint no-implicit-coercion: 2*/
+/*eslint no-implicit-coercion: "error"*/
 
-var n = "" + foo; /*error use `String(foo)` instead.*/
-
-foo += ""; /*error use `foo = String(foo)` instead.*/
+var s = "" + foo;
+var s = `` + foo;
+foo += "";
+foo += ``;
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for the default `{ "string": true }` option:
 
 ```js
-/*eslint no-implicit-coercion: 2*/
+/*eslint no-implicit-coercion: "error"*/
 
-var b = String(foo);
+var s = String(foo);
+foo = String(foo);
 ```
 
-## When Not to Use It
+### allow
+
+Using `allow` list, we can override and allow specific operators.
+
+Examples of **correct** code for the sample `{ "allow": ["!!", "~"] }` option:
+
+```js
+/*eslint no-implicit-coercion: [2, { "allow": ["!!", "~"] } ]*/
+
+var b = !!foo;
+var b = ~foo.indexOf(".");
+```
+
+## When Not To Use It
 
 If you don't want to be notified about shorter notations for the type conversion, you can safely disable this rule.

@@ -1,93 +1,88 @@
 # Disallow Undeclared Variables (no-undef)
 
-Any reference to an undeclared variable causes a warning, unless the variable is explicitly mentioned in a `/*global ...*/` comment. This rule provides compatibility with [JSHint](http://www.jshint.com)'s and [JSLint](http://www.jslint.com)'s treatment of global variables.
-
 This rule can help you locate potential ReferenceErrors resulting from misspellings of variable and parameter names, or accidental implicit globals (for example, from forgetting the `var` keyword in a `for` loop initializer).
 
 ## Rule Details
 
-### Options
+Any reference to an undeclared variable causes a warning, unless the variable is explicitly mentioned in a `/*global ...*/` comment, or specified in the [`globals` key in the configuration file](https://eslint.org/docs/user-guide/configuring#specifying-globals). A common use case for these is if you intentionally use globals that are defined elsewhere (e.g. in a script sourced from HTML).
 
-* `typeof` set to true will warn for variables used inside typeof check (Default false).
-
-The following code causes 2 warnings, as the globals `someFunction` and `b` have not been declared.
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-undef: 2*/
-
-var a = someFunction();  /*error "someFunction" is not defined.*/
-b = 10;                  /*error "b" is not defined.*/
-```
-
-In this code, no warnings are generated, since the global variables have been properly declared in a `/*global */` block.
-
-```js
-/*global someFunction b:true*/
-/*eslint no-undef: 2*/
+/*eslint no-undef: "error"*/
 
 var a = someFunction();
 b = 10;
 ```
 
-By default, variables declared in `/*global */` are considered read-only. Assignment to a read-only global causes a warning:
+Examples of **correct** code for this rule with `global` declaration:
+
+```js
+/*global someFunction b:true*/
+/*eslint no-undef: "error"*/
+
+var a = someFunction();
+b = 10;
+```
+
+The `b:true` syntax in `/*global */` indicates that assignment to `b` is correct.
+
+Examples of **incorrect** code for this rule with `global` declaration:
 
 ```js
 /*global b*/
-/*eslint no-undef: 2*/
-
-
-b = 10;                  /*error "b" is read only.*/
-```
-
-Use the `variable:true` syntax to indicate that a variable can be assigned to.
-
-```js
-/*global b:true*/
-/*eslint no-undef: 2*/
+/*eslint no-undef: "error"*/
 
 b = 10;
 ```
 
-Explicitly checking an undefined identifier with `typeof` causes no warning.
+By default, variables declared in `/*global */` are read-only, therefore assignment is incorrect.
+
+## Options
+
+* `typeof` set to true will warn for variables used inside typeof check (Default false).
+
+### typeof
+
+Examples of **correct** code for the default `{ "typeof": false }` option:
 
 ```js
-/*eslint no-undef: 2*/
+/*eslint no-undef: "error"*/
 
 if (typeof UndefinedIdentifier === "undefined") {
     // do something ...
 }
 ```
 
-#### typeof
-
 You can use this option if you want to prevent `typeof` check on a variable which has not been declared.
 
-The following patterns are considered problems with option `typeof` set:
+Examples of **incorrect** code for the `{ "typeof": true }` option:
 
 ```js
-/* eslint no-undef: [2, { typeof: true }] */
+/*eslint no-undef: ["error", { "typeof": true }] */
 
-if(typeof a === "string"){}      /* error "a" is not defined. */
+if(typeof a === "string"){}
 ```
 
-The following patterns are not considered problems with option `typeof` set:
+Examples of **correct** code for the `{ "typeof": true }` option with `global` declaration:
 
 ```js
-/* eslint no-undef: [2, { typeof: true }] */
 /*global a*/
+/*eslint no-undef: ["error", { "typeof": true }] */
 
 if(typeof a === "string"){}
 ```
 
 ## Environments
 
-For convenience, ESLint provides shortcuts that pre-define global variables exposed by popular libraries and runtime environments. This rule supports these environments, as listed in [Specifying Environments](http://eslint.org/docs/user-guide/configuring#specifying-environments).  A few examples are given below.
+For convenience, ESLint provides shortcuts that pre-define global variables exposed by popular libraries and runtime environments. This rule supports these environments, as listed in [Specifying Environments](../user-guide/configuring.md#specifying-environments).  A few examples are given below.
 
 ### browser
 
-Defines common browser globals.
+Examples of **correct** code for this rule with `browser` environment:
 
 ```js
+/*eslint no-undef: "error"*/
 /*eslint-env browser*/
 
 setTimeout(function() {
@@ -95,11 +90,12 @@ setTimeout(function() {
 });
 ```
 
-### node
+### Node.js
 
-Defines globals for Node.js development.
+Examples of **correct** code for this rule with `node` environment:
 
 ```js
+/*eslint no-undef: "error"*/
 /*eslint-env node*/
 
 var fs = require("fs");
@@ -112,6 +108,6 @@ module.exports = function() {
 
 If explicit declaration of global variables is not to your taste.
 
-## Further Reading
+## Compatibility
 
-* ['{a}' is not defined](http://jslinterrors.com/a-is-not-defined)
+This rule provides compatibility with treatment of global variables in [JSHint](http://jshint.com/) and [JSLint](http://www.jslint.com).

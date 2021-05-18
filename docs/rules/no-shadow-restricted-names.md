@@ -1,6 +1,6 @@
 # Disallow Shadowing of Restricted Names (no-shadow-restricted-names)
 
-ES5 §15.1.1 Value Properties of the Global Object (`NaN`, `Infinity`, `undefined`) as well as strict mode restricted identifiers `eval` and `arguments` are considered to be restricted names in JavaScript. Defining them to mean something else can have unintended consequences and confuse others reading the code. For example, there's nothing prevent you from writing:
+ES5 §15.1.1 Value Properties of the Global Object (`NaN`, `Infinity`, `undefined`) as well as strict mode restricted identifiers `eval` and `arguments` are considered to be restricted names in JavaScript. Defining them to mean something else can have unintended consequences and confuse others reading the code. For example, there's nothing preventing you from writing:
 
 ```js
 var undefined = "foo";
@@ -10,31 +10,38 @@ Then any code used within the same scope would not get the global `undefined`, b
 
 ## Rule Details
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-shadow-restricted-names: 2*/
+/*eslint no-shadow-restricted-names: "error"*/
 
-function NaN(){}       /*error Shadowing of global property "NaN".*/
+function NaN(){}
 
-!function(Infinity){}; /*error Shadowing of global property "Infinity".*/
+!function(Infinity){};
 
-var undefined;         /*error Shadowing of global property "undefined".*/
+var undefined = 5;
 
-try {} catch(eval){}   /*error Shadowing of global property "eval".*/
+try {} catch(eval){}
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-shadow-restricted-names: 2*/
+/*eslint no-shadow-restricted-names: "error"*/
 
 var Object;
 
 function f(a, b){}
+
+// Exception: `undefined` may be shadowed if the variable is never assigned a value.
+var undefined;
 ```
 
 ## Further Reading
 
-* [Annotated ES5 - §15.1.1](http://es5.github.io/#x15.1.1)
-* [Annotated ES5 - Annex C](http://es5.github.io/#C)
+* [Annotated ES5 - §15.1.1](https://es5.github.io/#x15.1.1)
+* [Annotated ES5 - Annex C](https://es5.github.io/#C)
+
+## Related Rules
+
+* [no-shadow](no-shadow.md)

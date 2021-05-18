@@ -1,0 +1,10 @@
+﻿{
+    "private": true,
+    "name": "eslint-test",
+    "version": "0.0.0",
+    "eslintConfig": {
+        "rules": {
+            "semi": "error"
+        }
+    }
+}

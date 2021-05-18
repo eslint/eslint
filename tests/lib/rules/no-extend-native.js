@@ -9,14 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-extend-native"),
+const rule = require("../../../lib/rules/no-extend-native"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("no-extend-native", rule, {
     valid: [
         "x.prototype.p = 0",
@@ -34,55 +35,98 @@ ruleTester.run("no-extend-native", rule, {
         "parseFloat.prototype.x = 1",
         {
             code: "Object.prototype.g = 0",
-            options: [{exceptions: ["Object"]}]
+            options: [{ exceptions: ["Object"] }]
         },
 
         // https://github.com/eslint/eslint/issues/4438
         "Object.defineProperty()",
-        "Object.defineProperties()"
+        "Object.defineProperties()",
+
+        // https://github.com/eslint/eslint/issues/8461
+        "function foo() { var Object = function() {}; Object.prototype.p = 0 }",
+        {
+            code: "{ let Object = function() {}; Object.prototype.p = 0 }",
+            parserOptions: { ecmaVersion: 6 }
+        }
     ],
     invalid: [{
         code: "Object.prototype.p = 0",
         errors: [{
-            message: "Object prototype is read only, properties should not be added.",
+            messageId: "unexpected",
+            data: { builtin: "Object" },
             type: "AssignmentExpression"
         }]
     }, {
         code: "Function.prototype['p'] = 0",
         errors: [{
-            message: "Function prototype is read only, properties should not be added.",
+            messageId: "unexpected",
+            data: { builtin: "Function" },
             type: "AssignmentExpression"
         }]
     }, {
         code: "String['prototype'].p = 0",
         errors: [{
-            message: "String prototype is read only, properties should not be added.",
+            messageId: "unexpected",
+            data: { builtin: "String" },
             type: "AssignmentExpression"
         }]
     }, {
         code: "Number['prototype']['p'] = 0",
         errors: [{
-            message: "Number prototype is read only, properties should not be added.",
+            messageId: "unexpected",
+            data: { builtin: "Number" },
             type: "AssignmentExpression"
         }]
     }, {
         code: "Object.defineProperty(Array.prototype, 'p', {value: 0})",
         errors: [{
-            message: "Array prototype is read only, properties should not be added.",
+            messageId: "unexpected",
+            data: { builtin: "Array" },
             type: "CallExpression"
         }]
     }, {
         code: "Object.defineProperties(Array.prototype, {p: {value: 0}})",
         errors: [{
-            message: "Array prototype is read only, properties should not be added.",
+            messageId: "unexpected",
+            data: { builtin: "Array" },
+            type: "CallExpression"
+        }]
+    }, {
+        code: "Object.defineProperties(Array.prototype, {p: {value: 0}, q: {value: 0}})",
+        errors: [{
+            messageId: "unexpected",
+            data: { builtin: "Array" },
             type: "CallExpression"
         }]
     },
     {
         code: "Number['prototype']['p'] = 0",
-        options: [{exceptions: ["Object"]}],
+        options: [{ exceptions: ["Object"] }],
         errors: [{
-            message: "Number prototype is read only, properties should not be added.",
+            messageId: "unexpected",
+            data: { builtin: "Number" },
+            type: "AssignmentExpression"
+        }]
+    },
+    {
+        code: "Object.prototype.p = 0; Object.prototype.q = 0",
+        errors: [{
+            messageId: "unexpected",
+            data: { builtin: "Object" },
+            type: "AssignmentExpression",
+            column: 1
+        }, {
+            messageId: "unexpected",
+            data: { builtin: "Object" },
+            type: "AssignmentExpression",
+            column: 25
+        }]
+    },
+    {
+        code: "function foo() { Object.prototype.p = 0 }",
+        errors: [{
+            messageId: "unexpected",
+            data: { builtin: "Object" },
             type: "AssignmentExpression"
         }]
     }]

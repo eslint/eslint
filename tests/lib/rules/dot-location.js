@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for dot-location.
  * @author Greg Cochard
- * @copyright 2015 Greg Cochard
  */
 
 "use strict";
@@ -10,14 +9,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/dot-location"),
+const rule = require("../../../lib/rules/dot-location"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("dot-location", rule, {
     valid: [
@@ -29,32 +28,59 @@ ruleTester.run("dot-location", rule, {
         "obj['prop']",
         {
             code: "obj.\nprop",
-            options: [ "object" ]
+            options: ["object"]
         },
         {
             code: "obj\n.prop",
-            options: [ "property" ]
+            options: ["property"]
         },
         {
             code: "(obj)\n.prop",
-            options: [ "property" ]
+            options: ["property"]
         }
     ],
     invalid: [
         {
             code: "obj\n.property",
-            options: [ "object" ],
-            errors: [ { message: "Expected dot to be on same line as object.", type: "MemberExpression", line: 2, column: 1 } ]
+            output: "obj.\nproperty",
+            options: ["object"],
+            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }]
         },
         {
             code: "obj.\nproperty",
-            options: [ "property" ],
-            errors: [ { message: "Expected dot to be on same line as property.", type: "MemberExpression", line: 1, column: 4 } ]
+            output: "obj\n.property",
+            options: ["property"],
+            errors: [{ messageId: "expectedDotBeforeProperty", type: "MemberExpression", line: 1, column: 4 }]
         },
         {
             code: "(obj).\nproperty",
-            options: [ "property" ],
-            errors: [ { message: "Expected dot to be on same line as property.", type: "MemberExpression", line: 1, column: 6 } ]
+            output: "(obj)\n.property",
+            options: ["property"],
+            errors: [{ messageId: "expectedDotBeforeProperty", type: "MemberExpression", line: 1, column: 6 }]
+        },
+        {
+            code: "5\n.toExponential()",
+            output: "5 .\ntoExponential()",
+            options: ["object"],
+            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }]
+        },
+        {
+            code: "-5\n.toExponential()",
+            output: "-5 .\ntoExponential()",
+            options: ["object"],
+            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }]
+        },
+        {
+            code: "foo /* a */ . /* b */ \n /* c */ bar",
+            output: "foo /* a */  /* b */ \n /* c */ .bar",
+            options: ["property"],
+            errors: [{ messageId: "expectedDotBeforeProperty", type: "MemberExpression", line: 1, column: 13 }]
+        },
+        {
+            code: "foo /* a */ \n /* b */ . /* c */ bar",
+            output: "foo. /* a */ \n /* b */  /* c */ bar",
+            options: ["object"],
+            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 10 }]
         }
     ]
 });

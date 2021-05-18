@@ -1,9 +1,9 @@
-var eslint = require("../../lib/eslint"),
+var Linter = require("../../lib/linter"),
     fs = require("fs");
 
-var config = require("../../conf/eslint.json");
+var config = require("../../conf/eslint-recommended");
 
-var large = fs.readFileSync(__dirname + "/large.js", "utf8"), 
+var large = fs.readFileSync(__dirname + "/large.js", "utf8"),
     medium = fs.readFileSync(__dirname + "/medium.js", "utf8"),
     small = fs.readFileSync(__dirname + "/small.js", "utf8");
 
@@ -12,6 +12,7 @@ var runs = {
     medium: medium,
     small: small
 };
+var linter = new Linter();
 
 benchmark.runs = runs;
 benchmark(Boolean, 1);
@@ -32,7 +33,6 @@ function benchmark(grep, times) {
 
 function run(content, times) {
     while(times--) {
-        eslint.reset();
-        eslint.verify(content, config);
+        linter.verify(content, config);
     }
 }

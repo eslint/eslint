@@ -18,117 +18,44 @@ var anonymousWithSpace = function () {};
 
 Style guides may require a space after the `function` keyword for anonymous functions, while others specify no whitespace. Similarly, the space after a function name may or may not be required.
 
-**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
-
 ## Rule Details
 
 This rule aims to enforce consistent spacing before function parentheses and as such, will warn whenever whitespace doesn't match the preferences specified.
 
-This rule takes one argument. If it is `"always"` then all named functions and anonymous functions must have space before function parentheses. If `"never"` then all named functions and anonymous functions must not have space before function parentheses. If you want different spacing for named and anonymous functions you can pass a configuration object as the rule argument to configure those separately (e. g. `{"anonymous": "always", "named": "never"}`).
+## Options
 
-The default configuration is `"always"`.
-
-### `"always"`
-
-The following patterns are considered problems:
+This rule has a string option or an object option:
 
 ```js
-/*eslint space-before-function-paren: 2*/
-/*eslint-env es6*/
-
-function foo() {           /*error Missing space before function parentheses.*/
-    // ...
+{
+    "space-before-function-paren": ["error", "always"],
+    // or
+    "space-before-function-paren": ["error", {
+        "anonymous": "always",
+        "named": "always",
+        "asyncArrow": "always"
+    }],
 }
-
-var bar = function() {     /*error Missing space before function parentheses.*/
-    // ...
-};
-
-var bar = function foo() { /*error Missing space before function parentheses.*/
-    // ...
-};
-
-class Foo {
-    constructor() {        /*error Missing space before function parentheses.*/
-        // ...
-    }
-}
-
-var foo = {
-    bar() {                /*error Missing space before function parentheses.*/
-        // ...
-    }
-};
 ```
 
-The following patterns are not considered problems:
+* `always` (default) requires a space followed by the `(` of arguments.
+* `never` disallows any space followed by the `(` of arguments.
+
+The string option does not check async arrow function expressions for backward compatibility.
+
+You can also use a separate option for each type of function.
+Each of the following options can be set to `"always"`, `"never"`, or `"ignore"`. The default is `"always"`.
+
+* `anonymous` is for anonymous function expressions (e.g. `function () {}`).
+* `named` is for named function expressions (e.g. `function foo () {}`).
+* `asyncArrow` is for async arrow function expressions (e.g. `async () => {}`).
+
+### "always"
+
+Examples of **incorrect** code for this rule with the default `"always"` option:
 
 ```js
-/*eslint space-before-function-paren: 2*/
-/*eslint-env es6*/
-
-function foo () {
-    // ...
-}
-
-var bar = function () {
-    // ...
-};
-
-var bar = function foo () {
-    // ...
-};
-
-class Foo {
-    constructor () {
-        // ...
-    }
-}
-
-var foo = {
-    bar () {
-        // ...
-    }
-};
-```
-
-### `"never"`
-
-The following patterns are considered problems:
-
-```js
-/*eslint space-before-function-paren: [2, "never"]*/
-/*eslint-env es6*/
-
-function foo () {           /*error Unexpected space before function parentheses.*/
-    // ...
-}
-
-var bar = function () {     /*error Unexpected space before function parentheses.*/
-    // ...
-};
-
-var bar = function foo () { /*error Unexpected space before function parentheses.*/
-    // ...
-};
-
-class Foo {
-    constructor () {        /*error Unexpected space before function parentheses.*/
-        // ...
-    }
-}
-
-var foo = {
-    bar () {                /*error Unexpected space before function parentheses.*/
-        // ...
-    }
-};
-```
-
-The following patterns are not considered problems:
-
-```js
-/*eslint space-before-function-paren: [2, "never"]*/
+/*eslint space-before-function-paren: "error"*/
 /*eslint-env es6*/
 
 function foo() {
@@ -154,41 +81,177 @@ var foo = {
         // ...
     }
 };
+
+var foo = async() => 1
 ```
 
-### `{"anonymous": "always", "named": "never"}`
-
-The following patterns are considered problems:
+Examples of **correct** code for this rule with the default `"always"` option:
 
 ```js
-/*eslint space-before-function-paren: [2, { "anonymous": "always", "named": "never" }]*/
+/*eslint space-before-function-paren: "error"*/
 /*eslint-env es6*/
 
-function foo () {      /*error Unexpected space before function parentheses.*/
+function foo () {
     // ...
 }
 
-var bar = function() { /*error Missing space before function parentheses.*/
+var bar = function () {
+    // ...
+};
+
+var bar = function foo () {
     // ...
 };
 
 class Foo {
-    constructor () {   /*error Unexpected space before function parentheses.*/
+    constructor () {
         // ...
     }
 }
 
 var foo = {
-    bar () {           /*error Unexpected space before function parentheses.*/
+    bar () {
         // ...
     }
 };
+
+var foo = async () => 1
 ```
 
-The following patterns are not considered problems:
+### "never"
+
+Examples of **incorrect** code for this rule with the `"never"` option:
 
 ```js
-/*eslint space-before-function-paren: [2, { "anonymous": "always", "named": "never" }]*/
+/*eslint space-before-function-paren: ["error", "never"]*/
+/*eslint-env es6*/
+
+function foo () {
+    // ...
+}
+
+var bar = function () {
+    // ...
+};
+
+var bar = function foo () {
+    // ...
+};
+
+class Foo {
+    constructor () {
+        // ...
+    }
+}
+
+var foo = {
+    bar () {
+        // ...
+    }
+};
+
+var foo = async () => 1
+```
+
+Examples of **correct** code for this rule with the `"never"` option:
+
+```js
+/*eslint space-before-function-paren: ["error", "never"]*/
+/*eslint-env es6*/
+
+function foo() {
+    // ...
+}
+
+var bar = function() {
+    // ...
+};
+
+var bar = function foo() {
+    // ...
+};
+
+class Foo {
+    constructor() {
+        // ...
+    }
+}
+
+var foo = {
+    bar() {
+        // ...
+    }
+};
+
+var foo = async() => 1
+```
+
+### `{"anonymous": "always", "named": "never", "asyncArrow": "always"}`
+
+Examples of **incorrect** code for this rule with the `{"anonymous": "always", "named": "never", "asyncArrow": "always"}` option:
+
+```js
+/*eslint space-before-function-paren: ["error", {"anonymous": "always", "named": "never", "asyncArrow": "always"}]*/
+/*eslint-env es6*/
+
+function foo () {
+    // ...
+}
+
+var bar = function() {
+    // ...
+};
+
+class Foo {
+    constructor () {
+        // ...
+    }
+}
+
+var foo = {
+    bar () {
+        // ...
+    }
+};
+
+var foo = async(a) => await a
+```
+
+Examples of **correct** code for this rule with the `{"anonymous": "always", "named": "never", "asyncArrow": "always"}` option:
+
+```js
+/*eslint space-before-function-paren: ["error", {"anonymous": "always", "named": "never", "asyncArrow": "always"}]*/
+/*eslint-env es6*/
+
+function foo() {
+    // ...
+}
+
+var bar = function () {
+    // ...
+};
+
+class Foo {
+    constructor() {
+        // ...
+    }
+}
+
+var foo = {
+    bar() {
+        // ...
+    }
+};
+
+var foo = async (a) => await a
+```
+
+### `{"anonymous": "never", "named": "always"}`
+
+Examples of **incorrect** code for this rule with the `{"anonymous": "never", "named": "always"}` option:
+
+```js
+/*eslint space-before-function-paren: ["error", { "anonymous": "never", "named": "always" }]*/
 /*eslint-env es6*/
 
 function foo() {
@@ -212,39 +275,10 @@ var foo = {
 };
 ```
 
-### `{"anonymous": "never", "named": "always"}`
-
-The following patterns are considered problems:
+Examples of **correct** code for this rule with the `{"anonymous": "never", "named": "always"}` option:
 
 ```js
-/*eslint space-before-function-paren: [2, { "anonymous": "never", "named": "always" }]*/
-/*eslint-env es6*/
-
-function foo() {        /*error Missing space before function parentheses.*/
-    // ...
-}
-
-var bar = function () { /*error Unexpected space before function parentheses.*/
-    // ...
-};
-
-class Foo {
-    constructor() {     /*error Missing space before function parentheses.*/
-        // ...
-    }
-}
-
-var foo = {
-    bar() {             /*error Missing space before function parentheses.*/
-        // ...
-    }
-};
-```
-
-The following patterns are not considered problems:
-
-```js
-/*eslint space-before-function-paren: [2, { "anonymous": "never", "named": "always" }]*/
+/*eslint space-before-function-paren: ["error", { "anonymous": "never", "named": "always" }]*/
 /*eslint-env es6*/
 
 function foo () {
@@ -254,6 +288,62 @@ function foo () {
 var bar = function() {
     // ...
 };
+
+class Foo {
+    constructor () {
+        // ...
+    }
+}
+
+var foo = {
+    bar () {
+        // ...
+    }
+};
+```
+
+### `{"anonymous": "ignore", "named": "always"}`
+
+Examples of **incorrect** code for this rule with the `{"anonymous": "ignore", "named": "always"}` option:
+
+```js
+/*eslint space-before-function-paren: ["error", { "anonymous": "ignore", "named": "always" }]*/
+/*eslint-env es6*/
+
+function foo() {
+    // ...
+}
+
+class Foo {
+    constructor() {
+        // ...
+    }
+}
+
+var foo = {
+    bar() {
+        // ...
+    }
+};
+```
+
+Examples of **correct** code for this rule with the `{"anonymous": "ignore", "named": "always"}` option:
+
+```js
+/*eslint space-before-function-paren: ["error", { "anonymous": "ignore", "named": "always" }]*/
+/*eslint-env es6*/
+
+var bar = function() {
+    // ...
+};
+
+var bar = function () {
+    // ...
+};
+
+function foo () {
+    // ...
+}
 
 class Foo {
     constructor () {

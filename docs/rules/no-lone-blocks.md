@@ -10,40 +10,45 @@ In JavaScript, prior to ES6, standalone code blocks delimited by curly braces do
 
 In ES6, code blocks may create a new scope if a block-level binding (`let` and `const`), a class declaration or a function declaration (in strict mode) are present. A block is not considered redundant in these cases.
 
-## Rule details
+## Rule Details
 
 This rule aims to eliminate unnecessary and potentially confusing blocks at the top level of a script or within other blocks.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-lone-blocks: 2*/
+/*eslint no-lone-blocks: "error"*/
 
-{}                    /*error Block is redundant.*/
+{}
 
 if (foo) {
     bar();
-    {                 /*error Nested block is redundant.*/
+    {
         baz();
     }
 }
 
 function bar() {
-    {                 /*error Nested block is redundant.*/
+    {
         baz();
     }
 }
 
-{                     /*error Block is redundant.*/
+{
     function foo() {}
+}
+
+{
+    aLabel: {
+    }
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with ES6 environment:
 
 ```js
+/*eslint no-lone-blocks: "error"*/
 /*eslint-env es6*/
-/*eslint no-lone-blocks: 2*/
 
 while (foo) {
     bar();
@@ -70,13 +75,17 @@ function bar() {
 {
     class Foo {}
 }
+
+aLabel: {
+}
 ```
 
-In strict mode, with `ecmaFeatures: { blockBindings: true }`, the following will not warn:
+Examples of **correct** code for this rule with ES6 environment and strict mode via `"parserOptions": { "sourceType": "module" }` in the ESLint configuration or `"use strict"` directive in the code:
 
 ```js
+/*eslint no-lone-blocks: "error"*/
 /*eslint-env es6*/
-/*eslint no-lone-blocks: 2*/
+
 "use strict";
 
 {

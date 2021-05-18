@@ -9,14 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-script-url"),
+const rule = require("../../../lib/rules/no-script-url"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("no-script-url", rule, {
     valid: [
         "var a = 'Hello World!';",
@@ -27,13 +28,13 @@ ruleTester.run("no-script-url", rule, {
         {
             code: "var a = 'javascript:void(0);';",
             errors: [
-                { message: "Script URL is a form of eval.", type: "Literal"}
+                { message: "Script URL is a form of eval.", type: "Literal" }
             ]
         },
         {
             code: "var a = 'javascript:';",
             errors: [
-                { message: "Script URL is a form of eval.", type: "Literal"}
+                { message: "Script URL is a form of eval.", type: "Literal" }
             ]
         }
     ]

@@ -1,37 +1,34 @@
-# Disallow or enforce spaces inside of single line blocks. (block-spacing)
-
-This rule is for spacing style within single line blocks.
-
-**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+# Disallow or enforce spaces inside of blocks after opening block and before closing block (block-spacing)
 
 ## Rule Details
 
-This rule is aimed to flag usage of spacing inside of blocks.
-This rule has a option, its value is `"always"` or `"never"`.
+This rule enforces consistent spacing inside an open block token and the next token on the same line. This rule also enforces consistent spacing inside a close block token and previous token on the same line.
 
-- `"always"` (by default) enforces one or more spaces.
-- `"never"` disallows space(s).
+## Options
+
+This rule has a string option:
+
+* `"always"` (default) requires one or more spaces
+* `"never"` disallows spaces
 
 ### always
 
-```json
-{
-  "block-spacing": [2, "always"]
+Examples of **incorrect** code for this rule with the default `"always"` option:
+
+```js
+/*eslint block-spacing: "error"*/
+
+function foo() {return true;}
+if (foo) { bar = 0;}
+function baz() {let i = 0;
+    return i;
 }
 ```
 
-The following patterns are considered problems:
+Examples of **correct** code for this rule with the default `"always"` option:
 
 ```js
-/*eslint block-spacing: 2*/
-function foo() {return true;} /*error Requires a space after "{".*/ /*error Requires a space before "}".*/
-if (foo) { bar = 0;}          /*error Requires a space before "}".*/
-```
-
-The following patterns are not considered problems:
-
-```js
-/*eslint block-spacing: 2*/
+/*eslint block-spacing: "error"*/
 
 function foo() { return true; }
 if (foo) { bar = 0; }
@@ -39,30 +36,24 @@ if (foo) { bar = 0; }
 
 ### never
 
-```json
-{
-  "block-spacing": [2, "never"]
-}
-```
-
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `"never"` option:
 
 ```js
-/*eslint block-spacing: [2, "never"]*/
+/*eslint block-spacing: ["error", "never"]*/
 
-function foo() { return true; } /*error Unexpected space(s) after "{".*/ /*error Unexpected space(s) before "}".*/
-if (foo) { bar = 0;}            /*error Unexpected space(s) after "{".*/
+function foo() { return true; }
+if (foo) { bar = 0;}
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `"never"` option:
 
 ```js
-/*eslint block-spacing: [2, "never"]*/
+/*eslint block-spacing: ["error", "never"]*/
 
 function foo() {return true;}
 if (foo) {bar = 0;}
 ```
 
-## When Not to Use It
+## When Not To Use It
 
 If you don't want to be notified about spacing style inside of blocks, you can safely disable this rule.

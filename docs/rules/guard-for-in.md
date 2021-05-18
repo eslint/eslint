@@ -8,24 +8,32 @@ for (key in foo) {
 }
 ```
 
+Note that simply checking `foo.hasOwnProperty(key)` is likely to cause an error in some cases; see [no-prototype-builtins](no-prototype-builtins.md).
+
 ## Rule Details
 
 This rule is aimed at preventing unexpected behavior that could arise from using a `for in` loop without filtering the results in the loop. As such, it will warn when `for in` loops do not filter their results with an `if` statement.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint guard-for-in: 2*/
+/*eslint guard-for-in: "error"*/
 
-for (key in foo) {    /*error The body of a for-in should be wrapped in an if statement to filter unwanted properties from the prototype.*/
+for (key in foo) {
     doSomething(key);
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint guard-for-in: 2*/
+/*eslint guard-for-in: "error"*/
+
+for (key in foo) {
+    if (Object.prototype.hasOwnProperty.call(foo, key)) {
+        doSomething(key);
+    }
+}
 
 for (key in foo) {
     if ({}.hasOwnProperty.call(foo, key)) {
@@ -34,7 +42,11 @@ for (key in foo) {
 }
 ```
 
+## Related Rules
+
+* [no-prototype-builtins](no-prototype-builtins.md)
+
 ## Further Reading
 
-* [Exploring JavaScript for-in loops](http://javascriptweblog.wordpress.com/2011/01/04/exploring-javascript-for-in-loops/)
-* [The pitfalls of using objects as maps in JavaScript](http://www.2ality.com/2012/01/objects-as-maps.html)
+* [Exploring JavaScript for-in loops](https://javascriptweblog.wordpress.com/2011/01/04/exploring-javascript-for-in-loops/)
+* [The pitfalls of using objects as maps in JavaScript](http://2ality.com/2012/01/objects-as-maps.html)

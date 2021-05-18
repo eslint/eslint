@@ -3,9 +3,9 @@
 /**
  * @fileoverview Main CLI that is run via the eslint command.
  * @author Nicholas C. Zakas
- * @copyright 2013 Nicholas C. Zakas. All rights reserved.
- * See LICENSE file in root directory for full license.
  */
+
+/* eslint no-console:off */
 
 "use strict";
 
@@ -13,14 +13,13 @@
 // Helpers
 //------------------------------------------------------------------------------
 
-var exitCode = 0,
-    useStdIn = (process.argv.indexOf("--stdin") > -1),
+const useStdIn = (process.argv.indexOf("--stdin") > -1),
     init = (process.argv.indexOf("--init") > -1),
     debug = (process.argv.indexOf("--debug") > -1);
 
 // must do this initialization *before* other requires in order to work
 if (debug) {
-    require("debug").enable("eslint:*");
+    require("debug").enable("eslint:*,-eslint:code-path");
 }
 
 //------------------------------------------------------------------------------
@@ -28,42 +27,53 @@ if (debug) {
 //------------------------------------------------------------------------------
 
 // now we can safely include the other modules that use debug
-var concat = require("concat-stream"),
-    cli = require("../lib/cli");
+const cli = require("../lib/cli"),
+    path = require("path"),
+    fs = require("fs");
 
 //------------------------------------------------------------------------------
 // Execution
 //------------------------------------------------------------------------------
 
+process.once("uncaughtException", err => {
+
+    // lazy load
+    const lodash = require("lodash");
+
+    if (typeof err.messageTemplate === "string" && err.messageTemplate.length > 0) {
+        const template = lodash.template(fs.readFileSync(path.resolve(__dirname, `../messages/${err.messageTemplate}.txt`), "utf-8"));
+        const pkg = require("../package.json");
+
+        console.error("\nOops! Something went wrong! :(");
+        console.error(`\nESLint: ${pkg.version}.\n${template(err.messageData || {})}`);
+    } else {
+
+        console.error(err.stack);
+    }
+
+    process.exitCode = 2;
+});
+
 if (useStdIn) {
-    process.stdin.pipe(concat({ encoding: "string" }, function(text) {
-        try {
-            exitCode = cli.execute(process.argv, text);
-        } catch (ex) {
-            console.error(ex.message);
-            console.error(ex.stack);
-            exitCode = 1;
-        }
-    }));
+
+    /*
+     * Note: `process.stdin.fd` is not used here due to https://github.com/nodejs/node/issues/7439.
+     * Accessing the `process.stdin` property seems to modify the behavior of file descriptor 0, resulting
+     * in an error when stdin is piped in asynchronously.
+     */
+    const STDIN_FILE_DESCRIPTOR = 0;
+
+    process.exitCode = cli.execute(process.argv, fs.readFileSync(STDIN_FILE_DESCRIPTOR, "utf8"));
 } else if (init) {
-    var configInit = require("../lib/config/config-initializer");
-    configInit.initializeConfig(function(err) {
-        if (err) {
-            exitCode = 1;
-            console.error(err.message);
-            console.error(err.stack);
-        } else {
-            exitCode = 0;
-        }
+    const configInit = require("../lib/config/config-initializer");
+
+    configInit.initializeConfig().then(() => {
+        process.exitCode = 0;
+    }).catch(err => {
+        process.exitCode = 1;
+        console.error(err.message);
+        console.error(err.stack);
     });
 } else {
-    exitCode = cli.execute(process.argv);
+    process.exitCode = cli.execute(process.argv);
 }
-
-/*
- * Wait for the stdout buffer to drain.
- * See https://github.com/eslint/eslint/issues/317
- */
-process.on("exit", function() {
-    process.exit(exitCode);
-});

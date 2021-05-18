@@ -1,4 +1,4 @@
-# Disallow Redeclaring Variables (no-redeclare)
+# disallow variable redeclaration (no-redeclare)
 
 In JavaScript, it's possible to redeclare the same variable name using `var`. This can lead to confusion as to where the variable is actually declared and initialized.
 
@@ -6,63 +6,55 @@ In JavaScript, it's possible to redeclare the same variable name using `var`. Th
 
 This rule is aimed at eliminating variables that have multiple declarations in the same scope.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-redeclare: 2*/
+/*eslint no-redeclare: "error"*/
 
 var a = 3;
-var a = 10; /*error "a" is already defined*/
+var a = 10;
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-redeclare: 2*/
+/*eslint no-redeclare: "error"*/
 
 var a = 3;
 // ...
 a = 10;
 ```
 
-### Options
+## Options
 
-This rule takes one option, an object, with a property `"builtinGlobals"`.
+This rule takes one optional argument, an object with a boolean property `"builtinGlobals"`. It defaults to `false`.
+If set to `true`, this rule also checks redeclaration of built-in globals, such as `Object`, `Array`, `Number`...
 
-```json
-{
-    "no-redeclare": [2, {"builtinGlobals": true}]
-}
-```
+### builtinGlobals
 
-#### builtinGlobals
+The `"builtinGlobals"` option will check for redeclaration of built-in globals in global scope.
 
-`false` by default.
-If this is `true`, this rule checks with built-in global variables such as `Object`, `Array`, `Number`, ...
-
-When `{"builtinGlobals": true}`, the following patterns are considered problems:
+Examples of **incorrect** code for the `{ "builtinGlobals": true }` option:
 
 ```js
-/*eslint no-redeclare: [2, { "builtinGlobals": true }]*/
+/*eslint no-redeclare: ["error", { "builtinGlobals": true }]*/
 
-var Object = 0; /*error "Object" is already defined*/
+var Object = 0;
 ```
 
-When `{"builtinGlobals": true}` and under `browser` environment, the following patterns are considered problems:
+Examples of **incorrect** code for the `{ "builtinGlobals": true }` option and the `browser` environment:
 
 ```js
+/*eslint no-redeclare: ["error", { "builtinGlobals": true }]*/
 /*eslint-env browser*/
-/*eslint no-redeclare: [2, { "builtinGlobals": true }]*/
 
-var top = 0; /*error "top" is already defined*/
+var top = 0;
 ```
 
-* Note: The `browser` environment has many built-in global variables, `top` is one of them.
-  Some of built-in global variables cannot be redeclared. It's a trap.
+The `browser` environment has many built-in global variables (for example, `top`). Some of built-in global variables cannot be redeclared.
 
-  ```js
-  var top = 0;
-  var left = 0;
-  console.log(top + " " + left); // prints "[object Window] 0"
-  console.log(top * left); // prints "NaN"
-  ```
+Note that when using the `node` or `commonjs` environments (or `ecmaFeatures.globalReturn`, if using the default parser), the top scope of a program is not actually the global scope, but rather a "module" scope. When this is the case, declaring a variable named after a builtin global is not a redeclaration, but rather a shadowing of the global variable. In that case, the [`no-shadow`](no-shadow.md) rule with the `"builtinGlobals"` option should be used.
+
+## Related Rules
+
+* [no-shadow](no-shadow.md)

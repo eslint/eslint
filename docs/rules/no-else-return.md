@@ -1,4 +1,4 @@
-# Disallow return in else (no-else-return)
+# Disallow return before else (no-else-return)
 
 If an `if` block contains a `return` statement, the `else` block becomes unnecessary. Its contents can be placed outside of the block.
 
@@ -16,15 +16,24 @@ function foo() {
 
 This rule is aimed at highlighting an unnecessary block of code following an `if` containing a return statement. As such, it will warn when it encounters an `else` following a chain of `if`s, all of them containing a `return` statement.
 
-The following patterns are considered problems:
+## Options
+
+This rule has an object option:
+
+* `allowElseIf: true` (default) allows `else if` blocks after a return
+* `allowElseIf: false` disallows `else if` blocks after a return
+
+### `allowElseIf: true`
+
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-else-return: 2*/
+/*eslint no-else-return: "error"*/
 
 function foo() {
     if (x) {
         return y;
-    } else {            /*error Unexpected 'else' after 'return'.*/
+    } else {
         return z;
     }
 }
@@ -34,7 +43,7 @@ function foo() {
         return y;
     } else if (z) {
         return w;
-    } else {            /*error Unexpected 'else' after 'return'.*/
+    } else {
         return t;
     }
 }
@@ -42,11 +51,21 @@ function foo() {
 function foo() {
     if (x) {
         return y;
-    } else {            /*error Unexpected 'else' after 'return'.*/
+    } else {
         var t = "foo";
     }
 
     return t;
+}
+
+function foo() {
+    if (error) {
+        return 'It failed';
+    } else {
+        if (loading) {
+            return "It's still loading";
+        }
+    }
 }
 
 // Two warnings for nested occurrences
@@ -54,19 +73,19 @@ function foo() {
     if (x) {
         if (y) {
             return y;
-        } else {        /*error Unexpected 'else' after 'return'.*/
+        } else {
             return x;
         }
-    } else {            /*error Unexpected 'else' after 'return'.*/
+    } else {
         return z;
     }
 }
 ```
 
-The follow patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-else-return: 2*/
+/*eslint no-else-return: "error"*/
 
 function foo() {
     if (x) {
@@ -93,6 +112,46 @@ function foo() {
         }
     } else {
         return z;
+    }
+}
+
+function foo() {
+    if (error) {
+        return 'It failed';
+    } else if (loading) {
+        return "It's still loading";
+    }
+}
+```
+
+### `allowElseIf: false`
+
+Examples of **incorrect** code for this rule:
+
+```js
+/*eslint no-else-return: ["error", {allowElseIf: false}]*/
+
+function foo() {
+    if (error) {
+        return 'It failed';
+    } else if (loading) {
+        return "It's still loading";
+    }
+}
+```
+
+Examples of **correct** code for this rule:
+
+```js
+/*eslint no-else-return: ["error", {allowElseIf: false}]*/
+
+function foo() {
+    if (error) {
+        return 'It failed';
+    }
+
+    if (loading) {
+        return "It's still loading";
     }
 }
 ```

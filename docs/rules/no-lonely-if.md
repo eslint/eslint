@@ -1,6 +1,6 @@
-# Disallow `if` as the Only Statement in an `else` Block (no-lonely-if)
+# disallow `if` statements as the only statement in `else` blocks (no-lonely-if)
 
-If an `if` statement is the only statement in the `else` block of a parent `if` statement, it is often clearer to combine the two to using `else if` form.
+If an `if` statement is the only statement in the `else` block, it is often clearer to use an `else if` form.
 
 ```js
 if (foo) {
@@ -24,17 +24,17 @@ if (foo) {
 
 ## Rule Details
 
-This rule warns when an `if` statement's `else` block contains only another `if` statement.
+This rule disallows `if` statements as the only statement in `else` blocks.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-lonely-if: 2*/
+/*eslint no-lonely-if: "error"*/
 
 if (condition) {
     // ...
 } else {
-    if (anotherCondition) { /*error Unexpected if as the only statement in an else block.*/
+    if (anotherCondition) {
         // ...
     }
 }
@@ -42,7 +42,7 @@ if (condition) {
 if (condition) {
     // ...
 } else {
-    if (anotherCondition) { /*error Unexpected if as the only statement in an else block.*/
+    if (anotherCondition) {
         // ...
     } else {
         // ...
@@ -50,10 +50,10 @@ if (condition) {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-lonely-if: 2*/
+/*eslint no-lonely-if: "error"*/
 
 if (condition) {
     // ...

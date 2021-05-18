@@ -3,86 +3,80 @@
 It is often necessary to capture the current execution context in order to make it available subsequently. A prominent example of this are jQuery callbacks:
 
 ```js
-var self = this;
+var that = this;
 jQuery('li').click(function (event) {
     // here, "this" is the HTMLElement where the click event occurred
-    self.setFoo(42);
+    that.setFoo(42);
 });
 ```
 
-There are many commonly used aliases for `this` such as `self`, `that` or `me`. It is desirable to ensure that whichever alias the team agrees upon is used consistently throughout the application.
+There are many commonly used aliases for `this` such as `that`, `self` or `me`. It is desirable to ensure that whichever alias the team agrees upon is used consistently throughout the application.
 
 ## Rule Details
 
-This rule designates a variable as the chosen alias for `this`. It then enforces two things:
+This rule enforces two things about variables with the designated alias names for `this`:
 
-* if a variable with the designated name is declared or assigned to, it *must* explicitly be assigned the current execution context, i.e. `this`
-* if `this` is explicitly assigned to a variable, the name of that variable must be the designated one
+* If a variable with a designated name is declared, it *must* be either initialized (in the declaration) or assigned (in the same scope as the declaration) the value `this`.
+* If a variable is initialized or assigned the value `this`, the name of the variable *must* be a designated alias.
 
-### Options
+## Options
 
-This rule takes one option, a string, which is the designated `this` variable.
+This rule has one or more string options:
 
-#### Usage
+* designated alias names for `this` (default `"that"`)
 
-You can set the rule configuration like this:
-
-```json
-"consistent-this": [2, "self"]
-```
-
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the default `"that"` option:
 
 ```js
-/*eslint consistent-this: [2, "self"]*/
-
-var self = 42;   /*error Designated alias 'self' is not assigned to 'this'.*/
-
-var that = this; /*error Unexpected alias 'that' for 'this'.*/
-
-self = 42;       /*error Designated alias 'self' is not assigned to 'this'.*/
-
-that = this;     /*error Unexpected alias 'that' for 'this'.*/
-```
-
-The following patterns are not considered problems:
-
-```js
-/*eslint consistent-this: [2, "self"]*/
-
-var self = this;
+/*eslint consistent-this: ["error", "that"]*/
 
 var that = 42;
 
-var that;
+var self = this;
+
+that = 42;
 
 self = this;
+```
+
+Examples of **correct** code for this rule with the default `"that"` option:
+
+```js
+/*eslint consistent-this: ["error", "that"]*/
+
+var that = this;
+
+var self = 42;
+
+var self;
+
+that = this;
 
 foo.bar = this;
 ```
 
-A declaration of an alias does not need to assign `this` in the declaration, but it must perform an appropriate assignment in the same scope as the declaration. The following patterns are also considered okay:
+Examples of **incorrect** code for this rule with the default `"that"` option, if the variable is not initialized:
 
 ```js
-/*eslint consistent-this: [2, "self"]*/
+/*eslint consistent-this: ["error", "that"]*/
 
-var self;
-self = this;
-
-var foo, self;
-foo = 42;
-self = this;
+var that;
+function f() {
+    that = this;
+}
 ```
 
-But the following pattern is considered a warning:
+Examples of **correct** code for this rule with the default `"that"` option, if the variable is not initialized:
 
 ```js
-/*eslint consistent-this: [2, "self"]*/
+/*eslint consistent-this: ["error", "that"]*/
 
-var self;        /*error Designated alias 'self' is not assigned to 'this'.*/
-function f() {
-    self = this;
-}
+var that;
+that = this;
+
+var foo, that;
+foo = 42;
+that = this;
 ```
 
 ## When Not To Use It

@@ -7,20 +7,20 @@ The `process.env` object in Node.js is used to store deployment/configuration pa
 
 This rule is aimed at discouraging use of `process.env` to avoid global dependencies. As such, it will warn whenever `process.env` is used.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-process-env: 2*/
+/*eslint no-process-env: "error"*/
 
-if(process.env.NODE_ENV === "development") { /*error Unexpected use of process.env.*/
+if(process.env.NODE_ENV === "development") {
     //...
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-process-env: 2*/
+/*eslint no-process-env: "error"*/
 
 var config = require("./config");
 
@@ -35,5 +35,5 @@ If prefer to use `process.env` throughout your project to retrieve values from e
 
 ## Further Reading
 
-* [How to store Node.js deployment settings/configuration files? - Stack Overflow](http://stackoverflow.com/questions/5869216/how-to-store-node-js-deployment-settings-configuration-files)
-* [Storing Node.js application config data - Ben Hall's blog](http://blog.benhall.me.uk/2012/02/storing-application-config-data-in/)
+* [How to store Node.js deployment settings/configuration files? - Stack Overflow](https://stackoverflow.com/questions/5869216/how-to-store-node-js-deployment-settings-configuration-files)
+* [Storing Node.js application config data - Ben Hall's blog](https://blog.benhall.me.uk/2012/02/storing-application-config-data-in/)

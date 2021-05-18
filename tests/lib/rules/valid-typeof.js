@@ -8,14 +8,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/valid-typeof"),
+const rule = require("../../../lib/rules/valid-typeof"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("valid-typeof", rule, {
 
     valid: [
@@ -42,57 +43,129 @@ ruleTester.run("valid-typeof", rule, {
         "typeof(foo) !== 'string'",
         "typeof(foo) == 'string'",
         "typeof(foo) != 'string'",
-        "var oddUse = typeof foo + 'thing'"
+        "var oddUse = typeof foo + 'thing'",
+        {
+            code: "typeof foo === 'number'",
+            options: [{ requireStringLiterals: true }]
+        },
+        {
+            code: "typeof foo === \"number\"",
+            options: [{ requireStringLiterals: true }]
+        },
+        {
+            code: "var baz = typeof foo + 'thing'",
+            options: [{ requireStringLiterals: true }]
+        },
+        {
+            code: "typeof foo === typeof bar",
+            options: [{ requireStringLiterals: true }]
+        },
+        {
+            code: "typeof foo === `string`",
+            options: [{ requireStringLiterals: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`object` === typeof foo",
+            options: [{ requireStringLiterals: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "typeof foo === `str${somethingElse}`",
+            parserOptions: { ecmaVersion: 6 }
+        }
     ],
 
     invalid: [
         {
             code: "typeof foo === 'strnig'",
-            errors: [{ message: "Invalid typeof comparison value", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "'strnig' === typeof foo",
-            errors: [{ message: "Invalid typeof comparison value", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "if (typeof bar === 'umdefined') {}",
-            errors: [{ message: "Invalid typeof comparison value", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "typeof foo !== 'strnig'",
-            errors: [{ message: "Invalid typeof comparison value", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "'strnig' !== typeof foo",
-            errors: [{ message: "Invalid typeof comparison value", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "if (typeof bar !== 'umdefined') {}",
-            errors: [{ message: "Invalid typeof comparison value", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "typeof foo != 'strnig'",
-            errors: [{ message: "Invalid typeof comparison value", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "'strnig' != typeof foo",
-            errors: [{ message: "Invalid typeof comparison value", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "if (typeof bar != 'umdefined') {}",
-            errors: [{ message: "Invalid typeof comparison value", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "typeof foo == 'strnig'",
-            errors: [{ message: "Invalid typeof comparison value", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "'strnig' == typeof foo",
-            errors: [{ message: "Invalid typeof comparison value", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
         },
         {
             code: "if (typeof bar == 'umdefined') {}",
-            errors: [{ message: "Invalid typeof comparison value", type: "Literal" }]
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
+        },
+        {
+            code: "if (typeof bar === `umdefined`) {}",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "invalidValue", type: "TemplateLiteral" }]
+        },
+        {
+            code: "typeof foo == 'invalid string'",
+            options: [{ requireStringLiterals: true }],
+            errors: [{ messageId: "invalidValue", type: "Literal" }]
+        },
+        {
+            code: "typeof foo == Object",
+            options: [{ requireStringLiterals: true }],
+            errors: [{ messageId: "notString", type: "Identifier" }]
+        },
+        {
+            code: "typeof foo === undefined",
+            options: [{ requireStringLiterals: true }],
+            errors: [{ messageId: "notString", type: "Identifier" }]
+        },
+        {
+            code: "undefined === typeof foo",
+            options: [{ requireStringLiterals: true }],
+            errors: [{ messageId: "notString", type: "Identifier" }]
+        },
+        {
+            code: "undefined == typeof foo",
+            options: [{ requireStringLiterals: true }],
+            errors: [{ messageId: "notString", type: "Identifier" }]
+        },
+        {
+            code: "typeof foo === `undefined${foo}`",
+            options: [{ requireStringLiterals: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "notString", type: "TemplateLiteral" }]
+        },
+        {
+            code: "typeof foo === `${string}`",
+            options: [{ requireStringLiterals: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "notString", type: "TemplateLiteral" }]
         }
     ]
 });

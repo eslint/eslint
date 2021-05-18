@@ -9,16 +9,16 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/radix"),
+const rule = require("../../../lib/rules/radix"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("radix", rule, {
 
     valid: [
         "parseInt(\"10\", 10);",
         "parseInt(\"10\", foo);",
-        "Number.parseInt(\"10\", foo);",
         "Number.parseInt(\"10\", foo);",
         {
             code: "parseInt(\"10\", 10);",
@@ -35,7 +35,18 @@ ruleTester.run("radix", rule, {
         {
             code: "parseInt(\"10\", foo);",
             options: ["as-needed"]
-        }
+        },
+        "parseInt",
+        "Number.foo();",
+        "Number[parseInt]();",
+
+        // Ignores if it's shadowed.
+        "var parseInt; parseInt();",
+        { code: "var parseInt; parseInt(foo);", options: ["always"] },
+        { code: "var parseInt; parseInt(foo, 10);", options: ["as-needed"] },
+        "var Number; Number.parseInt();",
+        { code: "var Number; Number.parseInt(foo);", options: ["always"] },
+        { code: "var Number; Number.parseInt(foo, 10);", options: ["as-needed"] }
     ],
 
     invalid: [

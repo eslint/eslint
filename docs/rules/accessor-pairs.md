@@ -32,44 +32,36 @@ This rule enforces a style where it requires to have a getter for every property
 
 By activating the option `getWithoutSet` it enforces the presence of a setter for every property which has a getter defined.
 
-### Options
+## Options
 
-`getWithoutSet` set to `true` will warn for getters without setters (Default `false`).
-`setWithoutGet` set to `true` will warn for setters without getters (Default `true`).
+* `setWithoutGet` set to `true` will warn for setters without getters (Default `true`).
+* `getWithoutSet` set to `true` will warn for getters without setters (Default `false`).
 
-#### Usage
+### setWithoutGet
 
-By default `setWithoutGet` option is always set to `true`.
-
-```json
-{
-    "accessor-pairs": [2, {"getWithoutSet": true}]
-}
-```
-
-The following patterns are considered problems by default:
+Examples of **incorrect** code for the default `{ "setWithoutGet": true }` option:
 
 ```js
-/*eslint accessor-pairs: 2*/
+/*eslint accessor-pairs: "error"*/
 
-var o = {                       /*error Getter is not present*/
+var o = {
     set a(value) {
         this.val = value;
     }
 };
 
 var o = {d: 1};
-Object.defineProperty(o, 'c', { /*error Getter is not present*/
+Object.defineProperty(o, 'c', {
     set: function(value) {
         this.val = value;
     }
 });
 ```
 
-The following patterns are not considered problems by default:
+Examples of **correct** code for the default `{ "setWithoutGet": true }` option:
 
 ```js
-/*eslint accessor-pairs: 2*/
+/*eslint accessor-pairs: "error"*/
 
 var o = {
     set a(value) {
@@ -92,44 +84,44 @@ Object.defineProperty(o, 'c', {
 
 ```
 
-#### getWithoutSet
+### getWithoutSet
 
-The following patterns are considered problems with option `getWithoutSet` set:
+Examples of **incorrect** code for the `{ "getWithoutSet": true }` option:
 
 ```js
-/*eslint accessor-pairs: [2, { getWithoutSet: true }]*/
+/*eslint accessor-pairs: ["error", { "getWithoutSet": true }]*/
 
-var o = {                       /*error Getter is not present*/
+var o = {
     set a(value) {
         this.val = value;
     }
 };
 
-var o = {                       /*error Setter is not present*/
+var o = {
     get a() {
         return this.val;
     }
 };
 
 var o = {d: 1};
-Object.defineProperty(o, 'c', { /*error Getter is not present*/
+Object.defineProperty(o, 'c', {
     set: function(value) {
         this.val = value;
     }
 });
 
 var o = {d: 1};
-Object.defineProperty(o, 'c', { /*error Setter is not present*/
+Object.defineProperty(o, 'c', {
     get: function() {
         return this.val;
     }
 });
 ```
 
-The following patterns are not considered problems with option `getWithoutSet` set:
+Examples of **correct** code for the `{ "getWithoutSet": true }` option:
 
 ```js
-/*eslint accessor-pairs: [2, { getWithoutSet: true }]*/
+/*eslint accessor-pairs: ["error", { "getWithoutSet": true }]*/
 var o = {
     set a(value) {
         this.val = value;

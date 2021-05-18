@@ -6,36 +6,35 @@ In ES6, block-level bindings (`let` and `const`) introduce a "temporal dead zone
 
 ## Rule Details
 
-This rule will warn when it encounters a reference to an identifier that has not been yet declared.
+This rule will warn when it encounters a reference to an identifier that has not yet been declared.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-use-before-define: 2*/
+/*eslint no-use-before-define: "error"*/
 /*eslint-env es6*/
 
-alert(a);       /*error a was used before it was defined*/
+alert(a);
 var a = 10;
 
-f();            /*error f was used before it was defined*/
+f();
 function f() {}
 
 function g() {
-    return b;  /*error b was used before it was defined*/
+    return b;
 }
 var b = 1;
 
-// With blockBindings: true
 {
-    alert(c);  /*error c was used before it was defined*/
+    alert(c);
     let c = 1;
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-use-before-define: 2*/
+/*eslint no-use-before-define: "error"*/
 /*eslint-env es6*/
 
 var a;
@@ -50,20 +49,98 @@ function g() {
     return b;
 }
 
-// With blockBindings: true
 {
-    let C;
+    let c;
     c++;
 }
 ```
 
-The rule accepts an additional option that can take the value `"nofunc"`. If this option is active, function declarations are exempted from the rule, so it is allowed to use a function name *before* its declaration.
+## Options
 
-The following patterns are not considered problems when `"nofunc"` is specified:
+```json
+{
+    "no-use-before-define": ["error", { "functions": true, "classes": true }]
+}
+```
+
+* `functions` (`boolean`) -
+  The flag which shows whether or not this rule checks function declarations.
+  If this is `true`, this rule warns every reference to a function before the function declaration.
+  Otherwise, ignores those references.
+  Function declarations are hoisted, so it's safe.
+  Default is `true`.
+* `classes` (`boolean`) -
+  The flag which shows whether or not this rule checks class declarations of upper scopes.
+  If this is `true`, this rule warns every reference to a class before the class declaration.
+  Otherwise, ignores those references if the declaration is in upper function scopes.
+  Class declarations are not hoisted, so it might be danger.
+  Default is `true`.
+* `variables` (`boolean`) -
+  This flag determines whether or not the rule checks variable declarations in upper scopes.
+  If this is `true`, the rule warns every reference to a variable before the variable declaration.
+  Otherwise, the rule ignores a reference if the declaration is in an upper scope, while still reporting the reference if it's in the same scope as the declaration.
+  Default is `true`.
+
+This rule accepts `"nofunc"` string as an option.
+`"nofunc"` is the same as `{ "functions": false, "classes": true }`.
+
+### functions
+
+Examples of **correct** code for the `{ "functions": false }` option:
 
 ```js
-/*eslint no-use-before-define: [2, "nofunc"]*/
+/*eslint no-use-before-define: ["error", { "functions": false }]*/
 
 f();
 function f() {}
+```
+
+### classes
+
+Examples of **incorrect** code for the `{ "classes": false }` option:
+
+```js
+/*eslint no-use-before-define: ["error", { "classes": false }]*/
+/*eslint-env es6*/
+
+new A();
+class A {
+}
+```
+
+Examples of **correct** code for the `{ "classes": false }` option:
+
+```js
+/*eslint no-use-before-define: ["error", { "classes": false }]*/
+/*eslint-env es6*/
+
+function foo() {
+    return new A();
+}
+
+class A {
+}
+```
+
+### variables
+
+Examples of **incorrect** code for the `{ "variables": false }` option:
+
+```js
+/*eslint no-use-before-define: ["error", { "variables": false }]*/
+
+console.log(foo);
+var foo = 1;
+```
+
+Examples of **correct** code for the `{ "variables": false }` option:
+
+```js
+/*eslint no-use-before-define: ["error", { "variables": false }]*/
+
+function baz() {
+    console.log(foo);
+}
+
+var foo = 1;
 ```

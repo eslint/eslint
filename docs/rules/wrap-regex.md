@@ -12,20 +12,20 @@ function a() {
 
 This is used to disambiguate the slash operator and facilitates more readable code.
 
-The following patterns are considered problems:
+Example of **incorrect** code for this rule:
 
 ```js
-/*eslint wrap-regex: 2*/
+/*eslint wrap-regex: "error"*/
 
 function a() {
-    return /foo/.test("bar"); /*error Wrap the regexp literal in parens to disambiguate the slash.*/
+    return /foo/.test("bar");
 }
 ```
 
-The following patterns are not considered problems:
+Example of **correct** code for this rule:
 
 ```js
-/*eslint wrap-regex: 2*/
+/*eslint wrap-regex: "error"*/
 
 function a() {
     return (/foo/).test("bar");

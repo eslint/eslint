@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for func-style rule.
  * @author Nicholas C. Zakas
- * @copyright 2013 Nicholas C. Zakas. All rights reserved.
  */
 
 "use strict";
@@ -10,14 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/func-style"),
+const rule = require("../../../lib/rules/func-style"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("func-style", rule, {
     valid: [
         {
@@ -55,7 +55,7 @@ ruleTester.run("func-style", rule, {
         {
             code: "var foo = () => {};\n var bar = () => {}",
             options: ["expression"],
-            ecmaFeatures: { arrowFunctions: true }
+            parserOptions: { ecmaVersion: 6 }
         },
 
         // https://github.com/eslint/eslint/issues/3819
@@ -66,17 +66,21 @@ ruleTester.run("func-style", rule, {
         {
             code: "var foo = () => { this; };",
             options: ["declaration"],
-            ecmaFeatures: { arrowFunctions: true }
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "export default function () {};",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "var foo = () => {};",
-            options: ["declaration", {allowArrowFunctions: true}],
-            ecmaFeatures: { arrowFunctions: true }
+            options: ["declaration", { allowArrowFunctions: true }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = () => { function foo() { this; } };",
-            options: ["declaration", {allowArrowFunctions: true}],
-            ecmaFeatures: { arrowFunctions: true }
+            options: ["declaration", { allowArrowFunctions: true }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
@@ -86,7 +90,7 @@ ruleTester.run("func-style", rule, {
             options: ["declaration"],
             errors: [
                 {
-                    message: "Expected a function declaration.",
+                    messageId: "declaration",
                     type: "VariableDeclarator"
                 }
             ]
@@ -94,10 +98,10 @@ ruleTester.run("func-style", rule, {
         {
             code: "var foo = () => {};",
             options: ["declaration"],
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Expected a function declaration.",
+                    messageId: "declaration",
                     type: "VariableDeclarator"
                 }
             ]
@@ -105,10 +109,10 @@ ruleTester.run("func-style", rule, {
         {
             code: "var foo = () => { function foo() { this; } };",
             options: ["declaration"],
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Expected a function declaration.",
+                    messageId: "declaration",
                     type: "VariableDeclarator"
                 }
             ]
@@ -118,7 +122,7 @@ ruleTester.run("func-style", rule, {
             options: ["expression"],
             errors: [
                 {
-                    message: "Expected a function expression.",
+                    messageId: "expression",
                     type: "FunctionDeclaration"
                 }
             ]

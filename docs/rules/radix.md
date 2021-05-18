@@ -22,39 +22,34 @@ On the other hand, if the code is targeting only ES5-compliant environments pass
 
 This rule is aimed at preventing the unintended conversion of a string to a number of a different base than intended or at preventing the redundant `10` radix if targeting modern environments only.
 
-### Options
+## Options
 
 There are two options for this rule:
 
 * `"always"` enforces providing a radix (default)
 * `"as-needed"` disallows providing the `10` radix
 
-Depending on your coding conventions, you can choose either option by specifying it in your configuration:
 
-```json
-"radix": [2, "always"]
-```
+### always
 
-#### always
-
-The following patterns are considered problems:
+Examples of **incorrect** code for the default `"always"` option:
 
 ```js
-/*eslint radix: 2*/
+/*eslint radix: "error"*/
 
-var num = parseInt("071");        /*error Missing radix parameter.*/
+var num = parseInt("071");
 
-var num = parseInt(someValue);    /*error Missing radix parameter.*/
+var num = parseInt(someValue);
 
-var num = parseInt("071", "abc"); /*error Invalid radix parameter.*/
+var num = parseInt("071", "abc");
 
-var num = parseInt();             /*error Missing parameters.*/
+var num = parseInt();
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for the default `"always"` option:
 
 ```js
-/*eslint radix: 2*/
+/*eslint radix: "error"*/
 
 var num = parseInt("071", 10);
 
@@ -63,24 +58,24 @@ var num = parseInt("071", 8);
 var num = parseFloat(someValue);
 ```
 
-#### as-needed
+### as-needed
 
-The following patterns are considered problems:
+Examples of **incorrect** code for the `"as-needed"` option:
 
 ```js
-/*eslint radix: [2. "as-needed"] */
+/*eslint radix: ["error", "as-needed"]*/
 
-var num = parseInt("071", 10);    /*error Redundant radix parameter.*/
+var num = parseInt("071", 10);
 
-var num = parseInt("071", "abc"); /*error Invalid radix parameter.*/
+var num = parseInt("071", "abc");
 
-var num = parseInt();             /*error Missing parameters.*/
+var num = parseInt();
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for the `"as-needed"` option:
 
 ```js
-/*eslint radix: [2. "as-needed"] */
+/*eslint radix: ["error", "as-needed"]*/
 
 var num = parseInt("071");
 
@@ -95,5 +90,4 @@ If you don't want to enforce either presence or omission of the `10` radix value
 
 ## Further Reading
 
-* [parseInt and radix](http://davidwalsh.name/parseint-radix)
-* [Missing radix parameter](http://jslinterrors.com/missing-radix-parameter/)
+* [parseInt and radix](https://davidwalsh.name/parseint-radix)

@@ -2,7 +2,7 @@
 
 It is considered good practice to use the type-safe equality operators `===` and `!==` instead of their regular counterparts `==` and `!=`.
 
-The reason for this is that `==` and `!=` do type coercion which follows the rather obscure [Abstract Equality Comparison Algorithm](http://www.ecma-international.org/ecma-262/5.1/#sec-11.9.3).
+The reason for this is that `==` and `!=` do type coercion which follows the rather obscure [Abstract Equality Comparison Algorithm](https://www.ecma-international.org/ecma-262/5.1/#sec-11.9.3).
 For instance, the following statements are all considered `true`:
 
 * `[] == false`
@@ -15,40 +15,95 @@ If one of those occurs in an innocent-looking statement such as `a == b` the act
 
 This rule is aimed at eliminating the type-unsafe equality operators.
 
-**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
-
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/* eslint eqeqeq: 2 */
+/*eslint eqeqeq: "error"*/
 
-if (x == 42) { }                     /*error Expected '===' and instead saw '=='.*/
+if (x == 42) { }
 
-if ("" == text) { }                  /*error Expected '===' and instead saw '=='.*/
+if ("" == text) { }
 
-if (obj.getStuff() != undefined) { } /*error Expected '!==' and instead saw '!='.*/
+if (obj.getStuff() != undefined) { }
 ```
 
-### Options
+The `--fix` option on the command line automatically fixes some problems reported by this rule. A problem is only fixed if one of the operands is a `typeof` expression, or if both operands are literals with the same type.
 
-* `"smart"`
+## Options
 
-This option enforces the use of `===` and `!==` except for these cases:
+### always
+
+The `"always"` option (default) enforces the use of `===` and `!==` in every situation (except when you opt-in to more specific handling of `null` [see below]).
+
+Examples of **incorrect** code for the `"always"` option:
+
+```js
+/*eslint eqeqeq: ["error", "always"]*/
+
+a == b
+foo == true
+bananas != 1
+value == undefined
+typeof foo == 'undefined'
+'hello' != 'world'
+0 == 0
+true == true
+foo == null
+
+```
+
+Examples of **correct** code for the `"always"` option:
+
+```js
+/*eslint eqeqeq: ["error", "always"]*/
+
+a === b
+foo === true
+bananas !== 1
+value === undefined
+typeof foo === 'undefined'
+'hello' !== 'world'
+0 === 0
+true === true
+foo === null
+
+```
+
+This rule optionally takes a second argument, which should be an object with the following supported properties:
+
+* `"null"`: Customize how this rule treats `null` literals. Possible values:
+    * `always` (default) - Always use === or !==.
+    * `never` - Never use === or !== with `null`.
+    * `ignore` - Do not apply this rule to `null`.
+
+### smart
+
+The `"smart"` option enforces the use of `===` and `!==` except for these cases:
 
 * Comparing two literal values
 * Evaluating the value of `typeof`
 * Comparing against `null`
 
-You can specify this option using the following configuration:
-
-```json
-"eqeqeq": [2, "smart"]
-```
-
-The following patterns are not considered problems:
+Examples of **incorrect** code for the `"smart"` option:
 
 ```js
-/* eslint eqeqeq: [2, "smart"] */
+/*eslint eqeqeq: ["error", "smart"]*/
+
+// comparing two variables requires ===
+a == b
+
+// only one side is a literal
+foo == true
+bananas != 1
+
+// comparing to undefined requires ===
+value == undefined
+```
+
+Examples of **correct** code for the `"smart"` option:
+
+```js
+/*eslint eqeqeq: ["error", "smart"]*/
 
 typeof foo == 'undefined'
 'hello' != 'world'
@@ -57,50 +112,12 @@ true == true
 foo == null
 ```
 
-The following patterns are considered problems with "smart":
+### allow-null
+
+**Deprecated:** Instead of using this option use "always" and pass a "null" option property with value "ignore". This will tell ESLint to always enforce strict equality except when comparing with the `null` literal.
 
 ```js
-/* eslint eqeqeq: [2, "smart"] */
-
-// comparing two variables requires ===
-a == b              /*error Expected '===' and instead saw '=='.*/
-
-// only one side is a literal
-foo == true         /*error Expected '===' and instead saw '=='.*/
-bananas != 1        /*error Expected '!==' and instead saw '!='.*/
-
-// comparing to undefined requires ===
-value == undefined  /*error Expected '===' and instead saw '=='.*/
-```
-
-* `"allow-null"`
-
-This option will enforce `===` and `!==` in your code with one exception - it permits comparing to `null` to check for `null` or `undefined` in a single expression.
-
-You can specify this option using the following configuration:
-
-```json
-"eqeqeq": [2, "allow-null"]
-```
-
-The following patterns are not considered problems:
-
-```js
-/* eslint eqeqeq: [2, "allow-null"] */
-
-foo == null
-```
-
-The following patterns are considered problems with "allow-null":
-
-```js
-/* eslint eqeqeq: [2, "allow-null"] */
-
-bananas != 1              /*error Expected '!==' and instead saw '!='.*/
-typeof foo == 'undefined' /*error Expected '===' and instead saw '=='.*/
-'hello' != 'world'        /*error Expected '!==' and instead saw '!='.*/
-0 == 0                    /*error Expected '===' and instead saw '=='.*/
-foo == undefined          /*error Expected '===' and instead saw '=='.*/
+["error", "always", {"null": "ignore"}]
 ```
 
 ## When Not To Use It

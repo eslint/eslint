@@ -1,70 +1,89 @@
-# Disallow Empty Block Statements (no-empty)
+# disallow empty block statements (no-empty)
 
-Empty statements usually occur due to refactoring that wasn't completed, such as:
-
-```js
-if (foo) {
-}
-```
-
-Empty block statements such as this are usually an indicator of an error, or at the very least, an indicator that some refactoring is likely needed.
+Empty block statements, while not technically errors, usually occur due to refactoring that wasn't completed. They can cause confusion when reading code.
 
 ## Rule Details
 
-This rule is aimed at eliminating empty block statements. While not technically an error, empty block statements can be a source of confusion when reading code.
-A block will not be considered a warning if it contains a comment line.
+This rule disallows empty block statements. This rule ignores block statements which contain a comment (for example, in an empty `catch` or `finally` block of a `try` statement to indicate that execution should continue regardless of errors).
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-empty: 2*/
+/*eslint no-empty: "error"*/
 
-if (foo) {         /*error Empty block statement.*/
+if (foo) {
 }
 
-while (foo) {      /*error Empty block statement.*/
+while (foo) {
 }
 
-switch(foo) {      /*error Empty switch statement.*/
+switch(foo) {
 }
 
 try {
     doSomething();
-} catch(ex) {      /*error Empty block statement.*/
+} catch(ex) {
 
-} finally {        /*error Empty block statement.*/
+} finally {
 
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-empty: 2*/
+/*eslint no-empty: "error"*/
 
 if (foo) {
     // empty
 }
 
 while (foo) {
-    // test
+    /* empty */
 }
 
 try {
     doSomething();
 } catch (ex) {
-    // Do nothing
+    // continue regardless of error
 }
 
 try {
     doSomething();
 } finally {
-    // Do nothing
+    /* continue regardless of error */
 }
 ```
 
-Since you must always have at least a `catch` or a `finally` block for any `try`, it is common to have empty statements when execution should continue regardless of error.
+## Options
+
+This rule has an object option for exceptions:
+
+* `"allowEmptyCatch": true` allows empty `catch` clauses (that is, which do not contain a comment)
+
+### allowEmptyCatch
+
+Examples of additional **correct** code for this rule with the `{ "allowEmptyCatch": true }` option:
+
+```js
+/* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
+try {
+    doSomething();
+} catch (ex) {}
+
+try {
+    doSomething();
+}
+catch (ex) {}
+finally {
+    /* continue regardless of error */
+}
+```
 
 ## When Not To Use It
 
-If you intentionally use empty statements then you can disable this rule.
+If you intentionally use empty block statements then you can disable this rule.
+
+## Related Rules
+
+* [no-empty-function](./no-empty-function.md)

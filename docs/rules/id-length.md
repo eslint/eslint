@@ -1,148 +1,261 @@
-# Limit minimum and maximum length for identifiers (id-length)
+# enforce minimum and maximum identifier lengths (id-length)
 
-Very short identifier names like `e`, `x`, `_t` or very long ones like `hashGeneratorResultOutputContainerObject` usually make the code harder to read and potentially less maintainable. To prevent this, one may enforce a minimum and/or maximum identifier length. (usually min 2-chars)
+Very short identifier names like `e`, `x`, `_t` or very long ones like `hashGeneratorResultOutputContainerObject` can make code harder to read and potentially less maintainable. To prevent this, one may enforce a minimum and/or maximum identifier length.
 
 ```js
-// id-length: 1  // default is minimum 2-chars ({ min: 2})
-var x = 5; // too short
+var x = 5; // too short; difficult to understand its purpose without context
 ```
 
 ## Rule Details
 
-This rule is aimed at increasing code readability and maintainability by enforcing an identifier length convention. It will warn on any type of identifier which doesn't conform to length limits (upper and lower).
+This rule enforces a minimum and/or maximum identifier length convention.
 
-It allows the programmers to silently by-pass this check by using "quoted" property names or calculated property access to allow potential server-side data requirements.
+## Options
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the default options:
 
 ```js
-/*eslint id-length: 2*/     // default is minimum 2-chars ({ min: 2})
+/*eslint id-length: "error"*/     // default is minimum 2-chars ({ "min": 2 })
 /*eslint-env es6*/
 
-var x = 5;                  /*error Identifier name 'x' is too short. (< 2)*/
-
-obj.e = document.body;      /*error Identifier name 'e' is too short. (< 2)*/
-
-var foo = function (e) { }; /*error Identifier name 'e' is too short. (< 2)*/
-
+var x = 5;
+obj.e = document.body;
+var foo = function (e) { };
 try {
     dangerousStuff();
-} catch (e) {               /*error Identifier name 'e' is too short. (< 2)*/
+} catch (e) {
     // ignore as many do
 }
-
-var myObj = { a: 1 };       /*error Identifier name 'a' is too short. (< 2)*/
-
-(a) => { a * a };           /*error Identifier name 'a' is too short. (< 2)*/
-
-function foo(x = 0) { }     /*error Identifier name 'x' is too short. (< 2)*/
-
-class x { }                 /*error Identifier name 'x' is too short. (< 2)*/
-
-class Foo { x() {} }        /*error Identifier name 'x' is too short. (< 2)*/
-
-function foo(...x) { }      /*error Identifier name 'x' is too short. (< 2)*/
-
-var { x} = {};              /*error Identifier name 'x' is too short. (< 2)*/
-
-var { x: a} = {};           /*error Identifier name 'x' is too short. (< 2)*/
-
-var { a: [x]} = {};         /*error Identifier name 'a' is too short. (< 2)*/
-
-({ a: obj.x.y.z }) = {};    /*error Identifier name 'a' is too short. (< 2)*/ /*error Identifier name 'z' is too short. (< 2)*/
-
-({ prop: obj.x }) = {};     /*error Identifier name 'x' is too short. (< 2)*/
+var myObj = { a: 1 };
+(a) => { a * a };
+class x { }
+class Foo { x() {} }
+function foo(...x) { }
+var { x } = {};
+var { x: a} = {};
+var { a: [x]} = {};
+({ prop: obj.x } = {});
 ```
 
-```
-import x from 'y';          /*error Identifier name 'x' is too short. (< 2)*/
-
-export var x = 0;           /*error Identifier name 'x' is too short. (< 2)*/
-```
-
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the default options:
 
 ```js
-/*eslint id-length: 2*/     // default is minimum 2-chars ({ min: 2})
+/*eslint id-length: "error"*/     // default is minimum 2-chars ({ "min": 2 })
 /*eslint-env es6*/
 
 var num = 5;
-
 function _f() { return 42; }
-
 function _func() { return 42; }
-
 obj.el = document.body;
-
 var foo = function (evt) { /* do stuff */ };
-
 try {
     dangerousStuff();
 } catch (error) {
     // ignore as many do
 }
-
 var myObj = { apple: 1 };
-
 (num) => { num * num };
-
 function foo(num = 0) { }
-
 class MyClass { }
-
 class Foo { method() {} }
-
 function foo(...args) { }
-
 var { prop } = {};
-
 var { prop: a } = {};
-
 var { prop: [x] } = {};
-
-({ prop: obj.x.y.something }) = {};
-
-({ prop: obj.longName }) = {};
-
+({ prop: obj.longName } = {});
 var data = { "x": 1 };  // excused because of quotes
-
 data["y"] = 3;  // excused because of calculated property access
 ```
 
-```
-import something from "y";
+This rule has a shorthand integer option for the `"min"` object property.
 
-export var num = 0;
-```
-
-
-### Options
-
-The `id-length` rule has no required options and has 4 optional ones that needs to be passed in a single options object:
-
-* **min** *(default: 2)*: The minimum number of characters an identifier name should be, after it is stripped from it is prefixes and suffixes
-* **max** *(default: Infinity)*: The maximum number of characters an identifier name should be, after it is stripped from it is prefixes and suffixes
-* **properties** *(default: "always")*: If set to `"never"` does not check property names at all
-* **exceptions**: An array of identifier names that the rule should not apply to
-
-
-For example, to specify a minimum identifier length of 3, a maximum of 10, ignore property names and add `x` to exception list, use the following configuration:
-
-```json
-"id-length": [2, {"min": 3, "max": 10, "properties": "never", "exceptions": ["x"]}]
-```
-
-The following patterns will not be considered problems
+Examples of **incorrect** code for this rule with a minimum of 4:
 
 ```js
-/*eslint id-length: [2, {"properties": "never"}]*/
+/*eslint id-length: ["error", { "min": 4 }]*/
+/*eslint-env es6*/
+
+var val = 5;
+obj.e = document.body;
+function foo (e) { };
+try {
+    dangerousStuff();
+} catch (e) {
+    // ignore as many do
+}
+var myObj = { a: 1 };
+(val) => { val * val };
+class x { }
+class Foo { x() {} }
+function foo(...x) { }
+var { x } = {};
+var { x: a} = {};
+var { a: [x]} = {};
+({ prop: obj.x } = {});
+```
+
+Examples of **correct** code for this rule with a minimum of 4:
+
+```js
+/*eslint id-length: ["error", { "min": 4 }]*/
+/*eslint-env es6*/
+
+var value = 5;
+function func() { return 42; }
+obj.element = document.body;
+var foo = function (event) { /* do stuff */ };
+try {
+    dangerousStuff();
+} catch (error) {
+    // ignore as many do
+}
+var myObj = { apple: 1 };
+(value) => { value * value };
+function foobar(value = 0) { }
+class MyClass { }
+class Foobar { method() {} }
+function foobar(...args) { }
+var { prop } = {};
+var { prop: a } = {};
+var { prop: [x] } = {};
+({ prop: obj.name } = {});
+var data = { "x": 1 };  // excused because of quotes
+data["y"] = 3;  // excused because of calculated property access
+```
+
+This rule has an object option:
+
+* `"min"` (default: 2) enforces a minimum identifier length
+* `"max"` (default: Infinity) enforces a maximum identifier length
+* `"properties": always` (default) enforces identifier length convention for property names
+* `"properties": never` ignores identifier length convention for property names
+* `"exceptions"` allows an array of specified identifier names
+
+### min
+
+Examples of **incorrect** code for this rule with the `{ "min": 4 }` option:
+
+```js
+/*eslint id-length: ["error", { "min": 4 }]*/
+/*eslint-env es6*/
+
+var val = 5;
+obj.e = document.body;
+function foo (e) { };
+try {
+    dangerousStuff();
+} catch (e) {
+    // ignore as many do
+}
+var myObj = { a: 1 };
+(val) => { val * val };
+class x { }
+class Foo { x() {} }
+function foo(...x) { }
+var { x } = {};
+var { x: a} = {};
+var { a: [x]} = {};
+({ prop: obj.x } = {});
+```
+
+Examples of **correct** code for this rule with the `{ "min": 4 }` option:
+
+```js
+/*eslint id-length: ["error", { "min": 4 }]*/
+/*eslint-env es6*/
+
+var value = 5;
+function func() { return 42; }
+obj.element = document.body;
+var foo = function (event) { /* do stuff */ };
+try {
+    dangerousStuff();
+} catch (error) {
+    // ignore as many do
+}
+var myObj = { apple: 1 };
+(value) => { value * value };
+function foobar(value = 0) { }
+class MyClass { }
+class Foobar { method() {} }
+function foobar(...args) { }
+var { prop } = {};
+var { prop: a } = {};
+var { prop: [x] } = {};
+({ prop: obj.name } = {});
+var data = { "x": 1 };  // excused because of quotes
+data["y"] = 3;  // excused because of calculated property access
+```
+
+### max
+
+Examples of **incorrect** code for this rule with the `{ "max": 10 }` option:
+
+```js
+/*eslint id-length: ["error", { "max": 10 }]*/
+/*eslint-env es6*/
+
+var reallyLongVarName = 5;
+function reallyLongFuncName() { return 42; }
+obj.reallyLongPropName = document.body;
+var foo = function (reallyLongArgName) { /* do stuff */ };
+try {
+    dangerousStuff();
+} catch (reallyLongErrorName) {
+    // ignore as many do
+}
+(reallyLongArgName) => { return !reallyLongArgName; };
+```
+
+Examples of **correct** code for this rule with the `{ "max": 10 }` option:
+
+```js
+/*eslint id-length: ["error", { "max": 10 }]*/
+/*eslint-env es6*/
+
+var varName = 5;
+function funcName() { return 42; }
+obj.propName = document.body;
+var foo = function (arg) { /* do stuff */ };
+try {
+    dangerousStuff();
+} catch (error) {
+    // ignore as many do
+}
+(arg) => { return !arg; };
+```
+
+### properties
+
+Examples of **correct** code for this rule with the `{ "properties": "never" }` option:
+
+```js
+/*eslint id-length: ["error", { "properties": "never" }]*/
 /*eslint-env es6*/
 
 var myObj = { a: 1 };
+({ a: obj.x.y.z } = {});
+({ prop: obj.i } = {});
+```
 
-({ a: obj.x.y.z }) = {};
+### exceptions
 
-({ prop: obj.x }) = {};
+Examples of additional **correct** code for this rule with the `{ "exceptions": ["x"] }` option:
+
+```js
+/*eslint id-length: ["error", { "exceptions": ["x"] }]*/
+/*eslint-env es6*/
+
+var x = 5;
+function x() { return 42; }
+obj.x = document.body;
+var foo = function (x) { /* do stuff */ };
+try {
+    dangerousStuff();
+} catch (x) {
+    // ignore as many do
+}
+(x) => { return x * x; };
 ```
 
 ## Related Rules

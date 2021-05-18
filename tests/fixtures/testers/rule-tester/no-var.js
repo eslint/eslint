@@ -20,6 +20,7 @@ module.exports = function(context) {
             if (node.kind === "var") {
                 context.report({
                     node: node,
+                    loc: sourceCode.getFirstToken(node).loc,
                     message: "Bad var.",
                     fix: function(fixer) {
                         return fixer.remove(sourceCode.getFirstToken(node));

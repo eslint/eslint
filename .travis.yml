@@ -1,14 +1,20 @@
 language: node_js
 node_js:
-    - "0.10"
-    - "0.12"
-    - iojs
-    - "4"
-    - "5"
-sudo: false
-script: "npm test && npm run check-commit && npm run docs"
+    - "6"
+    - "8"
+    - "9"
+    - "10"
+    - "11"
+
+branches:
+    only:
+    - master
+
+# Run npm test always
+script:
+    - "npm test"
 after_success:
-    - npm run coveralls
+    - 'if [ "$node_js" = "8" ]; then npm run coveralls; fi'
 addons:
     code_climate:
         repo_token: 1945f7420d920a59f1ff8bf8d1a7b60ccd9e2838a692f73a5a74accd8df30146

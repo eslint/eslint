@@ -285,7 +285,7 @@ jQuery.extend({
 		// https://bugzilla.mozilla.org/show_bug.cgi?id=814622
 		try {
 			if ( obj.constructor &&
-					!hasOwn.call( obj.constructor.prototype, "isPrototypeOf" ) ) {
+					!Object.prototype.hasOwnProperty.call( obj.constructor.prototype, "isPrototypeOf" ) ) {
 				return false;
 			}
 		} catch ( e ) {
@@ -890,7 +890,7 @@ function assert( fn ) {
 
 /**
  * Adds the same handler for all of the specified attrs
- * @param {String} attrs Pipe-separated list of attributes
+ * @param {string} attrs Pipe-separated list of attributes
  * @param {Function} handler The method that will be applied
  */
 function addHandle( attrs, handler ) {
@@ -933,7 +933,7 @@ function siblingCheck( a, b ) {
 
 /**
  * Returns a function to use in pseudos for input types
- * @param {String} type
+ * @param {string} type
  */
 function createInputPseudo( type ) {
 	return function( elem ) {
@@ -944,7 +944,7 @@ function createInputPseudo( type ) {
 
 /**
  * Returns a function to use in pseudos for buttons
- * @param {String} type
+ * @param {string} type
  */
 function createButtonPseudo( type ) {
 	return function( elem ) {
@@ -990,7 +990,7 @@ support = Sizzle.support = {};
 /**
  * Detects XML nodes
  * @param {Element|Object} elem An element or a document
- * @returns {Boolean} True iff elem is a non-HTML XML node
+ * @returns {boolean} True iff elem is a non-HTML XML node
  */
 isXML = Sizzle.isXML = function( elem ) {
 	// documentElement is verified for cases where it doesn't yet exist
@@ -1412,7 +1412,7 @@ Sizzle.attr = function( elem, name ) {
 
 	var fn = Expr.attrHandle[ name.toLowerCase() ],
 		// Don't get fooled by Object.prototype properties (jQuery #13807)
-		val = fn && hasOwn.call( Expr.attrHandle, name.toLowerCase() ) ?
+		val = fn && Object.prototype.hasOwnProperty.call( Expr.attrHandle, name.toLowerCase() ) ?
 			fn( elem, name, !documentIsHTML ) :
 			undefined;
 
@@ -4201,8 +4201,8 @@ jQuery.event = {
 
 		var i, cur, tmp, bubbleType, ontype, handle, special,
 			eventPath = [ elem || document ],
-			type = hasOwn.call( event, "type" ) ? event.type : event,
-			namespaces = hasOwn.call( event, "namespace" ) ? event.namespace.split(".") : [];
+			type = Object.prototype.hasOwnProperty.call( event, "type" ) ? event.type : event,
+			namespaces = Object.prototype.hasOwnProperty.call( event, "namespace" ) ? event.namespace.split(".") : [];
 
 		cur = tmp = elem = elem || document;
 
@@ -5407,7 +5407,7 @@ var iframe,
 
 /**
  * Retrieve the actual display of a element
- * @param {String} name nodeName of the element
+ * @param {string} name nodeName of the element
  * @param {Object} doc Document object
  */
 // Called only from within defaultDisplay
@@ -5430,7 +5430,7 @@ function actualDisplay( name, doc ) {
 
 /**
  * Try to determine the default display value of an element
- * @param {String} nodeName
+ * @param {string} nodeName
  */
 function defaultDisplay( nodeName ) {
 	var doc = document,

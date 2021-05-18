@@ -7,13 +7,14 @@ version: "{build}"
 # What combinations to test
 environment:
   matrix:
-    # 2 means latest iojs version in 2.x versions
-    - nodejs_version: 2
-    - nodejs_version: 0.12
-    - nodejs_version: 0.10
+    - nodejs_version: 8
+
+branches:
+  only:
+    - master
 
 install:
-  # Get the latest stable version of Node.js or io.js
+  # Get the latest stable version of Node.js
   - ps: Install-Product node $env:nodejs_version
   # install modules
   - npm install
@@ -22,7 +23,6 @@ build: off
 
 test_script:
   - npm test
-  - npm run check-commit
 
 matrix:
   fast_finish: true    # set this flag to immediately finish build once one of the jobs fails.
