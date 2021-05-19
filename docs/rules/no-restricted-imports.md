@@ -80,8 +80,11 @@ or like this if you want to apply a custom message to pattern matches:
 ```json
 "no-restricted-imports": ["error", {
     "patterns": [{
-      "group": ["import1/private/*", "import2/*", "!import2/good"],
-      "message": "import1 private modules and most of import2 are deprecated, please don't use them in new code"
+      "group": ["import1/private/*"],
+      "message": "usage of import1 private modules not allowed."
+    }, {
+      "group": ["import2/*", "!import2/good"],
+      "message": "import2 is deprecated, except the modules in import2/good."
     }]
 }]
 ```
