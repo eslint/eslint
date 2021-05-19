@@ -75,7 +75,7 @@ or like this if you need to restrict only certain imports from a module:
 }]
 ```
 
-Or like this if you want to apply a custom message to pattern matches:
+or like this if you want to apply a custom message to pattern matches:
 
 ```json
 "no-restricted-imports": ["error", {
