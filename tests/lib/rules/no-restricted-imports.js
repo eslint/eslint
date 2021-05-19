@@ -256,6 +256,26 @@ ruleTester.run("no-restricted-imports", rule, {
             endColumn: 36
         }]
     }, {
+        code: "import withPatterns from \"foo/baz\";",
+        options: [{ patterns: [{ group: ["foo/bar", "foo/baz"], message: "some foo subimports are restricted" }] }],
+        errors: [{
+            message: "'foo/baz' import is restricted from being used by a pattern. some foo subimports are restricted",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 36
+        }]
+    }, {
+        code: "import withPatterns from \"foo/bar\";",
+        options: [{ patterns: [{ group: ["foo/bar"] }] }],
+        errors: [{
+            message: "'foo/bar' import is restricted from being used by a pattern.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 36
+        }]
+    }, {
         code: "import withGitignores from \"foo/bar\";",
         options: [{ patterns: ["foo/*", "!foo/baz"] }],
         errors: [{
