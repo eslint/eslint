@@ -378,6 +378,8 @@ context.report({
 {% endraw %}
 ```
 
+**Important:** The `meta.hasSuggestions` property is mandatory for rules that provide suggestions. ESLint will throw an error if a rule attempts to produce a suggestion but does not [export](#rule-basics) this property.
+
 Note: Suggestions will be applied as a stand-alone change, without triggering multipass fixes. Each suggestion should focus on a singular change in the code and should not try to conform to user defined styles. For example, if a suggestion is adding a new statement into the codebase, it should not try to match correct indentation, or conform to user preferences on presence/absence of semicolons. All of those things can be corrected by multipass autofix when the user triggers it.
 
 Best practices for suggestions:
