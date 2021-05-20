@@ -163,6 +163,15 @@ import { DisallowedObject as AllowedObject } from "foo";
 import * as Foo from "foo";
 ```
 
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["lodash/*"],
+    message: "Please use the default import from 'lodash' instead."
+}]}]*/
+
+import pick from 'lodash/pick';
+```
+
 Examples of **correct** code for this rule:
 
 ```js
@@ -194,6 +203,15 @@ import DisallowedObject from "foo"
 }]}]*/
 
 import { AllowedObject as DisallowedObject } from "foo";
+```
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["lodash/*"],
+    message: "Please use the default import from 'lodash' instead."
+}]}]*/
+
+import lodash from 'lodash';
 ```
 
 ## When Not To Use It
