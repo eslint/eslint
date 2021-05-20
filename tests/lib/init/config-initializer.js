@@ -45,7 +45,7 @@ describe("configInitializer", () => {
     };
     const requireStubs = {
         "../shared/logging": log,
-        "../shared/relative-module-resolver": {
+        "@eslint/eslintrc/lib/shared/relative-module-resolver": {
             resolve() {
                 if (localESLintVersion) {
                     return `local-eslint-${localESLintVersion}`;
