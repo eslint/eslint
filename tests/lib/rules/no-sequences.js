@@ -59,7 +59,11 @@ ruleTester.run("no-sequences", rule, {
 
         // valid code with "allowInParentheses" set to `false`
         { code: "for ((i = 0, j = 0); test; );", options: [{ allowInParentheses: false }] },
-        { code: "for (; test; (i++, j++));", options: [{ allowInParentheses: false }] }
+        { code: "for (; test; (i++, j++));", options: [{ allowInParentheses: false }] },
+
+        // https://github.com/eslint/eslint/issues/14572
+        { code: "const foo = () => { return ((bar = 123), 10) }", env: { es6: true } },
+        { code: "const foo = () => (((bar = 123), 10));", env: { es6: true } }
     ],
 
     // Examples of code that should trigger the rule
