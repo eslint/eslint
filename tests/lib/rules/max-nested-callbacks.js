@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/max-nested-callbacks"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 const OPENING = "foo(function() {",
     CLOSING = "});";
@@ -74,6 +74,16 @@ ruleTester.run("max-nested-callbacks", rule, {
         {
             code: nestFunctions(11),
             errors: [{ messageId: "exceed", data: { num: 11, max: 10 }, type: "FunctionExpression" }]
+        },
+        {
+            code: nestFunctions(11),
+            options: [{}],
+            errors: [{ messageId: "exceed", data: { num: 11, max: 10 }, type: "FunctionExpression" }]
+        },
+        {
+            code: "foo(function() {})",
+            options: [{ max: 0 }],
+            errors: [{ messageId: "exceed", data: { num: 1, max: 0 } }]
         },
 
         // object property options

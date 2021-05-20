@@ -86,7 +86,7 @@ foo(function() { this.a; });
 
 foo(function() { (() => this); });
 
-someArray.map(function(itm) { return this.doSomething(itm); }, someObject);
+someArray.map(function(item) { return this.doSomething(item); }, someObject);
 ```
 
 ## When Not To Use It

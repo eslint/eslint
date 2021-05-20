@@ -4,7 +4,7 @@
     ],
 
     "rules": {
-        "example/example-rule": 1
+        "@eslint/example/example-rule": 1
     }
 
 }

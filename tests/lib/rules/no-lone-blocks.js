@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-lone-blocks"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -56,43 +56,123 @@ ruleTester.run("no-lone-blocks", rule, {
               baz;
             }
           }
-        `
+        `,
+        { code: "function foo() { { const x = 4 } const x = 3 }", parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
-        { code: "{}", errors: [{ message: "Block is redundant.", type: "BlockStatement" }] },
-        { code: "{var x = 1;}", errors: [{ message: "Block is redundant.", type: "BlockStatement" }] },
-        { code: "foo(); {} bar();", errors: [{ message: "Block is redundant.", type: "BlockStatement" }] },
-        { code: "if (foo) { bar(); {} baz(); }", errors: [{ message: "Nested block is redundant.", type: "BlockStatement" }] },
+        {
+            code: "{}",
+            errors: [{
+                messageId: "redundantBlock",
+                type: "BlockStatement"
+            }]
+        },
+        {
+            code: "{var x = 1;}",
+            errors: [{
+                messageId: "redundantBlock",
+                type: "BlockStatement"
+            }]
+        },
+        {
+            code: "foo(); {} bar();",
+            errors: [{
+                messageId: "redundantBlock",
+                type: "BlockStatement"
+            }]
+        },
+        {
+            code: "if (foo) { bar(); {} baz(); }",
+            errors: [{
+                messageId: "redundantNestedBlock",
+                type: "BlockStatement"
+            }]
+        },
         {
             code: "{ \n{ } }",
             errors: [
-                { message: "Block is redundant.", type: "BlockStatement", line: 1 },
-                { message: "Nested block is redundant.", type: "BlockStatement", line: 2 }]
+                {
+                    messageId: "redundantBlock",
+                    type: "BlockStatement",
+                    line: 1
+                },
+                {
+                    messageId: "redundantNestedBlock",
+                    type: "BlockStatement",
+                    line: 2
+                }
+            ]
         },
-        { code: "function foo() { bar(); {} baz(); }", errors: [{ message: "Nested block is redundant.", type: "BlockStatement" }] },
-        { code: "while (foo) { {} }", errors: [{ message: "Nested block is redundant.", type: "BlockStatement" }] },
+        {
+            code: "function foo() { bar(); {} baz(); }",
+            errors: [{
+                messageId: "redundantNestedBlock",
+                type: "BlockStatement"
+            }]
+        },
+        {
+            code: "while (foo) { {} }",
+            errors: [{
+                messageId: "redundantNestedBlock",
+                type: "BlockStatement"
+            }]
+        },
 
         // Non-block-level bindings, even in ES6
-        { code: "{ function bar() {} }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Block is redundant.", type: "BlockStatement" }] },
-        { code: "{var x = 1;}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Block is redundant.", type: "BlockStatement" }] },
+        {
+            code: "{ function bar() {} }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "redundantBlock",
+                type: "BlockStatement"
+            }]
+        },
+        {
+            code: "{var x = 1;}",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "redundantBlock",
+                type: "BlockStatement"
+            }]
+        },
 
         {
             code: "{ \n{var x = 1;}\n let y = 2; } {let z = 1;}",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Nested block is redundant.", type: "BlockStatement", line: 2 }]
+            errors: [{
+                messageId: "redundantNestedBlock",
+                type: "BlockStatement",
+                line: 2
+            }]
         },
         {
             code: "{ \n{let x = 1;}\n var y = 2; } {let z = 1;}",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Block is redundant.", type: "BlockStatement", line: 1 }]
+            errors: [{
+                messageId: "redundantBlock",
+                type: "BlockStatement",
+                line: 1
+            }]
         },
         {
             code: "{ \n{var x = 1;}\n var y = 2; }\n {var z = 1;}",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Block is redundant.", type: "BlockStatement", line: 1 },
-                { message: "Nested block is redundant.", type: "BlockStatement", line: 2 },
-                { message: "Block is redundant.", type: "BlockStatement", line: 4 }
+                {
+                    messageId: "redundantBlock",
+                    type: "BlockStatement",
+                    line: 1
+                },
+                {
+                    messageId: "redundantNestedBlock",
+                    type: "BlockStatement",
+                    line: 2
+                },
+                {
+                    messageId: "redundantBlock",
+                    type: "BlockStatement",
+                    line: 4
+                }
             ]
         },
         {
@@ -105,7 +185,11 @@ ruleTester.run("no-lone-blocks", rule, {
                     }
               }
             `,
-            errors: [{ message: "Block is redundant.", type: "BlockStatement", line: 5 }]
+            errors: [{
+                messageId: "redundantBlock",
+                type: "BlockStatement",
+                line: 5
+            }]
         },
         {
             code: `
@@ -117,7 +201,40 @@ ruleTester.run("no-lone-blocks", rule, {
                 foo();
               }
             `,
-            errors: [{ message: "Block is redundant.", type: "BlockStatement", line: 4 }]
+            errors: [{
+                messageId: "redundantBlock",
+                type: "BlockStatement",
+                line: 4
+            }]
+        },
+        {
+            code: `
+              function foo () {
+                {
+                  const x = 4;
+                }
+              }
+            `,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "redundantNestedBlock",
+                type: "BlockStatement",
+                line: 3
+            }]
+        },
+        {
+            code: `
+              function foo () {
+                {
+                  var x = 4;
+                }
+              }
+            `,
+            errors: [{
+                messageId: "redundantNestedBlock",
+                type: "BlockStatement",
+                line: 3
+            }]
         }
     ]
 });

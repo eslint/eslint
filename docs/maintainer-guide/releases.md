@@ -30,15 +30,15 @@ On the day of a scheduled release, the release team should follow these steps:
     * Have been open at least two days and have been reviewed (these are just waiting for merge).
     * Important pull requests (as determined by the team). You should stop and have people review before merging if they haven't been already.
     * Documentation changes.
-    * Small bug fixes written by a team member.
+    * Small bugfixes written by a team member.
 1. Log into Jenkins and schedule a build for the "ESLint Release" job.
 1. Watch the console output of the build on Jenkins. At some point, the build will pause and a link will be produced with an input field for a six-digit 2FA code.
-1. Enter the current six-digit 2FA code from your authenticator app. (Also see: [npm-2fa](./npm-2fa))
+1. Enter the current six-digit 2FA code from your authenticator app.
 1. Continue the build and wait for it to finish.
 1. Update the release blog post with a "Highlights" section, including new rules and anything else that's important.
 1. Make a release announcement in the public chatroom.
 1. Make a release announcement on Twitter.
-1. Make a release announcement on the release issue. Document any problems that occurred during the release, and remind the team not to merge anything other than documentation changes and bug fixes. Leave the release issue open.
+1. Make a release announcement on the release issue. Document any problems that occurred during the release, and remind the team not to merge anything other than documentation changes and bugfixes. Leave the release issue open.
 1. Add the `patch release pending` label to the release issue. (When this label is present, `eslint-github-bot` will create a pending status check on non-semver-patch pull requests, to ensure that they aren't accidentally merged while a patch release is pending.)
 
 On the Monday following the scheduled release, the release team needs to determine if a patch release is necessary. A patch release is considered necessary if any of the following occurred since the scheduled release:

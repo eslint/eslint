@@ -8,9 +8,18 @@ var person = new Person;
 
 ## Rule Details
 
-This rule requires parentheses when invoking a constructor with no arguments using the `new` keyword in order to increase code clarity.
+This rule can enforce or disallow parentheses when invoking a constructor with no arguments using the `new` keyword.
 
-Examples of **incorrect** code for this rule:
+## Options
+
+This rule takes one option.
+
+- `"always"` enforces parenthesis after a new constructor with no arguments (default)
+- `"never"` enforces no parenthesis after a new constructor with no arguments
+
+### always
+
+Examples of **incorrect** code for this rule with the `"always"` option:
 
 ```js
 /*eslint new-parens: "error"*/
@@ -19,11 +28,32 @@ var person = new Person;
 var person = new (Person);
 ```
 
-Examples of **correct** code for this rule:
+Examples of **correct** code for this rule with the `"always"` option:
 
 ```js
 /*eslint new-parens: "error"*/
 
 var person = new Person();
 var person = new (Person)();
+```
+
+### never
+
+Examples of **incorrect** code for this rule with the `"never"` option:
+
+```js
+/*eslint new-parens: ["error", "never"]*/
+
+var person = new Person();
+var person = new (Person)();
+```
+
+Examples of **correct** code for this rule with the `"never"` option:
+
+```js
+/*eslint new-parens: ["error", "never"]*/
+
+var person = new Person;
+var person = (new Person);
+var person = new Person("Name");
 ```

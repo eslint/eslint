@@ -11,7 +11,7 @@
 
 const rule = require("../../../lib/rules/prefer-const"),
     fixtureParser = require("../../fixtures/fixture-parser"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -383,8 +383,8 @@ ruleTester.run("prefer-const", rule, {
             code: "let { name, ...otherStuff } = obj; otherStuff = {};",
             output: null,
             options: [{ destructuring: "any" }],
-            errors: [{ messageId: "useConst", data: { name: "name" }, type: "Identifier", column: 7 }],
-            parser: fixtureParser("babel-eslint5/destructuring-object-spread")
+            parser: fixtureParser("babel-eslint5/destructuring-object-spread"),
+            errors: [{ messageId: "useConst", data: { name: "name" }, type: "Identifier", column: 7 }]
         },
 
         // Warnings are located at declaration if there are reading references before assignments.
@@ -500,15 +500,61 @@ ruleTester.run("prefer-const", rule, {
                 { message: "'b' is never reassigned. Use 'const' instead.", type: "Identifier" }
             ]
         },
+
+        // The inner `let` will be auto-fixed in the second pass
         {
             code: "let someFunc = () => { let a = 1, b = 2; foo(a, b) }",
-            output: "const someFunc = () => { const a = 1, b = 2; foo(a, b) }",
+            output: "const someFunc = () => { let a = 1, b = 2; foo(a, b) }",
             errors: [
                 { message: "'someFunc' is never reassigned. Use 'const' instead.", type: "Identifier" },
                 { message: "'a' is never reassigned. Use 'const' instead.", type: "Identifier" },
                 { message: "'b' is never reassigned. Use 'const' instead.", type: "Identifier" }
             ]
-        }
+        },
 
+        // https://github.com/eslint/eslint/issues/11699
+        {
+            code: "let {a, b} = c, d;",
+            output: null,
+            errors: [
+                { messageId: "useConst", data: { name: "a" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "b" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: "let {a, b, c} = {}, e, f;",
+            output: null,
+            errors: [
+                { messageId: "useConst", data: { name: "a" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "b" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "c" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: [
+                "function a() {",
+                "let foo = 0,",
+                "  bar = 1;",
+                "foo = 1;",
+                "}",
+                "function b() {",
+                "let foo = 0,",
+                "  bar = 2;",
+                "foo = 2;",
+                "}"
+            ].join("\n"),
+            output: null,
+            errors: [
+                { message: "'bar' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'bar' is never reassigned. Use 'const' instead.", type: "Identifier" }
+            ]
+        },
+
+        // https://github.com/eslint/eslint/issues/13899
+        {
+            code: "/*eslint no-undef-init:error*/ let foo = undefined;",
+            output: "/*eslint no-undef-init:error*/ const foo = undefined;",
+            errors: 2
+        }
     ]
 });

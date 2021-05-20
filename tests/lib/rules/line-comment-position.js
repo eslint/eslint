@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/line-comment-position"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -80,6 +80,10 @@ ruleTester.run("line-comment-position", rule, {
         {
             code: "// above\n1 + 1; // ignored",
             options: [{ ignorePattern: "ignored" }]
+        },
+        {
+            code: "foo; // eslint-disable-line no-alert",
+            options: [{ position: "above" }]
         }
     ],
 

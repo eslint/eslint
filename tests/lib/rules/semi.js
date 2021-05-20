@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/semi"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 const ruleTester = new RuleTester();
 
@@ -53,44 +53,44 @@ ruleTester.run("semi", rule, {
         { code: "class A { a() {} b() {} }", parserOptions: { ecmaVersion: 6 } },
         { code: "var A = class { a() {} b() {} };", parserOptions: { ecmaVersion: 6 } },
 
-        { code: "import theDefault, { named1, named2 } from 'src/mylib';", parserOptions: { sourceType: "module" } },
-        { code: "import theDefault, { named1, named2 } from 'src/mylib'", options: ["never"], parserOptions: { sourceType: "module" } },
+        { code: "import theDefault, { named1, named2 } from 'src/mylib';", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import theDefault, { named1, named2 } from 'src/mylib'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
 
         // exports, "always"
-        { code: "export * from 'foo';", parserOptions: { sourceType: "module" } },
-        { code: "export { foo } from 'foo';", parserOptions: { sourceType: "module" } },
-        { code: "var foo = 0;export { foo };", parserOptions: { sourceType: "module" } },
-        { code: "export var foo;", parserOptions: { sourceType: "module" } },
-        { code: "export function foo () { }", parserOptions: { sourceType: "module" } },
-        { code: "export function* foo () { }", parserOptions: { sourceType: "module" } },
-        { code: "export class Foo { }", parserOptions: { sourceType: "module" } },
-        { code: "export let foo;", parserOptions: { sourceType: "module" } },
-        { code: "export const FOO = 42;", parserOptions: { sourceType: "module" } },
-        { code: "export default function() { }", parserOptions: { sourceType: "module" } },
-        { code: "export default function* () { }", parserOptions: { sourceType: "module" } },
-        { code: "export default class { }", parserOptions: { sourceType: "module" } },
-        { code: "export default foo || bar;", parserOptions: { sourceType: "module" } },
-        { code: "export default (foo) => foo.bar();", parserOptions: { sourceType: "module" } },
-        { code: "export default foo = 42;", parserOptions: { sourceType: "module" } },
-        { code: "export default foo += 42;", parserOptions: { sourceType: "module" } },
+        { code: "export * from 'foo';", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export { foo } from 'foo';", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "var foo = 0;export { foo };", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export var foo;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export function foo () { }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export function* foo () { }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export class Foo { }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export let foo;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export const FOO = 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default function() { }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default function* () { }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default class { }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default foo || bar;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default (foo) => foo.bar();", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default foo = 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default foo += 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
 
         // exports, "never"
-        { code: "export * from 'foo'", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export { foo } from 'foo'", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "var foo = 0; export { foo }", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export var foo", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export function foo () { }", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export function* foo () { }", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export class Foo { }", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export let foo", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export const FOO = 42", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export default function() { }", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export default function* () { }", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export default class { }", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export default foo || bar", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export default (foo) => foo.bar()", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export default foo = 42", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export default foo += 42", options: ["never"], parserOptions: { sourceType: "module" } },
+        { code: "export * from 'foo'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export { foo } from 'foo'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "var foo = 0; export { foo }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export var foo", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export function foo () { }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export function* foo () { }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export class Foo { }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export let foo", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export const FOO = 42", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default function() { }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default function* () { }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default class { }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default foo || bar", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default (foo) => foo.bar()", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default foo = 42", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default foo += 42", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "++\nfoo;", options: ["always"] },
         { code: "var a = b;\n+ c", options: ["never"] },
 
@@ -119,7 +119,7 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: `
@@ -127,7 +127,7 @@ ruleTester.run("semi", rule, {
                 [a] = b
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: `
@@ -178,7 +178,7 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: `
@@ -186,7 +186,7 @@ ruleTester.run("semi", rule, {
                 [a] = b
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: `
@@ -233,75 +233,651 @@ ruleTester.run("semi", rule, {
         }
     ],
     invalid: [
-        { code: "import * as utils from './utils'", output: "import * as utils from './utils';", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration", column: 33 }] },
-        { code: "import { square, diag } from 'lib'", output: "import { square, diag } from 'lib';", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration" }] },
-        { code: "import { default as foo } from 'lib'", output: "import { default as foo } from 'lib';", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration" }] },
-        { code: "import 'src/mylib'", output: "import 'src/mylib';", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration" }] },
-        { code: "import theDefault, { named1, named2 } from 'src/mylib'", output: "import theDefault, { named1, named2 } from 'src/mylib';", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration" }] },
-        { code: "function foo() { return [] }", output: "function foo() { return []; }", errors: [{ message: "Missing semicolon.", type: "ReturnStatement" }] },
-        { code: "while(true) { break }", output: "while(true) { break; }", errors: [{ message: "Missing semicolon.", type: "BreakStatement" }] },
-        { code: "while(true) { continue }", output: "while(true) { continue; }", errors: [{ message: "Missing semicolon.", type: "ContinueStatement" }] },
-        { code: "let x = 5", output: "let x = 5;", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
-        { code: "var x = 5", output: "var x = 5;", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
-        { code: "var x = 5, y", output: "var x = 5, y;", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
-        { code: "debugger", output: "debugger;", errors: [{ message: "Missing semicolon.", type: "DebuggerStatement" }] },
-        { code: "foo()", output: "foo();", errors: [{ message: "Missing semicolon.", type: "ExpressionStatement" }] },
-        { code: "for (var a in b) var i ", output: "for (var a in b) var i; ", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
-        { code: "for (;;){var i}", output: "for (;;){var i;}", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
-        { code: "for (;;) var i ", output: "for (;;) var i; ", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
-        { code: "for (var j;;) {var i}", output: "for (var j;;) {var i;}", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
-        { code: "var foo = {\n bar: baz\n}", output: "var foo = {\n bar: baz\n};", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration", line: 3 }] },
-        { code: "var foo\nvar bar;", output: "var foo;\nvar bar;", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration", line: 1 }] },
-        { code: "throw new Error('foo')", output: "throw new Error('foo');", errors: [{ message: "Missing semicolon.", type: "ThrowStatement", line: 1 }] },
-        { code: "do{}while(true)", output: "do{}while(true);", errors: [{ message: "Missing semicolon.", type: "DoWhileStatement", line: 1 }] },
+        {
+            code: "import * as utils from './utils'",
+            output: "import * as utils from './utils';",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "missingSemi",
+                type: "ImportDeclaration",
+                column: 33,
+                endLine: void 0,
+                endColumn: void 0
+            }]
+        },
+        {
+            code: "import { square, diag } from 'lib'",
+            output: "import { square, diag } from 'lib';",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "missingSemi",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code: "import { default as foo } from 'lib'",
+            output: "import { default as foo } from 'lib';",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "missingSemi",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code: "import 'src/mylib'",
+            output: "import 'src/mylib';",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "missingSemi",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code: "import theDefault, { named1, named2 } from 'src/mylib'",
+            output: "import theDefault, { named1, named2 } from 'src/mylib';",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "missingSemi",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code: "function foo() { return [] }",
+            output: "function foo() { return []; }",
+            errors: [{
+                messageId: "missingSemi",
+                type: "ReturnStatement"
+            }]
+        },
+        {
+            code: "while(true) { break }",
+            output: "while(true) { break; }",
+            errors: [{
+                messageId: "missingSemi",
+                type: "BreakStatement"
+            }]
+        },
+        {
+            code: "while(true) { continue }",
+            output: "while(true) { continue; }",
+            errors: [{
+                messageId: "missingSemi",
+                type: "ContinueStatement"
+            }]
+        },
+        {
+            code: "let x = 5",
+            output: "let x = 5;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "missingSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "var x = 5",
+            output: "var x = 5;",
+            errors: [{
+                messageId: "missingSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "var x = 5, y",
+            output: "var x = 5, y;",
+            errors: [{
+                messageId: "missingSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "debugger",
+            output: "debugger;",
+            errors: [{
+                messageId: "missingSemi",
+                type: "DebuggerStatement"
+            }]
+        },
+        {
+            code: "foo()",
+            output: "foo();",
+            errors: [{
+                messageId: "missingSemi",
+                type: "ExpressionStatement",
+                column: 6,
+                endColumn: void 0
+            }]
+        },
+        {
+            code: "foo()\n",
+            output: "foo();\n",
+            errors: [{
+                messageId: "missingSemi",
+                type: "ExpressionStatement",
+                column: 6,
+                endLine: 2,
+                endColumn: 1
+            }]
+        },
+        {
+            code: "foo()\r\n",
+            output: "foo();\r\n",
+            errors: [{
+                messageId: "missingSemi",
+                type: "ExpressionStatement",
+                column: 6,
+                endLine: 2,
+                endColumn: 1
+            }]
+        },
+        {
+            code: "foo()\nbar();",
+            output: "foo();\nbar();",
+            errors: [{
+                messageId: "missingSemi",
+                type: "ExpressionStatement",
+                column: 6,
+                endLine: 2,
+                endColumn: 1
+            }]
+        },
+        {
+            code: "foo()\r\nbar();",
+            output: "foo();\r\nbar();",
+            errors: [{
+                messageId: "missingSemi",
+                type: "ExpressionStatement",
+                column: 6,
+                endLine: 2,
+                endColumn: 1
+            }]
+        },
+        {
+            code: "for (var a in b) var i ",
+            output: "for (var a in b) var i; ",
+            errors: [{
+                messageId: "missingSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "for (;;){var i}",
+            output: "for (;;){var i;}",
+            errors: [{
+                messageId: "missingSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "for (;;) var i ",
+            output: "for (;;) var i; ",
+            errors: [{
+                messageId: "missingSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "for (var j;;) {var i}",
+            output: "for (var j;;) {var i;}",
+            errors: [{
+                messageId: "missingSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "var foo = {\n bar: baz\n}",
+            output: "var foo = {\n bar: baz\n};",
+            errors: [{
+                messageId: "missingSemi",
+                type: "VariableDeclaration",
+                line: 3
+            }]
+        },
+        {
+            code: "var foo\nvar bar;",
+            output: "var foo;\nvar bar;",
+            errors: [{
+                messageId: "missingSemi",
+                type: "VariableDeclaration",
+                line: 1
+            }]
+        },
+        {
+            code: "throw new Error('foo')",
+            output: "throw new Error('foo');",
+            errors: [{
+                messageId: "missingSemi",
+                type: "ThrowStatement",
+                line: 1
+            }]
+        },
+        {
+            code: "do{}while(true)",
+            output: "do{}while(true);",
+            errors: [{
+                messageId: "missingSemi",
+                type: "DoWhileStatement",
+                line: 1
+            }]
+        },
+        {
+            code: "if (foo) {bar()}",
+            output: "if (foo) {bar();}",
+            errors: [{
+                messageId: "missingSemi",
+                column: 16,
+                endColumn: 17
+            }]
+        },
+        {
+            code: "if (foo) {bar()} ",
+            output: "if (foo) {bar();} ",
+            errors: [{
+                messageId: "missingSemi",
+                column: 16,
+                endColumn: 17
+            }]
+        },
+        {
+            code: "if (foo) {bar()\n}",
+            output: "if (foo) {bar();\n}",
+            errors: [{
+                messageId: "missingSemi",
+                column: 16,
+                endLine: 2,
+                endColumn: 1
+            }]
+        },
 
-        { code: "throw new Error('foo');", output: "throw new Error('foo')", options: ["never"], errors: [{ message: "Extra semicolon.", type: "ThrowStatement", column: 23 }] },
-        { code: "function foo() { return []; }", output: "function foo() { return [] }", options: ["never"], errors: [{ message: "Extra semicolon.", type: "ReturnStatement" }] },
-        { code: "while(true) { break; }", output: "while(true) { break }", options: ["never"], errors: [{ message: "Extra semicolon.", type: "BreakStatement" }] },
-        { code: "while(true) { continue; }", output: "while(true) { continue }", options: ["never"], errors: [{ message: "Extra semicolon.", type: "ContinueStatement" }] },
-        { code: "let x = 5;", output: "let x = 5", options: ["never"], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
-        { code: "var x = 5;", output: "var x = 5", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
-        { code: "var x = 5, y;", output: "var x = 5, y", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
-        { code: "debugger;", output: "debugger", options: ["never"], errors: [{ message: "Extra semicolon.", type: "DebuggerStatement" }] },
-        { code: "foo();", output: "foo()", options: ["never"], errors: [{ message: "Extra semicolon.", type: "ExpressionStatement" }] },
-        { code: "for (var a in b) var i; ", output: "for (var a in b) var i ", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
-        { code: "for (;;){var i;}", output: "for (;;){var i}", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
-        { code: "for (;;) var i; ", output: "for (;;) var i ", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
-        { code: "for (var j;;) {var i;}", output: "for (var j;;) {var i}", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
-        { code: "var foo = {\n bar: baz\n};", output: "var foo = {\n bar: baz\n}", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration", line: 3 }] },
-        { code: "import theDefault, { named1, named2 } from 'src/mylib';", output: "import theDefault, { named1, named2 } from 'src/mylib'", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ImportDeclaration" }] },
-        { code: "do{}while(true);", output: "do{}while(true)", options: ["never"], errors: [{ message: "Extra semicolon.", type: "DoWhileStatement", line: 1 }] },
+        {
+            code: "throw new Error('foo');",
+            output: "throw new Error('foo')",
+            options: ["never"],
+            errors: [{
+                messageId: "extraSemi",
+                type: "ThrowStatement",
+                column: 23
+            }]
+        },
+        {
+            code: "function foo() { return []; }",
+            output: "function foo() { return [] }",
+            options: ["never"],
+            errors: [{
+                messageId: "extraSemi",
+                type: "ReturnStatement"
+            }]
+        },
+        {
+            code: "while(true) { break; }",
+            output: "while(true) { break }",
+            options: ["never"],
+            errors: [{
+                messageId: "extraSemi",
+                type: "BreakStatement"
+            }]
+        },
+        {
+            code: "while(true) { continue; }",
+            output: "while(true) { continue }",
+            options: ["never"],
+            errors: [{
+                messageId: "extraSemi",
+                type: "ContinueStatement"
+            }]
+        },
+        {
+            code: "let x = 5;",
+            output: "let x = 5",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "extraSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "var x = 5;",
+            output: "var x = 5",
+            options: ["never"],
+            errors: [{
+                messageId: "extraSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "var x = 5, y;",
+            output: "var x = 5, y",
+            options: ["never"],
+            errors: [{
+                messageId: "extraSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "debugger;",
+            output: "debugger",
+            options: ["never"],
+            errors: [{
+                messageId: "extraSemi",
+                type: "DebuggerStatement"
+            }]
+        },
+        {
+            code: "foo();",
+            output: "foo()",
+            options: ["never"],
+            errors: [{
+                messageId: "extraSemi",
+                type: "ExpressionStatement"
+            }]
+        },
+        {
+            code: "for (var a in b) var i; ",
+            output: "for (var a in b) var i ",
+            options: ["never"],
+            errors: [{
+                messageId: "extraSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "for (;;){var i;}",
+            output: "for (;;){var i}",
+            options: ["never"],
+            errors: [{
+                messageId: "extraSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "for (;;) var i; ",
+            output: "for (;;) var i ",
+            options: ["never"],
+            errors: [{
+                messageId: "extraSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "for (var j;;) {var i;}",
+            output: "for (var j;;) {var i}",
+            options: ["never"],
+            errors: [{
+                messageId: "extraSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "var foo = {\n bar: baz\n};",
+            output: "var foo = {\n bar: baz\n}",
+            options: ["never"],
+            errors: [{
+                messageId: "extraSemi",
+                type: "VariableDeclaration",
+                line: 3
+            }]
+        },
+        {
+            code: "import theDefault, { named1, named2 } from 'src/mylib';",
+            output: "import theDefault, { named1, named2 } from 'src/mylib'",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "extraSemi",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code: "do{}while(true);",
+            output: "do{}while(true)",
+            options: ["never"],
+            errors: [{
+                messageId: "extraSemi",
+                type: "DoWhileStatement",
+                line: 1
+            }]
+        },
 
-        { code: "if (foo) { bar()\n }", output: "if (foo) { bar();\n }", options: ["always", { omitLastInOneLineBlock: true }], errors: [{ message: "Missing semicolon." }] },
-        { code: "if (foo) {\n bar() }", output: "if (foo) {\n bar(); }", options: ["always", { omitLastInOneLineBlock: true }], errors: [{ message: "Missing semicolon." }] },
-        { code: "if (foo) {\n bar(); baz() }", output: "if (foo) {\n bar(); baz(); }", options: ["always", { omitLastInOneLineBlock: true }], errors: [{ message: "Missing semicolon." }] },
-        { code: "if (foo) { bar(); }", output: "if (foo) { bar() }", options: ["always", { omitLastInOneLineBlock: true }], errors: [{ message: "Extra semicolon." }] },
+        {
+            code: "if (foo) { bar()\n }",
+            output: "if (foo) { bar();\n }",
+            options: ["always", { omitLastInOneLineBlock: true }],
+            errors: [{
+                messageId: "missingSemi"
+            }]
+        },
+        {
+            code: "if (foo) {\n bar() }",
+            output: "if (foo) {\n bar(); }",
+            options: ["always", { omitLastInOneLineBlock: true }],
+            errors: [{
+                messageId: "missingSemi"
+            }]
+        },
+        {
+            code: "if (foo) {\n bar(); baz() }",
+            output: "if (foo) {\n bar(); baz(); }",
+            options: ["always", { omitLastInOneLineBlock: true }],
+            errors: [{
+                messageId: "missingSemi"
+            }]
+        },
+        {
+            code: "if (foo) { bar(); }",
+            output: "if (foo) { bar() }",
+            options: ["always", { omitLastInOneLineBlock: true }],
+            errors: [{
+                messageId: "extraSemi"
+            }]
+        },
 
 
         // exports, "always"
-        { code: "export * from 'foo'", output: "export * from 'foo';", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportAllDeclaration" }] },
-        { code: "export { foo } from 'foo'", output: "export { foo } from 'foo';", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportNamedDeclaration" }] },
-        { code: "var foo = 0;export { foo }", output: "var foo = 0;export { foo };", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportNamedDeclaration" }] },
-        { code: "export var foo", output: "export var foo;", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
-        { code: "export let foo", output: "export let foo;", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
-        { code: "export const FOO = 42", output: "export const FOO = 42;", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
-        { code: "export default foo || bar", output: "export default foo || bar;", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration" }] },
-        { code: "export default (foo) => foo.bar()", output: "export default (foo) => foo.bar();", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration" }] },
-        { code: "export default foo = 42", output: "export default foo = 42;", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration" }] },
-        { code: "export default foo += 42", output: "export default foo += 42;", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration" }] },
+        {
+            code: "export * from 'foo'",
+            output: "export * from 'foo';",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "missingSemi",
+                type: "ExportAllDeclaration"
+            }]
+        },
+        {
+            code: "export { foo } from 'foo'",
+            output: "export { foo } from 'foo';",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "missingSemi",
+                type: "ExportNamedDeclaration"
+            }]
+        },
+        {
+            code: "var foo = 0;export { foo }",
+            output: "var foo = 0;export { foo };",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "missingSemi",
+                type: "ExportNamedDeclaration"
+            }]
+        },
+        {
+            code: "export var foo",
+            output: "export var foo;",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "missingSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "export let foo",
+            output: "export let foo;",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "missingSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "export const FOO = 42",
+            output: "export const FOO = 42;",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "missingSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "export default foo || bar",
+            output: "export default foo || bar;",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "missingSemi",
+                type: "ExportDefaultDeclaration"
+            }]
+        },
+        {
+            code: "export default (foo) => foo.bar()",
+            output: "export default (foo) => foo.bar();",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "missingSemi",
+                type: "ExportDefaultDeclaration"
+            }]
+        },
+        {
+            code: "export default foo = 42",
+            output: "export default foo = 42;",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "missingSemi",
+                type: "ExportDefaultDeclaration"
+            }]
+        },
+        {
+            code: "export default foo += 42",
+            output: "export default foo += 42;",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "missingSemi",
+                type: "ExportDefaultDeclaration"
+            }]
+        },
 
         // exports, "never"
-        { code: "export * from 'foo';", output: "export * from 'foo'", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportAllDeclaration" }] },
-        { code: "export { foo } from 'foo';", output: "export { foo } from 'foo'", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportNamedDeclaration" }] },
-        { code: "var foo = 0;export { foo };", output: "var foo = 0;export { foo }", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportNamedDeclaration" }] },
-        { code: "export var foo;", output: "export var foo", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
-        { code: "export let foo;", output: "export let foo", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
-        { code: "export const FOO = 42;", output: "export const FOO = 42", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
-        { code: "export default foo || bar;", output: "export default foo || bar", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
-        { code: "export default (foo) => foo.bar();", output: "export default (foo) => foo.bar()", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
-        { code: "export default foo = 42;", output: "export default foo = 42", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
-        { code: "export default foo += 42;", output: "export default foo += 42", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
-        { code: "a;\n++b", output: "a\n++b", options: ["never"], errors: [{ message: "Extra semicolon." }] },
+        {
+            code: "export * from 'foo';",
+            output: "export * from 'foo'",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "extraSemi",
+                type: "ExportAllDeclaration",
+                column: 20,
+                endColumn: 21
+            }]
+        },
+        {
+            code: "export { foo } from 'foo';",
+            output: "export { foo } from 'foo'",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "extraSemi",
+                type: "ExportNamedDeclaration"
+            }]
+        },
+        {
+            code: "var foo = 0;export { foo };",
+            output: "var foo = 0;export { foo }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "extraSemi",
+                type: "ExportNamedDeclaration"
+            }]
+        },
+        {
+            code: "export var foo;",
+            output: "export var foo",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "extraSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "export let foo;",
+            output: "export let foo",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "extraSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "export const FOO = 42;",
+            output: "export const FOO = 42",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "extraSemi",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "export default foo || bar;",
+            output: "export default foo || bar",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "extraSemi",
+                type: "ExportDefaultDeclaration"
+            }]
+        },
+        {
+            code: "export default (foo) => foo.bar();",
+            output: "export default (foo) => foo.bar()",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "extraSemi",
+                type: "ExportDefaultDeclaration"
+            }]
+        },
+        {
+            code: "export default foo = 42;",
+            output: "export default foo = 42",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "extraSemi",
+                type: "ExportDefaultDeclaration"
+            }]
+        },
+        {
+            code: "export default foo += 42;",
+            output: "export default foo += 42",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "extraSemi",
+                type: "ExportDefaultDeclaration"
+            }]
+        },
+        {
+            code: "a;\n++b",
+            output: "a\n++b",
+            options: ["never"],
+            errors: [{
+                messageId: "extraSemi",
+                column: 2,
+                endColumn: 3
+            }]
+        },
 
         // https://github.com/eslint/eslint/issues/7928
         {
@@ -333,7 +909,7 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: ["Missing semicolon."]
         },
         {
@@ -346,7 +922,7 @@ ruleTester.run("semi", rule, {
                 [a] = b
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: ["Missing semicolon."]
         },
         {
@@ -433,7 +1009,7 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: ["Extra semicolon."]
         },
         {
@@ -446,7 +1022,7 @@ ruleTester.run("semi", rule, {
                 [a] = b
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: ["Extra semicolon."]
         },
         {
@@ -533,7 +1109,7 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: ["Extra semicolon."]
         },
         {
@@ -546,7 +1122,7 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: ["Extra semicolon."]
         },
         {

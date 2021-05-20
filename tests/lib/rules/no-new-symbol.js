@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-new-symbol"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -22,16 +22,18 @@ ruleTester.run("no-new-symbol", rule, {
     valid: [
         "var foo = Symbol('foo');",
         "function bar(Symbol) { var baz = new Symbol('baz');}",
-        "function Symbol() {} new Symbol();"
+        "function Symbol() {} new Symbol();",
+        "new foo(Symbol);",
+        "new foo(bar, Symbol);"
     ],
     invalid: [
         {
             code: "var foo = new Symbol('foo');",
-            errors: [{ message: "`Symbol` cannot be called as a constructor." }]
+            errors: [{ messageId: "noNewSymbol" }]
         },
         {
             code: "function bar() { return function Symbol() {}; } var baz = new Symbol('baz');",
-            errors: [{ message: "`Symbol` cannot be called as a constructor." }]
+            errors: [{ messageId: "noNewSymbol" }]
         }
     ]
 });

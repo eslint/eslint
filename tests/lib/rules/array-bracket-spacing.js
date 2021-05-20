@@ -10,7 +10,7 @@
 
 const path = require("path"),
     rule = require("../../../lib/rules/array-bracket-spacing"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -18,8 +18,7 @@ const path = require("path"),
 
 /**
  * Gets the path to the specified parser.
- *
- * @param {string} name - The parser name to get.
+ * @param {string} name The parser name to get.
  * @returns {string} The path to the specified parser.
  */
 function parser(name) {
@@ -174,8 +173,8 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "var obj = {'foo': [1, 2]}", options: ["never"] },
 
         // destructuring with type annotation
-        { code: "([ a, b ]: Array<any>) => {}", options: ["always"], parserOptions: { ecmaVersion: 6 }, parser: parser("flow-destructuring-1") },
-        { code: "([a, b]: Array< any >) => {}", options: ["never"], parserOptions: { ecmaVersion: 6 }, parser: parser("flow-destructuring-2") }
+        { code: "([ a, b ]: Array<any>) => {}", options: ["always"], parser: parser("flow-destructuring-1"), parserOptions: { ecmaVersion: 6 } },
+        { code: "([a, b]: Array< any >) => {}", options: ["never"], parser: parser("flow-destructuring-2"), parserOptions: { ecmaVersion: 6 } }
     ],
 
     invalid: [
@@ -191,7 +190,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
                 }
             ]
         },
@@ -209,7 +210,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
                 },
                 {
                     messageId: "missingSpaceBefore",
@@ -218,7 +221,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 36
+                    column: 36,
+                    endLine: 1,
+                    endColumn: 37
                 }
             ]
         },
@@ -234,7 +239,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
                 },
                 {
                     messageId: "unexpectedSpaceBefore",
@@ -243,7 +250,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 35
+                    column: 34,
+                    endLine: 1,
+                    endColumn: 35
                 }
             ]
         },
@@ -259,7 +268,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
                 },
                 {
                     messageId: "unexpectedSpaceBefore",
@@ -268,7 +279,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 50
+                    column: 49,
+                    endLine: 1,
+                    endColumn: 50
                 }
             ]
         },
@@ -286,7 +299,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
                 },
                 {
                     messageId: "unexpectedSpaceBefore",
@@ -295,7 +310,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 19
+                    column: 18,
+                    endLine: 1,
+                    endColumn: 19
                 }
             ]
         },
@@ -311,7 +328,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 18
+                    column: 17,
+                    endLine: 1,
+                    endColumn: 18
                 }
             ]
         },
@@ -327,7 +346,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
                 },
                 {
                     messageId: "missingSpaceBefore",
@@ -336,7 +357,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 17
+                    column: 17,
+                    endLine: 1,
+                    endColumn: 18
                 }
             ]
         },
@@ -354,7 +377,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
                 }
             ]
         },
@@ -370,7 +395,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 31
+                    column: 30,
+                    endLine: 1,
+                    endColumn: 31
                 }
             ]
         },
@@ -386,7 +413,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 34
+                    column: 33,
+                    endLine: 1,
+                    endColumn: 34
                 }
             ]
         },
@@ -402,7 +431,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
                 }
             ]
         },
@@ -418,7 +449,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
                 },
                 {
                     messageId: "unexpectedSpaceBefore",
@@ -427,7 +460,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 35
+                    column: 34,
+                    endLine: 1,
+                    endColumn: 35
                 }
             ]
         },
@@ -445,7 +480,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                 },
                 type: "ArrayPattern",
                 line: 1,
-                column: 5
+                column: 5,
+                endLine: 1,
+                endColumn: 6
             },
             {
                 messageId: "missingSpaceBefore",
@@ -454,7 +491,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                 },
                 type: "ArrayPattern",
                 line: 1,
-                column: 9
+                column: 9,
+                endLine: 1,
+                endColumn: 10
             }]
         },
         {
@@ -469,7 +508,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                 },
                 type: "ArrayPattern",
                 line: 1,
-                column: 5
+                column: 5,
+                endLine: 1,
+                endColumn: 6
             }]
         },
         {
@@ -484,7 +525,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                 },
                 type: "ArrayPattern",
                 line: 1,
-                column: 5
+                column: 5,
+                endLine: 1,
+                endColumn: 6
             },
             {
                 messageId: "missingSpaceBefore",
@@ -493,7 +536,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                 },
                 type: "ArrayPattern",
                 line: 1,
-                column: 12
+                column: 12,
+                endLine: 1,
+                endColumn: 13
             }]
         },
         {
@@ -508,7 +553,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                 },
                 type: "ArrayPattern",
                 line: 1,
-                column: 13
+                column: 13,
+                endLine: 1,
+                endColumn: 14
             }]
         },
         {
@@ -523,7 +570,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                 },
                 type: "ArrayPattern",
                 line: 1,
-                column: 5
+                column: 5,
+                endLine: 1,
+                endColumn: 6
             },
             {
                 messageId: "missingSpaceBefore",
@@ -532,7 +581,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                 },
                 type: "ArrayPattern",
                 line: 1,
-                column: 14
+                column: 14,
+                endLine: 1,
+                endColumn: 15
             }]
         },
         {
@@ -547,7 +598,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                 },
                 type: "ArrayPattern",
                 line: 1,
-                column: 5
+                column: 5,
+                endLine: 1,
+                endColumn: 6
             }]
         },
         {
@@ -562,7 +615,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                 },
                 type: "ArrayPattern",
                 line: 1,
-                column: 5
+                column: 6,
+                endLine: 1,
+                endColumn: 7
             }]
         },
         {
@@ -577,7 +632,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                 },
                 type: "ArrayPattern",
                 line: 1,
-                column: 1
+                column: 2,
+                endLine: 1,
+                endColumn: 3
             }]
         },
         {
@@ -592,7 +649,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                 },
                 type: "ArrayPattern",
                 line: 1,
-                column: 15
+                column: 14,
+                endLine: 1,
+                endColumn: 15
             }]
         },
 
@@ -609,7 +668,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
                 },
                 {
                     messageId: "missingSpaceBefore",
@@ -618,7 +679,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 29
+                    column: 29,
+                    endLine: 1,
+                    endColumn: 30
                 }
             ]
         },
@@ -634,7 +697,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
                 }
             ]
         },
@@ -652,7 +717,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
                 }
             ]
         },
@@ -670,7 +737,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
                 },
                 {
                     messageId: "missingSpaceBefore",
@@ -679,7 +748,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 22
+                    column: 22,
+                    endLine: 1,
+                    endColumn: 23
                 }
             ]
         },
@@ -695,7 +766,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
                 }
             ]
         },
@@ -711,7 +784,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 23
+                    column: 23,
+                    endLine: 1,
+                    endColumn: 24
                 }
             ]
         },
@@ -729,7 +804,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
                 },
                 {
                     messageId: "unexpectedSpaceBefore",
@@ -738,7 +815,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 24
+                    column: 23,
+                    endLine: 1,
+                    endColumn: 24
                 }
             ]
         },
@@ -754,7 +833,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 23
+                    column: 22,
+                    endLine: 1,
+                    endColumn: 23
                 }
             ]
         },
@@ -770,7 +851,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
                 }
             ]
         },
@@ -786,7 +869,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
                 },
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -795,7 +880,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 13
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 15
                 }
             ]
         },
@@ -811,7 +898,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 15
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 15
                 },
                 {
                     messageId: "unexpectedSpaceBefore",
@@ -820,7 +909,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayExpression",
                     line: 1,
-                    column: 26
+                    column: 25,
+                    endLine: 1,
+                    endColumn: 26
                 }
             ]
         },
@@ -829,6 +920,103 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "([ a, b ]: Array<any>) => {}",
             output: "([a, b]: Array<any>) => {}",
+            options: ["never"],
+            parser: parser("flow-destructuring-1"),
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayPattern",
+                    line: 1,
+                    column: 3,
+                    endLine: 1,
+                    endColumn: 4
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayPattern",
+                    line: 1,
+                    column: 8,
+                    endLine: 1,
+                    endColumn: 9
+                }
+            ]
+        },
+        {
+            code: "([a, b]: Array< any >) => {}",
+            output: "([ a, b ]: Array< any >) => {}",
+            options: ["always"],
+            parser: parser("flow-destructuring-2"),
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [
+                {
+                    messageId: "missingSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayPattern",
+                    line: 1,
+                    column: 2,
+                    endLine: 1,
+                    endColumn: 3
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayPattern",
+                    line: 1,
+                    column: 7,
+                    endLine: 1,
+                    endColumn: 8
+                }
+            ]
+        },
+
+        // multiple spaces
+        {
+            code: "var arr = [  1, 2   ];",
+            output: "var arr = [1, 2];",
+            options: ["never"],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 14
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 18,
+                    endLine: 1,
+                    endColumn: 21
+                }
+            ]
+        },
+        {
+            code: "function f( [   a, b  ] ) {}",
+            output: "function f( [a, b] ) {}",
             options: ["never"],
             parserOptions: {
                 ecmaVersion: 6
@@ -841,7 +1029,9 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayPattern",
                     line: 1,
-                    column: 2
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 17
                 },
                 {
                     messageId: "unexpectedSpaceBefore",
@@ -850,39 +1040,91 @@ ruleTester.run("array-bracket-spacing", rule, {
                     },
                     type: "ArrayPattern",
                     line: 1,
-                    column: 9
+                    column: 21,
+                    endLine: 1,
+                    endColumn: 23
                 }
-            ],
-            parser: parser("flow-destructuring-1")
+            ]
         },
         {
-            code: "([a, b]: Array< any >) => {}",
-            output: "([ a, b ]: Array< any >) => {}",
-            options: ["always"],
-            parserOptions: {
-                ecmaVersion: 6
-            },
+            code: "var arr = [ 1,\n   2   ];",
+            output: "var arr = [1,\n   2];",
+            options: ["never"],
             errors: [
                 {
-                    messageId: "missingSpaceAfter",
+                    messageId: "unexpectedSpaceAfter",
                     data: {
                         tokenValue: "["
                     },
-                    type: "ArrayPattern",
+                    type: "ArrayExpression",
                     line: 1,
-                    column: 2
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
                 },
                 {
-                    messageId: "missingSpaceBefore",
+                    messageId: "unexpectedSpaceBefore",
                     data: {
                         tokenValue: "]"
                     },
-                    type: "ArrayPattern",
-                    line: 1,
-                    column: 7
+                    type: "ArrayExpression",
+                    line: 2,
+                    column: 5,
+                    endLine: 2,
+                    endColumn: 8
                 }
-            ],
-            parser: parser("flow-destructuring-2")
+            ]
+        },
+        {
+            code: "var arr = [  1, [ 2, 3  ] ];",
+            output: "var arr = [1, [2, 3]];",
+            options: ["never"],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 14
+                },
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 18,
+                    endLine: 1,
+                    endColumn: 19
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 23,
+                    endLine: 1,
+                    endColumn: 25
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 26,
+                    endLine: 1,
+                    endColumn: 27
+                }
+            ]
         }
     ]
 });

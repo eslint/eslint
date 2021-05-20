@@ -33,16 +33,21 @@ var _ = require('underscore');
 var obj = _.contains(items, item);
 obj.__proto__ = {};
 var file = __filename;
+function foo(_bar) {};
+const foo = { onClick(_bar) {} };
+const foo = (_bar) => {};
 ```
 
 ## Options
 
 This rule has an object option:
 
-* `"allow"` allows specified identifiers to have dangling underscores
-* `"allowAfterThis": false` (default) disallows dangling underscores in members of the `this` object
-* `"allowAfterSuper": false` (default) disallows dangling underscores in members of the `super` object
-* `"enforceInMethodNames": false` (default) allows dangling underscores in method names
+-  `"allow"` allows specified identifiers to have dangling underscores
+-  `"allowAfterThis": false` (default) disallows dangling underscores in members of the `this` object
+-  `"allowAfterSuper": false` (default) disallows dangling underscores in members of the `super` object
+-  `"allowAfterThisConstructor": false` (default) disallows dangling underscores in members of the `this.constructor` object
+-  `"enforceInMethodNames": false` (default) allows dangling underscores in method names
+-  `"allowFunctionParams": true` (default) allows dangling underscores in function parameter names
 
 ### allow
 
@@ -77,9 +82,20 @@ var a = super.foo_;
 super._bar();
 ```
 
+### allowAfterThisConstructor
+
+Examples of **correct** code for this rule with the `{ "allowAfterThisConstructor": true }` option:
+
+```js
+/*eslint no-underscore-dangle: ["error", { "allowAfterThisConstructor": true }]*/
+
+var a = this.constructor.foo_;
+this.constructor._bar();
+```
+
 ### enforceInMethodNames
 
-Examples of incorrect code for this rule with the `{ "enforceInMethodNames": true }` option:
+Examples of **incorrect** code for this rule with the `{ "enforceInMethodNames": true }` option:
 
 ```js
 /*eslint no-underscore-dangle: ["error", { "enforceInMethodNames": true }]*/
@@ -99,6 +115,26 @@ const o = {
 const o = {
   bar_() = {}
 };
+```
+
+### allowFunctionParams
+
+Examples of **incorrect** code for this rule with the `{ "allowFunctionParams": false }` option:
+
+```js
+/*eslint no-underscore-dangle: ["error", { "allowFunctionParams": false }]*/
+
+function foo (_bar) {}
+function foo (_bar = 0) {}
+function foo (..._bar) {}
+
+const foo = function onClick (_bar) {}
+const foo = function onClick (_bar = 0) {}
+const foo = function onClick (..._bar) {}
+
+const foo = (_bar) => {};
+const foo = (_bar = 0) => {};
+const foo = (..._bar) => {};
 ```
 
 ## When Not To Use It

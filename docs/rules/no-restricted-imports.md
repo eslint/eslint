@@ -12,6 +12,8 @@ Why would you want to restrict imports?
 
 This rule allows you to specify imports that you don't want to use in your application.
 
+It applies to static imports only, not dynamic ones.
+
 ## Options
 
 The syntax to specify restricted imports looks like this:
@@ -38,20 +40,26 @@ When using the object form, you can also specify an array of gitignore-style pat
 You may also specify a custom message for any paths you want to restrict as follows:
 
 ```json
-"no-restricted-imports": ["error", [{
-  "name": "import-foo",
-  "message": "Please use import-bar instead."
-}]]
+"no-restricted-imports": ["error", {
+    "name": "import-foo",
+    "message": "Please use import-bar instead."
+}, {
+    "name": "import-baz",
+    "message": "Please use import-quux instead."
+}]
 ```
 
 or like this:
 
 ```json
 "no-restricted-imports": ["error", {
-  "paths": [{
-    "name": "import-foo",
-    "message": "Please use import-bar instead."
-  }]
+    "paths": [{
+        "name": "import-foo",
+        "message": "Please use import-bar instead."
+    }, {
+        "name": "import-baz",
+        "message": "Please use import-quux instead."
+    }]
 }]
 ```
 

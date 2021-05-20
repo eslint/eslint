@@ -1,6 +1,16 @@
 extends:
     - "eslint:recommended"
     - "plugin:node/recommended"
+plugins:
+    - "jsdoc"
+settings:
+    jsdoc:
+        tagNamePreference:
+            file: "fileoverview"
+            augments: "extends"
+            class: "constructor"
+        preferredTypes:
+            object: "Object"
 rules:
     array-bracket-spacing: "error"
     array-callback-return: "error"
@@ -11,7 +21,6 @@ rules:
     block-spacing: "error"
     brace-style: ["error", "1tbs"]
     camelcase: "error"
-    callback-return: ["error", ["cb", "callback", "next"]]
     class-methods-use-this: "error"
     comma-dangle: "error"
     comma-spacing: "error"
@@ -20,6 +29,7 @@ rules:
     consistent-return: "error"
     curly: ["error", "all"]
     default-case: "error"
+    default-param-last: "error"
     dot-location: ["error", "property"]
     dot-notation: ["error", { allowKeywords: true }]
     eol-last: "error"
@@ -29,7 +39,23 @@ rules:
     function-paren-newline: ["error", "consistent"]
     generator-star-spacing: "error"
     guard-for-in: "error"
-    handle-callback-err: ["error", "err"]
+    jsdoc/check-alignment: "error"
+    jsdoc/check-param-names: "error"
+    jsdoc/check-syntax: "error"
+    jsdoc/check-tag-names: "error"
+    jsdoc/check-types: "error"
+    jsdoc/implements-on-classes: "error"
+    jsdoc/newline-after-description: ["error", "never"]
+    jsdoc/require-description: "error"
+    jsdoc/require-hyphen-before-param-description: ["error", "never"]
+    jsdoc/require-jsdoc: "error"
+    jsdoc/require-param: "error"
+    jsdoc/require-param-description: "error"
+    jsdoc/require-param-name: "error"
+    jsdoc/require-param-type: "error"
+    jsdoc/require-returns: ["error", { forceRequireReturn: true, forceReturnsWithAsync: true }]
+    jsdoc/require-returns-description: "error"
+    jsdoc/require-returns-type: "error"
     key-spacing: ["error", { beforeColon: false, afterColon: true }]
     keyword-spacing: "error"
     lines-around-comment: ["error", {
@@ -50,8 +76,6 @@ rules:
     new-parens: "error"
     no-alert: "error"
     no-array-constructor: "error"
-    no-async-promise-executor: "error"
-    no-buffer-constructor: "error"
     no-caller: "error"
     no-confusing-arrow: "error"
     no-console: "error"
@@ -70,7 +94,6 @@ rules:
     no-labels: "error"
     no-lone-blocks: "error"
     no-loop-func: "error"
-    no-mixed-requires: "error"
     no-mixed-spaces-and-tabs: ["error", false]
     no-multi-spaces: "error"
     no-multi-str: "error"
@@ -79,15 +102,12 @@ rules:
     no-new: "error"
     no-new-func: "error"
     no-new-object: "error"
-    no-new-require: "error"
     no-new-wrappers: "error"
     no-octal: "error"
     no-octal-escape: "error"
     no-param-reassign: "error"
-    no-path-concat: "error"
-    no-process-exit: "error"
     no-proto: "error"
-    no-prototype-builtins: "error"
+    no-process-exit: "off"
     no-redeclare: "error"
     no-restricted-properties: [
         "error",
@@ -104,7 +124,6 @@ rules:
     no-self-compare: "error"
     no-sequences: "error"
     no-shadow: "error"
-    no-shadow-restricted-names: "error"
     no-tabs: "error"
     no-throw-literal: "error"
     no-trailing-spaces: "error"
@@ -115,10 +134,9 @@ rules:
     no-unmodified-loop-condition: "error"
     no-unneeded-ternary: "error"
     no-unused-expressions: "error"
-    no-unused-vars: ["error", {vars: "all", args: "after-used"}]
+    no-unused-vars: ["error", {vars: "all", args: "after-used", caughtErrors: "all"}]
     no-use-before-define: "error"
     no-useless-call: "error"
-    no-useless-catch: "error"
     no-useless-computed-key: "error"
     no-useless-concat: "error"
     no-useless-constructor: "error"
@@ -126,8 +144,14 @@ rules:
     no-useless-rename: "error"
     no-useless-return: "error"
     no-whitespace-before-property: "error"
-    no-with: "error"
     no-var: "error"
+    node/callback-return: ["error", ["cb", "callback", "next"]]
+    node/handle-callback-err: ["error", "err"]
+    node/no-deprecated-api: "error"
+    node/no-mixed-requires: "error"
+    node/no-new-require: "error"
+    node/no-path-concat: "error"
+    node/no-process-exit: "error"
     object-curly-newline: ["error", { "consistent": true, "multiline": true }]
     object-curly-spacing: ["error", "always"]
     object-property-newline: ["error", { "allowAllPropertiesOnSameLine": true }]
@@ -152,20 +176,24 @@ rules:
     prefer-const: "error"
     prefer-numeric-literals: "error"
     prefer-promise-reject-errors: "error"
+    prefer-regex-literals: "error"
     prefer-rest-params: "error"
     prefer-spread: "error"
     prefer-template: "error"
     quotes: ["error", "double", {avoidEscape: true}]
     quote-props: ["error", "as-needed"]
     radix: "error"
-    require-atomic-updates: "error"
-    require-jsdoc: "error"
+    require-unicode-regexp: "error"
     rest-spread-spacing: "error"
     semi: "error"
     semi-spacing: ["error", {before: false, after: true}]
     semi-style: "error"
     space-before-blocks: "error"
-    space-before-function-paren: ["error", "never"]
+    space-before-function-paren: ["error", {
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always"
+    }]
     space-in-parens: "error"
     space-infix-ops: "error"
     space-unary-ops: ["error", {words: true, nonwords: false}]
@@ -176,17 +204,6 @@ rules:
     template-curly-spacing: ["error", "never"]
     template-tag-spacing: "error"
     unicode-bom: "error"
-    valid-jsdoc: ["error", {
-        prefer: { "return": "returns"},
-        preferType: {
-            "String": "string",
-            "Number": "number",
-            "Boolean": "boolean",
-            "array": "Array",
-            "object": "Object",
-            "function": "Function"
-        }
-    }]
     wrap-iife: "error"
     yield-star-spacing: "error"
-    yoda: ["error", "never"]
+    yoda: ["error", "never", { exceptRange: true }]

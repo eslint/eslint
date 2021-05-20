@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-shadow"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -63,7 +63,12 @@ ruleTester.run("no-shadow", rule, {
         {
             code: "function a(x) { var b = function c() { var x = 'foo'; }; }",
             errors: [{
-                message: "'x' is already declared in the upper scope.",
+                messageId: "noShadow",
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 12
+                },
                 type: "Identifier",
                 line: 1,
                 column: 44
@@ -73,7 +78,12 @@ ruleTester.run("no-shadow", rule, {
             code: "var a = (x) => { var b = () => { var x = 'foo'; }; }",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "'x' is already declared in the upper scope.",
+                messageId: "noShadow",
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 10
+                },
                 type: "Identifier",
                 line: 1,
                 column: 38
@@ -82,7 +92,12 @@ ruleTester.run("no-shadow", rule, {
         {
             code: "function a(x) { var b = function () { var x = 'foo'; }; }",
             errors: [{
-                message: "'x' is already declared in the upper scope.",
+                messageId: "noShadow",
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 12
+                },
                 type: "Identifier",
                 line: 1,
                 column: 43
@@ -91,7 +106,12 @@ ruleTester.run("no-shadow", rule, {
         {
             code: "var x = 1; function a(x) { return ++x; }",
             errors: [{
-                message: "'x' is already declared in the upper scope.",
+                messageId: "noShadow",
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 5
+                },
                 type: "Identifier",
                 line: 1,
                 column: 23
@@ -99,240 +119,602 @@ ruleTester.run("no-shadow", rule, {
         },
         {
             code: "var a=3; function b() { var a=10; }",
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 5
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "var a=3; function b() { var a=10; }; setTimeout(function() { b(); }, 0);",
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 5
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "var a=3; function b() { var a=10; var b=0; }; setTimeout(function() { b(); }, 0);",
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }, { message: "'b' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [
+                {
+                    messageId: "noShadow",
+                    data: {
+                        name: "a",
+                        shadowedLine: 1,
+                        shadowedColumn: 5
+                    },
+                    type: "Identifier"
+                }, {
+                    messageId: "noShadow",
+                    data: {
+                        name: "b",
+                        shadowedLine: 1,
+                        shadowedColumn: 19
+                    },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "var x = 1; { let x = 2; }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'x' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 5
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "let x = 1; { const x = 2; }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'x' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 5
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "{ let a; } function a() {}",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 21
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "{ const a = 0; } function a() {}",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 27
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "function foo() { let a; } function a() {}",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 36
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "function foo() { var a; } function a() {}",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 36
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "function foo(a) { } function a() {}",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 30
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "{ let a; } let a;",
             options: [{ hoist: "all" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 16
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "{ let a; } var a;",
             options: [{ hoist: "all" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 16
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "{ let a; } function a() {}",
             options: [{ hoist: "all" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 21
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "{ const a = 0; } const a = 1;",
             options: [{ hoist: "all" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 24
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "{ const a = 0; } var a;",
             options: [{ hoist: "all" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 22
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "{ const a = 0; } function a() {}",
             options: [{ hoist: "all" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 27
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "function foo() { let a; } let a;",
             options: [{ hoist: "all" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 31
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "function foo() { let a; } var a;",
             options: [{ hoist: "all" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 31
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "function foo() { let a; } function a() {}",
             options: [{ hoist: "all" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 36
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "function foo() { var a; } let a;",
             options: [{ hoist: "all" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 31
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "function foo() { var a; } var a;",
             options: [{ hoist: "all" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 31
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "function foo() { var a; } function a() {}",
             options: [{ hoist: "all" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 36
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "function foo(a) { } let a;",
             options: [{ hoist: "all" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 25
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "function foo(a) { } var a;",
             options: [{ hoist: "all" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 25
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "function foo(a) { } function a() {}",
             options: [{ hoist: "all" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 30
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "(function a() { function a(){} })()",
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 11
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "(function a() { class a{} })()",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 11
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "(function a() { (function a(){}); })()",
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 11
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "(function a() { (class a{}); })()",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 11
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "(function() { var a = function(a) {}; })()",
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 19
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "(function() { var a = function() { function a() {} }; })()",
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 19
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "(function() { var a = function() { class a{} }; })()",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 19
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "(function() { var a = function() { (function a() {}); }; })()",
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 19
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "(function() { var a = function() { (class a{}); }; })()",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 19
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "(function() { var a = class { constructor() { class a {} } }; })()",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 19
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "class A { constructor() { var A; } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'A' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "A",
+                    shadowedLine: 1,
+                    shadowedColumn: 7
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "(function a() { function a(){ function a(){} } })()",
             errors: [
-                { message: "'a' is already declared in the upper scope.", type: "Identifier", line: 1, column: 26 },
-                { message: "'a' is already declared in the upper scope.", type: "Identifier", line: 1, column: 40 }
+                {
+                    messageId: "noShadow",
+                    data: {
+                        name: "a",
+                        shadowedLine: 1,
+                        shadowedColumn: 11
+                    },
+                    type: "Identifier",
+                    line: 1,
+                    column: 26
+                },
+                {
+                    messageId: "noShadow",
+                    data: {
+                        name: "a",
+                        shadowedLine: 1,
+                        shadowedColumn: 26
+                    },
+                    type: "Identifier",
+                    line: 1,
+                    column: 40
+                }
             ]
         },
         {
             code: "function foo() { var Object = 0; }",
             options: [{ builtinGlobals: true }],
-            errors: [{ message: "'Object' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadowGlobal",
+                data: {
+                    name: "Object"
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "function foo() { var top = 0; }",
             options: [{ builtinGlobals: true }],
-            errors: [{ message: "'top' is already declared in the upper scope.", type: "Identifier" }],
-            env: { browser: true }
+            env: { browser: true },
+            errors: [{
+                messageId: "noShadowGlobal",
+                data: {
+                    name: "top"
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "var Object = 0;",
             options: [{ builtinGlobals: true }],
-            parserOptions: { sourceType: "module" },
-            errors: [{ message: "'Object' is already declared in the upper scope.", type: "Identifier" }]
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "noShadowGlobal",
+                data: {
+                    name: "Object"
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "var top = 0;",
             options: [{ builtinGlobals: true }],
-            parserOptions: { sourceType: "module" },
-            errors: [{ message: "'top' is already declared in the upper scope.", type: "Identifier" }],
-            env: { browser: true }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            env: { browser: true },
+            errors: [{
+                messageId: "noShadowGlobal",
+                data: {
+                    name: "top"
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "var Object = 0;",
             options: [{ builtinGlobals: true }],
             parserOptions: { ecmaFeatures: { globalReturn: true } },
-            errors: [{ message: "'Object' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{
+                messageId: "noShadowGlobal",
+                data: {
+                    name: "Object"
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "var top = 0;",
             options: [{ builtinGlobals: true }],
             parserOptions: { ecmaFeatures: { globalReturn: true } },
-            errors: [{ message: "'top' is already declared in the upper scope.", type: "Identifier" }],
-            env: { browser: true }
+            env: { browser: true },
+            errors: [{
+                messageId: "noShadowGlobal",
+                data: {
+                    name: "top"
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "function foo(cb) { (function (cb) { cb(42); })(cb); }",
-            errors: [
-                { message: "'cb' is already declared in the upper scope.", type: "Identifier", line: 1, column: 31 }
-            ]
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "cb",
+                    shadowedLine: 1,
+                    shadowedColumn: 14
+                },
+                type: "Identifier",
+                line: 1,
+                column: 31
+            }]
         }
     ]
 });

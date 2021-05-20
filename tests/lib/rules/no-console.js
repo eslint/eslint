@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-console"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -58,6 +58,6 @@ ruleTester.run("no-console", rule, {
         { code: "console.warn(foo)", options: [{ allow: ["info", "log"] }], errors: [{ messageId: "unexpected", type: "MemberExpression" }] },
 
         // In case that implicit global variable of 'console' exists
-        { code: "console.log(foo)", errors: [{ messageId: "unexpected", type: "MemberExpression" }], env: { node: true } }
+        { code: "console.log(foo)", env: { node: true }, errors: [{ messageId: "unexpected", type: "MemberExpression" }] }
     ]
 });

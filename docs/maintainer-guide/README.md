@@ -17,3 +17,7 @@ Describes how to do an ESLint project release.
 ## [Governance](governance.md)
 
 Describes the governance policy for ESLint, including the rights and privileges of individuals inside the project.
+
+## [Working Groups](working-groups.md)
+
+Describes how working groups are created and how they function within the ESLint project.

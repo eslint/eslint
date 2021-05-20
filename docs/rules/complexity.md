@@ -32,6 +32,11 @@ function a(x) {
         return 4; // 3rd path
     }
 }
+
+function b() {
+    foo ||= 1;
+    bar &&= 1;
+}
 ```
 
 Examples of **correct** code for a maximum of 2:
@@ -45,6 +50,10 @@ function a(x) {
     } else {
         return 4;
     }
+}
+
+function b() {
+    foo ||= 1;
 }
 ```
 

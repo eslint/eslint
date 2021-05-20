@@ -1,10 +1,10 @@
 # Disallow Use of `__proto__` (no-proto)
 
-`__proto__` property has been deprecated as of ECMAScript 3.1 and shouldn't be used in the code. Use `getPrototypeOf` method instead.
+`__proto__` property has been deprecated as of ECMAScript 3.1 and shouldn't be used in the code. Use `Object.getPrototypeOf` and `Object.setPrototypeOf` instead.
 
 ## Rule Details
 
-When an object is created `__proto__` is set to the original prototype property of the object’s constructor function. `getPrototypeOf` is the preferred method of getting "the prototype".
+When an object is created with the `new` operator, `__proto__` is set to the original "prototype" property of the object's constructor function. `Object.getPrototypeOf` is the preferred method of getting the object's prototype. To change an object's prototype, use `Object.setPrototypeOf`.
 
 Examples of **incorrect** code for this rule:
 
@@ -14,6 +14,10 @@ Examples of **incorrect** code for this rule:
 var a = obj.__proto__;
 
 var a = obj["__proto__"];
+
+obj.__proto__ = b;
+
+obj["__proto__"] = b;
 ```
 
 Examples of **correct** code for this rule:
@@ -22,11 +26,16 @@ Examples of **correct** code for this rule:
 /*eslint no-proto: "error"*/
 
 var a = Object.getPrototypeOf(obj);
+
+Object.setPrototypeOf(obj, b);
+
+var c = { __proto__: a };
 ```
 
 ## When Not To Use It
 
-If you need to support legacy browsers, you might want to turn this rule off, since support for `getPrototypeOf` is not yet universal.
+You might want to turn this rule off if you need to support legacy browsers which implement the
+`__proto__` property but not `Object.getPrototypeOf` or `Object.setPrototypeOf`.
 
 ## Further Reading
 

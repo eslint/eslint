@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-irregular-whitespace"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -19,11 +19,11 @@ const rule = require("../../../lib/rules/no-irregular-whitespace"),
 const ruleTester = new RuleTester();
 
 const expectedErrors = [{
-    message: "Irregular whitespace not allowed.",
+    messageId: "noIrregularWhitespace",
     type: "Program"
 }];
 const expectedCommentErrors = [{
-    message: "Irregular whitespace not allowed.",
+    messageId: "noIrregularWhitespace",
     type: "Program",
     line: 1,
     column: 4
@@ -164,6 +164,13 @@ ruleTester.run("no-irregular-whitespace", rule, {
         { code: "`\u205f`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "`\u3000`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
 
+        { code: "`\u3000${foo}\u3000`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const error = ` \u3000 `;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const error = `\n\u3000`;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const error = `\u3000\n`;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const error = `\n\u3000\n`;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const error = `foo\u3000bar\nfoo\u3000bar`;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
+
         // Unicode BOM.
         "\uFEFFconsole.log('hello BOM');"
     ],
@@ -262,13 +269,13 @@ ruleTester.run("no-irregular-whitespace", rule, {
             code: "var a = 'b',\u2028c = 'd',\ne = 'f'\u2028",
             errors: [
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 13
                 },
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 3,
                     column: 8
@@ -279,19 +286,19 @@ ruleTester.run("no-irregular-whitespace", rule, {
             code: "var any \u3000 = 'thing', other \u3000 = 'thing';\nvar third \u3000 = 'thing';",
             errors: [
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 9
                 },
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 28
                 },
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 2,
                     column: 11
@@ -478,13 +485,13 @@ ruleTester.run("no-irregular-whitespace", rule, {
             code: "var any = /\u3000/, other = /\u000B/;",
             errors: [
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 12
                 },
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 25
@@ -496,13 +503,13 @@ ruleTester.run("no-irregular-whitespace", rule, {
             options: [{ skipStrings: false }],
             errors: [
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 12
                 },
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 25
@@ -515,13 +522,13 @@ ruleTester.run("no-irregular-whitespace", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 12
                 },
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 25
@@ -534,10 +541,456 @@ ruleTester.run("no-irregular-whitespace", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 14
+                }
+            ]
+        },
+        {
+            code: "`something ${10\u3000} another thing`",
+            options: [{ skipTemplates: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 16
+                }
+            ]
+        },
+        {
+            code: "\u3000\n`\u3000template`",
+            options: [{ skipTemplates: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "\u3000\n`\u3000multiline\ntemplate`",
+            options: [{ skipTemplates: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "\u3000`\u3000template`",
+            options: [{ skipTemplates: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "\u3000`\u3000multiline\ntemplate`",
+            options: [{ skipTemplates: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "`\u3000template`\u3000",
+            options: [{ skipTemplates: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 12
+                }
+            ]
+        },
+        {
+            code: "`\u3000multiline\ntemplate`\u3000",
+            options: [{ skipTemplates: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 2,
+                    column: 10
+                }
+            ]
+        },
+        {
+            code: "`\u3000template`\n\u3000",
+            options: [{ skipTemplates: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "`\u3000multiline\ntemplate`\n\u3000",
+            options: [{ skipTemplates: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 3,
+                    column: 1
+                }
+            ]
+        },
+
+        // full location tests
+        {
+            code: "var foo = \u000B bar;",
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
+                }
+            ]
+        },
+        {
+            code: "var foo =\u000Bbar;",
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 10,
+                    endLine: 1,
+                    endColumn: 11
+                }
+            ]
+        },
+        {
+            code: "var foo = \u000B\u000B bar;",
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 13
+                }
+            ]
+        },
+        {
+            code: "var foo = \u000B\u000C bar;",
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 13
+                }
+            ]
+        },
+        {
+            code: "var foo = \u000B \u000B bar;",
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
+                },
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 13,
+                    endLine: 1,
+                    endColumn: 14
+                }
+            ]
+        },
+        {
+            code: "var foo = \u000Bbar\u000B;",
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
+                },
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 15,
+                    endLine: 1,
+                    endColumn: 16
+                }
+            ]
+        },
+        {
+            code: "\u000B",
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 2
+                }
+            ]
+        },
+        {
+            code: "\u00A0\u2002\u2003",
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 4
+                }
+            ]
+        },
+        {
+            code: "var foo = \u000B\nbar;",
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
+                }
+            ]
+        },
+        {
+            code: "var foo =\u000B\n\u000Bbar;",
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 10,
+                    endLine: 1,
+                    endColumn: 11
+                },
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 2
+                }
+            ]
+        },
+        {
+            code: "var foo = \u000C\u000B\n\u000C\u000B\u000Cbar\n;\u000B\u000C\n",
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 13
+                },
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 4
+                },
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 3,
+                    column: 2,
+                    endLine: 3,
+                    endColumn: 4
+                }
+            ]
+        },
+        {
+            code: "var foo = \u2028bar;",
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 11,
+                    endLine: 2,
+                    endColumn: 1
+                }
+            ]
+        },
+        {
+            code: "var foo =\u2029 bar;",
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 10,
+                    endLine: 2,
+                    endColumn: 1
+                }
+            ]
+        },
+        {
+            code: "var foo = bar;\u2028",
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 15,
+                    endLine: 2,
+                    endColumn: 1
+                }
+            ]
+        },
+        {
+            code: "\u2029",
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 1
+                }
+            ]
+        },
+        {
+            code: "foo\u2028\u2028",
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 4,
+                    endLine: 2,
+                    endColumn: 1
+                },
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 2,
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 1
+                }
+            ]
+        },
+        {
+            code: "foo\u2029\u2028",
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 4,
+                    endLine: 2,
+                    endColumn: 1
+                },
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 2,
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 1
+                }
+            ]
+        },
+        {
+            code: "foo\u2028\n\u2028",
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 4,
+                    endLine: 2,
+                    endColumn: 1
+                },
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 3,
+                    column: 1,
+                    endLine: 4,
+                    endColumn: 1
+                }
+            ]
+        },
+        {
+            code: "foo\u000B\u2028\u000B",
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 4,
+                    endLine: 1,
+                    endColumn: 5
+                },
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 5,
+                    endLine: 2,
+                    endColumn: 1
+                },
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 2
                 }
             ]
         }

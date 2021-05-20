@@ -169,7 +169,7 @@ Operators with two operands must be preceded and followed by a single space to m
 
 ## Parentheses Spacing
 
-When parentheses are used, there should be no white space immediately after the opening paren or immediately before the closing paren.
+When parentheses are used, there should be no whitespace immediately after the opening paren or immediately before the closing paren.
 
     // Good
     var found = (values[i] === item);
@@ -895,7 +895,7 @@ The `try` class of statements should have the following form:
         statements
     }
 
-## White Space
+## Whitespace
 
 Blank lines improve readability by setting off sections of code that are logically related.
 

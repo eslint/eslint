@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../tools/internal-rules/consistent-docs-url"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -55,7 +55,7 @@ ruleTester.run("consistent-docs-url", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "Rule is missing a meta.docs property",
+                messageId: "missingMetaDocs",
                 line: 2,
                 column: 5
             }]
@@ -73,7 +73,7 @@ ruleTester.run("consistent-docs-url", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "Rule is missing a meta.docs.url property",
+                messageId: "missingMetaDocsUrl",
                 line: 3,
                 column: 9
             }]
@@ -92,7 +92,11 @@ ruleTester.run("consistent-docs-url", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "Incorrect url. Expected \"https://eslint.org/docs/rules/<input>\" but got \"http://example.com/wrong-url\"",
+                messageId: "incorrectUrl",
+                data: {
+                    expected: "https://eslint.org/docs/rules/<input>",
+                    url: "http://example.com/wrong-url"
+                },
                 line: 4,
                 column: 18
             }]

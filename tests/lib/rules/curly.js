@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/curly"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -164,6 +164,131 @@ ruleTester.run("curly", rule, {
             options: ["multi-or-nest"],
             parserOptions: { ecmaVersion: 6 }
         },
+        {
+            code: "if (foo) { const bar = 'baz'; }",
+            options: ["multi"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "while (foo) { let bar = 'baz'; }",
+            options: ["multi"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "for(;;) { function foo() {} }",
+            options: ["multi"]
+        },
+        {
+            code: "for (foo in bar) { class Baz {} }",
+            options: ["multi"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (foo) { let bar; } else { baz(); }",
+            options: ["multi", "consistent"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (foo) { bar(); } else { const baz = 'quux'; }",
+            options: ["multi", "consistent"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (foo) { \n const bar = 'baz'; \n }",
+            options: ["multi-or-nest"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (foo) { \n let bar = 'baz'; \n }",
+            options: ["multi-or-nest"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (foo) { \n function bar() {} \n }",
+            options: ["multi-or-nest"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (foo) { \n class bar {} \n }",
+            options: ["multi-or-nest"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+
+        // https://github.com/eslint/eslint/issues/12370
+        {
+            code: "if (foo) doSomething() \n ;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "if (foo) doSomething(); \n else if (bar) doSomethingElse() \n ;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "if (foo) doSomething(); \n else doSomethingElse() \n ;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "if (foo) doSomething(); \n else if (bar) doSomethingElse(); \n else doAnotherThing() \n ;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "for (var i = 0; foo; i++) doSomething() \n ;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "for (var foo in bar) console.log(foo) \n ;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "for (var foo of bar) console.log(foo) \n ;",
+            options: ["multi-or-nest"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "while (foo) doSomething() \n ;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "do doSomething() \n ;while (foo)",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "if (foo)\n;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "if (foo) doSomething(); \n else if (bar)\n;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "if (foo) doSomething(); \n else\n;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "if (foo) doSomething(); \n else if (bar) doSomethingElse(); \n else\n;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "for (var i = 0; foo; i++)\n;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "for (var foo in bar)\n;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "for (var foo of bar)\n;",
+            options: ["multi-or-nest"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "while (foo)\n;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "do\n;while (foo)",
+            options: ["multi-or-nest"]
+        },
 
         // https://github.com/eslint/eslint/issues/3856
         {
@@ -211,6 +336,89 @@ ruleTester.run("curly", rule, {
             // https://github.com/feross/standard/issues/664
             code: "if (true) foo()\n;[1, 2, 3].bar()",
             options: ["multi-line"]
+        },
+
+        // https://github.com/eslint/eslint/issues/12928 (also in invalid[])
+        {
+            code: "if (x) for (var i in x) { if (i > 0) console.log(i); } else console.log('whoops');",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { if (b) foo(); } else bar();",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "if (a) { if (b) foo(); } else { bar(); }",
+            options: ["multi", "consistent"]
+        },
+        {
+            code: "if (a) { if (b) foo(); } else { bar(); }",
+            options: ["multi-or-nest", "consistent"]
+        },
+        {
+            code: "if (a) { if (b) { foo(); bar(); } } else baz();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) foo(); else if (b) { if (c) bar(); } else baz();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { if (b) foo(); else if (c) bar(); } else baz();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) if (b) foo(); else { if (c) bar(); } else baz();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { lbl:if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { lbl1:lbl2:if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { for (;;) if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { for (key in obj) if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { for (elem of arr) if (b) foo(); } else bar();",
+            options: ["multi"],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "if (a) { with (obj) if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { while (cond) if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { while (cond) for (;;) for (key in obj) if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) while (cond) { for (;;) for (key in obj) if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) while (cond) for (;;) { for (key in obj) if (b) foo(); } else bar();",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) while (cond) for (;;) for (key in obj) { if (b) foo(); } else bar();",
+            options: ["multi"]
         }
     ],
     invalid: [
@@ -328,6 +536,30 @@ ruleTester.run("curly", rule, {
             ]
         },
         {
+            code: "if (foo) if (bar) { baz() }",
+            output: "if (foo) if (bar)  baz() ",
+            options: ["multi"],
+            errors: [
+                {
+                    messageId: "unexpectedCurlyAfterCondition",
+                    data: { name: "if" },
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (foo) if (bar) baz(); else if (quux) { quuux(); }",
+            output: "if (foo) if (bar) baz(); else if (quux)  quuux(); ",
+            options: ["multi"],
+            errors: [
+                {
+                    messageId: "unexpectedCurlyAfterCondition",
+                    data: { name: "if" },
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
             code: "while (foo) { bar() }",
             output: "while (foo)  bar() ",
             options: ["multi"],
@@ -342,6 +574,18 @@ ruleTester.run("curly", rule, {
         {
             code: "if (foo) baz(); else { bar() }",
             output: "if (foo) baz(); else  bar() ",
+            options: ["multi"],
+            errors: [
+                {
+                    messageId: "unexpectedCurlyAfter",
+                    data: { name: "else" },
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (foo) if (bar); else { baz() }",
+            output: "if (foo) if (bar); else  baz() ",
             options: ["multi"],
             errors: [
                 {
@@ -597,6 +841,56 @@ ruleTester.run("curly", rule, {
             ]
         },
         {
+            code: "if (foo) { var bar = 'baz'; }",
+            output: "if (foo)  var bar = 'baz'; ",
+            options: ["multi"],
+            errors: [
+                {
+                    messageId: "unexpectedCurlyAfterCondition",
+                    data: { name: "if" },
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (foo) { let bar; } else baz();",
+            output: "if (foo) { let bar; } else {baz();}",
+            options: ["multi", "consistent"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "missingCurlyAfter",
+                    data: { name: "else" },
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (foo) bar(); else { const baz = 'quux' }",
+            output: "if (foo) {bar();} else { const baz = 'quux' }",
+            options: ["multi", "consistent"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "missingCurlyAfterCondition",
+                    data: { name: "if" },
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (foo) { \n var bar = 'baz'; \n }",
+            output: "if (foo)  \n var bar = 'baz'; \n ",
+            options: ["multi-or-nest"],
+            errors: [
+                {
+                    messageId: "unexpectedCurlyAfterCondition",
+                    data: { name: "if" },
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
             code: "while (true) { \n doSomething(); \n }",
             output: "while (true)  \n doSomething(); \n ",
             options: ["multi-or-nest"],
@@ -716,6 +1010,18 @@ ruleTester.run("curly", rule, {
                     data: { name: "if" },
                     type: "IfStatement"
                 },
+                {
+                    messageId: "missingCurlyAfterCondition",
+                    data: { name: "if" },
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (true) if (true) foo(); else { bar(); baz(); }",
+            output: "if (true) if (true) {foo();} else { bar(); baz(); }",
+            options: ["multi", "consistent"],
+            errors: [
                 {
                     messageId: "missingCurlyAfterCondition",
                     data: { name: "if" },
@@ -865,6 +1171,165 @@ ruleTester.run("curly", rule, {
             output: "if (true)\n{foo()\n;}[1, 2, 3].bar()",
             options: ["multi-line"],
             errors: [{ messageId: "missingCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/12370
+        {
+            code: "if (foo) {\ndoSomething()\n;\n}",
+            output: "if (foo) \ndoSomething()\n;\n",
+            options: ["multi-or-nest"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (foo) doSomething();\nelse if (bar) {\ndoSomethingElse()\n;\n}",
+            output: "if (foo) doSomething();\nelse if (bar) \ndoSomethingElse()\n;\n",
+            options: ["multi-or-nest"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (foo) doSomething();\nelse {\ndoSomethingElse()\n;\n}",
+            output: "if (foo) doSomething();\nelse \ndoSomethingElse()\n;\n",
+            options: ["multi-or-nest"],
+            errors: [{ messageId: "unexpectedCurlyAfter", data: { name: "else" }, type: "IfStatement" }]
+        },
+        {
+            code: "for (var i = 0; foo; i++) {\ndoSomething()\n;\n}",
+            output: "for (var i = 0; foo; i++) \ndoSomething()\n;\n",
+            options: ["multi-or-nest"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "for" }, type: "ForStatement" }]
+        },
+        {
+            code: "for (var foo in bar) {\ndoSomething()\n;\n}",
+            output: "for (var foo in bar) \ndoSomething()\n;\n",
+            options: ["multi-or-nest"],
+            errors: [{ messageId: "unexpectedCurlyAfter", data: { name: "for-in" }, type: "ForInStatement" }]
+        },
+        {
+            code: "for (var foo of bar) {\ndoSomething()\n;\n}",
+            output: "for (var foo of bar) \ndoSomething()\n;\n",
+            options: ["multi-or-nest"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpectedCurlyAfter", data: { name: "for-of" }, type: "ForOfStatement" }]
+        },
+        {
+            code: "while (foo) {\ndoSomething()\n;\n}",
+            output: "while (foo) \ndoSomething()\n;\n",
+            options: ["multi-or-nest"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "while" }, type: "WhileStatement" }]
+        },
+        {
+            code: "do {\ndoSomething()\n;\n} while (foo)",
+            output: "do \ndoSomething()\n;\n while (foo)",
+            options: ["multi-or-nest"],
+            errors: [{ messageId: "unexpectedCurlyAfter", data: { name: "do" }, type: "DoWhileStatement" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/12928 (also in valid[])
+        {
+            code: "if (a) { if (b) foo(); }",
+            output: "if (a)  if (b) foo(); ",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (a) { if (b) foo(); else bar(); }",
+            output: "if (a)  if (b) foo(); else bar(); ",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (a) { if (b) foo(); else bar(); } baz();",
+            output: "if (a)  if (b) foo(); else bar();  baz();",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (a) { while (cond) if (b) foo(); }",
+            output: "if (a)  while (cond) if (b) foo(); ",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (a) while (cond) { if (b) foo(); }",
+            output: "if (a) while (cond)  if (b) foo(); ",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "while" }, type: "WhileStatement" }]
+        },
+        {
+            code: "if (a) while (cond) { if (b) foo(); else bar(); }",
+            output: "if (a) while (cond)  if (b) foo(); else bar(); ",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "while" }, type: "WhileStatement" }]
+        },
+        {
+            code: "if (a) { while (cond) { if (b) foo(); } bar(); baz() } else quux();",
+            output: "if (a) { while (cond)  if (b) foo();  bar(); baz() } else quux();",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "while" }, type: "WhileStatement" }]
+        },
+        {
+            code: "if (a) { if (b) foo(); } bar();",
+            output: "if (a)  if (b) foo();  bar();",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if(a) { if (b) foo(); } if (c) bar(); else baz();",
+            output: "if(a)  if (b) foo();  if (c) bar(); else baz();",
+            options: ["multi-or-nest"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (a) { do if (b) foo(); while (cond); } else bar();",
+            output: "if (a)  do if (b) foo(); while (cond);  else bar();",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (a) do { if (b) foo(); } while (cond); else bar();",
+            output: "if (a) do  if (b) foo();  while (cond); else bar();",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfter", data: { name: "do" }, type: "DoWhileStatement" }]
+        },
+        {
+            code: "if (a) { if (b) foo(); else bar(); } else baz();",
+            output: "if (a)  if (b) foo(); else bar();  else baz();",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (a) while (cond) { bar(); } else baz();",
+            output: "if (a) while (cond)  bar();  else baz();",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "while" }, type: "WhileStatement" }]
+        },
+        {
+            code: "if (a) { for (;;); } else bar();",
+            output: "if (a)  for (;;);  else bar();",
+            options: ["multi"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (a) { while (cond) if (b) foo() } else bar();",
+            output: "if (a) { while (cond) if (b) foo() } else {bar();}",
+            options: ["multi", "consistent"],
+            errors: [{ messageId: "missingCurlyAfter", data: { name: "else" }, type: "IfStatement" }]
+        },
+        {
+
+            /**
+             * Reports 2 errors, but one pair of braces is necessary if the other pair gets removed.
+             * Auto-fix will remove only outer braces in the first iteration.
+             * After that, the inner braces will become valid and won't be removed in the second iteration.
+             * If user manually removes inner braces first, the outer braces will become valid.
+             */
+            code: "if (a) { while (cond) { if (b) foo(); } } else bar();",
+            output: "if (a)  while (cond) { if (b) foo(); }  else bar();",
+            options: ["multi"],
+            errors: [
+                { messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" },
+                { messageId: "unexpectedCurlyAfterCondition", data: { name: "while" }, type: "WhileStatement" }
+            ]
         }
     ]
 });

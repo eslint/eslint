@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-throw-literal"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -30,7 +30,9 @@ ruleTester.run("no-throw-literal", rule, {
         "throw new foo();", // NewExpression
         "throw foo.bar;", // MemberExpression
         "throw foo[bar];", // MemberExpression
-        "throw foo = new Error();", // AssignmentExpression
+        "throw foo = new Error();", // AssignmentExpression with the `=` operator
+        { code: "throw foo.bar ||= 'literal'", parserOptions: { ecmaVersion: 2021 } }, // AssignmentExpression with a logical operator
+        { code: "throw foo[bar] ??= 'literal'", parserOptions: { ecmaVersion: 2021 } }, // AssignmentExpression with a logical operator
         "throw 1, 2, new Error();", // SequenceExpression
         "throw 'literal' && new Error();", // LogicalExpression (right)
         "throw new Error() || 'literal';", // LogicalExpression (left)
@@ -38,41 +40,50 @@ ruleTester.run("no-throw-literal", rule, {
         "throw foo ? 'literal' : new Error();", // ConditionalExpression (alternate)
         { code: "throw tag `${foo}`;", parserOptions: { ecmaVersion: 6 } }, // TaggedTemplateExpression
         { code: "function* foo() { var index = 0; throw yield index++; }", parserOptions: { ecmaVersion: 6 } }, // YieldExpression
-        { code: "async function foo() { throw await bar; }", parserOptions: { ecmaVersion: 8 } } // AwaitExpression
+        { code: "async function foo() { throw await bar; }", parserOptions: { ecmaVersion: 8 } }, // AwaitExpression
+        { code: "throw obj?.foo", parserOptions: { ecmaVersion: 2020 } }, // ChainExpression
+        { code: "throw obj?.foo()", parserOptions: { ecmaVersion: 2020 } } // ChainExpression
     ],
     invalid: [
         {
             code: "throw 'error';",
             errors: [{
-                message: "Expected an object to be thrown.",
+                messageId: "object",
                 type: "ThrowStatement"
             }]
         },
         {
             code: "throw 0;",
             errors: [{
-                message: "Expected an object to be thrown.",
+                messageId: "object",
                 type: "ThrowStatement"
             }]
         },
         {
             code: "throw false;",
             errors: [{
-                message: "Expected an object to be thrown.",
+                messageId: "object",
                 type: "ThrowStatement"
             }]
         },
         {
             code: "throw null;",
             errors: [{
-                message: "Expected an object to be thrown.",
+                messageId: "object",
+                type: "ThrowStatement"
+            }]
+        },
+        {
+            code: "throw {};",
+            errors: [{
+                messageId: "object",
                 type: "ThrowStatement"
             }]
         },
         {
             code: "throw undefined;",
             errors: [{
-                message: "Do not throw undefined.",
+                messageId: "undef",
                 type: "ThrowStatement"
             }]
         },
@@ -81,23 +92,45 @@ ruleTester.run("no-throw-literal", rule, {
         {
             code: "throw 'a' + 'b';",
             errors: [{
-                message: "Expected an object to be thrown.",
+                messageId: "object",
                 type: "ThrowStatement"
             }]
         },
         {
             code: "var b = new Error(); throw 'a' + b;",
             errors: [{
-                message: "Expected an object to be thrown.",
+                messageId: "object",
                 type: "ThrowStatement"
             }]
         },
 
         // AssignmentExpression
         {
-            code: "throw foo = 'error';",
+            code: "throw foo = 'error';", // RHS is a literal
             errors: [{
-                message: "Expected an object to be thrown.",
+                messageId: "object",
+                type: "ThrowStatement"
+            }]
+        },
+        {
+            code: "throw foo += new Error();", // evaluates to a primitive value, or throws while evaluating
+            errors: [{
+                messageId: "object",
+                type: "ThrowStatement"
+            }]
+        },
+        {
+            code: "throw foo &= new Error();", // evaluates to a primitive value, or throws while evaluating
+            errors: [{
+                messageId: "object",
+                type: "ThrowStatement"
+            }]
+        },
+        {
+            code: "throw foo &&= 'literal'", // evaluates either to a falsy value of `foo` (which, then, cannot be an Error object), or to 'literal'
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "object",
                 type: "ThrowStatement"
             }]
         },
@@ -106,7 +139,7 @@ ruleTester.run("no-throw-literal", rule, {
         {
             code: "throw new Error(), 1, 2, 3;",
             errors: [{
-                message: "Expected an object to be thrown.",
+                messageId: "object",
                 type: "ThrowStatement"
             }]
         },
@@ -115,7 +148,14 @@ ruleTester.run("no-throw-literal", rule, {
         {
             code: "throw 'literal' && 'not an Error';",
             errors: [{
-                message: "Expected an object to be thrown.",
+                messageId: "object",
+                type: "ThrowStatement"
+            }]
+        },
+        {
+            code: "throw foo && 'literal'", // evaluates either to a falsy value of `foo` (which, then, cannot be an Error object), or to 'literal'
+            errors: [{
+                messageId: "object",
                 type: "ThrowStatement"
             }]
         },
@@ -124,7 +164,7 @@ ruleTester.run("no-throw-literal", rule, {
         {
             code: "throw foo ? 'not an Error' : 'literal';",
             errors: [{
-                message: "Expected an object to be thrown.",
+                messageId: "object",
                 type: "ThrowStatement"
             }]
         },
@@ -134,7 +174,7 @@ ruleTester.run("no-throw-literal", rule, {
             code: "throw `${err}`;",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Expected an object to be thrown.",
+                messageId: "object",
                 type: "ThrowStatement"
 
             }]

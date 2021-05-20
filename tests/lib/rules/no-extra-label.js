@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-extra-label"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -106,6 +106,48 @@ ruleTester.run("no-extra-label", rule, {
                 }
             `,
             errors: [{ messageId: "unexpected", data: { name: "A" }, type: "Identifier", line: 2 }]
+        },
+
+        // Should not autofix if it would remove comments
+        {
+            code: "A: while(true) { /*comment*/break A; }",
+            output: "A: while(true) { /*comment*/break; }",
+            errors: [{ messageId: "unexpected", data: { name: "A" } }]
+        },
+        {
+            code: "A: while(true) { break/**/ A; }",
+            output: null,
+            errors: [{ messageId: "unexpected", data: { name: "A" } }]
+        },
+        {
+            code: "A: while(true) { continue /**/ A; }",
+            output: null,
+            errors: [{ messageId: "unexpected", data: { name: "A" } }]
+        },
+        {
+            code: "A: while(true) { break /**/A; }",
+            output: null,
+            errors: [{ messageId: "unexpected", data: { name: "A" } }]
+        },
+        {
+            code: "A: while(true) { continue/**/A; }",
+            output: null,
+            errors: [{ messageId: "unexpected", data: { name: "A" } }]
+        },
+        {
+            code: "A: while(true) { continue A/*comment*/; }",
+            output: "A: while(true) { continue/*comment*/; }",
+            errors: [{ messageId: "unexpected", data: { name: "A" } }]
+        },
+        {
+            code: "A: while(true) { break A//comment\n }",
+            output: "A: while(true) { break//comment\n }",
+            errors: [{ messageId: "unexpected", data: { name: "A" } }]
+        },
+        {
+            code: "A: while(true) { break A/*comment*/\nfoo() }",
+            output: "A: while(true) { break/*comment*/\nfoo() }",
+            errors: [{ messageId: "unexpected", data: { name: "A" } }]
         }
     ]
 });

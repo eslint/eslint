@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/valid-typeof"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -26,6 +26,7 @@ ruleTester.run("valid-typeof", rule, {
         "typeof foo === 'undefined'",
         "typeof foo === 'boolean'",
         "typeof foo === 'number'",
+        "typeof foo === 'bigint'",
         "'string' === typeof foo",
         "'object' === typeof foo",
         "'function' === typeof foo",

@@ -9,7 +9,7 @@ If you want to use your own parser and provide additional capabilities for your 
 * `visitorKeys` can be an object to customize AST traversal. The keys of the object are the type of AST nodes. Each value is an array of the property names which should be traversed. Default is [KEYS of `eslint-visitor-keys`](https://github.com/eslint/eslint-visitor-keys#evkkeys).
     * Support for `visitorKeys` was added in ESLint v4.14.0. ESLint versions which support `visitorKeys` will provide an `eslintVisitorKeys: true` property in `parserOptions`, which can be used for feature detection.
 
-You can find an ESLint parser project [here](https://github.com/eslint/typescript-eslint-parser).
+You can find an ESLint parser project [here](https://github.com/typescript-eslint/typescript-eslint).
 
 ```json
 {
@@ -46,7 +46,7 @@ All nodes must have `range` property.
 * `range` (`number[]`) is an array of two numbers. Both numbers are a 0-based index which is the position in the array of source code characters. The first is the start position of the node, the second is the end position of the node. `code.slice(node.range[0], node.range[1])` must be the text of the node. This range does not include spaces/parentheses which are around the node.
 * `loc` (`SourceLocation`) must not be `null`. [The `loc` property is defined as nullable by ESTree](https://github.com/estree/estree/blob/25834f7247d44d3156030f8e8a2d07644d771fdb/es5.md#node-objects), but ESLint requires this property. On the other hand, `SourceLocation#source` property can be `undefined`. ESLint does not use the `SourceLocation#source` property.
 
-The `parent` property of all nodes must be rewriteable. ESLint sets each node's `parent` property to its parent node while traversing, before any rules have access to the AST.
+The `parent` property of all nodes must be rewritable. ESLint sets each node's `parent` property to its parent node while traversing, before any rules have access to the AST.
 
 ### The `Program` node:
 

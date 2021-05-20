@@ -35,3 +35,77 @@ var foo = 5;
 var bar = 5;
 //This is a comment below a line of code
 ```
+
+### JSX exception
+
+Comments inside the curly braces in JSX are allowed to be on the same line as the braces, but only if they are not on the same line with other code, and the braces do not enclose an actual expression.
+
+Examples of **incorrect** code for this rule:
+
+```js
+/*eslint no-inline-comments: "error"*/
+
+var foo = <div>{ /* On the same line with other code */ }<h1>Some heading</h1></div>;
+
+var bar = (
+    <div>
+    {   // These braces are not just for the comment, so it can't be on the same line
+        baz
+    }
+    </div>
+);
+```
+
+Examples of **correct** code for this rule:
+
+```js
+/*eslint no-inline-comments: "error"*/
+
+var foo = (
+    <div>
+      {/* These braces are just for this comment and there is nothing else on this line */}
+      <h1>Some heading</h1>
+    </div>
+)
+
+var bar = (
+    <div>
+    {
+        // There is nothing else on this line
+        baz
+    }
+    </div>
+);
+
+var quux = (
+    <div>
+      {/*
+        Multiline
+        comment
+      */}
+      <h1>Some heading</h1>
+    </div>
+)
+```
+
+## Options
+
+### ignorePattern
+
+To make this rule ignore specific comments, set the `ignorePattern` option to a string pattern that will be passed to the [`RegExp` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp).
+
+Examples of **correct** code for the `ignorePattern` option:
+
+```js
+/*eslint no-inline-comments: ["error", { "ignorePattern": "webpackChunkName:\\s.+" }]*/
+
+import(/* webpackChunkName: "my-chunk-name" */ './locale/en');
+```
+
+Examples of **incorrect** code for the `ignorePattern` option:
+
+```js
+/*eslint no-inline-comments: ["error", { "ignorePattern": "something" }] */
+
+var foo = 4; // other thing
+```

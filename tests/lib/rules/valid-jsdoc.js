@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/valid-jsdoc"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -1470,7 +1470,7 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export function doSomething(a) { }",
             output: "/**\n * Does something. \n* @param {string} a - this is a \n* @returns {Array<number>} The result of doing it \n*/\n export function doSomething(a) { }",
             options: [{ prefer: { return: "returns" } }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "use",
                 data: { name: "returns" },
@@ -1485,7 +1485,7 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export default function doSomething(a) { }",
             output: "/**\n * Does something. \n* @param {string} a - this is a \n* @returns {Array<number>} The result of doing it \n*/\n export default function doSomething(a) { }",
             options: [{ prefer: { return: "returns" } }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "use",
                 data: { name: "returns" },

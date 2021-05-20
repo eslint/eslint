@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/max-params"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -92,6 +92,22 @@ ruleTester.run("max-params", rule, {
                 messageId: "exceed",
                 data: { name: "Function 'test'", count: 3, max: 2.0 },
                 type: "FunctionDeclaration"
+            }]
+        },
+        {
+            code: "function test(a, b, c, d) {}",
+            options: [{}],
+            errors: [{
+                messageId: "exceed",
+                data: { name: "Function 'test'", count: 4, max: 3 }
+            }]
+        },
+        {
+            code: "function test(a) {}",
+            options: [{ max: 0 }],
+            errors: [{
+                messageId: "exceed",
+                data: { name: "Function 'test'", count: 1, max: 0 }
             }]
         },
 

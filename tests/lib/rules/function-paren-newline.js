@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/function-paren-newline");
-const RuleTester = require("../../../lib/testers/rule-tester");
+const { RuleTester } = require("../../../lib/rule-tester");
 
 
 //------------------------------------------------------------------------------
@@ -20,6 +20,7 @@ const LEFT_MISSING_ERROR = { messageId: "expectedAfter", type: "Punctuator" };
 const LEFT_UNEXPECTED_ERROR = { messageId: "unexpectedAfter", type: "Punctuator" };
 const RIGHT_MISSING_ERROR = { messageId: "expectedBefore", type: "Punctuator" };
 const RIGHT_UNEXPECTED_ERROR = { messageId: "unexpectedBefore", type: "Punctuator" };
+const EXPECTED_BETWEEN = { messageId: "expectedBetween", type: "Identifier" };
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
@@ -82,12 +83,251 @@ ruleTester.run("function-paren-newline", rule, {
               return value;
             })
         `,
-
-        // always option
         {
             code: "function baz(foo, bar) {}",
             options: ["multiline"]
         },
+        {
+            code: "async (foo, bar) => {};",
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: `
+                async (
+                    foo,
+                    bar
+                ) => {};
+            `,
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "async foo => {};",
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "import(source)",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "import(source\n  + ext)",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+
+        // multiline-arguments
+        {
+            code: "function baz(foo, bar) {}",
+            options: ["multiline-arguments"]
+        },
+        {
+            code: "function baz(foo) {}",
+            options: ["multiline-arguments"]
+        },
+        {
+            code: "(function(foo, bar) {});",
+            options: ["multiline-arguments"]
+        },
+        {
+            code: "(function(foo) {});",
+            options: ["multiline-arguments"]
+        },
+        {
+            code: "(function baz(foo, bar) {});",
+            options: ["multiline-arguments"]
+        },
+        {
+            code: "(function baz(foo) {});",
+            options: ["multiline-arguments"]
+        },
+        {
+            code: "(foo, bar) => {};",
+            options: ["multiline-arguments"]
+        },
+        {
+            code: "foo => {};",
+            options: ["multiline-arguments"]
+        },
+        {
+            code: "baz(foo, bar);",
+            options: ["multiline-arguments"]
+        },
+        {
+            code: "baz(foo);",
+            options: ["multiline-arguments"]
+        },
+        {
+            code: "function baz() {}",
+            options: ["multiline-arguments"]
+        },
+        {
+            code: `
+                function baz(
+                    foo,
+                    bar
+                ) {}
+            `,
+            options: ["multiline-arguments"]
+        },
+        {
+            code: `
+                function baz(
+                    foo
+                ) {}
+            `,
+            options: ["multiline-arguments"]
+        },
+        {
+            code: `
+                (function(
+                    foo,
+                    bar
+                ) {});
+            `,
+            options: ["multiline-arguments"]
+        },
+        {
+            code: `
+                (function(
+                    foo
+                ) {});
+            `,
+            options: ["multiline-arguments"]
+        },
+        {
+            code: `
+                (function baz(
+                    foo,
+                    bar
+                ) {});
+            `,
+            options: ["multiline-arguments"]
+        },
+        {
+            code: `
+                (function baz(
+                    foo
+                ) {});
+            `,
+            options: ["multiline-arguments"]
+        },
+        {
+            code: `
+                (
+                    foo,
+                    bar
+                ) => {};
+            `,
+            options: ["multiline-arguments"]
+        },
+        {
+            code: `
+                (
+                    foo
+                ) => {};
+            `,
+            options: ["multiline-arguments"]
+        },
+        {
+            code: `
+                baz(
+                    foo,
+                    bar
+                );
+            `,
+            options: ["multiline-arguments"]
+        },
+        {
+            code: `
+                baz(
+                    foo
+                );
+            `,
+            options: ["multiline-arguments"]
+        },
+        {
+            code: `
+                baz(\`foo
+                    bar\`)
+            `,
+            options: ["multiline-arguments"]
+        },
+        {
+            code: "new Foo(bar, baz)",
+            options: ["multiline-arguments"]
+        },
+        {
+            code: "new Foo(bar)",
+            options: ["multiline-arguments"]
+        },
+        {
+            code: "new Foo",
+            options: ["multiline-arguments"]
+        },
+        {
+            code: "new (Foo)",
+            options: ["multiline-arguments"]
+        },
+        {
+            code: "async (foo, bar) => {};",
+            options: ["multiline-arguments"],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "async (foo) => {};",
+            options: ["multiline-arguments"],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: `
+                async (
+                    foo
+                ) => {};
+            `,
+            options: ["multiline-arguments"],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: `
+                async (
+                    foo,
+                    bar
+                ) => {};
+            `,
+            options: ["multiline-arguments"],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "async foo => {};",
+            options: ["multiline-arguments"],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "import(source)",
+            options: ["multiline-arguments"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "import(source\n  + ext)",
+            options: ["multiline-arguments"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+
+        {
+            code: `
+                (foo)
+                (bar)
+            `,
+            options: ["multiline-arguments"]
+        },
+        {
+            code: `
+                foo.map(value => {
+                  return value;
+                })
+            `,
+            options: ["multiline-arguments"]
+        },
+
+        // always option
         {
             code: `
                 function baz(
@@ -140,6 +380,35 @@ ruleTester.run("function-paren-newline", rule, {
             `,
             options: ["always"]
         },
+        {
+            code: `
+                async (
+                    foo
+                ) => {};
+            `,
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: `
+                async (
+                    foo,
+                    bar
+                ) => {};
+            `,
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "async foo => {};",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "import(\n  source\n)",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
 
         // never option
         {
@@ -165,6 +434,21 @@ ruleTester.run("function-paren-newline", rule, {
         {
             code: "function baz() {}",
             options: ["never"]
+        },
+        {
+            code: "async (foo, bar) => {};",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "async foo => {};",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "import(source)",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2020 }
         },
 
         // minItems option
@@ -193,6 +477,39 @@ ruleTester.run("function-paren-newline", rule, {
             options: [{ minItems: 3 }]
         },
         {
+            code: "async (foo, bar) => {};",
+            options: [{ minItems: 3 }],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: `
+                async (
+                    foo,
+                    bar,
+                    baz
+                ) => {};
+            `,
+            options: [{ minItems: 3 }],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "async foo => {};",
+            options: [{ minItems: 3 }],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "import(source)",
+            options: [{ minItems: 3 }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "import(\n  source\n)",
+            options: [{ minItems: 1 }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+
+        // consistent option
+        {
             code: "foo(bar, baz)",
             options: ["consistent"]
         },
@@ -219,6 +536,53 @@ ruleTester.run("function-paren-newline", rule, {
                 )
             `,
             options: ["consistent"]
+        },
+        {
+            code: "async (foo, bar) => {};",
+            options: ["consistent"],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "async foo => {};",
+            options: ["consistent"],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: `
+                async (foo,
+                    bar) => {};
+            `,
+            options: ["consistent"],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: `
+                async (
+                    foo, bar
+                ) => {};
+            `,
+            options: ["consistent"],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: `
+                async (
+                    foo,
+                    bar
+                ) => {};
+            `,
+            options: ["consistent"],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "import(source)",
+            options: ["consistent"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "import(\n  source\n)",
+            options: ["consistent"],
+            parserOptions: { ecmaVersion: 2020 }
         }
     ],
 
@@ -343,6 +707,302 @@ ruleTester.run("function-paren-newline", rule, {
             output: null,
             errors: [RIGHT_UNEXPECTED_ERROR]
         },
+        {
+            code: `
+                async (
+                    foo, bar
+                ) => {};
+            `,
+            output: `
+                async (foo, bar) => {};
+            `,
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                async (foo, bar
+                ) => {};
+            `,
+            output: `
+                async (foo, bar) => {};
+            `,
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                async (foo,
+                    bar) => {};
+            `,
+            output: `
+                async (\nfoo,
+                    bar\n) => {};
+            `,
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `
+                async (
+                    foo,
+                    bar) => {};
+            `,
+            output: `
+                async (
+                    foo,
+                    bar\n) => {};
+            `,
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [RIGHT_MISSING_ERROR]
+        },
+        {
+            code: "import(\n  source\n)",
+            output: "import(source)",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR]
+        },
+
+        // multiline-arguments
+        {
+            code: `
+                function baz(foo,
+                    bar
+                ) {}
+            `,
+            output: `
+                function baz(\nfoo,
+                    bar
+                ) {}
+            `,
+            options: ["multiline-arguments"],
+            errors: [LEFT_MISSING_ERROR]
+        },
+        {
+            code: `
+                (function(
+                    foo,
+                    bar) {})
+            `,
+            output: `
+                (function(
+                    foo,
+                    bar\n) {})
+            `,
+            options: ["multiline-arguments"],
+            errors: [RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `
+                (function baz(foo,
+                    bar) {})
+            `,
+            output: `
+                (function baz(\nfoo,
+                    bar\n) {})
+            `,
+            options: ["multiline-arguments"],
+            errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `
+                baz(
+                    foo, bar);
+            `,
+            output: `
+                baz(foo, bar);
+            `,
+            options: ["multiline-arguments"],
+            errors: [LEFT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                (foo, bar
+                ) => {};
+            `,
+            output: `
+                (foo, bar) => {};
+            `,
+            options: ["multiline-arguments"],
+            errors: [RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                function baz(
+                    foo, bar
+                ) {}
+            `,
+            output: `
+                function baz(foo, bar) {}
+            `,
+            options: ["multiline-arguments"],
+            errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                function baz(
+                ) {}
+            `,
+            output: `
+                function baz() {}
+            `,
+            options: ["multiline-arguments"],
+            errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                new Foo(bar,
+                    baz);
+            `,
+            output: `
+                new Foo(\nbar,
+                    baz\n);
+            `,
+            options: ["multiline-arguments"],
+            errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `
+                function baz(/* not fixed due to comment */
+                foo) {}
+            `,
+            output: `
+                function baz(/* not fixed due to comment */
+                foo\n) {}
+            `,
+            options: ["multiline-arguments"],
+            errors: [RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `
+                function baz(foo
+                /* not fixed due to comment */) {}
+            `,
+            output: null,
+            options: ["multiline-arguments"],
+            errors: [RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                function baz(
+                    qwe,
+                    foo, bar
+                ) {}
+            `,
+            output: `
+                function baz(
+                    qwe,
+                    foo, \nbar
+                ) {}
+            `,
+            options: ["multiline-arguments"],
+            errors: [EXPECTED_BETWEEN]
+        },
+        {
+            code: `
+                function baz(
+                    qwe, foo,
+                    bar
+                ) {}
+            `,
+            output: `
+                function baz(
+                    qwe, \nfoo,
+                    bar
+                ) {}
+            `,
+            options: ["multiline-arguments"],
+            errors: [EXPECTED_BETWEEN]
+        },
+        {
+            code: `
+                function baz(qwe, foo,
+                    bar) {}
+            `,
+            output: `
+                function baz(\nqwe, \nfoo,
+                    bar\n) {}
+            `,
+            options: ["multiline-arguments"],
+            errors: [LEFT_MISSING_ERROR, EXPECTED_BETWEEN, RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `
+                baz(
+                    foo);
+            `,
+            output: `
+                baz(
+                    foo\n);
+            `,
+            options: ["multiline-arguments"],
+            errors: [RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `
+                baz(foo
+                    );
+            `,
+            output: `
+                baz(foo);
+            `,
+            options: ["multiline-arguments"],
+            errors: [RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                async (foo, bar
+                ) => {};
+            `,
+            output: `
+                async (foo, bar) => {};
+            `,
+            options: ["multiline-arguments"],
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                async (foo,
+                    bar) => {};
+            `,
+            output: `
+                async (\nfoo,
+                    bar\n) => {};
+            `,
+            options: ["multiline-arguments"],
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `
+                async (
+                    foo,
+                    bar) => {};
+            `,
+            output: `
+                async (
+                    foo,
+                    bar\n) => {};
+            `,
+            options: ["multiline-arguments"],
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [RIGHT_MISSING_ERROR]
+        },
+        {
+            code: "import(source\n)",
+            output: "import(source)",
+            options: ["multiline-arguments"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: "import(\n  source)",
+            output: "import(\n  source\n)",
+            options: ["multiline-arguments"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [RIGHT_MISSING_ERROR]
+        },
 
         // always option
         {
@@ -419,6 +1079,52 @@ ruleTester.run("function-paren-newline", rule, {
             code: "function baz() {}",
             output: "function baz(\n) {}",
             options: ["always"],
+            errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `
+                async (foo, bar) => {};
+            `,
+            output: `
+                async (\nfoo, bar\n) => {};
+            `,
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `
+                async (foo,
+                    bar) => {};
+            `,
+            output: `
+                async (\nfoo,
+                    bar\n) => {};
+            `,
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `
+                async (
+                    foo,
+                    bar) => {};
+            `,
+            output: `
+                async (
+                    foo,
+                    bar\n) => {};
+            `,
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [RIGHT_MISSING_ERROR]
+        },
+        {
+            code: "import(source)",
+            output: "import(\nsource\n)",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2020 },
             errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR]
         },
 
@@ -530,6 +1236,42 @@ ruleTester.run("function-paren-newline", rule, {
             options: ["never"],
             errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR]
         },
+        {
+            code: `
+                async (
+                    foo,
+                    bar
+                ) => {};
+            `,
+            output: `
+                async (foo,
+                    bar) => {};
+            `,
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                async (
+                    foo,
+                    bar) => {};
+            `,
+            output: `
+                async (foo,
+                    bar) => {};
+            `,
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [LEFT_UNEXPECTED_ERROR]
+        },
+        {
+            code: "import(\n  source\n)",
+            output: "import(source)",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR]
+        },
 
         // minItems option
         {
@@ -572,6 +1314,62 @@ ruleTester.run("function-paren-newline", rule, {
         },
         {
             code: `
+                async (
+                    foo,
+                    bar
+                ) => {};
+            `,
+            output: `
+                async (foo,
+                    bar) => {};
+            `,
+            options: [{ minItems: 3 }],
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                async (
+                    foo,
+                    bar) => {};
+            `,
+            output: `
+                async (foo,
+                    bar) => {};
+            `,
+            options: [{ minItems: 3 }],
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [LEFT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                async (foo, bar, baz) => {};
+            `,
+            output: `
+                async (\nfoo, bar, baz\n) => {};
+            `,
+            options: [{ minItems: 3 }],
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR]
+        },
+        {
+            code: "import(\n  source\n)",
+            output: "import(source)",
+            options: [{ minItems: 3 }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: "import(source)",
+            output: "import(\nsource\n)",
+            options: [{ minItems: 1 }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR]
+        },
+
+        // consistent option
+        {
+            code: `
                 foo(
                     bar,
                     baz)
@@ -596,6 +1394,49 @@ ruleTester.run("function-paren-newline", rule, {
             `,
             options: ["consistent"],
             errors: [RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                async (
+                    foo,
+                    bar) => {};
+            `,
+            output: `
+                async (
+                    foo,
+                    bar\n) => {};
+            `,
+            options: ["consistent"],
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `
+                async (foo,
+                    bar
+                ) => {};
+            `,
+            output: `
+                async (foo,
+                    bar) => {};
+            `,
+            options: ["consistent"],
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: "import(source\n)",
+            output: "import(source)",
+            options: ["consistent"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: "import(\n  source)",
+            output: "import(\n  source\n)",
+            options: ["consistent"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [RIGHT_MISSING_ERROR]
         }
     ]
 });

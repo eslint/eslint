@@ -6,6 +6,7 @@ Some people consider large files a code smell. Large files tend to do a lot of t
 
 This rule enforces a maximum number of lines per file, in order to aid in maintainability and reduce complexity.
 
+Please note that most editors show an additional empty line at the end if the file ends with a line break. This rule does not count that extra line.
 
 ## Options
 
@@ -17,7 +18,7 @@ This rule has a number or object option:
 
 * `"skipComments": true` ignore lines containing just comments
 
-### code
+### max
 
 Examples of **incorrect** code for this rule with a max value of `2`:
 
@@ -110,7 +111,7 @@ You can turn this rule off if you are not concerned with the number of lines in 
 
 ## Further reading
 
-* [Software Module size and file size](http://www.mind2b.com/component/content/article/24-software-module-size-and-file-size)
+* [Software Module size and file size](https://web.archive.org/web/20160725154648/http://www.mind2b.com/component/content/article/24-software-module-size-and-file-size)
 
 ## Related Rules
 

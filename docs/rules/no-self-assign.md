@@ -72,7 +72,7 @@ This rule has the option to check properties as well.
 Examples of **correct** code with the `{ "props": false }` option:
 
 ```js
-/*eslint no-self-assign: ["error", {"props": true}]*/
+/*eslint no-self-assign: ["error", {"props": false}]*/
 
 // self-assignments with properties.
 obj.a = obj.a;

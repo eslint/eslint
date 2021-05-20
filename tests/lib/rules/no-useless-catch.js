@@ -11,7 +11,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-useless-catch"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -126,7 +126,7 @@ ruleTester.run("no-useless-catch", rule, {
                 }
             `,
             errors: [{
-                message: "Unnecessary try/catch wrapper.",
+                messageId: "unnecessaryCatch",
                 type: "TryStatement"
             }]
         },
@@ -141,7 +141,7 @@ ruleTester.run("no-useless-catch", rule, {
                 }
             `,
             errors: [{
-                message: "Unnecessary catch clause.",
+                messageId: "unnecessaryCatchClause",
                 type: "CatchClause"
             }]
         },
@@ -155,7 +155,7 @@ ruleTester.run("no-useless-catch", rule, {
                 }
             `,
             errors: [{
-                message: "Unnecessary try/catch wrapper.",
+                messageId: "unnecessaryCatch",
                 type: "TryStatement"
             }]
         },
@@ -171,7 +171,7 @@ ruleTester.run("no-useless-catch", rule, {
                 }
             `,
             errors: [{
-                message: "Unnecessary catch clause.",
+                messageId: "unnecessaryCatchClause",
                 type: "CatchClause"
             }]
         },
@@ -187,7 +187,7 @@ ruleTester.run("no-useless-catch", rule, {
             `,
             parserOptions: { ecmaVersion: 8 },
             errors: [{
-                message: "Unnecessary try/catch wrapper.",
+                messageId: "unnecessaryCatch",
                 type: "TryStatement"
             }]
         }

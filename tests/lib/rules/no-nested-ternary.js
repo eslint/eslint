@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-nested-ternary"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -24,7 +24,19 @@ ruleTester.run("no-nested-ternary", rule, {
         "var foo = bar === baz ? qux : quxx;"
     ],
     invalid: [
-        { code: "foo ? bar : baz === qux ? quxx : foobar;", errors: [{ message: "Do not nest ternary expressions.", type: "ConditionalExpression" }] },
-        { code: "foo ? baz === qux ? quxx : foobar : bar;", errors: [{ message: "Do not nest ternary expressions.", type: "ConditionalExpression" }] }
+        {
+            code: "foo ? bar : baz === qux ? quxx : foobar;",
+            errors: [{
+                messageId: "noNestedTernary",
+                type: "ConditionalExpression"
+            }]
+        },
+        {
+            code: "foo ? baz === qux ? quxx : foobar : bar;",
+            errors: [{
+                messageId: "noNestedTernary",
+                type: "ConditionalExpression"
+            }]
+        }
     ]
 });

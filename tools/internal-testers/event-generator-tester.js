@@ -19,9 +19,9 @@ const assert = require("assert");
 module.exports = {
 
     /**
-     * Overrideable `describe` function to test.
-     * @param {string} text - A description.
-     * @param {Function} method - A test logic.
+     * Overridable `describe` function to test.
+     * @param {string} text A description.
+     * @param {Function} method A test logic.
      * @returns {any} The returned value with the test logic.
      */
     describe: (typeof describe === "function") ? describe : /* istanbul ignore next */ function(text, method) {
@@ -29,9 +29,9 @@ module.exports = {
     },
 
     /**
-     * Overrideable `it` function to test.
-     * @param {string} text - A description.
-     * @param {Function} method - A test logic.
+     * Overridable `it` function to test.
+     * @param {string} text A description.
+     * @param {Function} method A test logic.
      * @returns {any} The returned value with the test logic.
      */
     it: (typeof it === "function") ? it : /* istanbul ignore next */ function(text, method) {
@@ -40,7 +40,7 @@ module.exports = {
 
     /**
      * Does some tests to check a given object implements the EventGenerator interface.
-     * @param {Object} instance - An object to check.
+     * @param {Object} instance An object to check.
      * @returns {void}
      */
     testEventGeneratorInterface(instance) {

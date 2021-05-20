@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-path-concat"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -30,28 +30,28 @@ ruleTester.run("no-path-concat", rule, {
         {
             code: "var fullPath = __dirname + \"/foo.js\";",
             errors: [{
-                message: "Use path.join() or path.resolve() instead of + to create paths.",
+                messageId: "usePathFunctions",
                 type: "BinaryExpression"
             }]
         },
         {
             code: "var fullPath = __filename + \"/foo.js\";",
             errors: [{
-                message: "Use path.join() or path.resolve() instead of + to create paths.",
+                messageId: "usePathFunctions",
                 type: "BinaryExpression"
             }]
         },
         {
             code: "var fullPath = \"/foo.js\" + __filename;",
             errors: [{
-                message: "Use path.join() or path.resolve() instead of + to create paths.",
+                messageId: "usePathFunctions",
                 type: "BinaryExpression"
             }]
         },
         {
             code: "var fullPath = \"/foo.js\" + __dirname;",
             errors: [{
-                message: "Use path.join() or path.resolve() instead of + to create paths.",
+                messageId: "usePathFunctions",
                 type: "BinaryExpression"
             }]
         }

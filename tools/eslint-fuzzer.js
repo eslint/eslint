@@ -12,8 +12,10 @@
 const assert = require("assert");
 const lodash = require("lodash");
 const eslump = require("eslump");
-const SourceCodeFixer = require("../lib/util/source-code-fixer");
-const ruleConfigs = require("../lib/config/config-rule").createCoreRuleConfigs();
+const espree = require("espree");
+const SourceCodeFixer = require("../lib/linter/source-code-fixer");
+const ruleConfigs = require("../lib/init/config-rule").createCoreRuleConfigs(true);
+const sampleMinimizer = require("./code-sample-minimizer");
 
 //------------------------------------------------------------------------------
 // Public API
@@ -29,7 +31,7 @@ const ruleConfigs = require("../lib/config/config-rule").createCoreRuleConfigs()
  * might also be passed other keys.
  * @param {boolean} [options.checkAutofixes=true] `true` if the fuzzer should check for autofix bugs. The fuzzer runs
  * roughly 4 times slower with autofix checking enabled.
- * @param {function()} [options.progressCallback] A function that gets called once for each code sample
+ * @param {function(number)} [options.progressCallback] A function that gets called once for each code sample, with the total number of errors found so far
  * @returns {Object[]} A list of problems found. Each problem has the following properties:
  * type (string): The type of problem. This is either "crash" (a rule crashes) or "autofix" (an autofix produces a syntax error)
  * text (string): The text that ESLint should be run on to reproduce the problem
@@ -52,21 +54,22 @@ function fuzz(options) {
      * Tries to isolate the smallest config that reproduces a problem
      * @param {string} text The source text to lint
      * @param {Object} config A config object that causes a crash or autofix error
+     * @param {("crash"|"autofix")} problemType The type of problem that occurred
      * @returns {Object} A config object with only one rule enabled that produces the same crash or autofix error, if possible.
      * Otherwise, the same as `config`
      */
-    function isolateBadConfig(text, config) {
+    function isolateBadConfig(text, config, problemType) {
         for (const ruleId of Object.keys(config.rules)) {
             const reducedConfig = Object.assign({}, config, { rules: { [ruleId]: config.rules[ruleId] } });
             let fixResult;
 
             try {
                 fixResult = linter.verifyAndFix(text, reducedConfig, {});
-            } catch (err) {
+            } catch {
                 return reducedConfig;
             }
 
-            if (fixResult.messages.length === 1 && fixResult.messages[0].fatal) {
+            if (fixResult.messages.length === 1 && fixResult.messages[0].fatal && problemType === "autofix") {
                 return reducedConfig;
             }
         }
@@ -80,7 +83,7 @@ function fuzz(options) {
      * @returns {string} A possibly-modified version of originalText that results in the same syntax error or crash after only one pass
      */
     function isolateBadAutofixPass(originalText, config) {
-        let lastGoodText = originalText;
+        let previousText = originalText;
         let currentText = originalText;
 
         do {
@@ -88,29 +91,48 @@ function fuzz(options) {
 
             try {
                 messages = linter.verify(currentText, config);
-            } catch (err) {
-                return lastGoodText;
+            } catch {
+                return currentText;
             }
 
             if (messages.length === 1 && messages[0].fatal) {
-                return lastGoodText;
+                return previousText;
             }
 
-            lastGoodText = currentText;
+            previousText = currentText;
             currentText = SourceCodeFixer.applyFixes(currentText, messages).output;
-        } while (lastGoodText !== currentText);
+        } while (previousText !== currentText);
 
-        return lastGoodText;
+        return currentText;
     }
 
     const problems = [];
 
-    for (let i = 0; i < options.count; progressCallback(), i++) {
+    /**
+     * Creates a version of espree that always runs with the specified options
+     * @param {ConfigData} config The config used
+     * @returns {Parser} a parser
+     */
+    function getParser({ parserOptions }) {
+        return sourceText => espree.parse(sourceText, {
+            ...parserOptions,
+            loc: true,
+            range: true,
+            raw: true,
+            tokens: true,
+            comment: true
+        });
+    }
+
+    for (let i = 0; i < options.count; progressCallback(problems.length), i++) {
         const sourceType = lodash.sample(["script", "module"]);
         const text = codeGenerator({ sourceType });
         const config = {
             rules: lodash.mapValues(ruleConfigs, lodash.sample),
-            parserOptions: { sourceType, ecmaVersion: 2018 }
+            parserOptions: {
+                sourceType,
+                ecmaVersion: espree.latestEcmaVersion
+            }
         };
 
         let autofixResult;
@@ -122,14 +144,49 @@ function fuzz(options) {
                 linter.verify(text, config);
             }
         } catch (err) {
-            problems.push({ type: "crash", text, config: isolateBadConfig(text, config), error: err.stack });
+            const lastGoodText = checkAutofixes ? isolateBadAutofixPass(text, config) : text;
+            const smallConfig = isolateBadConfig(lastGoodText, config, "crash");
+            const smallText = sampleMinimizer({
+                sourceText: lastGoodText,
+                parser: { parse: getParser(smallConfig) },
+                predicate(reducedText) {
+                    try {
+                        linter.verify(reducedText, smallConfig);
+                        return false;
+                    } catch {
+                        return true;
+                    }
+                }
+            });
+
+            problems.push({ type: "crash", text: smallText, config: smallConfig, error: err.stack });
+
             continue;
         }
 
         if (checkAutofixes && autofixResult.fixed && autofixResult.messages.length === 1 && autofixResult.messages[0].fatal) {
             const lastGoodText = isolateBadAutofixPass(text, config);
+            const smallConfig = isolateBadConfig(lastGoodText, config, "autofix");
+            const smallText = sampleMinimizer({
+                sourceText: lastGoodText,
+                parser: { parse: getParser(smallConfig) },
+                predicate(reducedText) {
+                    try {
+                        const smallFixResult = linter.verifyAndFix(reducedText, smallConfig);
 
-            problems.push({ type: "autofix", text: lastGoodText, config: isolateBadConfig(lastGoodText, config), error: autofixResult.messages[0] });
+                        return smallFixResult.fixed && smallFixResult.messages.length === 1 && smallFixResult.messages[0].fatal;
+                    } catch {
+                        return false;
+                    }
+                }
+            });
+
+            problems.push({
+                type: "autofix",
+                text: smallText,
+                config: smallConfig,
+                error: autofixResult.messages[0]
+            });
         }
     }
 

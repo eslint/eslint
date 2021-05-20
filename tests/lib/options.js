@@ -79,11 +79,10 @@ describe("options", () => {
             assert.strictEqual(currentOptions.ext[1], ".js");
         });
 
-        it("should return an array one item when not passed", () => {
+        it("should not exist when not passed", () => {
             const currentOptions = options.parse("");
 
-            assert.isArray(currentOptions.ext);
-            assert.strictEqual(currentOptions.ext[0], ".js");
+            assert.notProperty(currentOptions, "ext");
         });
     });
 
@@ -265,7 +264,7 @@ describe("options", () => {
             assert.strictEqual(currentOptions.plugin[0], "single");
         });
 
-        it("should return an array when passed a comma-delimiated string", () => {
+        it("should return an array when passed a comma-delimited string", () => {
             const currentOptions = options.parse("--plugin foo,bar");
 
             assert.isArray(currentOptions.plugin);
@@ -308,7 +307,7 @@ describe("options", () => {
         it("should throw an error when supplied with a non-integer", () => {
             assert.throws(() => {
                 options.parse("--max-warnings 10.2");
-            }, /Invalid value for option 'max-warnings' - expected type Int/);
+            }, /Invalid value for option 'max-warnings' - expected type Int/u);
         });
     });
 

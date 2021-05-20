@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/indent"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 const fs = require("fs");
 const path = require("path");
 
@@ -21,6 +21,8 @@ const path = require("path");
 const fixture = fs.readFileSync(path.join(__dirname, "../../fixtures/rules/indent/indent-invalid-fixture-1.js"), "utf8");
 const fixedFixture = fs.readFileSync(path.join(__dirname, "../../fixtures/rules/indent/indent-valid-fixture-1.js"), "utf8");
 const parser = require("../../fixtures/fixture-parser");
+const { unIndent } = require("../../_utils");
+
 
 /**
  * Create error message object for failure cases with a single 'found' indentation type
@@ -52,20 +54,6 @@ function expectedErrors(providedIndentType, providedErrors) {
         type: err[3],
         line: err[0]
     }));
-}
-
-/**
- * Prevents leading spaces in a multiline template literal from appearing in the resulting string
- * @param {string[]} strings The strings in the template literal
- * @returns {string} The template literal, with spaces removed from all lines
- */
-function unIndent(strings) {
-    const templateValue = strings[0];
-    const lines = templateValue.replace(/^\n/, "").replace(/\n\s*$/, "").split("\n");
-    const lineIndents = lines.filter(line => line.trim()).map(line => line.match(/ */)[0].length);
-    const minLineIndent = Math.min(...lineIndents);
-
-    return lines.map(line => line.slice(minLineIndent)).join("\n");
 }
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 8, ecmaFeatures: { jsx: true } } });
@@ -279,7 +267,7 @@ ruleTester.run("indent", rule, {
                 ;(() => {})()
             `,
             options: [4],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -1095,7 +1083,7 @@ ruleTester.run("indent", rule, {
                 import React from 'react'
             `,
             options: [2],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -1105,7 +1093,7 @@ ruleTester.run("indent", rule, {
                     baz
                 } from 'qux';
             `,
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -1116,7 +1104,7 @@ ruleTester.run("indent", rule, {
                     baz
                 } from 'qux';
             `,
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -1274,7 +1262,7 @@ ruleTester.run("indent", rule, {
                 };
             `,
             options: [2, { FunctionDeclaration: { parameters: "first" } }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -1286,7 +1274,7 @@ ruleTester.run("indent", rule, {
                 }
             `,
             options: [2, { FunctionDeclaration: { parameters: "first" } }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -1800,6 +1788,49 @@ ruleTester.run("indent", rule, {
             options: [2, { outerIIFEBody: 0 }]
         },
         {
+            code: unIndent`
+                (function(x) {
+                    return x + 1;
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
+            code: unIndent`
+                (function(x) {
+                return x + 1;
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
+            code: unIndent`
+                ;(() => {
+                    function x(y) {
+                        return y + 1;
+                    }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
+            code: unIndent`
+                ;(() => {
+                function x(y) {
+                    return y + 1;
+                }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
+            code: unIndent`
+                function foo() {
+                }
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
             code: "Buffer.length",
             options: [4, { MemberExpression: 1 }]
         },
@@ -2108,6 +2139,106 @@ ruleTester.run("indent", rule, {
                 );
             `,
             options: [2]
+        },
+        {
+            code: unIndent`
+              condition
+                ? () => {
+                  return true
+                }
+                : condition2
+                  ? () => {
+                    return true
+                  }
+                  : () => {
+                    return false
+                  }
+            `,
+            options: [2]
+        },
+        {
+            code: unIndent`
+              condition
+                ? () => {
+                  return true
+                }
+                : condition2
+                  ? () => {
+                    return true
+                  }
+                  : () => {
+                    return false
+                  }
+            `,
+            options: [2, { offsetTernaryExpressions: false }]
+        },
+        {
+            code: unIndent`
+              condition
+                ? () => {
+                    return true
+                  }
+                : condition2
+                  ? () => {
+                      return true
+                    }
+                  : () => {
+                      return false
+                    }
+            `,
+            options: [2, { offsetTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+              condition
+                  ? () => {
+                          return true
+                      }
+                  : condition2
+                      ? () => {
+                              return true
+                          }
+                      : () => {
+                              return false
+                          }
+            `,
+            options: [4, { offsetTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+              condition1
+                ? condition2
+                  ? Promise.resolve(1)
+                  : Promise.resolve(2)
+                : Promise.resolve(3)
+            `,
+            options: [2, { offsetTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+              condition1
+                ? Promise.resolve(1)
+                : condition2
+                  ? Promise.resolve(2)
+                  : Promise.resolve(3)
+            `,
+            options: [2, { offsetTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+              condition
+              \t? () => {
+              \t\t\treturn true
+              \t\t}
+              \t: condition2
+              \t\t? () => {
+              \t\t\t\treturn true
+              \t\t\t}
+              \t\t: () => {
+              \t\t\t\treturn false
+              \t\t\t}
+            `,
+            options: ["tab", { offsetTernaryExpressions: true }]
         },
         unIndent`
             [
@@ -3108,7 +3239,7 @@ ruleTester.run("indent", rule, {
                     baz
                 }
             `,
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -3432,11 +3563,11 @@ ruleTester.run("indent", rule, {
                 import {foo}
                     from 'bar';
             `,
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import 'foo'",
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -3446,7 +3577,7 @@ ruleTester.run("indent", rule, {
                 } from 'qux';
             `,
             options: [4, { ImportDeclaration: 1 }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -3457,7 +3588,7 @@ ruleTester.run("indent", rule, {
                 } from 'qux';
             `,
             options: [4, { ImportDeclaration: 1 }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -3466,7 +3597,7 @@ ruleTester.run("indent", rule, {
                 import { cat } from 'animals';
             `,
             options: [4, { ImportDeclaration: "first" }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -3476,7 +3607,7 @@ ruleTester.run("indent", rule, {
                               turned } from 'off';
             `,
             options: [4, { ImportDeclaration: "off" }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
 
         // https://github.com/eslint/eslint/issues/8455
@@ -4014,7 +4145,7 @@ ruleTester.run("indent", rule, {
         //----------------------------------------------------------------------
         // JSX tests
         // https://github.com/eslint/eslint/issues/8425
-        // Some of the following tests are adapted from the the tests in eslint-plugin-react.
+        // Some of the following tests are adapted from the tests in eslint-plugin-react.
         // License: https://github.com/yannickcr/eslint-plugin-react/blob/7ca9841f22d599f447a27ef5b2a97def9229d6c8/LICENSE
         //----------------------------------------------------------------------
 
@@ -4663,6 +4794,210 @@ ruleTester.run("indent", rule, {
                 </div>
             `,
 
+        /*
+         * JSX Fragments
+         * https://github.com/eslint/eslint/issues/12208
+         */
+        unIndent`
+            <>
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+            >
+        `,
+        unIndent`
+            <
+            >
+                <A />
+            </
+            >
+        `,
+        unIndent`
+            <
+            >
+                <A />
+            <
+            />
+        `,
+        unIndent`
+            < // Comment
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+                // Comment
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+            // Comment
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <>
+                <A />
+            < // Comment
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+                // Comment
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+            // Comment
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            </ // Comment
+            >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+                // Comment
+            >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+            // Comment
+            >
+        `,
+        unIndent`
+            < /* Comment */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+                /* Comment */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+            /* Comment */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+                /*
+                 * Comment
+                 */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+            /*
+             * Comment
+             */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <>
+                <A />
+            < /* Comment */
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+                /* Comment */ />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+            /* Comment */ />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+                /* Comment */
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+            /* Comment */
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            </ /* Comment */
+            >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+                /* Comment */ >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+            /* Comment */ >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+                /* Comment */
+            >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+            /* Comment */
+            >
+        `,
+
         // https://github.com/eslint/eslint/issues/8832
         unIndent`
                 <div>
@@ -4696,6 +5031,18 @@ ruleTester.run("indent", rule, {
             <small>Foo bar&nbsp;
                 <a>baz qux</a>.
             </small>
+        `,
+        unIndent`
+            <div
+                {...props}
+            />
+        `,
+        unIndent`
+            <div
+                {
+                    ...props
+                }
+            />
         `,
         {
             code: unIndent`
@@ -4824,7 +5171,7 @@ ruleTester.run("indent", rule, {
                 )
             `,
             options: [4, { ignoredNodes: ["ExportDefaultDeclaration > CallExpression > ObjectExpression"] }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -4961,7 +5308,542 @@ ruleTester.run("indent", rule, {
             { // comment
                 bar
             }];
-        `
+        `,
+        unIndent`
+            let foo
+
+            // comment
+
+            ;(async () => {})()
+        `,
+        unIndent`
+            let foo
+            // comment
+
+            ;(async () => {})()
+        `,
+        unIndent`
+            let foo
+
+            // comment
+            ;(async () => {})()
+        `,
+        unIndent`
+            let foo
+            // comment
+            ;(async () => {})()
+        `,
+        unIndent`
+            let foo
+
+                /* comment */;
+
+            (async () => {})()
+        `,
+        unIndent`
+            let foo
+                /* comment */;
+
+            (async () => {})()
+        `,
+        unIndent`
+            let foo
+
+                /* comment */;
+            (async () => {})()
+        `,
+        unIndent`
+            let foo
+                /* comment */;
+            (async () => {})()
+        `,
+        unIndent`
+            let foo
+            /* comment */;
+
+            (async () => {})()
+        `,
+        unIndent`
+            let foo
+            /* comment */;
+            (async () => {})()
+        `,
+        unIndent`
+            // comment
+
+            ;(async () => {})()
+        `,
+        unIndent`
+            // comment
+            ;(async () => {})()
+        `,
+        unIndent`
+            {
+                let foo
+
+                // comment
+
+                ;(async () => {})()
+            }
+        `,
+        unIndent`
+            {
+                let foo
+                // comment
+                ;(async () => {})()
+            }
+        `,
+        unIndent`
+            {
+                // comment
+
+                ;(async () => {})()
+            }
+        `,
+        unIndent`
+            {
+                // comment
+                ;(async () => {})()
+            }
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+
+            /* comment */
+
+            ;[1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+            /* comment */
+
+            ;[1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+
+            /* comment */
+            ;[1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+            /* comment */
+            ;[1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+
+                /* comment */;
+
+            [1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+                /* comment */;
+
+            [1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+
+                /* comment */;
+            [1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+                /* comment */;
+            [1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+            /* comment */;
+
+            [1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+            /* comment */;
+            [1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            /* comment */
+
+            ;[1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            /* comment */
+            ;[1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            {
+                const foo = 1
+                const bar = foo
+
+                /* comment */
+
+                ;[1, 2, 3].forEach(() => {})
+            }
+        `,
+        unIndent`
+            {
+                const foo = 1
+                const bar = foo
+                /* comment */
+                ;[1, 2, 3].forEach(() => {})
+            }
+        `,
+        unIndent`
+            {
+                /* comment */
+
+                ;[1, 2, 3].forEach(() => {})
+            }
+        `,
+        unIndent`
+            {
+                /* comment */
+                ;[1, 2, 3].forEach(() => {})
+            }
+        `,
+
+        // import expressions
+        {
+            code: unIndent`
+                import(
+                    // before
+                    source
+                    // after
+                )
+            `,
+            parserOptions: { ecmaVersion: 2020 }
+        },
+
+        // https://github.com/eslint/eslint/issues/12122
+        {
+            code: unIndent`
+                foo(() => {
+                    tag\`
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                        bar();
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                {
+                    tag\`
+                    multiline
+                    template
+                    \${a} \${b}
+                    literal
+                    \`(() => {
+                        bar();
+                    });
+                }
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo(() => {
+                    tagOne\`
+                    multiline
+                    template
+                    literal
+                    \${a} \${b}
+                    \`(() => {
+                        tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                        baz();
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                {
+                    tagOne\`
+                    \${a} \${b}
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                        tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                        baz();
+                    });
+                };
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                tagOne\`multiline
+                        \${a} \${b}
+                        template
+                        literal
+                        \`(() => {
+                    foo();
+
+                    tagTwo\`multiline
+                            template
+                            literal
+                        \`({
+                        bar: 1,
+                        baz: 2
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                tagOne\`multiline
+                    template
+                    literal
+                    \${a} \${b}\`({
+                    foo: 1,
+                    bar: tagTwo\`multiline
+                        template
+                        literal\`(() => {
+
+                        baz();
+                    })
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo.bar\` template literal \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo.bar.baz\` template literal \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar\` template
+                        literal \`(() => {
+                        baz();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar
+                    .baz\` template
+                        literal \`(() => {
+                        baz();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo.bar\`
+                    \${a} \${b}
+                    \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo.bar1.bar2\`
+                    \${a} \${b}
+                    \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar1
+                    .bar2\`
+                    \${a} \${b}
+                    \`(() => {
+                        baz();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar\`
+                    \${a} \${b}
+                    \`(() => {
+                        baz();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                .test\`
+                    \${a} \${b}
+                    \`(() => {
+                    baz();
+                })
+            `,
+            options: [4, { MemberExpression: 0 }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                        .test\`
+                    \${a} \${b}
+                    \`(() => {
+                            baz();
+                        })
+            `,
+            options: [4, { MemberExpression: 2 }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                const foo = async (arg1,
+                                   arg2) =>
+                {
+                  return arg1 + arg2;
+                }
+            `,
+            options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
+        },
+        {
+            code: unIndent`
+                const foo = async /* some comments */(arg1,
+                                                      arg2) =>
+                {
+                  return arg1 + arg2;
+                }
+            `,
+            options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
+        },
+        {
+            code: unIndent`
+                const a = async
+                b => {}
+            `,
+            options: [2]
+        },
+        {
+            code: unIndent`
+                const foo = (arg1,
+                             arg2) => async (arr1,
+                                             arr2) =>
+                {
+                  return arg1 + arg2;
+                }
+            `,
+            options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
+        },
+        {
+            code: unIndent`
+                const foo = async (arg1,
+                  arg2) =>
+                {
+                  return arg1 + arg2;
+                }
+            `,
+            options: [2]
+        },
+        {
+            code: unIndent`
+                const foo = async /*comments*/(arg1,
+                  arg2) =>
+                {
+                  return arg1 + arg2;
+                }
+            `,
+            options: [2]
+        },
+        {
+            code: unIndent`
+                const foo = async (arg1,
+                        arg2) =>
+                {
+                  return arg1 + arg2;
+                }
+            `,
+            options: [2, { FunctionDeclaration: { parameters: 4 }, FunctionExpression: { parameters: 4 } }]
+        },
+        {
+            code: unIndent`
+                const foo = (arg1,
+                        arg2) =>
+                {
+                  return arg1 + arg2;
+                }
+            `,
+            options: [2, { FunctionDeclaration: { parameters: 4 }, FunctionExpression: { parameters: 4 } }]
+        },
+        {
+            code: unIndent`
+                async function fn(ar1,
+                                  ar2){}
+            `,
+            options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
+        },
+        {
+            code: unIndent`
+                async function /* some comments */ fn(ar1,
+                                                      ar2){}
+            `,
+            options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
+        },
+        {
+            code: unIndent`
+                async  /* some comments */  function fn(ar1,
+                                                        ar2){}
+            `,
+            options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
+        }
     ],
 
     invalid: [
@@ -6486,6 +7368,78 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                (function(){
+                    function foo(x) {
+                    return x + 1;
+                    }
+                })();
+            `,
+            output: unIndent`
+                (function(){
+                    function foo(x) {
+                        return x + 1;
+                    }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }],
+            errors: expectedErrors([[3, 8, 4, "Keyword"]])
+        },
+        {
+            code: unIndent`
+                (function(){
+                function foo(x) {
+                return x + 1;
+                }
+                })();
+            `,
+            output: unIndent`
+                (function(){
+                function foo(x) {
+                    return x + 1;
+                }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }],
+            errors: expectedErrors([[3, 4, 0, "Keyword"]])
+        },
+        {
+            code: unIndent`
+                (() => {
+                    function foo(x) {
+                    return x + 1;
+                    }
+                })();
+            `,
+            output: unIndent`
+                (() => {
+                    function foo(x) {
+                        return x + 1;
+                    }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }],
+            errors: expectedErrors([[3, 8, 4, "Keyword"]])
+        },
+        {
+            code: unIndent`
+                (() => {
+                function foo(x) {
+                return x + 1;
+                }
+                })();
+            `,
+            output: unIndent`
+                (() => {
+                function foo(x) {
+                    return x + 1;
+                }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }],
+            errors: expectedErrors([[3, 4, 0, "Keyword"]])
+        },
+        {
+            code: unIndent`
                 Buffer
                 .toString()
             `,
@@ -7284,6 +8238,88 @@ ruleTester.run("indent", rule, {
             errors: expectedErrors([5, 4, 8, "Identifier"])
         },
         {
+            code: unIndent`
+              condition
+              ? () => {
+              return true
+              }
+              : condition2
+              ? () => {
+              return true
+              }
+              : () => {
+              return false
+              }
+            `,
+            output: unIndent`
+              condition
+                ? () => {
+                    return true
+                  }
+                : condition2
+                  ? () => {
+                      return true
+                    }
+                  : () => {
+                      return false
+                    }
+            `,
+            options: [2, { offsetTernaryExpressions: true }],
+            errors: expectedErrors([
+                [2, 2, 0, "Punctuator"],
+                [3, 6, 0, "Keyword"],
+                [4, 4, 0, "Punctuator"],
+                [5, 2, 0, "Punctuator"],
+                [6, 4, 0, "Punctuator"],
+                [7, 8, 0, "Keyword"],
+                [8, 6, 0, "Punctuator"],
+                [9, 4, 0, "Punctuator"],
+                [10, 8, 0, "Keyword"],
+                [11, 6, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+              condition
+              ? () => {
+              return true
+              }
+              : condition2
+              ? () => {
+              return true
+              }
+              : () => {
+              return false
+              }
+            `,
+            output: unIndent`
+              condition
+                ? () => {
+                  return true
+                }
+                : condition2
+                  ? () => {
+                    return true
+                  }
+                  : () => {
+                    return false
+                  }
+            `,
+            options: [2, { offsetTernaryExpressions: false }],
+            errors: expectedErrors([
+                [2, 2, 0, "Punctuator"],
+                [3, 4, 0, "Keyword"],
+                [4, 2, 0, "Punctuator"],
+                [5, 2, 0, "Punctuator"],
+                [6, 4, 0, "Punctuator"],
+                [7, 6, 0, "Keyword"],
+                [8, 4, 0, "Punctuator"],
+                [9, 4, 0, "Punctuator"],
+                [10, 6, 0, "Keyword"],
+                [11, 4, 0, "Punctuator"]
+            ])
+        },
+        {
 
             /*
              * Checking comments:
@@ -7584,7 +8620,7 @@ ruleTester.run("indent", rule, {
                     baz
                 } from 'qux';
             `,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedErrors([[2, 4, 0, "Identifier"], [3, 4, 2, "Identifier"]])
         },
         {
@@ -7601,7 +8637,7 @@ ruleTester.run("indent", rule, {
                 } from 'qux';
             `,
             options: [4, { ImportDeclaration: "first" }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedErrors([[3, 9, 10, "Identifier"]])
         },
         {
@@ -7618,7 +8654,7 @@ ruleTester.run("indent", rule, {
                 } from 'qux';
             `,
             options: [2, { ImportDeclaration: 2 }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedErrors([[3, 4, 5, "Identifier"]])
         },
         {
@@ -7638,7 +8674,7 @@ ruleTester.run("indent", rule, {
                     baz
                 };
             `,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedErrors([[3, 4, 0, "Identifier"], [4, 4, 2, "Identifier"]])
         },
         {
@@ -7658,7 +8694,7 @@ ruleTester.run("indent", rule, {
                     baz
                 } from 'qux';
             `,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedErrors([[3, 4, 0, "Identifier"], [4, 4, 2, "Identifier"]])
         },
         {
@@ -8096,7 +9132,7 @@ ruleTester.run("indent", rule, {
                     baz
                 }
             `,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedErrors([[3, 4, 0, "Identifier"], [4, 4, 8, "Identifier"], [5, 4, 2, "Identifier"]])
         },
         {
@@ -8468,7 +9504,7 @@ ruleTester.run("indent", rule, {
                 import {foo}
                     from 'bar';
             `,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedErrors([2, 4, 0, "Identifier"])
         },
         {
@@ -8480,7 +9516,7 @@ ruleTester.run("indent", rule, {
                 export {foo}
                     from 'bar';
             `,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedErrors([2, 4, 0, "Identifier"])
         },
         {
@@ -8698,8 +9734,8 @@ ruleTester.run("indent", rule, {
                     }
                 }
             `,
-            errors: expectedErrors([[3, 8, 4, "Identifier"], [6, 8, 4, "Keyword"]]),
-            parser: parser("unknown-nodes/namespace-invalid")
+            parser: parser("unknown-nodes/namespace-invalid"),
+            errors: expectedErrors([[3, 8, 4, "Identifier"], [6, 8, 4, "Keyword"]])
         },
         {
             code: unIndent`
@@ -8730,8 +9766,8 @@ ruleTester.run("indent", rule, {
                     }
                 }
             `,
-            errors: expectedErrors([[4, 12, 8, "Identifier"], [7, 12, 8, "Identifier"], [10, 8, 4, "Identifier"]]),
-            parser: parser("unknown-nodes/abstract-class-invalid")
+            parser: parser("unknown-nodes/abstract-class-invalid"),
+            errors: expectedErrors([[4, 12, 8, "Identifier"], [7, 12, 8, "Identifier"], [10, 8, 4, "Identifier"]])
         },
         {
             code: unIndent`
@@ -8760,14 +9796,14 @@ ruleTester.run("indent", rule, {
                     }
                 }
             `,
+            parser: parser("unknown-nodes/functions-with-abstract-class-invalid"),
             errors: expectedErrors([
                 [4, 12, 8, "Keyword"],
                 [5, 16, 8, "Keyword"],
                 [6, 20, 8, "Identifier"],
                 [7, 16, 8, "Punctuator"],
                 [8, 12, 8, "Punctuator"]
-            ]),
-            parser: parser("unknown-nodes/functions-with-abstract-class-invalid")
+            ])
         },
         {
             code: unIndent`
@@ -8800,16 +9836,16 @@ ruleTester.run("indent", rule, {
                     }
                 }
             `,
+            parser: parser("unknown-nodes/namespace-with-functions-with-abstract-class-invalid"),
             errors: expectedErrors([
                 [3, 8, 4, "Keyword"],
                 [7, 24, 20, "Identifier"]
-            ]),
-            parser: parser("unknown-nodes/namespace-with-functions-with-abstract-class-invalid")
+            ])
         },
 
         //----------------------------------------------------------------------
         // JSX tests
-        // Some of the following tests are adapted from the the tests in eslint-plugin-react.
+        // Some of the following tests are adapted from the tests in eslint-plugin-react.
         // License: https://github.com/yannickcr/eslint-plugin-react/blob/7ca9841f22d599f447a27ef5b2a97def9229d6c8/LICENSE
         //----------------------------------------------------------------------
 
@@ -9346,6 +10382,36 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                <div
+                {...props}
+                />
+            `,
+            output: unIndent`
+                <div
+                    {...props}
+                />
+            `,
+            errors: expectedErrors([2, 4, 0, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <div
+                    {
+                      ...props
+                    }
+                />
+            `,
+            output: unIndent`
+                <div
+                    {
+                        ...props
+                    }
+                />
+            `,
+            errors: expectedErrors([3, 8, 6, "Punctuator"])
+        },
+        {
+            code: unIndent`
                 <div>foo
                 <div>bar</div>
                 </div>
@@ -9370,6 +10436,200 @@ ruleTester.run("indent", rule, {
             `,
             errors: expectedErrors([2, 4, 0, "Punctuator"])
         },
+
+        /*
+         * JSX Fragments
+         * https://github.com/eslint/eslint/issues/12208
+         */
+        {
+            code: unIndent`
+                <>
+                <A />
+                </>
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                </>
+            `,
+            errors: expectedErrors([2, 4, 0, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <
+                    >
+                    <A />
+                </>
+            `,
+            output: unIndent`
+                <
+                >
+                    <A />
+                </>
+            `,
+            errors: expectedErrors([2, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                <
+                    />
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                <
+                />
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                </
+                    >
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                </
+                >
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <
+                    >
+                    <A />
+                </
+                    >
+            `,
+            output: unIndent`
+                <
+                >
+                    <A />
+                </
+                >
+            `,
+            errors: expectedErrors([
+                [2, 0, 4, "Punctuator"],
+                [5, 0, 4, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                <
+                    >
+                    <A />
+                <
+                    />
+            `,
+            output: unIndent`
+                <
+                >
+                    <A />
+                <
+                />
+            `,
+            errors: expectedErrors([
+                [2, 0, 4, "Punctuator"],
+                [5, 0, 4, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                < // Comment
+                    >
+                    <A />
+                </>
+            `,
+            output: unIndent`
+                < // Comment
+                >
+                    <A />
+                </>
+            `,
+            errors: expectedErrors([2, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                < // Comment
+                    />
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                < // Comment
+                />
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                </ // Comment
+                    >
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                </ // Comment
+                >
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                < /* Comment */
+                    >
+                    <A />
+                </>
+            `,
+            output: unIndent`
+                < /* Comment */
+                >
+                    <A />
+                </>
+            `,
+            errors: expectedErrors([2, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                < /* Comment */
+                    />
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                < /* Comment */
+                />
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                </ /* Comment */
+                    >
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                </ /* Comment */
+                >
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+
         {
             code: unIndent`
                 ({
@@ -9381,8 +10641,8 @@ ruleTester.run("indent", rule, {
                     foo
                 }: bar) => baz
             `,
-            errors: expectedErrors([3, 0, 4, "Punctuator"]),
-            parser: require.resolve("../../fixtures/parsers/babel-eslint7/object-pattern-with-annotation")
+            parser: require.resolve("../../fixtures/parsers/babel-eslint7/object-pattern-with-annotation"),
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
         },
         {
             code: unIndent`
@@ -9395,8 +10655,8 @@ ruleTester.run("indent", rule, {
                     foo
                 ]: bar) => baz
             `,
-            errors: expectedErrors([3, 0, 4, "Punctuator"]),
-            parser: require.resolve("../../fixtures/parsers/babel-eslint7/array-pattern-with-annotation")
+            parser: require.resolve("../../fixtures/parsers/babel-eslint7/array-pattern-with-annotation"),
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
         },
         {
             code: unIndent`
@@ -9409,8 +10669,8 @@ ruleTester.run("indent", rule, {
                     foo
                 }: {}) => baz
             `,
-            errors: expectedErrors([3, 0, 4, "Punctuator"]),
-            parser: require.resolve("../../fixtures/parsers/babel-eslint7/object-pattern-with-object-annotation")
+            parser: require.resolve("../../fixtures/parsers/babel-eslint7/object-pattern-with-object-annotation"),
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
         },
         {
             code: unIndent`
@@ -9605,6 +10865,768 @@ ruleTester.run("indent", rule, {
                 }];
             `,
             errors: expectedErrors([5, 0, 4, "Line"])
+        },
+        {
+            code: unIndent`
+                let foo
+
+                    // comment
+
+                ;(async () => {})()
+            `,
+            output: unIndent`
+                let foo
+
+                // comment
+
+                ;(async () => {})()
+            `,
+            errors: expectedErrors([3, 0, 4, "Line"])
+        },
+        {
+            code: unIndent`
+                let foo
+                    // comment
+                ;(async () => {})()
+            `,
+            output: unIndent`
+                let foo
+                // comment
+                ;(async () => {})()
+            `,
+            errors: expectedErrors([2, 0, 4, "Line"])
+        },
+        {
+            code: unIndent`
+                let foo
+
+                /* comment */;
+
+                (async () => {})()
+            `,
+            output: unIndent`
+                let foo
+
+                    /* comment */;
+
+                (async () => {})()
+            `,
+            errors: expectedErrors([3, 4, 0, "Block"])
+        },
+        {
+            code: unIndent`
+                    // comment
+
+                ;(async () => {})()
+            `,
+            output: unIndent`
+                // comment
+
+                ;(async () => {})()
+            `,
+            errors: expectedErrors([1, 0, 4, "Line"])
+        },
+        {
+            code: unIndent`
+                    // comment
+                ;(async () => {})()
+            `,
+            output: unIndent`
+                // comment
+                ;(async () => {})()
+            `,
+            errors: expectedErrors([1, 0, 4, "Line"])
+        },
+        {
+            code: unIndent`
+                {
+                    let foo
+
+                        // comment
+
+                    ;(async () => {})()
+
+                }
+            `,
+            output: unIndent`
+                {
+                    let foo
+
+                    // comment
+
+                    ;(async () => {})()
+
+                }
+            `,
+            errors: expectedErrors([4, 4, 8, "Line"])
+        },
+        {
+            code: unIndent`
+                {
+                    let foo
+                        // comment
+                    ;(async () => {})()
+
+                }
+            `,
+            output: unIndent`
+                {
+                    let foo
+                    // comment
+                    ;(async () => {})()
+
+                }
+            `,
+            errors: expectedErrors([3, 4, 8, "Line"])
+        },
+        {
+            code: unIndent`
+                {
+                    let foo
+
+                    /* comment */;
+
+                    (async () => {})()
+
+                }
+            `,
+            output: unIndent`
+                {
+                    let foo
+
+                        /* comment */;
+
+                    (async () => {})()
+
+                }
+            `,
+            errors: expectedErrors([4, 8, 4, "Block"])
+        },
+        {
+            code: unIndent`
+                const foo = 1
+                const bar = foo
+
+                    /* comment */
+
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            output: unIndent`
+                const foo = 1
+                const bar = foo
+
+                /* comment */
+
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            errors: expectedErrors([4, 0, 4, "Block"])
+        },
+        {
+            code: unIndent`
+                const foo = 1
+                const bar = foo
+                    /* comment */
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            output: unIndent`
+                const foo = 1
+                const bar = foo
+                /* comment */
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            errors: expectedErrors([3, 0, 4, "Block"])
+        },
+        {
+            code: unIndent`
+                const foo = 1
+                const bar = foo
+
+                /* comment */;
+
+                [1, 2, 3].forEach(() => {})
+            `,
+            output: unIndent`
+                const foo = 1
+                const bar = foo
+
+                    /* comment */;
+
+                [1, 2, 3].forEach(() => {})
+            `,
+            errors: expectedErrors([4, 4, 0, "Block"])
+        },
+        {
+            code: unIndent`
+                    /* comment */
+
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            output: unIndent`
+                /* comment */
+
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            errors: expectedErrors([1, 0, 4, "Block"])
+        },
+        {
+            code: unIndent`
+                    /* comment */
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            output: unIndent`
+                /* comment */
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            errors: expectedErrors([1, 0, 4, "Block"])
+        },
+        {
+            code: unIndent`
+                {
+                    const foo = 1
+                    const bar = foo
+
+                        /* comment */
+
+                    ;[1, 2, 3].forEach(() => {})
+
+                }
+            `,
+            output: unIndent`
+                {
+                    const foo = 1
+                    const bar = foo
+
+                    /* comment */
+
+                    ;[1, 2, 3].forEach(() => {})
+
+                }
+            `,
+            errors: expectedErrors([5, 4, 8, "Block"])
+        },
+        {
+            code: unIndent`
+                {
+                    const foo = 1
+                    const bar = foo
+                        /* comment */
+                    ;[1, 2, 3].forEach(() => {})
+
+                }
+            `,
+            output: unIndent`
+                {
+                    const foo = 1
+                    const bar = foo
+                    /* comment */
+                    ;[1, 2, 3].forEach(() => {})
+
+                }
+            `,
+            errors: expectedErrors([4, 4, 8, "Block"])
+        },
+        {
+            code: unIndent`
+                {
+                    const foo = 1
+                    const bar = foo
+
+                    /* comment */;
+
+                    [1, 2, 3].forEach(() => {})
+
+                }
+            `,
+            output: unIndent`
+                {
+                    const foo = 1
+                    const bar = foo
+
+                        /* comment */;
+
+                    [1, 2, 3].forEach(() => {})
+
+                }
+            `,
+            errors: expectedErrors([5, 8, 4, "Block"])
+        },
+
+        // import expressions
+        {
+            code: unIndent`
+                import(
+                source
+                    )
+            `,
+            output: unIndent`
+                import(
+                    source
+                )
+            `,
+            parserOptions: { ecmaVersion: 2020 },
+            errors: expectedErrors([
+                [2, 4, 0, "Identifier"],
+                [3, 0, 4, "Punctuator"]
+            ])
+        },
+
+        // https://github.com/eslint/eslint/issues/12122
+        {
+            code: unIndent`
+                foo(() => {
+                    tag\`
+                    multiline
+                    template\${a} \${b}
+                    literal
+                    \`(() => {
+                    bar();
+                    });
+                });
+            `,
+            output: unIndent`
+                foo(() => {
+                    tag\`
+                    multiline
+                    template\${a} \${b}
+                    literal
+                    \`(() => {
+                        bar();
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [7, 8, 4, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                {
+                        tag\`
+                    multiline
+                    template
+                    literal
+                    \${a} \${b}\`(() => {
+                            bar();
+                        });
+                }
+            `,
+            output: unIndent`
+                {
+                    tag\`
+                    multiline
+                    template
+                    literal
+                    \${a} \${b}\`(() => {
+                        bar();
+                    });
+                }
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [2, 4, 8, "Identifier"],
+                [7, 8, 12, "Identifier"],
+                [8, 4, 8, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo(() => {
+                    tagOne\`\${a} \${b}
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                            tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                            baz();
+                });
+                });
+            `,
+            output: unIndent`
+                foo(() => {
+                    tagOne\`\${a} \${b}
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                        tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                        baz();
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [7, 8, 12, "Identifier"],
+                [15, 8, 12, "Identifier"],
+                [16, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                {
+                    tagOne\`
+                    multiline
+                    template
+                    literal
+                    \${a} \${b}\`(() => {
+                            tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                            baz();
+                });
+                }
+            `,
+            output: unIndent`
+                {
+                    tagOne\`
+                    multiline
+                    template
+                    literal
+                    \${a} \${b}\`(() => {
+                        tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                        baz();
+                    });
+                }
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [7, 8, 12, "Identifier"],
+                [15, 8, 12, "Identifier"],
+                [16, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                tagOne\`multiline \${a} \${b}
+                        template
+                        literal
+                        \`(() => {
+                foo();
+
+                    tagTwo\`multiline
+                            template
+                            literal
+                        \`({
+                    bar: 1,
+                        baz: 2
+                    });
+                });
+            `,
+            output: unIndent`
+                tagOne\`multiline \${a} \${b}
+                        template
+                        literal
+                        \`(() => {
+                    foo();
+
+                    tagTwo\`multiline
+                            template
+                            literal
+                        \`({
+                        bar: 1,
+                        baz: 2
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [5, 4, 0, "Identifier"],
+                [11, 8, 4, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                tagOne\`multiline
+                    template \${a} \${b}
+                    literal\`({
+                        foo: 1,
+                bar: tagTwo\`multiline
+                        template
+                        literal\`(() => {
+
+                baz();
+                    })
+                });
+            `,
+            output: unIndent`
+                tagOne\`multiline
+                    template \${a} \${b}
+                    literal\`({
+                    foo: 1,
+                    bar: tagTwo\`multiline
+                        template
+                        literal\`(() => {
+
+                        baz();
+                    })
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [4, 4, 8, "Identifier"],
+                [5, 4, 0, "Identifier"],
+                [9, 8, 0, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo.bar\` template literal \`(() => {
+                        baz();
+                })
+            `,
+            output: unIndent`
+                foo.bar\` template literal \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [2, 4, 8, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo.bar.baz\` template literal \`(() => {
+                baz();
+                    })
+            `,
+            output: unIndent`
+                foo.bar.baz\` template literal \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [2, 4, 0, "Identifier"],
+                [3, 0, 4, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar\` template
+                        literal \`(() => {
+                        baz();
+                })
+            `,
+            output: unIndent`
+                foo
+                    .bar\` template
+                        literal \`(() => {
+                        baz();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [5, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo
+                    .test\`
+                    \${a} \${b}
+                    \`(() => {
+                bar();
+                    })
+            `,
+            output: unIndent`
+                foo
+                    .test\`
+                    \${a} \${b}
+                    \`(() => {
+                        bar();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [5, 8, 0, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo
+                    .test\`
+                    \${a} \${b}
+                    \`(() => {
+                bar();
+                    })
+            `,
+            output: unIndent`
+                foo
+                .test\`
+                    \${a} \${b}
+                    \`(() => {
+                    bar();
+                })
+            `,
+            options: [4, { MemberExpression: 0 }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [2, 0, 4, "Punctuator"],
+                [5, 4, 0, "Identifier"],
+                [6, 0, 4, "Punctuator"]
+            ])
+        },
+
+        // Optional chaining
+        {
+            code: unIndent`
+                obj
+                ?.prop
+                ?.[key]
+                ?.
+                [key]
+            `,
+            output: unIndent`
+                obj
+                    ?.prop
+                    ?.[key]
+                    ?.
+                        [key]
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: expectedErrors([
+                [2, 4, 0, "Punctuator"],
+                [3, 4, 0, "Punctuator"],
+                [4, 4, 0, "Punctuator"],
+                [5, 8, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                (
+                    longSomething
+                        ?.prop
+                        ?.[key]
+                )
+                ?.prop
+                ?.[key]
+            `,
+            output: unIndent`
+                (
+                    longSomething
+                        ?.prop
+                        ?.[key]
+                )
+                    ?.prop
+                    ?.[key]
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: expectedErrors([
+                [6, 4, 0, "Punctuator"],
+                [7, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                obj
+                ?.(arg)
+                ?.
+                (arg)
+            `,
+            output: unIndent`
+                obj
+                    ?.(arg)
+                    ?.
+                    (arg)
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: expectedErrors([
+                [2, 4, 0, "Punctuator"],
+                [3, 4, 0, "Punctuator"],
+                [4, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                (
+                    longSomething
+                        ?.(arg)
+                        ?.(arg)
+                )
+                ?.(arg)
+                ?.(arg)
+            `,
+            output: unIndent`
+                (
+                    longSomething
+                        ?.(arg)
+                        ?.(arg)
+                )
+                    ?.(arg)
+                    ?.(arg)
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: expectedErrors([
+                [6, 4, 0, "Punctuator"],
+                [7, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                const foo = async (arg1,
+                                    arg2) =>
+                {
+                  return arg1 + arg2;
+                }
+            `,
+            output: unIndent`
+                const foo = async (arg1,
+                                   arg2) =>
+                {
+                  return arg1 + arg2;
+                }
+            `,
+            options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: expectedErrors([
+                [2, 19, 20, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                const a = async
+                 b => {}
+            `,
+            output: unIndent`
+                const a = async
+                b => {}
+            `,
+            options: [2],
+            errors: expectedErrors([
+                [2, 0, 1, "Identifier"]
+            ])
         }
     ]
 });

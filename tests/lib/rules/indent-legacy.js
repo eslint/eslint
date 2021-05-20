@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/indent-legacy"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 const fs = require("fs");
 const path = require("path");
 
@@ -793,7 +793,7 @@ ruleTester.run("indent-legacy", rule, {
         {
             code: "import {addons} from 'react/addons'\nimport React from 'react'",
             options: [2],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code:
@@ -928,7 +928,7 @@ ruleTester.run("indent-legacy", rule, {
                 "  });\n" +
                 "};",
             options: [2],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code:
@@ -939,7 +939,7 @@ ruleTester.run("indent-legacy", rule, {
                 "  // ... function body, indented two spaces\n" +
                 "}\n",
             options: [2],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code:

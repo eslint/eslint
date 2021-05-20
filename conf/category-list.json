@@ -4,18 +4,17 @@
         { "name": "Best Practices", "description": "These rules relate to better ways of doing things to help you avoid problems:" },
         { "name": "Strict Mode", "description": "These rules relate to strict mode directives:" },
         { "name": "Variables", "description": "These rules relate to variable declarations:" },
-        { "name": "Node.js and CommonJS", "description": "These rules relate to code running in Node.js, or in browsers with CommonJS:" },
         { "name": "Stylistic Issues", "description": "These rules relate to style guidelines, and are therefore quite subjective:" },
         { "name": "ECMAScript 6", "description": "These rules relate to ES6, also known as ES2015:" }
     ],
     "deprecated": {
         "name": "Deprecated",
-        "description": "These rules have been deprecated in accordance with the [deprecation policy](/docs/user-guide/rule-deprecation), and replaced by newer rules:",
+        "description": "These rules have been deprecated in accordance with the <a href=\"/docs/user-guide/rule-deprecation\">deprecation policy</a>, and replaced by newer rules:",
         "rules": []
     },
     "removed": {
         "name": "Removed",
-        "description": "These rules from older versions of ESLint (before the [deprecation policy](/docs/user-guide/rule-deprecation) existed) have been replaced by newer rules:",
+        "description": "These rules from older versions of ESLint (before the <a href=\"/docs/user-guide/rule-deprecation\">deprecation policy</a> existed) have been replaced by newer rules:",
         "rules": [
             { "removed": "generator-star", "replacedBy": ["generator-star-spacing"] },
             { "removed": "global-strict", "replacedBy": ["strict"] },

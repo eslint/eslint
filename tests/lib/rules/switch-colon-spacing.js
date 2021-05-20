@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/switch-colon-spacing"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -18,10 +18,10 @@ const rule = require("../../../lib/rules/switch-colon-spacing"),
 
 const ruleTester = new RuleTester();
 
-const expectedBeforeError = { messagesId: "expectedBefore" };
-const expectedAfterError = { messagesId: "expectedAfter" };
-const unexpectedBeforeError = { messagesId: "unexpectedBefore" };
-const unexpectedAfterError = { messagesId: "unexpectedAfter" };
+const expectedBeforeError = { messageId: "expectedBefore" };
+const expectedAfterError = { messageId: "expectedAfter" };
+const unexpectedBeforeError = { messageId: "unexpectedBefore" };
+const unexpectedAfterError = { messageId: "unexpectedAfter" };
 
 ruleTester.run("switch-colon-spacing", rule, {
     valid: [

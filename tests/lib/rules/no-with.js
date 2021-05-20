@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-with"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -23,6 +23,6 @@ ruleTester.run("no-with", rule, {
         "foo.bar()"
     ],
     invalid: [
-        { code: "with(foo) { bar() }", errors: [{ message: "Unexpected use of 'with' statement.", type: "WithStatement" }] }
+        { code: "with(foo) { bar() }", errors: [{ messageId: "unexpectedWith", type: "WithStatement" }] }
     ]
 });

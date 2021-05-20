@@ -43,7 +43,13 @@ Examples of **correct** code for the default `"object"` option:
 
 var foo = object.
 property;
-var bar = object.property;
+
+var bar = (
+    object
+).
+property;
+
+var baz = object.property;
 ```
 
 ### property

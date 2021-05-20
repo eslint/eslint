@@ -10,13 +10,11 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/require-yield");
-const RuleTester = require("../../../lib/testers/rule-tester");
+const { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
-
-const errorMessage = "This generator function does not have 'yield'.";
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
@@ -35,24 +33,24 @@ ruleTester.run("require-yield", rule, {
     invalid: [
         {
             code: "function* foo() { return 0; }",
-            errors: [{ message: errorMessage, type: "FunctionDeclaration" }]
+            errors: [{ messageId: "missingYield", type: "FunctionDeclaration" }]
         },
         {
             code: "(function* foo() { return 0; })();",
-            errors: [{ message: errorMessage, type: "FunctionExpression" }]
+            errors: [{ messageId: "missingYield", type: "FunctionExpression" }]
         },
         {
             code: "var obj = { *foo() { return 0; } }",
-            errors: [{ message: errorMessage, type: "FunctionExpression" }]
+            errors: [{ messageId: "missingYield", type: "FunctionExpression" }]
         },
         {
             code: "class A { *foo() { return 0; } }",
-            errors: [{ message: errorMessage, type: "FunctionExpression" }]
+            errors: [{ messageId: "missingYield", type: "FunctionExpression" }]
         },
         {
             code: "function* foo() { function* bar() { yield 0; } }",
             errors: [{
-                message: errorMessage,
+                messageId: "missingYield",
                 type: "FunctionDeclaration",
                 column: 1
             }]
@@ -60,7 +58,7 @@ ruleTester.run("require-yield", rule, {
         {
             code: "function* foo() { function* bar() { return 0; } yield 0; }",
             errors: [{
-                message: errorMessage,
+                messageId: "missingYield",
                 type: "FunctionDeclaration",
                 column: 19
             }]

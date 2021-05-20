@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-extra-bind"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -21,6 +21,7 @@ const errors = [{ messageId: "unexpected", type: "CallExpression" }];
 ruleTester.run("no-extra-bind", rule, {
     valid: [
         "var a = function(b) { return b }.bind(c, d)",
+        { code: "var a = function(b) { return b }.bind(...c)", parserOptions: { ecmaVersion: 6 } },
         "var a = function() { this.b }()",
         "var a = function() { this.b }.foo()",
         "var a = f.bind(a)",
@@ -35,18 +36,39 @@ ruleTester.run("no-extra-bind", rule, {
         {
             code: "var a = function() { return 1; }.bind(b)",
             output: "var a = function() { return 1; }",
-            errors
+            errors: [{
+                messageId: "unexpected",
+                type: "CallExpression",
+                line: 1,
+                column: 34,
+                endLine: 1,
+                endColumn: 38
+            }]
         },
         {
             code: "var a = function() { return 1; }['bind'](b)",
             output: "var a = function() { return 1; }",
-            errors
+            errors: [{
+                messageId: "unexpected",
+                type: "CallExpression",
+                line: 1,
+                column: 34,
+                endLine: 1,
+                endColumn: 40
+            }]
         },
         {
             code: "var a = function() { return 1; }[`bind`](b)",
             output: "var a = function() { return 1; }",
             parserOptions: { ecmaVersion: 6 },
-            errors
+            errors: [{
+                messageId: "unexpected",
+                type: "CallExpression",
+                line: 1,
+                column: 34,
+                endLine: 1,
+                endColumn: 40
+            }]
         },
         {
             code: "var a = (() => { return 1; }).bind(b)",
@@ -80,6 +102,16 @@ ruleTester.run("no-extra-bind", rule, {
             output: "var a = function() { (function(){ (function(){ this.d }.bind(c)) }) }",
             errors: [{ messageId: "unexpected", type: "CallExpression", column: 71 }]
         },
+        {
+            code: "var a = (function() { return 1; }).bind(this)",
+            output: "var a = (function() { return 1; })",
+            errors
+        },
+        {
+            code: "var a = (function() { return 1; }.bind)(this)",
+            output: "var a = (function() { return 1; })",
+            errors
+        },
 
         // Should not autofix if bind expression args have side effects
         {
@@ -96,6 +128,106 @@ ruleTester.run("no-extra-bind", rule, {
             code: "var a = function() {}.bind(b.c)",
             output: null,
             errors
+        },
+
+        // Should not autofix if it would remove comments
+        {
+            code: "var a = function() {}/**/.bind(b)",
+            output: "var a = function() {}/**/",
+            errors
+        },
+        {
+            code: "var a = function() {}/**/['bind'](b)",
+            output: "var a = function() {}/**/",
+            errors
+        },
+        {
+            code: "var a = function() {}//comment\n.bind(b)",
+            output: "var a = function() {}//comment\n",
+            errors
+        },
+        {
+            code: "var a = function() {}./**/bind(b)",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}[/**/'bind'](b)",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}.//\nbind(b)",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}.bind/**/(b)",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}.bind(\n/**/b)",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}.bind(b/**/)",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}.bind(b//\n)",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}.bind(b\n/**/)",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}.bind(b)/**/",
+            output: "var a = function() {}/**/",
+            errors
+        },
+
+        // Optional chaining
+        {
+            code: "var a = function() { return 1; }.bind?.(b)",
+            output: "var a = function() { return 1; }",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var a = function() { return 1; }?.bind(b)",
+            output: "var a = function() { return 1; }",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var a = (function() { return 1; }?.bind)(b)",
+            output: "var a = (function() { return 1; })",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var a = function() { return 1; }['bind']?.(b)",
+            output: "var a = function() { return 1; }",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var a = function() { return 1; }?.['bind'](b)",
+            output: "var a = function() { return 1; }",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var a = (function() { return 1; }?.['bind'])(b)",
+            output: "var a = (function() { return 1; })",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
         }
     ]
 });

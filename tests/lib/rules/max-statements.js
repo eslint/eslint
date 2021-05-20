@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/max-statements"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -133,6 +133,16 @@ ruleTester.run("max-statements", rule, {
             code: "var foo = { thing: function() { var bar = 1; var baz = 2; var baz2; } }",
             options: [{ max: 2 }],
             errors: [{ messageId: "exceed", data: { name: "Method 'thing'", count: "3", max: 2 } }]
+        },
+        {
+            code: "function foo() { 1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 11; }",
+            options: [{}],
+            errors: [{ messageId: "exceed", data: { name: "Function 'foo'", count: 11, max: 10 } }]
+        },
+        {
+            code: "function foo() { 1; }",
+            options: [{ max: 0 }],
+            errors: [{ messageId: "exceed", data: { name: "Function 'foo'", count: 1, max: 0 } }]
         }
     ]
 });

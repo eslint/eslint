@@ -4,7 +4,7 @@ const assert = require("chai").assert;
 const eslint = require("../..");
 const espree = require("espree");
 const sinon = require("sinon");
-const configRule = require("../../lib/config/config-rule");
+const configRule = require("../../lib/init/config-rule");
 
 describe("eslint-fuzzer", function() {
     let fakeRule, fuzz;
@@ -44,9 +44,11 @@ describe("eslint-fuzzer", function() {
     describe("when running in crash-only mode", () => {
         describe("when a rule crashes on the given input", () => {
             it("should report the crash with a minimal config", () => {
-                fakeRule = () => ({
+                fakeRule = context => ({
                     Program() {
-                        throw CRASH_BUG;
+                        if (context.getSourceCode().text === "foo") {
+                            throw CRASH_BUG;
+                        }
                     }
                 });
 
@@ -81,9 +83,11 @@ describe("eslint-fuzzer", function() {
 
         describe("when a rule crashes on the given input", () => {
             it("should report the crash with a minimal config", () => {
-                fakeRule = () => ({
+                fakeRule = context => ({
                     Program() {
-                        throw CRASH_BUG;
+                        if (context.getSourceCode().text === "foo") {
+                            throw CRASH_BUG;
+                        }
                     }
                 });
 
@@ -103,7 +107,7 @@ describe("eslint-fuzzer", function() {
                 // Replaces programs that start with "foo" with "bar"
                 fakeRule = context => ({
                     Program(node) {
-                        if (context.getSourceCode().text.startsWith("foo")) {
+                        if (context.getSourceCode().text === `foo ${disableFixableRulesComment}`) {
                             context.report({
                                 node,
                                 message: "no foos allowed",
@@ -137,7 +141,7 @@ describe("eslint-fuzzer", function() {
                     Program(node) {
                         const sourceCode = context.getSourceCode();
 
-                        if (sourceCode.text.startsWith("foo")) {
+                        if (sourceCode.text === `foo ${disableFixableRulesComment}`) {
                             context.report({
                                 node,
                                 message: "no foos allowed",
@@ -178,7 +182,7 @@ describe("eslint-fuzzer", function() {
                     Program(node) {
                         const sourceCode = context.getSourceCode();
 
-                        if (sourceCode.text.startsWith("foo") || sourceCode.text.startsWith("bar")) {
+                        if (sourceCode.text.startsWith("foo") || sourceCode.text === intermediateCode) {
                             context.report({
                                 node,
                                 message: "no foos allowed",
@@ -229,7 +233,7 @@ describe("eslint-fuzzer", function() {
                                 message: "no foos allowed",
                                 fix: fixer => fixer.replaceText(node, "bar")
                             });
-                        } else if (sourceCode.text.startsWith("bar")) {
+                        } else if (sourceCode.text === `bar ${disableFixableRulesComment}`) {
                             throw CRASH_BUG;
                         }
                     }
@@ -245,8 +249,7 @@ describe("eslint-fuzzer", function() {
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].type, "crash");
 
-                // TODO: (not-an-aardvark) It might be more useful to output the intermediate code here.
-                assert.strictEqual(results[0].text, `foo ${disableFixableRulesComment}`);
+                assert.strictEqual(results[0].text, `bar ${disableFixableRulesComment}`);
                 assert.deepStrictEqual(results[0].config.rules, { "test-fuzzer-rule": 2 });
                 assert.strictEqual(results[0].error, CRASH_BUG.stack);
             });

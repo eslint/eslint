@@ -4,7 +4,7 @@ Please be sure to read the contribution guidelines before making or requesting a
 
 ## Code of Conduct
 
-This project adheres to the [JS Foundation Code of Conduct](https://js.foundation/community/code-of-conduct). We kindly request that you read over our code of conduct before contributing.
+This project adheres to the [Open JS Foundation Code of Conduct](https://eslint.org/conduct). We kindly request that you read over our code of conduct before contributing.
 
 ## Filing Issues
 

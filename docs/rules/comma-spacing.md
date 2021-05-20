@@ -1,6 +1,6 @@
 # Enforces spacing around commas (comma-spacing)
 
-Spacing around commas improve readability of a list of items. Although most of the style guidelines for languages prescribe adding a space after a comma and not before it, it is subjective to the preferences of a project.
+Spacing around commas improves readability of a list of items. Although most of the style guidelines for languages prescribe adding a space after a comma and not before it, it is subjective to the preferences of a project.
 
 ```js
 var foo = 1, bar = 2;
@@ -113,7 +113,7 @@ If your project will not be following a consistent comma-spacing pattern, turn t
 
 ## Further Reading
 
-* [Javascript](http://javascript.crockford.com/code.html)
+* [JavaScript](http://javascript.crockford.com/code.html)
 * [Dojo Style Guide](https://dojotoolkit.org/reference-guide/1.9/developer/styleguide.html)
 
 

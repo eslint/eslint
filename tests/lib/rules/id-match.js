@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/id-match"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -394,6 +394,17 @@ ruleTester.run("id-match", rule, {
                 properties: true
             }],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "export * as no_camelcased from \"external-module\";",
+            options: ["^[^_]+$"],
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
             errors: [
                 {
                     message: "Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
