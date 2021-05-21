@@ -177,6 +177,10 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "(function(obj) { for ( const name in obj ) { return true } })({})", parserOptions: { ecmaVersion: 6 } },
         { code: "(function(obj) { for ( const name in obj ) return true })({})", parserOptions: { ecmaVersion: 6 } },
 
+        // Sequence Expressions (See https://github.com/eslint/eslint/issues/14325)
+        { code: "let x = 0; foo = (0, x++);", parserOptions: { ecmaVersion: 6 } },
+        { code: "let x = 0; foo = (0, x += 1);", parserOptions: { ecmaVersion: 6 } },
+
         // caughtErrors
         {
             code: "try{}catch(err){console.error(err);}",
@@ -994,6 +998,71 @@ ruleTester.run("no-unused-vars", rule, {
                 definedError("a"),
                 definedError("c")
             ]
+        },
+
+        // https://github.com/eslint/eslint/issues/14325
+        {
+            code: `let x = 0;
+            x++, x = 0;`,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 2, column: 18 }]
+        },
+        {
+            code: `let x = 0;
+            x++, x = 0;
+            x=3;`,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 3, column: 13 }]
+        },
+        {
+            code: "let x = 0; x++, 0;",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 12 }]
+        },
+        {
+            code: "let x = 0; 0, x++;",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 15 }]
+        },
+        {
+            code: "let x = 0; 0, (1, x++);",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 19 }]
+        },
+        {
+            code: "let x = 0; foo = (x++, 0);",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 19 }]
+        },
+        {
+            code: "let x = 0; foo = ((0, x++), 0);",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 23 }]
+        },
+        {
+            code: "let x = 0; x += 1, 0;",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 12 }]
+        },
+        {
+            code: "let x = 0; 0, x += 1;",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 15 }]
+        },
+        {
+            code: "let x = 0; 0, (1, x += 1);",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 19 }]
+        },
+        {
+            code: "let x = 0; foo = (x += 1, 0);",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 19 }]
+        },
+        {
+            code: "let x = 0; foo = ((0, x += 1), 0);",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 23 }]
         },
         {
             code: "(function ({ a, b }, { c } ) { return b; })();",
