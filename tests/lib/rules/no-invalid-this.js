@@ -9,7 +9,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const lodash = require("lodash");
+const merge = require("lodash.merge");
+
 const rule = require("../../../lib/rules/no-invalid-this");
 const { RuleTester } = require("../../../lib/rule-tester");
 
@@ -69,7 +70,7 @@ function extractPatterns(patterns, type) {
 
     // Clone and apply the pattern environment.
     const patternsList = patterns.map(pattern => pattern[type].map(applyCondition => {
-        const thisPattern = lodash.cloneDeep(pattern);
+        const thisPattern = merge({}, pattern);
 
         applyCondition(thisPattern);
 
@@ -79,7 +80,10 @@ function extractPatterns(patterns, type) {
             thisPattern.code += " /* should error */";
         }
 
-        return lodash.omit(thisPattern, ["valid", "invalid"]);
+        delete thisPattern.valid;
+        delete thisPattern.invalid;
+
+        return thisPattern;
     }));
 
     // Flatten.
