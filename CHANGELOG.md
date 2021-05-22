@@ -1,3 +1,16 @@
+v7.27.0 - May 21, 2021
+
+* [`2c0868c`](https://github.com/eslint/eslint/commit/2c0868cbeadc9f42716fa1178ebdc6b4cee6d31e) Chore: merge all html formatter files into `html.js` (#14612) (Milos Djermanovic)
+* [`9e9b5e0`](https://github.com/eslint/eslint/commit/9e9b5e07475564813b62cd1d7562a93c5fb4bc74) Update: no-unused-vars false negative with comma operator (fixes #14325) (#14354) (Nitin Kumar)
+* [`afe9569`](https://github.com/eslint/eslint/commit/afe95693e1e4316a1c6f01d39345061d4c5921c7) Chore: use includes instead of indexOf (#14607) (Mikhail Bodrov)
+* [`c0f418e`](https://github.com/eslint/eslint/commit/c0f418e2476df98519bc156b81d20431984e8704) Chore: Remove lodash (#14287) (Stephen Wade)
+* [`52655dd`](https://github.com/eslint/eslint/commit/52655dd54925ee02af2ba3a0ebc09de959ae3101) Update: no-restricted-imports custom message for patterns (fixes #11843) (#14580) (Alex Holden)
+* [`967b1c4`](https://github.com/eslint/eslint/commit/967b1c4ceca8f5248378477da94ff118dafaa647) Chore: Fix typo in large.js (#14589) (Ikko Ashimine)
+* [`2466a05`](https://github.com/eslint/eslint/commit/2466a05160de60958457d984b79fd445c12ebc98) Sponsors: Sync README with website (ESLint Jenkins)
+* [`fe29f18`](https://github.com/eslint/eslint/commit/fe29f18227fd02fd7c3da033417d621275b00d0a) Sponsors: Sync README with website (ESLint Jenkins)
+* [`086c1d6`](https://github.com/eslint/eslint/commit/086c1d6e8593cf8e7851daa8f2a890c213cf6999) Chore: add more test cases for `no-sequences` (#14579) (Nitin Kumar)
+* [`6a2ced8`](https://github.com/eslint/eslint/commit/6a2ced892c0dc43fa4942293b9f1c4b9151c3741) Docs: Update README team and sponsors (ESLint Jenkins)
+
 v7.26.0 - May 7, 2021
 
 * [`aaf65e6`](https://github.com/eslint/eslint/commit/aaf65e629adb74401092c3ccc9cb4e4bd1c8609b) Upgrade: eslintrc for ModuleResolver fix (#14577) (Brandon Mills)
