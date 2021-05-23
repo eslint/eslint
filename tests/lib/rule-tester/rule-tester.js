@@ -824,8 +824,7 @@ describe("RuleTester", () => {
                     { code: "var answer = 6 * 7;", options: ["bar"], errors: [{ message: "Expected nothing." }] }
                 ]
             });
-        }, "Schema for rule no-invalid-schema is invalid:,\t/items: should be object,boolean\n\t/items/0/enum: should NOT have fewer than 1 items\n\t/items: should match some schema in anyOf");
-
+        }, "Schema for rule no-invalid-schema is invalid:,\t/items: must be object\n\t/items/0/enum: must NOT have fewer than 1 items\n\t/items: must match a schema in anyOf");
     });
 
     it("should prevent schema violations in options", () => {
@@ -839,7 +838,7 @@ describe("RuleTester", () => {
                     { code: "var answer = 6 * 7;", options: ["bar"], errors: [{ message: "Expected foo." }] }
                 ]
             });
-        }, /Value "bar" should be equal to one of the allowed values./u);
+        }, /Value "bar" must be equal to one of the allowed values./u);
 
     });
 

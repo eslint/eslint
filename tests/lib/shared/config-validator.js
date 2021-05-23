@@ -257,7 +257,7 @@ describe("Validator", () => {
             it("should throw with an object", () => {
                 const fn = validator.validate.bind(null, { extends: {} }, null, ruleMapper);
 
-                assert.throws(fn, "ESLint configuration in null is invalid:\n\t- Property \"extends\" is the wrong type (expected string but got `{}`).\n\t- Property \"extends\" is the wrong type (expected array but got `{}`).\n\t- \"/extends\" should match exactly one schema in oneOf. Value: {}.");
+                assert.throws(fn, "ESLint configuration in null is invalid:\n\t- Property \"extends\" is the wrong type (expected string but got `{}`).\n\t- Property \"extends\" is the wrong type (expected array but got `{}`).\n\t- \"/extends\" must match exactly one schema in oneOf. Value: {}.");
             });
         });
 
@@ -332,7 +332,7 @@ describe("Validator", () => {
 
                 const fn = validator.validate.bind(null, { rules: { "mock-no-options-rule": [2, "extra"] } }, "tests", ruleMapper);
 
-                assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-no-options-rule\" is invalid:\n\tValue [\"extra\"] should NOT have more than 0 items.\n");
+                assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-no-options-rule\" is invalid:\n\tValue [\"extra\"] must NOT have more than 0 items.\n");
             });
         });
 
@@ -357,13 +357,13 @@ describe("Validator", () => {
             it("should throw if override does not specify files", () => {
                 const fn = validator.validate.bind(null, { overrides: [{ rules: {} }] }, "tests", ruleMapper);
 
-                assert.throws(fn, "ESLint configuration in tests is invalid:\n\t- \"/overrides/0\" should have required property 'files'. Value: {\"rules\":{}}.\n");
+                assert.throws(fn, "ESLint configuration in tests is invalid:\n\t- \"/overrides/0\" must have required property 'files'. Value: {\"rules\":{}}.\n");
             });
 
             it("should throw if override has an empty files array", () => {
                 const fn = validator.validate.bind(null, { overrides: [{ files: [] }] }, "tests", ruleMapper);
 
-                assert.throws(fn, "ESLint configuration in tests is invalid:\n\t- Property \"overrides/0/files\" is the wrong type (expected string but got `[]`).\n\t- \"/overrides/0/files\" should NOT have fewer than 1 items. Value: [].\n\t- \"/overrides/0/files\" should match exactly one schema in oneOf. Value: [].\n");
+                assert.throws(fn, "ESLint configuration in tests is invalid:\n\t- Property \"overrides/0/files\" is the wrong type (expected string but got `[]`).\n\t- \"/overrides/0/files\" must NOT have fewer than 1 items. Value: [].\n\t- \"/overrides/0/files\" must match exactly one schema in oneOf. Value: [].\n");
             });
 
             it("should not throw if override has nested overrides", () => {
@@ -409,7 +409,7 @@ describe("Validator", () => {
 
                     const fn = validator.validate.bind(null, { overrides: [{ files: "*", rules: { "mock-no-options-rule": [2, "extra"] } }] }, "tests", ruleMapper);
 
-                    assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-no-options-rule\" is invalid:\n\tValue [\"extra\"] should NOT have more than 0 items.\n");
+                    assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-no-options-rule\" is invalid:\n\tValue [\"extra\"] must NOT have more than 0 items.\n");
                 });
             });
 
@@ -467,13 +467,13 @@ describe("Validator", () => {
         it("should throw for incorrect configuration values", () => {
             const fn = validator.validateRuleOptions.bind(null, ruleMapper("mock-rule"), "mock-rule", [2, "frist"], "tests");
 
-            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tValue \"frist\" should be equal to one of the allowed values.\n");
+            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tValue \"frist\" must be equal to one of the allowed values.\n");
         });
 
         it("should throw for too many configuration values", () => {
             const fn = validator.validateRuleOptions.bind(null, ruleMapper("mock-rule"), "mock-rule", [2, "first", "second"], "tests");
 
-            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tValue [\"first\",\"second\"] should NOT have more than 1 items.\n");
+            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tValue [\"first\",\"second\"] must NOT have more than 1 items.\n");
         });
 
     });
