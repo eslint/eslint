@@ -3266,6 +3266,10 @@ var a = "test2";
                         message: "Unused eslint-disable directive (no problems were reported).",
                         line: 1,
                         column: 1,
+                        fix: {
+                            range: [0, 20],
+                            text: ""
+                        },
                         severity: 2,
                         nodeType: null
                     }
@@ -3282,6 +3286,10 @@ var a = "test2";
                         message: "Unused eslint-disable directive (no problems were reported).",
                         line: 1,
                         column: 1,
+                        fix: {
+                            range: [0, 20],
+                            text: ""
+                        },
                         severity: 2,
                         nodeType: null
                     }
@@ -3298,6 +3306,10 @@ var a = "test2";
                         message: "Unused eslint-disable directive (no problems were reported).",
                         line: 1,
                         column: 1,
+                        fix: {
+                            range: [0, 20],
+                            text: ""
+                        },
                         severity: 1,
                         nodeType: null
                     }
@@ -3314,6 +3326,10 @@ var a = "test2";
                         message: "Unused eslint-disable directive (no problems were reported).",
                         line: 1,
                         column: 1,
+                        fix: {
+                            range: [0, 20],
+                            text: ""
+                        },
                         severity: 1,
                         nodeType: null
                     }

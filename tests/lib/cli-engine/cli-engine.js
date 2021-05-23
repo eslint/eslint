@@ -5071,20 +5071,24 @@ describe("CLIEngine", () => {
                                     message: "Unused eslint-disable directive (no problems were reported).",
                                     line: 1,
                                     column: 1,
+                                    fix: {
+                                        range: [0, 20],
+                                        text: ""
+                                    },
                                     severity: 2,
                                     nodeType: null
                                 }
                             ],
                             errorCount: 1,
                             warningCount: 0,
-                            fixableErrorCount: 0,
+                            fixableErrorCount: 1,
                             fixableWarningCount: 0,
                             source: "/* eslint-disable */"
                         }
                     ],
                     errorCount: 1,
                     warningCount: 0,
-                    fixableErrorCount: 0,
+                    fixableErrorCount: 1,
                     fixableWarningCount: 0,
                     usedDeprecatedRules: []
                 }

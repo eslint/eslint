@@ -147,7 +147,7 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 
 * `options.fix` (`boolean | (message: LintMessage) => boolean`)<br>
   Default is `false`. If `true` is present, the [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext] methods work in autofix mode. If a predicate function is present, the methods pass each lint message to the function, then use only the lint messages for which the function returned `true`.
-* `options.fixTypes` (`("problem" | "suggestion" | "layout")[] | null`)<br>
+* `options.fixTypes` (`("directive" | "problem" | "suggestion" | "layout")[] | null`)<br>
   Default is `null`. The types of the rules that the [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext] methods use for autofix.
 
 ##### Cache-related
