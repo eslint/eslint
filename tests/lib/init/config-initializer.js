@@ -15,6 +15,7 @@ const assert = require("chai").assert,
     os = require("os"),
     sinon = require("sinon"),
     sh = require("shelljs"),
+    espree = require("espree"),
     autoconfig = require("../../../lib/init/autoconfig"),
     npmUtils = require("../../../lib/init/npm-utils");
 
@@ -26,6 +27,8 @@ const proxyquire = require("proxyquire").noPreserveCache();
 //------------------------------------------------------------------------------
 
 let answers = {};
+let pkgJSONContents = {};
+let pkgJSONPath = "";
 
 describe("configInitializer", () => {
 
@@ -57,6 +60,7 @@ describe("configInitializer", () => {
 
     /**
      * Returns the path inside of the fixture directory.
+     * @param {...string} args file path segments.
      * @returns {string} The path inside the fixture directory.
      * @private
      */
@@ -65,7 +69,7 @@ describe("configInitializer", () => {
 
         try {
             return fs.realpathSync(filepath);
-        } catch (e) {
+        } catch {
             return filepath;
         }
     }
@@ -96,8 +100,8 @@ describe("configInitializer", () => {
     });
 
     afterEach(() => {
-        log.info.reset();
-        log.error.reset();
+        log.info.resetHistory();
+        log.error.resetHistory();
         npmInstallStub.restore();
         npmCheckStub.restore();
         npmFetchPeerDependenciesStub.restore();
@@ -134,10 +138,8 @@ describe("configInitializer", () => {
                 assert.deepStrictEqual(config.rules.quotes, ["error", "single"]);
                 assert.deepStrictEqual(config.rules["linebreak-style"], ["error", "unix"]);
                 assert.deepStrictEqual(config.rules.semi, ["error", "always"]);
-                assert.strictEqual(config.env.es6, true);
-                assert.strictEqual(config.globals.Atomics, "readonly");
-                assert.strictEqual(config.globals.SharedArrayBuffer, "readonly");
-                assert.strictEqual(config.parserOptions.ecmaVersion, 2018);
+                assert.strictEqual(config.env.es2021, true);
+                assert.strictEqual(config.parserOptions.ecmaVersion, espree.latestEcmaVersion);
                 assert.strictEqual(config.parserOptions.sourceType, "module");
                 assert.strictEqual(config.env.browser, true);
                 assert.strictEqual(config.extends, "eslint:recommended");
@@ -155,7 +157,7 @@ describe("configInitializer", () => {
                 const config = init.processAnswers(answers);
 
                 assert.strictEqual(config.parserOptions.ecmaFeatures.jsx, true);
-                assert.strictEqual(config.parserOptions.ecmaVersion, 2018);
+                assert.strictEqual(config.parserOptions.ecmaVersion, espree.latestEcmaVersion);
                 assert.deepStrictEqual(config.plugins, ["react"]);
             });
 
@@ -163,9 +165,28 @@ describe("configInitializer", () => {
                 answers.framework = "vue";
                 const config = init.processAnswers(answers);
 
-                assert.strictEqual(config.parserOptions.ecmaVersion, 2018);
+                assert.strictEqual(config.parserOptions.ecmaVersion, espree.latestEcmaVersion);
                 assert.deepStrictEqual(config.plugins, ["vue"]);
                 assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/essential"]);
+            });
+
+            it("should enable typescript parser and plugin", () => {
+                answers.typescript = true;
+                const config = init.processAnswers(answers);
+
+                assert.strictEqual(config.parser, "@typescript-eslint/parser");
+                assert.deepStrictEqual(config.plugins, ["@typescript-eslint"]);
+                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:@typescript-eslint/recommended"]);
+            });
+
+            it("should enable typescript parser and plugin with vue", () => {
+                answers.framework = "vue";
+                answers.typescript = true;
+                const config = init.processAnswers(answers);
+
+                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/essential", "plugin:@typescript-eslint/recommended"]);
+                assert.strictEqual(config.parserOptions.parser, "@typescript-eslint/parser");
+                assert.deepStrictEqual(config.plugins, ["vue", "@typescript-eslint"]);
             });
 
             it("should extend eslint:recommended", () => {
@@ -219,6 +240,14 @@ describe("configInitializer", () => {
 
                 assert.deepStrictEqual(config, { extends: "standard", installedESLint: true });
                 assert.include(modules, "eslint-config-standard@latest");
+            });
+
+            it("should support the xo style guide", () => {
+                const config = { extends: "xo" };
+                const modules = init.getModulesList(config);
+
+                assert.deepStrictEqual(config, { extends: "xo", installedESLint: true });
+                assert.include(modules, "eslint-config-xo@latest");
             });
 
             it("should install required sharable config", () => {
@@ -306,12 +335,44 @@ describe("configInitializer", () => {
                     });
                 });
             });
+
+            it("should support the standard style guide with Vue.js", () => {
+                const config = {
+                    plugins: ["vue"],
+                    extends: ["plugin:vue/essential", "standard"]
+                };
+                const modules = init.getModulesList(config);
+
+                assert.include(modules, "eslint-plugin-vue@latest");
+                assert.include(modules, "eslint-config-standard@latest");
+            });
+
+            it("should support custom parser", () => {
+                const config = {
+                    parser: "@typescript-eslint/parser"
+                };
+                const modules = init.getModulesList(config);
+
+                assert.include(modules, "@typescript-eslint/parser@latest");
+            });
+
+            it("should support custom parser with Vue.js", () => {
+                const config = {
+
+                    // We should declare the parser at `parserOptions` when using with `eslint-plugin-vue`.
+                    parserOptions: {
+                        parser: "@typescript-eslint/parser"
+                    }
+                };
+                const modules = init.getModulesList(config);
+
+                assert.include(modules, "@typescript-eslint/parser@latest");
+            });
         });
 
         describe("auto", () => {
             const completeSpy = sinon.spy();
             let config;
-            let sandbox;
 
             before(() => {
                 const patterns = [
@@ -327,21 +388,20 @@ describe("configInitializer", () => {
                     format: "JSON"
                 };
 
-                sandbox = sinon.sandbox.create();
-                sandbox.stub(console, "log"); // necessary to replace, because of progress bar
+                sinon.stub(console, "log"); // necessary to replace, because of progress bar
 
                 process.chdir(fixtureDir);
                 config = init.processAnswers(answers);
-                sandbox.restore();
+                sinon.restore();
             });
 
             after(() => {
-                sandbox.restore();
+                sinon.restore();
             });
 
             afterEach(() => {
                 process.chdir(originalDir);
-                sandbox.restore();
+                sinon.restore();
             });
 
             it("should create a config", () => {
@@ -359,6 +419,14 @@ describe("configInitializer", () => {
                 assert.notProperty(config.rules, "no-debugger");
             });
 
+            it("should not include deprecated rules", () => {
+                assert.notProperty(config.rules, "id-blacklist");
+                assert.notProperty(config.rules, "no-negated-in-lhs");
+                assert.notProperty(config.rules, "no-process-exit");
+                assert.notProperty(config.rules, "no-spaced-func");
+                assert.notProperty(config.rules, "prefer-reflect");
+            });
+
             it("should support new ES features if using later ES version", () => {
                 const filename = getFixturePath("new-es-features");
 
@@ -371,7 +439,7 @@ describe("configInitializer", () => {
             it("should throw on fatal parsing error", () => {
                 const filename = getFixturePath("parse-error");
 
-                sandbox.stub(autoconfig, "extendFromRecommended");
+                sinon.stub(autoconfig, "extendFromRecommended");
                 answers.patterns = filename;
                 process.chdir(fixtureDir);
                 assert.throws(() => {
@@ -380,13 +448,130 @@ describe("configInitializer", () => {
             });
 
             it("should throw if no files are matched from patterns", () => {
-                sandbox.stub(autoconfig, "extendFromRecommended");
+                sinon.stub(autoconfig, "extendFromRecommended");
                 answers.patterns = "not-a-real-filename";
                 process.chdir(fixtureDir);
                 assert.throws(() => {
                     config = init.processAnswers(answers);
                 }, "No files matching 'not-a-real-filename' were found.");
             });
+        });
+    });
+
+    describe("writeFile()", () => {
+
+        beforeEach(() => {
+            answers = {
+                purpose: "style",
+                source: "prompt",
+                extendDefault: true,
+                indent: 2,
+                quotes: "single",
+                linebreak: "unix",
+                semi: true,
+                moduleType: "esm",
+                es6Globals: true,
+                env: ["browser"],
+                format: "JSON"
+            };
+
+            pkgJSONContents = {
+                name: "config-initializer",
+                version: "1.0.0"
+            };
+
+            process.chdir(fixtureDir);
+
+            pkgJSONPath = path.resolve(fixtureDir, "package.json");
+        });
+
+        afterEach(() => {
+            process.chdir(originalDir);
+        });
+
+        it("should create .eslintrc.json", () => {
+            const config = init.processAnswers(answers);
+            const filePath = path.resolve(fixtureDir, ".eslintrc.json");
+
+            fs.writeFileSync(pkgJSONPath, JSON.stringify(pkgJSONContents));
+
+            init.writeFile(config, answers.format);
+
+            assert.isTrue(fs.existsSync(filePath));
+
+            fs.unlinkSync(filePath);
+            fs.unlinkSync(pkgJSONPath);
+        });
+
+        it("should create .eslintrc.js", () => {
+            answers.format = "JavaScript";
+
+            const config = init.processAnswers(answers);
+            const filePath = path.resolve(fixtureDir, ".eslintrc.js");
+
+            fs.writeFileSync(pkgJSONPath, JSON.stringify(pkgJSONContents));
+
+            init.writeFile(config, answers.format);
+
+            assert.isTrue(fs.existsSync(filePath));
+
+            fs.unlinkSync(filePath);
+            fs.unlinkSync(pkgJSONPath);
+        });
+
+        it("should create .eslintrc.yml", () => {
+            answers.format = "YAML";
+
+            const config = init.processAnswers(answers);
+            const filePath = path.resolve(fixtureDir, ".eslintrc.yml");
+
+            fs.writeFileSync(pkgJSONPath, JSON.stringify(pkgJSONContents));
+
+            init.writeFile(config, answers.format);
+
+            assert.isTrue(fs.existsSync(filePath));
+
+            fs.unlinkSync(filePath);
+            fs.unlinkSync(pkgJSONPath);
+        });
+
+        // For https://github.com/eslint/eslint/issues/14137
+        it("should create .eslintrc.cjs", () => {
+            answers.format = "JavaScript";
+
+            // create package.json with "type": "module"
+            pkgJSONContents.type = "module";
+
+            fs.writeFileSync(pkgJSONPath, JSON.stringify(pkgJSONContents));
+
+            const config = init.processAnswers(answers);
+            const filePath = path.resolve(fixtureDir, ".eslintrc.cjs");
+
+            init.writeFile(config, answers.format);
+
+            assert.isTrue(fs.existsSync(filePath));
+
+            fs.unlinkSync(filePath);
+            fs.unlinkSync(pkgJSONPath);
+        });
+
+        it("should create .eslintrc.json even with type: 'module'", () => {
+            answers.format = "JSON";
+
+            // create package.json with "type": "module"
+            pkgJSONContents.type = "module";
+
+            fs.writeFileSync(pkgJSONPath, JSON.stringify(pkgJSONContents));
+
+            const config = init.processAnswers(answers);
+            const filePath = path.resolve(fixtureDir, ".eslintrc.json");
+
+            init.writeFile(config, answers.format);
+
+            assert.isTrue(fs.existsSync(filePath));
+
+            fs.unlinkSync(filePath);
+            fs.unlinkSync(pkgJSONPath);
         });
     });
 });

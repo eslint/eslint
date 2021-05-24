@@ -18,3 +18,4 @@ MD033: false     # Allow inline HTML
 MD034: false     # Bare URL used
 MD040: false     # Fenced code blocks should have a language specified
 MD041: false     # First line in file should be a top level header
+MD046: false     # Code block style

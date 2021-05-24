@@ -52779,7 +52779,7 @@ var state    = require("./state.js").state;
 var style    = require("./style.js");
 
 // We need this module here because environments such as IE and Rhino
-// don't necessarilly expose the 'console' API and browserify uses
+// don't necessarily expose the 'console' API and browserify uses
 // it to log things. It's a sad state of affair, really.
 var console = require("console-browserify");
 
@@ -52838,7 +52838,7 @@ var JSHINT = (function () {
       immed       : true, // if immediate invocations must be wrapped in parens
       iterator    : true, // if the `__iterator__` property should be allowed
       jquery      : true, // if jQuery globals should be predefined
-      lastsemic   : true, // if semicolons may be ommitted for the trailing
+      lastsemic   : true, // if semicolons may be omitted for the trailing
                           // statements inside of a one-line blocks.
       laxbreak    : true, // if line breaks should not be checked
       laxcomma    : true, // if line breaks should not be checked around commas
@@ -57078,7 +57078,7 @@ var JSHINT = (function () {
   FutureReservedWord("transient");
   FutureReservedWord("volatile");
 
-  // this function is used to determine wether a squarebracket or a curlybracket
+  // this function is used to determine whether a squarebracket or a curlybracket
   // expression is a comprehension array, destructuring assignment or a json value.
 
   var lookupBlockType = function () {
@@ -59115,7 +59115,7 @@ Lexer.prototype = {
   },
 
   /*
-   * Scan for any occurence of mixed tabs and spaces. If smarttabs option
+   * Scan for any occurrence of mixed tabs and spaces. If smarttabs option
    * is on, ignore tabs followed by spaces.
    *
    * Tabs followed by one space followed by a block comment are allowed.
@@ -59135,7 +59135,7 @@ Lexer.prototype = {
   },
 
   /*
-   * Scan for any occurence of non-breaking spaces. Non-breaking spaces
+   * Scan for any occurrence of non-breaking spaces. Non-breaking spaces
    * can be mistakenly typed on OS X with option-space. Non UTF-8 web
    * pages with non-breaking pages produce syntax errors.
    */
@@ -59288,7 +59288,7 @@ Lexer.prototype = {
 
   /*
    * Produce the next token. This function is called by advance() to get
-   * the next token. It retuns a token in a JSLint-compatible format.
+   * the next token. It returns a token in a JSLint-compatible format.
    */
   token: function () {
     /*jshint loopfunc:true */

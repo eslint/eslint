@@ -84,7 +84,7 @@ async function foo() {
 }
 
 function* bar() {
-  result += yield;
+  result = (yield) + result;
 
   result = (yield somethingElse) + result;
 

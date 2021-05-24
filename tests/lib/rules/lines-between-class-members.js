@@ -40,6 +40,9 @@ ruleTester.run("lines-between-class-members", rule, {
         "class A{ foo() {}\n/* a */ /* b */\n\nbar() {}}",
         "class A{ foo() {}/* a */ \n\n /* b */bar() {}}",
 
+        "class A {\nfoo() {}\n/* comment */;\n;\n\nbar() {}\n}",
+        "class A {\nfoo() {}\n// comment\n\n;\n;\nbar() {}\n}",
+
         "class foo{ bar(){}\n\n;;baz(){}}",
         "class foo{ bar(){};\n\nbaz(){}}",
 
@@ -72,6 +75,71 @@ ruleTester.run("lines-between-class-members", rule, {
             code: "class foo{ bar(){\n}\nbaz(){}}",
             output: "class foo{ bar(){\n}\n\nbaz(){}}",
             options: ["always", { exceptAfterSingleLine: true }],
+            errors: [alwaysError]
+        }, {
+            code: "class foo{ bar(){\n}\n/* comment */\nbaz(){}}",
+            output: "class foo{ bar(){\n}\n\n/* comment */\nbaz(){}}",
+            options: ["always", { exceptAfterSingleLine: true }],
+            errors: [alwaysError]
+        }, {
+            code: "class foo{ bar(){}\n\n// comment\nbaz(){}}",
+            output: "class foo{ bar(){}\n// comment\nbaz(){}}",
+            options: ["never"],
+            errors: [neverError]
+        }, {
+            code: "class foo{ bar(){}\n\n/* comment */\nbaz(){}}",
+            output: "class foo{ bar(){}\n/* comment */\nbaz(){}}",
+            options: ["never"],
+            errors: [neverError]
+        }, {
+            code: "class foo{ bar(){}\n/* comment-1 */\n\n/* comment-2 */\nbaz(){}}",
+            output: "class foo{ bar(){}\n/* comment-1 */\n/* comment-2 */\nbaz(){}}",
+            options: ["never"],
+            errors: [neverError]
+        }, {
+            code: "class foo{ bar(){}\n\n/* comment */\n\nbaz(){}}",
+            output: null,
+            options: ["never"],
+            errors: [neverError]
+        }, {
+            code: "class foo{ bar(){}\n\n// comment\n\nbaz(){}}",
+            output: null,
+            options: ["never"],
+            errors: [neverError]
+        }, {
+            code: "class foo{ bar(){}\n/* comment-1 */\n\n/* comment-2 */\n\n/* comment-3 */\nbaz(){}}",
+            output: null,
+            options: ["never"],
+            errors: [neverError]
+        }, {
+            code: "class foo{ bar(){}\n/* comment-1 */\n\n;\n\n/* comment-3 */\nbaz(){}}",
+            output: null,
+            options: ["never"],
+            errors: [neverError]
+        }, {
+            code: "class A {\nfoo() {}// comment\n;\n/* comment */\nbar() {}\n}",
+            output: "class A {\nfoo() {}// comment\n\n;\n/* comment */\nbar() {}\n}",
+            options: ["always"],
+            errors: [alwaysError]
+        }, {
+            code: "class A {\nfoo() {}\n/* comment */;\n;\n/* comment */\nbar() {}\n}",
+            output: "class A {\nfoo() {}\n\n/* comment */;\n;\n/* comment */\nbar() {}\n}",
+            options: ["always"],
+            errors: [alwaysError]
+        }, {
+            code: "class foo{ bar(){};\nbaz(){}}",
+            output: "class foo{ bar(){};\n\nbaz(){}}",
+            options: ["always"],
+            errors: [alwaysError]
+        }, {
+            code: "class foo{ bar(){} // comment \nbaz(){}}",
+            output: "class foo{ bar(){} // comment \n\nbaz(){}}",
+            options: ["always"],
+            errors: [alwaysError]
+        }, {
+            code: "class A {\nfoo() {}\n/* comment */;\n;\nbar() {}\n}",
+            output: "class A {\nfoo() {}\n\n/* comment */;\n;\nbar() {}\n}",
+            options: ["always"],
             errors: [alwaysError]
         }
     ]

@@ -31,6 +31,7 @@ describe("SourceCodeUtil", () => {
 
     /**
      * Returns the path inside of the fixture directory.
+     * @param {...string} args file path segments.
      * @returns {string} The path inside the fixture directory.
      * @private
      */
@@ -40,7 +41,7 @@ describe("SourceCodeUtil", () => {
         try {
             filepath = fs.realpathSync(filepath);
             return filepath;
-        } catch (e) {
+        } catch {
             return filepath;
         }
     }
@@ -66,8 +67,8 @@ describe("SourceCodeUtil", () => {
     });
 
     afterEach(() => {
-        log.info.reset();
-        log.error.reset();
+        log.info.resetHistory();
+        log.error.resetHistory();
     });
 
     after(() => {

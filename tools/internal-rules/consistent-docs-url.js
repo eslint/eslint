@@ -13,7 +13,6 @@ const path = require("path");
 
 /**
  * Gets the property of the Object node passed in that has the name specified.
- *
  * @param {string} property Name of the property to return.
  * @param {ASTNode} node The ObjectExpression node.
  * @returns {ASTNode} The Property node or null if not found.
@@ -38,7 +37,6 @@ function getPropertyFromObject(property, node) {
 
 /**
  * Verifies that the meta.docs.url property is present and has the correct value.
- *
  * @param {RuleContext} context The ESLint rule context.
  * @param {ASTNode} exportsNode ObjectExpression node that the rule exports.
  * @returns {void}
@@ -57,7 +55,7 @@ function checkMetaDocsUrl(context, exportsNode) {
     if (!metaDocs) {
         context.report({
             node: metaProperty,
-            message: "Rule is missing a meta.docs property"
+            messageId: "missingMetaDocs"
         });
         return;
     }
@@ -65,7 +63,7 @@ function checkMetaDocsUrl(context, exportsNode) {
     if (!metaDocsUrl) {
         context.report({
             node: metaDocs,
-            message: "Rule is missing a meta.docs.url property"
+            messageId: "missingMetaDocsUrl"
         });
         return;
     }
@@ -77,7 +75,8 @@ function checkMetaDocsUrl(context, exportsNode) {
     if (url !== expected) {
         context.report({
             node: metaDocsUrl.value,
-            message: `Incorrect url. Expected "${expected}" but got "${url}"`
+            messageId: "incorrectUrl",
+            data: { expected, url }
         });
     }
 
@@ -95,7 +94,12 @@ module.exports = {
             recommended: false
         },
         type: "suggestion",
-        schema: []
+        schema: [],
+        messages: {
+            missingMetaDocs: "Rule is missing a meta.docs property.",
+            missingMetaDocsUrl: "Rule is missing a meta.docs.url property.",
+            incorrectUrl: 'Incorrect url. Expected "{{ expected }}" but got "{{ url }}".'
+        }
     },
 
     create(context) {

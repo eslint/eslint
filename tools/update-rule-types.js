@@ -3,7 +3,6 @@
  * Run over the rules directory only. Use this command:
  *
  *   jscodeshift -t tools/update-rule-types.js lib/rules/
- *
  * @author Nicholas C. Zakas
  */
 "use strict";

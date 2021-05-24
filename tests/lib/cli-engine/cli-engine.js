@@ -12,14 +12,12 @@
 const assert = require("chai").assert,
     path = require("path"),
     sinon = require("sinon"),
-    leche = require("leche"),
     shell = require("shelljs"),
     fs = require("fs"),
     os = require("os"),
     hash = require("../../../lib/cli-engine/hash"),
-    { CascadingConfigArrayFactory } = require("../../../lib/cli-engine/cascading-config-array-factory"),
-    { unIndent } = require("../_utils"),
-    { defineCLIEngineWithInMemoryFileSystem } = require("./_utils");
+    { CascadingConfigArrayFactory } = require("@eslint/eslintrc/lib/cascading-config-array-factory"),
+    { unIndent, createCustomTeardown } = require("../../_utils");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 const fCache = require("file-entry-cache");
@@ -50,6 +48,7 @@ describe("CLIEngine", () => {
 
     /**
      * Returns the path inside of the fixture directory.
+     * @param {...string} args file path segments.
      * @returns {string} The path inside the fixture directory.
      * @private
      */
@@ -58,14 +57,14 @@ describe("CLIEngine", () => {
 
         try {
             return fs.realpathSync(filepath);
-        } catch (e) {
+        } catch {
             return filepath;
         }
     }
 
     /**
      * Create the CLIEngine object by mocking some of the plugins
-     * @param {Object} options - options for CLIEngine
+     * @param {Object} options options for CLIEngine
      * @returns {CLIEngine} engine object
      * @private
      */
@@ -81,7 +80,15 @@ describe("CLIEngine", () => {
     }
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
-    before(() => {
+    before(function() {
+
+        /*
+         * GitHub Actions Windows and macOS runners occasionally exhibit
+         * extremely slow filesystem operations, during which copying fixtures
+         * exceeds the default test timeout, so raise it just for this hook.
+         * Mocha uses `this` to set timeouts on an individual hook level.
+         */
+        this.timeout(60 * 1000); // eslint-disable-line no-invalid-this
         shell.mkdir("-p", fixtureDir);
         shell.cp("-r", "./tests/fixtures/.", fixtureDir);
     });
@@ -111,7 +118,7 @@ describe("CLIEngine", () => {
             assert.throws(() => {
                 // eslint-disable-next-line no-new
                 new CLIEngine({ ignorePath: fixtureDir });
-            }, `Cannot read ignore file: ${fixtureDir}\nError: ${fixtureDir} is not a file`);
+            }, `Cannot read .eslintignore file: ${fixtureDir}\nError: EISDIR: illegal operation on a directory, read`);
         });
 
         // https://github.com/eslint/eslint/issues/2380
@@ -821,7 +828,9 @@ describe("CLIEngine", () => {
 
             engine = new CLIEngine({
                 parser: "espree",
-                envs: ["es6"],
+                parserOptions: {
+                    ecmaVersion: 2021
+                },
                 useEslintrc: false
             });
 
@@ -865,6 +874,29 @@ describe("CLIEngine", () => {
 
             assert.strictEqual(report.results.length, 1);
             assert.strictEqual(report.results[0].messages.length, 0);
+        });
+
+        it("should fall back to defaults when extensions is set to an empty array", () => {
+
+            engine = new CLIEngine({
+                cwd: getFixturePath("configurations"),
+                configFile: getFixturePath("configurations", "quotes-error.json"),
+                extensions: []
+            });
+            const report = engine.executeOnFiles([getFixturePath("single-quoted.js")]);
+
+            assert.strictEqual(report.results.length, 1);
+            assert.strictEqual(report.results[0].messages.length, 1);
+            assert.strictEqual(report.errorCount, 1);
+            assert.strictEqual(report.warningCount, 0);
+            assert.strictEqual(report.fixableErrorCount, 1);
+            assert.strictEqual(report.fixableWarningCount, 0);
+            assert.strictEqual(report.results[0].messages[0].ruleId, "quotes");
+            assert.strictEqual(report.results[0].messages[0].severity, 2);
+            assert.strictEqual(report.results[0].errorCount, 1);
+            assert.strictEqual(report.results[0].warningCount, 0);
+            assert.strictEqual(report.results[0].fixableErrorCount, 1);
+            assert.strictEqual(report.results[0].fixableWarningCount, 0);
         });
 
         it("should report zero messages when given a directory with a .js and a .js2 file", () => {
@@ -994,6 +1026,27 @@ describe("CLIEngine", () => {
             });
 
             const report = engine.executeOnFiles(["fixtures/files/.bar.js"]);
+            const expectedMsg = "File ignored by default.  Use a negated ignore pattern (like \"--ignore-pattern '!<relative/path/to/filename>'\") to override.";
+
+            assert.strictEqual(report.results.length, 1);
+            assert.strictEqual(report.results[0].errorCount, 0);
+            assert.strictEqual(report.results[0].warningCount, 1);
+            assert.strictEqual(report.results[0].fixableErrorCount, 0);
+            assert.strictEqual(report.results[0].fixableWarningCount, 0);
+            assert.strictEqual(report.results[0].messages[0].message, expectedMsg);
+        });
+
+        // https://github.com/eslint/eslint/issues/12873
+        it("should not check files within a .hidden folder if they are passed explicitly without the --no-ignore flag", () => {
+            engine = new CLIEngine({
+                cwd: getFixturePath("cli-engine"),
+                useEslintrc: false,
+                rules: {
+                    quotes: [2, "single"]
+                }
+            });
+
+            const report = engine.executeOnFiles(["hidden/.hiddenfolder/double-quotes.js"]);
             const expectedMsg = "File ignored by default.  Use a negated ignore pattern (like \"--ignore-pattern '!<relative/path/to/filename>'\") to override.";
 
             assert.strictEqual(report.results.length, 1);
@@ -1240,6 +1293,10 @@ describe("CLIEngine", () => {
 
         it("should throw an error when all given files are ignored", () => {
 
+            engine = new CLIEngine({
+                ignorePath: getFixturePath(".eslintignore")
+            });
+
             assert.throws(() => {
                 engine.executeOnFiles(["tests/fixtures/cli-engine/"]);
             }, "All files matched by 'tests/fixtures/cli-engine/' are ignored.");
@@ -1287,7 +1344,7 @@ describe("CLIEngine", () => {
 
             assert.throws(() => {
                 engine.executeOnFiles(["./tests/fixtures/cli-engine/"]);
-            }, "No files matching './tests/fixtures/cli-engine/' were found.");
+            }, "All files matched by './tests/fixtures/cli-engine/' are ignored.");
         });
 
         it("should throw an error when all given files are ignored via ignore-pattern", () => {
@@ -1543,7 +1600,11 @@ describe("CLIEngine", () => {
             engine = new CLIEngine({
                 cwd: originalDir,
                 configFile: ".eslintrc.js",
-                rules: { "indent-legacy": 1 }
+                rules: {
+                    "indent-legacy": 1,
+                    "require-jsdoc": 1,
+                    "valid-jsdoc": 1
+                }
             });
 
             const report = engine.executeOnFiles(["lib/cli*.js"]);
@@ -1592,7 +1653,7 @@ describe("CLIEngine", () => {
                 /**
                  * Converts CRLF to LF in output.
                  * This is a workaround for git's autocrlf option on Windows.
-                 * @param {Object} result - A result object to convert.
+                 * @param {Object} result A result object to convert.
                  * @returns {void}
                  */
                 function convertCRLF(result) {
@@ -1641,6 +1702,8 @@ describe("CLIEngine", () => {
                             {
                                 column: 9,
                                 line: 2,
+                                endColumn: 11,
+                                endLine: 2,
                                 message: "Expected '===' and instead saw '=='.",
                                 messageId: "unexpected",
                                 nodeType: "BinaryExpression",
@@ -2100,18 +2163,16 @@ describe("CLIEngine", () => {
         });
 
         describe("cache", () => {
-            let sandbox;
 
             /**
              * helper method to delete a file without caring about exceptions
-             *
              * @param {string} filePath The file path
              * @returns {void}
              */
             function doDelete(filePath) {
                 try {
                     fs.unlinkSync(filePath);
-                } catch (ex) {
+                } catch {
 
                     /*
                      * we don't care if the file didn't exist, since our
@@ -2131,11 +2192,10 @@ describe("CLIEngine", () => {
 
             beforeEach(() => {
                 deleteCache();
-                sandbox = sinon.sandbox.create();
             });
 
             afterEach(() => {
-                sandbox.restore();
+                sinon.restore();
                 deleteCache();
             });
 
@@ -2148,7 +2208,7 @@ describe("CLIEngine", () => {
                 function deleteCacheDir() {
                     try {
                         fs.unlinkSync("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory");
-                    } catch (ex) {
+                    } catch {
 
                         /*
                          * we don't care if the file didn't exist, since our
@@ -2187,7 +2247,7 @@ describe("CLIEngine", () => {
 
                     assert.isTrue(shell.test("-f", path.resolve(`./tmp/.cacheFileDir/.cache_${hash(process.cwd())}`)), "the cache for eslint was created");
 
-                    sandbox.restore();
+                    sinon.restore();
                 });
             });
 
@@ -2214,7 +2274,7 @@ describe("CLIEngine", () => {
 
                 assert.isTrue(shell.test("-f", path.resolve(`./tmp/.cacheFileDir/.cache_${hash(process.cwd())}`)), "the cache for eslint was created");
 
-                sandbox.restore();
+                sinon.restore();
             });
 
             it("should create the cache file inside cwd when no cacheLocation provided", () => {
@@ -2254,7 +2314,7 @@ describe("CLIEngine", () => {
                     ignore: false
                 });
 
-                let spy = sandbox.spy(fs, "readFileSync");
+                let spy = sinon.spy(fs, "readFileSync");
 
                 let file = getFixturePath("cache/src", "test-file.js");
 
@@ -2267,7 +2327,7 @@ describe("CLIEngine", () => {
                 assert.isTrue(shell.test("-f", path.resolve(".eslintcache")), "the cache for eslint was created");
 
                 // destroy the spy
-                sandbox.restore();
+                sinon.restore();
 
                 engine = new CLIEngine({
                     useEslintrc: false,
@@ -2283,7 +2343,7 @@ describe("CLIEngine", () => {
                 });
 
                 // create a new spy
-                spy = sandbox.spy(fs, "readFileSync");
+                spy = sinon.spy(fs, "readFileSync");
 
                 const cachedResult = engine.executeOnFiles([file]);
 
@@ -2309,7 +2369,7 @@ describe("CLIEngine", () => {
                     ignore: false
                 });
 
-                let spy = sandbox.spy(fs, "readFileSync");
+                let spy = sinon.spy(fs, "readFileSync");
 
                 let file = getFixturePath("cache/src", "test-file.js");
 
@@ -2321,7 +2381,7 @@ describe("CLIEngine", () => {
                 assert.isTrue(shell.test("-f", path.resolve(".eslintcache")), "the cache for eslint was created");
 
                 // destroy the spy
-                sandbox.restore();
+                sinon.restore();
 
                 engine = new CLIEngine({
                     useEslintrc: false,
@@ -2337,7 +2397,7 @@ describe("CLIEngine", () => {
                 });
 
                 // create a new spy
-                spy = sandbox.spy(fs, "readFileSync");
+                spy = sinon.spy(fs, "readFileSync");
 
                 const cachedResult = engine.executeOnFiles([file]);
 
@@ -2642,6 +2702,127 @@ describe("CLIEngine", () => {
                     assert.deepStrictEqual(result, cachedResult, "result is the same with or without cache");
                 });
             });
+
+            describe("cacheStrategy", () => {
+                it("should detect changes using a file's modification time when set to 'metadata'", () => {
+                    const cacheFile = getFixturePath(".eslintcache");
+                    const badFile = getFixturePath("cache/src", "fail-file.js");
+                    const goodFile = getFixturePath("cache/src", "test-file.js");
+
+                    doDelete(cacheFile);
+
+                    engine = new CLIEngine({
+                        cwd: path.join(fixtureDir, ".."),
+                        useEslintrc: false,
+
+                        // specifying cache true the cache will be created
+                        cache: true,
+                        cacheFile,
+                        cacheStrategy: "metadata",
+                        rules: {
+                            "no-console": 0,
+                            "no-unused-vars": 2
+                        },
+                        extensions: ["js"]
+                    });
+
+                    engine.executeOnFiles([badFile, goodFile]);
+
+                    let fileCache = fCache.createFromFile(cacheFile, false);
+                    const entries = fileCache.normalizeEntries([badFile, goodFile]);
+
+                    entries.forEach(entry => {
+                        assert.isFalse(entry.changed, `the entry for ${entry.key} is initially unchanged`);
+                    });
+
+                    // this should result in a changed entry
+                    shell.touch(goodFile);
+                    fileCache = fCache.createFromFile(cacheFile, false);
+                    assert.isFalse(fileCache.getFileDescriptor(badFile).changed, `the entry for ${badFile} is unchanged`);
+                    assert.isTrue(fileCache.getFileDescriptor(goodFile).changed, `the entry for ${goodFile} is changed`);
+                });
+
+                it("should not detect changes using a file's modification time when set to 'content'", () => {
+                    const cacheFile = getFixturePath(".eslintcache");
+                    const badFile = getFixturePath("cache/src", "fail-file.js");
+                    const goodFile = getFixturePath("cache/src", "test-file.js");
+
+                    doDelete(cacheFile);
+
+                    engine = new CLIEngine({
+                        cwd: path.join(fixtureDir, ".."),
+                        useEslintrc: false,
+
+                        // specifying cache true the cache will be created
+                        cache: true,
+                        cacheFile,
+                        cacheStrategy: "content",
+                        rules: {
+                            "no-console": 0,
+                            "no-unused-vars": 2
+                        },
+                        extensions: ["js"]
+                    });
+
+                    engine.executeOnFiles([badFile, goodFile]);
+
+                    let fileCache = fCache.createFromFile(cacheFile, true);
+                    let entries = fileCache.normalizeEntries([badFile, goodFile]);
+
+                    entries.forEach(entry => {
+                        assert.isFalse(entry.changed, `the entry for ${entry.key} is initially unchanged`);
+                    });
+
+                    // this should NOT result in a changed entry
+                    shell.touch(goodFile);
+                    fileCache = fCache.createFromFile(cacheFile, true);
+                    entries = fileCache.normalizeEntries([badFile, goodFile]);
+                    entries.forEach(entry => {
+                        assert.isFalse(entry.changed, `the entry for ${entry.key} remains unchanged`);
+                    });
+                });
+
+                it("should detect changes using a file's contents when set to 'content'", () => {
+                    const cacheFile = getFixturePath(".eslintcache");
+                    const badFile = getFixturePath("cache/src", "fail-file.js");
+                    const goodFile = getFixturePath("cache/src", "test-file.js");
+                    const goodFileCopy = path.resolve(`${path.dirname(goodFile)}`, "test-file-copy.js");
+
+                    shell.cp(goodFile, goodFileCopy);
+
+                    doDelete(cacheFile);
+
+                    engine = new CLIEngine({
+                        cwd: path.join(fixtureDir, ".."),
+                        useEslintrc: false,
+
+                        // specifying cache true the cache will be created
+                        cache: true,
+                        cacheFile,
+                        cacheStrategy: "content",
+                        rules: {
+                            "no-console": 0,
+                            "no-unused-vars": 2
+                        },
+                        extensions: ["js"]
+                    });
+
+                    engine.executeOnFiles([badFile, goodFileCopy]);
+
+                    let fileCache = fCache.createFromFile(cacheFile, true);
+                    const entries = fileCache.normalizeEntries([badFile, goodFileCopy]);
+
+                    entries.forEach(entry => {
+                        assert.isFalse(entry.changed, `the entry for ${entry.key} is initially unchanged`);
+                    });
+
+                    // this should result in a changed entry
+                    shell.sed("-i", "abc", "xzy", goodFileCopy);
+                    fileCache = fCache.createFromFile(cacheFile, true);
+                    assert.isFalse(fileCache.getFileDescriptor(badFile).changed, `the entry for ${badFile} is unchanged`);
+                    assert.isTrue(fileCache.getFileDescriptor(goodFileCopy).changed, `the entry for ${goodFileCopy} is changed`);
+                });
+            });
         });
 
         describe("processors", () => {
@@ -2923,25 +3104,33 @@ describe("CLIEngine", () => {
         });
 
         describe("a config file setting should have higher priority than a shareable config file's settings always; https://github.com/eslint/eslint/issues/11510", () => {
-            beforeEach(() => {
-                ({ CLIEngine } = defineCLIEngineWithInMemoryFileSystem({
-                    cwd: () => path.join(os.tmpdir(), "cli-engine/11510"),
-                    files: {
-                        "no-console-error-in-overrides.json": JSON.stringify({
-                            overrides: [{
-                                files: ["*.js"],
-                                rules: { "no-console": "error" }
-                            }]
-                        }),
-                        ".eslintrc.json": JSON.stringify({
-                            extends: "./no-console-error-in-overrides.json",
-                            rules: { "no-console": "off" }
-                        }),
-                        "a.js": "console.log();"
-                    }
-                }));
-                engine = new CLIEngine();
+
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: path.join(os.tmpdir(), "cli-engine/11510"),
+                files: {
+                    "no-console-error-in-overrides.json": {
+                        overrides: [{
+                            files: ["*.js"],
+                            rules: { "no-console": "error" }
+                        }]
+                    },
+                    ".eslintrc.json": {
+                        extends: "./no-console-error-in-overrides.json",
+                        rules: { "no-console": "off" }
+                    },
+                    "a.js": "console.log();"
+                }
             });
+
+            beforeEach(() => {
+                engine = new CLIEngine({
+                    cwd: getPath()
+                });
+
+                return prepare();
+            });
+
+            afterEach(cleanup);
 
             it("should not report 'no-console' error.", () => {
                 const { results } = engine.executeOnFiles("a.js");
@@ -2952,34 +3141,41 @@ describe("CLIEngine", () => {
         });
 
         describe("configs of plugin rules should be validated even if 'plugins' key doesn't exist; https://github.com/eslint/eslint/issues/11559", () => {
-            beforeEach(() => {
-                ({ CLIEngine } = defineCLIEngineWithInMemoryFileSystem({
-                    cwd: () => path.join(os.tmpdir(), "cli-engine/11559"),
-                    files: {
-                        "node_modules/eslint-plugin-test/index.js": `
-                            exports.configs = {
-                                recommended: { plugins: ["test"] }
-                            };
-                            exports.rules = {
-                                foo: {
-                                    meta: { schema: [{ type: "number" }] },
-                                    create() { return {}; }
-                                }
-                            };
-                        `,
-                        ".eslintrc.json": JSON.stringify({
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: path.join(os.tmpdir(), "cli-engine/11559"),
+                files: {
+                    "node_modules/eslint-plugin-test/index.js": `
+                        exports.configs = {
+                            recommended: { plugins: ["test"] }
+                        };
+                        exports.rules = {
+                            foo: {
+                                meta: { schema: [{ type: "number" }] },
+                                create() { return {}; }
+                            }
+                        };
+                    `,
+                    ".eslintrc.json": {
 
-                            // Import via the recommended config.
-                            extends: "plugin:test/recommended",
+                        // Import via the recommended config.
+                        extends: "plugin:test/recommended",
 
-                            // Has invalid option.
-                            rules: { "test/foo": ["error", "invalid-option"] }
-                        }),
-                        "a.js": "console.log();"
-                    }
-                }));
-                engine = new CLIEngine();
+                        // Has invalid option.
+                        rules: { "test/foo": ["error", "invalid-option"] }
+                    },
+                    "a.js": "console.log();"
+                }
             });
+
+            beforeEach(() => {
+                engine = new CLIEngine({
+                    cwd: getPath()
+                });
+
+                return prepare();
+            });
+
+            afterEach(cleanup);
 
             it("should throw fatal error.", () => {
                 assert.throws(() => {
@@ -2989,11 +3185,11 @@ describe("CLIEngine", () => {
         });
 
         describe("'--fix-type' should not crash even if plugin rules exist; https://github.com/eslint/eslint/issues/11586", () => {
-            beforeEach(() => {
-                ({ CLIEngine } = defineCLIEngineWithInMemoryFileSystem({
-                    cwd: () => path.join(os.tmpdir(), "cli-engine/11586"),
-                    files: {
-                        "node_modules/eslint-plugin-test/index.js": `
+
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: path.join(os.tmpdir(), "cli-engine/11586"),
+                files: {
+                    "node_modules/eslint-plugin-test/index.js": `
                             exports.rules = {
                                 "no-example": {
                                     meta: { type: "problem", fixable: "code" },
@@ -3013,15 +3209,26 @@ describe("CLIEngine", () => {
                                 }
                             };
                         `,
-                        ".eslintrc.json": JSON.stringify({
-                            plugins: ["test"],
-                            rules: { "test/no-example": "error" }
-                        }),
-                        "a.js": "example;"
-                    }
-                }));
-                engine = new CLIEngine({ fix: true, fixTypes: ["problem"] });
+                    ".eslintrc.json": {
+                        plugins: ["test"],
+                        rules: { "test/no-example": "error" }
+                    },
+                    "a.js": "example;"
+                }
             });
+
+            beforeEach(() => {
+                engine = new CLIEngine({
+                    cwd: getPath(),
+                    fix: true,
+                    fixTypes: ["problem"]
+                });
+
+                return prepare();
+            });
+
+            afterEach(cleanup);
+
 
             it("should not crash.", () => {
                 const { results } = engine.executeOnFiles("a.js");
@@ -3073,18 +3280,29 @@ describe("CLIEngine", () => {
                 `
             };
 
-            it("should lint only JavaScript blocks if '--ext' was not given.", () => {
-                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                    cwd: () => root,
+            let cleanup;
+
+            beforeEach(() => {
+                cleanup = () => {};
+            });
+
+            afterEach(() => cleanup());
+
+            it("should lint only JavaScript blocks if '--ext' was not given.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: root,
                     files: {
                         ...commonFiles,
-                        ".eslintrc.json": JSON.stringify({
+                        ".eslintrc.json": {
                             plugins: ["markdown", "html"],
                             rules: { semi: "error" }
-                        })
+                        }
                     }
-                }).CLIEngine;
-                engine = new CLIEngine({ cwd: root });
+                });
+
+                cleanup = teardown.cleanup;
+                await teardown.prepare();
+                engine = new CLIEngine({ cwd: teardown.getPath() });
 
                 const { results } = engine.executeOnFiles(["test.md"]);
 
@@ -3094,18 +3312,25 @@ describe("CLIEngine", () => {
                 assert.strictEqual(results[0].messages[0].line, 2);
             });
 
-            it("should fix only JavaScript blocks if '--ext' was not given.", () => {
-                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                    cwd: () => root,
+            it("should fix only JavaScript blocks if '--ext' was not given.", async () => {
+
+                const teardown = createCustomTeardown({
+                    cwd: root,
                     files: {
                         ...commonFiles,
-                        ".eslintrc.json": JSON.stringify({
+                        ".eslintrc.json": {
                             plugins: ["markdown", "html"],
                             rules: { semi: "error" }
-                        })
+                        }
                     }
-                }).CLIEngine;
-                engine = new CLIEngine({ cwd: root, fix: true });
+                });
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                engine = new CLIEngine({
+                    cwd: teardown.getPath(),
+                    fix: true
+                });
 
                 const { results } = engine.executeOnFiles(["test.md"]);
 
@@ -3127,18 +3352,24 @@ describe("CLIEngine", () => {
                 `);
             });
 
-            it("should lint HTML blocks as well with multiple processors if '--ext' option was given.", () => {
-                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                    cwd: () => root,
+            it("should lint HTML blocks as well with multiple processors if '--ext' option was given.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: root,
                     files: {
                         ...commonFiles,
-                        ".eslintrc.json": JSON.stringify({
+                        ".eslintrc.json": {
                             plugins: ["markdown", "html"],
                             rules: { semi: "error" }
-                        })
+                        }
                     }
-                }).CLIEngine;
-                engine = new CLIEngine({ cwd: root, extensions: ["js", "html"] });
+                });
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                engine = new CLIEngine({
+                    cwd: teardown.getPath(),
+                    extensions: ["js", "html"]
+                });
 
                 const { results } = engine.executeOnFiles(["test.md"]);
 
@@ -3150,18 +3381,25 @@ describe("CLIEngine", () => {
                 assert.strictEqual(results[0].messages[1].line, 7);
             });
 
-            it("should fix HTML blocks as well with multiple processors if '--ext' option was given.", () => {
-                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                    cwd: () => root,
+            it("should fix HTML blocks as well with multiple processors if '--ext' option was given.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: root,
                     files: {
                         ...commonFiles,
-                        ".eslintrc.json": JSON.stringify({
+                        ".eslintrc.json": {
                             plugins: ["markdown", "html"],
                             rules: { semi: "error" }
-                        })
+                        }
                     }
-                }).CLIEngine;
-                engine = new CLIEngine({ cwd: root, extensions: ["js", "html"], fix: true });
+                });
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                engine = new CLIEngine({
+                    cwd: teardown.getPath(),
+                    extensions: ["js", "html"],
+                    fix: true
+                });
 
                 const { results } = engine.executeOnFiles(["test.md"]);
 
@@ -3183,12 +3421,13 @@ describe("CLIEngine", () => {
                 `);
             });
 
-            it("should use overriden processor; should report HTML blocks but not fix HTML blocks if the processor for '*.html' didn't support autofix.", () => {
-                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                    cwd: () => root,
+            it("should use overridden processor; should report HTML blocks but not fix HTML blocks if the processor for '*.html' didn't support autofix.", async () => {
+
+                const teardown = createCustomTeardown({
+                    cwd: root,
                     files: {
                         ...commonFiles,
-                        ".eslintrc.json": JSON.stringify({
+                        ".eslintrc.json": {
                             plugins: ["markdown", "html"],
                             rules: { semi: "error" },
                             overrides: [
@@ -3197,10 +3436,17 @@ describe("CLIEngine", () => {
                                     processor: "html/non-fixable" // supportsAutofix: false
                                 }
                             ]
-                        })
+                        }
                     }
-                }).CLIEngine;
-                engine = new CLIEngine({ cwd: root, extensions: ["js", "html"], fix: true });
+                });
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                engine = new CLIEngine({
+                    cwd: teardown.getPath(),
+                    extensions: ["js", "html"],
+                    fix: true
+                });
 
                 const { results } = engine.executeOnFiles(["test.md"]);
 
@@ -3225,12 +3471,13 @@ describe("CLIEngine", () => {
                 `);
             });
 
-            it("should use the config '**/*.html/*.js' to lint JavaScript blocks in HTML.", () => {
-                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                    cwd: () => root,
+            it("should use the config '**/*.html/*.js' to lint JavaScript blocks in HTML.", async () => {
+
+                const teardown = createCustomTeardown({
+                    cwd: root,
                     files: {
                         ...commonFiles,
-                        ".eslintrc.json": JSON.stringify({
+                        ".eslintrc.json": {
                             plugins: ["markdown", "html"],
                             rules: { semi: "error" },
                             overrides: [
@@ -3251,10 +3498,16 @@ describe("CLIEngine", () => {
                                     }
                                 }
                             ]
-                        })
+                        }
                     }
-                }).CLIEngine;
-                engine = new CLIEngine({ cwd: root, extensions: ["js", "html"] });
+                });
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                engine = new CLIEngine({
+                    cwd: teardown.getPath(),
+                    extensions: ["js", "html"]
+                });
 
                 const { results } = engine.executeOnFiles(["test.md"]);
 
@@ -3266,12 +3519,13 @@ describe("CLIEngine", () => {
                 assert.strictEqual(results[0].messages[1].line, 7);
             });
 
-            it("should use the same config as one which has 'processor' property in order to lint blocks in HTML if the processor was legacy style.", () => {
-                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                    cwd: () => root,
+            it("should use the same config as one which has 'processor' property in order to lint blocks in HTML if the processor was legacy style.", async () => {
+
+                const teardown = createCustomTeardown({
+                    cwd: root,
                     files: {
                         ...commonFiles,
-                        ".eslintrc.json": JSON.stringify({
+                        ".eslintrc.json": {
                             plugins: ["markdown", "html"],
                             rules: { semi: "error" },
                             overrides: [
@@ -3291,10 +3545,16 @@ describe("CLIEngine", () => {
                                     }
                                 }
                             ]
-                        })
+                        }
                     }
-                }).CLIEngine;
-                engine = new CLIEngine({ cwd: root, extensions: ["js", "html"] });
+                });
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                engine = new CLIEngine({
+                    cwd: teardown.getPath(),
+                    extensions: ["js", "html"]
+                });
 
                 const { results } = engine.executeOnFiles(["test.md"]);
 
@@ -3308,22 +3568,67 @@ describe("CLIEngine", () => {
                 assert.strictEqual(results[0].messages[2].line, 10);
             });
 
-            it("should throw an error if invalid processor was specified.", () => {
-                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                    cwd: () => root,
+            it("should throw an error if invalid processor was specified.", async () => {
+
+                const teardown = createCustomTeardown({
+                    cwd: root,
                     files: {
                         ...commonFiles,
-                        ".eslintrc.json": JSON.stringify({
+                        ".eslintrc.json": {
                             plugins: ["markdown", "html"],
                             processor: "markdown/unknown"
-                        })
+                        }
                     }
-                }).CLIEngine;
-                engine = new CLIEngine({ cwd: root });
+                });
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                engine = new CLIEngine({
+                    cwd: teardown.getPath()
+                });
 
                 assert.throws(() => {
                     engine.executeOnFiles(["test.md"]);
                 }, /ESLint configuration of processor in '\.eslintrc\.json' is invalid: 'markdown\/unknown' was not found\./u);
+            });
+
+            it("should lint HTML blocks as well with multiple processors if 'overrides[].files' is present.", async () => {
+
+                const teardown = createCustomTeardown({
+                    cwd: root,
+                    files: {
+                        ...commonFiles,
+                        ".eslintrc.json": {
+                            plugins: ["markdown", "html"],
+                            rules: { semi: "error" },
+                            overrides: [
+                                {
+                                    files: "*.html",
+                                    processor: "html/.html"
+                                },
+                                {
+                                    files: "*.md",
+                                    processor: "markdown/.md"
+                                }
+                            ]
+                        }
+                    }
+                });
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                engine = new CLIEngine({
+                    cwd: teardown.getPath()
+                });
+
+                const { results } = engine.executeOnFiles(["test.md"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "semi"); // JS block
+                assert.strictEqual(results[0].messages[0].line, 2);
+                assert.strictEqual(results[0].messages[1].ruleId, "semi"); // JS block in HTML block
+                assert.strictEqual(results[0].messages[1].line, 7);
             });
         });
 
@@ -3340,7 +3645,8 @@ describe("CLIEngine", () => {
                 } catch (err) {
                     assert.strictEqual(err.messageTemplate, "extend-config-missing");
                     assert.deepStrictEqual(err.messageData, {
-                        configName: "nonexistent-config"
+                        configName: "nonexistent-config",
+                        importerName: getFixturePath("module-not-found", "extends-js", ".eslintrc.yml")
                     });
                     return;
                 }
@@ -3356,7 +3662,7 @@ describe("CLIEngine", () => {
                     assert.deepStrictEqual(err.messageData, {
                         importerName: `extends-plugin${path.sep}.eslintrc.yml`,
                         pluginName: "eslint-plugin-nonexistent-plugin",
-                        resolvePluginsRelativeTo: cwd
+                        resolvePluginsRelativeTo: path.join(cwd, "extends-plugin") // the directory of the config file.
                     });
                     return;
                 }
@@ -3372,7 +3678,7 @@ describe("CLIEngine", () => {
                     assert.deepStrictEqual(err.messageData, {
                         importerName: `plugins${path.sep}.eslintrc.yml`,
                         pluginName: "eslint-plugin-nonexistent-plugin",
-                        resolvePluginsRelativeTo: cwd
+                        resolvePluginsRelativeTo: path.join(cwd, "plugins") // the directory of the config file.
                     });
                     return;
                 }
@@ -3423,6 +3729,352 @@ describe("CLIEngine", () => {
                 assert.fail("Expected to throw an error");
             });
         });
+
+        describe("with '--rulesdir' option", () => {
+
+            const rootPath = getFixturePath("cli-engine/with-rulesdir");
+
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: rootPath,
+                files: {
+                    "internal-rules/test.js": `
+                            module.exports = context => ({
+                                ExpressionStatement(node) {
+                                    context.report({ node, message: "ok" })
+                                }
+                            })
+                        `,
+                    ".eslintrc.json": {
+                        root: true,
+                        rules: { test: "error" }
+                    },
+                    "test.js": "console.log('hello')"
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+
+            it("should use the configured rules which are defined by '--rulesdir' option.", () => {
+
+                engine = new CLIEngine({
+                    cwd: getPath(),
+                    rulePaths: ["internal-rules"]
+                });
+                const report = engine.executeOnFiles(["test.js"]);
+
+                assert.strictEqual(report.results.length, 1);
+                assert.strictEqual(report.results[0].messages.length, 1);
+                assert.strictEqual(report.results[0].messages[0].message, "ok");
+            });
+        });
+
+        describe("glob pattern '[ab].js'", () => {
+            const root = getFixturePath("cli-engine/unmatched-glob");
+
+            let cleanup;
+
+            beforeEach(() => {
+                cleanup = () => { };
+            });
+
+            afterEach(() => cleanup());
+
+            it("should match '[ab].js' if existed.", async () => {
+
+                const teardown = createCustomTeardown({
+                    cwd: root,
+                    files: {
+                        "a.js": "",
+                        "b.js": "",
+                        "ab.js": "",
+                        "[ab].js": "",
+                        ".eslintrc.yml": "root: true"
+                    }
+                });
+
+                engine = new CLIEngine({ cwd: teardown.getPath() });
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+
+                const { results } = engine.executeOnFiles(["[ab].js"]);
+                const filenames = results.map(r => path.basename(r.filePath));
+
+                assert.deepStrictEqual(filenames, ["[ab].js"]);
+            });
+
+            it("should match 'a.js' and 'b.js' if '[ab].js' didn't existed.", async () => {
+
+                const teardown = createCustomTeardown({
+                    cwd: root,
+                    files: {
+                        "a.js": "",
+                        "b.js": "",
+                        "ab.js": "",
+                        ".eslintrc.yml": "root: true"
+                    }
+                });
+
+                engine = new CLIEngine({ cwd: teardown.getPath() });
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+
+                const { results } = engine.executeOnFiles(["[ab].js"]);
+                const filenames = results.map(r => path.basename(r.filePath));
+
+                assert.deepStrictEqual(filenames, ["a.js", "b.js"]);
+            });
+        });
+
+        describe("with 'noInlineConfig' setting", () => {
+            const root = getFixturePath("cli-engine/noInlineConfig");
+
+            let cleanup;
+
+            beforeEach(() => {
+                cleanup = () => { };
+            });
+
+            afterEach(() => cleanup());
+
+            it("should warn directive comments if 'noInlineConfig' was given.", async () => {
+
+                const teardown = createCustomTeardown({
+                    cwd: root,
+                    files: {
+                        "test.js": "/* globals foo */",
+                        ".eslintrc.yml": "noInlineConfig: true"
+                    }
+                });
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                engine = new CLIEngine({ cwd: teardown.getPath() });
+
+                const { results } = engine.executeOnFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].message, "'/*globals*/' has no effect because you have 'noInlineConfig' setting in your config (.eslintrc.yml).");
+            });
+
+            it("should show the config file what the 'noInlineConfig' came from.", async () => {
+
+                const teardown = createCustomTeardown({
+                    cwd: root,
+                    files: {
+                        "node_modules/eslint-config-foo/index.js": "module.exports = {noInlineConfig: true}",
+                        "test.js": "/* globals foo */",
+                        ".eslintrc.yml": "extends: foo"
+                    }
+                });
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                engine = new CLIEngine({ cwd: teardown.getPath() });
+
+                const { results } = engine.executeOnFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].message, "'/*globals*/' has no effect because you have 'noInlineConfig' setting in your config (.eslintrc.yml » eslint-config-foo).");
+            });
+        });
+
+        describe("with 'reportUnusedDisableDirectives' setting", () => {
+            const root = getFixturePath("cli-engine/reportUnusedDisableDirectives");
+
+            let cleanup;
+
+            beforeEach(() => {
+                cleanup = () => { };
+            });
+
+            afterEach(() => cleanup());
+
+            it("should warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives' was given.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: root,
+                    files: {
+                        "test.js": "/* eslint-disable eqeqeq */",
+                        ".eslintrc.yml": "reportUnusedDisableDirectives: true"
+                    }
+                });
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                engine = new CLIEngine({ cwd: teardown.getPath() });
+
+                const { results } = engine.executeOnFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].severity, 1);
+                assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'eqeqeq').");
+            });
+
+            describe("the runtime option overrides config files.", () => {
+                it("should not warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives=off' was given in runtime.", async () => {
+                    const teardown = createCustomTeardown({
+                        cwd: root,
+                        files: {
+                            "test.js": "/* eslint-disable eqeqeq */",
+                            ".eslintrc.yml": "reportUnusedDisableDirectives: true"
+                        }
+                    });
+
+                    await teardown.prepare();
+                    cleanup = teardown.cleanup;
+
+                    engine = new CLIEngine({
+                        cwd: teardown.getPath(),
+                        reportUnusedDisableDirectives: "off"
+                    });
+
+                    const { results } = engine.executeOnFiles(["test.js"]);
+                    const messages = results[0].messages;
+
+                    assert.strictEqual(messages.length, 0);
+                });
+
+                it("should warn unused 'eslint-disable' comments as error if 'reportUnusedDisableDirectives=error' was given in runtime.", async () => {
+                    const teardown = createCustomTeardown({
+                        cwd: root,
+                        files: {
+                            "test.js": "/* eslint-disable eqeqeq */",
+                            ".eslintrc.yml": "reportUnusedDisableDirectives: true"
+                        }
+                    });
+
+                    await teardown.prepare();
+                    cleanup = teardown.cleanup;
+
+                    engine = new CLIEngine({
+                        cwd: teardown.getPath(),
+                        reportUnusedDisableDirectives: "error"
+                    });
+
+                    const { results } = engine.executeOnFiles(["test.js"]);
+                    const messages = results[0].messages;
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].severity, 2);
+                    assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'eqeqeq').");
+                });
+            });
+        });
+
+        describe("with 'overrides[*].extends' setting on deep locations", () => {
+            const root = getFixturePath("cli-engine/deeply-overrides-i-extends");
+
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
+                        overrides: [{ files: ["*test*"], extends: "two" }]
+                    })}`,
+                    "node_modules/eslint-config-two/index.js": `module.exports = ${JSON.stringify({
+                        overrides: [{ files: ["*.js"], extends: "three" }]
+                    })}`,
+                    "node_modules/eslint-config-three/index.js": `module.exports = ${JSON.stringify({
+                        rules: { "no-console": "error" }
+                    })}`,
+                    "test.js": "console.log('hello')",
+                    ".eslintrc.yml": "extends: one"
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("should not throw.", () => {
+                engine = new CLIEngine({ cwd: getPath() });
+
+                const { results } = engine.executeOnFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].ruleId, "no-console");
+            });
+        });
+
+        describe("don't ignore the entry directory.", () => {
+            const root = getFixturePath("cli-engine/dont-ignore-entry-dir");
+
+            let cleanup;
+
+            beforeEach(() => {
+                cleanup = () => {};
+            });
+
+            afterEach(async () => {
+                await cleanup();
+
+                const configFilePath = path.resolve(root, "../.eslintrc.json");
+
+                if (shell.test("-e", configFilePath)) {
+                    shell.rm(configFilePath);
+                }
+            });
+
+            it("'executeOnFiles(\".\")' should not load config files from outside of \".\".", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: root,
+                    files: {
+                        "../.eslintrc.json": "BROKEN FILE",
+                        ".eslintrc.json": JSON.stringify({ root: true }),
+                        "index.js": "console.log(\"hello\")"
+                    }
+                });
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                engine = new CLIEngine({ cwd: teardown.getPath() });
+
+                // Don't throw "failed to load config file" error.
+                engine.executeOnFiles(".");
+            });
+
+            it("'executeOnFiles(\".\")' should not ignore '.' even if 'ignorePatterns' contains it.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: root,
+                    files: {
+                        "../.eslintrc.json": { ignorePatterns: ["/dont-ignore-entry-dir"] },
+                        ".eslintrc.json": { root: true },
+                        "index.js": "console.log(\"hello\")"
+                    }
+                });
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                engine = new CLIEngine({ cwd: teardown.getPath() });
+
+
+                // Don't throw "file not found" error.
+                engine.executeOnFiles(".");
+            });
+
+            it("'executeOnFiles(\"subdir\")' should not ignore './subdir' even if 'ignorePatterns' contains it.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: root,
+                    files: {
+                        ".eslintrc.json": { ignorePatterns: ["/subdir"] },
+                        "subdir/.eslintrc.json": { root: true },
+                        "subdir/index.js": "console.log(\"hello\")"
+                    }
+                });
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                engine = new CLIEngine({ cwd: teardown.getPath() });
+
+                // Don't throw "file not found" error.
+                engine.executeOnFiles("subdir");
+            });
+        });
     });
 
     describe("getConfigForFile", () => {
@@ -3460,20 +4112,20 @@ describe("CLIEngine", () => {
             assert.deepStrictEqual(actualConfig, expectedConfig);
         });
 
+        it("should throw an error if a directory path was given.", () => {
+            const engine = new CLIEngine();
+
+            try {
+                engine.getConfigForFile(".");
+            } catch (error) {
+                assert.strictEqual(error.messageTemplate, "print-config-with-directory-path");
+                return;
+            }
+            assert.fail("should throw an error");
+        });
     });
 
     describe("isPathIgnored", () => {
-        let sandbox;
-
-        beforeEach(() => {
-            sandbox = sinon.sandbox.create();
-            sandbox.stub(console, "info").returns(void 0);
-        });
-
-        afterEach(() => {
-            sandbox.restore();
-        });
-
         it("should check if the given path is ignored", () => {
             const engine = new CLIEngine({
                 ignorePath: getFixturePath(".eslintignore2"),
@@ -3504,6 +4156,408 @@ describe("CLIEngine", () => {
             assert.isTrue(engine.isPathIgnored("node_modules/foo.js"));
         });
 
+        describe("about the default ignore patterns", () => {
+            it("should always apply defaultPatterns if ignore option is true", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules/package/file.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/node_modules/package/file.js")));
+            });
+
+            it("should still apply defaultPatterns if ignore option is is false", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignore: false, cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules/package/file.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/node_modules/package/file.js")));
+            });
+
+            it("should allow subfolders of defaultPatterns to be unignored by ignorePattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd, ignorePattern: "!/node_modules/package" });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules", "package", "file.js")));
+            });
+
+            it("should allow subfolders of defaultPatterns to be unignored by ignorePath", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd, ignorePath: getFixturePath("ignored-paths", ".eslintignoreWithUnignoredDefaults") });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules", "package", "file.js")));
+            });
+
+            it("should ignore dotfiles", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", ".foo")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo/.bar")));
+            });
+
+            it("should ignore directories beginning with a dot", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", ".foo/bar")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo/.bar/baz")));
+            });
+
+            it("should still ignore dotfiles when ignore option disabled", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignore: false, cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", ".foo")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo/.bar")));
+            });
+
+            it("should still ignore directories beginning with a dot when ignore option disabled", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignore: false, cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", ".foo/bar")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo/.bar/baz")));
+            });
+
+            it("should not ignore absolute paths containing '..'", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd });
+
+                assert(!engine.isPathIgnored(`${getFixturePath("ignored-paths", "foo")}/../unignored.js`));
+            });
+
+            it("should ignore /node_modules/ relative to .eslintignore when loaded", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePath: getFixturePath("ignored-paths", ".eslintignore"), cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules", "existing.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo", "node_modules", "existing.js")));
+            });
+
+            it("should ignore /node_modules/ relative to cwd without an .eslintignore", () => {
+                const cwd = getFixturePath("ignored-paths", "no-ignore-file");
+                const engine = new CLIEngine({ cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "no-ignore-file", "node_modules", "existing.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "no-ignore-file", "foo", "node_modules", "existing.js")));
+            });
+        });
+
+        describe("with no .eslintignore file", () => {
+            it("should not travel to parent directories to find .eslintignore when it's missing and cwd is provided", () => {
+                const cwd = getFixturePath("ignored-paths", "configurations");
+                const engine = new CLIEngine({ cwd });
+
+                // a .eslintignore in parent directories includes `*.js`, but don't load it.
+                assert(!engine.isPathIgnored("foo.js"));
+                assert(engine.isPathIgnored("node_modules/foo.js"));
+            });
+
+            it("should return false for files outside of the cwd (with no ignore file provided)", () => {
+
+                // Default ignore patterns should not inadvertently ignore files in parent directories
+                const engine = new CLIEngine({ cwd: getFixturePath("ignored-paths", "no-ignore-file") });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+            });
+        });
+
+        describe("with .eslintignore file or package.json file", () => {
+            it("should load .eslintignore from cwd when explicitly passed", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd });
+
+                // `${cwd}/.eslintignore` includes `sampleignorepattern`.
+                assert(engine.isPathIgnored("sampleignorepattern"));
+            });
+
+            it("should use package.json's eslintIgnore files if no specified .eslintignore file", () => {
+                const cwd = getFixturePath("ignored-paths", "package-json-ignore");
+                const engine = new CLIEngine({ cwd });
+
+                assert(engine.isPathIgnored("hello.js"));
+                assert(engine.isPathIgnored("world.js"));
+            });
+
+            it("should use correct message template if failed to parse package.json", () => {
+                const cwd = getFixturePath("ignored-paths", "broken-package-json");
+
+                assert.throw(() => {
+                    try {
+                        // eslint-disable-next-line no-new
+                        new CLIEngine({ cwd });
+                    } catch (error) {
+                        assert.strictEqual(error.messageTemplate, "failed-to-read-json");
+                        throw error;
+                    }
+                });
+            });
+
+            it("should not use package.json's eslintIgnore files if specified .eslintignore file", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd });
+
+                /*
+                 * package.json includes `hello.js` and `world.js`.
+                 * .eslintignore includes `sampleignorepattern`.
+                 */
+                assert(!engine.isPathIgnored("hello.js"));
+                assert(!engine.isPathIgnored("world.js"));
+                assert(engine.isPathIgnored("sampleignorepattern"));
+            });
+
+            it("should error if package.json's eslintIgnore is not an array of file paths", () => {
+                const cwd = getFixturePath("ignored-paths", "bad-package-json-ignore");
+
+                assert.throws(() => {
+                    // eslint-disable-next-line no-new
+                    new CLIEngine({ cwd });
+                }, "Package.json eslintIgnore property requires an array of paths");
+            });
+        });
+
+        describe("with --ignore-pattern option", () => {
+            it("should accept a string for options.ignorePattern", () => {
+                const cwd = getFixturePath("ignored-paths", "ignore-pattern");
+                const engine = new CLIEngine({
+                    ignorePattern: "ignore-me.txt",
+                    cwd
+                });
+
+                assert(engine.isPathIgnored("ignore-me.txt"));
+            });
+
+            it("should accept an array for options.ignorePattern", () => {
+                const engine = new CLIEngine({
+                    ignorePattern: ["a", "b"],
+                    useEslintrc: false
+                });
+
+                assert(engine.isPathIgnored("a"));
+                assert(engine.isPathIgnored("b"));
+                assert(!engine.isPathIgnored("c"));
+            });
+
+            it("should return true for files which match an ignorePattern even if they do not exist on the filesystem", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({
+                    ignorePattern: "not-a-file",
+                    cwd
+                });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "not-a-file")));
+            });
+
+            it("should return true for file matching an ignore pattern exactly", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "undef.js", cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+            });
+
+            it("should return false for file matching an invalid ignore pattern with leading './'", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "./undef.js", cwd });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+            });
+
+            it("should return false for file in subfolder of cwd matching an ignore pattern with leading '/'", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "/undef.js", cwd });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "subdir", "undef.js")));
+            });
+
+            it("should return true for file matching a child of an ignore pattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "ignore-pattern", cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "ignore-pattern", "ignore-me.txt")));
+            });
+
+            it("should return true for file matching a grandchild of an ignore pattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "ignore-pattern", cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "ignore-pattern", "subdir", "ignore-me.txt")));
+            });
+
+            it("should return false for file not matching any ignore pattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "failing.js", cwd });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "unignored.js")));
+            });
+
+            it("two globstar '**' ignore pattern should ignore files in nested directories", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "**/*.js", cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar/baz.js")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "foo.j2")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar.j2")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar/baz.j2")));
+            });
+        });
+
+        describe("with --ignore-path option", () => {
+            it("should load empty array with ignorePath set to false", () => {
+                const cwd = getFixturePath("ignored-paths", "no-ignore-file");
+                const engine = new CLIEngine({ ignorePath: false, cwd });
+
+                // a .eslintignore in parent directories includes `*.js`, but don't load it.
+                assert(!engine.isPathIgnored("foo.js"));
+                assert(engine.isPathIgnored("node_modules/foo.js"));
+            });
+
+            it("initialization with ignorePath should work when cwd is a parent directory", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "custom-name", "ignore-file");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored("custom-name/foo.js"));
+            });
+
+            it("initialization with ignorePath should work when the file is in the cwd", () => {
+                const cwd = getFixturePath("ignored-paths", "custom-name");
+                const ignorePath = getFixturePath("ignored-paths", "custom-name", "ignore-file");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored("foo.js"));
+            });
+
+            it("initialization with ignorePath should work when cwd is a subdirectory", () => {
+                const cwd = getFixturePath("ignored-paths", "custom-name", "subdirectory");
+                const ignorePath = getFixturePath("ignored-paths", "custom-name", "ignore-file");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored("../custom-name/foo.js"));
+            });
+
+            it("initialization with invalid file should throw error", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "not-a-directory", ".foobaz");
+
+                assert.throws(() => {
+                    // eslint-disable-next-line no-new
+                    new CLIEngine({ ignorePath, cwd });
+                }, "Cannot read .eslintignore file");
+            });
+
+            it("should return false for files outside of ignorePath's directory", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "custom-name", "ignore-file");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+            });
+
+            it("should resolve relative paths from CWD", () => {
+                const cwd = getFixturePath("ignored-paths", "subdir");
+                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreForDifferentCwd");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/undef.js")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+            });
+
+            it("should resolve relative paths from CWD when it's in a child directory", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "subdir/.eslintignoreInChildDir");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/undef.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/foo.js")));
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules/bar.js")));
+            });
+
+            it("should resolve relative paths from CWD when it contains negated globs", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "subdir/.eslintignoreInChildDir");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored("subdir/blah.txt"));
+                assert(engine.isPathIgnored("blah.txt"));
+                assert(engine.isPathIgnored("subdir/bar.txt"));
+                assert(!engine.isPathIgnored("bar.txt"));
+                assert(!engine.isPathIgnored("subdir/baz.txt"));
+                assert(!engine.isPathIgnored("baz.txt"));
+            });
+
+            it("should resolve default ignore patterns from the CWD even when the ignorePath is in a subdirectory", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "subdir/.eslintignoreInChildDir");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored("node_modules/blah.js"));
+            });
+
+            it("should resolve default ignore patterns from the CWD even when the ignorePath is in a parent directory", () => {
+                const cwd = getFixturePath("ignored-paths", "subdir");
+                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreForDifferentCwd");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored("node_modules/blah.js"));
+            });
+
+            it("should handle .eslintignore which contains CRLF correctly.", () => {
+                const ignoreFileContent = fs.readFileSync(getFixturePath("ignored-paths", "crlf/.eslintignore"), "utf8");
+
+                assert(ignoreFileContent.includes("\r"), "crlf/.eslintignore should contains CR.");
+
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "crlf/.eslintignore");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "crlf/hide1/a.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "crlf/hide2/a.js")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "crlf/hide3/a.js")));
+            });
+
+            it("should not include comments in ignore rules", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreWithComments");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(!engine.isPathIgnored("# should be ignored"));
+                assert(engine.isPathIgnored("this_one_not"));
+            });
+
+            it("should ignore a non-negated pattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreWithNegation");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "negation", "ignore.js")));
+            });
+
+            it("should not ignore a negated pattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreWithNegation");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "negation", "unignore.js")));
+            });
+        });
+
+        describe("with --ignore-path option and --ignore-pattern option", () => {
+            it("should return false for ignored file when unignored with ignore pattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({
+                    ignorePath: getFixturePath("ignored-paths", ".eslintignore"),
+                    ignorePattern: "!sampleignorepattern",
+                    cwd
+                });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "sampleignorepattern")));
+            });
+        });
     });
 
     describe("getFormatter()", () => {
@@ -3730,15 +4784,14 @@ describe("CLIEngine", () => {
     });
 
     describe("outputFixes()", () => {
-
-        const sandbox = sinon.sandbox.create();
-
         afterEach(() => {
-            sandbox.verifyAndRestore();
+            sinon.verifyAndRestore();
         });
 
         it("should call fs.writeFileSync() for each result with output", () => {
-            const fakeFS = leche.fake(fs),
+            const fakeFS = {
+                    writeFileSync: () => {}
+                },
                 localCLIEngine = proxyquire("../../../lib/cli-engine/cli-engine", {
                     fs: fakeFS
                 }).CLIEngine,
@@ -3755,8 +4808,7 @@ describe("CLIEngine", () => {
                     ]
                 };
 
-            fakeFS.writeFileSync = function() {};
-            const spy = sandbox.spy(fakeFS, "writeFileSync");
+            const spy = sinon.spy(fakeFS, "writeFileSync");
 
             localCLIEngine.outputFixes(report);
 
@@ -3767,7 +4819,9 @@ describe("CLIEngine", () => {
         });
 
         it("should call fs.writeFileSync() for each result with output and not at all for a result without output", () => {
-            const fakeFS = leche.fake(fs),
+            const fakeFS = {
+                    writeFileSync: () => {}
+                },
                 localCLIEngine = proxyquire("../../../lib/cli-engine/cli-engine", {
                     fs: fakeFS
                 }).CLIEngine,
@@ -3787,8 +4841,7 @@ describe("CLIEngine", () => {
                     ]
                 };
 
-            fakeFS.writeFileSync = function() {};
-            const spy = sandbox.spy(fakeFS, "writeFileSync");
+            const spy = sinon.spy(fakeFS, "writeFileSync");
 
             localCLIEngine.outputFixes(report);
 
@@ -3804,19 +4857,32 @@ describe("CLIEngine", () => {
         it("should expose the list of rules", () => {
             const engine = new CLIEngine();
 
-            assert.isTrue(engine.getRules().has("no-eval"), "no-eval is present");
+            assert(engine.getRules().has("no-eval"), "no-eval is present");
+        });
 
+        it("should expose the list of plugin rules", () => {
+            const engine = new CLIEngine({ plugins: ["node"] });
+
+            assert(engine.getRules().has("node/no-deprecated-api"), "node/no-deprecated-api is present");
+        });
+
+        it("should expose the rules of the plugin that is added by 'addPlugin'.", () => {
+            const engine = new CLIEngine({ plugins: ["foo"] });
+
+            engine.addPlugin("foo", require("eslint-plugin-node"));
+
+            assert(engine.getRules().has("foo/no-deprecated-api"), "foo/no-deprecated-api is present");
         });
     });
 
     describe("resolveFileGlobPatterns", () => {
 
-        leche.withData([
+        [
             [".", ["**/*.{js}"]],
             ["./", ["**/*.{js}"]],
             ["../", ["../**/*.{js}"]],
             ["", []]
-        ], (input, expected) => {
+        ].forEach(([input, expected]) => {
 
             it(`should correctly resolve ${input} to ${expected}`, () => {
                 const engine = new CLIEngine();
@@ -4038,7 +5104,7 @@ describe("CLIEngine", () => {
 
     describe("mutability", () => {
         describe("plugins", () => {
-            it("Loading plugin in one instance doesnt mutate to another instance", () => {
+            it("Loading plugin in one instance doesn't mutate to another instance", () => {
                 const filePath = getFixturePath("single-quoted.js");
                 const engine1 = cliEngineWithPlugins({
                     cwd: path.join(fixtureDir, ".."),
@@ -4060,7 +5126,7 @@ describe("CLIEngine", () => {
         });
 
         describe("rules", () => {
-            it("Loading rules in one instance doesnt mutate to another instance", () => {
+            it("Loading rules in one instance doesn't mutate to another instance", () => {
                 const filePath = getFixturePath("single-quoted.js");
                 const engine1 = new CLIEngine({
                     cwd: path.join(fixtureDir, ".."),
@@ -4077,6 +5143,1520 @@ describe("CLIEngine", () => {
                 // plugin
                 assert.deepStrictEqual(fileConfig1.rules["example/example-rule"], [1], "example is present for engine 1");
                 assert.isUndefined(fileConfig2.rules["example/example-rule"], "example is not present for engine 2");
+            });
+        });
+    });
+
+    describe("with ignorePatterns config", () => {
+        const root = getFixturePath("cli-engine/ignore-patterns");
+
+        describe("ignorePatterns can add an ignore pattern ('foo.js').", () => {
+
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    ".eslintrc.json": {
+                        ignorePatterns: "foo.js"
+                    },
+                    "foo.js": "",
+                    "bar.js": "",
+                    "subdir/foo.js": "",
+                    "subdir/bar.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), true);
+                assert.strictEqual(engine.isPathIgnored("subdir/foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'bar.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("bar.js"), false);
+                assert.strictEqual(engine.isPathIgnored("subdir/bar.js"), false);
+            });
+
+            it("'executeOnFiles()' should not verify 'foo.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar.js"),
+                    path.join(root, "subdir/bar.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns can add ignore patterns ('foo.js', '/bar.js').", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    ".eslintrc.json": {
+                        ignorePatterns: ["foo.js", "/bar.js"]
+                    },
+                    "foo.js": "",
+                    "bar.js": "",
+                    "baz.js": "",
+                    "subdir/foo.js": "",
+                    "subdir/bar.js": "",
+                    "subdir/baz.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), true);
+                assert.strictEqual(engine.isPathIgnored("subdir/foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'true' for '/bar.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("bar.js"), true);
+                assert.strictEqual(engine.isPathIgnored("subdir/bar.js"), false);
+            });
+
+            it("'executeOnFiles()' should not verify 'foo.js' and '/bar.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "baz.js"),
+                    path.join(root, "subdir/bar.js"),
+                    path.join(root, "subdir/baz.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns can unignore '/node_modules/foo'.", () => {
+
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    ".eslintrc.json": {
+                        ignorePatterns: "!/node_modules/foo"
+                    },
+                    "node_modules/foo/index.js": "",
+                    "node_modules/foo/.dot.js": "",
+                    "node_modules/bar/index.js": "",
+                    "foo.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'isPathIgnored()' should return 'false' for 'node_modules/foo/index.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("node_modules/foo/index.js"), false);
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'node_modules/foo/.dot.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("node_modules/foo/.dot.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'node_modules/bar/index.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("node_modules/bar/index.js"), true);
+            });
+
+            it("'executeOnFiles()' should verify 'node_modules/foo/index.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "foo.js"),
+                    path.join(root, "node_modules/foo/index.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns can unignore '.eslintrc.js'.", () => {
+
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    ".eslintrc.js": `module.exports = ${JSON.stringify({
+                        ignorePatterns: "!.eslintrc.js"
+                    })}`,
+                    "foo.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'isPathIgnored()' should return 'false' for '.eslintrc.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored(".eslintrc.js"), false);
+            });
+
+            it("'executeOnFiles()' should verify '.eslintrc.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, ".eslintrc.js"),
+                    path.join(root, "foo.js")
+                ]);
+            });
+        });
+
+        describe(".eslintignore can re-ignore files that are unignored by ignorePatterns.", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    ".eslintrc.js": `module.exports = ${JSON.stringify({
+                        ignorePatterns: "!.*"
+                    })}`,
+                    ".eslintignore": ".foo*",
+                    ".foo.js": "",
+                    ".bar.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'isPathIgnored()' should return 'true' for re-ignored '.foo.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored(".foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'false' for unignored '.bar.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored(".bar.js"), false);
+            });
+
+            it("'executeOnFiles()' should not verify re-ignored '.foo.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, ".bar.js"),
+                    path.join(root, ".eslintrc.js")
+                ]);
+            });
+        });
+
+        describe(".eslintignore can unignore files that are ignored by ignorePatterns.", () => {
+
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    ".eslintrc.js": `module.exports = ${JSON.stringify({
+                        ignorePatterns: "*.js"
+                    })}`,
+                    ".eslintignore": "!foo.js",
+                    "foo.js": "",
+                    "bar.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'isPathIgnored()' should return 'false' for unignored 'foo.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), false);
+            });
+
+            it("'isPathIgnored()' should return 'true' for ignored 'bar.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("bar.js"), true);
+            });
+
+            it("'executeOnFiles()' should verify unignored 'foo.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "foo.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns in the config file in a child directory affects to only in the directory.", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    ".eslintrc.json": JSON.stringify({
+                        ignorePatterns: "foo.js"
+                    }),
+                    "subdir/.eslintrc.json": JSON.stringify({
+                        ignorePatterns: "bar.js"
+                    }),
+                    "foo.js": "",
+                    "bar.js": "",
+                    "subdir/foo.js": "",
+                    "subdir/bar.js": "",
+                    "subdir/subsubdir/foo.js": "",
+                    "subdir/subsubdir/bar.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), true);
+                assert.strictEqual(engine.isPathIgnored("subdir/foo.js"), true);
+                assert.strictEqual(engine.isPathIgnored("subdir/subsubdir/foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'bar.js' in 'subdir'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("subdir/bar.js"), true);
+                assert.strictEqual(engine.isPathIgnored("subdir/subsubdir/bar.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'bar.js' in the outside of 'subdir'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("bar.js"), false);
+            });
+
+            it("'executeOnFiles()' should verify 'bar.js' in the outside of 'subdir'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns in the config file in a child directory can unignore the ignored files in the parent directory's config.", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    ".eslintrc.json": JSON.stringify({
+                        ignorePatterns: "foo.js"
+                    }),
+                    "subdir/.eslintrc.json": JSON.stringify({
+                        ignorePatterns: "!foo.js"
+                    }),
+                    "foo.js": "",
+                    "subdir/foo.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'isPathIgnored()' should return 'true' for 'foo.js' in the root directory.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'foo.js' in the child directory.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("subdir/foo.js"), false);
+            });
+
+            it("'executeOnFiles()' should verify 'foo.js' in the child directory.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "subdir/foo.js")
+                ]);
+            });
+        });
+
+        describe(".eslintignore can unignore files that are ignored by ignorePatterns in the config file in the child directory.", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    ".eslintrc.json": {},
+                    "subdir/.eslintrc.json": {
+                        ignorePatterns: "*.js"
+                    },
+                    ".eslintignore": "!foo.js",
+                    "foo.js": "",
+                    "subdir/foo.js": "",
+                    "subdir/bar.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'isPathIgnored()' should return 'false' for unignored 'foo.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), false);
+                assert.strictEqual(engine.isPathIgnored("subdir/foo.js"), false);
+            });
+
+            it("'isPathIgnored()' should return 'true' for ignored 'bar.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("subdir/bar.js"), true);
+            });
+
+            it("'executeOnFiles()' should verify unignored 'foo.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "foo.js"),
+                    path.join(root, "subdir/foo.js")
+                ]);
+            });
+        });
+
+        describe("if the config in a child directory has 'root:true', ignorePatterns in the config file in the parent directory should not be used.", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    ".eslintrc.json": {
+                        ignorePatterns: "foo.js"
+                    },
+                    "subdir/.eslintrc.json": {
+                        root: true,
+                        ignorePatterns: "bar.js"
+                    },
+                    "foo.js": "",
+                    "bar.js": "",
+                    "subdir/foo.js": "",
+                    "subdir/bar.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'isPathIgnored()' should return 'true' for 'foo.js' in the root directory.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'bar.js' in the root directory.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("bar.js"), false);
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'foo.js' in the child directory.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("subdir/foo.js"), false);
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'bar.js' in the child directory.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("subdir/bar.js"), true);
+            });
+
+            it("'executeOnFiles()' should verify 'bar.js' in the root directory and 'foo.js' in the child directory.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar.js"),
+                    path.join(root, "subdir/foo.js")
+                ]);
+            });
+        });
+
+        describe("even if the config in a child directory has 'root:true', .eslintignore should be used.", () => {
+
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    ".eslintrc.json": JSON.stringify({}),
+                    "subdir/.eslintrc.json": JSON.stringify({
+                        root: true,
+                        ignorePatterns: "bar.js"
+                    }),
+                    ".eslintignore": "foo.js",
+                    "foo.js": "",
+                    "bar.js": "",
+                    "subdir/foo.js": "",
+                    "subdir/bar.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), true);
+                assert.strictEqual(engine.isPathIgnored("subdir/foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'bar.js' in the root directory.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("bar.js"), false);
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'bar.js' in the child directory.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("subdir/bar.js"), true);
+            });
+
+            it("'executeOnFiles()' should verify 'bar.js' in the root directory.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns in the shareable config should be used.", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
+                        ignorePatterns: "foo.js"
+                    })}`,
+                    ".eslintrc.json": JSON.stringify({
+                        extends: "one"
+                    }),
+                    "foo.js": "",
+                    "bar.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'bar.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("bar.js"), false);
+            });
+
+            it("'executeOnFiles()' should verify 'bar.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns in the shareable config should be relative to the entry config file.", () => {
+
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
+                        ignorePatterns: "/foo.js"
+                    })}`,
+                    ".eslintrc.json": JSON.stringify({
+                        extends: "one"
+                    }),
+                    "foo.js": "",
+                    "subdir/foo.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+
+            it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'subdir/foo.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("subdir/foo.js"), false);
+            });
+
+            it("'executeOnFiles()' should verify 'subdir/foo.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "subdir/foo.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns in a config file can unignore the files which are ignored by ignorePatterns in the shareable config.", () => {
+
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
+                        ignorePatterns: "*.js"
+                    })}`,
+                    ".eslintrc.json": JSON.stringify({
+                        extends: "one",
+                        ignorePatterns: "!bar.js"
+                    }),
+                    "foo.js": "",
+                    "bar.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'bar.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assert.strictEqual(engine.isPathIgnored("bar.js"), false);
+            });
+
+            it("'executeOnFiles()' should verify 'bar.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns in a config file should not be used if --no-ignore option was given.", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    ".eslintrc.json": JSON.stringify({
+                        ignorePatterns: "*.js"
+                    }),
+                    "foo.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'isPathIgnored()' should return 'false' for 'foo.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath(), ignore: false });
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), false);
+            });
+
+            it("'executeOnFiles()' should verify 'foo.js'.", () => {
+                const engine = new CLIEngine({ cwd: getPath(), ignore: false });
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "foo.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns in overrides section is not allowed.", () => {
+
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    ".eslintrc.js": `module.exports = ${JSON.stringify({
+                        overrides: [
+                            {
+                                files: "*.js",
+                                ignorePatterns: "foo.js"
+                            }
+                        ]
+                    })}`,
+                    "foo.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("should throw a configuration error.", () => {
+                assert.throws(() => {
+                    const engine = new CLIEngine({ cwd: getPath() });
+
+                    engine.executeOnFiles("*.js");
+                }, "Unexpected top-level property \"overrides[0].ignorePatterns\"");
+            });
+        });
+
+    });
+
+    describe("'overrides[].files' adds lint targets", () => {
+        const root = getFixturePath("cli-engine/additional-lint-targets");
+
+        describe("if { files: 'foo/*.txt', excludedFiles: '**/ignore.txt' } is present,", () => {
+
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    ".eslintrc.json": JSON.stringify({
+                        overrides: [
+                            {
+                                files: "foo/*.txt",
+                                excludedFiles: "**/ignore.txt"
+                            }
+                        ]
+                    }),
+                    "foo/nested/test.txt": "",
+                    "foo/test.js": "",
+                    "foo/test.txt": "",
+                    "foo/ignore.txt": "",
+                    "bar/test.js": "",
+                    "bar/test.txt": "",
+                    "bar/ignore.txt": "",
+                    "test.js": "",
+                    "test.txt": "",
+                    "ignore.txt": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'executeOnFiles()' with a directory path should contain 'foo/test.txt'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
+                    path.join(root, "foo/test.js"),
+                    path.join(root, "foo/test.txt"),
+                    path.join(root, "test.js")
+                ]);
+            });
+
+            it("'executeOnFiles()' with a glob pattern '*.js' should not contain 'foo/test.txt'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
+                    path.join(root, "foo/test.js"),
+                    path.join(root, "test.js")
+                ]);
+            });
+        });
+
+        describe("if { files: 'foo/**/*.txt' } is present,", () => {
+
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    ".eslintrc.json": JSON.stringify({
+                        overrides: [
+                            {
+                                files: "foo/**/*.txt"
+                            }
+                        ]
+                    }),
+                    "foo/nested/test.txt": "",
+                    "foo/test.js": "",
+                    "foo/test.txt": "",
+                    "bar/test.js": "",
+                    "bar/test.txt": "",
+                    "test.js": "",
+                    "test.txt": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'executeOnFiles()' with a directory path should contain 'foo/test.txt' and 'foo/nested/test.txt'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
+                    path.join(root, "foo/nested/test.txt"),
+                    path.join(root, "foo/test.js"),
+                    path.join(root, "foo/test.txt"),
+                    path.join(root, "test.js")
+                ]);
+            });
+        });
+
+        describe("if { files: 'foo/**/*' } is present,", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    ".eslintrc.json": JSON.stringify({
+                        overrides: [
+                            {
+                                files: "foo/**/*"
+                            }
+                        ]
+                    }),
+                    "foo/nested/test.txt": "",
+                    "foo/test.js": "",
+                    "foo/test.txt": "",
+                    "bar/test.js": "",
+                    "bar/test.txt": "",
+                    "test.js": "",
+                    "test.txt": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'executeOnFiles()' with a directory path should NOT contain 'foo/test.txt' and 'foo/nested/test.txt'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
+                    path.join(root, "foo/test.js"),
+                    path.join(root, "test.js")
+                ]);
+            });
+        });
+
+        describe("if { files: 'foo/**/*.txt' } is present in a shareable config,", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    "node_modules/eslint-config-foo/index.js": `module.exports = ${JSON.stringify({
+                        overrides: [
+                            {
+                                files: "foo/**/*.txt"
+                            }
+                        ]
+                    })}`,
+                    ".eslintrc.json": JSON.stringify({
+                        extends: "foo"
+                    }),
+                    "foo/nested/test.txt": "",
+                    "foo/test.js": "",
+                    "foo/test.txt": "",
+                    "bar/test.js": "",
+                    "bar/test.txt": "",
+                    "test.js": "",
+                    "test.txt": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'executeOnFiles()' with a directory path should contain 'foo/test.txt' and 'foo/nested/test.txt'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
+                    path.join(root, "foo/nested/test.txt"),
+                    path.join(root, "foo/test.js"),
+                    path.join(root, "foo/test.txt"),
+                    path.join(root, "test.js")
+                ]);
+            });
+        });
+
+        describe("if { files: 'foo/**/*.txt' } is present in a plugin config,", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    "node_modules/eslint-plugin-foo/index.js": `exports.configs = ${JSON.stringify({
+                        bar: {
+                            overrides: [
+                                {
+                                    files: "foo/**/*.txt"
+                                }
+                            ]
+                        }
+                    })}`,
+                    ".eslintrc.json": JSON.stringify({
+                        extends: "plugin:foo/bar"
+                    }),
+                    "foo/nested/test.txt": "",
+                    "foo/test.js": "",
+                    "foo/test.txt": "",
+                    "bar/test.js": "",
+                    "bar/test.txt": "",
+                    "test.js": "",
+                    "test.txt": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'executeOnFiles()' with a directory path should contain 'foo/test.txt' and 'foo/nested/test.txt'.", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
+                    path.join(root, "foo/nested/test.txt"),
+                    path.join(root, "foo/test.js"),
+                    path.join(root, "foo/test.txt"),
+                    path.join(root, "test.js")
+                ]);
+            });
+        });
+    });
+
+    describe("'ignorePatterns', 'overrides[].files', and 'overrides[].excludedFiles' of the configuration that the '--config' option provided should be resolved from CWD.", () => {
+        const root = getFixturePath("cli-engine/config-and-overrides-files");
+
+        describe("if { files: 'foo/*.txt', ... } is present by '--config node_modules/myconf/.eslintrc.json',", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    "node_modules/myconf/.eslintrc.json": JSON.stringify({
+                        overrides: [
+                            {
+                                files: "foo/*.js",
+                                rules: {
+                                    eqeqeq: "error"
+                                }
+                            }
+                        ]
+                    }),
+                    "node_modules/myconf/foo/test.js": "a == b",
+                    "foo/test.js": "a == b"
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'executeOnFiles()' with 'foo/test.js' should use the override entry.", () => {
+                const engine = new CLIEngine({
+                    configFile: "node_modules/myconf/.eslintrc.json",
+                    cwd: getPath(),
+                    ignore: false,
+                    useEslintrc: false
+                });
+                const { results } = engine.executeOnFiles("foo/test.js");
+
+                // Expected to be an 'eqeqeq' error because the file matches to `$CWD/foo/*.js`.
+                assert.deepStrictEqual(results, [
+                    {
+                        errorCount: 1,
+                        filePath: path.join(root, "foo/test.js"),
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
+                        messages: [
+                            {
+                                column: 3,
+                                endColumn: 5,
+                                endLine: 1,
+                                line: 1,
+                                message: "Expected '===' and instead saw '=='.",
+                                messageId: "unexpected",
+                                nodeType: "BinaryExpression",
+                                ruleId: "eqeqeq",
+                                severity: 2
+                            }
+                        ],
+                        source: "a == b",
+                        warningCount: 0
+                    }
+                ]);
+            });
+
+            it("'executeOnFiles()' with 'node_modules/myconf/foo/test.js' should NOT use the override entry.", () => {
+                const engine = new CLIEngine({
+                    configFile: "node_modules/myconf/.eslintrc.json",
+                    cwd: getPath(),
+                    ignore: false,
+                    useEslintrc: false
+                });
+                const { results } = engine.executeOnFiles("node_modules/myconf/foo/test.js");
+
+                // Expected to be no errors because the file doesn't match to `$CWD/foo/*.js`.
+                assert.deepStrictEqual(results, [
+                    {
+                        errorCount: 0,
+                        filePath: path.join(root, "node_modules/myconf/foo/test.js"),
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
+                        messages: [],
+                        warningCount: 0
+                    }
+                ]);
+            });
+        });
+
+        describe("if { files: '*', excludedFiles: 'foo/*.txt', ... } is present by '--config node_modules/myconf/.eslintrc.json',", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    "node_modules/myconf/.eslintrc.json": JSON.stringify({
+                        overrides: [
+                            {
+                                files: "*",
+                                excludedFiles: "foo/*.js",
+                                rules: {
+                                    eqeqeq: "error"
+                                }
+                            }
+                        ]
+                    }),
+                    "node_modules/myconf/foo/test.js": "a == b",
+                    "foo/test.js": "a == b"
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'executeOnFiles()' with 'foo/test.js' should NOT use the override entry.", () => {
+                const engine = new CLIEngine({
+                    configFile: "node_modules/myconf/.eslintrc.json",
+                    cwd: getPath(),
+                    ignore: false,
+                    useEslintrc: false
+                });
+                const { results } = engine.executeOnFiles("foo/test.js");
+
+                // Expected to be no errors because the file matches to `$CWD/foo/*.js`.
+                assert.deepStrictEqual(results, [
+                    {
+                        errorCount: 0,
+                        filePath: path.join(root, "foo/test.js"),
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
+                        messages: [],
+                        warningCount: 0
+                    }
+                ]);
+            });
+
+            it("'executeOnFiles()' with 'node_modules/myconf/foo/test.js' should use the override entry.", () => {
+                const engine = new CLIEngine({
+                    configFile: "node_modules/myconf/.eslintrc.json",
+                    cwd: getPath(),
+                    ignore: false,
+                    useEslintrc: false
+                });
+                const { results } = engine.executeOnFiles("node_modules/myconf/foo/test.js");
+
+                // Expected to be an 'eqeqeq' error because the file doesn't match to `$CWD/foo/*.js`.
+                assert.deepStrictEqual(results, [
+                    {
+                        errorCount: 1,
+                        filePath: path.join(root, "node_modules/myconf/foo/test.js"),
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
+                        messages: [
+                            {
+                                column: 3,
+                                endColumn: 5,
+                                endLine: 1,
+                                line: 1,
+                                message: "Expected '===' and instead saw '=='.",
+                                messageId: "unexpected",
+                                nodeType: "BinaryExpression",
+                                ruleId: "eqeqeq",
+                                severity: 2
+                            }
+                        ],
+                        source: "a == b",
+                        warningCount: 0
+                    }
+                ]);
+            });
+        });
+
+        describe("if { ignorePatterns: 'foo/*.txt', ... } is present by '--config node_modules/myconf/.eslintrc.json',", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    "node_modules/myconf/.eslintrc.json": JSON.stringify({
+                        ignorePatterns: ["!/node_modules/myconf", "foo/*.js"],
+                        rules: {
+                            eqeqeq: "error"
+                        }
+                    }),
+                    "node_modules/myconf/foo/test.js": "a == b",
+                    "foo/test.js": "a == b"
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'executeOnFiles()' with '**/*.js' should iterate 'node_modules/myconf/foo/test.js' but not 'foo/test.js'.", () => {
+                const engine = new CLIEngine({
+                    configFile: "node_modules/myconf/.eslintrc.json",
+                    cwd: getPath(),
+                    useEslintrc: false
+                });
+                const files = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(files, [
+                    path.join(root, "node_modules/myconf/foo/test.js")
+                ]);
+            });
+        });
+    });
+
+    describe("plugin conflicts", () => {
+        let uid = 0;
+        const root = getFixturePath("cli-engine/plugin-conflicts-");
+
+        /**
+         * Verify thrown errors.
+         * @param {() => void} f The function to run and throw.
+         * @param {Record<string, any>} props The properties to verify.
+         * @returns {void}
+         */
+        function assertThrows(f, props) {
+            try {
+                f();
+            } catch (error) {
+                for (const [key, value] of Object.entries(props)) {
+                    assert.deepStrictEqual(error[key], value, key);
+                }
+                return;
+            }
+
+            assert.fail("Function should throw an error, but not.");
+        }
+
+        describe("between a config file and linear extendees.", () => {
+
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: `${root}${++uid}`,
+                files: {
+                    "node_modules/eslint-plugin-foo/index.js": "",
+                    "node_modules/eslint-config-one/node_modules/eslint-plugin-foo/index.js": "",
+                    "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
+                        extends: ["two"],
+                        plugins: ["foo"]
+                    })}`,
+                    "node_modules/eslint-config-two/node_modules/eslint-plugin-foo/index.js": "",
+                    "node_modules/eslint-config-two/index.js": `module.exports = ${JSON.stringify({
+                        plugins: ["foo"]
+                    })}`,
+                    ".eslintrc.json": JSON.stringify({
+                        extends: ["one"],
+                        plugins: ["foo"]
+                    }),
+                    "test.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'executeOnFiles()' should NOT throw plugin-conflict error. (Load the plugin from the base directory of the entry config file.)", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                engine.executeOnFiles("test.js");
+            });
+        });
+
+        describe("between a config file and same-depth extendees.", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: `${root}${++uid}`,
+                files: {
+                    "node_modules/eslint-plugin-foo/index.js": "",
+                    "node_modules/eslint-config-one/node_modules/eslint-plugin-foo/index.js": "",
+                    "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
+                        plugins: ["foo"]
+                    })}`,
+                    "node_modules/eslint-config-two/node_modules/eslint-plugin-foo/index.js": "",
+                    "node_modules/eslint-config-two/index.js": `module.exports = ${JSON.stringify({
+                        plugins: ["foo"]
+                    })}`,
+                    ".eslintrc.json": JSON.stringify({
+                        extends: ["one", "two"],
+                        plugins: ["foo"]
+                    }),
+                    "test.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'executeOnFiles()' should NOT throw plugin-conflict error. (Load the plugin from the base directory of the entry config file.)", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                engine.executeOnFiles("test.js");
+            });
+        });
+
+        describe("between two config files in different directories, with single node_modules.", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: `${root}${++uid}`,
+                files: {
+                    "node_modules/eslint-plugin-foo/index.js": "",
+                    ".eslintrc.json": JSON.stringify({
+                        plugins: ["foo"]
+                    }),
+                    "subdir/.eslintrc.json": JSON.stringify({
+                        plugins: ["foo"]
+                    }),
+                    "subdir/test.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'executeOnFiles()' should NOT throw plugin-conflict error. (Load the plugin from the base directory of the entry config file, but there are two entry config files, but node_modules directory is unique.)", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                engine.executeOnFiles("subdir/test.js");
+            });
+        });
+
+        describe("between two config files in different directories, with multiple node_modules.", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: `${root}${++uid}`,
+                files: {
+                    "node_modules/eslint-plugin-foo/index.js": "",
+                    ".eslintrc.json": JSON.stringify({
+                        plugins: ["foo"]
+                    }),
+                    "subdir/node_modules/eslint-plugin-foo/index.js": "",
+                    "subdir/.eslintrc.json": JSON.stringify({
+                        plugins: ["foo"]
+                    }),
+                    "subdir/test.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'executeOnFiles()' should throw plugin-conflict error. (Load the plugin from the base directory of the entry config file, but there are two entry config files.)", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+
+                assertThrows(
+                    () => engine.executeOnFiles("subdir/test.js"),
+                    {
+                        message: `Plugin "foo" was conflicted between "subdir${path.sep}.eslintrc.json" and ".eslintrc.json".`,
+                        messageTemplate: "plugin-conflict",
+                        messageData: {
+                            pluginId: "foo",
+                            plugins: [
+                                {
+                                    filePath: path.join(getPath(), "subdir/node_modules/eslint-plugin-foo/index.js"),
+                                    importerName: `subdir${path.sep}.eslintrc.json`
+                                },
+                                {
+                                    filePath: path.join(getPath(), "node_modules/eslint-plugin-foo/index.js"),
+                                    importerName: ".eslintrc.json"
+                                }
+                            ]
+                        }
+                    }
+                );
+            });
+        });
+
+        describe("between '--config' option and a regular config file, with single node_modules.", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: `${root}${++uid}`,
+                files: {
+                    "node_modules/eslint-plugin-foo/index.js": "",
+                    "node_modules/mine/.eslintrc.json": JSON.stringify({
+                        plugins: ["foo"]
+                    }),
+                    ".eslintrc.json": JSON.stringify({
+                        plugins: ["foo"]
+                    }),
+                    "test.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'executeOnFiles()' should NOT throw plugin-conflict error. (Load the plugin from the base directory of the entry config file, but there are two entry config files, but node_modules directory is unique.)", () => {
+                const engine = new CLIEngine({
+                    cwd: getPath(),
+                    configFile: "node_modules/mine/.eslintrc.json"
+                });
+
+                engine.executeOnFiles("test.js");
+            });
+        });
+
+        describe("between '--config' option and a regular config file, with multiple node_modules.", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: `${root}${++uid}`,
+                files: {
+                    "node_modules/eslint-plugin-foo/index.js": "",
+                    "node_modules/mine/node_modules/eslint-plugin-foo/index.js": "",
+                    "node_modules/mine/.eslintrc.json": JSON.stringify({
+                        plugins: ["foo"]
+                    }),
+                    ".eslintrc.json": JSON.stringify({
+                        plugins: ["foo"]
+                    }),
+                    "test.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'executeOnFiles()' should throw plugin-conflict error. (Load the plugin from the base directory of the entry config file, but there are two entry config files.)", () => {
+                const engine = new CLIEngine({
+                    cwd: getPath(),
+                    configFile: "node_modules/mine/.eslintrc.json"
+                });
+
+                assertThrows(
+                    () => engine.executeOnFiles("test.js"),
+                    {
+                        message: "Plugin \"foo\" was conflicted between \"--config\" and \".eslintrc.json\".",
+                        messageTemplate: "plugin-conflict",
+                        messageData: {
+                            pluginId: "foo",
+                            plugins: [
+                                {
+                                    filePath: path.join(getPath(), "node_modules/mine/node_modules/eslint-plugin-foo/index.js"),
+                                    importerName: "--config"
+                                },
+                                {
+                                    filePath: path.join(getPath(), "node_modules/eslint-plugin-foo/index.js"),
+                                    importerName: ".eslintrc.json"
+                                }
+                            ]
+                        }
+                    }
+                );
+            });
+        });
+
+        describe("between '--plugin' option and a regular config file, with single node_modules.", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: `${root}${++uid}`,
+                files: {
+                    "node_modules/eslint-plugin-foo/index.js": "",
+                    "subdir/.eslintrc.json": JSON.stringify({
+                        plugins: ["foo"]
+                    }),
+                    "subdir/test.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'executeOnFiles()' should NOT throw plugin-conflict error. (Load the plugin from both CWD and the base directory of the entry config file, but node_modules directory is unique.)", () => {
+                const engine = new CLIEngine({
+                    cwd: getPath(),
+                    plugins: ["foo"]
+                });
+
+                engine.executeOnFiles("subdir/test.js");
+            });
+        });
+
+        describe("between '--plugin' option and a regular config file, with multiple node_modules.", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: `${root}${++uid}`,
+                files: {
+                    "node_modules/eslint-plugin-foo/index.js": "",
+                    "subdir/node_modules/eslint-plugin-foo/index.js": "",
+                    "subdir/.eslintrc.json": JSON.stringify({
+                        plugins: ["foo"]
+                    }),
+                    "subdir/test.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'executeOnFiles()' should throw plugin-conflict error. (Load the plugin from both CWD and the base directory of the entry config file.)", () => {
+                const engine = new CLIEngine({
+                    cwd: getPath(),
+                    plugins: ["foo"]
+                });
+
+                assertThrows(
+                    () => engine.executeOnFiles("subdir/test.js"),
+                    {
+                        message: `Plugin "foo" was conflicted between "CLIOptions" and "subdir${path.sep}.eslintrc.json".`,
+                        messageTemplate: "plugin-conflict",
+                        messageData: {
+                            pluginId: "foo",
+                            plugins: [
+                                {
+                                    filePath: path.join(getPath(), "node_modules/eslint-plugin-foo/index.js"),
+                                    importerName: "CLIOptions"
+                                },
+                                {
+                                    filePath: path.join(getPath(), "subdir/node_modules/eslint-plugin-foo/index.js"),
+                                    importerName: `subdir${path.sep}.eslintrc.json`
+                                }
+                            ]
+                        }
+                    }
+                );
+            });
+        });
+
+        describe("'--resolve-plugins-relative-to' option overrides the location that ESLint load plugins from.", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: `${root}${++uid}`,
+                files: {
+                    "node_modules/eslint-plugin-foo/index.js": "",
+                    ".eslintrc.json": JSON.stringify({
+                        plugins: ["foo"]
+                    }),
+                    "subdir/node_modules/eslint-plugin-foo/index.js": "",
+                    "subdir/.eslintrc.json": JSON.stringify({
+                        plugins: ["foo"]
+                    }),
+                    "subdir/test.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'executeOnFiles()' should NOT throw plugin-conflict error. (Load the plugin from '--resolve-plugins-relative-to'.)", () => {
+                const engine = new CLIEngine({
+                    cwd: getPath(),
+                    resolvePluginsRelativeTo: getPath()
+                });
+
+                engine.executeOnFiles("subdir/test.js");
+            });
+        });
+
+        describe("between two config files with different target files.", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: `${root}${++uid}`,
+                files: {
+                    "one/node_modules/eslint-plugin-foo/index.js": "",
+                    "one/.eslintrc.json": JSON.stringify({
+                        plugins: ["foo"]
+                    }),
+                    "one/test.js": "",
+                    "two/node_modules/eslint-plugin-foo/index.js": "",
+                    "two/.eslintrc.json": JSON.stringify({
+                        plugins: ["foo"]
+                    }),
+                    "two/test.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'executeOnFiles()' should NOT throw plugin-conflict error. (Load the plugin from the base directory of the entry config file for each target file. Not related to each other.)", () => {
+                const engine = new CLIEngine({ cwd: getPath() });
+                const { results } = engine.executeOnFiles("*/test.js");
+
+                assert.strictEqual(results.length, 2);
             });
         });
     });

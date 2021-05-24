@@ -6,8 +6,8 @@
 "use strict";
 
 /*
- * NOTE: If you are adding new tests for cli.js, use verifyCLIEngineOpts(). The
- * test only needs to verify that CLIEngine receives the correct opts.
+ * NOTE: If you are adding new tests for cli.js, use verifyESLintOpts(). The
+ * test only needs to verify that ESLint receives the correct opts.
  */
 
 //------------------------------------------------------------------------------
@@ -15,10 +15,11 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    CLIEngine = require("../../lib/cli-engine/index").CLIEngine,
+    stdAssert = require("assert"),
+    { ESLint } = require("../../lib/eslint"),
+    BuiltinRules = require("../../lib/rules"),
     path = require("path"),
     sinon = require("sinon"),
-    leche = require("leche"),
     fs = require("fs"),
     os = require("os"),
     sh = require("shelljs");
@@ -30,45 +31,49 @@ const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 //------------------------------------------------------------------------------
 
 describe("cli", () => {
-
     let fixtureDir;
     const log = {
         info: sinon.spy(),
         error: sinon.spy()
     };
+    const RuntimeInfo = {
+        environment: sinon.stub(),
+        version: sinon.stub()
+    };
     const cli = proxyquire("../../lib/cli", {
-        "./shared/logging": log
+        "./shared/logging": log,
+        "./shared/runtime-info": RuntimeInfo
     });
 
     /**
-     * Verify that CLIEngine receives correct opts via cli.execute().
+     * Verify that ESLint class receives correct opts via await cli.execute().
      * @param {string} cmd CLI command.
-     * @param {Object} opts Options hash that should match that received by CLIEngine.
+     * @param {Object} opts Options hash that should match that received by ESLint class.
      * @returns {void}
      */
-    function verifyCLIEngineOpts(cmd, opts) {
-        const sandbox = sinon.sandbox.create();
+    async function verifyESLintOpts(cmd, opts) {
 
-        // create a fake CLIEngine to test with
-        const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match(opts));
+        // create a fake ESLint class to test with
+        const fakeESLint = sinon.mock().withExactArgs(sinon.match(opts));
 
-        fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-        sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({});
-        sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(sinon.spy());
+        Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+        sinon.stub(fakeESLint.prototype, "lintFiles").returns([]);
+        sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: sinon.spy() });
 
         const localCLI = proxyquire("../../lib/cli", {
-            "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+            "./eslint": { ESLint: fakeESLint },
             "./shared/logging": log
         });
 
-        localCLI.execute(cmd);
-        sandbox.verifyAndRestore();
+        await localCLI.execute(cmd);
+        sinon.verifyAndRestore();
     }
 
-    // verifyCLIEngineOpts
+    // verifyESLintOpts
 
     /**
      * Returns the path inside of the fixture directory.
+     * @param {...string} args file path segments.
      * @returns {string} The path inside the fixture directory.
      * @private
      */
@@ -77,15 +82,23 @@ describe("cli", () => {
     }
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
-    before(() => {
+    before(function() {
+
+        /*
+         * GitHub Actions Windows and macOS runners occasionally exhibit
+         * extremely slow filesystem operations, during which copying fixtures
+         * exceeds the default test timeout, so raise it just for this hook.
+         * Mocha uses `this` to set timeouts on an individual hook level.
+         */
+        this.timeout(60 * 1000); // eslint-disable-line no-invalid-this
         fixtureDir = `${os.tmpdir()}/eslint/fixtures`;
         sh.mkdir("-p", fixtureDir);
         sh.cp("-r", "./tests/fixtures/.", fixtureDir);
     });
 
     afterEach(() => {
-        log.info.reset();
-        log.error.reset();
+        log.info.resetHistory();
+        log.error.resetHistory();
     });
 
     after(() => {
@@ -93,30 +106,30 @@ describe("cli", () => {
     });
 
     describe("execute()", () => {
-        it("should return error when text with incorrect quotes is passed as argument", () => {
+        it("should return error when text with incorrect quotes is passed as argument", async () => {
             const configFile = getFixturePath("configurations", "quotes-error.json");
-            const result = cli.execute(`-c ${configFile}`, "var foo = 'bar';");
+            const result = await cli.execute(`-c ${configFile}`, "var foo = 'bar';");
 
             assert.strictEqual(result, 1);
         });
 
-        it("should not print debug info when passed the empty string as text", () => {
-            const result = cli.execute(["--stdin", "--no-eslintrc"], "");
+        it("should not print debug info when passed the empty string as text", async () => {
+            const result = await cli.execute(["--stdin", "--no-eslintrc"], "");
 
             assert.strictEqual(result, 0);
             assert.isTrue(log.info.notCalled);
         });
 
-        it("should return no error when --ext .js2 is specified", () => {
+        it("should return no error when --ext .js2 is specified", async () => {
             const filePath = getFixturePath("files");
-            const result = cli.execute(`--ext .js2 ${filePath}`);
+            const result = await cli.execute(`--ext .js2 ${filePath}`);
 
             assert.strictEqual(result, 0);
         });
 
-        it("should exit with console error when passed unsupported arguments", () => {
+        it("should exit with console error when passed unsupported arguments", async () => {
             const filePath = getFixturePath("files");
-            const result = cli.execute(`--blah --another ${filePath}`);
+            const result = await cli.execute(`--blah --another ${filePath}`);
 
             assert.strictEqual(result, 2);
         });
@@ -124,120 +137,119 @@ describe("cli", () => {
     });
 
     describe("when given a config file", () => {
-        it("should load the specified config file", () => {
+        it("should load the specified config file", async () => {
             const configPath = getFixturePath(".eslintrc");
             const filePath = getFixturePath("passing.js");
 
-            cli.execute(`--config ${configPath} ${filePath}`);
+            await cli.execute(`--config ${configPath} ${filePath}`);
         });
     });
 
     describe("when there is a local config file", () => {
         const code = "lib/cli.js";
 
-        it("should load the local config file", () => {
+        it("should load the local config file", async () => {
 
             // Mock CWD
             process.eslintCwd = getFixturePath("configurations", "single-quotes");
 
-            cli.execute(code);
+            await cli.execute(code);
 
             process.eslintCwd = null;
         });
     });
 
     describe("when given a config with rules with options and severity level set to error", () => {
-        it("should exit with an error status (1)", () => {
+        it("should exit with an error status (1)", async () => {
             const configPath = getFixturePath("configurations", "quotes-error.json");
             const filePath = getFixturePath("single-quoted.js");
             const code = `--no-ignore --config ${configPath} ${filePath}`;
 
-            const exitStatus = cli.execute(code);
+            const exitStatus = await cli.execute(code);
 
             assert.strictEqual(exitStatus, 1);
         });
     });
 
     describe("when given a config file and a directory of files", () => {
-        it("should load and execute without error", () => {
+        it("should load and execute without error", async () => {
             const configPath = getFixturePath("configurations", "semi-error.json");
             const filePath = getFixturePath("formatters");
             const code = `--config ${configPath} ${filePath}`;
 
-            const exitStatus = cli.execute(code);
+            const exitStatus = await cli.execute(code);
 
             assert.strictEqual(exitStatus, 0);
         });
     });
 
     describe("when given a config with environment set to browser", () => {
-        it("should execute without any errors", () => {
+        it("should execute without any errors", async () => {
             const configPath = getFixturePath("configurations", "env-browser.json");
             const filePath = getFixturePath("globals-browser.js");
             const code = `--config ${configPath} ${filePath}`;
 
-            const exit = cli.execute(code);
+            const exit = await cli.execute(code);
 
             assert.strictEqual(exit, 0);
         });
     });
 
     describe("when given a config with environment set to Node.js", () => {
-        it("should execute without any errors", () => {
+        it("should execute without any errors", async () => {
             const configPath = getFixturePath("configurations", "env-node.json");
             const filePath = getFixturePath("globals-node.js");
             const code = `--config ${configPath} ${filePath}`;
 
-            const exit = cli.execute(code);
+            const exit = await cli.execute(code);
 
             assert.strictEqual(exit, 0);
         });
     });
 
     describe("when given a config with environment set to Nashorn", () => {
-        it("should execute without any errors", () => {
+        it("should execute without any errors", async () => {
             const configPath = getFixturePath("configurations", "env-nashorn.json");
             const filePath = getFixturePath("globals-nashorn.js");
             const code = `--config ${configPath} ${filePath}`;
 
-            const exit = cli.execute(code);
+            const exit = await cli.execute(code);
 
             assert.strictEqual(exit, 0);
         });
     });
 
     describe("when given a config with environment set to WebExtensions", () => {
-        it("should execute without any errors", () => {
+        it("should execute without any errors", async () => {
             const configPath = getFixturePath("configurations", "env-webextensions.json");
             const filePath = getFixturePath("globals-webextensions.js");
             const code = `--config ${configPath} ${filePath}`;
 
-            const exit = cli.execute(code);
+            const exit = await cli.execute(code);
 
             assert.strictEqual(exit, 0);
         });
     });
 
     describe("when given a valid built-in formatter name", () => {
-        it("should execute without any errors", () => {
+        it("should execute without any errors", async () => {
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute(`-f checkstyle ${filePath}`);
+            const exit = await cli.execute(`-f checkstyle ${filePath}`);
 
             assert.strictEqual(exit, 0);
         });
     });
 
     describe("when given a valid built-in formatter name that uses rules meta.", () => {
-        it("should execute without any errors", () => {
+        it("should execute without any errors", async () => {
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute(`-f json-with-metadata ${filePath} --no-eslintrc`);
+            const exit = await cli.execute(`-f json-with-metadata ${filePath} --no-eslintrc`);
 
             assert.strictEqual(exit, 0);
 
             // Check metadata.
             const { metadata } = JSON.parse(log.info.args[0][0]);
-            const rules = new CLIEngine({ useEslintrc: false }).getRules();
-            const expectedMetadata = Array.from(rules).reduce((obj, [ruleId, rule]) => {
+            const expectedMetadata = Array.from(BuiltinRules).reduce((obj, [ruleId, rule]) => {
                 obj.rulesMeta[ruleId] = rule.meta;
                 return obj;
             }, { rulesMeta: {} });
@@ -247,125 +259,204 @@ describe("cli", () => {
     });
 
     describe("when given an invalid built-in formatter name", () => {
-        it("should execute with error", () => {
+        it("should execute with error", async () => {
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute(`-f fakeformatter ${filePath}`);
+            const exit = await cli.execute(`-f fakeformatter ${filePath}`);
 
             assert.strictEqual(exit, 2);
         });
     });
 
     describe("when given a valid formatter path", () => {
-        it("should execute without any errors", () => {
+        it("should execute without any errors", async () => {
             const formatterPath = getFixturePath("formatters", "simple.js");
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute(`-f ${formatterPath} ${filePath}`);
+            const exit = await cli.execute(`-f ${formatterPath} ${filePath}`);
 
             assert.strictEqual(exit, 0);
         });
     });
 
     describe("when given an invalid formatter path", () => {
-        it("should execute with error", () => {
+        it("should execute with error", async () => {
             const formatterPath = getFixturePath("formatters", "file-does-not-exist.js");
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute(`-f ${formatterPath} ${filePath}`);
+            const exit = await cli.execute(`-f ${formatterPath} ${filePath}`);
 
             assert.strictEqual(exit, 2);
         });
     });
 
     describe("when executing a file with a lint error", () => {
-        it("should exit with error", () => {
+        it("should exit with error", async () => {
             const filePath = getFixturePath("undef.js");
             const code = `--no-ignore --rule no-undef:2 ${filePath}`;
 
-            const exit = cli.execute(code);
+            const exit = await cli.execute(code);
 
             assert.strictEqual(exit, 1);
         });
     });
 
     describe("when using --fix-type without --fix or --fix-dry-run", () => {
-        it("should exit with error", () => {
+        it("should exit with error", async () => {
             const filePath = getFixturePath("passing.js");
             const code = `--fix-type suggestion ${filePath}`;
 
-            const exit = cli.execute(code);
+            const exit = await cli.execute(code);
 
             assert.strictEqual(exit, 2);
         });
     });
 
     describe("when executing a file with a syntax error", () => {
-        it("should exit with error", () => {
+        it("should exit with error", async () => {
             const filePath = getFixturePath("syntax-error.js");
-            const exit = cli.execute(`--no-ignore ${filePath}`);
+            const exit = await cli.execute(`--no-ignore ${filePath}`);
 
             assert.strictEqual(exit, 1);
         });
     });
 
     describe("when calling execute more than once", () => {
-        it("should not print the results from previous execution", () => {
+        it("should not print the results from previous execution", async () => {
             const filePath = getFixturePath("missing-semicolon.js");
             const passingPath = getFixturePath("passing.js");
 
-            cli.execute(`--no-ignore --rule semi:2 ${filePath}`);
+            await cli.execute(`--no-ignore --rule semi:2 ${filePath}`);
 
             assert.isTrue(log.info.called, "Log should have been called.");
 
-            log.info.reset();
+            log.info.resetHistory();
 
-            cli.execute(`--no-ignore --rule semi:2 ${passingPath}`);
+            await cli.execute(`--no-ignore --rule semi:2 ${passingPath}`);
             assert.isTrue(log.info.notCalled);
 
         });
     });
 
     describe("when executing with version flag", () => {
-        it("should print out current version", () => {
-            assert.strictEqual(cli.execute("-v"), 0);
-
+        it("should print out current version", async () => {
+            assert.strictEqual(await cli.execute("-v"), 0);
             assert.strictEqual(log.info.callCount, 1);
         });
     });
 
-    describe("when executing with help flag", () => {
-        it("should print out help", () => {
-            assert.strictEqual(cli.execute("-h"), 0);
+    describe("when executing with env-info flag", () => {
+        it("should print out environment information", async () => {
+            assert.strictEqual(await cli.execute("--env-info"), 0);
+            assert.strictEqual(log.info.callCount, 1);
+        });
 
+        it("should print error message and return error code", async () => {
+            RuntimeInfo.environment.throws("There was an error!");
+
+            assert.strictEqual(await cli.execute("--env-info"), 2);
+            assert.strictEqual(log.error.callCount, 1);
+        });
+    });
+
+    describe("when executing without no-error-on-unmatched-pattern flag", () => {
+        it("should throw an error on unmatched glob pattern", async () => {
+            const filePath = getFixturePath("unmatched-patterns");
+            const globPattern = "*.js3";
+
+            await stdAssert.rejects(async () => {
+                await cli.execute(`"${filePath}/${globPattern}"`);
+            }, new Error(`No files matching '${filePath}/${globPattern}' were found.`));
+        });
+
+        it("should throw an error on unmatched --ext", async () => {
+            const filePath = getFixturePath("unmatched-patterns");
+            const extension = ".js3";
+
+            await stdAssert.rejects(async () => {
+                await cli.execute(`--ext ${extension} ${filePath}`);
+            }, `No files matching '${filePath}' were found`);
+        });
+    });
+
+    describe("when executing with no-error-on-unmatched-pattern flag", () => {
+        it("should not throw an error on unmatched node glob syntax patterns", async () => {
+            const filePath = getFixturePath("unmatched-patterns");
+            const exit = await cli.execute(`--no-error-on-unmatched-pattern "${filePath}/*.js3"`);
+
+            assert.strictEqual(exit, 0);
+        });
+
+        it("should not throw an error on unmatched --ext", async () => {
+            const filePath = getFixturePath("unmatched-patterns");
+            const exit = await cli.execute(`--no-error-on-unmatched-pattern --ext .js3 ${filePath}`);
+
+            assert.strictEqual(exit, 0);
+        });
+    });
+
+    describe("when executing with no-error-on-unmatched-pattern flag and multiple patterns", () => {
+        it("should not throw an error on multiple unmatched node glob syntax patterns", async () => {
+            const filePath = getFixturePath("unmatched-patterns");
+            const exit = await cli.execute(`--no-error-on-unmatched-pattern ${filePath}/*.js3 ${filePath}/*.js4`);
+
+            assert.strictEqual(exit, 0);
+        });
+
+        it("should still throw an error on when a matched pattern has lint errors", async () => {
+            const filePath = getFixturePath("unmatched-patterns");
+            const exit = await cli.execute(`--no-error-on-unmatched-pattern ${filePath}/*.js3 ${filePath}/*.js`);
+
+            assert.strictEqual(exit, 1);
+        });
+    });
+
+    describe("when executing with no-error-on-unmatched-pattern flag and multiple --ext arguments", () => {
+        it("should not throw an error on multiple unmatched --ext arguments", async () => {
+            const filePath = getFixturePath("unmatched-patterns");
+            const exit = await cli.execute(`--no-error-on-unmatched-pattern --ext .js3 --ext .js4 ${filePath}`);
+
+            assert.strictEqual(exit, 0);
+        });
+
+        it("should still throw an error on when a matched pattern has lint errors", async () => {
+            const filePath = getFixturePath("unmatched-patterns");
+            const exit = await cli.execute(`--no-error-on-unmatched-pattern --ext .js3 --ext .js ${filePath}`);
+
+            assert.strictEqual(exit, 1);
+        });
+    });
+
+    describe("when executing with help flag", () => {
+        it("should print out help", async () => {
+            assert.strictEqual(await cli.execute("-h"), 0);
             assert.strictEqual(log.info.callCount, 1);
         });
     });
 
     describe("when given a directory with eslint excluded files in the directory", () => {
-        it("should throw an error and not process any files", () => {
+        it("should throw an error and not process any files", async () => {
             const ignorePath = getFixturePath(".eslintignore");
             const filePath = getFixturePath("cli");
 
-            assert.throws(() => {
-                cli.execute(`--ignore-path ${ignorePath} ${filePath}`);
-            }, `All files matched by '${filePath}' are ignored.`);
+            await stdAssert.rejects(async () => {
+                await cli.execute(`--ignore-path ${ignorePath} ${filePath}`);
+            }, new Error(`All files matched by '${filePath}' are ignored.`));
         });
     });
 
     describe("when given a file in excluded files list", () => {
-
-        it("should not process the file", () => {
+        it("should not process the file", async () => {
             const ignorePath = getFixturePath(".eslintignore");
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute(`--ignore-path ${ignorePath} ${filePath}`);
+            const exit = await cli.execute(`--ignore-path ${ignorePath} ${filePath}`);
 
             // a warning about the ignored file
             assert.isTrue(log.info.called);
             assert.strictEqual(exit, 0);
         });
 
-        it("should process the file when forced", () => {
+        it("should process the file when forced", async () => {
             const ignorePath = getFixturePath(".eslintignore");
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute(`--ignore-path ${ignorePath} --no-ignore ${filePath}`);
+            const exit = await cli.execute(`--ignore-path ${ignorePath} --no-ignore ${filePath}`);
 
             // no warnings
             assert.isFalse(log.info.called);
@@ -374,10 +465,10 @@ describe("cli", () => {
     });
 
     describe("when given a pattern to ignore", () => {
-        it("should not process any files", () => {
+        it("should not process any files", async () => {
             const ignoredFile = getFixturePath("cli/syntax-error.js");
             const filePath = getFixturePath("cli/passing.js");
-            const exit = cli.execute(`--ignore-pattern cli/ ${ignoredFile} ${filePath}`);
+            const exit = await cli.execute(`--ignore-pattern cli/ ${ignoredFile} ${filePath}`);
 
             // warnings about the ignored files
             assert.isTrue(log.info.called);
@@ -386,63 +477,63 @@ describe("cli", () => {
     });
 
     describe("when given patterns to ignore", () => {
-        it("should not process any matching files", () => {
+        it("should not process any matching files", async () => {
             const ignorePaths = ["a", "b"];
 
             const cmd = ignorePaths.map(ignorePath => `--ignore-pattern ${ignorePath}`).concat(".").join(" ");
 
             const opts = {
-                ignorePattern: ignorePaths
+                overrideConfig: {
+                    ignorePatterns: ignorePaths
+                }
             };
 
-            verifyCLIEngineOpts(cmd, opts);
+            await verifyESLintOpts(cmd, opts);
         });
     });
 
     describe("when executing a file with a shebang", () => {
-
-        it("should execute without error", () => {
+        it("should execute without error", async () => {
             const filePath = getFixturePath("shebang.js");
-            const exit = cli.execute(`--no-ignore ${filePath}`);
+            const exit = await cli.execute(`--no-ignore ${filePath}`);
 
             assert.strictEqual(exit, 0);
         });
     });
 
     describe("when loading a custom rule", () => {
-
-        it("should return an error when rule isn't found", () => {
+        it("should return an error when rule isn't found", async () => {
             const rulesPath = getFixturePath("rules", "wrong");
             const configPath = getFixturePath("rules", "eslint.json");
             const filePath = getFixturePath("rules", "test", "test-custom-rule.js");
             const code = `--rulesdir ${rulesPath} --config ${configPath} --no-ignore ${filePath}`;
 
-            assert.throws(() => {
-                const exit = cli.execute(code);
+            await stdAssert.rejects(async () => {
+                const exit = await cli.execute(code);
 
                 assert.strictEqual(exit, 2);
             }, /Error while loading rule 'custom-rule': Cannot read property/u);
         });
 
-        it("should return a warning when rule is matched", () => {
+        it("should return a warning when rule is matched", async () => {
             const rulesPath = getFixturePath("rules");
             const configPath = getFixturePath("rules", "eslint.json");
             const filePath = getFixturePath("rules", "test", "test-custom-rule.js");
             const code = `--rulesdir ${rulesPath} --config ${configPath} --no-ignore ${filePath}`;
 
-            cli.execute(code);
+            await cli.execute(code);
 
             assert.isTrue(log.info.calledOnce);
             assert.isTrue(log.info.neverCalledWith(""));
         });
 
-        it("should return warnings from multiple rules in different directories", () => {
+        it("should return warnings from multiple rules in different directories", async () => {
             const rulesPath = getFixturePath("rules", "dir1");
             const rulesPath2 = getFixturePath("rules", "dir2");
             const configPath = getFixturePath("rules", "multi-rulesdirs.json");
             const filePath = getFixturePath("rules", "test-multi-rulesdirs.js");
             const code = `--rulesdir ${rulesPath} --rulesdir ${rulesPath2} --config ${configPath} --no-ignore ${filePath}`;
-            const exit = cli.execute(code);
+            const exit = await cli.execute(code);
 
             const call = log.info.getCall(0);
 
@@ -458,9 +549,9 @@ describe("cli", () => {
     });
 
     describe("when executing with no-eslintrc flag", () => {
-        it("should ignore a local config file", () => {
+        it("should ignore a local config file", async () => {
             const filePath = getFixturePath("eslintrc", "quotes.js");
-            const exit = cli.execute(`--no-eslintrc --no-ignore ${filePath}`);
+            const exit = await cli.execute(`--no-eslintrc --no-ignore ${filePath}`);
 
             assert.isTrue(log.info.notCalled);
             assert.strictEqual(exit, 0);
@@ -468,9 +559,9 @@ describe("cli", () => {
     });
 
     describe("when executing without no-eslintrc flag", () => {
-        it("should load a local config file", () => {
+        it("should load a local config file", async () => {
             const filePath = getFixturePath("eslintrc", "quotes.js");
-            const exit = cli.execute(`--no-ignore ${filePath}`);
+            const exit = await cli.execute(`--no-ignore ${filePath}`);
 
             assert.isTrue(log.info.calledOnce);
             assert.strictEqual(exit, 1);
@@ -478,38 +569,38 @@ describe("cli", () => {
     });
 
     describe("when executing without env flag", () => {
-        it("should not define environment-specific globals", () => {
+        it("should not define environment-specific globals", async () => {
             const files = [
                 getFixturePath("globals-browser.js"),
                 getFixturePath("globals-node.js")
             ];
 
-            cli.execute(`--no-eslintrc --config ./conf/eslint-recommended.js --no-ignore ${files.join(" ")}`);
+            await cli.execute(`--no-eslintrc --config ./conf/eslint-recommended.js --no-ignore ${files.join(" ")}`);
 
             assert.strictEqual(log.info.args[0][0].split("\n").length, 10);
         });
     });
 
     describe("when executing with global flag", () => {
-        it("should default defined variables to read-only", () => {
+        it("should default defined variables to read-only", async () => {
             const filePath = getFixturePath("undef.js");
-            const exit = cli.execute(`--global baz,bat --no-ignore --rule no-global-assign:2 ${filePath}`);
+            const exit = await cli.execute(`--global baz,bat --no-ignore --rule no-global-assign:2 ${filePath}`);
 
             assert.isTrue(log.info.calledOnce);
             assert.strictEqual(exit, 1);
         });
 
-        it("should allow defining writable global variables", () => {
+        it("should allow defining writable global variables", async () => {
             const filePath = getFixturePath("undef.js");
-            const exit = cli.execute(`--global baz:false,bat:true --no-ignore ${filePath}`);
+            const exit = await cli.execute(`--global baz:false,bat:true --no-ignore ${filePath}`);
 
             assert.isTrue(log.info.notCalled);
             assert.strictEqual(exit, 0);
         });
 
-        it("should allow defining variables with multiple flags", () => {
+        it("should allow defining variables with multiple flags", async () => {
             const filePath = getFixturePath("undef.js");
-            const exit = cli.execute(`--global baz --global bat:true --no-ignore ${filePath}`);
+            const exit = await cli.execute(`--global baz --global bat:true --no-ignore ${filePath}`);
 
             assert.isTrue(log.info.notCalled);
             assert.strictEqual(exit, 0);
@@ -517,10 +608,10 @@ describe("cli", () => {
     });
 
     describe("when supplied with rule flag and severity level set to error", () => {
-        it("should exit with an error status (2)", () => {
+        it("should exit with an error status (2)", async () => {
             const filePath = getFixturePath("single-quoted.js");
             const code = `--no-ignore --rule 'quotes: [2, double]' ${filePath}`;
-            const exitStatus = cli.execute(code);
+            const exitStatus = await cli.execute(code);
 
             assert.strictEqual(exitStatus, 1);
         });
@@ -528,11 +619,11 @@ describe("cli", () => {
 
     describe("when the quiet option is enabled", () => {
 
-        it("should only print error", () => {
+        it("should only print error", async () => {
             const filePath = getFixturePath("single-quoted.js");
             const cliArgs = `--no-ignore --quiet  -f compact --rule 'quotes: [2, double]' --rule 'no-unused-vars: 1' ${filePath}`;
 
-            cli.execute(cliArgs);
+            await cli.execute(cliArgs);
 
             sinon.assert.calledOnce(log.info);
 
@@ -542,52 +633,51 @@ describe("cli", () => {
             assert.notInclude(formattedOutput, "Warning");
         });
 
-        it("should print nothing if there are no errors", () => {
+        it("should print nothing if there are no errors", async () => {
             const filePath = getFixturePath("single-quoted.js");
             const cliArgs = `--quiet  -f compact --rule 'quotes: [1, double]' --rule 'no-unused-vars: 1' ${filePath}`;
 
-            cli.execute(cliArgs);
+            await cli.execute(cliArgs);
 
             sinon.assert.notCalled(log.info);
         });
     });
 
     describe("when supplied with report output file path", () => {
-
         afterEach(() => {
             sh.rm("-rf", "tests/output");
         });
 
-        it("should write the file and create dirs if they don't exist", () => {
+        it("should write the file and create dirs if they don't exist", async () => {
             const filePath = getFixturePath("single-quoted.js");
             const code = `--no-ignore --rule 'quotes: [1, double]' --o tests/output/eslint-output.txt ${filePath}`;
 
-            cli.execute(code);
+            await cli.execute(code);
 
             assert.include(fs.readFileSync("tests/output/eslint-output.txt", "utf8"), filePath);
             assert.isTrue(log.info.notCalled);
         });
 
-        it("should return an error if the path is a directory", () => {
+        it("should return an error if the path is a directory", async () => {
             const filePath = getFixturePath("single-quoted.js");
             const code = `--no-ignore --rule 'quotes: [1, double]' --o tests/output ${filePath}`;
 
             fs.mkdirSync("tests/output");
 
-            const exit = cli.execute(code);
+            const exit = await cli.execute(code);
 
             assert.strictEqual(exit, 2);
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);
         });
 
-        it("should return an error if the path could not be written to", () => {
+        it("should return an error if the path could not be written to", async () => {
             const filePath = getFixturePath("single-quoted.js");
             const code = `--no-ignore --rule 'quotes: [1, double]' --o tests/output/eslint-output.txt ${filePath}`;
 
             fs.writeFileSync("tests/output", "foo");
 
-            const exit = cli.execute(code);
+            const exit = await cli.execute(code);
 
             assert.strictEqual(exit, 2);
             assert.isTrue(log.info.notCalled);
@@ -596,173 +686,175 @@ describe("cli", () => {
     });
 
     describe("when supplied with a plugin", () => {
-
-        it("should pass plugins to CLIEngine", () => {
+        it("should pass plugins to ESLint", async () => {
             const examplePluginName = "eslint-plugin-example";
 
-            verifyCLIEngineOpts(`--no-ignore --plugin ${examplePluginName} foo.js`, {
-                plugins: [examplePluginName]
+            await verifyESLintOpts(`--no-ignore --plugin ${examplePluginName} foo.js`, {
+                overrideConfig: {
+                    plugins: [examplePluginName]
+                }
             });
         });
 
     });
 
     describe("when supplied with a plugin-loading path", () => {
-        it("should pass the option to CLIEngine", () => {
+        it("should pass the option to ESLint", async () => {
             const examplePluginDirPath = "foo/bar";
 
-            verifyCLIEngineOpts(`--resolve-plugins-relative-to ${examplePluginDirPath} foo.js`, {
+            await verifyESLintOpts(`--resolve-plugins-relative-to ${examplePluginDirPath} foo.js`, {
                 resolvePluginsRelativeTo: examplePluginDirPath
             });
         });
     });
 
     describe("when given an parser name", () => {
-        it("should exit with a fatal error if parser is invalid", () => {
+        it("should exit with a fatal error if parser is invalid", async () => {
             const filePath = getFixturePath("passing.js");
 
-            assert.throws(() => cli.execute(`--no-ignore --parser test111 ${filePath}`), "Cannot find module 'test111'");
+            await stdAssert.rejects(async () => await cli.execute(`--no-ignore --parser test111 ${filePath}`), "Cannot find module 'test111'");
         });
 
-        it("should exit with no error if parser is valid", () => {
+        it("should exit with no error if parser is valid", async () => {
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute(`--no-ignore --parser espree ${filePath}`);
+            const exit = await cli.execute(`--no-ignore --parser espree ${filePath}`);
 
             assert.strictEqual(exit, 0);
         });
     });
 
     describe("when given parser options", () => {
-        it("should exit with error if parser options are invalid", () => {
+        it("should exit with error if parser options are invalid", async () => {
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute(`--no-ignore --parser-options test111 ${filePath}`);
+            const exit = await cli.execute(`--no-ignore --parser-options test111 ${filePath}`);
 
             assert.strictEqual(exit, 2);
         });
 
-        it("should exit with no error if parser is valid", () => {
+        it("should exit with no error if parser is valid", async () => {
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute(`--no-ignore --parser-options=ecmaVersion:6 ${filePath}`);
+            const exit = await cli.execute(`--no-ignore --parser-options=ecmaVersion:6 ${filePath}`);
 
             assert.strictEqual(exit, 0);
         });
 
-        it("should exit with an error on ecmaVersion 7 feature in ecmaVersion 6", () => {
+        it("should exit with an error on ecmaVersion 7 feature in ecmaVersion 6", async () => {
             const filePath = getFixturePath("passing-es7.js");
-            const exit = cli.execute(`--no-ignore --parser-options=ecmaVersion:6 ${filePath}`);
+            const exit = await cli.execute(`--no-ignore --parser-options=ecmaVersion:6 ${filePath}`);
 
             assert.strictEqual(exit, 1);
         });
 
-        it("should exit with no error on ecmaVersion 7 feature in ecmaVersion 7", () => {
+        it("should exit with no error on ecmaVersion 7 feature in ecmaVersion 7", async () => {
             const filePath = getFixturePath("passing-es7.js");
-            const exit = cli.execute(`--no-ignore --parser-options=ecmaVersion:7 ${filePath}`);
+            const exit = await cli.execute(`--no-ignore --parser-options=ecmaVersion:7 ${filePath}`);
 
             assert.strictEqual(exit, 0);
         });
 
-        it("should exit with no error on ecmaVersion 7 feature with config ecmaVersion 6 and command line ecmaVersion 7", () => {
+        it("should exit with no error on ecmaVersion 7 feature with config ecmaVersion 6 and command line ecmaVersion 7", async () => {
             const configPath = getFixturePath("configurations", "es6.json");
             const filePath = getFixturePath("passing-es7.js");
-            const exit = cli.execute(`--no-ignore --config ${configPath} --parser-options=ecmaVersion:7 ${filePath}`);
+            const exit = await cli.execute(`--no-ignore --config ${configPath} --parser-options=ecmaVersion:7 ${filePath}`);
 
             assert.strictEqual(exit, 0);
         });
     });
 
     describe("when given the max-warnings flag", () => {
-        it("should not change exit code if warning count under threshold", () => {
+        it("should not change exit code if warning count under threshold", async () => {
             const filePath = getFixturePath("max-warnings");
-            const exitCode = cli.execute(`--no-ignore --max-warnings 10 ${filePath}`);
+            const exitCode = await cli.execute(`--no-ignore --max-warnings 10 ${filePath}`);
 
             assert.strictEqual(exitCode, 0);
         });
 
-        it("should exit with exit code 1 if warning count exceeds threshold", () => {
+        it("should exit with exit code 1 if warning count exceeds threshold", async () => {
             const filePath = getFixturePath("max-warnings");
-            const exitCode = cli.execute(`--no-ignore --max-warnings 5 ${filePath}`);
+            const exitCode = await cli.execute(`--no-ignore --max-warnings 5 ${filePath}`);
 
             assert.strictEqual(exitCode, 1);
             assert.ok(log.error.calledOnce);
             assert.include(log.error.getCall(0).args[0], "ESLint found too many warnings");
         });
 
-        it("should not change exit code if warning count equals threshold", () => {
+        it("should exit with exit code 1 without printing warnings if the quiet option is enabled and warning count exceeds threshold", async () => {
             const filePath = getFixturePath("max-warnings");
-            const exitCode = cli.execute(`--no-ignore --max-warnings 6 ${filePath}`);
+            const exitCode = await cli.execute(`--no-ignore --quiet --max-warnings 5 ${filePath}`);
+
+            assert.strictEqual(exitCode, 1);
+            assert.ok(log.error.calledOnce);
+            assert.include(log.error.getCall(0).args[0], "ESLint found too many warnings");
+            assert.ok(log.info.notCalled); // didn't print warnings
+        });
+
+        it("should not change exit code if warning count equals threshold", async () => {
+            const filePath = getFixturePath("max-warnings");
+            const exitCode = await cli.execute(`--no-ignore --max-warnings 6 ${filePath}`);
 
             assert.strictEqual(exitCode, 0);
         });
 
-        it("should not change exit code if flag is not specified and there are warnings", () => {
+        it("should not change exit code if flag is not specified and there are warnings", async () => {
             const filePath = getFixturePath("max-warnings");
-            const exitCode = cli.execute(filePath);
+            const exitCode = await cli.execute(filePath);
 
             assert.strictEqual(exitCode, 0);
         });
     });
 
     describe("when passed --no-inline-config", () => {
-
-        const sandbox = sinon.sandbox.create();
         let localCLI;
 
         afterEach(() => {
-            sandbox.verifyAndRestore();
+            sinon.verifyAndRestore();
         });
 
-        it("should pass allowInlineConfig:true to CLIEngine when --no-inline-config is used", () => {
+        it("should pass allowInlineConfig:false to ESLint when --no-inline-config is used", async () => {
 
-            // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ allowInlineConfig: false }));
+            // create a fake ESLint class to test with
+            const fakeESLint = sinon.mock().withExactArgs(sinon.match({ allowInlineConfig: false }));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
+            Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+            sinon.stub(fakeESLint.prototype, "lintFiles").returns([{
+                filePath: "./foo.js",
+                output: "bar",
+                messages: [
+                    {
+                        severity: 2,
+                        message: "Fake message"
+                    }
+                ],
                 errorCount: 1,
-                warningCount: 0,
-                results: [{
-                    filePath: "./foo.js",
-                    output: "bar",
-                    messages: [
-                        {
-                            severity: 2,
-                            message: "Fake message"
-                        }
-                    ]
-                }]
-            });
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            fakeCLIEngine.outputFixes = sandbox.stub();
+                warningCount: 0
+            }]);
+            sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
+            fakeESLint.outputFixes = sinon.stub();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./eslint": { ESLint: fakeESLint },
                 "./shared/logging": log
             });
 
-            localCLI.execute("--no-inline-config .");
+            await localCLI.execute("--no-inline-config .");
         });
 
-        it("should not error and allowInlineConfig should be true by default", () => {
+        it("should not error and allowInlineConfig should be true by default", async () => {
 
-            // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ allowInlineConfig: true }));
+            // create a fake ESLint class to test with
+            const fakeESLint = sinon.mock().withExactArgs(sinon.match({ allowInlineConfig: true }));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
-                errorCount: 0,
-                warningCount: 0,
-                results: []
-            });
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
-            fakeCLIEngine.outputFixes = sandbox.stub();
+            Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+            sinon.stub(fakeESLint.prototype, "lintFiles").returns([]);
+            sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
+            fakeESLint.outputFixes = sinon.stub();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./eslint": { ESLint: fakeESLint },
                 "./shared/logging": log
             });
 
-            const exitCode = localCLI.execute(".");
+            const exitCode = await localCLI.execute(".");
 
             assert.strictEqual(exitCode, 0);
 
@@ -771,127 +863,114 @@ describe("cli", () => {
     });
 
     describe("when passed --fix", () => {
-
-        const sandbox = sinon.sandbox.create();
         let localCLI;
 
         afterEach(() => {
-            sandbox.verifyAndRestore();
+            sinon.verifyAndRestore();
         });
 
-        it("should pass fix:true to CLIEngine when executing on files", () => {
+        it("should pass fix:true to ESLint when executing on files", async () => {
 
-            // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+            // create a fake ESLint class to test with
+            const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
-                errorCount: 0,
-                warningCount: 0,
-                results: []
-            });
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
-            fakeCLIEngine.outputFixes = sandbox.mock().once();
+            Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+            sinon.stub(fakeESLint.prototype, "lintFiles").returns([]);
+            sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
+            fakeESLint.outputFixes = sinon.mock().once();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./eslint": { ESLint: fakeESLint },
                 "./shared/logging": log
             });
 
-            const exitCode = localCLI.execute("--fix .");
+            const exitCode = await localCLI.execute("--fix .");
 
             assert.strictEqual(exitCode, 0);
 
         });
 
 
-        it("should rewrite files when in fix mode", () => {
+        it("should rewrite files when in fix mode", async () => {
 
-            const report = {
+            const report = [{
+                filePath: "./foo.js",
+                output: "bar",
+                messages: [
+                    {
+                        severity: 2,
+                        message: "Fake message"
+                    }
+                ],
                 errorCount: 1,
-                warningCount: 0,
-                results: [{
-                    filePath: "./foo.js",
-                    output: "bar",
-                    messages: [
-                        {
-                            severity: 2,
-                            message: "Fake message"
-                        }
-                    ]
-                }]
-            };
+                warningCount: 0
+            }];
 
-            // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+            // create a fake ESLint class to test with
+            const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
-            fakeCLIEngine.outputFixes = sandbox.mock().withExactArgs(report);
+            Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+            sinon.stub(fakeESLint.prototype, "lintFiles").returns(report);
+            sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
+            fakeESLint.outputFixes = sinon.mock().withExactArgs(report);
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./eslint": { ESLint: fakeESLint },
                 "./shared/logging": log
             });
 
-            const exitCode = localCLI.execute("--fix .");
+            const exitCode = await localCLI.execute("--fix .");
 
             assert.strictEqual(exitCode, 1);
 
         });
 
-        it("should provide fix predicate and rewrite files when in fix mode and quiet mode", () => {
+        it("should provide fix predicate and rewrite files when in fix mode and quiet mode", async () => {
 
-            const report = {
+            const report = [{
+                filePath: "./foo.js",
+                output: "bar",
+                messages: [
+                    {
+                        severity: 1,
+                        message: "Fake message"
+                    }
+                ],
                 errorCount: 0,
-                warningCount: 1,
-                results: [{
-                    filePath: "./foo.js",
-                    output: "bar",
-                    messages: [
-                        {
-                            severity: 1,
-                            message: "Fake message"
-                        }
-                    ]
-                }]
-            };
+                warningCount: 1
+            }];
 
-            // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: sinon.match.func }));
+            // create a fake ESLint class to test with
+            const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: sinon.match.func }));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
-            fakeCLIEngine.getErrorResults = sandbox.stub().returns([]);
-            fakeCLIEngine.outputFixes = sandbox.mock().withExactArgs(report);
+            Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+            sinon.stub(fakeESLint.prototype, "lintFiles").returns(report);
+            sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
+            fakeESLint.getErrorResults = sinon.stub().returns([]);
+            fakeESLint.outputFixes = sinon.mock().withExactArgs(report);
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./eslint": { ESLint: fakeESLint },
                 "./shared/logging": log
             });
 
-            const exitCode = localCLI.execute("--fix --quiet .");
+            const exitCode = await localCLI.execute("--fix --quiet .");
 
             assert.strictEqual(exitCode, 0);
 
         });
 
-        it("should not call CLIEngine and return 1 when executing on text", () => {
+        it("should not call ESLint and return 2 when executing on text", async () => {
 
-            // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().never();
+            // create a fake ESLint class to test with
+            const fakeESLint = sinon.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./eslint": { ESLint: fakeESLint },
                 "./shared/logging": log
             });
 
-            const exitCode = localCLI.execute("--fix .", "foo = bar;");
+            const exitCode = await localCLI.execute("--fix .", "foo = bar;");
 
             assert.strictEqual(exitCode, 2);
         });
@@ -899,219 +978,199 @@ describe("cli", () => {
     });
 
     describe("when passed --fix-dry-run", () => {
-        const sandbox = sinon.sandbox.create();
         let localCLI;
 
         afterEach(() => {
-            sandbox.verifyAndRestore();
+            sinon.verifyAndRestore();
         });
 
-        it("should pass fix:true to CLIEngine when executing on files", () => {
+        it("should pass fix:true to ESLint when executing on files", async () => {
 
-            // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+            // create a fake ESLint class to test with
+            const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
-                errorCount: 0,
-                warningCount: 0,
-                results: []
-            });
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
-            fakeCLIEngine.outputFixes = sandbox.mock().never();
+            Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+            sinon.stub(fakeESLint.prototype, "lintFiles").returns([]);
+            sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
+            fakeESLint.outputFixes = sinon.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./eslint": { ESLint: fakeESLint },
                 "./shared/logging": log
             });
 
-            const exitCode = localCLI.execute("--fix-dry-run .");
+            const exitCode = await localCLI.execute("--fix-dry-run .");
 
             assert.strictEqual(exitCode, 0);
 
         });
 
-        it("should pass fixTypes to CLIEngine when --fix-type is passed", () => {
+        it("should pass fixTypes to ESLint when --fix-type is passed", async () => {
 
-            const expectedCLIEngineOptions = {
+            const expectedESLintOptions = {
                 fix: true,
                 fixTypes: ["suggestion"]
             };
 
-            // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match(expectedCLIEngineOptions));
+            // create a fake ESLint class to test with
+            const fakeESLint = sinon.mock().withExactArgs(sinon.match(expectedESLintOptions));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
-                errorCount: 0,
-                warningCount: 0,
-                results: []
-            });
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
-            fakeCLIEngine.outputFixes = sandbox.stub();
+            Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+            sinon.stub(fakeESLint.prototype, "lintFiles").returns([]);
+            sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
+            fakeESLint.outputFixes = sinon.stub();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./eslint": { ESLint: fakeESLint },
                 "./shared/logging": log
             });
 
-            const exitCode = localCLI.execute("--fix-dry-run --fix-type suggestion .");
+            const exitCode = await localCLI.execute("--fix-dry-run --fix-type suggestion .");
 
             assert.strictEqual(exitCode, 0);
         });
 
-        it("should not rewrite files when in fix-dry-run mode", () => {
+        it("should not rewrite files when in fix-dry-run mode", async () => {
 
-            const report = {
+            const report = [{
+                filePath: "./foo.js",
+                output: "bar",
+                messages: [
+                    {
+                        severity: 2,
+                        message: "Fake message"
+                    }
+                ],
                 errorCount: 1,
-                warningCount: 0,
-                results: [{
-                    filePath: "./foo.js",
-                    output: "bar",
-                    messages: [
-                        {
-                            severity: 2,
-                            message: "Fake message"
-                        }
-                    ]
-                }]
-            };
+                warningCount: 0
+            }];
 
-            // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+            // create a fake ESLint class to test with
+            const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
-            fakeCLIEngine.outputFixes = sandbox.mock().never();
+            Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+            sinon.stub(fakeESLint.prototype, "lintFiles").returns(report);
+            sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
+            fakeESLint.outputFixes = sinon.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./eslint": { ESLint: fakeESLint },
                 "./shared/logging": log
             });
 
-            const exitCode = localCLI.execute("--fix-dry-run .");
+            const exitCode = await localCLI.execute("--fix-dry-run .");
 
             assert.strictEqual(exitCode, 1);
 
         });
 
-        it("should provide fix predicate when in fix-dry-run mode and quiet mode", () => {
+        it("should provide fix predicate when in fix-dry-run mode and quiet mode", async () => {
 
-            const report = {
+            const report = [{
+                filePath: "./foo.js",
+                output: "bar",
+                messages: [
+                    {
+                        severity: 1,
+                        message: "Fake message"
+                    }
+                ],
                 errorCount: 0,
-                warningCount: 1,
-                results: [{
-                    filePath: "./foo.js",
-                    output: "bar",
-                    messages: [
-                        {
-                            severity: 1,
-                            message: "Fake message"
-                        }
-                    ]
-                }]
-            };
+                warningCount: 1
+            }];
 
-            // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: sinon.match.func }));
+            // create a fake ESLint class to test with
+            const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: sinon.match.func }));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
-            fakeCLIEngine.getErrorResults = sandbox.stub().returns([]);
-            fakeCLIEngine.outputFixes = sandbox.mock().never();
+            Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+            sinon.stub(fakeESLint.prototype, "lintFiles").returns(report);
+            sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
+            fakeESLint.getErrorResults = sinon.stub().returns([]);
+            fakeESLint.outputFixes = sinon.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./eslint": { ESLint: fakeESLint },
                 "./shared/logging": log
             });
 
-            const exitCode = localCLI.execute("--fix-dry-run --quiet .");
+            const exitCode = await localCLI.execute("--fix-dry-run --quiet .");
 
             assert.strictEqual(exitCode, 0);
 
         });
 
-        it("should allow executing on text", () => {
+        it("should allow executing on text", async () => {
 
-            const report = {
+            const report = [{
+                filePath: "./foo.js",
+                output: "bar",
+                messages: [
+                    {
+                        severity: 2,
+                        message: "Fake message"
+                    }
+                ],
                 errorCount: 1,
-                warningCount: 0,
-                results: [{
-                    filePath: "./foo.js",
-                    output: "bar",
-                    messages: [
-                        {
-                            severity: 2,
-                            message: "Fake message"
-                        }
-                    ]
-                }]
-            };
+                warningCount: 0
+            }];
 
-            // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+            // create a fake ESLint class to test with
+            const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnText").returns(report);
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
-            fakeCLIEngine.outputFixes = sandbox.mock().never();
+            Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+            sinon.stub(fakeESLint.prototype, "lintText").returns(report);
+            sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
+            fakeESLint.outputFixes = sinon.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./eslint": { ESLint: fakeESLint },
                 "./shared/logging": log
             });
 
-            const exitCode = localCLI.execute("--fix-dry-run .", "foo = bar;");
+            const exitCode = await localCLI.execute("--fix-dry-run .", "foo = bar;");
 
             assert.strictEqual(exitCode, 1);
         });
 
-        it("should not call CLIEngine and return 1 when used with --fix", () => {
+        it("should not call ESLint and return 2 when used with --fix", async () => {
 
-            // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().never();
+            // create a fake ESLint class to test with
+            const fakeESLint = sinon.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./eslint": { ESLint: fakeESLint },
                 "./shared/logging": log
             });
 
-            const exitCode = localCLI.execute("--fix --fix-dry-run .", "foo = bar;");
+            const exitCode = await localCLI.execute("--fix --fix-dry-run .", "foo = bar;");
 
             assert.strictEqual(exitCode, 2);
         });
     });
 
     describe("when passing --print-config", () => {
-        it("should print out the configuration", () => {
-            const filePath = getFixturePath("files");
+        it("should print out the configuration", async () => {
+            const filePath = getFixturePath("xxxx");
 
-            const exitCode = cli.execute(`--print-config ${filePath}`);
+            const exitCode = await cli.execute(`--print-config ${filePath}`);
 
             assert.isTrue(log.info.calledOnce);
             assert.strictEqual(exitCode, 0);
         });
 
-        it("should error if any positional file arguments are passed", () => {
+        it("should error if any positional file arguments are passed", async () => {
             const filePath1 = getFixturePath("files", "bar.js");
             const filePath2 = getFixturePath("files", "foo.js");
 
-            const exitCode = cli.execute(`--print-config ${filePath1} ${filePath2}`);
+            const exitCode = await cli.execute(`--print-config ${filePath1} ${filePath2}`);
 
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);
             assert.strictEqual(exitCode, 2);
         });
 
-        it("should error out when executing on text", () => {
-            const exitCode = cli.execute("--print-config=myFile.js", "foo = bar;");
+        it("should error out when executing on text", async () => {
+            const exitCode = await cli.execute("--print-config=myFile.js", "foo = bar;");
 
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);

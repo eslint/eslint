@@ -10,9 +10,9 @@ This rule aims to reduce the scrolling required when reading through your code. 
 
 This rule has an object option:
 
-* `"max"` (default: `2`) enforces a maximum number of consecutive empty lines.
-* `"maxEOF"` enforces a maximum number of consecutive empty lines at the end of files.
-* `"maxBOF"` enforces a maximum number of consecutive empty lines at the beginning of files.
+-   `"max"` (default: `2`) enforces a maximum number of consecutive empty lines.
+-   `"maxEOF"` enforces a maximum number of consecutive empty lines at the end of files.
+-   `"maxBOF"` enforces a maximum number of consecutive empty lines at the beginning of files.
 
 ### max
 
@@ -41,10 +41,10 @@ var bar = 3;
 
 ### maxEOF
 
-Examples of **incorrect** code for this rule with the `{ max: 2, maxEOF: 1 }` options:
+Examples of **incorrect** code for this rule with the `{ max: 2, maxEOF: 0 }` options:
 
 ```js
-/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 1 }]*/
+/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }]*/
 
 var foo = 5;
 
@@ -54,16 +54,42 @@ var bar = 3;
 
 ```
 
-Examples of **correct** code for this rule with the `{ max: 2, maxEOF: 1 }` options:
+Examples of **correct** code for this rule with the `{ max: 2, maxEOF: 0 }` options:
 
 ```js
-/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 1 }]*/
+/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }]*/
 
 var foo = 5;
 
 
 var bar = 3;
+```
 
+**Note**: Although this ensures zero empty lines at the EOF, most editors will still show one empty line at the end if the file ends with a line break, as illustrated below. There is no empty line at the end of a file after the last `\n`, although editors may show an additional line. A true additional line would be represented by `\n\n`.
+
+**Incorrect**:
+
+```
+1    /*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }]*/⏎
+2    ⏎
+3    var foo = 5;⏎
+4    ⏎
+5    ⏎
+6    var bar = 3;⏎
+7    ⏎
+8
+```
+
+**Correct**:
+
+```
+1    /*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }]*/⏎
+2    ⏎
+3    var foo = 5;⏎
+4    ⏎
+5    ⏎
+6    var bar = 3;⏎
+7
 ```
 
 ### maxBOF

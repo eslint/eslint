@@ -53,6 +53,7 @@ ruleTester.run("require-atomic-updates", rule, {
         "let foo; async function x() { foo = condition ? foo : await bar; }",
         "async function x() { let foo; bar(() => { let foo; blah(foo); }); foo += await result; }",
         "let foo; async function x() { foo = foo + 1; await bar; }",
+        "async function x() { foo += await bar; }",
 
 
         /*
@@ -128,6 +129,85 @@ ruleTester.run("require-atomic-updates", rule, {
                     this.foo = null;
                     await doElse();
                 }
+            }
+        `,
+
+        // https://github.com/eslint/eslint/issues/11723
+        `
+            async function f(foo) {
+                let bar = await get(foo.id);
+                bar.prop = foo.prop;
+            }
+        `,
+        `
+            async function f(foo) {
+                let bar = await get(foo.id);
+                foo = bar.prop;
+            }
+        `,
+        `
+            async function f() {
+                let foo = {}
+                let bar = await get(foo.id);
+                foo.prop = bar.prop;
+            }
+        `,
+
+        // https://github.com/eslint/eslint/issues/11954
+        `
+            let count = 0
+            let queue = []
+            async function A(...args) {
+                count += 1
+                await new Promise(resolve=>resolve())
+                count -= 1
+                return
+            }
+        `,
+
+        // https://github.com/eslint/eslint/issues/14208
+        `
+            async function foo(e) {
+            }
+
+            async function run() {
+              const input = [];
+              const props = [];
+
+              for(const entry of input) {
+                const prop = props.find(a => a.id === entry.id) || null;
+                await foo(entry);
+              }
+
+              for(const entry of input) {
+                const prop = props.find(a => a.id === entry.id) || null;
+              }
+
+              for(const entry2 of input) {
+                const prop = props.find(a => a.id === entry2.id) || null;
+              }
+            }
+        `,
+
+        `
+            async function run() {
+              {
+                let entry;
+                await entry;
+              }
+              {
+                let entry;
+                () => entry;
+
+                entry = 1;
+              }
+            }
+        `,
+
+        `
+            async function run() {
+                await a;
+                b = 1;
             }
         `
     ],
@@ -218,7 +298,7 @@ ruleTester.run("require-atomic-updates", rule, {
             errors: [COMPUTED_PROPERTY_ERROR, STATIC_PROPERTY_ERROR]
         },
         {
-            code: "async function x() { foo += await bar; }",
+            code: "let foo = ''; async function x() { foo += await bar; }",
             errors: [VARIABLE_ERROR]
         },
         {
@@ -228,6 +308,17 @@ ruleTester.run("require-atomic-updates", rule, {
         {
             code: "let foo = 0; async function x() { foo = (a ? b ? c ? d ? foo : e : f : g : h) + await bar; if (baz); }",
             errors: [VARIABLE_ERROR]
+        },
+
+        // https://github.com/eslint/eslint/issues/11723
+        {
+            code: `
+                async function f(foo) {
+                    let buz = await get(foo.id);
+                    foo.bar = buz.bar;
+                }
+            `,
+            errors: [STATIC_PROPERTY_ERROR]
         }
     ]
 });

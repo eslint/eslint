@@ -1,6 +1,6 @@
 # Disallow Magic Numbers (no-magic-numbers)
 
-'Magic numbers' are numbers that occur multiple time in code without an explicit meaning.
+'Magic numbers' are numbers that occur multiple times in code without an explicit meaning.
 They should preferably be replaced by named constants.
 
 ```js
@@ -56,6 +56,9 @@ var dutyFreePrice = 100,
 An array of numbers to ignore. It's set to `[]` by default.
 If provided, it must be an `Array`.
 
+The array can contain values of `number` and `string` types.
+If it's a string, the text must be parsed as `bigint` literal (e.g., `"100n"`).
+
 Examples of **correct** code for the sample `{ "ignore": [1] }` option:
 
 ```js
@@ -65,17 +68,85 @@ var data = ['foo', 'bar', 'baz'];
 var dataLast = data.length && data[data.length - 1];
 ```
 
+Examples of **correct** code for the sample `{ "ignore": ["1n"] }` option:
+
+```js
+/*eslint no-magic-numbers: ["error", { "ignore": ["1n"] }]*/
+
+foo(1n);
+```
+
 ### ignoreArrayIndexes
 
-A boolean to specify if numbers used as array indexes are considered okay. `false` by default.
+A boolean to specify if numbers used in the context of array indexes (e.g., `data[2]`) are considered okay. `false` by default.
+
+This option allows only valid array indexes: numbers that will be coerced to one of `"0"`, `"1"`, `"2"` ... `"4294967294"`.
+
+Arrays are objects, so they can have property names such as `"-1"` or `"2.5"`. However, those are just "normal" object properties that don't represent array elements. They don't influence the array's `length`, and they are ignored by array methods like `.map` or `.forEach`.
+
+Additionally, since the maximum [array length](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length) is 2<sup>32</sup> - 1, all values above 2<sup>32</sup> - 2 also represent just normal property names and are thus not considered to be array indexes.
 
 Examples of **correct** code for the `{ "ignoreArrayIndexes": true }` option:
 
 ```js
 /*eslint no-magic-numbers: ["error", { "ignoreArrayIndexes": true }]*/
 
-var data = ['foo', 'bar', 'baz'];
-var dataLast = data[2];
+var item = data[2];
+
+data[100] = a;
+
+f(data[0]);
+
+a = data[-0]; // same as data[0], -0 will be coerced to "0"
+
+a = data[0xAB];
+
+a = data[5.6e1];
+
+a = data[10n]; // same as data[10], 10n will be coerced to "10"
+
+a = data[4294967294]; // max array index
+```
+
+Examples of **incorrect** code for the `{ "ignoreArrayIndexes": true }` option:
+
+```js
+/*eslint no-magic-numbers: ["error", { "ignoreArrayIndexes": true }]*/
+
+f(2); // not used as array index
+
+a = data[-1];
+
+a = data[2.5];
+
+a = data[5.67e1];
+
+a = data[-10n];
+
+a = data[4294967295]; // above the max array index
+
+a = data[1e500]; // same as data["Infinity"]
+```
+
+### ignoreDefaultValues
+
+A boolean to specify if numbers used in default value assignments are considered okay. `false` by default.
+
+Examples of **correct** code for the `{ "ignoreDefaultValues": true }` option:
+
+```js
+/*eslint no-magic-numbers: ["error", { "ignoreDefaultValues": true }]*/
+
+const { tax = 0.25 } = accountancy;
+
+function mapParallel(concurrency = 3) { /***/ }
+```
+
+```js
+/*eslint no-magic-numbers: ["error", { "ignoreDefaultValues": true }]*/
+
+let head;
+[head = 100] = []
 ```
 
 ### enforceConst

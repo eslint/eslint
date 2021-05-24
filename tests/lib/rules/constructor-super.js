@@ -16,7 +16,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2021 } });
 
 ruleTester.run("constructor-super", rule, {
     valid: [
@@ -37,7 +37,19 @@ ruleTester.run("constructor-super", rule, {
         "class A extends B { constructor() { if (true) { super(); } else { super(); } } }",
         "class A extends (class B {}) { constructor() { super(); } }",
         "class A extends (B = C) { constructor() { super(); } }",
+        "class A extends (B &&= C) { constructor() { super(); } }",
+        "class A extends (B ||= C) { constructor() { super(); } }",
+        "class A extends (B ??= C) { constructor() { super(); } }",
+        "class A extends (B ||= 5) { constructor() { super(); } }",
+        "class A extends (B ??= 5) { constructor() { super(); } }",
         "class A extends (B || C) { constructor() { super(); } }",
+        "class A extends (5 && B) { constructor() { super(); } }",
+
+        // A future improvement could detect the left side as statically falsy, making this invalid.
+        "class A extends (false && B) { constructor() { super(); } }",
+        "class A extends (B || 5) { constructor() { super(); } }",
+        "class A extends (B ?? 5) { constructor() { super(); } }",
+
         "class A extends (a ? B : C) { constructor() { super(); } }",
         "class A extends (B, C) { constructor() { super(); } }",
 
@@ -88,7 +100,10 @@ ruleTester.run("constructor-super", rule, {
                     }
                 }
             }
-        `
+        `,
+
+        // Optional chaining
+        "class A extends obj?.prop { constructor() { super(); } }"
     ],
     invalid: [
 
@@ -107,6 +122,40 @@ ruleTester.run("constructor-super", rule, {
         },
         {
             code: "class A extends 'test' { constructor() { super(); } }",
+            errors: [{ messageId: "badSuper", type: "CallExpression" }]
+        },
+        {
+            code: "class A extends (B = 5) { constructor() { super(); } }",
+            errors: [{ messageId: "badSuper", type: "CallExpression" }]
+        },
+        {
+            code: "class A extends (B && 5) { constructor() { super(); } }",
+            errors: [{ messageId: "badSuper", type: "CallExpression" }]
+        },
+        {
+
+            // `B &&= 5` evaluates either to a falsy value of `B` (which, then, cannot be a constructor), or to '5'
+            code: "class A extends (B &&= 5) { constructor() { super(); } }",
+            errors: [{ messageId: "badSuper", type: "CallExpression" }]
+        },
+        {
+            code: "class A extends (B += C) { constructor() { super(); } }",
+            errors: [{ messageId: "badSuper", type: "CallExpression" }]
+        },
+        {
+            code: "class A extends (B -= C) { constructor() { super(); } }",
+            errors: [{ messageId: "badSuper", type: "CallExpression" }]
+        },
+        {
+            code: "class A extends (B **= C) { constructor() { super(); } }",
+            errors: [{ messageId: "badSuper", type: "CallExpression" }]
+        },
+        {
+            code: "class A extends (B |= C) { constructor() { super(); } }",
+            errors: [{ messageId: "badSuper", type: "CallExpression" }]
+        },
+        {
+            code: "class A extends (B &= C) { constructor() { super(); } }",
             errors: [{ messageId: "badSuper", type: "CallExpression" }]
         },
 

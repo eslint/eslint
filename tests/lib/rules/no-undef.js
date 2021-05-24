@@ -59,6 +59,7 @@ ruleTester.run("no-undef", rule, {
         { code: "requestIdleCallback;", env: { browser: true } },
         { code: "customElements;", env: { browser: true } },
         { code: "PromiseRejectionEvent;", env: { browser: true } },
+        { code: "(foo, bar) => { foo ||= WeakRef; bar ??= FinalizationRegistry; }", env: { es2021: true } },
 
         // Notifications of readonly are removed: https://github.com/eslint/eslint/issues/4504
         "/*global b:false*/ function f() { b = 1; }",
@@ -71,13 +72,25 @@ ruleTester.run("no-undef", rule, {
         // new.target: https://github.com/eslint/eslint/issues/5420
         { code: "class A { constructor() { new.target; } }", parserOptions: { ecmaVersion: 6 } },
 
-        // Experimental,
+        // Rest property
         {
             code: "var {bacon, ...others} = stuff; foo(others)",
             parserOptions: {
                 ecmaVersion: 2018
             },
             globals: { stuff: false, foo: false }
+        },
+
+        // export * as ns from "source"
+        {
+            code: 'export * as ns from "source"',
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" }
+        },
+
+        // import.meta
+        {
+            code: "import.meta",
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" }
         }
     ],
     invalid: [

@@ -30,10 +30,17 @@ ruleTester.run("require-unicode-regexp", rule, {
         "new RegExp('', 'gimuy')",
         "const flags = 'u'; new RegExp('', flags)",
         "const flags = 'g'; new RegExp('', flags + 'u')",
-        "const flags = 'gimu'; new RegExp('foo', flags.slice(1))",
+        "const flags = 'gimu'; new RegExp('foo', flags[3])",
         "new RegExp('', flags)",
         "function f(flags) { return new RegExp('', flags) }",
-        "function f(RegExp) { return new RegExp('foo') }"
+        "function f(RegExp) { return new RegExp('foo') }",
+        { code: "new globalThis.RegExp('foo')", env: { es6: true } },
+        { code: "new globalThis.RegExp('foo')", env: { es2017: true } },
+        { code: "new globalThis.RegExp('foo', 'u')", env: { es2020: true } },
+        { code: "globalThis.RegExp('foo', 'u')", env: { es2020: true } },
+        { code: "const flags = 'u'; new globalThis.RegExp('', flags)", env: { es2020: true } },
+        { code: "const flags = 'g'; new globalThis.RegExp('', flags + 'u')", env: { es2020: true } },
+        { code: "const flags = 'gimu'; new globalThis.RegExp('foo', flags[3])", env: { es2020: true } }
     ],
     invalid: [
         {
@@ -73,7 +80,7 @@ ruleTester.run("require-unicode-regexp", rule, {
             errors: [{ messageId: "requireUFlag" }]
         },
         {
-            code: "const flags = 'gimu'; new RegExp('foo', flags.slice(0, -1))",
+            code: "const flags = 'gimu'; new RegExp('foo', flags[0])",
             errors: [{ messageId: "requireUFlag" }]
         },
         {
@@ -84,6 +91,11 @@ ruleTester.run("require-unicode-regexp", rule, {
         {
             code: "new global.RegExp('foo')",
             env: { node: true },
+            errors: [{ messageId: "requireUFlag" }]
+        },
+        {
+            code: "new globalThis.RegExp('foo')",
+            env: { es2020: true },
             errors: [{ messageId: "requireUFlag" }]
         }
     ]

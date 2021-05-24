@@ -12,6 +12,7 @@
 const assert = require("assert"),
     fs = require("fs"),
     path = require("path"),
+    vk = require("eslint-visitor-keys"),
     { Linter } = require("../../../../lib/linter"),
     EventGeneratorTester = require("../../../../tools/internal-testers/event-generator-tester"),
     createEmitter = require("../../../../lib/linter/safe-emitter"),
@@ -19,11 +20,14 @@ const assert = require("assert"),
     CodePath = require("../../../../lib/linter/code-path-analysis/code-path"),
     CodePathAnalyzer = require("../../../../lib/linter/code-path-analysis/code-path-analyzer"),
     CodePathSegment = require("../../../../lib/linter/code-path-analysis/code-path-segment"),
-    NodeEventGenerator = require("../../../../lib/linter/node-event-generator");
+    NodeEventGenerator = require("../../../../lib/linter/node-event-generator"),
+    Traverser = require("../../../lib/shared/traverser");
 
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
+
+const STANDARD_ESQUERY_OPTION = { visitorKeys: vk.KEYS, fallback: Traverser.getKeys };
 
 const expectedPattern = /\/\*expected\s+((?:.|[\r\n])+?)\s*\*\//gu;
 const lineEndingPattern = /\r?\n/gu;
@@ -32,8 +36,7 @@ const linter = new Linter();
 /**
  * Extracts the content of `/*expected` comments from a given source code.
  * It's expected DOT arrows.
- *
- * @param {string} source - A source code text.
+ * @param {string} source A source code text.
  * @returns {string[]} DOT arrows.
  */
 function getExpectedDotArrows(source) {
@@ -55,7 +58,7 @@ function getExpectedDotArrows(source) {
 
 describe("CodePathAnalyzer", () => {
     EventGeneratorTester.testEventGeneratorInterface(
-        new CodePathAnalyzer(new NodeEventGenerator(createEmitter()))
+        new CodePathAnalyzer(new NodeEventGenerator(createEmitter(), STANDARD_ESQUERY_OPTION))
     );
 
     describe("interface of code paths", () => {
@@ -557,7 +560,10 @@ describe("CodePathAnalyzer", () => {
                         actual.push(debug.makeDotArrows(codePath));
                     }
                 }));
-                const messages = linter.verify(source, { rules: { test: 2 }, env: { es6: true } });
+                const messages = linter.verify(source, {
+                    parserOptions: { ecmaVersion: 2021 },
+                    rules: { test: 2 }
+                });
 
                 assert.strictEqual(messages.length, 0);
                 assert.strictEqual(actual.length, expected.length, "a count of code paths is wrong.");

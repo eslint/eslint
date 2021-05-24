@@ -9,7 +9,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const lodash = require("lodash");
+const merge = require("lodash.merge");
+
 const rule = require("../../../lib/rules/no-invalid-this");
 const { RuleTester } = require("../../../lib/rule-tester");
 
@@ -29,7 +30,7 @@ function NORMAL() {
 /**
  * A constant value for strict mode environment.
  * This modifies pattern object to make strict mode.
- * @param {Object} pattern - A pattern object to modify.
+ * @param {Object} pattern A pattern object to modify.
  * @returns {void}
  */
 function USE_STRICT(pattern) {
@@ -39,7 +40,7 @@ function USE_STRICT(pattern) {
 /**
  * A constant value for implied strict mode.
  * This modifies pattern object to impose strict mode.
- * @param {Object} pattern - A pattern object to modify.
+ * @param {Object} pattern A pattern object to modify.
  * @returns {void}
  */
 function IMPLIED_STRICT(pattern) {
@@ -51,7 +52,7 @@ function IMPLIED_STRICT(pattern) {
 /**
  * A constant value for modules environment.
  * This modifies pattern object to make modules.
- * @param {Object} pattern - A pattern object to modify.
+ * @param {Object} pattern A pattern object to modify.
  * @returns {void}
  */
 function MODULES(pattern) {
@@ -61,15 +62,15 @@ function MODULES(pattern) {
 
 /**
  * Extracts patterns each condition for a specified type. The type is `valid` or `invalid`.
- * @param {Object[]} patterns - Original patterns.
- * @param {string} type - One of `"valid"` or `"invalid"`.
+ * @param {Object[]} patterns Original patterns.
+ * @param {string} type One of `"valid"` or `"invalid"`.
  * @returns {Object[]} Test patterns.
  */
 function extractPatterns(patterns, type) {
 
     // Clone and apply the pattern environment.
     const patternsList = patterns.map(pattern => pattern[type].map(applyCondition => {
-        const thisPattern = lodash.cloneDeep(pattern);
+        const thisPattern = merge({}, pattern);
 
         applyCondition(thisPattern);
 
@@ -79,7 +80,10 @@ function extractPatterns(patterns, type) {
             thisPattern.code += " /* should error */";
         }
 
-        return lodash.omit(thisPattern, ["valid", "invalid"]);
+        delete thisPattern.valid;
+        delete thisPattern.invalid;
+
+        return thisPattern;
     }));
 
     // Flatten.
@@ -92,8 +96,8 @@ function extractPatterns(patterns, type) {
 //------------------------------------------------------------------------------
 
 const errors = [
-    { message: "Unexpected 'this'.", type: "ThisExpression" },
-    { message: "Unexpected 'this'.", type: "ThisExpression" }
+    { messageId: "unexpectedThis", type: "ThisExpression" },
+    { messageId: "unexpectedThis", type: "ThisExpression" }
 ];
 
 const patterns = [
@@ -135,8 +139,32 @@ const patterns = [
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
+        code: "function foo() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        options: [{ capIsConstructor: false }], // test that the option doesn't reverse the logic and mistakenly allows lowercase functions
+        errors,
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
+    {
+        code: "function Foo() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        options: [{ capIsConstructor: false }],
+        errors,
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
+    {
         code: "function foo() { \"use strict\"; console.log(this); z(x => console.log(x, this)); }",
         parserOptions: { ecmaVersion: 6 },
+        errors,
+        valid: [],
+        invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
+    {
+        code: "function Foo() { \"use strict\"; console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        options: [{ capIsConstructor: false }],
         errors,
         valid: [],
         invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES]
@@ -223,6 +251,20 @@ const patterns = [
     {
         code: "function Foo() { console.log(this); z(x => console.log(x, this)); }",
         parserOptions: { ecmaVersion: 6 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "function Foo() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        options: [{}], // test the default value in schema
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "function Foo() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        options: [{ capIsConstructor: true }], // test explicitly set option to the default value
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
@@ -328,6 +370,12 @@ const patterns = [
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
         errors
     },
+    {
+        code: "obj.foo = (function() { return function() { console.log(this); z(x => console.log(x, this)); }; })?.();",
+        parserOptions: { ecmaVersion: 2020 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
 
     // Class Instance Methods.
     {
@@ -380,6 +428,24 @@ const patterns = [
     {
         code: "Reflect.apply(function() { console.log(this); z(x => console.log(x, this)); }, obj, []);",
         parserOptions: { ecmaVersion: 6 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "var foo = function() { console.log(this); z(x => console.log(x, this)); }?.bind(obj);",
+        parserOptions: { ecmaVersion: 2020 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "var foo = (function() { console.log(this); z(x => console.log(x, this)); }?.bind)(obj);",
+        parserOptions: { ecmaVersion: 2020 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "var foo = function() { console.log(this); z(x => console.log(x, this)); }.bind?.(obj);",
+        parserOptions: { ecmaVersion: 2020 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
@@ -496,6 +562,30 @@ const patterns = [
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
+    {
+        code: "Array?.from([], function() { console.log(this); z(x => console.log(x, this)); }, obj);",
+        parserOptions: { ecmaVersion: 2020 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "foo?.every(function() { console.log(this); z(x => console.log(x, this)); }, obj);",
+        parserOptions: { ecmaVersion: 2020 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "(Array?.from)([], function() { console.log(this); z(x => console.log(x, this)); }, obj);",
+        parserOptions: { ecmaVersion: 2020 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "(foo?.every)(function() { console.log(this); z(x => console.log(x, this)); }, obj);",
+        parserOptions: { ecmaVersion: 2020 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
 
     // @this tag.
     {
@@ -557,8 +647,24 @@ const patterns = [
         invalid: []
     },
     {
+        code: "var Ctor = function() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        options: [{ capIsConstructor: false }],
+        errors,
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
+    {
         code: "var func = function() { console.log(this); z(x => console.log(x, this)); }",
         parserOptions: { ecmaVersion: 6 },
+        errors,
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
+    {
+        code: "var func = function() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        options: [{ capIsConstructor: false }],
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
@@ -570,8 +676,24 @@ const patterns = [
         invalid: []
     },
     {
+        code: "Ctor = function() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        options: [{ capIsConstructor: false }],
+        errors,
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
+    {
         code: "func = function() { console.log(this); z(x => console.log(x, this)); }",
         parserOptions: { ecmaVersion: 6 },
+        errors,
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
+    {
+        code: "func = function() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        options: [{ capIsConstructor: false }],
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
@@ -601,6 +723,24 @@ const patterns = [
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
+    {
+        code: "obj.method &&= function () { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 2021 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "obj.method ||= function () { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 2021 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "obj.method ??= function () { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 2021 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
     }
 ];
 

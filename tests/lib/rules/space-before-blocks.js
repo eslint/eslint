@@ -10,7 +10,8 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/space-before-blocks"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester"),
+    fixtureParser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -27,10 +28,8 @@ const ruleTester = new RuleTester(),
     functionsNeverOthersOffArgs = [{ functions: "never", keywords: "off", classes: "off" }],
     keywordNeverOthersOffArgs = [{ functions: "off", keywords: "never", classes: "off" }],
     classesNeverOthersOffArgs = [{ functions: "off", keywords: "off", classes: "never" }],
-    expectedSpacingErrorMessage = "Missing space before opening brace.",
-    expectedSpacingError = { message: expectedSpacingErrorMessage },
-    expectedNoSpacingErrorMessage = "Unexpected space before opening brace.",
-    expectedNoSpacingError = { message: "Unexpected space before opening brace." };
+    expectedSpacingError = { messageId: "missingSpace" },
+    expectedNoSpacingError = { messageId: "unexpectedSpace" };
 
 ruleTester.run("space-before-blocks", rule, {
     valid: [
@@ -200,7 +199,7 @@ ruleTester.run("space-before-blocks", rule, {
         {
             code: "if(a){}",
             output: "if(a) {}",
-            errors: [{ message: expectedSpacingErrorMessage, line: 1, column: 6 }]
+            errors: [{ messageId: "missingSpace", line: 1, column: 6 }]
         },
         {
             code: "if(a){}",
@@ -218,13 +217,13 @@ ruleTester.run("space-before-blocks", rule, {
             code: "if(a) { function a() {} }",
             output: "if(a){ function a() {} }",
             options: functionsOnlyArgs,
-            errors: [{ message: expectedNoSpacingErrorMessage, line: 1, column: 7 }]
+            errors: [{ messageId: "unexpectedSpace", line: 1, column: 7 }]
         },
         {
             code: "if(a) { function a() {} }",
             output: "if(a) { function a(){} }",
             options: keywordOnlyArgs,
-            errors: [{ message: expectedNoSpacingErrorMessage, line: 1, column: 22 }]
+            errors: [{ messageId: "unexpectedSpace", line: 1, column: 22 }]
         },
         {
             code: "if(a) {}",
@@ -253,13 +252,13 @@ ruleTester.run("space-before-blocks", rule, {
             code: "function a(){ if (a){} }",
             output: "function a() { if (a){} }",
             options: functionsOnlyArgs,
-            errors: [{ message: expectedSpacingErrorMessage, line: 1, column: 13 }]
+            errors: [{ messageId: "missingSpace", line: 1, column: 13 }]
         },
         {
             code: "function a() { if (a) {} }",
             output: "function a(){ if (a) {} }",
             options: keywordOnlyArgs,
-            errors: [{ message: expectedNoSpacingErrorMessage, line: 1, column: 14 }]
+            errors: [{ messageId: "unexpectedSpace", line: 1, column: 14 }]
         },
         {
             code: "function a(){}",
@@ -328,13 +327,13 @@ ruleTester.run("space-before-blocks", rule, {
             code: "try { function b() {} } catch(a) {}",
             output: "try { function b(){} } catch(a) {}",
             options: keywordOnlyArgs,
-            errors: [{ message: expectedNoSpacingErrorMessage, line: 1, column: 20 }]
+            errors: [{ messageId: "unexpectedSpace", line: 1, column: 20 }]
         },
         {
             code: "try{ function b(){} }catch(a){}",
             output: "try{ function b() {} }catch(a){}",
             options: functionsOnlyArgs,
-            errors: [{ message: expectedSpacingErrorMessage, line: 1, column: 18 }]
+            errors: [{ messageId: "missingSpace", line: 1, column: 18 }]
         },
         {
             code: "for(;;){}",
@@ -556,6 +555,21 @@ ruleTester.run("space-before-blocks", rule, {
             output: "class test{ constructor() {} }",
             options: classesNeverOthersOffArgs,
             parserOptions: { ecmaVersion: 6 },
+            errors: [expectedNoSpacingError]
+        },
+
+        // https://github.com/eslint/eslint/issues/13553
+        {
+            code: "class A { foo(bar: string): void{} }",
+            output: "class A { foo(bar: string): void {} }",
+            parser: fixtureParser("space-before-blocks", "return-type-keyword-1"),
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "function foo(): null {}",
+            output: "function foo(): null{}",
+            options: neverArgs,
+            parser: fixtureParser("space-before-blocks", "return-type-keyword-2"),
             errors: [expectedNoSpacingError]
         }
     ]

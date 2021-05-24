@@ -10,6 +10,7 @@ The lists below are ordered roughly by the number of users each change is expect
 1. [`eslint:recommended` has been updated](#eslint-recommended-changes)
 1. [Plugins and shareable configs are no longer affected by ESLint's location](#package-loading-simplification)
 1. [The default parser now validates options more strictly](#espree-validation)
+1. [Rule configuration are validated more strictly](#rule-config-validating)
 1. [The `no-redeclare` rule is now more strict by default](#no-redeclare-updates)
 1. [The `comma-dangle` rule is now more strict by default](#comma-dangle-updates)
 1. [The `no-confusing-arrow` rule is now more lenient by default](#no-confusing-arrow-updates)
@@ -61,7 +62,7 @@ Additionally, the following rule has been *removed* from `eslint:recommended`:
 
 * [`no-console`](https://eslint.org/docs/rules/no-console) disallows calling functions like `console.log`. While this rule is useful in many cases (e.g. to avoid inadvertently leaving debugging statements in production code), it is not as broadly applicable as the other rules in `eslint:recommended`, and it was a source of false positives in cases where `console.log` is acceptable (e.g. in CLI applications).
 
-Finally, in ESLint v5 `eslint:recommended` would explicitly disable all core rules that were not considered "recommended". This could cause confusion behavior if `eslint:recommended` was loaded after another config, since `eslint:recommended` would have the effect of turning off some rules. In ESLint v6, `eslint:recommended` has no effect on non-recommended rules.
+Finally, in ESLint v5 `eslint:recommended` would explicitly disable all core rules that were not considered "recommended". This could cause confusing behavior if `eslint:recommended` was loaded after another config, since `eslint:recommended` would have the effect of turning off some rules. In ESLint v6, `eslint:recommended` has no effect on non-recommended rules.
 
 **To address:** To mimic the `eslint:recommended` behavior from 5.x, you can explicitly disable/enable rules in a config file as follows:
 
@@ -111,6 +112,22 @@ If you use a config file located outside of a local project (with the `--config`
 
 **Related issue(s):** [eslint/eslint#9687](https://github.com/eslint/eslint/issues/9687), [eslint/espree#384](https://github.com/eslint/espree/issues/384)
 
+## <a name="rule-config-validating"></a> Rule configuration are validated more strictly
+
+To catch config errors earlier, ESLint v6 will report a linting error if you are trying to configure a non-existent rule.
+
+config | ESLint v5 | ESLint v6
+------------- | ------------- | -------------
+`/*eslint-enable foo*/`  | no error | linting error
+`/*eslint-disable(-line) foo*/`  | no error | linting error
+`/*eslint foo: 0*/` | no error | linting error
+`{rules: {foo: 0}}` | no error | no error
+`{rules: {foo: 1}` | linting warning | linting error
+
+**To address:** You can remove the non-existent rule in your (inline) config.
+
+**Related issue(s):** [eslint/eslint#9505](https://github.com/eslint/eslint/issues/9505)
+
 ## <a name="no-redeclare-updates"></a> The `no-redeclare` rule is now more strict by default
 
 The default options for the [`no-redeclare`](https://eslint.org/docs/rules/no-redeclare) rule have changed from `{ builtinGlobals: false }` to `{ builtinGlobals: true }`. Additionally, the `no-redeclare` rule will now report an error for globals enabled by comments like `/* global foo */` if those globals were already enabled through configuration anyway.
@@ -131,7 +148,7 @@ Additionally, if you see new errors for `global` comments in your code, you shou
 
 **Related issue(s):** [eslint/eslint#11370](https://github.com/eslint/eslint/issues/11370), [eslint/eslint#11405](https://github.com/eslint/eslint/issues/11405)
 
-## <a name="comma-dangle-updates"></a> [The `comma-dangle` rule is now more strict by default](#comma-dangle-updates)
+## <a name="comma-dangle-updates"></a> The `comma-dangle` rule is now more strict by default
 
 Previously, the [`comma-dangle`](https://eslint.org/docs/rules/comma-dangle) rule would ignore trailing function arguments and parameters, unless explicitly configured to check for function commas. In ESLint v6, function commas are treated the same way as other types of trailing commas.
 
@@ -230,7 +247,7 @@ With this change, any unknown values in a `globals` object result in a config va
 
 **To address:** If you see config validation errors related to globals after updating, ensure that all values configured for globals are either `readonly`, `writable`, or `off`. (ESLint also accepts some alternate spellings and variants for compatibility.)
 
-## <a name="experimental-object-rest-spread"></a> The depreacted `experimentalObjectRestSpread` option has been removed
+## <a name="experimental-object-rest-spread"></a> The deprecated `experimentalObjectRestSpread` option has been removed
 
 Previously, when using the default parser, a config could use the `experimentalObjectRestSpread` option to enable parsing support for object rest/spread properties:
 

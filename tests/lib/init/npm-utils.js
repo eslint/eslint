@@ -9,13 +9,12 @@
 //------------------------------------------------------------------------------
 
 const
-    path = require("path"),
     assert = require("chai").assert,
     spawn = require("cross-spawn"),
-    MemoryFs = require("metro-memory-fs"),
     sinon = require("sinon"),
     npmUtils = require("../../../lib/init/npm-utils"),
-    log = require("../../../lib/shared/logging");
+    log = require("../../../lib/shared/logging"),
+    { defineInMemoryFs } = require("../../_utils");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 
@@ -29,28 +28,8 @@ const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
  * @returns {Object} `npm-utils`.
  */
 function requireNpmUtilsWithInMemoryFileSystem(files) {
-    const fs = new MemoryFs({
-        cwd: process.cwd,
-        platform: process.platform === "win32" ? "win32" : "posix"
-    });
+    const fs = defineInMemoryFs({ files });
 
-    // Make cwd.
-    (function mkdir(dirPath) {
-        const parentPath = path.dirname(dirPath);
-
-        if (parentPath && parentPath !== dirPath && !fs.existsSync(parentPath)) {
-            mkdir(parentPath);
-        }
-        fs.mkdirSync(dirPath);
-
-    }(process.cwd()));
-
-    // Write files.
-    for (const [filename, content] of Object.entries(files)) {
-        fs.writeFileSync(filename, content);
-    }
-
-    // Stub.
     return proxyquire("../../../lib/init/npm-utils", { fs });
 }
 
@@ -59,15 +38,8 @@ function requireNpmUtilsWithInMemoryFileSystem(files) {
 //------------------------------------------------------------------------------
 
 describe("npmUtils", () => {
-
-    let sandbox;
-
-    beforeEach(() => {
-        sandbox = sinon.sandbox.create();
-    });
-
     afterEach(() => {
-        sandbox.verifyAndRestore();
+        sinon.verifyAndRestore();
     });
 
     describe("checkDevDeps()", () => {
@@ -200,7 +172,7 @@ describe("npmUtils", () => {
 
     describe("installSyncSaveDev()", () => {
         it("should invoke npm to install a single desired package", () => {
-            const stub = sandbox.stub(spawn, "sync").returns({ stdout: "" });
+            const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
 
             npmUtils.installSyncSaveDev("desired-package");
             assert(stub.calledOnce);
@@ -210,7 +182,7 @@ describe("npmUtils", () => {
         });
 
         it("should accept an array of packages to install", () => {
-            const stub = sandbox.stub(spawn, "sync").returns({ stdout: "" });
+            const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
 
             npmUtils.installSyncSaveDev(["first-package", "second-package"]);
             assert(stub.calledOnce);
@@ -220,8 +192,8 @@ describe("npmUtils", () => {
         });
 
         it("should log an error message if npm throws ENOENT error", () => {
-            const logErrorStub = sandbox.stub(log, "error");
-            const npmUtilsStub = sandbox.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
+            const logErrorStub = sinon.stub(log, "error");
+            const npmUtilsStub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
 
             npmUtils.installSyncSaveDev("some-package");
 
@@ -234,7 +206,7 @@ describe("npmUtils", () => {
 
     describe("fetchPeerDependencies()", () => {
         it("should execute 'npm show --json <packageName> peerDependencies' command", () => {
-            const stub = sandbox.stub(spawn, "sync").returns({ stdout: "" });
+            const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
 
             npmUtils.fetchPeerDependencies("desired-package");
             assert(stub.calledOnce);
@@ -244,7 +216,7 @@ describe("npmUtils", () => {
         });
 
         it("should return null if npm throws ENOENT error", () => {
-            const stub = sandbox.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
+            const stub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
 
             const peerDependencies = npmUtils.fetchPeerDependencies("desired-package");
 

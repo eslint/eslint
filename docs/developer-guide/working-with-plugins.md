@@ -1,6 +1,6 @@
 # Working with Plugins
 
-Each plugin is an npm module with a name in the format of `eslint-plugin-<plugin-name>`, such as `eslint-plugin-jquery`. You can also use scoped packages in the format of `@<scope>/eslint-plugin-<plugin-name>` such as `@jquery/eslint-plugin-jquery`.
+Each plugin is an npm module with a name in the format of `eslint-plugin-<plugin-name>`, such as `eslint-plugin-jquery`. You can also use scoped packages in the format of `@<scope>/eslint-plugin-<plugin-name>` such as `@jquery/eslint-plugin-jquery` or even `@<scope>/eslint-plugin` such as `@jquery/eslint-plugin`.
 
 ## Create a Plugin
 
@@ -136,7 +136,7 @@ overrides:
     processor: a-plugin/markdown
 ```
 
-See [Specifying Processor](../user-guide/configuring.md#specifying-processor) for details.
+See [Specifying Processor](../user-guide/configuring/plugins.md#specifying-processor) for details.
 
 #### File Extension-named Processor
 
@@ -180,7 +180,7 @@ module.exports = {
             env: ["node"],
             rules: {
                 "myPlugin/my-rule": "off",
-                "eslint-plugin-myPlugin/another-rule": "off"
+                "eslint-plugin-myPlugin/another-rule": "off",
                 "eslint-plugin-myPlugin/yet-another-rule": "error"
             }
         }
@@ -197,7 +197,7 @@ If the example plugin above were called `eslint-plugin-myPlugin`, the `myConfig`
 
 ```
 
-**Note:** Please note that configuration will not enable any of the plugin's rules by default, and instead should be treated as a standalone config. This means that you must specify your plugin name in the `plugins` array as well as any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configuring Plugins](../user-guide/configuring.md#configuring-plugins) for more information.
+**Note:** Please note that configuration will not enable any of the plugin's rules by default, and instead should be treated as a standalone config. This means that you must specify your plugin name in the `plugins` array as well as any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configuring Plugins](../user-guide/configuring/plugins.md#configuring-plugins) for more information.
 
 ### Peer Dependency
 

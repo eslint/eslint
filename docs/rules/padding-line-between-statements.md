@@ -48,14 +48,14 @@ You can supply any number of configurations. If a statement pair matches multipl
     - `"block"` is lonely blocks.
     - `"block-like"` is block like statements. This matches statements that the last token is the closing brace of blocks; e.g. `{ }`, `if (a) { }`, and `while (a) { }`. Also matches immediately invoked function expression statements.
     - `"break"` is `break` statements.
-    - `"case"` is `case` labels.
+    - `"case"` is `case` clauses in `switch` statements.
     - `"cjs-export"` is `export` statements of CommonJS; e.g. `module.exports = 0`, `module.exports.foo = 1`, and `exports.foo = 2`. This is a special case of assignment.
     - `"cjs-import"` is `import` statements of CommonJS; e.g. `const foo = require("foo")`. This is a special case of variable declarations.
     - `"class"` is `class` declarations.
     - `"const"` is `const` variable declarations, both single-line and multiline.
     - `"continue"` is `continue` statements.
     - `"debugger"` is `debugger` statements.
-    - `"default"` is `default` labels.
+    - `"default"` is `default` clauses in `switch` statements.
     - `"directive"` is directive prologues. This matches directives; e.g. `"use strict"`.
     - `"do"` is `do-while` statements. This matches all statements that the first token is `do` keyword.
     - `"empty"` is empty statements.
@@ -210,6 +210,55 @@ Examples of **correct** code for the `[{ blankLine: "always", prev: "directive",
 "use asm";
 
 foo();
+```
+
+----
+
+This configuration would require blank lines between clauses in `switch` statements.
+
+Examples of **incorrect** code for the `[{ blankLine: "always", prev: ["case", "default"], next: "*" }]` configuration:
+
+```js
+/*eslint padding-line-between-statements: [
+    "error",
+    { blankLine: "always", prev: ["case", "default"], next: "*" }
+]*/
+
+switch (foo) {
+    case 1:
+        bar();
+        break;
+    case 2:
+    case 3:
+        baz();
+        break;
+    default:
+        quux();
+}
+```
+
+Examples of **correct** code for the `[{ blankLine: "always", prev: ["case", "default"], next: "*" }]` configuration:
+
+```js
+/*eslint padding-line-between-statements: [
+    "error",
+    { blankLine: "always", prev: ["case", "default"], next: "*" }
+]*/
+
+switch (foo) {
+    case 1:
+        bar();
+        break;
+
+    case 2:
+
+    case 3:
+        baz();
+        break;
+
+    default:
+        quux();
+}
 ```
 
 ## Compatibility

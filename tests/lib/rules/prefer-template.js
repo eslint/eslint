@@ -17,7 +17,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 //------------------------------------------------------------------------------
 
 const errors = [{
-    message: "Unexpected string concatenation.",
+    messageId: "unexpectedStringConcatenation",
     type: "BinaryExpression"
 }];
 
@@ -195,7 +195,22 @@ ruleTester.run("prefer-template", rule, {
             errors
         },
         {
+            code: "foo + 'does not autofix non-octal decimal escape sequence' + '\\8'",
+            output: null,
+            errors
+        },
+        {
             code: "foo + '\\n other text \\033'",
+            output: null,
+            errors
+        },
+        {
+            code: "foo + '\\0\\1'",
+            output: null,
+            errors
+        },
+        {
+            code: "foo + '\\08'",
             output: null,
             errors
         },

@@ -13,7 +13,6 @@ const fs = require("fs"),
     assert = require("chai").assert,
     espree = require("espree"),
     sinon = require("sinon"),
-    leche = require("leche"),
     { Linter } = require("../../../lib/linter"),
     SourceCode = require("../../../lib/source-code/source-code"),
     astUtils = require("../../../lib/shared/ast-utils");
@@ -228,11 +227,8 @@ describe("SourceCode", () => {
 
 
     describe("getJSDocComment()", () => {
-
-        const sandbox = sinon.sandbox.create();
-
         afterEach(() => {
-            sandbox.verifyAndRestore();
+            sinon.verifyAndRestore();
         });
 
         it("should not take a JSDoc comment from a FunctionDeclaration parent node when the node is a FunctionExpression", () => {
@@ -255,7 +251,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc, null);
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -283,7 +279,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc, null);
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -313,7 +309,7 @@ describe("SourceCode", () => {
                 }
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -345,7 +341,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Documentation. ");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -373,7 +369,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Desc");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -402,7 +398,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Desc");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6, sourceType: "module" } });
@@ -433,7 +429,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Desc");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -464,7 +460,7 @@ describe("SourceCode", () => {
                 assert.isNull(jsdoc);
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -494,7 +490,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Desc");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -526,7 +522,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Desc");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -557,7 +553,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Desc");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -588,7 +584,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Desc");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ ArrowFunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
@@ -617,7 +613,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Desc");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -650,7 +646,7 @@ describe("SourceCode", () => {
                 }
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -682,7 +678,7 @@ describe("SourceCode", () => {
                 }
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -712,7 +708,7 @@ describe("SourceCode", () => {
                 }
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -750,7 +746,7 @@ describe("SourceCode", () => {
                 }
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -779,7 +775,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Merges two objects together.");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ ClassExpression: spy }));
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
@@ -808,7 +804,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Merges two objects together.");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ ClassDeclaration: spy }));
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
@@ -837,7 +833,7 @@ describe("SourceCode", () => {
                 assert.isNull(jsdoc);
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
@@ -870,7 +866,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Merges two objects together.");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
@@ -901,7 +897,7 @@ describe("SourceCode", () => {
                 assert.isNull(jsdoc);
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
@@ -1792,32 +1788,794 @@ describe("SourceCode", () => {
         });
     });
 
-    describe("isSpaceBetweenTokens()", () => {
+    describe("isSpaceBetween()", () => {
+        describe("should return true when there is at least one whitespace character between two tokens", () => {
+            [
+                ["let foo", true],
+                ["let  foo", true],
+                ["let /**/ foo", true],
+                ["let/**/foo", false],
+                ["let/*\n*/foo", false]
+            ].forEach(([code, expected]) => {
+                describe("when the first given is located before the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
 
-        leche.withData([
-            ["let foo = bar;", true],
-            ["let  foo = bar;", true],
-            ["let /**/ foo = bar;", true],
-            ["let/**/foo = bar;", false],
-            ["a+b", false],
-            ["a/**/+b", false],
-            ["a/* */+b", false],
-            ["a/**/ +b", true],
-            ["a/**/ /**/+b", true],
-            ["a/**/\n/**/+b", true],
-            ["a +b", true]
-        ], (code, expected) => {
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetween(
+                                sourceCode.ast.tokens[0],
+                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1]
+                            ),
+                            expected
+                        );
+                    });
+                });
 
-            it("should return true when there is one space between tokens", () => {
-                const ast = espree.parse(code, DEFAULT_CONFIG),
-                    sourceCode = new SourceCode(code, ast);
+                describe("when the first given is located after the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
+
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetween(
+                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1],
+                                sourceCode.ast.tokens[0]
+                            ),
+                            expected
+                        );
+                    });
+                });
+            });
+
+            [
+                ["a+b", false],
+                ["a +b", true],
+                ["a/**/+b", false],
+                ["a/* */+b", false],
+                ["a/**/ +b", true],
+                ["a/**/ /**/+b", true],
+                ["a/* */ /* */+b", true],
+                ["a/**/\n/**/+b", true],
+                ["a/* */\n/* */+b", true],
+                ["a/**/+b/**/+c", false],
+                ["a/* */+b/* */+c", false],
+                ["a/**/+b /**/+c", true],
+                ["a/* */+b /* */+c", true],
+                ["a/**/ +b/**/+c", true],
+                ["a/* */ +b/* */+c", true],
+                ["a/**/+b\t/**/+c", true],
+                ["a/* */+b\t/* */+c", true],
+                ["a/**/\t+b/**/+c", true],
+                ["a/* */\t+b/* */+c", true],
+                ["a/**/+b\n/**/+c", true],
+                ["a/* */+b\n/* */+c", true],
+                ["a/**/\n+b/**/+c", true],
+                ["a/* */\n+b/* */+c", true],
+                ["a/* */+' /**/ '/* */+c", false],
+                ["a/* */+ ' /**/ '/* */+c", true],
+                ["a/* */+' /**/ ' /* */+c", true],
+                ["a/* */+ ' /**/ ' /* */+c", true],
+                ["a/* */+` /*\n*/ `/* */+c", false],
+                ["a/* */+ ` /*\n*/ `/* */+c", true],
+                ["a/* */+` /*\n*/ ` /* */+c", true],
+                ["a/* */+ ` /*\n*/ ` /* */+c", true]
+            ].forEach(([code, expected]) => {
+                describe("when the first given is located before the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
+
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetween(
+                                sourceCode.ast.tokens[0],
+                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 2]
+                            ),
+                            expected
+                        );
+                    });
+                });
+
+                describe("when the first given is located after the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
+
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetween(
+                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 2],
+                                sourceCode.ast.tokens[0]
+                            ),
+                            expected
+                        );
+                    });
+                });
+            });
+        });
+
+        describe("should return true when there is at least one whitespace character between a token and a node", () => {
+            [
+                [";let foo = bar", false],
+                [";/**/let foo = bar", false],
+                [";/* */let foo = bar", false],
+                ["; let foo = bar", true],
+                ["; let foo = bar", true],
+                ["; /**/let foo = bar", true],
+                ["; /* */let foo = bar", true],
+                [";/**/ let foo = bar", true],
+                [";/* */ let foo = bar", true],
+                ["; /**/ let foo = bar", true],
+                ["; /* */ let foo = bar", true],
+                [";\tlet foo = bar", true],
+                [";\tlet foo = bar", true],
+                [";\t/**/let foo = bar", true],
+                [";\t/* */let foo = bar", true],
+                [";/**/\tlet foo = bar", true],
+                [";/* */\tlet foo = bar", true],
+                [";\t/**/\tlet foo = bar", true],
+                [";\t/* */\tlet foo = bar", true],
+                [";\nlet foo = bar", true],
+                [";\nlet foo = bar", true],
+                [";\n/**/let foo = bar", true],
+                [";\n/* */let foo = bar", true],
+                [";/**/\nlet foo = bar", true],
+                [";/* */\nlet foo = bar", true],
+                [";\n/**/\nlet foo = bar", true],
+                [";\n/* */\nlet foo = bar", true]
+            ].forEach(([code, expected]) => {
+                describe("when the first given is located before the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
+
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetween(
+                                sourceCode.ast.tokens[0],
+                                sourceCode.ast.body[sourceCode.ast.body.length - 1]
+                            ),
+                            expected
+                        );
+                    });
+                });
+
+                describe("when the first given is located after the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
+
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetween(
+                                sourceCode.ast.body[sourceCode.ast.body.length - 1],
+                                sourceCode.ast.tokens[0]
+                            ),
+                            expected
+                        );
+                    });
+                });
+            });
+        });
+
+        describe("should return true when there is at least one whitespace character between a node and a token", () => {
+            [
+                ["let foo = bar;;", false],
+                ["let foo = bar;;;", false],
+                ["let foo = 1; let bar = 2;;", true],
+                ["let foo = bar;/**/;", false],
+                ["let foo = bar;/* */;", false],
+                ["let foo = bar;;;", false],
+                ["let foo = bar; ;", true],
+                ["let foo = bar; /**/;", true],
+                ["let foo = bar; /* */;", true],
+                ["let foo = bar;/**/ ;", true],
+                ["let foo = bar;/* */ ;", true],
+                ["let foo = bar; /**/ ;", true],
+                ["let foo = bar; /* */ ;", true],
+                ["let foo = bar;\t;", true],
+                ["let foo = bar;\t/**/;", true],
+                ["let foo = bar;\t/* */;", true],
+                ["let foo = bar;/**/\t;", true],
+                ["let foo = bar;/* */\t;", true],
+                ["let foo = bar;\t/**/\t;", true],
+                ["let foo = bar;\t/* */\t;", true],
+                ["let foo = bar;\n;", true],
+                ["let foo = bar;\n/**/;", true],
+                ["let foo = bar;\n/* */;", true],
+                ["let foo = bar;/**/\n;", true],
+                ["let foo = bar;/* */\n;", true],
+                ["let foo = bar;\n/**/\n;", true],
+                ["let foo = bar;\n/* */\n;", true]
+            ].forEach(([code, expected]) => {
+                describe("when the first given is located before the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
+
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetween(
+                                sourceCode.ast.body[0],
+                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1]
+                            ),
+                            expected
+                        );
+                    });
+                });
+
+                describe("when the first given is located after the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
+
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetween(
+                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1],
+                                sourceCode.ast.body[0]
+                            ),
+                            expected
+                        );
+                    });
+                });
+            });
+        });
+
+        describe("should return true when there is at least one whitespace character between two nodes", () => {
+            [
+                ["let foo = bar;let baz = qux;", false],
+                ["let foo = bar;/**/let baz = qux;", false],
+                ["let foo = bar;/* */let baz = qux;", false],
+                ["let foo = bar; let baz = qux;", true],
+                ["let foo = bar; /**/let baz = qux;", true],
+                ["let foo = bar; /* */let baz = qux;", true],
+                ["let foo = bar;/**/ let baz = qux;", true],
+                ["let foo = bar;/* */ let baz = qux;", true],
+                ["let foo = bar; /**/ let baz = qux;", true],
+                ["let foo = bar; /* */ let baz = qux;", true],
+                ["let foo = bar;\tlet baz = qux;", true],
+                ["let foo = bar;\t/**/let baz = qux;", true],
+                ["let foo = bar;\t/* */let baz = qux;", true],
+                ["let foo = bar;/**/\tlet baz = qux;", true],
+                ["let foo = bar;/* */\tlet baz = qux;", true],
+                ["let foo = bar;\t/**/\tlet baz = qux;", true],
+                ["let foo = bar;\t/* */\tlet baz = qux;", true],
+                ["let foo = bar;\nlet baz = qux;", true],
+                ["let foo = bar;\n/**/let baz = qux;", true],
+                ["let foo = bar;\n/* */let baz = qux;", true],
+                ["let foo = bar;/**/\nlet baz = qux;", true],
+                ["let foo = bar;/* */\nlet baz = qux;", true],
+                ["let foo = bar;\n/**/\nlet baz = qux;", true],
+                ["let foo = bar;\n/* */\nlet baz = qux;", true],
+                ["let foo = 1;let foo2 = 2; let foo3 = 3;", true]
+            ].forEach(([code, expected]) => {
+                describe("when the first given is located before the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
+
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetween(
+                                sourceCode.ast.body[0],
+                                sourceCode.ast.body[sourceCode.ast.body.length - 1]
+                            ),
+                            expected
+                        );
+                    });
+                });
+
+                describe("when the first given is located after the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
+
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetween(
+                                sourceCode.ast.body[sourceCode.ast.body.length - 1],
+                                sourceCode.ast.body[0]
+                            ),
+                            expected
+                        );
+                    });
+                });
+            });
+
+            it("JSXText tokens that contain only whitespaces should NOT be handled as space", () => {
+                const code = "let jsx = <div>\n   {content}\n</div>";
+                const ast = espree.parse(code, { ...DEFAULT_CONFIG, ecmaFeatures: { jsx: true } });
+                const sourceCode = new SourceCode(code, ast);
+                const jsx = ast.body[0].declarations[0].init;
+                const interpolation = jsx.children[1];
 
                 assert.strictEqual(
-                    sourceCode.isSpaceBetweenTokens(
-                        sourceCode.ast.tokens[0], sourceCode.ast.tokens[1]
-                    ),
-                    expected
+                    sourceCode.isSpaceBetween(jsx.openingElement, interpolation),
+                    false
                 );
+                assert.strictEqual(
+                    sourceCode.isSpaceBetween(interpolation, jsx.closingElement),
+                    false
+                );
+
+                // Reversed order
+                assert.strictEqual(
+                    sourceCode.isSpaceBetween(interpolation, jsx.openingElement),
+                    false
+                );
+                assert.strictEqual(
+                    sourceCode.isSpaceBetween(jsx.closingElement, interpolation),
+                    false
+                );
+            });
+
+            it("JSXText tokens that contain both letters and whitespaces should NOT be handled as space", () => {
+                const code = "let jsx = <div>\n   Hello\n</div>";
+                const ast = espree.parse(code, { ...DEFAULT_CONFIG, ecmaFeatures: { jsx: true } });
+                const sourceCode = new SourceCode(code, ast);
+                const jsx = ast.body[0].declarations[0].init;
+
+                assert.strictEqual(
+                    sourceCode.isSpaceBetween(jsx.openingElement, jsx.closingElement),
+                    false
+                );
+
+                // Reversed order
+                assert.strictEqual(
+                    sourceCode.isSpaceBetween(jsx.closingElement, jsx.openingElement),
+                    false
+                );
+            });
+
+            it("JSXText tokens that contain only letters should NOT be handled as space", () => {
+                const code = "let jsx = <div>Hello</div>";
+                const ast = espree.parse(code, { ...DEFAULT_CONFIG, ecmaFeatures: { jsx: true } });
+                const sourceCode = new SourceCode(code, ast);
+                const jsx = ast.body[0].declarations[0].init;
+
+                assert.strictEqual(
+                    sourceCode.isSpaceBetween(jsx.openingElement, jsx.closingElement),
+                    false
+                );
+
+                // Reversed order
+                assert.strictEqual(
+                    sourceCode.isSpaceBetween(jsx.closingElement, jsx.openingElement),
+                    false
+                );
+            });
+        });
+
+        describe("should return false either of the arguments' location is inside the other one", () => {
+            [
+                ["let foo = bar;", false]
+            ].forEach(([code, expected]) => {
+                it(code, () => {
+                    const ast = espree.parse(code, DEFAULT_CONFIG),
+                        sourceCode = new SourceCode(code, ast);
+
+                    assert.strictEqual(
+                        sourceCode.isSpaceBetween(
+                            sourceCode.ast.tokens[0],
+                            sourceCode.ast.body[0]
+                        ),
+                        expected
+                    );
+
+                    assert.strictEqual(
+                        sourceCode.isSpaceBetween(
+                            sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1],
+                            sourceCode.ast.body[0]
+                        ),
+                        expected
+                    );
+
+                    assert.strictEqual(
+                        sourceCode.isSpaceBetween(
+                            sourceCode.ast.body[0],
+                            sourceCode.ast.tokens[0]
+                        ),
+                        expected
+                    );
+
+                    assert.strictEqual(
+                        sourceCode.isSpaceBetween(
+                            sourceCode.ast.body[0],
+                            sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1]
+                        ),
+                        expected
+                    );
+                });
+            });
+        });
+    });
+
+    describe("isSpaceBetweenTokens()", () => {
+        describe("should return true when there is at least one whitespace character between two tokens", () => {
+            [
+                ["let foo", true],
+                ["let  foo", true],
+                ["let /**/ foo", true],
+                ["let/**/foo", false],
+                ["let/*\n*/foo", false]
+            ].forEach(([code, expected]) => {
+                describe("when the first given is located before the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
+
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetweenTokens(
+                                sourceCode.ast.tokens[0],
+                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1]
+                            ),
+                            expected
+                        );
+                    });
+                });
+
+                describe("when the first given is located after the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
+
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetweenTokens(
+                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1],
+                                sourceCode.ast.tokens[0]
+                            ),
+                            expected
+                        );
+                    });
+                });
+            });
+
+            [
+                ["a+b", false],
+                ["a +b", true],
+                ["a/**/+b", false],
+                ["a/* */+b", false],
+                ["a/**/ +b", true],
+                ["a/**/ /**/+b", true],
+                ["a/* */ /* */+b", true],
+                ["a/**/\n/**/+b", true],
+                ["a/* */\n/* */+b", true],
+                ["a/**/+b/**/+c", false],
+                ["a/* */+b/* */+c", false],
+                ["a/**/+b /**/+c", true],
+                ["a/* */+b /* */+c", true],
+                ["a/**/ +b/**/+c", true],
+                ["a/* */ +b/* */+c", true],
+                ["a/**/+b\t/**/+c", true],
+                ["a/* */+b\t/* */+c", true],
+                ["a/**/\t+b/**/+c", true],
+                ["a/* */\t+b/* */+c", true],
+                ["a/**/+b\n/**/+c", true],
+                ["a/* */+b\n/* */+c", true],
+                ["a/**/\n+b/**/+c", true],
+                ["a/* */\n+b/* */+c", true],
+                ["a/* */+' /**/ '/* */+c", false],
+                ["a/* */+ ' /**/ '/* */+c", true],
+                ["a/* */+' /**/ ' /* */+c", true],
+                ["a/* */+ ' /**/ ' /* */+c", true],
+                ["a/* */+` /*\n*/ `/* */+c", false],
+                ["a/* */+ ` /*\n*/ `/* */+c", true],
+                ["a/* */+` /*\n*/ ` /* */+c", true],
+                ["a/* */+ ` /*\n*/ ` /* */+c", true]
+            ].forEach(([code, expected]) => {
+                describe("when the first given is located before the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
+
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetweenTokens(
+                                sourceCode.ast.tokens[0],
+                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 2]
+                            ),
+                            expected
+                        );
+                    });
+                });
+
+                describe("when the first given is located after the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
+
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetweenTokens(
+                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 2],
+                                sourceCode.ast.tokens[0]
+                            ),
+                            expected
+                        );
+                    });
+                });
+            });
+        });
+
+        describe("should return true when there is at least one whitespace character between a token and a node", () => {
+            [
+                [";let foo = bar", false],
+                [";/**/let foo = bar", false],
+                [";/* */let foo = bar", false],
+                ["; let foo = bar", true],
+                ["; let foo = bar", true],
+                ["; /**/let foo = bar", true],
+                ["; /* */let foo = bar", true],
+                [";/**/ let foo = bar", true],
+                [";/* */ let foo = bar", true],
+                ["; /**/ let foo = bar", true],
+                ["; /* */ let foo = bar", true],
+                [";\tlet foo = bar", true],
+                [";\tlet foo = bar", true],
+                [";\t/**/let foo = bar", true],
+                [";\t/* */let foo = bar", true],
+                [";/**/\tlet foo = bar", true],
+                [";/* */\tlet foo = bar", true],
+                [";\t/**/\tlet foo = bar", true],
+                [";\t/* */\tlet foo = bar", true],
+                [";\nlet foo = bar", true],
+                [";\nlet foo = bar", true],
+                [";\n/**/let foo = bar", true],
+                [";\n/* */let foo = bar", true],
+                [";/**/\nlet foo = bar", true],
+                [";/* */\nlet foo = bar", true],
+                [";\n/**/\nlet foo = bar", true],
+                [";\n/* */\nlet foo = bar", true]
+            ].forEach(([code, expected]) => {
+                describe("when the first given is located before the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
+
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetweenTokens(
+                                sourceCode.ast.tokens[0],
+                                sourceCode.ast.body[sourceCode.ast.body.length - 1]
+                            ),
+                            expected
+                        );
+                    });
+                });
+
+                describe("when the first given is located after the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
+
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetweenTokens(
+                                sourceCode.ast.body[sourceCode.ast.body.length - 1],
+                                sourceCode.ast.tokens[0]
+                            ),
+                            expected
+                        );
+                    });
+                });
+            });
+        });
+
+        describe("should return true when there is at least one whitespace character between a node and a token", () => {
+            [
+                ["let foo = bar;;", false],
+                ["let foo = bar;;;", false],
+                ["let foo = 1; let bar = 2;;", true],
+                ["let foo = bar;/**/;", false],
+                ["let foo = bar;/* */;", false],
+                ["let foo = bar;;;", false],
+                ["let foo = bar; ;", true],
+                ["let foo = bar; /**/;", true],
+                ["let foo = bar; /* */;", true],
+                ["let foo = bar;/**/ ;", true],
+                ["let foo = bar;/* */ ;", true],
+                ["let foo = bar; /**/ ;", true],
+                ["let foo = bar; /* */ ;", true],
+                ["let foo = bar;\t;", true],
+                ["let foo = bar;\t/**/;", true],
+                ["let foo = bar;\t/* */;", true],
+                ["let foo = bar;/**/\t;", true],
+                ["let foo = bar;/* */\t;", true],
+                ["let foo = bar;\t/**/\t;", true],
+                ["let foo = bar;\t/* */\t;", true],
+                ["let foo = bar;\n;", true],
+                ["let foo = bar;\n/**/;", true],
+                ["let foo = bar;\n/* */;", true],
+                ["let foo = bar;/**/\n;", true],
+                ["let foo = bar;/* */\n;", true],
+                ["let foo = bar;\n/**/\n;", true],
+                ["let foo = bar;\n/* */\n;", true]
+            ].forEach(([code, expected]) => {
+                describe("when the first given is located before the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
+
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetweenTokens(
+                                sourceCode.ast.body[0],
+                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1]
+                            ),
+                            expected
+                        );
+                    });
+                });
+
+                describe("when the first given is located after the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
+
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetweenTokens(
+                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1],
+                                sourceCode.ast.body[0]
+                            ),
+                            expected
+                        );
+                    });
+                });
+            });
+        });
+
+        describe("should return true when there is at least one whitespace character between two nodes", () => {
+            [
+                ["let foo = bar;let baz = qux;", false],
+                ["let foo = bar;/**/let baz = qux;", false],
+                ["let foo = bar;/* */let baz = qux;", false],
+                ["let foo = bar; let baz = qux;", true],
+                ["let foo = bar; /**/let baz = qux;", true],
+                ["let foo = bar; /* */let baz = qux;", true],
+                ["let foo = bar;/**/ let baz = qux;", true],
+                ["let foo = bar;/* */ let baz = qux;", true],
+                ["let foo = bar; /**/ let baz = qux;", true],
+                ["let foo = bar; /* */ let baz = qux;", true],
+                ["let foo = bar;\tlet baz = qux;", true],
+                ["let foo = bar;\t/**/let baz = qux;", true],
+                ["let foo = bar;\t/* */let baz = qux;", true],
+                ["let foo = bar;/**/\tlet baz = qux;", true],
+                ["let foo = bar;/* */\tlet baz = qux;", true],
+                ["let foo = bar;\t/**/\tlet baz = qux;", true],
+                ["let foo = bar;\t/* */\tlet baz = qux;", true],
+                ["let foo = bar;\nlet baz = qux;", true],
+                ["let foo = bar;\n/**/let baz = qux;", true],
+                ["let foo = bar;\n/* */let baz = qux;", true],
+                ["let foo = bar;/**/\nlet baz = qux;", true],
+                ["let foo = bar;/* */\nlet baz = qux;", true],
+                ["let foo = bar;\n/**/\nlet baz = qux;", true],
+                ["let foo = bar;\n/* */\nlet baz = qux;", true],
+                ["let foo = 1;let foo2 = 2; let foo3 = 3;", true]
+            ].forEach(([code, expected]) => {
+                describe("when the first given is located before the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
+
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetweenTokens(
+                                sourceCode.ast.body[0],
+                                sourceCode.ast.body[sourceCode.ast.body.length - 1]
+                            ),
+                            expected
+                        );
+                    });
+                });
+
+                describe("when the first given is located after the second", () => {
+                    it(code, () => {
+                        const ast = espree.parse(code, DEFAULT_CONFIG),
+                            sourceCode = new SourceCode(code, ast);
+
+                        assert.strictEqual(
+                            sourceCode.isSpaceBetweenTokens(
+                                sourceCode.ast.body[sourceCode.ast.body.length - 1],
+                                sourceCode.ast.body[0]
+                            ),
+                            expected
+                        );
+                    });
+                });
+            });
+
+            it("JSXText tokens that contain only whitespaces should be handled as space", () => {
+                const code = "let jsx = <div>\n   {content}\n</div>";
+                const ast = espree.parse(code, { ...DEFAULT_CONFIG, ecmaFeatures: { jsx: true } });
+                const sourceCode = new SourceCode(code, ast);
+                const jsx = ast.body[0].declarations[0].init;
+                const interpolation = jsx.children[1];
+
+                assert.strictEqual(
+                    sourceCode.isSpaceBetweenTokens(jsx.openingElement, interpolation),
+                    true
+                );
+                assert.strictEqual(
+                    sourceCode.isSpaceBetweenTokens(interpolation, jsx.closingElement),
+                    true
+                );
+
+                // Reversed order
+                assert.strictEqual(
+                    sourceCode.isSpaceBetweenTokens(interpolation, jsx.openingElement),
+                    true
+                );
+                assert.strictEqual(
+                    sourceCode.isSpaceBetweenTokens(jsx.closingElement, interpolation),
+                    true
+                );
+            });
+
+            it("JSXText tokens that contain both letters and whitespaces should be handled as space", () => {
+                const code = "let jsx = <div>\n   Hello\n</div>";
+                const ast = espree.parse(code, { ...DEFAULT_CONFIG, ecmaFeatures: { jsx: true } });
+                const sourceCode = new SourceCode(code, ast);
+                const jsx = ast.body[0].declarations[0].init;
+
+                assert.strictEqual(
+                    sourceCode.isSpaceBetweenTokens(jsx.openingElement, jsx.closingElement),
+                    true
+                );
+
+                // Reversed order
+                assert.strictEqual(
+                    sourceCode.isSpaceBetweenTokens(jsx.closingElement, jsx.openingElement),
+                    true
+                );
+            });
+
+            it("JSXText tokens that contain only letters should NOT be handled as space", () => {
+                const code = "let jsx = <div>Hello</div>";
+                const ast = espree.parse(code, { ...DEFAULT_CONFIG, ecmaFeatures: { jsx: true } });
+                const sourceCode = new SourceCode(code, ast);
+                const jsx = ast.body[0].declarations[0].init;
+
+                assert.strictEqual(
+                    sourceCode.isSpaceBetweenTokens(jsx.openingElement, jsx.closingElement),
+                    false
+                );
+
+                // Reversed order
+                assert.strictEqual(
+                    sourceCode.isSpaceBetweenTokens(jsx.closingElement, jsx.openingElement),
+                    false
+                );
+            });
+        });
+
+        describe("should return false either of the arguments' location is inside the other one", () => {
+            [
+                ["let foo = bar;", false]
+            ].forEach(([code, expected]) => {
+                it(code, () => {
+                    const ast = espree.parse(code, DEFAULT_CONFIG),
+                        sourceCode = new SourceCode(code, ast);
+
+                    assert.strictEqual(
+                        sourceCode.isSpaceBetweenTokens(
+                            sourceCode.ast.tokens[0],
+                            sourceCode.ast.body[0]
+                        ),
+                        expected
+                    );
+
+                    assert.strictEqual(
+                        sourceCode.isSpaceBetweenTokens(
+                            sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1],
+                            sourceCode.ast.body[0]
+                        ),
+                        expected
+                    );
+
+                    assert.strictEqual(
+                        sourceCode.isSpaceBetweenTokens(
+                            sourceCode.ast.body[0],
+                            sourceCode.ast.tokens[0]
+                        ),
+                        expected
+                    );
+
+                    assert.strictEqual(
+                        sourceCode.isSpaceBetweenTokens(
+                            sourceCode.ast.body[0],
+                            sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1]
+                        ),
+                        expected
+                    );
+                });
             });
         });
     });

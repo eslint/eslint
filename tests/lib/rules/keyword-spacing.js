@@ -34,9 +34,8 @@ const NEITHER = { before: false, after: false };
  *         after: false,
  *         overrides: {as: {before: true, after: true}}
  *     }
- *
- * @param {string} keyword - A keyword to be overriden.
- * @param {Object} value - A value to override.
+ * @param {string} keyword A keyword to be overridden.
+ * @param {Object} value A value to override.
  * @returns {Object} An option object to test an "overrides" option.
  */
 function override(keyword, value) {
@@ -53,8 +52,7 @@ function override(keyword, value) {
 
 /**
  * Gets an error message that expected space(s) before a specified keyword.
- *
- * @param {string} keyword - A keyword.
+ * @param {string} keyword A keyword.
  * @returns {string[]} An error message.
  */
 function expectedBefore(keyword) {
@@ -63,8 +61,7 @@ function expectedBefore(keyword) {
 
 /**
  * Gets an error message that expected space(s) after a specified keyword.
- *
- * @param {string} keyword - A keyword.
+ * @param {string} keyword A keyword.
  * @returns {string[]} An error message.
  */
 function expectedAfter(keyword) {
@@ -74,8 +71,7 @@ function expectedAfter(keyword) {
 /**
  * Gets error messages that expected space(s) before and after a specified
  * keyword.
- *
- * @param {string} keyword - A keyword.
+ * @param {string} keyword A keyword.
  * @returns {string[]} Error messages.
  */
 function expectedBeforeAndAfter(keyword) {
@@ -87,8 +83,7 @@ function expectedBeforeAndAfter(keyword) {
 
 /**
  * Gets an error message that unexpected space(s) before a specified keyword.
- *
- * @param {string} keyword - A keyword.
+ * @param {string} keyword A keyword.
  * @returns {string[]} An error message.
  */
 function unexpectedBefore(keyword) {
@@ -97,8 +92,7 @@ function unexpectedBefore(keyword) {
 
 /**
  * Gets an error message that unexpected space(s) after a specified keyword.
- *
- * @param {string} keyword - A keyword.
+ * @param {string} keyword A keyword.
  * @returns {string[]} An error message.
  */
 function unexpectedAfter(keyword) {
@@ -108,8 +102,7 @@ function unexpectedAfter(keyword) {
 /**
  * Gets error messages that unexpected space(s) before and after a specified
  * keyword.
- *
- * @param {string} keyword - A keyword.
+ * @param {string} keyword A keyword.
  * @returns {string[]} Error messages.
  */
 function unexpectedBeforeAndAfter(keyword) {
@@ -136,6 +129,10 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "import*as a from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "import* as a from\"foo\"", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "import *as a from \"foo\"", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export * as a from \"foo\"", parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export*as a from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export* as a from\"foo\"", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export *as a from \"foo\"", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
 
         //----------------------------------------------------------------------
         // async
@@ -552,6 +549,8 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "if (a) {}else{}", options: [override("else", NEITHER)] },
         "if (a) {}\nelse\n{}",
         { code: "if(a) {}\nelse\n{}", options: [NEITHER] },
+        { code: "if(a){ }else{ }", options: [{ before: false, after: true, overrides: { else: { after: false }, if: { after: false } } }] },
+        { code: "if(a){ }else{ }", options: [{ before: true, after: false, overrides: { else: { before: false }, if: { before: false } } }] },
 
         // not conflict with `semi-spacing`
         "if (a);else;",
@@ -1365,14 +1364,42 @@ ruleTester.run("keyword-spacing", rule, {
             code: "import *as a from \"foo\"",
             output: "import * as a from \"foo\"",
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: expectedBefore("as")
+            errors: [{
+                messageId: "expectedBefore",
+                data: { value: "as" },
+                line: 1,
+                column: 9,
+                endLine: 1,
+                endColumn: 11
+            }]
         },
         {
             code: "import* as a from\"foo\"",
             output: "import*as a from\"foo\"",
             options: [NEITHER],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: unexpectedBefore("as")
+            errors: [{
+                messageId: "unexpectedBefore",
+                data: { value: "as" },
+                line: 1,
+                column: 8,
+                endLine: 1,
+                endColumn: 9
+            }]
+        },
+        {
+            code: "import*   as a from\"foo\"",
+            output: "import*as a from\"foo\"",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "unexpectedBefore",
+                data: { value: "as" },
+                line: 1,
+                column: 8,
+                endLine: 1,
+                endColumn: 11
+            }]
         },
         {
             code: "import*as a from\"foo\"",
@@ -1386,6 +1413,33 @@ ruleTester.run("keyword-spacing", rule, {
             output: "import *as a from \"foo\"",
             options: [override("as", NEITHER)],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: unexpectedBefore("as")
+        },
+        {
+            code: "export *as a from \"foo\"",
+            output: "export * as a from \"foo\"",
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            errors: expectedBefore("as")
+        },
+        {
+            code: "export* as a from\"foo\"",
+            output: "export*as a from\"foo\"",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            errors: unexpectedBefore("as")
+        },
+        {
+            code: "export*as a from\"foo\"",
+            output: "export* as a from\"foo\"",
+            options: [override("as", BOTH)],
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            errors: expectedBefore("as")
+        },
+        {
+            code: "export * as a from \"foo\"",
+            output: "export *as a from \"foo\"",
+            options: [override("as", NEITHER)],
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
             errors: unexpectedBefore("as")
         },
 
@@ -2456,6 +2510,47 @@ ruleTester.run("keyword-spacing", rule, {
         //----------------------------------------------------------------------
 
         {
+            code: "import* as a from \"foo\"",
+            output: "import * as a from \"foo\"",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "expectedAfter",
+                data: { value: "import" },
+                line: 1,
+                column: 1,
+                endLine: 1,
+                endColumn: 7
+            }]
+        },
+        {
+            code: "import *as a from\"foo\"",
+            output: "import*as a from\"foo\"",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "unexpectedAfter",
+                data: { value: "import" },
+                line: 1,
+                column: 7,
+                endLine: 1,
+                endColumn: 8
+            }]
+        },
+        {
+            code: "import   *as a from\"foo\"",
+            output: "import*as a from\"foo\"",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "unexpectedAfter",
+                data: { value: "import" },
+                line: 1,
+                column: 7,
+                endLine: 1,
+                endColumn: 10
+            }]
+        },
+        {
             code: "{}import{a} from \"foo\"",
             output: "{} import {a} from \"foo\"",
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
@@ -3139,4 +3234,5 @@ ruleTester.run("keyword-spacing", rule, {
             errors: expectedAfter("async")
         }
     ]
+
 });

@@ -17,7 +17,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
-const error = { message: "Useless constructor.", type: "MethodDefinition" };
+const error = { messageId: "noUselessConstructor", type: "MethodDefinition" };
 
 ruleTester.run("no-useless-constructor", rule, {
     valid: [
@@ -36,7 +36,11 @@ ruleTester.run("no-useless-constructor", rule, {
         "class A extends B { constructor(foo, bar){ super(foo); } }",
         "class A extends B { constructor(test) { super(); } }",
         "class A extends B { constructor() { foo; } }",
-        "class A extends B { constructor(foo, bar) { super(bar); } }"
+        "class A extends B { constructor(foo, bar) { super(bar); } }",
+        {
+            code: "declare class A { constructor(options: any); }",
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/declare-class")
+        }
     ],
     invalid: [
         {

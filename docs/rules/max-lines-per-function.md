@@ -165,6 +165,10 @@ Examples of **incorrect** code for this rule with the `{ "IIFEs": true }` option
 (function(){
     var x = 0;
 }());
+
+(() => {
+    var x = 0;
+})();
 ```
 
 Examples of **correct** code for this rule with the `{ "IIFEs": true }` option:
@@ -174,6 +178,10 @@ Examples of **correct** code for this rule with the `{ "IIFEs": true }` option:
 (function(){
     var x = 0;
 }());
+
+(() => {
+    var x = 0;
+})();
 ```
 
 ## When Not To Use It

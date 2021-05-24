@@ -34,7 +34,12 @@ ruleTester.run("no-alert", rule, {
         "function prompt() {} prompt();",
         "window[alert]();",
         "function foo() { this.alert(); }",
-        "function foo() { var window = bar; window.alert(); }"
+        "function foo() { var window = bar; window.alert(); }",
+        "globalThis.alert();",
+        { code: "globalThis['alert']();", env: { es6: true } },
+        { code: "globalThis.alert();", env: { es2017: true } },
+        { code: "var globalThis = foo; globalThis.alert();", env: { es2020: true } },
+        { code: "function foo() { var globalThis = foo; globalThis.alert(); }", env: { es2020: true } }
     ],
     invalid: [
         {
@@ -104,6 +109,33 @@ ruleTester.run("no-alert", rule, {
         {
             code: "function foo() { var window = bar; window.alert(); }\nwindow.alert();",
             errors: [{ messageId: "unexpected", data: { name: "alert" }, type: "CallExpression", line: 2, column: 1 }]
+        },
+        {
+            code: "globalThis['alert'](foo)",
+            env: { es2020: true },
+            errors: [{ messageId: "unexpected", data: { name: "alert" }, type: "CallExpression", line: 1, column: 1 }]
+        },
+        {
+            code: "globalThis.alert();",
+            env: { es2020: true },
+            errors: [{ messageId: "unexpected", data: { name: "alert" }, type: "CallExpression", line: 1, column: 1 }]
+        },
+        {
+            code: "function foo() { var globalThis = bar; globalThis.alert(); }\nglobalThis.alert();",
+            env: { es2020: true },
+            errors: [{ messageId: "unexpected", data: { name: "alert" }, type: "CallExpression", line: 2, column: 1 }]
+        },
+
+        // Optional chaining
+        {
+            code: "window?.alert(foo)",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected", data: { name: "alert" } }]
+        },
+        {
+            code: "(window?.alert)(foo)",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected", data: { name: "alert" } }]
         }
     ]
 });

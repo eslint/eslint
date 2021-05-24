@@ -18,7 +18,7 @@ const rule = require("../../../lib/rules/sort-vars"),
 
 const ruleTester = new RuleTester(),
     expectedError = {
-        message: "Variables within the same declaration block should be sorted alphabetically.",
+        messageId: "sortVars",
         type: "VariableDeclarator"
     },
     ignoreCaseArgs = [{ ignoreCase: true }];

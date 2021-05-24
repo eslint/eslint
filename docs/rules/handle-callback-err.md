@@ -1,5 +1,7 @@
 # Enforce Callback Error Handling (handle-callback-err)
 
+This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-node`](https://github.com/mysticatea/eslint-plugin-node).
+
 In Node.js, a common pattern for dealing with asynchronous behavior is called the callback pattern.
 This pattern expects an `Error` object or `null` as the first argument of the callback.
 Forgetting to handle these errors can lead to some really strange behavior in your application.

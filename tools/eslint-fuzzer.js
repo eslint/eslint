@@ -10,12 +10,24 @@
 //------------------------------------------------------------------------------
 
 const assert = require("assert");
-const lodash = require("lodash");
 const eslump = require("eslump");
 const espree = require("espree");
 const SourceCodeFixer = require("../lib/linter/source-code-fixer");
 const ruleConfigs = require("../lib/init/config-rule").createCoreRuleConfigs(true);
 const sampleMinimizer = require("./code-sample-minimizer");
+
+//------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
+
+/**
+ * Gets a random item from an array
+ * @param {any[]} array The array to sample
+ * @returns {any} The random item
+ */
+function sample(array) {
+    return array[Math.floor(Math.random() * array.length)];
+}
 
 //------------------------------------------------------------------------------
 // Public API
@@ -65,7 +77,7 @@ function fuzz(options) {
 
             try {
                 fixResult = linter.verifyAndFix(text, reducedConfig, {});
-            } catch (err) {
+            } catch {
                 return reducedConfig;
             }
 
@@ -91,7 +103,7 @@ function fuzz(options) {
 
             try {
                 messages = linter.verify(currentText, config);
-            } catch (err) {
+            } catch {
                 return currentText;
             }
 
@@ -125,11 +137,20 @@ function fuzz(options) {
     }
 
     for (let i = 0; i < options.count; progressCallback(problems.length), i++) {
-        const sourceType = lodash.sample(["script", "module"]);
+        const rules = {};
+
+        for (const [id, configs] of Object.entries(ruleConfigs)) {
+            rules[id] = sample(configs);
+        }
+
+        const sourceType = sample(["script", "module"]);
         const text = codeGenerator({ sourceType });
         const config = {
-            rules: lodash.mapValues(ruleConfigs, lodash.sample),
-            parserOptions: { sourceType, ecmaVersion: 2018 }
+            rules,
+            parserOptions: {
+                sourceType,
+                ecmaVersion: espree.latestEcmaVersion
+            }
         };
 
         let autofixResult;
@@ -150,7 +171,7 @@ function fuzz(options) {
                     try {
                         linter.verify(reducedText, smallConfig);
                         return false;
-                    } catch (_) {
+                    } catch {
                         return true;
                     }
                 }
@@ -172,7 +193,7 @@ function fuzz(options) {
                         const smallFixResult = linter.verifyAndFix(reducedText, smallConfig);
 
                         return smallFixResult.fixed && smallFixResult.messages.length === 1 && smallFixResult.messages[0].fatal;
-                    } catch (_) {
+                    } catch {
                         return false;
                     }
                 }

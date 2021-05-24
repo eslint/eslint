@@ -57,7 +57,8 @@ ruleTester.run("dot-notation", rule, {
         "a.null;",
         "a[undefined];",
         "a[void 0];",
-        "a[b()];"
+        "a[b()];",
+        { code: "a[/(?<zero>0)/];", parserOptions: { ecmaVersion: 2018 } }
     ],
     invalid: [
         {
@@ -81,6 +82,16 @@ ruleTester.run("dot-notation", rule, {
             code: "a[null];",
             output: "a.null;",
             errors: [{ messageId: "useDot", data: { key: "null" } }]
+        },
+        {
+            code: "a[true];",
+            output: "a.true;",
+            errors: [{ messageId: "useDot", data: { key: "true" } }]
+        },
+        {
+            code: "a[false];",
+            output: "a.false;",
+            errors: [{ messageId: "useDot", data: { key: "false" } }]
         },
         {
             code: "a['b'];",
@@ -207,6 +218,93 @@ ruleTester.run("dot-notation", rule, {
             output: null, // `let["if"]()` is a syntax error because `let[` indicates a destructuring variable declaration
             options: [{ allowKeywords: false }],
             errors: [{ messageId: "useBrackets", data: { key: "if" } }]
+        },
+        {
+            code: "5['prop']",
+            output: "5 .prop",
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "-5['prop']",
+            output: "-5 .prop",
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "01['prop']",
+            output: "01.prop",
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "01234567['prop']",
+            output: "01234567.prop",
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "08['prop']",
+            output: "08 .prop",
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "090['prop']",
+            output: "090 .prop",
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "018['prop']",
+            output: "018 .prop",
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "5_000['prop']",
+            output: "5_000 .prop",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "5_000_00['prop']",
+            output: "5_000_00 .prop",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "5.000_000['prop']",
+            output: "5.000_000.prop",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "0b1010_1010['prop']",
+            output: "0b1010_1010.prop",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+
+        // Optional chaining
+        {
+            code: "obj?.['prop']",
+            output: "obj?.prop",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "0?.['prop']",
+            output: "0?.prop",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
+        },
+        {
+            code: "obj?.true",
+            output: "obj?.[\"true\"]",
+            options: [{ allowKeywords: false }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "useBrackets", data: { key: "true" } }]
+        },
+        {
+            code: "let?.true",
+            output: "let?.[\"true\"]",
+            options: [{ allowKeywords: false }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "useBrackets", data: { key: "true" } }]
         }
     ]
 });
