@@ -52,6 +52,7 @@ const ESLINT_ENV = "eslint-env";
 
 describe("Linter", () => {
     const filename = "filename.js";
+    const physicalFilename = "physical-filename.js";
 
     /** @type {InstanceType<import("../../../lib/linter/linter.js")["Linter"]>} */
     let linter;
@@ -1557,6 +1558,22 @@ describe("Linter", () => {
             const messages = linter.verify("0", config, filename);
 
             assert.strictEqual(messages[0].message, filename);
+        });
+
+        it("has access to the physicalFilename", () => {
+            linter.defineRule(code, context => ({
+                Literal(node) {
+                    context.report(node, context.getPhysicalFilename());
+                }
+            }));
+
+            const config = { rules: {} };
+
+            config.rules[code] = 1;
+
+            const messages = linter.verify("0", config, physicalFilename);
+
+            assert.strictEqual(messages[0].message, physicalFilename);
         });
 
         it("defaults filename to '<input>'", () => {
@@ -3405,6 +3422,52 @@ var a = "test2";
                 linter.defineRule("checker", filenameChecker);
                 linter.verify("foo;", { rules: { checker: "error" } });
                 assert(filenameChecker.calledOnce);
+            });
+        });
+
+        describe("physicalFilenames", () => {
+            it("should allow physicalFilename to be passed on options object", () => {
+                const physicalFilenameChecker = sinon.spy(context => {
+                    assert.strictEqual(context.getPhysicalFilename(), "foo.js");
+                    return {};
+                });
+
+                linter.defineRule("checker", physicalFilenameChecker);
+                linter.verify("foo;", { rules: { checker: "error" } }, { filename: "foo.js" });
+                assert(physicalFilenameChecker.calledOnce);
+            });
+
+            it("should allow filename to be passed as third argument", () => {
+                const physicalFilenameChecker = sinon.spy(context => {
+                    assert.strictEqual(context.getPhysicalFilename(), "foo.js");
+                    return {};
+                });
+
+                linter.defineRule("checker", physicalFilenameChecker);
+                linter.verify("foo;", { rules: { checker: "error" } }, { filename: "foo.js" });
+                assert(physicalFilenameChecker.calledOnce);
+            });
+
+            it("should default physicalFilename to <input> when options object doesn't have filename", () => {
+                const physicalFilenameChecker = sinon.spy(context => {
+                    assert.strictEqual(context.getPhysicalFilename(), "<input>");
+                    return {};
+                });
+
+                linter.defineRule("checker", physicalFilenameChecker);
+                linter.verify("foo;", { rules: { checker: "error" } }, {});
+                assert(physicalFilenameChecker.calledOnce);
+            });
+
+            it("should default filename to <input> when only two arguments are passed", () => {
+                const physicalFilenameChecker = sinon.spy(context => {
+                    assert.strictEqual(context.getPhysicalFilename(), "<input>");
+                    return {};
+                });
+
+                linter.defineRule("checker", physicalFilenameChecker);
+                linter.verify("foo;", { rules: { checker: "error" } });
+                assert(physicalFilenameChecker.calledOnce);
             });
         });
 
