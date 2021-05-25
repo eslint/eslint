@@ -16,6 +16,7 @@ MD029: false     # Ordered list item prefix
 MD030: false     # Spaces after list markers
 MD033: false     # Allow inline HTML
 MD034: false     # Bare URL used
+MD037: false     # Spaces inside emphasis markers
 MD040: false     # Fenced code blocks should have a language specified
 MD041: false     # First line in file should be a top level header
 MD046: false     # Code block style
