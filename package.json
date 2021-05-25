@@ -97,7 +97,7 @@
     "eslint-config-eslint": "file:packages/eslint-config-eslint",
     "eslint-plugin-eslint-plugin": "^3.0.3",
     "eslint-plugin-internal-rules": "file:tools/internal-rules",
-    "eslint-plugin-jsdoc": "^35.0.0",
+    "eslint-plugin-jsdoc": "^33.3.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-release": "^3.1.2",
     "eslump": "^3.0.0",
