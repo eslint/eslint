@@ -3493,6 +3493,22 @@ var a = "test2";
         });
 
         describe("ecmaVersion", () => {
+            it("the default ECMAScript version is 5", () => {
+                const messages = linter.verify("let x = 0;", {});
+
+                assert.strictEqual(messages.length, 1);
+            });
+
+            it("supports ECMAScript version 'latest'", () => {
+                const messages = linter.verify("let x = 5 ** 7;", {
+                    parserOptions: {
+                        ecmaVersion: "latest"
+                    }
+                });
+
+                assert.strictEqual(messages.length, 0);
+            });
+
             describe("it should properly parse let declaration when", () => {
                 it("the ECMAScript version number is 6", () => {
                     const messages = linter.verify("let x = 5;", {
