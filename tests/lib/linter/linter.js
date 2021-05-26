@@ -4934,17 +4934,24 @@ var a = "test2";
             it("should use postprocessed problem ranges when applying autofixes", () => {
                 const code = "foo bar baz";
 
-                linter.defineRule("capitalize-identifiers", context => ({
-                    Identifier(node) {
-                        if (node.name !== node.name.toUpperCase()) {
-                            context.report({
-                                node,
-                                message: "Capitalize this identifier",
-                                fix: fixer => fixer.replaceText(node, node.name.toUpperCase())
-                            });
-                        }
+                linter.defineRule("capitalize-identifiers", {
+                    meta: {
+                        fixable: "code"
+                    },
+                    create(context) {
+                        return {
+                            Identifier(node) {
+                                if (node.name !== node.name.toUpperCase()) {
+                                    context.report({
+                                        node,
+                                        message: "Capitalize this identifier",
+                                        fix: fixer => fixer.replaceText(node, node.name.toUpperCase())
+                                    });
+                                }
+                            }
+                        };
                     }
-                }));
+                });
 
                 const fixResult = linter.verifyAndFix(
                     code,
@@ -5033,15 +5040,23 @@ var a = "test2";
         });
 
         it("stops fixing after 10 passes", () => {
-            linter.defineRule("add-spaces", context => ({
-                Program(node) {
-                    context.report({
-                        node,
-                        message: "Add a space before this node.",
-                        fix: fixer => fixer.insertTextBefore(node, " ")
-                    });
+
+            linter.defineRule("add-spaces", {
+                meta: {
+                    fixable: "whitespace"
+                },
+                create(context) {
+                    return {
+                        Program(node) {
+                            context.report({
+                                node,
+                                message: "Add a space before this node.",
+                                fix: fixer => fixer.insertTextBefore(node, " ")
+                            });
+                        }
+                    };
                 }
-            }));
+            });
 
             const fixResult = linter.verifyAndFix("a", { rules: { "add-spaces": "error" } });
 
@@ -5068,7 +5083,7 @@ var a = "test2";
             }, /Fixable rules should export a `meta\.fixable` property.\nOccurred while linting <input>:1$/u);
         });
 
-        it("should not throw an error if fix is passed and there is no metadata", () => {
+        it("should throw an error if fix is passed and there is no metadata", () => {
             linter.defineRule("test-rule", {
                 create: context => ({
                     Program(node) {
@@ -5077,7 +5092,21 @@ var a = "test2";
                 })
             });
 
-            linter.verify("0", { rules: { "test-rule": "error" } });
+            assert.throws(() => {
+                linter.verify("0", { rules: { "test-rule": "error" } });
+            }, /Fixable rules should export a `meta\.fixable` property./u);
+        });
+
+        it("should throw an error if fix is passed from a legacy-format rule", () => {
+            linter.defineRule("test-rule", context => ({
+                Program(node) {
+                    context.report(node, "hello world", {}, () => ({ range: [1, 1], text: "" }));
+                }
+            }));
+
+            assert.throws(() => {
+                linter.verify("0", { rules: { "test-rule": "error" } });
+            }, /Fixable rules should export a `meta\.fixable` property./u);
         });
     });
 

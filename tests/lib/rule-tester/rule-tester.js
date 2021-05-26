@@ -1923,17 +1923,24 @@ describe("RuleTester", () => {
         assert.throw(() => {
             ruleTester.run(
                 "foo",
-                context => ({
-                    Identifier(node) {
-                        context.report({
-                            node,
-                            message: "make a syntax error",
-                            fix(fixer) {
-                                return fixer.replaceText(node, "one two");
+                {
+                    meta: {
+                        fixable: "code"
+                    },
+                    create(context) {
+                        return {
+                            Identifier(node) {
+                                context.report({
+                                    node,
+                                    message: "make a syntax error",
+                                    fix(fixer) {
+                                        return fixer.replaceText(node, "one two");
+                                    }
+                                });
                             }
-                        });
+                        };
                     }
-                }),
+                },
                 {
                     valid: ["one()"],
                     invalid: []
