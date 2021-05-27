@@ -1571,7 +1571,7 @@ describe("Linter", () => {
 
             config.rules[code] = 1;
 
-            const messages = linter.verify("0", config, physicalFilename);
+            const messages = linter.verify("0", config, { physicalFilename });
 
             assert.strictEqual(messages[0].message, physicalFilename);
         });
@@ -3433,18 +3433,18 @@ var a = "test2";
                 });
 
                 linter.defineRule("checker", physicalFilenameChecker);
-                linter.verify("foo;", { rules: { checker: "error" } }, { filename: "foo.js" });
+                linter.verify("foo;", { rules: { checker: "error" } }, { physicalFilename: "foo.js" });
                 assert(physicalFilenameChecker.calledOnce);
             });
 
-            it("should allow filename to be passed as third argument", () => {
+            it("should allow physicalFilename to be passed as third argument", () => {
                 const physicalFilenameChecker = sinon.spy(context => {
                     assert.strictEqual(context.getPhysicalFilename(), "foo.js");
                     return {};
                 });
 
                 linter.defineRule("checker", physicalFilenameChecker);
-                linter.verify("foo;", { rules: { checker: "error" } }, { filename: "foo.js" });
+                linter.verify("foo;", { rules: { checker: "error" } }, { physicalFilename: "foo.js" });
                 assert(physicalFilenameChecker.calledOnce);
             });
 
@@ -3459,7 +3459,7 @@ var a = "test2";
                 assert(physicalFilenameChecker.calledOnce);
             });
 
-            it("should default filename to <input> when only two arguments are passed", () => {
+            it("should default physicalFilename to <input> when only two arguments are passed", () => {
                 const physicalFilenameChecker = sinon.spy(context => {
                     assert.strictEqual(context.getPhysicalFilename(), "<input>");
                     return {};
