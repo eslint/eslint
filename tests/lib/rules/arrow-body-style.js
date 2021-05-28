@@ -810,6 +810,14 @@ ruleTester.run("arrow-body-style", rule, {
             `,
             options: ["always"],
             errors: [{ messageId: "expectedBlock" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/14633
+        {
+            code: "const createMarker = (color) => ({ latitude, longitude }, index) => {};",
+            output: "const createMarker = (color) => {return ({ latitude, longitude }, index) => {}};",
+            options: ["always"],
+            errors: [{ messageId: "expectedBlock" }]
         }
     ]
 });
