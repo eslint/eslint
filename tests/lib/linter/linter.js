@@ -52,7 +52,6 @@ const ESLINT_ENV = "eslint-env";
 
 describe("Linter", () => {
     const filename = "filename.js";
-    const physicalFilename = "physical-filename.js";
 
     /** @type {InstanceType<import("../../../lib/linter/linter.js")["Linter"]>} */
     let linter;
@@ -1571,9 +1570,9 @@ describe("Linter", () => {
 
             config.rules[code] = 1;
 
-            const messages = linter.verify("0", config, { physicalFilename });
+            const messages = linter.verify("0", config, filename);
 
-            assert.strictEqual(messages[0].message, physicalFilename);
+            assert.strictEqual(messages[0].message, filename);
         });
 
         it("defaults filename to '<input>'", () => {
@@ -3433,18 +3432,7 @@ var a = "test2";
                 });
 
                 linter.defineRule("checker", physicalFilenameChecker);
-                linter.verify("foo;", { rules: { checker: "error" } }, { physicalFilename: "foo.js" });
-                assert(physicalFilenameChecker.calledOnce);
-            });
-
-            it("should allow physicalFilename to be passed as third argument", () => {
-                const physicalFilenameChecker = sinon.spy(context => {
-                    assert.strictEqual(context.getPhysicalFilename(), "foo.js");
-                    return {};
-                });
-
-                linter.defineRule("checker", physicalFilenameChecker);
-                linter.verify("foo;", { rules: { checker: "error" } }, { physicalFilename: "foo.js" });
+                linter.verify("foo;", { rules: { checker: "error" } }, { filename: "foo.js" });
                 assert(physicalFilenameChecker.calledOnce);
             });
 
