@@ -28,6 +28,7 @@ ruleTester.run("no-duplicate-imports", rule, {
         "import os from \"os\";\nexport { something } from \"os\";",
         "import * as bar from \"os\";\nimport { baz } from \"os\";",
         "import foo, * as bar from \"os\";\nimport { baz } from \"os\";",
+        "import foo, { bar } from \"os\";\nimport * as baz from \"os\";",
         {
             code: "import os from \"os\";\nexport { hello } from \"hello\";",
             options: [{ includeExports: true }]
@@ -46,6 +47,18 @@ ruleTester.run("no-duplicate-imports", rule, {
         },
         {
             code: "import { merge } from \"lodash-es\";\nexport { merge as lodashMerge }",
+            options: [{ includeExports: true }]
+        },
+        {
+            code: "export { something } from \"os\";\nexport * as os from \"os\";",
+            options: [{ includeExports: true }]
+        },
+        {
+            code: "import { something } from \"os\";\nexport * as os from \"os\";",
+            options: [{ includeExports: true }]
+        },
+        {
+            code: "import * as os from \"os\";\nexport { something } from \"os\";",
             options: [{ includeExports: true }]
         },
         {
@@ -99,6 +112,16 @@ ruleTester.run("no-duplicate-imports", rule, {
             code: "import os from \"os\";\nexport { something } from \"os\";",
             options: [{ includeExports: true }],
             errors: [{ messageId: "exportAs", data: { module: "os" }, type: "ExportNamedDeclaration" }]
+        },
+        {
+            code: "import os from \"os\";\nexport * as os from \"os\";",
+            options: [{ includeExports: true }],
+            errors: [{ messageId: "exportAs", data: { module: "os" }, type: "ExportAllDeclaration" }]
+        },
+        {
+            code: "export * as os from \"os\";\nimport os from \"os\";",
+            options: [{ includeExports: true }],
+            errors: [{ messageId: "importAs", data: { module: "os" }, type: "ImportDeclaration" }]
         },
         {
             code: "import * as modns from \"mod\";\nexport * as  modns from \"mod\";",
