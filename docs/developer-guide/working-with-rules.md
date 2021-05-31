@@ -71,7 +71,7 @@ The source file for a rule exports an object with the following properties.
 
 * `hasSuggestions` (boolean) specifies whether rules can return suggestions (defaults to `false` if omitted)
 
-     **Important:** the `hasSuggestions` property is mandatory for rules that provide suggestions. If this property isn't specified, ESLint will throw an error whenever the rule attempts to produce a suggestion. Omit the `hasSuggestions` property if the rule does not provide suggestions.
+     **Important:** the `hasSuggestions` property is mandatory for rules that provide suggestions. If this property isn't set to `true`, ESLint will throw an error whenever the rule attempts to produce a suggestion. Omit the `hasSuggestions` property if the rule does not provide suggestions.
 
 * `schema` (array) specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../user-guide/configuring/rules.md#configuring-rules)
 
