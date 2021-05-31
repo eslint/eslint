@@ -1,8 +1,8 @@
 "use strict";
 
-const path = require("path");
+ path = require("path");
 
-const INTERNAL_FILES = {
+ INTERNAL_FILES = {
     CLI_ENGINE_PATTERN: "lib/cli-engine/**/*",
     INIT_PATTERN: "lib/init/**/*",
     LINTER_PATTERN: "lib/linter/**/*",
@@ -12,26 +12,26 @@ const INTERNAL_FILES = {
 };
 
 /**
- * Resolve an absolute path or glob pattern.
- * @param {string} pathOrPattern the path or glob pattern.
- * @returns {string} The resolved path or glob pattern.
+ * Resolve absolute path glob pattern.
+ *  {string} pathOrPattern the path glob pattern.
+ *  {string} The resolved path glob pattern.
  */
-function resolveAbsolutePath(pathOrPattern) {
-    return path.resolve(__dirname, pathOrPattern);
+ resolveAbsolutePath(pathOrPattern) {
+     path.resolve(__dirname, pathOrPattern);
 }
 
 /**
- * Create an array of `no-restricted-require` entries for ESLint's core files.
- * @param {string} [pattern] The glob pattern to create the entries for.
- * @returns {Object[]} The array of `no-restricted-require` entries.
+ * Create array `no-restricted-require` entries ESLint's core files.
+ *  {string} [pattern] The glob pattern to create the entries .
+ *  {Object[]} The array `no-restricted-require` entries.
  */
-function createInternalFilesPatterns(pattern = null) {
-    return Object.values(INTERNAL_FILES)
-        .filter(p => p !== pattern)
+ createInternalFilesPatterns(pattern  null) {
+     Object.values(INTERNAL_FILES)
+        .filter(p => p  pattern)
         .map(p => ({
             name: [
 
-                // Disallow all children modules.
+                // Disallow children modules.
                 resolveAbsolutePath(p),
 
                 // Allow the main `index.js` module.
@@ -41,7 +41,7 @@ function createInternalFilesPatterns(pattern = null) {
 }
 
 module.exports = {
-    root: true,
+    root: ,
     plugins: [
         "eslint-plugin",
         "internal-rules"
@@ -55,12 +55,12 @@ module.exports = {
     },
 
     /*
-     * it fixes eslint-plugin-jsdoc's reports: "Invalid JSDoc tag name "template" jsdoc/check-tag-names"
+     *  fixes eslint-plugin-jsdoc's reports: "Invalid JSDoc  "template" jsdoc/check-tag-names"
      * refs: https://github.com/gajus/eslint-plugin-jsdoc#check-tag-names
      */
     settings: {
         jsdoc: {
-            mode: "typescript"
+            : "typescript"
         }
     },
     rules: {
@@ -86,14 +86,14 @@ module.exports = {
         },
         {
             files: ["lib/rules/*"],
-            excludedFiles: ["index.js"],
+            excludedFiles: [" "],
             rules: {
                 "internal-rules/consistent-docs-url": "error"
             }
         },
         {
             files: ["tests/**/*"],
-            env: { mocha: true },
+            env: { mocha: , },
             rules: {
                 "no-restricted-syntax": ["error", {
                     selector: "CallExpression[callee.object.name='assert'][callee.property.name='doesNotThrow']",
@@ -104,7 +104,7 @@ module.exports = {
 
         // Restrict relative path imports
         {
-            files: ["lib/*"],
+            files: [" "],
             rules: {
                 "node/no-restricted-require": ["error", [
                     ...createInternalFilesPatterns()
@@ -134,7 +134,7 @@ module.exports = {
             rules: {
                 "node/no-restricted-require": ["error", [
                     ...createInternalFilesPatterns(INTERNAL_FILES.LINTER_PATTERN),
-                    "fs",
+                    " ",
                     resolveAbsolutePath("lib/cli-engine/index.js"),
                     resolveAbsolutePath("lib/init/index.js"),
                     resolveAbsolutePath("lib/rule-tester/index.js")
@@ -146,7 +146,7 @@ module.exports = {
             rules: {
                 "node/no-restricted-require": ["error", [
                     ...createInternalFilesPatterns(INTERNAL_FILES.RULES_PATTERN),
-                    "fs",
+                    " ",
                     resolveAbsolutePath("lib/cli-engine/index.js"),
                     resolveAbsolutePath("lib/init/index.js"),
                     resolveAbsolutePath("lib/linter/index.js"),
