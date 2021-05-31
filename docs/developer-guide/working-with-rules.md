@@ -69,7 +69,7 @@ The source file for a rule exports an object with the following properties.
 
     **Important:** the `fixable` property is mandatory for fixable rules. If this property isn't specified, ESLint will throw an error whenever the rule attempts to produce a fix. Omit the `fixable` property if the rule is not fixable.
 
-* `hasSuggestions` (boolean) specifies whether rules can return suggestions (defaults to false if omitted)
+* `hasSuggestions` (boolean) specifies whether rules can return suggestions (defaults to `false` if omitted)
 
      **Important:** the `hasSuggestions` property is mandatory for rules that provide suggestions. If this property isn't specified, ESLint will throw an error whenever the rule attempts to produce a suggestion. Omit the `hasSuggestions` property if the rule does not provide suggestions.
 
