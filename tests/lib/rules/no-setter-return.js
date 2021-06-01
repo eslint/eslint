@@ -224,7 +224,7 @@ ruleTester.run("no-setter-return", rule, {
         },
         "object.create(foo, { bar: { set: function(val) { return 1; } } })",
 
-        // global object doesn't exist
+        // Global object doesn't exist
         "Reflect.defineProperty(foo, 'bar', { set(val) { if (val) { return 1; } } })",
         "/* globals Object:off */ Object.defineProperty(foo, 'bar', { set(val) { return 1; } })",
         {
@@ -232,7 +232,7 @@ ruleTester.run("no-setter-return", rule, {
             globals: { Object: "off" }
         },
 
-        // global object is shadowed
+        // Global object is shadowed
         "let Object; Object.defineProperty(foo, 'bar', { set(val) { return 1; } })",
         {
             code: "function f() { Reflect.defineProperty(foo, 'bar', { set(val) { if (val) { return 1; } } }); var Reflect;}",

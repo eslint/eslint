@@ -1360,15 +1360,16 @@ describe("Linter", () => {
     describe("when evaluating code containing a line comment", () => {
         const code = "//global a \n function f() {}";
 
-        it("should not introduce a global variable", () => {
+        it("should introduce a global variable", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
             linter.defineRule("checker", context => {
                 spy = sinon.spy(() => {
                     const scope = context.getScope();
+                    const a = getVariable(scope, "a");
 
-                    assert.strictEqual(getVariable(scope, "a"), null);
+                    assert.strictEqual(a.eslintExplicitGlobal, true);
                 });
 
                 return { Program: spy };
@@ -5517,6 +5518,62 @@ var a = "test2";
         it("should not pass any default parserOptions to the parser", () => {
             linter.defineParser("throws-with-options", testParsers.throwsWithOptions);
             const messages = linter.verify(";", { parser: "throws-with-options" }, "filename");
+
+            assert.strictEqual(messages.length, 0);
+        });
+    });
+
+    // https://github.com/eslint/eslint/issues/14575
+    describe("directives in line comments", () => {
+        it("//eslint-disable", () => {
+            let code = "//eslint-disable no-debugger\ndebugger;";
+            let messages = linter.verify(code, { rules: { "no-debugger": 2 } });
+
+            assert.strictEqual(messages.length, 0);
+
+            code = "//eslint-disable no-debugger\ndebugger;";
+            messages = linter.verify(code, { rules: { "no-debugger": 0 } });
+
+            assert.strictEqual(messages.length, 0);
+        });
+
+        it("//eslint", () => {
+            let code = "//eslint no-debugger:'error'\ndebugger;";
+            let messages = linter.verify(code, { rules: { "no-debugger": 0 } });
+
+            assert.strictEqual(messages.length, 1);
+
+            code = "//eslint no-debugger:'error'\ndebugger;";
+            messages = linter.verify(code, { rules: { "no-debugger": 2 } });
+
+            assert.strictEqual(messages.length, 1);
+        });
+
+        it("//global(s)", () => {
+            let code = "//globals foo: true\nfoo;";
+            let config = { rules: { "no-undef": 2 } };
+            let messages = linter.verify(code, config, filename);
+
+            assert.strictEqual(messages.length, 0);
+
+            code = "//global foo: true\nfoo;";
+            config = { rules: { "no-undef": 2 } };
+            messages = linter.verify(code, config, filename);
+
+            assert.strictEqual(messages.length, 0);
+        });
+        it("//exported", () => {
+            const code = "//exported foo\nvar foo = 0;";
+            const config = { rules: { "no-unused-vars": 2 } };
+            const messages = linter.verify(code, config, filename);
+
+            assert.strictEqual(messages.length, 0);
+        });
+
+        it("//eslint-env", () => {
+            const code = `//${ESLINT_ENV} browser\nwindow;`;
+            const config = { rules: { "no-undef": 2 } };
+            const messages = linter.verify(code, config, filename);
 
             assert.strictEqual(messages.length, 0);
         });
