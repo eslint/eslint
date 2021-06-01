@@ -59,6 +59,9 @@ ruleTester.run("no-invalid-regexp", rule, {
         "new RegExp('(?<𝒜>.)', 'g');",
         "new RegExp('\\\\p{Script=Nandinagari}', 'u');",
 
+        // ES2022
+        "new RegExp('a+(?<Z>z)?', 'd')",
+
         // allowConstructorFlags
         {
             code: "new RegExp('.', 'g')",

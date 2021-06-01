@@ -32,6 +32,7 @@ ruleTester.run("no-empty-character-class", rule, {
         "var foo = /\\s*:\\s*/gim;",
         { code: "var foo = /[\\]]/uy;", parserOptions: { ecmaVersion: 6 } },
         { code: "var foo = /[\\]]/s;", parserOptions: { ecmaVersion: 2018 } },
+        { code: "var foo = /[\\]]/d;", parserOptions: { ecmaVersion: 2022 } },
         "var foo = /\\[]/"
     ],
     invalid: [
@@ -41,6 +42,7 @@ ruleTester.run("no-empty-character-class", rule, {
         { code: "if (/^abc[]/.test(foo)) {}", errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "var foo = /[]]/;", errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "var foo = /\\[[]/;", errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "var foo = /\\[\\[\\]a-z[]/;", errors: [{ messageId: "unexpected", type: "Literal" }] }
+        { code: "var foo = /\\[\\[\\]a-z[]/;", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "var foo = /[]]/d;", parserOptions: { ecmaVersion: 2022 }, errors: [{ messageId: "unexpected", type: "Literal" }] }
     ]
 });
