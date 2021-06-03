@@ -4652,11 +4652,11 @@ describe("CLIEngine", () => {
 
             assert.throws(() => {
                 engine.getFormatter("table");
-            }, "The table formatter is no longer part of core ESLint. Install it manually with `npm install -D table`");
+            }, "The table formatter is no longer part of core ESLint. Install it manually with `npm install -D eslint-formatter-table`");
 
             assert.throws(() => {
                 engine.getFormatter("codeframe");
-            }, "The codeframe formatter is no longer part of core ESLint. Install it manually with `npm install -D codeframe`");
+            }, "The codeframe formatter is no longer part of core ESLint. Install it manually with `npm install -D eslint-formatter-codeframe`");
         });
 
         it("should throw if the required formatter exists but has an error", () => {
