@@ -3425,7 +3425,7 @@ var a = "test2";
         });
 
         describe("physicalFilenames", () => {
-            it("should be same as `filename` passed on options object, if no processors are usedt", () => {
+            it("should be same as `filename` passed on options object, if no processors are used", () => {
                 const physicalFilenameChecker = sinon.spy(context => {
                     assert.strictEqual(context.getPhysicalFilename(), "foo.js");
                     return {};
