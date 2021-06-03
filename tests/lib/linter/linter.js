@@ -2957,6 +2957,18 @@ var a = "test2";
             assert.strictEqual(messages.length, 0);
         });
 
+        // https://github.com/eslint/eslint/issues/14652
+        it("should not report a violation", () => {
+            const code = "/*eslint-env es6\n */ new Promise();";
+
+            const config = { rules: { "no-undef": 1 } };
+
+            const messages = linter.verify(code, config, filename);
+
+            assert.strictEqual(messages.length, 0);
+        });
+
+
         it("should not report a violation", () => {
             const code = `/*${ESLINT_ENV} mocha,node */ require();describe();`;
 
