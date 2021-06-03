@@ -76,7 +76,34 @@ ruleTester.run("radix", rule, {
             code: "parseInt(\"10\");",
             errors: [{
                 messageId: "missingRadix",
-                type: "CallExpression"
+                type: "CallExpression",
+                suggestions: [{ messageId: "addRadixParameter10", output: "parseInt(\"10\", 10);" }]
+            }]
+        },
+        {
+            code: "parseInt(\"10\",);", // Function parameter with trailing comma
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [{
+                messageId: "missingRadix",
+                type: "CallExpression",
+                suggestions: [{ messageId: "addRadixParameter10", output: "parseInt(\"10\", 10,);" }]
+            }]
+        },
+        {
+            code: "parseInt((0, \"10\"));", // Sequence expression (no trailing comma).
+            errors: [{
+                messageId: "missingRadix",
+                type: "CallExpression",
+                suggestions: [{ messageId: "addRadixParameter10", output: "parseInt((0, \"10\"), 10);" }]
+            }]
+        },
+        {
+            code: "parseInt((0, \"10\"),);", // Sequence expression (with trailing comma).
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [{
+                messageId: "missingRadix",
+                type: "CallExpression",
+                suggestions: [{ messageId: "addRadixParameter10", output: "parseInt((0, \"10\"), 10,);" }]
             }]
         },
         {
@@ -154,7 +181,8 @@ ruleTester.run("radix", rule, {
             code: "Number.parseInt(\"10\");",
             errors: [{
                 messageId: "missingRadix",
-                type: "CallExpression"
+                type: "CallExpression",
+                suggestions: [{ messageId: "addRadixParameter10", output: "Number.parseInt(\"10\", 10);" }]
             }]
         },
         {
@@ -191,22 +219,46 @@ ruleTester.run("radix", rule, {
         {
             code: "parseInt?.(\"10\");",
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "missingRadix" }]
+            errors: [
+                {
+                    messageId: "missingRadix",
+                    type: "CallExpression",
+                    suggestions: [{ messageId: "addRadixParameter10", output: "parseInt?.(\"10\", 10);" }]
+                }
+            ]
         },
         {
             code: "Number.parseInt?.(\"10\");",
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "missingRadix" }]
+            errors: [
+                {
+                    messageId: "missingRadix",
+                    type: "CallExpression",
+                    suggestions: [{ messageId: "addRadixParameter10", output: "Number.parseInt?.(\"10\", 10);" }]
+                }
+            ]
         },
         {
             code: "Number?.parseInt(\"10\");",
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "missingRadix" }]
+            errors: [
+                {
+                    messageId: "missingRadix",
+                    type: "CallExpression",
+                    suggestions: [{ messageId: "addRadixParameter10", output: "Number?.parseInt(\"10\", 10);" }]
+                }
+            ]
         },
         {
             code: "(Number?.parseInt)(\"10\");",
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "missingRadix" }]
+            errors: [
+                {
+                    messageId: "missingRadix",
+                    type: "CallExpression",
+                    suggestions: [{ messageId: "addRadixParameter10", output: "(Number?.parseInt)(\"10\", 10);" }]
+                }
+            ]
         }
     ]
 });

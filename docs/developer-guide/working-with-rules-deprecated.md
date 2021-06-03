@@ -1,4 +1,6 @@
-# Working with Rules
+# Working with Rules (Deprecated)
+
+**Note:** This page covers the deprecated rule format for ESLint <= 2.13.1. [This is the most recent rule format](./working-with-rules.md).
 
 Each rule in ESLint has two files named with its identifier (for example, `no-extra-semi`).
 

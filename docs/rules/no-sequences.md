@@ -63,6 +63,32 @@ while ((val = foo(), val < 42));
 with ((doSomething(), val)) {}
 ```
 
+### Note about arrow function bodies
+
+If an arrow function body is a statement rather than a block, and that statement contains a sequence, you need to use double parentheses around the statement to indicate that the sequence is intentional.
+
+Examples of **incorrect** code for arrow functions:
+
+```js
+/*eslint no-sequences: "error"*/
+const foo = (val) => (console.log('bar'), val);
+
+const foo = () => ((bar = 123), 10);
+
+const foo = () => { return (bar = 123), 10 }
+```
+
+Examples of **correct** code for arrow functions:
+
+```js
+/*eslint no-sequences: "error"*/
+const foo = (val) => ((console.log('bar'), val));
+
+const foo = () => (((bar = 123), 10));
+
+const foo = () => { return ((bar = 123), 10) }
+```
+
 ## Options
 
 This rule takes one option, an object, with the following properties:
@@ -91,6 +117,8 @@ switch ((val = foo(), val)) {}
 while ((val = foo(), val < 42));
 
 with ((doSomething(), val)) {}
+
+const foo = (val) => ((console.log('bar'), val));
 ```
 
 Examples of **correct** code for this rule with the `{ "allowInParentheses": false }` option:

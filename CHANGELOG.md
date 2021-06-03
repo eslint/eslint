@@ -1,3 +1,41 @@
+v7.27.0 - May 21, 2021
+
+* [`2c0868c`](https://github.com/eslint/eslint/commit/2c0868cbeadc9f42716fa1178ebdc6b4cee6d31e) Chore: merge all html formatter files into `html.js` (#14612) (Milos Djermanovic)
+* [`9e9b5e0`](https://github.com/eslint/eslint/commit/9e9b5e07475564813b62cd1d7562a93c5fb4bc74) Update: no-unused-vars false negative with comma operator (fixes #14325) (#14354) (Nitin Kumar)
+* [`afe9569`](https://github.com/eslint/eslint/commit/afe95693e1e4316a1c6f01d39345061d4c5921c7) Chore: use includes instead of indexOf (#14607) (Mikhail Bodrov)
+* [`c0f418e`](https://github.com/eslint/eslint/commit/c0f418e2476df98519bc156b81d20431984e8704) Chore: Remove lodash (#14287) (Stephen Wade)
+* [`52655dd`](https://github.com/eslint/eslint/commit/52655dd54925ee02af2ba3a0ebc09de959ae3101) Update: no-restricted-imports custom message for patterns (fixes #11843) (#14580) (Alex Holden)
+* [`967b1c4`](https://github.com/eslint/eslint/commit/967b1c4ceca8f5248378477da94ff118dafaa647) Chore: Fix typo in large.js (#14589) (Ikko Ashimine)
+* [`2466a05`](https://github.com/eslint/eslint/commit/2466a05160de60958457d984b79fd445c12ebc98) Sponsors: Sync README with website (ESLint Jenkins)
+* [`fe29f18`](https://github.com/eslint/eslint/commit/fe29f18227fd02fd7c3da033417d621275b00d0a) Sponsors: Sync README with website (ESLint Jenkins)
+* [`086c1d6`](https://github.com/eslint/eslint/commit/086c1d6e8593cf8e7851daa8f2a890c213cf6999) Chore: add more test cases for `no-sequences` (#14579) (Nitin Kumar)
+* [`6a2ced8`](https://github.com/eslint/eslint/commit/6a2ced892c0dc43fa4942293b9f1c4b9151c3741) Docs: Update README team and sponsors (ESLint Jenkins)
+
+v7.26.0 - May 7, 2021
+
+* [`aaf65e6`](https://github.com/eslint/eslint/commit/aaf65e629adb74401092c3ccc9cb4e4bd1c8609b) Upgrade: eslintrc for ModuleResolver fix (#14577) (Brandon Mills)
+* [`ae6dbd1`](https://github.com/eslint/eslint/commit/ae6dbd148aaca83e4bd04b9351b54029c50fac8a) Fix: track variables, not names in require-atomic-updates (fixes #14208) (#14282) (Patrick Ahmetovic)
+* [`6a86e50`](https://github.com/eslint/eslint/commit/6a86e5018a3733049c09261bcabae422fbea893d) Chore: remove loose-parser tests (fixes #14315) (#14569) (Milos Djermanovic)
+* [`ee3a3ea`](https://github.com/eslint/eslint/commit/ee3a3ead893d185cc4b1ae9041940cb0968767e1) Fix: create `.eslintrc.cjs` for `module` type (#14304) (Nitin Kumar)
+* [`6791dec`](https://github.com/eslint/eslint/commit/6791decfc58b7b09cfd0aabd15a3d14148aae073) Docs: fix example for require-atomic-updates (#14562) (Milos Djermanovic)
+* [`388eb7e`](https://github.com/eslint/eslint/commit/388eb7e14039b8951462b311d6121002ca5232cb) Sponsors: Sync README with website (ESLint Jenkins)
+* [`f071d1e`](https://github.com/eslint/eslint/commit/f071d1ef91286bf2e3fb63d9b679ff7702819a1e) Update: Add automated suggestion to `radix` rule for parsing decimals (#14291) (Bryan Mishkin)
+* [`0b6a3f3`](https://github.com/eslint/eslint/commit/0b6a3f31e6e78825114f82d4e0aed9cd72f784ac) New: Include XO style guide in `eslint --init` (#14193) (Federico Brigante)
+
+v7.25.0 - April 23, 2021
+
+* [`5df5e4a`](https://github.com/eslint/eslint/commit/5df5e4a9976964fcf4dc67e241d4e22ec1370fe0) Update: highlight last write reference for no-unused-vars (fixes #14324) (#14335) (Nitin Kumar)
+* [`0023872`](https://github.com/eslint/eslint/commit/00238729329b86b4f8af89ebfe278da3095a6075) Docs: Add deprecated note to `working-with-rules-deprecated` page (#14344) (Michael Novotny)
+* [`36fca70`](https://github.com/eslint/eslint/commit/36fca70fa29ab65080076810de98e09133254b8a) Chore: Upgrade eslump to 3.0.0 (#14350) (Stephen Wade)
+* [`59b689a`](https://github.com/eslint/eslint/commit/59b689a0b3fa658b8380431007cc1facb4617a3b) Chore: add node v16 (#14355) (薛定谔的猫)
+* [`35a1f5e`](https://github.com/eslint/eslint/commit/35a1f5e967e4e87360d3e70d3fca0f7adeeaa1d7) Sponsors: Sync README with website (ESLint Jenkins)
+* [`fb0a92b`](https://github.com/eslint/eslint/commit/fb0a92b3d2fed4a17bc39b7f02c540cd1175ec7d) Chore: rename misspelled identifier in test (#14346) (Tobias Nießen)
+* [`f2babb1`](https://github.com/eslint/eslint/commit/f2babb1069194166e0ac1afd1269bbd06ac299b6) Docs: update pull request template (#14336) (Nitin Kumar)
+* [`02dde29`](https://github.com/eslint/eslint/commit/02dde29eeb523ca24bc4ae7797d38627c3ba9fe9) Docs: Fix anchor in 'docs/developer-guide/working-with-rules.md' (#14332) (Nate-Wilkins)
+* [`07d14c3`](https://github.com/eslint/eslint/commit/07d14c304c358fbc9c3d318e1377d2b2bda9179f) Chore: remove extraneous command from lint-staged config (#14314) (James George)
+* [`41b3570`](https://github.com/eslint/eslint/commit/41b3570b6c014c534bb3208ed00050fd99842101) Update: lint code block with same extension but different content (#14227) (JounQin)
+* [`eb29996`](https://github.com/eslint/eslint/commit/eb299966bdc3920dd2c6f9774d95103d242fc409) Docs: add more examples with arrow functions for no-sequences rule (#14313) (Nitin Kumar)
+
 v7.24.0 - April 9, 2021
 
 * [`0c346c8`](https://github.com/eslint/eslint/commit/0c346c87fa83c6d1184fdafb9c0748c2e15a423d) Chore: ignore `pnpm-lock.yaml` (#14303) (Nitin Kumar)
