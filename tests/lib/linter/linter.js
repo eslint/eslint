@@ -3425,7 +3425,7 @@ var a = "test2";
         });
 
         describe("physicalFilenames", () => {
-            it("should allow physicalFilename to be passed on options object", () => {
+            it("should be same as `filename` passed on options object, if no processors are usedt", () => {
                 const physicalFilenameChecker = sinon.spy(context => {
                     assert.strictEqual(context.getPhysicalFilename(), "foo.js");
                     return {};
@@ -4834,14 +4834,17 @@ var a = "test2";
 
     describe("processors", () => {
         let receivedFilenames = [];
+        let receivedPhysicalFilenames = [];
 
         beforeEach(() => {
             receivedFilenames = [];
+            receivedPhysicalFilenames = [];
 
             // A rule that always reports the AST with a message equal to the source text
             linter.defineRule("report-original-text", context => ({
                 Program(ast) {
                     receivedFilenames.push(context.getFilename());
+                    receivedPhysicalFilenames.push(context.getPhysicalFilename());
                     context.report({ node: ast, message: context.getSourceCode().text });
                 }
             }));
@@ -4896,10 +4899,16 @@ var a = "test2";
 
                 assert.strictEqual(problems.length, 3);
                 assert.deepStrictEqual(problems.map(problem => problem.message), ["foo", "bar", "baz"]);
+
+                // filename
                 assert.strictEqual(receivedFilenames.length, 3);
                 assert(/^filename\.js[/\\]0_block\.js/u.test(receivedFilenames[0]));
                 assert(/^filename\.js[/\\]1_block\.js/u.test(receivedFilenames[1]));
                 assert(/^filename\.js[/\\]2_block\.js/u.test(receivedFilenames[2]));
+
+                // physical filename
+                assert.strictEqual(receivedPhysicalFilenames.length, 3);
+                assert.strictEqual(receivedPhysicalFilenames.every(name => name === filename), true);
             });
 
             it("should receive text even if a SourceCode object was given.", () => {
