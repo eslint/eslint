@@ -95,7 +95,16 @@ ruleTester.run("no-implicit-coercion", rule, {
         { code: "`${foo}`", parserOptions: { ecmaVersion: 6 } },
         { code: "`${foo}`", options: [{ }], parserOptions: { ecmaVersion: 6 } },
         { code: "`${foo}`", options: [{ disallowTemplateShorthand: false }], parserOptions: { ecmaVersion: 6 } },
-        "+42"
+        "+42",
+
+        // https://github.com/eslint/eslint/issues/14623
+        "'' + String(foo)",
+        "String(foo) + ''",
+        { code: "`` + String(foo)", parserOptions: { ecmaVersion: 6 } },
+        { code: "String(foo) + ``", parserOptions: { ecmaVersion: 6 } },
+        { code: "`${'foo'}`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "`${`foo`}`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "`${String(foo)}`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
