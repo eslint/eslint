@@ -139,6 +139,7 @@ Additionally, the `context` object has the following methods:
     * If the node is an `ImportSpecifier`, `ImportDefaultSpecifier`, or `ImportNamespaceSpecifier`, the declared variable is returned.
     * Otherwise, if the node does not declare any variables, an empty array is returned.
 * `getFilename()` - returns the filename associated with the source.
+* `getPhysicalFilename()` - when linting a file, it returns the full path of the file on disk without any code block information. When linting text, it returns the value passed to `—stdin-filename` or `<text>` if not specified.
 * `getScope()` - returns the [scope](./scope-manager-interface.md#scope-interface) of the currently-traversed node. This information can be used to track references to variables.
 * `getSourceCode()` - returns a [`SourceCode`](#contextgetsourcecode) object that you can use to work with the source that was passed to ESLint.
 * `markVariableAsUsed(name)` - marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars.md) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
