@@ -31,7 +31,7 @@ The following selectors are supported:
 * wildcard (matches all nodes): `*`
 * attribute existence: `[attr]`
 * attribute value: `[attr="foo"]` or `[attr=123]`
-* attribute regex: `[attr=/foo.*/]`
+* attribute regex: `[attr=/foo.*/]` <sub>(with some [known issues](#known-issues))</sub>
 * attribute conditions: `[attr!="foo"]`, `[attr>2]`, `[attr<3]`, `[attr>=2]`, or `[attr<=3]`
 * nested attribute: `[attr.level2="foo"]`
 * field: `FunctionDeclaration > Identifier.id`
@@ -131,3 +131,7 @@ Or you can enforce that calls to `setTimeout` always have two arguments:
 ```
 
 Using selectors in the `no-restricted-syntax` rule can give you a lot of control over problematic patterns in your codebase, without needing to write custom rules to detect each pattern.
+
+### Known issues
+
+Due to a [bug](https://github.com/estools/esquery/issues/68) in [esquery](https://github.com/estools/esquery), regular expressions that contain a forward-slash character `/` aren't porperly parsed, so `[value=/some\/path/]` will be a syntax error. As a [workaround](https://github.com/estools/esquery/issues/68), you can replace the `/` character with its unicode counterpart, like so: `[value=/some\\u002Fpath/]`.
