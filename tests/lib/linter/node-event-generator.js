@@ -188,6 +188,24 @@ describe("NodeEventGenerator", () => {
         );
 
         assertEmissions(
+            "foo",
+            ["*:has(ExpressionStatement)"],
+            ast => [
+                ["*:has(ExpressionStatement)", ast], // Program
+                ["*:has(ExpressionStatement)", ast.body[0]] // ExpressionStatement
+            ]
+        );
+
+        assertEmissions(
+            "foo++",
+            ["*:not(*:has(ExpressionStatement))"],
+            ast => [
+                ["*:not(*:has(ExpressionStatement))", ast.body[0].expression], // UpdateExpression
+                ["*:not(*:has(ExpressionStatement))", ast.body[0].expression.argument] // Identifier
+            ]
+        );
+
+        assertEmissions(
             "foo()",
             ["CallExpression[callee.name='foo']"],
             ast => [["CallExpression[callee.name='foo']", ast.body[0].expression]] // foo()
