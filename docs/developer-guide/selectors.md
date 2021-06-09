@@ -89,6 +89,8 @@ If two or more selectors match the same node, their listeners will be called in 
 
 If multiple selectors have equal specificity, their listeners will be called in alphabetical order for that node.
 
+Using `:has()` traverses subtrees, so a rule written in a way that uses ESLint's traversal instead of `:has()` may have a much better performance.
+
 ### Restricting syntax with selectors
 
 With the [no-restricted-syntax](/docs/rules/no-restricted-syntax.md) rule, you can restrict the usage of particular syntax in your code. For example, you can use the following configuration to disallow using `if` statements that do not have block statements as their body:
