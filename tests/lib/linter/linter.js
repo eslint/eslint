@@ -5550,17 +5550,17 @@ var a = "test2";
         });
 
         it("//global(s)", () => {
-            let code = "//globals foo: true\nfoo;";
-            let config = { rules: { "no-undef": 2 } };
-            let messages = linter.verify(code, config, filename);
+            const config = { rules: { "no-undef": 2 } };
+            const codes = [
+                "//globals foo: true\nfoo;",
+                "//global foo: true\nfoo;"
+            ];
 
-            assert.strictEqual(messages.length, 0);
+            for (const code of codes) {
+                const messages = linter.verify(code, config, filename);
 
-            code = "//global foo: true\nfoo;";
-            config = { rules: { "no-undef": 2 } };
-            messages = linter.verify(code, config, filename);
-
-            assert.strictEqual(messages.length, 0);
+                assert.strictEqual(messages.length, 0);
+            }
         });
         it("//exported", () => {
             const code = "//exported foo\nvar foo = 0;";
@@ -5598,7 +5598,6 @@ var a = "test2";
                 }
             });
 
-
             it("no env enabled with different linebreaks", () => {
                 const codes = [
                     ...linebreaks.map(linebreak => `//${ESLINT_ENV}${linebreak}browser${linebreak}window;`),
@@ -5612,8 +5611,6 @@ var a = "test2";
                     assert.strictEqual(messages.length, 2);
                 }
             });
-
-
         });
     });
 });

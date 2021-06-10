@@ -40,6 +40,12 @@ ruleTester.run("no-inline-comments", rule, {
         "var a = 1; // eslint-disable-line no-debugger",
         "var a = 1; /* eslint-disable-line no-debugger */",
 
+        // https://github.com/eslint/eslint/issues/14575
+        "var i;//eslint no-debugger:2",
+        "var i;//eslint-disable no-debugger",
+        "var i;//eslint-enable no-debugger",
+        "var i;//global foo",
+
         // JSX exception
         `var a = (
             <div>

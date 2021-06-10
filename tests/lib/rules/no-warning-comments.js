@@ -37,7 +37,13 @@ ruleTester.run("no-warning-comments", rule, {
         { code: "// special regex characters don't cause problems", options: [{ terms: ["[aeiou]"], location: "anywhere" }] },
         "/*eslint no-warning-comments: [2, { \"terms\": [\"todo\", \"fixme\", \"any other term\"], \"location\": \"anywhere\" }]*/\n\nvar x = 10;\n",
         { code: "/*eslint no-warning-comments: [2, { \"terms\": [\"todo\", \"fixme\", \"any other term\"], \"location\": \"anywhere\" }]*/\n\nvar x = 10;\n", options: [{ location: "anywhere" }] },
-        { code: "foo", options: [{ terms: ["foo-bar"] }] }
+        { code: "foo", options: [{ terms: ["foo-bar"] }] },
+
+        // https://github.com/eslint/eslint/issues/14575
+        "//eslint-enable no-debugger",
+        "//eslint-disable no-debugger",
+        "//global foo",
+        "//eslint no-debugger: 0"
     ],
     invalid: [
         {

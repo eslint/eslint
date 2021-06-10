@@ -205,8 +205,7 @@ describe("ast-utils", () => {
             const code = [
                 "// lalala I'm a normal comment",
                 "// trying to confuse eslint ",
-                "//trying to confuse eslint-directive-detection",
-                "//eslint is awesome"
+                "//trying to confuse eslint-directive-detection"
             ].join("\n");
             const ast = espree.parse(code, ESPREE_CONFIG);
             const sourceCode = new SourceCode(code, ast);
@@ -234,7 +233,13 @@ describe("ast-utils", () => {
                 "// eslint-disable-line no-undef",
                 "// eslint-secret-directive 4 8 15 16 23 42   ",
                 "// eslint-directive-without-argument",
-                "//eslint-directive-without-padding"
+                "//eslint-directive-without-padding",
+
+                // https://github.com/eslint/eslint/issues/14575
+                "//eslint foo:0",
+                "//global foo",
+                "//eslint-enable foo",
+                "//eslint-disable foo"
             ].join("\n");
             const ast = espree.parse(code, ESPREE_CONFIG);
             const sourceCode = new SourceCode(code, ast);
