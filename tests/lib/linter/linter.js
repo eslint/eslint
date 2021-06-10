@@ -5570,12 +5570,50 @@ var a = "test2";
             assert.strictEqual(messages.length, 0);
         });
 
-        it("//eslint-env", () => {
-            const code = `//${ESLINT_ENV} browser\nwindow;`;
-            const config = { rules: { "no-undef": 2 } };
-            const messages = linter.verify(code, config, filename);
+        describe("//eslint-env", () => {
+            const linebreaks = ["\n", "\r\n", "\r", "\u2028", "\u2029"];
 
-            assert.strictEqual(messages.length, 0);
+            it("enable one env with different line breaks", () => {
+                const codes = [
+                    ...linebreaks.map(linebreak => `//${ESLINT_ENV} browser${linebreak}window;`),
+                    ...linebreaks.map(linebreak => `//  ${ESLINT_ENV}  browser${linebreak}window;`)
+                ];
+
+                for (const code of codes) {
+                    const config = { rules: { "no-undef": 2 } };
+                    const messages = linter.verify(code, config, filename);
+
+                    assert.strictEqual(messages.length, 0);
+                }
+            });
+
+            it("multiple envs enabled with different line breaks", () => {
+                const codes = linebreaks.map(linebreak => `//${ESLINT_ENV} browser,es6${linebreak}window;Promise;`);
+
+                for (const code of codes) {
+                    const config = { rules: { "no-undef": 2 } };
+                    const messages = linter.verify(code, config, filename);
+
+                    assert.strictEqual(messages.length, 0);
+                }
+            });
+
+
+            it("no env enabled with different linebreaks", () => {
+                const codes = [
+                    ...linebreaks.map(linebreak => `//${ESLINT_ENV}${linebreak}browser${linebreak}window;`),
+                    ...linebreaks.map(linebreak => `//${ESLINT_ENV}browser${linebreak}window;window;`)
+                ];
+
+                for (const code of codes) {
+                    const config = { rules: { "no-undef": 2 } };
+                    const messages = linter.verify(code, config, filename);
+
+                    assert.strictEqual(messages.length, 2);
+                }
+            });
+
+
         });
     });
 });
