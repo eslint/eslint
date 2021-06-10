@@ -29,6 +29,7 @@ rules:
     consistent-return: "error"
     curly: ["error", "all"]
     default-case: "error"
+    default-case-last: "error"
     default-param-last: "error"
     dot-location: ["error", "property"]
     dot-notation: ["error", { allowKeywords: true }]
@@ -36,8 +37,10 @@ rules:
     eqeqeq: "error"
     func-call-spacing: "error"
     func-style: ["error", "declaration"]
+    function-call-argument-newline: ["error", "consistent"]
     function-paren-newline: ["error", "consistent"]
     generator-star-spacing: "error"
+    grouped-accessor-pairs: "error"
     guard-for-in: "error"
     jsdoc/check-alignment: "error"
     jsdoc/check-param-names: "error"
@@ -79,6 +82,7 @@ rules:
     no-caller: "error"
     no-confusing-arrow: "error"
     no-console: "error"
+    no-constructor-return: "error"
     no-delete-var: "error"
     no-else-return: ["error", { allowElseIf: false }]
     no-eval: "error"
@@ -133,6 +137,7 @@ rules:
     no-underscore-dangle: ["error", {allowAfterThis: true}]
     no-unmodified-loop-condition: "error"
     no-unneeded-ternary: "error"
+    no-unreachable-loop: "error"
     no-unused-expressions: "error"
     no-unused-vars: ["error", {vars: "all", args: "after-used", caughtErrors: "all"}]
     no-use-before-define: "error"
@@ -174,6 +179,7 @@ rules:
     ]
     prefer-arrow-callback: "error"
     prefer-const: "error"
+    prefer-exponentiation-operator: "error"
     prefer-numeric-literals: "error"
     prefer-promise-reject-errors: "error"
     prefer-regex-literals: "error"
