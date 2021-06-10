@@ -5080,7 +5080,7 @@ var a = "test2";
 
             assert.throws(() => {
                 linter.verify("0", { rules: { "test-rule": "error" } });
-            }, /Fixable rules should export a `meta\.fixable` property.\nOccurred while linting <input>:1$/u);
+            }, /Fixable rules must set the `meta\.fixable` property to "code" or "whitespace".\nOccurred while linting <input>:1$/u);
         });
 
         it("should throw an error if fix is passed and there is no metadata", () => {
@@ -5094,7 +5094,7 @@ var a = "test2";
 
             assert.throws(() => {
                 linter.verify("0", { rules: { "test-rule": "error" } });
-            }, /Fixable rules should export a `meta\.fixable` property./u);
+            }, /Fixable rules must set the `meta\.fixable` property/u);
         });
 
         it("should throw an error if fix is passed from a legacy-format rule", () => {
@@ -5106,7 +5106,7 @@ var a = "test2";
 
             assert.throws(() => {
                 linter.verify("0", { rules: { "test-rule": "error" } });
-            }, /Fixable rules should export a `meta\.fixable` property./u);
+            }, /Fixable rules must set the `meta\.fixable` property/u);
         });
     });
 
