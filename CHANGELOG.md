@@ -1,3 +1,19 @@
+v7.28.0 - June 4, 2021
+
+* [`1237705`](https://github.com/eslint/eslint/commit/1237705dd08c209c5e3136045ec51a4ba87a3abe) Upgrade: @eslint/eslintrc to 0.4.2 (#14672) (Milos Djermanovic)
+* [`123fb86`](https://github.com/eslint/eslint/commit/123fb8648731c2c23313c544ffa1872d3024fe68) Docs: Add Feedback Needed triage description (#14670) (Nicholas C. Zakas)
+* [`c545163`](https://github.com/eslint/eslint/commit/c5451635b4e89827cfc8d8d77083647c74506e42) Update: support multiline /*eslint-env*/ directives (fixes #14652) (#14660) (薛定谔的猫)
+* [`8d1e75a`](https://github.com/eslint/eslint/commit/8d1e75a31b3e3d67130709a219bdd07ce6f3cf74) Upgrade: glob-parent version in package.json (#14658) (Hamza Najeeb)
+* [`1f048cb`](https://github.com/eslint/eslint/commit/1f048cb0eec660d2052f1758f4b2ad7b1cb424e1) Fix: no-implicit-coercion false positive with `String()` (fixes #14623) (#14641) (Milos Djermanovic)
+* [`d709abf`](https://github.com/eslint/eslint/commit/d709abfdde087325d4578b6709dc61040b8ca9d8) Chore: fix comment location in no-unused-vars (#14648) (Milos Djermanovic)
+* [`e44ce0a`](https://github.com/eslint/eslint/commit/e44ce0a8acfaad513c385150c25e76e82a1b8f12) Fix: no-duplicate-imports allow unmergeable (fixes #12758, fixes #12760) (#14238) (Soufiane Boutahlil)
+* [`bb66a3d`](https://github.com/eslint/eslint/commit/bb66a3d91af426dac9a7ffdbe47bdbbc0ffd4dd7) New: add `getPhysicalFilename()` method to rule context (fixes #11989) (#14616) (Nitin Kumar)
+* [`2e43dac`](https://github.com/eslint/eslint/commit/2e43dacd24337a82d4184fac9b44d497675f46ef) Docs: fix `no-sequences` example (#14643) (Nitin Kumar)
+* [`958ff4e`](https://github.com/eslint/eslint/commit/958ff4e8a5102f204f1484d09985e28a79790996) Docs: add note for arrow functions in no-seq rule (#14578) (Nitin Kumar)
+* [`e4f111b`](https://github.com/eslint/eslint/commit/e4f111b67d114adbf76a9c9dbb18fa4f49bc91b6) Fix: arrow-body-style crash with object pattern (fixes #14633) (#14635) (Milos Djermanovic)
+* [`ec28b5a`](https://github.com/eslint/eslint/commit/ec28b5a2bdc69f34ce29d670f5e84d2446774a00) Chore: upgrade eslint-plugin-eslint-plugin (#14590) (薛定谔的猫)
+* [`85a2725`](https://github.com/eslint/eslint/commit/85a2725b1fade5538e727102d9701ccb503e54d4) Docs: Update README team and sponsors (ESLint Jenkins)
+
 v7.27.0 - May 21, 2021
 
 * [`2c0868c`](https://github.com/eslint/eslint/commit/2c0868cbeadc9f42716fa1178ebdc6b4cee6d31e) Chore: merge all html formatter files into `html.js` (#14612) (Milos Djermanovic)
