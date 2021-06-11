@@ -4647,7 +4647,7 @@ describe("CLIEngine", () => {
             }, `There was a problem loading formatter: ${fullFormatterPath}\nError: Cannot find module '${fullFormatterPath}'`);
         });
 
-        it("should return null when a built-in formatter no longer exists", () => {
+        it("should throw when a built-in formatter no longer exists", () => {
             const engine = new CLIEngine();
 
             assert.throws(() => {
