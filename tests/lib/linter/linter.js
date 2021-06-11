@@ -5572,6 +5572,7 @@ var a = "test2";
 
         describe("//eslint-env", () => {
             const linebreaks = ["\n", "\r\n", "\r", "\u2028", "\u2029"];
+            const config = { rules: { "no-undef": 2 } };
 
             it("enable one env with different line breaks", () => {
                 const codes = [
@@ -5580,7 +5581,6 @@ var a = "test2";
                 ];
 
                 for (const code of codes) {
-                    const config = { rules: { "no-undef": 2 } };
                     const messages = linter.verify(code, config, filename);
 
                     assert.strictEqual(messages.length, 0);
@@ -5591,7 +5591,6 @@ var a = "test2";
                 const codes = linebreaks.map(linebreak => `//${ESLINT_ENV} browser,es6${linebreak}window;Promise;`);
 
                 for (const code of codes) {
-                    const config = { rules: { "no-undef": 2 } };
                     const messages = linter.verify(code, config, filename);
 
                     assert.strictEqual(messages.length, 0);
@@ -5605,7 +5604,6 @@ var a = "test2";
                 ];
 
                 for (const code of codes) {
-                    const config = { rules: { "no-undef": 2 } };
                     const messages = linter.verify(code, config, filename);
 
                     assert.strictEqual(messages.length, 2);
