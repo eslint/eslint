@@ -846,7 +846,7 @@ describe("ESLint", () => {
 
         it("should throw if 'options' argument contains unknown key", async () => {
             eslint = new ESLint();
-            await assert.rejects(() => eslint.lintText("var a = 0", { filename: "foo.js" }), /'options' must not include the unknown option\(s\) 'filename'/u);
+            await assert.rejects(() => eslint.lintText("var a = 0", { filename: "foo.js" }), /'options' must not include the unknown option\(s\): filename/u);
         });
 
         it("should throw if non-string value is given to 'options.filePath' option", async () => {
