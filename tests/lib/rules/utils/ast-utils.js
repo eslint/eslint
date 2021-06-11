@@ -205,7 +205,14 @@ describe("ast-utils", () => {
             const code = [
                 "// lalala I'm a normal comment",
                 "// trying to confuse eslint ",
-                "//trying to confuse eslint-directive-detection"
+                "//trying to confuse eslint-directive-detection",
+                "//xxeslint-enable foo",
+                "//xxeslint-disable foo",
+                "//xxeslint foo: 2",
+                "//xxglobal foo",
+                "//xxglobals foo",
+                "//xxexported foo",
+                ""
             ].join("\n");
             const ast = espree.parse(code, ESPREE_CONFIG);
             const sourceCode = new SourceCode(code, ast);
