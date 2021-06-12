@@ -1,6 +1,6 @@
 # Import Sorting (sort-imports)
 
-The import statement is used to import members (functions, objects or primitives) that have been exported from an external module. Using a specific member syntax:
+The import statement is used to sort import members (functions, objects or primitives) that have been exported from an external module. Using a specific member syntax:
 
 ```js
 // single - Import single member.
