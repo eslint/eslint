@@ -134,4 +134,4 @@ Using selectors in the `no-restricted-syntax` rule can give you a lot of control
 
 ### Known issues
 
-Due to a [bug](https://github.com/estools/esquery/issues/68) in [esquery](https://github.com/estools/esquery), regular expressions that contain a forward-slash character `/` aren't porperly parsed, so `[value=/some\/path/]` will be a syntax error. As a [workaround](https://github.com/estools/esquery/issues/68), you can replace the `/` character with its unicode counterpart, like so: `[value=/some\\u002Fpath/]`.
+Due to a [bug](https://github.com/estools/esquery/issues/68) in [esquery](https://github.com/estools/esquery), regular expressions that contain a forward-slash character `/` aren't properly parsed, so `[value=/some\/path/]` will be a syntax error. As a [workaround](https://github.com/estools/esquery/issues/68), you can replace the `/` character with its unicode counterpart, like so: `[value=/some\\u002Fpath/]`.
