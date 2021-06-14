@@ -76,7 +76,7 @@
     "natural-compare": "^1.4.0",
     "optionator": "^0.9.1",
     "progress": "^2.0.0",
-    "regexpp": "^3.1.0",
+    "regexpp": "^3.2.0",
     "semver": "^7.2.1",
     "strip-ansi": "^6.0.0",
     "strip-json-comments": "^3.1.0",
