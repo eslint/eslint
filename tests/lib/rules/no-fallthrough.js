@@ -146,6 +146,22 @@ ruleTester.run("no-fallthrough", rule, {
             errors: errorsDefault
         },
         {
+            code: "switch(foo) { case 0: a(); { /* falls through */ } default: b() }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch(foo) { case 0: { /* falls through */ } a(); default: b() }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch(foo) { case 0: if (a) { /* falls through */ } default: b() }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch(foo) { case 0: { { /* falls through */ } } default: b() }",
+            errors: errorsDefault
+        },
+        {
             code: "switch(foo) { case 0: { /* comment */ } default: b() }",
             errors: errorsDefault
         },

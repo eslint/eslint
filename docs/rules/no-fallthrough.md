@@ -135,6 +135,17 @@ switch(foo) {
     case 2:
         doSomething();
 }
+
+switch(foo) {
+    case 1: {
+        doSomething();
+        // falls through
+    }
+
+    case 2: {
+        doSomethingElse();
+    }
+}
 ```
 
 Note that the last `case` statement in these examples does not cause a warning because there is nothing to fall through into.
