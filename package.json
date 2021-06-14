@@ -7,6 +7,11 @@
     "eslint": "./bin/eslint.js"
   },
   "main": "./lib/api.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": "./lib/api.js",
+    "./use-at-your-own-risk": "./lib/unsupported-api.js"
+  },
   "scripts": {
     "test": "node Makefile.js test",
     "test:cli": "mocha",

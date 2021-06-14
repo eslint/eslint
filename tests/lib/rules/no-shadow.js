@@ -643,14 +643,14 @@ ruleTester.run("no-shadow", rule, {
         {
             code: "function foo() { var top = 0; }",
             options: [{ builtinGlobals: true }],
-            env: { browser: true },
             errors: [{
                 messageId: "noShadowGlobal",
                 data: {
                     name: "top"
                 },
                 type: "Identifier"
-            }]
+            }],
+            env: { browser: true }
         },
         {
             code: "var Object = 0;",
@@ -668,14 +668,14 @@ ruleTester.run("no-shadow", rule, {
             code: "var top = 0;",
             options: [{ builtinGlobals: true }],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            env: { browser: true },
             errors: [{
                 messageId: "noShadowGlobal",
                 data: {
                     name: "top"
                 },
                 type: "Identifier"
-            }]
+            }],
+            env: { browser: true }
         },
         {
             code: "var Object = 0;",
@@ -693,14 +693,14 @@ ruleTester.run("no-shadow", rule, {
             code: "var top = 0;",
             options: [{ builtinGlobals: true }],
             parserOptions: { ecmaFeatures: { globalReturn: true } },
-            env: { browser: true },
             errors: [{
                 messageId: "noShadowGlobal",
                 data: {
                     name: "top"
                 },
                 type: "Identifier"
-            }]
+            }],
+            env: { browser: true }
         },
         {
             code: "function foo(cb) { (function (cb) { cb(42); })(cb); }",

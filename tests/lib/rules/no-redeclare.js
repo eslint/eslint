@@ -88,8 +88,8 @@ ruleTester.run("no-redeclare", rule, {
         {
             code: "var top = 0;",
             options: [{ builtinGlobals: true }],
-            env: { browser: true },
-            errors: [{ message: "'top' is already defined as a built-in global variable.", type: "Identifier" }]
+            errors: [{ message: "'top' is already defined as a built-in global variable.", type: "Identifier" }],
+            env: { browser: true }
         },
         {
             code: "var a; var {a = 0, b: Object = 0} = {};",
@@ -127,18 +127,18 @@ ruleTester.run("no-redeclare", rule, {
         {
             code: "var globalThis = 0;",
             options: [{ builtinGlobals: true }],
-            env: { es2020: true },
-            errors: [{ message: "'globalThis' is already defined as a built-in global variable.", type: "Identifier" }]
+            errors: [{ message: "'globalThis' is already defined as a built-in global variable.", type: "Identifier" }],
+            env: { es2020: true }
         },
         {
             code: "var a; var {a = 0, b: globalThis = 0} = {};",
             options: [{ builtinGlobals: true }],
             parserOptions: { ecmaVersion: 6 },
-            env: { es2020: true },
             errors: [
                 { message: "'a' is already defined.", type: "Identifier" },
                 { message: "'globalThis' is already defined as a built-in global variable.", type: "Identifier" }
-            ]
+            ],
+            env: { es2020: true }
         },
         {
             code: "/*global b:false*/ var b = 1;",
@@ -197,10 +197,10 @@ ruleTester.run("no-redeclare", rule, {
         },
         {
             code: "var top = 0;",
-            env: { browser: true },
             errors: [
                 { message: "'top' is already defined as a built-in global variable.", type: "Identifier" }
-            ]
+            ],
+            env: { browser: true }
         },
 
         // Comments and built-ins.
@@ -351,7 +351,6 @@ ruleTester.run("no-redeclare", rule, {
         {
             code: "/*globals a */",
             options: [{ builtinGlobals: true }],
-            globals: { a: "readonly" },
             errors: [{
                 message: "'a' is already defined as a built-in global variable.",
                 type: "Block",
@@ -359,12 +358,12 @@ ruleTester.run("no-redeclare", rule, {
                 column: 11,
                 endLine: 1,
                 endColumn: 12
-            }]
+            }],
+            globals: { a: "readonly" }
         },
         {
             code: "/*globals a */",
             options: [{ builtinGlobals: true }],
-            globals: { a: "writable" },
             errors: [{
                 message: "'a' is already defined as a built-in global variable.",
                 type: "Block",
@@ -372,7 +371,8 @@ ruleTester.run("no-redeclare", rule, {
                 column: 11,
                 endLine: 1,
                 endColumn: 12
-            }]
+            }],
+            globals: { a: "writable" }
         },
         {
             code: "/*globals a */ /*globals a */",
@@ -388,7 +388,6 @@ ruleTester.run("no-redeclare", rule, {
         {
             code: "/*globals a */ /*globals a */ var a = 0",
             options: [{ builtinGlobals: true }],
-            globals: { a: "writable" },
             errors: [
                 {
                     message: "'a' is already defined as a built-in global variable.",
@@ -414,7 +413,8 @@ ruleTester.run("no-redeclare", rule, {
                     endLine: 1,
                     endColumn: 36
                 }
-            ]
+            ],
+            globals: { a: "writable" }
         }
     ]
 });

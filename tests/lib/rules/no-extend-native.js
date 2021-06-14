@@ -59,36 +59,36 @@ ruleTester.run("no-extend-native", rule, {
         }]
     }, {
         code: "BigInt.prototype.p = 0",
-        env: { es2020: true },
         errors: [{
             messageId: "unexpected",
             data: { builtin: "BigInt" },
             type: "AssignmentExpression"
-        }]
+        }],
+        env: { es2020: true }
     }, {
         code: "WeakRef.prototype.p = 0",
-        env: { es2021: true },
         errors: [{
             messageId: "unexpected",
             data: { builtin: "WeakRef" },
             type: "AssignmentExpression"
-        }]
+        }],
+        env: { es2021: true }
     }, {
         code: "FinalizationRegistry.prototype.p = 0",
-        env: { es2021: true },
         errors: [{
             messageId: "unexpected",
             data: { builtin: "FinalizationRegistry" },
             type: "AssignmentExpression"
-        }]
+        }],
+        env: { es2021: true }
     }, {
         code: "AggregateError.prototype.p = 0",
-        env: { es2021: true },
         errors: [{
             messageId: "unexpected",
             data: { builtin: "AggregateError" },
             type: "AssignmentExpression"
-        }]
+        }],
+        env: { es2021: true }
     }, {
         code: "Function.prototype['p'] = 0",
         errors: [{

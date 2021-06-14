@@ -993,7 +993,6 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "myGlobal: while(foo) { break myGlobal; } ",
             options: ["myGlobal"],
-            globals: { myGlobal: "readonly" },
             errors: [
                 {
                     messageId: "restricted",
@@ -1007,7 +1006,8 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 30
                 }
-            ]
+            ],
+            globals: { myGlobal: "readonly" }
         },
 
         // globals declared in the given source code are not excluded from consideration
@@ -1188,7 +1188,6 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "/* globals myGlobal */ window.myGlobal = 5; foo = myGlobal;",
             options: ["myGlobal"],
-            env: { browser: true },
             errors: [
                 {
                     messageId: "restricted",
@@ -1196,21 +1195,22 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 31
                 }
-            ]
+            ],
+            env: { browser: true }
         },
 
         // disabled global variables
         {
             code: "var foo = undefined;",
             options: ["undefined"],
-            globals: { undefined: "off" },
             errors: [
                 {
                     messageId: "restricted",
                     data: { name: "undefined" },
                     type: "Identifier"
                 }
-            ]
+            ],
+            globals: { undefined: "off" }
         },
         {
             code: "/* globals Number: off */ Number.parseInt()",
@@ -1276,7 +1276,6 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "function foo() { var myGlobal; x = myGlobal; }",
             options: ["myGlobal"],
-            globals: { myGlobal: "readonly" },
             errors: [
                 {
                     messageId: "restricted",
@@ -1290,7 +1289,8 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 36
                 }
-            ]
+            ],
+            globals: { myGlobal: "readonly" }
         },
         {
             code: "function foo(bar) { return Number.parseInt(bar); } const Number = 1;",

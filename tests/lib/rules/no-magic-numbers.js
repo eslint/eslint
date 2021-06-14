@@ -265,8 +265,8 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 enforceConst: true
             }],
-            env: { es6: true },
-            errors: [{ messageId: "useConst" }]
+            errors: [{ messageId: "useConst" }],
+            env: { es6: true }
         },
         {
             code: "var foo = 0 + 1;",
@@ -391,7 +391,6 @@ ruleTester.run("no-magic-numbers", rule, {
                 "function invokeInTen(func) {\n" +
                   "setTimeout(func, 10);\n" +
                 "}\n",
-            env: { es6: true },
             errors: [
                 { messageId: "noMagic", data: { raw: "10" }, line: 7 },
                 { messageId: "noMagic", data: { raw: "10" }, line: 7 },
@@ -399,7 +398,8 @@ ruleTester.run("no-magic-numbers", rule, {
                 { messageId: "noMagic", data: { raw: "1000" }, line: 15 },
                 { messageId: "noMagic", data: { raw: "0" }, line: 19 },
                 { messageId: "noMagic", data: { raw: "10" }, line: 22 }
-            ]
+            ],
+            env: { es6: true }
         },
         {
             code: "var data = ['foo', 'bar', 'baz']; var third = data[3];",
@@ -767,51 +767,51 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "const func = (param = 123) => {}",
             options: [{ ignoreDefaultValues: false }],
-            env: { es6: true },
             errors: [
                 { messageId: "noMagic", data: { raw: "123" }, line: 1 }
-            ]
+            ],
+            env: { es6: true }
         },
         {
             code: "const { param = 123 } = sourceObject;",
             options: [{}],
-            env: { es6: true },
             errors: [
                 { messageId: "noMagic", data: { raw: "123" }, line: 1 }
-            ]
+            ],
+            env: { es6: true }
         },
         {
             code: "const { param = 123 } = sourceObject;",
-            env: { es6: true },
             errors: [
                 { messageId: "noMagic", data: { raw: "123" }, line: 1 }
-            ]
+            ],
+            env: { es6: true }
         },
         {
             code: "const { param = 123 } = sourceObject;",
             options: [{ ignoreDefaultValues: false }],
-            env: { es6: true },
             errors: [
                 { messageId: "noMagic", data: { raw: "123" }, line: 1 }
-            ]
+            ],
+            env: { es6: true }
         },
         {
             code: "const [one = 1, two = 2] = []",
             options: [{ ignoreDefaultValues: false }],
-            env: { es6: true },
             errors: [
                 { messageId: "noMagic", data: { raw: "1" }, line: 1 },
                 { messageId: "noMagic", data: { raw: "2" }, line: 1 }
-            ]
+            ],
+            env: { es6: true }
         },
         {
             code: "var one, two; [one = 1, two = 2] = []",
             options: [{ ignoreDefaultValues: false }],
-            env: { es6: true },
             errors: [
                 { messageId: "noMagic", data: { raw: "1" }, line: 1 },
                 { messageId: "noMagic", data: { raw: "2" }, line: 1 }
-            ]
+            ],
+            env: { es6: true }
         }
     ]
 });

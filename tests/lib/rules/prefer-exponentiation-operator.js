@@ -91,7 +91,6 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
         {
             code: "globalThis.Math.pow(a, b)",
             output: "a**b",
-            env: { es2020: true },
             errors: [
                 {
                     messageId: "useExponentiation",
@@ -101,12 +100,12 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
                     endLine: 1,
                     endColumn: 26
                 }
-            ]
+            ],
+            env: { es2020: true }
         },
         {
             code: "globalThis.Math['pow'](a, b)",
             output: "a**b",
-            env: { es2020: true },
             errors: [
                 {
                     messageId: "useExponentiation",
@@ -116,7 +115,8 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
                     endLine: 1,
                     endColumn: 29
                 }
-            ]
+            ],
+            env: { es2020: true }
         },
 
         // able to catch some workarounds

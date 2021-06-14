@@ -3230,8 +3230,8 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "class Foo { @desc({set a(value) {}, get a() {}, async c() {}}) async[foo]() {} }",
             output: "class Foo { @desc({set a(value) {}, get a() {}, async c() {}}) async [foo]() {} }",
-            parser: parser("typescript-parsers/decorator-with-keywords-class-method"),
-            errors: expectedAfter("async")
+            errors: expectedAfter("async"),
+            parser: parser("typescript-parsers/decorator-with-keywords-class-method")
         }
     ]
 

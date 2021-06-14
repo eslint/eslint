@@ -214,13 +214,13 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new globalThis.RegExp('a');",
-            env: { es2020: true },
-            errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
+            errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }],
+            env: { es2020: true }
         },
         {
             code: "globalThis.RegExp('a');",
-            env: { es2020: true },
-            errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }],
+            env: { es2020: true }
         },
 
         {

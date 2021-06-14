@@ -276,23 +276,23 @@ ruleTester.run("no-misleading-character-class", rule, {
         },
         {
             code: String.raw`var r = new globalThis.RegExp("[❇️]", "")`,
-            env: { es2020: true },
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{ messageId: "combiningClass" }],
+            env: { es2020: true }
         },
         {
             code: String.raw`var r = new globalThis.RegExp("[👶🏻]", "u")`,
-            env: { es2020: true },
-            errors: [{ messageId: "emojiModifier" }]
+            errors: [{ messageId: "emojiModifier" }],
+            env: { es2020: true }
         },
         {
             code: String.raw`var r = new globalThis.RegExp("[🇯🇵]", "")`,
-            env: { es2020: true },
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+            errors: [{ messageId: "surrogatePairWithoutUFlag" }],
+            env: { es2020: true }
         },
         {
             code: String.raw`var r = new globalThis.RegExp("[\\u{1F468}\\u{200D}\\u{1F469}\\u{200D}\\u{1F466}]", "u")`,
-            env: { es2020: true },
-            errors: [{ messageId: "zwj" }]
+            errors: [{ messageId: "zwj" }],
+            env: { es2020: true }
         }
     ]
 });

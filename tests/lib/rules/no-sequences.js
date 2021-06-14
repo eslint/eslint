@@ -86,7 +86,7 @@ ruleTester.run("no-sequences", rule, {
         { code: "switch (doSomething(), val) {}", errors: errors(22) },
         { code: "while (doSomething(), !!test);", errors: errors(21) },
         { code: "with (doSomething(), val) {}", errors: errors(20) },
-        { code: "a => (doSomething(), a)", env: { es6: true }, errors: errors(20) },
+        { code: "a => (doSomething(), a)", errors: errors(20), env: { es6: true } },
         { code: "(1), 2", errors: errors(4) },
         { code: "((1)) , (2)", errors: errors(7) },
         { code: "while((1) , 2);", errors: errors(11) },
@@ -101,6 +101,6 @@ ruleTester.run("no-sequences", rule, {
         { code: "switch ((doSomething(), val)) {}", options: [{ allowInParentheses: false }], errors: errors(23) },
         { code: "while ((doSomething(), !!test));", options: [{ allowInParentheses: false }], errors: errors(22) },
         { code: "with ((doSomething(), val)) {}", options: [{ allowInParentheses: false }], errors: errors(21) },
-        { code: "a => ((doSomething(), a))", options: [{ allowInParentheses: false }], env: { es6: true }, errors: errors(21) }
+        { code: "a => ((doSomething(), a))", options: [{ allowInParentheses: false }], errors: errors(21), env: { es6: true } }
     ]
 });

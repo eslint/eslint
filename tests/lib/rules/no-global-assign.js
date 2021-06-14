@@ -64,21 +64,21 @@ ruleTester.run("no-global-assign", rule, {
         },
         {
             code: "top = 0;",
-            env: { browser: true },
             errors: [{
                 messageId: "globalShouldNotBeModified",
                 data: { name: "top" },
                 type: "Identifier"
-            }]
+            }],
+            env: { browser: true }
         },
         {
             code: "require = 0;",
-            env: { node: true },
             errors: [{
                 messageId: "globalShouldNotBeModified",
                 data: { name: "require" },
                 type: "Identifier"
-            }]
+            }],
+            env: { node: true }
         },
 
         // Notifications of readonly are moved from no-undef: https://github.com/eslint/eslint/issues/4504
@@ -92,12 +92,12 @@ ruleTester.run("no-global-assign", rule, {
         },
         {
             code: "function f() { b = 1; }",
-            globals: { b: false },
             errors: [{
                 messageId: "globalShouldNotBeModified",
                 data: { name: "b" },
                 type: "Identifier"
-            }]
+            }],
+            globals: { b: false }
         },
         {
             code: "/*global b:false*/ function f() { b++; }",

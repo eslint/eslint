@@ -278,7 +278,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
         {
             code: "`foo${\n \t  5 }bar`;",
             options: ["smart-tabs"],
-            env: { es6: true },
             errors: [
                 {
                     messageId: "mixedSpacesAndTabs",
@@ -288,11 +287,11 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                     endLine: 2,
                     endColumn: 3
                 }
-            ]
+            ],
+            env: { es6: true }
         },
         {
             code: "`foo${\n\t  5 }bar`;",
-            env: { es6: true },
             errors: [
                 {
                     messageId: "mixedSpacesAndTabs",
@@ -302,7 +301,8 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                     endLine: 2,
                     endColumn: 3
                 }
-            ]
+            ],
+            env: { es6: true }
         },
         {
             code: "  \t'';",

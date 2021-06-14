@@ -383,8 +383,8 @@ ruleTester.run("prefer-const", rule, {
             code: "let { name, ...otherStuff } = obj; otherStuff = {};",
             output: null,
             options: [{ destructuring: "any" }],
-            parser: fixtureParser("babel-eslint5/destructuring-object-spread"),
-            errors: [{ messageId: "useConst", data: { name: "name" }, type: "Identifier", column: 7 }]
+            errors: [{ messageId: "useConst", data: { name: "name" }, type: "Identifier", column: 7 }],
+            parser: fixtureParser("babel-eslint5/destructuring-object-spread")
         },
 
         // Warnings are located at declaration if there are reading references before assignments.

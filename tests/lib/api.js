@@ -5,8 +5,16 @@
 
 "use strict";
 
+//-----------------------------------------------------------------------------
+// Requirements
+//-----------------------------------------------------------------------------
+
 const assert = require("chai").assert,
     api = require("../../lib/api");
+
+//-----------------------------------------------------------------------------
+// Tests
+//-----------------------------------------------------------------------------
 
 describe("api", () => {
 
@@ -14,12 +22,16 @@ describe("api", () => {
         assert.isFunction(api.RuleTester);
     });
 
-    it("should have CLIEngine exposed", () => {
-        assert.isFunction(api.CLIEngine);
+    it("should not have CLIEngine exposed", () => {
+        assert.isUndefined(api.CLIEngine);
     });
 
-    it("should have linter exposed", () => {
-        assert.isObject(api.linter);
+    it("should not have linter exposed", () => {
+        assert.isUndefined(api.linter);
+    });
+
+    it("should have Linter exposed", () => {
+        assert.isFunction(api.Linter);
     });
 
     it("should have SourceCode exposed", () => {
