@@ -1,3 +1,4 @@
+reportUnusedDisableDirectives: true
 extends:
     - "eslint:recommended"
     - "plugin:node/recommended"
