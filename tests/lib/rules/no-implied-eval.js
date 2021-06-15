@@ -129,43 +129,43 @@ ruleTester.run("no-implied-eval", rule, {
         { code: "setTimeout(String('x=1'), 100);", parserOptions: { ecmaVersion: 6 }, errors: [expectedError] },
 
         // member expressions
-        { code: "window.setTimeout('foo')", errors: [expectedError], env: { browser: true } },
-        { code: "window.setInterval('foo')", errors: [expectedError], env: { browser: true } },
-        { code: "window['setTimeout']('foo')", errors: [expectedError], env: { browser: true } },
-        { code: "window['setInterval']('foo')", errors: [expectedError], env: { browser: true } },
-        { code: "window[`setInterval`]('foo')", parserOptions: { ecmaVersion: 6 }, errors: [expectedError], env: { browser: true } },
-        { code: "window.window['setInterval']('foo')", errors: [expectedError], env: { browser: true } },
-        { code: "global.setTimeout('foo')", errors: [expectedError], env: { node: true } },
-        { code: "global.setInterval('foo')", errors: [expectedError], env: { node: true } },
-        { code: "global['setTimeout']('foo')", errors: [expectedError], env: { node: true } },
-        { code: "global['setInterval']('foo')", errors: [expectedError], env: { node: true } },
-        { code: "global[`setInterval`]('foo')", parserOptions: { ecmaVersion: 6 }, errors: [expectedError], env: { node: true } },
-        { code: "global.global['setInterval']('foo')", errors: [expectedError], env: { node: true } },
-        { code: "globalThis.setTimeout('foo')", errors: [expectedError], env: { es2020: true } },
-        { code: "globalThis.setInterval('foo')", errors: [expectedError], env: { es2020: true } },
+        { code: "window.setTimeout('foo')", env: { browser: true }, errors: [expectedError] },
+        { code: "window.setInterval('foo')", env: { browser: true }, errors: [expectedError] },
+        { code: "window['setTimeout']('foo')", env: { browser: true }, errors: [expectedError] },
+        { code: "window['setInterval']('foo')", env: { browser: true }, errors: [expectedError] },
+        { code: "window[`setInterval`]('foo')", parserOptions: { ecmaVersion: 6 }, env: { browser: true }, errors: [expectedError] },
+        { code: "window.window['setInterval']('foo')", env: { browser: true }, errors: [expectedError] },
+        { code: "global.setTimeout('foo')", env: { node: true }, errors: [expectedError] },
+        { code: "global.setInterval('foo')", env: { node: true }, errors: [expectedError] },
+        { code: "global['setTimeout']('foo')", env: { node: true }, errors: [expectedError] },
+        { code: "global['setInterval']('foo')", env: { node: true }, errors: [expectedError] },
+        { code: "global[`setInterval`]('foo')", parserOptions: { ecmaVersion: 6 }, env: { node: true }, errors: [expectedError] },
+        { code: "global.global['setInterval']('foo')", env: { node: true }, errors: [expectedError] },
+        { code: "globalThis.setTimeout('foo')", env: { es2020: true }, errors: [expectedError] },
+        { code: "globalThis.setInterval('foo')", env: { es2020: true }, errors: [expectedError] },
 
         // template literals
         { code: "setTimeout(`foo${bar}`)", parserOptions: { ecmaVersion: 6 }, errors: [expectedError] },
-        { code: "window.setTimeout(`foo${bar}`)", parserOptions: { ecmaVersion: 6 }, errors: [expectedError], env: { browser: true } },
-        { code: "window.window.setTimeout(`foo${bar}`)", parserOptions: { ecmaVersion: 6 }, errors: [expectedError], env: { browser: true } },
-        { code: "global.global.setTimeout(`foo${bar}`)", parserOptions: { ecmaVersion: 6 }, errors: [expectedError], env: { node: true } },
+        { code: "window.setTimeout(`foo${bar}`)", parserOptions: { ecmaVersion: 6 }, env: { browser: true }, errors: [expectedError] },
+        { code: "window.window.setTimeout(`foo${bar}`)", parserOptions: { ecmaVersion: 6 }, env: { browser: true }, errors: [expectedError] },
+        { code: "global.global.setTimeout(`foo${bar}`)", parserOptions: { ecmaVersion: 6 }, env: { node: true }, errors: [expectedError] },
 
         // string concatenation
         { code: "setTimeout('foo' + bar)", errors: [expectedError] },
         { code: "setTimeout(foo + 'bar')", errors: [expectedError] },
         { code: "setTimeout(`foo` + bar)", parserOptions: { ecmaVersion: 6 }, errors: [expectedError] },
         { code: "setTimeout(1 + ';' + 1)", errors: [expectedError] },
-        { code: "window.setTimeout('foo' + bar)", errors: [expectedError], env: { browser: true } },
-        { code: "window.setTimeout(foo + 'bar')", errors: [expectedError], env: { browser: true } },
-        { code: "window.setTimeout(`foo` + bar)", parserOptions: { ecmaVersion: 6 }, errors: [expectedError], env: { browser: true } },
-        { code: "window.setTimeout(1 + ';' + 1)", errors: [expectedError], env: { browser: true } },
-        { code: "window.window.setTimeout(1 + ';' + 1)", errors: [expectedError], env: { browser: true } },
-        { code: "global.setTimeout('foo' + bar)", errors: [expectedError], env: { node: true } },
-        { code: "global.setTimeout(foo + 'bar')", errors: [expectedError], env: { node: true } },
-        { code: "global.setTimeout(`foo` + bar)", parserOptions: { ecmaVersion: 6 }, errors: [expectedError], env: { node: true } },
-        { code: "global.setTimeout(1 + ';' + 1)", errors: [expectedError], env: { node: true } },
-        { code: "global.global.setTimeout(1 + ';' + 1)", errors: [expectedError], env: { node: true } },
-        { code: "globalThis.setTimeout('foo' + bar)", errors: [expectedError], env: { es2020: true } },
+        { code: "window.setTimeout('foo' + bar)", env: { browser: true }, errors: [expectedError] },
+        { code: "window.setTimeout(foo + 'bar')", env: { browser: true }, errors: [expectedError] },
+        { code: "window.setTimeout(`foo` + bar)", parserOptions: { ecmaVersion: 6 }, env: { browser: true }, errors: [expectedError] },
+        { code: "window.setTimeout(1 + ';' + 1)", env: { browser: true }, errors: [expectedError] },
+        { code: "window.window.setTimeout(1 + ';' + 1)", env: { browser: true }, errors: [expectedError] },
+        { code: "global.setTimeout('foo' + bar)", env: { node: true }, errors: [expectedError] },
+        { code: "global.setTimeout(foo + 'bar')", env: { node: true }, errors: [expectedError] },
+        { code: "global.setTimeout(`foo` + bar)", parserOptions: { ecmaVersion: 6 }, env: { node: true }, errors: [expectedError] },
+        { code: "global.setTimeout(1 + ';' + 1)", env: { node: true }, errors: [expectedError] },
+        { code: "global.global.setTimeout(1 + ';' + 1)", env: { node: true }, errors: [expectedError] },
+        { code: "globalThis.setTimeout('foo' + bar)", env: { es2020: true }, errors: [expectedError] },
 
         // gives the correct node when dealing with nesting
         {
@@ -197,6 +197,7 @@ ruleTester.run("no-implied-eval", rule, {
                 "   window.execScript('str');\n" +
                 "   return 'bar';\n" +
                 "})())",
+            env: { browser: true },
             errors: [
                 {
                     messageId: "impliedEval",
@@ -210,8 +211,7 @@ ruleTester.run("no-implied-eval", rule, {
                     type: "CallExpression",
                     line: 3
                 }
-            ],
-            env: { browser: true }
+            ]
         },
         {
             code:
@@ -220,6 +220,7 @@ ruleTester.run("no-implied-eval", rule, {
                 "   global.execScript('str');\n" +
                 "   return 'bar';\n" +
                 "})())",
+            env: { node: true },
             errors: [
                 {
                     messageId: "impliedEval",
@@ -233,22 +234,21 @@ ruleTester.run("no-implied-eval", rule, {
                     type: "CallExpression",
                     line: 3
                 }
-            ],
-            env: { node: true }
+            ]
         },
 
         // Optional chaining
         {
             code: "window?.setTimeout('code', 0)",
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "impliedEval" }],
-            globals: { window: "readonly" }
+            globals: { window: "readonly" },
+            errors: [{ messageId: "impliedEval" }]
         },
         {
             code: "(window?.setTimeout)('code', 0)",
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "impliedEval" }],
-            globals: { window: "readonly" }
+            globals: { window: "readonly" },
+            errors: [{ messageId: "impliedEval" }]
         }
     ]
 });

@@ -85,18 +85,18 @@ ruleTester.run("require-unicode-regexp", rule, {
         },
         {
             code: "new window.RegExp('foo')",
-            errors: [{ messageId: "requireUFlag" }],
-            env: { browser: true }
+            env: { browser: true },
+            errors: [{ messageId: "requireUFlag" }]
         },
         {
             code: "new global.RegExp('foo')",
-            errors: [{ messageId: "requireUFlag" }],
-            env: { node: true }
+            env: { node: true },
+            errors: [{ messageId: "requireUFlag" }]
         },
         {
             code: "new globalThis.RegExp('foo')",
-            errors: [{ messageId: "requireUFlag" }],
-            env: { es2020: true }
+            env: { es2020: true },
+            errors: [{ messageId: "requireUFlag" }]
         }
     ]
 });

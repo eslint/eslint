@@ -1735,29 +1735,29 @@ let d = 0;export {d,};
             code: "function foo({a}: {a: string,}) {}",
             output: "function foo({a,}: {a: string,}) {}",
             options: ["always"],
-            errors: [{ messageId: "missing" }],
-            parser: parser("object-pattern-1")
+            parser: parser("object-pattern-1"),
+            errors: [{ messageId: "missing" }]
         },
         {
             code: "function foo({a,}: {a: string}) {}",
             output: "function foo({a}: {a: string}) {}",
             options: ["never"],
-            errors: [{ messageId: "unexpected" }],
-            parser: parser("object-pattern-2")
+            parser: parser("object-pattern-2"),
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "function foo(a): {b: boolean,} {}",
             output: "function foo(a,): {b: boolean,} {}",
             options: [{ functions: "always" }],
-            errors: [{ messageId: "missing" }],
-            parser: parser("return-type-1")
+            parser: parser("return-type-1"),
+            errors: [{ messageId: "missing" }]
         },
         {
             code: "function foo(a,): {b: boolean} {}",
             output: "function foo(a): {b: boolean} {}",
             options: [{ functions: "never" }],
-            errors: [{ messageId: "unexpected" }],
-            parser: parser("return-type-2")
+            parser: parser("return-type-2"),
+            errors: [{ messageId: "unexpected" }]
         },
 
         // https://github.com/eslint/eslint/issues/11502

@@ -703,13 +703,13 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "foo = 1",
+            env: { node: true },
             errors: [
                 {
                     message: leakMessage,
                     type: "AssignmentExpression"
                 }
-            ],
-            env: { node: true }
+            ]
         },
         {
             code: "foo = 1;",
@@ -862,13 +862,13 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "window = 1;",
+            env: { browser: true },
             errors: [
                 {
                     message: readonlyAssignmentMessage,
                     type: "AssignmentExpression"
                 }
-            ],
-            env: { browser: true }
+            ]
         },
         {
             code: "/*global foo:readonly*/ foo = 1",
@@ -881,13 +881,13 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "foo = 1;",
+            globals: { foo: "readonly" },
             errors: [
                 {
                     message: readonlyAssignmentMessage,
                     type: "AssignmentExpression"
                 }
-            ],
-            globals: { foo: "readonly" }
+            ]
         },
         {
             code: "/*global foo:readonly*/ for (foo in {});",

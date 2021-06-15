@@ -43,18 +43,18 @@ ruleTester.run("no-native-reassign", rule, {
         },
         {
             code: "top = 0;",
-            errors: [{ messageId: "nativeReassign", data: { name: "top" }, type: "Identifier" }],
-            env: { browser: true }
+            env: { browser: true },
+            errors: [{ messageId: "nativeReassign", data: { name: "top" }, type: "Identifier" }]
         },
         {
             code: "require = 0;",
-            errors: [{ messageId: "nativeReassign", data: { name: "require" }, type: "Identifier" }],
-            env: { node: true }
+            env: { node: true },
+            errors: [{ messageId: "nativeReassign", data: { name: "require" }, type: "Identifier" }]
         },
 
         // Notifications of readonly are moved from no-undef: https://github.com/eslint/eslint/issues/4504
         { code: "/*global b:false*/ function f() { b = 1; }", errors: [{ messageId: "nativeReassign", data: { name: "b" }, type: "Identifier" }] },
-        { code: "function f() { b = 1; }", errors: [{ messageId: "nativeReassign", data: { name: "b" }, type: "Identifier" }], globals: { b: false } },
+        { code: "function f() { b = 1; }", globals: { b: false }, errors: [{ messageId: "nativeReassign", data: { name: "b" }, type: "Identifier" }] },
         { code: "/*global b:false*/ function f() { b++; }", errors: [{ messageId: "nativeReassign", data: { name: "b" }, type: "Identifier" }] },
         { code: "/*global b*/ b = 1;", errors: [{ messageId: "nativeReassign", data: { name: "b" }, type: "Identifier" }] },
         { code: "Array = 1;", errors: [{ messageId: "nativeReassign", data: { name: "Array" }, type: "Identifier" }] }

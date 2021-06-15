@@ -562,15 +562,15 @@ ruleTester.run("space-before-blocks", rule, {
         {
             code: "class A { foo(bar: string): void{} }",
             output: "class A { foo(bar: string): void {} }",
-            errors: [expectedSpacingError],
-            parser: fixtureParser("space-before-blocks", "return-type-keyword-1")
+            parser: fixtureParser("space-before-blocks", "return-type-keyword-1"),
+            errors: [expectedSpacingError]
         },
         {
             code: "function foo(): null {}",
             output: "function foo(): null{}",
             options: neverArgs,
-            errors: [expectedNoSpacingError],
-            parser: fixtureParser("space-before-blocks", "return-type-keyword-2")
+            parser: fixtureParser("space-before-blocks", "return-type-keyword-2"),
+            errors: [expectedNoSpacingError]
         }
     ]
 });

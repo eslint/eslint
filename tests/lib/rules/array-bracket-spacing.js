@@ -173,8 +173,8 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "var obj = {'foo': [1, 2]}", options: ["never"] },
 
         // destructuring with type annotation
-        { code: "([ a, b ]: Array<any>) => {}", options: ["always"], parserOptions: { ecmaVersion: 6 }, parser: parser("flow-destructuring-1") },
-        { code: "([a, b]: Array< any >) => {}", options: ["never"], parserOptions: { ecmaVersion: 6 }, parser: parser("flow-destructuring-2") }
+        { code: "([ a, b ]: Array<any>) => {}", options: ["always"], parser: parser("flow-destructuring-1"), parserOptions: { ecmaVersion: 6 } },
+        { code: "([a, b]: Array< any >) => {}", options: ["never"], parser: parser("flow-destructuring-2"), parserOptions: { ecmaVersion: 6 } }
     ],
 
     invalid: [
@@ -921,6 +921,7 @@ ruleTester.run("array-bracket-spacing", rule, {
             code: "([ a, b ]: Array<any>) => {}",
             output: "([a, b]: Array<any>) => {}",
             options: ["never"],
+            parser: parser("flow-destructuring-1"),
             parserOptions: {
                 ecmaVersion: 6
             },
@@ -947,13 +948,13 @@ ruleTester.run("array-bracket-spacing", rule, {
                     endLine: 1,
                     endColumn: 9
                 }
-            ],
-            parser: parser("flow-destructuring-1")
+            ]
         },
         {
             code: "([a, b]: Array< any >) => {}",
             output: "([ a, b ]: Array< any >) => {}",
             options: ["always"],
+            parser: parser("flow-destructuring-2"),
             parserOptions: {
                 ecmaVersion: 6
             },
@@ -980,8 +981,7 @@ ruleTester.run("array-bracket-spacing", rule, {
                     endLine: 1,
                     endColumn: 8
                 }
-            ],
-            parser: parser("flow-destructuring-2")
+            ]
         },
 
         // multiple spaces

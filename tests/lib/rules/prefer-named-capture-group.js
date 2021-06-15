@@ -222,6 +222,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
         },
         {
             code: "new globalThis.RegExp('([0-9]{4})')",
+            env: { es2020: true },
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
@@ -229,11 +230,11 @@ ruleTester.run("prefer-named-capture-group", rule, {
                 line: 1,
                 column: 1,
                 endColumn: 36
-            }],
-            env: { es2020: true }
+            }]
         },
         {
             code: "globalThis.RegExp('([0-9]{4})')",
+            env: { es2020: true },
             errors: [{
                 messageId: "required",
                 type: "CallExpression",
@@ -241,14 +242,14 @@ ruleTester.run("prefer-named-capture-group", rule, {
                 line: 1,
                 column: 1,
                 endColumn: 32
-            }],
-            env: { es2020: true }
+            }]
         },
         {
             code: `
                 function foo() { var globalThis = bar; }
                 new globalThis.RegExp('([0-9]{4})');
             `,
+            env: { es2020: true },
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
@@ -256,8 +257,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
                 line: 3,
                 column: 17,
                 endColumn: 52
-            }],
-            env: { es2020: true }
+            }]
         }
     ]
 });

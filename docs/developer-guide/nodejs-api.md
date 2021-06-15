@@ -676,6 +676,7 @@ const Linter = require("eslint").Linter;
 
 Linter.version; // => '4.5.0'
 ```
+
 ---
 
 ## RuleTester

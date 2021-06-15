@@ -41,13 +41,13 @@ ruleTester.run("space-infix-ops", rule, {
         { code: "a |0", options: [{ int32Hint: true }] },
 
         // Type Annotations
-        { code: "function foo(a: number = 0) { }", parserOptions: { ecmaVersion: 6 }, parser: parser("type-annotations/function-parameter-type-annotation") },
-        { code: "function foo(): Bar { }", parserOptions: { ecmaVersion: 6 }, parser: parser("type-annotations/function-return-type-annotation") },
-        { code: "var foo: Bar = '';", parserOptions: { ecmaVersion: 6 }, parser: parser("type-annotations/variable-declaration-init-type-annotation") },
-        { code: "const foo = function(a: number = 0): Bar { };", parserOptions: { ecmaVersion: 6 }, parser: parser("type-annotations/function-expression-type-annotation") },
+        { code: "function foo(a: number = 0) { }", parser: parser("type-annotations/function-parameter-type-annotation"), parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo(): Bar { }", parser: parser("type-annotations/function-return-type-annotation"), parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo: Bar = '';", parser: parser("type-annotations/variable-declaration-init-type-annotation"), parserOptions: { ecmaVersion: 6 } },
+        { code: "const foo = function(a: number = 0): Bar { };", parser: parser("type-annotations/function-expression-type-annotation"), parserOptions: { ecmaVersion: 6 } },
 
         // TypeScript Type Aliases
-        { code: "type Foo<T> = T;", parserOptions: { ecmaVersion: 6 }, parser: parser("typescript-parsers/type-alias") },
+        { code: "type Foo<T> = T;", parser: parser("typescript-parsers/type-alias"), parserOptions: { ecmaVersion: 6 } },
 
         { code: "a &&= b", parserOptions: { ecmaVersion: 2021 } },
         { code: "a ||= b", parserOptions: { ecmaVersion: 2021 } },
@@ -469,18 +469,19 @@ ruleTester.run("space-infix-ops", rule, {
         {
             code: "var a: Foo= b;",
             output: "var a: Foo = b;",
+            parser: parser("type-annotations/variable-declaration-init-type-annotation-no-space"),
             errors: [{
                 messageId: "missingSpace",
                 data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 1,
                 column: 11
-            }],
-            parser: parser("type-annotations/variable-declaration-init-type-annotation-no-space")
+            }]
         },
         {
             code: "function foo(a: number=0): Foo { }",
             output: "function foo(a: number = 0): Foo { }",
+            parser: parser("type-annotations/function-declaration-type-annotation-no-space"),
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingSpace",
@@ -488,8 +489,7 @@ ruleTester.run("space-infix-ops", rule, {
                 line: 1,
                 column: 23,
                 type: "AssignmentPattern"
-            }],
-            parser: parser("type-annotations/function-declaration-type-annotation-no-space")
+            }]
         },
 
         {

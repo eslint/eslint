@@ -753,89 +753,90 @@ ruleTester.run("camelcase", rule, {
         {
             code: "var camelCased = snake_cased",
             options: [{ ignoreGlobals: false }],
+            globals: { snake_cased: "readonly" }, // eslint-disable-line camelcase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "snake_cased" },
                     type: "Identifier"
                 }
-            ], // eslint-disable-line camelcase
-            globals: { snake_cased: "readonly" }
+            ]
         },
         {
             code: "a_global_variable.foo()",
             options: [{ ignoreGlobals: false }],
+            globals: { snake_cased: "readonly" }, // eslint-disable-line camelcase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "a_global_variable" },
                     type: "Identifier"
                 }
-            ], // eslint-disable-line camelcase
-            globals: { snake_cased: "readonly" }
+            ]
         },
         {
             code: "a_global_variable[undefined]",
             options: [{ ignoreGlobals: false }],
+            globals: { snake_cased: "readonly" }, // eslint-disable-line camelcase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "a_global_variable" },
                     type: "Identifier"
                 }
-            ], // eslint-disable-line camelcase
-            globals: { snake_cased: "readonly" }
+            ]
         },
         {
             code: "var camelCased = snake_cased",
+            globals: { snake_cased: "readonly" }, // eslint-disable-line camelcase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "snake_cased" },
                     type: "Identifier"
                 }
-            ], // eslint-disable-line camelcase
-            globals: { snake_cased: "readonly" }
+            ]
         },
         {
             code: "var camelCased = snake_cased",
             options: [{}],
+            globals: { snake_cased: "readonly" }, // eslint-disable-line camelcase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "snake_cased" },
                     type: "Identifier"
                 }
-            ], // eslint-disable-line camelcase
-            globals: { snake_cased: "readonly" }
+            ]
         },
         {
             code: "foo.a_global_variable = bar",
             options: [{ ignoreGlobals: true }],
+            globals: { a_global_variable: "writable" }, // eslint-disable-line camelcase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "a_global_variable" },
                     type: "Identifier"
                 }
-            ], // eslint-disable-line camelcase
-            globals: { a_global_variable: "writable" }
+            ]
         },
         {
             code: "var foo = { a_global_variable: bar }",
             options: [{ ignoreGlobals: true }],
+            globals: { a_global_variable: "writable" }, // eslint-disable-line camelcase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "a_global_variable" },
                     type: "Identifier"
                 }
-            ], // eslint-disable-line camelcase
-            globals: { a_global_variable: "writable" }
+            ]
         },
         {
             code: "var foo = { a_global_variable: a_global_variable }",
             options: [{ ignoreGlobals: true }],
+            globals: { a_global_variable: "writable" }, // eslint-disable-line camelcase
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -843,51 +844,51 @@ ruleTester.run("camelcase", rule, {
                     type: "Identifier",
                     column: 13
                 }
-            ], // eslint-disable-line camelcase
-            globals: { a_global_variable: "writable" }
+            ]
         },
         {
             code: "var foo = { a_global_variable() {} }",
             options: [{ ignoreGlobals: true }],
             parserOptions: { ecmaVersion: 6 },
+            globals: { a_global_variable: "writable" }, // eslint-disable-line camelcase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "a_global_variable" },
                     type: "Identifier"
                 }
-            ], // eslint-disable-line camelcase
-            globals: { a_global_variable: "writable" }
+            ]
         },
         {
             code: "class Foo { a_global_variable() {} }",
             options: [{ ignoreGlobals: true }],
             parserOptions: { ecmaVersion: 6 },
+            globals: { a_global_variable: "writable" }, // eslint-disable-line camelcase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "a_global_variable" },
                     type: "Identifier"
                 }
-            ], // eslint-disable-line camelcase
-            globals: { a_global_variable: "writable" }
+            ]
         },
         {
             code: "a_global_variable: for (;;);",
             options: [{ ignoreGlobals: true }],
+            globals: { a_global_variable: "writable" }, // eslint-disable-line camelcase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "a_global_variable" },
                     type: "Identifier"
                 }
-            ], // eslint-disable-line camelcase
-            globals: { a_global_variable: "writable" }
+            ]
         },
         {
             code: "if (foo) { let a_global_variable; a_global_variable = bar; }",
             options: [{ ignoreGlobals: true }],
             parserOptions: { ecmaVersion: 6 },
+            globals: { a_global_variable: "writable" }, // eslint-disable-line camelcase
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -901,13 +902,13 @@ ruleTester.run("camelcase", rule, {
                     type: "Identifier",
                     column: 35
                 }
-            ], // eslint-disable-line camelcase
-            globals: { a_global_variable: "writable" }
+            ]
         },
         {
             code: "function foo(a_global_variable) { foo = a_global_variable; }",
             options: [{ ignoreGlobals: true }],
             parserOptions: { ecmaVersion: 6 },
+            globals: { a_global_variable: "writable" }, // eslint-disable-line camelcase
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -921,8 +922,7 @@ ruleTester.run("camelcase", rule, {
                     type: "Identifier",
                     column: 41
                 }
-            ], // eslint-disable-line camelcase
-            globals: { a_global_variable: "writable" }
+            ]
         },
         {
             code: "var a_global_variable",
@@ -952,6 +952,7 @@ ruleTester.run("camelcase", rule, {
             code: "const a_global_variable = foo; bar = a_global_variable",
             options: [{ ignoreGlobals: true }],
             parserOptions: { ecmaVersion: 6 },
+            globals: { a_global_variable: "writable" }, // eslint-disable-line camelcase
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -965,13 +966,13 @@ ruleTester.run("camelcase", rule, {
                     type: "Identifier",
                     column: 38
                 }
-            ], // eslint-disable-line camelcase
-            globals: { a_global_variable: "writable" }
+            ]
         },
         {
             code: "bar = a_global_variable; var a_global_variable;",
             options: [{ ignoreGlobals: true }],
             parserOptions: { ecmaVersion: 6 },
+            globals: { a_global_variable: "writable" }, // eslint-disable-line camelcase
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -985,21 +986,20 @@ ruleTester.run("camelcase", rule, {
                     type: "Identifier",
                     column: 30
                 }
-            ], // eslint-disable-line camelcase
-            globals: { a_global_variable: "writable" }
+            ]
         },
         {
             code: "var foo = { a_global_variable }",
             options: [{ ignoreGlobals: true }],
             parserOptions: { ecmaVersion: 6 },
+            globals: { a_global_variable: "readonly" }, // eslint-disable-line camelcase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "a_global_variable" },
                     type: "Identifier"
                 }
-            ], // eslint-disable-line camelcase
-            globals: { a_global_variable: "readonly" }
+            ]
         },
         {
             code: "export * as snake_cased from 'mod'",

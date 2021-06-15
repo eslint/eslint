@@ -311,6 +311,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
                 "test",
                 "*/`foo`"
             ].join("\n"),
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/tagged-template-with-generic/tagged-template-with-generic-and-comment"),
             errors: [
                 {
                     line: 5,
@@ -319,8 +320,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
                     endColumn: 4,
                     messageId: "taggedTemplate"
                 }
-            ],
-            parser: require.resolve("../../fixtures/parsers/typescript-parsers/tagged-template-with-generic/tagged-template-with-generic-and-comment")
+            ]
         }
     ]
 });

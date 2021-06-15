@@ -112,18 +112,18 @@ ruleTester.run("no-alert", rule, {
         },
         {
             code: "globalThis['alert'](foo)",
-            errors: [{ messageId: "unexpected", data: { name: "alert" }, type: "CallExpression", line: 1, column: 1 }],
-            env: { es2020: true }
+            env: { es2020: true },
+            errors: [{ messageId: "unexpected", data: { name: "alert" }, type: "CallExpression", line: 1, column: 1 }]
         },
         {
             code: "globalThis.alert();",
-            errors: [{ messageId: "unexpected", data: { name: "alert" }, type: "CallExpression", line: 1, column: 1 }],
-            env: { es2020: true }
+            env: { es2020: true },
+            errors: [{ messageId: "unexpected", data: { name: "alert" }, type: "CallExpression", line: 1, column: 1 }]
         },
         {
             code: "function foo() { var globalThis = bar; globalThis.alert(); }\nglobalThis.alert();",
-            errors: [{ messageId: "unexpected", data: { name: "alert" }, type: "CallExpression", line: 2, column: 1 }],
-            env: { es2020: true }
+            env: { es2020: true },
+            errors: [{ messageId: "unexpected", data: { name: "alert" }, type: "CallExpression", line: 2, column: 1 }]
         },
 
         // Optional chaining

@@ -304,9 +304,9 @@ ruleTester.run("no-var", rule, {
         {
             code: "declare var foo = 2;",
             output: "declare let foo = 2;",
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/declare-var"),
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [{ messageId: "unexpectedVar" }],
-            parser: require.resolve("../../fixtures/parsers/typescript-parsers/declare-var")
+            errors: [{ messageId: "unexpectedVar" }]
         },
 
         // https://github.com/eslint/eslint/issues/11830

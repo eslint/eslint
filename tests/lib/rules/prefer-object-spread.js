@@ -889,6 +889,7 @@ ruleTester.run("prefer-object-spread", rule, {
         {
             code: "globalThis.Object.assign({ });",
             output: "({});",
+            env: { es2020: true },
             errors: [
                 {
                     messageId: "useLiteralMessage",
@@ -896,12 +897,12 @@ ruleTester.run("prefer-object-spread", rule, {
                     line: 1,
                     column: 1
                 }
-            ],
-            env: { es2020: true }
+            ]
         },
         {
             code: "globalThis.Object.assign({\n});",
             output: "({});",
+            env: { es2020: true },
             errors: [
                 {
                     messageId: "useLiteralMessage",
@@ -909,8 +910,7 @@ ruleTester.run("prefer-object-spread", rule, {
                     line: 1,
                     column: 1
                 }
-            ],
-            env: { es2020: true }
+            ]
         },
         {
             code: `
@@ -921,6 +921,7 @@ ruleTester.run("prefer-object-spread", rule, {
                 function foo () { var globalThis = bar; }
                 ({});
             `,
+            env: { es2020: true },
             errors: [
                 {
                     messageId: "useLiteralMessage",
@@ -928,8 +929,7 @@ ruleTester.run("prefer-object-spread", rule, {
                     line: 3,
                     column: 17
                 }
-            ],
-            env: { es2020: true }
+            ]
         },
         {
             code: `
@@ -940,6 +940,7 @@ ruleTester.run("prefer-object-spread", rule, {
                 const Foo = require('foo');
                 ({foo: Foo});
             `,
+            env: { es2020: true },
             errors: [
                 {
                     messageId: "useLiteralMessage",
@@ -947,8 +948,7 @@ ruleTester.run("prefer-object-spread", rule, {
                     line: 3,
                     column: 17
                 }
-            ],
-            env: { es2020: true }
+            ]
         },
 
         // report Object.assign() with getters/setters if the function call has only 1 argument
@@ -969,6 +969,7 @@ ruleTester.run("prefer-object-spread", rule, {
         {
             code: "const obj = Object.assign<{}, Record<string, string[]>>({}, getObject());",
             output: "const obj = { ...getObject()};",
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/object-assign-with-generic/object-assign-with-generic-1"),
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -976,12 +977,12 @@ ruleTester.run("prefer-object-spread", rule, {
                     line: 1,
                     column: 13
                 }
-            ],
-            parser: require.resolve("../../fixtures/parsers/typescript-parsers/object-assign-with-generic/object-assign-with-generic-1")
+            ]
         },
         {
             code: "Object.assign<{}, A>({}, foo);",
             output: "({ ...foo});",
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/object-assign-with-generic/object-assign-with-generic-2"),
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -989,8 +990,7 @@ ruleTester.run("prefer-object-spread", rule, {
                     line: 1,
                     column: 1
                 }
-            ],
-            parser: require.resolve("../../fixtures/parsers/typescript-parsers/object-assign-with-generic/object-assign-with-generic-2")
+            ]
         }
     ]
 });

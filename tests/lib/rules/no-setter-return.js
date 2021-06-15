@@ -400,8 +400,8 @@ ruleTester.run("no-setter-return", rule, {
         },
         {
             code: "return; ({ set a(val) { return 1; } }); return 2;",
-            errors: [error(25)],
-            env: { node: true }
+            env: { node: true },
+            errors: [error(25)]
         },
 
         //------------------------------------------------------------------------------
@@ -415,8 +415,8 @@ ruleTester.run("no-setter-return", rule, {
         },
         {
             code: "Reflect.defineProperty(foo, 'bar', { set(val) { return 1; } })",
-            errors: [error()],
-            env: { es6: true }
+            env: { es6: true },
+            errors: [error()]
         },
         {
             code: "Object.defineProperties(foo, { baz: { set(val) { return 1; } } })",
@@ -434,8 +434,8 @@ ruleTester.run("no-setter-return", rule, {
         },
         {
             code: "Reflect.defineProperty(foo, 'bar', { set: val => f(val) })",
-            errors: [error(50, "CallExpression")],
-            env: { es6: true }
+            env: { es6: true },
+            errors: [error(50, "CallExpression")]
         },
         {
             code: "Object.defineProperties(foo, { baz: { set: val => a + b } })",
@@ -453,8 +453,8 @@ ruleTester.run("no-setter-return", rule, {
         },
         {
             code: "Reflect.defineProperty(foo, 'bar', { set(val) { try { return f(val) } catch (e) { return e }; } })",
-            errors: [error(55), error(83)],
-            env: { es6: true }
+            env: { es6: true },
+            errors: [error(55), error(83)]
         },
         {
             code: "Object.defineProperties(foo, { bar: { get(){ return null; }, set(val) { return null; } } })",
@@ -485,8 +485,8 @@ ruleTester.run("no-setter-return", rule, {
         },
         {
             code: "Reflect.defineProperty(foo, 'bar', { 'set'(val) { return 1; } })",
-            errors: [error()],
-            env: { es6: true }
+            env: { es6: true },
+            errors: [error()]
         },
         {
             code: "Object[`defineProperties`](foo, { baz: { ['set'](val) { return 1; } } })",

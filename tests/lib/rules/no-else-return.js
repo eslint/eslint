@@ -509,15 +509,15 @@ ruleTester.run("no-else-return", rule, {
             code: "if (foo) { return true; } else { let a; }",
             output: "if (foo) { return true; }  let a; ",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unexpected", type: "BlockStatement" }],
-            env: { node: true }
+            env: { node: true },
+            errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "let a; if (foo) { return true; } else { let a; }",
             output: null,
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unexpected", type: "BlockStatement" }],
-            env: { node: true }
+            env: { node: true },
+            errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         }
     ]
 });

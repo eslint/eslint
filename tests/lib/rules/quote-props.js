@@ -178,18 +178,18 @@ ruleTester.run("quote-props", rule, {
         code: "({ 'a': 0, [x]: 0 })",
         output: "({ a: 0, [x]: 0 })",
         options: ["consistent-as-needed"],
+        env: { es6: true },
         errors: [
             { messageId: "redundantQuoting", type: "Property" }
-        ],
-        env: { es6: true }
+        ]
     }, {
         code: "({ 'a': 0, x })",
         output: "({ a: 0, x })",
         options: ["consistent-as-needed"],
+        env: { es6: true },
         errors: [{
             messageId: "redundantQuoting", type: "Property"
-        }],
-        env: { es6: true }
+        }]
     }, {
         code: "({ 'true': 0, 'null': 0 })",
         output: "({ true: 0, null: 0 })",
