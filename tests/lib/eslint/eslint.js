@@ -22,6 +22,7 @@ const shell = require("shelljs");
 const { CascadingConfigArrayFactory } = require("@eslint/eslintrc/lib/cascading-config-array-factory");
 const hash = require("../../../lib/cli-engine/hash");
 const { unIndent, createCustomTeardown } = require("../../_utils");
+const coreRules = require("../../../lib/rules");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -4787,6 +4788,80 @@ describe("ESLint", () => {
 
             assert.strictEqual(errorResults[0].messages.length, 1);
             assert.strictEqual(errorResults[0].output, "console.log('foo');");
+        });
+    });
+
+    describe("getRulesMetaForResults()", () => {
+        it("should return empty object when there are no linting errors", async () => {
+            const engine = new ESLint({
+                useEslintrc: false
+            });
+
+            const rulesMeta = engine.getRulesMetaForResults([]);
+
+            assert.strictEqual(Object.keys(rulesMeta).length, 0);
+        });
+
+        it("should return one rule meta when there is a linting error", async () => {
+            const engine = new ESLint({
+                useEslintrc: false,
+                overrideConfig: {
+                    rules: {
+                        semi: 2
+                    }
+                }
+            });
+
+            const results = await engine.lintText("a");
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
+        });
+
+        it("should return multiple rule meta when there are multiple linting errors", async () => {
+            const engine = new ESLint({
+                useEslintrc: false,
+                overrideConfig: {
+                    rules: {
+                        semi: 2,
+                        quotes: [2, "double"]
+                    }
+                }
+            });
+
+            const results = await engine.lintText("'a'");
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
+            assert.strictEqual(rulesMeta.quotes, coreRules.get("quotes").meta);
+        });
+
+        it("should return multiple rule meta when there are multiple linting errors from a plugin", async () => {
+            const nodePlugin = require("eslint-plugin-node");
+            const engine = new ESLint({
+                useEslintrc: false,
+                plugins: {
+                    node: nodePlugin
+                },
+                overrideConfig: {
+                    plugins: ["node"],
+                    rules: {
+                        "node/no-new-require": 2,
+                        semi: 2,
+                        quotes: [2, "double"]
+                    }
+                }
+            });
+
+            const results = await engine.lintText("new require('hi')");
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
+            assert.strictEqual(rulesMeta.quotes, coreRules.get("quotes").meta);
+            assert.strictEqual(
+                rulesMeta["node/no-new-require"],
+                nodePlugin.rules["no-new-require"].meta
+            );
         });
     });
 

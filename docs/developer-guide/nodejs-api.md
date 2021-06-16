@@ -205,6 +205,25 @@ The second parameter `options` is omittable.
 * (`Promise<LintResult[]>`)<br>
   The promise that will be fulfilled with an array of [LintResult] objects. This is an array (despite there being only one lint result) in order to keep the interfaces between this and the [`eslint.lintFiles()`][eslint-lintfiles] method similar.
 
+### ◆ eslint.getRulesMetaForResults(results)
+
+```js
+const results = await eslint.lintFiles(patterns);
+const rulesMeta = await eslint.getRulesMetaForResults(results);
+```
+
+This method returns an object containing meta information for each rule that triggered a lint error in the given `results`.
+
+#### Parameters
+
+* `results` (`LintResult[]`)<br>
+  An array of [LintResult] objects returned from a call to `ESLint#lintFiles()` or `ESLint#lintText()`.
+
+#### Return Value
+
+* (`Object`)<br>
+  An object whose property names are the rule IDs from the `results` and whose property values are the rule's meta information (if available).
+
 ### ◆ eslint.calculateConfigForFile(filePath)
 
 ```js
