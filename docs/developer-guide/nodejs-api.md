@@ -457,8 +457,8 @@ Those run on `linter2` will get `process.cwd()` if the global `process` object i
 The most important method on `Linter` is `verify()`, which initiates linting of the given text. This method accepts three arguments:
 
 * `code` - the source code to lint (a string or instance of `SourceCode`).
-* `config` - a configuration object that has been processed and normalized by `ESLint`` using eslintrc files and/or other configuration arguments.
-    * **Note**: If you want to lint text and have your configuration be read and processed, use [`ESLint#lintFiles()`](#eslint-lintfiles) or [`ESLint#lintText()`](#eslint-linttext) instead.
+* `config` - a configuration object that has been processed and normalized by `ESLint` using eslintrc files and/or other configuration arguments.
+    * **Note**: If you want to lint text and have your configuration be read and processed, use [`ESLint#lintFiles()`][eslint-lintfiles] or [`ESLint#lintText()`][eslint-linttext] instead.
 * `options` - (optional) Additional options for this run.
     * `filename` - (optional) the filename to associate with the source code.
     * `preprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins.md#processors-in-plugins) documentation describes as the `preprocess` method.
