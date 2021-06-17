@@ -23,6 +23,7 @@ const { Linter } = require("../../../lib/linter");
 
 const TEST_CODE = "var answer = 6 * 7;",
     BROKEN_TEST_CODE = "var;";
+const linebreaks = ["\n", "\r\n", "\r", "\u2028", "\u2029"];
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -5525,28 +5526,38 @@ var a = "test2";
 
     // https://github.com/eslint/eslint/issues/14575
     describe("directives in line comments", () => {
+        let messages;
+
         it("//eslint-disable", () => {
-            let code = "//eslint-disable no-debugger\ndebugger;";
-            let messages = linter.verify(code, { rules: { "no-debugger": 2 } });
+            const codes = linebreaks.map(linebreak => `//eslint-disable no-debugger${linebreak}debugger;`);
 
-            assert.strictEqual(messages.length, 0);
+            for (const code of codes) {
+                messages = linter.verify(code, { rules: { "no-debugger": 2 } });
+                assert.strictEqual(messages.length, 0);
 
-            code = "//eslint-disable no-debugger\ndebugger;";
-            messages = linter.verify(code, { rules: { "no-debugger": 0 } });
+                messages = linter.verify(code, { rules: { "no-debugger": 0 } });
+                assert.strictEqual(messages.length, 0);
+            }
+        });
 
-            assert.strictEqual(messages.length, 0);
+        it("//eslint-enable", () => {
+            const codes = linebreaks.map(linebreak => `//eslint-disable no-debugger${linebreak}//eslint-enable no-debugger${linebreak}debugger;`);
+
+            for (const code of codes) {
+                messages = linter.verify(code, { rules: { "no-debugger": 2 } });
+                assert.strictEqual(messages.length, 1);
+            }
         });
 
         it("//eslint", () => {
-            let code = "//eslint no-debugger:'error'\ndebugger;";
-            let messages = linter.verify(code, { rules: { "no-debugger": 0 } });
+            const codes = linebreaks.map(linebreak => `//eslint no-debugger:'error'${linebreak}debugger;`);
 
-            assert.strictEqual(messages.length, 1);
-
-            code = "//eslint no-debugger:'error'\ndebugger;";
-            messages = linter.verify(code, { rules: { "no-debugger": 2 } });
-
-            assert.strictEqual(messages.length, 1);
+            for (const code of codes) {
+                messages = linter.verify(code, { rules: { "no-debugger": 0 } });
+                assert.strictEqual(messages.length, 1);
+                messages = linter.verify(code, { rules: { "no-debugger": 2 } });
+                assert.strictEqual(messages.length, 1);
+            }
         });
 
         it("//global(s)", () => {
@@ -5557,21 +5568,19 @@ var a = "test2";
             ];
 
             for (const code of codes) {
-                const messages = linter.verify(code, config, filename);
-
+                messages = linter.verify(code, config, filename);
                 assert.strictEqual(messages.length, 0);
             }
         });
         it("//exported", () => {
             const code = "//exported foo\nvar foo = 0;";
             const config = { rules: { "no-unused-vars": 2 } };
-            const messages = linter.verify(code, config, filename);
 
+            messages = linter.verify(code, config, filename);
             assert.strictEqual(messages.length, 0);
         });
 
         describe("//eslint-env", () => {
-            const linebreaks = ["\n", "\r\n", "\r", "\u2028", "\u2029"];
             const config = { rules: { "no-undef": 2 } };
 
             it("enable one env with different line breaks", () => {
@@ -5581,8 +5590,7 @@ var a = "test2";
                 ];
 
                 for (const code of codes) {
-                    const messages = linter.verify(code, config, filename);
-
+                    messages = linter.verify(code, config, filename);
                     assert.strictEqual(messages.length, 0);
                 }
             });
@@ -5591,8 +5599,7 @@ var a = "test2";
                 const codes = linebreaks.map(linebreak => `//${ESLINT_ENV} browser,es6${linebreak}window;Promise;`);
 
                 for (const code of codes) {
-                    const messages = linter.verify(code, config, filename);
-
+                    messages = linter.verify(code, config, filename);
                     assert.strictEqual(messages.length, 0);
                 }
             });
@@ -5604,8 +5611,7 @@ var a = "test2";
                 ];
 
                 for (const code of codes) {
-                    const messages = linter.verify(code, config, filename);
-
+                    messages = linter.verify(code, config, filename);
                     assert.strictEqual(messages.length, 2);
                 }
             });
