@@ -32,7 +32,6 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
     * [version](#linterversionlinterversion)
 * [RuleTester](#ruletester)
     * [Customizing RuleTester](#customizing-ruletester)
-* [Deprecated APIs](#deprecated-apis)
 
 ---
 
