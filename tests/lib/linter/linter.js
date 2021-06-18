@@ -5586,7 +5586,8 @@ var a = "test2";
             it("enable one env with different line breaks", () => {
                 const codes = [
                     ...linebreaks.map(linebreak => `//${ESLINT_ENV} browser${linebreak}window;`),
-                    ...linebreaks.map(linebreak => `//  ${ESLINT_ENV}  browser${linebreak}window;`)
+                    ...linebreaks.map(linebreak => `//  ${ESLINT_ENV}  browser${linebreak}window;`),
+                    `window;//${ESLINT_ENV} browser` // no linebreaks
                 ];
 
                 for (const code of codes) {
@@ -5596,7 +5597,10 @@ var a = "test2";
             });
 
             it("multiple envs enabled with different line breaks", () => {
-                const codes = linebreaks.map(linebreak => `//${ESLINT_ENV} browser,es6${linebreak}window;Promise;`);
+                const codes = [
+                    ...linebreaks.map(linebreak => `//${ESLINT_ENV} browser,es6${linebreak}window;Promise;`),
+                    ...linebreaks.map(linebreak => `//${ESLINT_ENV} browser${linebreak}//${ESLINT_ENV} es6${linebreak}window;Promise;`)
+                ];
 
                 for (const code of codes) {
                     messages = linter.verify(code, config, filename);
