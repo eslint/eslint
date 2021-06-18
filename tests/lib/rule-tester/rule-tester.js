@@ -151,7 +151,7 @@ describe("RuleTester", () => {
             });
 
             describe("when global `it` is a function that has an `only()` method", () => {
-                let originalGlobatItOnly;
+                let originalGlobalItOnly;
 
                 before(() => {
 
@@ -159,12 +159,12 @@ describe("RuleTester", () => {
                      * We run tests with `--forbid-only`, so we have to override
                      * `it.only` to prevent the real one from being called.
                      */
-                    originalGlobatItOnly = it.only;
+                    originalGlobalItOnly = it.only;
                     it.only = () => {};
                     sinon.spy(it, "only");
                 });
                 after(() => {
-                    it.only = originalGlobatItOnly;
+                    it.only = originalGlobalItOnly;
                 });
                 beforeEach(() => {
                     it.only.resetHistory();
