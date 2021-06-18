@@ -11,6 +11,7 @@
 
 const assert = require("chai").assert,
     sinon = require("sinon"),
+    espree = require("espree"),
     esprima = require("esprima"),
     testParsers = require("../../fixtures/parsers/linter-test-parsers");
 
@@ -3492,6 +3493,70 @@ var a = "test2";
         });
 
         describe("ecmaVersion", () => {
+
+            it("should not support ES6 when no ecmaVersion provided", () => {
+                const messages = linter.verify("let x = 0;");
+
+                assert.strictEqual(messages.length, 1);
+            });
+
+            it("the default ECMAScript version is 5", () => {
+                let ecmaVersion = null;
+                const config = { rules: { "ecma-version": 2 } };
+
+                linter.defineRule("ecma-version", context => ({
+                    Program() {
+                        ecmaVersion = context.parserOptions.ecmaVersion;
+                    }
+                }));
+                linter.verify("", config);
+                assert.strictEqual(ecmaVersion, 5);
+            });
+
+            it("supports ECMAScript version 'latest'", () => {
+                const messages = linter.verify("let x = 5 ** 7;", {
+                    parserOptions: { ecmaVersion: "latest" }
+                });
+
+                assert.strictEqual(messages.length, 0);
+            });
+
+            it("the 'latest' is equal to espree.lastEcmaVersion", () => {
+                let ecmaVersion = null;
+                const config = { rules: { "ecma-version": 2 }, parserOptions: { ecmaVersion: "latest" } };
+
+                linter.defineRule("ecma-version", context => ({
+                    Program() {
+                        ecmaVersion = context.parserOptions.ecmaVersion;
+                    }
+                }));
+                linter.verify("", config);
+                assert.strictEqual(ecmaVersion, espree.latestEcmaVersion);
+            });
+
+            it("should pass normalized ecmaVersion to eslint-scope", () => {
+                let blockScope = null;
+
+                linter.defineRule("block-scope", context => ({
+                    BlockStatement() {
+                        blockScope = context.getScope();
+                    }
+                }));
+
+                linter.verify("{}", {
+                    rules: { "block-scope": 2 },
+                    parserOptions: { ecmaVersion: "latest" }
+                });
+
+                assert.strictEqual(blockScope.type, "block");
+
+                linter.verify("{}", {
+                    rules: { "block-scope": 2 },
+                    parserOptions: {} // ecmaVersion defaults to 5
+                });
+                assert.strictEqual(blockScope.type, "global");
+            });
+
             describe("it should properly parse let declaration when", () => {
                 it("the ECMAScript version number is 6", () => {
                     const messages = linter.verify("let x = 5;", {
