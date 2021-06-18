@@ -3403,7 +3403,6 @@ var a = "test2";
                 });
 
                 linter.defineRule("checker", filenameChecker);
-                linter.defineRule("checker", filenameChecker);
                 linter.verify("foo;", { rules: { checker: "error" } }, { filename: "foo.js" });
                 assert(filenameChecker.calledOnce);
             });
