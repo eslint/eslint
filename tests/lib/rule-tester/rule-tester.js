@@ -227,7 +227,7 @@ describe("RuleTester", () => {
                     originalGlobalIt = global.it;
 
                     // eslint-disable-next-line no-global-assign
-                    it = sinon.spy();
+                    it = () => {};
 
                     /*
                      * These tests override `describe` and `it`, so we need to
@@ -246,7 +246,6 @@ describe("RuleTester", () => {
                     RuleTester.it = originalRuleTesterIt;
                 });
                 beforeEach(() => {
-                    it.resetHistory();
                     ruleTester = new RuleTester();
                 });
 
