@@ -40,10 +40,7 @@ ruleTester.run("no-warning-comments", rule, {
         { code: "foo", options: [{ terms: ["foo-bar"] }] },
 
         // https://github.com/eslint/eslint/issues/14575
-        "//eslint-enable no-debugger",
-        "//eslint-disable no-debugger",
-        "//global foo",
-        "//eslint no-debugger: 0"
+        "//eslint no-warning-comments: [2, {terms: [\"eslint\"]}]"
     ],
     invalid: [
         {
