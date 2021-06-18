@@ -30,6 +30,14 @@ ruleTester.run("no-fallthrough", rule, {
         "switch(foo) { case 0: a(); /* fall through */ case 1: b(); }",
         "switch(foo) { case 0: a(); /* fallthrough */ case 1: b(); }",
         "switch(foo) { case 0: a(); /* FALLS THROUGH */ case 1: b(); }",
+        "switch(foo) { case 0: { a(); /* falls through */ } case 1: b(); }",
+        "switch(foo) { case 0: { a()\n /* falls through */ } case 1: b(); }",
+        "switch(foo) { case 0: { a(); /* fall through */ } case 1: b(); }",
+        "switch(foo) { case 0: { a(); /* fallthrough */ } case 1: b(); }",
+        "switch(foo) { case 0: { a(); /* FALLS THROUGH */ } case 1: b(); }",
+        "switch(foo) { case 0: { a(); } /* falls through */ case 1: b(); }",
+        "switch(foo) { case 0: { a(); /* falls through */ } /* comment */ case 1: b(); }",
+        "switch(foo) { case 0: { /* falls through */ } case 1: b(); }",
         "function foo() { switch(foo) { case 0: a(); return; case 1: b(); }; }",
         "switch(foo) { case 0: a(); throw 'foo'; case 1: b(); }",
         "while (a) { switch(foo) { case 0: a(); continue; case 1: b(); } }",
@@ -134,6 +142,30 @@ ruleTester.run("no-fallthrough", rule, {
             errors: errorsDefault
         },
         {
+            code: "switch(foo) { case 0: {} default: b() }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch(foo) { case 0: a(); { /* falls through */ } default: b() }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch(foo) { case 0: { /* falls through */ } a(); default: b() }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch(foo) { case 0: if (a) { /* falls through */ } default: b() }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch(foo) { case 0: { { /* falls through */ } } default: b() }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch(foo) { case 0: { /* comment */ } default: b() }",
+            errors: errorsDefault
+        },
+        {
             code: "switch(foo) { case 0:\n // comment\n default: b() }",
             errors: errorsDefault
         },
@@ -157,6 +189,20 @@ ruleTester.run("no-fallthrough", rule, {
         },
         {
             code: "switch(foo) { case 0: a();\n/* no break */\n/* todo: fix readability */\ndefault: b() }",
+            options: [{
+                commentPattern: "no break"
+            }],
+            errors: [
+                {
+                    messageId: "default",
+                    type: "SwitchCase",
+                    line: 4,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "switch(foo) { case 0: { a();\n/* no break */\n/* todo: fix readability */ }\ndefault: b() }",
             options: [{
                 commentPattern: "no break"
             }],
