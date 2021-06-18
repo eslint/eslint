@@ -1,3 +1,18 @@
+v7.29.0 - June 18, 2021
+
+* [`bfbfe5c`](https://github.com/eslint/eslint/commit/bfbfe5c1fd4c39a06d5e159dbe48479ca4305fc0) New: Add only to RuleTester (refs eslint/rfcs#73) (#14677) (Brandon Mills)
+* [`c2cd7b4`](https://github.com/eslint/eslint/commit/c2cd7b4a18057ca6067bdfc16de771dc5d90c0ea) New: Add ESLint#getRulesMetaForResults() (refs #13654) (#14716) (Nicholas C. Zakas)
+* [`eea7e0d`](https://github.com/eslint/eslint/commit/eea7e0d09d6ef43d6663cbe424e7974764a5f7fe) Chore: remove duplicate code (#14719) (Nitin Kumar)
+* [`6a1c7a0`](https://github.com/eslint/eslint/commit/6a1c7a0dac050ea5876972c50563a7eb867b38d3) Fix: allow fallthrough comment inside block (fixes #14701) (#14702) (Kevin Gibbons)
+* [`a47e5e3`](https://github.com/eslint/eslint/commit/a47e5e30b0da364593b6881f6826c595da8696f5) Docs: Add Mega-Linter to the list of integrations (#14707) (Nicolas Vuillamy)
+* [`353ddf9`](https://github.com/eslint/eslint/commit/353ddf965078030794419b089994373e27ffc86e) Chore: enable reportUnusedDisableDirectives in eslint-config-eslint (#14699) (薛定谔的猫)
+* [`757c495`](https://github.com/eslint/eslint/commit/757c49584a5852c468c1b4a0b74ad3aa39d954e5) Chore: add some rules to eslint-config-eslint (#14692) (薛定谔的猫)
+* [`c93a222`](https://github.com/eslint/eslint/commit/c93a222563177a9b5bc7a59aa106bc0a6d31e063) Docs: fix a broken link (#14697) (Sam Chen)
+* [`655c118`](https://github.com/eslint/eslint/commit/655c1187fc845bac61ae8d06c556f1a59ee2071b) Sponsors: Sync README with website (ESLint Jenkins)
+* [`e2bed2e`](https://github.com/eslint/eslint/commit/e2bed2ead22b575d55ccaeed94eecd3a979dd871) Sponsors: Sync README with website (ESLint Jenkins)
+* [`8490fb4`](https://github.com/eslint/eslint/commit/8490fb42e559ef0b3c34ac60be4e05e0d879a9cb) Sponsors: Sync README with website (ESLint Jenkins)
+* [`ddbe877`](https://github.com/eslint/eslint/commit/ddbe877c95224e127215d35562a175c6f2b7ba22) Sponsors: Sync README with website (ESLint Jenkins)
+
 v7.28.0 - June 4, 2021
 
 * [`1237705`](https://github.com/eslint/eslint/commit/1237705dd08c209c5e3136045ec51a4ba87a3abe) Upgrade: @eslint/eslintrc to 0.4.2 (#14672) (Milos Djermanovic)
