@@ -1409,7 +1409,7 @@ ruleTester.run("my-rule", myRule, {
 [eslint-constructor]: #-new-eslintoptions
 [eslint-lintfiles]: #-eslintlintfilespatterns
 [eslint-linttext]: #-eslintlinttextcode-options
-[eslint-getrulesmetaforresults]: #-eslintgetrulesmetaforresults
+[eslint-getrulesmetaforresults]: #-eslintgetrulesmetaforresultsresults
 [eslint-calculateconfigforfile]: #-eslintcalculateconfigforfilefilepath
 [eslint-ispathignored]: #-eslintispathignoredfilepath
 [eslint-loadformatter]: #-eslintloadformatternameorpath
