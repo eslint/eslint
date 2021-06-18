@@ -10,6 +10,7 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
     * [constructor()][eslint-constructor]
     * [lintFiles()][eslint-lintfiles]
     * [lintText()][eslint-linttext]
+    * [getRulesMetaForResults()](eslint-getrulesmetaforresults)
     * [calculateConfigForFile()][eslint-calculateconfigforfile]
     * [isPathIgnored()][eslint-ispathignored]
     * [loadFormatter()][eslint-loadformatter]
@@ -209,7 +210,7 @@ The second parameter `options` is omittable.
 
 ```js
 const results = await eslint.lintFiles(patterns);
-const rulesMeta = await eslint.getRulesMetaForResults(results);
+const rulesMeta = eslint.getRulesMetaForResults(results);
 ```
 
 This method returns an object containing meta information for each rule that triggered a lint error in the given `results`.
@@ -1408,6 +1409,7 @@ ruleTester.run("my-rule", myRule, {
 [eslint-constructor]: #-new-eslintoptions
 [eslint-lintfiles]: #-eslintlintfilespatterns
 [eslint-linttext]: #-eslintlinttextcode-options
+[eslint-getrulesmetaforresults]: #-eslintgetrulesmetaforresults
 [eslint-calculateconfigforfile]: #-eslintcalculateconfigforfilefilepath
 [eslint-ispathignored]: #-eslintispathignoredfilepath
 [eslint-loadformatter]: #-eslintloadformatternameorpath
