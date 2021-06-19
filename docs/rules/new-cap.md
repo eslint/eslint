@@ -135,13 +135,29 @@ function foo(arg) {
 
 ### capIsNewExceptionPattern
 
-Examples of additional **correct** code for this rule with the `{ "capIsNewExceptionPattern": "^Person\.." }` option:
+Examples of additional **correct** code for this rule with the `{ "capIsNewExceptionPattern": "^person\.." }` option:
 
 ```js
-/*eslint new-cap: ["error", { "capIsNewExceptionPattern": "^Person\.." }]*/
+/*eslint new-cap: ["error", { "capIsNewExceptionPattern": "^person\.." }]*/
 
 var friend = person.Acquaintance();
 var bestFriend = person.Friend();
+```
+
+Examples of additional **correct** code for this rule with the `{ "capIsNewExceptionPattern": "\.Bar$" }` option:
+
+```js
+/*eslint new-cap: ["error", { "capIsNewExceptionPattern": "\.Bar$" }]*/
+
+foo.Bar();
+```
+
+Examples of additional **correct** code for this rule with the `{ "capIsNewExceptionPattern": "^Foo" }` option:
+
+```js
+/*eslint new-cap: ["error", { "capIsNewExceptionPattern": "^Foo" }]*/
+
+var x = Foo(42)
 ```
 
 ### properties
