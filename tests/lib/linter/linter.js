@@ -3500,19 +3500,6 @@ var a = "test2";
                 assert.strictEqual(messages.length, 1);
             });
 
-            it("the default ECMAScript version is 5", () => {
-                let ecmaVersion = null;
-                const config = { rules: { "ecma-version": 2 } };
-
-                linter.defineRule("ecma-version", context => ({
-                    Program() {
-                        ecmaVersion = context.parserOptions.ecmaVersion;
-                    }
-                }));
-                linter.verify("", config);
-                assert.strictEqual(ecmaVersion, 5);
-            });
-
             it("supports ECMAScript version 'latest'", () => {
                 const messages = linter.verify("let x = 5 ** 7;", {
                     parserOptions: { ecmaVersion: "latest" }
