@@ -10,7 +10,7 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
     * [constructor()][eslint-constructor]
     * [lintFiles()][eslint-lintfiles]
     * [lintText()][eslint-linttext]
-    * [getRulesMetaForResults()](eslint-getrulesmetaforresults)
+    * [getRulesMetaForResults()][eslint-getrulesmetaforresults]
     * [calculateConfigForFile()][eslint-calculateconfigforfile]
     * [isPathIgnored()][eslint-ispathignored]
     * [loadFormatter()][eslint-loadformatter]
