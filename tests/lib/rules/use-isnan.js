@@ -48,6 +48,7 @@ ruleTester.run("use-isnan", rule, {
         "foo(Number.NaN / 2)",
         "foo(2 / Number.NaN)",
         "var x; if (x = Number.NaN) { }",
+        "x === Number[NaN];",
 
         //------------------------------------------------------------------------------
         // enforceForSwitchCase
@@ -472,6 +473,15 @@ ruleTester.run("use-isnan", rule, {
         },
         {
             code: "\"abc\" >= Number.NaN;",
+            errors: [comparisonError]
+        },
+        {
+            code: "x === Number?.NaN;",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [comparisonError]
+        },
+        {
+            code: "x === Number['NaN'];",
             errors: [comparisonError]
         },
 
