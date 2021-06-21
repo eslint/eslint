@@ -803,6 +803,29 @@ describe("cli", () => {
         });
     });
 
+    describe("when given the exit-on-fatal-error flag", () => {
+        it("should not change exit code if no fatal errors are reported", async () => {
+            const filePath = getFixturePath("exit-on-fatal-error/no-fatal-error.js");
+            const exitCode = await cli.execute(`--no-ignore --exit-on-fatal-error ${filePath}`);
+
+            assert.strictEqual(exitCode, 0);
+        });
+
+        it("should exit with exit code 2 fatal error is found", async () => {
+            const filePath = getFixturePath("exit-on-fatal-error", "fatal-error.js");
+            const exitCode = await cli.execute(`--no-ignore --exit-on-fatal-error ${filePath}`);
+
+            assert.strictEqual(exitCode, 2);
+        });
+
+        it("should exit with exit code 2 fatal error is found in any file", async () => {
+            const filePath = getFixturePath("exit-on-fatal-error");
+            const exitCode = await cli.execute(`--no-ignore --exit-on-fatal-error ${filePath}`);
+
+            assert.strictEqual(exitCode, 2);
+        });
+    });
+
     describe("when passed --no-inline-config", () => {
         let localCLI;
 

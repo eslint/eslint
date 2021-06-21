@@ -89,6 +89,7 @@ describe("bin/eslint.js", () => {
                     filePath: "<text>",
                     messages: [],
                     errorCount: 0,
+                    fatalErrorCount: 0,
                     warningCount: 0,
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
@@ -115,6 +116,14 @@ describe("bin/eslint.js", () => {
             child.stdin.write("This is not valid JS syntax.\n");
             child.stdin.end();
             return assertExitCode(child, 1);
+        });
+
+        it("has exit code 2 if a syntax error is thrown when exit-on-fatal-error is true", () => {
+            const child = runESLint(["--stdin", "--no-eslintrc", "--exit-on-fatal-error"]);
+
+            child.stdin.write("This is not valid JS syntax.\n");
+            child.stdin.end();
+            return assertExitCode(child, 2);
         });
 
         it("has exit code 1 if a linting error occurs", () => {
