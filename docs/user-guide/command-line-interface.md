@@ -81,6 +81,7 @@ Miscellaneous:
   --init                         Run config initialization wizard - default: false
   --env-info                     Output execution environment information - default: false
   --no-error-on-unmatched-pattern  Prevent errors when pattern is unmatched - default: false
+  --exit-on-fatal-error          Exit with exit code 2 in case of fatal error.  - default: false
   --debug                        Output debugging information
   -h, --help                     Show help
   -v, --version                  Output the version number
@@ -466,6 +467,10 @@ This option outputs information about the execution environment, including the v
 #### `--no-error-on-unmatched-pattern`
 
 This option prevents errors when a quoted glob pattern or `--ext` is unmatched. This will not prevent errors when your shell can't match a glob.
+
+#### `--exit-on-fatal-error`
+
+This option makes ESLint to exit with exit code 2 in case of a fatal error. It allows you to detect if any file was not parsed correctly compared to having rule violations.
 
 #### `--debug`
 
