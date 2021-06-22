@@ -27,12 +27,37 @@ function createSourceCode(text) {
     return new SourceCode(text, espree.parse(text, DEFAULT_CONFIG));
 }
 
+/**
+ * Creates a ParentComment for a given range.
+ * @param {number} startLine loc.start.line value
+ * @param {number} startColumn loc.start.column value
+ * @param {number} endLine loc.end.line value
+ * @param {number} endColumn loc.end.column value
+ * @param {string[]} ruleIds Rule IDs reported in the comment
+ * @returns {ParentComment} Test-ready ParentComment object.
+ */
+function createParentComment(startLine, startColumn, endLine, endColumn, ruleIds = []) {
+    return {
+        loc: {
+            start: {
+                line: startLine,
+                column: startColumn
+            },
+            end: {
+                line: endLine,
+                column: endColumn
+            }
+        },
+        ruleIds
+    };
+}
+
 describe("apply-disable-directives", () => {
     describe("/* eslint-disable */ comments without rules", () => {
         it("keeps problems before the comment on the same line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ type: "disable", line: 1, column: 8, ruleId: null }],
+                    directives: [{ parentComment: createParentComment(1, 7, 1, 27), type: "disable", line: 1, column: 8, ruleId: null }],
                     problems: [{ line: 1, column: 7, ruleId: "foo" }],
                     sourceCode: createSourceCode("first; /* eslint-disable */")
                 }),
@@ -43,7 +68,7 @@ describe("apply-disable-directives", () => {
         it("keeps problems on a previous line before the comment", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ type: "disable", line: 2, column: 1, ruleId: null }],
+                    directives: [{ parentComment: createParentComment(2, 1, 2, 20), type: "disable", line: 2, column: 1, ruleId: null }],
                     problems: [{ line: 1, column: 10, ruleId: "foo" }],
                     sourceCode: createSourceCode("\n/* eslint-disable*/")
                 }),

@@ -4927,7 +4927,7 @@ describe("ESLint", () => {
                                 column: 1,
                                 fix: {
                                     range: [0, 20],
-                                    text: ""
+                                    text: " "
                                 },
                                 severity: 2,
                                 nodeType: null
