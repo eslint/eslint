@@ -39,8 +39,7 @@ module.exports = {
                             targets: ">0.5%, not chrome 49, not ie 11, not safari 5.1"
                         }]
                     ]
-                },
-                exclude: /node_modules[\\/]lodash/u
+                }
             }
         ]
     },

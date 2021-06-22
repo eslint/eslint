@@ -1,3 +1,47 @@
+v7.29.0 - June 18, 2021
+
+* [`bfbfe5c`](https://github.com/eslint/eslint/commit/bfbfe5c1fd4c39a06d5e159dbe48479ca4305fc0) New: Add only to RuleTester (refs eslint/rfcs#73) (#14677) (Brandon Mills)
+* [`c2cd7b4`](https://github.com/eslint/eslint/commit/c2cd7b4a18057ca6067bdfc16de771dc5d90c0ea) New: Add ESLint#getRulesMetaForResults() (refs #13654) (#14716) (Nicholas C. Zakas)
+* [`eea7e0d`](https://github.com/eslint/eslint/commit/eea7e0d09d6ef43d6663cbe424e7974764a5f7fe) Chore: remove duplicate code (#14719) (Nitin Kumar)
+* [`6a1c7a0`](https://github.com/eslint/eslint/commit/6a1c7a0dac050ea5876972c50563a7eb867b38d3) Fix: allow fallthrough comment inside block (fixes #14701) (#14702) (Kevin Gibbons)
+* [`a47e5e3`](https://github.com/eslint/eslint/commit/a47e5e30b0da364593b6881f6826c595da8696f5) Docs: Add Mega-Linter to the list of integrations (#14707) (Nicolas Vuillamy)
+* [`353ddf9`](https://github.com/eslint/eslint/commit/353ddf965078030794419b089994373e27ffc86e) Chore: enable reportUnusedDisableDirectives in eslint-config-eslint (#14699) (薛定谔的猫)
+* [`757c495`](https://github.com/eslint/eslint/commit/757c49584a5852c468c1b4a0b74ad3aa39d954e5) Chore: add some rules to eslint-config-eslint (#14692) (薛定谔的猫)
+* [`c93a222`](https://github.com/eslint/eslint/commit/c93a222563177a9b5bc7a59aa106bc0a6d31e063) Docs: fix a broken link (#14697) (Sam Chen)
+* [`655c118`](https://github.com/eslint/eslint/commit/655c1187fc845bac61ae8d06c556f1a59ee2071b) Sponsors: Sync README with website (ESLint Jenkins)
+* [`e2bed2e`](https://github.com/eslint/eslint/commit/e2bed2ead22b575d55ccaeed94eecd3a979dd871) Sponsors: Sync README with website (ESLint Jenkins)
+* [`8490fb4`](https://github.com/eslint/eslint/commit/8490fb42e559ef0b3c34ac60be4e05e0d879a9cb) Sponsors: Sync README with website (ESLint Jenkins)
+* [`ddbe877`](https://github.com/eslint/eslint/commit/ddbe877c95224e127215d35562a175c6f2b7ba22) Sponsors: Sync README with website (ESLint Jenkins)
+
+v7.28.0 - June 4, 2021
+
+* [`1237705`](https://github.com/eslint/eslint/commit/1237705dd08c209c5e3136045ec51a4ba87a3abe) Upgrade: @eslint/eslintrc to 0.4.2 (#14672) (Milos Djermanovic)
+* [`123fb86`](https://github.com/eslint/eslint/commit/123fb8648731c2c23313c544ffa1872d3024fe68) Docs: Add Feedback Needed triage description (#14670) (Nicholas C. Zakas)
+* [`c545163`](https://github.com/eslint/eslint/commit/c5451635b4e89827cfc8d8d77083647c74506e42) Update: support multiline /*eslint-env*/ directives (fixes #14652) (#14660) (薛定谔的猫)
+* [`8d1e75a`](https://github.com/eslint/eslint/commit/8d1e75a31b3e3d67130709a219bdd07ce6f3cf74) Upgrade: glob-parent version in package.json (#14658) (Hamza Najeeb)
+* [`1f048cb`](https://github.com/eslint/eslint/commit/1f048cb0eec660d2052f1758f4b2ad7b1cb424e1) Fix: no-implicit-coercion false positive with `String()` (fixes #14623) (#14641) (Milos Djermanovic)
+* [`d709abf`](https://github.com/eslint/eslint/commit/d709abfdde087325d4578b6709dc61040b8ca9d8) Chore: fix comment location in no-unused-vars (#14648) (Milos Djermanovic)
+* [`e44ce0a`](https://github.com/eslint/eslint/commit/e44ce0a8acfaad513c385150c25e76e82a1b8f12) Fix: no-duplicate-imports allow unmergeable (fixes #12758, fixes #12760) (#14238) (Soufiane Boutahlil)
+* [`bb66a3d`](https://github.com/eslint/eslint/commit/bb66a3d91af426dac9a7ffdbe47bdbbc0ffd4dd7) New: add `getPhysicalFilename()` method to rule context (fixes #11989) (#14616) (Nitin Kumar)
+* [`2e43dac`](https://github.com/eslint/eslint/commit/2e43dacd24337a82d4184fac9b44d497675f46ef) Docs: fix `no-sequences` example (#14643) (Nitin Kumar)
+* [`958ff4e`](https://github.com/eslint/eslint/commit/958ff4e8a5102f204f1484d09985e28a79790996) Docs: add note for arrow functions in no-seq rule (#14578) (Nitin Kumar)
+* [`e4f111b`](https://github.com/eslint/eslint/commit/e4f111b67d114adbf76a9c9dbb18fa4f49bc91b6) Fix: arrow-body-style crash with object pattern (fixes #14633) (#14635) (Milos Djermanovic)
+* [`ec28b5a`](https://github.com/eslint/eslint/commit/ec28b5a2bdc69f34ce29d670f5e84d2446774a00) Chore: upgrade eslint-plugin-eslint-plugin (#14590) (薛定谔的猫)
+* [`85a2725`](https://github.com/eslint/eslint/commit/85a2725b1fade5538e727102d9701ccb503e54d4) Docs: Update README team and sponsors (ESLint Jenkins)
+
+v7.27.0 - May 21, 2021
+
+* [`2c0868c`](https://github.com/eslint/eslint/commit/2c0868cbeadc9f42716fa1178ebdc6b4cee6d31e) Chore: merge all html formatter files into `html.js` (#14612) (Milos Djermanovic)
+* [`9e9b5e0`](https://github.com/eslint/eslint/commit/9e9b5e07475564813b62cd1d7562a93c5fb4bc74) Update: no-unused-vars false negative with comma operator (fixes #14325) (#14354) (Nitin Kumar)
+* [`afe9569`](https://github.com/eslint/eslint/commit/afe95693e1e4316a1c6f01d39345061d4c5921c7) Chore: use includes instead of indexOf (#14607) (Mikhail Bodrov)
+* [`c0f418e`](https://github.com/eslint/eslint/commit/c0f418e2476df98519bc156b81d20431984e8704) Chore: Remove lodash (#14287) (Stephen Wade)
+* [`52655dd`](https://github.com/eslint/eslint/commit/52655dd54925ee02af2ba3a0ebc09de959ae3101) Update: no-restricted-imports custom message for patterns (fixes #11843) (#14580) (Alex Holden)
+* [`967b1c4`](https://github.com/eslint/eslint/commit/967b1c4ceca8f5248378477da94ff118dafaa647) Chore: Fix typo in large.js (#14589) (Ikko Ashimine)
+* [`2466a05`](https://github.com/eslint/eslint/commit/2466a05160de60958457d984b79fd445c12ebc98) Sponsors: Sync README with website (ESLint Jenkins)
+* [`fe29f18`](https://github.com/eslint/eslint/commit/fe29f18227fd02fd7c3da033417d621275b00d0a) Sponsors: Sync README with website (ESLint Jenkins)
+* [`086c1d6`](https://github.com/eslint/eslint/commit/086c1d6e8593cf8e7851daa8f2a890c213cf6999) Chore: add more test cases for `no-sequences` (#14579) (Nitin Kumar)
+* [`6a2ced8`](https://github.com/eslint/eslint/commit/6a2ced892c0dc43fa4942293b9f1c4b9151c3741) Docs: Update README team and sponsors (ESLint Jenkins)
+
 v7.26.0 - May 7, 2021
 
 * [`aaf65e6`](https://github.com/eslint/eslint/commit/aaf65e629adb74401092c3ccc9cb4e4bd1c8609b) Upgrade: eslintrc for ModuleResolver fix (#14577) (Brandon Mills)
