@@ -172,7 +172,8 @@ switch (Number.NaN) {
     case b:
         baz();
         break;
-    /
+    // ...
+}
 ```
 
 ### enforceForIndexOf
