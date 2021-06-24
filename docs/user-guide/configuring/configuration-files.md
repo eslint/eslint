@@ -405,4 +405,4 @@ If `eslint` could find configuration files in the project, `eslint` ignores `~/.
 
 `~/.eslintrc.*` files load shareable configs and custom parsers from `~/node_modules/` – similarly to `require()` – in the user's home directory. Please note that it doesn't load global-installed packages.
 
-`~/.eslintrc.*` files load plugins from `$CWD/node_modules` by default in order to identify plugins uniquely. If you want to use plugins with `~/.eslintrc.*` files, plugins must be installed locally per project. Alternatively, you can use the [`--resolve-plugins-relative-to` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--resolve-plugins-relative-to) to change the location from which ESLint loads plugins.
+`~/.eslintrc.*` files load plugins from `$CWD/node_modules` by default in order to identify plugins uniquely. If you want to use plugins with `~/.eslintrc.*` files, plugins must be installed locally per project. Alternatively, you can use the [`--resolve-plugins-relative-to` CLI option](https://eslint.org/docs/user-guide/command-line-interface#-resolve-plugins-relative-to) to change the location from which ESLint loads plugins.

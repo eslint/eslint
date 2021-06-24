@@ -248,7 +248,7 @@ To disable all inline config comments, use the `noInlineConfig` setting. For exa
 }
 ```
 
-This setting is similar to [--no-inline-config](https://eslint.org/docs/user-guide/command-line-interface#--no-inline-config) CLI option.
+This setting is similar to [--no-inline-config](https://eslint.org/docs/user-guide/command-line-interface#-no-inline-config) CLI option.
 
 #### Report unused `eslint-disable` comments
 
@@ -261,4 +261,4 @@ To report unused `eslint-disable` comments, use the `reportUnusedDisableDirectiv
 }
 ```
 
-This setting is similar to [--report-unused-disable-directives](https://eslint.org/docs/user-guide/command-line-interface#--report-unused-disable-directives) CLI option, but doesn't fail linting (reports as `"warn"` severity).
+This setting is similar to [--report-unused-disable-directives](https://eslint.org/docs/user-guide/command-line-interface#-report-unused-disable-directives) CLI option, but doesn't fail linting (reports as `"warn"` severity).

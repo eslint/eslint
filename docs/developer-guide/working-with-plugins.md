@@ -84,7 +84,7 @@ module.exports = {
 
 **The `preprocess` method** takes the file contents and filename as arguments, and returns an array of code blocks to lint. The code blocks will be linted separately but still be registered to the filename.
 
-A code block has two properties `text` and `filename`; the `text` property is the content of the block and the `filename` property is the name of the block. Name of the block can be anything, but should include the file extension, that would tell the linter how to process the current block. The linter will check [`--ext` CLI option](../user-guide/command-line-interface.md#--ext) to see if the current block should be linted, and resolve `overrides` configs to check how to process the current block.
+A code block has two properties `text` and `filename`; the `text` property is the content of the block and the `filename` property is the name of the block. Name of the block can be anything, but should include the file extension, that would tell the linter how to process the current block. The linter will check [`--ext` CLI option](../user-guide/command-line-interface.md#-ext) to see if the current block should be linted, and resolve `overrides` configs to check how to process the current block.
 
 It's up to the plugin to decide if it needs to return just one part, or multiple pieces. For example in the case of processing `.html` files, you might want to return just one item in the array by combining all scripts, but for `.md` file where each JavaScript block might be independent, you can return multiple items.
 

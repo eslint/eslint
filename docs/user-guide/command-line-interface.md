@@ -223,7 +223,7 @@ This option instructs ESLint to try to fix as many issues as possible. The fixes
 1. This option throws an error when code is piped to ESLint.
 1. This option has no effect on code that uses a processor, unless the processor opts into allowing autofixes.
 
-If you want to fix code from `stdin` or otherwise want to get the fixes without actually writing them to the file, use the [`--fix-dry-run`](#--fix-dry-run) option.
+If you want to fix code from `stdin` or otherwise want to get the fixes without actually writing them to the file, use the [`--fix-dry-run`](#-fix-dry-run) option.
 
 #### `--fix-dry-run`
 
