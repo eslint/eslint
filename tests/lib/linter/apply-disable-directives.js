@@ -135,7 +135,13 @@ describe("apply-disable-directives", () => {
         it("keeps problems after the comment that have a different ruleId", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ type: "disable", line: 1, column: 1, ruleId: "foo" }],
+                    directives: [{
+                        parentComment: createParentComment(1, 0, 1, 25),
+                        type: "disable",
+                        line: 1,
+                        column: 1,
+                        ruleId: "foo"
+                    }],
                     problems: [{ line: 2, column: 3, ruleId: "not-foo" }],
                     sourceCode: createSourceCode("/* eslint-disable foo */")
                 }),
@@ -146,7 +152,13 @@ describe("apply-disable-directives", () => {
         it("keeps problems before the comment that have the same ruleId", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ type: "disable", line: 1, column: 8, ruleId: "foo" }],
+                    directives: [{
+                        parentComment: createParentComment(1, 8, 1, 30),
+                        type: "disable",
+                        line: 1,
+                        column: 8,
+                        ruleId: "foo"
+                    }],
                     problems: [{ line: 1, column: 7, ruleId: "foo" }],
                     sourceCode: createSourceCode("first; /* eslint-disable foo */")
                 }),
@@ -160,8 +172,20 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [
-                        { type: "disable", line: 1, column: 1, ruleId: null },
-                        { type: "enable", line: 1, column: 26, ruleId: null }
+                        {
+                            parentComment: createParentComment(1, 0, 1, 21),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: null
+                        },
+                        {
+                            parentComment: createParentComment(1, 26, 1, 45),
+                            type: "enable",
+                            line: 1,
+                            column: 26,
+                            ruleId: null
+                        }
                     ],
                     problems: [{ line: 1, column: 27, ruleId: "foo" }],
                     sourceCode: createSourceCode("/* eslint-disable */ /* eslint-enable */")
@@ -174,8 +198,20 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [
-                        { type: "disable", line: 1, column: 1, ruleId: null },
-                        { type: "enable", line: 1, column: 26, ruleId: null }
+                        {
+                            parentComment: createParentComment(1, 0, 1, 26),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: null
+                        },
+                        {
+                            parentComment: createParentComment(1, 26, 1, 41),
+                            type: "enable",
+                            line: 1,
+                            column: 26,
+                            ruleId: null
+                        }
                     ],
                     problems: [{ line: 1, column: 26, ruleId: "foo" }],
                     sourceCode: createSourceCode("/* eslint-disable */ /* eslint-enable */")
@@ -202,9 +238,27 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [
-                        { type: "disable", line: 1, column: 1, ruleId: null },
-                        { type: "enable", line: 1, column: 26, ruleId: "foo" },
-                        { type: "disable", line: 2, column: 1, ruleId: "foo" }
+                        {
+                            parentComment: createParentComment(1, 0, 1, 21),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: null
+                        },
+                        {
+                            parentComment: createParentComment(1, 26, 1, 45),
+                            type: "enable",
+                            line: 1,
+                            column: 26,
+                            ruleId: "foo"
+                        },
+                        {
+                            parentComment: createParentComment(2, 0, 2, 21),
+                            type: "disable",
+                            line: 2,
+                            column: 1,
+                            ruleId: "foo"
+                        }
                     ],
                     problems: [{ line: 3, column: 3, ruleId: "foo" }],
                     sourceCode: createSourceCode("/* eslint-disable */ /* eslint-enable foo */\n/* eslint-disable foo */")
@@ -217,9 +271,27 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [
-                        { type: "disable", line: 1, column: 1, ruleId: null },
-                        { type: "enable", line: 1, column: 26, ruleId: "foo" },
-                        { type: "disable", line: 2, column: 1, ruleId: null }
+                        {
+                            parentComment: createParentComment(1, 0, 1, 21),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: null
+                        },
+                        {
+                            parentComment: createParentComment(1, 26, 1, 45),
+                            type: "enable",
+                            line: 1,
+                            column: 26,
+                            ruleId: "foo"
+                        },
+                        {
+                            parentComment: createParentComment(2, 0, 2, 21),
+                            type: "disable",
+                            line: 2,
+                            column: 1,
+                            ruleId: null
+                        }
                     ],
                     problems: [{ line: 3, column: 3, ruleId: "foo" }],
                     sourceCode: createSourceCode("/* eslint-disable */ /* eslint-enable foo *//* eslint-disable */")
@@ -232,8 +304,20 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [
-                        { type: "disable", line: 1, column: 1, ruleId: "foo" },
-                        { type: "enable", line: 1, column: 26, ruleId: null }
+                        {
+                            parentComment: createParentComment(1, 0, 1, 21),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: "foo"
+                        },
+                        {
+                            parentComment: createParentComment(1, 26, 1, 45),
+                            type: "enable",
+                            line: 1,
+                            column: 26,
+                            ruleId: null
+                        }
                     ],
                     problems: [{ line: 1, column: 3, ruleId: "not-foo" }],
                     sourceCode: createSourceCode("/* eslint-disable foo */ /* eslint-enable */")
@@ -248,8 +332,20 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [
-                        { type: "disable", line: 1, column: 1, ruleId: null },
-                        { type: "enable", line: 2, column: 1, ruleId: "foo" }
+                        {
+                            parentComment: createParentComment(1, 0, 1, 21),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: null
+                        },
+                        {
+                            parentComment: createParentComment(2, 0, 2, 25),
+                            type: "enable",
+                            line: 2,
+                            column: 1,
+                            ruleId: "foo"
+                        }
                     ],
                     problems: [{ line: 2, column: 4, ruleId: "foo" }],
                     sourceCode: createSourceCode("/* eslint-disable */\n/* eslint-enable foo */")
@@ -262,8 +358,20 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [
-                        { type: "disable", line: 1, column: 1, ruleId: null },
-                        { type: "enable", line: 2, column: 1, ruleId: "foo" }
+                        {
+                            parentComment: createParentComment(1, 0, 1, 21),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: null
+                        },
+                        {
+                            parentComment: createParentComment(2, 0, 2, 25),
+                            type: "enable",
+                            line: 2,
+                            column: 1,
+                            ruleId: "foo"
+                        }
                     ],
                     problems: [{ line: 2, column: 1, ruleId: "foo" }],
                     sourceCode: createSourceCode("/* eslint-disable */\n/* eslint-enable foo */")
@@ -317,7 +425,13 @@ describe("apply-disable-directives", () => {
         it("keeps problems on a previous line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ type: "disable-line", line: 2, column: 1, ruleId: null }],
+                    directives: [{
+                        parentComment: createParentComment(2, 0, 1, 21),
+                        type: "disable-line",
+                        line: 2,
+                        column: 1,
+                        ruleId: null
+                    }],
                     problems: [{ line: 1, column: 5, ruleId: "foo" }],
                     sourceCode: createSourceCode("first;\n// eslint-disable-line")
                 }),
@@ -328,7 +442,13 @@ describe("apply-disable-directives", () => {
         it("filters problems before the comment on the same line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ type: "disable-line", line: 1, column: 8, ruleId: null }],
+                    directives: [{
+                        parentComment: createParentComment(1, 8, 1, 29),
+                        type: "disable-line",
+                        line: 1,
+                        column: 8,
+                        ruleId: null
+                    }],
                     problems: [{ line: 1, column: 1, ruleId: "foo" }],
                     sourceCode: createSourceCode("first; // eslint-disable-line")
                 }),
@@ -339,7 +459,13 @@ describe("apply-disable-directives", () => {
         it("filters problems after the comment on the same line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ type: "disable-line", line: 1, column: 8, ruleId: null }],
+                    directives: [{
+                        parentComment: createParentComment(1, 8, 1, 29),
+                        type: "disable-line",
+                        line: 1,
+                        column: 8,
+                        ruleId: null
+                    }],
                     problems: [{ line: 1, column: 10, ruleId: "foo" }],
                     sourceCode: createSourceCode("first; // eslint-disable-line")
                 }),
@@ -350,7 +476,13 @@ describe("apply-disable-directives", () => {
         it("keeps problems on a following line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ type: "disable-line", line: 1, column: 8 }],
+                    directives: [{
+                        parentComment: createParentComment(1, 8, 1, 35),
+                        type: "disable-line",
+                        line: 1,
+                        column: 8,
+                        ruleId: "foo"
+                    }],
                     problems: [{ line: 2, column: 1, ruleId: "foo" }],
                     sourceCode: createSourceCode("first; // eslint-disable-line foo")
                 }),
@@ -363,7 +495,13 @@ describe("apply-disable-directives", () => {
         it("filters problems on the current line that match the ruleId", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ type: "disable-line", line: 1, column: 8, ruleId: "foo" }],
+                    directives: [{
+                        parentComment: createParentComment(1, 8, 1, 35),
+                        type: "disable-line",
+                        line: 1,
+                        column: 8,
+                        ruleId: "foo"
+                    }],
                     problems: [{ line: 1, column: 2, ruleId: "foo" }],
                     sourceCode: createSourceCode("first; // eslint-disable-line foo")
                 }),
@@ -374,7 +512,7 @@ describe("apply-disable-directives", () => {
         it("keeps problems on the current line that do not match the ruleId", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ type: "disable-line", line: 1, column: 1, ruleId: "foo" }],
+                    directives: [{ parentComment: createParentComment(1, 0, 1, 27), type: "disable-line", line: 1, column: 1, ruleId: "foo" }],
                     problems: [{ line: 1, column: 2, ruleId: "not-foo" }],
                     sourceCode: createSourceCode("// eslint-disable-line foo")
                 }),
@@ -386,8 +524,20 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [
-                        { type: "disable", line: 1, column: 1, ruleId: null },
-                        { type: "disable-line", line: 1, column: 22, ruleId: "foo" }
+                        {
+                            parentComment: createParentComment(1, 0, 1, 21),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: null
+                        },
+                        {
+                            parentComment: createParentComment(1, 25, 1, 49),
+                            type: "disable-line",
+                            line: 1,
+                            column: 22,
+                            ruleId: "foo"
+                        }
                     ],
                     problems: [{ line: 1, column: 5, ruleId: "not-foo" }],
                     sourceCode: createSourceCode("/* eslint-disable */ // eslint-disable-line foo")
@@ -400,12 +550,48 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [
-                        { type: "disable-line", line: 1, column: 8, ruleId: "foo" },
-                        { type: "disable-line", line: 2, column: 8, ruleId: "foo" },
-                        { type: "disable-line", line: 3, column: 8, ruleId: "foo" },
-                        { type: "disable-line", line: 4, column: 8, ruleId: "foo" },
-                        { type: "disable-line", line: 5, column: 8, ruleId: "foo" },
-                        { type: "disable-line", line: 6, column: 8, ruleId: "foo" }
+                        {
+                            parentComment: createParentComment(1, 8, 1, 35),
+                            type: "disable-line",
+                            line: 1,
+                            column: 8,
+                            ruleId: "foo"
+                        },
+                        {
+                            parentComment: createParentComment(2, 8, 2, 35),
+                            type: "disable-line",
+                            line: 2,
+                            column: 8,
+                            ruleId: "foo"
+                        },
+                        {
+                            parentComment: createParentComment(3, 8, 3, 35),
+                            type: "disable-line",
+                            line: 3,
+                            column: 8,
+                            ruleId: "foo"
+                        },
+                        {
+                            parentComment: createParentComment(4, 8, 4, 35),
+                            type: "disable-line",
+                            line: 4,
+                            column: 8,
+                            ruleId: "foo"
+                        },
+                        {
+                            parentComment: createParentComment(5, 8, 5, 35),
+                            type: "disable-line",
+                            line: 5,
+                            column: 8,
+                            ruleId: "foo"
+                        },
+                        {
+                            parentComment: createParentComment(6, 8, 6, 35),
+                            type: "disable-line",
+                            line: 6,
+                            column: 8,
+                            ruleId: "foo"
+                        }
                     ],
                     problems: [{ line: 2, column: 1, ruleId: "foo" }],
                     sourceCode: createSourceCode(
@@ -421,7 +607,13 @@ describe("apply-disable-directives", () => {
         it("filters problems on the next line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ type: "disable-next-line", line: 1, column: 1, ruleId: null }],
+                    directives: [{
+                        parentComment: createParentComment(1, 0, 1, 31),
+                        type: "disable-next-line",
+                        line: 1,
+                        column: 1,
+                        ruleId: null
+                    }],
                     problems: [{ line: 2, column: 3, ruleId: "foo" }],
                     sourceCode: createSourceCode("// eslint-disable-next-line")
                 }),
@@ -432,7 +624,13 @@ describe("apply-disable-directives", () => {
         it("keeps problems on the same line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ type: "disable-next-line", line: 1, column: 1, ruleId: null }],
+                    directives: [{
+                        parentComment: createParentComment(1, 0, 1, 31),
+                        type: "disable-next-line",
+                        line: 1,
+                        column: 1,
+                        ruleId: null
+                    }],
                     problems: [{ line: 1, column: 3, ruleId: "foo" }],
                     sourceCode: createSourceCode("// eslint-disable-next-line")
                 }),
@@ -443,7 +641,13 @@ describe("apply-disable-directives", () => {
         it("keeps problems after the next line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ type: "disable-next-line", line: 1, column: 1, ruleId: null }],
+                    directives: [{
+                        parentComment: createParentComment(1, 0, 1, 31),
+                        type: "disable-next-line",
+                        line: 1,
+                        column: 1,
+                        ruleId: null
+                    }],
                     problems: [{ line: 3, column: 3, ruleId: "foo" }],
                     sourceCode: createSourceCode("// eslint-disable-next-line")
                 }),
@@ -481,7 +685,13 @@ describe("apply-disable-directives", () => {
         it("keeps problems on the next line that do not match the ruleId", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ type: "disable-next-line", line: 1, column: 1, ruleId: "foo" }],
+                    directives: [{
+                        parentComment: createParentComment(1, 0, 1, 31),
+                        type: "disable-next-line",
+                        line: 1,
+                        column: 1,
+                        ruleId: "foo"
+                    }],
                     problems: [{ line: 2, column: 1, ruleId: "not-foo" }],
                     sourceCode: createSourceCode("// eslint-disable-next-line foo\n/* eslint-enable foo */")
                 }),
@@ -507,7 +717,12 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ type: "disable", line: 1, column: 1 }],
+                    directives: [{
+                        parentComment: createParentComment(1, 0, 1, 20),
+                        type: "disable",
+                        line: 1,
+                        column: 1
+                    }],
                     problems: [],
                     reportUnusedDisableDirectives: "error",
                     sourceCode: createSourceCode("/* eslint-disable */")
@@ -520,7 +735,7 @@ describe("apply-disable-directives", () => {
                         column: 1,
                         fix: {
                             range: [0, 20],
-                            text: ""
+                            text: " "
                         },
                         severity: 2,
                         nodeType: null
@@ -544,7 +759,13 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable foo */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ type: "disable", line: 1, column: 1, ruleId: "foo" }],
+                    directives: [{
+                        parentComment: createParentComment(1, 0, 1, 21),
+                        type: "disable",
+                        line: 1,
+                        column: 1,
+                        ruleId: "foo"
+                    }],
                     problems: [],
                     reportUnusedDisableDirectives: "error",
                     sourceCode: createSourceCode("/* eslint-disable foo */")
@@ -556,8 +777,8 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 1,
                         fix: {
-                            range: [0, 24],
-                            text: ""
+                            range: [0, 21],
+                            text: " "
                         },
                         severity: 2,
                         nodeType: null
@@ -569,7 +790,13 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable foo */ /* (problem from another rule) */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ type: "disable", line: 1, column: 1, ruleId: "foo" }],
+                    directives: [{
+                        parentComment: createParentComment(1, 0, 1, 24),
+                        type: "disable",
+                        line: 1,
+                        column: 1,
+                        ruleId: "foo"
+                    }],
                     problems: [{ line: 1, column: 20, ruleId: "not-foo" }],
                     reportUnusedDisableDirectives: "error",
                     sourceCode: createSourceCode("/* eslint-disable foo */")
@@ -582,7 +809,7 @@ describe("apply-disable-directives", () => {
                         column: 1,
                         fix: {
                             range: [0, 24],
-                            text: ""
+                            text: " "
                         },
                         severity: 2,
                         nodeType: null
@@ -600,8 +827,20 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [
-                        { type: "disable", line: 1, column: 8, ruleId: null },
-                        { type: "enable", line: 1, column: 24, ruleId: "foo" }
+                        {
+                            parentComment: createParentComment(1, 0, 1, 21),
+                            type: "disable",
+                            line: 1,
+                            column: 8,
+                            ruleId: null
+                        },
+                        {
+                            parentComment: createParentComment(1, 0, 1, 21),
+                            type: "enable",
+                            line: 1,
+                            column: 24,
+                            ruleId: "foo"
+                        }
                     ],
                     problems: [{ line: 1, column: 2, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error",
@@ -617,8 +856,8 @@ describe("apply-disable-directives", () => {
                         ruleId: null,
                         message: "Unused eslint-disable directive (no problems were reported).",
                         fix: {
-                            range: [7, 28],
-                            text: ""
+                            range: [0, 21],
+                            text: " "
                         },
                         line: 1,
                         column: 8,
@@ -633,8 +872,20 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [
-                        { type: "disable", line: 1, column: 1, ruleId: null },
-                        { type: "enable", line: 1, column: 12, ruleId: null }
+                        {
+                            parentComment: createParentComment(1, 0, 1, 20),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: null
+                        },
+                        {
+                            parentComment: createParentComment(1, 22, 1, 42),
+                            type: "enable",
+                            line: 1,
+                            column: 12,
+                            ruleId: null
+                        }
                     ],
                     problems: [],
                     reportUnusedDisableDirectives: "error",
@@ -648,7 +899,7 @@ describe("apply-disable-directives", () => {
                         column: 1,
                         fix: {
                             range: [0, 20],
-                            text: ""
+                            text: " "
                         },
                         severity: 2,
                         nodeType: null
@@ -661,8 +912,20 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [
-                        { type: "disable", line: 1, column: 1, ruleId: null },
-                        { type: "disable", line: 2, column: 1, ruleId: null }
+                        {
+                            parentComment: createParentComment(1, 0, 1, 21),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: null
+                        },
+                        {
+                            parentComment: createParentComment(2, 0, 2, 21),
+                            type: "disable",
+                            line: 2,
+                            column: 1,
+                            ruleId: null
+                        }
                     ],
                     problems: [],
                     reportUnusedDisableDirectives: "error",
@@ -676,7 +939,7 @@ describe("apply-disable-directives", () => {
                         column: 1,
                         fix: {
                             range: [0, 21],
-                            text: ""
+                            text: " "
                         },
                         severity: 2,
                         nodeType: null
@@ -687,8 +950,8 @@ describe("apply-disable-directives", () => {
                         line: 2,
                         column: 1,
                         fix: {
-                            range: [21, 41],
-                            text: ""
+                            range: [21, 42],
+                            text: " "
                         },
                         severity: 2,
                         nodeType: null
@@ -701,12 +964,24 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [
-                        { type: "disable", line: 1, column: 1, ruleId: null },
-                        { type: "disable", line: 2, column: 1, ruleId: null }
+                        {
+                            parentComment: createParentComment(1, 0, 1, 21),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: null
+                        },
+                        {
+                            parentComment: createParentComment(2, 0, 2, 21),
+                            type: "disable",
+                            line: 2,
+                            column: 1,
+                            ruleId: null
+                        }
                     ],
                     problems: [{ line: 3, column: 1, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable */\n/* eslint-disable */")
+                    sourceCode: createSourceCode("/* eslint-disable */\n/* eslint-disable */ /* (problem) */")
                 }),
                 [
                     {
@@ -716,7 +991,7 @@ describe("apply-disable-directives", () => {
                         column: 1,
                         fix: {
                             range: [0, 21],
-                            text: ""
+                            text: " "
                         },
                         severity: 2,
                         nodeType: null
@@ -729,12 +1004,24 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [
-                        { type: "disable", line: 1, column: 1, ruleId: "foo" },
-                        { type: "disable", line: 2, column: 1, ruleId: null }
+                        {
+                            parentComment: createParentComment(1, 0, 1, 21),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: "foo"
+                        },
+                        {
+                            parentComment: createParentComment(2, 0, 2, 21),
+                            type: "disable",
+                            line: 2,
+                            column: 1,
+                            ruleId: null
+                        }
                     ],
                     problems: [{ line: 3, column: 1, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable foo */\n/* eslint-disable */")
+                    sourceCode: createSourceCode("/* eslint-disable foo */\n/* eslint-disable */ /* (problem from foo) */")
                 }),
                 [
                     {
@@ -743,8 +1030,8 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 1,
                         fix: {
-                            range: [0, 25],
-                            text: ""
+                            range: [0, 21],
+                            text: " "
                         },
                         severity: 2,
                         nodeType: null
@@ -769,12 +1056,24 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [
-                        { type: "disable", line: 1, column: 1, ruleId: null },
-                        { type: "disable", line: 2, column: 1, ruleId: "foo" }
+                        {
+                            parentComment: createParentComment(1, 0, 1, 21),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: null
+                        },
+                        {
+                            parentComment: createParentComment(2, 0, 2, 24),
+                            type: "disable",
+                            line: 2,
+                            column: 1,
+                            ruleId: "foo"
+                        }
                     ],
                     problems: [{ line: 3, column: 1, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable */\n/* eslint-disable foo */")
+                    sourceCode: createSourceCode("/* eslint-disable */\n/* eslint-disable foo */ /* (problem from foo) */")
                 }),
                 [
                     {
@@ -784,7 +1083,7 @@ describe("apply-disable-directives", () => {
                         column: 1,
                         fix: {
                             range: [0, 21],
-                            text: ""
+                            text: " "
                         },
                         severity: 2,
                         nodeType: null
@@ -797,12 +1096,24 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [
-                        { type: "disable", line: 1, column: 1, ruleId: null },
-                        { type: "disable", line: 2, column: 1, ruleId: "foo" }
+                        {
+                            parentComment: createParentComment(1, 0, 1, 20),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: null
+                        },
+                        {
+                            parentComment: createParentComment(2, 0, 2, 24),
+                            type: "disable",
+                            line: 2,
+                            column: 1,
+                            ruleId: "foo"
+                        }
                     ],
                     problems: [{ line: 3, column: 1, ruleId: "bar" }],
                     reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable */\n/* eslint-disable foo */")
+                    sourceCode: createSourceCode("/* eslint-disable */\n/* eslint-disable foo */ /* (problem from another rule) */")
                 }),
                 [
                     {
@@ -812,7 +1123,7 @@ describe("apply-disable-directives", () => {
                         column: 1,
                         fix: {
                             range: [21, 45],
-                            text: ""
+                            text: " "
                         },
                         severity: 2,
                         nodeType: null
