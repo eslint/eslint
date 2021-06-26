@@ -122,7 +122,7 @@ var friend = new person.acquaintance();
 var bestFriend = new person.friend();
 ```
 
-Examples of additional **correct** code for this rule with the `{ "capIsNewExceptionPattern": "\\.Bar$" }` option:
+Examples of additional **correct** code for this rule with the `{ "newIsCapExceptionPattern": "\\.Bar$" }` option:
 
 ```js
 /*eslint new-cap: ["error", { "newIsCapExceptionPattern": "\\.Bar$" }]*/
