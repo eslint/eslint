@@ -118,7 +118,16 @@ Examples of additional **correct** code for this rule with the `{ "newIsCapExcep
 /*eslint new-cap: ["error", { "newIsCapExceptionPattern": "^person\\.." }]*/
 
 var friend = new person.acquaintance();
+
 var bestFriend = new person.friend();
+```
+
+Examples of additional **correct** code for this rule with the `{ "capIsNewExceptionPattern": "\\.Bar$" }` option:
+
+```js
+/*eslint new-cap: ["error", { "newIsCapExceptionPattern": "\\.Bar$" }]*/
+
+var friend = new person.bar();
 ```
 
 ### capIsNewExceptions
@@ -157,7 +166,11 @@ Examples of additional **correct** code for this rule with the `{ "capIsNewExcep
 ```js
 /*eslint new-cap: ["error", { "capIsNewExceptionPattern": "^Foo" }]*/
 
-var x = Foo(42)
+var x = Foo(42);
+
+var y = Foobar(42);
+
+var z = Foo.Bar(42);
 ```
 
 ### properties
