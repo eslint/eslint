@@ -112,13 +112,22 @@ var emitter = new events();
 
 ### newIsCapExceptionPattern
 
-Examples of additional **correct** code for this rule with the `{ "newIsCapExceptionPattern": "^person\.." }` option:
+Examples of additional **correct** code for this rule with the `{ "newIsCapExceptionPattern": "^person\\.." }` option:
 
 ```js
-/*eslint new-cap: ["error", { "newIsCapExceptionPattern": "^person\.." }]*/
+/*eslint new-cap: ["error", { "newIsCapExceptionPattern": "^person\\.." }]*/
 
 var friend = new person.acquaintance();
+
 var bestFriend = new person.friend();
+```
+
+Examples of additional **correct** code for this rule with the `{ "newIsCapExceptionPattern": "\\.bar$" }` option:
+
+```js
+/*eslint new-cap: ["error", { "newIsCapExceptionPattern": "\\.bar$" }]*/
+
+var friend = new person.bar();
 ```
 
 ### capIsNewExceptions
@@ -135,13 +144,33 @@ function foo(arg) {
 
 ### capIsNewExceptionPattern
 
-Examples of additional **correct** code for this rule with the `{ "capIsNewExceptionPattern": "^Person\.." }` option:
+Examples of additional **correct** code for this rule with the `{ "capIsNewExceptionPattern": "^person\\.." }` option:
 
 ```js
-/*eslint new-cap: ["error", { "capIsNewExceptionPattern": "^Person\.." }]*/
+/*eslint new-cap: ["error", { "capIsNewExceptionPattern": "^person\\.." }]*/
 
 var friend = person.Acquaintance();
 var bestFriend = person.Friend();
+```
+
+Examples of additional **correct** code for this rule with the `{ "capIsNewExceptionPattern": "\\.Bar$" }` option:
+
+```js
+/*eslint new-cap: ["error", { "capIsNewExceptionPattern": "\\.Bar$" }]*/
+
+foo.Bar();
+```
+
+Examples of additional **correct** code for this rule with the `{ "capIsNewExceptionPattern": "^Foo" }` option:
+
+```js
+/*eslint new-cap: ["error", { "capIsNewExceptionPattern": "^Foo" }]*/
+
+var x = Foo(42);
+
+var y = Foobar(42);
+
+var z = Foo.Bar(42);
 ```
 
 ### properties
