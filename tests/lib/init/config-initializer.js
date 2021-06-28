@@ -17,7 +17,8 @@ const assert = require("chai").assert,
     sh = require("shelljs"),
     espree = require("espree"),
     autoconfig = require("../../../lib/init/autoconfig"),
-    npmUtils = require("../../../lib/init/npm-utils");
+    npmUtils = require("../../../lib/init/npm-utils"),
+    tsUtils = require("../../../lib/init/ts-utils");
 
 const originalDir = process.cwd();
 const proxyquire = require("proxyquire").noPreserveCache();
@@ -33,6 +34,7 @@ let pkgJSONPath = "";
 describe("configInitializer", () => {
 
     let fixtureDir,
+        tsFindTsConfigStub,
         npmCheckStub,
         npmInstallStub,
         npmFetchPeerDependenciesStub,
@@ -83,6 +85,7 @@ describe("configInitializer", () => {
     });
 
     beforeEach(() => {
+        tsFindTsConfigStub = sinon.stub(tsUtils, "findTsConfig").returns("tsconfig.json");
         npmInstallStub = sinon.stub(npmUtils, "installSyncSaveDev");
         npmCheckStub = sinon.stub(npmUtils, "checkDevDeps").callsFake(packages => packages.reduce((status, pkg) => {
             status[pkg] = false;
@@ -102,6 +105,7 @@ describe("configInitializer", () => {
     afterEach(() => {
         log.info.resetHistory();
         log.error.resetHistory();
+        tsFindTsConfigStub.restore();
         npmInstallStub.restore();
         npmCheckStub.restore();
         npmFetchPeerDependenciesStub.restore();
@@ -187,6 +191,20 @@ describe("configInitializer", () => {
                 assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/essential", "plugin:@typescript-eslint/recommended"]);
                 assert.strictEqual(config.parserOptions.parser, "@typescript-eslint/parser");
                 assert.deepStrictEqual(config.plugins, ["vue", "@typescript-eslint"]);
+            });
+
+            it("should add tsconfig.json file as parserOptions.project if typescript is enabled", () => {
+                answers.typescript = true;
+                const config = init.processAnswers(answers);
+
+                assert.strictEqual(config.parserOptions.project, "tsconfig.json");
+            });
+
+            it("should add eslint config file as ignorePatterns if typescript is enabled", () => {
+                answers.typescript = true;
+                const config = init.processAnswers(answers);
+
+                assert.include(config.ignorePatterns, ".eslintrc.json");
             });
 
             it("should extend eslint:recommended", () => {
