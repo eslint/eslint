@@ -11,7 +11,8 @@ const sinon = require("sinon"),
     EventEmitter = require("events"),
     { RuleTester } = require("../../../lib/rule-tester"),
     assert = require("chai").assert,
-    nodeAssert = require("assert");
+    nodeAssert = require("assert"),
+    espree = require("espree");
 
 const NODE_ASSERT_STRICT_EQUAL_OPERATOR = (() => {
     try {
@@ -1040,6 +1041,203 @@ describe("RuleTester", () => {
             ]
         });
         assert.strictEqual(spy.args[1][1].parser, require.resolve("esprima"));
+    });
+    it("should pass normalized ecmaVersion to the rule", () => {
+        const reportEcmaVersionRule = {
+            meta: {
+                messages: {
+                    ecmaVersionMessage: "context.parserOptions.ecmaVersion is {{type}} {{ecmaVersion}}."
+                }
+            },
+            create: context => ({
+                Program(node) {
+                    const { ecmaVersion } = context.parserOptions;
+
+                    context.report({
+                        node,
+                        messageId: "ecmaVersionMessage",
+                        data: { type: typeof ecmaVersion, ecmaVersion }
+                    });
+                }
+            })
+        };
+
+        const notEspree = require.resolve("../../fixtures/parsers/empty-program-parser");
+
+        ruleTester.run("report-ecma-version", reportEcmaVersionRule, {
+            valid: [],
+            invalid: [
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }]
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    parserOptions: {}
+                },
+                {
+                    code: "<div/>",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    parserOptions: { ecmaFeatures: { jsx: true } }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    parser: require.resolve("espree")
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                    parserOptions: { ecmaVersion: 6 }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                    parserOptions: { ecmaVersion: 2015 }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    env: { browser: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    env: { es6: false }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                    env: { es6: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "8" } }],
+                    env: { es6: false, es2017: true }
+                },
+                {
+                    code: "let x",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                    env: { es6: "truthy" }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "8" } }],
+                    env: { es2017: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "11" } }],
+                    env: { es2020: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "12" } }],
+                    env: { es2021: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
+                    parserOptions: { ecmaVersion: "latest" }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
+                    parser: require.resolve("espree"),
+                    parserOptions: { ecmaVersion: "latest" }
+                },
+                {
+                    code: "<div/>",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
+                    parserOptions: { ecmaVersion: "latest", ecmaFeatures: { jsx: true } }
+                },
+                {
+                    code: "import 'foo'",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
+                    parserOptions: { ecmaVersion: "latest", sourceType: "module" }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
+                    parserOptions: { ecmaVersion: "latest" },
+                    env: { es6: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
+                    parserOptions: { ecmaVersion: "latest" },
+                    env: { es2020: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    parser: notEspree
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    parser: notEspree,
+                    parserOptions: {}
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "5" } }],
+                    parser: notEspree,
+                    parserOptions: { ecmaVersion: 5 }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                    parser: notEspree,
+                    parserOptions: { ecmaVersion: 6 }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                    parser: notEspree,
+                    parserOptions: { ecmaVersion: 2015 }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "string", ecmaVersion: "latest" } }],
+                    parser: notEspree,
+                    parserOptions: { ecmaVersion: "latest" }
+                }
+            ]
+        });
+
+        [{ parserOptions: { ecmaVersion: 6 } }, { env: { es6: true } }].forEach(options => {
+            new RuleTester(options).run("report-ecma-version", reportEcmaVersionRule, {
+                valid: [],
+                invalid: [
+                    {
+                        code: "",
+                        errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }]
+                    },
+                    {
+                        code: "",
+                        errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                        parserOptions: {}
+                    }
+                ]
+            });
+        });
+
+        new RuleTester({ parser: notEspree }).run("report-ecma-version", reportEcmaVersionRule, {
+            valid: [],
+            invalid: [
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }]
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "string", ecmaVersion: "latest" } }],
+                    parserOptions: { ecmaVersion: "latest" }
+                }
+            ]
+        });
     });
 
     it("should pass-through services from parseForESLint to the rule", () => {
