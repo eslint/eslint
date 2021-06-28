@@ -470,7 +470,7 @@ This option prevents errors when a quoted glob pattern or `--ext` is unmatched. 
 
 #### `--exit-on-fatal-error`
 
-This option makes ESLint to exit with exit code 2 in case of a fatal error. It allows you to detect if any file was not parsed correctly compared to having rule violations.
+This option causes ESLint to exit with exit code 2 if one or more fatal parsing errors occur. Without this option, fatal parsing errors are reported as rule violations.
 
 #### `--debug`
 
