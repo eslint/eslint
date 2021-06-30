@@ -3301,7 +3301,7 @@ var a = "test2";
                         column: 1,
                         fix: {
                             range: [0, 20],
-                            text: ""
+                            text: " "
                         },
                         severity: 2,
                         nodeType: null
@@ -3321,7 +3321,7 @@ var a = "test2";
                         column: 1,
                         fix: {
                             range: [0, 20],
-                            text: ""
+                            text: " "
                         },
                         severity: 2,
                         nodeType: null
@@ -3341,7 +3341,7 @@ var a = "test2";
                         column: 1,
                         fix: {
                             range: [0, 20],
-                            text: ""
+                            text: " "
                         },
                         severity: 1,
                         nodeType: null
@@ -3361,7 +3361,7 @@ var a = "test2";
                         column: 1,
                         fix: {
                             range: [0, 20],
-                            text: ""
+                            text: " "
                         },
                         severity: 1,
                         nodeType: null
