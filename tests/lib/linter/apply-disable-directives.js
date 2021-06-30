@@ -38,14 +38,16 @@ function createSourceCode(text) {
  */
 function createParentComment(startLine, startColumn, endLine, endColumn, ruleIds = []) {
     return {
-        loc: {
-            start: {
-                line: startLine,
-                column: startColumn
-            },
-            end: {
-                line: endLine,
-                column: endColumn
+        commentToken: {
+            loc: {
+                start: {
+                    line: startLine,
+                    column: startColumn
+                },
+                end: {
+                    line: endLine,
+                    column: endColumn
+                }
             }
         },
         ruleIds
