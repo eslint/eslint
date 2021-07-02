@@ -1,3 +1,17 @@
+v7.30.0 - July 2, 2021
+
+* [`5f74642`](https://github.com/eslint/eslint/commit/5f746420700d457b92dd86659de588d272937b79) Chore: don't check Program.start in SourceCode#getComments (refs #14744) (#14748) (Milos Djermanovic)
+* [`19a871a`](https://github.com/eslint/eslint/commit/19a871a35ae9997ce352624b1081c96c54b73a9f) Docs: Suggest linting plugins for ESLint plugin developers (#14754) (Bryan Mishkin)
+* [`aa87329`](https://github.com/eslint/eslint/commit/aa87329d919f569404ca573b439934552006572f) Docs: fix broken links (#14756) (Sam Chen)
+* [`278813a`](https://github.com/eslint/eslint/commit/278813a6e759f6b5512ac64c7530c9c51732e692) Docs: fix and add more examples for new-cap rule (fixes #12874) (#14725) (Nitin Kumar)
+* [`ed1da5d`](https://github.com/eslint/eslint/commit/ed1da5d96af2587b7211854e45cf8657ef808710) Update: ecmaVersion allows "latest" (#14720) (薛定谔的猫)
+* [`104c0b5`](https://github.com/eslint/eslint/commit/104c0b592f203d315a108d311c58375357e40b24) Update: improve use-isnan rule to detect `Number.NaN` (fixes #14715) (#14718) (Nitin Kumar)
+* [`b08170b`](https://github.com/eslint/eslint/commit/b08170b92beb22db6ec612ebdfff930f9e0582ab) Update: Implement FlatConfigArray (refs #13481) (#14321) (Nicholas C. Zakas)
+* [`f113cdd`](https://github.com/eslint/eslint/commit/f113cdd872257d72bbd66d95e4eaf13623323b24) Chore: upgrade eslint-plugin-eslint-plugin (#14738) (薛定谔的猫)
+* [`1b8997a`](https://github.com/eslint/eslint/commit/1b8997ab63781f4ebf87e3269400b2ef4c7d2973) Docs: Fix getRulesMetaForResults link syntax (#14723) (Brandon Mills)
+* [`aada733`](https://github.com/eslint/eslint/commit/aada733d2aee830aa32cccb9828cd72db4ccd6bd) Docs: fix two broken links (#14726) (Sam Chen)
+* [`8972529`](https://github.com/eslint/eslint/commit/8972529f82d13bd04059ee8852b4ebb9b5350962) Docs: Update README team and sponsors (ESLint Jenkins)
+
 v7.29.0 - June 18, 2021
 
 * [`bfbfe5c`](https://github.com/eslint/eslint/commit/bfbfe5c1fd4c39a06d5e159dbe48479ca4305fc0) New: Add only to RuleTester (refs eslint/rfcs#73) (#14677) (Brandon Mills)
