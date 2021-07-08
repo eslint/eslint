@@ -1603,7 +1603,7 @@ describe("Linter", () => {
 
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].ruleId, "no-alert");
-            assert.strictEqual(messages[0].message, "Unexpected alert.");
+            assert.include(messages[0].message, "alert");
             assert.include(messages[0].nodeType, "CallExpression");
         });
 
@@ -1760,7 +1760,7 @@ describe("Linter", () => {
 
             assert.strictEqual(messages.length, 2);
             assert.strictEqual(messages[0].ruleId, "no-alert");
-            assert.strictEqual(messages[0].message, "Unexpected alert.");
+            assert.include(messages[0].message, "alert");
             assert.include(messages[0].nodeType, "CallExpression");
             assert.strictEqual(messages[1].ruleId, "no-console");
         });
@@ -1776,7 +1776,7 @@ describe("Linter", () => {
 
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].ruleId, "no-alert");
-            assert.strictEqual(messages[0].message, "Unexpected alert.");
+            assert.include(messages[0].message, "alert");
             assert.include(messages[0].nodeType, "CallExpression");
         });
     });
@@ -1866,7 +1866,7 @@ describe("Linter", () => {
 
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].ruleId, "no-alert");
-            assert.strictEqual(messages[0].message, "Unexpected alert.");
+            assert.include(messages[0].message, "alert");
             assert.include(messages[0].nodeType, "CallExpression");
             assert.strictEqual(messages[0].line, 4);
         });
@@ -2030,7 +2030,7 @@ describe("Linter", () => {
                         column: 1,
                         endLine: 1,
                         endColumn: 14,
-                        message: "Unexpected alert.",
+                        message: "alert is considered to be obtrusive and should be replaced by a more appropriate custom UI implementation.",
                         messageId: "unexpected",
                         nodeType: "CallExpression"
                     },
@@ -2616,7 +2616,7 @@ describe("Linter", () => {
 
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].ruleId, "no-alert");
-            assert.strictEqual(messages[0].message, "Unexpected alert.");
+            assert.include(messages[0].message, "alert");
             assert.include(messages[0].nodeType, "CallExpression");
         });
     });
@@ -2673,7 +2673,7 @@ describe("Linter", () => {
             assert.strictEqual(messages[0].column, 1);
 
             assert.strictEqual(messages[1].ruleId, "no-alert");
-            assert.strictEqual(messages[1].message, "Unexpected alert.");
+            assert.include(messages[1].message, "alert");
             assert.include(messages[1].nodeType, "CallExpression");
         });
 
@@ -2698,7 +2698,7 @@ describe("Linter", () => {
             assert.strictEqual(messages[0].column, 1);
 
             assert.strictEqual(messages[1].ruleId, "no-alert");
-            assert.strictEqual(messages[1].message, "Unexpected alert.");
+            assert.include(messages[1].message, "alert");
             assert.include(messages[1].nodeType, "CallExpression");
         });
 
@@ -2723,7 +2723,7 @@ describe("Linter", () => {
             assert.strictEqual(messages[0].column, 1);
 
             assert.strictEqual(messages[1].ruleId, "no-alert");
-            assert.strictEqual(messages[1].message, "Unexpected alert.");
+            assert.include(messages[1].message, "alert");
             assert.include(messages[1].nodeType, "CallExpression");
         });
     });
