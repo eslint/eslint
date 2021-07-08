@@ -2668,7 +2668,6 @@ describe("Linter", () => {
             assert.strictEqual(messages[0].column, 1);
 
             assert.strictEqual(messages[1].ruleId, "no-alert");
-            assert.include(messages[1].message, "alert");
             assert.include(messages[1].nodeType, "CallExpression");
         });
 
@@ -2693,7 +2692,6 @@ describe("Linter", () => {
             assert.strictEqual(messages[0].column, 1);
 
             assert.strictEqual(messages[1].ruleId, "no-alert");
-            assert.include(messages[1].message, "alert");
             assert.include(messages[1].nodeType, "CallExpression");
         });
 
@@ -2718,7 +2716,6 @@ describe("Linter", () => {
             assert.strictEqual(messages[0].column, 1);
 
             assert.strictEqual(messages[1].ruleId, "no-alert");
-            assert.include(messages[1].message, "alert");
             assert.include(messages[1].nodeType, "CallExpression");
         });
     });
