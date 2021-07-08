@@ -1603,7 +1603,6 @@ describe("Linter", () => {
 
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].ruleId, "no-alert");
-            assert.include(messages[0].message, "alert");
             assert.include(messages[0].nodeType, "CallExpression");
         });
 
@@ -1760,7 +1759,6 @@ describe("Linter", () => {
 
             assert.strictEqual(messages.length, 2);
             assert.strictEqual(messages[0].ruleId, "no-alert");
-            assert.include(messages[0].message, "alert");
             assert.include(messages[0].nodeType, "CallExpression");
             assert.strictEqual(messages[1].ruleId, "no-console");
         });
@@ -1776,7 +1774,6 @@ describe("Linter", () => {
 
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].ruleId, "no-alert");
-            assert.include(messages[0].message, "alert");
             assert.include(messages[0].nodeType, "CallExpression");
         });
     });
@@ -1866,7 +1863,6 @@ describe("Linter", () => {
 
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].ruleId, "no-alert");
-            assert.include(messages[0].message, "alert");
             assert.include(messages[0].nodeType, "CallExpression");
             assert.strictEqual(messages[0].line, 4);
         });
@@ -2616,7 +2612,6 @@ describe("Linter", () => {
 
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].ruleId, "no-alert");
-            assert.include(messages[0].message, "alert");
             assert.include(messages[0].nodeType, "CallExpression");
         });
     });
