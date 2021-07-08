@@ -61,7 +61,7 @@ The source file for a rule exports an object with the following properties.
     * `description` (string) provides the short description of the rule in the [rules index](../rules/)
     * `category` (string) specifies the heading under which the rule is listed in the [rules index](../rules/)
     * `recommended` (boolean) is whether the `"extends": "eslint:recommended"` property in a [configuration file](../user-guide/configuring/configuration-files.md#extending-configuration-files) enables the rule
-    * `url` (string) specifies the URL at which the full documentation can be accessed
+    * `url` (string) specifies the URL at which the full documentation can be accessed (enabling code editors to provide a helpful link on highlighted rule violations)
     * `suggestion` (boolean) specifies whether rules can return suggestions (defaults to false if omitted)
 
     In a custom rule or plugin, you can omit `docs` or include any properties that you need in it.
