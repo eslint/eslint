@@ -2030,7 +2030,7 @@ describe("Linter", () => {
                         column: 1,
                         endLine: 1,
                         endColumn: 14,
-                        message: "alert is considered to be obtrusive and should be replaced by a more appropriate custom UI implementation.",
+                        message: "alert() is considered to be obtrusive and should be replaced by a more appropriate custom UI implementation.",
                         messageId: "unexpected",
                         nodeType: "CallExpression"
                     },
