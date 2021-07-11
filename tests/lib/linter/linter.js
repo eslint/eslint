@@ -1603,6 +1603,7 @@ describe("Linter", () => {
 
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].messageId, "unexpected");
             assert.include(messages[0].nodeType, "CallExpression");
         });
 
@@ -1759,6 +1760,7 @@ describe("Linter", () => {
 
             assert.strictEqual(messages.length, 2);
             assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].messageId, "unexpected");
             assert.include(messages[0].nodeType, "CallExpression");
             assert.strictEqual(messages[1].ruleId, "no-console");
         });
@@ -1774,6 +1776,7 @@ describe("Linter", () => {
 
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].messageId, "unexpected");
             assert.include(messages[0].nodeType, "CallExpression");
         });
     });
@@ -1863,6 +1866,7 @@ describe("Linter", () => {
 
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].messageId, "unexpected");
             assert.include(messages[0].nodeType, "CallExpression");
             assert.strictEqual(messages[0].line, 4);
         });
@@ -2195,6 +2199,7 @@ describe("Linter", () => {
 
                 assert.strictEqual(messages.length, 2);
                 assert.strictEqual(messages[1].ruleId, "no-alert");
+                assert.strictEqual(messages[1].messageId, "unexpected");
             });
 
             it("should ignore violations only of specified rule", () => {
@@ -2213,7 +2218,9 @@ describe("Linter", () => {
 
                 assert.strictEqual(messages.length, 2);
                 assert.strictEqual(messages[0].ruleId, "no-alert");
+                assert.strictEqual(messages[0].messageId, "unexpected");
                 assert.strictEqual(messages[1].ruleId, "no-console");
+                assert.strictEqual(messages[1].messageId, "unexpected");
             });
 
             it("should ignore violations of multiple rules when specified", () => {
@@ -2233,6 +2240,7 @@ describe("Linter", () => {
 
                 assert.strictEqual(messages.length, 1);
                 assert.strictEqual(messages[0].ruleId, "no-console");
+                assert.strictEqual(messages[0].messageId, "unexpected");
             });
 
             it("should ignore violations of multiple rules when specified in mixed comments", () => {
@@ -2268,7 +2276,9 @@ describe("Linter", () => {
 
                 assert.strictEqual(messages.length, 2);
                 assert.strictEqual(messages[0].ruleId, "no-alert");
+                assert.strictEqual(messages[0].messageId, "unexpected");
                 assert.strictEqual(messages[1].ruleId, "no-console");
+                assert.strictEqual(messages[1].messageId, "unexpected");
             });
 
             it("should ignore violations of specified rule on next line only", () => {
@@ -2288,7 +2298,9 @@ describe("Linter", () => {
 
                 assert.strictEqual(messages.length, 2);
                 assert.strictEqual(messages[0].ruleId, "no-alert");
+                assert.strictEqual(messages[0].messageId, "unexpected");
                 assert.strictEqual(messages[1].ruleId, "no-console");
+                assert.strictEqual(messages[1].messageId, "unexpected");
             });
 
             it("should ignore all rule violations on next line if none specified", () => {
@@ -2309,6 +2321,7 @@ describe("Linter", () => {
 
                 assert.strictEqual(messages.length, 1);
                 assert.strictEqual(messages[0].ruleId, "no-console");
+                assert.strictEqual(messages[0].messageId, "unexpected");
             });
 
             it("should ignore violations if eslint-disable-next-line is a block comment", () => {
@@ -2328,7 +2341,9 @@ describe("Linter", () => {
 
                 assert.strictEqual(messages.length, 2);
                 assert.strictEqual(messages[0].ruleId, "no-alert");
+                assert.strictEqual(messages[0].messageId, "unexpected");
                 assert.strictEqual(messages[1].ruleId, "no-console");
+                assert.strictEqual(messages[1].messageId, "unexpected");
             });
 
             it("should report a violation", () => {
@@ -2368,7 +2383,9 @@ describe("Linter", () => {
 
                 assert.strictEqual(messages.length, 2);
                 assert.strictEqual(messages[0].ruleId, "no-alert");
+                assert.strictEqual(messages[0].messageId, "unexpected");
                 assert.strictEqual(messages[1].ruleId, "no-console");
+                assert.strictEqual(messages[1].messageId, "unexpected");
             });
         });
     });
@@ -2386,8 +2403,8 @@ describe("Linter", () => {
             const messages = linter.verify(code, config, filename);
 
             assert.strictEqual(messages.length, 1);
-
             assert.strictEqual(messages[0].ruleId, "no-console");
+            assert.strictEqual(messages[0].messageId, "unexpected");
         });
 
         it("should report no violation", () => {
@@ -2449,8 +2466,10 @@ describe("Linter", () => {
             assert.strictEqual(messages.length, 2);
 
             assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].messageId, "unexpected");
             assert.strictEqual(messages[0].line, 5);
             assert.strictEqual(messages[1].ruleId, "no-console");
+            assert.strictEqual(messages[1].messageId, "unexpected");
             assert.strictEqual(messages[1].line, 6);
         });
 
@@ -2470,6 +2489,7 @@ describe("Linter", () => {
             assert.strictEqual(messages.length, 1);
 
             assert.strictEqual(messages[0].ruleId, "no-console");
+            assert.strictEqual(messages[0].messageId, "unexpected");
         });
 
 
@@ -2490,6 +2510,7 @@ describe("Linter", () => {
             assert.strictEqual(messages.length, 1);
 
             assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].messageId, "unexpected");
             assert.strictEqual(messages[0].line, 5);
         });
 
@@ -2520,15 +2541,19 @@ describe("Linter", () => {
             assert.strictEqual(messages.length, 4);
 
             assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].messageId, "unexpected");
             assert.strictEqual(messages[0].line, 6);
 
             assert.strictEqual(messages[1].ruleId, "no-console");
+            assert.strictEqual(messages[1].messageId, "unexpected");
             assert.strictEqual(messages[1].line, 7);
 
             assert.strictEqual(messages[2].ruleId, "no-alert");
+            assert.strictEqual(messages[2].messageId, "unexpected");
             assert.strictEqual(messages[2].line, 9);
 
             assert.strictEqual(messages[3].ruleId, "no-console");
+            assert.strictEqual(messages[3].messageId, "unexpected");
             assert.strictEqual(messages[3].line, 10);
 
         });
@@ -2557,12 +2582,15 @@ describe("Linter", () => {
             assert.strictEqual(messages.length, 3);
 
             assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].messageId, "unexpected");
             assert.strictEqual(messages[0].line, 5);
 
             assert.strictEqual(messages[1].ruleId, "no-alert");
+            assert.strictEqual(messages[1].messageId, "unexpected");
             assert.strictEqual(messages[1].line, 8);
 
             assert.strictEqual(messages[2].ruleId, "no-console");
+            assert.strictEqual(messages[2].messageId, "unexpected");
             assert.strictEqual(messages[2].line, 9);
 
         });
@@ -2591,12 +2619,15 @@ describe("Linter", () => {
             assert.strictEqual(messages.length, 3);
 
             assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].messageId, "unexpected");
             assert.strictEqual(messages[0].line, 5);
 
             assert.strictEqual(messages[1].ruleId, "no-alert");
+            assert.strictEqual(messages[1].messageId, "unexpected");
             assert.strictEqual(messages[1].line, 8);
 
             assert.strictEqual(messages[2].ruleId, "no-console");
+            assert.strictEqual(messages[2].messageId, "unexpected");
             assert.strictEqual(messages[2].line, 9);
 
         });
@@ -2612,6 +2643,7 @@ describe("Linter", () => {
 
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].messageId, "unexpected");
             assert.include(messages[0].nodeType, "CallExpression");
         });
     });
@@ -2668,6 +2700,7 @@ describe("Linter", () => {
             assert.strictEqual(messages[0].column, 1);
 
             assert.strictEqual(messages[1].ruleId, "no-alert");
+            assert.strictEqual(messages[1].messageId, "unexpected");
             assert.include(messages[1].nodeType, "CallExpression");
         });
 
@@ -2692,6 +2725,7 @@ describe("Linter", () => {
             assert.strictEqual(messages[0].column, 1);
 
             assert.strictEqual(messages[1].ruleId, "no-alert");
+            assert.strictEqual(messages[1].messageId, "unexpected");
             assert.include(messages[1].nodeType, "CallExpression");
         });
 
@@ -2716,6 +2750,7 @@ describe("Linter", () => {
             assert.strictEqual(messages[0].column, 1);
 
             assert.strictEqual(messages[1].ruleId, "no-alert");
+            assert.strictEqual(messages[1].messageId, "unexpected");
             assert.include(messages[1].nodeType, "CallExpression");
         });
     });
@@ -3072,6 +3107,7 @@ var a = "test2";
 
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].messageId, "unexpected");
         });
 
         it("should report a violation for global variable declarations", () => {
@@ -3127,6 +3163,7 @@ var a = "test2";
 
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].messageId, "unexpected");
         });
 
         it("should not report a violation for rule changes", () => {
@@ -3165,6 +3202,7 @@ var a = "test2";
 
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].messageId, "unexpected");
         });
 
         it("should report a violation for env changes", () => {
