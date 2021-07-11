@@ -52,7 +52,11 @@ ruleTester.run("consistent-return", rule, {
                 {
                     messageId: "missingReturnValue",
                     data: { name: "Function 'foo'" },
-                    type: "ReturnStatement"
+                    type: "ReturnStatement",
+                    line: 1,
+                    column: 46,
+                    endLine: 1,
+                    endColumn: 53
                 }
             ]
         },
@@ -63,7 +67,11 @@ ruleTester.run("consistent-return", rule, {
                 {
                     messageId: "missingReturnValue",
                     data: { name: "Arrow function" },
-                    type: "ReturnStatement"
+                    type: "ReturnStatement",
+                    line: 1,
+                    column: 47,
+                    endLine: 1,
+                    endColumn: 54
                 }
             ]
         },
@@ -73,7 +81,11 @@ ruleTester.run("consistent-return", rule, {
                 {
                     messageId: "unexpectedReturnValue",
                     data: { name: "Function 'foo'" },
-                    type: "ReturnStatement"
+                    type: "ReturnStatement",
+                    line: 1,
+                    column: 41,
+                    endLine: 1,
+                    endColumn: 54
                 }
             ]
         },
@@ -83,7 +95,11 @@ ruleTester.run("consistent-return", rule, {
                 {
                     messageId: "missingReturnValue",
                     data: { name: "Function" },
-                    type: "ReturnStatement"
+                    type: "ReturnStatement",
+                    line: 1,
+                    column: 44,
+                    endLine: 1,
+                    endColumn: 51
                 }
             ]
         },
@@ -93,7 +109,11 @@ ruleTester.run("consistent-return", rule, {
                 {
                     messageId: "unexpectedReturnValue",
                     data: { name: "Function" },
-                    type: "ReturnStatement"
+                    type: "ReturnStatement",
+                    line: 1,
+                    column: 39,
+                    endLine: 1,
+                    endColumn: 52
                 }
             ]
         },
@@ -104,7 +124,11 @@ ruleTester.run("consistent-return", rule, {
                 {
                     messageId: "unexpectedReturnValue",
                     data: { name: "Arrow function" },
-                    type: "ReturnStatement"
+                    type: "ReturnStatement",
+                    line: 1,
+                    column: 33,
+                    endLine: 1,
+                    endColumn: 46
                 }
             ]
         },
@@ -116,7 +140,10 @@ ruleTester.run("consistent-return", rule, {
                     messageId: "missingReturnValue",
                     data: { name: "Function 'foo'" },
                     type: "ReturnStatement",
-                    column: 41
+                    line: 1,
+                    column: 41,
+                    endLine: 1,
+                    endColumn: 58
                 }
             ]
         },
@@ -128,7 +155,10 @@ ruleTester.run("consistent-return", rule, {
                     messageId: "missingReturnValue",
                     data: { name: "Function 'foo'" },
                     type: "ReturnStatement",
-                    column: 41
+                    line: 1,
+                    column: 41,
+                    endLine: 1,
+                    endColumn: 55
                 }
             ]
         },
@@ -140,7 +170,10 @@ ruleTester.run("consistent-return", rule, {
                     messageId: "unexpectedReturnValue",
                     data: { name: "Function 'foo'" },
                     type: "ReturnStatement",
-                    column: 46
+                    line: 1,
+                    column: 46,
+                    endLine: 1,
+                    endColumn: 58
                 }
             ]
         },
@@ -152,7 +185,10 @@ ruleTester.run("consistent-return", rule, {
                     messageId: "unexpectedReturnValue",
                     data: { name: "Function 'foo'" },
                     type: "ReturnStatement",
-                    column: 43
+                    line: 1,
+                    column: 43,
+                    endLine: 1,
+                    endColumn: 55
                 }
             ]
         },
@@ -163,7 +199,11 @@ ruleTester.run("consistent-return", rule, {
                 {
                     messageId: "missingReturnValue",
                     data: { name: "Program" },
-                    type: "ReturnStatement"
+                    type: "ReturnStatement",
+                    line: 1,
+                    column: 25,
+                    endLine: 1,
+                    endColumn: 32
                 }
             ]
         },
@@ -174,7 +214,10 @@ ruleTester.run("consistent-return", rule, {
                     messageId: "missingReturn",
                     data: { name: "function 'foo'" },
                     type: "FunctionDeclaration",
-                    column: 10
+                    line: 1,
+                    column: 10,
+                    endLine: 1,
+                    endColumn: 13
                 }
             ]
         },
@@ -185,7 +228,10 @@ ruleTester.run("consistent-return", rule, {
                     messageId: "missingReturn",
                     data: { name: "function '_foo'" },
                     type: "FunctionDeclaration",
-                    column: 10
+                    line: 1,
+                    column: 10,
+                    endLine: 1,
+                    endColumn: 14
                 }
             ]
         },
@@ -196,7 +242,10 @@ ruleTester.run("consistent-return", rule, {
                     messageId: "missingReturn",
                     data: { name: "function 'foo'" },
                     type: "FunctionExpression",
-                    column: 12
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 15
                 }
             ]
         },
@@ -207,7 +256,10 @@ ruleTester.run("consistent-return", rule, {
                     messageId: "missingReturn",
                     data: { name: "function" },
                     type: "FunctionExpression",
-                    column: 3
+                    line: 1,
+                    column: 3,
+                    endLine: 1,
+                    endColumn: 37
                 }
             ]
         },
@@ -219,7 +271,10 @@ ruleTester.run("consistent-return", rule, {
                     messageId: "missingReturn",
                     data: { name: "arrow function" },
                     type: "ArrowFunctionExpression",
-                    column: 6
+                    line: 1,
+                    column: 6,
+                    endLine: 1,
+                    endColumn: 8
                 }
             ]
         },
@@ -231,7 +286,10 @@ ruleTester.run("consistent-return", rule, {
                     messageId: "missingReturn",
                     data: { name: "method 'foo'" },
                     type: "FunctionExpression",
-                    column: 12
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 15
                 }
             ]
         },
@@ -243,7 +301,10 @@ ruleTester.run("consistent-return", rule, {
                     messageId: "missingReturn",
                     data: { name: "method 'foo'" },
                     type: "FunctionExpression",
-                    column: 10
+                    line: 1,
+                    column: 10,
+                    endLine: 1,
+                    endColumn: 13
                 }
             ]
         },
@@ -255,6 +316,7 @@ ruleTester.run("consistent-return", rule, {
                     messageId: "missingReturn",
                     data: { name: "program" },
                     type: "Program",
+                    line: 1,
                     column: 1
                 }
             ]
@@ -267,7 +329,10 @@ ruleTester.run("consistent-return", rule, {
                     messageId: "missingReturn",
                     data: { name: "method 'CapitalizedFunction'" },
                     type: "FunctionExpression",
-                    column: 11
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 30
                 }
             ]
         },
@@ -279,7 +344,10 @@ ruleTester.run("consistent-return", rule, {
                     messageId: "missingReturn",
                     data: { name: "method 'constructor'" },
                     type: "FunctionExpression",
-                    column: 4
+                    line: 1,
+                    column: 4,
+                    endLine: 1,
+                    endColumn: 15
                 }
             ]
         }
