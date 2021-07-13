@@ -43,7 +43,7 @@
   "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
-    "@babel/code-frame": "7.12.11",
+    "@babel/code-frame": "^7.12.11",
     "@eslint/eslintrc": "^0.4.2",
     "@humanwhocodes/config-array": "^0.5.0",
     "ajv": "^6.10.0",
