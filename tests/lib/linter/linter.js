@@ -11,6 +11,7 @@
 
 const assert = require("chai").assert,
     sinon = require("sinon"),
+    espree = require("espree"),
     esprima = require("esprima"),
     testParsers = require("../../fixtures/parsers/linter-test-parsers");
 
@@ -1559,6 +1560,22 @@ describe("Linter", () => {
             assert.strictEqual(messages[0].message, filename);
         });
 
+        it("has access to the physicalFilename", () => {
+            linter.defineRule(code, context => ({
+                Literal(node) {
+                    context.report(node, context.getPhysicalFilename());
+                }
+            }));
+
+            const config = { rules: {} };
+
+            config.rules[code] = 1;
+
+            const messages = linter.verify("0", config, filename);
+
+            assert.strictEqual(messages[0].message, filename);
+        });
+
         it("defaults filename to '<input>'", () => {
             linter.defineRule(code, context => ({
                 Literal(node) {
@@ -2957,6 +2974,23 @@ var a = "test2";
             assert.strictEqual(messages.length, 0);
         });
 
+        // https://github.com/eslint/eslint/issues/14652
+        it("should not report a violation", () => {
+            const codes = [
+                "/*eslint-env es6\n */ new Promise();",
+                "/*eslint-env browser,\nes6 */ window;Promise;",
+                "/*eslint-env\nbrowser,es6 */ window;Promise;"
+            ];
+            const config = { rules: { "no-undef": 1 } };
+
+            for (const code of codes) {
+                const messages = linter.verify(code, config, filename);
+
+                assert.strictEqual(messages.length, 0);
+            }
+
+        });
+
         it("should not report a violation", () => {
             const code = `/*${ESLINT_ENV} mocha,node */ require();describe();`;
 
@@ -3369,7 +3403,6 @@ var a = "test2";
                 });
 
                 linter.defineRule("checker", filenameChecker);
-                linter.defineRule("checker", filenameChecker);
                 linter.verify("foo;", { rules: { checker: "error" } }, { filename: "foo.js" });
                 assert(filenameChecker.calledOnce);
             });
@@ -3408,6 +3441,41 @@ var a = "test2";
             });
         });
 
+        describe("physicalFilenames", () => {
+            it("should be same as `filename` passed on options object, if no processors are used", () => {
+                const physicalFilenameChecker = sinon.spy(context => {
+                    assert.strictEqual(context.getPhysicalFilename(), "foo.js");
+                    return {};
+                });
+
+                linter.defineRule("checker", physicalFilenameChecker);
+                linter.verify("foo;", { rules: { checker: "error" } }, { filename: "foo.js" });
+                assert(physicalFilenameChecker.calledOnce);
+            });
+
+            it("should default physicalFilename to <input> when options object doesn't have filename", () => {
+                const physicalFilenameChecker = sinon.spy(context => {
+                    assert.strictEqual(context.getPhysicalFilename(), "<input>");
+                    return {};
+                });
+
+                linter.defineRule("checker", physicalFilenameChecker);
+                linter.verify("foo;", { rules: { checker: "error" } }, {});
+                assert(physicalFilenameChecker.calledOnce);
+            });
+
+            it("should default physicalFilename to <input> when only two arguments are passed", () => {
+                const physicalFilenameChecker = sinon.spy(context => {
+                    assert.strictEqual(context.getPhysicalFilename(), "<input>");
+                    return {};
+                });
+
+                linter.defineRule("checker", physicalFilenameChecker);
+                linter.verify("foo;", { rules: { checker: "error" } });
+                assert(physicalFilenameChecker.calledOnce);
+            });
+        });
+
         it("should report warnings in order by line and column when called", () => {
 
             const code = "foo()\n    alert('test')";
@@ -3425,6 +3493,57 @@ var a = "test2";
         });
 
         describe("ecmaVersion", () => {
+
+            it("should not support ES6 when no ecmaVersion provided", () => {
+                const messages = linter.verify("let x = 0;");
+
+                assert.strictEqual(messages.length, 1);
+            });
+
+            it("supports ECMAScript version 'latest'", () => {
+                const messages = linter.verify("let x = 5 ** 7;", {
+                    parserOptions: { ecmaVersion: "latest" }
+                });
+
+                assert.strictEqual(messages.length, 0);
+            });
+
+            it("the 'latest' is equal to espree.lastEcmaVersion", () => {
+                let ecmaVersion = null;
+                const config = { rules: { "ecma-version": 2 }, parserOptions: { ecmaVersion: "latest" } };
+
+                linter.defineRule("ecma-version", context => ({
+                    Program() {
+                        ecmaVersion = context.parserOptions.ecmaVersion;
+                    }
+                }));
+                linter.verify("", config);
+                assert.strictEqual(ecmaVersion, espree.latestEcmaVersion);
+            });
+
+            it("should pass normalized ecmaVersion to eslint-scope", () => {
+                let blockScope = null;
+
+                linter.defineRule("block-scope", context => ({
+                    BlockStatement() {
+                        blockScope = context.getScope();
+                    }
+                }));
+
+                linter.verify("{}", {
+                    rules: { "block-scope": 2 },
+                    parserOptions: { ecmaVersion: "latest" }
+                });
+
+                assert.strictEqual(blockScope.type, "block");
+
+                linter.verify("{}", {
+                    rules: { "block-scope": 2 },
+                    parserOptions: {} // ecmaVersion defaults to 5
+                });
+                assert.strictEqual(blockScope.type, "global");
+            });
+
             describe("it should properly parse let declaration when", () => {
                 it("the ECMAScript version number is 6", () => {
                     const messages = linter.verify("let x = 5;", {
@@ -4825,14 +4944,17 @@ var a = "test2";
 
     describe("processors", () => {
         let receivedFilenames = [];
+        let receivedPhysicalFilenames = [];
 
         beforeEach(() => {
             receivedFilenames = [];
+            receivedPhysicalFilenames = [];
 
             // A rule that always reports the AST with a message equal to the source text
             linter.defineRule("report-original-text", context => ({
                 Program(ast) {
                     receivedFilenames.push(context.getFilename());
+                    receivedPhysicalFilenames.push(context.getPhysicalFilename());
                     context.report({ node: ast, message: context.getSourceCode().text });
                 }
             }));
@@ -4887,10 +5009,16 @@ var a = "test2";
 
                 assert.strictEqual(problems.length, 3);
                 assert.deepStrictEqual(problems.map(problem => problem.message), ["foo", "bar", "baz"]);
+
+                // filename
                 assert.strictEqual(receivedFilenames.length, 3);
                 assert(/^filename\.js[/\\]0_block\.js/u.test(receivedFilenames[0]));
                 assert(/^filename\.js[/\\]1_block\.js/u.test(receivedFilenames[1]));
                 assert(/^filename\.js[/\\]2_block\.js/u.test(receivedFilenames[2]));
+
+                // physical filename
+                assert.strictEqual(receivedPhysicalFilenames.length, 3);
+                assert.strictEqual(receivedPhysicalFilenames.every(name => name === filename), true);
             });
 
             it("should receive text even if a SourceCode object was given.", () => {

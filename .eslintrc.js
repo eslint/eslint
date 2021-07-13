@@ -71,22 +71,7 @@ module.exports = {
         "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
         "eslint-plugin/require-meta-docs-description": "error",
         "eslint-plugin/require-meta-type": "error",
-        "eslint-plugin/test-case-property-ordering": [
-            "error",
-
-            // https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/79
-            [
-                "filename",
-                "code",
-                "output",
-                "options",
-                "parser",
-                "parserOptions",
-                "globals",
-                "env",
-                "errors"
-            ]
-        ],
+        "eslint-plugin/test-case-property-ordering": "error",
         "eslint-plugin/test-case-shorthand-strings": "error",
         "internal-rules/multiline-comment-style": "error"
     },
