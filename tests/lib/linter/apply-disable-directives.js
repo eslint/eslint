@@ -29,27 +29,13 @@ function createSourceCode(text) {
 
 /**
  * Creates a ParentComment for a given range.
- * @param {number} startLine loc.start.line value
- * @param {number} startColumn loc.start.column value
- * @param {number} endLine loc.end.line value
- * @param {number} endColumn loc.end.column value
+ * @param {[number, number]} range total range of the comment
  * @param {string[]} ruleIds Rule IDs reported in the comment
  * @returns {ParentComment} Test-ready ParentComment object.
  */
-function createParentComment(startLine, startColumn, endLine, endColumn, ruleIds = []) {
+function createParentComment(range, ruleIds = []) {
     return {
-        commentToken: {
-            loc: {
-                start: {
-                    line: startLine,
-                    column: startColumn
-                },
-                end: {
-                    line: endLine,
-                    column: endColumn
-                }
-            }
-        },
+        commentToken: { range },
         ruleIds
     };
 }
@@ -59,7 +45,7 @@ describe("apply-disable-directives", () => {
         it("keeps problems before the comment on the same line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ parentComment: createParentComment(1, 7, 1, 27), type: "disable", line: 1, column: 8, ruleId: null }],
+                    directives: [{ parentComment: createParentComment([0, 7]), type: "disable", line: 1, column: 8, ruleId: null }],
                     problems: [{ line: 1, column: 7, ruleId: "foo" }],
                     sourceCode: createSourceCode("first; /* eslint-disable */")
                 }),
@@ -70,7 +56,7 @@ describe("apply-disable-directives", () => {
         it("keeps problems on a previous line before the comment", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ parentComment: createParentComment(2, 1, 2, 20), type: "disable", line: 2, column: 1, ruleId: null }],
+                    directives: [{ parentComment: createParentComment([21, 27]), type: "disable", line: 2, column: 1, ruleId: null }],
                     problems: [{ line: 1, column: 10, ruleId: "foo" }],
                     sourceCode: createSourceCode("\n/* eslint-disable*/")
                 }),
@@ -138,7 +124,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{
-                        parentComment: createParentComment(1, 0, 1, 25),
+                        parentComment: createParentComment([26, 29]),
                         type: "disable",
                         line: 1,
                         column: 1,
@@ -155,7 +141,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{
-                        parentComment: createParentComment(1, 8, 1, 30),
+                        parentComment: createParentComment([7, 31]),
                         type: "disable",
                         line: 1,
                         column: 8,
@@ -175,14 +161,14 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         {
-                            parentComment: createParentComment(1, 0, 1, 21),
+                            parentComment: createParentComment([0, 26]),
                             type: "disable",
                             line: 1,
                             column: 1,
                             ruleId: null
                         },
                         {
-                            parentComment: createParentComment(1, 26, 1, 45),
+                            parentComment: createParentComment([27, 45]),
                             type: "enable",
                             line: 1,
                             column: 26,
@@ -201,14 +187,14 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         {
-                            parentComment: createParentComment(1, 0, 1, 26),
+                            parentComment: createParentComment([0, 25]),
                             type: "disable",
                             line: 1,
                             column: 1,
                             ruleId: null
                         },
                         {
-                            parentComment: createParentComment(1, 26, 1, 41),
+                            parentComment: createParentComment([26, 40]),
                             type: "enable",
                             line: 1,
                             column: 26,
@@ -241,21 +227,21 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         {
-                            parentComment: createParentComment(1, 0, 1, 21),
+                            parentComment: createParentComment([0, 20]),
                             type: "disable",
                             line: 1,
                             column: 1,
                             ruleId: null
                         },
                         {
-                            parentComment: createParentComment(1, 26, 1, 45),
+                            parentComment: createParentComment([26, 44]),
                             type: "enable",
                             line: 1,
                             column: 26,
                             ruleId: "foo"
                         },
                         {
-                            parentComment: createParentComment(2, 0, 2, 21),
+                            parentComment: createParentComment([45, 63]),
                             type: "disable",
                             line: 2,
                             column: 1,
@@ -274,21 +260,21 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         {
-                            parentComment: createParentComment(1, 0, 1, 21),
+                            parentComment: createParentComment([0, 20]),
                             type: "disable",
                             line: 1,
                             column: 1,
                             ruleId: null
                         },
                         {
-                            parentComment: createParentComment(1, 26, 1, 45),
+                            parentComment: createParentComment([21, 44]),
                             type: "enable",
                             line: 1,
                             column: 26,
                             ruleId: "foo"
                         },
                         {
-                            parentComment: createParentComment(2, 0, 2, 21),
+                            parentComment: createParentComment([45, 63]),
                             type: "disable",
                             line: 2,
                             column: 1,
@@ -307,14 +293,14 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         {
-                            parentComment: createParentComment(1, 0, 1, 21),
+                            parentComment: createParentComment([0, 20]),
                             type: "disable",
                             line: 1,
                             column: 1,
                             ruleId: "foo"
                         },
                         {
-                            parentComment: createParentComment(1, 26, 1, 45),
+                            parentComment: createParentComment([25, 44]),
                             type: "enable",
                             line: 1,
                             column: 26,
@@ -335,14 +321,14 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         {
-                            parentComment: createParentComment(1, 0, 1, 21),
+                            parentComment: createParentComment([0, 20]),
                             type: "disable",
                             line: 1,
                             column: 1,
                             ruleId: null
                         },
                         {
-                            parentComment: createParentComment(2, 0, 2, 25),
+                            parentComment: createParentComment([21, 44]),
                             type: "enable",
                             line: 2,
                             column: 1,
@@ -361,14 +347,14 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         {
-                            parentComment: createParentComment(1, 0, 1, 21),
+                            parentComment: createParentComment([0, 20]),
                             type: "disable",
                             line: 1,
                             column: 1,
                             ruleId: null
                         },
                         {
-                            parentComment: createParentComment(2, 0, 2, 25),
+                            parentComment: createParentComment([21, 44]),
                             type: "enable",
                             line: 2,
                             column: 1,
@@ -428,7 +414,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{
-                        parentComment: createParentComment(2, 0, 1, 21),
+                        parentComment: createParentComment([6, 27]),
                         type: "disable-line",
                         line: 2,
                         column: 1,
@@ -445,7 +431,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{
-                        parentComment: createParentComment(1, 8, 1, 29),
+                        parentComment: createParentComment([7, 28]),
                         type: "disable-line",
                         line: 1,
                         column: 8,
@@ -462,7 +448,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{
-                        parentComment: createParentComment(1, 8, 1, 29),
+                        parentComment: createParentComment([7, 28]),
                         type: "disable-line",
                         line: 1,
                         column: 8,
@@ -479,7 +465,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{
-                        parentComment: createParentComment(1, 8, 1, 35),
+                        parentComment: createParentComment([7, 34]),
                         type: "disable-line",
                         line: 1,
                         column: 8,
@@ -498,7 +484,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{
-                        parentComment: createParentComment(1, 8, 1, 35),
+                        parentComment: createParentComment([7, 34]),
                         type: "disable-line",
                         line: 1,
                         column: 8,
@@ -514,7 +500,7 @@ describe("apply-disable-directives", () => {
         it("keeps problems on the current line that do not match the ruleId", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ parentComment: createParentComment(1, 0, 1, 27), type: "disable-line", line: 1, column: 1, ruleId: "foo" }],
+                    directives: [{ parentComment: createParentComment([0, 27]), type: "disable-line", line: 1, column: 1, ruleId: "foo" }],
                     problems: [{ line: 1, column: 2, ruleId: "not-foo" }],
                     sourceCode: createSourceCode("// eslint-disable-line foo")
                 }),
@@ -527,14 +513,14 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         {
-                            parentComment: createParentComment(1, 0, 1, 21),
+                            parentComment: createParentComment([0, 21]),
                             type: "disable",
                             line: 1,
                             column: 1,
                             ruleId: null
                         },
                         {
-                            parentComment: createParentComment(1, 25, 1, 49),
+                            parentComment: createParentComment([24, 28]),
                             type: "disable-line",
                             line: 1,
                             column: 22,
@@ -553,42 +539,42 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         {
-                            parentComment: createParentComment(1, 8, 1, 35),
+                            parentComment: createParentComment([7, 34]),
                             type: "disable-line",
                             line: 1,
                             column: 8,
                             ruleId: "foo"
                         },
                         {
-                            parentComment: createParentComment(2, 8, 2, 35),
+                            parentComment: createParentComment([38, 73]),
                             type: "disable-line",
                             line: 2,
                             column: 8,
                             ruleId: "foo"
                         },
                         {
-                            parentComment: createParentComment(3, 8, 3, 35),
+                            parentComment: createParentComment([76, 111]),
                             type: "disable-line",
                             line: 3,
                             column: 8,
                             ruleId: "foo"
                         },
                         {
-                            parentComment: createParentComment(4, 8, 4, 35),
+                            parentComment: createParentComment([114, 149]),
                             type: "disable-line",
                             line: 4,
                             column: 8,
                             ruleId: "foo"
                         },
                         {
-                            parentComment: createParentComment(5, 8, 5, 35),
+                            parentComment: createParentComment([152, 187]),
                             type: "disable-line",
                             line: 5,
                             column: 8,
                             ruleId: "foo"
                         },
                         {
-                            parentComment: createParentComment(6, 8, 6, 35),
+                            parentComment: createParentComment([190, 225]),
                             type: "disable-line",
                             line: 6,
                             column: 8,
@@ -610,7 +596,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{
-                        parentComment: createParentComment(1, 0, 1, 31),
+                        parentComment: createParentComment([0, 31]),
                         type: "disable-next-line",
                         line: 1,
                         column: 1,
@@ -627,7 +613,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{
-                        parentComment: createParentComment(1, 0, 1, 31),
+                        parentComment: createParentComment([0, 31]),
                         type: "disable-next-line",
                         line: 1,
                         column: 1,
@@ -644,7 +630,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{
-                        parentComment: createParentComment(1, 0, 1, 31),
+                        parentComment: createParentComment([0, 31]),
                         type: "disable-next-line",
                         line: 1,
                         column: 1,
@@ -688,7 +674,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{
-                        parentComment: createParentComment(1, 0, 1, 31),
+                        parentComment: createParentComment([0, 31]),
                         type: "disable-next-line",
                         line: 1,
                         column: 1,
@@ -720,7 +706,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{
-                        parentComment: createParentComment(1, 0, 1, 20),
+                        parentComment: createParentComment([0, 20]),
                         type: "disable",
                         line: 1,
                         column: 1
@@ -762,7 +748,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{
-                        parentComment: createParentComment(1, 0, 1, 21),
+                        parentComment: createParentComment([0, 21]),
                         type: "disable",
                         line: 1,
                         column: 1,
@@ -793,7 +779,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{
-                        parentComment: createParentComment(1, 0, 1, 24),
+                        parentComment: createParentComment([0, 24]),
                         type: "disable",
                         line: 1,
                         column: 1,
@@ -830,14 +816,14 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         {
-                            parentComment: createParentComment(1, 0, 1, 21),
+                            parentComment: createParentComment([0, 21]),
                             type: "disable",
                             line: 1,
                             column: 8,
                             ruleId: null
                         },
                         {
-                            parentComment: createParentComment(1, 0, 1, 21),
+                            parentComment: createParentComment([0, 21]),
                             type: "enable",
                             line: 1,
                             column: 24,
@@ -875,14 +861,14 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         {
-                            parentComment: createParentComment(1, 0, 1, 20),
+                            parentComment: createParentComment([0, 20]),
                             type: "disable",
                             line: 1,
                             column: 1,
                             ruleId: null
                         },
                         {
-                            parentComment: createParentComment(1, 22, 1, 42),
+                            parentComment: createParentComment([21, 41]),
                             type: "enable",
                             line: 1,
                             column: 12,
@@ -915,14 +901,14 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         {
-                            parentComment: createParentComment(1, 0, 1, 21),
+                            parentComment: createParentComment([0, 21]),
                             type: "disable",
                             line: 1,
                             column: 1,
                             ruleId: null
                         },
                         {
-                            parentComment: createParentComment(2, 0, 2, 21),
+                            parentComment: createParentComment([21, 42]),
                             type: "disable",
                             line: 2,
                             column: 1,
@@ -967,14 +953,14 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         {
-                            parentComment: createParentComment(1, 0, 1, 21),
+                            parentComment: createParentComment([0, 21]),
                             type: "disable",
                             line: 1,
                             column: 1,
                             ruleId: null
                         },
                         {
-                            parentComment: createParentComment(2, 0, 2, 21),
+                            parentComment: createParentComment([22, 45]),
                             type: "disable",
                             line: 2,
                             column: 1,
@@ -1007,14 +993,14 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         {
-                            parentComment: createParentComment(1, 0, 1, 21),
+                            parentComment: createParentComment([0, 21]),
                             type: "disable",
                             line: 1,
                             column: 1,
                             ruleId: "foo"
                         },
                         {
-                            parentComment: createParentComment(2, 0, 2, 21),
+                            parentComment: createParentComment([22, 45]),
                             type: "disable",
                             line: 2,
                             column: 1,
@@ -1059,14 +1045,14 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         {
-                            parentComment: createParentComment(1, 0, 1, 21),
+                            parentComment: createParentComment([0, 21]),
                             type: "disable",
                             line: 1,
                             column: 1,
                             ruleId: null
                         },
                         {
-                            parentComment: createParentComment(2, 0, 2, 24),
+                            parentComment: createParentComment([22, 45]),
                             type: "disable",
                             line: 2,
                             column: 1,
@@ -1099,14 +1085,14 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         {
-                            parentComment: createParentComment(1, 0, 1, 20),
+                            parentComment: createParentComment([0, 20]),
                             type: "disable",
                             line: 1,
                             column: 1,
                             ruleId: null
                         },
                         {
-                            parentComment: createParentComment(2, 0, 2, 24),
+                            parentComment: createParentComment([21, 45]),
                             type: "disable",
                             line: 2,
                             column: 1,
@@ -1139,14 +1125,14 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         {
-                            parentComment: createParentComment(1, 0, 1, 20),
+                            parentComment: createParentComment([0, 20]),
                             type: "disable",
                             line: 1,
                             column: 1,
                             ruleId: "foo"
                         },
                         {
-                            parentComment: createParentComment(1, 26, 1, 46),
+                            parentComment: createParentComment([25, 46]),
                             type: "enable",
                             line: 1,
                             column: 26,
@@ -1184,14 +1170,14 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         {
-                            parentComment: createParentComment(1, 0, 1, 24),
+                            parentComment: createParentComment([0, 24]),
                             type: "disable",
                             line: 1,
                             column: 1,
                             ruleId: "foo"
                         },
                         {
-                            parentComment: createParentComment(1, 0, 25, 49),
+                            parentComment: createParentComment([25, 49]),
                             type: "enable",
                             line: 1,
                             column: 26,
@@ -1229,21 +1215,21 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         {
-                            parentComment: createParentComment(1, 0, 1, 21),
+                            parentComment: createParentComment([0, 21]),
                             type: "disable",
                             line: 1,
                             column: 1,
                             ruleId: null
                         },
                         {
-                            parentComment: createParentComment(2, 0, 2, 24),
+                            parentComment: createParentComment([22, 45]),
                             type: "disable",
                             line: 2,
                             column: 1,
                             ruleId: "foo"
                         },
                         {
-                            parentComment: createParentComment(3, 0, 3, 23),
+                            parentComment: createParentComment([46, 69]),
                             type: "enable",
                             line: 3,
                             column: 1,
@@ -1273,7 +1259,7 @@ describe("apply-disable-directives", () => {
                         line: 2,
                         column: 1,
                         fix: {
-                            range: [21, 45],
+                            range: [22, 45],
                             text: " "
                         },
                         severity: 2,
@@ -1292,7 +1278,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{
-                        parentComment: createParentComment(1, 0, 1, 22),
+                        parentComment: createParentComment([0, 22]),
                         type: "disable-line",
                         line: 1,
                         column: 1,
@@ -1336,7 +1322,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{
-                        parentComment: createParentComment(1, 0, 1, 27),
+                        parentComment: createParentComment([0, 27]),
                         type: "disable-next-line",
                         line: 1,
                         column: 1,
@@ -1379,8 +1365,8 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [
-                        { parentComment: createParentComment(1, 0, 1, 20), type: "disable", line: 1, column: 1, ruleId: null },
-                        { parentComment: createParentComment(1, 20, 1, 43), type: "disable-line", line: 1, column: 22, ruleId: null }
+                        { parentComment: createParentComment([0, 20]), type: "disable", line: 1, column: 1, ruleId: null },
+                        { parentComment: createParentComment([20, 43]), type: "disable-line", line: 1, column: 22, ruleId: null }
                     ],
                     problems: [],
                     reportUnusedDisableDirectives: "error",
@@ -1418,7 +1404,7 @@ describe("apply-disable-directives", () => {
         it("Does not add problems when reportUnusedDisableDirectives: \"off\" is used", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
-                    directives: [{ parentComment: createParentComment(1, 1, 1, 27), type: "disable-next-line", line: 1, column: 1, ruleId: null }],
+                    directives: [{ parentComment: createParentComment([0, 27]), type: "disable-next-line", line: 1, column: 1, ruleId: null }],
                     problems: [],
                     reportUnusedDisableDirectives: "off",
                     sourceCode: createSourceCode("// eslint-disable-next-line")
