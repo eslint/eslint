@@ -6,26 +6,7 @@
 "use strict";
 
 const assert = require("chai").assert;
-const espree = require("espree");
 const applyDisableDirectives = require("../../../lib/linter/apply-disable-directives");
-const { SourceCode } = require("../../../lib/source-code");
-
-const DEFAULT_CONFIG = {
-    ecmaVersion: 6,
-    comment: true,
-    tokens: true,
-    range: true,
-    loc: true
-};
-
-/**
- * Create a SourceCode instance from the given code.
- * @param {string} text The text of the code.
- * @returns {SourceCode} The SourceCode.
- */
-function createSourceCode(text) {
-    return new SourceCode(text, espree.parse(text, DEFAULT_CONFIG));
-}
 
 /**
  * Creates a ParentComment for a given range.
@@ -47,8 +28,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{ parentComment: createParentComment([0, 7]), type: "disable", line: 1, column: 8, ruleId: null }],
-                    problems: [{ line: 1, column: 7, ruleId: "foo" }],
-                    sourceCode: createSourceCode("first; /* eslint-disable */")
+                    problems: [{ line: 1, column: 7, ruleId: "foo" }]
                 }),
                 [{ ruleId: "foo", line: 1, column: 7 }]
             );
@@ -58,8 +38,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{ parentComment: createParentComment([21, 27]), type: "disable", line: 2, column: 1, ruleId: null }],
-                    problems: [{ line: 1, column: 10, ruleId: "foo" }],
-                    sourceCode: createSourceCode("\n/* eslint-disable*/")
+                    problems: [{ line: 1, column: 10, ruleId: "foo" }]
                 }),
                 [{ ruleId: "foo", line: 1, column: 10 }]
             );
@@ -69,8 +48,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{ type: "disable", line: 1, column: 8, ruleId: null }],
-                    problems: [{ line: 1, column: 8, ruleId: null }],
-                    sourceCode: createSourceCode("first; /* eslint-disable foo */")
+                    problems: [{ line: 1, column: 8, ruleId: null }]
                 }),
                 []
             );
@@ -90,8 +68,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{ type: "disable", line: 1, column: 8, ruleId: null }],
-                    problems: [{ line: 2, column: 3, ruleId: "foo" }],
-                    sourceCode: createSourceCode("first; /* eslint-disable foo */")
+                    problems: [{ line: 2, column: 3, ruleId: "foo" }]
                 }),
                 []
             );
@@ -103,8 +80,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{ type: "disable", line: 1, column: 8, ruleId: "foo" }],
-                    problems: [{ line: 2, column: 3, ruleId: "foo" }],
-                    sourceCode: createSourceCode("first; /* eslint-disable foo */")
+                    problems: [{ line: 2, column: 3, ruleId: "foo" }]
                 }),
                 []
             );
@@ -114,8 +90,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{ type: "disable", line: 1, column: 8, ruleId: "foo" }],
-                    problems: [{ line: 1, column: 8, ruleId: "foo" }],
-                    sourceCode: createSourceCode("first; /* eslint-disable foo */")
+                    problems: [{ line: 1, column: 8, ruleId: "foo" }]
                 }),
                 []
             );
@@ -131,8 +106,7 @@ describe("apply-disable-directives", () => {
                         column: 1,
                         ruleId: "foo"
                     }],
-                    problems: [{ line: 2, column: 3, ruleId: "not-foo" }],
-                    sourceCode: createSourceCode("/* eslint-disable foo */")
+                    problems: [{ line: 2, column: 3, ruleId: "not-foo" }]
                 }),
                 [{ line: 2, column: 3, ruleId: "not-foo" }]
             );
@@ -148,8 +122,7 @@ describe("apply-disable-directives", () => {
                         column: 8,
                         ruleId: "foo"
                     }],
-                    problems: [{ line: 1, column: 7, ruleId: "foo" }],
-                    sourceCode: createSourceCode("first; /* eslint-disable foo */")
+                    problems: [{ line: 1, column: 7, ruleId: "foo" }]
                 }),
                 [{ line: 1, column: 7, ruleId: "foo" }]
             );
@@ -176,8 +149,7 @@ describe("apply-disable-directives", () => {
                             ruleId: null
                         }
                     ],
-                    problems: [{ line: 1, column: 27, ruleId: "foo" }],
-                    sourceCode: createSourceCode("/* eslint-disable */ /* eslint-enable */")
+                    problems: [{ line: 1, column: 27, ruleId: "foo" }]
                 }),
                 [{ line: 1, column: 27, ruleId: "foo" }]
             );
@@ -202,8 +174,7 @@ describe("apply-disable-directives", () => {
                             ruleId: null
                         }
                     ],
-                    problems: [{ line: 1, column: 26, ruleId: "foo" }],
-                    sourceCode: createSourceCode("/* eslint-disable */ /* eslint-enable */")
+                    problems: [{ line: 1, column: 26, ruleId: "foo" }]
                 }),
                 [{ line: 1, column: 26, ruleId: "foo" }]
             );
@@ -216,8 +187,7 @@ describe("apply-disable-directives", () => {
                         { type: "disable", line: 1, column: 1, ruleId: null },
                         { type: "enable", line: 1, column: 26, ruleId: null }
                     ],
-                    problems: [{ line: 1, column: 3, ruleId: "foo" }],
-                    sourceCode: createSourceCode("/* eslint-disable */ /* eslint-enable */")
+                    problems: [{ line: 1, column: 3, ruleId: "foo" }]
                 }),
                 []
             );
@@ -249,8 +219,7 @@ describe("apply-disable-directives", () => {
                             ruleId: "foo"
                         }
                     ],
-                    problems: [{ line: 3, column: 3, ruleId: "foo" }],
-                    sourceCode: createSourceCode("/* eslint-disable */ /* eslint-enable foo */\n/* eslint-disable foo */")
+                    problems: [{ line: 3, column: 3, ruleId: "foo" }]
                 }),
                 []
             );
@@ -282,8 +251,7 @@ describe("apply-disable-directives", () => {
                             ruleId: null
                         }
                     ],
-                    problems: [{ line: 3, column: 3, ruleId: "foo" }],
-                    sourceCode: createSourceCode("/* eslint-disable */ /* eslint-enable foo *//* eslint-disable */")
+                    problems: [{ line: 3, column: 3, ruleId: "foo" }]
                 }),
                 []
             );
@@ -308,8 +276,7 @@ describe("apply-disable-directives", () => {
                             ruleId: null
                         }
                     ],
-                    problems: [{ line: 1, column: 3, ruleId: "not-foo" }],
-                    sourceCode: createSourceCode("/* eslint-disable foo */ /* eslint-enable */")
+                    problems: [{ line: 1, column: 3, ruleId: "not-foo" }]
                 }),
                 [{ line: 1, column: 3, ruleId: "not-foo" }]
             );
@@ -336,8 +303,7 @@ describe("apply-disable-directives", () => {
                             ruleId: "foo"
                         }
                     ],
-                    problems: [{ line: 2, column: 4, ruleId: "foo" }],
-                    sourceCode: createSourceCode("/* eslint-disable */\n/* eslint-enable foo */")
+                    problems: [{ line: 2, column: 4, ruleId: "foo" }]
                 }),
                 [{ line: 2, column: 4, ruleId: "foo" }]
             );
@@ -362,8 +328,7 @@ describe("apply-disable-directives", () => {
                             ruleId: "foo"
                         }
                     ],
-                    problems: [{ line: 2, column: 1, ruleId: "foo" }],
-                    sourceCode: createSourceCode("/* eslint-disable */\n/* eslint-enable foo */")
+                    problems: [{ line: 2, column: 1, ruleId: "foo" }]
                 }),
                 [{ line: 2, column: 1, ruleId: "foo" }]
             );
@@ -376,8 +341,7 @@ describe("apply-disable-directives", () => {
                         { type: "disable", line: 1, column: 1, ruleId: null },
                         { type: "enable", line: 2, column: 1, ruleId: "foo" }
                     ],
-                    problems: [{ line: 2, column: 4, ruleId: "not-foo" }],
-                    sourceCode: createSourceCode("/* eslint-disable */\n/* eslint-enable foo */")
+                    problems: [{ line: 2, column: 4, ruleId: "not-foo" }]
                 }),
                 []
             );
@@ -398,8 +362,7 @@ describe("apply-disable-directives", () => {
                         { line: 1, column: 30, ruleId: "bar" },
                         { line: 1, column: 50, ruleId: "foo" },
                         { line: 1, column: 50, ruleId: "bar" }
-                    ],
-                    sourceCode: createSourceCode("/* eslint-disable */ /* eslint-enable foo */ /* eslint-enable bar */")
+                    ]
                 }),
                 [
                     { line: 1, column: 30, ruleId: "foo" },
@@ -421,8 +384,7 @@ describe("apply-disable-directives", () => {
                         column: 1,
                         ruleId: null
                     }],
-                    problems: [{ line: 1, column: 5, ruleId: "foo" }],
-                    sourceCode: createSourceCode("first;\n// eslint-disable-line")
+                    problems: [{ line: 1, column: 5, ruleId: "foo" }]
                 }),
                 [{ line: 1, column: 5, ruleId: "foo" }]
             );
@@ -438,8 +400,7 @@ describe("apply-disable-directives", () => {
                         column: 8,
                         ruleId: null
                     }],
-                    problems: [{ line: 1, column: 1, ruleId: "foo" }],
-                    sourceCode: createSourceCode("first; // eslint-disable-line")
+                    problems: [{ line: 1, column: 1, ruleId: "foo" }]
                 }),
                 []
             );
@@ -455,8 +416,7 @@ describe("apply-disable-directives", () => {
                         column: 8,
                         ruleId: null
                     }],
-                    problems: [{ line: 1, column: 10, ruleId: "foo" }],
-                    sourceCode: createSourceCode("first; // eslint-disable-line")
+                    problems: [{ line: 1, column: 10, ruleId: "foo" }]
                 }),
                 []
             );
@@ -472,8 +432,7 @@ describe("apply-disable-directives", () => {
                         column: 8,
                         ruleId: "foo"
                     }],
-                    problems: [{ line: 2, column: 1, ruleId: "foo" }],
-                    sourceCode: createSourceCode("first; // eslint-disable-line foo")
+                    problems: [{ line: 2, column: 1, ruleId: "foo" }]
                 }),
                 [{ line: 2, column: 1, ruleId: "foo" }]
             );
@@ -491,8 +450,7 @@ describe("apply-disable-directives", () => {
                         column: 8,
                         ruleId: "foo"
                     }],
-                    problems: [{ line: 1, column: 2, ruleId: "foo" }],
-                    sourceCode: createSourceCode("first; // eslint-disable-line foo")
+                    problems: [{ line: 1, column: 2, ruleId: "foo" }]
                 }),
                 []
             );
@@ -502,8 +460,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{ parentComment: createParentComment([0, 27]), type: "disable-line", line: 1, column: 1, ruleId: "foo" }],
-                    problems: [{ line: 1, column: 2, ruleId: "not-foo" }],
-                    sourceCode: createSourceCode("// eslint-disable-line foo")
+                    problems: [{ line: 1, column: 2, ruleId: "not-foo" }]
                 }),
                 [{ line: 1, column: 2, ruleId: "not-foo" }]
             );
@@ -528,8 +485,7 @@ describe("apply-disable-directives", () => {
                             ruleId: "foo"
                         }
                     ],
-                    problems: [{ line: 1, column: 5, ruleId: "not-foo" }],
-                    sourceCode: createSourceCode("/* eslint-disable */ // eslint-disable-line foo")
+                    problems: [{ line: 1, column: 5, ruleId: "not-foo" }]
                 }),
                 []
             );
@@ -582,10 +538,7 @@ describe("apply-disable-directives", () => {
                             ruleId: "foo"
                         }
                     ],
-                    problems: [{ line: 2, column: 1, ruleId: "foo" }],
-                    sourceCode: createSourceCode(
-                        new Array(6).fill(0).map(() => "first; // eslint-disable-line foo").join("\n")
-                    )
+                    problems: [{ line: 2, column: 1, ruleId: "foo" }]
                 }),
                 []
             );
@@ -603,8 +556,7 @@ describe("apply-disable-directives", () => {
                         column: 1,
                         ruleId: null
                     }],
-                    problems: [{ line: 2, column: 3, ruleId: "foo" }],
-                    sourceCode: createSourceCode("// eslint-disable-next-line")
+                    problems: [{ line: 2, column: 3, ruleId: "foo" }]
                 }),
                 []
             );
@@ -620,8 +572,7 @@ describe("apply-disable-directives", () => {
                         column: 1,
                         ruleId: null
                     }],
-                    problems: [{ line: 1, column: 3, ruleId: "foo" }],
-                    sourceCode: createSourceCode("// eslint-disable-next-line")
+                    problems: [{ line: 1, column: 3, ruleId: "foo" }]
                 }),
                 [{ line: 1, column: 3, ruleId: "foo" }]
             );
@@ -637,8 +588,7 @@ describe("apply-disable-directives", () => {
                         column: 1,
                         ruleId: null
                     }],
-                    problems: [{ line: 3, column: 3, ruleId: "foo" }],
-                    sourceCode: createSourceCode("// eslint-disable-next-line")
+                    problems: [{ line: 3, column: 3, ruleId: "foo" }]
                 }),
                 [{ line: 3, column: 3, ruleId: "foo" }]
             );
@@ -651,8 +601,7 @@ describe("apply-disable-directives", () => {
                         { type: "disable-next-line", line: 1, column: 1, ruleId: null },
                         { type: "enable", line: 1, column: 5, ruleId: null }
                     ],
-                    problems: [{ line: 2, column: 2, ruleId: "foo" }],
-                    sourceCode: createSourceCode("// eslint-disable-next-line\n/* eslint-enable */")
+                    problems: [{ line: 2, column: 2, ruleId: "foo" }]
                 }),
                 []
             );
@@ -664,8 +613,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{ type: "disable-next-line", line: 1, column: 1, ruleId: "foo" }],
-                    problems: [{ line: 2, column: 1, ruleId: "foo" }],
-                    sourceCode: createSourceCode("// eslint-disable-next-line foo")
+                    problems: [{ line: 2, column: 1, ruleId: "foo" }]
                 }),
                 []
             );
@@ -681,8 +629,7 @@ describe("apply-disable-directives", () => {
                         column: 1,
                         ruleId: "foo"
                     }],
-                    problems: [{ line: 2, column: 1, ruleId: "not-foo" }],
-                    sourceCode: createSourceCode("// eslint-disable-next-line foo\n/* eslint-enable foo */")
+                    problems: [{ line: 2, column: 1, ruleId: "not-foo" }]
                 }),
                 [{ line: 2, column: 1, ruleId: "not-foo" }]
             );
@@ -713,8 +660,7 @@ describe("apply-disable-directives", () => {
                         column: 1
                     }],
                     problems: [],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable */")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -738,8 +684,7 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [{ type: "disable", line: 1, column: 1, ruleId: null }],
                     problems: [{ line: 2, column: 1, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable */")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 []
             );
@@ -756,8 +701,7 @@ describe("apply-disable-directives", () => {
                         ruleId: "foo"
                     }],
                     problems: [],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable foo */")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -787,8 +731,7 @@ describe("apply-disable-directives", () => {
                         ruleId: "foo"
                     }],
                     problems: [{ line: 1, column: 20, ruleId: "not-foo" }],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable foo */")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -832,8 +775,7 @@ describe("apply-disable-directives", () => {
                         }
                     ],
                     problems: [{ line: 1, column: 2, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("first; /* eslint-disable */ /* eslint-enable foo */")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -877,8 +819,7 @@ describe("apply-disable-directives", () => {
                         }
                     ],
                     problems: [],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable */ /* eslint-enable */")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -917,8 +858,7 @@ describe("apply-disable-directives", () => {
                         }
                     ],
                     problems: [],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable */\n/* eslint-disable */")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -969,8 +909,7 @@ describe("apply-disable-directives", () => {
                         }
                     ],
                     problems: [{ line: 3, column: 1, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable */\n/* eslint-disable */ /* (problem) */")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -1009,8 +948,7 @@ describe("apply-disable-directives", () => {
                         }
                     ],
                     problems: [{ line: 3, column: 1, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable foo */\n/* eslint-disable */ /* (problem from foo) */")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -1034,8 +972,7 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [{ type: "disable", line: 1, column: 1, ruleId: "foo" }],
                     problems: [{ line: 1, column: 6, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable foo */")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 []
             );
@@ -1061,8 +998,7 @@ describe("apply-disable-directives", () => {
                         }
                     ],
                     problems: [{ line: 3, column: 1, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable */\n/* eslint-disable foo */ /* (problem from foo) */")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -1101,8 +1037,7 @@ describe("apply-disable-directives", () => {
                         }
                     ],
                     problems: [{ line: 3, column: 1, ruleId: "bar" }],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable */\n/* eslint-disable foo */ /* (problem from another rule) */")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -1141,8 +1076,7 @@ describe("apply-disable-directives", () => {
                         }
                     ],
                     problems: [{ line: 1, column: 30, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable */ /* eslint-enable foo */")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -1186,8 +1120,7 @@ describe("apply-disable-directives", () => {
                         }
                     ],
                     problems: [{ line: 1, column: 30, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable foo */ /* eslint-enable */ /* (problem from foo) */")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -1238,8 +1171,7 @@ describe("apply-disable-directives", () => {
                         }
                     ],
                     problems: [{ line: 4, column: 1, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable */\n/* eslint-disable foo */\n/* eslint-enable foo */ /* (problem from foo) */")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -1286,8 +1218,7 @@ describe("apply-disable-directives", () => {
                         ruleId: null
                     }],
                     problems: [],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("// eslint-disable-line")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -1312,8 +1243,7 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [{ type: "disable-line", line: 1, column: 1, ruleId: null }],
                     problems: [{ line: 1, column: 10, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable line */")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 []
             );
@@ -1330,8 +1260,7 @@ describe("apply-disable-directives", () => {
                         ruleId: null
                     }],
                     problems: [],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("// eslint-disable-next-line")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -1355,8 +1284,7 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [{ type: "disable-next-line", line: 1, column: 1, ruleId: null }],
                     problems: [{ line: 2, column: 10, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("// eslint-disable foo-next-line")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 []
             );
@@ -1370,8 +1298,7 @@ describe("apply-disable-directives", () => {
                         { parentComment: createParentComment([20, 43]), type: "disable-line", line: 1, column: 22, ruleId: null }
                     ],
                     problems: [],
-                    reportUnusedDisableDirectives: "error",
-                    sourceCode: createSourceCode("/* eslint-disable */ // eslint-disable-line")
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -1407,8 +1334,7 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [{ parentComment: createParentComment([0, 27]), type: "disable-next-line", line: 1, column: 1, ruleId: null }],
                     problems: [],
-                    reportUnusedDisableDirectives: "off",
-                    sourceCode: createSourceCode("// eslint-disable-next-line")
+                    reportUnusedDisableDirectives: "off"
                 }),
                 []
             );
