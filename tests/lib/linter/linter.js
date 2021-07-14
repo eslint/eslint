@@ -5529,7 +5529,10 @@ var a = "test2";
         let messages;
 
         it("//eslint-disable", () => {
-            const codes = linebreaks.map(linebreak => `//eslint-disable no-debugger${linebreak}debugger;`);
+            const codes = [
+                ...linebreaks.map(linebreak => `//eslint-disable no-debugger${linebreak}debugger;`),
+                ...linebreaks.map(linebreak => `// eslint-disable no-debugger${linebreak}debugger;`)
+            ];
 
             for (const code of codes) {
                 messages = linter.verify(code, { rules: { "no-debugger": 2 } });
@@ -5541,7 +5544,10 @@ var a = "test2";
         });
 
         it("//eslint-enable", () => {
-            const codes = linebreaks.map(linebreak => `//eslint-disable no-debugger${linebreak}//eslint-enable no-debugger${linebreak}debugger;`);
+            const codes = [
+                ...linebreaks.map(linebreak => `//eslint-disable no-debugger${linebreak}//eslint-enable no-debugger${linebreak}debugger;`),
+                ...linebreaks.map(linebreak => `// eslint-disable no-debugger${linebreak}//eslint-enable no-debugger${linebreak}debugger;`)
+            ];
 
             for (const code of codes) {
                 messages = linter.verify(code, { rules: { "no-debugger": 2 } });
@@ -5550,7 +5556,10 @@ var a = "test2";
         });
 
         it("//eslint", () => {
-            const codes = linebreaks.map(linebreak => `//eslint no-debugger:'error'${linebreak}debugger;`);
+            const codes = [
+                ...linebreaks.map(linebreak => `//eslint no-debugger:'error'${linebreak}debugger;`),
+                ...linebreaks.map(linebreak => `// eslint no-debugger:'error'${linebreak}debugger;`)
+            ];
 
             for (const code of codes) {
                 messages = linter.verify(code, { rules: { "no-debugger": 0 } });
@@ -5563,8 +5572,10 @@ var a = "test2";
         it("//global(s)", () => {
             const config = { rules: { "no-undef": 2 } };
             const codes = [
-                "//globals foo: true\nfoo;",
-                "//global foo: true\nfoo;"
+                ...linebreaks.map(linebreak => `//globals foo: true${linebreak}foo;`),
+                ...linebreaks.map(linebreak => `// globals foo: true${linebreak}foo;`),
+                ...linebreaks.map(linebreak => `//global foo: true${linebreak}foo;`),
+                ...linebreaks.map(linebreak => `// global foo: true${linebreak}foo;`)
             ];
 
             for (const code of codes) {
@@ -5573,11 +5584,16 @@ var a = "test2";
             }
         });
         it("//exported", () => {
-            const code = "//exported foo\nvar foo = 0;";
+            const codes = [
+                ...linebreaks.map(linebreak => `//exported foo${linebreak}var foo = 0;`),
+                ...linebreaks.map(linebreak => `// exported foo${linebreak}var foo = 0;`)
+            ];
             const config = { rules: { "no-unused-vars": 2 } };
 
-            messages = linter.verify(code, config, filename);
-            assert.strictEqual(messages.length, 0);
+            for (const code of codes) {
+                messages = linter.verify(code, config, filename);
+                assert.strictEqual(messages.length, 0);
+            }
         });
 
         describe("//eslint-env", () => {
@@ -5599,7 +5615,9 @@ var a = "test2";
             it("multiple envs enabled with different line breaks", () => {
                 const codes = [
                     ...linebreaks.map(linebreak => `//${ESLINT_ENV} browser,es6${linebreak}window;Promise;`),
-                    ...linebreaks.map(linebreak => `//${ESLINT_ENV} browser${linebreak}//${ESLINT_ENV} es6${linebreak}window;Promise;`)
+                    ...linebreaks.map(linebreak => `// ${ESLINT_ENV} browser,es6${linebreak}window;Promise;`),
+                    ...linebreaks.map(linebreak => `//${ESLINT_ENV} browser${linebreak}//${ESLINT_ENV} es6${linebreak}window;Promise;`),
+                    ...linebreaks.map(linebreak => `// ${ESLINT_ENV} browser${linebreak}//${ESLINT_ENV} es6${linebreak}window;Promise;`)
                 ];
 
                 for (const code of codes) {
@@ -5611,7 +5629,9 @@ var a = "test2";
             it("no env enabled with different linebreaks", () => {
                 const codes = [
                     ...linebreaks.map(linebreak => `//${ESLINT_ENV}${linebreak}browser${linebreak}window;`),
-                    ...linebreaks.map(linebreak => `//${ESLINT_ENV}browser${linebreak}window;window;`)
+                    ...linebreaks.map(linebreak => `// ${ESLINT_ENV}${linebreak}browser${linebreak}window;`),
+                    ...linebreaks.map(linebreak => `//${ESLINT_ENV}browser${linebreak}window;window;`),
+                    ...linebreaks.map(linebreak => `// ${ESLINT_ENV}browser${linebreak}window;window;`)
                 ];
 
                 for (const code of codes) {
