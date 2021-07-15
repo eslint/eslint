@@ -27,7 +27,7 @@ For example, to restrict the use of common generic identifiers:
 
 ```json
 {
-    "id-denylist": ["error", "data", "err", "e", "cb", "callback"]
+    "id-denylist": [2, "error", "data", "err", "e", "cb", "callback"]
 }
 ```
 
