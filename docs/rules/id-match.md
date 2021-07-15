@@ -19,14 +19,14 @@ For example, to enforce a camelcase naming convention:
 
 ```json
 {
-    "id-match": ["error", "^[a-z]+([A-Z][a-z]+)*$"]
+    "id-match": ["error", "^[a-z]+([A-Z][a-z]+)*[A-Z]?$"]
 }
 ```
 
-Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$"` option:
+Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*[A-Z]?$"` option:
 
 ```js
-/*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$"]*/
+/*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*[A-Z]?$"]*/
 
 var my_favorite_color = "#112C85";
 var _myFavoriteColor  = "#112C85";
@@ -40,12 +40,13 @@ obj.do_something = function() {
 };
 ```
 
-Examples of **correct** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$"` option:
+Examples of **correct** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*[A-Z]?$"` option:
 
 ```js
-/*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$"]*/
+/*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*[A-Z]?$"]*/
 
 var myFavoriteColor   = "#112C85";
+var fToC = 5/9;
 var foo = bar.baz_boom;
 var foo = { qux: bar.baz_boom };
 do_something();
@@ -64,10 +65,10 @@ This rule has an object option:
 
 ### properties
 
-Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$", { "properties": true }` options:
+Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*[A-Z]?$", { "properties": true }` options:
 
 ```js
-/*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$", { "properties": true }]*/
+/*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*[A-Z]?$", { "properties": true }]*/
 
 var obj = {
     my_pref: 1
@@ -76,10 +77,10 @@ var obj = {
 
 ### onlyDeclarations
 
-Examples of **correct** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$", { "onlyDeclarations": true }` options:
+Examples of **correct** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*[A-Z]?$", { "onlyDeclarations": true }` options:
 
 ```js
-/*eslint id-match: [2, "^[a-z]+([A-Z][a-z]+)*$", { "onlyDeclarations": true }]*/
+/*eslint id-match: [2, "^[a-z]+([A-Z][a-z]+)*[A-Z]?$", { "onlyDeclarations": true }]*/
 
 do_something(__dirname);
 ```
