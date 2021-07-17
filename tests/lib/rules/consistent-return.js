@@ -259,7 +259,7 @@ ruleTester.run("consistent-return", rule, {
                     line: 1,
                     column: 3,
                     endLine: 1,
-                    endColumn: 37
+                    endColumn: 11
                 }
             ]
         },
@@ -317,7 +317,9 @@ ruleTester.run("consistent-return", rule, {
                     data: { name: "program" },
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: void 0,
+                    endColumn: void 0
                 }
             ]
         },
