@@ -1,6 +1,6 @@
 # disallow control flow statements in `finally` blocks (no-unsafe-finally)
 
-JavaScript suspends the control flow statements of `try` and `catch` blocks until the execution of `finally` block finishes. So, when `return`, `throw`, `break`, or `continue` is used in `finally`, control flow statements inside `try` and `catch` are overwritten, which is considered as unexpected behavior. Such as:
+JavaScript suspends the control flow statements of `try` and `catch` blocks until the execution of `finally` block finishes. So, when `return`, `throw`, `yield`, `break`, or `continue` is used in `finally`, control flow statements inside `try` and `catch` are overwritten, which is considered as unexpected behavior. Such as:
 
 ```js
 // We expect this function to return 1;
@@ -61,7 +61,7 @@ JavaScript suspends the control flow statements of `try` and `catch` blocks unti
 
 ## Rule Details
 
-This rule disallows `return`, `throw`, `break`, and `continue` statements inside `finally` blocks. It allows indirect usages, such as in `function` or `class` definitions.
+This rule disallows `return`, `throw`, `yield`, `break`, and `continue` statements inside `finally` blocks. It allows indirect usages, such as in `function` or `class` definitions.
 
 Examples of **incorrect** code for this rule:
 
@@ -87,6 +87,19 @@ let foo = function() {
         return 2;
     } finally {
         throw new Error;
+    }
+};
+```
+
+```js
+/*eslint no-unsafe-finally: "error"*/
+let foo = function*() {
+    try {
+        return 1;
+    } catch(err) {
+        return 2;
+    } finally {
+        yield 3;
     }
 };
 ```
@@ -135,6 +148,21 @@ let foo = function(a) {
                 break;
             }
         }
+    }
+};
+```
+
+```js
+/*eslint no-unsafe-finally: "error"*/
+let foo = function () {
+    try {
+        return 1;
+    } catch (err) {
+        return 2;
+    } finally {
+        let bar = function* () {
+            yield 3;
+        };
     }
 };
 ```
