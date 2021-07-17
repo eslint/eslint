@@ -115,6 +115,11 @@ ruleTester.run("no-unsafe-finally", rule, {
             code: "var foo = function*() { try { return 1 } catch(err) { return 2 } finally { yield 3 } }",
             parserOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unsafeUsage", data: { nodeType: "YieldExpression" }, type: "YieldExpression", line: 1, column: 76 }]
+        },
+        {
+            code: "var foo = function*() { try { return 1 } catch(err) { return 2 } finally { yield* [3, 4] } }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unsafeUsage", data: { nodeType: "YieldExpression" }, type: "YieldExpression", line: 1, column: 76 }]
         }
     ]
 });
