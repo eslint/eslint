@@ -185,7 +185,6 @@ describe("ast-utils", () => {
          * Asserts the node is NOT a directive comment
          * @param {ASTNode} node node to assert
          * @returns {void}
-         *
          */
         function assertFalse(node) {
             assert.isFalse(astUtils.isDirectiveComment(node));
@@ -195,7 +194,6 @@ describe("ast-utils", () => {
          * Asserts the node is a directive comment
          * @param {ASTNode} node node to assert
          * @returns {void}
-         *
          */
         function assertTrue(node) {
             assert.isTrue(astUtils.isDirectiveComment(node));
