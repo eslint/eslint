@@ -2,8 +2,7 @@ reportUnusedDisableDirectives: true
 extends:
     - "eslint:recommended"
     - "plugin:node/recommended"
-plugins:
-    - "jsdoc"
+    - "plugin:jsdoc/recommended"
 settings:
     jsdoc:
         tagNamePreference:
@@ -12,6 +11,11 @@ settings:
             class: "constructor"
         preferredTypes:
             object: "Object"
+overrides:
+    - files: "**/*.md/*.js"
+      rules:
+          strict: "off"
+
 rules:
     array-bracket-spacing: "error"
     array-callback-return: "error"
@@ -43,23 +47,53 @@ rules:
     generator-star-spacing: "error"
     grouped-accessor-pairs: "error"
     guard-for-in: "error"
+
+    # jsdoc: adopt non-recommended rules or change recommended configuration
+    jsdoc/check-examples: "error"
+    # jsdoc/check-indentation: "error"
+    # jsdoc/check-line-alignment: "error"
+    jsdoc/check-syntax: "error"
+    jsdoc/check-values: ["error", { allowedLicenses: true }]
+    jsdoc/newline-after-description: ["error", "never"]
+    jsdoc/no-bad-blocks: "error"
+    jsdoc/require-asterisk-prefix: "error"
+    jsdoc/require-description: "error"
+    # jsdoc/require-file-overview: "error"
+    jsdoc/require-hyphen-before-param-description: ["error", "never"]
+    jsdoc/require-returns: ["error", { forceRequireReturn: true, forceReturnsWithAsync: true }]
+    # jsdoc/require-throws: "error"
+    jsdoc/tag-lines: ["error", "never", { tags: { example: { lines: "always" }, fileoverview: { lines: "any" } } }]
+
+    # jsdoc: disable recommended rules
+    jsdoc/no-undefined-types: "off"
+    jsdoc/require-yields: "off"
+
+    # jsdoc: change recommended rules from warnings into errors
+    jsdoc/check-access: "error"
     jsdoc/check-alignment: "error"
     jsdoc/check-param-names: "error"
-    jsdoc/check-syntax: "error"
+    jsdoc/check-property-names: "error"
     jsdoc/check-tag-names: "error"
     jsdoc/check-types: "error"
+    jsdoc/empty-tags: "error"
     jsdoc/implements-on-classes: "error"
-    jsdoc/newline-after-description: ["error", "never"]
-    jsdoc/require-description: "error"
-    jsdoc/require-hyphen-before-param-description: ["error", "never"]
+    jsdoc/multiline-blocks: "error"
+    jsdoc/no-multi-asterisks: "error"
     jsdoc/require-jsdoc: "error"
     jsdoc/require-param: "error"
     jsdoc/require-param-description: "error"
     jsdoc/require-param-name: "error"
     jsdoc/require-param-type: "error"
-    jsdoc/require-returns: ["error", { forceRequireReturn: true, forceReturnsWithAsync: true }]
+    jsdoc/require-property: "error"
+    jsdoc/require-property-description: "error"
+    jsdoc/require-property-name: "error"
+    jsdoc/require-property-type: "error"
+    jsdoc/require-returns-check: "error"
     jsdoc/require-returns-description: "error"
     jsdoc/require-returns-type: "error"
+    jsdoc/require-yields-check: "error"
+    jsdoc/valid-types: "error"
+
     key-spacing: ["error", { beforeColon: false, afterColon: true }]
     keyword-spacing: "error"
     lines-around-comment: ["error", {

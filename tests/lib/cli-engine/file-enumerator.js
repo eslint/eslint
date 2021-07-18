@@ -57,7 +57,7 @@ describe("FileEnumerator", () => {
 
             describe("if 'lib/*.js' was given,", () => {
 
-                /** @type {Array<{config:(typeof import('../../../lib/cli-engine'))["ConfigArray"], filePath:string, ignored:boolean}>} */
+                /** @type {Array<{config:(typeof import('../../../lib/cli-engine')).ConfigArray, filePath:string, ignored:boolean}>} */
                 let list;
 
                 beforeEach(() => {
@@ -89,7 +89,7 @@ describe("FileEnumerator", () => {
 
             describe("if 'lib/**/*.js' was given,", () => {
 
-                /** @type {Array<{config:(typeof import('../../../lib/cli-engine'))["ConfigArray"], filePath:string, ignored:boolean}>} */
+                /** @type {Array<{config:(typeof import('../../../lib/cli-engine')).ConfigArray, filePath:string, ignored:boolean}>} */
                 let list;
 
                 beforeEach(() => {
@@ -132,7 +132,7 @@ describe("FileEnumerator", () => {
 
             describe("if 'lib/*.js' and 'test/*.js' were given,", () => {
 
-                /** @type {Array<{config:(typeof import('../../../lib/cli-engine'))["ConfigArray"], filePath:string, ignored:boolean}>} */
+                /** @type {Array<{config:(typeof import('../../../lib/cli-engine')).ConfigArray, filePath:string, ignored:boolean}>} */
                 let list;
 
                 beforeEach(() => {

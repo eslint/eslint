@@ -55,7 +55,7 @@ const ESLINT_ENV = "eslint-env";
 describe("Linter", () => {
     const filename = "filename.js";
 
-    /** @type {InstanceType<import("../../../lib/linter/linter.js")["Linter"]>} */
+    /** @type {InstanceType<import("../../../lib/linter/linter.js").Linter>} */
     let linter;
 
     beforeEach(() => {

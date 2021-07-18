@@ -963,13 +963,19 @@ function createConfigForPerformanceTest() {
 }
 
 /**
+ * @callback TimeCallback
+ * @param {?int[]} results
+ * @returns {void}
+ */
+
+/**
  * Calculates the time for each run for performance
  * @param {string} cmd cmd
  * @param {int} runs Total number of runs to do
  * @param {int} runNumber Current run number
  * @param {int[]} results Collection results from each run
- * @param {Function} cb Function to call when everything is done
- * @returns {int[]} calls the cb with all the results
+ * @param {TimeCallback} cb Function to call when everything is done
+ * @returns {void} calls the cb with all the results
  * @private
  */
 function time(cmd, runs, runNumber, results, cb) {
