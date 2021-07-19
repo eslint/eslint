@@ -147,6 +147,31 @@ ruleTester.run("no-self-assign", rule, {
             code: "a.b = a?.b",
             parserOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "selfAssignment", data: { name: "a?.b" } }]
+        },
+
+        // logical assignment
+        {
+            code: "a &= a",
+            errors: [{ messageId: "selfAssignment", data: { name: "a" } }]
+        },
+        {
+            code: "a |= a",
+            errors: [{ messageId: "selfAssignment", data: { name: "a" } }]
+        },
+        {
+            code: "a &&= a",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "selfAssignment", data: { name: "a" } }]
+        },
+        {
+            code: "a ||= a",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "selfAssignment", data: { name: "a" } }]
+        },
+        {
+            code: "a ??= a",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "selfAssignment", data: { name: "a" } }]
         }
     ]
 });
