@@ -271,6 +271,7 @@
     "spaced-comment": "suggestion",
     "strict": "suggestion",
     "switch-colon-spacing": "layout",
+    "switch-final-break": "suggestion",
     "symbol-description": "suggestion",
     "template-curly-spacing": "layout",
     "template-tag-spacing": "layout",
