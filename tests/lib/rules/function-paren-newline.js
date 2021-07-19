@@ -583,6 +583,19 @@ ruleTester.run("function-paren-newline", rule, {
             code: "import(\n  source\n)",
             options: ["consistent"],
             parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: `
+              function foo({
+            bar,
+            baz
+        } /*: {
+            bar: string,
+            baz: string,
+        } */) {
+            return bar + baz;
+        }`,
+            options: ["never", { includeComments: true }]
         }
     ],
 
@@ -1437,6 +1450,30 @@ ruleTester.run("function-paren-newline", rule, {
             options: ["consistent"],
             parserOptions: { ecmaVersion: 2020 },
             errors: [RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `function foo(
+              {
+                bar,
+                baz
+              } /*: {
+                bar: string,
+                baz: string,
+              } */) {
+                return bar + baz;
+              }`,
+            output: `function foo({
+                bar,
+                baz
+              } /*: {
+                bar: string,
+                baz: string,
+              } */) {
+                return bar + baz;
+              }`,
+            options: ["never", { includeComments: true }],
+            errors: [LEFT_UNEXPECTED_ERROR]
+
         }
     ]
 });
