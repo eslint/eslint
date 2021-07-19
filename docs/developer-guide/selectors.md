@@ -43,6 +43,7 @@ The following selectors are supported:
 * following sibling: `VariableDeclaration ~ VariableDeclaration`
 * adjacent sibling: `ArrayExpression > Literal + SpreadElement`
 * negation: `:not(ForStatement)`
+* has: `:has(ForStatement)`
 * matches-any: `:matches([attr] > :first-child, :last-child)`
 * class of AST node: `:statement`, `:expression`, `:declaration`, `:function`, or `:pattern`
 
@@ -87,6 +88,8 @@ If two or more selectors match the same node, their listeners will be called in 
 * If the class/attribute/pseudo-class count is tied, the selector that contains more node type selectors has higher specificity.
 
 If multiple selectors have equal specificity, their listeners will be called in alphabetical order for that node.
+
+Using `:has()` traverses subtrees, so a rule written in a way that uses ESLint's traversal instead of `:has()` may have a much better performance.
 
 ### Restricting syntax with selectors
 

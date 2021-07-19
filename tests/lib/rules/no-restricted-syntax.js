@@ -29,6 +29,7 @@ ruleTester.run("no-restricted-syntax", rule, {
         { code: "({ foo: 1, bar: 2 })", options: ["Property > Literal.key"] },
         { code: "A: for (;;) break;", options: ["BreakStatement[label]"] },
         { code: "function foo(bar, baz) {}", options: ["FunctionDeclaration[params.length>2]"] },
+        { code: "var foo = 42;", options: [":has(AssignmentExpression)"] },
 
         //  object format
         { code: "var foo = 42;", options: [{ selector: "ConditionalExpression" }] },
@@ -114,6 +115,15 @@ ruleTester.run("no-restricted-syntax", rule, {
             code: "function foo(bar, baz, qux) {}",
             options: [{ selector: "FunctionDeclaration[params.length>2]", message: "custom error message." }],
             errors: [{ messageId: "restrictedSyntax", data: { message: "custom error message." }, type: "FunctionDeclaration" }]
+        },
+        {
+            code: "foo += 100;",
+            options: [{ selector: ":has(AssignmentExpression)" }],
+            errors: [
+                { messageId: "restrictedSyntax", data: { message: "Using ':has(AssignmentExpression)' is not allowed." }, type: "Program" },
+                { messageId: "restrictedSyntax", data: { message: "Using ':has(AssignmentExpression)' is not allowed." }, type: "ExpressionStatement" },
+                { messageId: "restrictedSyntax", data: { message: "Using ':has(AssignmentExpression)' is not allowed." }, type: "AssignmentExpression" }
+            ]
         },
 
         // with object format, the custom message may contain the string '{{selector}}'
