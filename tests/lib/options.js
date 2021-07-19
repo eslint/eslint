@@ -311,6 +311,26 @@ describe("options", () => {
         });
     });
 
+    describe("--max-errors", () => {
+        it("should return correct value for .maxErrors when passed", () => {
+            const currentOptions = options.parse("--max-errors 10");
+
+            assert.strictEqual(currentOptions.maxErrors, 10);
+        });
+
+        it("should return 0 for .maxErrors when not passed", () => {
+            const currentOptions = options.parse("");
+
+            assert.strictEqual(currentOptions.maxErrors, 0);
+        });
+
+        it("should throw an error when supplied with a non-integer", () => {
+            assert.throws(() => {
+                options.parse("--max-errors 10.2");
+            }, /Invalid value for option 'max-errors' - expected type Int/u);
+        });
+    });
+
     describe("--init", () => {
         it("should return true for --init when passed", () => {
             const currentOptions = options.parse("--init");

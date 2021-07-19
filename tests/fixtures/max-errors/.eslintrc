@@ -1,0 +1,6 @@
+{
+    "rules": {
+        "quotes": [2, "single"]
+    },
+    "root": true
+}
