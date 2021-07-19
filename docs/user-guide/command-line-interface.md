@@ -81,7 +81,7 @@ Miscellaneous:
   --init                         Run config initialization wizard - default: false
   --env-info                     Output execution environment information - default: false
   --no-error-on-unmatched-pattern  Prevent errors when pattern is unmatched - default: false
-  --exit-on-fatal-error          Exit with exit code 2 in case of fatal error  - default: false
+  --exit-on-fatal-error          Exit with exit code 2 in case of fatal error - default: false
   --debug                        Output debugging information
   -h, --help                     Show help
   -v, --version                  Output the version number

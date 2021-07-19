@@ -811,21 +811,21 @@ describe("cli", () => {
             assert.strictEqual(exitCode, 0);
         });
 
-        it("should exit with exit code 1 if no fatal errors and rule violatios found", async () => {
+        it("should exit with exit code 1 if no fatal errors are found, but rule violations are found", async () => {
             const filePath = getFixturePath("exit-on-fatal-error", "no-fatal-error-rule-violation.js");
             const exitCode = await cli.execute(`--no-ignore --exit-on-fatal-error ${filePath}`);
 
             assert.strictEqual(exitCode, 1);
         });
 
-        it("should exit with exit code 2 fatal error is found", async () => {
+        it("should exit with exit code 2 if fatal error is found", async () => {
             const filePath = getFixturePath("exit-on-fatal-error", "fatal-error.js");
             const exitCode = await cli.execute(`--no-ignore --exit-on-fatal-error ${filePath}`);
 
             assert.strictEqual(exitCode, 2);
         });
 
-        it("should exit with exit code 2 fatal error is found in any file", async () => {
+        it("should exit with exit code 2 if fatal error is found in any file", async () => {
             const filePath = getFixturePath("exit-on-fatal-error");
             const exitCode = await cli.execute(`--no-ignore --exit-on-fatal-error ${filePath}`);
 

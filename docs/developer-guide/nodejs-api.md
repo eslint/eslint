@@ -356,7 +356,7 @@ The `LintResult` value is the information of the linting result of each file. Th
   The number of warnings that can be fixed automatically by the `fix` constructor option.
 * `errorCount` (`number`)<br>
   The number of errors. This includes fixable errors and fatal errors.
-  `fatalErrorCount` (`number`)<br>
+* `fatalErrorCount` (`number`)<br>
   The number of fatal errors.
 * `warningCount` (`number`)<br>
   The number of warnings. This includes fixable warnings.
