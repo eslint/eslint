@@ -18,10 +18,14 @@ This rule aims to eliminate assignments from `return` statements. As such, it wi
 
 ## Options
 
-The rule takes one option, a string, which must contain one of the following values:
+This rule has a string option:
 
 * `except-parens` (default): Disallow assignments unless they are enclosed in parentheses.
 * `always`: Disallow all assignments.
+
+This rule also accepts an additional object option:
+
+* `ignoreSideEffects: true` Ignores assignments in side effect positions of sequence expressions; defaults to false
 
 ### except-parens
 
@@ -47,6 +51,10 @@ const bar = (a, b, c) => (a = b, c == b)
 
 function doSomething() {
     return foo = bar && foo > 0;
+}
+
+function doSomething() {
+    return (foo = 2, bar);
 }
 ```
 
@@ -74,6 +82,10 @@ const bar = (a, b, c) => ((a = b), c == b)
 function doSomething() {
     return (foo = bar) && foo > 0;
 }
+
+function doSomething() {
+    return ((foo = 2), bar);
+}
 ```
 
 ### always
@@ -97,6 +109,10 @@ function doSomething() {
 function doSomething() {
     return (foo = bar + 2);
 }
+
+function doSomething() {
+    return ((foo = 2), bar);
+}
 ```
 
 Examples of **correct** code for the `"always"` option:
@@ -112,6 +128,33 @@ function doSomething() {
     return foo === bar + 2;
 }
 ```
+
+### ignoreSideEffects
+
+Examples of **incorrect** code with sample `"always", {"ignoreSideEffects": true}` options:
+
+```js
+/*eslint no-return-assign: ["error", "always", { "ignoreSideEffects": true }]*/
+
+const bar = (a, b, c) => (a, b = c)
+
+function doSomething() {
+    return (foo, bar = 2);
+}
+```
+
+Examples of **correct** code with sample `"always", {"ignoreSideEffects": true}` options:
+
+```js
+/*eslint no-return-assign: ["error", "always", { "ignoreSideEffects": true }]*/
+
+const bar = (a, b, c) => (a = b, c)
+
+function doSomething() {
+    return (foo = 2, bar);
+}
+```
+
 
 ## When Not To Use It
 
