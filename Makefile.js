@@ -176,8 +176,8 @@ function generateFormatterExamples(formatterInfo, prereleaseVersion) {
  */
 function generateRuleIndexPage() {
     const outputFile = "../website/_data/rules.yml",
-        categoryList = "conf/category-list.json",
-        categoriesData = JSON.parse(cat(path.resolve(categoryList)));
+        ruleTypes = "conf/rule-type-list.json",
+        ruleTypesData = JSON.parse(cat(path.resolve(ruleTypes)));
 
     RULE_FILES
         .map(filename => [filename, path.basename(filename, ".js")])
@@ -188,7 +188,7 @@ function generateRuleIndexPage() {
             const rule = require(path.resolve(filename));
 
             if (rule.meta.deprecated) {
-                categoriesData.deprecated.rules.push({
+                ruleTypesData.deprecated.rules.push({
                     name: basename,
                     replacedBy: rule.meta.replacedBy || []
                 });
@@ -199,20 +199,20 @@ function generateRuleIndexPage() {
                         recommended: rule.meta.docs.recommended || false,
                         fixable: !!rule.meta.fixable
                     },
-                    category = categoriesData.categories.find(c => c.name === rule.meta.docs.category);
+                    ruleType = ruleTypesData.types.find(c => c.name === rule.meta.type);
 
-                if (!category.rules) {
-                    category.rules = [];
+                if (!ruleType.rules) {
+                    ruleType.rules = [];
                 }
 
-                category.rules.push(output);
+                ruleType.rules.push(output);
             }
         });
 
     // `.rules` will be `undefined` if all rules in category are deprecated.
-    categoriesData.categories = categoriesData.categories.filter(category => !!category.rules);
+    ruleTypesData.types = ruleTypesData.types.filter(ruleType => !!ruleType.rules);
 
-    const output = yaml.safeDump(categoriesData, { sortKeys: true });
+    const output = yaml.safeDump(ruleTypesData, { sortKeys: true });
 
     output.to(outputFile);
 }

@@ -90,7 +90,6 @@ module.exports = {
     meta: {
         docs: {
             description: "enforce correct conventions of `meta.docs.url` property in core rules",
-            category: "Internal",
             recommended: false
         },
         type: "suggestion",

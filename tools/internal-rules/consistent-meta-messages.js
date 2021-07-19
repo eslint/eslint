@@ -60,7 +60,6 @@ module.exports = {
     meta: {
         docs: {
             description: "enforce using `meta.messages` property in core rules",
-            category: "Internal",
             recommended: false
         },
         schema: [],
