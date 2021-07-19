@@ -75,6 +75,27 @@ let a = b = "baz";
 const foo = bar = 1;
 ```
 
+### ignoreOperators
+
+Examples of **correct** code for the `{ "ignoreOperators": ["??="] }` option:
+
+```js
+/*eslint no-multi-assign: ["error", { "ignoreOperators": ["??="] }]*/
+
+let b;
+const a = b ??= "baz";
+```
+
+Examples of **incorrect** code for the `{ "ignoreOperators": ["??="] }` option:
+
+```js
+/*eslint no-multi-assign: ["error", { "ignoreOperators": ["??="] }]*/
+
+let b, c;
+
+const a = b ||= c ??= "baz";
+```
+
 ## Related Rules
 
 * [max-statements-per-line](max-statements-per-line.md)
