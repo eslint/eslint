@@ -45,8 +45,8 @@ ruleTester.run("unicode-bom", rule, {
                 ...expectedError,
                 line: 1,
                 column: 1,
-                endLine: 1,
-                endColumn: 4
+                endLine: void 0,
+                endColumn: void 0
 
             }]
         },
@@ -58,8 +58,8 @@ ruleTester.run("unicode-bom", rule, {
                 ...expectedError,
                 line: 1,
                 column: 1,
-                endLine: 2,
-                endColumn: 4
+                endLine: void 0,
+                endColumn: void 0
 
             }]
         },
@@ -70,8 +70,8 @@ ruleTester.run("unicode-bom", rule, {
                 ...unexpectedError,
                 line: 1,
                 column: 1,
-                endLine: 1,
-                endColumn: 5
+                endLine: void 0,
+                endColumn: void 0
 
             }]
         },
@@ -83,8 +83,8 @@ ruleTester.run("unicode-bom", rule, {
                 ...unexpectedError,
                 line: 1,
                 column: 1,
-                endLine: 1,
-                endColumn: 5
+                endLine: void 0,
+                endColumn: void 0
 
             }]
         }
