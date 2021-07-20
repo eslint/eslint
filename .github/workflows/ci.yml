@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - uses: actions/setup-node@v2
     - name: Install Packages
       run: npm install
     - name: Lint Files
@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - uses: actions/setup-node@v2
       with:
         node-version: '12'
     - name: Install Packages
