@@ -397,6 +397,7 @@ describe("ESLint", () => {
                     messages: [],
                     errorCount: 0,
                     warningCount: 0,
+                    fatalErrorCount: 0,
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
                     output: "var bar = foo;",
@@ -597,6 +598,7 @@ describe("ESLint", () => {
                     ],
                     errorCount: 1,
                     warningCount: 0,
+                    fatalErrorCount: 0,
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
                     source: "var bar = foo",
@@ -636,6 +638,7 @@ describe("ESLint", () => {
                     ],
                     errorCount: 1,
                     warningCount: 0,
+                    fatalErrorCount: 1,
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
                     output: "var bar = foothis is a syntax error.",
@@ -674,6 +677,7 @@ describe("ESLint", () => {
                     ],
                     errorCount: 1,
                     warningCount: 0,
+                    fatalErrorCount: 1,
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
                     source: "var bar =",
@@ -761,6 +765,7 @@ describe("ESLint", () => {
                     ],
                     errorCount: 1,
                     warningCount: 0,
+                    fatalErrorCount: 1,
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
                     source: "var bar = foothis is a syntax error.\n return bar;",
@@ -1658,6 +1663,7 @@ describe("ESLint", () => {
                         messages: [],
                         errorCount: 0,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "true ? \"yes\" : \"no\";\n",
@@ -1668,6 +1674,7 @@ describe("ESLint", () => {
                         messages: [],
                         errorCount: 0,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         usedDeprecatedRules: []
@@ -1689,6 +1696,7 @@ describe("ESLint", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var msg = \"hi\";\nif (msg == \"hi\") {\n\n}\n",
@@ -1711,6 +1719,7 @@ describe("ESLint", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var msg = \"hi\" + foo;\n",
@@ -5006,6 +5015,7 @@ describe("ESLint", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         source: "/* eslint-disable */",
@@ -6060,7 +6070,8 @@ describe("ESLint", () => {
                         ],
                         source: "a == b",
                         usedDeprecatedRules: [],
-                        warningCount: 0
+                        warningCount: 0,
+                        fatalErrorCount: 0
                     }
                 ]);
             });
@@ -6083,7 +6094,8 @@ describe("ESLint", () => {
                         fixableWarningCount: 0,
                         messages: [],
                         usedDeprecatedRules: [],
-                        warningCount: 0
+                        warningCount: 0,
+                        fatalErrorCount: 0
                     }
                 ]);
             });
@@ -6130,7 +6142,8 @@ describe("ESLint", () => {
                         fixableWarningCount: 0,
                         messages: [],
                         usedDeprecatedRules: [],
-                        warningCount: 0
+                        warningCount: 0,
+                        fatalErrorCount: 0
                     }
                 ]);
             });
@@ -6166,7 +6179,8 @@ describe("ESLint", () => {
                         ],
                         source: "a == b",
                         usedDeprecatedRules: [],
-                        warningCount: 0
+                        warningCount: 0,
+                        fatalErrorCount: 0
                     }
                 ]);
             });
