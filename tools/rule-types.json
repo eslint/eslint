@@ -217,6 +217,7 @@
     "no-useless-concat": "suggestion",
     "no-useless-constructor": "suggestion",
     "no-useless-escape": "suggestion",
+    "no-property-references-in-destructuring": "problem",
     "no-useless-rename": "suggestion",
     "no-useless-return": "suggestion",
     "no-var": "suggestion",
