@@ -88,7 +88,7 @@ module.exports = {
             files: ["lib/rules/*"],
             excludedFiles: ["index.js"],
             rules: {
-                "internal-rules/consistent-docs-url": "error"
+                "eslint-plugin/require-meta-docs-url": ["error", { pattern: "https://eslint.org/docs/rules/{{name}}" }]
             }
         },
         {
