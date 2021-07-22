@@ -41,7 +41,7 @@ describe("ESLint", () => {
     const originalDir = process.cwd();
     const fixtureDir = path.resolve(fs.realpathSync(os.tmpdir()), "eslint/fixtures");
 
-    /** @type {import("../../../lib/eslint")["ESLint"]} */
+    /** @type {import("../../../lib/eslint").ESLint} */
     let ESLint;
 
     /**
@@ -863,7 +863,7 @@ describe("ESLint", () => {
 
     describe("lintFiles()", () => {
 
-        /** @type {InstanceType<import("../../../lib/eslint")["ESLint"]>} */
+        /** @type {InstanceType<import("../../../lib/eslint").ESLint>} */
         let eslint;
 
         it("should use correct parser when custom parser is specified", async () => {

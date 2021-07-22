@@ -290,7 +290,7 @@ function defineInMemoryFs({
  * @param {Object} options The options.
  * @param {() => string} [options.cwd] The current working directory.
  * @param {Object} [options.files] The initial files definition in the in-memory file system.
- * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../lib/shared/relative-module-resolver"), ConfigArrayFactory: import("../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"] }} The stubbed `ConfigArrayFactory` class.
+ * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../lib/shared/relative-module-resolver"), ConfigArrayFactory: import("../../lib/cli-engine/config-array-factory").ConfigArrayFactory }} The stubbed `ConfigArrayFactory` class.
  */
 function defineConfigArrayFactoryWithInMemoryFileSystem({
     cwd = process.cwd,
@@ -374,7 +374,7 @@ function defineConfigArrayFactoryWithInMemoryFileSystem({
  * @param {Object} options The options.
  * @param {() => string} [options.cwd] The current working directory.
  * @param {Object} [options.files] The initial files definition in the in-memory file system.
- * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../../lib/shared/relative-module-resolver"), ConfigArrayFactory: import("../../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"], CascadingConfigArrayFactory: import("../../../lib/cli-engine/cascading-config-array-factory")["CascadingConfigArrayFactory"] }} The stubbed `CascadingConfigArrayFactory` class.
+ * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../../lib/shared/relative-module-resolver"), ConfigArrayFactory: import("../../../lib/cli-engine/config-array-factory").ConfigArrayFactory, CascadingConfigArrayFactory: import("../../../lib/cli-engine/cascading-config-array-factory").CascadingConfigArrayFactory }} The stubbed `CascadingConfigArrayFactory` class.
  */
 function defineCascadingConfigArrayFactoryWithInMemoryFileSystem({
     cwd = process.cwd,
@@ -409,7 +409,7 @@ function defineCascadingConfigArrayFactoryWithInMemoryFileSystem({
  * @param {Object} options The options.
  * @param {() => string} [options.cwd] The current working directory.
  * @param {Object} [options.files] The initial files definition in the in-memory file system.
- * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../../lib/shared/relative-module-resolver"), ConfigArrayFactory: import("../../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"], CascadingConfigArrayFactory: import("../../../lib/cli-engine/cascading-config-array-factory")["CascadingConfigArrayFactory"], FileEnumerator: import("../../../lib/cli-engine/file-enumerator")["FileEnumerator"] }} The stubbed `FileEnumerator` class.
+ * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../../lib/shared/relative-module-resolver"), ConfigArrayFactory: import("../../../lib/cli-engine/config-array-factory").ConfigArrayFactory, CascadingConfigArrayFactory: import("../../../lib/cli-engine/cascading-config-array-factory").CascadingConfigArrayFactory, FileEnumerator: import("../../../lib/cli-engine/file-enumerator").FileEnumerator }} The stubbed `FileEnumerator` class.
  */
 function defineFileEnumeratorWithInMemoryFileSystem({
     cwd = process.cwd,
@@ -448,7 +448,7 @@ function defineFileEnumeratorWithInMemoryFileSystem({
  * @param {Object} options The options.
  * @param {() => string} [options.cwd] The current working directory.
  * @param {Object} [options.files] The initial files definition in the in-memory file system.
- * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../../lib/shared/relative-module-resolver"), ConfigArrayFactory: import("../../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"], CascadingConfigArrayFactory: import("../../../lib/cli-engine/cascading-config-array-factory")["CascadingConfigArrayFactory"], FileEnumerator: import("../../../lib/cli-engine/file-enumerator")["FileEnumerator"], CLIEngine: import("../../../lib/cli-engine/cli-engine")["CLIEngine"], getCLIEngineInternalSlots: import("../../../lib/cli-engine/cli-engine")["getCLIEngineInternalSlots"] }} The stubbed `CLIEngine` class.
+ * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../../lib/shared/relative-module-resolver"), ConfigArrayFactory: import("../../../lib/cli-engine/config-array-factory").ConfigArrayFactory, CascadingConfigArrayFactory: import("../../../lib/cli-engine/cascading-config-array-factory").CascadingConfigArrayFactory, FileEnumerator: import("../../../lib/cli-engine/file-enumerator").FileEnumerator, CLIEngine: import("../../../lib/cli-engine/cli-engine").CLIEngine, getCLIEngineInternalSlots: import("../../../lib/cli-engine/cli-engine").getCLIEngineInternalSlots }} The stubbed `CLIEngine` class.
  */
 function defineCLIEngineWithInMemoryFileSystem({
     cwd = process.cwd,
@@ -492,7 +492,7 @@ function defineCLIEngineWithInMemoryFileSystem({
  * @param {Object} options The options.
  * @param {() => string} [options.cwd] The current working directory.
  * @param {Object} [options.files] The initial files definition in the in-memory file system.
- * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../lib/shared/relative-module-resolver"), ConfigArrayFactory: import("../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"], CascadingConfigArrayFactory: import("../../lib/cli-engine/cascading-config-array-factory")["CascadingConfigArrayFactory"], FileEnumerator: import("../../lib/cli-engine/file-enumerator")["FileEnumerator"], ESLint: import("../../lib/eslint/eslint")["ESLint"], getCLIEngineInternalSlots: import("../../lib//eslint/eslint")["getESLintInternalSlots"] }} The stubbed `ESLint` class.
+ * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../lib/shared/relative-module-resolver"), ConfigArrayFactory: import("../../lib/cli-engine/config-array-factory").ConfigArrayFactory, CascadingConfigArrayFactory: import("../../lib/cli-engine/cascading-config-array-factory").CascadingConfigArrayFactory, FileEnumerator: import("../../lib/cli-engine/file-enumerator").FileEnumerator, ESLint: import("../../lib/eslint/eslint").ESLint, getCLIEngineInternalSlots: import("../../lib//eslint/eslint").getESLintInternalSlots }} The stubbed `ESLint` class.
  */
 function defineESLintWithInMemoryFileSystem({
     cwd = process.cwd,

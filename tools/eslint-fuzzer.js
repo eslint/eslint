@@ -43,7 +43,7 @@ function sample(array) {
  * might also be passed other keys.
  * @param {boolean} [options.checkAutofixes=true] `true` if the fuzzer should check for autofix bugs. The fuzzer runs
  * roughly 4 times slower with autofix checking enabled.
- * @param {function(number)} [options.progressCallback] A function that gets called once for each code sample, with the total number of errors found so far
+ * @param {function(number) : void} [options.progressCallback] A function that gets called once for each code sample, with the total number of errors found so far
  * @returns {Object[]} A list of problems found. Each problem has the following properties:
  * type (string): The type of problem. This is either "crash" (a rule crashes) or "autofix" (an autofix produces a syntax error)
  * text (string): The text that ESLint should be run on to reproduce the problem

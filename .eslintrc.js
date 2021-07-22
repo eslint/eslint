@@ -51,7 +51,7 @@ module.exports = {
         "plugin:eslint-plugin/recommended"
     ],
     parserOptions: {
-        ecmaVersion: 2020
+        ecmaVersion: 2021
     },
 
     /*
@@ -76,6 +76,22 @@ module.exports = {
         "internal-rules/multiline-comment-style": "error"
     },
     overrides: [
+        {
+            files: "**/no-useless-escape.md/*.js",
+            rules: {
+                "no-unused-expressions": "off"
+            }
+        },
+        {
+            files: "**/ast-utils.md/*.js",
+            rules: {
+                "no-floating-decimal": "off",
+                "no-octal": "off",
+                "no-unused-expressions": "off",
+                "no-multi-spaces": "off",
+                semi: "off"
+            }
+        },
         {
             files: ["lib/rules/*", "tools/internal-rules/*"],
             excludedFiles: ["index.js"],
