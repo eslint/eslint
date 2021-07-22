@@ -23,6 +23,7 @@ const { Linter } = require("../../../lib/linter");
 
 const TEST_CODE = "var answer = 6 * 7;",
     BROKEN_TEST_CODE = "var;";
+const linebreaks = ["\n", "\r\n", "\r", "\u2028", "\u2029"];
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -1360,15 +1361,16 @@ describe("Linter", () => {
     describe("when evaluating code containing a line comment", () => {
         const code = "//global a \n function f() {}";
 
-        it("should not introduce a global variable", () => {
+        it("should introduce a global variable", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
             linter.defineRule("checker", context => {
                 spy = sinon.spy(() => {
                     const scope = context.getScope();
+                    const a = getVariable(scope, "a");
 
-                    assert.strictEqual(getVariable(scope, "a"), null);
+                    assert.strictEqual(a.eslintExplicitGlobal, true);
                 });
 
                 return { Program: spy };
@@ -5519,6 +5521,124 @@ var a = "test2";
             const messages = linter.verify(";", { parser: "throws-with-options" }, "filename");
 
             assert.strictEqual(messages.length, 0);
+        });
+    });
+
+    // https://github.com/eslint/eslint/issues/14575
+    describe("directives in line comments", () => {
+        let messages;
+
+        it("//eslint-disable", () => {
+            const codes = [
+                ...linebreaks.map(linebreak => `//eslint-disable no-debugger${linebreak}debugger;`),
+                ...linebreaks.map(linebreak => `// eslint-disable no-debugger${linebreak}debugger;`)
+            ];
+
+            for (const code of codes) {
+                messages = linter.verify(code, { rules: { "no-debugger": 2 } });
+                assert.strictEqual(messages.length, 0);
+
+                messages = linter.verify(code, { rules: { "no-debugger": 0 } });
+                assert.strictEqual(messages.length, 0);
+            }
+        });
+
+        it("//eslint-enable", () => {
+            const codes = [
+                ...linebreaks.map(linebreak => `//eslint-disable no-debugger${linebreak}//eslint-enable no-debugger${linebreak}debugger;`),
+                ...linebreaks.map(linebreak => `// eslint-disable no-debugger${linebreak}//eslint-enable no-debugger${linebreak}debugger;`)
+            ];
+
+            for (const code of codes) {
+                messages = linter.verify(code, { rules: { "no-debugger": 2 } });
+                assert.strictEqual(messages.length, 1);
+            }
+        });
+
+        it("//eslint", () => {
+            const codes = [
+                ...linebreaks.map(linebreak => `//eslint no-debugger:'error'${linebreak}debugger;`),
+                ...linebreaks.map(linebreak => `// eslint no-debugger:'error'${linebreak}debugger;`)
+            ];
+
+            for (const code of codes) {
+                messages = linter.verify(code, { rules: { "no-debugger": 0 } });
+                assert.strictEqual(messages.length, 1);
+                messages = linter.verify(code, { rules: { "no-debugger": 2 } });
+                assert.strictEqual(messages.length, 1);
+            }
+        });
+
+        it("//global(s)", () => {
+            const config = { rules: { "no-undef": 2 } };
+            const codes = [
+                ...linebreaks.map(linebreak => `//globals foo: true${linebreak}foo;`),
+                ...linebreaks.map(linebreak => `// globals foo: true${linebreak}foo;`),
+                ...linebreaks.map(linebreak => `//global foo: true${linebreak}foo;`),
+                ...linebreaks.map(linebreak => `// global foo: true${linebreak}foo;`)
+            ];
+
+            for (const code of codes) {
+                messages = linter.verify(code, config, filename);
+                assert.strictEqual(messages.length, 0);
+            }
+        });
+        it("//exported", () => {
+            const codes = [
+                ...linebreaks.map(linebreak => `//exported foo${linebreak}var foo = 0;`),
+                ...linebreaks.map(linebreak => `// exported foo${linebreak}var foo = 0;`)
+            ];
+            const config = { rules: { "no-unused-vars": 2 } };
+
+            for (const code of codes) {
+                messages = linter.verify(code, config, filename);
+                assert.strictEqual(messages.length, 0);
+            }
+        });
+
+        describe("//eslint-env", () => {
+            const config = { rules: { "no-undef": 2 } };
+
+            it("enable one env with different line breaks", () => {
+                const codes = [
+                    ...linebreaks.map(linebreak => `//${ESLINT_ENV} browser${linebreak}window;`),
+                    ...linebreaks.map(linebreak => `//  ${ESLINT_ENV}  browser${linebreak}window;`),
+                    `window;//${ESLINT_ENV} browser` // no linebreaks
+                ];
+
+                for (const code of codes) {
+                    messages = linter.verify(code, config, filename);
+                    assert.strictEqual(messages.length, 0);
+                }
+            });
+
+            it("multiple envs enabled with different line breaks", () => {
+                const codes = [
+                    ...linebreaks.map(linebreak => `//${ESLINT_ENV} browser,es6${linebreak}window;Promise;`),
+                    ...linebreaks.map(linebreak => `// ${ESLINT_ENV} browser,es6${linebreak}window;Promise;`),
+                    ...linebreaks.map(linebreak => `//${ESLINT_ENV} browser${linebreak}//${ESLINT_ENV} es6${linebreak}window;Promise;`),
+                    ...linebreaks.map(linebreak => `// ${ESLINT_ENV} browser${linebreak}//${ESLINT_ENV} es6${linebreak}window;Promise;`)
+                ];
+
+                for (const code of codes) {
+                    messages = linter.verify(code, config, filename);
+                    assert.strictEqual(messages.length, 0);
+                }
+            });
+
+            it("no env enabled with different linebreaks", () => {
+                const codes = [
+                    ...linebreaks.map(linebreak => `//${ESLINT_ENV}${linebreak}browser${linebreak}window;`),
+                    ...linebreaks.map(linebreak => `// ${ESLINT_ENV}${linebreak}browser${linebreak}window;`),
+                    ...linebreaks.map(linebreak => `//${ESLINT_ENV}browser${linebreak}window;window;`),
+                    ...linebreaks.map(linebreak => `// ${ESLINT_ENV}browser${linebreak}window;window;`)
+                ];
+
+                for (const code of codes) {
+                    messages = linter.verify(code, config, filename);
+                    assert.strictEqual(messages.length, 2);
+                }
+            });
         });
     });
 });
