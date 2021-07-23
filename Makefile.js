@@ -197,7 +197,8 @@ function generateRuleIndexPage() {
                         name: basename,
                         description: rule.meta.docs.description,
                         recommended: rule.meta.docs.recommended || false,
-                        fixable: !!rule.meta.fixable
+                        fixable: !!rule.meta.fixable,
+                        hasSuggestions: !!rule.meta.docs.suggestion || false
                     },
                     category = categoriesData.categories.find(c => c.name === rule.meta.docs.category);
 
@@ -640,6 +641,7 @@ target.gensite = function(prereleaseVersion) {
 
     const RECOMMENDED_TEXT = "\n\n(recommended) The `\"extends\": \"eslint:recommended\"` property in a configuration file enables this rule.";
     const FIXABLE_TEXT = "\n\n(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fixing-problems) can automatically fix some of the problems reported by this rule.";
+    const HAS_SUGGESTIONS_TEXT = "\n\n(hasSuggestions) Some problems reported by this rule are manually fixable by editor [suggestions](../user-guide/working-with-rules#providing-suggestions).";
 
     // 4. Loop through all files in temporary directory
     process.stdout.write("> Updating files (Steps 4-9): 0/... - ...\r");
@@ -669,13 +671,14 @@ target.gensite = function(prereleaseVersion) {
                 const rule = rules.get(ruleName);
                 const isRecommended = rule && rule.meta.docs.recommended;
                 const isFixable = rule && rule.meta.fixable;
+                const hasSuggestions = rule && rule.meta.docs.suggestion;
 
                 // Incorporate the special portion into the documentation content
                 const textSplit = text.split("\n");
                 const ruleHeading = textSplit[0];
                 const ruleDocsContent = textSplit.slice(1).join("\n");
 
-                text = `${ruleHeading}${isRecommended ? RECOMMENDED_TEXT : ""}${isFixable ? FIXABLE_TEXT : ""}\n${ruleDocsContent}`;
+                text = `${ruleHeading}${isRecommended ? RECOMMENDED_TEXT : ""}${isFixable ? FIXABLE_TEXT : ""}${hasSuggestions ? HAS_SUGGESTIONS_TEXT : ""}\n${ruleDocsContent}`;
                 title = `${ruleName} - Rules`;
 
                 if (rule && rule.meta) {
