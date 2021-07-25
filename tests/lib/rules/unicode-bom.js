@@ -41,24 +41,52 @@ ruleTester.run("unicode-bom", rule, {
             code: "var a = 123;",
             output: "\uFEFFvar a = 123;",
             options: ["always"],
-            errors: [expectedError]
+            errors: [{
+                ...expectedError,
+                line: 1,
+                column: 1,
+                endLine: void 0,
+                endColumn: void 0
+
+            }]
         },
         {
             code: " // here's a comment \nvar a = 123;",
             output: "\uFEFF // here's a comment \nvar a = 123;",
             options: ["always"],
-            errors: [expectedError]
+            errors: [{
+                ...expectedError,
+                line: 1,
+                column: 1,
+                endLine: void 0,
+                endColumn: void 0
+
+            }]
         },
         {
             code: "\uFEFF var a = 123;",
             output: " var a = 123;",
-            errors: [unexpectedError]
+            errors: [{
+                ...unexpectedError,
+                line: 1,
+                column: 1,
+                endLine: void 0,
+                endColumn: void 0
+
+            }]
         },
         {
             code: "\uFEFF var a = 123;",
             output: " var a = 123;",
             options: ["never"],
-            errors: [unexpectedError]
+            errors: [{
+                ...unexpectedError,
+                line: 1,
+                column: 1,
+                endLine: void 0,
+                endColumn: void 0
+
+            }]
         }
     ]
 });
