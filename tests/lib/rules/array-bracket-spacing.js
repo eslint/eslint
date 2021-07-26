@@ -99,6 +99,9 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "[{ x, y }, z ] = arr;", options: ["always", { objectsInArrays: false }], parserOptions: { ecmaVersion: 6 } },
         { code: "[ x, { y, z }] = arr;", options: ["always", { objectsInArrays: false }], parserOptions: { ecmaVersion: 6 } },
 
+        // always - destructuring assignment, destructuringAssignments
+        { code: "var [x, y] = z", options: ["always", { destructuringAssignments: false }], parserOptions: { ecmaVersion: 6 } },
+
         // never
         { code: "obj[foo]", options: ["never"] },
         { code: "obj['foo']", options: ["never"] },
@@ -130,6 +133,9 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "var [x, [y, z] ] = arr;", options: ["never", { arraysInArrays: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "[ { x, y }, z] = arr;", options: ["never", { objectsInArrays: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "[x, { y, z } ] = arr;", options: ["never", { objectsInArrays: true }], parserOptions: { ecmaVersion: 6 } },
+
+        // never - destructuring assignment, destructuringAssignments
+        { code: "var [ x, y ] = z", options: ["never", { destructuringAssignments: true }], parserOptions: { ecmaVersion: 6 } },
 
         // never - singleValue
         { code: "var foo = [ 'foo' ]", options: ["never", { singleValue: true }] },
@@ -652,6 +658,62 @@ ruleTester.run("array-bracket-spacing", rule, {
                 column: 14,
                 endLine: 1,
                 endColumn: 15
+            }]
+        },
+        {
+            code: "var [ x,y ] = y",
+            output: "var [x,y] = y",
+            options: ["always", { destructuringAssignments: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unexpectedSpaceAfter",
+                data: {
+                    tokenValue: "["
+                },
+                type: "ArrayPattern",
+                line: 1,
+                column: 6,
+                endLine: 1,
+                endColumn: 7
+            },
+            {
+                messageId: "unexpectedSpaceBefore",
+                data: {
+                    tokenValue: "]"
+                },
+                type: "ArrayPattern",
+                line: 1,
+                column: 10,
+                endLine: 1,
+                endColumn: 11
+            }]
+        },
+        {
+            code: "var [x,y] = y",
+            output: "var [ x,y ] = y",
+            options: ["never", { destructuringAssignments: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "missingSpaceAfter",
+                data: {
+                    tokenValue: "["
+                },
+                type: "ArrayPattern",
+                line: 1,
+                column: 5,
+                endLine: 1,
+                endColumn: 6
+            },
+            {
+                messageId: "missingSpaceBefore",
+                data: {
+                    tokenValue: "]"
+                },
+                type: "ArrayPattern",
+                line: 1,
+                column: 9,
+                endLine: 1,
+                endColumn: 10
             }]
         },
 

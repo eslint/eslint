@@ -37,6 +37,8 @@ Object option:
 * `"arraysInObjects": false` disallows spacing inside of braces of objects beginning and/or ending with an array element (applies when the first option is set to `always`)
 * `"objectsInObjects": true` requires spacing inside of braces of objects beginning and/or ending with an object element (applies when the first option is set to `never`)
 * `"objectsInObjects": false` disallows spacing inside of braces of objects beginning and/or ending with an object element (applies when the first option is set to `always`)
+* `"destructuringAssignments": true` requires spacing inside of braces of object destructuring assignments (applies when the first option is set to `never`)
+* `"destructuringAssignments": false` disallows spacing inside of braces of object destructuring assignments (applies when the first option is set to `always`)
 
 ### never
 
@@ -143,6 +145,23 @@ Examples of additional **correct** code for this rule with the `"always", { "obj
 
 var obj = { "foo": { "baz": 1, "bar": 2 }};
 ```
+
+#### destructuringAssignments
+
+Examples of additional **correct** code for this rule with the `"never", { "destructuringAssignments": true }` options:
+
+```js
+/*eslint object-curly-spacing: ["error", "never", { "destructuringAssignments": true }]*/
+
+var { x } = y;
+```
+
+Examples of additional **correct** code for this rule with the `"always", { "destructuringAssignments": false }` options:
+
+```js
+/*eslint object-curly-spacing: ["error", "always", { "destructuringAssignments": false }]*/
+
+var {x} = y;
 
 ## When Not To Use It
 

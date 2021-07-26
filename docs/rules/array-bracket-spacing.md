@@ -29,12 +29,14 @@ This rule has an object option for exceptions to the `"never"` option:
 * `"singleValue": true` requires one or more spaces or newlines inside brackets of array literals that contain a single element
 * `"objectsInArrays": true` requires one or more spaces or newlines between brackets of array literals and braces of their object literal elements `[ {` or `} ]`
 * `"arraysInArrays": true` requires one or more spaces or newlines between brackets of array literals and brackets of their array literal elements `[ [` or `] ]`
+* `"destructuringAssignments": true` requires one or more spaces or newlines between brackets of array destructuring assignments
 
 This rule has an object option for exceptions to the `"always"` option:
 
 * `"singleValue": false` disallows spaces inside brackets of array literals that contain a single element
 * `"objectsInArrays": false` disallows spaces between brackets of array literals and braces of their object literal elements `[{` or `}]`
 * `"arraysInArrays": false` disallows spaces between brackets of array literals and brackets of their array literal elements `[[` or `]]`
+* `"destructuringAssignments": false` disallows spaces between brackets of array destructuring assignments
 
 This rule has built-in exceptions:
 
@@ -210,6 +212,24 @@ Examples of **correct** code for this rule with the `"always", { "arraysInArrays
 
 var arr = [[ 1, 2 ], 2, 3, 4 ];
 var arr = [[ 1, 2 ], 2, [ 3, 4 ]];
+```
+
+### destructuringAssignments
+
+Examples of **incorrect** code for this rule with the `"always", { "destructuringAssignments": false }` options:
+
+```js
+/*eslint array-bracket-spacing: ["error", "always", { "destructuringAssignments": false }]*/
+
+var [x, y] = z;
+```
+
+Examples of **correct** code for this rule with the `"never", { "destructuringAssignments": true }` options:
+
+```js
+/*eslint array-bracket-spacing: ["error", "never", { "destructuringAssignments": true }]*/
+
+var [ x, y ] = z;
 ```
 
 ## When Not To Use It
