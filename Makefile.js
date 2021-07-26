@@ -198,7 +198,7 @@ function generateRuleIndexPage() {
                         description: rule.meta.docs.description,
                         recommended: rule.meta.docs.recommended || false,
                         fixable: !!rule.meta.fixable,
-                        hasSuggestions: !!rule.meta.docs.suggestion || false
+                        hasSuggestions: !!rule.meta.docs.suggestion
                     },
                     category = categoriesData.categories.find(c => c.name === rule.meta.docs.category);
 
