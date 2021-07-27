@@ -66,6 +66,7 @@ module.exports = {
     rules: {
         "eslint-plugin/consistent-output": "error",
         "eslint-plugin/no-deprecated-context-methods": "error",
+        "eslint-plugin/prefer-message-ids": "error",
         "eslint-plugin/prefer-output-null": "error",
         "eslint-plugin/prefer-placeholders": "error",
         "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
@@ -80,8 +81,7 @@ module.exports = {
             files: ["lib/rules/*", "tools/internal-rules/*"],
             excludedFiles: ["index.js"],
             rules: {
-                "internal-rules/no-invalid-meta": "error",
-                "internal-rules/consistent-meta-messages": "error"
+                "internal-rules/no-invalid-meta": "error"
             }
         },
         {
