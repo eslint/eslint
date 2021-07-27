@@ -1,3 +1,16 @@
+v7.31.0 - July 17, 2021
+
+* [`efdbb12`](https://github.com/eslint/eslint/commit/efdbb1227019427ec2d968a8d6e9151dd8a77c35) Upgrade: @eslint/eslintrc to v0.4.3 (#14808) (Brandon Mills)
+* [`a96b05f`](https://github.com/eslint/eslint/commit/a96b05f6c5649cfee112d605c91d95aa191e2f78) Update: add end location to report in `consistent-return` (refs #12334) (#14798) (Nitin Kumar)
+* [`e0e8e30`](https://github.com/eslint/eslint/commit/e0e8e308929c9c66612505f2da89043f8592eea7) Docs: update BUG_REPORT template (#14787) (Nitin Kumar)
+* [`39115c8`](https://github.com/eslint/eslint/commit/39115c8b71d2629161359f6456f47fdbd552fddd) Docs: provide more context to no-eq-null (#14801) (gfyoung)
+* [`9a3c73c`](https://github.com/eslint/eslint/commit/9a3c73c130d437a65f4edba0dcb63390e68cac41) Docs: fix a broken link (#14790) (Sam Chen)
+* [`ddffa8a`](https://github.com/eslint/eslint/commit/ddffa8ad58b4b124b08061e9045fdb5370cbdbe3) Update: Indicating the operator in question (#14764) (Paul Smith)
+* [`bba714c`](https://github.com/eslint/eslint/commit/bba714c2ed813821ed288fbc07722cdde6e534fe) Update: Clarifying what changes need to be made in no-mixed-operators (#14765) (Paul Smith)
+* [`b0d22e3`](https://github.com/eslint/eslint/commit/b0d22e3eff18ea7f08189134c07cddceaec69a09) Docs: Mention benefit of providing `meta.docs.url` (#14774) (Bryan Mishkin)
+* [`000cc79`](https://github.com/eslint/eslint/commit/000cc796fd487e7b9ba8bcc5857dd691044479cc) Sponsors: Sync README with website (ESLint Jenkins)
+* [`a6a7438`](https://github.com/eslint/eslint/commit/a6a7438502abc6a1e29ec35cfbe2058ffc0803b1) Chore: pin fs-teardown@0.1.1 (#14771) (Milos Djermanovic)
+
 v7.30.0 - July 2, 2021
 
 * [`5f74642`](https://github.com/eslint/eslint/commit/5f746420700d457b92dd86659de588d272937b79) Chore: don't check Program.start in SourceCode#getComments (refs #14744) (#14748) (Milos Djermanovic)
