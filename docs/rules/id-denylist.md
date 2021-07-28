@@ -13,6 +13,8 @@ This rule will catch disallowed identifiers that are:
 - variable declarations
 - function declarations
 - object properties assigned to during object creation
+- class fields
+- class methods
 
 It will not catch disallowed identifiers that are:
 
