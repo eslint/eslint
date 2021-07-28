@@ -18,7 +18,9 @@ const rule = require("../../../lib/rules/id-length"),
 
 const ruleTester = new RuleTester();
 const tooShortError = { messageId: "tooShort", type: "Identifier" };
+const tooShortErrorPrivate = { messageId: "tooShortPrivate", type: "PrivateIdentifier" };
 const tooLongError = { messageId: "tooLong", type: "Identifier" };
+const tooLongErrorPrivate = { messageId: "tooLongPrivate", type: "PrivateIdentifier" };
 
 ruleTester.run("id-length", rule, {
     valid: [
@@ -82,7 +84,36 @@ ruleTester.run("id-length", rule, {
         { code: "function BEFORE_send() {};", options: [{ min: 3, max: 5, exceptionPatterns: ["^BEFORE_", "send$"] }] },
         { code: "function BEFORE_send() {};", options: [{ min: 3, max: 5, exceptionPatterns: ["^BEFORE_", "^A", "^Z"] }] },
         { code: "function BEFORE_send() {};", options: [{ min: 3, max: 5, exceptionPatterns: ["^A", "^BEFORE_", "^Z"] }] },
-        { code: "var x = 1 ;", options: [{ min: 3, max: 5, exceptionPatterns: ["[x-z]"] }] }
+        { code: "var x = 1 ;", options: [{ min: 3, max: 5, exceptionPatterns: ["[x-z]"] }] },
+
+        // Class Fields
+        {
+            code: "class Foo { #xyz() {} }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class Foo { xyz = 1 }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class Foo { #xyz = 1 }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class Foo { #abc() {} }",
+            options: [{ max: 3 }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class Foo { abc = 1 }",
+            options: [{ max: 3 }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class Foo { #abc = 1 }",
+            options: [{ max: 3 }],
+            parserOptions: { ecmaVersion: 2022 }
+        }
     ],
     invalid: [
         { code: "var x = 1;", errors: [tooShortError] },
@@ -485,6 +516,53 @@ ruleTester.run("id-length", rule, {
             options: [{ min: 3, max: 5, exceptionPatterns: ["^BEFORE_"] }],
             errors: [
                 tooShortError
+            ]
+        },
+
+        // Class Fields
+        {
+            code: "class Foo { #x() {} }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                tooShortErrorPrivate
+            ]
+        },
+        {
+            code: "class Foo { x = 1 }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "class Foo { #x = 1 }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                tooShortErrorPrivate
+            ]
+        },
+        {
+            code: "class Foo { #abcdefg() {} }",
+            options: [{ max: 3 }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                tooLongErrorPrivate
+            ]
+        },
+        {
+            code: "class Foo { abcdefg = 1 }",
+            options: [{ max: 3 }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                tooLongError
+            ]
+        },
+        {
+            code: "class Foo { #abcdefg = 1 }",
+            options: [{ max: 3 }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                tooLongErrorPrivate
             ]
         }
     ]
