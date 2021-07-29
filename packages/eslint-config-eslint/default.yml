@@ -11,7 +11,42 @@ settings:
             augments: "extends"
             class: "constructor"
         preferredTypes:
-            object: "Object"
+            "*":
+              message: "Use a more precise type or if necessary use `any` or `ArbitraryCallbackResult`"
+              replacement: "any"
+            Any:
+              message: "Use a more precise type or if necessary use `any` or `ArbitraryCallbackResult`"
+              replacement: "any"
+            # Function:
+            #   message: "Point to a `@callback` namepath or `GenericCallback` if truly arbitrary in form"
+            #   replacement: "GenericCallback"
+            # function:
+            #   message: "Point to a `@callback` namepath or `GenericCallback` if truly arbitrary in form"
+            #   replacement: "GenericCallback"
+            function:
+              message: "Point to a `@callback` namepath or `Function` if truly arbitrary in form"
+              replacement: "Function"
+            Promise:
+              message: "Specify the specific Promise type, including, if necessary, the type `any`"
+            ".<>":
+              message: "Prefer type form without dot"
+              replacement: "<>"
+            # Object:
+            #   message: "Use the specific object type or `PlainObject` if truly arbitrary"
+            #   replacement: "PlainObject"
+            # object:
+            #   message: "Use the specific object type or `PlainObject` if truly arbitrary"
+            #   replacement: "PlainObject"
+            object:
+               message: "Use the specific object type or `Object` if truly arbitrary"
+               replacement: "Object"
+            # Array:
+            #   message: "Use the specific array type or `GenericArray` if it is truly arbitrary."
+            #   replacement: "GenericArray"
+            # array:
+            #   message: "Use specific array type or `GenericArray` if it is truly arbitrary."
+            #   replacement: "GenericArray"
+            array: "Array"
 
 rules:
     array-bracket-spacing: "error"

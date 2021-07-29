@@ -2298,8 +2298,8 @@ describe("RuleTester", () => {
          * Asserts that a particular value will be emitted from an EventEmitter.
          * @param {EventEmitter} emitter The emitter that should emit a value
          * @param {string} emitType The type of emission to listen for
-         * @param {*} expectedValue The value that should be emitted
-         * @returns {Promise} A Promise that fulfills if the value is emitted, and rejects if something else is emitted.
+         * @param {any} expectedValue The value that should be emitted
+         * @returns {Promise<void>} A Promise that fulfills if the value is emitted, and rejects if something else is emitted.
          * The Promise will be indefinitely pending if no value is emitted.
          */
         function assertEmitted(emitter, emitType, expectedValue) {
