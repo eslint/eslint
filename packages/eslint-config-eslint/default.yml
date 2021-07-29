@@ -3,6 +3,7 @@ extends:
     - "eslint:recommended"
     - "plugin:node/recommended"
     - "plugin:jsdoc/recommended"
+    - "plugin:eslint-comments/recommended"
 settings:
     jsdoc:
         tagNamePreference:
@@ -36,6 +37,11 @@ rules:
     dot-notation: ["error", { allowKeywords: true }]
     eol-last: "error"
     eqeqeq: "error"
+
+    eslint-comments/disable-enable-pair: ["error", {allowWholeFile: true}]
+    eslint-comments/no-unused-disable: "error"
+    # eslint-comments/require-description: "error"
+
     func-call-spacing: "error"
     func-style: ["error", "declaration"]
     function-call-argument-newline: ["error", "consistent"]
