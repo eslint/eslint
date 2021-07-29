@@ -85,7 +85,7 @@ module.exports = {
             excludedFiles: ["index.js"],
             rules: {
                 "eslint-plugin/prefer-object-rule": "error",
-                "internal-rules/no-invalid-meta": "error",
+                "internal-rules/no-invalid-meta": "error"
             }
         },
         {
