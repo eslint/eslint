@@ -181,13 +181,15 @@ rules:
     no-useless-return: "error"
     no-whitespace-before-property: "error"
     no-var: "error"
+
     node/callback-return: ["error", ["cb", "callback", "next"]]
     node/handle-callback-err: ["error", "err"]
     node/no-deprecated-api: "error"
     node/no-mixed-requires: "error"
     node/no-new-require: "error"
     node/no-path-concat: "error"
-    node/no-process-exit: "error"
+    node/no-process-exit: "error" # recommended
+
     object-curly-newline: ["error", { "consistent": true, "multiline": true }]
     object-curly-spacing: ["error", "always"]
     object-property-newline: ["error", { "allowAllPropertiesOnSameLine": true }]
