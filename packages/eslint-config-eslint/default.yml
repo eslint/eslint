@@ -51,7 +51,7 @@ rules:
     # jsdoc: adopt non-recommended rules or change recommended configuration
     # jsdoc/check-examples: "error"
     # jsdoc/check-indentation: "error"
-    # jsdoc/check-line-alignment: "error"
+    # jsdoc/check-line-alignment: ["error", "never"]
     jsdoc/check-syntax: "error"
     jsdoc/check-values: ["error", { allowedLicenses: true }]
     jsdoc/newline-after-description: ["error", "never"]
