@@ -98,7 +98,7 @@ rules:
     # jsdoc/require-file-overview: "error"
     jsdoc/require-hyphen-before-param-description: ["error", "never"]
     jsdoc/require-returns: ["error", { forceRequireReturn: true, forceReturnsWithAsync: true }]
-    # jsdoc/require-throws: "error"
+    jsdoc/require-throws: "error"
     jsdoc/tag-lines: ["error", "never", { tags: { example: { lines: "always" }, fileoverview: { lines: "any" } } }]
 
     # jsdoc: disable recommended rules
