@@ -375,9 +375,13 @@ describe("cli", () => {
             const filePath = getFixturePath("unmatched-patterns");
             const globPattern = "*.js3";
 
+            const error = new Error(`No files matching '${filePath}/${globPattern}' were found.`);
+
+            error.name = "NoFilesFoundError";
+
             await stdAssert.rejects(async () => {
                 await cli.execute(`"${filePath}/${globPattern}"`);
-            }, new Error(`No files matching '${filePath}/${globPattern}' were found.`));
+            }, error);
         });
 
         it("should throw an error on unmatched --ext", async () => {
@@ -450,9 +454,13 @@ describe("cli", () => {
             const ignorePath = getFixturePath(".eslintignore");
             const filePath = getFixturePath("cli");
 
+            const error = new Error(`All files matched by '${filePath}' are ignored.`);
+
+            error.name = "AllFilesIgnoredError";
+
             await stdAssert.rejects(async () => {
                 await cli.execute(`--ignore-path ${ignorePath} ${filePath}`);
-            }, new Error(`All files matched by '${filePath}' are ignored.`));
+            }, error);
         });
     });
 
@@ -552,9 +560,9 @@ describe("cli", () => {
             const call = log.info.getCall(0);
 
             assert.isTrue(log.info.calledOnce);
-            assert.isTrue(call.args[0].indexOf("String!") > -1);
-            assert.isTrue(call.args[0].indexOf("Literal!") > -1);
-            assert.isTrue(call.args[0].indexOf("2 problems") > -1);
+            assert.isTrue(call.args[0].includes("String!"));
+            assert.isTrue(call.args[0].includes("Literal!"));
+            assert.isTrue(call.args[0].includes("2 problems"));
             assert.isTrue(log.info.neverCalledWith(""));
             assert.strictEqual(exit, 1);
         });

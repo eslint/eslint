@@ -34,7 +34,7 @@ ruleTester.run("max-params", rule, {
             options: [2],
             errors: [{
                 messageId: "exceed",
-                data: { name: "Function 'test'", count: 3, max: 2.0 },
+                data: { name: "Function 'test'", count: 3, max: 2 },
                 type: "FunctionDeclaration"
             }]
         },
@@ -42,7 +42,7 @@ ruleTester.run("max-params", rule, {
             code: "function test(a, b, c, d) {}",
             errors: [{
                 messageId: "exceed",
-                data: { name: "Function 'test'", count: 4, max: 3.0 },
+                data: { name: "Function 'test'", count: 4, max: 3 },
                 type: "FunctionDeclaration"
             }]
         },
@@ -51,7 +51,7 @@ ruleTester.run("max-params", rule, {
             options: [3],
             errors: [{
                 messageId: "exceed",
-                data: { name: "Function", count: 4, max: 3.0 },
+                data: { name: "Function", count: 4, max: 3 },
                 type: "FunctionExpression"
             }]
         },
@@ -61,7 +61,7 @@ ruleTester.run("max-params", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "exceed",
-                data: { name: "Arrow function", count: 4, max: 3.0 },
+                data: { name: "Arrow function", count: 4, max: 3 },
                 type: "ArrowFunctionExpression"
             }]
         },
@@ -70,7 +70,7 @@ ruleTester.run("max-params", rule, {
             options: [3],
             errors: [{
                 messageId: "exceed",
-                data: { name: "Function", count: 4, max: 3.0 },
+                data: { name: "Function", count: 4, max: 3 },
                 type: "FunctionExpression"
             }]
         },
@@ -79,7 +79,7 @@ ruleTester.run("max-params", rule, {
             options: [1],
             errors: [{
                 messageId: "exceed",
-                data: { name: "Function 'test'", count: 3, max: 1.0 },
+                data: { name: "Function 'test'", count: 3, max: 1 },
                 type: "FunctionExpression"
             }]
         },
@@ -90,7 +90,7 @@ ruleTester.run("max-params", rule, {
             options: [{ max: 2 }],
             errors: [{
                 messageId: "exceed",
-                data: { name: "Function 'test'", count: 3, max: 2.0 },
+                data: { name: "Function 'test'", count: 3, max: 2 },
                 type: "FunctionDeclaration"
             }]
         },

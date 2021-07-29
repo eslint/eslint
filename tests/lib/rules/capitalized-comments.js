@@ -29,7 +29,7 @@ ruleTester.run("capitalized-comments", rule, {
         "/*\nUppercase */",
         "/** Uppercase */",
         "/**\nUppercase */",
-        "//\xDCber",
+        "//\u00DCber",
         "//\u03A0",
         "/* Uppercase\nsecond line need not be uppercase */",
 
@@ -88,7 +88,7 @@ ruleTester.run("capitalized-comments", rule, {
         { code: "/*\nUppercase */", options: ["always"] },
         { code: "/** Uppercase */", options: ["always"] },
         { code: "/**\nUppercase */", options: ["always"] },
-        { code: "//\xDCber", options: ["always"] },
+        { code: "//\u00DCber", options: ["always"] },
         { code: "//\u03A0", options: ["always"] },
         {
             code: "/* Uppercase\nsecond line need not be uppercase */",
@@ -139,7 +139,7 @@ ruleTester.run("capitalized-comments", rule, {
         { code: "/*lowercase */", options: ["never"] },
         { code: "/* lowercase */", options: ["never"] },
         { code: "/*\nlowercase */", options: ["never"] },
-        { code: "//\xFCber", options: ["never"] },
+        { code: "//\u00FCber", options: ["never"] },
         { code: "//\u03C0", options: ["never"] },
         {
             code: "/* lowercase\nSecond line need not be lowercase */",

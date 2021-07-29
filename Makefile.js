@@ -71,7 +71,7 @@ const NODE = "node ", // intentional extra space
     // Files
     RULE_FILES = glob.sync("lib/rules/*.js").filter(filePath => path.basename(filePath) !== "index.js"),
     JSON_FILES = find("conf/").filter(fileType("json")),
-    MARKDOWNLINT_IGNORED_FILES = fs.readFileSync(path.join(__dirname, ".markdownlintignore"), "utf-8").split("\n"),
+    MARKDOWNLINT_IGNORED_FILES = fs.readFileSync(path.join(__dirname, ".markdownlintignore"), "utf8").split("\n"),
     MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")).filter(file => !MARKDOWNLINT_IGNORED_FILES.includes(file)),
     TEST_FILES = "\"tests/{bin,conf,lib,tools}/**/*.js\"",
     PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslintrc.yml"),
@@ -79,7 +79,7 @@ const NODE = "node ", // intentional extra space
     PERF_MULTIFILES_TARGETS = `"${PERF_MULTIFILES_TARGET_DIR + path.sep}{lib,tests${path.sep}lib}${path.sep}**${path.sep}*.js"`,
 
     // Settings
-    MOCHA_TIMEOUT = parseInt(process.env.ESLINT_MOCHA_TIMEOUT, 10) || 10000;
+    MOCHA_TIMEOUT = Number.parseInt(process.env.ESLINT_MOCHA_TIMEOUT, 10) || 10000;
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -92,7 +92,7 @@ const NODE = "node ", // intentional extra space
  * @returns {undefined}
  */
 function validateJsonFile(filePath) {
-    const contents = fs.readFileSync(filePath, "utf8");
+    const contents = fs.readFileSync(filePath);
 
     JSON.parse(contents);
 }
@@ -614,7 +614,7 @@ target.gensite = function(prereleaseVersion) {
         if (test("-f", fullPath)) {
             rm("-rf", fullPath);
 
-            if (filePath.indexOf(".md") >= 0 && test("-f", htmlFullPath)) {
+            if (filePath.includes(".md") && test("-f", htmlFullPath)) {
                 rm("-rf", htmlFullPath);
             }
         }
@@ -663,7 +663,7 @@ target.gensite = function(prereleaseVersion) {
             process.stdout.write(`> Updating files (Steps 4-9): ${i}/${length} - ${filePath + " ".repeat(30)}\r`);
 
             // 5. Prepend page title and layout variables at the top of rules
-            if (path.dirname(filename).indexOf("rules") >= 0) {
+            if (path.dirname(filename).includes("rules")) {
 
                 // Find out if the rule requires a special docs portion (e.g. if it is recommended and/or fixable)
                 const rule = rules.get(ruleName);
@@ -686,11 +686,7 @@ target.gensite = function(prereleaseVersion) {
 
                 // extract the title from the file itself
                 title = text.match(/#([^#].+)\n/u);
-                if (title) {
-                    title = title[1].trim();
-                } else {
-                    title = "Documentation";
-                }
+                title = title ? title[1].trim() : "Documentation";
             }
 
             text = [
@@ -714,7 +710,7 @@ target.gensite = function(prereleaseVersion) {
             }
 
             // 8. Append first version of ESLint rule was added at.
-            if (filename.indexOf("rules/") !== -1) {
+            if (filename.includes("rules/")) {
                 if (!versions.added[baseName]) {
                     versions.added[baseName] = getFirstVersionOfFile(sourcePath);
                 }
@@ -834,8 +830,8 @@ target.checkRuleFiles = function() {
              */
             const presentHeaders = knownHeaders.filter(header => headers.includes(header));
 
-            for (let i = 0; i < presentHeaders.length; ++i) {
-                if (presentHeaders[i] !== headers[i]) {
+            for (const [i, presentHeader] of presentHeaders.entries()) {
+                if (presentHeader !== headers[i]) {
                     return false;
                 }
             }
@@ -1092,7 +1088,7 @@ function runPerformanceTest(title, targets, multiplier, cb) {
 
         results.sort((a, b) => a - b);
 
-        const median = results[~~(results.length / 2)];
+        const median = results[Math.trunc(results.length / 2)];
 
         echo("");
         if (median > max) {
@@ -1126,7 +1122,7 @@ function loadPerformance() {
     }
 
     results.sort((a, b) => a - b);
-    const median = results[~~(results.length / 2)];
+    const median = results[Math.trunc(results.length / 2)];
 
     echo("");
     echo("  Load Performance median:  %dms", median);

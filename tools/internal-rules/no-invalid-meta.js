@@ -23,9 +23,9 @@ function getPropertyFromObject(property, node) {
         return null;
     }
 
-    for (let i = 0; i < properties.length; i++) {
-        if (properties[i].key.name === property) {
-            return properties[i];
+    for (const prop of properties) {
+        if (prop.key.name === property) {
+            return prop;
         }
     }
 
