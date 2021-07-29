@@ -114,14 +114,14 @@ rules:
     no-confusing-arrow: "error"
     no-console: "error"
     no-constructor-return: "error"
-    no-delete-var: "error"
+    no-delete-var: "error" # recommended
     no-else-return: ["error", { allowElseIf: false }]
     no-eval: "error"
     no-extend-native: "error"
     no-extra-bind: "error"
-    no-fallthrough: "error"
+    no-fallthrough: "error" # recommended
     no-floating-decimal: "error"
-    no-global-assign: "error"
+    no-global-assign: "error" # recommended
     no-implied-eval: "error"
     no-invalid-this: "error"
     no-iterator: "error"
@@ -129,7 +129,7 @@ rules:
     no-labels: "error"
     no-lone-blocks: "error"
     no-loop-func: "error"
-    no-mixed-spaces-and-tabs: ["error", false]
+    no-mixed-spaces-and-tabs: ["error", false] # Modified from recommended
     no-multi-spaces: "error"
     no-multi-str: "error"
     no-multiple-empty-lines: ["error", {max: 2, maxBOF: 0, maxEOF: 0}]
@@ -138,12 +138,12 @@ rules:
     no-new-func: "error"
     no-new-object: "error"
     no-new-wrappers: "error"
-    no-octal: "error"
+    no-octal: "error" # recommended
     no-octal-escape: "error"
     no-param-reassign: "error"
     no-proto: "error"
     no-process-exit: "off"
-    no-redeclare: "error"
+    no-redeclare: "error" # recommended
     no-restricted-properties: [
         "error",
         { property: "substring", message: "Use .slice instead of .substring." },
@@ -155,14 +155,14 @@ rules:
     ]
     no-return-assign: "error"
     no-script-url: "error"
-    no-self-assign: "error"
+    no-self-assign: "error" # recommended
     no-self-compare: "error"
     no-sequences: "error"
     no-shadow: "error"
     no-tabs: "error"
     no-throw-literal: "error"
     no-trailing-spaces: "error"
-    no-undef: ["error", {typeof: true}]
+    no-undef: ["error", {typeof: true}] # Modified from recommended
     no-undef-init: "error"
     no-undefined: "error"
     no-underscore-dangle: ["error", {allowAfterThis: true}]
@@ -170,13 +170,13 @@ rules:
     no-unneeded-ternary: "error"
     no-unreachable-loop: "error"
     no-unused-expressions: "error"
-    no-unused-vars: ["error", {vars: "all", args: "after-used", caughtErrors: "all"}]
+    no-unused-vars: ["error", {vars: "all", args: "after-used", caughtErrors: "all"}] # Modified from recommended
     no-use-before-define: "error"
     no-useless-call: "error"
     no-useless-computed-key: "error"
     no-useless-concat: "error"
     no-useless-constructor: "error"
-    no-useless-escape: "error"
+    no-useless-escape: "error" # recommended
     no-useless-rename: "error"
     no-useless-return: "error"
     no-whitespace-before-property: "error"
