@@ -237,7 +237,6 @@ ruleTester.run("comma-style", rule, {
         "var foo = [\n , \n 1, \n 2 \n];",
         {
             code: "const [\n , \n , \n a, \n b, \n] = arr;",
-            output: "const [\n , \n , \n a, \n b, \n] = arr;",
             options: ["last", {
                 exceptions: {
                     ArrayPattern: false
@@ -249,7 +248,6 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "const [\n ,, \n a, \n b, \n] = arr;",
-            output: "const [\n ,, \n a, \n b, \n] = arr;",
             options: ["last", {
                 exceptions: {
                     ArrayPattern: false
@@ -261,7 +259,6 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "const arr = [\n 1 \n , \n ,2 \n]",
-            output: "const arr = [\n 1 \n , \n ,2 \n]",
             options: ["first"],
             parserOptions: {
                 ecmaVersion: 6
@@ -269,7 +266,6 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "const arr = [\n ,'fifi' \n]",
-            output: "const arr = [\n ,'fifi' \n]",
             options: ["first"],
             parserOptions: {
                 ecmaVersion: 6
