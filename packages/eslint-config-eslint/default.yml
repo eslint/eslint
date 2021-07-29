@@ -11,10 +11,6 @@ settings:
             class: "constructor"
         preferredTypes:
             object: "Object"
-overrides:
-    - files: "**/*.md/*.js"
-      rules:
-          strict: "off"
 
 rules:
     array-bracket-spacing: "error"
