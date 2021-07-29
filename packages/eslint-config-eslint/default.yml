@@ -49,7 +49,7 @@ rules:
     guard-for-in: "error"
 
     # jsdoc: adopt non-recommended rules or change recommended configuration
-    jsdoc/check-examples: "error"
+    # jsdoc/check-examples: "error"
     # jsdoc/check-indentation: "error"
     # jsdoc/check-line-alignment: "error"
     jsdoc/check-syntax: "error"

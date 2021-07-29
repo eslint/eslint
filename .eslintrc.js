@@ -82,22 +82,6 @@ module.exports = {
     },
     overrides: [
         {
-            files: "**/no-useless-escape.md/*.js",
-            rules: {
-                "no-unused-expressions": "off"
-            }
-        },
-        {
-            files: "**/ast-utils.md/*.js",
-            rules: {
-                "no-floating-decimal": "off",
-                "no-octal": "off",
-                "no-unused-expressions": "off",
-                "no-multi-spaces": "off",
-                semi: "off"
-            }
-        },
-        {
             files: ["lib/rules/*", "tools/internal-rules/*"],
             excludedFiles: ["index.js"],
             rules: {
