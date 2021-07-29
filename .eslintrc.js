@@ -66,10 +66,13 @@ module.exports = {
     rules: {
         "eslint-plugin/consistent-output": "error",
         "eslint-plugin/no-deprecated-context-methods": "error",
+        "eslint-plugin/no-only-tests": "error",
         "eslint-plugin/prefer-output-null": "error",
         "eslint-plugin/prefer-placeholders": "error",
+        "eslint-plugin/prefer-replace-text": "error",
         "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
         "eslint-plugin/require-meta-docs-description": "error",
+        "eslint-plugin/require-meta-schema": "error",
         "eslint-plugin/require-meta-type": "error",
         "eslint-plugin/test-case-property-ordering": "error",
         "eslint-plugin/test-case-shorthand-strings": "error",
@@ -80,6 +83,7 @@ module.exports = {
             files: ["lib/rules/*", "tools/internal-rules/*"],
             excludedFiles: ["index.js"],
             rules: {
+                "eslint-plugin/prefer-object-rule": "error",
                 "internal-rules/no-invalid-meta": "error",
                 "internal-rules/consistent-meta-messages": "error"
             }
