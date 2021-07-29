@@ -90,6 +90,8 @@ rules:
     # jsdoc/check-indentation: "error" # Revisit if allowing configurable spaces after tag line breaks
     # jsdoc/check-line-alignment: ["error", "never"]
     jsdoc/check-syntax: "error"
+    # jsdoc/check-types': ["error', { exemptTagContexts: [ { tag: "typedef", types: ["object", "GenericObject"] } ] }
+
     jsdoc/check-values: ["error", { allowedLicenses: true }]
     jsdoc/newline-after-description: ["error", "never"]
     jsdoc/no-bad-blocks: "error"
