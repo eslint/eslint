@@ -1,3 +1,19 @@
+v7.32.0 - July 30, 2021
+
+* [`3c78a7b`](https://github.com/eslint/eslint/commit/3c78a7bff6044fd196ae3b737983e6744c6eb7c8) Chore: Adopt `eslint-plugin/prefer-message-ids` rule internally (#14841) (Bryan Mishkin)
+* [`faecf56`](https://github.com/eslint/eslint/commit/faecf56cdb4146b28bfa4f1980adb41b4d3614b1) Update: change reporting location for `curly` rule (refs #12334) (#14766) (Nitin Kumar)
+* [`d7dc07a`](https://github.com/eslint/eslint/commit/d7dc07a15e256cee9232183165e2f6102f2c0873) Fix: ignore lines with empty elements (fixes #12756) (#14837) (Soufiane Boutahlil)
+* [`1bfbefd`](https://github.com/eslint/eslint/commit/1bfbefdaaf19ef32df42b89a3f5d32cff1e5b831) New: Exit on fatal error (fixes #13711) (#14730) (Antonios Katopodis)
+* [`ed007c8`](https://github.com/eslint/eslint/commit/ed007c82ee9d2170c87500d98303554b5f90b915) Chore: Simplify internal `no-invalid-meta` rule (#14842) (Bryan Mishkin)
+* [`d53d906`](https://github.com/eslint/eslint/commit/d53d9064b9dd0dd6a8ea39e07b16310c8364db69) Docs: Prepare data for website to indicate rules with suggestions (#14830) (Bryan Mishkin)
+* [`d28f2ff`](https://github.com/eslint/eslint/commit/d28f2ffb986e49d6da5c1d91215580591f4cfd35) Docs: Reference eslint-config-eslint to avoid potential for staleness (#14805) (Brett Zamir)
+* [`8be8a36`](https://github.com/eslint/eslint/commit/8be8a36010145dfcd31cbdd4f781a91989e3b1bd) Chore: Adopt `eslint-plugin/require-meta-docs-url` rule internally (#14823) (Bryan Mishkin)
+* [`f9c164f`](https://github.com/eslint/eslint/commit/f9c164f7b74ca73384c8c80eed5bdbe359b44f6c) Docs: New syntax issue template (#14826) (Nicholas C. Zakas)
+* [`eba0c45`](https://github.com/eslint/eslint/commit/eba0c4595c126a91f700d5f2e8723ec3f820a830) Chore: assertions on reporting loc in `unicode-bom` (refs #12334) (#14809) (Nitin Kumar)
+* [`ed945bd`](https://github.com/eslint/eslint/commit/ed945bd662714b1917e9de71d5b322a28be9161b) Docs: fix multiple broken links (#14833) (Sam Chen)
+* [`60df44c`](https://github.com/eslint/eslint/commit/60df44c79b0f74406119c0c040a360ca84e721fc) Chore: use `actions/setup-node@v2` (#14816) (Nitin Kumar)
+* [`6641d88`](https://github.com/eslint/eslint/commit/6641d88e17d952a8e51df5e0d3882a842d4c3f35) Docs: Update README team and sponsors (ESLint Jenkins)
+
 v7.31.0 - July 17, 2021
 
 * [`efdbb12`](https://github.com/eslint/eslint/commit/efdbb1227019427ec2d968a8d6e9151dd8a77c35) Upgrade: @eslint/eslintrc to v0.4.3 (#14808) (Brandon Mills)
