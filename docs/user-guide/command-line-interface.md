@@ -239,11 +239,12 @@ This flag can be useful for integrations (e.g. editor plugins) which need to aut
 
 #### `--fix-type`
 
-This option allows you to specify the type of fixes to apply when using either `--fix` or `--fix-dry-run`. The three types of fixes are:
+This option allows you to specify the type of fixes to apply when using either `--fix` or `--fix-dry-run`. The four types of fixes are:
 
 1. `problem` - fix potential errors in the code
 1. `suggestion` - apply fixes to the code that improve it
 1. `layout` - apply fixes that do not change the program structure (AST)
+1. `directive` - apply fixes to inline directives such as `// eslint-disable`
 
 You can specify one or more fix type on the command line. Here are some examples:
 
