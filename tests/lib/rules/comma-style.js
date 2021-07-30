@@ -233,7 +233,45 @@ ruleTester.run("comma-style", rule, {
                     NewExpression: true
                 }
             }]
+        },
+        "var foo = [\n , \n 1, \n 2 \n];",
+        {
+            code: "const [\n , \n , \n a, \n b, \n] = arr;",
+            options: ["last", {
+                exceptions: {
+                    ArrayPattern: false
+                }
+            }],
+            parserOptions: {
+                ecmaVersion: 6
+            }
+        },
+        {
+            code: "const [\n ,, \n a, \n b, \n] = arr;",
+            options: ["last", {
+                exceptions: {
+                    ArrayPattern: false
+                }
+            }],
+            parserOptions: {
+                ecmaVersion: 6
+            }
+        },
+        {
+            code: "const arr = [\n 1 \n , \n ,2 \n]",
+            options: ["first"],
+            parserOptions: {
+                ecmaVersion: 6
+            }
+        },
+        {
+            code: "const arr = [\n ,'fifi' \n]",
+            options: ["first"],
+            parserOptions: {
+                ecmaVersion: 6
+            }
         }
+
     ],
 
     invalid: [
