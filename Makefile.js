@@ -198,7 +198,7 @@ function generateRuleIndexPage() {
                         description: rule.meta.docs.description,
                         recommended: rule.meta.docs.recommended || false,
                         fixable: !!rule.meta.fixable,
-                        hasSuggestions: !!rule.meta.docs.suggestion
+                        hasSuggestions: !!rule.meta.hasSuggestions
                     },
                     category = categoriesData.categories.find(c => c.name === rule.meta.docs.category);
 
@@ -671,7 +671,7 @@ target.gensite = function(prereleaseVersion) {
                 const rule = rules.get(ruleName);
                 const isRecommended = rule && rule.meta.docs.recommended;
                 const isFixable = rule && rule.meta.fixable;
-                const hasSuggestions = rule && rule.meta.docs.suggestion;
+                const hasSuggestions = rule && rule.meta.hasSuggestions;
 
                 // Incorporate the special portion into the documentation content
                 const textSplit = text.split("\n");
