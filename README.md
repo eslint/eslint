@@ -254,6 +254,16 @@ Toru Nagashima
 The people who review and fix bugs and help triage issues.
 
 <table><tbody><tr><td align="center" valign="top" width="11%">
+<a href="https://github.com/brettz9">
+<img src="https://github.com/brettz9.png?s=75" width="75" height="75"><br />
+Brett Zamir
+</a>
+</td><td align="center" valign="top" width="11%">
+<a href="https://github.com/bmish">
+<img src="https://github.com/bmish.png?s=75" width="75" height="75"><br />
+Bryan Mishkin
+</a>
+</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/g-plane">
 <img src="https://github.com/g-plane.png?s=75" width="75" height="75"><br />
 Pig Fang
@@ -267,6 +277,11 @@ Anix
 <a href="https://github.com/yeonjuan">
 <img src="https://github.com/yeonjuan.png?s=75" width="75" height="75"><br />
 YeonJuan
+</a>
+</td><td align="center" valign="top" width="11%">
+<a href="https://github.com/snitin315">
+<img src="https://github.com/snitin315.png?s=75" width="75" height="75"><br />
+Nitin Kumar
 </a>
 </td></tr></tbody></table>
 
@@ -283,7 +298,7 @@ The following companies, organizations, and individuals support ESLint's ongoing
 <p><a href="https://automattic.com"><img src="https://images.opencollective.com/photomatt/d0ef3e1/logo.png" alt="Automattic" height="undefined"></a></p><h3>Gold Sponsors</h3>
 <p><a href="https://nx.dev"><img src="https://images.opencollective.com/nx/0efbe42/logo.png" alt="Nx (by Nrwl)" height="96"></a> <a href="https://google.com/chrome"><img src="https://images.opencollective.com/chrome/dc55bd4/logo.png" alt="Chrome's Web Framework & Tools Performance Fund" height="96"></a> <a href="https://www.salesforce.com"><img src="https://images.opencollective.com/salesforce/ca8f997/logo.png" alt="Salesforce" height="96"></a> <a href="https://www.airbnb.com/"><img src="https://images.opencollective.com/airbnb/d327d66/logo.png" alt="Airbnb" height="96"></a> <a href="https://coinbase.com"><img src="https://avatars.githubusercontent.com/u/1885080?v=4" alt="Coinbase" height="96"></a> <a href="https://substack.com/"><img src="https://avatars.githubusercontent.com/u/53023767?v=4" alt="Substack" height="96"></a></p><h3>Silver Sponsors</h3>
 <p><a href="https://retool.com/"><img src="https://images.opencollective.com/retool/98ea68e/logo.png" alt="Retool" height="64"></a> <a href="https://liftoff.io/"><img src="https://images.opencollective.com/liftoff/5c4fa84/logo.png" alt="Liftoff" height="64"></a></p><h3>Bronze Sponsors</h3>
-<p><a href="https://www.crosswordsolver.org/anagram-solver/"><img src="https://images.opencollective.com/anagram-solver/2666271/logo.png" alt="Anagram Solver" height="32"></a> <a href="null"><img src="https://images.opencollective.com/bugsnag-stability-monitoring/c2cef36/logo.png" alt="Bugsnag Stability Monitoring" height="32"></a> <a href="https://mixpanel.com"><img src="https://images.opencollective.com/mixpanel/cd682f7/logo.png" alt="Mixpanel" height="32"></a> <a href="https://www.vpsserver.com"><img src="https://images.opencollective.com/vpsservercom/logo.png" alt="VPS Server" height="32"></a> <a href="https://icons8.com"><img src="https://images.opencollective.com/icons8/7fa1641/logo.png" alt="Icons8: free icons, photos, illustrations, and music" height="32"></a> <a href="https://discord.com"><img src="https://images.opencollective.com/discordapp/7e3d9a9/logo.png" alt="Discord" height="32"></a> <a href="https://themeisle.com"><img src="https://images.opencollective.com/themeisle/d5592fe/logo.png" alt="ThemeIsle" height="32"></a> <a href="https://www.firesticktricks.com"><img src="https://images.opencollective.com/fire-stick-tricks/b8fbe2c/logo.png" alt="Fire Stick Tricks" height="32"></a> <a href="https://www.practiceignition.com"><img src="https://avatars.githubusercontent.com/u/5753491?v=4" alt="Practice Ignition" height="32"></a></p>
+<p><a href="https://www.crosswordsolver.org/anagram-solver/"><img src="https://images.opencollective.com/anagram-solver/2666271/logo.png" alt="Anagram Solver" height="32"></a> <a href="null"><img src="https://images.opencollective.com/bugsnag-stability-monitoring/c2cef36/logo.png" alt="Bugsnag Stability Monitoring" height="32"></a> <a href="https://mixpanel.com"><img src="https://images.opencollective.com/mixpanel/cd682f7/logo.png" alt="Mixpanel" height="32"></a> <a href="https://www.vpsserver.com"><img src="https://images.opencollective.com/vpsservercom/logo.png" alt="VPS Server" height="32"></a> <a href="https://icons8.com"><img src="https://images.opencollective.com/icons8/7fa1641/logo.png" alt="Icons8: free icons, photos, illustrations, and music" height="32"></a> <a href="https://discord.com"><img src="https://images.opencollective.com/discordapp/f9645d9/logo.png" alt="Discord" height="32"></a> <a href="https://themeisle.com"><img src="https://images.opencollective.com/themeisle/d5592fe/logo.png" alt="ThemeIsle" height="32"></a> <a href="https://www.firesticktricks.com"><img src="https://images.opencollective.com/fire-stick-tricks/b8fbe2c/logo.png" alt="Fire Stick Tricks" height="32"></a> <a href="https://www.practiceignition.com"><img src="https://avatars.githubusercontent.com/u/5753491?v=4" alt="Practice Ignition" height="32"></a></p>
 <!--sponsorsend-->
 
 ## <a name="technology-sponsors"></a>Technology Sponsors

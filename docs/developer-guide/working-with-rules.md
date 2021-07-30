@@ -61,12 +61,12 @@ The source file for a rule exports an object with the following properties.
     * `description` (string) provides the short description of the rule in the [rules index](../rules/)
     * `category` (string) specifies the heading under which the rule is listed in the [rules index](../rules/)
     * `recommended` (boolean) is whether the `"extends": "eslint:recommended"` property in a [configuration file](../user-guide/configuring/configuration-files.md#extending-configuration-files) enables the rule
-    * `url` (string) specifies the URL at which the full documentation can be accessed
+    * `url` (string) specifies the URL at which the full documentation can be accessed (enabling code editors to provide a helpful link on highlighted rule violations)
     * `suggestion` (boolean) specifies whether rules can return suggestions (defaults to false if omitted)
 
     In a custom rule or plugin, you can omit `docs` or include any properties that you need in it.
 
-* `fixable` (string) is either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../user-guide/command-line-interface.md#-fix) automatically fixes problems reported by the rule
+* `fixable` (string) is either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../user-guide/command-line-interface.md#--fix) automatically fixes problems reported by the rule
 
     **Important:** the `fixable` property is mandatory for fixable rules. If this property isn't specified, ESLint will throw an error whenever the rule attempts to produce a fix. Omit the `fixable` property if the rule is not fixable.
 
@@ -127,7 +127,7 @@ The `context` object contains additional functionality that is helpful for rules
 Additionally, the `context` object has the following methods:
 
 * `getAncestors()` - returns an array of the ancestors of the currently-traversed node, starting at the root of the AST and continuing through the direct parent of the current node. This array does not include the currently-traversed node itself.
-* `getCwd()` - returns the `cwd` passed to [Linter](./nodejs-api.md#Linter). It is a path to a directory that should be considered as the current working directory.
+* `getCwd()` - returns the `cwd` passed to [Linter](./nodejs-api.md#linter). It is a path to a directory that should be considered as the current working directory.
 * `getDeclaredVariables(node)` - returns a list of [variables](./scope-manager-interface.md#variable-interface) declared by the given node. This information can be used to track references to variables.
     * If the node is a `VariableDeclaration`, all variables declared in the declaration are returned.
     * If the node is a `VariableDeclarator`, all variables declared in the declarator are returned.
@@ -387,7 +387,7 @@ Suggestions are intended to provide fixes. ESLint will automatically remove the 
 
 #### Suggestion `messageId`s
 
-Instead of using a `desc` key for suggestions a `messageId` can be used instead. This works the same way as `messageId`s for the overall error (see [messageIds](#messageIds)). Here is an example of how to use it in a rule:
+Instead of using a `desc` key for suggestions a `messageId` can be used instead. This works the same way as `messageId`s for the overall error (see [messageIds](#messageids)). Here is an example of how to use it in a rule:
 
 ```js
 {% raw %}

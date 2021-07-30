@@ -187,7 +187,7 @@ For ES6 syntax, use `{ "parserOptions": { "ecmaVersion": 6 } }`; for new ES6 glo
 
 Parser options are set in your `.eslintrc.*` file by using the `parserOptions` property. The available options are:
 
-* `ecmaVersion` - set to 3, 5 (default), 6, 7, 8, 9, 10, 11, or 12 to specify the version of ECMAScript syntax you want to use. You can also set to 2015 (same as 6), 2016 (same as 7), 2017 (same as 8), 2018 (same as 9), 2019 (same as 10), 2020 (same as 11), or 2021 (same as 12) to use the year-based naming.
+* `ecmaVersion` - set to 3, 5 (default), 6, 7, 8, 9, 10, 11, or 12 to specify the version of ECMAScript syntax you want to use. You can also set to 2015 (same as 6), 2016 (same as 7), 2017 (same as 8), 2018 (same as 9), 2019 (same as 10), 2020 (same as 11), or 2021 (same as 12) to use the year-based naming. You can also set "latest" to use the most recently supported version.
 * `sourceType` - set to `"script"` (default) or `"module"` if your code is in ECMAScript modules.
 * `ecmaFeatures` - an object indicating which additional language features you'd like to use:
     * `globalReturn` - allow `return` statements in the global scope
@@ -199,7 +199,7 @@ Here's an example `.eslintrc.json` file:
 ```json
 {
     "parserOptions": {
-        "ecmaVersion": 6,
+        "ecmaVersion": "latest",
         "sourceType": "module",
         "ecmaFeatures": {
             "jsx": true
