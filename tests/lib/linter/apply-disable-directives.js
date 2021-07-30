@@ -1369,7 +1369,7 @@ describe("apply-disable-directives", () => {
                 [
                     {
                         ruleId: null,
-                        message: "Unused eslint-disable directive (no problems were reported from unused).",
+                        message: "Unused eslint-disable directive (no problems were reported from 'unused').",
                         line: 1,
                         column: 22,
                         fix: {
@@ -1409,7 +1409,7 @@ describe("apply-disable-directives", () => {
                 [
                     {
                         ruleId: null,
-                        message: "Unused eslint-disable directive (no problems were reported from unused).",
+                        message: "Unused eslint-disable directive (no problems were reported from 'unused').",
                         line: 1,
                         column: 24,
                         fix: {
@@ -1450,7 +1450,7 @@ describe("apply-disable-directives", () => {
                 [
                     {
                         ruleId: null,
-                        message: "Unused eslint-disable directive (no problems were reported from unused).",
+                        message: "Unused eslint-disable directive (no problems were reported from 'unused').",
                         line: 1,
                         column: 18,
                         fix: {
@@ -1491,7 +1491,7 @@ describe("apply-disable-directives", () => {
                 [
                     {
                         ruleId: null,
-                        message: "Unused eslint-disable directive (no problems were reported from unused).",
+                        message: "Unused eslint-disable directive (no problems were reported from 'unused').",
                         line: 1,
                         column: 18,
                         fix: {
@@ -1539,7 +1539,7 @@ describe("apply-disable-directives", () => {
                 [
                     {
                         ruleId: null,
-                        message: "Unused eslint-disable directive (no problems were reported from unused-1).",
+                        message: "Unused eslint-disable directive (no problems were reported from 'unused-1').",
                         line: 1,
                         column: 18,
                         fix: {
@@ -1551,7 +1551,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-disable directive (no problems were reported from unused-2).",
+                        message: "Unused eslint-disable directive (no problems were reported from 'unused-2').",
                         line: 1,
                         column: 28,
                         fix: {
@@ -1606,7 +1606,7 @@ describe("apply-disable-directives", () => {
                 [
                     {
                         ruleId: null,
-                        message: "Unused eslint-disable directive (no problems were reported from unused-1).",
+                        message: "Unused eslint-disable directive (no problems were reported from 'unused-1').",
                         line: 1,
                         column: 18,
                         fix: {
@@ -1618,7 +1618,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-disable directive (no problems were reported from unused-2).",
+                        message: "Unused eslint-disable directive (no problems were reported from 'unused-2').",
                         line: 1,
                         column: 28,
                         fix: {
@@ -1630,7 +1630,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-disable directive (no problems were reported from unused-3).",
+                        message: "Unused eslint-disable directive (no problems were reported from 'unused-3').",
                         line: 1,
                         column: 43,
                         fix: {

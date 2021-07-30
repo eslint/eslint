@@ -3390,7 +3390,7 @@ var a = "test2";
                 [
                     {
                         ruleId: null,
-                        message: "Unused eslint-disable directive (no problems were reported from no-redeclare).",
+                        message: "Unused eslint-disable directive (no problems were reported from 'no-redeclare').",
                         line: 1,
                         column: 16,
                         fix: {
