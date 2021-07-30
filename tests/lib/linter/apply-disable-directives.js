@@ -679,6 +679,33 @@ describe("apply-disable-directives", () => {
             );
         });
 
+        it("Does not fix a problem for /* eslint-disable */ when disableFixes is enabled", () => {
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [{
+                        parentComment: createParentComment([0, 20]),
+                        type: "disable",
+                        line: 1,
+                        column: 1
+                    }],
+                    disableFixes: true,
+                    problems: [],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported).",
+                        line: 1,
+                        column: 1,
+                        fix: null,
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
         it("Does not add a problem for /* eslint-disable */ /* (problem) */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
