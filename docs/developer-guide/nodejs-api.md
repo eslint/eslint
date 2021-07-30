@@ -355,7 +355,9 @@ The `LintResult` value is the information of the linting result of each file. Th
 * `fixableWarningCount` (`number`)<br>
   The number of warnings that can be fixed automatically by the `fix` constructor option.
 * `errorCount` (`number`)<br>
-  The number of errors. This includes fixable errors.
+  The number of errors. This includes fixable errors and fatal errors.
+* `fatalErrorCount` (`number`)<br>
+  The number of fatal errors.
 * `warningCount` (`number`)<br>
   The number of warnings. This includes fixable warnings.
 * `output` (`string | undefined`)<br>
@@ -462,7 +464,7 @@ const codeLines = SourceCode.splitLines(code);
 The `Linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `Linter` object does not process configuration objects or files.
 The `Linter` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
-* `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules by calling `context.getCwd()` (see [The Context Object](./working-with-rules.md#The-Context-Object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
+* `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules by calling `context.getCwd()` (see [The Context Object](./working-with-rules.md#the-context-object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
 
 For example:
 

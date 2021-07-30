@@ -25,6 +25,14 @@ if (foo == NaN) {
 if (foo != NaN) {
     // ...
 }
+
+if (foo == Number.NaN) {
+    // ...
+}
+
+if (foo != Number.NaN) {
+    // ...
+}
 ```
 
 Examples of **correct** code for this rule:
@@ -77,6 +85,26 @@ switch (NaN) {
         break;
     // ...
 }
+
+switch (foo) {
+    case Number.NaN:
+        bar();
+        break;
+    case 1:
+        baz();
+        break;
+    // ...
+}
+
+switch (Number.NaN) {
+    case a:
+        bar();
+        break;
+    case b:
+        baz();
+        break;
+    // ...
+}
 ```
 
 Examples of **correct** code for this rule with `"enforceForSwitchCase"` option set to `true` (default):
@@ -118,6 +146,26 @@ switch (foo) {
 }
 
 switch (NaN) {
+    case a:
+        bar();
+        break;
+    case b:
+        baz();
+        break;
+    // ...
+}
+
+switch (foo) {
+    case Number.NaN:
+        bar();
+        break;
+    case 1:
+        baz();
+        break;
+    // ...
+}
+
+switch (Number.NaN) {
     case a:
         bar();
         break;

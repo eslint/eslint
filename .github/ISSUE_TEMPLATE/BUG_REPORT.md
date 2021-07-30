@@ -72,7 +72,7 @@ assignees: ''
 <!-- Please tell us exactly how to see the issue you're describing -->
 
 1. 
-1. 
-1. 
+2. 
+3. 
 
 **Are you willing to submit a pull request to fix this bug?**

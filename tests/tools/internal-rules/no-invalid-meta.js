@@ -98,20 +98,6 @@ ruleTester.run("no-invalid-meta", rule, {
     invalid: [
         {
             code: [
-                "module.exports = function(context) {",
-                "    return {",
-                "        Program: function(node) {}",
-                "    };",
-                "};"
-            ].join("\n"),
-            errors: [{
-                messageId: "incorrectExport",
-                line: 1,
-                column: 18
-            }]
-        },
-        {
-            code: [
                 "module.exports = {",
                 "    create: function(context) {",
                 "        return {",
@@ -169,30 +155,6 @@ ruleTester.run("no-invalid-meta", rule, {
                 "module.exports = {",
                 "    meta: {",
                 "        docs: {",
-                "            category: 'Internal',",
-                "            recommended: false",
-                "        },",
-                "        schema: []",
-                "    },",
-
-                "    create: function(context) {",
-                "        return {",
-                "            Program: function(node) {}",
-                "        };",
-                "    }",
-                "};"
-            ].join("\n"),
-            errors: [{
-                messageId: "missingMetaDocsDescription",
-                line: 2,
-                column: 5
-            }]
-        },
-        {
-            code: [
-                "module.exports = {",
-                "    meta: {",
-                "        docs: {",
                 "            description: 'some rule',",
                 "            recommended: false",
                 "        },",
@@ -232,30 +194,6 @@ ruleTester.run("no-invalid-meta", rule, {
             ].join("\n"),
             errors: [{
                 messageId: "missingMetaDocsRecommended",
-                line: 2,
-                column: 5
-            }]
-        },
-        {
-            code: [
-                "module.exports = {",
-                "    meta: {",
-                "        docs: {",
-                "            description: 'some rule',",
-                "            category: 'Internal',",
-                "            recommended: false",
-                "        }",
-                "    },",
-
-                "    create: function(context) {",
-                "        return {",
-                "            Program: function(node) {}",
-                "        };",
-                "    }",
-                "};"
-            ].join("\n"),
-            errors: [{
-                messageId: "missingMetaSchema",
                 line: 2,
                 column: 5
             }]
