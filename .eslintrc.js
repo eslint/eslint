@@ -67,6 +67,7 @@ module.exports = {
         "eslint-plugin/consistent-output": "error",
         "eslint-plugin/no-deprecated-context-methods": "error",
         "eslint-plugin/no-only-tests": "error",
+        "eslint-plugin/prefer-message-ids": "error",
         "eslint-plugin/prefer-output-null": "error",
         "eslint-plugin/prefer-placeholders": "error",
         "eslint-plugin/prefer-replace-text": "error",
@@ -84,8 +85,7 @@ module.exports = {
             excludedFiles: ["index.js"],
             rules: {
                 "eslint-plugin/prefer-object-rule": "error",
-                "internal-rules/no-invalid-meta": "error",
-                "internal-rules/consistent-meta-messages": "error"
+                "internal-rules/no-invalid-meta": "error"
             }
         },
         {
