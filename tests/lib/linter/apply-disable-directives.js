@@ -698,7 +698,6 @@ describe("apply-disable-directives", () => {
                         message: "Unused eslint-disable directive (no problems were reported).",
                         line: 1,
                         column: 1,
-                        fix: null,
                         severity: 2,
                         nodeType: null
                     }
