@@ -16,7 +16,11 @@ const assert = require("chai").assert,
     fs = require("fs"),
     os = require("os"),
     hash = require("../../../lib/cli-engine/hash"),
-    { CascadingConfigArrayFactory } = require("@eslint/eslintrc/lib/cascading-config-array-factory"),
+    {
+        Legacy: {
+            CascadingConfigArrayFactory
+        }
+    } = require("@eslint/eslintrc"),
     { unIndent, createCustomTeardown } = require("../../_utils");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
