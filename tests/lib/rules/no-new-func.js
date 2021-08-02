@@ -56,6 +56,20 @@ ruleTester.run("no-new-func", rule, {
             }]
         },
         {
+            code: "var a = Function.call(null, \"b\", \"c\", \"return b+c\");",
+            errors: [{
+                messageId: "noFunctionConstructor",
+                type: "MemberExpression"
+            }]
+        },
+        {
+            code: "var a = Function.apply(null, [\"b\", \"c\", \"return b+c\"]);",
+            errors: [{
+                messageId: "noFunctionConstructor",
+                type: "MemberExpression"
+            }]
+        },
+        {
             code: "const fn = () => { class Function {} }; new Function('', '')",
             parserOptions: {
                 ecmaVersion: 2015
