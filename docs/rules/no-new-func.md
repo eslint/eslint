@@ -21,6 +21,7 @@ var x = new Function("a", "b", "return a + b");
 var x = Function("a", "b", "return a + b");
 var x = Function.call(null, "a", "b", "return a + b");
 var x = Function.apply(null, ["a", "b", "return a + b"]);
+var x = Function.bind(null, "a", "b", "return a + b")();
 ```
 
 Examples of **correct** code for this rule:
