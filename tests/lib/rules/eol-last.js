@@ -83,10 +83,10 @@ ruleTester.run("eol-last", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "Program",
-                line: 2,
-                column: 1,
-                endLine: void 0,
-                endColumn: void 0
+                line: 1,
+                column: 13,
+                endLine: 2,
+                endColumn: 1
             }]
         },
         {
@@ -96,10 +96,10 @@ ruleTester.run("eol-last", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "Program",
-                line: 2,
-                column: 1,
-                endLine: void 0,
-                endColumn: void 0
+                line: 1,
+                column: 13,
+                endLine: 2,
+                endColumn: 1
             }]
         },
         {
@@ -109,10 +109,10 @@ ruleTester.run("eol-last", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "Program",
-                line: 3,
+                line: 2,
                 column: 1,
-                endLine: void 0,
-                endColumn: void 0
+                endLine: 3,
+                endColumn: 1
             }]
         },
         {
@@ -122,10 +122,10 @@ ruleTester.run("eol-last", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "Program",
-                line: 3,
-                column: 1,
-                endLine: void 0,
-                endColumn: void 0
+                line: 2,
+                column: 13,
+                endLine: 3,
+                endColumn: 1
             }]
         },
         {
@@ -135,10 +135,10 @@ ruleTester.run("eol-last", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "Program",
-                line: 3,
-                column: 1,
-                endLine: void 0,
-                endColumn: void 0
+                line: 2,
+                column: 13,
+                endLine: 3,
+                endColumn: 1
             }]
         },
         {
@@ -148,10 +148,10 @@ ruleTester.run("eol-last", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "Program",
-                line: 3,
+                line: 2,
                 column: 1,
-                endLine: void 0,
-                endColumn: void 0
+                endLine: 3,
+                endColumn: 1
             }]
         },
 
