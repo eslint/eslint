@@ -10,16 +10,18 @@ jobs:
     name: Verify Files
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
-    - name: Install Packages
-      run: npm install
-    - name: Lint Files
-      run: node Makefile lint
-    - name: Check Rule Files
-      run: node Makefile checkRuleFiles
-    - name: Check Licenses
-      run: node Makefile checkLicenses
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          cache: npm
+      - name: Install Packages
+        run: npm install
+      - name: Lint Files
+        run: node Makefile lint
+      - name: Check Rule Files
+        run: node Makefile checkRuleFiles
+      - name: Check Licenses
+        run: node Makefile checkLicenses
 
   test_on_node:
     name: Test
@@ -28,34 +30,36 @@ jobs:
         os: [ubuntu-latest]
         node: [16.x, 15.x, 14.x, 13.x, 12.x, 10.x, "10.12.0"]
         include:
-        - os: windows-latest
-          node: "12.x"
-        - os: macOS-latest
-          node: "12.x"
+          - os: windows-latest
+            node: "12.x"
+          - os: macOS-latest
+            node: "12.x"
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node }}
-    - name: Install Packages
-      run: npm install
-    - name: Test
-      run: node Makefile mocha
-    - name: Fuzz Test
-      run: node Makefile fuzz
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - name: Install Packages
+        run: npm install
+      - name: Test
+        run: node Makefile mocha
+      - name: Fuzz Test
+        run: node Makefile fuzz
 
   test_on_browser:
     name: Browser Test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
-      with:
-        node-version: '12'
-    - name: Install Packages
-      run: npm install
-    - name: Test
-      run: node Makefile karma
-    - name: Fuzz Test
-      run: node Makefile fuzz
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "12"
+          cache: npm
+      - name: Install Packages
+        run: npm install
+      - name: Test
+        run: node Makefile karma
+      - name: Fuzz Test
+        run: node Makefile fuzz
