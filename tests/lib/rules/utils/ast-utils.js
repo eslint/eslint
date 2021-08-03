@@ -212,7 +212,6 @@ describe("ast-utils", () => {
                 "//xxglobal foo",
                 "//xxglobals foo",
                 "//xxexported foo",
-                ""
             ].join("\n");
             const ast = espree.parse(code, ESPREE_CONFIG);
             const sourceCode = new SourceCode(code, ast);
