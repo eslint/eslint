@@ -92,7 +92,7 @@ describe("CLIEngine", () => {
          * exceeds the default test timeout, so raise it just for this hook.
          * Mocha uses `this` to set timeouts on an individual hook level.
          */
-        this.timeout(60 * 1000); // eslint-disable-line no-invalid-this
+        this.timeout(60 * 1000); // eslint-disable-line no-invalid-this -- Mocha API
         shell.mkdir("-p", fixtureDir);
         shell.cp("-r", "./tests/fixtures/.", fixtureDir);
     });
@@ -120,7 +120,7 @@ describe("CLIEngine", () => {
 
         it("should report one fatal message when given a path by --ignore-path that is not a file when ignore is true.", () => {
             assert.throws(() => {
-                // eslint-disable-next-line no-new
+                // eslint-disable-next-line no-new -- Testing synchronous throwing
                 new CLIEngine({ ignorePath: fixtureDir });
             }, `Cannot read .eslintignore file: ${fixtureDir}\nError: EISDIR: illegal operation on a directory, read`);
         });
@@ -129,7 +129,7 @@ describe("CLIEngine", () => {
         it("should not modify baseConfig when format is specified", () => {
             const customBaseConfig = { root: true };
 
-            new CLIEngine({ baseConfig: customBaseConfig, format: "foo" }); // eslint-disable-line no-new
+            new CLIEngine({ baseConfig: customBaseConfig, format: "foo" }); // eslint-disable-line no-new -- Test side effects
 
             assert.deepStrictEqual(customBaseConfig, { root: true });
         });
@@ -741,7 +741,7 @@ describe("CLIEngine", () => {
             const Module = require("module");
             let originalFindPath = null;
 
-            /* eslint-disable no-underscore-dangle */
+            /* eslint-disable no-underscore-dangle -- Private Node API overriding */
             before(() => {
                 originalFindPath = Module._findPath;
                 Module._findPath = function(id, ...otherArgs) {
@@ -754,7 +754,7 @@ describe("CLIEngine", () => {
             after(() => {
                 Module._findPath = originalFindPath;
             });
-            /* eslint-enable no-underscore-dangle */
+            /* eslint-enable no-underscore-dangle -- Private Node API overriding */
 
             it("should resolve 'plugins:[\"@scope\"]' to 'node_modules/@scope/eslint-plugin'.", () => {
                 engine = new CLIEngine({ cwd: getFixturePath("plugin-shorthand/basic") });
@@ -4303,7 +4303,7 @@ describe("CLIEngine", () => {
 
                 assert.throw(() => {
                     try {
-                        // eslint-disable-next-line no-new
+                        // eslint-disable-next-line no-new -- Check for throwing
                         new CLIEngine({ cwd });
                     } catch (error) {
                         assert.strictEqual(error.messageTemplate, "failed-to-read-json");
@@ -4329,7 +4329,7 @@ describe("CLIEngine", () => {
                 const cwd = getFixturePath("ignored-paths", "bad-package-json-ignore");
 
                 assert.throws(() => {
-                    // eslint-disable-next-line no-new
+                    // eslint-disable-next-line no-new -- Check for throwing
                     new CLIEngine({ cwd });
                 }, "Package.json eslintIgnore property requires an array of paths");
             });
@@ -4461,7 +4461,7 @@ describe("CLIEngine", () => {
                 const ignorePath = getFixturePath("ignored-paths", "not-a-directory", ".foobaz");
 
                 assert.throws(() => {
-                    // eslint-disable-next-line no-new
+                    // eslint-disable-next-line no-new -- Check for throwing
                     new CLIEngine({ ignorePath, cwd });
                 }, "Cannot read .eslintignore file");
             });

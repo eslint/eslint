@@ -75,7 +75,7 @@ rules:
 
     eslint-comments/disable-enable-pair: ["error"]
     eslint-comments/no-unused-disable: "error"
-    # eslint-comments/require-description: "error"
+    eslint-comments/require-description: "error"
 
     func-call-spacing: "error"
     func-style: ["error", "declaration"]
@@ -96,7 +96,7 @@ rules:
     jsdoc/newline-after-description: ["error", "never"]
     jsdoc/no-bad-blocks: "error"
     jsdoc/require-asterisk-prefix: "error"
-    jsdoc/require-description: "error"
+    jsdoc/require-description: ["error", { checkConstructors: false }]
     # jsdoc/require-file-overview: "error"
     jsdoc/require-hyphen-before-param-description: ["error", "never"]
     jsdoc/require-returns: ["error", { forceRequireReturn: true, forceReturnsWithAsync: true }]
@@ -118,7 +118,7 @@ rules:
     jsdoc/implements-on-classes: "error"
     jsdoc/multiline-blocks: "error"
     jsdoc/no-multi-asterisks: "error"
-    jsdoc/require-jsdoc: "error"
+    jsdoc/require-jsdoc: ["error", { require: {ClassDeclaration: true} }]
     jsdoc/require-param: "error"
     jsdoc/require-param-description: "error"
     jsdoc/require-param-name: "error"
