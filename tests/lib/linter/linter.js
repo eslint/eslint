@@ -3302,6 +3302,10 @@ var a = "test2";
                         message: "Unused eslint-disable directive (no problems were reported).",
                         line: 1,
                         column: 1,
+                        fix: {
+                            range: [0, 20],
+                            text: " "
+                        },
                         severity: 2,
                         nodeType: null
                     }
@@ -3318,6 +3322,10 @@ var a = "test2";
                         message: "Unused eslint-disable directive (no problems were reported).",
                         line: 1,
                         column: 1,
+                        fix: {
+                            range: [0, 20],
+                            text: " "
+                        },
                         severity: 2,
                         nodeType: null
                     }
@@ -3334,6 +3342,10 @@ var a = "test2";
                         message: "Unused eslint-disable directive (no problems were reported).",
                         line: 1,
                         column: 1,
+                        fix: {
+                            range: [0, 20],
+                            text: " "
+                        },
                         severity: 1,
                         nodeType: null
                     }
@@ -3350,6 +3362,44 @@ var a = "test2";
                         message: "Unused eslint-disable directive (no problems were reported).",
                         line: 1,
                         column: 1,
+                        fix: {
+                            range: [0, 20],
+                            text: " "
+                        },
+                        severity: 1,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("reports problems for partially unused eslint-disable comments (in config)", () => {
+            const code = "alert('test'); // eslint-disable-line no-alert, no-redeclare";
+            const config = {
+                reportUnusedDisableDirectives: true,
+                rules: {
+                    "no-alert": 1,
+                    "no-redeclare": 1
+                }
+            };
+
+            const messages = linter.verify(code, config, {
+                filename,
+                allowInlineConfig: true
+            });
+
+            assert.deepStrictEqual(
+                messages,
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported from 'no-redeclare').",
+                        line: 1,
+                        column: 16,
+                        fix: {
+                            range: [46, 60],
+                            text: ""
+                        },
                         severity: 1,
                         nodeType: null
                     }
