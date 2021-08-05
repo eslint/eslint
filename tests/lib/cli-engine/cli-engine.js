@@ -4643,7 +4643,7 @@ describe("CLIEngine", () => {
             assert.isFunction(formatter);
         });
 
-        it("should return null when a customer formatter doesn't exist", () => {
+        it("should return null when a custom formatter doesn't exist", () => {
             const engine = new CLIEngine(),
                 formatterPath = getFixturePath("formatters", "doesntexist.js"),
                 fullFormatterPath = path.resolve(formatterPath);
@@ -4660,6 +4660,18 @@ describe("CLIEngine", () => {
             assert.throws(() => {
                 engine.getFormatter("special");
             }, `There was a problem loading formatter: ${fullFormatterPath}\nError: Cannot find module '${fullFormatterPath}'`);
+        });
+
+        it("should throw when a built-in formatter no longer exists", () => {
+            const engine = new CLIEngine();
+
+            assert.throws(() => {
+                engine.getFormatter("table");
+            }, "The table formatter is no longer part of core ESLint. Install it manually with `npm install -D eslint-formatter-table`");
+
+            assert.throws(() => {
+                engine.getFormatter("codeframe");
+            }, "The codeframe formatter is no longer part of core ESLint. Install it manually with `npm install -D eslint-formatter-codeframe`");
         });
 
         it("should throw if the required formatter exists but has an error", () => {
