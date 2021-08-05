@@ -65,6 +65,22 @@ ruleTester.run("no-unreachable", rule, {
             parserOptions: {
                 ecmaVersion: 6
             }
+        },
+        {
+            code: "class C { foo = reachable; }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo = reachable; constructor() {} }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C extends B { foo = reachable; }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C extends B { foo = reachable; constructor() { super(); } }",
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -301,6 +317,37 @@ ruleTester.run("no-unreachable", rule, {
                     endLine: 8,
                     endColumn: 22
                 }
+            ]
+        },
+
+        /*
+         * If `extends` exists, constructor exists, and the constructor doesn't
+         * contain `super()`, then the fields are unreachable because the
+         * evaluation of `super()` initializes fields in that case.
+         * In most cases, such an instantiation throws runtime errors, but
+         * doesn't throw if the constructor returns a value.
+         */
+        {
+            code: "class C extends B { foo; constructor() {} }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unreachableCode", column: 21, endColumn: 25 }]
+        },
+        {
+            code: "class C extends B { foo = unreachable + code; constructor() {} }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unreachableCode", column: 21, endColumn: 46 }]
+        },
+        {
+            code: "class C extends B { foo; bar; constructor() {} }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unreachableCode", column: 21, endColumn: 30 }]
+        },
+        {
+            code: "class C extends B { foo; constructor() {} bar; }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "unreachableCode", column: 21, endColumn: 25 },
+                { messageId: "unreachableCode", column: 43, endColumn: 47 }
             ]
         }
     ]

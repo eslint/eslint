@@ -355,7 +355,9 @@ The `LintResult` value is the information of the linting result of each file. Th
 * `fixableWarningCount` (`number`)<br>
   The number of warnings that can be fixed automatically by the `fix` constructor option.
 * `errorCount` (`number`)<br>
-  The number of errors. This includes fixable errors.
+  The number of errors. This includes fixable errors and fatal errors.
+* `fatalErrorCount` (`number`)<br>
+  The number of fatal errors.
 * `warningCount` (`number`)<br>
   The number of warnings. This includes fixable warnings.
 * `output` (`string | undefined`)<br>
@@ -1079,14 +1081,12 @@ const isIgnored = cli.isPathIgnored("foo/bar.js");
 Retrieves a formatter, which you can then use to format a report object. The argument is either the name of a built-in formatter:
 
 * "[checkstyle](../user-guide/formatters#checkstyle)"
-* "[codeframe](../user-guide/formatters#codeframe)"
 * "[compact](../user-guide/formatters#compact)"
 * "[html](../user-guide/formatters#html)"
 * "[jslint-xml](../user-guide/formatters#jslint-xml)"
 * "[json](../user-guide/formatters#json)"
 * "[junit](../user-guide/formatters#junit)"
 * "[stylish](../user-guide/formatters#stylish)" (the default)
-* "[table](../user-guide/formatters#table)"
 * "[tap](../user-guide/formatters#tap)"
 * "[unix](../user-guide/formatters#unix)"
 * "[visualstudio](../user-guide/formatters#visualstudio)"
