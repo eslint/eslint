@@ -11627,6 +11627,189 @@ ruleTester.run("indent", rule, {
             errors: expectedErrors([
                 [2, 0, 1, "Identifier"]
             ])
+        },
+        {
+            code: unIndent`
+                class C {
+                field1;
+                static field2;
+                }
+            `,
+            output: unIndent`
+                class C {
+                    field1;
+                    static field2;
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [2, 4, 0, "Identifier"],
+                [3, 4, 0, "Keyword"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+                field1
+                =
+                0
+                ;
+                static
+                field2
+                =
+                0
+                ;
+                }
+            `,
+            output: unIndent`
+                class C {
+                    field1
+                        =
+                            0
+                            ;
+                    static
+                        field2
+                            =
+                                0
+                                ;
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [2, 4, 0, "Identifier"],
+                [3, 8, 0, "Punctuator"],
+                [4, 12, 0, "Numeric"],
+                [5, 12, 0, "Punctuator"],
+                [6, 4, 0, "Keyword"],
+                [7, 8, 0, "Identifier"],
+                [8, 12, 0, "Punctuator"],
+                [9, 16, 0, "Numeric"],
+                [10, 16, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+                [
+                field1
+                ]
+                =
+                0
+                ;
+                static
+                [
+                field2
+                ]
+                =
+                0
+                ;
+                [
+                field3
+                ] =
+                0;
+                [field4] =
+                0;
+                }
+            `,
+            output: unIndent`
+                class C {
+                    [
+                        field1
+                    ]
+                        =
+                            0
+                            ;
+                    static
+                    [
+                        field2
+                    ]
+                        =
+                            0
+                            ;
+                    [
+                        field3
+                    ] =
+                        0;
+                    [field4] =
+                        0;
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [2, 4, 0, "Punctuator"],
+                [3, 8, 0, "Identifier"],
+                [4, 4, 0, "Punctuator"],
+                [5, 8, 0, "Punctuator"],
+                [6, 12, 0, "Numeric"],
+                [7, 12, 0, "Punctuator"],
+                [8, 4, 0, "Keyword"],
+                [9, 4, 0, "Punctuator"],
+                [10, 8, 0, "Identifier"],
+                [11, 4, 0, "Punctuator"],
+                [12, 8, 0, "Punctuator"],
+                [13, 12, 0, "Numeric"],
+                [14, 12, 0, "Punctuator"],
+                [15, 4, 0, "Punctuator"],
+                [16, 8, 0, "Identifier"],
+                [17, 4, 0, "Punctuator"],
+                [18, 8, 0, "Numeric"],
+                [19, 4, 0, "Punctuator"],
+                [20, 8, 0, "Numeric"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+                field1 = (
+                foo
+                + bar
+                );
+                }
+            `,
+            output: unIndent`
+                class C {
+                    field1 = (
+                        foo
+                + bar
+                    );
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [2, 4, 0, "Identifier"],
+                [3, 8, 0, "Identifier"],
+                [5, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+                #aaa
+                foo() {
+                return this.#aaa
+                }
+                }
+            `,
+            output: unIndent`
+                class C {
+                    #aaa
+                    foo() {
+                        return this.#aaa
+                    }
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [2, 4, 0, "PrivateIdentifier"],
+                [3, 4, 0, "Identifier"],
+                [4, 8, 0, "Keyword"],
+                [5, 4, 0, "Punctuator"]
+            ])
         }
     ]
 });

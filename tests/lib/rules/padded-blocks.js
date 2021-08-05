@@ -74,6 +74,9 @@ ruleTester.run("padded-blocks", rule, {
         { code: "class A{\nfoo(){}\n}", options: ["never"], parserOptions: { ecmaVersion: 6 } },
         { code: "class A{\nfoo(){}\n}", options: [{ classes: "never" }], parserOptions: { ecmaVersion: 6 } },
 
+        { code: "class A{\n\nfoo;\n\n}", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A{\nfoo;\n}", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
+
         // Ignore block statements if not configured
         { code: "{\na();\n}", options: [{ switches: "always" }] },
         { code: "{\n\na();\n\n}", options: [{ switches: "never" }] },
@@ -748,6 +751,19 @@ ruleTester.run("padded-blocks", rule, {
             output: "function foo() { /* a\n */ /* b\n */\n\n  bar;\n\n/* c\n *//* d\n */}",
             options: ["always"],
             errors: [{ messageId: "alwaysPadBlock" }, { messageId: "alwaysPadBlock" }]
+        },
+        {
+            code: "class A{\nfoo;\n}",
+            output: "class A{\n\nfoo;\n\n}",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "alwaysPadBlock" }, { messageId: "alwaysPadBlock" }]
+        },
+        {
+            code: "class A{\n\nfoo;\n\n}",
+            output: "class A{\nfoo;\n}",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "neverPadBlock" }, { messageId: "neverPadBlock" }]
         }
     ]
 });

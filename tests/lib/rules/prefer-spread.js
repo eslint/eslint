@@ -18,7 +18,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 
 const errors = [{ messageId: "preferSpread", type: "CallExpression" }];
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("prefer-spread", rule, {
     valid: [
@@ -43,7 +43,10 @@ ruleTester.run("prefer-spread", rule, {
 
         // Optional chaining
         "(a?.b).c.foo.apply(a?.b.c, args);",
-        "a?.b.c.foo.apply((a?.b).c, args);"
+        "a?.b.c.foo.apply((a?.b).c, args);",
+
+        // Private fields
+        "class C { #apply; foo() { foo.#apply(undefined, args); } }"
     ],
     invalid: [
         {
@@ -114,6 +117,12 @@ ruleTester.run("prefer-spread", rule, {
         },
         {
             code: "(a?.b).c.foo.apply((a?.b).c, args);",
+            errors
+        },
+
+        // Private fields
+        {
+            code: "class C { #foo; foo() { obj.#foo.apply(obj, args); } }",
             errors
         }
     ]
