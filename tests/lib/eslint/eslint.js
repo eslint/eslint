@@ -199,7 +199,7 @@ describe("ESLint", () => {
                     "- 'errorOnUnmatchedPattern' must be a boolean.",
                     "- 'extensions' must be an array of non-empty strings or null.",
                     "- 'fix' must be a boolean or a function.",
-                    "- 'fixTypes' must be an array of any of \"problem\", \"suggestion\", and \"layout\".",
+                    "- 'fixTypes' must be an array of any of \"directive\", \"problem\", \"suggestion\", and \"layout\".",
                     "- 'globInputPaths' must be a boolean.",
                     "- 'ignore' must be a boolean.",
                     "- 'ignorePath' must be a non-empty string or null.",
@@ -443,7 +443,7 @@ describe("ESLint", () => {
                         fix: true,
                         fixTypes: ["layou"]
                     });
-                }, /'fixTypes' must be an array of any of "problem", "suggestion", and "layout"\./iu);
+                }, /'fixTypes' must be an array of any of "directive", "problem", "suggestion", and "layout"\./iu);
             });
 
             it("should not fix any rules when fixTypes is used without fix", async () => {
@@ -5009,6 +5009,10 @@ describe("ESLint", () => {
                                 message: "Unused eslint-disable directive (no problems were reported).",
                                 line: 1,
                                 column: 1,
+                                fix: {
+                                    range: [0, 20],
+                                    text: " "
+                                },
                                 severity: 2,
                                 nodeType: null
                             }
@@ -5016,7 +5020,7 @@ describe("ESLint", () => {
                         errorCount: 1,
                         warningCount: 0,
                         fatalErrorCount: 0,
-                        fixableErrorCount: 0,
+                        fixableErrorCount: 1,
                         fixableWarningCount: 0,
                         source: "/* eslint-disable */",
                         usedDeprecatedRules: []
