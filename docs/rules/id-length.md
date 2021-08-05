@@ -30,6 +30,9 @@ var myObj = { a: 1 };
 (a) => { a * a };
 class x { }
 class Foo { x() {} }
+class Foo { #x() {} }
+class Foo { x = 1 }
+class Foo { #x = 1 }
 function foo(...x) { }
 function foo([x]) { }
 var [x] = arr;
@@ -61,6 +64,9 @@ var myObj = { apple: 1 };
 function foo(num = 0) { }
 class MyClass { }
 class Foo { method() {} }
+class Foo { #method() {} }
+class Foo { field = 1 }
+class Foo { #field = 1 }
 function foo(...args) { }
 function foo([longName]) { }
 var { prop } = {};

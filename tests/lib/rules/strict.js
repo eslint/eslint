@@ -404,7 +404,20 @@ ruleTester.run("strict", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unnecessaryInClasses", type: "ExpressionStatement" }]
         },
-
+        {
+            code: "class A { field = () => { \"use strict\"; } }",
+            output: "class A { field = () => {  } }",
+            options: ["function"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessaryInClasses", type: "ExpressionStatement" }]
+        },
+        {
+            code: "class A { field = function() { \"use strict\"; } }",
+            output: "class A { field = function() {  } }",
+            options: ["function"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessaryInClasses", type: "ExpressionStatement" }]
+        },
 
         // "safe" mode corresponds to "global" if ecmaFeatures.globalReturn is true, otherwise "function"
         {

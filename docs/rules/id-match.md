@@ -35,9 +35,20 @@ var MY_FAVORITE_COLOR = "#112C85";
 function do_something() {
     // ...
 }
+
 obj.do_something = function() {
     // ...
 };
+
+class My_Class {}
+
+class myClass {
+    do_something() {}
+}
+
+class myClass {
+    #do_something() {}
+}
 ```
 
 Examples of **correct** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$"` option:
@@ -52,13 +63,26 @@ do_something();
 var obj = {
     my_pref: 1
 };
+
+class myClass {}
+
+class myClass {
+    doSomething() {}
+}
+
+class myClass {
+    #doSomething() {}
+}
 ```
 
 This rule has an object option:
 
-* `"properties": true` requires object properties to match the specified regular expression
+* `"properties": false` (default) does not check object properties
+* `"properties": true` requires object literal properties and member expression assignment properties to match the specified regular expression
+* `"classFields": false` (default) does not class field names
+* `"classFields": true` requires class field names to match the specified regular expression
+* `"onlyDeclarations": false` (default) requires all variable names to match the specified regular expression
 * `"onlyDeclarations": true` requires only `var`, `function`, and `class` declarations to match the specified regular expression
-* `"onlyDeclarations": false` requires all variable names to match the specified regular expression
 * `"ignoreDestructuring": false` (default) enforces `id-match` for destructured identifiers
 * `"ignoreDestructuring": true` does not check destructured identifiers
 
@@ -72,6 +96,22 @@ Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$",
 var obj = {
     my_pref: 1
 };
+```
+
+### classFields
+
+Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$", { "classFields": true }` options:
+
+```js
+/*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$", { "properties": true }]*/
+
+class myClass {
+    my_pref = 1;
+}
+
+class myClass {
+    #my_pref = 1;
+}
 ```
 
 ### onlyDeclarations

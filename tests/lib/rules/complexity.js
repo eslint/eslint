@@ -118,7 +118,7 @@ ruleTester.run("complexity", rule, {
         { code: "function a(x) {(function() {while(true){'foo';}})(); (function() {while(true){'bar';}})();}", options: [1], errors: 2 },
         { code: "function a(x) {(function() {while(true){'foo';}})(); (function() {'bar';})();}", options: [1], errors: 1 },
         { code: "var obj = { a(x) { return x ? 0 : 1; } };", options: [1], parserOptions: { ecmaVersion: 6 }, errors: [makeError("Method 'a'", 2, 1)] },
-        { code: "var obj = { a: function b(x) { return x ? 0 : 1; } };", options: [1], errors: [makeError("Method 'b'", 2, 1)] },
+        { code: "var obj = { a: function b(x) { return x ? 0 : 1; } };", options: [1], errors: [makeError("Method 'a'", 2, 1)] },
         {
             code: createComplexity(21),
             errors: [makeError("Function 'test'", 21, 20)]

@@ -30,6 +30,7 @@ ruleTester.run("no-throw-literal", rule, {
         "throw new foo();", // NewExpression
         "throw foo.bar;", // MemberExpression
         "throw foo[bar];", // MemberExpression
+        { code: "class C { #field; foo() { throw foo.#field; } }", parserOptions: { ecmaVersion: 2022 } }, // MemberExpression
         "throw foo = new Error();", // AssignmentExpression with the `=` operator
         { code: "throw foo.bar ||= 'literal'", parserOptions: { ecmaVersion: 2021 } }, // AssignmentExpression with a logical operator
         { code: "throw foo[bar] ??= 'literal'", parserOptions: { ecmaVersion: 2021 } }, // AssignmentExpression with a logical operator

@@ -79,6 +79,14 @@ ruleTester.run("no-self-assign", rule, {
         {
             code: "this.x = this.x",
             options: [{ props: false }]
+        },
+        {
+            code: "class C { #field; foo() { this['#field'] = this.#field; } }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #field; foo() { this.#field = this['#field']; } }",
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -147,6 +155,18 @@ ruleTester.run("no-self-assign", rule, {
             code: "a.b = a?.b",
             parserOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "selfAssignment", data: { name: "a?.b" } }]
+        },
+
+        // Private members
+        {
+            code: "class C { #field; foo() { this.#field = this.#field; } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "selfAssignment", data: { name: "this.#field" } }]
+        },
+        {
+            code: "class C { #field; foo() { [this.#field] = [this.#field]; } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "selfAssignment", data: { name: "this.#field" } }]
         }
     ]
 });

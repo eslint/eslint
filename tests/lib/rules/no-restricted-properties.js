@@ -169,6 +169,10 @@ ruleTester.run("no-restricted-properties", rule, {
             code: "function qux([, bar] = foo) {}",
             options: [{ object: "foo", property: "1" }],
             parserOptions: { ecmaVersion: 6 }
+        }, {
+            code: "class C { #foo; foo() { this.#foo; } }",
+            options: [{ property: "#foo" }],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
 
@@ -529,6 +533,18 @@ ruleTester.run("no-restricted-properties", rule, {
                     message: ""
                 },
                 type: "ObjectPattern"
+            }]
+        }, {
+            code: "obj['#foo']",
+            options: [{ property: "#foo" }],
+            errors: [{
+                messageId: "restrictedProperty",
+                data: {
+                    objectName: "",
+                    propertyName: "#foo",
+                    message: ""
+                },
+                type: "MemberExpression"
             }]
         }
     ]

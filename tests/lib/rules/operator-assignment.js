@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/operator-assignment"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2021 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
 
 const EXPECTED_OPERATOR_ASSIGNMENT = [{ messageId: "replaced", type: "AssignmentExpression" }];
 const UNEXPECTED_OPERATOR_ASSIGNMENT = [{ messageId: "unexpected", type: "AssignmentExpression" }];
@@ -85,6 +85,7 @@ ruleTester.run("operator-assignment", rule, {
             code: "this.x = foo.this.x + y",
             options: ["always"]
         },
+        "const foo = 0; class C { foo = foo + 1; }",
 
         // does not check logical operators
         {

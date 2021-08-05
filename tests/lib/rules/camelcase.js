@@ -376,6 +376,16 @@ ruleTester.run("camelcase", rule, {
             code: "([obj.foo = obj.fo_o] = bar);",
             options: [{ properties: "always" }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class C { camelCase; #camelCase; #camelCase2() {} }",
+            options: [{ properties: "always" }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { snake_case; #snake_case; #snake_case2() {} }",
+            options: [{ properties: "never" }],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -1320,6 +1330,26 @@ ruleTester.run("camelcase", rule, {
             options: [{ properties: "always" }],
             parserOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "notCamelCase", data: { name: "non_camelcase" } }]
+        },
+
+        // class public/private fields, private methods.
+        {
+            code: "class C { snake_case; }",
+            options: [{ properties: "always" }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "notCamelCase", data: { name: "snake_case" } }]
+        },
+        {
+            code: "class C { #snake_case; foo() { this.#snake_case; } }",
+            options: [{ properties: "always" }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "notCamelCasePrivate", data: { name: "snake_case" }, column: 11 }]
+        },
+        {
+            code: "class C { #snake_case() {} }",
+            options: [{ properties: "always" }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "notCamelCasePrivate", data: { name: "snake_case" } }]
         }
     ]
 });
