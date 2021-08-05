@@ -62,13 +62,16 @@ The source file for a rule exports an object with the following properties.
     * `category` (string) specifies the heading under which the rule is listed in the [rules index](../rules/)
     * `recommended` (boolean) is whether the `"extends": "eslint:recommended"` property in a [configuration file](../user-guide/configuring/configuration-files.md#extending-configuration-files) enables the rule
     * `url` (string) specifies the URL at which the full documentation can be accessed (enabling code editors to provide a helpful link on highlighted rule violations)
-    * `suggestion` (boolean) specifies whether rules can return suggestions (defaults to false if omitted)
 
     In a custom rule or plugin, you can omit `docs` or include any properties that you need in it.
 
 * `fixable` (string) is either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../user-guide/command-line-interface.md#--fix) automatically fixes problems reported by the rule
 
     **Important:** the `fixable` property is mandatory for fixable rules. If this property isn't specified, ESLint will throw an error whenever the rule attempts to produce a fix. Omit the `fixable` property if the rule is not fixable.
+
+* `hasSuggestions` (boolean) specifies whether rules can return suggestions (defaults to `false` if omitted)
+
+     **Important:** the `hasSuggestions` property is mandatory for rules that provide suggestions. If this property isn't set to `true`, ESLint will throw an error whenever the rule attempts to produce a suggestion. Omit the `hasSuggestions` property if the rule does not provide suggestions.
 
 * `schema` (array) specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../user-guide/configuring/rules.md#configuring-rules)
 
@@ -376,6 +379,8 @@ context.report({
 {% endraw %}
 ```
 
+**Important:** The `meta.hasSuggestions` property is mandatory for rules that provide suggestions. ESLint will throw an error if a rule attempts to produce a suggestion but does not [export](#rule-basics) this property.
+
 Note: Suggestions will be applied as a stand-alone change, without triggering multipass fixes. Each suggestion should focus on a singular change in the code and should not try to conform to user defined styles. For example, if a suggestion is adding a new statement into the codebase, it should not try to match correct indentation, or conform to user preferences on presence/absence of semicolons. All of those things can be corrected by multipass autofix when the user triggers it.
 
 Best practices for suggestions:
@@ -397,7 +402,8 @@ module.exports = {
             unnecessaryEscape: "Unnecessary escape character: \\{{character}}.",
             removeEscape: "Remove the `\\`. This maintains the current functionality.",
             escapeBackslash: "Replace the `\\` with `\\\\` to include the actual backslash character."
-        }
+        },
+        hasSuggestions: true
     },
     create: function(context) {
         // ...
@@ -438,7 +444,8 @@ module.exports = {
         messages: {
             unnecessaryEscape: "Unnecessary escape character: \\{{character}}.",
             removeEscape: "Remove `\\` before {{character}}.",
-        }
+        },
+        hasSuggestions: true
     },
     create: function(context) {
         // ...
