@@ -204,6 +204,18 @@ ruleTester.run("id-denylist", rule, {
             code: "var foo = { bar: window.baz };",
             options: ["window"],
             env: { browser: true }
+        },
+
+        // Class fields
+        {
+            code: "class C { camelCase; #camelCase; #camelCase2() {} }",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { snake_case; #snake_case; #snake_case2() {} }",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -1354,6 +1366,44 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier"
                 }
             ]
+        },
+
+        // Class fields
+        {
+            code: "class C { camelCase; #camelCase; #camelCase2() {} }",
+            options: ["camelCase"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "camelCase" },
+                    type: "Identifier"
+                },
+                {
+                    messageId: "restrictedPrivate",
+                    data: { name: "camelCase" },
+                    type: "PrivateIdentifier"
+                }
+            ]
+
+        },
+        {
+            code: "class C { snake_case; #snake_case() {}; #snake_case2() {} }",
+            options: ["snake_case"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "snake_case" },
+                    type: "Identifier"
+                },
+                {
+                    messageId: "restrictedPrivate",
+                    data: { name: "snake_case" },
+                    type: "PrivateIdentifier"
+                }
+            ]
+
         }
     ]
 });

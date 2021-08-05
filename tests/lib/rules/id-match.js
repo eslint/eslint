@@ -183,7 +183,36 @@ ruleTester.run("id-match", rule, {
             options: ["^[^_]+$", {
                 properties: false
             }]
+        },
+
+        // Class Methods
+        {
+            code: "class x { foo() {} }",
+            options: ["^[^_]+$"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class x { #foo() {} }",
+            options: ["^[^_]+$"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+
+        // Class Fields
+        {
+            code: "class x { _foo = 1; }",
+            options: ["^[^_]+$", {
+                classFields: false
+            }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class x { #_foo = 1; }",
+            options: ["^[^_]+$", {
+                classFields: false
+            }],
+            parserOptions: { ecmaVersion: 2022 }
         }
+
     ],
     invalid: [
         {
@@ -610,6 +639,59 @@ ruleTester.run("id-match", rule, {
                     type: "Identifier"
                 }
             ]
+        },
+
+        // Class Methods
+        {
+            code: "class x { _foo() {} }",
+            options: ["^[^_]+$"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    message: "Identifier '_foo' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "class x { #_foo() {} }",
+            options: ["^[^_]+$"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    message: "Identifier '#_foo' does not match the pattern '^[^_]+$'.",
+                    type: "PrivateIdentifier"
+                }
+            ]
+        },
+
+        // Class Fields
+        {
+            code: "class x { _foo = 1; }",
+            options: ["^[^_]+$", {
+                classFields: true
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    message: "Identifier '_foo' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "class x { #_foo = 1; }",
+            options: ["^[^_]+$", {
+                classFields: true
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    message: "Identifier '#_foo' does not match the pattern '^[^_]+$'.",
+                    type: "PrivateIdentifier"
+                }
+            ]
         }
+
     ]
 });

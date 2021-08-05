@@ -262,6 +262,23 @@ ruleTester.run("func-names", rule, {
             code: "(function*() {}())",
             options: ["as-needed", { generators: "never" }],
             parserOptions: { ecmaVersion: 6 }
+        },
+
+        // class fields
+        {
+            code: "class C { foo = function() {}; }",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [foo] = function() {}; }",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #foo = function() {}; }",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -804,6 +821,63 @@ ruleTester.run("func-names", rule, {
                 line: 1,
                 column: 15,
                 endColumn: 28
+            }]
+        },
+
+        // class fields
+        {
+            code: "class C { foo = function() {} }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "unnamed",
+                data: { name: "method 'foo'" },
+                column: 11,
+                endColumn: 25
+            }]
+        },
+        {
+            code: "class C { [foo] = function() {} }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "unnamed",
+                data: { name: "method" },
+                column: 11,
+                endColumn: 27
+            }]
+        },
+        {
+            code: "class C { #foo = function() {} }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "unnamed",
+                data: { name: "private method #foo" },
+                column: 11,
+                endColumn: 26
+            }]
+        },
+        {
+            code: "class C { foo = bar(function() {}) }",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "unnamed",
+                data: { name: "function" },
+                column: 21,
+                endColumn: 29
+            }]
+        },
+        {
+            code: "class C { foo = function bar() {} }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "named",
+                data: { name: "method 'foo'" },
+                column: 11,
+                endColumn: 29
             }]
         }
     ]

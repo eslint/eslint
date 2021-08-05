@@ -144,6 +144,7 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results.length, 1);
             assert.strictEqual(report.errorCount, 5);
             assert.strictEqual(report.warningCount, 0);
+            assert.strictEqual(report.fatalErrorCount, 0);
             assert.strictEqual(report.fixableErrorCount, 3);
             assert.strictEqual(report.fixableWarningCount, 0);
             assert.strictEqual(report.results[0].messages.length, 5);
@@ -310,6 +311,7 @@ describe("CLIEngine", () => {
                         messages: [],
                         errorCount: 0,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var bar = foo;"
@@ -317,6 +319,7 @@ describe("CLIEngine", () => {
                 ],
                 errorCount: 0,
                 warningCount: 0,
+                fatalErrorCount: 0,
                 fixableErrorCount: 0,
                 fixableWarningCount: 0,
                 usedDeprecatedRules: []
@@ -519,6 +522,7 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         source: "var bar = foo"
@@ -526,6 +530,7 @@ describe("CLIEngine", () => {
                 ],
                 errorCount: 1,
                 warningCount: 0,
+                fatalErrorCount: 0,
                 fixableErrorCount: 0,
                 fixableWarningCount: 0,
                 usedDeprecatedRules: []
@@ -562,6 +567,7 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fatalErrorCount: 1,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var bar = foothis is a syntax error."
@@ -569,6 +575,7 @@ describe("CLIEngine", () => {
                 ],
                 errorCount: 1,
                 warningCount: 0,
+                fatalErrorCount: 1,
                 fixableErrorCount: 0,
                 fixableWarningCount: 0,
                 usedDeprecatedRules: []
@@ -604,6 +611,7 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fatalErrorCount: 1,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         source: "var bar ="
@@ -611,6 +619,7 @@ describe("CLIEngine", () => {
                 ],
                 errorCount: 1,
                 warningCount: 0,
+                fatalErrorCount: 1,
                 fixableErrorCount: 0,
                 fixableWarningCount: 0,
                 usedDeprecatedRules: []
@@ -692,6 +701,7 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fatalErrorCount: 1,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         source: "var bar = foothis is a syntax error.\n return bar;"
@@ -699,6 +709,7 @@ describe("CLIEngine", () => {
                 ],
                 errorCount: 1,
                 warningCount: 0,
+                fatalErrorCount: 1,
                 fixableErrorCount: 0,
                 fixableWarningCount: 0,
                 usedDeprecatedRules: []
@@ -1684,6 +1695,7 @@ describe("CLIEngine", () => {
                         messages: [],
                         errorCount: 0,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "true ? \"yes\" : \"no\";\n"
@@ -1693,6 +1705,7 @@ describe("CLIEngine", () => {
                         messages: [],
                         errorCount: 0,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0
                     },
@@ -1713,6 +1726,7 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var msg = \"hi\";\nif (msg == \"hi\") {\n\n}\n"
@@ -1734,6 +1748,7 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var msg = \"hi\" + foo;\n"
@@ -4628,7 +4643,7 @@ describe("CLIEngine", () => {
             assert.isFunction(formatter);
         });
 
-        it("should return null when a customer formatter doesn't exist", () => {
+        it("should return null when a custom formatter doesn't exist", () => {
             const engine = new CLIEngine(),
                 formatterPath = getFixturePath("formatters", "doesntexist.js"),
                 fullFormatterPath = path.resolve(formatterPath);
@@ -4645,6 +4660,18 @@ describe("CLIEngine", () => {
             assert.throws(() => {
                 engine.getFormatter("special");
             }, `There was a problem loading formatter: ${fullFormatterPath}\nError: Cannot find module '${fullFormatterPath}'`);
+        });
+
+        it("should throw when a built-in formatter no longer exists", () => {
+            const engine = new CLIEngine();
+
+            assert.throws(() => {
+                engine.getFormatter("table");
+            }, "The table formatter is no longer part of core ESLint. Install it manually with `npm install -D eslint-formatter-table`");
+
+            assert.throws(() => {
+                engine.getFormatter("codeframe");
+            }, "The codeframe formatter is no longer part of core ESLint. Install it manually with `npm install -D eslint-formatter-codeframe`");
         });
 
         it("should throw if the required formatter exists but has an error", () => {
@@ -5077,6 +5104,7 @@ describe("CLIEngine", () => {
                             ],
                             errorCount: 1,
                             warningCount: 0,
+                            fatalErrorCount: 0,
                             fixableErrorCount: 0,
                             fixableWarningCount: 0,
                             source: "/* eslint-disable */"
@@ -5084,6 +5112,7 @@ describe("CLIEngine", () => {
                     ],
                     errorCount: 1,
                     warningCount: 0,
+                    fatalErrorCount: 0,
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
                     usedDeprecatedRules: []
@@ -6155,7 +6184,8 @@ describe("CLIEngine", () => {
                             }
                         ],
                         source: "a == b",
-                        warningCount: 0
+                        warningCount: 0,
+                        fatalErrorCount: 0
                     }
                 ]);
             });
@@ -6177,7 +6207,8 @@ describe("CLIEngine", () => {
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         messages: [],
-                        warningCount: 0
+                        warningCount: 0,
+                        fatalErrorCount: 0
                     }
                 ]);
             });
@@ -6223,7 +6254,8 @@ describe("CLIEngine", () => {
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         messages: [],
-                        warningCount: 0
+                        warningCount: 0,
+                        fatalErrorCount: 0
                     }
                 ]);
             });
@@ -6258,7 +6290,8 @@ describe("CLIEngine", () => {
                             }
                         ],
                         source: "a == b",
-                        warningCount: 0
+                        warningCount: 0,
+                        fatalErrorCount: 0
                     }
                 ]);
             });

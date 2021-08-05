@@ -22,7 +22,7 @@ const neverError = { messageId: "never" };
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("lines-between-class-members", rule, {
     valid: [
@@ -46,6 +46,8 @@ ruleTester.run("lines-between-class-members", rule, {
         "class foo{ bar(){}\n\n;;baz(){}}",
         "class foo{ bar(){};\n\nbaz(){}}",
 
+        "class C {\naaa;\n\n#bbb;\n\nccc(){}\n\n#ddd(){}\n}",
+
         { code: "class foo{ bar(){}\nbaz(){}}", options: ["never"] },
         { code: "class foo{ bar(){}\n/*comments*/baz(){}}", options: ["never"] },
         { code: "class foo{ bar(){}\n//comments\nbaz(){}}", options: ["never"] },
@@ -58,7 +60,8 @@ ruleTester.run("lines-between-class-members", rule, {
         { code: "class foo{ bar(){}\n\n//comments\nbaz(){}}", options: ["always"] },
 
         { code: "class foo{ bar(){}\nbaz(){}}", options: ["always", { exceptAfterSingleLine: true }] },
-        { code: "class foo{ bar(){\n}\n\nbaz(){}}", options: ["always", { exceptAfterSingleLine: true }] }
+        { code: "class foo{ bar(){\n}\n\nbaz(){}}", options: ["always", { exceptAfterSingleLine: true }] },
+        { code: "class foo{\naaa;\n#bbb;\nccc(){\n}\n\n#ddd(){\n}\n}", options: ["always", { exceptAfterSingleLine: true }] }
     ],
     invalid: [
         {
@@ -140,6 +143,26 @@ ruleTester.run("lines-between-class-members", rule, {
             code: "class A {\nfoo() {}\n/* comment */;\n;\nbar() {}\n}",
             output: "class A {\nfoo() {}\n\n/* comment */;\n;\nbar() {}\n}",
             options: ["always"],
+            errors: [alwaysError]
+        }, {
+            code: "class C {\nfield1\nfield2\n}",
+            output: "class C {\nfield1\n\nfield2\n}",
+            options: ["always"],
+            errors: [alwaysError]
+        }, {
+            code: "class C {\n#field1\n#field2\n}",
+            output: "class C {\n#field1\n\n#field2\n}",
+            options: ["always"],
+            errors: [alwaysError]
+        }, {
+            code: "class C {\nfield1\n\nfield2\n}",
+            output: "class C {\nfield1\nfield2\n}",
+            options: ["never"],
+            errors: [neverError]
+        }, {
+            code: "class C {\nfield1 = () => {\n}\nfield2\nfield3\n}",
+            output: "class C {\nfield1 = () => {\n}\n\nfield2\nfield3\n}",
+            options: ["always", { exceptAfterSingleLine: true }],
             errors: [alwaysError]
         }
     ]
