@@ -110,6 +110,7 @@ module.exports = {
         // Restrict relative path imports
         {
             files: ["lib/*"],
+            excludedFiles: ["lib/unsupported-api.js"],
             rules: {
                 "node/no-restricted-require": ["error", [
                     ...createInternalFilesPatterns()
