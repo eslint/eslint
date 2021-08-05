@@ -1747,7 +1747,7 @@ describe("RuleTester", () => {
                     { code: "var foo = bar;", output: "5", errors: 1 }
                 ]
             });
-        }, "Fixable rules should export a `meta.fixable` property.");
+        }, /Fixable rules must set the `meta\.fixable` property/u);
     });
     it("should throw an error if a legacy-format rule produces fixes", () => {
 
@@ -1771,7 +1771,7 @@ describe("RuleTester", () => {
                     { code: "var foo = bar;", output: "5", errors: 1 }
                 ]
             });
-        }, "Fixable rules should export a `meta.fixable` property.");
+        }, /Fixable rules must set the `meta\.fixable` property/u);
     });
 
     describe("suggestions", () => {
@@ -2392,17 +2392,24 @@ describe("RuleTester", () => {
         assert.throw(() => {
             ruleTester.run(
                 "foo",
-                context => ({
-                    Identifier(node) {
-                        context.report({
-                            node,
-                            message: "make a syntax error",
-                            fix(fixer) {
-                                return fixer.replaceText(node, "one two");
+                {
+                    meta: {
+                        fixable: "code"
+                    },
+                    create(context) {
+                        return {
+                            Identifier(node) {
+                                context.report({
+                                    node,
+                                    message: "make a syntax error",
+                                    fix(fixer) {
+                                        return fixer.replaceText(node, "one two");
+                                    }
+                                });
                             }
-                        });
+                        };
                     }
-                }),
+                },
                 {
                     valid: ["one()"],
                     invalid: []
