@@ -198,6 +198,18 @@ ruleTester.run("dot-location", rule, {
             code: "obj?.[\nkey]",
             options: ["property"],
             parserOptions: { ecmaVersion: 2020 }
+        },
+
+        // Private properties
+        {
+            code: "class C { #a; foo() { this.\n#a; } }",
+            options: ["object"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #a; foo() { this\n.#a; } }",
+            options: ["property"],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -385,6 +397,22 @@ ruleTester.run("dot-location", rule, {
             output: "obj\n?.prop",
             options: ["property"],
             parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedDotBeforeProperty" }]
+        },
+
+        // Private properties
+        {
+            code: "class C { #a; foo() { this\n.#a; } }",
+            output: "class C { #a; foo() { this.\n#a; } }",
+            options: ["object"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedDotAfterObject" }]
+        },
+        {
+            code: "class C { #a; foo() { this.\n#a; } }",
+            output: "class C { #a; foo() { this\n.#a; } }",
+            options: ["property"],
+            parserOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "expectedDotBeforeProperty" }]
         }
     ]

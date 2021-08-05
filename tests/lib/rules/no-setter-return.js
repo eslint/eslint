@@ -39,7 +39,7 @@ function error(column, type = "ReturnStatement") {
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("no-setter-return", rule, {
     valid: [
@@ -114,6 +114,7 @@ ruleTester.run("no-setter-return", rule, {
         "class A { static set(val) { return 1; } }",
         "({ set: set = function set(val) { return 1; } } = {})",
         "({ set: set = (val) => 1 } = {})",
+        "class C { set; foo() { return 1; } }",
 
         // not returning from the setter
         "({ set foo(val) { function foo(val) { return 1; } } })",
@@ -224,7 +225,7 @@ ruleTester.run("no-setter-return", rule, {
         },
         "object.create(foo, { bar: { set: function(val) { return 1; } } })",
 
-        // global object doesn't exist
+        // Global object doesn't exist
         "Reflect.defineProperty(foo, 'bar', { set(val) { if (val) { return 1; } } })",
         "/* globals Object:off */ Object.defineProperty(foo, 'bar', { set(val) { return 1; } })",
         {
@@ -232,7 +233,7 @@ ruleTester.run("no-setter-return", rule, {
             globals: { Object: "off" }
         },
 
-        // global object is shadowed
+        // Global object is shadowed
         "let Object; Object.defineProperty(foo, 'bar', { set(val) { return 1; } })",
         {
             code: "function f() { Reflect.defineProperty(foo, 'bar', { set(val) { if (val) { return 1; } } }); var Reflect;}",

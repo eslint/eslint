@@ -66,10 +66,15 @@ module.exports = {
     rules: {
         "eslint-plugin/consistent-output": "error",
         "eslint-plugin/no-deprecated-context-methods": "error",
+        "eslint-plugin/no-only-tests": "error",
+        "eslint-plugin/prefer-message-ids": "error",
         "eslint-plugin/prefer-output-null": "error",
         "eslint-plugin/prefer-placeholders": "error",
+        "eslint-plugin/prefer-replace-text": "error",
         "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
         "eslint-plugin/require-meta-docs-description": "error",
+        "eslint-plugin/require-meta-has-suggestions": "error",
+        "eslint-plugin/require-meta-schema": "error",
         "eslint-plugin/require-meta-type": "error",
         "eslint-plugin/test-case-property-ordering": "error",
         "eslint-plugin/test-case-shorthand-strings": "error",
@@ -80,15 +85,15 @@ module.exports = {
             files: ["lib/rules/*", "tools/internal-rules/*"],
             excludedFiles: ["index.js"],
             rules: {
-                "internal-rules/no-invalid-meta": "error",
-                "internal-rules/consistent-meta-messages": "error"
+                "eslint-plugin/prefer-object-rule": "error",
+                "internal-rules/no-invalid-meta": "error"
             }
         },
         {
             files: ["lib/rules/*"],
             excludedFiles: ["index.js"],
             rules: {
-                "internal-rules/consistent-docs-url": "error"
+                "eslint-plugin/require-meta-docs-url": ["error", { pattern: "https://eslint.org/docs/rules/{{name}}" }]
             }
         },
         {

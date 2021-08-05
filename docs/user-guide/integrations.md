@@ -44,6 +44,7 @@
 * [Git Precommit Hook](https://coderwall.com/p/zq8jlq/eslint-pre-commit-hook)
 * [Git pre-commit hook that only lints staged changes](https://gist.github.com/dahjelle/8ddedf0aebd488208a9a7c829f19b9e8)
 * [overcommit Git hook manager](https://github.com/brigade/overcommit)
+* [Mega-Linter](https://nvuillam.github.io/mega-linter): Linters aggregator for CI, [embedding eslint](https://nvuillam.github.io/mega-linter/descriptors/javascript_eslint/)
 
 ## Testing
 

@@ -49,9 +49,17 @@ ruleTester.run("space-infix-ops", rule, {
         // TypeScript Type Aliases
         { code: "type Foo<T> = T;", parser: parser("typescript-parsers/type-alias"), parserOptions: { ecmaVersion: 6 } },
 
+        // Logical Assignments
         { code: "a &&= b", parserOptions: { ecmaVersion: 2021 } },
         { code: "a ||= b", parserOptions: { ecmaVersion: 2021 } },
-        { code: "a ??= b", parserOptions: { ecmaVersion: 2021 } }
+        { code: "a ??= b", parserOptions: { ecmaVersion: 2021 } },
+
+        // Class Fields
+        { code: "class C { a; }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { a = b; }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { 'a' = b; }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { [a] = b; }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { #a = b; }", parserOptions: { ecmaVersion: 2022 } }
     ],
     invalid: [
         {
@@ -492,6 +500,7 @@ ruleTester.run("space-infix-ops", rule, {
             }]
         },
 
+        // Logical Assignments
         {
             code: "a&&=b",
             output: "a &&= b",
@@ -532,6 +541,36 @@ ruleTester.run("space-infix-ops", rule, {
                 endLine: 1,
                 endColumn: 5,
                 type: "AssignmentExpression"
+            }]
+        },
+
+        // Class Fields
+        {
+            code: "class C { a=b; }",
+            output: "class C { a = b; }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "missingSpace",
+                data: { operator: "=" },
+                line: 1,
+                column: 12,
+                endLine: 1,
+                endColumn: 13,
+                type: "PropertyDefinition"
+            }]
+        },
+        {
+            code: "class C { [a ]= b; }",
+            output: "class C { [a ] = b; }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "missingSpace",
+                data: { operator: "=" },
+                line: 1,
+                column: 15,
+                endLine: 1,
+                endColumn: 16,
+                type: "PropertyDefinition"
             }]
         }
     ]

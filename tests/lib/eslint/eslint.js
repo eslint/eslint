@@ -22,6 +22,7 @@ const shell = require("shelljs");
 const { CascadingConfigArrayFactory } = require("@eslint/eslintrc/lib/cascading-config-array-factory");
 const hash = require("../../../lib/cli-engine/hash");
 const { unIndent, createCustomTeardown } = require("../../_utils");
+const coreRules = require("../../../lib/rules");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -198,7 +199,7 @@ describe("ESLint", () => {
                     "- 'errorOnUnmatchedPattern' must be a boolean.",
                     "- 'extensions' must be an array of non-empty strings or null.",
                     "- 'fix' must be a boolean or a function.",
-                    "- 'fixTypes' must be an array of any of \"problem\", \"suggestion\", and \"layout\".",
+                    "- 'fixTypes' must be an array of any of \"directive\", \"problem\", \"suggestion\", and \"layout\".",
                     "- 'globInputPaths' must be a boolean.",
                     "- 'ignore' must be a boolean.",
                     "- 'ignorePath' must be a non-empty string or null.",
@@ -396,6 +397,7 @@ describe("ESLint", () => {
                     messages: [],
                     errorCount: 0,
                     warningCount: 0,
+                    fatalErrorCount: 0,
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
                     output: "var bar = foo;",
@@ -441,7 +443,7 @@ describe("ESLint", () => {
                         fix: true,
                         fixTypes: ["layou"]
                     });
-                }, /'fixTypes' must be an array of any of "problem", "suggestion", and "layout"\./iu);
+                }, /'fixTypes' must be an array of any of "directive", "problem", "suggestion", and "layout"\./iu);
             });
 
             it("should not fix any rules when fixTypes is used without fix", async () => {
@@ -596,6 +598,7 @@ describe("ESLint", () => {
                     ],
                     errorCount: 1,
                     warningCount: 0,
+                    fatalErrorCount: 0,
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
                     source: "var bar = foo",
@@ -635,6 +638,7 @@ describe("ESLint", () => {
                     ],
                     errorCount: 1,
                     warningCount: 0,
+                    fatalErrorCount: 1,
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
                     output: "var bar = foothis is a syntax error.",
@@ -673,6 +677,7 @@ describe("ESLint", () => {
                     ],
                     errorCount: 1,
                     warningCount: 0,
+                    fatalErrorCount: 1,
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
                     source: "var bar =",
@@ -760,6 +765,7 @@ describe("ESLint", () => {
                     ],
                     errorCount: 1,
                     warningCount: 0,
+                    fatalErrorCount: 1,
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
                     source: "var bar = foothis is a syntax error.\n return bar;",
@@ -1657,6 +1663,7 @@ describe("ESLint", () => {
                         messages: [],
                         errorCount: 0,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "true ? \"yes\" : \"no\";\n",
@@ -1667,6 +1674,7 @@ describe("ESLint", () => {
                         messages: [],
                         errorCount: 0,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         usedDeprecatedRules: []
@@ -1688,6 +1696,7 @@ describe("ESLint", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var msg = \"hi\";\nif (msg == \"hi\") {\n\n}\n",
@@ -1710,6 +1719,7 @@ describe("ESLint", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var msg = \"hi\" + foo;\n",
@@ -4652,7 +4662,7 @@ describe("ESLint", () => {
             assert.strictEqual(typeof formatter.format, "function");
         });
 
-        it("should throw if a customer formatter doesn't exist", async () => {
+        it("should throw if a custom formatter doesn't exist", async () => {
             const engine = new ESLint();
             const formatterPath = getFixturePath("formatters", "doesntexist.js");
             const fullFormatterPath = path.resolve(formatterPath);
@@ -4787,6 +4797,80 @@ describe("ESLint", () => {
 
             assert.strictEqual(errorResults[0].messages.length, 1);
             assert.strictEqual(errorResults[0].output, "console.log('foo');");
+        });
+    });
+
+    describe("getRulesMetaForResults()", () => {
+        it("should return empty object when there are no linting errors", async () => {
+            const engine = new ESLint({
+                useEslintrc: false
+            });
+
+            const rulesMeta = engine.getRulesMetaForResults([]);
+
+            assert.strictEqual(Object.keys(rulesMeta).length, 0);
+        });
+
+        it("should return one rule meta when there is a linting error", async () => {
+            const engine = new ESLint({
+                useEslintrc: false,
+                overrideConfig: {
+                    rules: {
+                        semi: 2
+                    }
+                }
+            });
+
+            const results = await engine.lintText("a");
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
+        });
+
+        it("should return multiple rule meta when there are multiple linting errors", async () => {
+            const engine = new ESLint({
+                useEslintrc: false,
+                overrideConfig: {
+                    rules: {
+                        semi: 2,
+                        quotes: [2, "double"]
+                    }
+                }
+            });
+
+            const results = await engine.lintText("'a'");
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
+            assert.strictEqual(rulesMeta.quotes, coreRules.get("quotes").meta);
+        });
+
+        it("should return multiple rule meta when there are multiple linting errors from a plugin", async () => {
+            const nodePlugin = require("eslint-plugin-node");
+            const engine = new ESLint({
+                useEslintrc: false,
+                plugins: {
+                    node: nodePlugin
+                },
+                overrideConfig: {
+                    plugins: ["node"],
+                    rules: {
+                        "node/no-new-require": 2,
+                        semi: 2,
+                        quotes: [2, "double"]
+                    }
+                }
+            });
+
+            const results = await engine.lintText("new require('hi')");
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
+            assert.strictEqual(rulesMeta.quotes, coreRules.get("quotes").meta);
+            assert.strictEqual(
+                rulesMeta["node/no-new-require"],
+                nodePlugin.rules["no-new-require"].meta
+            );
         });
     });
 
@@ -4925,13 +5009,18 @@ describe("ESLint", () => {
                                 message: "Unused eslint-disable directive (no problems were reported).",
                                 line: 1,
                                 column: 1,
+                                fix: {
+                                    range: [0, 20],
+                                    text: " "
+                                },
                                 severity: 2,
                                 nodeType: null
                             }
                         ],
                         errorCount: 1,
                         warningCount: 0,
-                        fixableErrorCount: 0,
+                        fatalErrorCount: 0,
+                        fixableErrorCount: 1,
                         fixableWarningCount: 0,
                         source: "/* eslint-disable */",
                         usedDeprecatedRules: []
@@ -5985,7 +6074,8 @@ describe("ESLint", () => {
                         ],
                         source: "a == b",
                         usedDeprecatedRules: [],
-                        warningCount: 0
+                        warningCount: 0,
+                        fatalErrorCount: 0
                     }
                 ]);
             });
@@ -6008,7 +6098,8 @@ describe("ESLint", () => {
                         fixableWarningCount: 0,
                         messages: [],
                         usedDeprecatedRules: [],
-                        warningCount: 0
+                        warningCount: 0,
+                        fatalErrorCount: 0
                     }
                 ]);
             });
@@ -6055,7 +6146,8 @@ describe("ESLint", () => {
                         fixableWarningCount: 0,
                         messages: [],
                         usedDeprecatedRules: [],
-                        warningCount: 0
+                        warningCount: 0,
+                        fatalErrorCount: 0
                     }
                 ]);
             });
@@ -6091,7 +6183,8 @@ describe("ESLint", () => {
                         ],
                         source: "a == b",
                         usedDeprecatedRules: [],
-                        warningCount: 0
+                        warningCount: 0,
+                        fatalErrorCount: 0
                     }
                 ]);
             });

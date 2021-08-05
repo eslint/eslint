@@ -206,7 +206,12 @@ describe("ast-utils", () => {
                 "// lalala I'm a normal comment",
                 "// trying to confuse eslint ",
                 "//trying to confuse eslint-directive-detection",
-                "//eslint is awesome"
+                "//xxeslint-enable foo",
+                "//xxeslint-disable foo",
+                "//xxeslint foo: 2",
+                "//xxglobal foo",
+                "//xxglobals foo",
+                "//xxexported foo"
             ].join("\n");
             const ast = espree.parse(code, ESPREE_CONFIG);
             const sourceCode = new SourceCode(code, ast);
@@ -234,7 +239,13 @@ describe("ast-utils", () => {
                 "// eslint-disable-line no-undef",
                 "// eslint-secret-directive 4 8 15 16 23 42   ",
                 "// eslint-directive-without-argument",
-                "//eslint-directive-without-padding"
+                "//eslint-directive-without-padding",
+
+                // https://github.com/eslint/eslint/issues/14575
+                "//eslint foo:0",
+                "//global foo",
+                "//eslint-enable foo",
+                "//eslint-disable foo"
             ].join("\n");
             const ast = espree.parse(code, ESPREE_CONFIG);
             const sourceCode = new SourceCode(code, ast);
@@ -878,7 +889,17 @@ describe("ast-utils", () => {
             "class A { static *foo() {} }": "static generator method 'foo'",
             "class A { static async foo() {} }": "static async method 'foo'",
             "class A { static get foo() {} }": "static getter 'foo'",
-            "class A { static set foo(a) {} }": "static setter 'foo'"
+            "class A { static set foo(a) {} }": "static setter 'foo'",
+            "class A { foo = () => {}; }": "method 'foo'",
+            "class A { foo = function() {}; }": "method 'foo'",
+            "class A { foo = function bar() {}; }": "method 'foo'",
+            "class A { static foo = () => {}; }": "static method 'foo'",
+            "class A { '#foo' = () => {}; }": "method '#foo'",
+            "class A { #foo = () => {}; }": "private method #foo",
+            "class A { static #foo = () => {}; }": "static private method #foo",
+            "class A { '#foo'() {} }": "method '#foo'",
+            "class A { #foo() {} }": "private method #foo",
+            "class A { static #foo() {} }": "static private method #foo"
         };
 
         Object.keys(expectedResults).forEach(key => {
@@ -892,7 +913,7 @@ describe("ast-utils", () => {
                     })
                 })));
 
-                linter.verify(key, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 8 } });
+                linter.verify(key, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 13 } });
             });
         });
     });
@@ -940,7 +961,12 @@ describe("ast-utils", () => {
             "class A { static *foo() {} }": [10, 21],
             "class A { static async foo() {} }": [10, 26],
             "class A { static get foo() {} }": [10, 24],
-            "class A { static set foo(a) {} }": [10, 24]
+            "class A { static set foo(a) {} }": [10, 24],
+            "class A { foo = function() {}; }": [10, 24],
+            "class A { foo = function bar() {}; }": [10, 28],
+            "class A { static foo = function() {}; }": [10, 31],
+            "class A { foo = () => {}; }": [10, 16],
+            "class A { foo = arg => {}; }": [10, 16]
         };
 
         Object.keys(expectedResults).forEach(key => {
@@ -965,7 +991,7 @@ describe("ast-utils", () => {
                     })
                 })));
 
-                linter.verify(key, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 8 } }, "test.js", true);
+                linter.verify(key, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 13 } }, "test.js", true);
             });
         });
     });

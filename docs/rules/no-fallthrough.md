@@ -54,6 +54,17 @@ switch(foo) {
     case 2:
         doSomethingElse();
 }
+
+switch(foo) {
+    case 1: {
+        doSomething();
+        // falls through
+    }
+
+    case 2: {
+        doSomethingElse();
+    }
+}
 ```
 
 In this example, there is no confusion as to the expected behavior. It is clear that the first case is meant to fall through to the second case.
@@ -123,6 +134,17 @@ switch(foo) {
 
     case 2:
         doSomething();
+}
+
+switch(foo) {
+    case 1: {
+        doSomething();
+        // falls through
+    }
+
+    case 2: {
+        doSomethingElse();
+    }
 }
 ```
 
