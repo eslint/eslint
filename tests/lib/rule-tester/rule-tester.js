@@ -2480,4 +2480,37 @@ describe("RuleTester", () => {
 
     });
 
+    describe("SourceCode#getComments()", () => {
+        const useGetCommentsRule = {
+            create: context => ({
+                Program(node) {
+                    const sourceCode = context.getSourceCode();
+
+                    sourceCode.getComments(node);
+                }
+            })
+        };
+
+        it("should throw if called from a valid test case", () => {
+            assert.throws(() => {
+                ruleTester.run("use-get-comments", useGetCommentsRule, {
+                    valid: [""],
+                    invalid: []
+                });
+            }, /`SourceCode#getComments\(\)` is deprecated/u);
+        });
+
+        it("should throw if called from an invalid test case", () => {
+            assert.throws(() => {
+                ruleTester.run("use-get-comments", useGetCommentsRule, {
+                    valid: [],
+                    invalid: [{
+                        code: "",
+                        errors: [{}]
+                    }]
+                });
+            }, /`SourceCode#getComments\(\)` is deprecated/u);
+        });
+    });
+
 });
