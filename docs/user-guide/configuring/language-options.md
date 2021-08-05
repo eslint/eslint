@@ -44,10 +44,14 @@ Environments can be specified inside of a file, in configuration files or using 
 
 ### Using configuration comments
 
-To specify environments using a comment inside of your JavaScript file, use the following format:
+To specify environments using a line or block comment inside of your JavaScript file, use the following format:
 
 ```js
 /* eslint-env node, mocha */
+```
+
+```js
+// eslint-env node, mocha
 ```
 
 This enables Node.js and Mocha environments.
@@ -123,10 +127,14 @@ Some of ESLint's core rules rely on knowledge of the global variables available 
 
 ### Using configuration comments
 
-To specify globals using a comment inside of your JavaScript file, use the following format:
+To specify globals using a line or block comment inside of your JavaScript file, use the following format:
 
 ```js
 /* global var1, var2 */
+```
+
+```js
+// global var1, var2
 ```
 
 This defines two global variables, `var1` and `var2`. If you want to optionally specify that these global variables can be written to (rather than only being read), then you can set each with a `"writable"` flag:
