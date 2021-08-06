@@ -56,7 +56,7 @@
     "debug": "^4.0.1",
     "doctrine": "^3.0.0",
     "enquirer": "^2.3.5",
-    "escape-string-regexp": "^4.0.0",
+    "escape-string-regexp": "^5.0.0",
     "eslint-scope": "^6.0.0",
     "eslint-utils": "^3.0.0",
     "eslint-visitor-keys": "^2.1.0",
