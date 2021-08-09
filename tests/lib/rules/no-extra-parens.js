@@ -44,7 +44,7 @@ function invalid(code, output, type, line, config) {
 
 const ruleTester = new RuleTester({
     parserOptions: {
-        ecmaVersion: 2021,
+        ecmaVersion: 2022,
         ecmaFeatures: {
             jsx: true
         }
@@ -182,6 +182,25 @@ ruleTester.run("no-extra-parens", rule, {
         "class foo { a(){} [b](){} c(){} [(d,e)](){} }",
         "class foo { [(a,b)](){} c(){} [d](){} e(){} }",
         "const foo = class { constructor(){} a(){} get b(){} set b(bar){} get c(){} set d(baz){} static e(){} }",
+        "class foo { x; }",
+        "class foo { static x; }",
+        "class foo { x = 1; }",
+        "class foo { static x = 1; }",
+        "class foo { #x; }",
+        "class foo { static #x; }",
+        "class foo { static #x = 1; }",
+        "class foo { #x(){} get #y() {} set #y(value) {} static #z(){} static get #q() {} static set #q(value) {} }",
+        "const foo  = class { #x(){} get #y() {} set #y(value) {} static #z(){} static get #q() {} static set #q(value) {} }",
+        "class foo { [(x, y)]; }",
+        "class foo { static [(x, y)]; }",
+        "class foo { [(x, y)] = 1; }",
+        "class foo { static [(x, y)] = 1; }",
+        "class foo { x = (y, z); }",
+        "class foo { static x = (y, z); }",
+        "class foo { #x = (y, z); }",
+        "class foo { static #x = (y, z); }",
+        "class foo { [(1, 2)] = (3, 4) }",
+        "const foo = class { [(1, 2)] = (3, 4) }",
 
         // ExpressionStatement restricted productions
         "({});",
@@ -771,6 +790,26 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("class foo { [(a,b)](){} [(c+d)](){} }", "class foo { [(a,b)](){} [c+d](){} }", "BinaryExpression"),
         invalid("class foo { [a+(b*c)](){} }", "class foo { [a+b*c](){} }", "BinaryExpression"),
         invalid("const foo = class { [(a)](){} }", "const foo = class { [a](){} }", "Identifier"),
+        invalid("class foo { [(x)]; }", "class foo { [x]; }", "Identifier"),
+        invalid("class foo { static [(x)]; }", "class foo { static [x]; }", "Identifier"),
+        invalid("class foo { [(x)] = 1; }", "class foo { [x] = 1; }", "Identifier"),
+        invalid("class foo { static [(x)] = 1; }", "class foo { static [x] = 1; }", "Identifier"),
+        invalid("const foo = class { [(x)]; }", "const foo = class { [x]; }", "Identifier"),
+        invalid("class foo { [(x = y)]; }", "class foo { [x = y]; }", "AssignmentExpression"),
+        invalid("class foo { [(x + y)]; }", "class foo { [x + y]; }", "BinaryExpression"),
+        invalid("class foo { [(x ? y : z)]; }", "class foo { [x ? y : z]; }", "ConditionalExpression"),
+        invalid("class foo { [((x, y))]; }", "class foo { [(x, y)]; }", "SequenceExpression"),
+        invalid("class foo { x = (y); }", "class foo { x = y; }", "Identifier"),
+        invalid("class foo { static x = (y); }", "class foo { static x = y; }", "Identifier"),
+        invalid("class foo { #x = (y); }", "class foo { #x = y; }", "Identifier"),
+        invalid("class foo { static #x = (y); }", "class foo { static #x = y; }", "Identifier"),
+        invalid("const foo = class { x = (y); }", "const foo = class { x = y; }", "Identifier"),
+        invalid("class foo { x = (() => {}); }", "class foo { x = () => {}; }", "ArrowFunctionExpression"),
+        invalid("class foo { x = (y + z); }", "class foo { x = y + z; }", "BinaryExpression"),
+        invalid("class foo { x = (y ? z : q); }", "class foo { x = y ? z : q; }", "ConditionalExpression"),
+        invalid("class foo { x = ((y, z)); }", "class foo { x = (y, z); }", "SequenceExpression"),
+
+        //
         invalid(
             "var foo = (function*() { if ((yield foo())) { return; } }())",
             "var foo = (function*() { if (yield foo()) { return; } }())",
