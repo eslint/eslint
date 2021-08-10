@@ -42,6 +42,9 @@ ruleTester.run("no-useless-computed-key", rule, {
         { code: "class Foo { static ['constructor']() {} }", options: [{ enforceForClassMembers: false }] },
         { code: "class Foo { ['prototype']() {} }", options: [{ enforceForClassMembers: false }] },
         { code: "class Foo { a }", options: [{ enforceForClassMembers: true }] },
+        { code: "class Foo { ['constructor'] }", options: [{ enforceForClassMembers: true }] },
+        { code: "class Foo { static ['constructor'] }", options: [{ enforceForClassMembers: true }] },
+        { code: "class Foo { static ['prototype'] }", options: [{ enforceForClassMembers: true }] },
 
         /*
          * Well-known browsers throw syntax error bigint literals on property names,
@@ -239,6 +242,22 @@ ruleTester.run("no-useless-computed-key", rule, {
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "2" },
+                type: "Property"
+            }]
+        }, {
+            code: "({ ['constructor']: 1 })",
+            output: "({ 'constructor': 1 })",
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "'constructor'" },
+                type: "Property"
+            }]
+        }, {
+            code: "({ ['prototype']: 1 })",
+            output: "({ 'prototype': 1 })",
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "'prototype'" },
                 type: "Property"
             }]
         }, {
@@ -462,6 +481,24 @@ ruleTester.run("no-useless-computed-key", rule, {
                 type: "MethodDefinition"
             }]
         }, {
+            code: "(class { ['__proto__']() {} })",
+            output: "(class { '__proto__'() {} })",
+            options: [{ enforceForClassMembers: true }],
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "'__proto__'" },
+                type: "MethodDefinition"
+            }]
+        }, {
+            code: "(class { static ['__proto__']() {} })",
+            output: "(class { static '__proto__'() {} })",
+            options: [{ enforceForClassMembers: true }],
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "'__proto__'" },
+                type: "MethodDefinition"
+            }]
+        }, {
             code: "(class { static ['constructor']() {} })",
             output: "(class { static 'constructor'() {} })",
             options: [{ enforceForClassMembers: true }],
@@ -513,6 +550,33 @@ ruleTester.run("no-useless-computed-key", rule, {
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'#foo'" },
+                type: "PropertyDefinition"
+            }]
+        }, {
+            code: "(class { ['__proto__'] })",
+            output: "(class { '__proto__' })",
+            options: [{ enforceForClassMembers: true }],
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "'__proto__'" },
+                type: "PropertyDefinition"
+            }]
+        }, {
+            code: "(class { static ['__proto__'] })",
+            output: "(class { static '__proto__' })",
+            options: [{ enforceForClassMembers: true }],
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "'__proto__'" },
+                type: "PropertyDefinition"
+            }]
+        }, {
+            code: "(class { ['prototype'] })",
+            output: "(class { 'prototype' })",
+            options: [{ enforceForClassMembers: true }],
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "'prototype'" },
                 type: "PropertyDefinition"
             }]
         }
