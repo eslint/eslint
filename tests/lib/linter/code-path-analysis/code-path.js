@@ -30,7 +30,11 @@ function parseCodePaths(code) {
             retv.push(codePath);
         }
     }));
-    linter.verify(code, { rules: { test: 2 } });
+
+    linter.verify(code, {
+        rules: { test: 2 },
+        parserOptions: { ecmaVersion: "latest" }
+    });
 
     return retv;
 }
@@ -62,6 +66,20 @@ function getOrderOfTraversing(codePath, options, callback) {
 //------------------------------------------------------------------------------
 
 describe("CodePathAnalyzer", () => {
+
+    /*
+     * If you need to output the code paths and DOT graph information for a
+     * particular piece of code, udpate and uncomment the following test and
+     * then run:
+     * DEBUG=eslint:code-path npx mocha tests/lib/linter/code-path-analysis/
+     *
+     * All the information you need will be output to the console.
+     */
+    /*
+     * it.only("test", () => {
+     *     const codePaths = parseCodePaths("class Foo { a = b() }");
+     * });
+     */
     describe(".traverseSegments()", () => {
         describe("should traverse segments from the first to the end:", () => {
             /* eslint-disable internal-rules/multiline-comment-style */
