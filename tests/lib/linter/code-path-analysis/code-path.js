@@ -77,9 +77,10 @@ describe("CodePathAnalyzer", () => {
      */
     /*
      * it.only("test", () => {
-     *     const codePaths = parseCodePaths("class Foo { a = b() }");
+     *     const codePaths = parseCodePaths("class Foo { a = () => b }");
      * });
      */
+
     describe(".traverseSegments()", () => {
         describe("should traverse segments from the first to the end:", () => {
             /* eslint-disable internal-rules/multiline-comment-style */
