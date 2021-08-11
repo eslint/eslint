@@ -31,7 +31,6 @@ ruleTester.run("no-restricted-imports", rule, {
         { code: "import withPatterns from \"foo/bar\";", options: [{ patterns: ["foo/c*"] }] },
         { code: "import foo from 'foo';", options: ["../foo"] },
         { code: "import foo from 'foo';", options: [{ paths: ["../foo"] }] },
-        { code: "import foo from 'foo';", options: [{ patterns: ["../foo"] }] },
         { code: "import foo from 'foo';", options: ["/foo"] },
         { code: "import foo from 'foo';", options: [{ paths: ["/foo"] }] },
         "import relative from '../foo';",

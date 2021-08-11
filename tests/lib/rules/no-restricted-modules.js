@@ -35,7 +35,6 @@ ruleTester.run("no-restricted-modules", rule, {
         { code: "require(`foo${bar}`)", options: ["foo"], parserOptions: { ecmaVersion: 6 } },
         { code: "var foo = require('foo');", options: ["../foo"] },
         { code: "var foo = require('foo');", options: [{ paths: ["../foo"] }] },
-        { code: "var foo = require('foo');", options: [{ patterns: ["../foo"] }] },
         { code: "var foo = require('foo');", options: ["/foo"] },
         { code: "var foo = require('foo');", options: [{ paths: ["/foo"] }] },
         "var relative = require('../foo');",
