@@ -20,6 +20,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [Rules require `meta.hasSuggestions` to provide suggestions](#suggestions)
 - [Rules require `meta.fixable` to provide fixes](#fixes)
 - [`SourceCode#getComments()` fails in `RuleTester`](#get-comments)
+- [Changes to shorthand property AST format](#ast-format)
 
 ### Breaking changes for integration developers
 
@@ -164,6 +165,54 @@ The `SourceCode#getComments()` method will be removed in v9.0.0.
 
 **Related issue(s):** [#14744](https://github.com/eslint/eslint/issues/14744)
 
+## <a name="ast-format"></a> Changes to shorthand property AST format
+
+ESLint v8.0.0 includes an upgrade to Espree v8.0.0 to support new syntax. This Espree upgrade, in turn, contains an upgrade to Acorn v8.0.0, which changed how shorthand properties were represented in the AST. Here's an example:
+
+```js
+const version = 8;
+const x = {
+    version
+};
+```
+
+This code creates a property node that looks like this:
+
+```json
+{
+    "type": "Property",
+    "method": false,
+    "shorthand": true,
+    "computed": false,
+    "key": {
+        "type": "Identifier",
+        "name": "version"
+    },
+    "kind": "init",
+    "value": {
+        "type": "Identifier",
+        "name": "version"
+    }
+}
+```
+
+Note that both the `key` and the `value` properties contain the same information. Prior to Acorn v8.0.0 (and therefore prior to ESLint v8.0.0), these two nodes were represented by the same object, so you could use `===` to determine if they represented the same node, such as:
+
+```js
+// true in ESLint v7.x, false in ESLint v8.0.0
+if (propertyNode.key === propertyNode.value) {
+    // do something
+}
+```
+
+In ESLint v8.0.0 (via Acorn v8.0.0), the key and value are now separate objects and therefore no longer equivalent.
+
+**To address:** If your rule makes a comparison between the key and value of a shorthand object literal property to determine if they are the same node, you'll need to change your code in one of two ways:
+
+1. Use `propertyNode.shorthand` to determine if the property is a shorthand property node.
+1. Use the `range` property of each node to determine if the key and value occupy the same location.
+
+**Related issue(s):** [#14591](https://github.com/eslint/eslint/pull/14591#issuecomment-887733070)
 
 
 ## <a name="remove-cliengine"></a> The `CLIEngine` class has been removed
