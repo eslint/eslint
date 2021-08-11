@@ -42,6 +42,7 @@ ruleTester.run("no-restricted-modules", rule, {
         { code: "var relative = require('../foo');", options: ["../notFoo"] },
         { code: "var relativeWithPaths = require('../foo');", options: [{ paths: ["../notFoo"] }] },
         { code: "var relativeWithPatterns = require('../foo');", options: [{ patterns: ["notFoo"] }] },
+        { code: "var relativeWithPatterns = require('../../foo');", options: [{ patterns: ["notFoo"] }] },
         "var absolute = require('/foo');",
         { code: "var absolute = require('/foo');", options: ["/notFoo"] },
         { code: "var absoluteWithPaths = require('/foo');", options: [{ paths: ["/notFoo"] }] },
@@ -149,13 +150,24 @@ ruleTester.run("no-restricted-modules", rule, {
     },
     {
         code: "var relativeWithPatterns = require('../foo');",
-        options: [{ patterns: ["../foo"] }],
+        options: [{ patterns: ["foo"] }],
         errors: [{
             message: "'../foo' module is restricted from being used by a pattern.",
             type: "CallExpression",
             line: 1,
             column: 28,
             endColumn: 45
+        }]
+    },
+    {
+        code: "var relativeWithPatterns = require('../../foo');",
+        options: [{ patterns: ["foo"] }],
+        errors: [{
+            message: "'../../foo' module is restricted from being used by a pattern.",
+            type: "CallExpression",
+            line: 1,
+            column: 28,
+            endColumn: 48
         }]
     },
     {

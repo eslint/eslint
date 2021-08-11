@@ -38,6 +38,7 @@ ruleTester.run("no-restricted-imports", rule, {
         { code: "import relative from '../foo';", options: ["../notFoo"] },
         { code: "import relativeWithPaths from '../foo';", options: [{ paths: ["../notFoo"] }] },
         { code: "import relativeWithPatterns from '../foo';", options: [{ patterns: ["notFoo"] }] },
+        { code: "import relativeWithPatterns from '../../foo';", options: [{ patterns: ["notFoo"] }] },
         "import absolute from '/foo';",
         { code: "import absolute from '/foo';", options: ["/notFoo"] },
         { code: "import absoluteWithPaths from '/foo';", options: [{ paths: ["/notFoo"] }] },
@@ -853,13 +854,24 @@ ruleTester.run("no-restricted-imports", rule, {
     },
     {
         code: "import relativeWithPatterns from '../foo';",
-        options: [{ patterns: ["../foo"] }],
+        options: [{ patterns: ["foo"] }],
         errors: [{
             message: "'../foo' import is restricted from being used by a pattern.",
             type: "ImportDeclaration",
             line: 1,
             column: 1,
             endColumn: 43
+        }]
+    },
+    {
+        code: "import relativeWithPatterns from '../../foo';",
+        options: [{ patterns: ["foo"] }],
+        errors: [{
+            message: "'../../foo' import is restricted from being used by a pattern.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 46
         }]
     },
     {
