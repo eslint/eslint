@@ -43,7 +43,7 @@ const { cat, cd, cp, echo, exec, exit, find, ls, mkdir, pwd, rm, test } = requir
 const PERF_MULTIPLIER = 13e6;
 
 const OPEN_SOURCE_LICENSES = [
-    /MIT/u, /BSD/u, /Apache/u, /ISC/u, /WTF/u, /Public Domain/u, /LGPL/u
+    /MIT/u, /BSD/u, /Apache/u, /ISC/u, /WTF/u, /Public Domain/u, /LGPL/u, /Python/u
 ];
 
 //------------------------------------------------------------------------------
@@ -66,7 +66,8 @@ const NODE = "node ", // intentional extra space
     // Files
     RULE_FILES = glob.sync("lib/rules/*.js").filter(filePath => path.basename(filePath) !== "index.js"),
     JSON_FILES = find("conf/").filter(fileType("json")),
-    MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")),
+    MARKDOWNLINT_IGNORED_FILES = fs.readFileSync(path.join(__dirname, ".markdownlintignore"), "utf-8").split("\n"),
+    MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")).filter(file => !MARKDOWNLINT_IGNORED_FILES.includes(file)),
     TEST_FILES = "\"tests/{bin,lib,tools}/**/*.js\"",
     PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslintrc.yml"),
     PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
@@ -213,7 +214,7 @@ function generateRuleIndexPage() {
     // `.rules` will be `undefined` if all rules in category are deprecated.
     categoriesData.categories = categoriesData.categories.filter(category => !!category.rules);
 
-    const output = yaml.safeDump(categoriesData, { sortKeys: true });
+    const output = yaml.dump(categoriesData, { sortKeys: true });
 
     output.to(outputFile);
 }
@@ -389,7 +390,7 @@ function getFirstVersionOfDeletion(filePath) {
  * @private
  */
 function lintMarkdown(files) {
-    const config = yaml.safeLoad(fs.readFileSync(path.join(__dirname, "./.markdownlint.yml"), "utf8")),
+    const config = yaml.load(fs.readFileSync(path.join(__dirname, "./.markdownlint.yml"), "utf8")),
         result = markdownlint.sync({
             files,
             config,

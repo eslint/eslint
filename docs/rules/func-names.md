@@ -17,14 +17,14 @@ This rule can enforce or disallow the use of named function expressions.
 This rule has a string option:
 
 * `"always"` (default) requires function expressions to have a name
-* `"as-needed"` requires function expressions to have a name, if the name cannot be assigned automatically in an ES6 environment
+* `"as-needed"` requires function expressions to have a name, if the name isn't assigned automatically per the ECMAScript specification.
 * `"never"` disallows named function expressions, except in recursive functions, where a name is needed
 
 This rule has an object option:
 
 * `"generators": "always" | "as-needed" | "never"`
     * `"always"` require named generators
-    * `"as-needed"` require named generators if the name cannot be assigned automatically in an ES6 environment.
+    * `"as-needed"` require named generators if the name isn't assigned automatically per the ECMAScript specification.
     * `"never"` disallow named generators where possible.
 
 When a value for `generators` is not provided the behavior for generator functions falls back to the base option.
@@ -97,6 +97,13 @@ var bar = function() {};
 const cat = {
   meow: function() {}
 }
+
+class C {
+    #bar = function() {};
+    baz = function() {};
+}
+
+quux ??= function() {};
 
 (function bar() {
     // ...

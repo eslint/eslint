@@ -60,8 +60,8 @@ describe("ConfigFile", () => {
         [
             ["JavaScript", "foo.js", espree.parse],
             ["JSON", "bar.json", JSON.parse],
-            ["YAML", "foo.yaml", yaml.safeLoad],
-            ["YML", "foo.yml", yaml.safeLoad]
+            ["YAML", "foo.yaml", yaml.load],
+            ["YML", "foo.yml", yaml.load]
         ].forEach(([fileType, filename, validate]) => {
 
             it(`should write a file through fs when a ${fileType} path is passed`, () => {
