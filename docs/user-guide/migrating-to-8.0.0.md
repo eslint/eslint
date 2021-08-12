@@ -151,6 +151,10 @@ module.exports = function(context) {
 };
 ```
 
+The [eslint-plugin/require-meta-fixable](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-fixable.md) rule can automatically fix and enforce that your rules are properly specifying `meta.fixable`.
+
+The [eslint-plugin/prefer-object-rule](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-object-rule.md) rule can automatically fix and enforce that your rules are written with the object format instead of the deprecated function format.
+
 See the [rule documentation](https://eslint.org/docs/developer-guide/working-with-rules) for more information on writing rules.
 
 **Related issue(s):** [#13349](https://github.com/eslint/eslint/issues/13349)
