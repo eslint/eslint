@@ -124,6 +124,8 @@ module.exports = {
 };
 ```
 
+The [eslint-plugin/require-meta-has-suggestions](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-has-suggestions.md) rule can automatically fix and enforce that your rules are properly specifying `meta.hasSuggestions`.
+
 **Related issue(s):** [#14312](https://github.com/eslint/eslint/issues/14312)
 
 ## <a name="fixes"></a> Rules require `meta.fixable` to provide fixes
