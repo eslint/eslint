@@ -51,17 +51,6 @@ function hasMetaDocs(metaPropertyNode) {
 }
 
 /**
- * Whether this `meta` ObjectExpression has a `docs.description` property defined or not.
- * @param {ASTNode} metaPropertyNode The `meta` ObjectExpression for this rule.
- * @returns {boolean} `true` if a `docs.description` property exists.
- */
-function hasMetaDocsDescription(metaPropertyNode) {
-    const metaDocs = getPropertyFromObject("docs", metaPropertyNode.value);
-
-    return metaDocs && getPropertyFromObject("description", metaDocs.value);
-}
-
-/**
  * Whether this `meta` ObjectExpression has a `docs.recommended` property defined or not.
  * @param {ASTNode} metaPropertyNode The `meta` ObjectExpression for this rule.
  * @returns {boolean} `true` if a `docs.recommended` property exists.
@@ -88,11 +77,6 @@ function checkMetaValidity(context, exportsNode) {
 
     if (!hasMetaDocs(metaProperty)) {
         context.report({ node: metaProperty, messageId: "missingMetaDocs" });
-        return;
-    }
-
-    if (!hasMetaDocsDescription(metaProperty)) {
-        context.report({ node: metaProperty, messageId: "missingMetaDocsDescription" });
         return;
     }
 
