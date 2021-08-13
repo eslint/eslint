@@ -100,7 +100,6 @@ module.exports = {
         messages: {
             missingMeta: "Rule is missing a meta property.",
             missingMetaDocs: "Rule is missing a meta.docs property.",
-            missingMetaDocsDescription: "Rule is missing a meta.docs.description property.",
             missingMetaDocsRecommended: "Rule is missing a meta.docs.recommended property.",
             noExport: "Rule does not export anything. Make sure rule exports an object according to new rule format."
         }
