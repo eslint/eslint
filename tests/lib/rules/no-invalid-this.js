@@ -9,10 +9,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const merge = require("lodash.merge");
-
 const rule = require("../../../lib/rules/no-invalid-this");
 const { RuleTester } = require("../../../lib/rule-tester");
+const merge = Object.assign;
 
 //------------------------------------------------------------------------------
 // Helpers
