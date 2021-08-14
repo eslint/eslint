@@ -4,7 +4,7 @@ ESLint v8.0.0 is a major release of ESLint. We have made a few breaking changes 
 
 The lists below are ordered roughly by the number of users each change is expected to affect, where the first items are expected to affect the most users.
 
-## Table of Content
+## Table of Contents
 
 ### Breaking changes for users
 
