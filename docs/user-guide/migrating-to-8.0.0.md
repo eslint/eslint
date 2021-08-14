@@ -25,7 +25,6 @@ The lists below are ordered roughly by the number of users each change is expect
 ### Breaking changes for integration developers
 
 - [Node.js 10, 13, and 15 are no longer supported](#drop-old-node)
-- [Plugin resolution has been updated](#plugin-loading-change)
 - [The `CLIEngine` class has been removed](#remove-cliengine)
 - [The `linter` object has been removed](#remove-linter)
 - [The `/lib` entrypoint has been removed](#remove-lib)
