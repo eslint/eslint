@@ -638,7 +638,8 @@ target.gensite = function(prereleaseVersion) {
         };
     }
 
-    const rules = require(".").linter.getRules();
+    const { Linter } = require(".");
+    const rules = new Linter().getRules();
 
     const RECOMMENDED_TEXT = "\n\n(recommended) The `\"extends\": \"eslint:recommended\"` property in a configuration file enables this rule.";
     const FIXABLE_TEXT = "\n\n(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fixing-problems) can automatically fix some of the problems reported by this rule.";
