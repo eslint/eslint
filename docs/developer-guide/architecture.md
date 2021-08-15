@@ -5,7 +5,7 @@
 At a high level, there are a few key parts to ESLint:
 
 * `bin/eslint.js` - this is the file that actually gets executed with the command line utility. It's a dumb wrapper that does nothing more than bootstrap ESLint, passing the command line arguments to `cli`. This is intentionally small so as not to require heavy testing.
-* `lib/api.js` - this is the entry point of `require("eslint")`. This file exposes an object that contains public classes `Linter`, `CLIEngine`, `RuleTester`, and `SourceCode`.
+* `lib/api.js` - this is the entry point of `require("eslint")`. This file exposes an object that contains public classes `Linter`, `CLIEngine`, `ESLint`, `RuleTester`, and `SourceCode`.
 * `lib/cli.js` - this is the heart of the ESLint CLI. It takes an array of arguments and then uses `eslint` to execute the commands. By keeping this as a separate utility, it allows others to effectively call ESLint from within another Node.js program as if it were done on the command line. The main call is `cli.execute()`. This is also the part that does all the file reading, directory traversing, input, and output.
 * `lib/init/` - this module contains `--init` functionality that set up a configuration file for end users.
 * `lib/cli-engine/` - this module is `CLIEngine` class that finds source code files and configuration files then does code verifying with the `Linter` class. This includes the loading logic of configuration files, parsers, plugins, and formatters.
