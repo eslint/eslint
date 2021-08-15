@@ -9,8 +9,11 @@ const path = require("path");
 const os = require("os");
 const { assert } = require("chai");
 const sh = require("shelljs");
-const { CascadingConfigArrayFactory } =
-    require("@eslint/eslintrc/lib/cascading-config-array-factory");
+const {
+    Legacy: {
+        CascadingConfigArrayFactory
+    }
+} = require("@eslint/eslintrc");
 const { createCustomTeardown } = require("../../_utils");
 const { FileEnumerator } = require("../../../lib/cli-engine/file-enumerator");
 
