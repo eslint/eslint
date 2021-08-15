@@ -42,6 +42,10 @@ jobs:
         node-version: ${{ matrix.node }}
     - name: Install Packages
       run: npm install
+      if: ${{ !startswith(matrix.node, '16') }}
+    - name: Install Packages
+      run: npm install --force
+      if: ${{ startswith(matrix.node, '16') }}
     - name: Test
       run: node Makefile mocha
     - name: Fuzz Test
