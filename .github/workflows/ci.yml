@@ -42,6 +42,7 @@ jobs:
         node-version: ${{ matrix.node }}
     - name: Install Packages
       run: npm install
+      # TODO(btmills): Remove Node 16 --force branching after releasing v8.0.0 final.
       if: ${{ !startswith(matrix.node, '16') }}
     - name: Install Packages
       run: npm install --force
