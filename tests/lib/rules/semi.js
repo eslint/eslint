@@ -306,6 +306,36 @@ ruleTester.run("semi", rule, {
             code: "class C { foo() {}; }", // no-extra-semi reports it
             options: ["never"],
             parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { a=b;\n*foo() {} }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { get;\nfoo() {} }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { set;\nfoo() {} }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static;\nfoo() {} }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { a=b;\nin }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { a=b;\ninstanceof }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
