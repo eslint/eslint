@@ -5762,4 +5762,25 @@ var a = "test2";
             });
         });
     });
+
+    describe("merging 'parserOptions'", () => {
+        it("should deeply merge 'parserOptions' from an environment with 'parserOptions' from the provided config", () => {
+            const code = "return <div/>";
+            const config = {
+                env: {
+                    node: true // ecmaFeatures: { globalReturn: true }
+                },
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            };
+
+            const messages = linter.verify(code, config);
+
+            // no parsing errors
+            assert.strictEqual(messages.length, 0);
+        });
+    });
 });
