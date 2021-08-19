@@ -1,4 +1,4 @@
-/* eslint-disable no-global-assign*/
+/* eslint no-global-assign: off*/
 /**
  * @fileoverview Tests for RuleTester without any test runner
  * @author Weijia Wang <starkwang@126.com>

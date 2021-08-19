@@ -73,7 +73,7 @@ rules:
     eol-last: "error"
     eqeqeq: "error"
 
-    eslint-comments/disable-enable-pair: ["error", {allowWholeFile: true}]
+    eslint-comments/disable-enable-pair: ["error"]
     eslint-comments/no-unused-disable: "error"
     # eslint-comments/require-description: "error"
 
