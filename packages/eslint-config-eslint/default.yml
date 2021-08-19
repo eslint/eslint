@@ -157,14 +157,11 @@ rules:
     no-confusing-arrow: "error"
     no-console: "error"
     no-constructor-return: "error"
-    no-delete-var: "error" # recommended
     no-else-return: ["error", { allowElseIf: false }]
     no-eval: "error"
     no-extend-native: "error"
     no-extra-bind: "error"
-    no-fallthrough: "error" # recommended
     no-floating-decimal: "error"
-    no-global-assign: "error" # recommended
     no-implied-eval: "error"
     no-invalid-this: "error"
     no-iterator: "error"
@@ -181,12 +178,10 @@ rules:
     no-new-func: "error"
     no-new-object: "error"
     no-new-wrappers: "error"
-    no-octal: "error" # recommended
     no-octal-escape: "error"
     no-param-reassign: "error"
     no-proto: "error"
     no-process-exit: "off"
-    no-redeclare: "error" # recommended
     no-restricted-properties: [
         "error",
         { property: "substring", message: "Use .slice instead of .substring." },
@@ -198,7 +193,6 @@ rules:
     ]
     no-return-assign: "error"
     no-script-url: "error"
-    no-self-assign: "error" # recommended
     no-self-compare: "error"
     no-sequences: "error"
     no-shadow: "error"
@@ -219,7 +213,6 @@ rules:
     no-useless-computed-key: "error"
     no-useless-concat: "error"
     no-useless-constructor: "error"
-    no-useless-escape: "error" # recommended
     no-useless-rename: "error"
     no-useless-return: "error"
     no-whitespace-before-property: "error"
@@ -231,7 +224,6 @@ rules:
     node/no-mixed-requires: "error"
     node/no-new-require: "error"
     node/no-path-concat: "error"
-    node/no-process-exit: "error" # recommended
 
     object-curly-newline: ["error", { "consistent": true, "multiline": true }]
     object-curly-spacing: ["error", "always"]
