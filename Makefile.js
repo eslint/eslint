@@ -3,7 +3,7 @@
  * @author nzakas
  */
 
-/* global target -- How is this being set? */
+/* global target -- TODO: figure out where this is coming from and update this description */
 /* eslint no-use-before-define: "off", no-console: "off" -- CLI */
 "use strict";
 
