@@ -380,8 +380,8 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "<Foo onClick={ class{}} />", options: [NEITHER], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
 
         // private names
-        { code: "class C {\n#x;\nfoo() {\nfor (this.#x of bar){}}}", options: [{ before: false }], parserOptions: { ecmaVersion: 2022, ecmaFeatures: { jsx: true } } },
-        { code: "class C {\n#x;\nfoo() {\nfor (this.#x in bar){}}}", options: [{ before: false }], parserOptions: { ecmaVersion: 2022, ecmaFeatures: { jsx: true } } },
+        { code: "class C {\n#x;\nfoo() {\nfor (this.#x of bar){}}}", options: [{ before: false }], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C {\n#x;\nfoo() {\nfor (this.#x in bar){}}}", options: [{ before: false }], parserOptions: { ecmaVersion: 2022 } },
 
         //----------------------------------------------------------------------
         // const
