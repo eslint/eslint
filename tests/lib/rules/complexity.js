@@ -36,10 +36,10 @@ function createComplexity(complexity) {
 
 /**
  * Create an expected error object
- * @param   {string} name       The name of the symbol being tested
- * @param   {number} complexity The cyclomatic complexity value of the symbol
- * @param   {number} max        The maximum cyclomatic complexity value of the symbol
- * @returns {Object}            The error object
+ * @param {string} name The name of the symbol being tested
+ * @param {number} complexity The cyclomatic complexity value of the symbol
+ * @param {number} max The maximum cyclomatic complexity value of the symbol
+ * @returns {Object} The error object
  */
 function makeError(name, complexity, max) {
     return {
