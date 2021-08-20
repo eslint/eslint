@@ -44,10 +44,10 @@ describe("CLIEngine", () => {
         originalDir = process.cwd(),
         fixtureDir = path.resolve(fs.realpathSync(os.tmpdir()), "eslint/fixtures");
 
-    /** @type {import("../../../lib/cli-engine")["CLIEngine"]} */
+    /** @type {import("../../../lib/cli-engine").CLIEngine} */
     let CLIEngine;
 
-    /** @type {import("../../../lib/cli-engine/cli-engine")["getCLIEngineInternalSlots"]} */
+    /** @type {import("../../../lib/cli-engine/cli-engine").getCLIEngineInternalSlots} */
     let getCLIEngineInternalSlots;
 
     /**
@@ -792,7 +792,7 @@ describe("CLIEngine", () => {
 
     describe("executeOnFiles()", () => {
 
-        /** @type {InstanceType<import("../../../lib/cli-engine")["CLIEngine"]>} */
+        /** @type {InstanceType<import("../../../lib/cli-engine").CLIEngine>} */
         let engine;
 
         it("should use correct parser when custom parser is specified", () => {
