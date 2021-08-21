@@ -3,8 +3,8 @@
  * @author nzakas
  */
 
-/* global target */
-/* eslint no-use-before-define: "off", no-console: "off" */
+/* global target -- TODO: figure out where this is coming from and update this description */
+/* eslint no-use-before-define: "off", no-console: "off" -- CLI */
 "use strict";
 
 //------------------------------------------------------------------------------

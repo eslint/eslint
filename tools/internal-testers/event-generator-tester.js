@@ -4,7 +4,7 @@
  */
 "use strict";
 
-/* global describe, it */
+/* eslint-env mocha -- Mocha */
 
 //------------------------------------------------------------------------------
 // Requirements

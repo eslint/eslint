@@ -3205,7 +3205,7 @@ var a = "test2";
             "eslint-enable eqeqeq",
             "eslint-env es6"
         ]) {
-            // eslint-disable-next-line no-loop-func
+            // eslint-disable-next-line no-loop-func -- No closures
             it(`should warn '/* ${directive} */' if 'noInlineConfig' was given.`, () => {
                 const messages = linter.verify(`/* ${directive} */`, { noInlineConfig: true });
 
@@ -3221,7 +3221,7 @@ var a = "test2";
             "eslint-disable-line eqeqeq",
             "eslint-disable-next-line eqeqeq"
         ]) {
-            // eslint-disable-next-line no-loop-func
+            // eslint-disable-next-line no-loop-func -- No closures
             it(`should warn '// ${directive}' if 'noInlineConfig' was given.`, () => {
                 const messages = linter.verify(`// ${directive}`, { noInlineConfig: true });
 
@@ -5565,7 +5565,7 @@ var a = "test2";
 
             it("eslint-scope should use the visitorKeys (so 'childVisitorKeys.ClassDeclaration' includes 'experimentalDecorators')", () => {
                 assert.deepStrictEqual(
-                    scopeManager.__options.childVisitorKeys.ClassDeclaration, // eslint-disable-line no-underscore-dangle
+                    scopeManager.__options.childVisitorKeys.ClassDeclaration, // eslint-disable-line no-underscore-dangle -- ScopeManager API
                     ["experimentalDecorators", "id", "superClass", "body"]
                 );
             });
