@@ -218,7 +218,7 @@ describe("FileEnumerator", () => {
                  * it just for this hook. Mocha uses `this` to set timeouts on
                  * an individual hook level.
                  */
-                this.timeout(60 * 1000); // eslint-disable-line no-invalid-this
+                this.timeout(60 * 1000); // eslint-disable-line no-invalid-this -- Mocha API
                 fixtureDir = `${os.tmpdir()}/eslint/tests/fixtures/`;
                 sh.mkdir("-p", fixtureDir);
                 sh.cp("-r", "./tests/fixtures/*", fixtureDir);

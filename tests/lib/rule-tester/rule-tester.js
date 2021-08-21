@@ -227,7 +227,7 @@ describe("RuleTester", () => {
                 before(() => {
                     originalGlobalIt = global.it;
 
-                    // eslint-disable-next-line no-global-assign
+                    // eslint-disable-next-line no-global-assign -- Temporarily override Mocha global
                     it = () => {};
 
                     /*
@@ -241,7 +241,7 @@ describe("RuleTester", () => {
                 });
                 after(() => {
 
-                    // eslint-disable-next-line no-global-assign
+                    // eslint-disable-next-line no-global-assign -- Restore Mocha global
                     it = originalGlobalIt;
                     RuleTester.describe = originalRuleTesterDescribe;
                     RuleTester.it = originalRuleTesterIt;
