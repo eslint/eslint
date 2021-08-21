@@ -48,6 +48,10 @@ function makeError(name, complexity, max) {
     };
 }
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2021 } });
 
 ruleTester.run("complexity", rule, {

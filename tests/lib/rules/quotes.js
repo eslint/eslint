@@ -12,6 +12,10 @@
 const rule = require("../../../lib/rules/quotes"),
     { RuleTester } = require("../../../lib/rule-tester");
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester();
 
 ruleTester.run("quotes", rule, {

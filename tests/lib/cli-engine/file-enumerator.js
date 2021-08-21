@@ -4,6 +4,10 @@
  */
 "use strict";
 
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
+
 const fs = require("fs");
 const path = require("path");
 const os = require("os");
@@ -16,6 +20,10 @@ const {
 } = require("@eslint/eslintrc");
 const { createCustomTeardown } = require("../../_utils");
 const { FileEnumerator } = require("../../../lib/cli-engine/file-enumerator");
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 describe("FileEnumerator", () => {
     describe("'iterateFiles(patterns)' method should iterate files and configs.", () => {

@@ -12,6 +12,10 @@
 const rule = require("../../../lib/rules/newline-per-chained-call"),
     { RuleTester } = require("../../../lib/rule-tester");
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester();
 
 ruleTester.run("newline-per-chained-call", rule, {

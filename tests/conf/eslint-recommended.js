@@ -13,6 +13,10 @@ const assert = require("chai").assert;
 const eslintRecommended = require("../../conf/eslint-recommended");
 const rules = eslintRecommended.rules;
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 describe("eslint-recommended", () => {
     it("should configure recommended rules as error", () => {
         assert.strictEqual(rules["no-undef"], "error");

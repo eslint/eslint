@@ -12,6 +12,10 @@
 const rule = require("../../../lib/rules/init-declarations"),
     { RuleTester } = require("../../../lib/rule-tester");
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester();
 
 ruleTester.run("init-declarations", rule, {
