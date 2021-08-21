@@ -4952,6 +4952,7 @@ describe("ESLint", () => {
             ].join("\n");
             const config = {
                 ignore: true,
+                useEslintrc: false,
                 allowInlineConfig: false,
                 overrideConfig: {
                     env: { browser: true },
@@ -4978,6 +4979,7 @@ describe("ESLint", () => {
             ].join("\n");
             const config = {
                 ignore: true,
+                useEslintrc: false,
                 allowInlineConfig: true,
                 overrideConfig: {
                     env: { browser: true },

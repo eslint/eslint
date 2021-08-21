@@ -5039,6 +5039,7 @@ describe("CLIEngine", () => {
             const config = {
                 envs: ["browser"],
                 ignore: true,
+                useEslintrc: false,
                 allowInlineConfig: false,
                 rules: {
                     "eol-last": 0,
@@ -5065,6 +5066,7 @@ describe("CLIEngine", () => {
             const config = {
                 envs: ["browser"],
                 ignore: true,
+                useEslintrc: false,
 
                 // allowInlineConfig: true is the default
                 rules: {
