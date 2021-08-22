@@ -63,7 +63,16 @@ ruleTester.run("no-shadow", rule, {
         { code: "class C { static { let x; } static { let x; } }", parserOptions: { ecmaVersion: 2022 } },
         { code: "class C { static { var x; { var x; /* redeclaration */ } } }", parserOptions: { ecmaVersion: 2022 } },
         { code: "class C { static { { var x; } { var x; /* redeclaration */ } } }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { { let x; } { let x; } } }", parserOptions: { ecmaVersion: 2022 } }
+        { code: "class C { static { { let x; } { let x; } } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "const a = [].find(a=>a)", parserOptions: { ecmaVersion: 6 } },
+        { code: "const [a = [].find(a => true)] = dummy", parserOptions: { ecmaVersion: 6 } },
+        { code: "const { a = [].find(a => true) } = dummy", parserOptions: { ecmaVersion: 6 } },
+        { code: "function func(a = [].find(a => true)) {}", parserOptions: { ecmaVersion: 6 } },
+        { code: "for (const a in [].find(a => true)) {}", parserOptions: { ecmaVersion: 6 } },
+        { code: "for (const a of [].find(a => true)) {}", parserOptions: { ecmaVersion: 6 } },
+        { code: "const a = [].map(a => true).filter(a => a === 'b')", parserOptions: { ecmaVersion: 6 } },
+        { code: "const { a } = (({ a }) => ({ a }))();", parserOptions: { ecmaVersion: 6 } },
+        { code: "const person = people.find(item => {const person = item.name; return person === 'ahmed'})", parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
