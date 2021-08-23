@@ -1012,6 +1012,28 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
+            code: "undefined_variable;",
+            options: [{ ignoreGlobals: true }],
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "undefined_variable" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "implicit_global = 1;",
+            options: [{ ignoreGlobals: true }],
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "implicit_global" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
             code: "export * as snake_cased from 'mod'",
             parserOptions: { ecmaVersion: 2020, sourceType: "module" },
             errors: [
