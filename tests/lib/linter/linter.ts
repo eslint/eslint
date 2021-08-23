@@ -1,6 +1,6 @@
 /**
- * @fileoverview Tests for eslint object.
- * @author Nicholas C. Zakas
+ *  Tests for eslint object.
+ *  Nicholas C. Zakas
  */
 
 "use strict";
@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert,
+ assert = require("chai").assert,
     sinon = require("sinon"),
     espree = require("espree"),
     esprima = require("esprima"),
