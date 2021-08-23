@@ -1787,6 +1787,112 @@ ruleTester.run("semi", rule, {
                 endLine: 2,
                 endColumn: 2
             }]
+        },
+
+        // class fields
+        {
+            code: "class C { [get];\nfoo\n}",
+            output: "class C { [get]\nfoo\n}",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "extraSemi",
+                line: 1,
+                column: 16,
+                endLine: 1,
+                endColumn: 17
+            }]
+        },
+        {
+            code: "class C { [set];\nfoo\n}",
+            output: "class C { [set]\nfoo\n}",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "extraSemi",
+                line: 1,
+                column: 16,
+                endLine: 1,
+                endColumn: 17
+            }]
+        },
+        {
+            code: "class C { #get;\nfoo\n}",
+            output: "class C { #get\nfoo\n}",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "extraSemi",
+                line: 1,
+                column: 15,
+                endLine: 1,
+                endColumn: 16
+            }]
+        },
+        {
+            code: "class C { #set;\nfoo\n}",
+            output: "class C { #set\nfoo\n}",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "extraSemi",
+                line: 1,
+                column: 15,
+                endLine: 1,
+                endColumn: 16
+            }]
+        },
+        {
+            code: "class C { #static;\nfoo\n}",
+            output: "class C { #static\nfoo\n}",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "extraSemi",
+                line: 1,
+                column: 18,
+                endLine: 1,
+                endColumn: 19
+            }]
+        },
+        {
+            code: "class C { get=1;\nfoo\n}",
+            output: "class C { get=1\nfoo\n}",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "extraSemi",
+                line: 1,
+                column: 16,
+                endLine: 1,
+                endColumn: 17
+            }]
+        },
+        {
+            code: "class C { static static;\nfoo\n}",
+            output: "class C { static static\nfoo\n}",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "extraSemi",
+                line: 1,
+                column: 24,
+                endLine: 1,
+                endColumn: 25
+            }]
+        },
+        {
+            code: "class C { static;\n}",
+            output: "class C { static\n}",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "extraSemi",
+                line: 1,
+                column: 17,
+                endLine: 1,
+                endColumn: 18
+            }]
         }
     ]
 });
