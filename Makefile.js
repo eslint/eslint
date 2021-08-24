@@ -149,8 +149,8 @@ function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
 
 /**
  * Generates a doc page with formatter result examples
- * @param  {Object} formatterInfo Linting results from each formatter
- * @param  {string} [prereleaseVersion] The version used for a prerelease. This
+ * @param {Object} formatterInfo Linting results from each formatter
+ * @param {string} [prereleaseVersion] The version used for a prerelease. This
  *      changes where the output is stored.
  * @returns {void}
  */
