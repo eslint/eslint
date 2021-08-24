@@ -86,7 +86,7 @@ ruleTester.run("no-promise-executor-return", rule, {
         "new Promise(foo, (resolve, reject) => { return 1; });",
         "new Promise(foo, (resolve, reject) => 1);",
 
-        // Global Promise doesn't exist
+        // global Promise doesn't exist
         "/* globals Promise:off */ new Promise(function (resolve, reject) { return 1; });",
         {
             code: "new Promise((resolve, reject) => { return 1; });",
@@ -97,7 +97,7 @@ ruleTester.run("no-promise-executor-return", rule, {
             env: { es6: false }
         },
 
-        // Global Promise is shadowed
+        // global Promise is shadowed
         "let Promise; new Promise(function (resolve, reject) { return 1; });",
         "function f() { new Promise((resolve, reject) => { return 1; }); var Promise; }",
         "function f(Promise) { new Promise((resolve, reject) => 1); }",
