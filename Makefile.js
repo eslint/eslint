@@ -582,12 +582,6 @@ target.test = function() {
     target.checkLicenses();
 };
 
-target.docs = function() {
-    echo("Generating documentation");
-    exec(`${getBinFile("jsdoc")} -d jsdoc lib`);
-    echo("Documentation has been output to /jsdoc");
-};
-
 target.gensite = function(prereleaseVersion) {
     echo("Generating eslint.org");
 
