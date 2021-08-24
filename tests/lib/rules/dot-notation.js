@@ -21,8 +21,8 @@ const ruleTester = new RuleTester();
 /**
  * Quote a string in "double quotes" because it’s painful
  * with a double-quoted string literal
- * @param   {string} str The string to quote
- * @returns {string}     `"${str}"`
+ * @param {string} str The string to quote
+ * @returns {string} `"${str}"`
  */
 function q(str) {
     return `"${str}"`;

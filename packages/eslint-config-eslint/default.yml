@@ -88,7 +88,7 @@ rules:
     # jsdoc: adopt non-recommended rules or change recommended configuration
     # jsdoc/check-examples: "error"
     # jsdoc/check-indentation: "error" # Revisit if allowing configurable spaces after tag line breaks
-    # jsdoc/check-line-alignment: ["error", "never"]
+    jsdoc/check-line-alignment: ["error", "never"]
     jsdoc/check-syntax: "error"
     # jsdoc/check-types': ["error', { exemptTagContexts: [ { tag: "typedef", types: ["object", "GenericObject"] } ] }
 
