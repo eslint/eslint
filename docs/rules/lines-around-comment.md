@@ -1,5 +1,7 @@
 # require empty lines around comments (lines-around-comment)
 
+This rule was **deprecated** in ESLint v4.0.0 and replaced by the [`padding-line-between-statements`](padding-line-between-statements.md) rule.
+
 Many style guides require empty lines before or after comments. The primary goal
 of these rules is to make the comments easier to read and improve readability of the code.
 
