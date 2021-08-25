@@ -1,7 +1,15 @@
 "use strict";
 
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
+
 const assert = require("chai").assert;
 const Traverser = require("../../../lib/shared/traverser");
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 describe("Traverser", () => {
     it("traverses all keys except 'parent', 'leadingComments', and 'trailingComments'", () => {

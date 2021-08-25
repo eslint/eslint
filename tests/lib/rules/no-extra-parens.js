@@ -12,6 +12,10 @@
 const rule = require("../../../lib/rules/no-extra-parens"),
     { RuleTester } = require("../../../lib/rule-tester");
 
+//------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
+
 /**
  * Create error message object for failure cases
  * @param {string} code source code
@@ -41,6 +45,10 @@ function invalid(code, output, type, line, config) {
     }
     return result;
 }
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({
     parserOptions: {

@@ -12,6 +12,10 @@
 const rule = require("../../../lib/rules/key-spacing"),
     { RuleTester } = require("../../../lib/rule-tester");
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester();
 
 ruleTester.run("key-spacing", rule, {

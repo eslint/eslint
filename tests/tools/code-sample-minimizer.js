@@ -1,7 +1,15 @@
 "use strict";
 
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
+
 const { assert } = require("chai");
 const reduceBadExampleSize = require("../../tools/code-sample-minimizer");
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 describe("reduceBadExampleSize()", () => {
     it("extracts relevant part of deeply nested code", () => {
