@@ -336,6 +336,58 @@ ruleTester.run("semi", rule, {
             code: "class C { a=b;\ninstanceof }",
             options: ["never"],
             parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+                class C {
+                    x
+                    [foo]
+
+                    x;
+                    [foo]
+
+                    x = "a";
+                    [foo]
+                }
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+                class C {
+                    x
+                    [foo]
+
+                    x;
+                    [foo]
+
+                    x = 1;
+                    [foo]
+                }
+            `,
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo\n[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo = () => {}\n[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo\n;[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo = () => {}\n;[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -1734,58 +1786,6 @@ ruleTester.run("semi", rule, {
                 column: 14,
                 endLine: 2,
                 endColumn: 1
-            }]
-        },
-        {
-            code: "class C { foo\n[bar] }",
-            output: "class C { foo;\n[bar] }",
-            options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { ecmaVersion: 2022 },
-            errors: [{
-                messageId: "missingSemi",
-                line: 1,
-                column: 14,
-                endLine: 2,
-                endColumn: 1
-            }]
-        },
-        {
-            code: "class C { foo\n;[bar] }",
-            output: "class C { foo\n[bar] }",
-            options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 2022 },
-            errors: [{
-                messageId: "extraSemi",
-                line: 2,
-                column: 1,
-                endLine: 2,
-                endColumn: 2
-            }]
-        },
-        {
-            code: "class C { foo = () => {}\n[bar] }",
-            output: "class C { foo = () => {};\n[bar] }",
-            options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { ecmaVersion: 2022 },
-            errors: [{
-                messageId: "missingSemi",
-                line: 1,
-                column: 25,
-                endLine: 2,
-                endColumn: 1
-            }]
-        },
-        {
-            code: "class C { foo = () => {}\n;[bar] }",
-            output: "class C { foo = () => {}\n[bar] }",
-            options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 2022 },
-            errors: [{
-                messageId: "extraSemi",
-                line: 2,
-                column: 1,
-                endLine: 2,
-                endColumn: 2
             }]
         },
 
