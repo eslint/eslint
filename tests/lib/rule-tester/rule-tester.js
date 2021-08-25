@@ -602,6 +602,121 @@ describe("RuleTester", () => {
         }, /Output is incorrect/u);
     });
 
+    it("should use custom assert to compare output", () => {
+        const replaceProgramWith5Rule = {
+            meta: {
+                fixable: "code"
+            },
+
+            create: context => ({
+                Program(node) {
+                    context.report({ node, message: "bad", fix: fixer => fixer.replaceText(node, "5") });
+                }
+            })
+        };
+
+        // Should not throw.
+        ruleTester.run("foo", replaceProgramWith5Rule, {
+            valid: [],
+            invalid: [
+                {
+                    code: "var foo = bar;",
+                    output: "5",
+                    outputAssert(actual, expected, message) {
+                        assert.strictEqual(actual, expected, message);
+                    },
+                    errors: 1
+                }
+            ]
+        });
+
+        assert.throws(() => {
+            ruleTester.run("foo", replaceProgramWith5Rule, {
+                valid: [],
+                invalid: [
+                    {
+                        code: "var foo = bar;",
+                        output: 5,
+                        outputAssert(actual, expected, message) {
+                            assert.strictEqual(actual, expected, message);
+                        },
+                        errors: 1
+                    }
+                ]
+            });
+        }, /Output is incorrect/u);
+    });
+
+    it("should use custom assert to compare output when no output is specified", () => {
+        const replaceProgramWith5Rule = {
+            meta: {
+                fixable: "code"
+            },
+
+            create: context => ({
+                Program(node) {
+                    context.report({ node, message: "bad", fix: fixer => fixer.replaceText(node, "5") });
+                }
+            })
+        };
+
+        // Should not throw.
+        ruleTester.run("foo", replaceProgramWith5Rule, {
+            valid: [],
+            invalid: [
+                {
+                    code: "var foo = bar;",
+                    outputAssert(actual) {
+                        assert.strictEqual(actual, "5");
+                    },
+                    errors: 1
+                }
+            ]
+        });
+
+        assert.throws(() => {
+            ruleTester.run("foo", replaceProgramWith5Rule, {
+                valid: [],
+                invalid: [
+                    {
+                        code: "var foo = bar;",
+                        outputAssert(actual) {
+                            assert.strictEqual(actual, 5, "message");
+                        },
+                        errors: 1
+                    }
+                ]
+            });
+        }, "message");
+    });
+
+    it("should fail when outputAssert is not a function", () => {
+        const replaceProgramWith5Rule = {
+            meta: {
+                fixable: "code"
+            },
+
+            create: context => ({
+                Program(node) {
+                    context.report({ node, message: "bad", fix: fixer => fixer.replaceText(node, "5") });
+                }
+            })
+        };
+
+        assert.throws(() => {
+            ruleTester.run("foo", replaceProgramWith5Rule, {
+                valid: [],
+                invalid: [
+                    {
+                        code: "var foo = bar;",
+                        outputAssert: true,
+                        errors: 1
+                    }
+                ]
+            });
+        }, "outputAssert must be a function.");
+    });
+
     it("should throw an error when the expected output doesn't match and errors is just a number", () => {
         assert.throws(() => {
             ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
@@ -676,7 +791,7 @@ describe("RuleTester", () => {
                     { code: "var foo = bar;", errors: 1 }
                 ]
             });
-        }, "The rule fixed the code. Please add 'output' property.");
+        }, "The rule fixed the code. Please add 'output' or 'outputAssert' property.");
     });
 
     it("should throw an error if invalid code specifies wrong type", () => {
@@ -2208,6 +2323,63 @@ describe("RuleTester", () => {
                     }]
                 });
             }, "Expected the applied suggestion fix to match the test suggestion output");
+        });
+
+        it("should throw if the resulting suggestion has custom output assert", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            suggestions: [{
+                                desc: "Rename identifier 'foo' to 'bar'",
+                                outputAssert(actual) {
+                                    assert.strictEqual(actual, "var baz;", "message");
+                                }
+                            }]
+                        }]
+                    }]
+                });
+            }, "message");
+        });
+
+        it("should throw if the resulting suggestion has output and custom output assert", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            suggestions: [{
+                                desc: "Rename identifier 'foo' to 'bar'",
+                                output: "var baz;",
+                                outputAssert(actual, expected, message) {
+                                    assert.strictEqual(actual, expected, message);
+                                }
+                            }]
+                        }]
+                    }]
+                });
+            }, "Expected the applied suggestion fix to match the test suggestion output");
+        });
+
+        it("should throw if the resulting suggestion has outputAssert that isn't a function", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            suggestions: [{
+                                desc: "Rename identifier 'foo' to 'bar'",
+                                output: "var baz;",
+                                outputAssert: 1
+                            }]
+                        }]
+                    }]
+                });
+            }, "outputAssert must be a function.");
         });
 
         it("should fail when specified suggestion isn't an object", () => {
