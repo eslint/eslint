@@ -15,6 +15,7 @@ const rule = require("../../../lib/rules/no-prototype-builtins"),
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester();
 
 ruleTester.run("no-prototype-builtins", rule, {

@@ -5,8 +5,16 @@
 
 "use strict";
 
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
+
 const assert = require("chai").assert;
 const applyDisableDirectives = require("../../../lib/linter/apply-disable-directives");
+
+//-----------------------------------------------------------------------------
+// Helpers
+//-----------------------------------------------------------------------------
 
 /**
  * Creates a ParentComment for a given range.
@@ -21,6 +29,10 @@ function createParentComment(range, value, ruleIds = []) {
         ruleIds
     };
 }
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 describe("apply-disable-directives", () => {
     describe("/* eslint-disable */ comments without rules", () => {

@@ -6,7 +6,7 @@
 
 "use strict";
 
-/* eslint sort-keys: ["error", "asc"] */
+/* eslint sort-keys: ["error", "asc"] -- Long, so make more readable */
 
 /** @type {import("../lib/shared/types").ConfigData} */
 module.exports = {

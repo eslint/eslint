@@ -9,7 +9,7 @@ console.error("That shouldn't have happened.");
 
 ## Rule Details
 
-This rule disallows calls to methods of the `console` object.
+This rule disallows calls or assignments to methods of the `console` object.
 
 Examples of **incorrect** code for this rule:
 
@@ -19,6 +19,7 @@ Examples of **incorrect** code for this rule:
 console.log("Log a debug level message.");
 console.warn("Log a warn level message.");
 console.error("Log an error level message.");
+console.log = foo();
 ```
 
 Examples of **correct** code for this rule:

@@ -55,7 +55,7 @@ const ESLINT_ENV = "eslint-env";
 describe("Linter", () => {
     const filename = "filename.js";
 
-    /** @type {InstanceType<import("../../../lib/linter/linter.js")["Linter"]>} */
+    /** @type {InstanceType<import("../../../lib/linter/linter.js").Linter>} */
     let linter;
 
     beforeEach(() => {
@@ -3205,7 +3205,7 @@ var a = "test2";
             "eslint-enable eqeqeq",
             "eslint-env es6"
         ]) {
-            // eslint-disable-next-line no-loop-func
+            // eslint-disable-next-line no-loop-func -- No closures
             it(`should warn '/* ${directive} */' if 'noInlineConfig' was given.`, () => {
                 const messages = linter.verify(`/* ${directive} */`, { noInlineConfig: true });
 
@@ -3221,7 +3221,7 @@ var a = "test2";
             "eslint-disable-line eqeqeq",
             "eslint-disable-next-line eqeqeq"
         ]) {
-            // eslint-disable-next-line no-loop-func
+            // eslint-disable-next-line no-loop-func -- No closures
             it(`should warn '// ${directive}' if 'noInlineConfig' was given.`, () => {
                 const messages = linter.verify(`// ${directive}`, { noInlineConfig: true });
 
@@ -5565,7 +5565,7 @@ var a = "test2";
 
             it("eslint-scope should use the visitorKeys (so 'childVisitorKeys.ClassDeclaration' includes 'experimentalDecorators')", () => {
                 assert.deepStrictEqual(
-                    scopeManager.__options.childVisitorKeys.ClassDeclaration, // eslint-disable-line no-underscore-dangle
+                    scopeManager.__options.childVisitorKeys.ClassDeclaration, // eslint-disable-line no-underscore-dangle -- ScopeManager API
                     ["experimentalDecorators", "id", "superClass", "body"]
                 );
             });
@@ -5760,6 +5760,27 @@ var a = "test2";
                     assert.strictEqual(messages.length, 2);
                 }
             });
+        });
+    });
+
+    describe("merging 'parserOptions'", () => {
+        it("should deeply merge 'parserOptions' from an environment with 'parserOptions' from the provided config", () => {
+            const code = "return <div/>";
+            const config = {
+                env: {
+                    node: true // ecmaFeatures: { globalReturn: true }
+                },
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            };
+
+            const messages = linter.verify(code, config);
+
+            // no parsing errors
+            assert.strictEqual(messages.length, 0);
         });
     });
 });

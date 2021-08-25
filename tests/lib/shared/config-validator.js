@@ -25,11 +25,12 @@ const assert = require("chai").assert,
     { Linter } = require("../../../lib/linter"),
     validator = require("../../../lib/shared/config-validator"),
     Rules = require("../../../lib/linter/rules");
-const linter = new Linter();
 
 //------------------------------------------------------------------------------
-// Tests
+// Helpers
 //------------------------------------------------------------------------------
+
+const linter = new Linter();
 
 /**
  * Fake a rule object
@@ -100,6 +101,10 @@ const mockRequiredOptionsRule = {
         };
     }
 };
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 describe("Validator", () => {
 

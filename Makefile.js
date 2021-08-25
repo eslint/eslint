@@ -3,8 +3,8 @@
  * @author nzakas
  */
 
-/* global target */
-/* eslint no-use-before-define: "off", no-console: "off" */
+/* global target -- TODO: figure out where this is coming from and update this description */
+/* eslint no-use-before-define: "off", no-console: "off" -- CLI */
 "use strict";
 
 //------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ const { cat, cd, cp, echo, exec, exit, find, ls, mkdir, pwd, rm, test } = requir
 const PERF_MULTIPLIER = 13e6;
 
 const OPEN_SOURCE_LICENSES = [
-    /MIT/u, /BSD/u, /Apache/u, /ISC/u, /WTF/u, /Public Domain/u, /LGPL/u
+    /MIT/u, /BSD/u, /Apache/u, /ISC/u, /WTF/u, /Public Domain/u, /LGPL/u, /Python/u
 ];
 
 //------------------------------------------------------------------------------
@@ -66,7 +66,8 @@ const NODE = "node ", // intentional extra space
     // Files
     RULE_FILES = glob.sync("lib/rules/*.js").filter(filePath => path.basename(filePath) !== "index.js"),
     JSON_FILES = find("conf/").filter(fileType("json")),
-    MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")),
+    MARKDOWNLINT_IGNORED_FILES = fs.readFileSync(path.join(__dirname, ".markdownlintignore"), "utf-8").split("\n"),
+    MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")).filter(file => !MARKDOWNLINT_IGNORED_FILES.includes(file)),
     TEST_FILES = "\"tests/{bin,lib,tools}/**/*.js\"",
     PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslintrc.yml"),
     PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
@@ -148,8 +149,8 @@ function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
 
 /**
  * Generates a doc page with formatter result examples
- * @param  {Object} formatterInfo Linting results from each formatter
- * @param  {string} [prereleaseVersion] The version used for a prerelease. This
+ * @param {Object} formatterInfo Linting results from each formatter
+ * @param {string} [prereleaseVersion] The version used for a prerelease. This
  *      changes where the output is stored.
  * @returns {void}
  */
@@ -176,8 +177,8 @@ function generateFormatterExamples(formatterInfo, prereleaseVersion) {
  */
 function generateRuleIndexPage() {
     const outputFile = "../website/_data/rules.yml",
-        categoryList = "conf/category-list.json",
-        categoriesData = JSON.parse(cat(path.resolve(categoryList)));
+        ruleTypes = "conf/rule-type-list.json",
+        ruleTypesData = JSON.parse(cat(path.resolve(ruleTypes)));
 
     RULE_FILES
         .map(filename => [filename, path.basename(filename, ".js")])
@@ -188,7 +189,7 @@ function generateRuleIndexPage() {
             const rule = require(path.resolve(filename));
 
             if (rule.meta.deprecated) {
-                categoriesData.deprecated.rules.push({
+                ruleTypesData.deprecated.rules.push({
                     name: basename,
                     replacedBy: rule.meta.replacedBy || []
                 });
@@ -200,20 +201,20 @@ function generateRuleIndexPage() {
                         fixable: !!rule.meta.fixable,
                         hasSuggestions: !!rule.meta.hasSuggestions
                     },
-                    category = categoriesData.categories.find(c => c.name === rule.meta.docs.category);
+                    ruleType = ruleTypesData.types.find(c => c.name === rule.meta.type);
 
-                if (!category.rules) {
-                    category.rules = [];
+                if (!ruleType.rules) {
+                    ruleType.rules = [];
                 }
 
-                category.rules.push(output);
+                ruleType.rules.push(output);
             }
         });
 
     // `.rules` will be `undefined` if all rules in category are deprecated.
-    categoriesData.categories = categoriesData.categories.filter(category => !!category.rules);
+    ruleTypesData.types = ruleTypesData.types.filter(ruleType => !!ruleType.rules);
 
-    const output = yaml.safeDump(categoriesData, { sortKeys: true });
+    const output = yaml.dump(ruleTypesData, { sortKeys: true });
 
     output.to(outputFile);
 }
@@ -389,7 +390,7 @@ function getFirstVersionOfDeletion(filePath) {
  * @private
  */
 function lintMarkdown(files) {
-    const config = yaml.safeLoad(fs.readFileSync(path.join(__dirname, "./.markdownlint.yml"), "utf8")),
+    const config = yaml.load(fs.readFileSync(path.join(__dirname, "./.markdownlint.yml"), "utf8")),
         result = markdownlint.sync({
             files,
             config,
@@ -581,12 +582,6 @@ target.test = function() {
     target.checkLicenses();
 };
 
-target.docs = function() {
-    echo("Generating documentation");
-    exec(`${getBinFile("jsdoc")} -d jsdoc lib`);
-    echo("Documentation has been output to /jsdoc");
-};
-
 target.gensite = function(prereleaseVersion) {
     echo("Generating eslint.org");
 
@@ -637,7 +632,8 @@ target.gensite = function(prereleaseVersion) {
         };
     }
 
-    const rules = require(".").linter.getRules();
+    const { Linter } = require(".");
+    const rules = new Linter().getRules();
 
     const RECOMMENDED_TEXT = "\n\n(recommended) The `\"extends\": \"eslint:recommended\"` property in a configuration file enables this rule.";
     const FIXABLE_TEXT = "\n\n(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fixing-problems) can automatically fix some of the problems reported by this rule.";
@@ -961,13 +957,19 @@ function createConfigForPerformanceTest() {
 }
 
 /**
+ * @callback TimeCallback
+ * @param {?int[]} results
+ * @returns {void}
+ */
+
+/**
  * Calculates the time for each run for performance
  * @param {string} cmd cmd
  * @param {int} runs Total number of runs to do
  * @param {int} runNumber Current run number
  * @param {int[]} results Collection results from each run
- * @param {Function} cb Function to call when everything is done
- * @returns {int[]} calls the cb with all the results
+ * @param {TimeCallback} cb Function to call when everything is done
+ * @returns {void} calls the cb with all the results
  * @private
  */
 function time(cmd, runs, runNumber, results, cb) {

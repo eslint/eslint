@@ -51,17 +51,6 @@ function hasMetaDocs(metaPropertyNode) {
 }
 
 /**
- * Whether this `meta` ObjectExpression has a `docs.category` property defined or not.
- * @param {ASTNode} metaPropertyNode The `meta` ObjectExpression for this rule.
- * @returns {boolean} `true` if a `docs.category` property exists.
- */
-function hasMetaDocsCategory(metaPropertyNode) {
-    const metaDocs = getPropertyFromObject("docs", metaPropertyNode.value);
-
-    return metaDocs && getPropertyFromObject("category", metaDocs.value);
-}
-
-/**
  * Whether this `meta` ObjectExpression has a `docs.recommended` property defined or not.
  * @param {ASTNode} metaPropertyNode The `meta` ObjectExpression for this rule.
  * @returns {boolean} `true` if a `docs.recommended` property exists.
@@ -91,11 +80,6 @@ function checkMetaValidity(context, exportsNode) {
         return;
     }
 
-    if (!hasMetaDocsCategory(metaProperty)) {
-        context.report({ node: metaProperty, messageId: "missingMetaDocsCategory" });
-        return;
-    }
-
     if (!hasMetaDocsRecommended(metaProperty)) {
         context.report({ node: metaProperty, messageId: "missingMetaDocsRecommended" });
     }
@@ -109,7 +93,6 @@ module.exports = {
     meta: {
         docs: {
             description: "enforce correct use of `meta` property in core rules",
-            category: "Internal",
             recommended: false
         },
         type: "problem",
@@ -117,7 +100,6 @@ module.exports = {
         messages: {
             missingMeta: "Rule is missing a meta property.",
             missingMetaDocs: "Rule is missing a meta.docs property.",
-            missingMetaDocsCategory: "Rule is missing a meta.docs.category property.",
             missingMetaDocsRecommended: "Rule is missing a meta.docs.recommended property.",
             noExport: "Rule does not export anything. Make sure rule exports an object according to new rule format."
         }

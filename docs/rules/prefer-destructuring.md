@@ -62,6 +62,17 @@ Examples of **correct** code when `enforceForRenamedProperties` is enabled:
 var { bar: foo } = object;
 ```
 
+Examples of additional **correct** code when `enforceForRenamedProperties` is enabled:
+
+```javascript
+class C {
+    #x;
+    foo() {
+        const bar = this.#x; // private identifiers are not allowed in destructuring
+    }
+}
+```
+
 An example configuration, with the defaults `array` and `object` filled in, looks like this:
 
 ```json

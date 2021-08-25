@@ -70,7 +70,7 @@ function bar() {}
 ### Global variable leaks
 
 When the code is not in `strict` mode, an assignment to an undeclared variable creates
-a new global variable. This will happen even is the code is in a function.
+a new global variable. This will happen even if the code is in a function.
 
 This does not apply to ES modules since the module code is implicitly in `strict` mode.
 

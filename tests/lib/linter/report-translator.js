@@ -1037,7 +1037,7 @@ describe("createReportTranslator", () => {
 
             for (const badRange of [[0], [0, null], [null, 0], [void 0, 1], [0, void 0], [void 0, void 0], []]) {
                 assert.throws(
-                    // eslint-disable-next-line no-loop-func
+                    // eslint-disable-next-line no-loop-func -- Using arrow functions
                     () => translateReport(
                         { node, messageId: "testMessage", fix: () => ({ range: badRange, text: "foo" }) }
                     ),
@@ -1045,7 +1045,7 @@ describe("createReportTranslator", () => {
                 );
 
                 assert.throws(
-                    // eslint-disable-next-line no-loop-func
+                    // eslint-disable-next-line no-loop-func -- Using arrow functions
                     () => translateReport(
                         {
                             node,
