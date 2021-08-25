@@ -81,7 +81,35 @@ describe("CodePathAnalyzer", () => {
      * });
      */
 
+    describe("CodePath#origin", () => {
+
+        it("should be 'program' when code path starts at root node", () => {
+            const codePath = parseCodePaths("foo(); bar(); baz();")[0];
+
+            assert.strictEqual(codePath.origin, "program");
+        });
+
+        it("should be 'function' when code path starts inside a function", () => {
+            const codePath = parseCodePaths("function foo() {}")[1];
+
+            assert.strictEqual(codePath.origin, "function");
+        });
+
+        it("should be 'function' when code path starts inside an arrow function", () => {
+            const codePath = parseCodePaths("let foo = () => {}")[1];
+
+            assert.strictEqual(codePath.origin, "function");
+        });
+
+        it("should be 'class-field-initializer' when code path starts inside an arrow function", () => {
+            const codePath = parseCodePaths("class Foo { a=1; }")[1];
+
+            assert.strictEqual(codePath.origin, "class-field-initializer");
+        });
+    });
+
     describe(".traverseSegments()", () => {
+
         describe("should traverse segments from the first to the end:", () => {
             /* eslint-disable internal-rules/multiline-comment-style */
             it("simple", () => {
