@@ -23,7 +23,6 @@
     "generate-betarelease": "node Makefile.js generatePrerelease -- beta",
     "generate-rcrelease": "node Makefile.js generatePrerelease -- rc",
     "publish-release": "node Makefile.js publishRelease",
-    "docs": "node Makefile.js docs",
     "gensite": "node Makefile.js gensite",
     "webpack": "node Makefile.js webpack",
     "perf": "node Makefile.js perf"
