@@ -15,6 +15,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
+
 const alwaysError = { messageId: "always" };
 const neverError = { messageId: "never" };
 

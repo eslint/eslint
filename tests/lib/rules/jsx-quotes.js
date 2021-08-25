@@ -12,6 +12,10 @@
 const rule = require("../../../lib/rules/jsx-quotes"),
     { RuleTester } = require("../../../lib/rule-tester");
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } });
 
 ruleTester.run("jsx-quotes", rule, {

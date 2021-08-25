@@ -9,7 +9,6 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-useless-concat"),
-
     { RuleTester } = require("../../../lib/rule-tester");
 
 

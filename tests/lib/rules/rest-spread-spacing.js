@@ -12,6 +12,11 @@
 const rule = require("../../../lib/rules/rest-spread-spacing"),
     { RuleTester } = require("../../../lib/rule-tester");
 
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("rest-spread-spacing", rule, {

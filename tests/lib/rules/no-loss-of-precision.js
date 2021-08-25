@@ -13,7 +13,7 @@ const rule = require("../../../lib/rules/no-loss-of-precision"),
     { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
-// Helpers
+// Tests
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
