@@ -6,9 +6,9 @@ The callback pattern is at the heart of most I/O and event-driven programming
  in JavaScript.
 
 ```js
-function doSomething(err, callback) {
-    if (err) {
-        return callback(err);
+ doSomething(err, callback) {
+      (err) {
+            callback(err);
     }
     callback();
 }
