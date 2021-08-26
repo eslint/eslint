@@ -35,8 +35,8 @@ Examples of **incorrect** code for this rule with the default `["callback", "cb"
 ```js
 /*eslint callback-return: "error"*/
 
-function foo(err, callback) {
-    if (err) {
+     foo(err, callback) {
+      (err) {
         callback(err);
     }
     callback();
@@ -47,8 +47,7 @@ Examples of **correct** code for this rule with the default `["callback", "cb", 
 
 ```js
 /*eslint callback-return: "error"*/
-
-function foo(err, callback) {
+   foo(err, callback) {
     if (err) {
         return callback(err);
     }
@@ -63,18 +62,18 @@ Examples of **incorrect** code for this rule with the option `["done", "send.err
 ```js
 /*eslint callback-return: ["error", ["done", "send.error", "send.success"]]*/
 
-function foo(err, done) {
-    if (err) {
-        done(err);
+      foo(err, done) {
+       (err) {
+            (err);
     }
-    done();
+       ();
 }
 
-function bar(err, send) {
-    if (err) {
-        send.error(err);
+ bar(err, send) {
+     (err) {
+            .error(err);
     }
-    send.success();
+        .success();
 }
 ```
 
