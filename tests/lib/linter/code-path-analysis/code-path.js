@@ -101,7 +101,7 @@ describe("CodePathAnalyzer", () => {
             assert.strictEqual(codePath.origin, "function");
         });
 
-        it("should be 'class-field-initializer' when code path starts inside an arrow function", () => {
+        it("should be 'class-field-initializer' when code path starts inside a class field initializer", () => {
             const codePath = parseCodePaths("class Foo { a=1; }")[1];
 
             assert.strictEqual(codePath.origin, "class-field-initializer");
