@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/prefer-destructuring"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("prefer-destructuring", rule, {
     valid: [
@@ -157,7 +157,40 @@ ruleTester.run("prefer-destructuring", rule, {
 
         // Optional chaining
         "var foo = array?.[0];", // because the fixed code can throw TypeError.
-        "var foo = object?.foo;"
+        "var foo = object?.foo;",
+
+        // Private identifiers
+        "class C { #x; foo() { const x = this.#x; } }",
+        "class C { #x; foo() { x = this.#x; } }",
+        "class C { #x; foo(a) { x = a.#x; } }",
+        {
+            code: "class C { #x; foo() { const x = this.#x; } }",
+            options: [{ array: true, object: true }, { enforceForRenamedProperties: true }]
+        },
+        {
+            code: "class C { #x; foo() { const y = this.#x; } }",
+            options: [{ array: true, object: true }, { enforceForRenamedProperties: true }]
+        },
+        {
+            code: "class C { #x; foo() { x = this.#x; } }",
+            options: [{ array: true, object: true }, { enforceForRenamedProperties: true }]
+        },
+        {
+            code: "class C { #x; foo() { y = this.#x; } }",
+            options: [{ array: true, object: true }, { enforceForRenamedProperties: true }]
+        },
+        {
+            code: "class C { #x; foo(a) { x = a.#x; } }",
+            options: [{ array: true, object: true }, { enforceForRenamedProperties: true }]
+        },
+        {
+            code: "class C { #x; foo(a) { y = a.#x; } }",
+            options: [{ array: true, object: true }, { enforceForRenamedProperties: true }]
+        },
+        {
+            code: "class C { #x; foo() { x = this.a.#x; } }",
+            options: [{ array: true, object: true }, { enforceForRenamedProperties: true }]
+        }
     ],
 
     invalid: [

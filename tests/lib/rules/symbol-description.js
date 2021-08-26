@@ -12,6 +12,10 @@
 const rule = require("../../../lib/rules/symbol-description");
 const { RuleTester } = require("../../../lib/rule-tester");
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester({ env: { es6: true } });
 
 ruleTester.run("symbol-description", rule, {

@@ -12,6 +12,10 @@
 const rule = require("../../../lib/rules/radix"),
     { RuleTester } = require("../../../lib/rule-tester");
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester();
 
 ruleTester.run("radix", rule, {
@@ -44,6 +48,10 @@ ruleTester.run("radix", rule, {
         "parseInt",
         "Number.foo();",
         "Number[parseInt]();",
+        { code: "class C { #parseInt; foo() { Number.#parseInt(); } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { #parseInt; foo() { Number.#parseInt(foo); } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { #parseInt; foo() { Number.#parseInt(foo, 'bar'); } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { #parseInt; foo() { Number.#parseInt(foo, 10); } }", options: ["as-needed"], parserOptions: { ecmaVersion: 2022 } },
 
         // Ignores if it's shadowed or disabled.
         "var parseInt; parseInt();",

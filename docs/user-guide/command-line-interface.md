@@ -47,7 +47,7 @@ Specifying rules and plugins:
 Fixing problems:
   --fix                          Automatically fix problems
   --fix-dry-run                  Automatically fix problems without saving the changes to the file system
-  --fix-type Array               Specify the types of fixes to apply (problem, suggestion, layout)
+  --fix-type Array               Specify the types of fixes to apply (directive, problem, suggestion, layout)
 
 Ignoring files:
   --ignore-path path::String     Specify path of ignore file
@@ -81,6 +81,7 @@ Miscellaneous:
   --init                         Run config initialization wizard - default: false
   --env-info                     Output execution environment information - default: false
   --no-error-on-unmatched-pattern  Prevent errors when pattern is unmatched - default: false
+  --exit-on-fatal-error          Exit with exit code 2 in case of fatal error - default: false
   --debug                        Output debugging information
   -h, --help                     Show help
   -v, --version                  Output the version number
@@ -239,11 +240,12 @@ This flag can be useful for integrations (e.g. editor plugins) which need to aut
 
 #### `--fix-type`
 
-This option allows you to specify the type of fixes to apply when using either `--fix` or `--fix-dry-run`. The three types of fixes are:
+This option allows you to specify the type of fixes to apply when using either `--fix` or `--fix-dry-run`. The four types of fixes are:
 
 1. `problem` - fix potential errors in the code
 1. `suggestion` - apply fixes to the code that improve it
 1. `layout` - apply fixes that do not change the program structure (AST)
+1. `directive` - apply fixes to inline directives such as `// eslint-disable`
 
 You can specify one or more fix type on the command line. Here are some examples:
 
@@ -337,14 +339,12 @@ When specified, the given format is output into the provided file name.
 This option specifies the output format for the console. Possible formats are:
 
 * [checkstyle](formatters.md/#checkstyle)
-* [codeframe](formatters.md/#codeframe)
 * [compact](formatters.md/#compact)
 * [html](formatters.md/#html)
 * [jslint-xml](formatters.md/#jslint-xml)
 * [json](formatters.md/#json)
 * [junit](formatters.md/#junit)
 * [stylish](formatters.md/#stylish) (the default)
-* [table](formatters.md/#table)
 * [tap](formatters.md/#tap)
 * [unix](formatters.md/#unix)
 * [visualstudio](formatters.md/#visualstudio)
@@ -466,6 +466,10 @@ This option outputs information about the execution environment, including the v
 #### `--no-error-on-unmatched-pattern`
 
 This option prevents errors when a quoted glob pattern or `--ext` is unmatched. This will not prevent errors when your shell can't match a glob.
+
+#### `--exit-on-fatal-error`
+
+This option causes ESLint to exit with exit code 2 if one or more fatal parsing errors occur. Without this option, fatal parsing errors are reported as rule violations.
 
 #### `--debug`
 

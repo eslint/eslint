@@ -38,6 +38,8 @@ ruleTester.run("no-extra-semi", rule, {
         { code: "class A { a() { this; } }", parserOptions: { ecmaVersion: 6 } },
         { code: "var A = class { a() { this; } };", parserOptions: { ecmaVersion: 6 } },
         { code: "class A { } a;", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A { field; }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A { field = 0; }", parserOptions: { ecmaVersion: 2022 } },
 
         // modules
         { code: "export const x = 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
@@ -156,6 +158,12 @@ ruleTester.run("no-extra-semi", rule, {
             code: "class A { a() {}; get b() {} }",
             output: "class A { a() {} get b() {} }",
             parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "Punctuator", column: 17 }]
+        },
+        {
+            code: "class A { field;; }",
+            output: "class A { field; }",
+            parserOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpected", type: "Punctuator", column: 17 }]
         }
     ]

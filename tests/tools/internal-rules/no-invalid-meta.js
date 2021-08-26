@@ -27,7 +27,6 @@ ruleTester.run("no-invalid-meta", rule, {
             "    meta: {",
             "        docs: {",
             "            description: 'some rule',",
-            "            category: 'Internal',",
             "            recommended: false",
             "        },",
             "        schema: []",
@@ -51,7 +50,6 @@ ruleTester.run("no-invalid-meta", rule, {
             "    meta: {",
             "        docs: {",
             "            description: 'some rule',",
-            "            category: 'Internal',",
             "            recommended: false",
             "        },",
             "        schema: []",
@@ -73,7 +71,6 @@ ruleTester.run("no-invalid-meta", rule, {
             "    meta: {",
             "        docs: {",
             "            description: 'some rule',",
-            "            category: 'Internal',",
             "            recommended: false",
             "        },",
             "        schema: [],",
@@ -96,20 +93,6 @@ ruleTester.run("no-invalid-meta", rule, {
         ].join("\n")
     ],
     invalid: [
-        {
-            code: [
-                "module.exports = function(context) {",
-                "    return {",
-                "        Program: function(node) {}",
-                "    };",
-                "};"
-            ].join("\n"),
-            errors: [{
-                messageId: "incorrectExport",
-                line: 1,
-                column: 18
-            }]
-        },
         {
             code: [
                 "module.exports = {",
@@ -169,56 +152,7 @@ ruleTester.run("no-invalid-meta", rule, {
                 "module.exports = {",
                 "    meta: {",
                 "        docs: {",
-                "            category: 'Internal',",
-                "            recommended: false",
-                "        },",
-                "        schema: []",
-                "    },",
-
-                "    create: function(context) {",
-                "        return {",
-                "            Program: function(node) {}",
-                "        };",
-                "    }",
-                "};"
-            ].join("\n"),
-            errors: [{
-                messageId: "missingMetaDocsDescription",
-                line: 2,
-                column: 5
-            }]
-        },
-        {
-            code: [
-                "module.exports = {",
-                "    meta: {",
-                "        docs: {",
                 "            description: 'some rule',",
-                "            recommended: false",
-                "        },",
-                "        schema: []",
-                "    },",
-
-                "    create: function(context) {",
-                "        return {",
-                "            Program: function(node) {}",
-                "        };",
-                "    }",
-                "};"
-            ].join("\n"),
-            errors: [{
-                messageId: "missingMetaDocsCategory",
-                line: 2,
-                column: 5
-            }]
-        },
-        {
-            code: [
-                "module.exports = {",
-                "    meta: {",
-                "        docs: {",
-                "            description: 'some rule',",
-                "            category: 'Internal'",
                 "        },",
                 "        schema: []",
                 "    },",
@@ -232,30 +166,6 @@ ruleTester.run("no-invalid-meta", rule, {
             ].join("\n"),
             errors: [{
                 messageId: "missingMetaDocsRecommended",
-                line: 2,
-                column: 5
-            }]
-        },
-        {
-            code: [
-                "module.exports = {",
-                "    meta: {",
-                "        docs: {",
-                "            description: 'some rule',",
-                "            category: 'Internal',",
-                "            recommended: false",
-                "        }",
-                "    },",
-
-                "    create: function(context) {",
-                "        return {",
-                "            Program: function(node) {}",
-                "        };",
-                "    }",
-                "};"
-            ].join("\n"),
-            errors: [{
-                messageId: "missingMetaSchema",
                 line: 2,
                 column: 5
             }]

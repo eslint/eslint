@@ -11,12 +11,11 @@
 const rule = require("../../../lib/rules/prefer-promise-reject-errors");
 const { RuleTester } = require("../../../lib/rule-tester");
 
-
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2021 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("prefer-promise-reject-errors", rule, {
 
@@ -54,7 +53,11 @@ ruleTester.run("prefer-promise-reject-errors", rule, {
         "Promise.reject(foo = new Error())",
         "Promise.reject(foo ||= 5)",
         "Promise.reject(foo.bar ??= 5)",
-        "Promise.reject(foo[bar] ??= 5)"
+        "Promise.reject(foo[bar] ??= 5)",
+
+        // Private fields
+        "class C { #reject; foo() { Promise.#reject(5); } }",
+        "class C { #error; foo() { Promise.reject(this.#error); } }"
     ],
 
     invalid: [

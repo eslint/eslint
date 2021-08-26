@@ -11,7 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14.x'
     - name: Install Packages
       run: npm install
     - name: Lint Files
@@ -26,7 +28,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [16.x, 15.x, 14.x, 13.x, 12.x, 10.x, "10.12.0"]
+        node: [16.x, 14.x, 12.x, "12.22.0"]
         include:
         - os: windows-latest
           node: "12.x"
@@ -35,11 +37,16 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node }}
     - name: Install Packages
       run: npm install
+      # TODO(btmills): Remove Node 16 --force branching after releasing v8.0.0 final.
+      if: ${{ !startswith(matrix.node, '16') }}
+    - name: Install Packages
+      run: npm install --force
+      if: ${{ startswith(matrix.node, '16') }}
     - name: Test
       run: node Makefile mocha
     - name: Fuzz Test
@@ -50,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - uses: actions/setup-node@v2
       with:
         node-version: '12'
     - name: Install Packages

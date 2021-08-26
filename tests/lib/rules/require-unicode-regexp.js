@@ -40,7 +40,8 @@ ruleTester.run("require-unicode-regexp", rule, {
         { code: "globalThis.RegExp('foo', 'u')", env: { es2020: true } },
         { code: "const flags = 'u'; new globalThis.RegExp('', flags)", env: { es2020: true } },
         { code: "const flags = 'g'; new globalThis.RegExp('', flags + 'u')", env: { es2020: true } },
-        { code: "const flags = 'gimu'; new globalThis.RegExp('foo', flags[3])", env: { es2020: true } }
+        { code: "const flags = 'gimu'; new globalThis.RegExp('foo', flags[3])", env: { es2020: true } },
+        { code: "class C { #RegExp; foo() { new globalThis.#RegExp('foo') } }", parserOptions: { ecmaVersion: 2022 }, env: { es2020: true } }
     ],
     invalid: [
         {

@@ -48,6 +48,14 @@ for (a of (b));
 typeof (a);
 
 (function(){} ? a() : b());
+
+class A {
+    [(x)] = 1;
+}
+
+class B {
+    x = (y + z);
+}
 ```
 
 Examples of **correct** code for this rule with the default `"all"` option:
@@ -72,6 +80,14 @@ for (a of b);
 for (a in b, c);
 
 for (a in b);
+
+class A {
+    [x] = 1;
+}
+
+class B {
+    x = y + z;
+}
 ```
 
 ### conditionalAssign

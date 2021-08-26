@@ -11,7 +11,8 @@ const sinon = require("sinon"),
     EventEmitter = require("events"),
     { RuleTester } = require("../../../lib/rule-tester"),
     assert = require("chai").assert,
-    nodeAssert = require("assert");
+    nodeAssert = require("assert"),
+    espree = require("espree");
 
 const NODE_ASSERT_STRICT_EQUAL_OPERATOR = (() => {
     try {
@@ -226,7 +227,7 @@ describe("RuleTester", () => {
                 before(() => {
                     originalGlobalIt = global.it;
 
-                    // eslint-disable-next-line no-global-assign
+                    // eslint-disable-next-line no-global-assign -- Temporarily override Mocha global
                     it = () => {};
 
                     /*
@@ -240,7 +241,7 @@ describe("RuleTester", () => {
                 });
                 after(() => {
 
-                    // eslint-disable-next-line no-global-assign
+                    // eslint-disable-next-line no-global-assign -- Restore Mocha global
                     it = originalGlobalIt;
                     RuleTester.describe = originalRuleTesterDescribe;
                     RuleTester.it = originalRuleTesterIt;
@@ -1041,6 +1042,203 @@ describe("RuleTester", () => {
         });
         assert.strictEqual(spy.args[1][1].parser, require.resolve("esprima"));
     });
+    it("should pass normalized ecmaVersion to the rule", () => {
+        const reportEcmaVersionRule = {
+            meta: {
+                messages: {
+                    ecmaVersionMessage: "context.parserOptions.ecmaVersion is {{type}} {{ecmaVersion}}."
+                }
+            },
+            create: context => ({
+                Program(node) {
+                    const { ecmaVersion } = context.parserOptions;
+
+                    context.report({
+                        node,
+                        messageId: "ecmaVersionMessage",
+                        data: { type: typeof ecmaVersion, ecmaVersion }
+                    });
+                }
+            })
+        };
+
+        const notEspree = require.resolve("../../fixtures/parsers/empty-program-parser");
+
+        ruleTester.run("report-ecma-version", reportEcmaVersionRule, {
+            valid: [],
+            invalid: [
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }]
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    parserOptions: {}
+                },
+                {
+                    code: "<div/>",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    parserOptions: { ecmaFeatures: { jsx: true } }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    parser: require.resolve("espree")
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                    parserOptions: { ecmaVersion: 6 }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                    parserOptions: { ecmaVersion: 2015 }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    env: { browser: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    env: { es6: false }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                    env: { es6: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "8" } }],
+                    env: { es6: false, es2017: true }
+                },
+                {
+                    code: "let x",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                    env: { es6: "truthy" }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "8" } }],
+                    env: { es2017: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "11" } }],
+                    env: { es2020: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "12" } }],
+                    env: { es2021: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
+                    parserOptions: { ecmaVersion: "latest" }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
+                    parser: require.resolve("espree"),
+                    parserOptions: { ecmaVersion: "latest" }
+                },
+                {
+                    code: "<div/>",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
+                    parserOptions: { ecmaVersion: "latest", ecmaFeatures: { jsx: true } }
+                },
+                {
+                    code: "import 'foo'",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
+                    parserOptions: { ecmaVersion: "latest", sourceType: "module" }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
+                    parserOptions: { ecmaVersion: "latest" },
+                    env: { es6: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
+                    parserOptions: { ecmaVersion: "latest" },
+                    env: { es2020: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    parser: notEspree
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    parser: notEspree,
+                    parserOptions: {}
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "5" } }],
+                    parser: notEspree,
+                    parserOptions: { ecmaVersion: 5 }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                    parser: notEspree,
+                    parserOptions: { ecmaVersion: 6 }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                    parser: notEspree,
+                    parserOptions: { ecmaVersion: 2015 }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "string", ecmaVersion: "latest" } }],
+                    parser: notEspree,
+                    parserOptions: { ecmaVersion: "latest" }
+                }
+            ]
+        });
+
+        [{ parserOptions: { ecmaVersion: 6 } }, { env: { es6: true } }].forEach(options => {
+            new RuleTester(options).run("report-ecma-version", reportEcmaVersionRule, {
+                valid: [],
+                invalid: [
+                    {
+                        code: "",
+                        errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }]
+                    },
+                    {
+                        code: "",
+                        errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                        parserOptions: {}
+                    }
+                ]
+            });
+        });
+
+        new RuleTester({ parser: notEspree }).run("report-ecma-version", reportEcmaVersionRule, {
+            valid: [],
+            invalid: [
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }]
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "string", ecmaVersion: "latest" } }],
+                    parserOptions: { ecmaVersion: "latest" }
+                }
+            ]
+        });
+    });
 
     it("should pass-through services from parseForESLint to the rule", () => {
         const enhancedParserPath = require.resolve("../../fixtures/parsers/enhanced-parser");
@@ -1549,7 +1747,7 @@ describe("RuleTester", () => {
                     { code: "var foo = bar;", output: "5", errors: 1 }
                 ]
             });
-        }, "Fixable rules should export a `meta.fixable` property.");
+        }, /Fixable rules must set the `meta\.fixable` property/u);
     });
     it("should throw an error if a legacy-format rule produces fixes", () => {
 
@@ -1573,7 +1771,7 @@ describe("RuleTester", () => {
                     { code: "var foo = bar;", output: "5", errors: 1 }
                 ]
             });
-        }, "Fixable rules should export a `meta.fixable` property.");
+        }, /Fixable rules must set the `meta\.fixable` property/u);
     });
 
     describe("suggestions", () => {
@@ -2081,6 +2279,17 @@ describe("RuleTester", () => {
                 });
             }, /Invalid suggestion property name 'outpt'/u);
         });
+
+        it("should throw an error if a rule that doesn't have `meta.hasSuggestions` enabled produces suggestions", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-missing-hasSuggestions-property", require("../../fixtures/testers/rule-tester/suggestions").withoutHasSuggestionsProperty, {
+                    valid: [],
+                    invalid: [
+                        { code: "var foo = bar;", output: "5", errors: 1 }
+                    ]
+                });
+            }, "Rules with suggestions must set the `meta.hasSuggestions` property to `true`.");
+        });
     });
 
     describe("naming test cases", () => {
@@ -2089,8 +2298,8 @@ describe("RuleTester", () => {
          * Asserts that a particular value will be emitted from an EventEmitter.
          * @param {EventEmitter} emitter The emitter that should emit a value
          * @param {string} emitType The type of emission to listen for
-         * @param {*} expectedValue The value that should be emitted
-         * @returns {Promise} A Promise that fulfills if the value is emitted, and rejects if something else is emitted.
+         * @param {any} expectedValue The value that should be emitted
+         * @returns {Promise<void>} A Promise that fulfills if the value is emitted, and rejects if something else is emitted.
          * The Promise will be indefinitely pending if no value is emitted.
          */
         function assertEmitted(emitter, emitType, expectedValue) {
@@ -2183,17 +2392,24 @@ describe("RuleTester", () => {
         assert.throw(() => {
             ruleTester.run(
                 "foo",
-                context => ({
-                    Identifier(node) {
-                        context.report({
-                            node,
-                            message: "make a syntax error",
-                            fix(fixer) {
-                                return fixer.replaceText(node, "one two");
+                {
+                    meta: {
+                        fixable: "code"
+                    },
+                    create(context) {
+                        return {
+                            Identifier(node) {
+                                context.report({
+                                    node,
+                                    message: "make a syntax error",
+                                    fix(fixer) {
+                                        return fixer.replaceText(node, "one two");
+                                    }
+                                });
                             }
-                        });
+                        };
                     }
-                }),
+                },
                 {
                     valid: ["one()"],
                     invalid: []
@@ -2262,6 +2478,39 @@ describe("RuleTester", () => {
             sinon.assert.calledWith(spyRuleTesterIt, code);
         });
 
+    });
+
+    describe("SourceCode#getComments()", () => {
+        const useGetCommentsRule = {
+            create: context => ({
+                Program(node) {
+                    const sourceCode = context.getSourceCode();
+
+                    sourceCode.getComments(node);
+                }
+            })
+        };
+
+        it("should throw if called from a valid test case", () => {
+            assert.throws(() => {
+                ruleTester.run("use-get-comments", useGetCommentsRule, {
+                    valid: [""],
+                    invalid: []
+                });
+            }, /`SourceCode#getComments\(\)` is deprecated/u);
+        });
+
+        it("should throw if called from an invalid test case", () => {
+            assert.throws(() => {
+                ruleTester.run("use-get-comments", useGetCommentsRule, {
+                    valid: [],
+                    invalid: [{
+                        code: "",
+                        errors: [{}]
+                    }]
+                });
+            }, /`SourceCode#getComments\(\)` is deprecated/u);
+        });
     });
 
 });

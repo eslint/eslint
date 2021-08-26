@@ -216,6 +216,14 @@ The plugin support was introduced in ESLint version `0.8.0`. Ensure the `peerDep
 
 ESLint provides the [`RuleTester`](/docs/developer-guide/nodejs-api.md#ruletester) utility to make it easy to test the rules of your plugin.
 
+### Linting
+
+ESLint plugins should be linted too! It's suggested to lint your plugin with the `recommended` configurations of:
+
+* [eslint](https://www.npmjs.com/package/eslint)
+* [eslint-plugin-eslint-plugin](https://www.npmjs.com/package/eslint-plugin-eslint-plugin)
+* [eslint-plugin-node](https://www.npmjs.com/package/eslint-plugin-node)
+
 ## Share Plugins
 
 In order to make your plugin available to the community you have to publish it on npm.

@@ -262,6 +262,248 @@ ruleTester.run("func-name-matching", rule, {
         {
             code: "foo({ value: function value() {} })",
             options: ["always", { considerPropertyDescriptor: true }]
+        },
+
+        // class fields, private names are ignored
+        {
+            code: "class C { x = function () {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { x = function () {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { 'x' = function () {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { 'x' = function () {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x = function () {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x = function () {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [x] = function () {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [x] = function () {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { ['x'] = function () {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { ['x'] = function () {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { x = function x() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { x = function y() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { 'x' = function x() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { 'x' = function y() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x = function x() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x = function x() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x = function y() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x = function y() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [x] = function x() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [x] = function x() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [x] = function y() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [x] = function y() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { ['x'] = function x() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { ['x'] = function y() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { 'xy ' = function foo() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { 'xy ' = function xy() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { ['xy '] = function foo() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { ['xy '] = function xy() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { 1 = function x0() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { 1 = function x1() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [1] = function x0() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [1] = function x1() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [f()] = function g() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [f()] = function f() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static x = function x() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static x = function y() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { x = (function y() {})(); }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { x = (function x() {})(); }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "(class { x = function x() {}; })",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "(class { x = function y() {}; })",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x; foo() { this.#x = function x() {}; } }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x; foo() { this.#x = function x() {}; } }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x; foo() { this.#x = function y() {}; } }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x; foo() { this.#x = function y() {}; } }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x; foo() { a.b.#x = function x() {}; } }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x; foo() { a.b.#x = function x() {}; } }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x; foo() { a.b.#x = function y() {}; } }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x; foo() { a.b.#x = function y() {}; } }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -553,6 +795,88 @@ ruleTester.run("func-name-matching", rule, {
             parserOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
+            ]
+        },
+
+        // class fields
+        {
+            code: "class C { x = function y() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
+            ]
+        },
+        {
+            code: "class C { x = function x() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
+            ]
+        },
+        {
+            code: "class C { 'x' = function y() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
+            ]
+        },
+        {
+            code: "class C { 'x' = function x() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
+            ]
+        },
+        {
+            code: "class C { ['x'] = function y() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
+            ]
+        },
+        {
+            code: "class C { ['x'] = function x() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
+            ]
+        },
+        {
+            code: "class C { static x = function y() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
+            ]
+        },
+        {
+            code: "class C { static x = function x() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
+            ]
+        },
+        {
+            code: "(class { x = function y() {}; })",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
+            ]
+        },
+        {
+            code: "(class { x = function x() {}; })",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
             ]
         }
     ]

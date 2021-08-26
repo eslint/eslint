@@ -36,7 +36,7 @@ foo.exec('bar').groups.id; // Retrieve the group result.
 
 ## When Not To Use It
 
-If you are targeting ECMAScript 2017 and/or older environments, you can disable this rule, because this ECMAScript feature is only supported in ECMAScript 2018 and/or newer environments.
+If you are targeting ECMAScript 2017 and/or older environments, you should not use this rule, because this ECMAScript feature is only supported in ECMAScript 2018 and/or newer environments.
 
 ## Related Rules
 

@@ -60,6 +60,16 @@ if (someCondition
 answer = everything
   ? 42
   : foo;
+
+class Foo {
+    a
+        = 1;
+    [b]
+        = 2;
+    [c
+    ]
+        = 3;
+}
 ```
 
 Examples of **correct** code for this rule with the `"after"` option:
@@ -82,6 +92,17 @@ if (someCondition ||
 answer = everything ?
   42 :
   foo;
+
+class Foo {
+    a =
+        1;
+    [b] =
+        2;
+    [c
+    ] =
+        3;
+    d = 4;
+}
 ```
 
 ### before
@@ -104,6 +125,16 @@ if (someCondition ||
 answer = everything ?
   42 :
   foo;
+
+class Foo {
+    a =
+        1;
+    [b] =
+        2;
+    [c
+    ] =
+        3;
+}
 ```
 
 Examples of **correct** code for this rule with the `"before"` option:
@@ -126,6 +157,17 @@ if (someCondition
 answer = everything
   ? 42
   : foo;
+
+class Foo {
+    a
+        = 1;
+    [b]
+        = 2;
+    [c
+    ]
+        = 3;
+    d = 4;
+}
 ```
 
 ### none
@@ -156,6 +198,23 @@ answer = everything
 answer = everything ?
   42 :
   foo;
+
+class Foo {
+    a =
+        1;
+    [b] =
+        2;
+    [c
+    ] =
+        3;
+    d
+        = 4;
+    [e]
+        = 5;
+    [f
+    ]
+        = 6;
+}
 ```
 
 Examples of **correct** code for this rule with the `"none"` option:
@@ -171,6 +230,17 @@ if (someCondition || otherCondition) {
 }
 
 answer = everything ? 42 : foo;
+
+class Foo {
+    a = 1;
+    [b] = 2;
+    [c
+    ] = 3;
+    d = 4;
+    [e] = 5;
+    [f
+    ] = 6;
+}
 ```
 
 ### overrides

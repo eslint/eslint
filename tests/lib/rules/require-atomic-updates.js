@@ -11,12 +11,11 @@
 const rule = require("../../../lib/rules/require-atomic-updates");
 const { RuleTester } = require("../../../lib/rule-tester");
 
-
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
 
 const VARIABLE_ERROR = {
     messageId: "nonAtomicUpdate",
@@ -33,6 +32,12 @@ const STATIC_PROPERTY_ERROR = {
 const COMPUTED_PROPERTY_ERROR = {
     messageId: "nonAtomicUpdate",
     data: { value: "foo[bar].baz" },
+    type: "AssignmentExpression"
+};
+
+const PRIVATE_PROPERTY_ERROR = {
+    messageId: "nonAtomicUpdate",
+    data: { value: "foo.#bar" },
     type: "AssignmentExpression"
 };
 
@@ -268,6 +273,10 @@ ruleTester.run("require-atomic-updates", rule, {
         {
             code: "const foo = []; async function x() { foo[bar].baz += await result;  }",
             errors: [COMPUTED_PROPERTY_ERROR]
+        },
+        {
+            code: "const foo = {}; class C { #bar; async wrap() { foo.#bar += await baz } }",
+            errors: [PRIVATE_PROPERTY_ERROR]
         },
         {
             code: "let foo; async function* x() { foo = (yield foo) + await bar; }",

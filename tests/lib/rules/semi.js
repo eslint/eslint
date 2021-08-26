@@ -12,6 +12,10 @@
 const rule = require("../../../lib/rules/semi"),
     { RuleTester } = require("../../../lib/rule-tester");
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester();
 
 ruleTester.run("semi", rule, {
@@ -230,6 +234,82 @@ ruleTester.run("semi", rule, {
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { ecmaVersion: 2015 }
+        },
+
+        // Class fields
+        {
+            code: "class C { foo; }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo = obj\n;[bar] }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo;\n[bar]; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo\n;[bar] }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo\n[bar] }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo\n;[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo\n[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo = () => {}\n;[bar] }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo = () => {}\n[bar] }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo = () => {}\n;[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo = () => {}\n[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo() {} }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo() {}; }", // no-extra-semi reports it
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -240,6 +320,7 @@ ruleTester.run("semi", rule, {
             errors: [{
                 messageId: "missingSemi",
                 type: "ImportDeclaration",
+                line: 1,
                 column: 33,
                 endLine: void 0,
                 endColumn: void 0
@@ -251,7 +332,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
-                type: "ImportDeclaration"
+                type: "ImportDeclaration",
+                line: 1,
+                column: 35,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -260,7 +345,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
-                type: "ImportDeclaration"
+                type: "ImportDeclaration",
+                line: 1,
+                column: 37,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -269,7 +358,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
-                type: "ImportDeclaration"
+                type: "ImportDeclaration",
+                line: 1,
+                column: 19,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -278,7 +371,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
-                type: "ImportDeclaration"
+                type: "ImportDeclaration",
+                line: 1,
+                column: 55,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -286,7 +383,11 @@ ruleTester.run("semi", rule, {
             output: "function foo() { return []; }",
             errors: [{
                 messageId: "missingSemi",
-                type: "ReturnStatement"
+                type: "ReturnStatement",
+                line: 1,
+                column: 27,
+                endLine: 1,
+                endColumn: 28
             }]
         },
         {
@@ -294,7 +395,11 @@ ruleTester.run("semi", rule, {
             output: "while(true) { break; }",
             errors: [{
                 messageId: "missingSemi",
-                type: "BreakStatement"
+                type: "BreakStatement",
+                line: 1,
+                column: 20,
+                endLine: 1,
+                endColumn: 21
             }]
         },
         {
@@ -302,7 +407,11 @@ ruleTester.run("semi", rule, {
             output: "while(true) { continue; }",
             errors: [{
                 messageId: "missingSemi",
-                type: "ContinueStatement"
+                type: "ContinueStatement",
+                line: 1,
+                column: 23,
+                endLine: 1,
+                endColumn: 24
             }]
         },
         {
@@ -311,7 +420,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 10,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -319,7 +432,11 @@ ruleTester.run("semi", rule, {
             output: "var x = 5;",
             errors: [{
                 messageId: "missingSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 10,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -327,7 +444,11 @@ ruleTester.run("semi", rule, {
             output: "var x = 5, y;",
             errors: [{
                 messageId: "missingSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 13,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -335,7 +456,11 @@ ruleTester.run("semi", rule, {
             output: "debugger;",
             errors: [{
                 messageId: "missingSemi",
-                type: "DebuggerStatement"
+                type: "DebuggerStatement",
+                line: 1,
+                column: 9,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -344,7 +469,9 @@ ruleTester.run("semi", rule, {
             errors: [{
                 messageId: "missingSemi",
                 type: "ExpressionStatement",
+                line: 1,
                 column: 6,
+                endLine: void 0,
                 endColumn: void 0
             }]
         },
@@ -354,6 +481,7 @@ ruleTester.run("semi", rule, {
             errors: [{
                 messageId: "missingSemi",
                 type: "ExpressionStatement",
+                line: 1,
                 column: 6,
                 endLine: 2,
                 endColumn: 1
@@ -365,6 +493,7 @@ ruleTester.run("semi", rule, {
             errors: [{
                 messageId: "missingSemi",
                 type: "ExpressionStatement",
+                line: 1,
                 column: 6,
                 endLine: 2,
                 endColumn: 1
@@ -376,6 +505,7 @@ ruleTester.run("semi", rule, {
             errors: [{
                 messageId: "missingSemi",
                 type: "ExpressionStatement",
+                line: 1,
                 column: 6,
                 endLine: 2,
                 endColumn: 1
@@ -387,6 +517,7 @@ ruleTester.run("semi", rule, {
             errors: [{
                 messageId: "missingSemi",
                 type: "ExpressionStatement",
+                line: 1,
                 column: 6,
                 endLine: 2,
                 endColumn: 1
@@ -397,7 +528,11 @@ ruleTester.run("semi", rule, {
             output: "for (var a in b) var i; ",
             errors: [{
                 messageId: "missingSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 23,
+                endLine: 1,
+                endColumn: 24
             }]
         },
         {
@@ -405,7 +540,11 @@ ruleTester.run("semi", rule, {
             output: "for (;;){var i;}",
             errors: [{
                 messageId: "missingSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 15,
+                endLine: 1,
+                endColumn: 16
             }]
         },
         {
@@ -413,7 +552,11 @@ ruleTester.run("semi", rule, {
             output: "for (;;) var i; ",
             errors: [{
                 messageId: "missingSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 15,
+                endLine: 1,
+                endColumn: 16
             }]
         },
         {
@@ -421,7 +564,11 @@ ruleTester.run("semi", rule, {
             output: "for (var j;;) {var i;}",
             errors: [{
                 messageId: "missingSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 21,
+                endLine: 1,
+                endColumn: 22
             }]
         },
         {
@@ -430,7 +577,10 @@ ruleTester.run("semi", rule, {
             errors: [{
                 messageId: "missingSemi",
                 type: "VariableDeclaration",
-                line: 3
+                line: 3,
+                column: 2,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -439,7 +589,10 @@ ruleTester.run("semi", rule, {
             errors: [{
                 messageId: "missingSemi",
                 type: "VariableDeclaration",
-                line: 1
+                line: 1,
+                column: 8,
+                endLine: 2,
+                endColumn: 1
             }]
         },
         {
@@ -448,7 +601,10 @@ ruleTester.run("semi", rule, {
             errors: [{
                 messageId: "missingSemi",
                 type: "ThrowStatement",
-                line: 1
+                line: 1,
+                column: 23,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -457,7 +613,10 @@ ruleTester.run("semi", rule, {
             errors: [{
                 messageId: "missingSemi",
                 type: "DoWhileStatement",
-                line: 1
+                line: 1,
+                column: 16,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -465,7 +624,9 @@ ruleTester.run("semi", rule, {
             output: "if (foo) {bar();}",
             errors: [{
                 messageId: "missingSemi",
+                line: 1,
                 column: 16,
+                endLine: 1,
                 endColumn: 17
             }]
         },
@@ -474,7 +635,9 @@ ruleTester.run("semi", rule, {
             output: "if (foo) {bar();} ",
             errors: [{
                 messageId: "missingSemi",
+                line: 1,
                 column: 16,
+                endLine: 1,
                 endColumn: 17
             }]
         },
@@ -483,6 +646,7 @@ ruleTester.run("semi", rule, {
             output: "if (foo) {bar();\n}",
             errors: [{
                 messageId: "missingSemi",
+                line: 1,
                 column: 16,
                 endLine: 2,
                 endColumn: 1
@@ -496,7 +660,10 @@ ruleTester.run("semi", rule, {
             errors: [{
                 messageId: "extraSemi",
                 type: "ThrowStatement",
-                column: 23
+                line: 1,
+                column: 23,
+                endLine: 1,
+                endColumn: 24
             }]
         },
         {
@@ -505,7 +672,11 @@ ruleTester.run("semi", rule, {
             options: ["never"],
             errors: [{
                 messageId: "extraSemi",
-                type: "ReturnStatement"
+                type: "ReturnStatement",
+                line: 1,
+                column: 27,
+                endLine: 1,
+                endColumn: 28
             }]
         },
         {
@@ -514,7 +685,11 @@ ruleTester.run("semi", rule, {
             options: ["never"],
             errors: [{
                 messageId: "extraSemi",
-                type: "BreakStatement"
+                type: "BreakStatement",
+                line: 1,
+                column: 20,
+                endLine: 1,
+                endColumn: 21
             }]
         },
         {
@@ -523,7 +698,11 @@ ruleTester.run("semi", rule, {
             options: ["never"],
             errors: [{
                 messageId: "extraSemi",
-                type: "ContinueStatement"
+                type: "ContinueStatement",
+                line: 1,
+                column: 23,
+                endLine: 1,
+                endColumn: 24
             }]
         },
         {
@@ -533,7 +712,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "extraSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 10,
+                endLine: 1,
+                endColumn: 11
             }]
         },
         {
@@ -542,7 +725,11 @@ ruleTester.run("semi", rule, {
             options: ["never"],
             errors: [{
                 messageId: "extraSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 10,
+                endLine: 1,
+                endColumn: 11
             }]
         },
         {
@@ -551,7 +738,11 @@ ruleTester.run("semi", rule, {
             options: ["never"],
             errors: [{
                 messageId: "extraSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 13,
+                endLine: 1,
+                endColumn: 14
             }]
         },
         {
@@ -560,7 +751,11 @@ ruleTester.run("semi", rule, {
             options: ["never"],
             errors: [{
                 messageId: "extraSemi",
-                type: "DebuggerStatement"
+                type: "DebuggerStatement",
+                line: 1,
+                column: 9,
+                endLine: 1,
+                endColumn: 10
             }]
         },
         {
@@ -569,7 +764,11 @@ ruleTester.run("semi", rule, {
             options: ["never"],
             errors: [{
                 messageId: "extraSemi",
-                type: "ExpressionStatement"
+                type: "ExpressionStatement",
+                line: 1,
+                column: 6,
+                endLine: 1,
+                endColumn: 7
             }]
         },
         {
@@ -578,7 +777,11 @@ ruleTester.run("semi", rule, {
             options: ["never"],
             errors: [{
                 messageId: "extraSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 23,
+                endLine: 1,
+                endColumn: 24
             }]
         },
         {
@@ -587,7 +790,11 @@ ruleTester.run("semi", rule, {
             options: ["never"],
             errors: [{
                 messageId: "extraSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 15,
+                endLine: 1,
+                endColumn: 16
             }]
         },
         {
@@ -596,7 +803,11 @@ ruleTester.run("semi", rule, {
             options: ["never"],
             errors: [{
                 messageId: "extraSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 15,
+                endLine: 1,
+                endColumn: 16
             }]
         },
         {
@@ -605,7 +816,11 @@ ruleTester.run("semi", rule, {
             options: ["never"],
             errors: [{
                 messageId: "extraSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 21,
+                endLine: 1,
+                endColumn: 22
             }]
         },
         {
@@ -615,7 +830,10 @@ ruleTester.run("semi", rule, {
             errors: [{
                 messageId: "extraSemi",
                 type: "VariableDeclaration",
-                line: 3
+                line: 3,
+                column: 2,
+                endLine: 3,
+                endColumn: 3
             }]
         },
         {
@@ -625,7 +843,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
-                type: "ImportDeclaration"
+                type: "ImportDeclaration",
+                line: 1,
+                column: 55,
+                endLine: 1,
+                endColumn: 56
             }]
         },
         {
@@ -635,7 +857,10 @@ ruleTester.run("semi", rule, {
             errors: [{
                 messageId: "extraSemi",
                 type: "DoWhileStatement",
-                line: 1
+                line: 1,
+                column: 16,
+                endLine: 1,
+                endColumn: 17
             }]
         },
 
@@ -644,7 +869,11 @@ ruleTester.run("semi", rule, {
             output: "if (foo) { bar();\n }",
             options: ["always", { omitLastInOneLineBlock: true }],
             errors: [{
-                messageId: "missingSemi"
+                messageId: "missingSemi",
+                line: 1,
+                column: 17,
+                endLine: 2,
+                endColumn: 1
             }]
         },
         {
@@ -652,7 +881,11 @@ ruleTester.run("semi", rule, {
             output: "if (foo) {\n bar(); }",
             options: ["always", { omitLastInOneLineBlock: true }],
             errors: [{
-                messageId: "missingSemi"
+                messageId: "missingSemi",
+                line: 2,
+                column: 7,
+                endLine: 2,
+                endColumn: 8
             }]
         },
         {
@@ -660,7 +893,11 @@ ruleTester.run("semi", rule, {
             output: "if (foo) {\n bar(); baz(); }",
             options: ["always", { omitLastInOneLineBlock: true }],
             errors: [{
-                messageId: "missingSemi"
+                messageId: "missingSemi",
+                line: 2,
+                column: 14,
+                endLine: 2,
+                endColumn: 15
             }]
         },
         {
@@ -668,7 +905,11 @@ ruleTester.run("semi", rule, {
             output: "if (foo) { bar() }",
             options: ["always", { omitLastInOneLineBlock: true }],
             errors: [{
-                messageId: "extraSemi"
+                messageId: "extraSemi",
+                line: 1,
+                column: 17,
+                endLine: 1,
+                endColumn: 18
             }]
         },
 
@@ -680,7 +921,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
-                type: "ExportAllDeclaration"
+                type: "ExportAllDeclaration",
+                line: 1,
+                column: 20,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -689,7 +934,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
-                type: "ExportNamedDeclaration"
+                type: "ExportNamedDeclaration",
+                line: 1,
+                column: 26,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -698,7 +947,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
-                type: "ExportNamedDeclaration"
+                type: "ExportNamedDeclaration",
+                line: 1,
+                column: 27,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -707,7 +960,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 15,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -716,7 +973,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 15,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -725,7 +986,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 22,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -734,7 +999,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
-                type: "ExportDefaultDeclaration"
+                type: "ExportDefaultDeclaration",
+                line: 1,
+                column: 26,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -743,7 +1012,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
-                type: "ExportDefaultDeclaration"
+                type: "ExportDefaultDeclaration",
+                line: 1,
+                column: 34,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -752,7 +1025,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
-                type: "ExportDefaultDeclaration"
+                type: "ExportDefaultDeclaration",
+                line: 1,
+                column: 24,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
         {
@@ -761,7 +1038,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
-                type: "ExportDefaultDeclaration"
+                type: "ExportDefaultDeclaration",
+                line: 1,
+                column: 25,
+                endLine: void 0,
+                endColumn: void 0
             }]
         },
 
@@ -774,7 +1055,9 @@ ruleTester.run("semi", rule, {
             errors: [{
                 messageId: "extraSemi",
                 type: "ExportAllDeclaration",
+                line: 1,
                 column: 20,
+                endLine: 1,
                 endColumn: 21
             }]
         },
@@ -785,7 +1068,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
-                type: "ExportNamedDeclaration"
+                type: "ExportNamedDeclaration",
+                line: 1,
+                column: 26,
+                endLine: 1,
+                endColumn: 27
             }]
         },
         {
@@ -795,7 +1082,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
-                type: "ExportNamedDeclaration"
+                type: "ExportNamedDeclaration",
+                line: 1,
+                column: 27,
+                endLine: 1,
+                endColumn: 28
             }]
         },
         {
@@ -805,7 +1096,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 15,
+                endLine: 1,
+                endColumn: 16
             }]
         },
         {
@@ -815,7 +1110,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 15,
+                endLine: 1,
+                endColumn: 16
             }]
         },
         {
@@ -825,7 +1124,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
-                type: "VariableDeclaration"
+                type: "VariableDeclaration",
+                line: 1,
+                column: 22,
+                endLine: 1,
+                endColumn: 23
             }]
         },
         {
@@ -835,7 +1138,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
-                type: "ExportDefaultDeclaration"
+                type: "ExportDefaultDeclaration",
+                line: 1,
+                column: 26,
+                endLine: 1,
+                endColumn: 27
             }]
         },
         {
@@ -845,7 +1152,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
-                type: "ExportDefaultDeclaration"
+                type: "ExportDefaultDeclaration",
+                line: 1,
+                column: 34,
+                endLine: 1,
+                endColumn: 35
             }]
         },
         {
@@ -855,7 +1166,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
-                type: "ExportDefaultDeclaration"
+                type: "ExportDefaultDeclaration",
+                line: 1,
+                column: 24,
+                endLine: 1,
+                endColumn: 25
             }]
         },
         {
@@ -865,7 +1180,11 @@ ruleTester.run("semi", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
-                type: "ExportDefaultDeclaration"
+                type: "ExportDefaultDeclaration",
+                line: 1,
+                column: 25,
+                endLine: 1,
+                endColumn: 26
             }]
         },
         {
@@ -874,7 +1193,9 @@ ruleTester.run("semi", rule, {
             options: ["never"],
             errors: [{
                 messageId: "extraSemi",
+                line: 1,
                 column: 2,
+                endLine: 1,
                 endColumn: 3
             }]
         },
@@ -893,8 +1214,20 @@ ruleTester.run("semi", rule, {
             ].join("\n"),
             options: ["never"],
             errors: [
-                "Extra semicolon.",
-                "Unnecessary semicolon."
+                {
+                    messageId: "extraSemi",
+                    line: 2,
+                    column: 6,
+                    endLine: 2,
+                    endColumn: 7
+                },
+                {
+                    message: "Unnecessary semicolon.",
+                    line: 3,
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -910,7 +1243,13 @@ ruleTester.run("semi", rule, {
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: ["Missing semicolon."]
+            errors: [{
+                messageId: "missingSemi",
+                line: 2,
+                column: 34,
+                endLine: 3,
+                endColumn: 1
+            }]
         },
         {
             code: `
@@ -923,7 +1262,13 @@ ruleTester.run("semi", rule, {
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: ["Missing semicolon."]
+            errors: [{
+                messageId: "missingSemi",
+                line: 2,
+                column: 38,
+                endLine: 3,
+                endColumn: 1
+            }]
         },
         {
             code: `
@@ -940,7 +1285,13 @@ ruleTester.run("semi", rule, {
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
             parserOptions: { ecmaVersion: 2015 },
-            errors: ["Missing semicolon."]
+            errors: [{
+                messageId: "missingSemi",
+                line: 3,
+                column: 27,
+                endLine: 4,
+                endColumn: 1
+            }]
         },
         {
             code: `
@@ -956,7 +1307,13 @@ ruleTester.run("semi", rule, {
                 }
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            errors: ["Missing semicolon."]
+            errors: [{
+                messageId: "missingSemi",
+                line: 3,
+                column: 26,
+                endLine: 4,
+                endColumn: 1
+            }]
         },
         {
             code: `
@@ -972,7 +1329,13 @@ ruleTester.run("semi", rule, {
                 }
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            errors: ["Missing semicolon."]
+            errors: [{
+                messageId: "missingSemi",
+                line: 3,
+                column: 29,
+                endLine: 4,
+                endColumn: 1
+            }]
         },
         {
             code: `
@@ -984,7 +1347,13 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            errors: ["Missing semicolon."]
+            errors: [{
+                messageId: "missingSemi",
+                line: 2,
+                column: 29,
+                endLine: 3,
+                endColumn: 1
+            }]
         },
         {
             code: `
@@ -997,7 +1366,13 @@ ruleTester.run("semi", rule, {
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
             parserOptions: { ecmaVersion: 2015 },
-            errors: ["Missing semicolon."]
+            errors: [{
+                messageId: "missingSemi",
+                line: 2,
+                column: 35,
+                endLine: 3,
+                endColumn: 1
+            }]
         },
         {
             code: `
@@ -1010,7 +1385,13 @@ ruleTester.run("semi", rule, {
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: ["Extra semicolon."]
+            errors: [{
+                messageId: "extraSemi",
+                line: 2,
+                column: 34,
+                endLine: 2,
+                endColumn: 35
+            }]
         },
         {
             code: `
@@ -1023,7 +1404,13 @@ ruleTester.run("semi", rule, {
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: ["Extra semicolon."]
+            errors: [{
+                messageId: "extraSemi",
+                line: 2,
+                column: 38,
+                endLine: 2,
+                endColumn: 39
+            }]
         },
         {
             code: `
@@ -1040,7 +1427,13 @@ ruleTester.run("semi", rule, {
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { ecmaVersion: 2015 },
-            errors: ["Extra semicolon."]
+            errors: [{
+                messageId: "extraSemi",
+                line: 3,
+                column: 27,
+                endLine: 3,
+                endColumn: 28
+            }]
         },
         {
             code: `
@@ -1056,7 +1449,13 @@ ruleTester.run("semi", rule, {
                 }
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            errors: ["Extra semicolon."]
+            errors: [{
+                messageId: "extraSemi",
+                line: 3,
+                column: 26,
+                endLine: 3,
+                endColumn: 27
+            }]
         },
         {
             code: `
@@ -1072,7 +1471,13 @@ ruleTester.run("semi", rule, {
                 }
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            errors: ["Extra semicolon."]
+            errors: [{
+                messageId: "extraSemi",
+                line: 3,
+                column: 29,
+                endLine: 3,
+                endColumn: 30
+            }]
         },
         {
             code: `
@@ -1084,7 +1489,13 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            errors: ["Extra semicolon."]
+            errors: [{
+                messageId: "extraSemi",
+                line: 2,
+                column: 29,
+                endLine: 2,
+                endColumn: 30
+            }]
         },
         {
             code: `
@@ -1097,7 +1508,13 @@ ruleTester.run("semi", rule, {
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { ecmaVersion: 2015 },
-            errors: ["Extra semicolon."]
+            errors: [{
+                messageId: "extraSemi",
+                line: 2,
+                column: 35,
+                endLine: 2,
+                endColumn: 36
+            }]
         },
         {
             code: `
@@ -1110,7 +1527,13 @@ ruleTester.run("semi", rule, {
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: ["Extra semicolon."]
+            errors: [{
+                messageId: "extraSemi",
+                line: 3,
+                column: 17,
+                endLine: 3,
+                endColumn: 18
+            }]
         },
         {
             code: `
@@ -1123,7 +1546,13 @@ ruleTester.run("semi", rule, {
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: ["Extra semicolon."]
+            errors: [{
+                messageId: "extraSemi",
+                line: 3,
+                column: 17,
+                endLine: 3,
+                endColumn: 18
+            }]
         },
         {
             code: `
@@ -1139,7 +1568,13 @@ ruleTester.run("semi", rule, {
                 }
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            errors: ["Extra semicolon."]
+            errors: [{
+                messageId: "extraSemi",
+                line: 4,
+                column: 21,
+                endLine: 4,
+                endColumn: 22
+            }]
         },
         {
             code: `
@@ -1155,7 +1590,13 @@ ruleTester.run("semi", rule, {
                 }
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            errors: ["Extra semicolon."]
+            errors: [{
+                messageId: "extraSemi",
+                line: 4,
+                column: 21,
+                endLine: 4,
+                endColumn: 22
+            }]
         },
         {
             code: `
@@ -1171,7 +1612,13 @@ ruleTester.run("semi", rule, {
                 }
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            errors: ["Extra semicolon."]
+            errors: [{
+                messageId: "extraSemi",
+                line: 4,
+                column: 21,
+                endLine: 4,
+                endColumn: 22
+            }]
         },
         {
             code: `
@@ -1183,7 +1630,13 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            errors: ["Extra semicolon."]
+            errors: [{
+                messageId: "extraSemi",
+                line: 3,
+                column: 17,
+                endLine: 3,
+                endColumn: 18
+            }]
         },
         {
             code: `
@@ -1196,7 +1649,118 @@ ruleTester.run("semi", rule, {
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { ecmaVersion: 2015 },
-            errors: ["Extra semicolon."]
+            errors: [{
+                messageId: "extraSemi",
+                line: 3,
+                column: 17,
+                endLine: 3,
+                endColumn: 18
+            }]
+        },
+
+        // Class fields
+        {
+            code: "class C { foo }",
+            output: "class C { foo; }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "missingSemi",
+                line: 1,
+                column: 14,
+                endLine: 1,
+                endColumn: 15
+            }]
+        },
+        {
+            code: "class C { foo }",
+            output: "class C { foo; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "missingSemi",
+                line: 1,
+                column: 14,
+                endLine: 1,
+                endColumn: 15
+            }]
+        },
+        {
+            code: "class C { foo; }",
+            output: "class C { foo }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "extraSemi",
+                line: 1,
+                column: 14,
+                endLine: 1,
+                endColumn: 15
+            }]
+        },
+        {
+            code: "class C { foo\n[bar]; }",
+            output: "class C { foo;\n[bar]; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "missingSemi",
+                line: 1,
+                column: 14,
+                endLine: 2,
+                endColumn: 1
+            }]
+        },
+        {
+            code: "class C { foo\n[bar] }",
+            output: "class C { foo;\n[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "missingSemi",
+                line: 1,
+                column: 14,
+                endLine: 2,
+                endColumn: 1
+            }]
+        },
+        {
+            code: "class C { foo\n;[bar] }",
+            output: "class C { foo\n[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "extraSemi",
+                line: 2,
+                column: 1,
+                endLine: 2,
+                endColumn: 2
+            }]
+        },
+        {
+            code: "class C { foo = () => {}\n[bar] }",
+            output: "class C { foo = () => {};\n[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "missingSemi",
+                line: 1,
+                column: 25,
+                endLine: 2,
+                endColumn: 1
+            }]
+        },
+        {
+            code: "class C { foo = () => {}\n;[bar] }",
+            output: "class C { foo = () => {}\n[bar] }",
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "extraSemi",
+                line: 2,
+                column: 1,
+                endLine: 2,
+                endColumn: 2
+            }]
         }
     ]
 });

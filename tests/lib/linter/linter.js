@@ -11,6 +11,7 @@
 
 const assert = require("chai").assert,
     sinon = require("sinon"),
+    espree = require("espree"),
     esprima = require("esprima"),
     testParsers = require("../../fixtures/parsers/linter-test-parsers");
 
@@ -22,6 +23,7 @@ const { Linter } = require("../../../lib/linter");
 
 const TEST_CODE = "var answer = 6 * 7;",
     BROKEN_TEST_CODE = "var;";
+const linebreaks = ["\n", "\r\n", "\r", "\u2028", "\u2029"];
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -53,7 +55,7 @@ const ESLINT_ENV = "eslint-env";
 describe("Linter", () => {
     const filename = "filename.js";
 
-    /** @type {InstanceType<import("../../../lib/linter/linter.js")["Linter"]>} */
+    /** @type {InstanceType<import("../../../lib/linter/linter.js").Linter>} */
     let linter;
 
     beforeEach(() => {
@@ -1359,15 +1361,16 @@ describe("Linter", () => {
     describe("when evaluating code containing a line comment", () => {
         const code = "//global a \n function f() {}";
 
-        it("should not introduce a global variable", () => {
+        it("should introduce a global variable", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
             linter.defineRule("checker", context => {
                 spy = sinon.spy(() => {
                     const scope = context.getScope();
+                    const a = getVariable(scope, "a");
 
-                    assert.strictEqual(getVariable(scope, "a"), null);
+                    assert.strictEqual(a.eslintExplicitGlobal, true);
                 });
 
                 return { Program: spy };
@@ -3202,7 +3205,7 @@ var a = "test2";
             "eslint-enable eqeqeq",
             "eslint-env es6"
         ]) {
-            // eslint-disable-next-line no-loop-func
+            // eslint-disable-next-line no-loop-func -- No closures
             it(`should warn '/* ${directive} */' if 'noInlineConfig' was given.`, () => {
                 const messages = linter.verify(`/* ${directive} */`, { noInlineConfig: true });
 
@@ -3218,7 +3221,7 @@ var a = "test2";
             "eslint-disable-line eqeqeq",
             "eslint-disable-next-line eqeqeq"
         ]) {
-            // eslint-disable-next-line no-loop-func
+            // eslint-disable-next-line no-loop-func -- No closures
             it(`should warn '// ${directive}' if 'noInlineConfig' was given.`, () => {
                 const messages = linter.verify(`// ${directive}`, { noInlineConfig: true });
 
@@ -3299,6 +3302,10 @@ var a = "test2";
                         message: "Unused eslint-disable directive (no problems were reported).",
                         line: 1,
                         column: 1,
+                        fix: {
+                            range: [0, 20],
+                            text: " "
+                        },
                         severity: 2,
                         nodeType: null
                     }
@@ -3315,6 +3322,10 @@ var a = "test2";
                         message: "Unused eslint-disable directive (no problems were reported).",
                         line: 1,
                         column: 1,
+                        fix: {
+                            range: [0, 20],
+                            text: " "
+                        },
                         severity: 2,
                         nodeType: null
                     }
@@ -3331,6 +3342,10 @@ var a = "test2";
                         message: "Unused eslint-disable directive (no problems were reported).",
                         line: 1,
                         column: 1,
+                        fix: {
+                            range: [0, 20],
+                            text: " "
+                        },
                         severity: 1,
                         nodeType: null
                     }
@@ -3347,6 +3362,44 @@ var a = "test2";
                         message: "Unused eslint-disable directive (no problems were reported).",
                         line: 1,
                         column: 1,
+                        fix: {
+                            range: [0, 20],
+                            text: " "
+                        },
+                        severity: 1,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("reports problems for partially unused eslint-disable comments (in config)", () => {
+            const code = "alert('test'); // eslint-disable-line no-alert, no-redeclare";
+            const config = {
+                reportUnusedDisableDirectives: true,
+                rules: {
+                    "no-alert": 1,
+                    "no-redeclare": 1
+                }
+            };
+
+            const messages = linter.verify(code, config, {
+                filename,
+                allowInlineConfig: true
+            });
+
+            assert.deepStrictEqual(
+                messages,
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported from 'no-redeclare').",
+                        line: 1,
+                        column: 16,
+                        fix: {
+                            range: [46, 60],
+                            text: ""
+                        },
                         severity: 1,
                         nodeType: null
                     }
@@ -3492,6 +3545,57 @@ var a = "test2";
         });
 
         describe("ecmaVersion", () => {
+
+            it("should not support ES6 when no ecmaVersion provided", () => {
+                const messages = linter.verify("let x = 0;");
+
+                assert.strictEqual(messages.length, 1);
+            });
+
+            it("supports ECMAScript version 'latest'", () => {
+                const messages = linter.verify("let x = 5 ** 7;", {
+                    parserOptions: { ecmaVersion: "latest" }
+                });
+
+                assert.strictEqual(messages.length, 0);
+            });
+
+            it("the 'latest' is equal to espree.lastEcmaVersion", () => {
+                let ecmaVersion = null;
+                const config = { rules: { "ecma-version": 2 }, parserOptions: { ecmaVersion: "latest" } };
+
+                linter.defineRule("ecma-version", context => ({
+                    Program() {
+                        ecmaVersion = context.parserOptions.ecmaVersion;
+                    }
+                }));
+                linter.verify("", config);
+                assert.strictEqual(ecmaVersion, espree.latestEcmaVersion);
+            });
+
+            it("should pass normalized ecmaVersion to eslint-scope", () => {
+                let blockScope = null;
+
+                linter.defineRule("block-scope", context => ({
+                    BlockStatement() {
+                        blockScope = context.getScope();
+                    }
+                }));
+
+                linter.verify("{}", {
+                    rules: { "block-scope": 2 },
+                    parserOptions: { ecmaVersion: "latest" }
+                });
+
+                assert.strictEqual(blockScope.type, "block");
+
+                linter.verify("{}", {
+                    rules: { "block-scope": 2 },
+                    parserOptions: {} // ecmaVersion defaults to 5
+                });
+                assert.strictEqual(blockScope.type, "global");
+            });
+
             describe("it should properly parse let declaration when", () => {
                 it("the ECMAScript version number is 6", () => {
                     const messages = linter.verify("let x = 5;", {
@@ -4747,21 +4851,24 @@ var a = "test2";
 
     describe("suggestions", () => {
         it("provides suggestion information for tools to use", () => {
-            linter.defineRule("rule-with-suggestions", context => ({
-                Program(node) {
-                    context.report({
-                        node,
-                        message: "Incorrect spacing",
-                        suggest: [{
-                            desc: "Insert space at the beginning",
-                            fix: fixer => fixer.insertTextBefore(node, " ")
-                        }, {
-                            desc: "Insert space at the end",
-                            fix: fixer => fixer.insertTextAfter(node, " ")
-                        }]
-                    });
-                }
-            }));
+            linter.defineRule("rule-with-suggestions", {
+                meta: { hasSuggestions: true },
+                create: context => ({
+                    Program(node) {
+                        context.report({
+                            node,
+                            message: "Incorrect spacing",
+                            suggest: [{
+                                desc: "Insert space at the beginning",
+                                fix: fixer => fixer.insertTextBefore(node, " ")
+                            }, {
+                                desc: "Insert space at the end",
+                                fix: fixer => fixer.insertTextAfter(node, " ")
+                            }]
+                        });
+                    }
+                })
+            });
 
             const messages = linter.verify("var a = 1;", { rules: { "rule-with-suggestions": "error" } });
 
@@ -4786,7 +4893,8 @@ var a = "test2";
                     messages: {
                         suggestion1: "Insert space at the beginning",
                         suggestion2: "Insert space at the end"
-                    }
+                    },
+                    hasSuggestions: true
                 },
                 create: context => ({
                     Program(node) {
@@ -4822,6 +4930,44 @@ var a = "test2";
                     text: " "
                 }
             }]);
+        });
+
+        it("should throw an error if suggestion is passed but `meta.hasSuggestions` property is not enabled", () => {
+            linter.defineRule("rule-with-suggestions", {
+                meta: { docs: {}, schema: [] },
+                create: context => ({
+                    Program(node) {
+                        context.report({
+                            node,
+                            message: "hello world",
+                            suggest: [{ desc: "convert to foo", fix: fixer => fixer.insertTextBefore(node, " ") }]
+                        });
+                    }
+                })
+            });
+
+            assert.throws(() => {
+                linter.verify("0", { rules: { "rule-with-suggestions": "error" } });
+            }, "Rules with suggestions must set the `meta.hasSuggestions` property to `true`.");
+        });
+
+        it("should throw an error if suggestion is passed but `meta.hasSuggestions` property is not enabled and the rule has the obsolete `meta.docs.suggestion` property", () => {
+            linter.defineRule("rule-with-meta-docs-suggestion", {
+                meta: { docs: { suggestion: true }, schema: [] },
+                create: context => ({
+                    Program(node) {
+                        context.report({
+                            node,
+                            message: "hello world",
+                            suggest: [{ desc: "convert to foo", fix: fixer => fixer.insertTextBefore(node, " ") }]
+                        });
+                    }
+                })
+            });
+
+            assert.throws(() => {
+                linter.verify("0", { rules: { "rule-with-meta-docs-suggestion": "error" } });
+            }, "Rules with suggestions must set the `meta.hasSuggestions` property to `true`. `meta.docs.suggestion` is ignored by ESLint.");
         });
     });
 
@@ -5010,17 +5156,24 @@ var a = "test2";
             it("should use postprocessed problem ranges when applying autofixes", () => {
                 const code = "foo bar baz";
 
-                linter.defineRule("capitalize-identifiers", context => ({
-                    Identifier(node) {
-                        if (node.name !== node.name.toUpperCase()) {
-                            context.report({
-                                node,
-                                message: "Capitalize this identifier",
-                                fix: fixer => fixer.replaceText(node, node.name.toUpperCase())
-                            });
-                        }
+                linter.defineRule("capitalize-identifiers", {
+                    meta: {
+                        fixable: "code"
+                    },
+                    create(context) {
+                        return {
+                            Identifier(node) {
+                                if (node.name !== node.name.toUpperCase()) {
+                                    context.report({
+                                        node,
+                                        message: "Capitalize this identifier",
+                                        fix: fixer => fixer.replaceText(node, node.name.toUpperCase())
+                                    });
+                                }
+                            }
+                        };
                     }
-                }));
+                });
 
                 const fixResult = linter.verifyAndFix(
                     code,
@@ -5109,15 +5262,23 @@ var a = "test2";
         });
 
         it("stops fixing after 10 passes", () => {
-            linter.defineRule("add-spaces", context => ({
-                Program(node) {
-                    context.report({
-                        node,
-                        message: "Add a space before this node.",
-                        fix: fixer => fixer.insertTextBefore(node, " ")
-                    });
+
+            linter.defineRule("add-spaces", {
+                meta: {
+                    fixable: "whitespace"
+                },
+                create(context) {
+                    return {
+                        Program(node) {
+                            context.report({
+                                node,
+                                message: "Add a space before this node.",
+                                fix: fixer => fixer.insertTextBefore(node, " ")
+                            });
+                        }
+                    };
                 }
-            }));
+            });
 
             const fixResult = linter.verifyAndFix("a", { rules: { "add-spaces": "error" } });
 
@@ -5141,10 +5302,10 @@ var a = "test2";
 
             assert.throws(() => {
                 linter.verify("0", { rules: { "test-rule": "error" } });
-            }, /Fixable rules should export a `meta\.fixable` property.\nOccurred while linting <input>:1$/u);
+            }, /Fixable rules must set the `meta\.fixable` property to "code" or "whitespace".\nOccurred while linting <input>:1$/u);
         });
 
-        it("should not throw an error if fix is passed and there is no metadata", () => {
+        it("should throw an error if fix is passed and there is no metadata", () => {
             linter.defineRule("test-rule", {
                 create: context => ({
                     Program(node) {
@@ -5153,7 +5314,21 @@ var a = "test2";
                 })
             });
 
-            linter.verify("0", { rules: { "test-rule": "error" } });
+            assert.throws(() => {
+                linter.verify("0", { rules: { "test-rule": "error" } });
+            }, /Fixable rules must set the `meta\.fixable` property/u);
+        });
+
+        it("should throw an error if fix is passed from a legacy-format rule", () => {
+            linter.defineRule("test-rule", context => ({
+                Program(node) {
+                    context.report(node, "hello world", {}, () => ({ range: [1, 1], text: "" }));
+                }
+            }));
+
+            assert.throws(() => {
+                linter.verify("0", { rules: { "test-rule": "error" } });
+            }, /Fixable rules must set the `meta\.fixable` property/u);
         });
     });
 
@@ -5390,7 +5565,7 @@ var a = "test2";
 
             it("eslint-scope should use the visitorKeys (so 'childVisitorKeys.ClassDeclaration' includes 'experimentalDecorators')", () => {
                 assert.deepStrictEqual(
-                    scopeManager.__options.childVisitorKeys.ClassDeclaration, // eslint-disable-line no-underscore-dangle
+                    scopeManager.__options.childVisitorKeys.ClassDeclaration, // eslint-disable-line no-underscore-dangle -- ScopeManager API
                     ["experimentalDecorators", "id", "superClass", "body"]
                 );
             });
@@ -5466,6 +5641,145 @@ var a = "test2";
             linter.defineParser("throws-with-options", testParsers.throwsWithOptions);
             const messages = linter.verify(";", { parser: "throws-with-options" }, "filename");
 
+            assert.strictEqual(messages.length, 0);
+        });
+    });
+
+    // https://github.com/eslint/eslint/issues/14575
+    describe("directives in line comments", () => {
+        let messages;
+
+        it("//eslint-disable", () => {
+            const codes = [
+                ...linebreaks.map(linebreak => `//eslint-disable no-debugger${linebreak}debugger;`),
+                ...linebreaks.map(linebreak => `// eslint-disable no-debugger${linebreak}debugger;`)
+            ];
+
+            for (const code of codes) {
+                messages = linter.verify(code, { rules: { "no-debugger": 2 } });
+                assert.strictEqual(messages.length, 0);
+
+                messages = linter.verify(code, { rules: { "no-debugger": 0 } });
+                assert.strictEqual(messages.length, 0);
+            }
+        });
+
+        it("//eslint-enable", () => {
+            const codes = [
+                ...linebreaks.map(linebreak => `//eslint-disable no-debugger${linebreak}//eslint-enable no-debugger${linebreak}debugger;`),
+                ...linebreaks.map(linebreak => `// eslint-disable no-debugger${linebreak}//eslint-enable no-debugger${linebreak}debugger;`)
+            ];
+
+            for (const code of codes) {
+                messages = linter.verify(code, { rules: { "no-debugger": 2 } });
+                assert.strictEqual(messages.length, 1);
+            }
+        });
+
+        it("//eslint", () => {
+            const codes = [
+                ...linebreaks.map(linebreak => `//eslint no-debugger:'error'${linebreak}debugger;`),
+                ...linebreaks.map(linebreak => `// eslint no-debugger:'error'${linebreak}debugger;`)
+            ];
+
+            for (const code of codes) {
+                messages = linter.verify(code, { rules: { "no-debugger": 0 } });
+                assert.strictEqual(messages.length, 1);
+                messages = linter.verify(code, { rules: { "no-debugger": 2 } });
+                assert.strictEqual(messages.length, 1);
+            }
+        });
+
+        it("//global(s)", () => {
+            const config = { rules: { "no-undef": 2 } };
+            const codes = [
+                ...linebreaks.map(linebreak => `//globals foo: true${linebreak}foo;`),
+                ...linebreaks.map(linebreak => `// globals foo: true${linebreak}foo;`),
+                ...linebreaks.map(linebreak => `//global foo: true${linebreak}foo;`),
+                ...linebreaks.map(linebreak => `// global foo: true${linebreak}foo;`)
+            ];
+
+            for (const code of codes) {
+                messages = linter.verify(code, config, filename);
+                assert.strictEqual(messages.length, 0);
+            }
+        });
+        it("//exported", () => {
+            const codes = [
+                ...linebreaks.map(linebreak => `//exported foo${linebreak}var foo = 0;`),
+                ...linebreaks.map(linebreak => `// exported foo${linebreak}var foo = 0;`)
+            ];
+            const config = { rules: { "no-unused-vars": 2 } };
+
+            for (const code of codes) {
+                messages = linter.verify(code, config, filename);
+                assert.strictEqual(messages.length, 0);
+            }
+        });
+
+        describe("//eslint-env", () => {
+            const config = { rules: { "no-undef": 2 } };
+
+            it("enable one env with different line breaks", () => {
+                const codes = [
+                    ...linebreaks.map(linebreak => `//${ESLINT_ENV} browser${linebreak}window;`),
+                    ...linebreaks.map(linebreak => `//  ${ESLINT_ENV}  browser${linebreak}window;`),
+                    `window;//${ESLINT_ENV} browser` // no linebreaks
+                ];
+
+                for (const code of codes) {
+                    messages = linter.verify(code, config, filename);
+                    assert.strictEqual(messages.length, 0);
+                }
+            });
+
+            it("multiple envs enabled with different line breaks", () => {
+                const codes = [
+                    ...linebreaks.map(linebreak => `//${ESLINT_ENV} browser,es6${linebreak}window;Promise;`),
+                    ...linebreaks.map(linebreak => `// ${ESLINT_ENV} browser,es6${linebreak}window;Promise;`),
+                    ...linebreaks.map(linebreak => `//${ESLINT_ENV} browser${linebreak}//${ESLINT_ENV} es6${linebreak}window;Promise;`),
+                    ...linebreaks.map(linebreak => `// ${ESLINT_ENV} browser${linebreak}//${ESLINT_ENV} es6${linebreak}window;Promise;`)
+                ];
+
+                for (const code of codes) {
+                    messages = linter.verify(code, config, filename);
+                    assert.strictEqual(messages.length, 0);
+                }
+            });
+
+            it("no env enabled with different linebreaks", () => {
+                const codes = [
+                    ...linebreaks.map(linebreak => `//${ESLINT_ENV}${linebreak}browser${linebreak}window;`),
+                    ...linebreaks.map(linebreak => `// ${ESLINT_ENV}${linebreak}browser${linebreak}window;`),
+                    ...linebreaks.map(linebreak => `//${ESLINT_ENV}browser${linebreak}window;window;`),
+                    ...linebreaks.map(linebreak => `// ${ESLINT_ENV}browser${linebreak}window;window;`)
+                ];
+
+                for (const code of codes) {
+                    messages = linter.verify(code, config, filename);
+                    assert.strictEqual(messages.length, 2);
+                }
+            });
+        });
+    });
+
+    describe("merging 'parserOptions'", () => {
+        it("should deeply merge 'parserOptions' from an environment with 'parserOptions' from the provided config", () => {
+            const code = "return <div/>";
+            const config = {
+                env: {
+                    node: true // ecmaFeatures: { globalReturn: true }
+                },
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            };
+
+            const messages = linter.verify(code, config);
+
+            // no parsing errors
             assert.strictEqual(messages.length, 0);
         });
     });

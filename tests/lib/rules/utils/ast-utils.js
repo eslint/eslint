@@ -185,7 +185,6 @@ describe("ast-utils", () => {
          * Asserts the node is NOT a directive comment
          * @param {ASTNode} node node to assert
          * @returns {void}
-         *
          */
         function assertFalse(node) {
             assert.isFalse(astUtils.isDirectiveComment(node));
@@ -195,7 +194,6 @@ describe("ast-utils", () => {
          * Asserts the node is a directive comment
          * @param {ASTNode} node node to assert
          * @returns {void}
-         *
          */
         function assertTrue(node) {
             assert.isTrue(astUtils.isDirectiveComment(node));
@@ -206,7 +204,12 @@ describe("ast-utils", () => {
                 "// lalala I'm a normal comment",
                 "// trying to confuse eslint ",
                 "//trying to confuse eslint-directive-detection",
-                "//eslint is awesome"
+                "//xxeslint-enable foo",
+                "//xxeslint-disable foo",
+                "//xxeslint foo: 2",
+                "//xxglobal foo",
+                "//xxglobals foo",
+                "//xxexported foo"
             ].join("\n");
             const ast = espree.parse(code, ESPREE_CONFIG);
             const sourceCode = new SourceCode(code, ast);
@@ -234,7 +237,13 @@ describe("ast-utils", () => {
                 "// eslint-disable-line no-undef",
                 "// eslint-secret-directive 4 8 15 16 23 42   ",
                 "// eslint-directive-without-argument",
-                "//eslint-directive-without-padding"
+                "//eslint-directive-without-padding",
+
+                // https://github.com/eslint/eslint/issues/14575
+                "//eslint foo:0",
+                "//global foo",
+                "//eslint-enable foo",
+                "//eslint-disable foo"
             ].join("\n");
             const ast = espree.parse(code, ESPREE_CONFIG);
             const sourceCode = new SourceCode(code, ast);
@@ -406,7 +415,7 @@ describe("ast-utils", () => {
 
     describe("getStaticStringValue", () => {
 
-        /* eslint-disable quote-props */
+        /* eslint-disable quote-props -- Make consistent here for readability */
         const expectedResults = {
 
             // string literals
@@ -470,7 +479,7 @@ describe("ast-utils", () => {
             "this": null,
             "(function () {})": null
         };
-        /* eslint-enable quote-props */
+        /* eslint-enable quote-props -- Make consistent here for readability */
 
         Object.keys(expectedResults).forEach(key => {
             it(`should return ${expectedResults[key]} for ${key}`, () => {
@@ -878,7 +887,17 @@ describe("ast-utils", () => {
             "class A { static *foo() {} }": "static generator method 'foo'",
             "class A { static async foo() {} }": "static async method 'foo'",
             "class A { static get foo() {} }": "static getter 'foo'",
-            "class A { static set foo(a) {} }": "static setter 'foo'"
+            "class A { static set foo(a) {} }": "static setter 'foo'",
+            "class A { foo = () => {}; }": "method 'foo'",
+            "class A { foo = function() {}; }": "method 'foo'",
+            "class A { foo = function bar() {}; }": "method 'foo'",
+            "class A { static foo = () => {}; }": "static method 'foo'",
+            "class A { '#foo' = () => {}; }": "method '#foo'",
+            "class A { #foo = () => {}; }": "private method #foo",
+            "class A { static #foo = () => {}; }": "static private method #foo",
+            "class A { '#foo'() {} }": "method '#foo'",
+            "class A { #foo() {} }": "private method #foo",
+            "class A { static #foo() {} }": "static private method #foo"
         };
 
         Object.keys(expectedResults).forEach(key => {
@@ -892,7 +911,7 @@ describe("ast-utils", () => {
                     })
                 })));
 
-                linter.verify(key, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 8 } });
+                linter.verify(key, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 13 } });
             });
         });
     });
@@ -940,7 +959,12 @@ describe("ast-utils", () => {
             "class A { static *foo() {} }": [10, 21],
             "class A { static async foo() {} }": [10, 26],
             "class A { static get foo() {} }": [10, 24],
-            "class A { static set foo(a) {} }": [10, 24]
+            "class A { static set foo(a) {} }": [10, 24],
+            "class A { foo = function() {}; }": [10, 24],
+            "class A { foo = function bar() {}; }": [10, 28],
+            "class A { static foo = function() {}; }": [10, 31],
+            "class A { foo = () => {}; }": [10, 16],
+            "class A { foo = arg => {}; }": [10, 16]
         };
 
         Object.keys(expectedResults).forEach(key => {
@@ -965,7 +989,7 @@ describe("ast-utils", () => {
                     })
                 })));
 
-                linter.verify(key, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 8 } }, "test.js", true);
+                linter.verify(key, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 13 } }, "test.js", true);
             });
         });
     });
@@ -1006,7 +1030,7 @@ describe("ast-utils", () => {
 
     describe("getNextLocation", () => {
 
-        /* eslint-disable quote-props */
+        /* eslint-disable quote-props -- Make consistent here for readability */
         const expectedResults = {
             "": [[1, 0], null],
             "\n": [[1, 0], [2, 0], null],
@@ -1028,7 +1052,7 @@ describe("ast-utils", () => {
             "a\t": [[1, 0], [1, 1], [1, 2], null],
             "a \n": [[1, 0], [1, 1], [1, 2], [2, 0], null]
         };
-        /* eslint-enable quote-props */
+        /* eslint-enable quote-props -- Make consistent here for readability */
 
         Object.keys(expectedResults).forEach(code => {
             it(`should return expected locations for "${code}".`, () => {
@@ -1557,7 +1581,7 @@ describe("ast-utils", () => {
                     },
                     nodeB: {
                         type: "Literal",
-                        value: /(?:)/, // eslint-disable-line require-unicode-regexp
+                        value: /(?:)/, // eslint-disable-line require-unicode-regexp -- Checking non-Unicode regex
                         regex: { pattern: "(?:)", flags: "" }
                     },
                     expected: false
@@ -1650,7 +1674,7 @@ describe("ast-utils", () => {
 
     describe("hasOctalOrNonOctalDecimalEscapeSequence", () => {
 
-        /* eslint-disable quote-props */
+        /* eslint-disable quote-props -- Make consistent here for readability */
         const expectedResults = {
             "\\1": true,
             "\\2": true,
@@ -1722,7 +1746,7 @@ describe("ast-utils", () => {
             "foo\\\nbar": false,
             "128\\\n349": false
         };
-        /* eslint-enable quote-props */
+        /* eslint-enable quote-props -- Make consistent here for readability */
 
         Object.keys(expectedResults).forEach(key => {
             it(`should return ${expectedResults[key]} for ${key}`, () => {
