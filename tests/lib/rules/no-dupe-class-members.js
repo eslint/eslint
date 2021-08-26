@@ -23,6 +23,7 @@ ruleTester.run("no-dupe-class-members", rule, {
         "class A { foo() {} bar() {} }",
         "class A { static foo() {} foo() {} }",
         "class A { get foo() {} set foo(value) {} }",
+        "class A { static get foo() {} static set foo(value) {} }",
         "class A { static foo() {} get foo() {} set foo(value) {} }",
         "class A { foo() { } } class B { foo() { } }",
         "class A { [foo]() {} foo() {} }",
@@ -56,7 +57,15 @@ ruleTester.run("no-dupe-class-members", rule, {
         // private and public
         "class A { foo; static foo; }",
         "class A { foo; #foo; }",
-        "class A { '#foo'; #foo; }"
+        "class A { '#foo'; #foo; }",
+
+        // instance fields vs prototype definitions
+        "class A { foo; foo() {} }",
+        "class A { foo() {} foo; }",
+        "class A { foo; get foo() {} }",
+        "class A { get foo() {} foo; }",
+        "class A { foo; set foo(value) {} }",
+        "class A { set foo(value) {} foo; }"
     ],
     invalid: [
         {
@@ -65,6 +74,85 @@ ruleTester.run("no-dupe-class-members", rule, {
                 { type: "MethodDefinition", line: 1, column: 20, messageId: "unexpected", data: { name: "foo" } }
             ]
         },
+        {
+            code: "class A { get foo() {} get foo() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 24, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { set foo(value) {} set foo(value) {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 29, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { foo() {} get foo() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 20, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { get foo() {} foo() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 24, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { foo() {} set foo(value) {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 20, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { set foo(value) {} foo() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 29, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { static foo() {} static foo() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 27, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { static get foo() {} static get foo() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 31, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { static set foo(value) {} static set foo(value) {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 36, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { static foo() {} static get foo() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 27, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { static get foo() {} static foo() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 31, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { static foo() {} static set foo(value) {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 27, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { static set foo(value) {} static foo() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 36, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+
         {
             code: "!class A { foo() {} foo() {} };",
             errors: [
@@ -205,28 +293,48 @@ ruleTester.run("no-dupe-class-members", rule, {
                 { type: "MethodDefinition", line: 1, column: 29, messageId: "unexpected", data: { name: "foo" } }
             ]
         },
+
+        // class fields
         {
-            code: "class A { static foo() {} static foo() {} }",
+            code: "class A { static foo; static foo; }",
             errors: [
-                { type: "MethodDefinition", line: 1, column: 27, messageId: "unexpected", data: { name: "foo" } }
+                { type: "PropertyDefinition", line: 1, column: 23, messageId: "unexpected", data: { name: "foo" } }
             ]
         },
         {
-            code: "class A { foo() {} get foo() {} }",
+            code: "class A { static foo; static foo() {} }",
             errors: [
-                { type: "MethodDefinition", line: 1, column: 20, messageId: "unexpected", data: { name: "foo" } }
+                { type: "MethodDefinition", line: 1, column: 23, messageId: "unexpected", data: { name: "foo" } }
             ]
         },
         {
-            code: "class A { set foo(value) {} foo() {} }",
+            code: "class A { static foo() {} static foo; }",
             errors: [
-                { type: "MethodDefinition", line: 1, column: 29, messageId: "unexpected", data: { name: "foo" } }
+                { type: "PropertyDefinition", line: 1, column: 27, messageId: "unexpected", data: { name: "foo" } }
             ]
         },
         {
-            code: "class A { foo; foo; }",
+            code: "class A { static foo; static get foo() {} }",
             errors: [
-                { type: "PropertyDefinition", line: 1, column: 16, messageId: "unexpected", data: { name: "foo" } }
+                { type: "MethodDefinition", line: 1, column: 23, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { static get foo() {} static foo; }",
+            errors: [
+                { type: "PropertyDefinition", line: 1, column: 31, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { static foo; static set foo(value) {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 23, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { static set foo(value) {} static foo; }",
+            errors: [
+                { type: "PropertyDefinition", line: 1, column: 36, messageId: "unexpected", data: { name: "foo" } }
             ]
         }
 

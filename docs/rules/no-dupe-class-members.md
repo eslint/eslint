@@ -25,7 +25,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-dupe-class-members: "error"*/
-/*eslint-env es6*/
 
 class Foo {
   bar() { }
@@ -41,13 +40,32 @@ class Foo {
   static bar() { }
   static bar() { }
 }
+
+class Foo {
+  bar;
+  bar;
+}
+
+class Foo {
+  static bar;
+  static bar;
+}
+
+class Foo {
+  static bar;
+  static bar() { }
+}
+
+class Foo {
+  static bar;
+  static get bar() { }
+}
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-dupe-class-members: "error"*/
-/*eslint-env es6*/
 
 class Foo {
   bar() { }
@@ -62,6 +80,24 @@ class Foo {
 class Foo {
   static bar() { }
   bar() { }
+}
+```
+
+The rule allows instance fields to have the same name as a method, getter, or setter since they define properties on different objects and thus do not overwrite properties defined by methods, getters, and setters.
+
+Examples of additional **correct** code for this rule:
+
+```js
+/*eslint no-dupe-class-members: "error"*/
+
+class Foo {
+  bar; // defines property 'bar' on instances of Foo
+  bar() { } // defines property 'bar' on Foo.prototype
+}
+
+class Foo {
+  bar; // defines property 'bar' on instances of Foo
+  get bar() { } // defines property 'bar' on Foo.prototype
 }
 ```
 
