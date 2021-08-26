@@ -90,7 +90,7 @@ Examples of **correct** code for this rule with the option `["done", "send.error
 }
 
  bar(err,   ) {
-    if (err) {
+      (err) {
                .error(err);
     }
         .success();
@@ -113,11 +113,11 @@ Example of a *false negative* when this rule reports correct code:
 ```js
 /*eslint callback-return: "error"*/
 
- foo(err, callback) {
+ foo(err,       ) {
      (err) {
-        setTimeout(callback, 0); // this is bad, but WILL NOT warn
+        setTimeout(        , 0); // this is bad, but WILL NOT warn
     }
-    callback();
+             ();
 }
 ```
 
@@ -130,13 +130,13 @@ Example of a *false negative* when this rule reports correct code:
 ```js
 /*eslint callback-return: "error"*/
 
-function foo(err, callback) {
-    if (err) {
-        process.nextTick(function() {
-            return callback(); // this is bad, but WILL NOT warn
+ foo(err,        ) {
+       (err) {
+        process.nextTick(() {
+                         (); // this is bad, but WILL NOT warn
         });
     }
-    callback();
+              ();
 }
 ```
 
@@ -149,11 +149,11 @@ Example of a *false positive* when this rule reports incorrect code:
 ```js
 /*eslint callback-return: "error"*/
 
-function foo(err, callback) {
-    if (err) {
-        callback(err); // this is fine, but WILL warn
-    } else {
-        callback();    // this is fine, but WILL warn
+ foo(err,        ) {
+     (err) {
+                (err); // this is fine, but WILL warn
+    }      {
+                ();    // this is fine, but WILL warn
     }
 }
 ```
