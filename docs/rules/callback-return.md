@@ -48,8 +48,8 @@ Examples of **correct** code for this rule with the default `["callback", "cb", 
 ```js
 /*eslint callback-return: "error"*/
    foo(err, callback) {
-    if (err) {
-        return callback(err);
+       (err) {
+              callback(err);
     }
     callback();
 }
@@ -82,18 +82,18 @@ Examples of **correct** code for this rule with the option `["done", "send.error
 ```js
 /*eslint callback-return: ["error", ["done", "send.error", "send.success"]]*/
 
-function foo(err, done) {
-    if (err) {
-        return done(err);
+ foo(err,   ) {
+     (err) {
+               (err);
     }
-    done();
+        ();
 }
 
-function bar(err, send) {
+ bar(err,   ) {
     if (err) {
-        return send.error(err);
+               .error(err);
     }
-    send.success();
+        .success();
 }
 ```
 
@@ -113,8 +113,8 @@ Example of a *false negative* when this rule reports correct code:
 ```js
 /*eslint callback-return: "error"*/
 
-function foo(err, callback) {
-    if (err) {
+ foo(err, callback) {
+     (err) {
         setTimeout(callback, 0); // this is bad, but WILL NOT warn
     }
     callback();
