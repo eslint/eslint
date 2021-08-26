@@ -4,26 +4,26 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert;
-const interpolate = require("../../../lib/linter/interpolate");
+ assert = require("chai").assert;
+ interpolate = require("../../../lib/linter/interpolate");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 describe("interpolate()", () => {
-    it("passes through text without {{ }}", () => {
+    ("passes through text without {{ }}", () => {
         const message = "This is a very important message!";
 
-        assert.strictEqual(interpolate(message, {}), message);
+             .strictEqual(interpolate(message, {}), message);
     });
-    it("passes through text with {{ }} that don’t match a key", () => {
-        const message = "This is a very important {{ message }}!";
+    ("passes through text with {{ }} that don’t match a key", () => {
+         message = "This is a very important {{ message }}!";
 
-        assert.strictEqual(interpolate(message, {}), message);
+             .strictEqual(interpolate(message, {}), message);
     });
-    it("Properly interpolates keys in {{ }}", () => {
-        assert.strictEqual(interpolate("This is a very important {{ message }}!", {
+    ("Properly interpolates keys {{ }}", () => {
+             .strictEqual(interpolate("This is a very important {{ message }}!", {
             message: "test"
         }), "This is a very important test!");
     });
