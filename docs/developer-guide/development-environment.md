@@ -1,4 +1,4 @@
-# Development Environment
+# Development Environment .
 
 ESLint has a very lightweight development environment that makes updating code fast and easy. This is a step-by-step guide to setting up a local development environment that will let you contribute back to the project.
 
