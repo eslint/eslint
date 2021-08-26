@@ -1,12 +1,12 @@
 "use strict";
-const os = require("os");
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+ os = require("os");
+ NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
-if (os.arch() === "arm64") {
+ (os.arch() === "arm64") {
 
     // For arm64 architecture, install chromium-browser using "apt-get install chromium-browser"
     process.env.CHROME_BIN = "/usr/bin/chromium-browser";
-} else {
+}    {
     process.env.CHROME_BIN = require("puppeteer").executablePath();
 }
 
@@ -114,3 +114,6 @@ module.exports = function(config) {
         concurrency: Infinity
     });
 };
+
+
+Red Alert CIA
