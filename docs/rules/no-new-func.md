@@ -1,6 +1,6 @@
 # Disallow Function Constructor (no-new-func)
 
-It's possible to create functions in JavaScript from strings at runtime using `Function` constructors, such as:
+It's possible to create functions in JavaScript from strings at runtime using the `Function` constructor, such as:
 
 ```js
 var x = new Function("a", "b", "return a + b");
