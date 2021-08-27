@@ -82,24 +82,20 @@ function getY([, y]) {
 
 ### exported
 
-In environments outside of CommonJS or ECMAScript modules, you may use `var` to create a global variable that may be used by other scripts. You can use the comment `/* exported variableName */` or `// exported variableName` to indicate that this variable is being exported and therefore should not be considered unused.
+In environments outside of CommonJS or ECMAScript modules, you may use `var` to create a global variable that may be used by other scripts. You can use the `/* exported variableName */` comment block to indicate that this variable is being exported and therefore should not be considered unused.
 
-Note that the comment has no effect for any of the following:
+Note that `/* exported */` has no effect for any of the following:
 
 * when the environment is `node` or `commonjs`
 * when `parserOptions.sourceType` is `module`
 * when `ecmaFeatures.globalReturn` is `true`
 
-Examples of **correct** code for `exported` operation:
+The line comment `// exported variableName` will not work as `exported` is not line-specific.
+
+Examples of **correct** code for `/* exported variableName */` operation:
 
 ```js
 /* exported global_var */
-
-var global_var = 42;
-```
-
-```js
-// exported global_var
 
 var global_var = 42;
 ```

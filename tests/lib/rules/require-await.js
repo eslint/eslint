@@ -43,7 +43,7 @@ ruleTester.run("require-await", rule, {
         // for-await-of
         "async function foo() { for await (x of xs); }",
 
-        // Global await
+        // global await
         {
             code: "await foo()",
             parser: require.resolve("../../fixtures/parsers/typescript-parsers/global-await")
