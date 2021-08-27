@@ -59,28 +59,28 @@ ruleTester.run("no-new-func", rule, {
             code: "var a = Function.call(null, \"b\", \"c\", \"return b+c\");",
             errors: [{
                 messageId: "noFunctionConstructor",
-                type: "MemberExpression"
+                type: "CallExpression"
             }]
         },
         {
             code: "var a = Function.apply(null, [\"b\", \"c\", \"return b+c\"]);",
             errors: [{
                 messageId: "noFunctionConstructor",
-                type: "MemberExpression"
+                type: "CallExpression"
             }]
         },
         {
             code: "var a = Function.bind(null, \"b\", \"c\", \"return b+c\")();",
             errors: [{
                 messageId: "noFunctionConstructor",
-                type: "MemberExpression"
+                type: "CallExpression"
             }]
         },
         {
             code: "var a = Function.bind(null, \"b\", \"c\", \"return b+c\");",
             errors: [{
                 messageId: "noFunctionConstructor",
-                type: "MemberExpression"
+                type: "CallExpression"
             }]
         },
         {
