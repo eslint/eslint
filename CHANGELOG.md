@@ -1,3 +1,29 @@
+v8.0.0-beta.1 - August 27, 2021
+
+* [`41617ec`](https://github.com/eslint/eslint/commit/41617ec3c4bc8bd1ba5f66521185be1566e6f5f4) Revert "allow all directives in line comments" (fixes #14960) (#14973) (薛定谔的猫)
+* [`05ca24c`](https://github.com/eslint/eslint/commit/05ca24c57f90f91421b682dca3d7a45b7957fb77) Update: Code path analysis for class fields (fixes #14343) (#14886) (Nicholas C. Zakas)
+* [`db15183`](https://github.com/eslint/eslint/commit/db1518374a5e88efedf1ed4609d879f3091af74f) Chore: Refactor comments of tests (#14956) (TagawaHirotaka)
+* [`396a0e3`](https://github.com/eslint/eslint/commit/396a0e3c7c82e5d2680d07250008094f336856db) Docs: update ScopeManager with class fields (#14974) (Milos Djermanovic)
+* [`6663e7a`](https://github.com/eslint/eslint/commit/6663e7aed498a73108b5e6371f218d9411b87796) Docs: remove `docs` script (fixes #14288) (#14971) (Nitin Kumar)
+* [`44c6fc8`](https://github.com/eslint/eslint/commit/44c6fc879de61e9513835d1d4d6ae978d9a43c51) Update: support class fields in func-name-matching (refs #14857) (#14964) (Milos Djermanovic)
+* [`44f7de5`](https://github.com/eslint/eslint/commit/44f7de5ee4d934dee540d3d55305126c670f6bfc) Docs: Update deprecated information (#14961) (TagawaHirotaka)
+* [`305e14a`](https://github.com/eslint/eslint/commit/305e14af8bd12afc01487abee5c9b0f3eaca989e) Breaking: remove meta.docs.category in core rules (fixes #13398) (#14594) (薛定谔的猫)
+* [`a79c9f3`](https://github.com/eslint/eslint/commit/a79c9f35d665c2bcc63267bdf359a8176e0a84ce) Chore: Enforce jsdoc check-line-alignment never (#14955) (Brett Zamir)
+* [`a8bcef7`](https://github.com/eslint/eslint/commit/a8bcef70a4a6b1fbb2007075bed754635f27ff01) Docs: Add 2021 and 2022 to supported ECMAScript versions (#14952) (coderaiser)
+* [`3409785`](https://github.com/eslint/eslint/commit/3409785a41a5bd2b128ed11b8baf7a59f9e412ee) Fix: camelcase ignoreGlobals shouldn't apply to undef vars (refs #14857) (#14966) (Milos Djermanovic)
+* [`b301069`](https://github.com/eslint/eslint/commit/b301069981dc1dcca51df2813dcebdca8c150502) Docs: fix 'When Not To Use' in prefer-named-capture-group (refs #14959) (#14969) (Milos Djermanovic)
+* [`2d18db6`](https://github.com/eslint/eslint/commit/2d18db6278320fb97bc8e0bff3518c790566a6a6) Chore: add test for merging `parserOptions` in Linter (#14948) (Milos Djermanovic)
+* [`3d7d5fb`](https://github.com/eslint/eslint/commit/3d7d5fb32425e8c04d3eaa0107a2ab03a2e285df) Update: reporting loc for `never` option in `eol-last` (refs #12334) (#14840) (Nitin Kumar)
+* [`f110926`](https://github.com/eslint/eslint/commit/f110926a7abcc875a86dd13116f794e4f950e2ba) Update: fix no-unused-vars false negative with comma operator (#14928) (Sachin)
+* [`e98f14d`](https://github.com/eslint/eslint/commit/e98f14d356b5ff934dd2a0a1fb226f1b15317ab3) Docs: Fix typo in no-implicit-globals.md (#14954) (jwbth)
+* [`9a4ae3b`](https://github.com/eslint/eslint/commit/9a4ae3b68a1afd9483d331997635727fb19a1a99) Chore: Apply comment require-description and check ClassDeclaration (#14949) (Brett Zamir)
+* [`8344675`](https://github.com/eslint/eslint/commit/8344675c309a359dd2af5afddba6122f5dc803d0) Chore: fix small typo (#14951) (Sosuke Suzuki)
+* [`26b0cd9`](https://github.com/eslint/eslint/commit/26b0cd924e79a0ab2374c0cd813e92055f9fff7b) Update: fix no-unreachable logic for class fields (refs #14857) (#14920) (Milos Djermanovic)
+* [`ee1b54f`](https://github.com/eslint/eslint/commit/ee1b54f31fa840e6ec72a313aa4090fdd3e985cd) Fix: keyword-spacing private name compat (refs #14857) (#14946) (Nicholas C. Zakas)
+* [`58840ac`](https://github.com/eslint/eslint/commit/58840ac844a61c72eabb603ecfb761812b82a7ed) Chore: Update jsdoc plugin and tweak rules in effect (#14814) (Brett Zamir)
+* [`81c60f4`](https://github.com/eslint/eslint/commit/81c60f4a8725738f191580646562d1dca7eee933) Docs: document ESLint api (#14934) (Sam Chen)
+* [`c74fe08`](https://github.com/eslint/eslint/commit/c74fe08642c30e1a4cd4e0866251a2d29466add8) Build: Force prerelease peer dep for Node 16 in CI (#14933) (Brandon Mills)
+
 v8.0.0-beta.0 - August 14, 2021
 
 * [`be334f9`](https://github.com/eslint/eslint/commit/be334f9d8633e9d193dcb8b36f484547e9d3ab97) Chore: Fix Makefile call to linter.getRules() (#14932) (Brandon Mills)
