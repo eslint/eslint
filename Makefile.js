@@ -149,8 +149,8 @@ function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
 
 /**
  * Generates a doc page with formatter result examples
- * @param  {Object} formatterInfo Linting results from each formatter
- * @param  {string} [prereleaseVersion] The version used for a prerelease. This
+ * @param {Object} formatterInfo Linting results from each formatter
+ * @param {string} [prereleaseVersion] The version used for a prerelease. This
  *      changes where the output is stored.
  * @returns {void}
  */
@@ -177,8 +177,8 @@ function generateFormatterExamples(formatterInfo, prereleaseVersion) {
  */
 function generateRuleIndexPage() {
     const outputFile = "../website/_data/rules.yml",
-        categoryList = "conf/category-list.json",
-        categoriesData = JSON.parse(cat(path.resolve(categoryList)));
+        ruleTypes = "conf/rule-type-list.json",
+        ruleTypesData = JSON.parse(cat(path.resolve(ruleTypes)));
 
     RULE_FILES
         .map(filename => [filename, path.basename(filename, ".js")])
@@ -189,7 +189,7 @@ function generateRuleIndexPage() {
             const rule = require(path.resolve(filename));
 
             if (rule.meta.deprecated) {
-                categoriesData.deprecated.rules.push({
+                ruleTypesData.deprecated.rules.push({
                     name: basename,
                     replacedBy: rule.meta.replacedBy || []
                 });
@@ -201,20 +201,20 @@ function generateRuleIndexPage() {
                         fixable: !!rule.meta.fixable,
                         hasSuggestions: !!rule.meta.hasSuggestions
                     },
-                    category = categoriesData.categories.find(c => c.name === rule.meta.docs.category);
+                    ruleType = ruleTypesData.types.find(c => c.name === rule.meta.type);
 
-                if (!category.rules) {
-                    category.rules = [];
+                if (!ruleType.rules) {
+                    ruleType.rules = [];
                 }
 
-                category.rules.push(output);
+                ruleType.rules.push(output);
             }
         });
 
     // `.rules` will be `undefined` if all rules in category are deprecated.
-    categoriesData.categories = categoriesData.categories.filter(category => !!category.rules);
+    ruleTypesData.types = ruleTypesData.types.filter(ruleType => !!ruleType.rules);
 
-    const output = yaml.dump(categoriesData, { sortKeys: true });
+    const output = yaml.dump(ruleTypesData, { sortKeys: true });
 
     output.to(outputFile);
 }
@@ -580,12 +580,6 @@ target.test = function() {
     target.karma();
     target.fuzz({ amount: 150, fuzzBrokenAutofixes: false });
     target.checkLicenses();
-};
-
-target.docs = function() {
-    echo("Generating documentation");
-    exec(`${getBinFile("jsdoc")} -d jsdoc lib`);
-    echo("Documentation has been output to /jsdoc");
 };
 
 target.gensite = function(prereleaseVersion) {

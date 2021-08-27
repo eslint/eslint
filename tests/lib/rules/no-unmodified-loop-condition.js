@@ -12,6 +12,10 @@
 const rule = require("../../../lib/rules/no-unmodified-loop-condition"),
     { RuleTester } = require("../../../lib/rule-tester");
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester();
 
 ruleTester.run("no-unmodified-loop-condition", rule, {

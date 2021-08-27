@@ -12,6 +12,10 @@
 const rule = require("../../../lib/rules/no-unexpected-multiline"),
     { RuleTester } = require("../../../lib/rule-tester");
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester();
 
 ruleTester.run("no-unexpected-multiline", rule, {

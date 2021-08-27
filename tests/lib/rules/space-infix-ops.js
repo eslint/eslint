@@ -13,6 +13,10 @@ const rule = require("../../../lib/rules/space-infix-ops"),
     { RuleTester } = require("../../../lib/rule-tester"),
     parser = require("../../fixtures/fixture-parser");
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester();
 
 ruleTester.run("space-infix-ops", rule, {

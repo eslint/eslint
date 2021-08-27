@@ -14,6 +14,10 @@ const rule = require("../../../lib/rules/one-var"),
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 ruleTester.run("one-var", rule, {
     valid: [
         "function foo() { var bar = true; }",

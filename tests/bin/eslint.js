@@ -5,12 +5,24 @@
 
 "use strict";
 
+//-----------------------------------------------------------------------------
+// Requirements
+//-----------------------------------------------------------------------------
+
 const childProcess = require("child_process");
 const fs = require("fs");
 const assert = require("chai").assert;
 const path = require("path");
 
+//------------------------------------------------------------------------------
+// Data
+//------------------------------------------------------------------------------
+
 const EXECUTABLE_PATH = path.resolve(path.join(__dirname, "../../bin/eslint.js"));
+
+//-----------------------------------------------------------------------------
+// Helpers
+//-----------------------------------------------------------------------------
 
 /**
  * Returns a Promise for when a child process exits
@@ -47,6 +59,10 @@ function getOutput(runningProcess) {
     runningProcess.stderr.on("data", data => (stderr += data));
     return awaitExit(runningProcess).then(() => ({ stdout, stderr }));
 }
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 describe("bin/eslint.js", () => {
     const forkedProcesses = new Set();

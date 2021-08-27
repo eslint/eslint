@@ -12,6 +12,10 @@
 const rule = require("../../../lib/rules/semi"),
     { RuleTester } = require("../../../lib/rule-tester");
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester();
 
 ruleTester.run("semi", rule, {
