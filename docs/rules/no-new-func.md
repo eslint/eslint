@@ -8,6 +8,7 @@ var x = Function("a", "b", "return a + b");
 var x = Function.call(null, "a", "b", "return a + b");
 var x = Function.apply(null, ["a", "b", "return a + b"]);
 var x = Function.bind(null, "a", "b", "return a + b")();
+var f = Function.bind(null, "a", "b", "return a + b"); // assuming that the result of Function.bind(...) will be eventually called.
 ```
 
 This is considered by many to be a bad practice due to the difficulty in debugging and reading these types of functions. In addition, Content-Security-Policy (CSP) directives may disallow the use of eval() and similar methods for creating code from strings.
