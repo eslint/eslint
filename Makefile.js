@@ -823,9 +823,9 @@ target.checkRuleFiles = function() {
          */
         function hasDeprecatedInfo() {
             const ruleCode = cat(filename);
-            const deprecatedTagRegExp = new RegExp("@deprecated in ESLint", "u");
+            const deprecatedTagRegExp = /@deprecated in ESLint/u;
             const docText = cat(docFilename);
-            const deprecatedInfoRegExp = new RegExp("This rule was .+deprecated.+in ESLint", "u");
+            const deprecatedInfoRegExp = /This rule was .+deprecated.+in ESLint/u;
 
             return deprecatedTagRegExp.test(ruleCode) && deprecatedInfoRegExp.test(docText);
         }
