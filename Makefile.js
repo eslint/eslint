@@ -816,6 +816,20 @@ target.checkRuleFiles = function() {
             return idNewAtBeginningOfTitleRegExp.test(docText) || idOldAtEndOfTitleRegExp.test(docText);
         }
 
+		/**
+         * Check if deprecated information is in rule code and READNE.md.
+         * @returns {boolean} true if present
+         * @private
+         */
+		function hasDeprecatedInfo() {
+			const ruleCode = cat(filename);
+			const deprecatedTagRegExp = new RegExp(`@deprecated in ESLint`);
+			const docText = cat(docFilename);
+			const deprecatedInfoRegExp = new RegExp(`This rule was \.\+deprecated\.\+in ESLint`, "u");
+			
+			return deprecatedTagRegExp.test(ruleCode) && deprecatedInfoRegExp.test(docText);
+		}
+
         // check for docs
         if (!test("-f", docFilename)) {
             console.error("Missing documentation for rule %s", basename);
@@ -859,6 +873,12 @@ target.checkRuleFiles = function() {
                     errors++;
                 }
             }
+
+			// check deprecated
+			if (ruleDef.meta.deprecated && !hasDeprecatedInfo()) {
+				console.error(`Missing deprecated information in ${basename} rule code or README.md. Please write @deprecated tag in code or 「This rule was deprecated in ESLint ...」in README.md.`);
+				errors++;
+			}
         }
 
         // check for tests
