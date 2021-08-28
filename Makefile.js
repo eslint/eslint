@@ -816,19 +816,19 @@ target.checkRuleFiles = function() {
             return idNewAtBeginningOfTitleRegExp.test(docText) || idOldAtEndOfTitleRegExp.test(docText);
         }
 
-		/**
+        /**
          * Check if deprecated information is in rule code and READNE.md.
          * @returns {boolean} true if present
          * @private
          */
-		function hasDeprecatedInfo() {
-			const ruleCode = cat(filename);
-			const deprecatedTagRegExp = new RegExp(`@deprecated in ESLint`);
-			const docText = cat(docFilename);
-			const deprecatedInfoRegExp = new RegExp(`This rule was \.\+deprecated\.\+in ESLint`, "u");
-			
-			return deprecatedTagRegExp.test(ruleCode) && deprecatedInfoRegExp.test(docText);
-		}
+        function hasDeprecatedInfo() {
+            const ruleCode = cat(filename);
+            const deprecatedTagRegExp = new RegExp("@deprecated in ESLint", "u");
+            const docText = cat(docFilename);
+            const deprecatedInfoRegExp = new RegExp("This rule was .+deprecated.+in ESLint", "u");
+
+            return deprecatedTagRegExp.test(ruleCode) && deprecatedInfoRegExp.test(docText);
+        }
 
         // check for docs
         if (!test("-f", docFilename)) {
@@ -856,12 +856,17 @@ target.checkRuleFiles = function() {
         if (!ruleDef) {
             console.error(`Missing rule from index (./lib/rules/index.js): ${basename}. If you just added a new rule then add an entry for it in this file.`);
             errors++;
-        }
+        } else {
 
-        // check eslint:recommended
-        const recommended = require("./conf/eslint-recommended");
+            // check deprecated
+            if (ruleDef.meta.deprecated && !hasDeprecatedInfo()) {
+                console.error(`Missing deprecated information in ${basename} rule code or README.md. Please write @deprecated tag in code or 「This rule was deprecated in ESLint ...」in README.md.`);
+                errors++;
+            }
 
-        if (ruleDef) {
+            // check eslint:recommended
+            const recommended = require("./conf/eslint-recommended");
+
             if (ruleDef.meta.docs.recommended) {
                 if (recommended.rules[basename] !== "error") {
                     console.error(`Missing rule from eslint:recommended (./conf/eslint-recommended.js): ${basename}. If you just made a rule recommended then add an entry for it in this file.`);
@@ -873,12 +878,6 @@ target.checkRuleFiles = function() {
                     errors++;
                 }
             }
-
-			// check deprecated
-			if (ruleDef.meta.deprecated && !hasDeprecatedInfo()) {
-				console.error(`Missing deprecated information in ${basename} rule code or README.md. Please write @deprecated tag in code or 「This rule was deprecated in ESLint ...」in README.md.`);
-				errors++;
-			}
         }
 
         // check for tests
