@@ -41,7 +41,8 @@ ruleTester.run("no-empty", rule, {
         "if (foo) { bar() } else { /**/ \n}",
         "if (foo) { bar() } else { // \n}",
         { code: "try { foo(); } catch (ex) {}", options: [{ allowEmptyCatch: true }] },
-        { code: "try { foo(); } catch (ex) {} finally { bar(); }", options: [{ allowEmptyCatch: true }] }
+        { code: "try { foo(); } catch (ex) {} finally { bar(); }", options: [{ allowEmptyCatch: true }] },
+        { code: "try { foo(); } catch (ex) {//empty \n}", options: [{ allowEmptyWithComments: false, allowEmptyCatch: true }] }
     ],
     invalid: [
         { code: "try {} catch (ex) {throw ex}", errors: [{ messageId: "unexpected", data: { type: "block" }, type: "BlockStatement" }] },
@@ -73,6 +74,13 @@ ruleTester.run("no-empty", rule, {
             code: "try { foo(); } catch (ex) {} finally {}",
             errors: [
                 { messageId: "unexpected", data: { type: "block" }, type: "BlockStatement" },
+                { messageId: "unexpected", data: { type: "block" }, type: "BlockStatement" }
+            ]
+        },
+        {
+            code: "try { foo(); } catch (ex) {//empty \n}",
+            options: [{ allowEmptyWithComments: false }],
+            errors: [
                 { messageId: "unexpected", data: { type: "block" }, type: "BlockStatement" }
             ]
         }

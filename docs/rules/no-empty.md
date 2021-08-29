@@ -61,6 +61,8 @@ This rule has an object option for exceptions:
 
 * `"allowEmptyCatch": true` allows empty `catch` clauses (that is, which do not contain a comment)
 
+* `"allowEmptyWithComments": false` makes a block who only contains comments invalid.
+
 ### allowEmptyCatch
 
 Examples of additional **correct** code for this rule with the `{ "allowEmptyCatch": true }` option:
@@ -77,6 +79,19 @@ try {
 catch (ex) {}
 finally {
     /* continue regardless of error */
+}
+```
+
+### allowEmptyWithComments
+
+Example of additional **incorrect** code for this rule with the `{ "allowEmptyWithComments": false }` option:
+
+```js
+/* eslint no-empty: ["error", { "allowEmptyWithComments": false }] */
+try {
+    doSomething();
+} catch (ex) {
+  // Handle it
 }
 ```
 
