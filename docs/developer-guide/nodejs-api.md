@@ -458,7 +458,7 @@ const codeLines = SourceCode.splitLines(code);
 
 ## Linter
 
-The `Linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `Linter` object does not process configuration objects or files. Unless you are working in the browser, you probably want to use the [ESLint](#ESLint class) class instead.
+The `Linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `Linter` object does not process configuration objects or files. Unless you are working in the browser, you probably want to use the [ESLint](#ESLint) class instead.
 The `Linter` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
 * `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules by calling `context.getCwd()` (see [The Context Object](./working-with-rules.md#the-context-object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
