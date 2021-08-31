@@ -10,7 +10,11 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-unexpected-multiline"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
 
@@ -41,6 +45,18 @@ ruleTester.run("no-unexpected-multiline", rule, {
         },
         {
             code: "x\n.y\nz `Valid Test Case`",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "f(x\n)`Valid Test Case`",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "x.\ny `Valid Test Case`",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "(x\n)`Valid Test Case`",
             parserOptions: { ecmaVersion: 6 }
         },
         `
@@ -82,16 +98,85 @@ ruleTester.run("no-unexpected-multiline", rule, {
         `
             5 / (5
             / 5)
-        `
+        `,
+
+        // https://github.com/eslint/eslint/issues/11650
+        {
+            code: `
+                tag<generic>\`
+                    multiline
+                \`;
+            `,
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/tagged-template-with-generic/tagged-template-with-generic-1")
+        },
+        {
+            code: `
+                tag<
+                  generic
+                >\`
+                    multiline
+                \`;
+            `,
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/tagged-template-with-generic/tagged-template-with-generic-2")
+        },
+        {
+            code: `
+                tag<
+                  generic
+                >\`multiline\`;
+            `,
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/tagged-template-with-generic/tagged-template-with-generic-3")
+        },
+
+        // Optional chaining
+        {
+            code: "var a = b\n  ?.(x || y).doSomething()",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "var a = b\n  ?.[a, b, c].forEach(doSomething)",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "var a = b?.\n  (x || y).doSomething()",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "var a = b?.\n  [a, b, c].forEach(doSomething)",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+
+        // Class fields
+        {
+            code: "class C { field1\n[field2]; }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { field1\n*gen() {} }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+
+            // ArrowFunctionExpression doesn't connect to computed properties.
+            code: "class C { field1 = () => {}\n[field2]; }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+
+            // ArrowFunctionExpression doesn't connect to binary operators.
+            code: "class C { field1 = () => {}\n*gen() {} }",
+            parserOptions: { ecmaVersion: 2022 }
+        }
     ],
     invalid: [
         {
             code: "var a = b\n(x || y).doSomething()",
             errors: [{
-                message: "Unexpected newline between function and ( of function call.",
+                messageId: "function",
                 line: 2,
-                column: 1
-
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             }]
         },
         {
@@ -99,7 +184,9 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 1,
-                message: "Unexpected newline between function and ( of function call."
+                endLine: 2,
+                endColumn: 2,
+                messageId: "function"
             }]
         },
         {
@@ -107,7 +194,9 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 1,
-                message: "Unexpected newline between function and ( of function call."
+                endLine: 2,
+                endColumn: 2,
+                messageId: "function"
             }]
         },
         {
@@ -115,7 +204,9 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 1,
-                message: "Unexpected newline between object and [ of property access."
+                endLine: 2,
+                endColumn: 2,
+                messageId: "property"
             }]
         },
         {
@@ -123,7 +214,9 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 5,
-                message: "Unexpected newline between function and ( of function call."
+                endLine: 2,
+                endColumn: 6,
+                messageId: "function"
             }]
         },
         {
@@ -131,34 +224,42 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 3,
-                message: "Unexpected newline between object and [ of property access."
+                endLine: 2,
+                endColumn: 4,
+                messageId: "property"
             }]
         },
         {
             code: "let x = function() {}\n `hello`",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                line: 1,
-                column: 9,
-                message: "Unexpected newline between template tag and template literal."
+                line: 2,
+                column: 2,
+                endLine: 2,
+                endColumn: 3,
+                messageId: "taggedTemplate"
             }]
         },
         {
             code: "let x = function() {}\nx\n`hello`",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                line: 2,
+                line: 3,
                 column: 1,
-                message: "Unexpected newline between template tag and template literal."
+                endLine: 3,
+                endColumn: 2,
+                messageId: "taggedTemplate"
             }]
         },
         {
             code: "x\n.y\nz\n`Invalid Test Case`",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                line: 3,
+                line: 4,
                 column: 1,
-                message: "Unexpected newline between template tag and template literal."
+                endLine: 4,
+                endColumn: 2,
+                messageId: "taggedTemplate"
             }]
         },
         {
@@ -169,7 +270,9 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 3,
                 column: 17,
-                message: "Unexpected newline between numerator and division operator."
+                endLine: 3,
+                endColumn: 18,
+                messageId: "division"
             }]
         },
         {
@@ -180,7 +283,9 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 3,
                 column: 17,
-                message: "Unexpected newline between numerator and division operator."
+                endLine: 3,
+                endColumn: 18,
+                messageId: "division"
             }]
         },
         {
@@ -191,7 +296,9 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 3,
                 column: 17,
-                message: "Unexpected newline between numerator and division operator."
+                endLine: 3,
+                endColumn: 18,
+                messageId: "division"
             }]
         },
         {
@@ -202,7 +309,9 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 3,
                 column: 17,
-                message: "Unexpected newline between numerator and division operator."
+                endLine: 3,
+                endColumn: 18,
+                messageId: "division"
             }]
         },
         {
@@ -213,8 +322,61 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 3,
                 column: 17,
-                message: "Unexpected newline between numerator and division operator."
+                endLine: 3,
+                endColumn: 18,
+                messageId: "division"
             }]
+        },
+
+        // https://github.com/eslint/eslint/issues/11650
+        {
+            code: [
+                "const x = aaaa<",
+                "  test",
+                ">/*",
+                "test",
+                "*/`foo`"
+            ].join("\n"),
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/tagged-template-with-generic/tagged-template-with-generic-and-comment"),
+            errors: [
+                {
+                    line: 5,
+                    column: 3,
+                    endLine: 5,
+                    endColumn: 4,
+                    messageId: "taggedTemplate"
+                }
+            ]
+        },
+
+        // Class fields
+        {
+            code: "class C { field1 = obj\n[field2]; }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 2,
+                    messageId: "property"
+                }
+            ]
+        },
+        {
+            code: "class C { field1 = function() {}\n[field2]; }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 2,
+                    messageId: "property"
+                }
+            ]
         }
+
+        // "class C { field1 = obj\n*gen() {} }" is syntax error: Unexpected token '{'
     ]
 });

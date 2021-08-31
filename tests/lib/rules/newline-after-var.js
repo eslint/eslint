@@ -11,7 +11,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/newline-after-var"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Fixtures
@@ -94,12 +94,12 @@ const NO_BREAK = "var greet = 'hello';console.log(greet);",
     NO_BLANK_BEFORE_CASE = "switch(a) {\ncase 0:\nvar foo;\ncase 1:}";
 
 const ALWAYS_ERROR = {
-    message: "Expected blank line after variable declarations.",
+    messageId: "expected",
     type: "VariableDeclaration"
 };
 
 const NEVER_ERROR = {
-    message: "Unexpected blank line after variable declarations.",
+    messageId: "unexpected",
     type: "VariableDeclaration"
 };
 
@@ -206,12 +206,12 @@ ruleTester.run("newline-after-var", rule, {
         { code: FOR_OF_LOOP_WITH_VAR, options: ["never"], parserOptions: { ecmaVersion: 6 } },
 
         // should handle export specifiers
-        { code: EXPORT_WITH_LET, options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: EXPORT_WITH_LET, options: ["always"], parserOptions: { sourceType: "module" } },
-        { code: EXPORT_WITH_VAR, options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: EXPORT_WITH_VAR, options: ["always"], parserOptions: { sourceType: "module" } },
-        { code: EXPORT_WITH_CONST, options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: EXPORT_WITH_CONST, options: ["always"], parserOptions: { sourceType: "module" } },
+        { code: EXPORT_WITH_LET, options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: EXPORT_WITH_LET, options: ["always"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: EXPORT_WITH_VAR, options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: EXPORT_WITH_VAR, options: ["always"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: EXPORT_WITH_CONST, options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: EXPORT_WITH_CONST, options: ["always"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
 
         // should allow no blank line at end of block
         { code: END_OF_FUNCTION, options: ["always"] },

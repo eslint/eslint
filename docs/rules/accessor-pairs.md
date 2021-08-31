@@ -1,4 +1,4 @@
-# Enforces getter/setter pairs in objects (accessor-pairs)
+# Enforces getter/setter pairs in objects and classes (accessor-pairs)
 
 It's a common mistake in JavaScript to create an object with just a setter for a property but never have a corresponding getter defined for it. Without a getter, you cannot read the property, so it ends up not being used.
 
@@ -32,10 +32,13 @@ This rule enforces a style where it requires to have a getter for every property
 
 By activating the option `getWithoutSet` it enforces the presence of a setter for every property which has a getter defined.
 
+This rule always checks object literals and property descriptors. By default, it also checks class declarations and class expressions.
+
 ## Options
 
 * `setWithoutGet` set to `true` will warn for setters without getters (Default `true`).
 * `getWithoutSet` set to `true` will warn for getters without setters (Default `false`).
+* `enforceForClassMembers` set to `true` additionally applies this rule to class getters/setters (Default `true`). Set `enforceForClassMembers` to `false` if you want this rule to ignore class declarations and class expressions.
 
 ### setWithoutGet
 
@@ -142,6 +145,138 @@ Object.defineProperty(o, 'c', {
 });
 
 ```
+
+### enforceForClassMembers
+
+When `enforceForClassMembers` is set to `true` (default):
+
+* `"getWithoutSet": true` will also warn for getters without setters in classes.
+* `"setWithoutGet": true` will also warn for setters without getters in classes.
+
+Examples of **incorrect** code for `{ "getWithoutSet": true, "enforceForClassMembers": true }`:
+
+```js
+/*eslint accessor-pairs: ["error", { "getWithoutSet": true, "enforceForClassMembers": true }]*/
+
+class Foo {
+    get a() {
+        return this.val;
+    }
+}
+
+class Bar {
+    static get a() {
+        return this.val;
+    }
+}
+
+const Baz = class {
+    get a() {
+        return this.val;
+    }
+    static set a(value) {
+        this.val = value;
+    }
+}
+```
+
+Examples of **incorrect** code for `{ "setWithoutGet": true, "enforceForClassMembers": true }`:
+
+```js
+/*eslint accessor-pairs: ["error", { "setWithoutGet": true, "enforceForClassMembers": true }]*/
+
+class Foo {
+    set a(value) {
+        this.val = value;
+    }
+}
+
+const Bar = class {
+    static set a(value) {
+        this.val = value;
+    }
+}
+```
+
+When `enforceForClassMembers` is set to `false`, this rule ignores classes.
+
+Examples of **correct** code for `{ "getWithoutSet": true, "setWithoutGet": true, "enforceForClassMembers": false }`:
+
+```js
+/*eslint accessor-pairs: ["error", {
+    "getWithoutSet": true, "setWithoutGet": true, "enforceForClassMembers": false
+}]*/
+
+class Foo {
+    get a() {
+        return this.val;
+    }
+}
+
+class Bar {
+    static set a(value) {
+        this.val = value;
+    }
+}
+
+const Baz = class {
+    static get a() {
+        return this.val;
+    }
+}
+
+const Quux = class {
+    set a(value) {
+        this.val = value;
+    }
+}
+```
+
+
+## Known Limitations
+
+Due to the limits of static analysis, this rule does not account for possible side effects and in certain cases
+might not report a missing pair for a getter/setter that has a computed key, like in the following example:
+
+```js
+/*eslint accessor-pairs: "error"*/
+
+var a = 1;
+
+// no warnings
+var o = {
+    get [a++]() {
+        return this.val;
+    },
+    set [a++](value) {
+        this.val = value;
+    }
+};
+```
+
+Also, this rule does not disallow duplicate keys in object literals and class definitions, and in certain cases with duplicate keys
+might not report a missing pair for a getter/setter, like in the following example:
+
+```js
+/*eslint accessor-pairs: "error"*/
+
+// no warnings
+var o = {
+    get a() {
+        return this.val;
+    },
+    a: 1,
+    set a(value) {
+        this.val = value;
+    }
+};
+```
+
+The code above creates an object with just a setter for the property `"a"`.
+
+See [no-dupe-keys](no-dupe-keys.md) if you also want to disallow duplicate keys in object literals.
+
+See [no-dupe-class-members](no-dupe-class-members.md) if you also want to disallow duplicate names in class definitions.
 
 ## When Not To Use It
 

@@ -1,6 +1,6 @@
 # Disallow specific imports (no-restricted-imports)
 
-Imports are an ES6/ES2015 standard for making the functionality of other modules available in your current module. In CommonJS this is implemented through the require() call which makes this ESLint rule roughly equivalent to its CommonJS counterpart `no-restricted-modules`.
+Imports are an ES6/ES2015 standard for making the functionality of other modules available in your current module. In CommonJS this is implemented through the `require()` call which makes this ESLint rule roughly equivalent to its CommonJS counterpart `no-restricted-modules`.
 
 Why would you want to restrict imports?
 
@@ -11,6 +11,8 @@ Why would you want to restrict imports?
 ## Rule Details
 
 This rule allows you to specify imports that you don't want to use in your application.
+
+It applies to static imports only, not dynamic ones.
 
 ## Options
 
@@ -38,20 +40,26 @@ When using the object form, you can also specify an array of gitignore-style pat
 You may also specify a custom message for any paths you want to restrict as follows:
 
 ```json
-"no-restricted-imports": ["error", [{
-  "name": "import-foo",
-  "message": "Please use import-bar instead."
-}]]
+"no-restricted-imports": ["error", {
+    "name": "import-foo",
+    "message": "Please use import-bar instead."
+}, {
+    "name": "import-baz",
+    "message": "Please use import-quux instead."
+}]
 ```
 
 or like this:
 
 ```json
 "no-restricted-imports": ["error", {
-  "paths": [{
-    "name": "import-foo",
-    "message": "Please use import-bar instead."
-  }]
+    "paths": [{
+        "name": "import-foo",
+        "message": "Please use import-bar instead."
+    }, {
+        "name": "import-baz",
+        "message": "Please use import-quux instead."
+    }]
 }]
 ```
 
@@ -67,7 +75,21 @@ or like this if you need to restrict only certain imports from a module:
 }]
 ```
 
-The custom message will be appended to the default error message. Please note that you may not specify custom error messages for restricted patterns as a particular import may match more than one pattern.
+or like this if you want to apply a custom message to pattern matches:
+
+```json
+"no-restricted-imports": ["error", {
+    "patterns": [{
+      "group": ["import1/private/*"],
+      "message": "usage of import1 private modules not allowed."
+    }, {
+      "group": ["import2/*", "!import2/good"],
+      "message": "import2 is deprecated, except the modules in import2/good."
+    }]
+}]
+```
+
+The custom message will be appended to the default error message.
 
 To restrict the use of all Node.js core imports (via https://github.com/nodejs/node/tree/master/lib):
 
@@ -85,6 +107,18 @@ Examples of **incorrect** code for this rule:
 /*eslint no-restricted-imports: ["error", "fs"]*/
 
 import fs from 'fs';
+```
+
+```js
+/*eslint no-restricted-imports: ["error", "fs"]*/
+
+export { fs } from 'fs';
+```
+
+```js
+/*eslint no-restricted-imports: ["error", "fs"]*/
+
+export * from 'fs';
 ```
 
 ```js
@@ -129,12 +163,22 @@ import { DisallowedObject as AllowedObject } from "foo";
 import * as Foo from "foo";
 ```
 
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["lodash/*"],
+    message: "Please use the default import from 'lodash' instead."
+}]}]*/
+
+import pick from 'lodash/pick';
+```
+
 Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
 
 import crypto from 'crypto';
+export { foo } from "bar";
 ```
 
 ```js
@@ -142,6 +186,7 @@ import crypto from 'crypto';
 
 import crypto from 'crypto';
 import eslint from 'eslint';
+export * from "path";
 ```
 
 ```js
@@ -158,6 +203,15 @@ import DisallowedObject from "foo"
 }]}]*/
 
 import { AllowedObject as DisallowedObject } from "foo";
+```
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["lodash/*"],
+    message: "Please use the default import from 'lodash' instead."
+}]}]*/
+
+import lodash from 'lodash';
 ```
 
 ## When Not To Use It

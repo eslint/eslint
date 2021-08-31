@@ -10,7 +10,11 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/symbol-description");
-const RuleTester = require("../../../lib/testers/rule-tester");
+const { RuleTester } = require("../../../lib/rule-tester");
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ env: { es6: true } });
 
@@ -33,14 +37,14 @@ ruleTester.run("symbol-description", rule, {
         {
             code: "Symbol();",
             errors: [{
-                message: "Expected Symbol to have a description.",
+                messageId: "expected",
                 type: "CallExpression"
             }]
         },
         {
             code: "Symbol(); Symbol = function () {};",
             errors: [{
-                message: "Expected Symbol to have a description.",
+                messageId: "expected",
                 type: "CallExpression"
             }]
         }

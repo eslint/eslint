@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-sync"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -25,13 +25,25 @@ ruleTester.run("no-sync", rule, {
         { code: "if (true) {fs.fooSync();}", options: [{ allowAtRootLevel: true }] }
     ],
     invalid: [
-        { code: "var foo = fs.fooSync();", errors: [{ message: "Unexpected sync method: 'fooSync'.", type: "MemberExpression" }] },
-        { code: "var foo = fs.fooSync();", options: [{ allowAtRootLevel: false }], errors: [{ message: "Unexpected sync method: 'fooSync'.", type: "MemberExpression" }] },
-        { code: "if (true) {fs.fooSync();}", errors: [{ message: "Unexpected sync method: 'fooSync'.", type: "MemberExpression" }] },
-        { code: "var foo = fs.fooSync;", errors: [{ message: "Unexpected sync method: 'fooSync'.", type: "MemberExpression" }] },
-        { code: "function someFunction() {fs.fooSync();}", errors: [{ message: "Unexpected sync method: 'fooSync'.", type: "MemberExpression" }] },
-        { code: "function someFunction() {fs.fooSync();}", options: [{ allowAtRootLevel: true }], errors: [{ message: "Unexpected sync method: 'fooSync'.", type: "MemberExpression" }] },
-        { code: "var a = function someFunction() {fs.fooSync();}", options: [{ allowAtRootLevel: true }], errors: [{ message: "Unexpected sync method: 'fooSync'.", type: "MemberExpression" }] }
+        { code: "var foo = fs.fooSync();", errors: [{ messageId: "noSync", data: { propertyName: "fooSync" }, type: "MemberExpression" }] },
+        {
+            code: "var foo = fs.fooSync();",
+            options: [{ allowAtRootLevel: false }],
+            errors: [{ messageId: "noSync", data: { propertyName: "fooSync" }, type: "MemberExpression" }]
+        },
+        { code: "if (true) {fs.fooSync();}", errors: [{ messageId: "noSync", data: { propertyName: "fooSync" }, type: "MemberExpression" }] },
+        { code: "var foo = fs.fooSync;", errors: [{ messageId: "noSync", data: { propertyName: "fooSync" }, type: "MemberExpression" }] },
+        { code: "function someFunction() {fs.fooSync();}", errors: [{ messageId: "noSync", data: { propertyName: "fooSync" }, type: "MemberExpression" }] },
+        {
+            code: "function someFunction() {fs.fooSync();}",
+            options: [{ allowAtRootLevel: true }],
+            errors: [{ messageId: "noSync", data: { propertyName: "fooSync" }, type: "MemberExpression" }]
+        },
+        {
+            code: "var a = function someFunction() {fs.fooSync();}",
+            options: [{ allowAtRootLevel: true }],
+            errors: [{ messageId: "noSync", data: { propertyName: "fooSync" }, type: "MemberExpression" }]
+        }
 
     ]
 });

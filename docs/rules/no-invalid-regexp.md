@@ -30,16 +30,9 @@ new RegExp
 this.RegExp('[')
 ```
 
-## Environments
+Please note that this rule validates regular expressions per the latest ECMAScript specification, regardless of your parser settings.
 
-ECMAScript 6 adds the following flag arguments to the `RegExp` constructor:
-
-* `"u"` ([unicode](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-regexp.prototype.unicode))
-* `"y"` ([sticky](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-regexp.prototype.sticky))
-
-You can enable these to be recognized as valid by setting the ECMAScript version to 6 in your [ESLint configuration](../user-guide/configuring).
-
-If you want to allow additional constructor flags for any reason, you can specify them using an `allowConstructorFlags` option in `.eslintrc`. These flags will then be ignored by the rule regardless of the `ecmaVersion` setting.
+If you want to allow additional constructor flags for any reason, you can specify them using the `allowConstructorFlags` option. These flags will then be ignored by the rule.
 
 ## Options
 
@@ -49,14 +42,14 @@ This rule has an object option for exceptions:
 
 ### allowConstructorFlags
 
-Examples of **correct** code for this rule with the `{ "allowConstructorFlags": ["u", "y"] }` option:
+Examples of **correct** code for this rule with the `{ "allowConstructorFlags": ["a", "z"] }` option:
 
 ```js
-/*eslint no-invalid-regexp: ["error", { "allowConstructorFlags": ["u", "y"] }]*/
+/*eslint no-invalid-regexp: ["error", { "allowConstructorFlags": ["a", "z"] }]*/
 
-new RegExp('.', 'y')
+new RegExp('.', 'a')
 
-new RegExp('.', 'yu')
+new RegExp('.', 'az')
 ```
 
 ## Further Reading

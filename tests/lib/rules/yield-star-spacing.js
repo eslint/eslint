@@ -10,13 +10,18 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/yield-star-spacing"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+
+const missingBeforeError = { messageId: "missingBefore", type: "Punctuator" };
+const missingAfterError = { messageId: "missingAfter", type: "Punctuator" };
+const unexpectedBeforeError = { messageId: "unexpectedBefore", type: "Punctuator" };
+const unexpectedAfterError = { messageId: "unexpectedAfter", type: "Punctuator" };
 
 ruleTester.run("yield-star-spacing", rule, {
 
@@ -132,6 +137,24 @@ ruleTester.run("yield-star-spacing", rule, {
         {
             code: "function *foo(){ var result = yield*foo(); }",
             options: ["neither"]
+        },
+
+        // object option
+        {
+            code: "function *foo(){ yield* foo; }",
+            options: [{ before: false, after: true }]
+        },
+        {
+            code: "function *foo(){ yield *foo; }",
+            options: [{ before: true, after: false }]
+        },
+        {
+            code: "function *foo(){ yield * foo; }",
+            options: [{ before: true, after: true }]
+        },
+        {
+            code: "function *foo(){ yield*foo; }",
+            options: [{ before: false, after: false }]
         }
     ],
 
@@ -141,13 +164,7 @@ ruleTester.run("yield-star-spacing", rule, {
         {
             code: "function *foo(){ yield *foo1; }",
             output: "function *foo(){ yield* foo1; }",
-            errors: [{
-                message: "Unexpected space before *.",
-                type: "Punctuator"
-            }, {
-                message: "Missing space after *.",
-                type: "Punctuator"
-            }]
+            errors: [unexpectedBeforeError, missingAfterError]
         },
 
         // after
@@ -155,31 +172,19 @@ ruleTester.run("yield-star-spacing", rule, {
             code: "function *foo(){ yield *foo1; }",
             output: "function *foo(){ yield* foo1; }",
             options: ["after"],
-            errors: [{
-                message: "Unexpected space before *.",
-                type: "Punctuator"
-            }, {
-                message: "Missing space after *.",
-                type: "Punctuator"
-            }]
+            errors: [unexpectedBeforeError, missingAfterError]
         },
         {
             code: "function *foo(){ yield * foo; }",
             output: "function *foo(){ yield* foo; }",
             options: ["after"],
-            errors: [{
-                message: "Unexpected space before *.",
-                type: "Punctuator"
-            }]
+            errors: [unexpectedBeforeError]
         },
         {
             code: "function *foo(){ yield*foo2; }",
             output: "function *foo(){ yield* foo2; }",
             options: ["after"],
-            errors: [{
-                message: "Missing space after *.",
-                type: "Punctuator"
-            }]
+            errors: [missingAfterError]
         },
 
         // before
@@ -187,31 +192,19 @@ ruleTester.run("yield-star-spacing", rule, {
             code: "function *foo(){ yield* foo; }",
             output: "function *foo(){ yield *foo; }",
             options: ["before"],
-            errors: [{
-                message: "Missing space before *.",
-                type: "Punctuator"
-            }, {
-                message: "Unexpected space after *.",
-                type: "Punctuator"
-            }]
+            errors: [missingBeforeError, unexpectedAfterError]
         },
         {
             code: "function *foo(){ yield * foo; }",
             output: "function *foo(){ yield *foo; }",
             options: ["before"],
-            errors: [{
-                message: "Unexpected space after *.",
-                type: "Punctuator"
-            }]
+            errors: [unexpectedAfterError]
         },
         {
             code: "function *foo(){ yield*foo; }",
             output: "function *foo(){ yield *foo; }",
             options: ["before"],
-            errors: [{
-                message: "Missing space before *.",
-                type: "Punctuator"
-            }]
+            errors: [missingBeforeError]
         },
 
         // both
@@ -219,31 +212,19 @@ ruleTester.run("yield-star-spacing", rule, {
             code: "function *foo(){ yield* foo; }",
             output: "function *foo(){ yield * foo; }",
             options: ["both"],
-            errors: [{
-                message: "Missing space before *.",
-                type: "Punctuator"
-            }]
+            errors: [missingBeforeError]
         },
         {
             code: "function *foo(){ yield *foo3; }",
             output: "function *foo(){ yield * foo3; }",
             options: ["both"],
-            errors: [{
-                message: "Missing space after *.",
-                type: "Punctuator"
-            }]
+            errors: [missingAfterError]
         },
         {
             code: "function *foo(){ yield*foo4; }",
             output: "function *foo(){ yield * foo4; }",
             options: ["both"],
-            errors: [{
-                message: "Missing space before *.",
-                type: "Punctuator"
-            }, {
-                message: "Missing space after *.",
-                type: "Punctuator"
-            }]
+            errors: [missingBeforeError, missingAfterError]
         },
 
         // neither
@@ -251,31 +232,45 @@ ruleTester.run("yield-star-spacing", rule, {
             code: "function *foo(){ yield* foo; }",
             output: "function *foo(){ yield*foo; }",
             options: ["neither"],
-            errors: [{
-                message: "Unexpected space after *.",
-                type: "Punctuator"
-            }]
+            errors: [unexpectedAfterError]
         },
         {
             code: "function *foo(){ yield *foo; }",
             output: "function *foo(){ yield*foo; }",
             options: ["neither"],
-            errors: [{
-                message: "Unexpected space before *.",
-                type: "Punctuator"
-            }]
+            errors: [unexpectedBeforeError]
         },
         {
             code: "function *foo(){ yield * foo; }",
             output: "function *foo(){ yield*foo; }",
             options: ["neither"],
-            errors: [{
-                message: "Unexpected space before *.",
-                type: "Punctuator"
-            }, {
-                message: "Unexpected space after *.",
-                type: "Punctuator"
-            }]
+            errors: [unexpectedBeforeError, unexpectedAfterError]
+        },
+
+        // object option
+        {
+            code: "function *foo(){ yield*foo; }",
+            output: "function *foo(){ yield* foo; }",
+            options: [{ before: false, after: true }],
+            errors: [missingAfterError]
+        },
+        {
+            code: "function *foo(){ yield * foo; }",
+            output: "function *foo(){ yield *foo; }",
+            options: [{ before: true, after: false }],
+            errors: [unexpectedAfterError]
+        },
+        {
+            code: "function *foo(){ yield*foo; }",
+            output: "function *foo(){ yield * foo; }",
+            options: [{ before: true, after: true }],
+            errors: [missingBeforeError, missingAfterError]
+        },
+        {
+            code: "function *foo(){ yield * foo; }",
+            output: "function *foo(){ yield*foo; }",
+            options: [{ before: false, after: false }],
+            errors: [unexpectedBeforeError, unexpectedAfterError]
         }
     ]
 

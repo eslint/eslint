@@ -4,9 +4,19 @@
 * **Node Version:**
 * **npm Version:**
 
-**What parser (default, Babel-ESLint, etc.) are you using?**
+**What parser (default, `@babel/eslint-parser`, `@typescript-eslint/parser`, etc.) are you using?**
 
 **Please show your full configuration:**
+
+<details>
+<summary>Configuration</summary>
+
+<!-- Paste your configuration below: -->
+```js
+
+```
+
+</details>
 
 **What did you do? Please include the actual source code causing the issue.**
 

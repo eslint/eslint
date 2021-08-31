@@ -11,32 +11,25 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-undef: "error"*/
 
-var a = someFunction();
-b = 10;
+var foo = someFunction();
+var bar = a + 1;
 ```
 
 Examples of **correct** code for this rule with `global` declaration:
 
 ```js
-/*global someFunction b:true*/
+/*global someFunction, a*/
 /*eslint no-undef: "error"*/
 
-var a = someFunction();
-b = 10;
+var foo = someFunction();
+var bar = a + 1;
 ```
 
-The `b:true` syntax in `/*global */` indicates that assignment to `b` is correct.
+Note that this rule does not disallow assignments to read-only global variables.
+See [no-global-assign](no-global-assign.md) if you also want to disallow those assignments.
 
-Examples of **incorrect** code for this rule with `global` declaration:
-
-```js
-/*global b*/
-/*eslint no-undef: "error"*/
-
-b = 10;
-```
-
-By default, variables declared in `/*global */` are read-only, therefore assignment is incorrect.
+This rule also does not disallow redeclarations of global variables.
+See [no-redeclare](no-redeclare.md) if you also want to disallow those redeclarations.
 
 ## Options
 
@@ -75,7 +68,7 @@ if(typeof a === "string"){}
 
 ## Environments
 
-For convenience, ESLint provides shortcuts that pre-define global variables exposed by popular libraries and runtime environments. This rule supports these environments, as listed in [Specifying Environments](../user-guide/configuring.md#specifying-environments).  A few examples are given below.
+For convenience, ESLint provides shortcuts that pre-define global variables exposed by popular libraries and runtime environments. This rule supports these environments, as listed in [Specifying Environments](../user-guide/configuring/language-options.md#specifying-environments).  A few examples are given below.
 
 ### browser
 
@@ -111,3 +104,8 @@ If explicit declaration of global variables is not to your taste.
 ## Compatibility
 
 This rule provides compatibility with treatment of global variables in [JSHint](http://jshint.com/) and [JSLint](http://www.jslint.com).
+
+## Related Rules
+
+* [no-global-assign](no-global-assign.md)
+* [no-redeclare](no-redeclare.md)

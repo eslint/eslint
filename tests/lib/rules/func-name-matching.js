@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/func-name-matching"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -29,6 +29,9 @@ ruleTester.run("func-name-matching", rule, {
         "foo = function foo() {};",
         { code: "foo = function foo() {};", options: ["always"] },
         { code: "foo = function bar() {};", options: ["never"] },
+        { code: "foo &&= function foo() {};", parserOptions: { ecmaVersion: 2021 } },
+        { code: "obj.foo ||= function foo() {};", parserOptions: { ecmaVersion: 2021 } },
+        { code: "obj['foo'] ??= function foo() {};", parserOptions: { ecmaVersion: 2021 } },
         "obj.foo = function foo() {};",
         { code: "obj.foo = function foo() {};", options: ["always"] },
         { code: "obj.foo = function bar() {};", options: ["never"] },
@@ -255,6 +258,252 @@ ruleTester.run("func-name-matching", rule, {
             code: "Reflect.defineProperty(foo, 'bar', { value() {} })",
             options: ["never", { considerPropertyDescriptor: true }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "foo({ value: function value() {} })",
+            options: ["always", { considerPropertyDescriptor: true }]
+        },
+
+        // class fields, private names are ignored
+        {
+            code: "class C { x = function () {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { x = function () {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { 'x' = function () {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { 'x' = function () {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x = function () {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x = function () {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [x] = function () {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [x] = function () {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { ['x'] = function () {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { ['x'] = function () {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { x = function x() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { x = function y() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { 'x' = function x() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { 'x' = function y() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x = function x() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x = function x() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x = function y() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x = function y() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [x] = function x() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [x] = function x() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [x] = function y() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [x] = function y() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { ['x'] = function x() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { ['x'] = function y() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { 'xy ' = function foo() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { 'xy ' = function xy() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { ['xy '] = function foo() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { ['xy '] = function xy() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { 1 = function x0() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { 1 = function x1() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [1] = function x0() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [1] = function x1() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [f()] = function g() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [f()] = function f() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static x = function x() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static x = function y() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { x = (function y() {})(); }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { x = (function x() {})(); }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "(class { x = function x() {}; })",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "(class { x = function y() {}; })",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x; foo() { this.#x = function x() {}; } }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x; foo() { this.#x = function x() {}; } }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x; foo() { this.#x = function y() {}; } }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x; foo() { this.#x = function y() {}; } }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x; foo() { a.b.#x = function x() {}; } }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x; foo() { a.b.#x = function x() {}; } }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x; foo() { a.b.#x = function y() {}; } }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #x; foo() { a.b.#x = function y() {}; } }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -263,63 +512,84 @@ ruleTester.run("func-name-matching", rule, {
             options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `bar` should match variable name `foo`" }
+                { messageId: "matchVariable", data: { funcName: "bar", name: "foo" } }
             ]
         },
         {
             code: "let foo = function bar() {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `bar` should match variable name `foo`" }
+                { messageId: "matchVariable", data: { funcName: "bar", name: "foo" } }
             ]
         },
         {
             code: "foo = function bar() {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `bar` should match variable name `foo`" }
+                { messageId: "matchVariable", data: { funcName: "bar", name: "foo" } }
+            ]
+        },
+        {
+            code: "foo &&= function bar() {};",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [
+                { messageId: "matchVariable", data: { funcName: "bar", name: "foo" } }
+            ]
+        },
+        {
+            code: "obj.foo ||= function bar() {};",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
+            ]
+        },
+        {
+            code: "obj['foo'] ??= function bar() {};",
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
             ]
         },
         {
             code: "obj.foo = function bar() {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `bar` should match property name `foo`" }
+                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
             ]
         },
         {
             code: "obj.bar.foo = function bar() {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `bar` should match property name `foo`" }
+                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
             ]
         },
         {
             code: "obj['foo'] = function bar() {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `bar` should match property name `foo`" }
+                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
             ]
         },
         {
             code: "let obj = {foo: function bar() {}};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `bar` should match property name `foo`" }
+                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
             ]
         },
         {
             code: "let obj = {'foo': function bar() {}};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `bar` should match property name `foo`" }
+                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
             ]
         },
         {
             code: "({['foo']: function bar() {}})",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `bar` should match property name `foo`" }
+                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
             ]
         },
         {
@@ -327,7 +597,7 @@ ruleTester.run("func-name-matching", rule, {
             options: [{ includeCommonJSModuleExports: true }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `foo` should match property name `exports`" }
+                { messageId: "matchProperty", data: { funcName: "foo", name: "exports" } }
             ]
         },
         {
@@ -335,7 +605,7 @@ ruleTester.run("func-name-matching", rule, {
             options: ["always", { includeCommonJSModuleExports: true }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `foo` should match property name `exports`" }
+                { messageId: "matchProperty", data: { funcName: "foo", name: "exports" } }
             ]
         },
         {
@@ -343,7 +613,7 @@ ruleTester.run("func-name-matching", rule, {
             options: ["never", { includeCommonJSModuleExports: true }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `exports` should not match property name `exports`" }
+                { messageId: "notMatchProperty", data: { funcName: "exports", name: "exports" } }
             ]
         },
         {
@@ -351,7 +621,7 @@ ruleTester.run("func-name-matching", rule, {
             options: [{ includeCommonJSModuleExports: true }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `foo` should match property name `exports`" }
+                { messageId: "matchProperty", data: { funcName: "foo", name: "exports" } }
             ]
         },
         {
@@ -359,7 +629,7 @@ ruleTester.run("func-name-matching", rule, {
             options: ["always", { includeCommonJSModuleExports: true }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `foo` should match property name `exports`" }
+                { messageId: "matchProperty", data: { funcName: "foo", name: "exports" } }
             ]
         },
         {
@@ -367,84 +637,246 @@ ruleTester.run("func-name-matching", rule, {
             options: ["never", { includeCommonJSModuleExports: true }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `exports` should not match property name `exports`" }
+                { messageId: "notMatchProperty", data: { funcName: "exports", name: "exports" } }
             ]
         },
         {
             code: "var foo = function foo(name) {};",
             options: ["never"],
             errors: [
-                { message: "Function name `foo` should not match variable name `foo`" }
+                { messageId: "notMatchVariable", data: { funcName: "foo", name: "foo" } }
             ]
         },
         {
             code: "obj.foo = function foo(name) {};",
             options: ["never"],
             errors: [
-                { message: "Function name `foo` should not match property name `foo`" }
+                { messageId: "notMatchProperty", data: { funcName: "foo", name: "foo" } }
             ]
         },
         {
             code: "Object.defineProperty(foo, 'bar', { value: function baz() {} })",
             options: ["always", { considerPropertyDescriptor: true }],
             errors: [
-                { message: "Function name `baz` should match property name `bar`" }
+                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
             ]
         },
         {
             code: "Object.defineProperties(foo, { bar: { value: function baz() {} } })",
             options: ["always", { considerPropertyDescriptor: true }],
             errors: [
-                { message: "Function name `baz` should match property name `bar`" }
+                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
             ]
         },
         {
             code: "Object.create(proto, { bar: { value: function baz() {} } })",
             options: ["always", { considerPropertyDescriptor: true }],
             errors: [
-                { message: "Function name `baz` should match property name `bar`" }
+                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
             ]
         },
         {
             code: "var obj = { value: function foo(name) {} }",
             options: ["always", { considerPropertyDescriptor: true }],
             errors: [
-                { message: "Function name `foo` should match property name `value`" }
+                { messageId: "matchProperty", data: { funcName: "foo", name: "value" } }
             ]
         },
         {
             code: "Object.defineProperty(foo, 'bar', { value: function bar() {} })",
             options: ["never", { considerPropertyDescriptor: true }],
             errors: [
-                { message: "Function name `bar` should not match property name `bar`" }
+                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
             ]
         },
         {
             code: "Object.defineProperties(foo, { bar: { value: function bar() {} } })",
             options: ["never", { considerPropertyDescriptor: true }],
             errors: [
-                { message: "Function name `bar` should not match property name `bar`" }
+                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
             ]
         },
         {
             code: "Object.create(proto, { bar: { value: function bar() {} } })",
             options: ["never", { considerPropertyDescriptor: true }],
             errors: [
-                { message: "Function name `bar` should not match property name `bar`" }
+                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
             ]
         },
         {
             code: "Reflect.defineProperty(foo, 'bar', { value: function baz() {} })",
             options: ["always", { considerPropertyDescriptor: true }],
             errors: [
-                { message: "Function name `baz` should match property name `bar`" }
+                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
             ]
         },
         {
             code: "Reflect.defineProperty(foo, 'bar', { value: function bar() {} })",
             options: ["never", { considerPropertyDescriptor: true }],
             errors: [
-                { message: "Function name `bar` should not match property name `bar`" }
+                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
+            ]
+        },
+        {
+            code: "foo({ value: function bar() {} })",
+            options: ["always", { considerPropertyDescriptor: true }],
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "bar", name: "value" } }
+            ]
+        },
+
+        // Optional chaining
+        {
+            code: "(obj?.aaa).foo = function bar() {};",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
+            ]
+        },
+        {
+            code: "Object?.defineProperty(foo, 'bar', { value: function baz() {} })",
+            options: ["always", { considerPropertyDescriptor: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
+            ]
+        },
+        {
+            code: "(Object?.defineProperty)(foo, 'bar', { value: function baz() {} })",
+            options: ["always", { considerPropertyDescriptor: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
+            ]
+        },
+        {
+            code: "Object?.defineProperty(foo, 'bar', { value: function bar() {} })",
+            options: ["never", { considerPropertyDescriptor: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
+            ]
+        },
+        {
+            code: "(Object?.defineProperty)(foo, 'bar', { value: function bar() {} })",
+            options: ["never", { considerPropertyDescriptor: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
+            ]
+        },
+        {
+            code: "Object?.defineProperties(foo, { bar: { value: function baz() {} } })",
+            options: ["always", { considerPropertyDescriptor: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
+            ]
+        },
+        {
+            code: "(Object?.defineProperties)(foo, { bar: { value: function baz() {} } })",
+            options: ["always", { considerPropertyDescriptor: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
+            ]
+        },
+        {
+            code: "Object?.defineProperties(foo, { bar: { value: function bar() {} } })",
+            options: ["never", { considerPropertyDescriptor: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
+            ]
+        },
+        {
+            code: "(Object?.defineProperties)(foo, { bar: { value: function bar() {} } })",
+            options: ["never", { considerPropertyDescriptor: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
+            ]
+        },
+
+        // class fields
+        {
+            code: "class C { x = function y() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
+            ]
+        },
+        {
+            code: "class C { x = function x() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
+            ]
+        },
+        {
+            code: "class C { 'x' = function y() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
+            ]
+        },
+        {
+            code: "class C { 'x' = function x() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
+            ]
+        },
+        {
+            code: "class C { ['x'] = function y() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
+            ]
+        },
+        {
+            code: "class C { ['x'] = function x() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
+            ]
+        },
+        {
+            code: "class C { static x = function y() {}; }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
+            ]
+        },
+        {
+            code: "class C { static x = function x() {}; }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
+            ]
+        },
+        {
+            code: "(class { x = function y() {}; })",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
+            ]
+        },
+        {
+            code: "(class { x = function x() {}; })",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
             ]
         }
     ]

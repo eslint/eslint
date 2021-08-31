@@ -10,7 +10,11 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/max-nested-callbacks"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
+
+//------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
 
 const OPENING = "foo(function() {",
     CLOSING = "});";
@@ -52,35 +56,45 @@ ruleTester.run("max-nested-callbacks", rule, {
         {
             code: "foo(function() { bar(thing, function(data) { baz(function() {}); }); });",
             options: [2],
-            errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "FunctionExpression" }]
+            errors: [{ messageId: "exceed", data: { num: 3, max: 2 }, type: "FunctionExpression" }]
         },
         {
             code: "foo(function() { bar(thing, (data) => { baz(function() {}); }); });",
             options: [2],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "FunctionExpression" }]
+            errors: [{ messageId: "exceed", data: { num: 3, max: 2 }, type: "FunctionExpression" }]
         },
         {
             code: "foo(() => { bar(thing, (data) => { baz( () => {}); }); });",
             options: [2],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "ArrowFunctionExpression" }]
+            errors: [{ messageId: "exceed", data: { num: 3, max: 2 }, type: "ArrowFunctionExpression" }]
         },
         {
             code: "foo(function() { if (isTrue) { bar(function(data) { baz(function() {}); }); } });",
             options: [2],
-            errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "FunctionExpression" }]
+            errors: [{ messageId: "exceed", data: { num: 3, max: 2 }, type: "FunctionExpression" }]
         },
         {
             code: nestFunctions(11),
-            errors: [{ message: "Too many nested callbacks (11). Maximum allowed is 10.", type: "FunctionExpression" }]
+            errors: [{ messageId: "exceed", data: { num: 11, max: 10 }, type: "FunctionExpression" }]
+        },
+        {
+            code: nestFunctions(11),
+            options: [{}],
+            errors: [{ messageId: "exceed", data: { num: 11, max: 10 }, type: "FunctionExpression" }]
+        },
+        {
+            code: "foo(function() {})",
+            options: [{ max: 0 }],
+            errors: [{ messageId: "exceed", data: { num: 1, max: 0 } }]
         },
 
         // object property options
         {
             code: "foo(function() { bar(thing, function(data) { baz(function() {}); }); });",
             options: [{ max: 2 }],
-            errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "FunctionExpression" }]
+            errors: [{ messageId: "exceed", data: { num: 3, max: 2 }, type: "FunctionExpression" }]
         }
     ]
 });

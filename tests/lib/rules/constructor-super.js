@@ -10,13 +10,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/constructor-super");
-const RuleTester = require("../../../lib/testers/rule-tester");
+const { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2021 } });
 
 ruleTester.run("constructor-super", rule, {
     valid: [
@@ -37,7 +37,19 @@ ruleTester.run("constructor-super", rule, {
         "class A extends B { constructor() { if (true) { super(); } else { super(); } } }",
         "class A extends (class B {}) { constructor() { super(); } }",
         "class A extends (B = C) { constructor() { super(); } }",
+        "class A extends (B &&= C) { constructor() { super(); } }",
+        "class A extends (B ||= C) { constructor() { super(); } }",
+        "class A extends (B ??= C) { constructor() { super(); } }",
+        "class A extends (B ||= 5) { constructor() { super(); } }",
+        "class A extends (B ??= 5) { constructor() { super(); } }",
         "class A extends (B || C) { constructor() { super(); } }",
+        "class A extends (5 && B) { constructor() { super(); } }",
+
+        // A future improvement could detect the left side as statically falsy, making this invalid.
+        "class A extends (false && B) { constructor() { super(); } }",
+        "class A extends (B || 5) { constructor() { super(); } }",
+        "class A extends (B ?? 5) { constructor() { super(); } }",
+
         "class A extends (a ? B : C) { constructor() { super(); } }",
         "class A extends (B, C) { constructor() { super(); } }",
 
@@ -45,10 +57,6 @@ ruleTester.run("constructor-super", rule, {
         "class A { constructor() { class B extends C { constructor() { super(); } } } }",
         "class A extends B { constructor() { super(); class C extends D { constructor() { super(); } } } }",
         "class A extends B { constructor() { super(); class C { constructor() { } } } }",
-
-        // ignores out of constructors.
-        "class A { b() { super(); } }",
-        "function a() { super(); }",
 
         // multi code path.
         "class A extends B { constructor() { a ? super() : super(); } }",
@@ -78,9 +86,6 @@ ruleTester.run("constructor-super", rule, {
             "}"
         ].join("\n"),
 
-        // https://github.com/eslint/eslint/issues/5894
-        "class A { constructor() { return; super(); } }",
-
         // https://github.com/eslint/eslint/issues/8848
         `
             class A extends B {
@@ -95,15 +100,12 @@ ruleTester.run("constructor-super", rule, {
                     }
                 }
             }
-        `
+        `,
+
+        // Optional chaining
+        "class A extends obj?.prop { constructor() { super(); } }"
     ],
     invalid: [
-
-        // non derived classes.
-        {
-            code: "class A { constructor() { super(); } }",
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
-        },
 
         // inherit from non constructors.
         {
@@ -122,6 +124,40 @@ ruleTester.run("constructor-super", rule, {
             code: "class A extends 'test' { constructor() { super(); } }",
             errors: [{ messageId: "badSuper", type: "CallExpression" }]
         },
+        {
+            code: "class A extends (B = 5) { constructor() { super(); } }",
+            errors: [{ messageId: "badSuper", type: "CallExpression" }]
+        },
+        {
+            code: "class A extends (B && 5) { constructor() { super(); } }",
+            errors: [{ messageId: "badSuper", type: "CallExpression" }]
+        },
+        {
+
+            // `B &&= 5` evaluates either to a falsy value of `B` (which, then, cannot be a constructor), or to '5'
+            code: "class A extends (B &&= 5) { constructor() { super(); } }",
+            errors: [{ messageId: "badSuper", type: "CallExpression" }]
+        },
+        {
+            code: "class A extends (B += C) { constructor() { super(); } }",
+            errors: [{ messageId: "badSuper", type: "CallExpression" }]
+        },
+        {
+            code: "class A extends (B -= C) { constructor() { super(); } }",
+            errors: [{ messageId: "badSuper", type: "CallExpression" }]
+        },
+        {
+            code: "class A extends (B **= C) { constructor() { super(); } }",
+            errors: [{ messageId: "badSuper", type: "CallExpression" }]
+        },
+        {
+            code: "class A extends (B |= C) { constructor() { super(); } }",
+            errors: [{ messageId: "badSuper", type: "CallExpression" }]
+        },
+        {
+            code: "class A extends (B &= C) { constructor() { super(); } }",
+            errors: [{ messageId: "badSuper", type: "CallExpression" }]
+        },
 
         // derived classes.
         {
@@ -135,11 +171,11 @@ ruleTester.run("constructor-super", rule, {
 
         // nested execution scope.
         {
-            code: "class A extends B { constructor() { function c() { super(); } } }",
+            code: "class A extends B { constructor() { class C extends D { constructor() { super(); } } } }",
             errors: [{ messageId: "missingAll", type: "MethodDefinition" }]
         },
         {
-            code: "class A extends B { constructor() { var c = function() { super(); } } }",
+            code: "class A extends B { constructor() { var c = class extends D { constructor() { super(); } } } }",
             errors: [{ messageId: "missingAll", type: "MethodDefinition" }]
         },
         {

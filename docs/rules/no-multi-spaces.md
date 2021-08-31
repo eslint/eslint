@@ -102,7 +102,7 @@ var x = 5;      /* multiline
 
 To avoid contradictions with other rules that require multiple spaces, this rule has an `exceptions` option to ignore certain nodes.
 
-This option is an object that expects property names to be AST node types as defined by [ESTree](https://github.com/estree/estree). The easiest way to determine the node types for `exceptions` is to use the [online demo](https://eslint.org/parser).
+This option is an object that expects property names to be AST node types as defined by [ESTree](https://github.com/estree/estree). The easiest way to determine the node types for `exceptions` is to use [AST Explorer](https://astexplorer.net/) with the espree parser.
 
 Only the `Property` node type is ignored by default, because for the [key-spacing](key-spacing.md) rule some alignment options require multiple spaces in properties of object literals.
 

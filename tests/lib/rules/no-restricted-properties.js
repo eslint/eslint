@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-restricted-properties"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -96,6 +96,12 @@ ruleTester.run("no-restricted-properties", rule, {
                 object: "foo"
             }]
         }, {
+            code: "foo[/(?<zero>0)/]",
+            options: [{
+                property: "null"
+            }],
+            parserOptions: { ecmaVersion: 2018 }
+        }, {
             code: "let bar = foo;",
             options: [{ object: "foo", property: "bar" }],
             parserOptions: { ecmaVersion: 6 }
@@ -163,6 +169,10 @@ ruleTester.run("no-restricted-properties", rule, {
             code: "function qux([, bar] = foo) {}",
             options: [{ object: "foo", property: "1" }],
             parserOptions: { ecmaVersion: 6 }
+        }, {
+            code: "class C { #foo; foo() { this.#foo; } }",
+            options: [{ property: "#foo" }],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
 
@@ -174,7 +184,12 @@ ruleTester.run("no-restricted-properties", rule, {
                 property: "disallowedProperty"
             }],
             errors: [{
-                message: "'someObject.disallowedProperty' is restricted from being used.",
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "someObject",
+                    propertyName: "disallowedProperty",
+                    message: ""
+                },
                 type: "MemberExpression"
             }]
         }, {
@@ -185,7 +200,12 @@ ruleTester.run("no-restricted-properties", rule, {
                 message: "Please use someObject.allowedProperty instead."
             }],
             errors: [{
-                message: "'someObject.disallowedProperty' is restricted from being used. Please use someObject.allowedProperty instead.",
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "someObject",
+                    propertyName: "disallowedProperty",
+                    message: " Please use someObject.allowedProperty instead."
+                },
                 type: "MemberExpression"
             }]
         }, {
@@ -198,10 +218,20 @@ ruleTester.run("no-restricted-properties", rule, {
                 property: "anotherDisallowedProperty"
             }],
             errors: [{
-                message: "'someObject.disallowedProperty' is restricted from being used.",
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "someObject",
+                    propertyName: "disallowedProperty",
+                    message: ""
+                },
                 type: "MemberExpression"
             }, {
-                message: "'anotherObject.anotherDisallowedProperty' is restricted from being used.",
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "anotherObject",
+                    propertyName: "anotherDisallowedProperty",
+                    message: ""
+                },
                 type: "MemberExpression"
             }]
         }, {
@@ -211,7 +241,12 @@ ruleTester.run("no-restricted-properties", rule, {
                 message: "Please use Object.getPrototypeOf instead."
             }],
             errors: [{
-                message: "'__proto__' is restricted from being used. Please use Object.getPrototypeOf instead.",
+                messageId: "restrictedProperty",
+                data: {
+                    objectName: "",
+                    propertyName: "__proto__",
+                    message: " Please use Object.getPrototypeOf instead."
+                },
                 type: "MemberExpression"
             }]
         }, {
@@ -221,33 +256,99 @@ ruleTester.run("no-restricted-properties", rule, {
                 message: "Please use Object.getPrototypeOf instead."
             }],
             errors: [{
-                message: "'__proto__' is restricted from being used. Please use Object.getPrototypeOf instead.",
+                messageId: "restrictedProperty",
+                data: {
+                    objectName: "",
+                    propertyName: "__proto__",
+                    message: " Please use Object.getPrototypeOf instead."
+                },
                 type: "MemberExpression"
             }]
         }, {
             code: "foo.bar.baz;",
             options: [{ object: "foo" }],
-            errors: [{ message: "'foo.bar' is restricted from being used.", type: "MemberExpression" }]
+            errors: [{
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "foo",
+                    propertyName: "bar",
+                    message: ""
+                },
+                type: "MemberExpression"
+            }]
         }, {
             code: "foo.bar();",
             options: [{ object: "foo" }],
-            errors: [{ message: "'foo.bar' is restricted from being used.", type: "MemberExpression" }]
+            errors: [{
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "foo",
+                    propertyName: "bar",
+                    message: ""
+                },
+                type: "MemberExpression"
+            }]
         }, {
             code: "foo.bar.baz();",
             options: [{ object: "foo" }],
-            errors: [{ message: "'foo.bar' is restricted from being used.", type: "MemberExpression" }]
+            errors: [{
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "foo",
+                    propertyName: "bar",
+                    message: ""
+                },
+                type: "MemberExpression"
+            }]
         }, {
             code: "foo.bar.baz;",
             options: [{ property: "bar" }],
-            errors: [{ message: "'bar' is restricted from being used.", type: "MemberExpression" }]
+            errors: [{
+                messageId: "restrictedProperty",
+                data: {
+                    objectName: "",
+                    propertyName: "bar",
+                    message: ""
+                },
+                type: "MemberExpression"
+            }]
         }, {
             code: "foo.bar();",
             options: [{ property: "bar" }],
-            errors: [{ message: "'bar' is restricted from being used.", type: "MemberExpression" }]
+            errors: [{
+                messageId: "restrictedProperty",
+                data: {
+                    objectName: "",
+                    propertyName: "bar",
+                    message: ""
+                },
+                type: "MemberExpression"
+            }]
         }, {
             code: "foo.bar.baz();",
             options: [{ property: "bar" }],
-            errors: [{ message: "'bar' is restricted from being used.", type: "MemberExpression" }]
+            errors: [{
+                messageId: "restrictedProperty",
+                data: {
+                    objectName: "",
+                    propertyName: "bar",
+                    message: ""
+                },
+                type: "MemberExpression"
+            }]
+        }, {
+            code: "foo[/(?<zero>0)/]",
+            options: [{ property: "/(?<zero>0)/" }],
+            parserOptions: { ecmaVersion: 2018 },
+            errors: [{
+                messageId: "restrictedProperty",
+                data: {
+                    objectName: "",
+                    propertyName: "/(?<zero>0)/",
+                    message: ""
+                },
+                type: "MemberExpression"
+            }]
         }, {
             code: "require.call({}, 'foo')",
             options: [{
@@ -255,7 +356,12 @@ ruleTester.run("no-restricted-properties", rule, {
                 message: "Please call require() directly."
             }],
             errors: [{
-                message: "'require.call' is restricted from being used. Please call require() directly.",
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "require",
+                    propertyName: "call",
+                    message: " Please call require() directly."
+                },
                 type: "MemberExpression"
             }]
         }, {
@@ -264,69 +370,182 @@ ruleTester.run("no-restricted-properties", rule, {
                 object: "require"
             }],
             errors: [{
-                message: "'require.resolve' is restricted from being used.",
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "require",
+                    propertyName: "resolve",
+                    message: ""
+                },
                 type: "MemberExpression"
             }]
         }, {
             code: "let {bar} = foo;",
             options: [{ object: "foo", property: "bar" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+            errors: [{
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "foo",
+                    propertyName: "bar",
+                    message: ""
+                },
+                type: "ObjectPattern"
+            }]
         }, {
             code: "let {bar: baz} = foo;",
             options: [{ object: "foo", property: "bar" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+            errors: [{
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "foo",
+                    propertyName: "bar",
+                    message: ""
+                },
+                type: "ObjectPattern"
+            }]
         }, {
             code: "let {'bar': baz} = foo;",
             options: [{ object: "foo", property: "bar" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+            errors: [{
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "foo",
+                    propertyName: "bar",
+                    message: ""
+                },
+                type: "ObjectPattern"
+            }]
         }, {
             code: "let {bar: {baz: qux}} = foo;",
             options: [{ object: "foo", property: "bar" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+            errors: [{
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "foo",
+                    propertyName: "bar",
+                    message: ""
+                },
+                type: "ObjectPattern"
+            }]
         }, {
             code: "let {bar} = foo;",
             options: [{ object: "foo" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+            errors: [{
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "foo",
+                    propertyName: "bar",
+                    message: ""
+                },
+                type: "ObjectPattern"
+            }]
         }, {
             code: "let {bar: baz} = foo;",
             options: [{ object: "foo" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+            errors: [{
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "foo",
+                    propertyName: "bar",
+                    message: ""
+                },
+                type: "ObjectPattern"
+            }]
         }, {
             code: "let {bar} = foo;",
             options: [{ property: "bar" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'bar' is restricted from being used.", type: "ObjectPattern" }]
+            errors: [{
+                messageId: "restrictedProperty",
+                data: {
+                    objectName: "",
+                    propertyName: "bar",
+                    message: ""
+                },
+                type: "ObjectPattern"
+            }]
         }, {
             code: "let bar; ({bar} = foo);",
             options: [{ object: "foo", property: "bar" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+            errors: [{
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "foo",
+                    propertyName: "bar",
+                    message: ""
+                },
+                type: "ObjectPattern"
+            }]
         }, {
             code: "let bar; ({bar: baz = 1} = foo);",
             options: [{ object: "foo", property: "bar" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+            errors: [{
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "foo",
+                    propertyName: "bar",
+                    message: ""
+                },
+                type: "ObjectPattern"
+            }]
         }, {
             code: "function qux({bar} = foo) {}",
             options: [{ object: "foo", property: "bar" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+            errors: [{
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "foo",
+                    propertyName: "bar",
+                    message: ""
+                },
+                type: "ObjectPattern"
+            }]
         }, {
             code: "function qux({bar: baz} = foo) {}",
             options: [{ object: "foo", property: "bar" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+            errors: [{
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "foo",
+                    propertyName: "bar",
+                    message: ""
+                },
+                type: "ObjectPattern"
+            }]
         }, {
             code: "var {['foo']: qux, bar} = baz",
             options: [{ object: "baz", property: "foo" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'baz.foo' is restricted from being used.", type: "ObjectPattern" }]
+            errors: [{
+                messageId: "restrictedObjectProperty",
+                data: {
+                    objectName: "baz",
+                    propertyName: "foo",
+                    message: ""
+                },
+                type: "ObjectPattern"
+            }]
+        }, {
+            code: "obj['#foo']",
+            options: [{ property: "#foo" }],
+            errors: [{
+                messageId: "restrictedProperty",
+                data: {
+                    objectName: "",
+                    propertyName: "#foo",
+                    message: ""
+                },
+                type: "MemberExpression"
+            }]
         }
     ]
 });

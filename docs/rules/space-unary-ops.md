@@ -6,6 +6,8 @@ Some style guides require or disallow spaces before or after unary operators. Th
 
 This rule enforces consistency regarding the spaces after `words` unary operators and after/before `nonwords` unary operators.
 
+For `words` operators, this rule only applies when a space is not syntactically required. For instance, `delete obj.foo` requires the space and will not be considered by this rule. The equivalent `delete(obj.foo)` has an optional space (`delete (obj.foo)`), therefore this rule will apply to it.
+
 Examples of unary `words` operators:
 
 ```js
@@ -103,14 +105,17 @@ Examples of **correct** code for this rule with the `{"words": true, "nonwords":
 ```js
 /*eslint space-unary-ops: "error"*/
 
-// Word unary operator "delete" is followed by a whitespace.
-delete foo.bar;
-
-// Word unary operator "new" is followed by a whitespace.
-new Foo;
+// Word unary operator "typeof" is followed by a whitespace.
+typeof !foo;
 
 // Word unary operator "void" is followed by a whitespace.
-void 0;
+void {foo:0};
+
+// Word unary operator "new" is followed by a whitespace.
+new [foo][0];
+
+// Word unary operator "delete" is followed by a whitespace.
+delete (foo.bar);
 
 // Unary operator "++" is not followed by whitespace.
 ++foo;

@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-func-assign"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -26,15 +26,76 @@ ruleTester.run("no-func-assign", rule, {
         { code: "var foo = () => {}; foo = bar;", parserOptions: { ecmaVersion: 6 } },
         "var foo = function() {}; foo = bar;",
         "var foo = function() { foo = bar; };",
-        { code: "import bar from 'bar'; function foo() { var foo = bar; }", parserOptions: { sourceType: "module" } }
+        { code: "import bar from 'bar'; function foo() { var foo = bar; }", parserOptions: { ecmaVersion: 6, sourceType: "module" } }
     ],
     invalid: [
-        { code: "function foo() {}; foo = bar;", errors: [{ message: "'foo' is a function.", type: "Identifier" }] },
-        { code: "function foo() { foo = bar; }", errors: [{ message: "'foo' is a function.", type: "Identifier" }] },
-        { code: "foo = bar; function foo() { };", errors: [{ message: "'foo' is a function.", type: "Identifier" }] },
-        { code: "[foo] = bar; function foo() { };", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'foo' is a function.", type: "Identifier" }] },
-        { code: "({x: foo = 0} = bar); function foo() { };", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'foo' is a function.", type: "Identifier" }] },
-        { code: "function foo() { [foo] = bar; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'foo' is a function.", type: "Identifier" }] },
-        { code: "(function() { ({x: foo = 0} = bar); function foo() { }; })();", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'foo' is a function.", type: "Identifier" }] }
+        {
+            code: "function foo() {}; foo = bar;",
+            errors: [{
+                messageId: "isAFunction",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "function foo() { foo = bar; }",
+            errors: [{
+                messageId: "isAFunction",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "foo = bar; function foo() { };",
+            errors: [{
+                messageId: "isAFunction",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "[foo] = bar; function foo() { };",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "isAFunction",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "({x: foo = 0} = bar); function foo() { };",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "isAFunction",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "function foo() { [foo] = bar; }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "isAFunction",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "(function() { ({x: foo = 0} = bar); function foo() { }; })();",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "isAFunction",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "var a = function foo() { foo = 123; };",
+            errors: [{
+                messageId: "isAFunction",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
+        }
     ]
 });

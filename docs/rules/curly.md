@@ -181,10 +181,6 @@ while (true) {
 for (var i = 0; foo; i++) {
     doSomething();
 }
-
-if (foo)
-    // some comment
-    bar();
 ```
 
 Examples of **correct** code for the `"multi-or-nest"` option:
@@ -214,6 +210,18 @@ while (true)
 
 for (var i = 0; foo; i++)
     doSomething();
+```
+
+For single-line statements preceded by a comment, braces are allowed but not required.
+
+Examples of additional **correct** code for the `"multi-or-nest"` option:
+
+```js
+/*eslint curly: ["error", "multi-or-nest"]*/
+
+if (foo)
+    // some comment
+    bar();
 
 if (foo) {
     // some comment

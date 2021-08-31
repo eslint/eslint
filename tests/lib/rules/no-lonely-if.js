@@ -9,14 +9,14 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-lonely-if"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
-const errors = [{ message: "Unexpected if as the only statement in an else block.", type: "IfStatement" }];
+const errors = [{ messageId: "unexpectedLonelyIf", type: "IfStatement" }];
 
 ruleTester.run("no-lonely-if", rule, {
 

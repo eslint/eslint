@@ -4,7 +4,7 @@ Please be sure to read the contribution guidelines before making or requesting a
 
 ## Code of Conduct
 
-This project adheres to the [JS Foundation Code of Conduct](https://js.foundation/community/code-of-conduct). We kindly request that you read over our code of conduct before contributing.
+This project adheres to the [Open JS Foundation Code of Conduct](https://eslint.org/conduct). We kindly request that you read over our code of conduct before contributing.
 
 ## Filing Issues
 
@@ -14,6 +14,8 @@ Before filing an issue, please be sure to read the guidelines for what you're re
 * [Propose a New Rule](https://eslint.org/docs/developer-guide/contributing/new-rules)
 * [Proposing a Rule Change](https://eslint.org/docs/developer-guide/contributing/rule-changes)
 * [Request a Change](https://eslint.org/docs/developer-guide/contributing/changes)
+
+To report a security vulnerability in ESLint, please use our [HackerOne program](https://hackerone.com/eslint).
 
 ## Contributing Code
 

@@ -15,6 +15,10 @@ obj.foo = function bar() {};
 obj['foo'] = function bar() {};
 var obj = {foo: function bar() {}};
 ({['foo']: function bar() {}});
+
+class C {
+    foo = function bar() {};
+}
 ```
 
 ```js
@@ -26,6 +30,10 @@ obj.foo = function foo() {};
 obj['foo'] = function foo() {};
 var obj = {foo: function foo() {}};
 ({['foo']: function foo() {}});
+
+class C {
+    foo = function foo() {};
+}
 ```
 
 Examples of **correct** code for this rule:
@@ -54,6 +62,21 @@ obj['x' + 2] = function bar(){};
 var [ bar ] = [ function bar(){} ];
 ({[foo]: function bar() {}})
 
+class C {
+    foo = function foo() {};
+    baz = function() {};
+}
+
+// private names are ignored
+class D {
+    #foo = function foo() {};
+    #bar = function foo() {};
+    baz() {
+        this.#foo = function foo() {};
+        this.#foo = function bar() {};
+    }
+}
+
 module.exports = function foo(name) {};
 module['exports'] = function foo(name) {};
 ```
@@ -81,6 +104,21 @@ obj['x' + 2] = function bar(){};
 var [ bar ] = [ function bar(){} ];
 ({[foo]: function bar() {}})
 
+class C {
+    foo = function bar() {};
+    baz = function() {};
+}
+
+// private names are ignored
+class D {
+    #foo = function foo() {};
+    #bar = function foo() {};
+    baz() {
+        this.#foo = function foo() {};
+        this.#foo = function bar() {};
+    }
+}
+
 module.exports = function foo(name) {};
 module['exports'] = function foo(name) {};
 ```
@@ -91,7 +129,7 @@ This rule takes an optional string of "always" or "never" (when omitted, it defa
 
 ### considerPropertyDescriptor
 
-A boolean value that defaults to `false`. If `considerPropertyDescriptor` is set to true, the check will take into account the use `Object.create`, `Object.defineProperty`, `Object.defineProperties`, and `Reflect.defineProperty`.
+A boolean value that defaults to `false`. If `considerPropertyDescriptor` is set to true, the check will take into account the use of `Object.create`, `Object.defineProperty`, `Object.defineProperties`, and `Reflect.defineProperty`.
 
 Examples of **correct** code for the `{ considerPropertyDescriptor: true }` option:
 
@@ -137,4 +175,4 @@ Do not use this rule if you want to allow named functions to have different name
 
 ## Compatibility
 
-* **JSCS**: [requireMatchingFunctionName](http://jscs.info/rule/requireMatchingFunctionName)
+* **JSCS**: [requireMatchingFunctionName](https://jscs-dev.github.io/rule/requireMatchingFunctionName)

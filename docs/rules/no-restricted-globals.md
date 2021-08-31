@@ -77,7 +77,7 @@ Examples of **incorrect** code for a sample `"event"` global variable name, alon
 
 ```js
 /*global event*/
-/* eslint no-restricted-globals: ["error", { name: "error", message: "Use local parameter instead." }] */
+/* eslint no-restricted-globals: ["error", { name: "event", message: "Use local parameter instead." }] */
 
 function onClick() {
     console.log(event);    // Unexpected global variable 'event'. Use local parameter instead.

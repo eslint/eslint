@@ -7,8 +7,9 @@
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
+
 const rule = require("../../../lib/rules/max-lines-per-function");
-const RuleTester = require("../../../lib/testers/rule-tester");
+const { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -25,7 +26,7 @@ ruleTester.run("max-lines-per-function", rule, {
             options: [1]
         },
 
-        // Test single line standlone function
+        // Test single line standalone function
         {
             code: "function name() {}",
             options: [1]
@@ -91,7 +92,7 @@ ruleTester.run("max-lines-per-function", rule, {
             options: [{ max: 5, skipComments: true, skipBlankLines: false }]
         },
 
-        // Multiple params on seperate lines test
+        // Multiple params on separate lines test
         {
             code: `function foo(
     aaa = 1,
@@ -164,6 +165,30 @@ if ( x === y ) {
     return bar;
 }());`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: false }]
+        },
+
+        // Arrow IIFEs should be recognised if IIFEs: true
+        {
+            code: `(() => {
+    let x = 0;
+    let y = 0;
+    let z = x + y;
+    let foo = {};
+    return bar;
+})();`,
+            options: [{ max: 7, skipComments: true, skipBlankLines: false, IIFEs: true }]
+        },
+
+        // Arrow IIFEs should not be recognised if IIFEs: false
+        {
+            code: `(() => {
+    let x = 0;
+    let y = 0;
+    let z = x + y;
+    let foo = {};
+    return bar;
+})();`,
+            options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: false }]
         }
     ],
 
@@ -174,7 +199,7 @@ if ( x === y ) {
             code: "function name() {\n}",
             options: [1],
             errors: [
-                "function 'name' has too many lines (2). Maximum allowed is 1."
+                { messageId: "exceed", data: { name: "Function 'name'", lineCount: 2, maxLines: 1 } }
             ]
         },
 
@@ -183,7 +208,7 @@ if ( x === y ) {
             code: "var func = function() {\n}",
             options: [1],
             errors: [
-                "function has too many lines (2). Maximum allowed is 1."
+                { messageId: "exceed", data: { name: "Function", lineCount: 2, maxLines: 1 } }
             ]
         },
 
@@ -192,7 +217,7 @@ if ( x === y ) {
             code: "const bar = () => {\nconst x = 2 + 1;\nreturn x;\n}",
             options: [3],
             errors: [
-                "arrow function has too many lines (4). Maximum allowed is 3."
+                { messageId: "exceed", data: { name: "Arrow function", lineCount: 4, maxLines: 3 } }
             ]
         },
 
@@ -201,7 +226,16 @@ if ( x === y ) {
             code: "const bar = () =>\n 2",
             options: [1],
             errors: [
-                "arrow function has too many lines (2). Maximum allowed is 1."
+                { messageId: "exceed", data: { name: "Arrow function", lineCount: 2, maxLines: 1 } }
+            ]
+        },
+
+        // Test that option defaults work as expected
+        {
+            code: `() => {${"foo\n".repeat(60)}}`,
+            options: [{}],
+            errors: [
+                { messageId: "exceed", data: { name: "Arrow function", lineCount: 61, maxLines: 50 } }
             ]
         },
 
@@ -210,7 +244,7 @@ if ( x === y ) {
             code: "function name() {\nvar x = 5;\n\t\n \n\nvar x = 2;\n}",
             options: [{ max: 6, skipComments: false, skipBlankLines: false }],
             errors: [
-                "function 'name' has too many lines (7). Maximum allowed is 6."
+                { messageId: "exceed", data: { name: "Function 'name'", lineCount: 7, maxLines: 6 } }
             ]
         },
 
@@ -219,7 +253,7 @@ if ( x === y ) {
             code: "function name() {\r\nvar x = 5;\r\n\t\r\n \r\n\r\nvar x = 2;\r\n}",
             options: [{ max: 6, skipComments: true, skipBlankLines: false }],
             errors: [
-                "function 'name' has too many lines (7). Maximum allowed is 6."
+                { messageId: "exceed", data: { name: "Function 'name'", lineCount: 7, maxLines: 6 } }
             ]
         },
 
@@ -228,7 +262,7 @@ if ( x === y ) {
             code: "function name() {\nvar x = 5;\n\t\n \n\nvar x = 2;\n}",
             options: [{ max: 2, skipComments: true, skipBlankLines: true }],
             errors: [
-                "function 'name' has too many lines (4). Maximum allowed is 2."
+                { messageId: "exceed", data: { name: "Function 'name'", lineCount: 4, maxLines: 2 } }
             ]
         },
 
@@ -237,7 +271,7 @@ if ( x === y ) {
             code: "function name() {\r\nvar x = 5;\r\n\t\r\n \r\n\r\nvar x = 2;\r\n}",
             options: [{ max: 2, skipComments: true, skipBlankLines: true }],
             errors: [
-                "function 'name' has too many lines (4). Maximum allowed is 2."
+                { messageId: "exceed", data: { name: "Function 'name'", lineCount: 4, maxLines: 2 } }
             ]
         },
 
@@ -246,7 +280,7 @@ if ( x === y ) {
             code: "function name() { // end of line comment\nvar x = 5; /* mid line comment */\n\t// single line comment taking up whole line\n\t\n \n\nvar x = 2;\n}",
             options: [{ max: 6, skipComments: true, skipBlankLines: false }],
             errors: [
-                "function 'name' has too many lines (7). Maximum allowed is 6."
+                { messageId: "exceed", data: { name: "Function 'name'", lineCount: 7, maxLines: 6 } }
             ]
         },
 
@@ -255,7 +289,7 @@ if ( x === y ) {
             code: "function name() { // end of line comment\nvar x = 5; /* mid line comment */\n\t// single line comment taking up whole line\n\t\n \n\nvar x = 2;\n}",
             options: [{ max: 1, skipComments: true, skipBlankLines: true }],
             errors: [
-                "function 'name' has too many lines (4). Maximum allowed is 1."
+                { messageId: "exceed", data: { name: "Function 'name'", lineCount: 4, maxLines: 1 } }
             ]
         },
 
@@ -264,7 +298,7 @@ if ( x === y ) {
             code: "function name() { // end of line comment\nvar x = 5; /* mid line comment */\n\t// single line comment taking up whole line\n\t\n \n\nvar x = 2;\n}",
             options: [{ max: 1, skipComments: false, skipBlankLines: true }],
             errors: [
-                "function 'name' has too many lines (5). Maximum allowed is 1."
+                { messageId: "exceed", data: { name: "Function 'name'", lineCount: 5, maxLines: 1 } }
             ]
         },
 
@@ -279,7 +313,7 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                "function 'foo' has too many lines (7). Maximum allowed is 2."
+                { messageId: "exceed", data: { name: "Function 'foo'", lineCount: 7, maxLines: 2 } }
             ]
         },
 
@@ -294,7 +328,7 @@ function
 ()`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: true }],
             errors: [
-                "function has too many lines (4). Maximum allowed is 2."
+                { messageId: "exceed", data: { name: "Function", lineCount: 4, maxLines: 2 } }
             ]
         },
 
@@ -312,7 +346,7 @@ if ( x === y ) {
 }`,
             options: [{ max: 9, skipComments: true, skipBlankLines: false }],
             errors: [
-                "function 'parent' has too many lines (10). Maximum allowed is 9."
+                { messageId: "exceed", data: { name: "Function 'parent'", lineCount: 10, maxLines: 9 } }
             ]
         },
 
@@ -330,8 +364,8 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                "function 'parent' has too many lines (10). Maximum allowed is 2.",
-                "function 'nested' has too many lines (4). Maximum allowed is 2."
+                { messageId: "exceed", data: { name: "Function 'parent'", lineCount: 10, maxLines: 2 } },
+                { messageId: "exceed", data: { name: "Function 'nested'", lineCount: 4, maxLines: 2 } }
             ]
         },
 
@@ -346,7 +380,7 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                "method 'method' has too many lines (5). Maximum allowed is 2."
+                { messageId: "exceed", data: { name: "Method 'method'", lineCount: 5, maxLines: 2 } }
             ]
         },
 
@@ -361,7 +395,7 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                "static method 'foo' has too many lines (5). Maximum allowed is 2."
+                { messageId: "exceed", data: { name: "Static method 'foo'", lineCount: 5, maxLines: 2 } }
             ]
         },
 
@@ -376,7 +410,7 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                "getter 'foo' has too many lines (5). Maximum allowed is 2."
+                { messageId: "exceed", data: { name: "Getter 'foo'", lineCount: 5, maxLines: 2 } }
             ]
         },
 
@@ -391,7 +425,7 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                "setter 'foo' has too many lines (5). Maximum allowed is 2."
+                { messageId: "exceed", data: { name: "Setter 'foo'", lineCount: 5, maxLines: 2 } }
             ]
         },
 
@@ -409,7 +443,7 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                "static method has too many lines (8). Maximum allowed is 2."
+                { messageId: "exceed", data: { name: "Static method", lineCount: 8, maxLines: 2 } }
             ]
         },
 
@@ -424,7 +458,22 @@ if ( x === y ) {
 }());`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: true }],
             errors: [
-                "function has too many lines (7). Maximum allowed is 2."
+                { messageId: "exceed", data: { name: "Function", lineCount: 7, maxLines: 2 } }
+            ]
+        },
+
+        // Test the IIFEs option includes arrow IIFEs
+        {
+            code: `(() => {
+    let x = 0;
+    let y = 0;
+    let z = x + y;
+    let foo = {};
+    return bar;
+})();`,
+            options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: true }],
+            errors: [
+                { messageId: "exceed", data: { name: "Arrow function", lineCount: 7, maxLines: 2 } }
             ]
         }
     ]

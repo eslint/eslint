@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../tools/internal-rules/no-invalid-meta"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -27,7 +27,6 @@ ruleTester.run("no-invalid-meta", rule, {
             "    meta: {",
             "        docs: {",
             "            description: 'some rule',",
-            "            category: 'Internal',",
             "            recommended: false",
             "        },",
             "        schema: []",
@@ -51,7 +50,6 @@ ruleTester.run("no-invalid-meta", rule, {
             "    meta: {",
             "        docs: {",
             "            description: 'some rule',",
-            "            category: 'Internal',",
             "            recommended: false",
             "        },",
             "        schema: []",
@@ -73,7 +71,6 @@ ruleTester.run("no-invalid-meta", rule, {
             "    meta: {",
             "        docs: {",
             "            description: 'some rule',",
-            "            category: 'Internal',",
             "            recommended: false",
             "        },",
             "        schema: [],",
@@ -98,14 +95,16 @@ ruleTester.run("no-invalid-meta", rule, {
     invalid: [
         {
             code: [
-                "module.exports = function(context) {",
-                "    return {",
-                "        Program: function(node) {}",
-                "    };",
+                "module.exports = {",
+                "    create: function(context) {",
+                "        return {",
+                "            Program: function(node) {}",
+                "        };",
+                "    }",
                 "};"
             ].join("\n"),
             errors: [{
-                message: "Rule does not export an Object. Make sure the rule follows the new rule format.",
+                messageId: "missingMeta",
                 line: 1,
                 column: 18
             }]
@@ -113,6 +112,8 @@ ruleTester.run("no-invalid-meta", rule, {
         {
             code: [
                 "module.exports = {",
+                "    meta: [],",
+
                 "    create: function(context) {",
                 "        return {",
                 "            Program: function(node) {}",
@@ -121,9 +122,9 @@ ruleTester.run("no-invalid-meta", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "Rule is missing a meta property.",
-                line: 1,
-                column: 18
+                messageId: "missingMetaDocs",
+                line: 2,
+                column: 5
             }]
         },
         {
@@ -141,7 +142,7 @@ ruleTester.run("no-invalid-meta", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "Rule is missing a meta.docs property.",
+                messageId: "missingMetaDocs",
                 line: 2,
                 column: 5
             }]
@@ -151,8 +152,7 @@ ruleTester.run("no-invalid-meta", rule, {
                 "module.exports = {",
                 "    meta: {",
                 "        docs: {",
-                "            category: 'Internal',",
-                "            recommended: false",
+                "            description: 'some rule',",
                 "        },",
                 "        schema: []",
                 "    },",
@@ -165,79 +165,7 @@ ruleTester.run("no-invalid-meta", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "Rule is missing a meta.docs.description property.",
-                line: 2,
-                column: 5
-            }]
-        },
-        {
-            code: [
-                "module.exports = {",
-                "    meta: {",
-                "        docs: {",
-                "            description: 'some rule',",
-                "            recommended: false",
-                "        },",
-                "        schema: []",
-                "    },",
-
-                "    create: function(context) {",
-                "        return {",
-                "            Program: function(node) {}",
-                "        };",
-                "    }",
-                "};"
-            ].join("\n"),
-            errors: [{
-                message: "Rule is missing a meta.docs.category property.",
-                line: 2,
-                column: 5
-            }]
-        },
-        {
-            code: [
-                "module.exports = {",
-                "    meta: {",
-                "        docs: {",
-                "            description: 'some rule',",
-                "            category: 'Internal'",
-                "        },",
-                "        schema: []",
-                "    },",
-
-                "    create: function(context) {",
-                "        return {",
-                "            Program: function(node) {}",
-                "        };",
-                "    }",
-                "};"
-            ].join("\n"),
-            errors: [{
-                message: "Rule is missing a meta.docs.recommended property.",
-                line: 2,
-                column: 5
-            }]
-        },
-        {
-            code: [
-                "module.exports = {",
-                "    meta: {",
-                "        docs: {",
-                "            description: 'some rule',",
-                "            category: 'Internal',",
-                "            recommended: false",
-                "        }",
-                "    },",
-
-                "    create: function(context) {",
-                "        return {",
-                "            Program: function(node) {}",
-                "        };",
-                "    }",
-                "};"
-            ].join("\n"),
-            errors: [{
-                message: "Rule is missing a meta.schema property.",
+                messageId: "missingMetaDocsRecommended",
                 line: 2,
                 column: 5
             }]
@@ -245,7 +173,7 @@ ruleTester.run("no-invalid-meta", rule, {
         {
             code: "",
             errors: [{
-                message: "Rule does not export anything. Make sure rule exports an object according to new rule format.",
+                messageId: "noExport",
                 line: 1,
                 column: 1
             }]
@@ -253,7 +181,7 @@ ruleTester.run("no-invalid-meta", rule, {
         {
             code: "foo();",
             errors: [{
-                message: "Rule does not export anything. Make sure rule exports an object according to new rule format.",
+                messageId: "noExport",
                 line: 1,
                 column: 1
             }]
@@ -261,7 +189,7 @@ ruleTester.run("no-invalid-meta", rule, {
         {
             code: "foo = bar;",
             errors: [{
-                message: "Rule does not export anything. Make sure rule exports an object according to new rule format.",
+                messageId: "noExport",
                 line: 1,
                 column: 1
             }]

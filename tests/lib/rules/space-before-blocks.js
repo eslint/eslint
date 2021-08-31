@@ -10,7 +10,8 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/space-before-blocks"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester"),
+    fixtureParser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -21,10 +22,14 @@ const ruleTester = new RuleTester(),
     functionsOnlyArgs = [{ functions: "always", keywords: "never", classes: "never" }],
     keywordOnlyArgs = [{ functions: "never", keywords: "always", classes: "never" }],
     classesOnlyArgs = [{ functions: "never", keywords: "never", classes: "always" }],
-    expectedSpacingErrorMessage = "Missing space before opening brace.",
-    expectedSpacingError = { message: expectedSpacingErrorMessage },
-    expectedNoSpacingErrorMessage = "Unexpected space before opening brace.",
-    expectedNoSpacingError = { message: "Unexpected space before opening brace." };
+    functionsAlwaysOthersOffArgs = [{ functions: "always", keywords: "off", classes: "off" }],
+    keywordAlwaysOthersOffArgs = [{ functions: "off", keywords: "always", classes: "off" }],
+    classesAlwaysOthersOffArgs = [{ functions: "off", keywords: "off", classes: "always" }],
+    functionsNeverOthersOffArgs = [{ functions: "never", keywords: "off", classes: "off" }],
+    keywordNeverOthersOffArgs = [{ functions: "off", keywords: "never", classes: "off" }],
+    classesNeverOthersOffArgs = [{ functions: "off", keywords: "off", classes: "never" }],
+    expectedSpacingError = { messageId: "missingSpace" },
+    expectedNoSpacingError = { messageId: "unexpectedSpace" };
 
 ruleTester.run("space-before-blocks", rule, {
     valid: [
@@ -48,25 +53,25 @@ ruleTester.run("space-before-blocks", rule, {
         {
             code: "export default class{}",
             options: functionsOnlyArgs,
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default class {}",
             options: classesOnlyArgs,
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default function a() {}",
             options: functionsOnlyArgs,
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default function a(){}",
             options: keywordOnlyArgs,
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
-        { code: "export function a(){}", options: keywordOnlyArgs, parserOptions: { sourceType: "module" } },
-        { code: "export function a() {}", options: functionsOnlyArgs, parserOptions: { sourceType: "module" } },
+        { code: "export function a(){}", options: keywordOnlyArgs, parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export function a() {}", options: functionsOnlyArgs, parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "function a(){}", options: keywordOnlyArgs },
         { code: "function a() {}", options: functionsOnlyArgs },
         { code: "function a(){ if(b) {} }", options: keywordOnlyArgs },
@@ -131,6 +136,54 @@ ruleTester.run("space-before-blocks", rule, {
             code: "class test {}",
             parserOptions: { ecmaVersion: 6 }
         },
+        { code: "function a(){if(b) {}}", options: keywordAlwaysOthersOffArgs },
+        { code: "function a() {if(b) {}}", options: keywordAlwaysOthersOffArgs },
+        { code: "function a() {if(b){}}", options: functionsAlwaysOthersOffArgs },
+        { code: "function a() {if(b) {}}", options: functionsAlwaysOthersOffArgs },
+        {
+            code: "class test { constructor(){if(a){}} }",
+            options: classesAlwaysOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class test { constructor() {if(a){}} }",
+            options: classesAlwaysOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class test { constructor(){if(a) {}} }",
+            options: classesAlwaysOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class test { constructor() {if(a) {}} }",
+            options: classesAlwaysOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 }
+        },
+        { code: "function a(){if(b){}}", options: keywordNeverOthersOffArgs },
+        { code: "function a() {if(b){}}", options: keywordNeverOthersOffArgs },
+        { code: "function a(){if(b){}}", options: functionsNeverOthersOffArgs },
+        { code: "function a(){if(b) {}}", options: functionsNeverOthersOffArgs },
+        {
+            code: "class test{ constructor(){if(a){}} }",
+            options: classesNeverOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class test{ constructor() {if(a){}} }",
+            options: classesNeverOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class test{ constructor(){if(a) {}} }",
+            options: classesNeverOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class test{ constructor() {if(a) {}} }",
+            options: classesNeverOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 }
+        },
 
         // https://github.com/eslint/eslint/issues/3769
         { code: "()=>{};", options: ["always"], parserOptions: { ecmaVersion: 6 } },
@@ -140,13 +193,13 @@ ruleTester.run("space-before-blocks", rule, {
         "if(a) {}else{}",
         { code: "if(a){}else {}", options: neverArgs },
         { code: "try {}catch(a){}", options: functionsOnlyArgs },
-        { code: "export default class{}", options: classesOnlyArgs, parserOptions: { sourceType: "module" } }
+        { code: "export default class{}", options: classesOnlyArgs, parserOptions: { ecmaVersion: 6, sourceType: "module" } }
     ],
     invalid: [
         {
             code: "if(a){}",
             output: "if(a) {}",
-            errors: [{ message: expectedSpacingErrorMessage, line: 1, column: 6 }]
+            errors: [{ messageId: "missingSpace", line: 1, column: 6 }]
         },
         {
             code: "if(a){}",
@@ -164,13 +217,13 @@ ruleTester.run("space-before-blocks", rule, {
             code: "if(a) { function a() {} }",
             output: "if(a){ function a() {} }",
             options: functionsOnlyArgs,
-            errors: [{ message: expectedNoSpacingErrorMessage, line: 1, column: 7 }]
+            errors: [{ messageId: "unexpectedSpace", line: 1, column: 7 }]
         },
         {
             code: "if(a) { function a() {} }",
             output: "if(a) { function a(){} }",
             options: keywordOnlyArgs,
-            errors: [{ message: expectedNoSpacingErrorMessage, line: 1, column: 22 }]
+            errors: [{ messageId: "unexpectedSpace", line: 1, column: 22 }]
         },
         {
             code: "if(a) {}",
@@ -199,13 +252,13 @@ ruleTester.run("space-before-blocks", rule, {
             code: "function a(){ if (a){} }",
             output: "function a() { if (a){} }",
             options: functionsOnlyArgs,
-            errors: [{ message: expectedSpacingErrorMessage, line: 1, column: 13 }]
+            errors: [{ messageId: "missingSpace", line: 1, column: 13 }]
         },
         {
             code: "function a() { if (a) {} }",
             output: "function a(){ if (a) {} }",
             options: keywordOnlyArgs,
-            errors: [{ message: expectedNoSpacingErrorMessage, line: 1, column: 14 }]
+            errors: [{ messageId: "unexpectedSpace", line: 1, column: 14 }]
         },
         {
             code: "function a(){}",
@@ -274,13 +327,13 @@ ruleTester.run("space-before-blocks", rule, {
             code: "try { function b() {} } catch(a) {}",
             output: "try { function b(){} } catch(a) {}",
             options: keywordOnlyArgs,
-            errors: [{ message: expectedNoSpacingErrorMessage, line: 1, column: 20 }]
+            errors: [{ messageId: "unexpectedSpace", line: 1, column: 20 }]
         },
         {
             code: "try{ function b(){} }catch(a){}",
             output: "try{ function b() {} }catch(a){}",
             options: functionsOnlyArgs,
-            errors: [{ message: expectedSpacingErrorMessage, line: 1, column: 18 }]
+            errors: [{ messageId: "missingSpace", line: 1, column: 18 }]
         },
         {
             code: "for(;;){}",
@@ -356,35 +409,35 @@ ruleTester.run("space-before-blocks", rule, {
             code: "export function a() { if(b) {} }",
             output: "export function a() { if(b){} }",
             options: functionsOnlyArgs,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [expectedNoSpacingError]
         },
         {
             code: "export function a(){ if(b){} }",
             output: "export function a(){ if(b) {} }",
             options: keywordOnlyArgs,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [expectedSpacingError]
         },
         {
             code: "export function a(){}",
             output: "export function a() {}",
             options: functionsOnlyArgs,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [expectedSpacingError]
         },
         {
             code: "export default function (a) {}",
             output: "export default function (a){}",
             options: keywordOnlyArgs,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [expectedNoSpacingError]
         },
         {
             code: "export function a() {}",
             output: "export function a(){}",
             options: keywordOnlyArgs,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [expectedNoSpacingError]
         },
         {
@@ -426,6 +479,97 @@ ruleTester.run("space-before-blocks", rule, {
             output: "class test{}",
             options: neverArgs,
             parserOptions: { ecmaVersion: 6 },
+            errors: [expectedNoSpacingError]
+        },
+        {
+            code: "if(a){ function a(){} }",
+            output: "if(a){ function a() {} }",
+            options: functionsAlwaysOthersOffArgs,
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "if(a) { function a(){} }",
+            output: "if(a) { function a() {} }",
+            options: functionsAlwaysOthersOffArgs,
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "if(a){ function a(){} }",
+            output: "if(a) { function a(){} }",
+            options: keywordAlwaysOthersOffArgs,
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "if(a){ function a() {} }",
+            output: "if(a) { function a() {} }",
+            options: keywordAlwaysOthersOffArgs,
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "class test{ constructor(){} }",
+            output: "class test { constructor(){} }",
+            options: classesAlwaysOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "class test{ constructor() {} }",
+            output: "class test { constructor() {} }",
+            options: classesAlwaysOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "if(a){ function a() {} }",
+            output: "if(a){ function a(){} }",
+            options: functionsNeverOthersOffArgs,
+            errors: [expectedNoSpacingError]
+        },
+        {
+            code: "if(a) { function a() {} }",
+            output: "if(a) { function a(){} }",
+            options: functionsNeverOthersOffArgs,
+            errors: [expectedNoSpacingError]
+        },
+        {
+            code: "if(a) { function a(){} }",
+            output: "if(a){ function a(){} }",
+            options: keywordNeverOthersOffArgs,
+            errors: [expectedNoSpacingError]
+        },
+        {
+            code: "if(a) { function a() {} }",
+            output: "if(a){ function a() {} }",
+            options: keywordNeverOthersOffArgs,
+            errors: [expectedNoSpacingError]
+        },
+        {
+            code: "class test { constructor(){} }",
+            output: "class test{ constructor(){} }",
+            options: classesNeverOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [expectedNoSpacingError]
+        },
+        {
+            code: "class test { constructor() {} }",
+            output: "class test{ constructor() {} }",
+            options: classesNeverOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [expectedNoSpacingError]
+        },
+
+        // https://github.com/eslint/eslint/issues/13553
+        {
+            code: "class A { foo(bar: string): void{} }",
+            output: "class A { foo(bar: string): void {} }",
+            parser: fixtureParser("space-before-blocks", "return-type-keyword-1"),
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "function foo(): null {}",
+            output: "function foo(): null{}",
+            options: neverArgs,
+            parser: fixtureParser("space-before-blocks", "return-type-keyword-2"),
             errors: [expectedNoSpacingError]
         }
     ]

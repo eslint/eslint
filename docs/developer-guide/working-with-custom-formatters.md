@@ -1,25 +1,78 @@
 # Working with Custom Formatters
 
-Writing an ESLint custom formatter is simple. All that is needed is a module that exports a function that will receive the results from the execution of ESLint.
+While ESLint has some built-in formatters available to format the linting results, it's also possible to create and distribute your own custom formatters. You can include custom formatters in your project directly or create an npm package to distribute them separately.
 
-The simplest formatter will be something like:
+Each formatter is just a function that receives a `results` object and returns a string. For example, the following is how the `json` built-in formatter is implemented:
 
-```javascript
+```js
 //my-awesome-formatter.js
 module.exports = function(results) {
     return JSON.stringify(results, null, 2);
 };
 ```
 
-And to run `eslint` with this custom formatter:
+To run ESLint with this formatter, you can use the `-f` (or `--format`) command line flag:
 
 ```bash
-eslint -f './my-awesome-formatter.js' src/
+eslint -f ./my-awesome-formatter.js src/
 ```
 
-The output of the previous command will be something like this
+In order to use a local file as a custom formatter, you must begin the filename with a dot (such as `./my-awesome-formatter.js` or `../formatters/my-awesome-formatter.js`).
 
-```javascript
+### The `data` Argument
+
+The exported function receives an optional second argument named `data`. The `data` object provides extended information related to the analysis results. Currently, the `data` object consists of a single property named `rulesMeta`. This property is a dictionary of rule metadata, keyed with `ruleId`. The value for each entry is the `meta` property from the corresponding rule object. The dictionary contains an entry for each rule that was run during the analysis.
+
+Here's what the `data` object would look like if one rule, `no-extra-semi`, had been run:
+
+```js
+{
+    rulesMeta: {
+        "no-extra-semi": {
+            type: "suggestion",
+            docs: {
+                description: "disallow unnecessary semicolons",
+                category: "Possible Errors",
+                recommended: true,
+                url: "https://eslint.org/docs/rules/no-extra-semi"
+            },
+            fixable: "code",
+            schema: [],
+            messages: {
+                unexpected: "Unnecessary semicolon."
+            }
+        }
+    }
+}
+```
+
+The [Using Rule metadata](#using-rule-metadata) example shows how to use the `data` object in a custom formatter. See the [Working with Rules](https://eslint.org/docs/developer-guide/working-with-rules) page for more information about rules.
+
+## Packaging the Custom Formatter
+
+Custom formatters can also be distributed through npm packages. To do so, create an npm package with a name in the format of `eslint-formatter-*`, where `*` is the name of your formatter (such as `eslint-formatter-awesome`). Projects should then install the package and can use the custom formatter with the `-f` (or `--format`) flag like this:
+
+```bash
+eslint -f awesome src/
+```
+
+Because ESLint knows to look for packages beginning with `eslint-formatter-` when the specified formatter doesn't begin with a dot, there is no need to type `eslint-formatter-` when using a packaged custom formatter.
+
+Tips for `package.json`:
+
+* The `main` entry should be the JavaScript file implementing your custom formatter.
+* Add these `keywords` to help users find your formatter:
+    * `"eslint"`
+    * `"eslint-formatter"`
+    * `"eslintformatter"`
+
+See all [formatters on npm](https://www.npmjs.com/search?q=eslint-formatter);
+
+## The `results` Object
+
+The `results` object passed into a formatter is an array of objects containing the lint results for individual files. Here's some example output:
+
+```js
 [
     {
         filePath: "path/to/file.js",
@@ -56,30 +109,28 @@ The output of the previous command will be something like this
         fixableErrorCount: 0,
         fixableWarningCount: 0
     }
-];
+]
 ```
 
-As you can see the argument passed to the custom formatter function is just a list of results objects.
+### The `result` Object
 
-## Description of the results
+<!-- This section is copied from the "Node.js API" page. Changes to this section should
+also be manually applied to that page. -->
 
-### the result object
+Each object in the `results` array is a `result` object. Each `result` object contains the path of the file that was linted and information about linting issues that were encountered. Here are the properties available on each `result` object:
 
-You will receive a result object from each file `eslint` validates, each one of them containing
-the list of messages for `errors` and/or `warnings`.
-
-The following are the fields of the result object:
-
-*   **filePath**: The path to the file relative to the current working directory (the path from which ESLint was executed).
-*   **messages**: An array of message objects. See below for more info about messages.
+*   **filePath**: The absolute path to the file that was linted.
+*   **messages**: An array of `message` objects. See below for more info about messages.
 *   **errorCount**: The number of errors for the given file.
 *   **warningCount**: The number of warnings for the given file.
 *   **source**: The source code for the given file. This property is omitted if this file has no errors/warnings or if the `output` property is present.
 *   **output**: The source code for the given file with as many fixes applied as possible. This property is omitted if no fix is available.
 
-### The message object
+### The `message` Object
 
-*   **ruleId**: the id of the rule that produced the error or warning.
+Each `message` object contains information about the ESLint rule that was triggered by some source code. The properties available on each `message` object are:
+
+*   **ruleId**: the ID of the rule that produced the error or warning.
 *   **severity**: the severity of the failure, `1` for warnings and `2` for errors.
 *   **message**: the human readable description of the error.
 *   **line**: the line where the issue is located.
@@ -121,7 +172,7 @@ module.exports = function(results) {
 Running `eslint` with the previous custom formatter,
 
 ```bash
-eslint -f './my-awesome-formatter.js' src/
+eslint -f ./my-awesome-formatter.js src/
 ```
 
 Will produce the following output:
@@ -135,7 +186,7 @@ Errors: 2, Warnings: 4
 A more complex report will look something like this:
 
 ```javascript
-module.exports = function(results) {
+module.exports = function(results, data) {
     var results = results || [];
 
     var summary = results.reduce(
@@ -144,6 +195,7 @@ module.exports = function(results) {
                 var logMessage = {
                     filePath: current.filePath,
                     ruleId: msg.ruleId,
+                    ruleUrl: data.rulesMeta[msg.ruleId].docs.url,
                     message: msg.message,
                     line: msg.line,
                     column: msg.column
@@ -174,7 +226,7 @@ module.exports = function(results) {
                     "\n" +
                     msg.type +
                     " " +
-                    msg.ruleId +
+                    msg.ruleId + (msg.ruleUrl ? " (" + msg.ruleUrl + ")" : "") +
                     "\n  " +
                     msg.filePath +
                     ":" +
@@ -193,33 +245,35 @@ module.exports = function(results) {
 So running `eslint` with this custom formatter:
 
 ```bash
-eslint -f './my-awesome-formatter.js' src/
+eslint -f ./my-awesome-formatter.js src/
 ```
 
 The output will be
 
 ```bash
-error space-infix-ops
+error space-infix-ops (https://eslint.org/docs/rules/space-infix-ops)
   src/configs/bundler.js:6:8
-error semi
+error semi (https://eslint.org/docs/rules/semi)
   src/configs/bundler.js:6:10
-warning no-unused-vars
+warning no-unused-vars (https://eslint.org/docs/rules/no-unused-vars)
   src/configs/bundler.js:5:6
-warning no-unused-vars
+warning no-unused-vars (https://eslint.org/docs/rules/no-unused-vars)
   src/configs/bundler.js:6:6
-warning no-shadow
+warning no-shadow (https://eslint.org/docs/rules/no-shadow)
   src/configs/bundler.js:65:32
-warning no-unused-vars
+warning no-unused-vars (https://eslint.org/docs/rules/no-unused-vars)
   src/configs/clean.js:3:6
 ```
 
-## Passing arguments to formatters:
+## Passing Arguments to Formatters
 
-### Using environment variables:
+While custom formatter do not receive arguments in addition to the results object, it is possible to pass additional data into formatters.
 
-Let's say we want to show only the messages that are actual errors and discard the warnings.
+## Using Environment Variables
 
-```javascript
+Custom formatters have access to environment variables and so can change their behavior based on environment variable data. Here's an example that uses a `AF_SKIP_WARNINGS` environment variable to determine whether or not to show warnings in the results:
+
+```js
 module.exports = function(results) {
     var skipWarnings = process.env.AF_SKIP_WARNINGS === "true"; //af stands for awesome-formatter
 
@@ -278,13 +332,13 @@ module.exports = function(results) {
 };
 ```
 
-So running `eslint` with this custom formatter:
+You would run ESLint with this custom formatter and an environment variable set like this:
 
 ```bash
-AF_SKIP_WARNINGS=true eslint -f './my-awesome-formatter.js' src/
+AF_SKIP_WARNINGS=true eslint -f ./my-awesome-formatter.js src/
 ```
 
-The output will not print the warnings
+The output would be:
 
 ```bash
 error space-infix-ops
@@ -294,24 +348,21 @@ error semi
   src/configs/bundler.js:6:10
 ```
 
-### Outputting to a standard format for other programs to consume
 
-You can use ESLint's built-in JSON formatter first, and pipe the output to another program that accepts JSON linter results.
+### Complex Argument Passing
+
+If you find the custom formatter pattern doesn't provide enough options for the way you'd like to format ESLint results, the best option is to use ESLint's built-in [JSON formatter](https://eslint.org/docs/user-guide/formatters/) and pipe the output to a second program. For example:
 
 ```bash
-eslint -f json src/ | your-program-that-reads-JSON
+eslint -f json src/ | your-program-that-reads-JSON --option
 ```
 
-You can read more about the built-in JSON formatter [here](https://eslint.org/docs/user-guide/formatters/).
+In this example, the `your-program-that-reads-json` program can accept the raw JSON of ESLint results and process it before outputting its own format of the results. You can pass as many command line arguments to that program as are necessary to customize the output.
 
-## Final words
+## Note: Formatting for Terminals
 
-More complex formatters could be written by grouping differently the errors and warnings and/or grouping the data by the ruleIds.
-
-When printing the files a recommended format will be something like this:
+Modern terminals like [iTerm2](https://www.iterm2.com/) or [Guake](http://guake-project.org/) expect a specific results format to automatically open filenames when they are clicked. Most terminals support this format for that purpose:
 
 ```bash
 file:line:column
 ```
-
-Since that allows modern fancy terminals (like [iTerm2](https://www.iterm2.com/) or [Guake](http://guake-project.org/)) to make them link to files that open in your favorite text editor.

@@ -17,6 +17,7 @@ Examples of **incorrect** code for this rule:
 /*eslint prefer-numeric-literals: "error"*/
 
 parseInt("111110111", 2) === 503;
+parseInt(`111110111`, 2) === 503;
 parseInt("767", 8) === 503;
 parseInt("1F7", 16) === 503;
 Number.parseInt("111110111", 2) === 503;
@@ -53,4 +54,4 @@ If you want to allow use of `parseInt()` or `Number.parseInt()` for binary, octa
 
 ## Compatibility
 
-* **JSCS**: [requireNumericLiterals](http://jscs.info/rule/requireNumericLiterals)
+* **JSCS**: [requireNumericLiterals](https://jscs-dev.github.io/rule/requireNumericLiterals)

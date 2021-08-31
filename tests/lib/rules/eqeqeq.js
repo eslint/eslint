@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/eqeqeq"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -50,7 +50,10 @@ ruleTester.run("eqeqeq", rule, {
         { code: "null != null", options: ["always", { null: "never" }] },
 
         // https://github.com/eslint/eslint/issues/8020
-        { code: "foo === /abc/u", options: ["always", { null: "never" }], parserOptions: { ecmaVersion: 6 } }
+        { code: "foo === /abc/u", options: ["always", { null: "never" }], parserOptions: { ecmaVersion: 2015 } },
+
+        // bigint
+        { code: "foo === 1n", options: ["always", { null: "never" }], parserOptions: { ecmaVersion: 2020 } }
     ],
     invalid: [
         { code: "a == b", errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression" }] },
@@ -101,6 +104,69 @@ ruleTester.run("eqeqeq", rule, {
             errors: [
                 { messageId: "unexpected", data: wantedNotEqEq, type: "BinaryExpression", line: 1 },
                 { messageId: "unexpected", data: wantedNotEqEq, type: "BinaryExpression", line: 1 }
+            ]
+        },
+
+        // location tests
+        {
+            code: "a == b;",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression",
+                    column: 3,
+                    endColumn: 5
+                }
+            ]
+        },
+        {
+            code: "a!=b;",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEqEq,
+                    type: "BinaryExpression",
+                    column: 2,
+                    endColumn: 4
+                }
+            ]
+        },
+        {
+            code: "(a + b) == c;",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression",
+                    column: 9,
+                    endColumn: 11
+                }
+            ]
+        },
+        {
+            code: "(a + b)  !=  c;",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEqEq,
+                    type: "BinaryExpression",
+                    column: 10,
+                    endColumn: 12
+                }
+            ]
+        },
+        {
+            code: "((1) )  ==  (2);",
+            output: "((1) )  ===  (2);",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression",
+                    column: 9,
+                    endColumn: 11
+                }
             ]
         }
 

@@ -23,7 +23,7 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-div-regex: "error"*/
 
-function bar() { return /\=foo/; }
+function bar() { return /[=]foo/; }
 ```
 
 ## Related Rules

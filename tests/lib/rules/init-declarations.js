@@ -10,7 +10,11 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/init-declarations"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
 
@@ -110,7 +114,8 @@ ruleTester.run("init-declarations", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Variable 'foo' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "foo" },
                     type: "VariableDeclarator"
                 }
             ]
@@ -120,7 +125,8 @@ ruleTester.run("init-declarations", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Variable 'foo' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "foo" },
                     type: "VariableDeclarator"
                 }
             ]
@@ -131,11 +137,13 @@ ruleTester.run("init-declarations", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'foo' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "foo" },
                     type: "VariableDeclarator"
                 },
                 {
-                    message: "Variable 'baz' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "baz" },
                     type: "VariableDeclarator"
                 }
             ]
@@ -146,7 +154,8 @@ ruleTester.run("init-declarations", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'bar' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "bar" },
                     type: "VariableDeclarator"
                 }
             ]
@@ -157,7 +166,8 @@ ruleTester.run("init-declarations", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'foo' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "foo" },
                     type: "VariableDeclarator"
                 }
             ]
@@ -168,7 +178,8 @@ ruleTester.run("init-declarations", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'a' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "a" },
                     type: "VariableDeclarator"
                 }
             ]
@@ -179,7 +190,8 @@ ruleTester.run("init-declarations", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'b' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "b" },
                     type: "VariableDeclarator"
                 }
             ]
@@ -190,11 +202,13 @@ ruleTester.run("init-declarations", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'a' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "a" },
                     type: "VariableDeclarator"
                 },
                 {
-                    message: "Variable 'c' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "c" },
                     type: "VariableDeclarator"
                 }
             ]
@@ -205,7 +219,8 @@ ruleTester.run("init-declarations", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'foo' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "foo" },
                     type: "VariableDeclarator"
                 }
             ]
@@ -216,7 +231,8 @@ ruleTester.run("init-declarations", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'foo' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "foo" },
                     type: "VariableDeclarator"
                 }
             ]
@@ -227,11 +243,13 @@ ruleTester.run("init-declarations", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'bar' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "bar" },
                     type: "VariableDeclarator"
                 },
                 {
-                    message: "Variable 'baz' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "baz" },
                     type: "VariableDeclarator"
                 }
             ]
@@ -242,7 +260,9 @@ ruleTester.run("init-declarations", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'bar' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "bar" },
+
                     type: "VariableDeclarator"
                 }
             ]
@@ -253,7 +273,8 @@ ruleTester.run("init-declarations", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'a' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "a" },
                     type: "VariableDeclarator"
                 }
             ]
@@ -264,7 +285,8 @@ ruleTester.run("init-declarations", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'a' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "a" },
                     type: "VariableDeclarator"
                 }
             ]
@@ -275,7 +297,8 @@ ruleTester.run("init-declarations", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'c' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "c" },
                     type: "VariableDeclarator"
                 }
             ]
@@ -285,7 +308,8 @@ ruleTester.run("init-declarations", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Variable 'i' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "i" },
                     type: "VariableDeclarator"
                 }
             ]
@@ -295,7 +319,8 @@ ruleTester.run("init-declarations", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Variable 'foo' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "foo" },
                     type: "VariableDeclarator"
                 }
             ]
@@ -306,7 +331,8 @@ ruleTester.run("init-declarations", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'foo' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "foo" },
                     type: "VariableDeclarator"
                 }
             ]

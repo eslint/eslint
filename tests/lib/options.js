@@ -79,11 +79,10 @@ describe("options", () => {
             assert.strictEqual(currentOptions.ext[1], ".js");
         });
 
-        it("should return an array one item when not passed", () => {
+        it("should not exist when not passed", () => {
             const currentOptions = options.parse("");
 
-            assert.isArray(currentOptions.ext);
-            assert.strictEqual(currentOptions.ext[0], ".js");
+            assert.notProperty(currentOptions, "ext");
         });
     });
 
@@ -265,7 +264,7 @@ describe("options", () => {
             assert.strictEqual(currentOptions.plugin[0], "single");
         });
 
-        it("should return an array when passed a comma-delimiated string", () => {
+        it("should return an array when passed a comma-delimited string", () => {
             const currentOptions = options.parse("--plugin foo,bar");
 
             assert.isArray(currentOptions.plugin);
@@ -308,7 +307,7 @@ describe("options", () => {
         it("should throw an error when supplied with a non-integer", () => {
             assert.throws(() => {
                 options.parse("--max-warnings 10.2");
-            }, /Invalid value for option 'max-warnings' - expected type Int/);
+            }, /Invalid value for option 'max-warnings' - expected type Int/u);
         });
     });
 
@@ -325,6 +324,31 @@ describe("options", () => {
             const currentOptions = options.parse("--fix");
 
             assert.isTrue(currentOptions.fix);
+        });
+    });
+
+    describe("--fix-type", () => {
+        it("should return one value with --fix-type is passed", () => {
+            const currentOptions = options.parse("--fix-type problem");
+
+            assert.strictEqual(currentOptions.fixType.length, 1);
+            assert.strictEqual(currentOptions.fixType[0], "problem");
+        });
+
+        it("should return two values when --fix-type is passed twice", () => {
+            const currentOptions = options.parse("--fix-type problem --fix-type suggestion");
+
+            assert.strictEqual(currentOptions.fixType.length, 2);
+            assert.strictEqual(currentOptions.fixType[0], "problem");
+            assert.strictEqual(currentOptions.fixType[1], "suggestion");
+        });
+
+        it("should return two values when --fix-type is passed a comma-separated value", () => {
+            const currentOptions = options.parse("--fix-type problem,suggestion");
+
+            assert.strictEqual(currentOptions.fixType.length, 2);
+            assert.strictEqual(currentOptions.fixType[0], "problem");
+            assert.strictEqual(currentOptions.fixType[1], "suggestion");
         });
     });
 

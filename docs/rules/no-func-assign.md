@@ -22,6 +22,10 @@ foo = bar;
 function foo() {
     foo = bar;
 }
+
+var a = function hello() {
+  hello = 123;
+};
 ```
 
 Examples of **incorrect** code for this rule, unlike the corresponding rule in JSHint:

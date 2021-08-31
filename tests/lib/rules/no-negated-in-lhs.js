@@ -11,7 +11,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-negated-in-lhs"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -25,6 +25,6 @@ ruleTester.run("no-negated-in-lhs", rule, {
         "!(a in b)"
     ],
     invalid: [
-        { code: "!a in b", errors: [{ message: "The 'in' expression's left operand is negated.", type: "BinaryExpression" }] }
+        { code: "!a in b", errors: [{ messageId: "negatedLHS", type: "BinaryExpression" }] }
     ]
 });

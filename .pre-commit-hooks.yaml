@@ -1,0 +1,7 @@
+-   id: eslint
+    name: eslint
+    entry: eslint
+    description: "An AST-based pattern checker for JavaScript."
+    language: node
+    types: ['javascript']
+    require_serial: false

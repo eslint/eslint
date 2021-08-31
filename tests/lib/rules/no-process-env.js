@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-process-env"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -30,21 +30,21 @@ ruleTester.run("no-process-env", rule, {
         {
             code: "process.env",
             errors: [{
-                message: "Unexpected use of process.env.",
+                messageId: "unexpectedProcessEnv",
                 type: "MemberExpression"
             }]
         },
         {
             code: "process.env.ENV",
             errors: [{
-                message: "Unexpected use of process.env.",
+                messageId: "unexpectedProcessEnv",
                 type: "MemberExpression"
             }]
         },
         {
             code: "f(process.env)",
             errors: [{
-                message: "Unexpected use of process.env.",
+                messageId: "unexpectedProcessEnv",
                 type: "MemberExpression"
             }]
         }

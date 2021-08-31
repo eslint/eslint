@@ -4,16 +4,16 @@ Variables that are declared and not used anywhere in the code are most likely an
 
 ## Rule Details
 
-This rule is aimed at eliminating unused variables, functions, and parameters of functions.
+This rule is aimed at eliminating unused variables, functions, and function parameters.
 
-A variable is considered to be used if any of the following are true:
+A variable `foo` is considered to be used if any of the following are true:
 
-* It represents a function that is called (`doSomething()`)
-* It is read (`var y = x`)
-* It is passed into a function as an argument (`doSomething(x)`)
+* It is called (`foo()`) or constructed (`new foo()`)
+* It is read (`var bar = foo`)
+* It is passed into a function as an argument (`doSomething(foo)`)
 * It is read inside of a function that is passed to another function (`doSomething(function() { foo(); })`)
 
-A variable is *not* considered to be used if it is only ever assigned to (`var x = 5`) or declared.
+A variable is *not* considered to be used if it is only ever declared (`var foo = 5`) or assigned to (`foo = 7`).
 
 Examples of **incorrect** code for this rule:
 
@@ -74,7 +74,7 @@ myFunc = setTimeout(function() {
     myFunc();
 }, 50);
 
-// Only the second argument from the descructured array is used.
+// Only the second argument from the destructured array is used.
 function getY([, y]) {
     return y;
 }
@@ -82,20 +82,24 @@ function getY([, y]) {
 
 ### exported
 
-In environments outside of CommonJS or ECMAScript modules, you may use `var` to create a global variable that may be used by other scripts. You can use the `/* exported variableName */` comment block to indicate that this variable is being exported and therefore should not be considered unused.
+In environments outside of CommonJS or ECMAScript modules, you may use `var` to create a global variable that may be used by other scripts. You can use the comment `/* exported variableName */` or `// exported variableName` to indicate that this variable is being exported and therefore should not be considered unused.
 
-Note that `/* exported */` has no effect for any of the following:
+Note that the comment has no effect for any of the following:
 
 * when the environment is `node` or `commonjs`
 * when `parserOptions.sourceType` is `module`
 * when `ecmaFeatures.globalReturn` is `true`
 
-The line comment `// exported variableName` will not work as `exported` is not line-specific.
-
-Examples of **correct** code for `/* exported variableName */` operation:
+Examples of **correct** code for `exported` operation:
 
 ```js
 /* exported global_var */
+
+var global_var = 42;
+```
+
+```js
+// exported global_var
 
 var global_var = 42;
 ```
@@ -214,8 +218,11 @@ Examples of **correct** code for the `{ "ignoreRestSiblings": true }` option:
 
 ```js
 /*eslint no-unused-vars: ["error", { "ignoreRestSiblings": true }]*/
-// 'type' is ignored because it has a rest property sibling.
-var { type, ...coords } = data;
+// 'foo' and 'bar' were ignored because they have a rest property sibling.
+var { foo, ...coords } = data;
+
+var bar;
+({ bar, ...coords } = data);
 ```
 
 ### argsIgnorePattern

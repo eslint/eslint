@@ -274,7 +274,7 @@ If you don't want to enforce line breaks after opening and before closing array 
 
 ## Compatibility
 
-* **JSCS:** [validateNewlineAfterArrayElements](http://jscs.info/rule/validateNewlineAfterArrayElements)
+* **JSCS:** [validateNewlineAfterArrayElements](https://jscs-dev.github.io/rule/validateNewlineAfterArrayElements)
 
 ## Related Rules
 

@@ -25,7 +25,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-dupe-class-members: "error"*/
-/*eslint-env es6*/
 
 class Foo {
   bar() { }
@@ -41,13 +40,32 @@ class Foo {
   static bar() { }
   static bar() { }
 }
+
+class Foo {
+  bar;
+  bar;
+}
+
+class Foo {
+  static bar;
+  static bar;
+}
+
+class Foo {
+  static bar;
+  static bar() { }
+}
+
+class Foo {
+  static bar;
+  static get bar() { }
+}
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-dupe-class-members: "error"*/
-/*eslint-env es6*/
 
 class Foo {
   bar() { }
@@ -65,8 +83,28 @@ class Foo {
 }
 ```
 
+The rule allows instance fields to have the same name as a method, getter, or setter since they define properties on different objects and thus do not overwrite properties defined by methods, getters, and setters.
+
+Examples of additional **correct** code for this rule:
+
+```js
+/*eslint no-dupe-class-members: "error"*/
+
+class Foo {
+  bar; // defines property 'bar' on instances of Foo
+  bar() { } // defines property 'bar' on Foo.prototype
+}
+
+class Foo {
+  bar; // defines property 'bar' on instances of Foo
+  get bar() { } // defines property 'bar' on Foo.prototype
+}
+```
+
 ## When Not To Use It
 
 This rule should not be used in ES3/5 environments.
 
 In ES2015 (ES6) or later, if you don't want to be notified about duplicate names in class members, you can safely disable this rule.
+
+It's also safe to disable this rule when using TypeScript because TypeScript's compiler already checks for duplicate function implementations.

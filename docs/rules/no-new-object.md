@@ -27,7 +27,7 @@ Examples of **incorrect** code for this rule:
 
 var myObject = new Object();
 
-var myObject = new Object;
+new Object();
 ```
 
 Examples of **correct** code for this rule:
@@ -38,6 +38,9 @@ Examples of **correct** code for this rule:
 var myObject = new CustomObject();
 
 var myObject = {};
+
+var Object = function Object() {};
+new Object();
 ```
 
 ## When Not To Use It

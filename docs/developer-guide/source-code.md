@@ -22,7 +22,7 @@ Once you have a local copy and have Node.JS and npm installed, you'll need to in
 
 Now when you run `eslint`, it will be running your local copy and showing your changes.
 
-**Note:** It's a good idea to re-rerun `npm install` whenever you pull from the main repository to ensure you have the latest development dependencies.
+**Note:** It's a good idea to re-run `npm install` whenever you pull from the main repository to ensure you have the latest development dependencies.
 
 ## Directory structure
 

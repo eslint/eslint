@@ -9,37 +9,49 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-tabs");
-const RuleTester = require("../../../lib/testers/rule-tester");
+const { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
-const ERROR_MESSAGE = "Unexpected tab character.";
 
 ruleTester.run("no-tabs", rule, {
     valid: [
         "function test(){\n}",
         "function test(){\n" +
         "  //   sdfdsf \n" +
-        "}"
+        "}",
+
+        {
+            code: "\tdoSomething();",
+            options: [{ allowIndentationTabs: true }]
+        },
+        {
+            code: "\t// comment",
+            options: [{ allowIndentationTabs: true }]
+        }
     ],
     invalid: [
         {
             code: "function test(){\t}",
             errors: [{
-                message: ERROR_MESSAGE,
+                messageId: "unexpectedTab",
                 line: 1,
-                column: 18
+                column: 17,
+                endLine: 1,
+                endColumn: 18
             }]
         },
         {
             code: "/** \t comment test */",
             errors: [{
-                message: ERROR_MESSAGE,
+                messageId: "unexpectedTab",
                 line: 1,
-                column: 6
+                column: 5,
+                endLine: 1,
+                endColumn: 6
             }]
         },
         {
@@ -48,9 +60,11 @@ ruleTester.run("no-tabs", rule, {
             "  //\tsdfdsf \n" +
             "}",
             errors: [{
-                message: ERROR_MESSAGE,
+                messageId: "unexpectedTab",
                 line: 2,
-                column: 6
+                column: 5,
+                endLine: 2,
+                endColumn: 6
             }]
         },
         {
@@ -59,9 +73,11 @@ ruleTester.run("no-tabs", rule, {
             "  //sdfdsf \n" +
             "}",
             errors: [{
-                message: ERROR_MESSAGE,
+                messageId: "unexpectedTab",
                 line: 1,
-                column: 10
+                column: 9,
+                endLine: 1,
+                endColumn: 10
             }]
         },
         {
@@ -71,14 +87,69 @@ ruleTester.run("no-tabs", rule, {
             "\t}",
             errors: [
                 {
-                    message: ERROR_MESSAGE,
+                    messageId: "unexpectedTab",
                     line: 2,
-                    column: 6
+                    column: 5,
+                    endLine: 2,
+                    endColumn: 6
                 },
                 {
-                    message: ERROR_MESSAGE,
+                    messageId: "unexpectedTab",
                     line: 3,
-                    column: 2
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 2
+                }
+            ]
+        },
+        {
+            code: "\t// Comment with leading tab \t and inline tab",
+            options: [{ allowIndentationTabs: true }],
+            errors: [{
+                messageId: "unexpectedTab",
+                line: 1,
+                column: 30,
+                endLine: 1,
+                endColumn: 31
+            }]
+        },
+        {
+            code: "\t\ta =\t\t\tb +\tc\t\t;\t\t",
+            errors: [
+                {
+                    messageId: "unexpectedTab",
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 3
+                },
+                {
+                    messageId: "unexpectedTab",
+                    line: 1,
+                    column: 6,
+                    endLine: 1,
+                    endColumn: 9
+                },
+                {
+                    messageId: "unexpectedTab",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
+                },
+                {
+                    messageId: "unexpectedTab",
+                    line: 1,
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 16
+                },
+                {
+                    messageId: "unexpectedTab",
+                    line: 1,
+                    column: 17,
+                    endLine: 1,
+                    endColumn: 19
                 }
             ]
         }

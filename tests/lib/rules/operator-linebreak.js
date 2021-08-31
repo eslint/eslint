@@ -8,14 +8,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const util = require("util");
 const rule = require("../../../lib/rules/operator-linebreak"),
-    RuleTester = require("../../../lib/testers/rule-tester");
-
-const BAD_LN_BRK_MSG = "Bad line breaking before and after '%s'.",
-    BEFORE_MSG = "'%s' should be placed at the beginning of the line.",
-    AFTER_MSG = "'%s' should be placed at the end of the line.",
-    NONE_MSG = "There should be no line break before or after '%s'.";
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -62,8 +56,96 @@ ruleTester.run("operator-linebreak", rule, {
         { code: "\n1 + 1", options: ["none"] },
         { code: "1 + 1\n", options: ["none"] },
         { code: "answer = everything ? 42 : foo;", options: ["none"] },
+        { code: "(a\n) + (\nb)", options: ["none"] },
         { code: "answer = everything \n?\n 42 : foo;", options: [null, { overrides: { "?": "ignore" } }] },
-        { code: "answer = everything ? 42 \n:\n foo;", options: [null, { overrides: { ":": "ignore" } }] }
+        { code: "answer = everything ? 42 \n:\n foo;", options: [null, { overrides: { ":": "ignore" } }] },
+
+        {
+            code: "a \n &&= b",
+            options: ["after", { overrides: { "&&=": "ignore" } }],
+            parserOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "a ??= \n b",
+            options: ["before", { overrides: { "??=": "ignore" } }],
+            parserOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "a ||= \n b",
+            options: ["after", { overrides: { "=": "before" } }],
+            parserOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "a \n &&= b",
+            options: ["before", { overrides: { "&=": "after" } }],
+            parserOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "a \n ||= b",
+            options: ["before", { overrides: { "|=": "after" } }],
+            parserOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "a &&= \n b",
+            options: ["after", { overrides: { "&&": "before" } }],
+            parserOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "a ||= \n b",
+            options: ["after", { overrides: { "||": "before" } }],
+            parserOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "a ??= \n b",
+            options: ["after", { overrides: { "??": "before" } }],
+            parserOptions: { ecmaVersion: 2021 }
+        },
+
+        // class fields
+        {
+            code: "class C { foo =\n0 }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo\n= 0 }",
+            options: ["before"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [foo\n]= 0 }",
+            options: ["before"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [foo]\n= 0 }",
+            options: ["before"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [foo\n]\n= 0 }",
+            options: ["before"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [foo\n]= 0 }",
+            options: ["after"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [foo\n]=\n0 }",
+            options: ["after"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [foo\n]= 0 }",
+            options: ["none"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo\n=\n0 }",
+            options: ["none", { overrides: { "=": "ignore" } }],
+            parserOptions: { ecmaVersion: 2022 }
+        }
     ],
 
     invalid: [
@@ -71,106 +153,139 @@ ruleTester.run("operator-linebreak", rule, {
             code: "1\n+ 1",
             output: "1 +\n1",
             errors: [{
-                message: util.format(AFTER_MSG, "+"),
+                messageId: "operatorAtEnd",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             }]
         },
         {
             code: "1 + 2 \n + 3",
             output: "1 + 2 + \n 3",
             errors: [{
-                message: util.format(AFTER_MSG, "+"),
+                messageId: "operatorAtEnd",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
-                column: 3
+                column: 2,
+                endLine: 2,
+                endColumn: 3
             }]
         },
         {
             code: "1\n+\n1",
             output: "1+\n1",
             errors: [{
-                message: util.format(BAD_LN_BRK_MSG, "+"),
+                messageId: "badLinebreak",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             }]
         },
         {
             code: "1 + (1\n+ 1)",
             output: "1 + (1 +\n1)",
             errors: [{
-                message: util.format(AFTER_MSG, "+"),
+                messageId: "operatorAtEnd",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             }]
         },
         {
             code: "f(1\n+ 1);",
             output: "f(1 +\n1);",
             errors: [{
-                message: util.format(AFTER_MSG, "+"),
+                messageId: "operatorAtEnd",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             }]
         },
         {
             code: "1 \n || 1",
             output: "1 || \n 1",
             errors: [{
-                message: util.format(AFTER_MSG, "||"),
+                messageId: "operatorAtEnd",
+                data: { operator: "||" },
                 type: "LogicalExpression",
                 line: 2,
-                column: 4
+                column: 2,
+                endLine: 2,
+                endColumn: 4
             }]
         },
         {
             code: "a\n += 1",
             output: "a +=\n 1",
             errors: [{
-                message: util.format(AFTER_MSG, "+="),
+                messageId: "operatorAtEnd",
+                data: { operator: "+=" },
                 type: "AssignmentExpression",
                 line: 2,
-                column: 4
+                column: 2,
+                endLine: 2,
+                endColumn: 4
             }]
         },
         {
             code: "var a\n = 1",
             output: "var a =\n 1",
             errors: [{
-                message: util.format(AFTER_MSG, "="),
+                messageId: "operatorAtEnd",
+                data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 2,
-                column: 3
+                column: 2,
+                endLine: 2,
+                endColumn: 3
             }]
         },
         {
             code: "(b)\n*\n(c)",
             output: "(b)*\n(c)",
             errors: [{
-                message: util.format(BAD_LN_BRK_MSG, "*"),
+                messageId: "badLinebreak",
+                data: { operator: "*" },
                 type: "BinaryExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             }]
         },
         {
             code: "answer = everything ?\n  42 :\n  foo;",
             output: "answer = everything\n  ? 42\n  : foo;",
             errors: [{
-                message: util.format(BEFORE_MSG, "?"),
+                messageId: "operatorAtBeginning",
+                data: { operator: "?" },
                 type: "ConditionalExpression",
                 line: 1,
-                column: 22
+                column: 21,
+                endLine: 1,
+                endColumn: 22
             },
             {
-                message: util.format(BEFORE_MSG, ":"),
+                messageId: "operatorAtBeginning",
+                data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 2,
-                column: 7
+                column: 6,
+                endLine: 2,
+                endColumn: 7
             }]
         },
 
@@ -179,16 +294,22 @@ ruleTester.run("operator-linebreak", rule, {
             output: "answer = everything  ? \n42  : \nfoo;",
             options: ["after"],
             errors: [{
-                message: util.format(AFTER_MSG, "?"),
+                messageId: "operatorAtEnd",
+                data: { operator: "?" },
                 type: "ConditionalExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             },
             {
-                message: util.format(AFTER_MSG, ":"),
+                messageId: "operatorAtEnd",
+                data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 3,
-                column: 2
+                column: 1,
+                endLine: 3,
+                endColumn: 2
             }]
         },
 
@@ -197,10 +318,13 @@ ruleTester.run("operator-linebreak", rule, {
             output: "1\n+ 1",
             options: ["before"],
             errors: [{
-                message: util.format(BEFORE_MSG, "+"),
+                messageId: "operatorAtBeginning",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 1,
-                column: 4
+                column: 3,
+                endLine: 1,
+                endColumn: 4
             }]
         },
         {
@@ -208,10 +332,13 @@ ruleTester.run("operator-linebreak", rule, {
             output: "f(1\n+ 1);",
             options: ["before"],
             errors: [{
-                message: util.format(BEFORE_MSG, "+"),
+                messageId: "operatorAtBeginning",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 1,
-                column: 6
+                column: 5,
+                endLine: 1,
+                endColumn: 6
             }]
         },
         {
@@ -219,10 +346,13 @@ ruleTester.run("operator-linebreak", rule, {
             output: "1 \n || 1",
             options: ["before"],
             errors: [{
-                message: util.format(BEFORE_MSG, "||"),
+                messageId: "operatorAtBeginning",
+                data: { operator: "||" },
                 type: "LogicalExpression",
                 line: 1,
-                column: 5
+                column: 3,
+                endLine: 1,
+                endColumn: 5
             }]
         },
         {
@@ -230,10 +360,13 @@ ruleTester.run("operator-linebreak", rule, {
             output: "a \n+= 1",
             options: ["before"],
             errors: [{
-                message: util.format(BEFORE_MSG, "+="),
+                messageId: "operatorAtBeginning",
+                data: { operator: "+=" },
                 type: "AssignmentExpression",
                 line: 1,
-                column: 5
+                column: 3,
+                endLine: 1,
+                endColumn: 5
             }]
         },
         {
@@ -241,10 +374,13 @@ ruleTester.run("operator-linebreak", rule, {
             output: "var a \n= 1",
             options: ["before"],
             errors: [{
-                message: util.format(BEFORE_MSG, "="),
+                messageId: "operatorAtBeginning",
+                data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 1,
-                column: 8
+                column: 7,
+                endLine: 1,
+                endColumn: 8
             }]
         },
         {
@@ -252,16 +388,22 @@ ruleTester.run("operator-linebreak", rule, {
             output: "answer = everything\n  ? 42\n  : foo;",
             options: ["before"],
             errors: [{
-                message: util.format(BEFORE_MSG, "?"),
+                messageId: "operatorAtBeginning",
+                data: { operator: "?" },
                 type: "ConditionalExpression",
                 line: 1,
-                column: 22
+                column: 21,
+                endLine: 1,
+                endColumn: 22
             },
             {
-                message: util.format(BEFORE_MSG, ":"),
+                messageId: "operatorAtBeginning",
+                data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 2,
-                column: 7
+                column: 6,
+                endLine: 2,
+                endColumn: 7
             }]
         },
 
@@ -270,10 +412,13 @@ ruleTester.run("operator-linebreak", rule, {
             output: "1 +1",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "+"),
+                messageId: "noLinebreak",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 1,
-                column: 4
+                column: 3,
+                endLine: 1,
+                endColumn: 4
             }]
         },
         {
@@ -281,10 +426,13 @@ ruleTester.run("operator-linebreak", rule, {
             output: "1+1",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "+"),
+                messageId: "noLinebreak",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             }]
         },
         {
@@ -292,10 +440,13 @@ ruleTester.run("operator-linebreak", rule, {
             output: "f(1 +1);",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "+"),
+                messageId: "noLinebreak",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 1,
-                column: 6
+                column: 5,
+                endLine: 1,
+                endColumn: 6
             }]
         },
         {
@@ -303,10 +454,13 @@ ruleTester.run("operator-linebreak", rule, {
             output: "f(1+ 1);",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "+"),
+                messageId: "noLinebreak",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             }]
         },
         {
@@ -314,10 +468,13 @@ ruleTester.run("operator-linebreak", rule, {
             output: "1 ||  1",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "||"),
+                messageId: "noLinebreak",
+                data: { operator: "||" },
                 type: "LogicalExpression",
                 line: 1,
-                column: 5
+                column: 3,
+                endLine: 1,
+                endColumn: 5
             }]
         },
         {
@@ -325,10 +482,13 @@ ruleTester.run("operator-linebreak", rule, {
             output: "1  || 1",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "||"),
+                messageId: "noLinebreak",
+                data: { operator: "||" },
                 type: "LogicalExpression",
                 line: 2,
-                column: 4
+                column: 2,
+                endLine: 2,
+                endColumn: 4
             }]
         },
         {
@@ -336,10 +496,13 @@ ruleTester.run("operator-linebreak", rule, {
             output: "a += 1",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "+="),
+                messageId: "noLinebreak",
+                data: { operator: "+=" },
                 type: "AssignmentExpression",
                 line: 1,
-                column: 5
+                column: 3,
+                endLine: 1,
+                endColumn: 5
             }]
         },
         {
@@ -347,10 +510,13 @@ ruleTester.run("operator-linebreak", rule, {
             output: "a += 1",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "+="),
+                messageId: "noLinebreak",
+                data: { operator: "+=" },
                 type: "AssignmentExpression",
                 line: 2,
-                column: 3
+                column: 1,
+                endLine: 2,
+                endColumn: 3
             }]
         },
         {
@@ -358,10 +524,13 @@ ruleTester.run("operator-linebreak", rule, {
             output: "var a = 1",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "="),
+                messageId: "noLinebreak",
+                data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 1,
-                column: 8
+                column: 7,
+                endLine: 1,
+                endColumn: 8
             }]
         },
         {
@@ -369,10 +538,13 @@ ruleTester.run("operator-linebreak", rule, {
             output: "var a  = 1",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "="),
+                messageId: "noLinebreak",
+                data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 2,
-                column: 3
+                column: 2,
+                endLine: 2,
+                endColumn: 3
             }]
         },
         {
@@ -380,16 +552,22 @@ ruleTester.run("operator-linebreak", rule, {
             output: "answer = everything ?  42 :  foo;",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "?"),
+                messageId: "noLinebreak",
+                data: { operator: "?" },
                 type: "ConditionalExpression",
                 line: 1,
-                column: 22
+                column: 21,
+                endLine: 1,
+                endColumn: 22
             },
             {
-                message: util.format(NONE_MSG, ":"),
+                messageId: "noLinebreak",
+                data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 3,
-                column: 2
+                column: 1,
+                endLine: 3,
+                endColumn: 2
             }]
         },
         {
@@ -397,16 +575,35 @@ ruleTester.run("operator-linebreak", rule, {
             output: "answer = everything?42 + 43:foo;",
             options: ["none"],
             errors: [{
-                message: util.format(BAD_LN_BRK_MSG, "?"),
+                messageId: "badLinebreak",
+                data: { operator: "?" },
                 type: "ConditionalExpression",
                 line: 2,
-                column: 2
+                column: 1,
+                endLine: 2,
+                endColumn: 2
             },
             {
-                message: util.format(BAD_LN_BRK_MSG, ":"),
+                messageId: "badLinebreak",
+                data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 4,
-                column: 2
+                column: 1,
+                endLine: 4,
+                endColumn: 2
+            }]
+        },
+        {
+            code: "a = b \n  >>> \n c;",
+            output: "a = b   >>> \n c;",
+            errors: [{
+                messageId: "badLinebreak",
+                data: { operator: ">>>" },
+                type: "BinaryExpression",
+                line: 2,
+                column: 3,
+                endLine: 2,
+                endColumn: 6
             }]
         },
         {
@@ -414,10 +611,13 @@ ruleTester.run("operator-linebreak", rule, {
             output: "foo +=42;\nbar -=\n12\n+ 5;",
             options: ["after", { overrides: { "+=": "none", "+": "before" } }],
             errors: [{
-                message: util.format(NONE_MSG, "+="),
+                messageId: "noLinebreak",
+                data: { operator: "+=" },
                 type: "AssignmentExpression",
                 line: 1,
-                column: 7
+                column: 5,
+                endLine: 1,
+                endColumn: 7
             }]
         },
         {
@@ -425,10 +625,13 @@ ruleTester.run("operator-linebreak", rule, {
             output: "answer = everything\n?\n42\n:foo;",
             options: ["after", { overrides: { "?": "ignore", ":": "before" } }],
             errors: [{
-                message: util.format(BAD_LN_BRK_MSG, ":"),
+                messageId: "badLinebreak",
+                data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 4,
-                column: 2
+                column: 1,
+                endLine: 4,
+                endColumn: 2
             }]
         },
         {
@@ -437,34 +640,275 @@ ruleTester.run("operator-linebreak", rule, {
             code: "foo+\n+bar",
             output: "foo\n+ +bar",
             options: ["before"],
-            errors: [{ message: util.format(BEFORE_MSG, "+"), type: "BinaryExpression", line: 1, column: 5 }]
+            errors: [{
+                messageId: "operatorAtBeginning",
+                data: { operator: "+" },
+                type: "BinaryExpression",
+                line: 1,
+                column: 4,
+                endLine: 1,
+                endColumn: 5
+            }]
         },
         {
             code: "foo //comment\n&& bar",
             output: "foo && //comment\nbar",
-            errors: [{ message: util.format(AFTER_MSG, "&&"), type: "LogicalExpression", line: 2, column: 3 }]
+            errors: [{
+                messageId: "operatorAtEnd",
+                data: { operator: "&&" },
+                type: "LogicalExpression",
+                line: 2,
+                column: 1,
+                endLine: 2,
+                endColumn: 3
+            }]
         },
         {
             code: "foo//comment\n+\nbar",
             output: null,
-            errors: [{ message: util.format(BAD_LN_BRK_MSG, "+"), type: "BinaryExpression", line: 2, column: 2 }]
+            errors: [{
+                messageId: "badLinebreak",
+                data: { operator: "+" },
+                type: "BinaryExpression",
+                line: 2,
+                column: 1,
+                endLine: 2,
+                endColumn: 2
+            }]
         },
         {
             code: "foo\n+//comment\nbar",
             output: null,
             options: ["before"],
-            errors: [{ message: util.format(BAD_LN_BRK_MSG, "+"), type: "BinaryExpression", line: 2, column: 2 }]
+            errors: [{
+                messageId: "badLinebreak",
+                data: { operator: "+" },
+                type: "BinaryExpression",
+                line: 2,
+                column: 1,
+                endLine: 2,
+                endColumn: 2
+            }]
         },
         {
             code: "foo /* a */ \n+ /* b */ bar",
             output: null, // Not fixed because there is a comment on both sides
-            errors: [{ message: util.format(AFTER_MSG, "+"), type: "BinaryExpression", line: 2, column: 2 }]
+            errors: [{
+                messageId: "operatorAtEnd",
+                data: { operator: "+" },
+                type: "BinaryExpression",
+                line: 2,
+                column: 1,
+                endLine: 2,
+                endColumn: 2
+            }]
         },
         {
             code: "foo /* a */ +\n /* b */ bar",
             output: null, // Not fixed because there is a comment on both sides
             options: ["before"],
-            errors: [{ message: util.format(BEFORE_MSG, "+"), type: "BinaryExpression", line: 1, column: 14 }]
+            errors: [{
+                messageId: "operatorAtBeginning",
+                data: { operator: "+" },
+                type: "BinaryExpression",
+                line: 1,
+                column: 13,
+                endLine: 1,
+                endColumn: 14
+            }]
+        },
+        {
+            code: "foo ??\n bar",
+            output: "foo\n ?? bar",
+            options: ["after", { overrides: { "??": "before" } }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{
+                messageId: "operatorAtBeginning",
+                data: { operator: "??" }
+            }]
+        },
+
+        {
+            code: "a \n  &&= b",
+            output: "a &&= \n  b",
+            options: ["after"],
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "operatorAtEnd",
+                data: { operator: "&&=" },
+                type: "AssignmentExpression",
+                line: 2,
+                column: 3,
+                endLine: 2,
+                endColumn: 6
+            }]
+        },
+        {
+            code: "a ||=\n b",
+            output: "a\n ||= b",
+            options: ["before"],
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "operatorAtBeginning",
+                data: { operator: "||=" },
+                type: "AssignmentExpression",
+                line: 1,
+                column: 3,
+                endLine: 1,
+                endColumn: 6
+            }]
+        },
+        {
+            code: "a  ??=\n b",
+            output: "a  ??= b",
+            options: ["none"],
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "noLinebreak",
+                data: { operator: "??=" },
+                type: "AssignmentExpression",
+                line: 1,
+                column: 4,
+                endLine: 1,
+                endColumn: 7
+            }]
+        },
+        {
+            code: "a \n  &&= b",
+            output: "a   &&= b",
+            options: ["before", { overrides: { "&&=": "none" } }],
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "noLinebreak",
+                data: { operator: "&&=" },
+                type: "AssignmentExpression",
+                line: 2,
+                column: 3,
+                endLine: 2,
+                endColumn: 6
+            }]
+        },
+        {
+            code: "a ||=\nb",
+            output: "a\n||= b",
+            options: ["after", { overrides: { "||=": "before" } }],
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "operatorAtBeginning",
+                data: { operator: "||=" },
+                type: "AssignmentExpression",
+                line: 1,
+                column: 3,
+                endLine: 1,
+                endColumn: 6
+            }]
+        },
+        {
+            code: "a\n??=b",
+            output: "a??=\nb",
+            options: ["none", { overrides: { "??=": "after" } }],
+            parserOptions: { ecmaVersion: 2021 },
+            errors: [{
+                messageId: "operatorAtEnd",
+                data: { operator: "??=" },
+                type: "AssignmentExpression",
+                line: 2,
+                column: 1,
+                endLine: 2,
+                endColumn: 4
+            }]
+        },
+
+        // class fields
+        {
+            code: "class C { a\n= 0; }",
+            output: "class C { a =\n0; }",
+            options: ["after"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "operatorAtEnd",
+                data: { operator: "=" },
+                type: "PropertyDefinition",
+                line: 2,
+                column: 1,
+                endLine: 2,
+                endColumn: 2
+            }]
+        },
+        {
+            code: "class C { a =\n0; }",
+            output: "class C { a\n= 0; }",
+            options: ["before"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "operatorAtBeginning",
+                data: { operator: "=" },
+                type: "PropertyDefinition",
+                line: 1,
+                column: 13,
+                endLine: 1,
+                endColumn: 14
+            }]
+        },
+        {
+            code: "class C { a =\n0; }",
+            output: "class C { a =0; }",
+            options: ["none"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "noLinebreak",
+                data: { operator: "=" },
+                type: "PropertyDefinition",
+                line: 1,
+                column: 13,
+                endLine: 1,
+                endColumn: 14
+            }]
+        },
+        {
+            code: "class C { [a]\n= 0; }",
+            output: "class C { [a] =\n0; }",
+            options: ["after"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "operatorAtEnd",
+                data: { operator: "=" },
+                type: "PropertyDefinition",
+                line: 2,
+                column: 1,
+                endLine: 2,
+                endColumn: 2
+            }]
+        },
+        {
+            code: "class C { [a] =\n0; }",
+            output: "class C { [a]\n= 0; }",
+            options: ["before"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "operatorAtBeginning",
+                data: { operator: "=" },
+                type: "PropertyDefinition",
+                line: 1,
+                column: 15,
+                endLine: 1,
+                endColumn: 16
+            }]
+        },
+        {
+            code: "class C { [a]\n =0; }",
+            output: "class C { [a] =0; }",
+            options: ["none"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "noLinebreak",
+                data: { operator: "=" },
+                type: "PropertyDefinition",
+                line: 2,
+                column: 2,
+                endLine: 2,
+                endColumn: 3
+            }]
         }
     ]
 });

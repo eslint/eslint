@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-return-await");
-const RuleTester = require("../../../lib/testers/rule-tester");
+const { RuleTester } = require("../../../lib/rule-tester");
 
 
 //------------------------------------------------------------------------------
@@ -17,7 +17,7 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 //------------------------------------------------------------------------------
 
 // pending https://github.com/eslint/espree/issues/304, the type should be "Keyword"
-const errors = [{ message: "Redundant use of `await` on a return value.", type: "Identifier" }];
+const errors = [{ messageId: "redundantUseOfAwait", type: "Identifier" }];
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2017 } });
 

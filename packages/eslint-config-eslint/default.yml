@@ -1,9 +1,52 @@
+reportUnusedDisableDirectives: true
 extends:
     - "eslint:recommended"
     - "plugin:node/recommended"
-
-plugins:
-    - "node"
+    - "plugin:jsdoc/recommended"
+    - "plugin:eslint-comments/recommended"
+settings:
+    jsdoc:
+        tagNamePreference:
+            file: "fileoverview"
+            augments: "extends"
+            class: "constructor"
+        preferredTypes:
+            "*":
+              message: "Use a more precise type or if necessary use `any` or `ArbitraryCallbackResult`"
+              replacement: "any"
+            Any:
+              message: "Use a more precise type or if necessary use `any` or `ArbitraryCallbackResult`"
+              replacement: "any"
+            # Function:
+            #   message: "Point to a `@callback` namepath or `GenericCallback` if truly arbitrary in form"
+            #   replacement: "GenericCallback"
+            # function:
+            #   message: "Point to a `@callback` namepath or `GenericCallback` if truly arbitrary in form"
+            #   replacement: "GenericCallback"
+            function:
+              message: "Point to a `@callback` namepath or `Function` if truly arbitrary in form"
+              replacement: "Function"
+            Promise:
+              message: "Specify the specific Promise type, including, if necessary, the type `any`"
+            ".<>":
+              message: "Prefer type form without dot"
+              replacement: "<>"
+            # Object:
+            #   message: "Use the specific object type or `PlainObject` if truly arbitrary"
+            #   replacement: "PlainObject"
+            # object:
+            #   message: "Use the specific object type or `PlainObject` if truly arbitrary"
+            #   replacement: "PlainObject"
+            object:
+               message: "Use the specific object type or `Object` if truly arbitrary"
+               replacement: "Object"
+            # Array:
+            #   message: "Use the specific array type or `GenericArray` if it is truly arbitrary."
+            #   replacement: "GenericArray"
+            # array:
+            #   message: "Use specific array type or `GenericArray` if it is truly arbitrary."
+            #   replacement: "GenericArray"
+            array: "Array"
 
 rules:
     array-bracket-spacing: "error"
@@ -15,7 +58,6 @@ rules:
     block-spacing: "error"
     brace-style: ["error", "1tbs"]
     camelcase: "error"
-    callback-return: ["error", ["cb", "callback", "next"]]
     class-methods-use-this: "error"
     comma-dangle: "error"
     comma-spacing: "error"
@@ -24,16 +66,73 @@ rules:
     consistent-return: "error"
     curly: ["error", "all"]
     default-case: "error"
+    default-case-last: "error"
+    default-param-last: "error"
     dot-location: ["error", "property"]
     dot-notation: ["error", { allowKeywords: true }]
     eol-last: "error"
     eqeqeq: "error"
+
+    eslint-comments/disable-enable-pair: ["error"]
+    eslint-comments/no-unused-disable: "error"
+    eslint-comments/require-description: "error"
+
     func-call-spacing: "error"
     func-style: ["error", "declaration"]
+    function-call-argument-newline: ["error", "consistent"]
     function-paren-newline: ["error", "consistent"]
     generator-star-spacing: "error"
+    grouped-accessor-pairs: "error"
     guard-for-in: "error"
-    handle-callback-err: ["error", "err"]
+
+    # jsdoc: adopt non-recommended rules or change recommended configuration
+    # jsdoc/check-examples: "error"
+    # jsdoc/check-indentation: "error" # Revisit if allowing configurable spaces after tag line breaks
+    jsdoc/check-line-alignment: ["error", "never"]
+    jsdoc/check-syntax: "error"
+    # jsdoc/check-types': ["error', { exemptTagContexts: [ { tag: "typedef", types: ["object", "GenericObject"] } ] }
+
+    jsdoc/check-values: ["error", { allowedLicenses: true }]
+    jsdoc/newline-after-description: ["error", "never"]
+    jsdoc/no-bad-blocks: "error"
+    jsdoc/require-asterisk-prefix: "error"
+    jsdoc/require-description: ["error", { checkConstructors: false }]
+    # jsdoc/require-file-overview: "error"
+    jsdoc/require-hyphen-before-param-description: ["error", "never"]
+    jsdoc/require-returns: ["error", { forceRequireReturn: true, forceReturnsWithAsync: true }]
+    jsdoc/require-throws: "error"
+    jsdoc/tag-lines: ["error", "never", { tags: { example: { lines: "always" }, fileoverview: { lines: "any" } } }]
+
+    # jsdoc: disable recommended rules
+    jsdoc/no-undefined-types: "off"
+    jsdoc/require-yields: "off"
+
+    # jsdoc: change recommended rules from warnings into errors
+    jsdoc/check-access: "error"
+    jsdoc/check-alignment: "error"
+    jsdoc/check-param-names: "error"
+    jsdoc/check-property-names: "error"
+    jsdoc/check-tag-names: "error"
+    jsdoc/check-types: "error"
+    jsdoc/empty-tags: "error"
+    jsdoc/implements-on-classes: "error"
+    jsdoc/multiline-blocks: "error"
+    jsdoc/no-multi-asterisks: "error"
+    jsdoc/require-jsdoc: ["error", { require: {ClassDeclaration: true} }]
+    jsdoc/require-param: "error"
+    jsdoc/require-param-description: "error"
+    jsdoc/require-param-name: "error"
+    jsdoc/require-param-type: "error"
+    jsdoc/require-property: "error"
+    jsdoc/require-property-description: "error"
+    jsdoc/require-property-name: "error"
+    jsdoc/require-property-type: "error"
+    jsdoc/require-returns-check: "error"
+    jsdoc/require-returns-description: "error"
+    jsdoc/require-returns-type: "error"
+    jsdoc/require-yields-check: "error"
+    jsdoc/valid-types: "error"
+
     key-spacing: ["error", { beforeColon: false, afterColon: true }]
     keyword-spacing: "error"
     lines-around-comment: ["error", {
@@ -54,19 +153,15 @@ rules:
     new-parens: "error"
     no-alert: "error"
     no-array-constructor: "error"
-    no-buffer-constructor: "error"
     no-caller: "error"
-    no-catch-shadow: "error"
     no-confusing-arrow: "error"
     no-console: "error"
-    no-delete-var: "error"
+    no-constructor-return: "error"
     no-else-return: ["error", { allowElseIf: false }]
     no-eval: "error"
     no-extend-native: "error"
     no-extra-bind: "error"
-    no-fallthrough: "error"
     no-floating-decimal: "error"
-    no-global-assign: "error"
     no-implied-eval: "error"
     no-invalid-this: "error"
     no-iterator: "error"
@@ -74,8 +169,7 @@ rules:
     no-labels: "error"
     no-lone-blocks: "error"
     no-loop-func: "error"
-    no-mixed-requires: "error"
-    no-mixed-spaces-and-tabs: ["error", false]
+    no-mixed-spaces-and-tabs: ["error", false] # Modified from recommended
     no-multi-spaces: "error"
     no-multi-str: "error"
     no-multiple-empty-lines: ["error", {max: 2, maxBOF: 0, maxEOF: 0}]
@@ -83,15 +177,11 @@ rules:
     no-new: "error"
     no-new-func: "error"
     no-new-object: "error"
-    no-new-require: "error"
     no-new-wrappers: "error"
-    no-octal: "error"
     no-octal-escape: "error"
     no-param-reassign: "error"
-    no-path-concat: "error"
-    no-process-exit: "error"
     no-proto: "error"
-    no-redeclare: "error"
+    no-process-exit: "off"
     no-restricted-properties: [
         "error",
         { property: "substring", message: "Use .slice instead of .substring." },
@@ -103,33 +193,38 @@ rules:
     ]
     no-return-assign: "error"
     no-script-url: "error"
-    no-self-assign: "error"
     no-self-compare: "error"
     no-sequences: "error"
     no-shadow: "error"
-    no-shadow-restricted-names: "error"
     no-tabs: "error"
     no-throw-literal: "error"
     no-trailing-spaces: "error"
-    no-undef: ["error", {typeof: true}]
+    no-undef: ["error", {typeof: true}] # Modified from recommended
     no-undef-init: "error"
     no-undefined: "error"
     no-underscore-dangle: ["error", {allowAfterThis: true}]
     no-unmodified-loop-condition: "error"
     no-unneeded-ternary: "error"
+    no-unreachable-loop: "error"
     no-unused-expressions: "error"
-    no-unused-vars: ["error", {vars: "all", args: "after-used"}]
+    no-unused-vars: ["error", {vars: "all", args: "after-used", caughtErrors: "all"}] # Modified from recommended
     no-use-before-define: "error"
     no-useless-call: "error"
     no-useless-computed-key: "error"
     no-useless-concat: "error"
     no-useless-constructor: "error"
-    no-useless-escape: "error"
     no-useless-rename: "error"
     no-useless-return: "error"
     no-whitespace-before-property: "error"
-    no-with: "error"
     no-var: "error"
+
+    node/callback-return: ["error", ["cb", "callback", "next"]]
+    node/handle-callback-err: ["error", "err"]
+    node/no-deprecated-api: "error"
+    node/no-mixed-requires: "error"
+    node/no-new-require: "error"
+    node/no-path-concat: "error"
+
     object-curly-newline: ["error", { "consistent": true, "multiline": true }]
     object-curly-spacing: ["error", "always"]
     object-property-newline: ["error", { "allowAllPropertiesOnSameLine": true }]
@@ -152,21 +247,27 @@ rules:
     ]
     prefer-arrow-callback: "error"
     prefer-const: "error"
+    prefer-exponentiation-operator: "error"
     prefer-numeric-literals: "error"
     prefer-promise-reject-errors: "error"
+    prefer-regex-literals: "error"
     prefer-rest-params: "error"
     prefer-spread: "error"
     prefer-template: "error"
-    quotes: ["error", "double"]
+    quotes: ["error", "double", {avoidEscape: true}]
     quote-props: ["error", "as-needed"]
     radix: "error"
-    require-jsdoc: "error"
+    require-unicode-regexp: "error"
     rest-spread-spacing: "error"
     semi: "error"
     semi-spacing: ["error", {before: false, after: true}]
     semi-style: "error"
     space-before-blocks: "error"
-    space-before-function-paren: ["error", "never"]
+    space-before-function-paren: ["error", {
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always"
+    }]
     space-in-parens: "error"
     space-infix-ops: "error"
     space-unary-ops: ["error", {words: true, nonwords: false}]
@@ -177,16 +278,6 @@ rules:
     template-curly-spacing: ["error", "never"]
     template-tag-spacing: "error"
     unicode-bom: "error"
-    valid-jsdoc: ["error", {
-        prefer: { "return": "returns"},
-        preferType: {
-            "String": "string",
-            "Number": "number",
-            "Boolean": "boolean",
-            "object": "Object",
-            "function": "Function"
-        }
-    }]
     wrap-iife: "error"
     yield-star-spacing: "error"
-    yoda: ["error", "never"]
+    yoda: ["error", "never", { exceptRange: true }]

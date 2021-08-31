@@ -25,10 +25,16 @@ This rule does not apply to brackets that are separated from the adjacent value 
 
 ## Options
 
-This rule has a string option:
+This rule has two options, a string option and an object option.
+
+String option:
 
 * `"never"` (default) disallows spaces inside computed property brackets
 * `"always"` requires one or more spaces inside computed property brackets
+
+Object option:
+
+* `"enforceForClassMembers": true` (default) additionally applies this rule to class members.
 
 ### never
 
@@ -84,6 +90,69 @@ var x = {[ b ]: a}
 obj[ foo[ bar ] ]
 ```
 
+#### enforceForClassMembers
+
+With `enforceForClassMembers` set to `true` (default), the rule also disallows/enforces spaces inside of computed keys of class methods, getters and setters.
+
+Examples of **incorrect** code for this rule with `"never"` and `{ "enforceForClassMembers": true }` (default):
+
+```js
+/*eslint computed-property-spacing: ["error", "never", { "enforceForClassMembers": true }]*/
+/*eslint-env es6*/
+
+class Foo {
+  [a ]() {}
+  get [b ]() {}
+  set [b ](value) {}
+}
+
+const Bar = class {
+  [ a](){}
+  static [ b]() {}
+  static get [ c ]() {}
+  static set [ c ](value) {}
+}
+```
+
+Examples of **correct** code for this rule with `"never"` and `{ "enforceForClassMembers": true }` (default):
+
+```js
+/*eslint computed-property-spacing: ["error", "never", { "enforceForClassMembers": true }]*/
+/*eslint-env es6*/
+
+class Foo {
+  [a]() {}
+  get [b]() {}
+  set [b](value) {}
+}
+
+const Bar = class {
+  [a](){}
+  static [b]() {}
+  static get [c]() {}
+  static set [c](value) {}
+}
+```
+
+Examples of **correct** code for this rule with `"never"` and `{ "enforceForClassMembers": false }`:
+
+```js
+/*eslint computed-property-spacing: ["error", "never", { "enforceForClassMembers": false }]*/
+/*eslint-env es6*/
+
+class Foo {
+  [a ]() {}
+  get [b ]() {}
+  set [b ](value) {}
+}
+
+const Bar = class {
+  [ a](){}
+  static [ b]() {}
+  static get [ c ]() {}
+  static set [ c ](value) {}
+}
+```
 
 ## When Not To Use It
 

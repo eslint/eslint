@@ -168,5 +168,5 @@ If you decide that you wish to use whitespace other than tabs and spaces outside
 
 ## Further Reading
 
-* [ECMA whitespace](https://es5.github.io/#x7.2 \xA0)
+* [ECMA whitespace](https://es5.github.io/#x7.2)
 * [JSON whitespace issues](http://timelessrepo.com/json-isnt-a-javascript-subset)

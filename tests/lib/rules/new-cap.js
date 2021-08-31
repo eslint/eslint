@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/new-cap"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -43,6 +43,7 @@ ruleTester.run("new-cap", rule, {
         "var x = RegExp(42)",
         "var x = String(42)",
         "var x = Symbol('symbol')",
+        "var x = BigInt('1n')",
         "var x = _();",
         "var x = $();",
         { code: "var x = Foo(42)", options: [{ capIsNew: false }] },
@@ -70,26 +71,150 @@ ruleTester.run("new-cap", rule, {
         { code: "var x = new foo.bar(42);", options: [{ newIsCapExceptionPattern: "^foo\\.." }] },
         { code: "var x = new foo.bar(42);", options: [{ properties: false }] },
         { code: "var x = Foo.bar(42);", options: [{ properties: false }] },
-        { code: "var x = foo.Bar(42);", options: [{ capIsNew: false, properties: false }] }
+        { code: "var x = foo.Bar(42);", options: [{ capIsNew: false, properties: false }] },
+
+        // Optional chaining
+        {
+            code: "foo?.bar();",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "(foo?.bar)();",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "new (foo?.Bar)();",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "(foo?.Bar)();",
+            options: [{ properties: false }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "new (foo?.bar)();",
+            options: [{ properties: false }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "Date?.UTC();",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "(Date?.UTC)();",
+            parserOptions: { ecmaVersion: 2020 }
+        }
     ],
     invalid: [
-        { code: "var x = new c();", errors: [{ message: "A constructor name should not start with a lowercase letter.", type: "NewExpression" }] },
-        { code: "var x = new φ;", errors: [{ message: "A constructor name should not start with a lowercase letter.", type: "NewExpression" }] },
-        { code: "var x = new a.b.c;", errors: [{ message: "A constructor name should not start with a lowercase letter.", type: "NewExpression" }] },
-        { code: "var x = new a.b['c'];", errors: [{ message: "A constructor name should not start with a lowercase letter.", type: "NewExpression" }] },
-        { code: "var b = Foo();", errors: [{ message: "A function with a name starting with an uppercase letter should only be used as a constructor.", type: "CallExpression" }] },
-        { code: "var b = a.Foo();", errors: [{ message: "A function with a name starting with an uppercase letter should only be used as a constructor.", type: "CallExpression" }] },
-        { code: "var b = a['Foo']();", errors: [{ message: "A function with a name starting with an uppercase letter should only be used as a constructor.", type: "CallExpression" }] },
-        { code: "var b = a.Date.UTC();", errors: [{ message: "A function with a name starting with an uppercase letter should only be used as a constructor.", type: "CallExpression" }] },
-        { code: "var b = UTC();", errors: [{ message: "A function with a name starting with an uppercase letter should only be used as a constructor.", type: "CallExpression" }] },
+        {
+            code: "var x = new c();",
+            errors: [{
+                messageId: "lower",
+                type: "NewExpression",
+                line: 1,
+                column: 13,
+                endLine: 1,
+                endColumn: 14
+            }]
+        },
+        {
+            code: "var x = new φ;",
+            errors: [{
+                messageId: "lower",
+                type: "NewExpression",
+                line: 1,
+                column: 13,
+                endLine: 1,
+                endColumn: 14
+            }]
+        },
+        {
+            code: "var x = new a.b.c;",
+            errors: [{
+                messageId: "lower",
+                type: "NewExpression",
+                line: 1,
+                column: 17,
+                endLine: 1,
+                endColumn: 18
+            }]
+        },
+        {
+            code: "var x = new a.b['c'];",
+            errors: [{
+                messageId: "lower",
+                type: "NewExpression",
+                line: 1,
+                column: 17,
+                endLine: 1,
+                endColumn: 20
+            }]
+        },
+        {
+            code: "var b = Foo();",
+            errors: [{
+                messageId: "upper",
+                type: "CallExpression",
+                line: 1,
+                column: 9,
+                endLine: 1,
+                endColumn: 12
+            }]
+        },
+        {
+            code: "var b = a.Foo();",
+            errors: [{
+                messageId: "upper",
+                type: "CallExpression",
+                line: 1,
+                column: 11,
+                endLine: 1,
+                endColumn: 14
+            }]
+        },
+        {
+            code: "var b = a['Foo']();",
+            errors: [{
+                messageId: "upper",
+                type: "CallExpression",
+                line: 1,
+                column: 11,
+                endLine: 1,
+                endColumn: 16
+            }]
+        },
+        {
+            code: "var b = a.Date.UTC();",
+            errors: [{
+                messageId: "upper",
+                type: "CallExpression",
+                line: 1,
+                column: 16,
+                endLine: 1,
+                endColumn: 19
+            }]
+        },
+        {
+            code: "var b = UTC();",
+            errors: [{
+                messageId: "upper",
+                type: "CallExpression",
+                line: 1,
+                column: 9,
+                endLine: 1,
+                endColumn: 12
+            }]
+        },
         {
             code: "var a = B.C();",
             errors: [
                 {
-                    message: "A function with a name starting with an uppercase letter should only be used as a constructor.",
+                    messageId: "upper",
                     type: "CallExpression",
                     line: 1,
-                    column: 11
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
                 }
             ]
         },
@@ -97,10 +222,12 @@ ruleTester.run("new-cap", rule, {
             code: "var a = B\n.C();",
             errors: [
                 {
-                    message: "A function with a name starting with an uppercase letter should only be used as a constructor.",
+                    messageId: "upper",
                     type: "CallExpression",
                     line: 2,
-                    column: 2
+                    column: 2,
+                    endLine: 2,
+                    endColumn: 3
                 }
             ]
         },
@@ -108,10 +235,12 @@ ruleTester.run("new-cap", rule, {
             code: "var a = new B.c();",
             errors: [
                 {
-                    message: "A constructor name should not start with a lowercase letter.",
+                    messageId: "lower",
                     type: "NewExpression",
                     line: 1,
-                    column: 15
+                    column: 15,
+                    endLine: 1,
+                    endColumn: 16
                 }
             ]
         },
@@ -119,10 +248,12 @@ ruleTester.run("new-cap", rule, {
             code: "var a = new B.\nc();",
             errors: [
                 {
-                    message: "A constructor name should not start with a lowercase letter.",
+                    messageId: "lower",
                     type: "NewExpression",
                     line: 2,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 2
                 }
             ]
         },
@@ -130,10 +261,54 @@ ruleTester.run("new-cap", rule, {
             code: "var a = new c();",
             errors: [
                 {
-                    message: "A constructor name should not start with a lowercase letter.",
+                    messageId: "lower",
                     type: "NewExpression",
                     line: 1,
-                    column: 13
+                    column: 13,
+                    endLine: 1,
+                    endColumn: 14
+                }
+            ]
+        },
+        {
+            code: "var a = new b[ ( 'foo' ) ]();",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "lower",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 18,
+                    endLine: 1,
+                    endColumn: 23
+                }
+            ]
+        },
+        {
+            code: "var a = new b[`foo`];",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "lower",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 15,
+                    endLine: 1,
+                    endColumn: 20
+                }
+            ]
+        },
+        {
+            code: "var a = b[`\\\nFoo`]();",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "upper",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 11,
+                    endLine: 2,
+                    endColumn: 5
                 }
             ]
         },
@@ -141,24 +316,41 @@ ruleTester.run("new-cap", rule, {
         {
             code: "var x = Foo.Bar(42);",
             options: [{ capIsNewExceptions: ["Foo"] }],
-            errors: [{ type: "CallExpression", message: "A function with a name starting with an uppercase letter should only be used as a constructor." }]
+            errors: [{ type: "CallExpression", messageId: "upper" }]
         },
         {
             code: "var x = Bar.Foo(42);",
 
             options: [{ capIsNewExceptionPattern: "^Foo\\.." }],
-            errors: [{ type: "CallExpression", message: "A function with a name starting with an uppercase letter should only be used as a constructor." }]
+            errors: [{ type: "CallExpression", messageId: "upper" }]
         },
         {
             code: "var x = new foo.bar(42);",
             options: [{ newIsCapExceptions: ["foo"] }],
-            errors: [{ type: "NewExpression", message: "A constructor name should not start with a lowercase letter." }]
+            errors: [{ type: "NewExpression", messageId: "lower" }]
         },
         {
             code: "var x = new bar.foo(42);",
 
             options: [{ newIsCapExceptionPattern: "^foo\\.." }],
-            errors: [{ type: "NewExpression", message: "A constructor name should not start with a lowercase letter." }]
+            errors: [{ type: "NewExpression", messageId: "lower" }]
+        },
+
+        // Optional chaining
+        {
+            code: "new (foo?.bar)();",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "lower", column: 11, endColumn: 14 }]
+        },
+        {
+            code: "foo?.Bar();",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "upper", column: 6, endColumn: 9 }]
+        },
+        {
+            code: "(foo?.Bar)();",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "upper", column: 7, endColumn: 10 }]
         }
     ]
 });

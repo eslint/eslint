@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/callback-return"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -159,7 +159,7 @@ ruleTester.run("callback-return", rule, {
                 messageId: "missingReturn",
                 line: 1,
                 column: 30,
-                nodeType: "CallExpression"
+                type: "CallExpression"
             }]
         },
         {
@@ -168,7 +168,7 @@ ruleTester.run("callback-return", rule, {
                 messageId: "missingReturn",
                 line: 1,
                 column: 63,
-                nodeType: "CallExpression"
+                type: "CallExpression"
             }]
         },
         {
@@ -177,7 +177,7 @@ ruleTester.run("callback-return", rule, {
                 messageId: "missingReturn",
                 line: 1,
                 column: 61,
-                nodeType: "CallExpression"
+                type: "CallExpression"
             }]
         },
         {
@@ -186,7 +186,7 @@ ruleTester.run("callback-return", rule, {
                 messageId: "missingReturn",
                 line: 1,
                 column: 35,
-                nodeType: "CallExpression"
+                type: "CallExpression"
             }]
         },
         {
@@ -196,7 +196,7 @@ ruleTester.run("callback-return", rule, {
                 messageId: "missingReturn",
                 line: 1,
                 column: 31,
-                nodeType: "CallExpression"
+                type: "CallExpression"
             }]
         },
         {
@@ -206,7 +206,7 @@ ruleTester.run("callback-return", rule, {
                 messageId: "missingReturn",
                 line: 1,
                 column: 31,
-                nodeType: "CallExpression"
+                type: "CallExpression"
             }]
         },
         {
@@ -215,7 +215,7 @@ ruleTester.run("callback-return", rule, {
                 messageId: "missingReturn",
                 line: 3,
                 column: 2,
-                nodeType: "CallExpression"
+                type: "CallExpression"
             }]
         },
         {
@@ -225,7 +225,7 @@ ruleTester.run("callback-return", rule, {
                 messageId: "missingReturn",
                 line: 1,
                 column: 43,
-                nodeType: "CallExpression"
+                type: "CallExpression"
             }]
         },
         {
@@ -234,7 +234,7 @@ ruleTester.run("callback-return", rule, {
                 messageId: "missingReturn",
                 line: 1,
                 column: 19,
-                nodeType: "CallExpression"
+                type: "CallExpression"
             }]
         },
         {
@@ -243,7 +243,7 @@ ruleTester.run("callback-return", rule, {
                 messageId: "missingReturn",
                 line: 1,
                 column: 19,
-                nodeType: "CallExpression"
+                type: "CallExpression"
             }]
         },
         {
@@ -252,7 +252,7 @@ ruleTester.run("callback-return", rule, {
                 messageId: "missingReturn",
                 line: 1,
                 column: 30,
-                nodeType: "CallExpression"
+                type: "CallExpression"
             }]
         },
         {
@@ -262,7 +262,7 @@ ruleTester.run("callback-return", rule, {
                 messageId: "missingReturn",
                 line: 1,
                 column: 20,
-                nodeType: "CallExpression"
+                type: "CallExpression"
             }]
         },
         {
@@ -271,7 +271,7 @@ ruleTester.run("callback-return", rule, {
                 messageId: "missingReturn",
                 line: 1,
                 column: 30,
-                nodeType: "CallExpression"
+                type: "CallExpression"
             }]
         },
         {
@@ -280,7 +280,7 @@ ruleTester.run("callback-return", rule, {
                 messageId: "missingReturn",
                 line: 3,
                 column: 1,
-                nodeType: "CallExpression"
+                type: "CallExpression"
 
             }]
         },
@@ -291,7 +291,7 @@ ruleTester.run("callback-return", rule, {
                 messageId: "missingReturn",
                 line: 1,
                 column: 32,
-                nodeType: "CallExpression"
+                type: "CallExpression"
             }]
         },
 
@@ -303,12 +303,12 @@ ruleTester.run("callback-return", rule, {
                 messageId: "missingReturn",
                 line: 1,
                 column: 30,
-                nodeType: "CallExpression"
+                type: "CallExpression"
             }, {
                 messageId: "missingReturn",
                 line: 1,
                 column: 50,
-                nodeType: "CallExpression"
+                type: "CallExpression"
             }]
         },
         {
@@ -318,7 +318,7 @@ ruleTester.run("callback-return", rule, {
                     messageId: "missingReturn",
                     line: 1,
                     column: 52,
-                    nodeType: "CallExpression"
+                    type: "CallExpression"
                 }
             ]
         },
@@ -330,7 +330,7 @@ ruleTester.run("callback-return", rule, {
                     messageId: "missingReturn",
                     line: 1,
                     column: 18,
-                    nodeType: "CallExpression"
+                    type: "CallExpression"
                 }
             ]
         },
@@ -341,7 +341,7 @@ ruleTester.run("callback-return", rule, {
                     messageId: "missingReturn",
                     line: 1,
                     column: 42,
-                    nodeType: "CallExpression"
+                    type: "CallExpression"
                 }
             ]
         },
@@ -353,7 +353,7 @@ ruleTester.run("callback-return", rule, {
                     messageId: "missingReturn",
                     line: 1,
                     column: 42,
-                    nodeType: "CallExpression"
+                    type: "CallExpression"
                 }
             ]
         },
@@ -367,7 +367,7 @@ ruleTester.run("callback-return", rule, {
                     messageId: "missingReturn",
                     line: 1,
                     column: 33,
-                    nodeType: "CallExpression"
+                    type: "CallExpression"
                 }
             ]
         },
@@ -379,7 +379,7 @@ ruleTester.run("callback-return", rule, {
                     messageId: "missingReturn",
                     line: 1,
                     column: 47,
-                    nodeType: "CallExpression"
+                    type: "CallExpression"
                 }
             ]
         },
@@ -391,7 +391,7 @@ ruleTester.run("callback-return", rule, {
                     messageId: "missingReturn",
                     line: 1,
                     column: 51,
-                    nodeType: "CallExpression"
+                    type: "CallExpression"
                 }
             ]
         },
@@ -403,7 +403,7 @@ ruleTester.run("callback-return", rule, {
                     messageId: "missingReturn",
                     line: 1,
                     column: 30,
-                    nodeType: "CallExpression"
+                    type: "CallExpression"
                 }
             ]
         },
@@ -415,7 +415,7 @@ ruleTester.run("callback-return", rule, {
                     messageId: "missingReturn",
                     line: 1,
                     column: 30,
-                    nodeType: "CallExpression"
+                    type: "CallExpression"
                 }
             ]
         },
@@ -427,7 +427,7 @@ ruleTester.run("callback-return", rule, {
                     messageId: "missingReturn",
                     line: 1,
                     column: 30,
-                    nodeType: "CallExpression"
+                    type: "CallExpression"
                 }
             ]
         },
@@ -439,7 +439,7 @@ ruleTester.run("callback-return", rule, {
                     messageId: "missingReturn",
                     line: 1,
                     column: 41,
-                    nodeType: "CallExpression"
+                    type: "CallExpression"
                 }
             ]
         },
@@ -451,7 +451,7 @@ ruleTester.run("callback-return", rule, {
                     messageId: "missingReturn",
                     line: 2,
                     column: 1,
-                    nodeType: "CallExpression"
+                    type: "CallExpression"
                 }
             ]
         },
@@ -463,7 +463,7 @@ ruleTester.run("callback-return", rule, {
                     messageId: "missingReturn",
                     line: 1,
                     column: 30,
-                    nodeType: "CallExpression"
+                    type: "CallExpression"
                 }
             ]
         },
@@ -475,7 +475,7 @@ ruleTester.run("callback-return", rule, {
                     messageId: "missingReturn",
                     line: 1,
                     column: 30,
-                    nodeType: "CallExpression"
+                    type: "CallExpression"
                 }
             ]
         }

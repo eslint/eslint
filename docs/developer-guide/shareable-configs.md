@@ -38,6 +38,8 @@ You should declare your dependency on ESLint in `package.json` using the [peerDe
 }
 ```
 
+If your shareable config depends on a plugin, you should also specify it as a `peerDependency` (plugins will be loaded relative to the end user's project, so the end user is required to install the plugins they need). However, if your shareable config depends on a third-party parser or another shareable config, you can specify these packages as `dependencies`.
+
 You can also test your shareable config on your computer before publishing by linking your module globally. Type:
 
 ```bash
@@ -91,7 +93,7 @@ You can also omit the `eslint-config` and it will be automatically assumed by ES
 }
 ```
 
-The module name can also be customized, just note that when using [scoped modules](https://docs.npmjs.com/misc/scope) it is not possible to omit the `eslint-config-` prefix. Doing so would result in package naming conflicts, and thus in resolution errors in most of cases. For example a package named `@scope/eslint-config-myconfig` vs `@scope/my-config`, since both are valid scoped package names, the configuration should be specified as:
+The module name can also be customized, just note that when using [scoped modules](https://docs.npmjs.com/misc/scope) it is not possible to omit the `eslint-config-` prefix. Doing so would result in package naming conflicts, and thus in resolution errors in most of cases. For example a package named `@scope/eslint-config-myconfig` vs `@scope/myconfig`, since both are valid scoped package names, the configuration should be specified as:
 
 ```json
 {

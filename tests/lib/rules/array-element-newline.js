@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/array-element-newline");
-const RuleTester = require("../../../lib/testers/rule-tester");
+const { RuleTester } = require("../../../lib/rule-tester");
 
 
 //------------------------------------------------------------------------------
@@ -43,6 +43,8 @@ ruleTester.run("array-element-newline", rule, {
         "var foo = [1\n, 2\n, 3];",
         "var foo = [1,\n2,\n,\n3];",
         "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\nosomething();\n}\n];",
+        "var foo = [1,\n[2,\n3],\n4]",
+        "var foo = [[],\n[\n[]]]",
 
         { code: "var foo = [];", options: ["always"] },
         { code: "var foo = [1];", options: ["always"] },
@@ -54,6 +56,7 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var foo = [1,\n2 // any comment\n];", options: ["always"] },
         { code: "var foo = [1,\n2,\n3];", options: ["always"] },
         { code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];", options: ["always"] },
+        { code: "var foo = [\n[1,\n2],\n3,\n[\n4]]", options: ["always"] },
 
         // "never"
         { code: "var foo = [];", options: ["never"] },
@@ -65,6 +68,8 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var foo = [1, 2, 3];", options: ["never"] },
         { code: "var foo = [1, (\n2\n), 3];", options: ["never"] },
         { code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];", options: ["never"] },
+        { code: "var foo = [\n[1,2],3,[4]\n]", options: ["never"] },
+        { code: "var foo = [[1,2\n],3,[4\n]\n]", options: ["never"] },
 
         // "consistent"
         { code: "var foo = [];", options: ["consistent"] },
@@ -82,6 +87,9 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];", options: ["consistent"] },
         { code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}];", options: ["consistent"] },
         { code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}, function bar() {\ndosomething();\n}];", options: ["consistent"] },
+        { code: "var foo = [1,\n[\n2,3,\n]\n];", options: ["consistent"] },
+        { code: "var foo = [\n1,\n[2\n,3\n,]\n];", options: ["consistent"] },
+        { code: "var foo = [\n1,[2,\n3]];", options: ["consistent"] },
 
         // { multiline: true }
         { code: "var foo = [];", options: [{ multiline: true }] },
@@ -89,6 +97,7 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var foo = [1, 2];", options: [{ multiline: true }] },
         { code: "var foo = [1, 2, 3];", options: [{ multiline: true }] },
         { code: "var f = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];", options: [{ multiline: true }] },
+        { code: "var foo = [\n1,\n2,\n3,\n[\n]\n];", options: [{ multiline: true }] },
 
         // { minItems: null }
         { code: "var foo = [];", options: [{ minItems: null }] },
@@ -96,6 +105,7 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var foo = [1, 2];", options: [{ minItems: null }] },
         { code: "var foo = [1, 2, 3];", options: [{ minItems: null }] },
         { code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];", options: [{ minItems: null }] },
+        { code: "var foo = [1, 2, 3, [[],1,[[]]]];", options: [{ minItems: null }] },
 
         // { minItems: 0 }
         { code: "var foo = [];", options: [{ minItems: 0 }] },
@@ -103,6 +113,7 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var foo = [1,\n2];", options: [{ minItems: 0 }] },
         { code: "var foo = [1,\n2,\n3];", options: [{ minItems: 0 }] },
         { code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];", options: [{ minItems: 0 }] },
+        { code: "var foo = [\n1, \n2, \n3,\n[\n[],\n[]],\n[]];", options: [{ minItems: 0 }] },
 
         // { minItems: 3 }
         { code: "var foo = [];", options: [{ minItems: 3 }] },
@@ -110,6 +121,7 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var foo = [1, 2];", options: [{ minItems: 3 }] },
         { code: "var foo = [1,\n2,\n3];", options: [{ minItems: 3 }] },
         { code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];", options: [{ minItems: 3 }] },
+        { code: "var foo = [[1,2],[[\n1,\n2,\n3]]];", options: [{ minItems: 3 }] },
 
         // { multiline: true, minItems: 3 }
         { code: "var foo = [];", options: [{ multiline: true, minItems: 3 }] },
@@ -130,16 +142,37 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var [// any comment \na,\nb] = foo;", parserOptions: { ecmaVersion: 6 } },
         { code: "var [a,\nb // any comment\n] = foo;", parserOptions: { ecmaVersion: 6 } },
         { code: "var [a,\nb,\nb] = foo;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var [\na,\n[\nb,\nc]] = foo;", parserOptions: { ecmaVersion: 6 } },
+
+        // "never"
+        { code: "var [a,[b,c]] = foo;", options: ["never"], parserOptions: { ecmaVersion: 6 } },
 
         // { minItems: 3 }
         { code: "var [] = foo;", options: [{ minItems: 3 }], parserOptions: { ecmaVersion: 6 } },
         { code: "var [a] = foo;", options: [{ minItems: 3 }], parserOptions: { ecmaVersion: 6 } },
         { code: "var [a, b] = foo;", options: [{ minItems: 3 }], parserOptions: { ecmaVersion: 6 } },
-        { code: "var [a,\nb,\nc] = foo;", options: [{ minItems: 3 }], parserOptions: { ecmaVersion: 6 } }
+        { code: "var [a,\nb,\nc] = foo;", options: [{ minItems: 3 }], parserOptions: { ecmaVersion: 6 } },
 
-    ],
+        /*
+         * ArrayExpression & ArrayPattern
+         * { ArrayExpression: "always", ArrayPattern: "never" }
+         */
+        { code: "var [a, b] = [1,\n2]", options: [{ ArrayExpression: "always", ArrayPattern: "never" }], parserOptions: { ecmaVersion: 6 } }],
 
     invalid: [
+        {
+            code: "var foo = [\n1,[2,\n3]]",
+            output: "var foo = [\n1,\n[2,\n3]]",
+            errors: [
+                {
+                    line: 2,
+                    column: 3,
+                    messageId: "missingLineBreak",
+                    endLine: 2,
+                    endColumn: 3
+                }
+            ]
+        },
 
         /*
          * ArrayExpression
@@ -359,6 +392,18 @@ ruleTester.run("array-element-newline", rule, {
                 }
             ]
         },
+        {
+            code: "var foo = [\n[1,\n2],\n3,[\n4]]",
+            output: "var foo = [\n[1,\n2],\n3,\n[\n4]]",
+            options: ["always"],
+            errors: [
+                {
+                    line: 4,
+                    column: 3,
+                    messageId: "missingLineBreak"
+                }
+            ]
+        },
 
         // "never"
         {
@@ -467,6 +512,19 @@ ruleTester.run("array-element-newline", rule, {
             ]
         },
 
+        {
+            code: "var foo = [[1,\n2\n],3,[4\n]\n]",
+            output: "var foo = [[1, 2\n],3,[4\n]\n]",
+            options: ["never"],
+            errors: [
+                {
+                    line: 1,
+                    column: 15,
+                    messageId: "unexpectedLineBreak"
+                }
+            ]
+        },
+
         // "consistent"
         {
             code: "var foo = [1,\n2, 3];",
@@ -548,6 +606,23 @@ ruleTester.run("array-element-newline", rule, {
                 }
             ]
         },
+        {
+            code: "var foo = [\n1,[2,3,\n[]],\n[]\n];",
+            output: "var foo = [\n1,\n[2,\n3,\n[]],\n[]\n];",
+            options: ["consistent"],
+            errors: [
+                {
+                    line: 2,
+                    column: 3,
+                    messageId: "missingLineBreak"
+                },
+                {
+                    line: 2,
+                    column: 6,
+                    messageId: "missingLineBreak"
+                }
+            ]
+        },
 
         // { multiline: true }
         {
@@ -583,6 +658,23 @@ ruleTester.run("array-element-newline", rule, {
                     messageId: "missingLineBreak",
                     line: 4,
                     column: 21
+                }
+            ]
+        },
+        {
+            code: "var foo = [\n1,2,3,\n[\n]\n];",
+            output: "var foo = [\n1,\n2,\n3,\n[\n]\n];",
+            options: [{ multiline: true }],
+            errors: [
+                {
+                    line: 2,
+                    column: 3,
+                    messageId: "missingLineBreak"
+                },
+                {
+                    line: 2,
+                    column: 5,
+                    messageId: "missingLineBreak"
                 }
             ]
         },
@@ -824,6 +916,55 @@ ruleTester.run("array-element-newline", rule, {
                     messageId: "missingLineBreak",
                     line: 1,
                     column: 11
+                }
+            ]
+        },
+
+        /*
+         * ArrayExpression & ArrayPattern
+         * { ArrayExpression: "always", ArrayPattern: "never" }
+         */
+        {
+            code: "var [a,\nb] = [1, 2]",
+            output: "var [a, b] = [1,\n2]",
+            options: [{ ArrayExpression: "always", ArrayPattern: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "unexpectedLineBreak",
+                    line: 1,
+                    column: 8
+                },
+                {
+                    messageId: "missingLineBreak",
+                    line: 2,
+                    column: 9
+                }
+            ]
+        },
+        {
+            code: "var [a, b] = [1, 2]",
+            output: "var [a, b] = [1,\n2]",
+            options: [{ ArrayExpression: "always", ArrayPattern: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "missingLineBreak",
+                    line: 1,
+                    column: 17
+                }
+            ]
+        },
+        {
+            code: "var [a,\nb] = [1,\n2]",
+            output: "var [a, b] = [1,\n2]",
+            options: [{ ArrayExpression: "always", ArrayPattern: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "unexpectedLineBreak",
+                    line: 1,
+                    column: 8
                 }
             ]
         }

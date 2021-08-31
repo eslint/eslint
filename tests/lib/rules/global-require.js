@@ -10,11 +10,12 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/global-require"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester();
 
 const valid = [
@@ -30,90 +31,55 @@ const valid = [
     { code: "var logger = require(DEBUG ? 'dev-logger' : 'logger');" },
     { code: "var logger = DEBUG ? require('dev-logger') : require('logger');" },
     { code: "function localScopedRequire(require) { require('y'); }" },
-    { code: "var someFunc = require('./someFunc'); someFunc(function(require) { return('bananas'); });" }
+    { code: "var someFunc = require('./someFunc'); someFunc(function(require) { return('bananas'); });" },
+
+    // Optional chaining
+    {
+        code: "var x = require('y')?.foo;",
+        parserOptions: { ecmaVersion: 2020 }
+    }
 ];
 
-const message = "Unexpected require().";
-const type = "CallExpression";
+const error = { messageId: "unexpected", type: "CallExpression" };
 
 const invalid = [
 
     // block statements
     {
         code: "if (process.env.NODE_ENV === 'DEVELOPMENT') {\n\trequire('debug');\n}",
-        errors: [{
-            line: 2,
-            column: 2,
-            message,
-            type
-        }]
+        errors: [error]
     },
     {
         code: "var x; if (y) { x = require('debug'); }",
-        errors: [{
-            line: 1,
-            column: 21,
-            message,
-            type
-        }]
+        errors: [error]
     },
     {
         code: "var x; if (y) { x = require('debug').baz; }",
-        errors: [{
-            line: 1,
-            column: 21,
-            message,
-            type
-        }]
+        errors: [error]
     },
     {
         code: "function x() { require('y') }",
-        errors: [{
-            line: 1,
-            column: 16,
-            message,
-            type
-        }]
+        errors: [error]
     },
     {
         code: "try { require('x'); } catch (e) { console.log(e); }",
-        errors: [{
-            line: 1,
-            column: 7,
-            message,
-            type
-        }]
+        errors: [error]
     },
 
     // non-block statements
     {
         code: "var getModule = x => require(x);",
         parserOptions: { ecmaVersion: 6 },
-        errors: [{
-            line: 1,
-            column: 22,
-            message,
-            type
-        }]
+        errors: [error]
     },
     {
         code: "var x = (x => require(x))('weird')",
         parserOptions: { ecmaVersion: 6 },
-        errors: [{
-            line: 1,
-            column: 15,
-            message,
-            type
-        }]
+        errors: [error]
     },
     {
         code: "switch(x) { case '1': require('1'); break; }",
-        errors: [{
-            line: 1,
-            column: 23,
-            message,
-            type
-        }]
+        errors: [error]
     }
 ];
 

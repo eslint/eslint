@@ -20,14 +20,6 @@ This rule is aimed at highlighting an unnecessary block of code following an `if
 
 This rule has an object option:
 
-```json
-{
-    "no-else-return": ["error", { "allowElseIf": true }],
-    // or
-    "no-else-return": ["error", { "allowElseIf": false }]
-}
-```
-
 * `allowElseIf: true` (default) allows `else if` blocks after a return
 * `allowElseIf: false` disallows `else if` blocks after a return
 

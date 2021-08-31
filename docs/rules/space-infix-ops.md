@@ -23,7 +23,7 @@ This rule is aimed at ensuring there are spaces around infix operators.
 This rule accepts a single options argument with the following defaults:
 
 ```json
-"space-infix-ops": ["error", {"int32Hint": false}]
+"space-infix-ops": ["error", { "int32Hint": false }]
 ```
 
 ### `int32Hint`
@@ -73,3 +73,7 @@ var {a = 0} = bar;
 
 function foo(a = 0) { }
 ```
+
+## When Not To Use It
+
+You can turn this rule off if you are not concerned with the consistency of spacing around infix operators.

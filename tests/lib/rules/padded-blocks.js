@@ -10,15 +10,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/padded-blocks"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester(),
-    ALWAYS_MESSAGE = "Block must be padded by blank lines.",
-    NEVER_MESSAGE = "Block must not be padded by blank lines.";
+const ruleTester = new RuleTester();
 
 ruleTester.run("padded-blocks", rule, {
     valid: [
@@ -38,11 +36,12 @@ ruleTester.run("padded-blocks", rule, {
         { code: "{\n\na();\n\n/* comment */ }", options: ["always"] },
         { code: "{\n\na();\n\n/* comment */ }", options: [{ blocks: "always" }] },
 
+
         { code: "switch (a) {}", options: [{ switches: "always" }] },
         { code: "switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n\n}", options: ["always"] },
         { code: "switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n\n}", options: [{ switches: "always" }] },
         { code: "switch (a) {\n\n//comment\ncase 0: foo();//comment\n\n}", options: [{ switches: "always" }] },
-        { code: "switch (a) {//coment\n\ncase 0: foo();\ncase 1: bar();\n\n/* comment */}", options: [{ switches: "always" }] },
+        { code: "switch (a) {//comment\n\ncase 0: foo();\ncase 1: bar();\n\n/* comment */}", options: [{ switches: "always" }] },
 
         { code: "class A{\n\nfoo(){}\n\n}", parserOptions: { ecmaVersion: 6 } },
         { code: "class A{\n\nfoo(){}\n\n}", options: ["always"], parserOptions: { ecmaVersion: 6 } },
@@ -54,6 +53,8 @@ ruleTester.run("padded-blocks", rule, {
         { code: "{\na();}", options: ["never"] },
         { code: "{a();\n}", options: ["never"] },
         { code: "{a();}", options: ["never"] },
+        { code: "{a();}", options: ["always", { allowSingleLineBlocks: true }] },
+        { code: "{\n\na();\n\n}", options: ["always", { allowSingleLineBlocks: true }] },
         { code: "{//comment\na();}", options: ["never"] },
         { code: "{\n//comment\na()\n}", options: ["never"] },
         { code: "{a();//comment\n}", options: ["never"] },
@@ -72,6 +73,9 @@ ruleTester.run("padded-blocks", rule, {
 
         { code: "class A{\nfoo(){}\n}", options: ["never"], parserOptions: { ecmaVersion: 6 } },
         { code: "class A{\nfoo(){}\n}", options: [{ classes: "never" }], parserOptions: { ecmaVersion: 6 } },
+
+        { code: "class A{\n\nfoo;\n\n}", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A{\nfoo;\n}", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
 
         // Ignore block statements if not configured
         { code: "{\na();\n}", options: [{ switches: "always" }] },
@@ -93,9 +97,11 @@ ruleTester.run("padded-blocks", rule, {
             output: "{\n\n//comment\na();\n\n}",
             errors: [
                 {
-                    message: ALWAYS_MESSAGE,
+                    messageId: "alwaysPadBlock",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 1
                 }
             ]
         },
@@ -104,9 +110,11 @@ ruleTester.run("padded-blocks", rule, {
             output: "{ //comment\n\na();\n\n}",
             errors: [
                 {
-                    message: ALWAYS_MESSAGE,
+                    messageId: "alwaysPadBlock",
                     line: 1,
-                    column: 3
+                    column: 3,
+                    endLine: 2,
+                    endColumn: 1
                 }
             ]
         },
@@ -115,9 +123,11 @@ ruleTester.run("padded-blocks", rule, {
             output: "{\n\na();\n//comment\n\n}",
             errors: [
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 5,
-                    column: 1
+                    messageId: "alwaysPadBlock",
+                    line: 4,
+                    column: 10,
+                    endLine: 5,
+                    endColumn: 1
                 }
             ]
         },
@@ -126,9 +136,11 @@ ruleTester.run("padded-blocks", rule, {
             output: "{\n\na()\n//comment\n\n}",
             errors: [
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 5,
-                    column: 1
+                    messageId: "alwaysPadBlock",
+                    line: 4,
+                    column: 10,
+                    endLine: 5,
+                    endColumn: 1
                 }
             ]
         },
@@ -137,8 +149,11 @@ ruleTester.run("padded-blocks", rule, {
             output: "{\n\na();\n\n}",
             errors: [
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 1
+                    messageId: "alwaysPadBlock",
+                    line: 1,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 1
                 }
             ]
         },
@@ -147,8 +162,11 @@ ruleTester.run("padded-blocks", rule, {
             output: "{\n\na();\n\n}",
             errors: [
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 4
+                    messageId: "alwaysPadBlock",
+                    line: 3,
+                    column: 5,
+                    endLine: 4,
+                    endColumn: 1
                 }
             ]
         },
@@ -157,12 +175,18 @@ ruleTester.run("padded-blocks", rule, {
             output: "{\n\na();\n\n}",
             errors: [
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 1
+                    messageId: "alwaysPadBlock",
+                    line: 1,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 1
                 },
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 3
+                    messageId: "alwaysPadBlock",
+                    line: 2,
+                    column: 5,
+                    endLine: 3,
+                    endColumn: 1
                 }
             ]
         },
@@ -171,12 +195,18 @@ ruleTester.run("padded-blocks", rule, {
             output: "{\n\r\na();\r\n\n}",
             errors: [
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 1
+                    messageId: "alwaysPadBlock",
+                    line: 1,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 1
                 },
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 3
+                    messageId: "alwaysPadBlock",
+                    line: 2,
+                    column: 5,
+                    endLine: 3,
+                    endColumn: 1
                 }
             ]
         },
@@ -185,12 +215,18 @@ ruleTester.run("padded-blocks", rule, {
             output: "{\n\na();\n}",
             errors: [
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 1
+                    messageId: "alwaysPadBlock",
+                    line: 1,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 1
                 },
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 2
+                    messageId: "alwaysPadBlock",
+                    line: 2,
+                    column: 5,
+                    endLine: 2,
+                    endColumn: 5
                 }
             ]
         },
@@ -199,12 +235,18 @@ ruleTester.run("padded-blocks", rule, {
             output: "{\na();\n\n}",
             errors: [
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 1
+                    messageId: "alwaysPadBlock",
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 2
                 },
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 2
+                    messageId: "alwaysPadBlock",
+                    line: 1,
+                    column: 6,
+                    endLine: 2,
+                    endColumn: 1
                 }
             ]
         },
@@ -214,12 +256,18 @@ ruleTester.run("padded-blocks", rule, {
             options: [{ blocks: "always" }],
             errors: [
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 1
+                    messageId: "alwaysPadBlock",
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 2
                 },
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 2
+                    messageId: "alwaysPadBlock",
+                    line: 1,
+                    column: 6,
+                    endLine: 2,
+                    endColumn: 1
                 }
             ]
         },
@@ -229,14 +277,18 @@ ruleTester.run("padded-blocks", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ALWAYS_MESSAGE,
+                    messageId: "alwaysPadBlock",
                     line: 1,
-                    column: 12
+                    column: 12,
+                    endLine: 2,
+                    endColumn: 1
                 },
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 4,
-                    column: 1
+                    messageId: "alwaysPadBlock",
+                    line: 3,
+                    column: 15,
+                    endLine: 4,
+                    endColumn: 1
                 }
             ]
         },
@@ -246,14 +298,18 @@ ruleTester.run("padded-blocks", rule, {
             options: [{ switches: "always" }],
             errors: [
                 {
-                    message: ALWAYS_MESSAGE,
+                    messageId: "alwaysPadBlock",
                     line: 1,
-                    column: 12
+                    column: 12,
+                    endLine: 2,
+                    endColumn: 1
                 },
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 4,
-                    column: 1
+                    messageId: "alwaysPadBlock",
+                    line: 3,
+                    column: 15,
+                    endLine: 4,
+                    endColumn: 1
                 }
             ]
         },
@@ -263,14 +319,18 @@ ruleTester.run("padded-blocks", rule, {
             options: [{ switches: "always" }],
             errors: [
                 {
-                    message: ALWAYS_MESSAGE,
+                    messageId: "alwaysPadBlock",
                     line: 1,
-                    column: 12
+                    column: 12,
+                    endLine: 2,
+                    endColumn: 1
                 },
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 4,
-                    column: 1
+                    messageId: "alwaysPadBlock",
+                    line: 3,
+                    column: 24,
+                    endLine: 4,
+                    endColumn: 1
                 }
             ]
         },
@@ -281,14 +341,18 @@ ruleTester.run("padded-blocks", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ALWAYS_MESSAGE,
+                    messageId: "alwaysPadBlock",
                     line: 1,
-                    column: 9
+                    column: 9,
+                    endLine: 2,
+                    endColumn: 1
                 },
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 3,
-                    column: 1
+                    messageId: "alwaysPadBlock",
+                    line: 2,
+                    column: 16,
+                    endLine: 3,
+                    endColumn: 1
                 }
             ]
         },
@@ -299,14 +363,18 @@ ruleTester.run("padded-blocks", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ALWAYS_MESSAGE,
+                    messageId: "alwaysPadBlock",
                     line: 1,
-                    column: 9
+                    column: 9,
+                    endLine: 2,
+                    endColumn: 1
                 },
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 3,
-                    column: 1
+                    messageId: "alwaysPadBlock",
+                    line: 2,
+                    column: 16,
+                    endLine: 3,
+                    endColumn: 1
                 }
             ]
         },
@@ -315,12 +383,18 @@ ruleTester.run("padded-blocks", rule, {
             output: "{\na();\n}",
             errors: [
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 1
+                    messageId: "alwaysPadBlock",
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 2
                 },
                 {
-                    message: ALWAYS_MESSAGE,
-                    line: 1
+                    messageId: "alwaysPadBlock",
+                    line: 1,
+                    column: 6,
+                    endLine: 1,
+                    endColumn: 6
                 }
             ]
         },
@@ -330,8 +404,11 @@ ruleTester.run("padded-blocks", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: NEVER_MESSAGE,
-                    line: 5
+                    messageId: "neverPadBlock",
+                    line: 3,
+                    column: 10,
+                    endLine: 5,
+                    endColumn: 1
                 }
             ]
         },
@@ -341,12 +418,18 @@ ruleTester.run("padded-blocks", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: NEVER_MESSAGE,
-                    line: 1
+                    messageId: "neverPadBlock",
+                    line: 1,
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 1
                 },
                 {
-                    message: NEVER_MESSAGE,
-                    line: 5
+                    messageId: "neverPadBlock",
+                    line: 3,
+                    column: 5,
+                    endLine: 5,
+                    endColumn: 1
                 }
             ]
         },
@@ -356,12 +439,18 @@ ruleTester.run("padded-blocks", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: NEVER_MESSAGE,
-                    line: 1
+                    messageId: "neverPadBlock",
+                    line: 1,
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 1
                 },
                 {
-                    message: NEVER_MESSAGE,
-                    line: 5
+                    messageId: "neverPadBlock",
+                    line: 3,
+                    column: 5,
+                    endLine: 5,
+                    endColumn: 1
                 }
             ]
         },
@@ -371,12 +460,18 @@ ruleTester.run("padded-blocks", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: NEVER_MESSAGE,
-                    line: 1
+                    messageId: "neverPadBlock",
+                    line: 1,
+                    column: 1,
+                    endLine: 4,
+                    endColumn: 3
                 },
                 {
-                    message: NEVER_MESSAGE,
-                    line: 7
+                    messageId: "neverPadBlock",
+                    line: 4,
+                    column: 7,
+                    endLine: 7,
+                    endColumn: 1
                 }
             ]
         },
@@ -386,8 +481,11 @@ ruleTester.run("padded-blocks", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: NEVER_MESSAGE,
-                    line: 1
+                    messageId: "neverPadBlock",
+                    line: 1,
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 1
                 }
             ]
         },
@@ -397,8 +495,11 @@ ruleTester.run("padded-blocks", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: NEVER_MESSAGE,
-                    line: 1
+                    messageId: "neverPadBlock",
+                    line: 1,
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 2
                 }
             ]
         },
@@ -408,8 +509,11 @@ ruleTester.run("padded-blocks", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: NEVER_MESSAGE,
-                    line: 4
+                    messageId: "neverPadBlock",
+                    line: 2,
+                    column: 5,
+                    endLine: 4,
+                    endColumn: 1
                 }
             ]
         },
@@ -419,8 +523,11 @@ ruleTester.run("padded-blocks", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: NEVER_MESSAGE,
-                    line: 4
+                    messageId: "neverPadBlock",
+                    line: 2,
+                    column: 9,
+                    endLine: 4,
+                    endColumn: 3
                 }
             ]
         },
@@ -430,9 +537,11 @@ ruleTester.run("padded-blocks", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ALWAYS_MESSAGE,
+                    messageId: "alwaysPadBlock",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 1
                 }
             ]
         },
@@ -442,9 +551,11 @@ ruleTester.run("padded-blocks", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: NEVER_MESSAGE,
+                    messageId: "neverPadBlock",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 1
                 }
             ]
         },
@@ -454,9 +565,11 @@ ruleTester.run("padded-blocks", rule, {
             options: [{ blocks: "never" }],
             errors: [
                 {
-                    message: NEVER_MESSAGE,
+                    messageId: "neverPadBlock",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 1
                 }
             ]
         },
@@ -466,14 +579,18 @@ ruleTester.run("padded-blocks", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: NEVER_MESSAGE,
+                    messageId: "neverPadBlock",
                     line: 1,
-                    column: 12
+                    column: 12,
+                    endLine: 3,
+                    endColumn: 1
                 },
                 {
-                    message: NEVER_MESSAGE,
-                    line: 5,
-                    column: 1
+                    messageId: "neverPadBlock",
+                    line: 3,
+                    column: 15,
+                    endLine: 5,
+                    endColumn: 1
                 }
             ]
         },
@@ -483,9 +600,11 @@ ruleTester.run("padded-blocks", rule, {
             options: [{ switches: "never" }],
             errors: [
                 {
-                    message: NEVER_MESSAGE,
+                    messageId: "neverPadBlock",
                     line: 1,
-                    column: 12
+                    column: 12,
+                    endLine: 3,
+                    endColumn: 1
                 }
             ]
         },
@@ -495,9 +614,11 @@ ruleTester.run("padded-blocks", rule, {
             options: [{ switches: "never" }],
             errors: [
                 {
-                    message: NEVER_MESSAGE,
-                    line: 4,
-                    column: 3
+                    messageId: "neverPadBlock",
+                    line: 2,
+                    column: 15,
+                    endLine: 4,
+                    endColumn: 3
                 }
             ]
         },
@@ -508,20 +629,32 @@ ruleTester.run("padded-blocks", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: NEVER_MESSAGE,
-                    line: 1
+                    messageId: "neverPadBlock",
+                    line: 1,
+                    column: 9,
+                    endLine: 3,
+                    endColumn: 1
                 },
                 {
-                    message: NEVER_MESSAGE,
-                    line: 3
+                    messageId: "neverPadBlock",
+                    line: 3,
+                    column: 14,
+                    endLine: 5,
+                    endColumn: 1
                 },
                 {
-                    message: NEVER_MESSAGE,
-                    line: 7
+                    messageId: "neverPadBlock",
+                    line: 5,
+                    column: 7,
+                    endLine: 7,
+                    endColumn: 1
                 },
                 {
-                    message: NEVER_MESSAGE,
-                    line: 9
+                    messageId: "neverPadBlock",
+                    line: 7,
+                    column: 2,
+                    endLine: 9,
+                    endColumn: 1
                 }
             ]
         },
@@ -532,12 +665,18 @@ ruleTester.run("padded-blocks", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: NEVER_MESSAGE,
-                    line: 1
+                    messageId: "neverPadBlock",
+                    line: 1,
+                    column: 9,
+                    endLine: 3,
+                    endColumn: 1
                 },
                 {
-                    message: NEVER_MESSAGE,
-                    line: 9
+                    messageId: "neverPadBlock",
+                    line: 7,
+                    column: 2,
+                    endLine: 9,
+                    endColumn: 1
                 }
             ]
         },
@@ -548,20 +687,32 @@ ruleTester.run("padded-blocks", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: NEVER_MESSAGE,
-                    line: 1
+                    messageId: "neverPadBlock",
+                    line: 1,
+                    column: 9,
+                    endLine: 3,
+                    endColumn: 1
                 },
                 {
-                    message: NEVER_MESSAGE,
-                    line: 3
+                    messageId: "neverPadBlock",
+                    line: 3,
+                    column: 14,
+                    endLine: 5,
+                    endColumn: 1
                 },
                 {
-                    message: NEVER_MESSAGE,
-                    line: 7
+                    messageId: "neverPadBlock",
+                    line: 5,
+                    column: 7,
+                    endLine: 7,
+                    endColumn: 1
                 },
                 {
-                    message: NEVER_MESSAGE,
-                    line: 9
+                    messageId: "neverPadBlock",
+                    line: 7,
+                    column: 2,
+                    endLine: 9,
+                    endColumn: 1
                 }
             ]
         },
@@ -569,37 +720,50 @@ ruleTester.run("padded-blocks", rule, {
             code: "function foo() { // a\n\n  b;\n}",
             output: "function foo() { // a\n  b;\n}",
             options: ["never"],
-            errors: [NEVER_MESSAGE]
+            errors: [{ messageId: "neverPadBlock" }]
         },
         {
             code: "function foo() { /* a\n */\n\n  bar;\n}",
             output: "function foo() { /* a\n */\n  bar;\n}",
             options: ["never"],
-            errors: [NEVER_MESSAGE]
+            errors: [{ messageId: "neverPadBlock" }]
         },
         {
             code: "function foo() {\n\n  bar;\n/* a\n */}",
             output: "function foo() {\n\n  bar;\n\n/* a\n */}",
             options: ["always"],
-            errors: [ALWAYS_MESSAGE]
+            errors: [{ messageId: "alwaysPadBlock" }]
         },
         {
             code: "function foo() { /* a\n */\n/* b\n */\n  bar;\n}",
             output: "function foo() { /* a\n */\n\n/* b\n */\n  bar;\n\n}",
             options: ["always"],
-            errors: [ALWAYS_MESSAGE, ALWAYS_MESSAGE]
+            errors: [{ messageId: "alwaysPadBlock" }, { messageId: "alwaysPadBlock" }]
         },
         {
             code: "function foo() { /* a\n */ /* b\n */\n  bar;\n}",
             output: "function foo() { /* a\n */ /* b\n */\n\n  bar;\n\n}",
             options: ["always"],
-            errors: [ALWAYS_MESSAGE, ALWAYS_MESSAGE]
+            errors: [{ messageId: "alwaysPadBlock" }, { messageId: "alwaysPadBlock" }]
         },
         {
             code: "function foo() { /* a\n */ /* b\n */\n  bar;\n/* c\n *//* d\n */}",
             output: "function foo() { /* a\n */ /* b\n */\n\n  bar;\n\n/* c\n *//* d\n */}",
             options: ["always"],
-            errors: [ALWAYS_MESSAGE, ALWAYS_MESSAGE]
+            errors: [{ messageId: "alwaysPadBlock" }, { messageId: "alwaysPadBlock" }]
+        },
+        {
+            code: "class A{\nfoo;\n}",
+            output: "class A{\n\nfoo;\n\n}",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "alwaysPadBlock" }, { messageId: "alwaysPadBlock" }]
+        },
+        {
+            code: "class A{\n\nfoo;\n\n}",
+            output: "class A{\nfoo;\n}",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "neverPadBlock" }, { messageId: "neverPadBlock" }]
         }
     ]
 });

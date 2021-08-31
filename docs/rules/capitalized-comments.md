@@ -245,4 +245,5 @@ This rule can be disabled if you do not care about the grammatical style of comm
 
 ## Compatibility
 
-* **JSCS**: [requireCapitalizedComments](http://jscs.info/rule/requireCapitalizedComments) and [disallowCapitalizedComments](http://jscs.info/rule/disallowCapitalizedComments)
+* **JSCS**: [requireCapitalizedComments](https://jscs-dev.github.io/rule/requireCapitalizedComments)
+* **JSCS**: [disallowCapitalizedComments](https://jscs-dev.github.io/rule/disallowCapitalizedComments)

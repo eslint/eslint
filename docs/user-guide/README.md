@@ -10,7 +10,7 @@ Want to skip ahead and just start using ESLint? This section gives a high-level 
 
 ESLint has a lot of rules that you can configure to fine-tune it to your project. This section is an exhaustive list of every rule and link to each rule's documentation.
 
-## [Configuring](configuring.md)
+## [Configuring](configuring/)
 
 Once you've got ESLint running, you'll probably want to adjust the configuration to better suit your project. This section explains all the different ways you can configure ESLint.
 
@@ -34,3 +34,6 @@ If you were using a prior version of ESLint, you can get help with the transitio
 - [migrating-to-2.0.0](migrating-to-2.0.0.md)
 - [migrating-to-3.0.0](migrating-to-3.0.0.md)
 - [migrating-to-4.0.0](migrating-to-4.0.0.md)
+- [migrating-to-5.0.0](migrating-to-5.0.0.md)
+- [migrating-to-6.0.0](migrating-to-6.0.0.md)
+- [migrating-to-7.0.0](migrating-to-7.0.0.md)

@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/line-comment-position"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -76,6 +76,14 @@ ruleTester.run("line-comment-position", rule, {
         {
             code: "// pragma valid comment\n1 + 1;",
             options: [{ position: "beside", ignorePattern: "pragma|linter" }]
+        },
+        {
+            code: "// above\n1 + 1; // ignored",
+            options: [{ ignorePattern: "ignored" }]
+        },
+        {
+            code: "foo; // eslint-disable-line no-alert",
+            options: [{ position: "above" }]
         }
     ],
 
@@ -83,7 +91,7 @@ ruleTester.run("line-comment-position", rule, {
         {
             code: "1 + 1; // invalid comment",
             errors: [{
-                message: "Expected comment to be above code.",
+                messageId: "above",
                 type: "Line",
                 line: 1,
                 column: 8
@@ -92,7 +100,7 @@ ruleTester.run("line-comment-position", rule, {
         {
             code: "1 + 1; // globalization is a word",
             errors: [{
-                message: "Expected comment to be above code.",
+                messageId: "above",
                 type: "Line",
                 line: 1,
                 column: 8
@@ -102,7 +110,7 @@ ruleTester.run("line-comment-position", rule, {
             code: "// jscs: disable\n1 + 1;",
             options: [{ position: "beside", applyDefaultIgnorePatterns: false }],
             errors: [{
-                message: "Expected comment to be beside code.",
+                messageId: "beside",
                 type: "Line",
                 line: 1,
                 column: 1
@@ -112,7 +120,7 @@ ruleTester.run("line-comment-position", rule, {
             code: "// jscs: disable\n1 + 1;",
             options: [{ position: "beside", applyDefaultPatterns: false }],
             errors: [{
-                message: "Expected comment to be beside code.",
+                messageId: "beside",
                 type: "Line",
                 line: 1,
                 column: 1
@@ -122,7 +130,7 @@ ruleTester.run("line-comment-position", rule, {
             code: "// jscs: disable\n1 + 1;",
             options: [{ position: "beside", applyDefaultIgnorePatterns: false, applyDefaultPatterns: true }],
             errors: [{
-                message: "Expected comment to be beside code.",
+                messageId: "beside",
                 type: "Line",
                 line: 1,
                 column: 1
@@ -131,7 +139,7 @@ ruleTester.run("line-comment-position", rule, {
         {
             code: "1 + 1; // mentioning falls through",
             errors: [{
-                message: "Expected comment to be above code.",
+                messageId: "above",
                 type: "Line",
                 line: 1,
                 column: 8
@@ -141,7 +149,7 @@ ruleTester.run("line-comment-position", rule, {
             code: "// invalid comment\n1 + 1;",
             options: ["beside"],
             errors: [{
-                message: "Expected comment to be beside code.",
+                messageId: "beside",
                 type: "Line",
                 line: 1,
                 column: 1
@@ -151,7 +159,7 @@ ruleTester.run("line-comment-position", rule, {
             code: "// pragma\n// invalid\n1 + 1;",
             options: [{ position: "beside", ignorePattern: "pragma" }],
             errors: [{
-                message: "Expected comment to be beside code.",
+                messageId: "beside",
                 type: "Line",
                 line: 2,
                 column: 1
@@ -161,7 +169,7 @@ ruleTester.run("line-comment-position", rule, {
             code: "1 + 1; // linter\n2 + 2; // invalid comment",
             options: [{ position: "above", ignorePattern: "linter" }],
             errors: [{
-                message: "Expected comment to be above code.",
+                messageId: "above",
                 type: "Line",
                 line: 2,
                 column: 8
