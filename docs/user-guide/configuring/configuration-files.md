@@ -192,6 +192,10 @@ The `rules` property can do any of the following to extend (or override) the set
     * Base config: `"quotes": ["error", "single", "avoid-escape"]`
     * Derived config: `"quotes": ["error", "single"]`
     * Resulting actual config: `"quotes": ["error", "single"]`
+* override options for rules given as object from base configurations:
+    * Base config: `"max-lines": ["error", { "max": 200, "skipBlankLines": true, "skipComments": true }]`
+    * Derived config: `"max-lines": ["error", { "max": 100 }]`
+    * Resulting actual config: `"max-lines": ["error", { "max": 100 }]` where `skipBlankLines` and `skipComments` default to `false`
 
 ### Using a shareable configuration package
 
