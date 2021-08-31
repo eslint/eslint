@@ -388,6 +388,26 @@ ruleTester.run("semi", rule, {
             code: "class C { foo = () => {}\n;[bar] }",
             options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [foo] = bar;\nin }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #foo = bar;\nin }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static static = bar;\nin }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [foo];\nin }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
