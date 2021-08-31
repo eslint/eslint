@@ -1,14 +1,20 @@
 # Suggest using named capture group in regular expression (prefer-named-capture-group)
 
+
+## Rule Details
+
 With the landing of ECMAScript 2018, named capture groups can be used in regular expressions, which can improve their readability.
+This rule is aimed at using named capture groups instead of numbered capture groups in regular expressions:
 
 ```js
 const regex = /(?<year>[0-9]{4})/;
 ```
 
-## Rule Details
+Alternatively, if your intention is not to _capture_ the results, but only express the alternative, use a non-capturing group:
 
-This rule is aimed at using named capture groups instead of numbered capture groups in regular expressions.
+```js
+const regex = /(?:cauli|sun)flower/;
+```
 
 Examples of **incorrect** code for this rule:
 
@@ -30,6 +36,7 @@ Examples of **correct** code for this rule:
 const foo = /(?<id>ba[rz])/;
 const bar = new RegExp('(?<id>ba[rz])');
 const baz = RegExp('(?<id>ba[rz])');
+const xyz = /xyz(?:zy|abc)/;
 
 foo.exec('bar').groups.id; // Retrieve the group result.
 ```
