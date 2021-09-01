@@ -32,18 +32,18 @@ ruleTester.run("max-classes-per-file", rule, {
         },
         {
             code: "class Foo {}",
-            options: [{ maxClasses: 1 }]
+            options: [{ max: 1 }]
         },
         {
             code: "class Foo {}\nclass Bar {}",
-            options: [{ maxClasses: 2 }]
+            options: [{ max: 2 }]
         },
         {
             code: `
                 class Foo {}
                 const myExpression = class {}
             `,
-            options: [{ ignoreExpressions: true, maxClasses: 1 }]
+            options: [{ ignoreExpressions: true, max: 1 }]
         },
         {
             code: `
@@ -51,7 +51,7 @@ ruleTester.run("max-classes-per-file", rule, {
                 class Bar {}
                 const myExpression = class {}
             `,
-            options: [{ ignoreExpressions: true, maxClasses: 2 }]
+            options: [{ ignoreExpressions: true, max: 2 }]
         }
     ],
 
@@ -88,7 +88,7 @@ ruleTester.run("max-classes-per-file", rule, {
                 class Bar {}
                 const myExpression = class {}
             `,
-            options: [{ ignoreExpressions: true, maxClasses: 1 }],
+            options: [{ ignoreExpressions: true, max: 1 }],
             errors: [{ messageId: "maximumExceeded", type: "Program" }]
         },
         {
@@ -98,7 +98,7 @@ ruleTester.run("max-classes-per-file", rule, {
                 class Baz {}
                 const myExpression = class {}
             `,
-            options: [{ ignoreExpressions: true, maxClasses: 2 }],
+            options: [{ ignoreExpressions: true, max: 2 }],
             errors: [{ messageId: "maximumExceeded", type: "Program" }]
         }
     ]

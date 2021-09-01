@@ -28,12 +28,12 @@ class Foo {}
 
 ## Options
 
-This rule may take in either an object or a number.
+This rule may be configured with either an object or a number.
 
 If the option is an object, it may contain one or both of:
 
 -   `ignoreExpressions`: a boolean option (defaulted to `false`) to ignore class expressions.
--   `maximum`: a numeric option (defaulted to 1) to specify the maximum number of classes.
+-   `max`: a numeric option (defaulted to 1) to specify the maximum number of classes.
 
 For example:
 
@@ -47,12 +47,12 @@ For example:
 {
     "max-classes-per-file": [
         "error",
-        { "ignoreExpressions": true, "maximum": 2 }
+        { "ignoreExpressions": true, "max": 2 }
     ]
 }
 ```
 
-Examples of **correct** code for this rule with the `maximum` option set to `2`:
+Examples of **correct** code for this rule with the `max` option set to `2`:
 
 ```js
 /* eslint max-classes-per-file: ["error", 2] */
