@@ -19,13 +19,12 @@ It's considered a best practice to avoid initializing variables to `undefined`.
 
 ## Rule Details
 
-This rule aims to eliminate variable declarations that initialize to `undefined`.
+This rule aims to eliminate `var` and `let` variable declarations that initialize to `undefined`.
 
 Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-undef-init: "error"*/
-/*eslint-env es6*/
 
 var foo = undefined;
 let bar = undefined;
@@ -35,11 +34,29 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-undef-init: "error"*/
-/*eslint-env es6*/
 
 var foo;
 let bar;
-const baz = undefined;
+```
+
+Please note that this rule does not check `const` declarations, destructuring patterns, function parameters, and class fields.
+
+Examples of additional **correct** code for this rule:
+
+```js
+/*eslint no-undef-init: "error"*/
+
+const foo = undefined;
+
+let { bar = undefined } = baz;
+
+[quux = undefined] = quuux;
+
+(foo = undefined) => {};
+
+class Foo {
+    bar = undefined;
+}
 ```
 
 ## When Not To Use It
