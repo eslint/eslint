@@ -22,7 +22,11 @@ ruleTester.run("no-undef-init", rule, {
     valid: [
         "var a;",
         { code: "const foo = undefined", parserOptions: { ecmaVersion: 6 } },
-        "var undefined = 5; var foo = undefined;"
+        "var undefined = 5; var foo = undefined;",
+
+        // doesn't apply to class fields
+        { code: "class C { field = undefined; }", parserOptions: { ecmaVersion: 2022 } }
+
     ],
     invalid: [
         {
@@ -148,32 +152,6 @@ ruleTester.run("no-undef-init", rule, {
             output: "let a//comment\n, b;",
             parserOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unnecessaryUndefinedInit", data: { name: "a" }, type: "VariableDeclarator" }]
-        },
-
-        // Class fields
-        {
-            code: "class C { field = undefined; }",
-            output: "class C { field; }",
-            parserOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unnecessaryUndefinedInit", data: { name: "field" }, type: "PropertyDefinition" }]
-        },
-        {
-            code: "class C { field = undefined }",
-            output: "class C { field }",
-            parserOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unnecessaryUndefinedInit", data: { name: "field" }, type: "PropertyDefinition" }]
-        },
-        {
-            code: "class C { #field = undefined; }",
-            output: "class C { #field; }",
-            parserOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unnecessaryUndefinedInit", data: { name: "#field" }, type: "PropertyDefinition" }]
-        },
-        {
-            code: "class C { '#field' = undefined; }",
-            output: "class C { '#field'; }",
-            parserOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unnecessaryUndefinedInit", data: { name: "'#field'" }, type: "PropertyDefinition" }]
         }
     ]
 });
