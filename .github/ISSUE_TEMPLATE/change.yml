@@ -13,7 +13,7 @@ body:
   attributes:
     label: ESLint version
     description: |
-      What version of ESLint are you currently using? (Run `eslint -v`.)
+      What version of ESLint are you currently using? (Run `npx eslint -v`.)
     placeholder: |
       e.g. v8.0.0
   validations:
@@ -40,5 +40,5 @@ body:
   attributes:
     label: Participation
     options:
-      - label: I am will to submit a pull request for this change.
+      - label: I am willing to submit a pull request for this change.
         required: false
