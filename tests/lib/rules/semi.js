@@ -408,6 +408,31 @@ ruleTester.run("semi", rule, {
             code: "class C { [foo];\nin }",
             options: ["never"],
             parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [get];\nin }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [get] = 5;\nin }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #get;\nin }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #set = 5;\nin }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static static;\nin }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
