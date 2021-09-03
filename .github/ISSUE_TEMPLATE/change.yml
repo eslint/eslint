@@ -1,4 +1,4 @@
-name: "\U0001F4DD Non-rule change request"
+name: "\U0001F4DD Change request (not rule-related)"
 description: "Request a change that is not a bug fix, rule change, or new rule"
 title: "Change Request: (fill in)"
 labels:
