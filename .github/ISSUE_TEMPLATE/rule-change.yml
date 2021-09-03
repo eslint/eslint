@@ -38,12 +38,12 @@ body:
     render: js
   validations:
     required: true
-- type: input
+- type: textarea
   attributes:
     label: What does the rule currently do for this code?
   validations:
     required: true
-- type: input
+- type: textarea
   attributes:
     label: What will the rule do after it's changed?
   validations:
