@@ -39,14 +39,6 @@ body:
   attributes:
     label: What did you do?
     description: |
-      Please include your source code, configuration file, and any other information that is helpful. You can use Markdown in this field.
-    render: markdown
-  validations:
-    required: true
-- type: textarea
-  attributes:
-    label: What did you do?
-    description: |
       Please include a *minimal* reproduction case with source code, configuration file, any other information about how you're using ESLint. You can use Markdown in this field.
     render: markdown
   validations:

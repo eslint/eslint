@@ -38,6 +38,7 @@ body:
     required: true
 - type: checkboxes
   attributes:
+    id: change-participation
     label: Participation
     options:
       - label: I am willing to submit a pull request for this change.
