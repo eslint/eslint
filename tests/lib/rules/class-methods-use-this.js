@@ -31,6 +31,8 @@ ruleTester.run("class-methods-use-this", rule, {
         { code: "class A { foo() { () => this; } }", parserOptions: { ecmaVersion: 6 } },
         { code: "({ a: function () {} });", parserOptions: { ecmaVersion: 6 } },
         { code: "class A { foo() {this} bar() {} }", options: [{ exceptMethods: ["bar"] }], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A { \"foo\"() { } }", options: [{ exceptMethods: ["foo"] }], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A { 42() { } }", options: [{ exceptMethods: ["42"] }], parserOptions: { ecmaVersion: 6 } },
         { code: "class A { foo = function() {this} }", parserOptions: { ecmaVersion: 2022 } },
         { code: "class A { foo = () => {this} }", parserOptions: { ecmaVersion: 2022 } },
         { code: "class A { foo = () => {super.toString} }", parserOptions: { ecmaVersion: 2022 } },
@@ -38,7 +40,8 @@ ruleTester.run("class-methods-use-this", rule, {
         { code: "class A { static foo = () => {} }", parserOptions: { ecmaVersion: 2022 } },
         { code: "class A { #bar() {} }", options: [{ exceptMethods: ["#bar"] }], parserOptions: { ecmaVersion: 2022 } },
         { code: "class A { foo = function () {} }", options: [{ enforceForClassFields: false }], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { foo = () => {} }", options: [{ enforceForClassFields: false }], parserOptions: { ecmaVersion: 2022 } }
+        { code: "class A { foo = () => {} }", options: [{ enforceForClassFields: false }], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A { foo() { return class { [this.foo] = 1 }; } }", parserOptions: { ecmaVersion: 2022 } }
     ],
     invalid: [
         {
