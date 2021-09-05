@@ -133,7 +133,7 @@ class A {
 
 The `enforceForClassFields` option enforces that arrow functions and function expressions used as instance field initializers utilize `this`. (default: `true`)
 
-Examples of **correct** code for this rule with the `{ "enforceForClassFields": true }` option:
+Examples of **correct** code for this rule with the `{ "enforceForClassFields": true }` option (default):
 
 ```js
 /*eslint class-methods-use-this: ["error", { "enforceForClassFields": true }] */
