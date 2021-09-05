@@ -136,7 +136,7 @@ The `enforceForClassFields` option enforce that the class fields utilize `this`.
 Examples of **correct** code for this rule with the `{ "enforceForClassFields": true }` option:
 
 ```js
-/*eslint class-methods-use-this: ["error", {"enforceForClassFields": true }] */
+/*eslint class-methods-use-this: ["error", { "enforceForClassFields": true }] */
 
 class A {
     foo = () => {this;}
