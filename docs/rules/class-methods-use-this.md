@@ -131,7 +131,7 @@ class A {
 "class-methods-use-this": [<enabled>, { "enforceForClassFields": true | false }]
 ```
 
-The `enforceForClassFields` option enforce that the class fields utilize `this`. (default: true)
+The `enforceForClassFields` option enforces that arrow functions and function expressions used as instance field initializers utilize `this`. (default: `true`)
 
 Examples of **correct** code for this rule with the `{ "enforceForClassFields": true }` option:
 
