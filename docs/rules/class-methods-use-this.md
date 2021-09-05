@@ -146,7 +146,7 @@ class A {
 Examples of **incorrect** code for this rule with the `{ "enforceForClassFields": true }` option (default):
 
 ```js
-/*eslint class-methods-use-this: ["error", {"enforceForClassFields": true }] */
+/*eslint class-methods-use-this: ["error", { "enforceForClassFields": true }] */
 
 class A {
     foo = () => {}
