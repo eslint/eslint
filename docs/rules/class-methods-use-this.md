@@ -143,7 +143,7 @@ class A {
 }
 ```
 
-Examples of **incorrect** code for this rule with the `{ "enforceForClassFields": true }` option:
+Examples of **incorrect** code for this rule with the `{ "enforceForClassFields": true }` option (default):
 
 ```js
 /*eslint class-methods-use-this: ["error", {"enforceForClassFields": true }] */
