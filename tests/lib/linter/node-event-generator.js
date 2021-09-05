@@ -17,8 +17,9 @@ const assert = require("assert"),
     createEmitter = require("../../../lib/linter/safe-emitter"),
     NodeEventGenerator = require("../../../lib/linter/node-event-generator");
 
+
 //------------------------------------------------------------------------------
-// Tests
+// Constants
 //------------------------------------------------------------------------------
 
 const ESPREE_CONFIG = {
@@ -30,6 +31,10 @@ const ESPREE_CONFIG = {
 };
 
 const STANDARD_ESQUERY_OPTION = { visitorKeys: vk.KEYS, fallback: Traverser.getKeys };
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 describe("NodeEventGenerator", () => {
     EventGeneratorTester.testEventGeneratorInterface(

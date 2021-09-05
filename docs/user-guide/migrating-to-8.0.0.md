@@ -94,7 +94,7 @@ In ESLint v7.0.0, using both `--report-unused-disable-directives` and `--fix` on
 
 ## <a name="eslint-recommended"></a> `eslint:recommended` has been updated
 
-Three new rules have been enabled in the `eslint:recommended` preset.
+Four new rules have been enabled in the `eslint:recommended` preset.
 
 - [`no-loss-of-precision`](https://eslint.org/docs/rules/no-loss-of-precision)
 - [`no-nonoctal-decimal-escape`](https://eslint.org/docs/rules/no-nonoctal-decimal-escape)

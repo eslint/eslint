@@ -13,7 +13,7 @@ const rule = require("../../../lib/rules/no-magic-numbers"),
     { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
-// Helpers
+// Tests
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();

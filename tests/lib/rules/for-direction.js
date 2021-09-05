@@ -13,7 +13,7 @@ const rule = require("../../../lib/rules/for-direction");
 const { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
-// Helpers
+// Tests
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();

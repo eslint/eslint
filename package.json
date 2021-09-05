@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "8.0.0-beta.0",
+  "version": "8.0.0-beta.1",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "bin": {
@@ -23,7 +23,6 @@
     "generate-betarelease": "node Makefile.js generatePrerelease -- beta",
     "generate-rcrelease": "node Makefile.js generatePrerelease -- rc",
     "publish-release": "node Makefile.js publishRelease",
-    "docs": "node Makefile.js docs",
     "gensite": "node Makefile.js gensite",
     "webpack": "node Makefile.js webpack",
     "perf": "node Makefile.js perf"

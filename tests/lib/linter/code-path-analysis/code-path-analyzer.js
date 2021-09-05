@@ -561,11 +561,11 @@ describe("CodePathAnalyzer", () => {
                     }
                 }));
                 const messages = linter.verify(source, {
-                    parserOptions: { ecmaVersion: 2021 },
+                    parserOptions: { ecmaVersion: 2022 },
                     rules: { test: 2 }
                 });
 
-                assert.strictEqual(messages.length, 0);
+                assert.strictEqual(messages.length, 0, "Unexpected linting error in code.");
                 assert.strictEqual(actual.length, expected.length, "a count of code paths is wrong.");
 
                 for (let i = 0; i < actual.length; ++i) {

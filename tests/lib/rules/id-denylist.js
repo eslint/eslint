@@ -1022,7 +1022,7 @@ ruleTester.run("id-denylist", rule, {
             ]
         },
 
-        // Globals declared in the given source code are not excluded from consideration
+        // globals declared in the given source code are not excluded from consideration
         {
             code: "const foo = 1; bar = foo;",
             options: ["foo"],

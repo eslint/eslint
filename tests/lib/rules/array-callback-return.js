@@ -12,6 +12,10 @@
 const rule = require("../../../lib/rules/array-callback-return"),
     { RuleTester } = require("../../../lib/rule-tester");
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester();
 
 const allowImplicitOptions = [{ allowImplicit: true }];

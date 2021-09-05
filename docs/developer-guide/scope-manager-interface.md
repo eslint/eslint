@@ -77,7 +77,7 @@ Those members are defined but not used in ESLint.
 #### type
 
 * **Type:** `string`
-* **Description:** The type of this scope. This is one of `"block"`, `"catch"`, `"class"`, `"for"`, `"function"`, `"function-expression-name"`, `"global"`, `"module"`, `"switch"`, `"with"`
+* **Description:** The type of this scope. This is one of `"block"`, `"catch"`, `"class"`, `"class-field-initializer"`, `"for"`, `"function"`, `"function-expression-name"`, `"global"`, `"module"`, `"switch"`, `"with"`.
 
 #### isStrict
 
@@ -97,7 +97,9 @@ Those members are defined but not used in ESLint.
 #### variableScope
 
 * **Type:** `Scope`
-* **Description:** The scope which hosts variables which are defined by `var` declarations.
+* **Description:** The nearest ancestor whose `type` is one of `"class-field-initializer"`, `"function"`, `"module"`, or `"program"` . For the aforementioned scopes this is a self-reference.
+
+> This represents the lowest enclosing function or top-level scope. Class field initializers are implicit functions. Historically, this was the scope which hosts variables that are defined by `var` declarations, and thus the name `variableScope`.
 
 #### block
 
