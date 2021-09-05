@@ -867,7 +867,30 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 50
-            }]
+            }],
+            code: "let x = foo((x,y) => {});\nlet y;",
+            options: [{ hoist: "all" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noShadow",
+                    data: {
+                        name: "x",
+                        shadowedLine: 1,
+                        shadowedColumn: 5
+                    },
+                    type: "Identifier"
+                },
+                {
+                    messageId: "noShadow",
+                    data: {
+                        name: "y",
+                        shadowedLine: 2,
+                        shadowedColumn: 5
+                    },
+                    type: "Identifier"
+                }
+            ]
         }
     ]
 });
