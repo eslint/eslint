@@ -40,6 +40,14 @@ body:
     label: What did you do?
     description: |
       Please include a *minimal* reproduction case with source code, configuration file, any other information about how you're using ESLint. You can use Markdown in this field.
+    value: |
+      <details>
+      <summary>Configuration</summary>
+      <!-- Paste your configuration below: -->
+      ```js
+      
+      ```
+      </details>
     render: markdown
   validations:
     required: true
