@@ -39,7 +39,7 @@ body:
 - type: textarea
   attributes:
     label: Why should this rule be in the core instead of a plugin?
-    description: In general, we prefer that rules be implemented in plugins, keeping the core of ESLint to only the most important rules.
+    description: In general, we prefer that rules be implemented in plugins where they can be tailored to your specific use case.
   validations:
     required: true
 - type: checkboxes
