@@ -8,7 +8,7 @@ const assert = require("chai").assert;
 const eslint = require("../..");
 const espree = require("espree");
 const sinon = require("sinon");
-const configRule = require("../../lib/init/config-rule");
+const configRule = require("../../tools/config-rule");
 
 //------------------------------------------------------------------------------
 // Tests
