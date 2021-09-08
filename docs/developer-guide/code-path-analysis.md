@@ -27,6 +27,7 @@ This has references of both the initial segment and the final segments of a code
 `CodePath` has the following properties:
 
 * `id` (`string`) - A unique string. Respective rules can use `id` to save additional information for each code path.
+* `origin` (`string`) - The reason that the code path was started. May be `"program"`, `"function"`, or `"class-field-initializer"`.
 * `initialSegment` (`CodePathSegment`) - The initial segment of this code path.
 * `finalSegments` (`CodePathSegment[]`) - The final segments which includes both returned and thrown.
 * `returnedSegments` (`CodePathSegment[]`) - The final segments which includes only returned.
