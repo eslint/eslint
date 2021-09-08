@@ -7,7 +7,7 @@ labels:
 body:
 - type: markdown
   attributes:
-    value: ESLint adheres to the [Open JS Foundation Code of Conduct](https://eslint.org/conduct). By opening an issue, you agree to abide by the code of conduct.
+    value: By opening an issue, you agree to abide by the [Open JS Foundation Code of Conduct](https://eslint.org/conduct).
 - type: input
   attributes:
     label: What rule do you want to change?
@@ -15,11 +15,12 @@ body:
     required: true
 - type: dropdown
   attributes:
-    label: Does this change cause the rule to produce more or fewer warnings?
+    label: What change to do you want to make?
     options:
-      - More warnings
-      - Fewer warnings
-      - No change to warnings
+      - Generate more warnings
+      - Generate fewer warnings
+      - Implement autofix
+      - Implement suggestions
   validations:
     required: true
 - type: dropdown
@@ -54,3 +55,7 @@ body:
     options:
       - label: I am willing to submit a pull request to implement this change.
         required: false
+- type: textarea
+  attributes:
+    label: Additional comments
+    description: Is there anything else that's important for the team to know?
