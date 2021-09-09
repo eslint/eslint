@@ -512,7 +512,7 @@ describe("cli", () => {
                 const exit = await cli.execute(code);
 
                 assert.strictEqual(exit, 2);
-            }, /Error while loading rule 'custom-rule': Cannot read property/u);
+            }, /Error while loading rule 'custom-rule': Boom!/u);
         });
 
         it("should return a warning when rule is matched", async () => {
