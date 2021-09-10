@@ -88,7 +88,12 @@ class A {
 
 ## Options
 
-### Exceptions
+This rule has two options:
+
+* `"exceptMethods"` allows specified method names to be ignored with this rule.
+* `"enforceForClassFields"` enforces that functions used as instance field initializers utilize `this`. (default: `true`)
+
+### exceptMethods
 
 ```
 "class-methods-use-this": [<enabled>, { "exceptMethods": [<...exceptions>] }]
@@ -110,11 +115,51 @@ class A {
 Examples of **correct** code for this rule when used with exceptMethods:
 
 ```js
-/*eslint class-methods-use-this: ["error", { "exceptMethods": ["foo"] }] */
+/*eslint class-methods-use-this: ["error", { "exceptMethods": ["foo", "#bar"] }] */
 
 class A {
     foo() {
     }
+    #bar() {
+    }
+}
+```
+
+## enforceForClassFields
+
+```
+"class-methods-use-this": [<enabled>, { "enforceForClassFields": true | false }]
+```
+
+The `enforceForClassFields` option enforces that arrow functions and function expressions used as instance field initializers utilize `this`. (default: `true`)
+
+Examples of **incorrect** code for this rule with the `{ "enforceForClassFields": true }` option (default):
+
+```js
+/*eslint class-methods-use-this: ["error", { "enforceForClassFields": true }] */
+
+class A {
+    foo = () => {}
+}
+```
+
+Examples of **correct** code for this rule with the `{ "enforceForClassFields": true }` option (default):
+
+```js
+/*eslint class-methods-use-this: ["error", { "enforceForClassFields": true }] */
+
+class A {
+    foo = () => {this;}
+}
+```
+
+Examples of **correct** code for this rule with the `{ "enforceForClassFields": false }` option:
+
+```js
+/*eslint class-methods-use-this: ["error", { "enforceForClassFields": false }] */
+
+class A {
+    foo = () => {}
 }
 ```
 
