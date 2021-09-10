@@ -1,3 +1,24 @@
+v8.0.0-beta.2 - September 10, 2021
+
+* [`9e5c2e8`](https://github.com/eslint/eslint/commit/9e5c2e853ace560876c2f2119e134639be8659d0) Upgrade: @eslint/eslintrc@1.0.1 (#15047) (Milos Djermanovic)
+* [`7cf96cf`](https://github.com/eslint/eslint/commit/7cf96cf185f849d379b660072d660ec35ac5b46d) Breaking: Disallow reserved words in ES3 (fixes #15017) (#15046) (Milos Djermanovic)
+* [`88a3952`](https://github.com/eslint/eslint/commit/88a39520716bdd11f8647e47c57bd8bf91bc7148) Update: support class fields in the `complexity` rule (refs #14857) (#14957) (Milos Djermanovic)
+* [`9bd3d87`](https://github.com/eslint/eslint/commit/9bd3d87c8d7369e85f2b7d9b784fed8143191d30) Fix: semicolon-less style in lines-between-class-members (refs #14857) (#15045) (Milos Djermanovic)
+* [`6d1ccb6`](https://github.com/eslint/eslint/commit/6d1ccb676fedd1ceb4b1e44abf8133f116a5aecb) Update: enforceForClassFields in class-methods-use-this (refs #14857) (#15018) (YeonJuan)
+* [`91e82f5`](https://github.com/eslint/eslint/commit/91e82f5c4cfeab5ac6d01865ce0eb9ea0649df39) Docs: LintMessage.line and column are possibly undefined (#15032) (Brandon Mills)
+* [`921ba1e`](https://github.com/eslint/eslint/commit/921ba1ee53e5f2219f09050565b8d69fab517d72) Chore: fix failing cli test (#15041) (Milos Djermanovic)
+* [`dd56631`](https://github.com/eslint/eslint/commit/dd5663166a8235512e797522731af1e9651f9392) Docs: remove duplicate code path analysis document (#15033) (Milos Djermanovic)
+* [`143a598`](https://github.com/eslint/eslint/commit/143a5987f18f063a47a0646fa1e10e0f88602f6f) Chore: Switch issues to use forms (#15024) (Nicholas C. Zakas)
+* [`f966fe6`](https://github.com/eslint/eslint/commit/f966fe6286b6f668812f5155b79d4ee2a8b584b3) Fix: Update semi for class-fields (refs #14857) (#14945) (Nicholas C. Zakas)
+* [`8c61f5a`](https://github.com/eslint/eslint/commit/8c61f5ac67682fcfec7fc6faafcf72e4b1a339ff) Docs: add info about non-capturing groups to prefer-named-capture-group (#15009) (Andrzej Wódkiewicz)
+* [`dd10937`](https://github.com/eslint/eslint/commit/dd109379f730a988a9e6c0102bcfe443ad0b4b94) Update: added ignoreExpressions option to max-classes-per-file (#15000) (Josh Goldberg)
+* [`e9764f3`](https://github.com/eslint/eslint/commit/e9764f3e2fe3f7b6341c9a4381f0dcd23548338e) Fix: no-undef-init should not apply to class fields (refs #14857) (#14994) (Milos Djermanovic)
+* [`4338b74`](https://github.com/eslint/eslint/commit/4338b74767fa71e4e8d171f8503aa33d970e509f) Docs: add no-dupe-class-members examples with class fields (refs #14857) (#15005) (Milos Djermanovic)
+* [`b4232d4`](https://github.com/eslint/eslint/commit/b4232d47f88611c68a6c0f915b092b68845ecbaf) Chore: Add test that deprecated rules display a deprecated notice (#14989) (TagawaHirotaka)
+* [`88b4e3d`](https://github.com/eslint/eslint/commit/88b4e3d191c2577e2e1a283cc5f825feea6271cc) Docs: Make clear how rule options are overridden (fixes #14962) (#14976) (Jake Ob)
+* [`4165c7f`](https://github.com/eslint/eslint/commit/4165c7f937f5fc46d4209ae8f763238d73f37238) Docs: Clarify Linter vs ESLint in node.js api docs (fixes #14953) (#14995) (Brian Bartels)
+* [`80cfb8f`](https://github.com/eslint/eslint/commit/80cfb8f858888bddfefd7de6b4ecbf5aabe267bc) Docs: fix typo in migration guide (#14985) (Nitin Kumar)
+
 v8.0.0-beta.1 - August 27, 2021
 
 * [`41617ec`](https://github.com/eslint/eslint/commit/41617ec3c4bc8bd1ba5f66521185be1566e6f5f4) Revert "allow all directives in line comments" (fixes #14960) (#14973) (薛定谔的猫)
