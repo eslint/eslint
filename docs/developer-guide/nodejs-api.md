@@ -376,9 +376,9 @@ The `LintMessage` value is the information of each linting error. The `messages`
   `true` if this is a fatal error unrelated to a rule, like a parsing error.
 * `message` (`string`)<br>
   The error message.
-* `line` (`number`)<br>
+* `line` (`number | undefined`)<br>
   The 1-based line number of the begin point of this message.
-* `column` (`number`)<br>
+* `column` (`number | undefined`)<br>
   The 1-based column number of the begin point of this message.
 * `endLine` (`number | undefined`)<br>
   The 1-based line number of the end point of this message. This property is undefined if this message is not a range.
