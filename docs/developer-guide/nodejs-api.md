@@ -768,7 +768,8 @@ In addition to the properties above, invalid test cases can also have the follow
     * `suggestions` (array): An array of objects with suggestion details to check. See [Testing Suggestions](#testing-suggestions) for details
 
     If a string is provided as an error instead of an object, the string is used to assert the `message` of the error.
-* `output` (string, required if the rule fixes code): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null`, asserts that none of the reported problems suggest autofixes.
+* `output` (string): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null`, asserts that none of the reported problems suggest autofixes. Either `output` or `outputAssert` must be present if the rule fixes code.
+* `outputAssert` (function): An assert function to determine if the output is correct. The function is passed the actual output, the expected output (only if `output` is present), and the error message `RuleTester` generates for non-matching output. Either `output` or `outputAssert` must be present if the rule fixes code.
 
 Any additional properties of a test case will be passed directly to the linter as config options. For example, a test case can have a `parserOptions` property to configure parser behavior:
 
@@ -811,8 +812,9 @@ Suggestions can be tested by defining a `suggestions` key on an errors object. T
 * `messageId` (string): The suggestion `messageId` value for suggestions that use `messageId`s
 * `data` (object): Placeholder data which can be used in combination with `messageId`
 * `output` (string): A code string representing the result of applying the suggestion fix to the input code
+* `outputAssert` (function): The assertion method to use to test the output
 
-Example:
+Here are some examples:
 
 ```js
 ruleTester.run("my-rule-for-no-foo", rule, {
@@ -826,7 +828,42 @@ ruleTester.run("my-rule-for-no-foo", rule, {
             }]
         }]
     }]
-})
+});
+
+ruleTester.run("my-rule-for-no-foo", rule, {
+    valid: [],
+    invalid: [{
+        code: "var foo;",
+        errors: [{
+            suggestions: [{
+                desc: "Rename identifier 'foo' to 'bar'",
+                outputAssert(actual) {
+                    if (actual !== "var bar;") {
+                        throw new Error("Output was incorrect");
+                    }
+                }
+            }]
+        }]
+    }]
+});
+
+ruleTester.run("my-rule-for-no-foo", rule, {
+    valid: [],
+    invalid: [{
+        code: "var foo;",
+        errors: [{
+            suggestions: [{
+                desc: "Rename identifier 'foo' to 'bar'",
+                output: "var bar;",
+                outputAssert(actual, expected, message) {
+                    if (actual !== expected) {
+                        throw new Error(message);
+                    }
+                }
+            }]
+        }]
+    }]
+});
 ```
 
 `messageId` and `data` properties in suggestion test objects work the same way as in error test objects. See [testing errors with messageId](#testing-errors-with-messageid) for details.
