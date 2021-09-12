@@ -1,0 +1,56 @@
+name: "\U0001F4DD Request a rule change"
+description: "Request a change to an existing core rule"
+title: "Rule Change: (fill in)"
+labels:
+  - enhancement
+  - rule
+body:
+- type: markdown
+  attributes:
+    value: ESLint adheres to the [Open JS Foundation Code of Conduct](https://eslint.org/conduct). By opening an issue, you agree to abide by the code of conduct.
+- type: input
+  attributes:
+    label: What rule do you want to change?
+  validations:
+    required: true
+- type: dropdown
+  attributes:
+    label: Does this change cause the rule to produce more or fewer warnings?
+    options:
+      - More warnings
+      - Fewer warnings
+      - No change to warnings
+  validations:
+    required: true
+- type: dropdown
+  attributes:
+    label: How do you think the change should be implemented?
+    options:
+      - A new option
+      - A new default behavior
+      - Other
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Example code
+    description: Please provide some example code that this change will affect. This field will render as JavaScript.
+    render: js
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: What does the rule currently do for this code?
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: What will the rule do after it's changed?
+  validations:
+    required: true
+- type: checkboxes
+  attributes:
+    label: Participation
+    options:
+      - label: I am willing to submit a pull request to implement this change.
+        required: false
