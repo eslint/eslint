@@ -7,7 +7,7 @@ labels:
 body:
 - type: markdown
   attributes:
-    value: ESLint adheres to the [Open JS Foundation Code of Conduct](https://eslint.org/conduct). By opening an issue, you agree to abide by the code of conduct.
+    value: By opening an issue, you agree to abide by the [Open JS Foundation Code of Conduct](https://eslint.org/conduct).
 - type: input
   attributes:
     label: Rule details
@@ -48,3 +48,7 @@ body:
     options:
       - label: I am willing to submit a pull request to implement this rule.
         required: false
+- type: textarea
+  attributes:
+    label: Additional comments
+    description: Is there anything else that's important for the team to know?
