@@ -236,7 +236,7 @@ function commitSiteToGit(tag) {
         exec(`git tag ${tag}`);
     }
 
-    exec("git fetch origin && git rebase origin/main");
+    exec("git fetch origin && git rebase origin/master");
     cd(currentDir);
 }
 
@@ -249,7 +249,7 @@ function publishSite() {
     const currentDir = pwd();
 
     cd(SITE_DIR);
-    exec("git push origin main --tags");
+    exec("git push origin master --tags");
     cd(currentDir);
 }
 
