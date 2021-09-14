@@ -674,8 +674,8 @@ To keep the linting process efficient and unobtrusive, it is useful to verify th
 When developing in the ESLint core repository, the `npm run perf` command gives a high-level overview of ESLint running time with all core rules enabled.
 
 ```bash
-$ git checkout master
-Switched to branch 'master'
+$ git checkout main
+Switched to branch 'main'
 
 $ npm run perf
 CPU Speed is 2200 with multiplier 7500000

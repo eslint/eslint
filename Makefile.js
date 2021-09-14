@@ -236,7 +236,7 @@ function commitSiteToGit(tag) {
         exec(`git tag ${tag}`);
     }
 
-    exec("git fetch origin && git rebase origin/master");
+    exec("git fetch origin && git rebase origin/main");
     cd(currentDir);
 }
 
@@ -249,7 +249,7 @@ function publishSite() {
     const currentDir = pwd();
 
     cd(SITE_DIR);
-    exec("git push origin master --tags");
+    exec("git push origin main --tags");
     cd(currentDir);
 }
 
@@ -647,8 +647,8 @@ target.gensite = function(prereleaseVersion) {
     tempFiles.forEach((filename, i) => {
         if (test("-f", filename) && path.extname(filename) === ".md") {
 
-            const rulesUrl = "https://github.com/eslint/eslint/tree/master/lib/rules/",
-                docsUrl = "https://github.com/eslint/eslint/tree/master/docs/rules/",
+            const rulesUrl = "https://github.com/eslint/eslint/tree/main/lib/rules/",
+                docsUrl = "https://github.com/eslint/eslint/tree/main/docs/rules/",
                 baseName = path.basename(filename),
                 sourceBaseName = `${path.basename(filename, ".md")}.js`,
                 sourcePath = path.join("lib/rules", sourceBaseName),
@@ -695,7 +695,7 @@ target.gensite = function(prereleaseVersion) {
                 "---",
                 `title: ${title}`,
                 "layout: doc",
-                `edit_link: https://github.com/eslint/eslint/edit/master/${filePath}`,
+                `edit_link: https://github.com/eslint/eslint/edit/main/${filePath}`,
                 ruleType,
                 "---",
                 "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",
