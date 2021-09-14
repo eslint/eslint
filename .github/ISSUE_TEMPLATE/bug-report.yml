@@ -18,7 +18,7 @@ body:
         npm version: 
         Local ESLint version: 
         Global ESLint version: 
-        Operating System:
+        Operating System: 
   validations:
     required: true
 - type: dropdown
@@ -43,6 +43,7 @@ body:
     value: |
       <details>
       <summary>Configuration</summary>
+
       ```
       <!-- Paste your configuration here -->
       ```
@@ -51,7 +52,6 @@ body:
       ```js
       <!-- Paste your code here -->
       ```
-    render: markdown
   validations:
     required: true
 - type: textarea
