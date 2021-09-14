@@ -7,7 +7,7 @@ labels:
 body:
 - type: markdown
   attributes:
-    value: ESLint adheres to the [Open JS Foundation Code of Conduct](https://eslint.org/conduct). By opening an issue, you agree to abide by the code of conduct.
+    value: By opening an issue, you agree to abide by the [Open JS Foundation Code of Conduct](https://eslint.org/conduct).
 - type: textarea
   attributes:
     label: Environment
@@ -43,11 +43,14 @@ body:
     value: |
       <details>
       <summary>Configuration</summary>
-      <!-- Paste your configuration below: -->
-      ```js
-      
+      ```
+      <!-- Paste your configuration here -->
       ```
       </details>
+
+      ```js
+      <!-- Paste your code here -->
+      ```
     render: markdown
   validations:
     required: true
@@ -56,7 +59,6 @@ body:
     label: What did you expect to happen?
     description: |
       You can use Markdown in this field.
-    render: markdown
   validations:
     required: true
 - type: textarea
@@ -64,7 +66,6 @@ body:
     label: What actually happened?
     description: |
       Please copy-paste the actual ESLint output. You can use Markdown in this field.
-    render: markdown
   validations:
     required: true
 - type: checkboxes
@@ -73,3 +74,7 @@ body:
     options:
       - label: I am willing to submit a pull request for this issue.
         required: false
+- type: textarea
+  attributes:
+    label: Additional comments
+    description: Is there anything else that's important for the team to know?
