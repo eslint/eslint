@@ -250,6 +250,11 @@ ruleTester.run("space-unary-ops", rule, {
             code: "function *foo () { yield(0) }",
             options: [{ words: false, overrides: { yield: false } }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class C { #x; *foo(bar) { yield#x in bar; } }",
+            options: [{ words: false }],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
 
@@ -804,6 +809,19 @@ ruleTester.run("space-unary-ops", rule, {
                 type: "AwaitExpression",
                 line: 1,
                 column: 24
+            }]
+        },
+        {
+            code: "class C { #x; *foo(bar) { yield #x in bar; } }",
+            output: "class C { #x; *foo(bar) { yield#x in bar; } }",
+            options: [{ words: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "unexpectedAfterWord",
+                data: { word: "yield" },
+                type: "YieldExpression",
+                line: 1,
+                column: 27
             }]
         }
     ]
