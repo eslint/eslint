@@ -38,7 +38,9 @@ ruleTester.run("no-new-func", rule, {
         "var fn = function () { function Function() {}; Function() }",
         "var x = function Function() { Function(); }",
         "call(Function)",
-        "new Class(Function)"
+        "new Class(Function)",
+        "foo[Function]()",
+        "foo(Function.bind)"
     ],
     invalid: [
         {
@@ -78,6 +80,14 @@ ruleTester.run("no-new-func", rule, {
         },
         {
             code: "var a = Function.bind(null, \"b\", \"c\", \"return b+c\");",
+            errors: [{
+                messageId: "noFunctionConstructor",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "var a = (Function?.call)(null, \"b\", \"c\", \"return b+c\");",
+            parserOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "noFunctionConstructor",
                 type: "CallExpression"
