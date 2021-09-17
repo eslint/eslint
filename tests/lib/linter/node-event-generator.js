@@ -314,6 +314,15 @@ describe("NodeEventGenerator", () => {
                 ["[name.length=3]:exit", ast.body[1].expression]
             ]
         );
+
+        // https://github.com/eslint/eslint/issues/14799
+        assertEmissions(
+            "const {a = 1} = b;",
+            ["Property > .key"],
+            ast => [
+                ["Property > .key", ast.body[0].declarations[0].id.properties[0].key]
+            ]
+        );
     });
 
     describe("traversing the entire non-standard AST", () => {

@@ -10,7 +10,7 @@ ESLint welcomes contributions from everyone and adheres to the [OpenJS Foundatio
 
 ## [Signing the CLA](https://openjsf.org/about/the-openjs-foundation-cla/)
 
-In order to submit code or documentation to an ESLint project, you will need to electronically sign our [Contributor License Agreement](https://cla.js.foundation/eslint/eslint). The CLA is you giving us permission to use your contribution.
+In order to submit code or documentation to an ESLint project, you will need to electronically sign our [Contributor License Agreement](https://github.com/openjs-foundation/easycla). The CLA is the commonly used Apache-style template, and is you giving us permission to use your contribution. You only need to sign the CLA once for any OpenJS Foundation projects that use EasyCLA.
 
 ## [Bug Reporting](reporting-bugs)
 
