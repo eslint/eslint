@@ -345,7 +345,7 @@ ruleTester.run("prefer-regex-literals", rule, {
             errors: [{ messageId: "unexpectedRegExp" }]
         },
         {
-            code: "RegExp('abc', 'd');",
+            code: "new RegExp('abc', 'd');",
             output: null,
             parserOptions: { ecmaVersion: 2021 },
             errors: [{ messageId: "unexpectedRegExp" }]
