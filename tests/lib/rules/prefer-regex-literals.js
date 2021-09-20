@@ -503,6 +503,11 @@ ruleTester.run("prefer-regex-literals", rule, {
             errors: [{ messageId: "unexpectedRegExp" }]
         },
         {
+            code: "new RegExp('\\0\\0', 'g');",
+            output: "/\\0\\0/g;",
+            errors: [{ messageId: "unexpectedRegExp" }]
+        },
+        {
             code: "RegExp('\\\\0\\\\0\\\\0', '')",
             output: "/\\0\\0\\0/",
             errors: [{ messageId: "unexpectedRegExp" }]
