@@ -389,17 +389,17 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\u1234', 'g')",
-            output: "/ሴ/g",
+            output: null,
             errors: [{ messageId: "unexpectedRegExp" }]
         },
         {
             code: "RegExp('\\u{1234}', 'g')",
-            output: "/ሴ/g",
+            output: null,
             errors: [{ messageId: "unexpectedRegExp" }]
         },
         {
             code: "RegExp('\\u{11111}', 'g')",
-            output: "/𑄑/g",
+            output: null,
             errors: [{ messageId: "unexpectedRegExp" }]
         },
         {
