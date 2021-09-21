@@ -10,8 +10,6 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-require("shelljs/make");
-
 const checker = require("npm-license"),
     ReleaseOps = require("eslint-release"),
     dateformat = require("dateformat"),
@@ -27,6 +25,7 @@ const checker = require("npm-license"),
     { CLIEngine } = require("./lib/cli-engine"),
     builtinRules = require("./lib/rules/index");
 
+require("shelljs/make");
 /* global target -- global.target is declared in `shelljs/make.js` */
 /**
  * global.target = {};
