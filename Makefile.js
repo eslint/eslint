@@ -477,10 +477,6 @@ function getBinFile(command) {
 // Tasks
 //------------------------------------------------------------------------------
 
-target.all = function() {
-    target.test();
-};
-
 target.lint = function([fix = false] = []) {
     let errors = 0,
         lastReturn;
