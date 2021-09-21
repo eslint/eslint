@@ -3,7 +3,6 @@
  * @author nzakas
  */
 
-/* global target -- TODO: figure out where this is coming from and update this description */
 /* eslint no-use-before-define: "off", no-console: "off" -- CLI */
 "use strict";
 
@@ -28,6 +27,12 @@ const checker = require("npm-license"),
     { CLIEngine } = require("./lib/cli-engine"),
     builtinRules = require("./lib/rules/index");
 
+/* global target -- global.target is declared in `shelljs/make.js` */
+/**
+ * global.target = {};
+ * @see https://github.com/shelljs/shelljs/blob/124d3349af42cb794ae8f78fc9b0b538109f7ca7/make.js#L4
+ * @see https://github.com/DefinitelyTyped/DefinitelyTyped/blob/3aa2d09b6408380598cfb802743b07e1edb725f3/types/shelljs/make.d.ts#L8-L11
+ */
 const { cat, cd, cp, echo, exec, exit, find, ls, mkdir, pwd, rm, test } = require("shelljs");
 
 //------------------------------------------------------------------------------
