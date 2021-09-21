@@ -695,7 +695,7 @@ target.gensite = function(prereleaseVersion) {
                 "---",
                 `title: ${title}`,
                 "layout: doc",
-                `edit_link: https://github.com/eslint/eslint/edit/HEAD/${filePath}`,
+                `edit_link: https://github.com/eslint/eslint/edit/main/${filePath}`,
                 ruleType,
                 "---",
                 "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",
