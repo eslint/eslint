@@ -87,7 +87,7 @@ describe("Linter", () => {
 
             assert.throws(() => {
                 linter.verify(code, config, filename);
-            }, `Intentional error.\nOccurred while linting ${filename}:1`);
+            }, `Intentional error.\nOccurred while linting ${filename}:1\nRule: "checker"`);
         });
 
         it("does not call rule listeners with a `this` value", () => {
@@ -5300,7 +5300,7 @@ var a = "test2";
 
             assert.throws(() => {
                 linter.verify("0", { rules: { "test-rule": "error" } });
-            }, /Fixable rules must set the `meta\.fixable` property to "code" or "whitespace".\nOccurred while linting <input>:1$/u);
+            }, /Fixable rules must set the `meta\.fixable` property to "code" or "whitespace".\nOccurred while linting <input>:1\nRule: "test-rule"$/u);
         });
 
         it("should throw an error if fix is passed and there is no metadata", () => {
