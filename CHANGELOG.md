@@ -1,3 +1,19 @@
+v8.0.0-rc.0 - September 24, 2021
+
+* [`67c0074`](https://github.com/eslint/eslint/commit/67c0074fa843fab629f464ff875007a8ee33cc7f) Update: Suggest missing rule in flat config (fixes #14027) (#15074) (Nicholas C. Zakas)
+* [`cf34e5c`](https://github.com/eslint/eslint/commit/cf34e5cf5ed5d09eb53c16cca06821c4e34b7b70) Update: space-before-blocks ignore after switch colons (fixes #15082) (#15093) (Milos Djermanovic)
+* [`c9efb5f`](https://github.com/eslint/eslint/commit/c9efb5f91937dcb6c8f3d7cb2f59940046d77901) Fix: preserve formatting when rules are removed from disable directives (#15081) (Milos Djermanovic)
+* [`14a4739`](https://github.com/eslint/eslint/commit/14a4739ab2233acef995a6dde233de05d067a0f3) Update: `no-new-func` rule catching eval case of `MemberExpression` (#14860) (Mojtaba Samimi)
+* [`7f2346b`](https://github.com/eslint/eslint/commit/7f2346b40ffd0d470092e52b995d7ab2648089db) Docs: Update release blog post template (#15094) (Nicholas C. Zakas)
+* [`fabdf8a`](https://github.com/eslint/eslint/commit/fabdf8a4e2f82b5fe2f903f015c3e60747a0b143) Chore: Remove `target.all` from `Makefile.js` (#15088) (Hirotaka Tagawa / wafuwafu13)
+* [`e3cd141`](https://github.com/eslint/eslint/commit/e3cd1414489ceda460d593ac7e7b14f8ad45d4fc) Sponsors: Sync README with website (ESLint Jenkins)
+* [`05d7140`](https://github.com/eslint/eslint/commit/05d7140d46e2b5300d4dc9a60450eed956c95420) Chore: document target global in Makefile.js (#15084) (Hirotaka Tagawa / wafuwafu13)
+* [`0a1a850`](https://github.com/eslint/eslint/commit/0a1a850575ca75db017051abe5e931f0f9c8012b) Update: include `ruleId` in error logs (fixes #15037) (#15053) (Ari Perkkiö)
+* [`47be800`](https://github.com/eslint/eslint/commit/47be8003d700bc0606495ae42610eaba94e639c5) Chore: test Property > .key with { a = 1 } pattern (fixes #14799) (#15072) (Milos Djermanovic)
+* [`a744dfa`](https://github.com/eslint/eslint/commit/a744dfa1f077afe406014f84135f8d26e9a12a94) Docs: Update CLA info (#15058) (Brian Warner)
+* [`9fb0f70`](https://github.com/eslint/eslint/commit/9fb0f7040759ea23538997648f2d2d53e7c9db8a) Chore: fix bug report template (#15061) (Milos Djermanovic)
+* [`f87e199`](https://github.com/eslint/eslint/commit/f87e199e988f42fc490890eee0642d86c48c85ff) Chore: Cleanup issue templates (#15039) (Nicholas C. Zakas)
+
 v8.0.0-beta.2 - September 10, 2021
 
 * [`9e5c2e8`](https://github.com/eslint/eslint/commit/9e5c2e853ace560876c2f2119e134639be8659d0) Upgrade: @eslint/eslintrc@1.0.1 (#15047) (Milos Djermanovic)
