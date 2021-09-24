@@ -18,6 +18,7 @@ const rule = require("../../../lib/rules/space-before-blocks"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester(),
+    alwaysArgs = ["always"],
     neverArgs = ["never"],
     functionsOnlyArgs = [{ functions: "always", keywords: "never", classes: "never" }],
     keywordOnlyArgs = [{ functions: "never", keywords: "always", classes: "never" }],
@@ -193,7 +194,15 @@ ruleTester.run("space-before-blocks", rule, {
         "if(a) {}else{}",
         { code: "if(a){}else {}", options: neverArgs },
         { code: "try {}catch(a){}", options: functionsOnlyArgs },
-        { code: "export default class{}", options: classesOnlyArgs, parserOptions: { ecmaVersion: 6, sourceType: "module" } }
+        { code: "export default class{}", options: classesOnlyArgs, parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+
+        // https://github.com/eslint/eslint/issues/15082
+        { code: "switch(x) { case 9:{ break; } }", options: alwaysArgs },
+        { code: "switch(x){ case 9: { break; } }", options: neverArgs },
+        { code: "switch(x) { case (9):{ break; } }", options: alwaysArgs },
+        { code: "switch(x){ case (9): { break; } }", options: neverArgs },
+        { code: "switch(x) { default:{ break; } }", options: alwaysArgs },
+        { code: "switch(x){ default: { break; } }", options: neverArgs }
     ],
     invalid: [
         {
@@ -570,6 +579,68 @@ ruleTester.run("space-before-blocks", rule, {
             output: "function foo(): null{}",
             options: neverArgs,
             parser: fixtureParser("space-before-blocks", "return-type-keyword-2"),
+            errors: [expectedNoSpacingError]
+        },
+
+        // https://github.com/eslint/eslint/issues/15082 regression tests (only blocks after switch case colons should be excluded)
+        {
+            code: "label:{}",
+            output: "label: {}",
+            options: alwaysArgs,
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "label: {}",
+            output: "label:{}",
+            options: neverArgs,
+            errors: [expectedNoSpacingError]
+        },
+        {
+            code: "switch(x) { case 9: label:{ break; } }",
+            output: "switch(x) { case 9: label: { break; } }",
+            options: alwaysArgs,
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "switch(x){ case 9: label: { break; } }",
+            output: "switch(x){ case 9: label:{ break; } }",
+            options: neverArgs,
+            errors: [expectedNoSpacingError]
+        },
+        {
+            code: "switch(x) { case 9: if(y){ break; } }",
+            output: "switch(x) { case 9: if(y) { break; } }",
+            options: alwaysArgs,
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "switch(x){ case 9: if(y) { break; } }",
+            output: "switch(x){ case 9: if(y){ break; } }",
+            options: neverArgs,
+            errors: [expectedNoSpacingError]
+        },
+        {
+            code: "switch(x) { case 9: y;{ break; } }",
+            output: "switch(x) { case 9: y; { break; } }",
+            options: alwaysArgs,
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "switch(x){ case 9: y; { break; } }",
+            output: "switch(x){ case 9: y;{ break; } }",
+            options: neverArgs,
+            errors: [expectedNoSpacingError]
+        },
+        {
+            code: "switch(x) { case 9: switch(y){} }",
+            output: "switch(x) { case 9: switch(y) {} }",
+            options: alwaysArgs,
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "switch(x){ case 9: switch(y) {} }",
+            output: "switch(x){ case 9: switch(y){} }",
+            options: neverArgs,
             errors: [expectedNoSpacingError]
         }
     ]
