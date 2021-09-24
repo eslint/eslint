@@ -583,6 +583,11 @@ ruleTester.run("prefer-regex-literals", rule, {
             errors: [{ messageId: "unexpectedRegExp" }, { messageId: "unexpectedRegExp" }]
         },
         {
+            code: "func(new RegExp(String.raw`\\w{1, 2`, 'u'),new RegExp(String.raw`\\w{1, 2`, 'u'))",
+            output: null,
+            errors: [{ messageId: "unexpectedRegExp" }, { messageId: "unexpectedRegExp" }]
+        },
+        {
             code: `x = y;
             RegExp("foo").test(x) ? bar() : baz()`,
             output: `x = y;
@@ -629,13 +634,13 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "async function abc(){await new RegExp(\"foo\")}",
-            output: "async function abc(){await /foo/}",
+            output: null,
             parserOptions: { ecmaVersion: 8, sourceType: "module" },
             errors: [{ messageId: "unexpectedRegExp" }]
         },
         {
             code: "function* abc(){yield new RegExp(\"foo\")}",
-            output: "function* abc(){yield /foo/}",
+            output: null,
             errors: [{ messageId: "unexpectedRegExp" }]
         },
         {
@@ -1076,12 +1081,12 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "for (value of new RegExp('something being searched')) { console.log(value) }",
-            output: "for (value of /something being searched/) { console.log(value) }",
+            output: null,
             errors: [{ messageId: "unexpectedRegExp" }]
         },
         {
             code: "(async function(){for await (value of new RegExp('something being searched')) { console.log(value) }})()",
-            output: "(async function(){for await (value of /something being searched/) { console.log(value) }})()",
+            output: null,
             parserOptions: { ecmaVersion: 2018 },
             errors: [{ messageId: "unexpectedRegExp" }]
         },
@@ -1092,7 +1097,7 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "if (condition1 && condition2) new RegExp('avalue').test(str);",
-            output: "if (condition1 && condition2) /avalue/.test(str);",
+            output: null,
             errors: [{ messageId: "unexpectedRegExp" }]
         },
         {
