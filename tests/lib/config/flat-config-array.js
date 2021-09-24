@@ -1310,6 +1310,17 @@ describe("FlatConfigArray", () => {
                 ], /Key "rules": Key "test2\/match": Could not find "match" in plugin "test2"\. Did you mean "test1\/match"\?/u);
             });
 
+            it("should error when plugin for rule doesn't exist", async () => {
+
+                await assertInvalidConfig([
+                    {
+                        rules: {
+                            "doesnt-exist/match": "error"
+                        }
+                    }
+                ], /Key "rules": Key "doesnt-exist\/match": Could not find plugin "doesnt-exist"\./u);
+            });
+
             it("should error when rule options don't match schema", async () => {
 
                 await assertInvalidConfig([
