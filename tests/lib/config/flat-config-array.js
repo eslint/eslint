@@ -56,6 +56,16 @@ const baseConfig = {
                     }
                 }
             }
+        },
+        test1: {
+            rules: {
+                match: {}
+            }
+        },
+        test2: {
+            rules: {
+                nomatch: {}
+            }
         }
     }
 };
@@ -1276,6 +1286,39 @@ describe("FlatConfigArray", () => {
                         }
                     }
                 ], "Key \"rules\": Key \"foo\": Expected severity of \"off\", 0, \"warn\", 1, \"error\", or 2.");
+            });
+
+            it("should error when rule doesn't exist", async () => {
+
+                await assertInvalidConfig([
+                    {
+                        rules: {
+                            foox: [1, "bar"]
+                        }
+                    }
+                ], /Key "rules": Key "foox": Could not find "foox" in plugin "@"./u);
+            });
+
+            it("should error and suggest alternative when rule doesn't exist", async () => {
+
+                await assertInvalidConfig([
+                    {
+                        rules: {
+                            "test2/match": "error"
+                        }
+                    }
+                ], /Key "rules": Key "test2\/match": Could not find "match" in plugin "test2"\. Did you mean "test1\/match"\?/u);
+            });
+
+            it("should error when plugin for rule doesn't exist", async () => {
+
+                await assertInvalidConfig([
+                    {
+                        rules: {
+                            "doesnt-exist/match": "error"
+                        }
+                    }
+                ], /Key "rules": Key "doesnt-exist\/match": Could not find plugin "doesnt-exist"\./u);
             });
 
             it("should error when rule options don't match schema", async () => {
