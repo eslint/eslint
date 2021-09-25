@@ -1104,6 +1104,31 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "debugger\nnew RegExp('myReg')",
             output: "debugger\n/myReg/",
             errors: [{ messageId: "unexpectedRegExp" }]
+        },
+        {
+            code: "RegExp(\"\\\\\\n\")",
+            output: "/\\n/",
+            errors: [{ messageId: "unexpectedRegExp" }]
+        },
+        {
+            code: "RegExp(\"\\\\\\t\")",
+            output: "/\\t/",
+            errors: [{ messageId: "unexpectedRegExp" }]
+        },
+        {
+            code: "RegExp(\"\\\\\\f\")",
+            output: "/\\f/",
+            errors: [{ messageId: "unexpectedRegExp" }]
+        },
+        {
+            code: "RegExp(\"\\\\\\v\")",
+            output: "/\\v/",
+            errors: [{ messageId: "unexpectedRegExp" }]
+        },
+        {
+            code: "RegExp(\"\\\\\\r\")",
+            output: "/\\r/",
+            errors: [{ messageId: "unexpectedRegExp" }]
         }
     ]
 });
