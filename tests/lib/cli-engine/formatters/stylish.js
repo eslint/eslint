@@ -10,61 +10,86 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    chalk = require("chalk"),
-    proxyquire = require("proxyquire"),
-    sinon = require("sinon");
+    nanocolors = require("nanocolors"),
+    proxyquire = require("proxyquire");
 
 //-----------------------------------------------------------------------------
 // Helpers
 //-----------------------------------------------------------------------------
 
-/*
- * Chalk protects its methods so we need to inherit from it
- * for Sinon to work.
+const noColors = nanocolors.createColors(false);
+
+let formatters = {};
+
+/**
+ * Track formatter call.
+ * @param {string} formatter Nano Colors formatter.
+ * @returns {void}
  */
-const chalkStub = Object.create(chalk, {
+function track(formatter) {
+    if (!formatters[formatter]) {
+        formatters[formatter] = 0;
+    }
+    formatters[formatter] += 1;
+}
+
+/*
+ * A way to track Nano Colors calls.
+ */
+const nanocolorsStub = Object.create(nanocolors, {
+    underline: {
+        value(str) {
+            track("underline");
+            return noColors.underline(str);
+        },
+        writable: true
+    },
     reset: {
         value(str) {
-            return chalk.reset(str);
+            track("reset");
+            return noColors.reset(str);
         },
         writable: true
     },
     yellow: {
         value(str) {
-            return chalk.yellow(str);
+            track("yellow");
+            return noColors.yellow(str);
+        },
+        writable: true
+    },
+    bold: {
+        value(str) {
+            track("bold");
+            return noColors.bold(str);
+        },
+        writable: true
+    },
+    dim: {
+        value(str) {
+            track("dim");
+            return noColors.dim(str);
         },
         writable: true
     },
     red: {
         value(str) {
-            return chalk.red(str);
+            track("red");
+            return noColors.red(str);
         },
         writable: true
     }
 });
 
-chalkStub.yellow.bold = chalk.yellow.bold;
-chalkStub.red.bold = chalk.red.bold;
-
-const formatter = proxyquire("../../../../lib/cli-engine/formatters/stylish", { chalk: chalkStub });
+const formatter = proxyquire("../../../../lib/cli-engine/formatters/stylish", { nanocolors: nanocolorsStub });
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 describe("formatter:stylish", () => {
-    const originalColorLevel = chalk.level;
-
-    beforeEach(() => {
-        chalk.level = 0;
-        sinon.spy(chalkStub, "reset");
-        sinon.spy(chalkStub.yellow, "bold");
-        sinon.spy(chalkStub.red, "bold");
-    });
-
     afterEach(() => {
-        sinon.verifyAndRestore();
-        chalk.level = originalColorLevel;
+        formatters = {};
     });
 
     describe("when passed no messages", () => {
@@ -79,9 +104,7 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "");
-            assert.strictEqual(chalkStub.reset.callCount, 0);
-            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-            assert.strictEqual(chalkStub.red.bold.callCount, 0);
+            assert.deepStrictEqual(formatters, {});
         });
     });
 
@@ -105,9 +128,13 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n");
-            assert.strictEqual(chalkStub.reset.callCount, 1);
-            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-            assert.strictEqual(chalkStub.red.bold.callCount, 1);
+            assert.deepStrictEqual(formatters, {
+                bold: 1,
+                dim: 2,
+                red: 2,
+                reset: 1,
+                underline: 1
+            });
 
         });
 
@@ -120,9 +147,13 @@ describe("formatter:stylish", () => {
                 const result = formatter(code);
 
                 assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n  1 error and 0 warnings potentially fixable with the `--fix` option.\n");
-                assert.strictEqual(chalkStub.reset.callCount, 1);
-                assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-                assert.strictEqual(chalkStub.red.bold.callCount, 2);
+                assert.deepStrictEqual(formatters, {
+                    bold: 2,
+                    dim: 2,
+                    red: 3,
+                    reset: 1,
+                    underline: 1
+                });
             });
         });
     });
@@ -147,9 +178,13 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "\nfoo.js\n  5:10  warning  Unexpected foo  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n");
-            assert.strictEqual(chalkStub.reset.callCount, 1);
-            assert.strictEqual(chalkStub.yellow.bold.callCount, 1);
-            assert.strictEqual(chalkStub.red.bold.callCount, 0);
+            assert.deepStrictEqual(formatters, {
+                bold: 1,
+                dim: 2,
+                reset: 1,
+                underline: 1,
+                yellow: 2
+            });
         });
 
         describe("when the error is fixable", () => {
@@ -161,9 +196,13 @@ describe("formatter:stylish", () => {
                 const result = formatter(code);
 
                 assert.strictEqual(result, "\nfoo.js\n  5:10  warning  Unexpected foo  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n  0 errors and 1 warning potentially fixable with the `--fix` option.\n");
-                assert.strictEqual(chalkStub.reset.callCount, 1);
-                assert.strictEqual(chalkStub.yellow.bold.callCount, 2);
-                assert.strictEqual(chalkStub.red.bold.callCount, 0);
+                assert.deepStrictEqual(formatters, {
+                    bold: 2,
+                    dim: 2,
+                    reset: 1,
+                    underline: 1,
+                    yellow: 3
+                });
             });
 
         });
@@ -189,9 +228,13 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "\nfoo.js\n  5:10  warning  Unexpected .  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n");
-            assert.strictEqual(chalkStub.reset.callCount, 1);
-            assert.strictEqual(chalkStub.yellow.bold.callCount, 1);
-            assert.strictEqual(chalkStub.red.bold.callCount, 0);
+            assert.deepStrictEqual(formatters, {
+                bold: 1,
+                dim: 2,
+                reset: 1,
+                underline: 1,
+                yellow: 2
+            });
         });
     });
 
@@ -213,9 +256,13 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n");
-            assert.strictEqual(chalkStub.reset.callCount, 1);
-            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-            assert.strictEqual(chalkStub.red.bold.callCount, 1);
+            assert.deepStrictEqual(formatters, {
+                bold: 1,
+                dim: 2,
+                red: 2,
+                reset: 1,
+                underline: 1
+            });
         });
     });
 
@@ -243,9 +290,14 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "\nfoo.js\n  5:10  error    Unexpected foo  foo\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (1 error, 1 warning)\n");
-            assert.strictEqual(chalkStub.reset.callCount, 1);
-            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-            assert.strictEqual(chalkStub.red.bold.callCount, 1);
+            assert.deepStrictEqual(formatters, {
+                bold: 1,
+                dim: 4,
+                red: 2,
+                reset: 1,
+                underline: 1,
+                yellow: 1
+            });
         });
     });
 
@@ -278,9 +330,14 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (1 error, 1 warning)\n");
-            assert.strictEqual(chalkStub.reset.callCount, 1);
-            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-            assert.strictEqual(chalkStub.red.bold.callCount, 1);
+            assert.deepStrictEqual(formatters, {
+                bold: 1,
+                dim: 4,
+                red: 2,
+                reset: 1,
+                underline: 2,
+                yellow: 1
+            });
         });
 
         it("should add errorCount", () => {
@@ -292,9 +349,14 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (2 errors, 0 warnings)\n");
-            assert.strictEqual(chalkStub.reset.callCount, 1);
-            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-            assert.strictEqual(chalkStub.red.bold.callCount, 1);
+            assert.deepStrictEqual(formatters, {
+                bold: 1,
+                dim: 4,
+                red: 2,
+                reset: 1,
+                underline: 2,
+                yellow: 1
+            });
         });
 
         it("should add warningCount", () => {
@@ -306,9 +368,14 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (0 errors, 2 warnings)\n");
-            assert.strictEqual(chalkStub.reset.callCount, 1);
-            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-            assert.strictEqual(chalkStub.red.bold.callCount, 1);
+            assert.deepStrictEqual(formatters, {
+                bold: 1,
+                dim: 4,
+                red: 2,
+                reset: 1,
+                underline: 2,
+                yellow: 1
+            });
         });
     });
 
@@ -327,9 +394,13 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "\nfoo.js\n  0:0  error  Couldn't find foo.js\n\n\u2716 1 problem (1 error, 0 warnings)\n");
-            assert.strictEqual(chalkStub.reset.callCount, 1);
-            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-            assert.strictEqual(chalkStub.red.bold.callCount, 1);
+            assert.deepStrictEqual(formatters, {
+                bold: 1,
+                dim: 2,
+                red: 2,
+                reset: 1,
+                underline: 1
+            });
         });
     });
 
