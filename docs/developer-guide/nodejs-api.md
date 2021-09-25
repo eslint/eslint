@@ -136,6 +136,8 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
   Default is `null`. The severity to report unused eslint-disable directives. If this option is a severity, it overrides the `reportUnusedDisableDirectives` setting in your configurations.
 * `options.resolvePluginsRelativeTo` (`string` | `null`)<br>
   Default is `null`. The path to a directory where plugins should be resolved from. If `null` is present, ESLint loads plugins from the location of the configuration file that contains the plugin setting. If a path is present, ESLint loads all plugins from there.
+* `options.resolver` (`ModuleResolver` | `null`)<br>
+  Default is `null`. You can use an alternate `ModuleResolver` to change how ESLint resolves plugins.
 * `options.rulePaths` (`string[]`)<br>
   Default is `[]`. An array of paths to directories to load custom rules from.
 * `options.useEslintrc` (`boolean`)<br>
