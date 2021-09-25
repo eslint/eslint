@@ -21,28 +21,15 @@ const assert = require("chai").assert,
  * A way to track Nano Colors calls.
  */
 
-let formatterCalls = {};
-const trackers = {},
+const nanocolorsCalls = {},
+    nanocolorsTrackers = {},
     noColors = nanocolors.createColors(false);
-
-/**
- * Track formatter call.
- * @param {string} formatter Nano Colors formatter.
- * @returns {void}
- */
-function track(formatter) {
-    if (!formatterCalls[formatter]) {
-        formatterCalls[formatter] = 0;
-    }
-    formatterCalls[formatter] += 1;
-}
-
 
 for (const name in nanocolors) {
     if (typeof nanocolors[name] === "function") {
-        trackers[name] = {
+        nanocolorsTrackers[name] = {
             value(str) {
-                track(name);
+                nanocolorsCalls[name] = (nanocolorsCalls[name] || 0) + 1;
                 return noColors[name](str);
             },
             writable: true
@@ -50,8 +37,7 @@ for (const name in nanocolors) {
     }
 }
 
-const nanocolorsStub = Object.create(nanocolors, trackers);
-
+const nanocolorsStub = Object.create(nanocolors, nanocolorsTrackers);
 const formatter = proxyquire("../../../../lib/cli-engine/formatters/stylish", { nanocolors: nanocolorsStub });
 
 //------------------------------------------------------------------------------
@@ -60,7 +46,11 @@ const formatter = proxyquire("../../../../lib/cli-engine/formatters/stylish", { 
 
 describe("formatter:stylish", () => {
     afterEach(() => {
-        formatterCalls = {};
+        for (const i in nanocolorsCalls) {
+            if ({}.hasOwnProperty.call(nanocolorsCalls, i)) {
+                delete nanocolorsCalls[i];
+            }
+        }
     });
 
     describe("when passed no messages", () => {
@@ -75,7 +65,7 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "");
-            assert.deepStrictEqual(formatterCalls, {});
+            assert.deepStrictEqual(nanocolorsCalls, {});
         });
     });
 
@@ -99,7 +89,7 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n");
-            assert.deepStrictEqual(formatterCalls, {
+            assert.deepStrictEqual(nanocolorsCalls, {
                 bold: 1,
                 dim: 2,
                 red: 2,
@@ -118,7 +108,7 @@ describe("formatter:stylish", () => {
                 const result = formatter(code);
 
                 assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n  1 error and 0 warnings potentially fixable with the `--fix` option.\n");
-                assert.deepStrictEqual(formatterCalls, {
+                assert.deepStrictEqual(nanocolorsCalls, {
                     bold: 2,
                     dim: 2,
                     red: 3,
@@ -149,7 +139,7 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "\nfoo.js\n  5:10  warning  Unexpected foo  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n");
-            assert.deepStrictEqual(formatterCalls, {
+            assert.deepStrictEqual(nanocolorsCalls, {
                 bold: 1,
                 dim: 2,
                 reset: 1,
@@ -167,7 +157,7 @@ describe("formatter:stylish", () => {
                 const result = formatter(code);
 
                 assert.strictEqual(result, "\nfoo.js\n  5:10  warning  Unexpected foo  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n  0 errors and 1 warning potentially fixable with the `--fix` option.\n");
-                assert.deepStrictEqual(formatterCalls, {
+                assert.deepStrictEqual(nanocolorsCalls, {
                     bold: 2,
                     dim: 2,
                     reset: 1,
@@ -199,7 +189,7 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "\nfoo.js\n  5:10  warning  Unexpected .  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n");
-            assert.deepStrictEqual(formatterCalls, {
+            assert.deepStrictEqual(nanocolorsCalls, {
                 bold: 1,
                 dim: 2,
                 reset: 1,
@@ -227,7 +217,7 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n");
-            assert.deepStrictEqual(formatterCalls, {
+            assert.deepStrictEqual(nanocolorsCalls, {
                 bold: 1,
                 dim: 2,
                 red: 2,
@@ -261,7 +251,7 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "\nfoo.js\n  5:10  error    Unexpected foo  foo\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (1 error, 1 warning)\n");
-            assert.deepStrictEqual(formatterCalls, {
+            assert.deepStrictEqual(nanocolorsCalls, {
                 bold: 1,
                 dim: 4,
                 red: 2,
@@ -301,7 +291,7 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (1 error, 1 warning)\n");
-            assert.deepStrictEqual(formatterCalls, {
+            assert.deepStrictEqual(nanocolorsCalls, {
                 bold: 1,
                 dim: 4,
                 red: 2,
@@ -320,7 +310,7 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (2 errors, 0 warnings)\n");
-            assert.deepStrictEqual(formatterCalls, {
+            assert.deepStrictEqual(nanocolorsCalls, {
                 bold: 1,
                 dim: 4,
                 red: 2,
@@ -339,7 +329,7 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (0 errors, 2 warnings)\n");
-            assert.deepStrictEqual(formatterCalls, {
+            assert.deepStrictEqual(nanocolorsCalls, {
                 bold: 1,
                 dim: 4,
                 red: 2,
@@ -365,7 +355,7 @@ describe("formatter:stylish", () => {
             const result = formatter(code);
 
             assert.strictEqual(result, "\nfoo.js\n  0:0  error  Couldn't find foo.js\n\n\u2716 1 problem (1 error, 0 warnings)\n");
-            assert.deepStrictEqual(formatterCalls, {
+            assert.deepStrictEqual(nanocolorsCalls, {
                 bold: 1,
                 dim: 2,
                 red: 2,
