@@ -40,8 +40,8 @@ ruleTester.run("prefer-regex-literals", rule, {
         "new RegExp(String.raw`a`, flags);",
         "RegExp(`${prefix}abc`)",
         "new RegExp(`a${b}c`);",
-        "new RegExp(String.raw`a${b}c`);",
         "new RegExp(`a${''}c`);",
+        "new RegExp(String.raw`a${b}c`);",
         "new RegExp(String.raw`a${''}c`);",
         "new RegExp('a' + 'b')",
         "RegExp(1)",
@@ -139,971 +139,2275 @@ ruleTester.run("prefer-regex-literals", rule, {
     invalid: [
         {
             code: "new RegExp('abc');",
-            output: "/abc/;",
-            errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "NewExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/abc/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('abc');",
-            output: "/abc/;",
-            errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "CallExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/abc/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp('abc', 'g');",
-            output: "/abc/g;",
-            errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "NewExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/abc/g;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('abc', 'g');",
-            output: "/abc/g;",
-            errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "CallExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/abc/g;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp(`abc`);",
-            output: "/abc/;",
-            errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "NewExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/abc/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp(`abc`);",
-            output: "/abc/;",
-            errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "CallExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/abc/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp(`abc`, `g`);",
-            output: "/abc/g;",
-            errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "NewExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/abc/g;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp(`abc`, `g`);",
-            output: "/abc/g;",
-            errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "CallExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/abc/g;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp(String.raw`abc`);",
-            output: "/abc/;",
-            errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "NewExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/abc/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp(String.raw`abc`);",
-            output: "/abc/;",
-            errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "CallExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/abc/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp(String.raw`abc`, String.raw`g`);",
-            output: "/abc/g;",
-            errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "NewExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/abc/g;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp(String.raw`abc`, String.raw`g`);",
-            output: "/abc/g;",
-            errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "CallExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/abc/g;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp(String['raw']`a`);",
-            output: "/a/;",
-            errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "NewExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/a/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp('');",
-            output: "/(?:)/;",
-            errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "NewExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/(?:)/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('', '');",
-            output: "/(?:)/;",
-            errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "CallExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/(?:)/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp(String.raw``);",
-            output: "/(?:)/;",
-            errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "NewExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/(?:)/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp('a', `g`);",
-            output: "/a/g;",
-            errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "NewExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/a/g;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp(`a`, 'g');",
-            output: "/a/g;",
-            errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "CallExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/a/g;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp(String.raw`a`, 'g');",
-            output: "/a/g;",
-            errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "CallExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/a/g;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp(String.raw`\\d`, `g`);",
-            output: "/\\d/g;",
-            errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "NewExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\d/g;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp(String.raw`\\\\d`, `g`);",
-            output: "/\\\\d/g;",
-            errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "NewExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\\\d/g;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp(String['raw']`\\\\d`, `g`);",
-            output: "/\\\\d/g;",
-            errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "NewExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\\\d/g;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp(String[\"raw\"]`\\\\d`, `g`);",
-            output: "/\\\\d/g;",
-            errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "NewExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\\\d/g;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('a', String.raw`g`);",
-            output: "/a/g;",
-            errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "CallExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/a/g;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new globalThis.RegExp('a');",
-            output: "/a/;",
-            env: { es2020: true },
-            errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
+            output: null,
+            env: {
+                es2020: true
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "NewExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/a/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "globalThis.RegExp('a');",
-            output: "/a/;",
-            env: { es2020: true },
-            errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
+            output: null,
+            env: {
+                es2020: true
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "CallExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/a/;"
+                        }
+                    ]
+                }
+            ]
         },
-
         {
             code: "new RegExp(/a/);",
             output: "/a/;",
-            options: [{ disallowRedundantWrapping: true }],
-            errors: [{ messageId: "unexpectedRedundantRegExp", type: "NewExpression", line: 1, column: 1 }]
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExp",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1
+                }
+            ]
         },
         {
             code: "new RegExp(/a/, 'u');",
             output: "/a/u;",
-            options: [{ disallowRedundantWrapping: true }],
-            errors: [{ messageId: "unexpectedRedundantRegExpWithFlags", type: "NewExpression", line: 1, column: 1 }]
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1
+                }
+            ]
         },
         {
             code: "new RegExp(/a/, `u`);",
             output: "/a/u;",
-            options: [{ disallowRedundantWrapping: true }],
-            errors: [{ messageId: "unexpectedRedundantRegExpWithFlags", type: "NewExpression", line: 1, column: 1 }]
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1
+                }
+            ]
         },
         {
             code: "new RegExp(/a/, String.raw`u`);",
             output: "/a/u;",
-            options: [{ disallowRedundantWrapping: true }],
-            errors: [{ messageId: "unexpectedRedundantRegExpWithFlags", type: "NewExpression", line: 1, column: 1 }]
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1
+                }
+            ]
         },
         {
             code: "new RegExp('a');",
-            output: "/a/;",
-            options: [{ disallowRedundantWrapping: true }],
-            errors: [{ messageId: "unexpectedRegExp", type: "NewExpression", line: 1, column: 1 }]
+            output: null,
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/a/;"
+                        }
+                    ]
+                }
+            ]
         },
-
-        // Optional chaining
         {
             code: "new RegExp((String?.raw)`a`);",
-            output: "/a/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/a/;"
+                        }
+                    ]
+                }
+            ]
         },
-
         {
             code: "new RegExp('+');",
             output: null,
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "new RegExp('*');",
             output: null,
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "RegExp('+');",
             output: null,
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "RegExp('*');",
             output: null,
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "new RegExp('+', 'g');",
             output: null,
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "new RegExp('*', 'g');",
             output: null,
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "RegExp('+', 'g');",
             output: null,
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "RegExp('*', 'g');",
             output: null,
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "RegExp('abc', 'u');",
             output: null,
-            parserOptions: { ecmaVersion: 3 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            parserOptions: {
+                ecmaVersion: 3
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "new RegExp('abc', 'd');",
             output: null,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "RegExp('abc', 'd');",
-            output: "/abc/d;",
-            parserOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/abc/d;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('\\\\\\\\', '');",
-            output: "/\\\\/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\\\/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('\\n', '');",
-            output: "/\\n/;",
-            parserOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\n/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('\\n\\n', '');",
-            output: "/\\n\\n/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\n\\n/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('\\t', '');",
-            output: "/\\t/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\t/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('\\t\\t', '');",
-            output: "/\\t\\t/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\t\\t/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('\\r\\n', '');",
-            output: "/\\r\\n/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\r\\n/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('\\u1234', 'g')",
             output: null,
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "RegExp('\\u{1234}', 'g')",
             output: null,
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "RegExp('\\u{11111}', 'g')",
             output: null,
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "RegExp('\\v', '');",
-            output: "/\\v/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\v/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('\\v\\v', '');",
-            output: "/\\v\\v/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\v\\v/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('\\f', '');",
-            output: "/\\f/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\f/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('\\f\\f', '');",
-            output: "/\\f\\f/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\f\\f/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('\\\\b', '');",
-            output: "/\\b/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\b/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('\\\\b\\\\b', '');",
-            output: "/\\b\\b/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\b\\b/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp('\\\\B\\\\b', '');",
-            output: "/\\B\\b/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\B\\b/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('\\\\w', '');",
-            output: "/\\w/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\w/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new globalThis.RegExp('\\\\W', '');",
-            output: "/\\W/;",
+            output: null,
             globals: {
                 globalThis: "readonly"
             },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\W/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('\\\\s', '');",
-            output: "/\\s/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\s/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp('\\\\S', '')",
-            output: "/\\S/",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\S/"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "globalThis.RegExp('\\\\d', '');",
-            output: "/\\d/;",
+            output: null,
             globals: {
                 globalThis: "readonly"
             },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\d/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "globalThis.RegExp('\\\\D', '')",
-            output: "/\\D/",
+            output: null,
             globals: {
                 globalThis: "readonly"
             },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\D/"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "globalThis.RegExp('\\\\\\\\\\\\D', '')",
-            output: "/\\\\\\D/",
+            output: null,
             globals: {
                 globalThis: "readonly"
             },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\\\\\D/"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp('\\\\D\\\\D', '')",
-            output: "/\\D\\D/",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\D\\D/"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new globalThis.RegExp('\\\\0\\\\0', '');",
-            output: "/\\0\\0/;",
+            output: null,
             globals: {
                 globalThis: "writable"
             },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\0\\0/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp('\\\\0\\\\0', '');",
-            output: "/\\0\\0/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\0\\0/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp('\\0\\0', 'g');",
-            output: "/\\0\\0/g;",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\0\\0/g;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('\\\\0\\\\0\\\\0', '')",
-            output: "/\\0\\0\\0/",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\0\\0\\0/"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('\\\\78\\\\126\\\\5934', '')",
-            output: "/\\78\\126\\5934/",
-            parserOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\78\\126\\5934/"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new window['RegExp']('\\\\x56\\\\x78\\\\x45', '');",
-            output: "/\\x56\\x78\\x45/;",
+            output: null,
             env: {
                 browser: true
             },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\x56\\x78\\x45/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "a in(RegExp('abc'))",
-            output: "a in(/abc/)",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "a in(/abc/)"
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `x = y
-            RegExp("foo").test(x) ? bar() : baz()`,
+            code: "x = y\n            RegExp(\"foo\").test(x) ? bar() : baz()",
             output: null,
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "func(new RegExp(String.raw`\\w{1, 2`, 'u'),new RegExp(String.raw`\\w{1, 2`, 'u'))",
             output: null,
-            errors: [{ messageId: "unexpectedRegExp" }, { messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                },
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
-            code: `x = y;
-            RegExp("foo").test(x) ? bar() : baz()`,
-            output: `x = y;
-            /foo/.test(x) ? bar() : baz()`,
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "x = y;\n            RegExp(\"foo\").test(x) ? bar() : baz()",
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "x = y;\n            /foo/.test(x) ? bar() : baz()"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "typeof RegExp(\"foo\")",
-            output: "typeof /foo/",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "typeof /foo/"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp(\"foo\") instanceof RegExp(String.raw`blahblah`, 'g') ? typeof new RegExp('(\\\\p{Emoji_Presentation})\\\\1', `ug`) : false",
-            output: "/foo/ instanceof /blahblah/g ? typeof /(\\p{Emoji_Presentation})\\1/ug : false",
-            errors: [{ messageId: "unexpectedRegExp" }, { messageId: "unexpectedRegExp" }, { messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                },
+                {
+                    messageId: "unexpectedRegExp"
+                },
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "[   new RegExp(`someregular`)]",
-            output: "[   /someregular/]",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "[   /someregular/]"
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `const totallyValidatesEmails = new RegExp("\\\\S+@(\\\\S+\\\\.)+\\\\S+")
-            if (typeof totallyValidatesEmails === 'object') {
-                runSomethingThatExists(Regexp('stuff'))
-            }`,
-            output: `const totallyValidatesEmails = /\\S+@(\\S+\\.)+\\S+/
-            if (typeof totallyValidatesEmails === 'object') {
-                runSomethingThatExists(Regexp('stuff'))
-            }`,
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "const totallyValidatesEmails = new RegExp(\"\\\\S+@(\\\\S+\\\\.)+\\\\S+\")\n            if (typeof totallyValidatesEmails === 'object') {\n                runSomethingThatExists(Regexp('stuff'))\n            }",
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "const totallyValidatesEmails = /\\S+@(\\S+\\.)+\\S+/\n            if (typeof totallyValidatesEmails === 'object') {\n                runSomethingThatExists(Regexp('stuff'))\n            }"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "!new RegExp('^Hey, ', 'u') && new RegExp('jk$') && ~new RegExp('^Sup, ') || new RegExp('hi') + new RegExp('person') === -new RegExp('hi again') ? 5 * new RegExp('abc') : 'notregbutstring'",
-            output: "!/^Hey, /u && /jk$/ && ~/^Sup, / || /hi/ + /person/ === -/hi again/ ? 5 * /abc/ : 'notregbutstring'",
-            errors: [{ messageId: "unexpectedRegExp" }, { messageId: "unexpectedRegExp" }, { messageId: "unexpectedRegExp" }, { messageId: "unexpectedRegExp" }, { messageId: "unexpectedRegExp" }, { messageId: "unexpectedRegExp" }, { messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                },
+                {
+                    messageId: "unexpectedRegExp"
+                },
+                {
+                    messageId: "unexpectedRegExp"
+                },
+                {
+                    messageId: "unexpectedRegExp"
+                },
+                {
+                    messageId: "unexpectedRegExp"
+                },
+                {
+                    messageId: "unexpectedRegExp"
+                },
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
-            code: `#!/usr/bin/sh
-            RegExp("foo")`,
-            output: `#!/usr/bin/sh
-            /foo/`,
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "#!/usr/bin/sh\n            RegExp(\"foo\")",
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "#!/usr/bin/sh\n            /foo/"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "async function abc(){await new RegExp(\"foo\")}",
             output: null,
-            parserOptions: { ecmaVersion: 8, sourceType: "module" },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            parserOptions: {
+                ecmaVersion: 8,
+                sourceType: "module"
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "function* abc(){yield new RegExp(\"foo\")}",
             output: null,
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "function* abc(){yield* new RegExp(\"foo\")}",
-            output: "function* abc(){yield* /foo/}",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "function* abc(){yield* /foo/}"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "console.log({ ...new RegExp('a') })",
-            output: "console.log({ .../a/ })",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "console.log({ .../a/ })"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "delete RegExp('a');",
-            output: "delete /a/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "delete /a/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "void RegExp('a');",
-            output: "void /a/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "void /a/;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp(\"\\\\S+@(\\\\S+\\\\.)+\\\\S+\")**RegExp('a')",
-            output: "/\\S+@(\\S+\\.)+\\S+/**/a/",
-            errors: [{ messageId: "unexpectedRegExp" }, { messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                },
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "new RegExp(\"\\\\S+@(\\\\S+\\\\.)+\\\\S+\")%RegExp('a')",
-            output: "/\\S+@(\\S+\\.)+\\S+/%/a/",
-            errors: [{ messageId: "unexpectedRegExp" }, { messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                },
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "a in RegExp('abc')",
-            output: "a in /abc/",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "a in /abc/"
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            /abc/ == new RegExp('cba');
-            `,
-            output: `
-            /abc/ == /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            /abc/ == new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            /abc/ == /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            /abc/ === new RegExp('cba');
-            `,
-            output: `
-            /abc/ === /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            /abc/ === new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            /abc/ === /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            /abc/ != new RegExp('cba');
-            `,
-            output: `
-            /abc/ != /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            /abc/ != new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            /abc/ != /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            /abc/ !== new RegExp('cba');
-            `,
-            output: `
-            /abc/ !== /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            /abc/ !== new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            /abc/ !== /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            /abc/ > new RegExp('cba');
-            `,
-            output: `
-            /abc/ > /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            /abc/ > new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            /abc/ > /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            /abc/ < new RegExp('cba');
-            `,
-            output: `
-            /abc/ < /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            /abc/ < new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            /abc/ < /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            /abc/ >= new RegExp('cba');
-            `,
-            output: `
-            /abc/ >= /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            /abc/ >= new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            /abc/ >= /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            /abc/ <= new RegExp('cba');
-            `,
-            output: `
-            /abc/ <= /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            /abc/ <= new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            /abc/ <= /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            /abc/ << new RegExp('cba');
-            `,
-            output: `
-            /abc/ << /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            /abc/ << new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            /abc/ << /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            /abc/ >> new RegExp('cba');
-            `,
-            output: `
-            /abc/ >> /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            /abc/ >> new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            /abc/ >> /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            /abc/ >>> new RegExp('cba');
-            `,
-            output: `
-            /abc/ >>> /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            /abc/ >>> new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            /abc/ >>> /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            /abc/ ^ new RegExp('cba');
-            `,
-            output: `
-            /abc/ ^ /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            /abc/ ^ new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            /abc/ ^ /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            /abc/ & new RegExp('cba');
-            `,
-            output: `
-            /abc/ & /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            /abc/ & new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            /abc/ & /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            /abc/ | new RegExp('cba');
-            `,
-            output: `
-            /abc/ | /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            /abc/ | new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            /abc/ | /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            null ?? new RegExp('blah')
-            `,
-            output: `
-            null ?? /blah/
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            null ?? new RegExp('blah')\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            null ?? /blah/\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            abc *= new RegExp('blah')
-            `,
-            output: `
-            abc *= /blah/
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            abc *= new RegExp('blah')\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            abc *= /blah/\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            console.log({a: new RegExp('sup')})
-            `,
-            output: `
-            console.log({a: /sup/})
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            console.log({a: new RegExp('sup')})\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            console.log({a: /sup/})\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            console.log(() => {new RegExp('sup')})
-            `,
-            output: `
-            console.log(() => {/sup/})
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            console.log(() => {new RegExp('sup')})\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            console.log(() => {/sup/})\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            function abc() {new RegExp('sup')}
-            `,
-            output: `
-            function abc() {/sup/}
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            function abc() {new RegExp('sup')}\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            function abc() {/sup/}\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            function abc() {return new RegExp('sup')}
-            `,
-            output: `
-            function abc() {return /sup/}
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            function abc() {return new RegExp('sup')}\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            function abc() {return /sup/}\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            abc <<= new RegExp('cba');
-            `,
-            output: `
-            abc <<= /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            abc <<= new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            abc <<= /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            abc >>= new RegExp('cba');
-            `,
-            output: `
-            abc >>= /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            abc >>= new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            abc >>= /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            abc >>>= new RegExp('cba');
-            `,
-            output: `
-            abc >>>= /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            abc >>>= new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            abc >>>= /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            abc ^= new RegExp('cba');
-            `,
-            output: `
-            abc ^= /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            abc ^= new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            abc ^= /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            abc &= new RegExp('cba');
-            `,
-            output: `
-            abc &= /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            abc &= new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            abc &= /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            abc |= new RegExp('cba');
-            `,
-            output: `
-            abc |= /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            abc |= new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            abc |= /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            abc ??= new RegExp('cba');
-            `,
-            output: `
-            abc ??= /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            abc ??= new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            abc ??= /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            abc &&= new RegExp('cba');
-            `,
-            output: `
-            abc &&= /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            abc &&= new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            abc &&= /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            abc ||= new RegExp('cba');
-            `,
-            output: `
-            abc ||= /cba/;
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            abc ||= new RegExp('cba');\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            abc ||= /cba/;\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            abc **= new RegExp('blah')
-            `,
-            output: `
-            abc **= /blah/
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            abc **= new RegExp('blah')\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            abc **= /blah/\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            abc /= new RegExp('blah')
-            `,
-            output: `
-            abc /= /blah/
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            abc /= new RegExp('blah')\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            abc /= /blah/\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            abc += new RegExp('blah')
-            `,
-            output: `
-            abc += /blah/
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            abc += new RegExp('blah')\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            abc += /blah/\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            abc -= new RegExp('blah')
-            `,
-            output: `
-            abc -= /blah/
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            abc -= new RegExp('blah')\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            abc -= /blah/\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            abc %= new RegExp('blah')
-            `,
-            output: `
-            abc %= /blah/
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            abc %= new RegExp('blah')\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            abc %= /blah/\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            () => new RegExp('blah')
-            `,
-            output: `
-            () => /blah/
-            `,
-            parserOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            () => new RegExp('blah')\n            ",
+            output: null,
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            () => /blah/\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "a/RegExp(\"foo\")in b",
-            output: "a/ /foo/ in b",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "a/ /foo/ in b"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "a/RegExp(\"foo\")instanceof b",
-            output: "a/ /foo/ instanceof b",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "a/ /foo/ instanceof b"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "do RegExp(\"foo\")\nwhile (true);",
-            output: "do /foo/\nwhile (true);",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "do /foo/\nwhile (true);"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "for(let i;i<5;i++) { break\nnew RegExp('search')}",
-            output: "for(let i;i<5;i++) { break\n/search/}",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "for(let i;i<5;i++) { break\n/search/}"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "for(let i;i<5;i++) { continue\nnew RegExp('search')}",
-            output: "for(let i;i<5;i++) { continue\n/search/}",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "for(let i;i<5;i++) { continue\n/search/}"
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: `
-            switch (value) {
-                case "possibility":
-                    console.log('possibility matched')
-                case RegExp('myReg').toString():
-                    console.log('matches a regexp\\' toString value')
-                    break;
-            }
-            `,
-            output: `
-            switch (value) {
-                case "possibility":
-                    console.log('possibility matched')
-                case /myReg/.toString():
-                    console.log('matches a regexp\\' toString value')
-                    break;
-            }
-            `,
-            errors: [{ messageId: "unexpectedRegExp" }]
+            code: "\n            switch (value) {\n                case \"possibility\":\n                    console.log('possibility matched')\n                case RegExp('myReg').toString():\n                    console.log('matches a regexp\\' toString value')\n                    break;\n            }\n            ",
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "\n            switch (value) {\n                case \"possibility\":\n                    console.log('possibility matched')\n                case /myReg/.toString():\n                    console.log('matches a regexp\\' toString value')\n                    break;\n            }\n            "
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "throw new RegExp('abcdefg') // fail with a regular expression",
-            output: "throw /abcdefg/ // fail with a regular expression",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "throw /abcdefg/ // fail with a regular expression"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "for (value of new RegExp('something being searched')) { console.log(value) }",
             output: null,
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "(async function(){for await (value of new RegExp('something being searched')) { console.log(value) }})()",
             output: null,
-            parserOptions: { ecmaVersion: 2018 },
-            errors: [{ messageId: "unexpectedRegExp" }]
+            parserOptions: {
+                ecmaVersion: 2018
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "for (value in new RegExp('something being searched')) { console.log(value) }",
-            output: "for (value in /something being searched/) { console.log(value) }",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "for (value in /something being searched/) { console.log(value) }"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "if (condition1 && condition2) new RegExp('avalue').test(str);",
             output: null,
-            errors: [{ messageId: "unexpectedRegExp" }]
+            errors: [
+                {
+                    messageId: "unexpectedRegExp"
+                }
+            ]
         },
         {
             code: "debugger\nnew RegExp('myReg')",
-            output: "debugger\n/myReg/",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "debugger\n/myReg/"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp(\"\\\\\\n\")",
-            output: "/\\n/",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\n/"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp(\"\\\\\\t\")",
-            output: "/\\t/",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\t/"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp(\"\\\\\\f\")",
-            output: "/\\f/",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\f/"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp(\"\\\\\\v\")",
-            output: "/\\v/",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\v/"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp(\"\\\\\\r\")",
-            output: "/\\r/",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\r/"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp(\"\t\")",
-            output: "/\\t/",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\t/"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp(\"/\")",
-            output: "/\\//",
-            errors: [{ messageId: "unexpectedRegExp" }]
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\//"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 });
