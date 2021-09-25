@@ -2408,6 +2408,36 @@ ruleTester.run("prefer-regex-literals", rule, {
                     ]
                 }
             ]
+        },
+        {
+            code: "new RegExp(\"\\.\")",
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/./"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(\"\\\\.\")",
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\./"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 });
