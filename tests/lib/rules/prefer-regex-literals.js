@@ -26,6 +26,8 @@ ruleTester.run("prefer-regex-literals", rule, {
 
         // considered as dynamic
         "new RegExp(pattern)",
+        "new RegExp('\\\\p{Emoji_Presentation}\\\\P{Script_Extensions=Latin}' + '', `ug`)",
+        "new RegExp('\\\\cA' + '')",
         "RegExp(pattern, 'g')",
         "new RegExp(f('a'))",
         "RegExp(prefix + 'a')",
@@ -39,6 +41,14 @@ ruleTester.run("prefer-regex-literals", rule, {
         "RegExp(`${prefix}abc`)",
         "new RegExp(`a${b}c`);",
         "new RegExp(String.raw`a${b}c`);",
+        "new RegExp(`a${''}c`);",
+        "new RegExp(String.raw`a${''}c`);",
+        "new RegExp('a' + 'b')",
+        "RegExp(1)",
+        "new RegExp('(\\\\p{Emoji_Presentation})\\\\1' + '', `ug`)",
+        "RegExp(String.raw`\\78\\126` + '\\\\5934', '' + `g` + '')",
+        "func(new RegExp(String.raw`a${''}c\\d`, 'u'),new RegExp(String.raw`a${''}c\\d`, 'u'))",
+        "new RegExp('\\\\[' + \"b\\\\]\")",
         {
             code: "new RegExp(/a/, flags);",
             options: [{ disallowRedundantWrapping: true }]
@@ -519,11 +529,6 @@ ruleTester.run("prefer-regex-literals", rule, {
             errors: [{ messageId: "unexpectedRegExp" }]
         },
         {
-            code: "RegExp(String.raw`\\78\\126` + '\\\\5934', '' + `g` + '')",
-            output: "/\\78\\126\\5934/g",
-            errors: [{ messageId: "unexpectedRegExp" }]
-        },
-        {
             code: "new window['RegExp']('\\\\x56\\\\x78\\\\x45', '');",
             output: "/\\x56\\x78\\x45/;",
             env: {
@@ -532,43 +537,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             errors: [{ messageId: "unexpectedRegExp" }]
         },
         {
-            code: "new RegExp(`a${''}c`);",
-            output: "/ac/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
-        },
-        {
-            code: "new RegExp(String.raw`a${''}c`);",
-            output: "/ac/;",
-            errors: [{ messageId: "unexpectedRegExp" }]
-        },
-        {
-            code: "new RegExp('a' + 'b')",
-            output: "/ab/",
-            errors: [{ messageId: "unexpectedRegExp" }]
-        },
-        {
-            code: "new RegExp('\\\\[' + \"b\\\\]\")",
-            output: "/\\[b\\]/",
-            errors: [{ messageId: "unexpectedRegExp" }]
-        },
-        {
-            code: "new RegExp('\\\\cA' + '')",
-            output: "/\\cA/",
-            errors: [{ messageId: "unexpectedRegExp" }]
-        },
-        {
-            code: "new RegExp('\\\\p{Emoji_Presentation}\\\\P{Script_Extensions=Latin}' + '', `ug`)",
-            output: "/\\p{Emoji_Presentation}\\P{Script_Extensions=Latin}/ug",
-            errors: [{ messageId: "unexpectedRegExp" }]
-        },
-        {
             code: "a in(RegExp('abc'))",
             output: "a in(/abc/)",
-            errors: [{ messageId: "unexpectedRegExp" }]
-        },
-        {
-            code: "new RegExp('(\\\\p{Emoji_Presentation})\\\\1' + '', `ug`)",
-            output: "/(\\p{Emoji_Presentation})\\1/ug",
             errors: [{ messageId: "unexpectedRegExp" }]
         },
         {
@@ -576,11 +546,6 @@ ruleTester.run("prefer-regex-literals", rule, {
             RegExp("foo").test(x) ? bar() : baz()`,
             output: null,
             errors: [{ messageId: "unexpectedRegExp" }]
-        },
-        {
-            code: "func(new RegExp(String.raw`a${''}c\\d`, 'u'),new RegExp(String.raw`a${''}c\\d`, 'u'))",
-            output: "func(/ac\\d/u,/ac\\d/u)",
-            errors: [{ messageId: "unexpectedRegExp" }, { messageId: "unexpectedRegExp" }]
         },
         {
             code: "func(new RegExp(String.raw`\\w{1, 2`, 'u'),new RegExp(String.raw`\\w{1, 2`, 'u'))",
@@ -600,7 +565,7 @@ ruleTester.run("prefer-regex-literals", rule, {
             errors: [{ messageId: "unexpectedRegExp" }]
         },
         {
-            code: "RegExp(\"foo\") instanceof RegExp(String.raw`blahblah`, 'g') ? typeof new RegExp('(\\\\p{Emoji_Presentation})\\\\1' + '', `ug`) : false",
+            code: "RegExp(\"foo\") instanceof RegExp(String.raw`blahblah`, 'g') ? typeof new RegExp('(\\\\p{Emoji_Presentation})\\\\1', `ug`) : false",
             output: "/foo/ instanceof /blahblah/g ? typeof /(\\p{Emoji_Presentation})\\1/ug : false",
             errors: [{ messageId: "unexpectedRegExp" }, { messageId: "unexpectedRegExp" }, { messageId: "unexpectedRegExp" }]
         },
