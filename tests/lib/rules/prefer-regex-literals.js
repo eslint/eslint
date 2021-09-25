@@ -1129,6 +1129,16 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "RegExp(\"\\\\\\r\")",
             output: "/\\r/",
             errors: [{ messageId: "unexpectedRegExp" }]
+        },
+        {
+            code: "new RegExp(\"\t\")",
+            output: "/\\t/",
+            errors: [{ messageId: "unexpectedRegExp" }]
+        },
+        {
+            code: "new RegExp(\"/\")",
+            output: "/\\//",
+            errors: [{ messageId: "unexpectedRegExp" }]
         }
     ]
 });
