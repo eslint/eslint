@@ -51,11 +51,11 @@ const person = people.find(person => person.name === 'John');
 
 ## Options
 
-This rule takes one option, an object, with properties `"builtinGlobals"`, `"hoist"` and `"allow"`.
+This rule takes one option, an object, with properties `"builtinGlobals"`, `"hoist"`, `"allow"` and `"ignoreOnInitialization"`.
 
 ```json
 {
-    "no-shadow": ["error", { "builtinGlobals": false, "hoist": "functions", "allow": [] }]
+    "no-shadow": ["error", { "builtinGlobals": false, "hoist": "functions", "allow": [], "ignoreOnInitialization": false }]
 }
 ```
 
@@ -172,6 +172,23 @@ foo(function (err, result) {
   console.log({ err, result });
 });
 ```
+
+### ignoreOnInitialization
+
+The `ignoreOnInitialization` option is `false` by default.
+If it is `true`, the rule prevents reporting variables on initialization statements, the shadowed variable must be on the left side and the shadowing variable must be on the right side.
+
+Examples of **correct** code for the `{ "ignoreOnInitialization": true }` option:
+
+```js
+/*eslint no-shadow: ["error", { "ignoreOnInitialization": true }]*/
+
+const person = people.find(person => person.name === "John");
+```
+
+## Further Reading
+
+* [Variable Shadowing](https://en.wikipedia.org/wiki/Variable_shadowing)
 
 ## Related Rules
 
