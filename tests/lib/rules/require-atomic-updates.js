@@ -24,20 +24,20 @@ const VARIABLE_ERROR = {
 };
 
 const STATIC_PROPERTY_ERROR = {
-    messageId: "nonAtomicUpdate",
-    data: { value: "foo.bar" },
+    messageId: "nonAtomicObjectUpdate",
+    data: { value: "foo.bar", object: "foo" },
     type: "AssignmentExpression"
 };
 
 const COMPUTED_PROPERTY_ERROR = {
-    messageId: "nonAtomicUpdate",
-    data: { value: "foo[bar].baz" },
+    messageId: "nonAtomicObjectUpdate",
+    data: { value: "foo[bar].baz", object: "foo" },
     type: "AssignmentExpression"
 };
 
 const PRIVATE_PROPERTY_ERROR = {
-    messageId: "nonAtomicUpdate",
-    data: { value: "foo.#bar" },
+    messageId: "nonAtomicObjectUpdate",
+    data: { value: "foo.#bar", object: "foo" },
     type: "AssignmentExpression"
 };
 
@@ -328,6 +328,36 @@ ruleTester.run("require-atomic-updates", rule, {
                 }
             `,
             errors: [STATIC_PROPERTY_ERROR]
+        },
+
+        // https://github.com/eslint/eslint/issues/15076
+        {
+            code: `
+                async () => {
+                    opts.spec = process.stdin;
+                    try {
+                        const { exit_code } = await run(opts);
+                        process.exitCode = exit_code;
+                    } catch (e) {
+                        process.exitCode = 1;
+                    }
+              };
+            `,
+            env: { node: true },
+            errors: [
+                {
+                    messageId: "nonAtomicObjectUpdate",
+                    data: { value: "process.exitCode", object: "process" },
+                    type: "AssignmentExpression",
+                    line: 6
+                },
+                {
+                    messageId: "nonAtomicObjectUpdate",
+                    data: { value: "process.exitCode", object: "process" },
+                    type: "AssignmentExpression",
+                    line: 8
+                }
+            ]
         }
     ]
 });
