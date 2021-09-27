@@ -41,7 +41,7 @@ If you are using one configuration file and want ESLint to ignore any `.eslintrc
 
 Here's an example JSON configuration file that uses the `typescript-eslint` parser to support TypeScript syntax:
 
-```js
+```json
 {
     "root": true,
     "extends": [
