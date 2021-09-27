@@ -39,7 +39,7 @@ The second way to use configuration files is to save the file wherever you would
 
 If you are using one configuration file and want ESLint to ignore any `.eslintrc.*` files, make sure to use [`--no-eslintrc`](https://eslint.org/docs/user-guide/command-line-interface#--no-eslintrc) along with the [`-c`](https://eslint.org/docs/user-guide/command-line-interface#-c---config) flag.
 
-Example configuration file:
+Here's an example JSON configuration file that uses the `typescript-eslint` parser to support TypeScript syntax:
 
 ```js
 {
