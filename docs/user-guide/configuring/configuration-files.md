@@ -56,7 +56,8 @@ Here's an example JSON configuration file that uses the `typescript-eslint` pars
     "rules": {
         "@typescript-eslint/strict-boolean-expressions": [
             2,
-            { "allowString" : false,
+            {
+                "allowString" : false,
                 "allowNumber" : false
             }
         ]
