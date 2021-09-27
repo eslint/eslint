@@ -142,7 +142,7 @@ module.exports = function(context) {
 Then rewrite your rule in this format:
 
 ```js
-module.exports = function(context) {
+module.exports = {
     meta: {
         fixable: "code" // or "whitespace"
     },
