@@ -99,7 +99,8 @@ module.exports = function() {
 
 ## When Not To Use It
 
-If explicit declaration of global variables is not to your taste.
+* If you are using TypeScript. Firstly, these rules do not consider Typescript typings. Secondly, TypeScript itself does this job for you. See https://github.com/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/linting/FAQ.md#i-get-errors-from-the-no-undef-rule-about-global-variables-not-being-defined-even-though-there-are-no-typescript-errors .
+* If explicit declaration of global variables is not to your taste.
 
 ## Compatibility
 
