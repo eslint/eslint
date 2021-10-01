@@ -20,7 +20,7 @@ To configure rules inside of a file using configuration comments, use a comment 
 /* eslint eqeqeq: "off", curly: "error" */
 ```
 
-In this example, [`eqeqeq`](https://eslint.org/docs/rules/eqeqeq) is turned off and [`curly`](.https://eslint.org/docs/rules/curly) is turned on as an error. You can also use the numeric equivalent for the rule severity:
+In this example, [`eqeqeq`](https://eslint.org/docs/rules/eqeqeq) is turned off and [`curly`](https://eslint.org/docs/rules/curly) is turned on as an error. You can also use the numeric equivalent for the rule severity:
 
 ```js
 /* eslint eqeqeq: 0, curly: 2 */
