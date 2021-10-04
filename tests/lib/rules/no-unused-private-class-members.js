@@ -107,9 +107,47 @@ ruleTester.run("no-unused-private-class-members", rule, {
     }
 }`,
         `class Foo {
-    #unusedInAssignmentPattern;
+    #usedInAssignmentPattern;
     method() {
-        [bar] = this.#unusedInAssignmentPattern;
+        [bar] = this.#usedInAssignmentPattern;
+    }
+}`,
+        `class C {
+    #usedInObjectAssignment;
+
+    method() {
+        ({ [this.#usedInObjectAssignment]: a } = foo);
+    }
+}`,
+        `class C {
+    set #accessorWithSetterFirst(value) {
+        doSomething(value);
+    }
+    get #accessorWithSetterFirst() {
+        return something();
+    }
+    method() {
+        this.#accessorWithSetterFirst += 1;
+    }
+}`,
+        `class C {
+    get #accessorWithGetterFirst() {
+        return something();
+    }
+    set #accessorWithGetterFirst(value) {
+        doSomething(value);
+    }
+    method() {
+        this.#accessorWithGetterFirst += 1;
+    }
+}`,
+        `class C {
+    #usedInInnerClass;
+
+    method(a) {
+        return class {
+            foo = a.#usedInInnerClass;
+        }
     }
 }`,
 
@@ -317,6 +355,29 @@ class Second {}`,
     }
 }`,
             errors: [definedError("unusedInAssignmentPattern")]
+        },
+        {
+            code: `class C {
+    #usedOnlyInTheSecondInnerClass;
+
+    method(a) {
+        return class {
+            #usedOnlyInTheSecondInnerClass;
+
+            method2(b) {
+                foo = b.#usedOnlyInTheSecondInnerClass;
+            }
+
+            method3(b) {
+                foo = b.#usedOnlyInTheSecondInnerClass;
+            }
+        }
+    }
+}`,
+            errors: [{
+                ...definedError("usedOnlyInTheSecondInnerClass"),
+                line: 2
+            }]
         }
     ]
 });
