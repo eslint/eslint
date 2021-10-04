@@ -81,6 +81,10 @@ ruleTester.run("no-unreachable", rule, {
         {
             code: "class C extends B { foo = reachable; constructor() { super(); } }",
             parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C extends B { static foo = reachable; constructor() {} }",
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -348,6 +352,36 @@ ruleTester.run("no-unreachable", rule, {
             errors: [
                 { messageId: "unreachableCode", column: 21, endColumn: 25 },
                 { messageId: "unreachableCode", column: 43, endColumn: 47 }
+            ]
+        },
+        {
+            code: "(class extends B { foo; constructor() {} bar; })",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "unreachableCode", column: 20, endColumn: 24 },
+                { messageId: "unreachableCode", column: 42, endColumn: 46 }
+            ]
+        },
+        {
+            code: "class B extends A { x; constructor() { class C extends D { [super().x]; constructor() {} } } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "unreachableCode", column: 60, endColumn: 72 }
+            ]
+        },
+        {
+            code: "class B extends A { x; constructor() { class C extends super().x { y; constructor() {} } } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "unreachableCode", column: 68, endColumn: 70 }
+            ]
+        },
+        {
+            code: "class B extends A { x; static y; z; static q; constructor() {} }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "unreachableCode", column: 21, endColumn: 23 },
+                { messageId: "unreachableCode", column: 34, endColumn: 36 }
             ]
         }
     ]

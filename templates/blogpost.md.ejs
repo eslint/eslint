@@ -5,7 +5,6 @@ tags:
   - release
   - <%- type %>
 ---
-# ESLint v<%= version %> released
 
 We just pushed ESLint v<%- version %>, which is a <%- type %> release upgrade of ESLint. This release <% if (type !== "patch") { %>adds some new features and <% } %>fixes several bugs found in the previous release.<% if (type === "major") { %> This release also has some breaking changes, so please read the following closely.<% } %>
 

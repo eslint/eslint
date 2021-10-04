@@ -30,29 +30,11 @@ module.exports = (fileInfo, api) => {
         }
 
         const typeNode = metaNode.value.properties.find(node => node.key.name === "type");
-        const docsNode = metaNode.value.properties.find(node => node.key.name === "docs");
-        const categoryNode = docsNode.value.properties.find(node => node.key.name === "category").value;
 
         let ruleType;
 
-        // the rule-types.json file takes highest priority
         if (ruleName in ruleTypes) {
             ruleType = ruleTypes[ruleName];
-        } else {
-
-            // otherwise fallback to category
-            switch (categoryNode.value) {
-                case "Stylistic Issues":
-                    ruleType = "style";
-                    break;
-
-                case "Possible Errors":
-                    ruleType = "problem";
-                    break;
-
-                default:
-                    ruleType = "suggestion";
-            }
         }
 
         if (typeNode) {

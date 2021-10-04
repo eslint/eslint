@@ -15,6 +15,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
+
 const alwaysError = { messageId: "always" };
 const neverError = { messageId: "never" };
 
@@ -61,7 +62,12 @@ ruleTester.run("lines-between-class-members", rule, {
 
         { code: "class foo{ bar(){}\nbaz(){}}", options: ["always", { exceptAfterSingleLine: true }] },
         { code: "class foo{ bar(){\n}\n\nbaz(){}}", options: ["always", { exceptAfterSingleLine: true }] },
-        { code: "class foo{\naaa;\n#bbb;\nccc(){\n}\n\n#ddd(){\n}\n}", options: ["always", { exceptAfterSingleLine: true }] }
+        { code: "class foo{\naaa;\n#bbb;\nccc(){\n}\n\n#ddd(){\n}\n}", options: ["always", { exceptAfterSingleLine: true }] },
+
+        // semicolon-less style (semicolons are at the beginning of lines)
+        { code: "class C { foo\n\n;bar }", options: ["always"] },
+        { code: "class C { foo\n;bar }", options: ["always", { exceptAfterSingleLine: true }] },
+        { code: "class C { foo\n;bar }", options: ["never"] }
     ],
     invalid: [
         {
@@ -163,6 +169,44 @@ ruleTester.run("lines-between-class-members", rule, {
             code: "class C {\nfield1 = () => {\n}\nfield2\nfield3\n}",
             output: "class C {\nfield1 = () => {\n}\n\nfield2\nfield3\n}",
             options: ["always", { exceptAfterSingleLine: true }],
+            errors: [alwaysError]
+        },
+        {
+            code: "class C { foo;bar }",
+            output: "class C { foo;\nbar }",
+            options: ["always"],
+            errors: [alwaysError]
+        },
+        {
+            code: "class C { foo;\nbar; }",
+            output: "class C { foo;\n\nbar; }",
+            options: ["always"],
+            errors: [alwaysError]
+        },
+        {
+            code: "class C { foo;\n;bar }",
+            output: "class C { foo;\n\n;bar }",
+            options: ["always"],
+            errors: [alwaysError]
+        },
+
+        // semicolon-less style (semicolons are at the beginning of lines)
+        {
+            code: "class C { foo\n;bar }",
+            output: "class C { foo\n\n;bar }",
+            options: ["always"],
+            errors: [alwaysError]
+        },
+        {
+            code: "class C { foo\n\n;bar }",
+            output: "class C { foo\n;bar }",
+            options: ["never"],
+            errors: [neverError]
+        },
+        {
+            code: "class C { foo\n;;bar }",
+            output: "class C { foo\n\n;;bar }",
+            options: ["always"],
             errors: [alwaysError]
         }
     ]

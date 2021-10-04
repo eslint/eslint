@@ -13,7 +13,7 @@ const rule = require("../../../lib/rules/no-extra-boolean-cast"),
     { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
-// Helpers
+// Tests
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();

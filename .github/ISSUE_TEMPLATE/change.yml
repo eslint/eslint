@@ -1,0 +1,48 @@
+name: "\U0001F4DD Request a change (not rule-related)"
+description: "Request a change that is not a bug fix, rule change, or new rule"
+title: "Change Request: (fill in)"
+labels:
+  - enhancement
+  - triage
+  - core
+body:
+- type: markdown
+  attributes:
+    value: By opening an issue, you agree to abide by the [Open JS Foundation Code of Conduct](https://eslint.org/conduct).
+- type: input
+  attributes:
+    label: ESLint version
+    description: |
+      What version of ESLint are you currently using? (Run `npx eslint --version`.)
+    placeholder: |
+      e.g. v8.0.0
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: What problem do you want to solve?
+    description: |
+      Please explain your use case in as much detail as possible.
+    placeholder: |
+      ESLint currently...
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: What do you think is the correct solution?
+    description: |
+      Please explain how you'd like to change ESLint to address the problem.
+    placeholder: |
+      I'd like ESLint to...
+  validations:
+    required: true
+- type: checkboxes
+  attributes:
+    label: Participation
+    options:
+      - label: I am willing to submit a pull request for this change.
+        required: false
+- type: textarea
+  attributes:
+    label: Additional comments
+    description: Is there anything else that's important for the team to know?

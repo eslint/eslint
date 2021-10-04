@@ -1,10 +1,10 @@
+/* eslint no-global-assign: off -- Resetting Mocha globals */
 /**
  * @fileoverview Tests for RuleTester without any test runner
  * @author Weijia Wang <starkwang@126.com>
  */
 "use strict";
 
-/* eslint-disable no-global-assign*/
 const assert = require("assert");
 const { RuleTester } = require("../../../lib/rule-tester");
 const tmpIt = it;

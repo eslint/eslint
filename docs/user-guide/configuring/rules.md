@@ -14,17 +14,13 @@ ESLint comes with a large number of built-in rules and you can add more rules th
 
 ### Using configuration comments
 
-To configure rules inside of a file using configuration comments, use a line or block comment in the following format:
+To configure rules inside of a file using configuration comments, use a comment in the following format:
 
 ```js
 /* eslint eqeqeq: "off", curly: "error" */
 ```
 
-```js
-// eslint eqeqeq: "off", curly: "error"
-```
-
-In this example, [`eqeqeq`](https://eslint.org/docs/rules/eqeqeq) is turned off and [`curly`](.https://eslint.org/docs/rules/curly) is turned on as an error. You can also use the numeric equivalent for the rule severity:
+In this example, [`eqeqeq`](https://eslint.org/docs/rules/eqeqeq) is turned off and [`curly`](https://eslint.org/docs/rules/curly) is turned on as an error. You can also use the numeric equivalent for the rule severity:
 
 ```js
 /* eslint eqeqeq: 0, curly: 2 */
@@ -128,7 +124,7 @@ In these configuration files, the rule `plugin1/rule1` comes from the plugin nam
 
 ### Using configuration comments
 
-To temporarily disable rule warnings in your file, use line or block comments in the following format:
+To temporarily disable rule warnings in your file, use block comments in the following format:
 
 ```js
 /* eslint-disable */
@@ -136,14 +132,6 @@ To temporarily disable rule warnings in your file, use line or block comments in
 alert('foo');
 
 /* eslint-enable */
-```
-
-```js
-// eslint-disable
-
-alert('foo');
-
-// eslint-enable
 ```
 
 You can also disable or enable warnings for specific rules:
@@ -157,7 +145,7 @@ console.log('bar');
 /* eslint-enable no-alert, no-console */
 ```
 
-To disable rule warnings in an entire file, put a `/* eslint-disable */` or `// eslint-disable` at the top of the file:
+To disable rule warnings in an entire file, put a `/* eslint-disable */` block comment at the top of the file:
 
 ```js
 /* eslint-disable */

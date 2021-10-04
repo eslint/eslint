@@ -17,8 +17,9 @@ const assert = require("assert"),
     createEmitter = require("../../../lib/linter/safe-emitter"),
     NodeEventGenerator = require("../../../lib/linter/node-event-generator");
 
+
 //------------------------------------------------------------------------------
-// Tests
+// Constants
 //------------------------------------------------------------------------------
 
 const ESPREE_CONFIG = {
@@ -30,6 +31,10 @@ const ESPREE_CONFIG = {
 };
 
 const STANDARD_ESQUERY_OPTION = { visitorKeys: vk.KEYS, fallback: Traverser.getKeys };
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 describe("NodeEventGenerator", () => {
     EventGeneratorTester.testEventGeneratorInterface(
@@ -307,6 +312,15 @@ describe("NodeEventGenerator", () => {
             ast => [
                 ["[name.length=3]:exit", ast.body[0].expression],
                 ["[name.length=3]:exit", ast.body[1].expression]
+            ]
+        );
+
+        // https://github.com/eslint/eslint/issues/14799
+        assertEmissions(
+            "const {a = 1} = b;",
+            ["Property > .key"],
+            ast => [
+                ["Property > .key", ast.body[0].declarations[0].id.properties[0].key]
             ]
         );
     });

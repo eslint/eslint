@@ -90,7 +90,7 @@ describe("cli", () => {
          * exceeds the default test timeout, so raise it just for this hook.
          * Mocha uses `this` to set timeouts on an individual hook level.
          */
-        this.timeout(60 * 1000); // eslint-disable-line no-invalid-this
+        this.timeout(60 * 1000); // eslint-disable-line no-invalid-this -- Mocha API
         fixtureDir = `${os.tmpdir()}/eslint/fixtures`;
         sh.mkdir("-p", fixtureDir);
         sh.cp("-r", "./tests/fixtures/.", fixtureDir);
@@ -512,7 +512,7 @@ describe("cli", () => {
                 const exit = await cli.execute(code);
 
                 assert.strictEqual(exit, 2);
-            }, /Error while loading rule 'custom-rule': Cannot read property/u);
+            }, /Error while loading rule 'custom-rule': Boom!/u);
         });
 
         it("should return a warning when rule is matched", async () => {

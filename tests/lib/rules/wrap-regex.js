@@ -16,7 +16,6 @@ const rule = require("../../../lib/rules/wrap-regex"),
 // Tests
 //------------------------------------------------------------------------------
 
-
 const ruleTester = new RuleTester();
 
 ruleTester.run("wrap-regex", rule, {

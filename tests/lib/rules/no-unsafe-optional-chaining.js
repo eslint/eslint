@@ -6,8 +6,11 @@
 "use strict";
 
 const rule = require("../../../lib/rules/no-unsafe-optional-chaining");
-
 const { RuleTester } = require("../../../lib/rule-tester");
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 const parserOptions = {
     ecmaVersion: 2021,

@@ -5,8 +5,16 @@
 
 "use strict";
 
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
+
 const assert = require("chai").assert;
 const applyDisableDirectives = require("../../../lib/linter/apply-disable-directives");
+
+//-----------------------------------------------------------------------------
+// Helpers
+//-----------------------------------------------------------------------------
 
 /**
  * Creates a ParentComment for a given range.
@@ -21,6 +29,10 @@ function createParentComment(range, value, ruleIds = []) {
         ruleIds
     };
 }
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 describe("apply-disable-directives", () => {
     describe("/* eslint-disable */ comments without rules", () => {
@@ -1439,7 +1451,7 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 24,
                         fix: {
-                            range: [24, 33],
+                            range: [23, 32],
                             text: ""
                         },
                         severity: 2,
@@ -1480,7 +1492,7 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 18,
                         fix: {
-                            range: [18, 25],
+                            range: [18, 26],
                             text: ""
                         },
                         severity: 2,
@@ -1569,7 +1581,7 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 18,
                         fix: {
-                            range: [18, 27],
+                            range: [18, 28],
                             text: ""
                         },
                         severity: 2,
@@ -1581,7 +1593,7 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 28,
                         fix: {
-                            range: [27, 37],
+                            range: [26, 36],
                             text: ""
                         },
                         severity: 2,
@@ -1636,7 +1648,7 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 18,
                         fix: {
-                            range: [18, 27],
+                            range: [18, 28],
                             text: ""
                         },
                         severity: 2,
@@ -1648,7 +1660,7 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 28,
                         fix: {
-                            range: [27, 37],
+                            range: [26, 36],
                             text: ""
                         },
                         severity: 2,

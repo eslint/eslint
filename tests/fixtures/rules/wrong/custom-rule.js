@@ -1,5 +1,3 @@
 module.exports = function() {
-
-    "use strict";
-    return (null).something;
+    throw new Error("Boom!");
 };

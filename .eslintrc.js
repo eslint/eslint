@@ -51,7 +51,7 @@ module.exports = {
         "plugin:eslint-plugin/recommended"
     ],
     parserOptions: {
-        ecmaVersion: 2020
+        ecmaVersion: 2021
     },
 
     /*

@@ -14,6 +14,10 @@ const assert = require("chai").assert,
     proxyquire = require("proxyquire"),
     sinon = require("sinon");
 
+//-----------------------------------------------------------------------------
+// Helpers
+//-----------------------------------------------------------------------------
+
 /*
  * Chalk protects its methods so we need to inherit from it
  * for Sinon to work.

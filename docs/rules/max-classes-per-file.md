@@ -28,8 +28,12 @@ class Foo {}
 
 ## Options
 
-This rule has a numeric option (defaulted to 1) to specify the
-maximum number of classes.
+This rule may be configured with either an object or a number.
+
+If the option is an object, it may contain one or both of:
+
+-   `ignoreExpressions`: a boolean option (defaulted to `false`) to ignore class expressions.
+-   `max`: a numeric option (defaulted to 1) to specify the maximum number of classes.
 
 For example:
 
@@ -39,11 +43,36 @@ For example:
 }
 ```
 
-Examples of **correct** code for this rule with the numeric option set to `2`:
+```json
+{
+    "max-classes-per-file": [
+        "error",
+        { "ignoreExpressions": true, "max": 2 }
+    ]
+}
+```
+
+Examples of **correct** code for this rule with the `max` option set to `2`:
 
 ```js
 /* eslint max-classes-per-file: ["error", 2] */
 
 class Foo {}
 class Bar {}
+```
+
+Examples of **correct** code for this rule with the `ignoreExpressions` option set to `true`:
+
+```js
+/* eslint max-classes-per-file: ["error", { ignoreExpressions: true }] */
+
+class VisitorFactory {
+    forDescriptor(descriptor) {
+        return class {
+            visit(node) {
+                return `Visiting ${descriptor}.`;
+            }
+        };
+    }
+}
 ```

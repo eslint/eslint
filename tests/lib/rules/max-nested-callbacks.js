@@ -12,6 +12,10 @@
 const rule = require("../../../lib/rules/max-nested-callbacks"),
     { RuleTester } = require("../../../lib/rule-tester");
 
+//------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
+
 const OPENING = "foo(function() {",
     CLOSING = "});";
 

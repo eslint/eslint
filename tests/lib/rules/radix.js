@@ -12,6 +12,10 @@
 const rule = require("../../../lib/rules/radix"),
     { RuleTester } = require("../../../lib/rule-tester");
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester();
 
 ruleTester.run("radix", rule, {

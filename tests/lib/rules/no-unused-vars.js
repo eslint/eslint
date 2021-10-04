@@ -180,6 +180,7 @@ ruleTester.run("no-unused-vars", rule, {
         // Sequence Expressions (See https://github.com/eslint/eslint/issues/14325)
         { code: "let x = 0; foo = (0, x++);", parserOptions: { ecmaVersion: 6 } },
         { code: "let x = 0; foo = (0, x += 1);", parserOptions: { ecmaVersion: 6 } },
+        { code: "let x = 0; foo = (0, x = x + 1);", parserOptions: { ecmaVersion: 6 } },
 
         // caughtErrors
         {
@@ -1063,6 +1064,55 @@ ruleTester.run("no-unused-vars", rule, {
             code: "let x = 0; foo = ((0, x += 1), 0);",
             parserOptions: { ecmaVersion: 2015 },
             errors: [{ ...assignedError("x"), line: 1, column: 23 }]
+        },
+
+        // https://github.com/eslint/eslint/issues/14866
+        {
+            code: `let z = 0;
+            z = z + 1, z = 2;
+            `,
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("z"), line: 2, column: 24 }]
+        },
+        {
+            code: `let z = 0;
+            z = z+1, z = 2;
+            z = 3;`,
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("z"), line: 3, column: 13 }]
+        },
+        {
+            code: `let z = 0;
+            z = z+1, z = 2;
+            z = z+3;
+            `,
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("z"), line: 3, column: 13 }]
+        },
+        {
+            code: "let x = 0; 0, x = x+1;",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("x"), line: 1, column: 15 }]
+        },
+        {
+            code: "let x = 0; x = x+1, 0;",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("x"), line: 1, column: 12 }]
+        },
+        {
+            code: "let x = 0; foo = ((0, x = x + 1), 0);",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("x"), line: 1, column: 23 }]
+        },
+        {
+            code: "let x = 0; foo = (x = x+1, 0);",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("x"), line: 1, column: 19 }]
+        },
+        {
+            code: "let x = 0; 0, (1, x=x+1);",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("x"), line: 1, column: 19 }]
         },
         {
             code: "(function ({ a, b }, { c } ) { return b; })();",

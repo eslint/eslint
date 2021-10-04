@@ -11,6 +11,7 @@ This rule will enforce consistency of spacing before blocks. It is only applied 
 
 * This rule ignores spacing which is between `=>` and a block. The spacing is handled by the `arrow-spacing` rule.
 * This rule ignores spacing which is between a keyword and a block. The spacing is handled by the `keyword-spacing` rule.
+* This rule ignores spacing which is between `:` of a switch case and a block. The spacing is handled by the `switch-colon-spacing` rule.
 
 ## Options
 
@@ -210,4 +211,5 @@ You can turn this rule off if you are not concerned with the consistency of spac
 
 * [keyword-spacing](keyword-spacing.md)
 * [arrow-spacing](arrow-spacing.md)
+* [switch-colon-spacing](switch-colon-spacing.md)
 * [brace-style](brace-style.md)

@@ -9,12 +9,7 @@
 //-----------------------------------------------------------------------------
 
 const {
-    defineInMemoryFs,
-    defineConfigArrayFactoryWithInMemoryFileSystem,
-    defineCascadingConfigArrayFactoryWithInMemoryFileSystem,
-    defineFileEnumeratorWithInMemoryFileSystem,
-    defineCLIEngineWithInMemoryFileSystem,
-    defineESLintWithInMemoryFileSystem
+    defineInMemoryFs
 } = require("./in-memory-fs");
 
 const { createTeardown, addFile } = require("fs-teardown");
@@ -64,10 +59,5 @@ function createCustomTeardown({ cwd, files }) {
 module.exports = {
     unIndent,
     defineInMemoryFs,
-    defineConfigArrayFactoryWithInMemoryFileSystem,
-    defineCascadingConfigArrayFactoryWithInMemoryFileSystem,
-    defineFileEnumeratorWithInMemoryFileSystem,
-    defineCLIEngineWithInMemoryFileSystem,
-    defineESLintWithInMemoryFileSystem,
     createCustomTeardown
 };
