@@ -27,7 +27,7 @@
 * Broccoli: [broccoli-eslint](https://www.npmjs.com/package/broccoli-eslint)
 * Browserify: [eslintify](https://www.npmjs.com/package/eslintify)
 * Webpack: [eslint-webpack-plugin](https://www.npmjs.com/package/eslint-webpack-plugin)
-* Rollup: [rollup-plugin-eslint](https://www.npmjs.com/package/rollup-plugin-eslint)
+* Rollup: [@rollup/plugin-eslint](https://www.npmjs.com/package/@rollup/plugin-eslint)
 * Ember-cli: [ember-cli-eslint](https://www.npmjs.com/package/ember-cli-eslint)
 * Sails.js: [sails-hook-lint](https://www.npmjs.com/package/sails-hook-lint), [sails-eslint](https://www.npmjs.com/package/sails-eslint)
 * Start: [@start/plugin-lib-eslint](https://www.npmjs.com/package/@start/plugin-lib-eslint)
