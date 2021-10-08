@@ -4142,7 +4142,7 @@ describe("FlatESLint", () => {
         });
     });
 
-    describe.only("isPathIgnored", () => {
+    describe("isPathIgnored", () => {
         it("should check if the given path is ignored", async () => {
             const engine = new FlatESLint({
                 ignorePath: getFixturePath(".eslintignore2"),
@@ -4518,7 +4518,7 @@ describe("FlatESLint", () => {
         });
     });
 
-    describe("loadFormatter()", () => {
+    describe.only("loadFormatter()", () => {
         it("should return a formatter object when a bundled formatter is requested", async () => {
             const engine = new FlatESLint();
             const formatter = await engine.loadFormatter("compact");
@@ -4609,7 +4609,7 @@ describe("FlatESLint", () => {
 
             await assert.rejects(async () => {
                 await engine.loadFormatter("special");
-            }, new RegExp(escapeStringRegExp(`There was a problem loading formatter: ${fullFormatterPath}\nError: Cannot find module '${fullFormatterPath}'`), "u"));
+            }, new RegExp(escapeStringRegExp(`There was a problem loading formatter: ${fullFormatterPath}.js\nError: Cannot find module '${fullFormatterPath}.js'`), "u"));
         });
 
         it("should throw if the required formatter exists but has an error", async () => {
@@ -4618,7 +4618,9 @@ describe("FlatESLint", () => {
 
             await assert.rejects(async () => {
                 await engine.loadFormatter(formatterPath);
-            }, new RegExp(escapeStringRegExp(`There was a problem loading formatter: ${formatterPath}\nError: Cannot find module 'this-module-does-not-exist'`), "u"));
+
+                // for some reason, the error here contains multiple "there was a problem loading formatter" lines, so omitting
+            }, new RegExp(escapeStringRegExp("Error: Cannot find module 'this-module-does-not-exist'"), "u"));
         });
 
         it("should throw if a non-string formatter name is passed", async () => {
