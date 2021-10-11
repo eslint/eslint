@@ -4498,7 +4498,7 @@ describe("FlatESLint", () => {
             });
         });
 
-        describe("with --ignore-path option and --ignore-pattern option", () => {
+        describe("with ignorePath option and ignorePatterns option", () => {
             it("should return false for ignored file when unignored with ignore pattern", async () => {
                 const cwd = getFixturePath("ignored-paths");
                 const engine = new FlatESLint({
@@ -4820,6 +4820,45 @@ describe("FlatESLint", () => {
     });
 
     describe("getRulesMetaForResults()", () => {
+
+        it("should throw an error when results were not created from this instance", async () => {
+            const engine = new FlatESLint({
+                useEslintrc: false
+            });
+
+            assert.throws(() => {
+                engine.getRulesMetaForResults([
+                    {
+                        filePath: "path/to/file.js",
+                        messages: [
+                            {
+                                ruleId: "curly",
+                                severity: 2,
+                                message: "Expected { after 'if' condition.",
+                                line: 2,
+                                column: 1,
+                                nodeType: "IfStatement"
+                            },
+                            {
+                                ruleId: "no-process-exit",
+                                severity: 2,
+                                message: "Don't use process.exit(); throw an error instead.",
+                                line: 3,
+                                column: 1,
+                                nodeType: "CallExpression"
+                            }
+                        ],
+                        errorCount: 2,
+                        warningCount: 0,
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
+                        source:
+                            "var err = doStuff();\nif (err) console.log('failed tests: ' + err);\nprocess.exit(1);\n"
+                    }
+                ]);
+            }, /Results object was not created from this ESLint instance/u);
+        });
+
         it("should return empty object when there are no linting errors", async () => {
             const engine = new FlatESLint({
                 useEslintrc: false
