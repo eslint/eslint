@@ -4,16 +4,16 @@ Private class members that are declared and not used anywhere in the code are mo
 
 ## Rule Details
 
-A private class member `#foo` is considered to be used if any of the following are true:
+This rule reports unused private class members.
 
-* It is called (`this.#foo()`)
-* It is read (`this.#foo`)
-* It is passed into a function as an argument (`doSomething(this.#foo)`)
+* A private field or method is considered to be unused if its value is never read.
+* A private accessor is considered to be unused if it is never accessed (read or write).
 
 Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-unused-private-class-members: "error"*/
+
 class Foo {
     #unusedMember = 5;
 }
@@ -26,7 +26,19 @@ class Foo {
 }
 
 class Foo {
+    #usedOnlyToUpdateItself = 5;
+    method() {
+        this.#usedOnlyToUpdateItself++;
+    }
+}
+
+class Foo {
     #unusedMethod() {}
+}
+
+class Foo {
+    get #unusedAccessor() {}
+    set #unusedAccessor(value) {}
 }
 ```
 
@@ -48,6 +60,15 @@ class Foo {
     }
     anotherMethod() {
         return this.#usedMethod();
+    }
+}
+
+class Foo {
+    get #usedAccessor() {}
+    set #usedAccessor(value) {}
+    
+    method() {
+        this.#usedAccessor = 42;
     }
 }
 ```
