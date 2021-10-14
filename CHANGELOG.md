@@ -1,3 +1,9 @@
+v8.0.1 - October 13, 2021
+
+* [`f9217e5`](https://github.com/eslint/eslint/commit/f9217e527e1c49c6244400c4a58b6d1c14de51db) Upgrade: @eslint/eslintrc@1.0.3 for Jest workaround (#15164) (Brandon Mills)
+* [`c584a63`](https://github.com/eslint/eslint/commit/c584a63e2d6d9c0a66e5c5a5d43bc8148c054f5d) Chore: add ecmaVersion 13 to types.js (#15163) (Milos Djermanovic)
+* [`ff5fcd4`](https://github.com/eslint/eslint/commit/ff5fcd4d9bf43354a1b85d1f7ec1c4e1c0e5cbd9) Docs: add 13 as allowed ecma version (fixes #15159) (#15162) (唯然)
+
 v8.0.0 - October 9, 2021
 
 * [`7d3f7f0`](https://github.com/eslint/eslint/commit/7d3f7f01281671c4761f8da0d3ae9882a38eca8a) Upgrade: unfrozen @eslint/eslintrc (fixes #15036) (#15146) (Brandon Mills)
