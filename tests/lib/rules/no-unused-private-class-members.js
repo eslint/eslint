@@ -27,7 +27,7 @@ function definedError(classMemberName) {
     return {
         messageId: "unusedPrivateClassMember",
         data: {
-            classMemberName
+            classMemberName: `#${classMemberName}`
         }
     };
 }
