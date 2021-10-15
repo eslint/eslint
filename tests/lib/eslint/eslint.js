@@ -4769,8 +4769,7 @@ describe("ESLint", () => {
             const engine = new ESLint();
             const results = await engine.lintText("var foo = 'bar';");
             const errorResults = ESLint.getErrorResults(results);
-
-            console.log(JSON.stringify(errorResults, null, 4));
+console.log(errorResults[0].messages)
             assert.strictEqual(errorResults[0].messages.length, 5);
             assert.strictEqual(errorResults[0].errorCount, 5);
             assert.strictEqual(errorResults[0].fixableErrorCount, 3);

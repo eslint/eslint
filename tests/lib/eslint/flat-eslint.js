@@ -4518,7 +4518,7 @@ describe("FlatESLint", () => {
         });
     });
 
-    describe.only("loadFormatter()", () => {
+    describe("loadFormatter()", () => {
         it("should return a formatter object when a bundled formatter is requested", async () => {
             const engine = new FlatESLint();
             const formatter = await engine.loadFormatter("compact");
@@ -4632,96 +4632,40 @@ describe("FlatESLint", () => {
         });
     });
 
-    describe("getErrorResults()", () => {
+    describe.only("getErrorResults()", () => {
 
-        const lintResults = [
-            {
-                "filePath": "<text>",
-                "messages": [
-                    {
-                        "ruleId": "strict",
-                        "severity": 2,
-                        "message": "Use the global form of 'use strict'.",
-                        "line": 1,
-                        "column": 1,
-                        "nodeType": "Program",
-                        "messageId": "global",
-                        "endLine": 1,
-                        "endColumn": 17
-                    },
-                    {
-                        "ruleId": "no-var",
-                        "severity": 2,
-                        "message": "Unexpected var, use let or const instead.",
-                        "line": 1,
-                        "column": 1,
-                        "nodeType": "VariableDeclaration",
-                        "messageId": "unexpectedVar",
-                        "endLine": 1,
-                        "endColumn": 17,
-                        "fix": {
-                            "range": [
-                                0,
-                                3
-                            ],
-                            "text": "let"
-                        }
-                    },
-                    {
-                        "ruleId": "no-unused-vars",
-                        "severity": 2,
-                        "message": "'foo' is assigned a value but never used.",
-                        "line": 1,
-                        "column": 5,
-                        "nodeType": "Identifier",
-                        "messageId": "unusedVar",
-                        "endLine": 1,
-                        "endColumn": 8
-                    },
-                    {
-                        "ruleId": "quotes",
-                        "severity": 2,
-                        "message": "Strings must use doublequote.",
-                        "line": 1,
-                        "column": 11,
-                        "nodeType": "Literal",
-                        "messageId": "wrongQuotes",
-                        "endLine": 1,
-                        "endColumn": 16,
-                        "fix": {
-                            "range": [
-                                10,
-                                15
-                            ],
-                            "text": "\"bar\""
-                        }
-                    },
-                    {
-                        "ruleId": "eol-last",
-                        "severity": 2,
-                        "message": "Newline required at end of file but not found.",
-                        "line": 1,
-                        "column": 17,
-                        "nodeType": "Program",
-                        "messageId": "missing",
-                        "fix": {
-                            "range": [
-                                16,
-                                16
-                            ],
-                            "text": "\n"
-                        }
+        it.only("should report 5 error messages when looking for errors only", async () => {
+            process.chdir(originalDir);
+            const engine = new FlatESLint({
+                useEslintrc: false,
+                overrideConfig: {
+                    rules: {
+                        strict: "error",
+                        quotes: "error",
+                        "no-var": "error",
+                        "eol-last": "error",
+                        "no-unused-vars": "error"
                     }
-                ],
-                "errorCount": 5,
-                "fatalErrorCount": 0,
-                "warningCount": 0,
-                "fixableErrorCount": 3,
-                "fixableWarningCount": 0,
-                "source": "var foo = 'bar';",
-                "usedDeprecatedRules": []
-            }
-        ];
+                }
+            });
+            const results = await engine.lintText("var foo = 'bar';");
+            const errorResults = FlatESLint.getErrorResults(results);
+
+            assert.strictEqual(errorResults[0].messages.length, 5);
+            assert.strictEqual(errorResults[0].errorCount, 5);
+            assert.strictEqual(errorResults[0].fixableErrorCount, 3);
+            assert.strictEqual(errorResults[0].fixableWarningCount, 0);
+            assert.strictEqual(errorResults[0].messages[0].ruleId, "strict");
+            assert.strictEqual(errorResults[0].messages[0].severity, 2);
+            assert.strictEqual(errorResults[0].messages[1].ruleId, "no-var");
+            assert.strictEqual(errorResults[0].messages[1].severity, 2);
+            assert.strictEqual(errorResults[0].messages[2].ruleId, "no-unused-vars");
+            assert.strictEqual(errorResults[0].messages[2].severity, 2);
+            assert.strictEqual(errorResults[0].messages[3].ruleId, "quotes");
+            assert.strictEqual(errorResults[0].messages[3].severity, 2);
+            assert.strictEqual(errorResults[0].messages[4].ruleId, "eol-last");
+            assert.strictEqual(errorResults[0].messages[4].severity, 2);
+        });
 
         it("should report 5 error messages when looking for errors only", async () => {
             const engine = new FlatESLint();
