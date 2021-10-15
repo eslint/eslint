@@ -1091,6 +1091,10 @@ ruleTester.run("keyword-spacing", rule, {
         // not conflict with `space-infix-ops`
         "a =this",
         { code: "a = this", options: [NEITHER] },
+        "this+a",
+        { code: "this + a", options: [NEITHER] },
+        "this<a",
+        { code: "this < a", options: [NEITHER] },
 
         // not conflict with `space-unary-ops`
         "!this",
