@@ -264,6 +264,8 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "async function wrap() { a + await a }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
         { code: "async function wrap() { a<await a }", parserOptions: { ecmaVersion: 8 } },
         { code: "async function wrap() { a < await a }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { a>await a }", parserOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { a > await a }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
 
         // not conflict with `space-unary-ops`
         { code: "async function wrap() { !await'a' }", parserOptions: { ecmaVersion: 8 } },
@@ -375,6 +377,8 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "a + class{}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
         { code: "a<class {}", parserOptions: { ecmaVersion: 6 } },
         { code: "a < class{}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "a>class {}", parserOptions: { ecmaVersion: 6 } },
+        { code: "a > class{}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-unary-ops`
         { code: "!class {}", parserOptions: { ecmaVersion: 6 } },
@@ -514,6 +518,8 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "a + delete foo.a", options: [NEITHER] },
         "a<delete foo.a",
         { code: "a < delete foo.a", options: [NEITHER] },
+        "a>delete foo.a",
+        { code: "a > delete foo.a", options: [NEITHER] },
 
         // not conflict with `space-unary-ops`
         "!delete(foo.a)",
@@ -715,6 +721,8 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "a + function() {}", options: [NEITHER] },
         "a<function() {}",
         { code: "a < function() {}", options: [NEITHER] },
+        "a>function() {}",
+        { code: "a > function() {}", options: [NEITHER] },
 
         // not conflict with `space-unary-ops`
         "!function() {}",
@@ -881,6 +889,8 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "a + new foo()", options: [NEITHER] },
         "a<new foo()",
         { code: "a < new foo()", options: [NEITHER] },
+        "a>new foo()",
+        { code: "a > new foo()", options: [NEITHER] },
 
         // not conflict with `space-unary-ops`
         "!new(foo)()",
@@ -1029,6 +1039,8 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "class A extends B { constructor() { b + super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
         { code: "class A extends B { constructor() { b<super() } }", parserOptions: { ecmaVersion: 6 } },
         { code: "class A extends B { constructor() { b < super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { b>super() } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { b > super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-unary-ops`
         { code: "class A extends B { constructor() { !super() } }", parserOptions: { ecmaVersion: 6 } },
@@ -1119,6 +1131,8 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "a + this", options: [NEITHER] },
         "a<this",
         { code: "a < this", options: [NEITHER] },
+        "a>this",
+        { code: "a > this", options: [NEITHER] },
         "this+a",
         { code: "this + a", options: [NEITHER] },
         "this<a",
@@ -1224,6 +1238,8 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "a + typeof foo", options: [NEITHER] },
         "a<typeof foo",
         { code: "a < typeof foo", options: [NEITHER] },
+        "a>typeof foo",
+        { code: "a > typeof foo", options: [NEITHER] },
 
         // not conflict with `space-unary-ops`
         "!typeof+foo",
@@ -1305,6 +1321,8 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "a + void foo", options: [NEITHER] },
         "a<void foo",
         { code: "a < void foo", options: [NEITHER] },
+        "a>void foo",
+        { code: "a > void foo", options: [NEITHER] },
 
         // not conflict with `space-unary-ops`
         "!void+foo",
