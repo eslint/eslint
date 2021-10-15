@@ -88,7 +88,7 @@ Before you send the pull request, be sure to rebase onto the upstream source. Th
 
 ```
 git fetch upstream
-git rebase upstream/master
+git rebase upstream/main
 ```
 
 ### Step 4: Run the tests<a name="step4"></a>
@@ -164,7 +164,7 @@ $ git commit
 $ git push origin issue1234
 ```
 
-When updating the code, it's usually better to add additional commits to your branch rather than amending the original commit, because reviewers can easily tell which changes were made in response to a particular review. When we merge pull requests, we will squash all the commits from your branch into a single commit on the `master` branch.
+When updating the code, it's usually better to add additional commits to your branch rather than amending the original commit, because reviewers can easily tell which changes were made in response to a particular review. When we merge pull requests, we will squash all the commits from your branch into a single commit on the `main` branch.
 
 ### Rebasing
 
@@ -172,7 +172,7 @@ If your code is out-of-date, we might ask you to rebase. That means we want you 
 
 ```
 $ git fetch upstream
-$ git rebase upstream/master
+$ git rebase upstream/main
 ```
 
 You might find that there are merge conflicts when you attempt to rebase. Please [resolve the conflicts](https://help.github.com/articles/resolving-merge-conflicts-after-a-git-rebase/) and then do a forced push to your branch:
