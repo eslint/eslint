@@ -11,7 +11,8 @@
 
 const parser = require("../../fixtures/fixture-parser"),
     rule = require("../../../lib/rules/keyword-spacing"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester"),
+    fixtureParser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -888,7 +889,16 @@ ruleTester.run("keyword-spacing", rule, {
         //----------------------------------------------------------------------
 
         "function foo() { {} return +a }",
+        {
+            code: "function foo() { return <p/>; }",
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
         { code: "function foo() { {}return+a }", options: [NEITHER] },
+        {
+            code: "function foo() { return<p/>; }",
+            options: [{ after: false }],
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
         { code: "function foo() { {} return +a }", options: [override("return", BOTH)] },
         { code: "function foo() { {}return+a }", options: [override("return", NEITHER)] },
         "function foo() {\nreturn\n}",
@@ -1033,6 +1043,16 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "{}this[a]", options: [NEITHER] },
         { code: "{} this[a]", options: [override("this", BOTH)] },
         { code: "{}this[a]", options: [override("this", NEITHER)] },
+
+        {
+            code: "<Thing> this.blah",
+            parser: fixtureParser("keyword-spacing", "prefix-cast-operator-space")
+        },
+        {
+            code: "<Thing>this.blah",
+            options: [override("this", { before: false })],
+            parser: fixtureParser("keyword-spacing", "prefix-cast-operator-no-space")
+        },
 
         // not conflict with `array-bracket-spacing`
         "[this]",
@@ -2784,10 +2804,23 @@ ruleTester.run("keyword-spacing", rule, {
             errors: expectedBeforeAndAfter("return")
         },
         {
+            code: "function foo() { return<p/>; }",
+            output: "function foo() { return <p/>; }",
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: expectedAfter("return")
+        },
+        {
             code: "function foo() { {} return +a }",
             output: "function foo() { {}return+a }",
             options: [NEITHER],
             errors: unexpectedBeforeAndAfter("return")
+        },
+        {
+            code: "function foo() { return <p/>; }",
+            output: "function foo() { return<p/>; }",
+            options: [{ after: false }],
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: unexpectedAfter("return")
         },
         {
             code: "function foo() { {}return+a }",
@@ -3037,6 +3070,19 @@ ruleTester.run("keyword-spacing", rule, {
             output: "{}this[a]",
             options: [override("this", NEITHER)],
             errors: unexpectedBefore("this")
+        },
+        {
+            code: "<Thing> this.blah",
+            output: "<Thing>this.blah",
+            options: [override("this", { before: false })],
+            parser: fixtureParser("keyword-spacing", "prefix-cast-operator-space"),
+            errors: unexpectedBefore("this")
+        },
+        {
+            code: "<Thing>this.blah",
+            output: "<Thing> this.blah",
+            parser: fixtureParser("keyword-spacing", "prefix-cast-operator-no-space"),
+            errors: expectedBefore("this")
         },
 
         //----------------------------------------------------------------------
