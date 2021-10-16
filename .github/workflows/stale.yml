@@ -23,6 +23,8 @@ jobs:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         days-before-stale: 60
         days-before-close: 7
-        stale-issue-message: 'Oops! It looks like we lost track of this issue. @eslint/eslint-tsc what do we want to do here? This issue will auto-close in 7 days without an update.'
-        stale-pr-message: 'Oops! It looks like we lost track of this pull request. @eslint/eslint-tsc what do we want to do here? This pull request will auto-close in 7 days without an update.'
+        stale-issue-message: 'Oops! It looks like we lost track of this issue. What do we want to do here? This issue will auto-close in 7 days without an update.'
+        stale-pr-message: 'Oops! It looks like we lost track of this pull request. What do we want to do here? This pull request will auto-close in 7 days without an update.'
         exempt-all-assignees: true
+        exempt-issue-labels: accepted
+        exempt-pr-labels: accepted
