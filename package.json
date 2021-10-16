@@ -10,6 +10,7 @@
   "exports": {
     "./package.json": "./package.json",
     ".": "./lib/api.js",
+    "./lib/rules/*": "./lib/rules/*.js",
     "./use-at-your-own-risk": "./lib/unsupported-api.js"
   },
   "scripts": {
