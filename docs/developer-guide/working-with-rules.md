@@ -321,6 +321,8 @@ The `fixer` object has the following methods:
 * `replaceText(nodeOrToken, text)` - replaces the text in the given node or token
 * `replaceTextRange(range, text)` - replaces the text in the given range
 
+A range is a two-item array containing character indices inside of the source code. The first item is the start of the range (inclusive) and the second item is the end of the range (exclusive). Every node and token has a `range` property to identify the source code range they represent.
+
 The above methods return a `fixing` object.
 The `fix()` function can return the following values:
 
