@@ -2385,6 +2385,59 @@ describe("RuleTester", () => {
 
             return assertion;
         });
+
+        it('should use the "name" property if set to a non-empty string', () => {
+            const assertion = assertEmitted(ruleTesterTestEmitter, "it", "my test");
+
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    {
+                        name: "my test",
+                        code: "var x = invalid(code);",
+                        output: " x = invalid(code);",
+                        errors: 1
+                    }
+                ]
+            });
+
+            return assertion;
+        });
+
+        it('should use the "name" property if set to a non-empty string for valid cases too', () => {
+            const assertion = assertEmitted(ruleTesterTestEmitter, "it", "my test");
+
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [
+                    {
+                        name: "my test",
+                        code: "valid(code);"
+                    }
+                ],
+                invalid: []
+            });
+
+            return assertion;
+        });
+
+
+        it('should use the test code as the name if the "name" property is set to an empty string', () => {
+            const assertion = assertEmitted(ruleTesterTestEmitter, "it", "var x = invalid(code);");
+
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    {
+                        name: "",
+                        code: "var x = invalid(code);",
+                        output: " x = invalid(code);",
+                        errors: 1
+                    }
+                ]
+            });
+
+            return assertion;
+        });
     });
 
     // https://github.com/eslint/eslint/issues/11615
