@@ -258,6 +258,20 @@ describe("NodeEventGenerator", () => {
         );
 
         assertEmissions(
+            "function foo(){} var x; (function (p){}); () => {};",
+            [":function", "ExpressionStatement > :function", "VariableDeclaration, :function[params.length=1]"],
+            ast => [
+                [":function", ast.body[0]], // function foo(){}
+                ["VariableDeclaration, :function[params.length=1]", ast.body[1]], // var x;
+                [":function", ast.body[2].expression], // function (p){}
+                ["ExpressionStatement > :function", ast.body[2].expression], // function (p){}
+                ["VariableDeclaration, :function[params.length=1]", ast.body[2].expression], // function (p){}
+                [":function", ast.body[3].expression], // () => {}
+                ["ExpressionStatement > :function", ast.body[3].expression] // () => {}
+            ]
+        );
+
+        assertEmissions(
             "foo;",
             [
                 "*",
