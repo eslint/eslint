@@ -16,6 +16,15 @@ module.exports = function(config) {
         // base path that will be used to resolve all patterns (eg. files, exclude)
         basePath: "",
 
+        // next three sections allow console.log to work
+        client: {
+            captureConsole: true
+        },
+
+        browserConsoleLogOptions: {
+            terminal: true,
+            level: "log"
+        },
 
         /*
          * frameworks to use

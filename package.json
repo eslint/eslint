@@ -48,7 +48,7 @@
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
     "@eslint/eslintrc": "^1.0.4",
-    "@humanwhocodes/config-array": "^0.6.0",
+    "@humanwhocodes/config-array": "^0.9.1",
     "ajv": "^6.10.0",
     "chalk": "^4.0.0",
     "cross-spawn": "^7.0.2",

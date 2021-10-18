@@ -78,7 +78,7 @@ const baseConfig = {
 function createFlatConfigArray(configs) {
     return new FlatConfigArray(configs, {
         basePath: __dirname,
-        baseConfig
+        baseConfig: [baseConfig]
     });
 }
 
@@ -638,7 +638,7 @@ describe("FlatConfigArray", () => {
                                 ecmaVersion: "true"
                             }
                         }
-                    ], "Expected a number.");
+                    ], /Key "languageOptions": Key "ecmaVersion": Expected a number or "latest"\./u);
                 });
 
                 it("should merge two objects when second object has overrides", () => assertMergedResult([

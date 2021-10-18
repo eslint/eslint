@@ -16,6 +16,7 @@ const assert = require("chai").assert,
     testParsers = require("../../fixtures/parsers/linter-test-parsers");
 
 const { Linter } = require("../../../lib/linter");
+const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
 
 //------------------------------------------------------------------------------
 // Constants
@@ -6241,4 +6242,352 @@ var a = "test2";
             assert.strictEqual(messages.length, 0);
         });
     });
+});
+
+describe("Linter with FlatConfigArray", () => {
+
+    let linter;
+    const filename = "filename.js";
+
+    /**
+     * Creates a config array with some default properties.
+     * @param {FlatConfig|FlatConfig[]} value The value to base the
+     *      config array on.
+     * @returns {FlatConfigArray} The created config array.
+     */
+    function createFlatConfigArray(value) {
+        return new FlatConfigArray(value, { basePath: "" });
+    }
+
+    beforeEach(() => {
+        linter = new Linter({ configType: "flat" });
+    });
+
+    describe("verify()", () => {
+
+        it("rule should run as warning when set to 1", () => {
+            const ruleId = "semi",
+                configs = createFlatConfigArray({
+                    files: ["**/*.js"],
+                    rules: {
+                        [ruleId]: 1
+                    }
+                });
+
+            configs.normalizeSync();
+            const messages = linter.verify("foo", configs, filename, true);
+
+            assert.strictEqual(messages.length, 1, "Message length is wrong");
+            assert.strictEqual(messages[0].ruleId, ruleId);
+        });
+
+    });
+
+    describe("defineRule()", () => {
+        it("should throw an error when called in flat config mode", () => {
+            assert.throws(() => {
+                linter.defineRule("foo", () => {});
+            }, /This method cannot be used with flat config/u);
+        });
+    });
+
+    describe("defineRules()", () => {
+        it("should throw an error when called in flat config mode", () => {
+            assert.throws(() => {
+                linter.defineRules({});
+            }, /This method cannot be used with flat config/u);
+        });
+    });
+
+    describe("defineParser()", () => {
+        it("should throw an error when called in flat config mode", () => {
+            assert.throws(() => {
+                linter.defineParser("foo", {});
+            }, /This method cannot be used with flat config/u);
+        });
+    });
+
+    describe("processors", () => {
+        let receivedFilenames = [];
+        let receivedPhysicalFilenames = [];
+        const extraConfig = {
+            plugins: {
+                test: {
+                    rules: {
+                        "report-original-text": {
+                            meta: {
+
+                            },
+                            create(context) {
+                                return {
+                                    Program(ast) {
+                                        receivedFilenames.push(context.getFilename());
+                                        receivedPhysicalFilenames.push(context.getPhysicalFilename());
+                                        context.report({ node: ast, message: context.getSourceCode().text });
+                                    }
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        beforeEach(() => {
+            receivedFilenames = [];
+            receivedPhysicalFilenames = [];
+        });
+
+        describe("preprocessors", () => {
+            it("should receive text and filename.", () => {
+                const code = "foo bar baz";
+                const preprocess = sinon.spy(text => text.split(" "));
+                const configs = createFlatConfigArray({});
+
+                configs.normalizeSync();
+
+                linter.verify(code, configs, { filename, preprocess });
+
+                assert.strictEqual(preprocess.calledOnce, true, "preprocess wasn't called");
+                assert.deepStrictEqual(preprocess.args[0], [code, filename], "preprocess was called with the wrong arguments");
+            });
+
+            it("should apply a preprocessor to the code, and lint each code sample separately", () => {
+                const code = "foo bar baz";
+                const configs = createFlatConfigArray([
+                    extraConfig,
+                    { rules: { "test/report-original-text": "error" } }
+                ]);
+
+                configs.normalizeSync();
+
+                const problems = linter.verify(
+                    code,
+                    configs,
+                    {
+                        filename,
+
+                        // Apply a preprocessor that splits the source text into spaces and lints each word individually
+                        preprocess(input) {
+                            return input.split(" ");
+                        }
+                    }
+                );
+
+                assert.strictEqual(problems.length, 3);
+                assert.deepStrictEqual(problems.map(problem => problem.message), ["foo", "bar", "baz"]);
+            });
+
+            it("should apply a preprocessor to the code even if the preprocessor returned code block objects.", () => {
+                const code = "foo bar baz";
+                const configs = createFlatConfigArray([
+                    extraConfig,
+                    { rules: { "test/report-original-text": "error" } }
+                ]);
+
+                configs.normalizeSync();
+
+                const problems = linter.verify(
+                    code,
+                    configs,
+                    {
+                        filename,
+
+                        // Apply a preprocessor that splits the source text into spaces and lints each word individually
+                        preprocess(input) {
+                            return input.split(" ").map(text => ({
+                                filename: "block.js",
+                                text
+                            }));
+                        }
+                    }
+                );
+
+                assert.strictEqual(problems.length, 3);
+                assert.deepStrictEqual(problems.map(problem => problem.message), ["foo", "bar", "baz"]);
+
+                // filename
+                assert.strictEqual(receivedFilenames.length, 3);
+                assert(/^filename\.js[/\\]0_block\.js/u.test(receivedFilenames[0]));
+                assert(/^filename\.js[/\\]1_block\.js/u.test(receivedFilenames[1]));
+                assert(/^filename\.js[/\\]2_block\.js/u.test(receivedFilenames[2]));
+
+                // physical filename
+                assert.strictEqual(receivedPhysicalFilenames.length, 3);
+                assert.strictEqual(receivedPhysicalFilenames.every(name => name === filename), true);
+            });
+
+            it("should receive text even if a SourceCode object was given.", () => {
+                const code = "foo";
+                const preprocess = sinon.spy(text => text.split(" "));
+                const configs = createFlatConfigArray([
+                    extraConfig
+                ]);
+
+                configs.normalizeSync();
+
+                linter.verify(code, configs);
+                const sourceCode = linter.getSourceCode();
+
+                linter.verify(sourceCode, configs, { filename, preprocess });
+
+                assert.strictEqual(preprocess.calledOnce, true);
+                assert.deepStrictEqual(preprocess.args[0], [code, filename]);
+            });
+
+            it("should receive text even if a SourceCode object was given (with BOM).", () => {
+                const code = "\uFEFFfoo";
+                const preprocess = sinon.spy(text => text.split(" "));
+                const configs = createFlatConfigArray([
+                    extraConfig
+                ]);
+
+                configs.normalizeSync();
+
+                linter.verify(code, configs);
+                const sourceCode = linter.getSourceCode();
+
+                linter.verify(sourceCode, configs, { filename, preprocess });
+
+                assert.strictEqual(preprocess.calledOnce, true);
+                assert.deepStrictEqual(preprocess.args[0], [code, filename]);
+            });
+        });
+
+        describe("postprocessors", () => {
+            it("should receive result and filename.", () => {
+                const code = "foo bar baz";
+                const preprocess = sinon.spy(text => text.split(" "));
+                const postprocess = sinon.spy(text => [text]);
+                const configs = createFlatConfigArray([
+                    extraConfig
+                ]);
+
+                configs.normalizeSync();
+
+                linter.verify(code, configs, { filename, postprocess, preprocess });
+
+                assert.strictEqual(postprocess.calledOnce, true);
+                assert.deepStrictEqual(postprocess.args[0], [[[], [], []], filename]);
+            });
+
+            it("should apply a postprocessor to the reported messages", () => {
+                const code = "foo bar baz";
+                const configs = createFlatConfigArray([
+                    extraConfig,
+                    { rules: { "test/report-original-text": "error" } }
+                ]);
+
+                configs.normalizeSync();
+
+                const problems = linter.verify(
+                    code,
+                    configs,
+                    {
+                        preprocess: input => input.split(" "),
+
+                        /*
+                         * Apply a postprocessor that updates the locations of the reported problems
+                         * to make sure they correspond to the locations in the original text.
+                         */
+                        postprocess(problemLists) {
+                            problemLists.forEach(problemList => assert.strictEqual(problemList.length, 1));
+                            return problemLists.reduce(
+                                (combinedList, problemList, index) =>
+                                    combinedList.concat(
+                                        problemList.map(
+                                            problem =>
+                                                Object.assign(
+                                                    {},
+                                                    problem,
+                                                    {
+                                                        message: problem.message.toUpperCase(),
+                                                        column: problem.column + index * 4
+                                                    }
+                                                )
+                                        )
+                                    ),
+                                []
+                            );
+                        }
+                    }
+                );
+
+                assert.strictEqual(problems.length, 3);
+                assert.deepStrictEqual(problems.map(problem => problem.message), ["FOO", "BAR", "BAZ"]);
+                assert.deepStrictEqual(problems.map(problem => problem.column), [1, 5, 9]);
+            });
+
+            it("should use postprocessed problem ranges when applying autofixes", () => {
+                const code = "foo bar baz";
+                const configs = createFlatConfigArray([
+                    extraConfig,
+                    {
+                        plugins: {
+                            test2: {
+                                rules: {
+                                    "capitalize-identifiers": {
+                                        meta: {
+                                            fixable: "code"
+                                        },
+                                        create(context) {
+                                            return {
+                                                Identifier(node) {
+                                                    if (node.name !== node.name.toUpperCase()) {
+                                                        context.report({
+                                                            node,
+                                                            message: "Capitalize this identifier",
+                                                            fix: fixer => fixer.replaceText(node, node.name.toUpperCase())
+                                                        });
+                                                    }
+                                                }
+                                            };
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    { rules: { "test2/capitalize-identifiers": "error" } }
+                ]);
+
+                configs.normalizeSync();
+
+                const fixResult = linter.verifyAndFix(
+                    code,
+                    configs,
+                    {
+
+                        /*
+                         * Apply a postprocessor that updates the locations of autofixes
+                         * to make sure they correspond to locations in the original text.
+                         */
+                        preprocess: input => input.split(" "),
+                        postprocess(problemLists) {
+                            return problemLists.reduce(
+                                (combinedProblems, problemList, blockIndex) =>
+                                    combinedProblems.concat(
+                                        problemList.map(problem =>
+                                            Object.assign(problem, {
+                                                fix: {
+                                                    text: problem.fix.text,
+                                                    range: problem.fix.range.map(
+                                                        rangeIndex => rangeIndex + blockIndex * 4
+                                                    )
+                                                }
+                                            }))
+                                    ),
+                                []
+                            );
+                        }
+                    }
+                );
+
+                assert.strictEqual(fixResult.fixed, true);
+                assert.strictEqual(fixResult.messages.length, 0);
+                assert.strictEqual(fixResult.output, "FOO BAR BAZ");
+            });
+        });
+    });
+
 });
