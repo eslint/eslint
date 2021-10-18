@@ -4764,12 +4764,12 @@ describe("ESLint", () => {
     });
 
     describe("getErrorResults()", () => {
-        it.only("should report 5 error messages when looking for errors only", async () => {
+        it("should report 5 error messages when looking for errors only", async () => {
             process.chdir(originalDir);
             const engine = new ESLint();
             const results = await engine.lintText("var foo = 'bar';");
             const errorResults = ESLint.getErrorResults(results);
-console.log(errorResults[0].messages)
+
             assert.strictEqual(errorResults[0].messages.length, 5);
             assert.strictEqual(errorResults[0].errorCount, 5);
             assert.strictEqual(errorResults[0].fixableErrorCount, 3);
