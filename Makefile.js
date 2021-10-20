@@ -1100,9 +1100,12 @@ target.perf = function() {
 
                 // Count test target files.
                 const count = glob.sync(
-                    process.platform === "win32"
-                        ? PERF_MULTIFILES_TARGETS.slice(2).replace(/\\/gu, "/")
-                        : PERF_MULTIFILES_TARGETS
+                    (
+                        process.platform === "win32"
+                            ? PERF_MULTIFILES_TARGETS.replace(/\\/gu, "/")
+                            : PERF_MULTIFILES_TARGETS
+                    )
+                        .slice(1, -1) // strip quotes
                 ).length;
 
                 runPerformanceTest(
