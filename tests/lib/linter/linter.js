@@ -6263,6 +6263,100 @@ describe("Linter with FlatConfigArray", () => {
         linter = new Linter({ configType: "flat" });
     });
 
+    describe("when using events", () => {
+        const code = TEST_CODE;
+
+        it("an error should be thrown when an error occurs inside of an event handler", () => {
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            checker: () => ({
+                                Program() {
+                                    throw new Error("Intentional error.");
+                                }
+                            })
+                        }
+                    }
+                },
+                rules: { "test/checker": "error" }
+            };
+
+            assert.throws(() => {
+                linter.verify(code, config, filename);
+            }, `Intentional error.\nOccurred while linting ${filename}:1\nRule: "test/checker"`);
+        });
+
+        it("does not call rule listeners with a `this` value", () => {
+            const spy = sinon.spy();
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            checker: () => ({
+                                Program: spy
+                            })
+                        }
+                    }
+                },
+                rules: { "test/checker": "error" }
+            };
+
+            linter.verify("foo", config);
+            assert(spy.calledOnce);
+            assert.strictEqual(spy.firstCall.thisValue, void 0);
+        });
+
+        it("does not allow listeners to use special EventEmitter values", () => {
+            const spy = sinon.spy();
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            checker: () => ({
+                                newListener: spy
+                            })
+                        }
+                    }
+                },
+                rules: {
+                    "test/checker": "error",
+                    "no-undef": "error"
+                }
+            };
+
+            linter.verify("foo", config);
+            assert(spy.notCalled);
+        });
+
+        it("has all the `parent` properties on nodes when the rule listeners are created", () => {
+            const spy = sinon.spy(context => {
+                const ast = context.getSourceCode().ast;
+
+                assert.strictEqual(ast.body[0].parent, ast);
+                assert.strictEqual(ast.body[0].expression.parent, ast.body[0]);
+                assert.strictEqual(ast.body[0].expression.left.parent, ast.body[0].expression);
+                assert.strictEqual(ast.body[0].expression.right.parent, ast.body[0].expression);
+
+                return {};
+            });
+
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            checker: spy
+                        }
+                    }
+                },
+                rules: { "test/checker": "error" }
+            };
+
+            linter.verify("foo + bar", config);
+            assert(spy.calledOnce);
+        });
+    });
+
     describe("verify()", () => {
 
         it("rule should run as warning when set to 1 with a config array", () => {
@@ -6618,6 +6712,80 @@ describe("Linter with FlatConfigArray", () => {
                 assert.strictEqual(fixResult.output, "FOO BAR BAZ");
             });
         });
+    });
+
+
+    describe("Edge cases", () => {
+
+        describe("Modules", () => {
+            const moduleConfig = {
+                languageOptions: {
+                    sourceType: "module",
+                    ecmaVersion: 6
+                }
+            };
+
+            it("should properly parse import statements when sourceType is module", () => {
+                const code = "import foo from 'foo';";
+                const messages = linter.verify(code, moduleConfig);
+
+                assert.strictEqual(messages.length, 0, "Unexpected linting error.");
+            });
+
+            it("should properly parse import all statements when sourceType is module", () => {
+                const code = "import * as foo from 'foo';";
+                const messages = linter.verify(code, moduleConfig);
+
+                assert.strictEqual(messages.length, 0, "Unexpected linting error.");
+            });
+
+            it("should properly parse default export statements when sourceType is module", () => {
+                const code = "export default function initialize() {}";
+                const messages = linter.verify(code, moduleConfig);
+
+                assert.strictEqual(messages.length, 0, "Unexpected linting error.");
+            });
+
+        });
+
+
+        // https://github.com/eslint/eslint/issues/9687
+        it("should report an error when invalid languageOptions found", () => {
+            let messages = linter.verify("", { languageOptions: { ecmaVersion: 222 } });
+
+            assert.deepStrictEqual(messages.length, 1);
+            assert.ok(messages[0].message.includes("Invalid ecmaVersion"));
+
+            assert.throws(() => {
+                linter.verify("", { languageOptions: { sourceType: "foo" } });
+            }, /Expected "script", "module", or "commonjs"./u);
+
+
+            messages = linter.verify("", { languageOptions: { ecmaVersion: 5, sourceType: "module" } });
+
+            assert.deepStrictEqual(messages.length, 1);
+            assert.ok(messages[0].message.includes("sourceType 'module' is not supported when ecmaVersion < 2015"));
+        });
+
+        it("should not crash when invalid parentheses syntax is encountered", () => {
+            linter.verify("left = (aSize.width/2) - ()");
+        });
+
+        it("should not crash when let is used inside of switch case", () => {
+            linter.verify("switch(foo) { case 1: let bar=2; }", { languageOptions: { ecmaVersion: 6 } });
+        });
+
+        it("should not crash when parsing destructured assignment", () => {
+            linter.verify("var { a='a' } = {};", { languageOptions: { ecmaVersion: 6 } });
+        });
+
+        it("should report syntax error when a keyword exists in object property shorthand", () => {
+            const messages = linter.verify("let a = {this}", { languageOptions: { ecmaVersion: 6 } });
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].fatal, true);
+        });
+
     });
 
 });
