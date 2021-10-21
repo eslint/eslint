@@ -130,6 +130,13 @@ ruleTester.run("no-unused-private-class-members", rule, {
         this.#accessorWithSetterFirst += 1;
     }
 }`,
+        `class Foo {
+    set #accessorUsedInMemberAccess(value) {}
+
+    method(a) {
+        [this.#accessorUsedInMemberAccess] = a;
+    }
+}`,
         `class C {
     get #accessorWithGetterFirst() {
         return something();
