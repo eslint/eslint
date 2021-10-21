@@ -750,6 +750,7 @@ The `RuleTester#run()` method is used to run the tests. It should be passed the 
 
 A test case is an object with the following properties:
 
+* `name` (string, optional): The name to use for the test case, to make it easier to find
 * `code` (string, required): The source code that the rule should be run on
 * `options` (array, optional): The options passed to the rule. The rule severity should not be included in this list.
 * `filename` (string, optional): The filename for the given case (useful for rules that make assertions about filenames).
