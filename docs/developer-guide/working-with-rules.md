@@ -24,6 +24,9 @@ Here is the basic format of the source file for a rule:
 // Rule Definition
 //------------------------------------------------------------------------------
 
+/**
+ * @type {import('eslint').Rule.RuleModule}
+ */
 module.exports = {
     meta: {
         type: "suggestion",
@@ -318,6 +321,8 @@ The `fixer` object has the following methods:
 * `replaceText(nodeOrToken, text)` - replaces the text in the given node or token
 * `replaceTextRange(range, text)` - replaces the text in the given range
 
+A range is a two-item array containing character indices inside of the source code. The first item is the start of the range (inclusive) and the second item is the end of the range (exclusive). Every node and token has a `range` property to identify the source code range they represent.
+
 The above methods return a `fixing` object.
 The `fix()` function can return the following values:
 
@@ -348,6 +353,24 @@ Best practices for fixes:
         ```
 
     * This fixer can just select a quote type arbitrarily. If it guesses wrong, the resulting code will be automatically reported and fixed by the [`quotes`](/docs/rules/quotes.md) rule.
+
+Note: Making fixes as small as possible is a best practice, but in some cases it may be correct to extend the range of the fix in order to intentionally prevent other rules from making fixes in a surrounding range in the same pass. For instance, if replacement text declares a new variable, it can be useful to prevent other changes in the scope of the variable as they might cause name collisions.
+
+The following example replaces `node` and also ensures that no other fixes will be applied in the range of `node.parent` in the same pass:
+
+```js
+context.report({
+    node,
+    message,
+    *fix(fixer) {
+        yield fixer.replaceText(node, replacementText);
+
+        // extend range of the fix to the range of `node.parent`
+        yield fixer.insertTextBefore(node.parent, "");
+        yield fixer.insertTextAfter(node.parent, "");
+    }
+});
+```
 
 ### Providing Suggestions
 
@@ -674,8 +697,8 @@ To keep the linting process efficient and unobtrusive, it is useful to verify th
 When developing in the ESLint core repository, the `npm run perf` command gives a high-level overview of ESLint running time with all core rules enabled.
 
 ```bash
-$ git checkout master
-Switched to branch 'master'
+$ git checkout main
+Switched to branch 'main'
 
 $ npm run perf
 CPU Speed is 2200 with multiplier 7500000

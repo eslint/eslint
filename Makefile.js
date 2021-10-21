@@ -647,8 +647,8 @@ target.gensite = function(prereleaseVersion) {
     tempFiles.forEach((filename, i) => {
         if (test("-f", filename) && path.extname(filename) === ".md") {
 
-            const rulesUrl = "https://github.com/eslint/eslint/tree/master/lib/rules/",
-                docsUrl = "https://github.com/eslint/eslint/tree/master/docs/rules/",
+            const rulesUrl = "https://github.com/eslint/eslint/tree/HEAD/lib/rules/",
+                docsUrl = "https://github.com/eslint/eslint/tree/HEAD/docs/rules/",
                 baseName = path.basename(filename),
                 sourceBaseName = `${path.basename(filename, ".md")}.js`,
                 sourcePath = path.join("lib/rules", sourceBaseName),
@@ -695,7 +695,7 @@ target.gensite = function(prereleaseVersion) {
                 "---",
                 `title: ${title}`,
                 "layout: doc",
-                `edit_link: https://github.com/eslint/eslint/edit/master/${filePath}`,
+                `edit_link: https://github.com/eslint/eslint/edit/main/${filePath}`,
                 ruleType,
                 "---",
                 "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",

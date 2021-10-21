@@ -30,6 +30,17 @@ describe("RuleFixer", () => {
 
         });
 
+        it("should allow inserting empty text", () => {
+
+            const result = ruleFixer.insertTextBefore({ range: [10, 20] }, "");
+
+            assert.deepStrictEqual(result, {
+                range: [10, 10],
+                text: ""
+            });
+
+        });
+
     });
 
     describe("insertTextBeforeRange", () => {
@@ -41,6 +52,17 @@ describe("RuleFixer", () => {
             assert.deepStrictEqual(result, {
                 range: [0, 0],
                 text: "Hi"
+            });
+
+        });
+
+        it("should allow inserting empty text", () => {
+
+            const result = ruleFixer.insertTextBeforeRange([10, 20], "");
+
+            assert.deepStrictEqual(result, {
+                range: [10, 10],
+                text: ""
             });
 
         });
@@ -60,6 +82,17 @@ describe("RuleFixer", () => {
 
         });
 
+        it("should allow inserting empty text", () => {
+
+            const result = ruleFixer.insertTextAfter({ range: [10, 20] }, "");
+
+            assert.deepStrictEqual(result, {
+                range: [20, 20],
+                text: ""
+            });
+
+        });
+
     });
 
     describe("insertTextAfterRange", () => {
@@ -71,6 +104,17 @@ describe("RuleFixer", () => {
             assert.deepStrictEqual(result, {
                 range: [1, 1],
                 text: "Hi"
+            });
+
+        });
+
+        it("should allow inserting empty text", () => {
+
+            const result = ruleFixer.insertTextAfterRange([10, 20], "");
+
+            assert.deepStrictEqual(result, {
+                range: [20, 20],
+                text: ""
             });
 
         });
