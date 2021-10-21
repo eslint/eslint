@@ -47,37 +47,40 @@ $ git add -A
 $ git commit
 ```
 
-Our commit message format is as follows:
+All ESLint projects follow [Conventional Commits](https://www.conventionalcommits.org/) for our commit messages. Here's an example commit message:
 
 ```
-Tag: Short description (fixes #1234)
+tag: Short description of what you did
 
 Longer description here if necessary
+
+Fixes #1234
 ```
 
 The first line of the commit message (the summary) must have a specific format. This format is checked by our build tools.
 
-The `Tag` is one of the following:
+The `tag` is one of the following:
 
-* `Fix` - for a bug fix.
-* `Update` - either for a backwards-compatible enhancement or for a rule change that adds reported problems.
-* `New` - implemented a new feature.
-* `Breaking` - for a backwards-incompatible enhancement or feature.
-* `Docs` - changes to documentation only.
-* `Build` - changes to build process only.
-* `Upgrade` - for a dependency upgrade.
-* `Chore` - for refactoring, adding tests, etc. (anything that isn't user-facing).
+* `fix` - for a bug fix.
+* `feat` - either for a backwards-compatible enhancement or for a rule change that adds reported problems.
+* `fix!` - for a backwards-incompatible bug fix.
+* `feat!:` - for a backwards-incompatible enhancement or feature.
+* `docs` - changes to documentation only.
+* `chore` - for changes that aren't user-facing.
+* `build` - changes to build process only.
+* `refactor` - a change that doesn't affect APIs or user experience.
+* `test` - just changes to test files.
 
 Use the [labels of the issue you are working on](working-on-issues.md#issue-labels) to determine the best tag.
 
-The message summary should be a one-sentence description of the change, and it must be 72 characters in length or shorter. If the pull request addresses an issue, then the issue number should be mentioned at the end. If the commit doesn't completely fix the issue, then use `(refs #1234)` instead of `(fixes #1234)`.
+The message summary should be a one-sentence description of the change, and it must be 72 characters in length or shorter. If the pull request addresses an issue, then the issue number should be mentioned in the body of the commit message in the format `Fixes #1234`. If the commit doesn't completely fix the issue, then use `Refs #1234` instead of `Fixes #1234`.
 
 Here are some good commit message summary examples:
 
 ```
-Build: Update Travis to only test Node 0.10 (refs #734)
-Fix: Semi rule incorrectly flagging extra semicolon (fixes #840)
-Upgrade: Esprima to 1.2, switch to using comment attachment (fixes #730)
+build: Update Travis to only test Node 0.10
+fix: Semi rule incorrectly flagging extra semicolon
+chore: Upgrade Esprima to 1.2, switch to using comment attachment
 ```
 
 The commit message format is important because these messages are used to create a changelog for each release. The tag and issue number help to create more consistent and useful changelogs.
@@ -165,6 +168,8 @@ $ git push origin issue1234
 ```
 
 When updating the code, it's usually better to add additional commits to your branch rather than amending the original commit, because reviewers can easily tell which changes were made in response to a particular review. When we merge pull requests, we will squash all the commits from your branch into a single commit on the `main` branch.
+
+The commit messages in subsequent commits do not need to be in any specific format because these commits do not show up in the changelog.
 
 ### Rebasing
 
