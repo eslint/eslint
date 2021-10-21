@@ -96,8 +96,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", () => ({ Program: spy }));
             linter.verify("foo", { rules: { checker: "error" } });
-            assert(spy.calledOnce);
-            assert.strictEqual(spy.firstCall.thisValue, void 0);
+            assert(spy.calledOnce, "Rule should have been called");
+            assert.strictEqual(spy.firstCall.thisValue, void 0, "this value should be undefined");
         });
 
         it("does not allow listeners to use special EventEmitter values", () => {
@@ -4117,7 +4117,7 @@ var a = "test2";
                 assert.strictEqual(messages.length, 0);
             });
 
-            it("the 'latest' is equal to espree.lastEcmaVersion", () => {
+            it("the 'latest' is equal to espree.latestEcmaVersion", () => {
                 let ecmaVersion = null;
                 const config = { rules: { "ecma-version": 2 }, parserOptions: { ecmaVersion: "latest" } };
 
@@ -4127,7 +4127,33 @@ var a = "test2";
                     }
                 }));
                 linter.verify("", config);
-                assert.strictEqual(ecmaVersion, espree.latestEcmaVersion);
+                assert.strictEqual(ecmaVersion, espree.latestEcmaVersion, "ecmaVersion should be 13");
+            });
+
+            it("the 'latest' is equal to espree.latestEcmaVersion", () => {
+                let ecmaVersion = null;
+                const config = { rules: { "ecma-version": 2 }, parserOptions: { ecmaVersion: "latest" } };
+
+                linter.defineRule("ecma-version", context => ({
+                    Program() {
+                        ecmaVersion = context.parserOptions.ecmaVersion;
+                    }
+                }));
+                linter.verify("", config);
+                assert.strictEqual(ecmaVersion, espree.latestEcmaVersion, "ecmaVersion should be 13");
+            });
+
+            it("the 'latest' is equal to espree.latestEcmaVersion on languageOptions", () => {
+                let ecmaVersion = null;
+                const config = { rules: { "ecma-version": 2 }, parserOptions: { ecmaVersion: "latest" } };
+
+                linter.defineRule("ecma-version", context => ({
+                    Program() {
+                        ecmaVersion = context.languageOptions.ecmaVersion;
+                    }
+                }));
+                linter.verify("", config);
+                assert.strictEqual(ecmaVersion, espree.latestEcmaVersion, "ecmaVersion should be 13");
             });
 
             it("should pass normalized ecmaVersion to eslint-scope", () => {
@@ -6261,6 +6287,118 @@ describe("Linter with FlatConfigArray", () => {
 
     beforeEach(() => {
         linter = new Linter({ configType: "flat" });
+    });
+
+    describe("languageOptions", () => {
+
+        describe("ecmaVersion", () => {
+
+            it("should error when accessing a global that isn't available in given ecmaVersion", () => {
+                const messages = linter.verify("new Map()", {
+                    languageOptions: {
+                        ecmaVersion: 5
+                    },
+                    rules: {
+                        "no-undef": "error"
+                    }
+                });
+
+                assert.strictEqual(messages.length, 1, "There should be one linting error.");
+                assert.strictEqual(messages[0].ruleId, "no-undef", "The linting error should be no-undef.");
+            });
+
+            it("should add globals for ES6 when ecmaVersion is 6", () => {
+                const messages = linter.verify("new Map()", {
+                    languageOptions: {
+                        ecmaVersion: 6
+                    },
+                    rules: {
+                        "no-undef": "error"
+                    }
+                });
+
+                assert.strictEqual(messages.length, 0, "There should be no linting errors.");
+            });
+        });
+
+        describe("sourceType", () => {
+
+            it("should error when import is used in a script", () => {
+                const messages = linter.verify("import foo from 'bar';", {
+                    languageOptions: {
+                        ecmaVersion: 6,
+                        sourceType: "script"
+                    }
+                });
+
+                assert.strictEqual(messages.length, 1, "There should be one parsing error.");
+                assert.strictEqual(messages[0].message, "Parsing error: 'import' and 'export' may appear only with 'sourceType: module'");
+            });
+
+            it("should not error when import is used in a module", () => {
+                const messages = linter.verify("import foo from 'bar';", {
+                    languageOptions: {
+                        ecmaVersion: 6,
+                        sourceType: "module"
+                    }
+                });
+
+                assert.strictEqual(messages.length, 0, "There should no linting errors.");
+            });
+
+            it("should error when return is used at the top-level outside of commonjs", () => {
+                const messages = linter.verify("return", {
+                    languageOptions: {
+                        ecmaVersion: 6,
+                        sourceType: "script"
+                    }
+                });
+
+                assert.strictEqual(messages.length, 1, "There should be one parsing error.");
+                assert.strictEqual(messages[0].message, "Parsing error: 'return' outside of function");
+            });
+
+            it("should not error when top-level return is used in commonjs", () => {
+                const messages = linter.verify("return", {
+                    languageOptions: {
+                        ecmaVersion: 6,
+                        sourceType: "commonjs"
+                    }
+                });
+
+                assert.strictEqual(messages.length, 0, "There should no linting errors.");
+            });
+
+            it("should error when accessing a Node.js global outside of commonjs", () => {
+                const messages = linter.verify("require()", {
+                    languageOptions: {
+                        ecmaVersion: 6
+                    },
+                    rules: {
+                        "no-undef": "error"
+                    }
+                });
+
+                assert.strictEqual(messages.length, 1, "There should be one linting error.");
+                assert.strictEqual(messages[0].ruleId, "no-undef", "The linting error should be no-undef.");
+            });
+
+            it("should add globals for Node.js when sourceType is commonjs", () => {
+                const messages = linter.verify("require()", {
+                    languageOptions: {
+                        ecmaVersion: 6,
+                        sourceType: "commonjs"
+                    },
+                    rules: {
+                        "no-undef": "error"
+                    }
+                });
+
+                assert.strictEqual(messages.length, 0, "There should be no linting errors.");
+            });
+
+        });
+
     });
 
     describe("when using events", () => {
