@@ -1,3 +1,22 @@
+v8.1.0 - October 22, 2021
+
+* [`446b4b3`](https://github.com/eslint/eslint/commit/446b4b3583f90dba7e0ac347b57db013aecc101d) Docs: Update commit message format docs (#15200) (Nicholas C. Zakas)
+* [`d9d84a0`](https://github.com/eslint/eslint/commit/d9d84a060362efbaac727f18e3a790098bf0bc4b) Fix: keyword-spacing conflict with space-infix-ops on `>` (fixes #14712) (#15172) (Milos Djermanovic)
+* [`a1f7ad7`](https://github.com/eslint/eslint/commit/a1f7ad77e2da00ac7d6daade547fe6bef4ef6003) Fix: allow `baseConfig` to extend preloaded plugin config (fixes #15079) (#15187) (Milos Djermanovic)
+* [`3d370fb`](https://github.com/eslint/eslint/commit/3d370fb3596ccd3463c29f1a7a1e3f321dd8083a) New: Add no-unused-private-class-members rule (fixes #14859) (#14895) (Tim van der Lippe)
+* [`e926b17`](https://github.com/eslint/eslint/commit/e926b1735c77bf55abc1150b060a535a6c4e2778) New: Add name to RuleTester (#15179) (Gareth Jones)
+* [`90a5b6b`](https://github.com/eslint/eslint/commit/90a5b6b4aeff7343783f85418c683f2c9901ab07) Chore: improve performance of `:function` selector (#15181) (Milos Djermanovic)
+* [`31af1c8`](https://github.com/eslint/eslint/commit/31af1c8770c7dac9e9686a0549af329abe5a795b) Chore: fix counting of files in performance test (#15190) (Milos Djermanovic)
+* [`1b87fa8`](https://github.com/eslint/eslint/commit/1b87fa835892d9da3b945db763196715d8088090) Build: add node v17 (#15193) (唯然)
+* [`0fb3bb2`](https://github.com/eslint/eslint/commit/0fb3bb2af3301c92ccd46ece739644a17df89bab) Docs: remove `instanceof` from keyword-spacing docs (#15180) (Milos Djermanovic)
+* [`249a040`](https://github.com/eslint/eslint/commit/249a04070f88d2c895af3b78d60d2eff2730730e) Upgrade: `eslint-plugin-eslint-plugin` to v4 (#15169) (Bryan Mishkin)
+* [`35f3254`](https://github.com/eslint/eslint/commit/35f3254d5f8027f75a6cb35b58bea10037003be8) Docs: Describe range in rule docs (fixes #14162) (#15174) (Nicholas C. Zakas)
+* [`b5049c8`](https://github.com/eslint/eslint/commit/b5049c89a00f1a0da59ecaee74b9b024ef3c3621) Chore: Update stale bot settings (#15173) (Nicholas C. Zakas)
+* [`2b32f50`](https://github.com/eslint/eslint/commit/2b32f50460d6858367b25df20b7a717528891e0d) Docs: Fix typo in README.md (#15168) (Dmitriy Fishman)
+* [`dd58cd4`](https://github.com/eslint/eslint/commit/dd58cd4afa6ced9016c091fc99a702c97a3e44f0) Chore: migrate master to main (#15062) (Nitesh Seram)
+* [`ec0f8e0`](https://github.com/eslint/eslint/commit/ec0f8e0bb7d7ce502ca68fcd13ac323eb6307455) Chore: Add stale issue/PR checker (#15151) (Nicholas C. Zakas)
+* [`2cfbd4b`](https://github.com/eslint/eslint/commit/2cfbd4bfd90b31cd728d6595bd1e36667715c84d) Docs: Update README team and sponsors (ESLint Jenkins)
+
 v8.0.1 - October 13, 2021
 
 * [`f9217e5`](https://github.com/eslint/eslint/commit/f9217e527e1c49c6244400c4a58b6d1c14de51db) Upgrade: @eslint/eslintrc@1.0.3 for Jest workaround (#15164) (Brandon Mills)
