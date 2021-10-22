@@ -2095,6 +2095,36 @@ describe("ESLint", () => {
                 assert.strictEqual(results[0].messages[0].ruleId, "test/example-rule");
             });
 
+            it("should return two messages when executing with `baseConfig` that extends preloaded plugin config", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    baseConfig: {
+                        extends: ["plugin:test/preset"]
+                    },
+                    plugins: {
+                        test: {
+                            rules: {
+                                "example-rule": require("../../fixtures/rules/custom-rule")
+                            },
+                            configs: {
+                                preset: {
+                                    rules: {
+                                        "test/example-rule": 1
+                                    },
+                                    plugins: ["test"]
+                                }
+                            }
+                        }
+                    }
+                });
+                const results = await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "test/example-rule");
+            });
+
             it("should load plugins from the `loadPluginsRelativeTo` directory, if specified", async () => {
                 eslint = new ESLint({
                     resolvePluginsRelativeTo: getFixturePath("plugins"),

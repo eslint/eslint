@@ -73,14 +73,13 @@ describe("CLIEngine", () => {
      * @private
      */
     function cliEngineWithPlugins(options) {
-        const engine = new CLIEngine(options);
-
-        // load the mocked plugins
-        engine.addPlugin(examplePluginName, examplePlugin);
-        engine.addPlugin(examplePluginNameWithNamespace, examplePlugin);
-        engine.addPlugin(examplePreprocessorName, require("../../fixtures/processors/custom-processor"));
-
-        return engine;
+        return new CLIEngine(options, {
+            preloadedPlugins: {
+                [examplePluginName]: examplePlugin,
+                [examplePluginNameWithNamespace]: examplePlugin,
+                [examplePreprocessorName]: require("../../fixtures/processors/custom-processor")
+            }
+        });
     }
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
@@ -2151,9 +2150,15 @@ describe("CLIEngine", () => {
                     useEslintrc: false,
                     plugins: ["test"],
                     rules: { "test/example-rule": 1 }
+                }, {
+                    preloadedPlugins: {
+                        "eslint-plugin-test": {
+                            rules: {
+                                "example-rule": require("../../fixtures/rules/custom-rule")
+                            }
+                        }
+                    }
                 });
-
-                engine.addPlugin("eslint-plugin-test", { rules: { "example-rule": require("../../fixtures/rules/custom-rule") } });
 
                 const report = engine.executeOnFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
 
@@ -2868,16 +2873,18 @@ describe("CLIEngine", () => {
                     },
                     extensions: ["js", "txt"],
                     cwd: path.join(fixtureDir, "..")
-                });
-
-                engine.addPlugin("test-processor", {
-                    processors: {
-                        ".txt": {
-                            preprocess(text) {
-                                return [text];
-                            },
-                            postprocess(messages) {
-                                return messages[0];
+                }, {
+                    preloadedPlugins: {
+                        "test-processor": {
+                            processors: {
+                                ".txt": {
+                                    preprocess(text) {
+                                        return [text];
+                                    },
+                                    postprocess(messages) {
+                                        return messages[0];
+                                    }
+                                }
                             }
                         }
                     }
@@ -2911,17 +2918,19 @@ describe("CLIEngine", () => {
                     },
                     extensions: ["js", "txt"],
                     cwd: path.join(fixtureDir, "..")
-                });
-
-                engine.addPlugin("test-processor", {
-                    processors: {
-                        ".txt": {
-                            preprocess(text) {
-                                return [text.replace("a()", "b()")];
-                            },
-                            postprocess(messages) {
-                                messages[0][0].ruleId = "post-processed";
-                                return messages[0];
+                }, {
+                    preloadedPlugins: {
+                        "test-processor": {
+                            processors: {
+                                ".txt": {
+                                    preprocess(text) {
+                                        return [text.replace("a()", "b()")];
+                                    },
+                                    postprocess(messages) {
+                                        messages[0][0].ruleId = "post-processed";
+                                        return messages[0];
+                                    }
+                                }
                             }
                         }
                     }
@@ -2955,17 +2964,19 @@ describe("CLIEngine", () => {
                     },
                     extensions: ["js", "txt"],
                     ignore: false
-                });
-
-                engine.addPlugin("test-processor", {
-                    processors: {
-                        ".txt": {
-                            preprocess(text) {
-                                return [text.replace("a()", "b()")];
-                            },
-                            postprocess(messages) {
-                                messages[0][0].ruleId = "post-processed";
-                                return messages[0];
+                }, {
+                    preloadedPlugins: {
+                        "test-processor": {
+                            processors: {
+                                ".txt": {
+                                    preprocess(text) {
+                                        return [text.replace("a()", "b()")];
+                                    },
+                                    postprocess(messages) {
+                                        messages[0][0].ruleId = "post-processed";
+                                        return messages[0];
+                                    }
+                                }
                             }
                         }
                     }
@@ -3007,11 +3018,13 @@ describe("CLIEngine", () => {
                         extensions: ["js", "txt"],
                         ignore: false,
                         fix: true
-                    });
-
-                    engine.addPlugin("test-processor", {
-                        processors: {
-                            ".html": Object.assign({ supportsAutofix: true }, HTML_PROCESSOR)
+                    }, {
+                        preloadedPlugins: {
+                            "test-processor": {
+                                processors: {
+                                    ".html": Object.assign({ supportsAutofix: true }, HTML_PROCESSOR)
+                                }
+                            }
                         }
                     });
 
@@ -3031,9 +3044,15 @@ describe("CLIEngine", () => {
                         extensions: ["js", "txt"],
                         ignore: false,
                         fix: true
+                    }, {
+                        preloadedPlugins: {
+                            "test-processor": {
+                                processors: {
+                                    ".html": HTML_PROCESSOR
+                                }
+                            }
+                        }
                     });
-
-                    engine.addPlugin("test-processor", { processors: { ".html": HTML_PROCESSOR } });
 
                     const report = engine.executeOnText("<script>foo</script>", "foo.html");
 
@@ -3050,11 +3069,13 @@ describe("CLIEngine", () => {
                         },
                         extensions: ["js", "txt"],
                         ignore: false
-                    });
-
-                    engine.addPlugin("test-processor", {
-                        processors: {
-                            ".html": Object.assign({ supportsAutofix: true }, HTML_PROCESSOR)
+                    }, {
+                        preloadedPlugins: {
+                            "test-processor": {
+                                processors: {
+                                    ".html": Object.assign({ supportsAutofix: true }, HTML_PROCESSOR)
+                                }
+                            }
                         }
                     });
 
@@ -4897,10 +4918,14 @@ describe("CLIEngine", () => {
             assert(engine.getRules().has("node/no-deprecated-api"), "node/no-deprecated-api is present");
         });
 
-        it("should expose the rules of the plugin that is added by 'addPlugin'.", () => {
-            const engine = new CLIEngine({ plugins: ["foo"] });
-
-            engine.addPlugin("foo", require("eslint-plugin-node"));
+        it("should expose the list of rules from a preloaded plugin", () => {
+            const engine = new CLIEngine({
+                plugins: ["foo"]
+            }, {
+                preloadedPlugins: {
+                    foo: require("eslint-plugin-node")
+                }
+            });
 
             assert(engine.getRules().has("foo/no-deprecated-api"), "foo/no-deprecated-api is present");
         });
