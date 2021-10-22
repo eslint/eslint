@@ -208,6 +208,7 @@
     "no-unsafe-optional-chaining": "problem",
     "no-unused-expressions": "suggestion",
     "no-unused-labels": "suggestion",
+    "no-unused-private-class-members": "problem",
     "no-unused-vars": "problem",
     "no-use-before-define": "problem",
     "no-useless-backreference": "problem",
