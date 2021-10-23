@@ -161,6 +161,15 @@ describe("configInitializer", () => {
                 assert.deepStrictEqual(config.plugins, ["react"]);
             });
 
+            it("should enable react-native plugin", () => {
+                answers.framework = "react-native";
+                const config = init.processAnswers(answers);
+
+                assert.strictEqual(config.parserOptions.ecmaFeatures.jsx, true);
+                assert.strictEqual(config.parserOptions.ecmaVersion, espree.latestEcmaVersion);
+                assert.deepStrictEqual(config.plugins, ["react", "react-native"]);
+            });
+
             it("should enable vue plugin", () => {
                 answers.framework = "vue";
                 const config = init.processAnswers(answers);
