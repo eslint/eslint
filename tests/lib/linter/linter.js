@@ -6293,10 +6293,24 @@ describe("Linter with FlatConfigArray", () => {
 
         describe("ecmaVersion", () => {
 
-            it("should error when accessing a global that isn't available in given ecmaVersion", () => {
+            it("should error when accessing a global that isn't available in ecmaVersion 5", () => {
                 const messages = linter.verify("new Map()", {
                     languageOptions: {
                         ecmaVersion: 5
+                    },
+                    rules: {
+                        "no-undef": "error"
+                    }
+                });
+
+                assert.strictEqual(messages.length, 1, "There should be one linting error.");
+                assert.strictEqual(messages[0].ruleId, "no-undef", "The linting error should be no-undef.");
+            });
+
+            it("should error when accessing a global that isn't available in ecmaVersion 3", () => {
+                const messages = linter.verify("JSON.stringify({})", {
+                    languageOptions: {
+                        ecmaVersion: 3
                     },
                     rules: {
                         "no-undef": "error"
