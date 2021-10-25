@@ -6319,6 +6319,16 @@ describe("Linter with FlatConfigArray", () => {
 
                 assert.strictEqual(messages.length, 0, "There should be no linting errors.");
             });
+
+            it("should allow destructuring when ecmaVersion is 6", () => {
+                const messages = linter.verify("let {a} = b", {
+                    languageOptions: {
+                        ecmaVersion: 6
+                    }
+                });
+
+                assert.strictEqual(messages.length, 0, "There should be no linting errors.");
+            });
         });
 
         describe("sourceType", () => {
