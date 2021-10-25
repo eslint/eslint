@@ -648,6 +648,7 @@ target.gensite = function(prereleaseVersion) {
         if (test("-f", filename) && path.extname(filename) === ".md") {
 
             const rulesUrl = "https://github.com/eslint/eslint/tree/HEAD/lib/rules/",
+                testsUrl = "https://github.com/eslint/eslint/tree/HEAD/tests/lib/rules/",
                 docsUrl = "https://github.com/eslint/eslint/tree/HEAD/docs/rules/",
                 baseName = path.basename(filename),
                 sourceBaseName = `${path.basename(filename, ".md")}.js`,
@@ -731,6 +732,7 @@ target.gensite = function(prereleaseVersion) {
                 text += "\n## Resources\n\n";
                 if (!removed) {
                     text += `* [Rule source](${rulesUrl}${sourceBaseName})\n`;
+                    text += `* [Test source](${testsUrl}${sourceBaseName})\n`;
                 }
                 text += `* [Documentation source](${docsUrl}${baseName})\n`;
             }
