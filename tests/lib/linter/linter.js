@@ -4153,7 +4153,7 @@ var a = "test2";
                     }
                 }));
                 linter.verify("", config);
-                assert.strictEqual(ecmaVersion, espree.latestEcmaVersion, "ecmaVersion should be 13");
+                assert.strictEqual(ecmaVersion, espree.latestEcmaVersion + 2009, "ecmaVersion should be 2022");
             });
 
             it("should pass normalized ecmaVersion to eslint-scope", () => {
@@ -6420,6 +6420,55 @@ describe("Linter with FlatConfigArray", () => {
 
                 assert.strictEqual(messages.length, 0, "There should be no linting errors.");
             });
+
+            it("ecmaVersion should be normalized to year name for ES 6", () => {
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                checker(context) {
+                                    return {
+                                        Program() {
+                                            assert.strictEqual(context.languageOptions.ecmaVersion, 2015);
+                                        }
+                                    };
+                                }
+                            }
+                        }
+                    },
+                    languageOptions: {
+                        ecmaVersion: 6
+                    },
+                    rules: { "test/checker": "error" }
+                };
+
+                linter.verify("foo", config, filename);
+            });
+
+            it("ecmaVersion should not be normalized to year name for ES 5", () => {
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                checker(context) {
+                                    return {
+                                        Program() {
+                                            assert.strictEqual(context.languageOptions.ecmaVersion, 5);
+                                        }
+                                    };
+                                }
+                            }
+                        }
+                    },
+                    languageOptions: {
+                        ecmaVersion: 5
+                    },
+                    rules: { "test/checker": "error" }
+                };
+
+                linter.verify("foo", config, filename);
+            });
+
 
         });
 
