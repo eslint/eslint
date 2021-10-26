@@ -70,6 +70,8 @@ The `tag` is one of the following:
 * `build` - changes to build process only.
 * `refactor` - a change that doesn't affect APIs or user experience.
 * `test` - just changes to test files.
+* `ci` - changes to our CI configuration files and scripts.
+* `perf` - a code change that improves performance.
 
 Use the [labels of the issue you are working on](working-on-issues.md#issue-labels) to determine the best tag.
 
