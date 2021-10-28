@@ -18,11 +18,11 @@ const { RuleTester } = require("../../../lib/rule-tester");
 //------------------------------------------------------------------------------
 
 const parserOptions = {
-    ecmaVersion: 2018,
-    sourceType: "module"
+    ecmaVersion: 2022
 };
 
 const ruleTester = new RuleTester({ parserOptions });
+const error = { messageId: "useHasOwn" };
 
 ruleTester.run("prefer-object-has-own", rule, {
     valid: [
@@ -32,12 +32,21 @@ ruleTester.run("prefer-object-has-own", rule, {
         `
     ],
     invalid: [
-        `
-        let a = Object.prototype.hasOwnProperty();
-        obj.call();
-        `,
-        `
-        let a = Object.prototype.hasOwnProperty.call();
-        `
+        {
+            code: "Object.prototype.hasOwnProperty",
+            errors: [error]
+        },
+        {
+            code: "Object.hasOwnProperty.call(obj, 'foo')",
+            errors: [error]
+        },
+        {
+            code: "Object.prototype.hasOwnProperty.call(obj, 'foo')",
+            errors: [error]
+        },
+        {
+            code: "({}).hasOwnProperty.call(obj, 'foo')",
+            errors: [error]
+        }
     ]
 });

@@ -242,6 +242,7 @@
     "prefer-exponentiation-operator": "suggestion",
     "prefer-named-capture-group": "suggestion",
     "prefer-numeric-literals": "suggestion",
+    "prefer-object-has-own":"suggestion",
     "prefer-object-spread": "suggestion",
     "prefer-promise-reject-errors": "suggestion",
     "prefer-reflect": "suggestion",

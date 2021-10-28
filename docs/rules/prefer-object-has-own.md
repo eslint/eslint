@@ -10,8 +10,9 @@ Examples of **incorrect** code for this rule:
 /*eslint prefer-object-has-own: "error"*/
 Object.prototype.hasOwnProperty.call(obj, "a");
 
+({}).hasOwnProperty(obj,"a");
+
 let a = Object.prototype.hasOwnProperty;
-a.call(obj, "a");
 ```
 
 Examples of **correct** code for this rule:
@@ -21,3 +22,7 @@ Examples of **correct** code for this rule:
 
 Object.hasOwn(obj, "a");
 ```
+
+## Related Material
+
+[MDN Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn)
