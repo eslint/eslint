@@ -6,7 +6,7 @@
 * [Cascading and Hierarchy](#cascading-and-hierarchy)
 * [Extending Configuration Files](#extending-configuration-files)
 * [Configuration Based on Glob Patterns](#configuration-based-on-glob-patterns)
-* [Personal Configuration Files](#personal-configuration-files)
+* [Personal Configuration Files](#personal-configuration-files-deprecated)
 
 ## Configuration File Formats
 
