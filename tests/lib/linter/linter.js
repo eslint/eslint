@@ -6290,6 +6290,14 @@ describe("Linter with FlatConfigArray", () => {
         linter = new Linter({ configType: "flat" });
     });
 
+    describe("Static Members", () => {
+        describe("version", () => {
+            it("should return same version as instance property", () => {
+                assert.strictEqual(Linter.version, linter.version);
+            });
+        });
+    });
+
     describe("languageOptions", () => {
 
         describe("ecmaVersion", () => {
@@ -6501,101 +6509,1145 @@ describe("Linter with FlatConfigArray", () => {
 
     });
 
-    describe("when using events", () => {
-        const code = TEST_CODE;
+    describe("verify()", () => {
 
-        it("an error should be thrown when an error occurs inside of an event handler", () => {
-            const config = {
-                plugins: {
-                    test: {
-                        rules: {
-                            checker: () => ({
-                                Program() {
-                                    throw new Error("Intentional error.");
-                                }
-                            })
+        describe("inside rules", () => {
+
+            const code = TEST_CODE;
+
+            it("should throw an error when an error occurs inside of a rule visitor", () => {
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                checker: () => ({
+                                    Program() {
+                                        throw new Error("Intentional error.");
+                                    }
+                                })
+                            }
                         }
-                    }
-                },
-                rules: { "test/checker": "error" }
-            };
+                    },
+                    rules: { "test/checker": "error" }
+                };
 
-            assert.throws(() => {
-                linter.verify(code, config, filename);
-            }, `Intentional error.\nOccurred while linting ${filename}:1\nRule: "test/checker"`);
-        });
-
-        it("does not call rule listeners with a `this` value", () => {
-            const spy = sinon.spy();
-            const config = {
-                plugins: {
-                    test: {
-                        rules: {
-                            checker: () => ({
-                                Program: spy
-                            })
-                        }
-                    }
-                },
-                rules: { "test/checker": "error" }
-            };
-
-            linter.verify("foo", config);
-            assert(spy.calledOnce);
-            assert.strictEqual(spy.firstCall.thisValue, void 0);
-        });
-
-        it("does not allow listeners to use special EventEmitter values", () => {
-            const spy = sinon.spy();
-            const config = {
-                plugins: {
-                    test: {
-                        rules: {
-                            checker: () => ({
-                                newListener: spy
-                            })
-                        }
-                    }
-                },
-                rules: {
-                    "test/checker": "error",
-                    "no-undef": "error"
-                }
-            };
-
-            linter.verify("foo", config);
-            assert(spy.notCalled);
-        });
-
-        it("has all the `parent` properties on nodes when the rule listeners are created", () => {
-            const spy = sinon.spy(context => {
-                const ast = context.getSourceCode().ast;
-
-                assert.strictEqual(ast.body[0].parent, ast);
-                assert.strictEqual(ast.body[0].expression.parent, ast.body[0]);
-                assert.strictEqual(ast.body[0].expression.left.parent, ast.body[0].expression);
-                assert.strictEqual(ast.body[0].expression.right.parent, ast.body[0].expression);
-
-                return {};
+                assert.throws(() => {
+                    linter.verify(code, config, filename);
+                }, `Intentional error.\nOccurred while linting ${filename}:1\nRule: "test/checker"`);
             });
 
-            const config = {
-                plugins: {
-                    test: {
-                        rules: {
-                            checker: spy
+            it("should not call rule visitor with a `this` value", () => {
+                const spy = sinon.spy();
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                checker: () => ({
+                                    Program: spy
+                                })
+                            }
                         }
+                    },
+                    rules: { "test/checker": "error" }
+                };
+
+                linter.verify("foo", config);
+                assert(spy.calledOnce);
+                assert.strictEqual(spy.firstCall.thisValue, void 0);
+            });
+
+            it("should not call unrecognized rule visitor when present in a rule", () => {
+                const spy = sinon.spy();
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                checker: () => ({
+                                    newListener: spy
+                                })
+                            }
+                        }
+                    },
+                    rules: {
+                        "test/checker": "error",
+                        "no-undef": "error"
                     }
-                },
-                rules: { "test/checker": "error" }
-            };
+                };
 
-            linter.verify("foo + bar", config);
-            assert(spy.calledOnce);
+                linter.verify("foo", config);
+                assert(spy.notCalled);
+            });
+
+            it("should have all the `parent` properties on nodes when the rule visitors are created", () => {
+                const spy = sinon.spy(context => {
+                    const ast = context.getSourceCode().ast;
+
+                    assert.strictEqual(ast.body[0].parent, ast);
+                    assert.strictEqual(ast.body[0].expression.parent, ast.body[0]);
+                    assert.strictEqual(ast.body[0].expression.left.parent, ast.body[0].expression);
+                    assert.strictEqual(ast.body[0].expression.right.parent, ast.body[0].expression);
+
+                    return {};
+                });
+
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                checker: spy
+                            }
+                        }
+                    },
+                    rules: { "test/checker": "error" }
+                };
+
+                linter.verify("foo + bar", config);
+                assert(spy.calledOnce);
+            });
+
         });
-    });
 
-    describe("verify()", () => {
+        describe("Rule Context", () => {
+
+            describe("context.getSourceLines()", () => {
+
+                it("should get proper lines when using \\n as a line break", () => {
+                    const code = "a;\nb;";
+                    const spy = sinon.spy(context => {
+                        assert.deepStrictEqual(context.getSourceLines(), ["a;", "b;"]);
+                        return {};
+                    });
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: spy
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy.calledOnce);
+                });
+
+                it("should get proper lines when using \\r\\n as a line break", () => {
+                    const code = "a;\r\nb;";
+                    const spy = sinon.spy(context => {
+                        assert.deepStrictEqual(context.getSourceLines(), ["a;", "b;"]);
+                        return {};
+                    });
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: spy
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy.calledOnce);
+                });
+
+                it("should get proper lines when using \\r as a line break", () => {
+                    const code = "a;\rb;";
+                    const spy = sinon.spy(context => {
+                        assert.deepStrictEqual(context.getSourceLines(), ["a;", "b;"]);
+                        return {};
+                    });
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: spy
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy.calledOnce);
+                });
+
+                it("should get proper lines when using \\u2028 as a line break", () => {
+                    const code = "a;\u2028b;";
+                    const spy = sinon.spy(context => {
+                        assert.deepStrictEqual(context.getSourceLines(), ["a;", "b;"]);
+                        return {};
+                    });
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: spy
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy.calledOnce);
+                });
+
+                it("should get proper lines when using \\u2029 as a line break", () => {
+                    const code = "a;\u2029b;";
+                    const spy = sinon.spy(context => {
+                        assert.deepStrictEqual(context.getSourceLines(), ["a;", "b;"]);
+                        return {};
+                    });
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: spy
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy.calledOnce);
+                });
+
+            });
+
+            describe("context.getSource()", () => {
+                const code = TEST_CODE;
+
+                it("should retrieve all text when used without parameters", () => {
+
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            assert.strictEqual(context.getSource(), TEST_CODE);
+                                        });
+                                        return { Program: spy };
+                                    }
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should retrieve all text for root node", () => {
+
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(node => {
+                                            assert.strictEqual(context.getSource(node), TEST_CODE);
+                                        });
+                                        return { Program: spy };
+                                    }
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should clamp to valid range when retrieving characters before start of source", () => {
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(node => {
+                                            assert.strictEqual(context.getSource(node, 2, 0), TEST_CODE);
+                                        });
+                                        return { Program: spy };
+                                    }
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should retrieve all text for binary expression", () => {
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(node => {
+                                            assert.strictEqual(context.getSource(node), "6 * 7");
+                                        });
+                                        return { BinaryExpression: spy };
+                                    }
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should retrieve all text plus two characters before for binary expression", () => {
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(node => {
+                                            assert.strictEqual(context.getSource(node, 2), "= 6 * 7");
+                                        });
+                                        return { BinaryExpression: spy };
+                                    }
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should retrieve all text plus one character after for binary expression", () => {
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(node => {
+                                            assert.strictEqual(context.getSource(node, 0, 1), "6 * 7;");
+                                        });
+                                        return { BinaryExpression: spy };
+                                    }
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should retrieve all text plus two characters before and one character after for binary expression", () => {
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(node => {
+                                            assert.strictEqual(context.getSource(node, 2, 1), "= 6 * 7;");
+                                        });
+                                        return { BinaryExpression: spy };
+                                    }
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+            });
+
+            describe("context.getAncestors()", () => {
+                const code = TEST_CODE;
+
+                it("should retrieve all ancestors when used", () => {
+
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            const ancestors = context.getAncestors();
+
+                                            assert.strictEqual(ancestors.length, 3);
+                                        });
+                                        return { BinaryExpression: spy };
+                                    }
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config, filename, true);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should retrieve empty ancestors for root node", () => {
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            const ancestors = context.getAncestors();
+
+                                            assert.strictEqual(ancestors.length, 0);
+                                        });
+
+                                        return { Program: spy };
+                                    }
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+            });
+
+            describe("context.getNodeByRangeIndex()", () => {
+                const code = TEST_CODE;
+
+                it("should retrieve a node starting at the given index", () => {
+                    const spy = sinon.spy(context => {
+                        assert.strictEqual(context.getNodeByRangeIndex(4).type, "Identifier");
+                        return {};
+                    });
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: spy
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy.calledOnce);
+                });
+
+                it("should retrieve a node containing the given index", () => {
+                    const spy = sinon.spy(context => {
+                        assert.strictEqual(context.getNodeByRangeIndex(6).type, "Identifier");
+                        return {};
+                    });
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: spy
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy.calledOnce);
+                });
+
+                it("should retrieve a node that is exactly the given index", () => {
+                    const spy = sinon.spy(context => {
+                        const node = context.getNodeByRangeIndex(13);
+
+                        assert.strictEqual(node.type, "Literal");
+                        assert.strictEqual(node.value, 6);
+                        return {};
+                    });
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: spy
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy.calledOnce);
+                });
+
+                it("should retrieve a node ending with the given index", () => {
+                    const spy = sinon.spy(context => {
+                        assert.strictEqual(context.getNodeByRangeIndex(9).type, "Identifier");
+                        return {};
+                    });
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: spy
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy.calledOnce);
+                });
+
+                it("should retrieve the deepest node containing the given index", () => {
+                    const spy = sinon.spy(context => {
+                        const node1 = context.getNodeByRangeIndex(14);
+
+                        assert.strictEqual(node1.type, "BinaryExpression");
+
+                        const node2 = context.getNodeByRangeIndex(3);
+
+                        assert.strictEqual(node2.type, "VariableDeclaration");
+                        return {};
+                    });
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: spy
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy.calledOnce);
+                });
+
+                it("should return null if the index is outside the range of any node", () => {
+                    const spy = sinon.spy(context => {
+                        const node1 = context.getNodeByRangeIndex(-1);
+
+                        assert.isNull(node1);
+
+                        const node2 = context.getNodeByRangeIndex(-99);
+
+                        assert.isNull(node2);
+                        return {};
+                    });
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: spy
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy.calledOnce);
+                });
+            });
+
+
+            describe("context.getScope()", () => {
+                const code = "function foo() { q: for(;;) { break q; } } function bar () { var q = t; } var baz = (() => { return 1; });";
+
+                it("should retrieve the global scope correctly from a Program", () => {
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            const scope = context.getScope();
+
+                                            assert.strictEqual(scope.type, "global");
+                                        });
+                                        return { Program: spy };
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            ecmaVersion: 6
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should retrieve the function scope correctly from a FunctionDeclaration", () => {
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            const scope = context.getScope();
+
+                                            assert.strictEqual(scope.type, "function");
+                                        });
+                                        return { FunctionDeclaration: spy };
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            ecmaVersion: 6
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledTwice);
+                });
+
+                it("should retrieve the function scope correctly from a LabeledStatement", () => {
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            const scope = context.getScope();
+
+                                            assert.strictEqual(scope.type, "function");
+                                            assert.strictEqual(scope.block.id.name, "foo");
+                                        });
+                                        return { LabeledStatement: spy };
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            ecmaVersion: 6
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should retrieve the function scope correctly from within an ArrowFunctionExpression", () => {
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            const scope = context.getScope();
+
+                                            assert.strictEqual(scope.type, "function");
+                                            assert.strictEqual(scope.block.type, "ArrowFunctionExpression");
+                                        });
+
+                                        return { ReturnStatement: spy };
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            ecmaVersion: 6
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should retrieve the function scope correctly from within an SwitchStatement", () => {
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            const scope = context.getScope();
+
+                                            assert.strictEqual(scope.type, "switch");
+                                            assert.strictEqual(scope.block.type, "SwitchStatement");
+                                        });
+
+                                        return { SwitchStatement: spy };
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            ecmaVersion: 6
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify("switch(foo){ case 'a': var b = 'foo'; }", config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should retrieve the function scope correctly from within a BlockStatement", () => {
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            const scope = context.getScope();
+
+                                            assert.strictEqual(scope.type, "block");
+                                            assert.strictEqual(scope.block.type, "BlockStatement");
+                                        });
+
+                                        return { BlockStatement: spy };
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            ecmaVersion: 6
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+
+                    linter.verify("var x; {let y = 1}", config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should retrieve the function scope correctly from within a nested block statement", () => {
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            const scope = context.getScope();
+
+                                            assert.strictEqual(scope.type, "block");
+                                            assert.strictEqual(scope.block.type, "BlockStatement");
+                                        });
+
+                                        return { BlockStatement: spy };
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            ecmaVersion: 6
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+
+                    linter.verify("if (true) { let x = 1 }", config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should retrieve the function scope correctly from within a FunctionDeclaration", () => {
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            const scope = context.getScope();
+
+                                            assert.strictEqual(scope.type, "function");
+                                            assert.strictEqual(scope.block.type, "FunctionDeclaration");
+                                        });
+
+                                        return { FunctionDeclaration: spy };
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            ecmaVersion: 6
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+
+                    linter.verify("function foo() {}", config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should retrieve the function scope correctly from within a FunctionExpression", () => {
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            const scope = context.getScope();
+
+                                            assert.strictEqual(scope.type, "function");
+                                            assert.strictEqual(scope.block.type, "FunctionExpression");
+                                        });
+
+                                        return { FunctionExpression: spy };
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            ecmaVersion: 6
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+
+                    linter.verify("(function foo() {})();", config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should retrieve the catch scope correctly from within a CatchClause", () => {
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            const scope = context.getScope();
+
+                                            assert.strictEqual(scope.type, "catch");
+                                            assert.strictEqual(scope.block.type, "CatchClause");
+                                        });
+
+                                        return { CatchClause: spy };
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            ecmaVersion: 6
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify("try {} catch (err) {}", config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should retrieve module scope correctly from an ES6 module", () => {
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            const scope = context.getScope();
+
+                                            assert.strictEqual(scope.type, "module");
+                                        });
+
+                                        return { AssignmentExpression: spy };
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            ecmaVersion: 6,
+                            sourceType: "module"
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+
+                    linter.verify("var foo = {}; foo.bar = 1;", config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should retrieve function scope correctly when sourceType is commonjs", () => {
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            const scope = context.getScope();
+
+                                            assert.strictEqual(scope.type, "function");
+                                        });
+
+                                        return { AssignmentExpression: spy };
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            ecmaVersion: 6,
+                            sourceType: "commonjs"
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify("var foo = {}; foo.bar = 1;", config);
+                    assert(spy && spy.calledOnce);
+                });
+            });
+
+            describe("context.markVariableAsUsed()", () => {
+                it("should mark variables in current scope as used", () => {
+                    const code = "var a = 1, b = 2;";
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            assert.isTrue(context.markVariableAsUsed("a"));
+
+                                            const scope = context.getScope();
+
+                                            assert.isTrue(getVariable(scope, "a").eslintUsed);
+                                            assert.notOk(getVariable(scope, "b").eslintUsed);
+                                        });
+
+                                        return { "Program:exit": spy };
+                                    }
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should mark variables in function args as used", () => {
+                    const code = "function abc(a, b) { return 1; }";
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            assert.isTrue(context.markVariableAsUsed("a"));
+
+                                            const scope = context.getScope();
+
+                                            assert.isTrue(getVariable(scope, "a").eslintUsed);
+                                            assert.notOk(getVariable(scope, "b").eslintUsed);
+                                        });
+
+                                        return { ReturnStatement: spy };
+                                    }
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should mark variables in higher scopes as used", () => {
+                    const code = "var a, b; function abc() { return 1; }";
+                    let returnSpy, exitSpy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        returnSpy = sinon.spy(() => {
+                                            assert.isTrue(context.markVariableAsUsed("a"));
+                                        });
+                                        exitSpy = sinon.spy(() => {
+                                            const scope = context.getScope();
+
+                                            assert.isTrue(getVariable(scope, "a").eslintUsed);
+                                            assert.notOk(getVariable(scope, "b").eslintUsed);
+                                        });
+
+                                        return { ReturnStatement: returnSpy, "Program:exit": exitSpy };
+                                    }
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(returnSpy && returnSpy.calledOnce);
+                    assert(exitSpy && exitSpy.calledOnce);
+                });
+
+                it("should mark variables as used when sourceType is commonjs", () => {
+                    const code = "var a = 1, b = 2;";
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            const globalScope = context.getScope(),
+                                                childScope = globalScope.childScopes[0];
+
+                                            assert.isTrue(context.markVariableAsUsed("a"));
+
+                                            assert.isTrue(getVariable(childScope, "a").eslintUsed);
+                                            assert.isUndefined(getVariable(childScope, "b").eslintUsed);
+                                        });
+
+                                        return { "Program:exit": spy };
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            sourceType: "commonjs"
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should mark variables in modules as used", () => {
+                    const code = "var a = 1, b = 2;";
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            const globalScope = context.getScope(),
+                                                childScope = globalScope.childScopes[0];
+
+                                            assert.isTrue(context.markVariableAsUsed("a"));
+
+                                            assert.isTrue(getVariable(childScope, "a").eslintUsed);
+                                            assert.isUndefined(getVariable(childScope, "b").eslintUsed);
+                                        });
+
+                                        return { "Program:exit": spy };
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            ecmaVersion: 6,
+                            sourceType: "module"
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("should return false if the given variable is not found", () => {
+                    const code = "var a = 1, b = 2;";
+                    let spy;
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            assert.isFalse(context.markVariableAsUsed("c"));
+                                        });
+
+                                        return { "Program:exit": spy };
+                                    }
+                                }
+                            }
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+            });
+        });
+
 
         it("rule should run as warning when set to 1 with a config array", () => {
             const ruleId = "semi",
@@ -6641,6 +7693,31 @@ describe("Linter with FlatConfigArray", () => {
 
             assert.strictEqual(messages.length, 1, "Message length is wrong");
             assert.strictEqual(messages[0].ruleId, ruleId);
+        });
+
+    });
+
+    describe("getSourceCode()", () => {
+        const code = TEST_CODE;
+
+        it("should retrieve SourceCode object after reset", () => {
+            linter.verify(code, {}, filename, true);
+
+            const sourceCode = linter.getSourceCode();
+
+            assert.isObject(sourceCode);
+            assert.strictEqual(sourceCode.text, code);
+            assert.isObject(sourceCode.ast);
+        });
+
+        it("should retrieve SourceCode object without reset", () => {
+            linter.verify(code, {}, filename);
+
+            const sourceCode = linter.getSourceCode();
+
+            assert.isObject(sourceCode);
+            assert.strictEqual(sourceCode.text, code);
+            assert.isObject(sourceCode.ast);
         });
 
     });
