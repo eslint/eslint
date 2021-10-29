@@ -199,7 +199,14 @@ if ( x === y ) {
             code: "function name() {\n}",
             options: [1],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'name'", linesExceed: 1, maxLines: 1 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'name'", linesExceed: 1, maxLines: 1 },
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -208,7 +215,14 @@ if ( x === y ) {
             code: "var func = function() {\n}",
             options: [1],
             errors: [
-                { messageId: "exceed", data: { name: "Function", linesExceed: 1, maxLines: 1 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function", linesExceed: 1, maxLines: 1 },
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -217,7 +231,14 @@ if ( x === y ) {
             code: "const bar = () => {\nconst x = 2 + 1;\nreturn x;\n}",
             options: [3],
             errors: [
-                { messageId: "exceed", data: { name: "Arrow function", linesExceed: 1, maxLines: 3 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Arrow function", linesExceed: 1, maxLines: 3 },
+                    line: 4,
+                    column: 1,
+                    endLine: 4,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -226,7 +247,14 @@ if ( x === y ) {
             code: "const bar = () =>\n 2",
             options: [1],
             errors: [
-                { messageId: "exceed", data: { name: "Arrow function", linesExceed: 1, maxLines: 1 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Arrow function", linesExceed: 1, maxLines: 1 },
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 3
+                }
             ]
         },
 
@@ -235,7 +263,14 @@ if ( x === y ) {
             code: `() => {${"foo\n".repeat(60)}}`,
             options: [{}],
             errors: [
-                { messageId: "exceed", data: { name: "Arrow function", linesExceed: 11, maxLines: 50 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Arrow function", linesExceed: 11, maxLines: 50 },
+                    line: 51,
+                    column: 1,
+                    endLine: 61,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -244,7 +279,14 @@ if ( x === y ) {
             code: "function name() {\nvar x = 5;\n\t\n \n\nvar x = 2;\n}",
             options: [{ max: 6, skipComments: false, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'name'", linesExceed: 1, maxLines: 6 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'name'", linesExceed: 1, maxLines: 6 },
+                    line: 7,
+                    column: 1,
+                    endLine: 7,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -253,7 +295,14 @@ if ( x === y ) {
             code: "function name() {\r\nvar x = 5;\r\n\t\r\n \r\n\r\nvar x = 2;\r\n}",
             options: [{ max: 6, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'name'", linesExceed: 1, maxLines: 6 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'name'", linesExceed: 1, maxLines: 6 },
+                    line: 7,
+                    column: 1,
+                    endLine: 7,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -262,7 +311,14 @@ if ( x === y ) {
             code: "function name() {\nvar x = 5;\n\t\n \n\nvar x = 2;\n}",
             options: [{ max: 2, skipComments: true, skipBlankLines: true }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'name'", linesExceed: 2, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'name'", linesExceed: 2, maxLines: 2 },
+                    line: 3,
+                    column: 1,
+                    endLine: 7,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -271,7 +327,14 @@ if ( x === y ) {
             code: "function name() {\r\nvar x = 5;\r\n\t\r\n \r\n\r\nvar x = 2;\r\n}",
             options: [{ max: 2, skipComments: true, skipBlankLines: true }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'name'", linesExceed: 2, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'name'", linesExceed: 2, maxLines: 2 },
+                    line: 3,
+                    column: 1,
+                    endLine: 7,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -280,7 +343,14 @@ if ( x === y ) {
             code: "function name() { // end of line comment\nvar x = 5; /* mid line comment */\n\t// single line comment taking up whole line\n\t\n \n\nvar x = 2;\n}",
             options: [{ max: 6, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'name'", linesExceed: 1, maxLines: 6 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'name'", linesExceed: 1, maxLines: 6 },
+                    line: 7,
+                    column: 1,
+                    endLine: 8,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -289,7 +359,14 @@ if ( x === y ) {
             code: "function name() { // end of line comment\nvar x = 5; /* mid line comment */\n\t// single line comment taking up whole line\n\t\n \n\nvar x = 2;\n}",
             options: [{ max: 1, skipComments: true, skipBlankLines: true }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'name'", linesExceed: 3, maxLines: 1 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'name'", linesExceed: 3, maxLines: 1 },
+                    line: 2,
+                    column: 1,
+                    endLine: 8,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -298,7 +375,14 @@ if ( x === y ) {
             code: "function name() { // end of line comment\nvar x = 5; /* mid line comment */\n\t// single line comment taking up whole line\n\t\n \n\nvar x = 2;\n}",
             options: [{ max: 1, skipComments: false, skipBlankLines: true }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'name'", linesExceed: 4, maxLines: 1 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'name'", linesExceed: 4, maxLines: 1 },
+                    line: 2,
+                    column: 1,
+                    endLine: 8,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -313,7 +397,14 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'foo'", linesExceed: 5, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'foo'", linesExceed: 5, maxLines: 2 },
+                    line: 3,
+                    column: 1,
+                    endLine: 7,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -328,7 +419,14 @@ function
 ()`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: true }],
             errors: [
-                { messageId: "exceed", data: { name: "Function", linesExceed: 2, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function", linesExceed: 2, maxLines: 2 },
+                    line: 3,
+                    column: 1,
+                    endLine: 7,
+                    endColumn: 3
+                }
             ]
         },
 
@@ -346,7 +444,14 @@ if ( x === y ) {
 }`,
             options: [{ max: 9, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'parent'", linesExceed: 1, maxLines: 9 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'parent'", linesExceed: 1, maxLines: 9 },
+                    line: 10,
+                    column: 1,
+                    endLine: 10,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -364,8 +469,22 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'parent'", linesExceed: 8, maxLines: 2 } },
-                { messageId: "exceed", data: { name: "Function 'nested'", linesExceed: 2, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'parent'", linesExceed: 8, maxLines: 2 },
+                    line: 3,
+                    column: 1,
+                    endLine: 10,
+                    endColumn: 2
+                },
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'nested'", linesExceed: 2, maxLines: 2 },
+                    line: 3,
+                    column: 1,
+                    endLine: 10,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -380,7 +499,14 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Method 'method'", linesExceed: 3, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Method 'method'", linesExceed: 3, maxLines: 2 },
+                    line: 3,
+                    column: 1,
+                    endLine: 7,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -395,7 +521,14 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Static method 'foo'", linesExceed: 3, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Static method 'foo'", linesExceed: 3, maxLines: 2 },
+                    line: 3,
+                    column: 1,
+                    endLine: 7,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -410,7 +543,14 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Getter 'foo'", linesExceed: 3, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Getter 'foo'", linesExceed: 3, maxLines: 2 },
+                    line: 3,
+                    column: 1,
+                    endLine: 7,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -425,7 +565,14 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Setter 'foo'", linesExceed: 3, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Setter 'foo'", linesExceed: 3, maxLines: 2 },
+                    line: 3,
+                    column: 1,
+                    endLine: 7,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -443,7 +590,14 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Static method", linesExceed: 6, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Static method", linesExceed: 6, maxLines: 2 },
+                    line: 3,
+                    column: 1,
+                    endLine: 10,
+                    endColumn: 2
+                }
             ]
         },
 
@@ -458,7 +612,14 @@ if ( x === y ) {
 }());`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: true }],
             errors: [
-                { messageId: "exceed", data: { name: "Function", linesExceed: 5, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function", linesExceed: 5, maxLines: 2 },
+                    line: 3,
+                    column: 1,
+                    endLine: 7,
+                    endColumn: 6
+                }
             ]
         },
 
@@ -473,7 +634,14 @@ if ( x === y ) {
 })();`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: true }],
             errors: [
-                { messageId: "exceed", data: { name: "Arrow function", linesExceed: 5, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Arrow function", linesExceed: 5, maxLines: 2 },
+                    line: 3,
+                    column: 1,
+                    endLine: 7,
+                    endColumn: 6
+                }
             ]
         }
     ]
