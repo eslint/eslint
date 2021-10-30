@@ -1144,13 +1144,7 @@ ruleTester.run("prefer-regex-literals", rule, {
             },
             errors: [
                 {
-                    messageId: "unexpectedRegExp",
-                    suggestions: [
-                        {
-                            messageId: "unexpectedRegExp",
-                            output: "/\\0\\0/;"
-                        }
-                    ]
+                    messageId: "unexpectedRegExp"
                 }
             ]
         },
@@ -1159,13 +1153,7 @@ ruleTester.run("prefer-regex-literals", rule, {
             output: null,
             errors: [
                 {
-                    messageId: "unexpectedRegExp",
-                    suggestions: [
-                        {
-                            messageId: "unexpectedRegExp",
-                            output: "/\\0\\0/;"
-                        }
-                    ]
+                    messageId: "unexpectedRegExp"
                 }
             ]
         },
@@ -1174,13 +1162,7 @@ ruleTester.run("prefer-regex-literals", rule, {
             output: null,
             errors: [
                 {
-                    messageId: "unexpectedRegExp",
-                    suggestions: [
-                        {
-                            messageId: "unexpectedRegExp",
-                            output: "/\\0\\0/g;"
-                        }
-                    ]
+                    messageId: "unexpectedRegExp"
                 }
             ]
         },
@@ -1189,13 +1171,7 @@ ruleTester.run("prefer-regex-literals", rule, {
             output: null,
             errors: [
                 {
-                    messageId: "unexpectedRegExp",
-                    suggestions: [
-                        {
-                            messageId: "unexpectedRegExp",
-                            output: "/\\0\\0\\0/"
-                        }
-                    ]
+                    messageId: "unexpectedRegExp"
                 }
             ]
         },
