@@ -531,7 +531,7 @@ module.exports = {
 };
 ```
 
-Once you have an instance of `SourceCode`, you can use the methods on it to work with the code:
+Once you have an instance of `SourceCode`, you can use the following methods on it to work with the code:
 
 * `getText(node)` - returns the source code for the given node. Omit `node` to get the whole source.
 * `getAllComments()` - returns an array of all comments in the source.
