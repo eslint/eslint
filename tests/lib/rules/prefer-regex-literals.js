@@ -2296,6 +2296,34 @@ ruleTester.run("prefer-regex-literals", rule, {
                     ]
                 }
             ]
+        },
+        {
+            code: "new RegExp(\"\\\\\\n\\\\\\n\")",
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\n\\n/"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(\"\\\\\\n\\\\\\f\\\\\\n\")",
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\n\\f\\n/"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 });
