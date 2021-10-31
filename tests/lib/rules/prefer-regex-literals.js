@@ -561,7 +561,7 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(/a/);",
-            output: "/a/;",
+            output: null,
             options: [
                 {
                     disallowRedundantWrapping: true
@@ -578,7 +578,7 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(/a/, 'u');",
-            output: "/a/u;",
+            output: null,
             options: [
                 {
                     disallowRedundantWrapping: true
@@ -595,7 +595,7 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(/a/, `u`);",
-            output: "/a/u;",
+            output: null,
             options: [
                 {
                     disallowRedundantWrapping: true
@@ -612,7 +612,7 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(/a/, String.raw`u`);",
-            output: "/a/u;",
+            output: null,
             options: [
                 {
                     disallowRedundantWrapping: true
