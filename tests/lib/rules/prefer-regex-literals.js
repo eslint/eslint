@@ -139,7 +139,6 @@ ruleTester.run("prefer-regex-literals", rule, {
     invalid: [
         {
             code: "new RegExp('abc');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -155,7 +154,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('abc');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -171,7 +169,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp('abc', 'g');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -187,7 +184,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('abc', 'g');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -203,7 +199,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(`abc`);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -219,7 +214,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp(`abc`);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -235,7 +229,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(`abc`, `g`);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -251,7 +244,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp(`abc`, `g`);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -267,7 +259,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(String.raw`abc`);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -283,7 +274,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(String.raw`abc\nabc`);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -299,7 +289,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(String.raw`\tabc\nabc`);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -315,7 +304,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp(String.raw`abc`);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -331,7 +319,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(String.raw`abc`, String.raw`g`);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -347,7 +334,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp(String.raw`abc`, String.raw`g`);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -363,7 +349,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(String['raw']`a`);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -379,7 +364,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp('');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -395,7 +379,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('', '');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -411,7 +394,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(String.raw``);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -427,7 +409,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp('a', `g`);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -443,7 +424,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp(`a`, 'g');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -459,7 +439,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp(String.raw`a`, 'g');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -475,7 +454,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(String.raw`\\d`, `g`);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -491,7 +469,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(String.raw`\\\\d`, `g`);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -507,7 +484,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(String['raw']`\\\\d`, `g`);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -523,7 +499,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(String[\"raw\"]`\\\\d`, `g`);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -539,7 +514,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('a', String.raw`g`);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -555,7 +529,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new globalThis.RegExp('a');",
-            output: null,
             env: {
                 es2020: true
             },
@@ -574,7 +547,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "globalThis.RegExp('a');",
-            output: null,
             env: {
                 es2020: true
             },
@@ -593,7 +565,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(/a/);",
-            output: null,
             options: [
                 {
                     disallowRedundantWrapping: true
@@ -610,7 +581,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(/a/, 'u');",
-            output: null,
             options: [
                 {
                     disallowRedundantWrapping: true
@@ -627,7 +597,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(/a/, `u`);",
-            output: null,
             options: [
                 {
                     disallowRedundantWrapping: true
@@ -644,7 +613,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(/a/, String.raw`u`);",
-            output: null,
             options: [
                 {
                     disallowRedundantWrapping: true
@@ -661,7 +629,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp('a');",
-            output: null,
             options: [
                 {
                     disallowRedundantWrapping: true
@@ -684,7 +651,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp((String?.raw)`a`);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -699,7 +665,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp('+');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -708,7 +673,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp('*');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -717,7 +681,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('+');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -726,7 +689,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('*');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -735,7 +697,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp('+', 'g');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -744,7 +705,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp('*', 'g');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -753,7 +713,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('+', 'g');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -762,7 +721,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('*', 'g');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -771,7 +729,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('abc', 'u');",
-            output: null,
             parserOptions: {
                 ecmaVersion: 3
             },
@@ -783,7 +740,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp('abc', 'd');",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -795,7 +751,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('abc', 'd');",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2022
             },
@@ -813,7 +768,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\\\\\\\', '');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -828,7 +782,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\n', '');",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2022
             },
@@ -846,7 +799,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\n\\n', '');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -861,7 +813,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\t', '');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -876,7 +827,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\t\\t', '');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -891,7 +841,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\r\\n', '');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -906,7 +855,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\u1234', 'g')",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -915,7 +863,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\u{1234}', 'g')",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -924,7 +871,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\u{11111}', 'g')",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -933,7 +879,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\v', '');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -948,7 +893,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\v\\v', '');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -963,7 +907,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\f', '');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -978,7 +921,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\f\\f', '');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -993,7 +935,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\\\b', '');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1008,7 +949,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\\\b\\\\b', '');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1023,7 +963,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp('\\\\B\\\\b', '');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1038,7 +977,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\\\w', '');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1053,7 +991,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new globalThis.RegExp('\\\\W', '');",
-            output: null,
             globals: {
                 globalThis: "readonly"
             },
@@ -1071,7 +1008,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\\\s', '');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1086,7 +1022,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp('\\\\S', '')",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1101,7 +1036,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "globalThis.RegExp('\\\\d', '');",
-            output: null,
             globals: {
                 globalThis: "readonly"
             },
@@ -1119,7 +1053,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "globalThis.RegExp('\\\\D', '')",
-            output: null,
             globals: {
                 globalThis: "readonly"
             },
@@ -1137,7 +1070,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "globalThis.RegExp('\\\\\\\\\\\\D', '')",
-            output: null,
             globals: {
                 globalThis: "readonly"
             },
@@ -1155,7 +1087,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp('\\\\D\\\\D', '')",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1170,7 +1101,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new globalThis.RegExp('\\\\0\\\\0', '');",
-            output: null,
             globals: {
                 globalThis: "writable"
             },
@@ -1182,7 +1112,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp('\\\\0\\\\0', '');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -1191,7 +1120,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp('\\0\\0', 'g');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -1200,7 +1128,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\\\0\\\\0\\\\0', '')",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -1209,7 +1136,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\\\78\\\\126\\\\5934', '')",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2022
             },
@@ -1227,7 +1153,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new window['RegExp']('\\\\x56\\\\x78\\\\x45', '');",
-            output: null,
             env: {
                 browser: true
             },
@@ -1245,7 +1170,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "a in(RegExp('abc'))",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1260,7 +1184,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "x = y\n            RegExp(\"foo\").test(x) ? bar() : baz()",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -1269,7 +1192,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "func(new RegExp(String.raw`\\w{1, 2`, 'u'),new RegExp(String.raw`\\w{1, 2`, 'u'))",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -1281,7 +1203,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "x = y;\n            RegExp(\"foo\").test(x) ? bar() : baz()",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1296,7 +1217,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "typeof RegExp(\"foo\")",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1311,7 +1231,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp(\"foo\") instanceof RegExp(String.raw`blahblah`, 'g') ? typeof new RegExp('(\\\\p{Emoji_Presentation})\\\\1', `ug`) : false",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -1326,7 +1245,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "[   new RegExp(`someregular`)]",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1341,7 +1259,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "const totallyValidatesEmails = new RegExp(\"\\\\S+@(\\\\S+\\\\.)+\\\\S+\")\n            if (typeof totallyValidatesEmails === 'object') {\n                runSomethingThatExists(Regexp('stuff'))\n            }",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1356,7 +1273,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "!new RegExp('^Hey, ', 'u') && new RegExp('jk$') && ~new RegExp('^Sup, ') || new RegExp('hi') + new RegExp('person') === -new RegExp('hi again') ? 5 * new RegExp('abc') : 'notregbutstring'",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -1383,7 +1299,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "#!/usr/bin/sh\n            RegExp(\"foo\")",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1398,7 +1313,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "async function abc(){await new RegExp(\"foo\")}",
-            output: null,
             parserOptions: {
                 ecmaVersion: 8,
                 sourceType: "module"
@@ -1411,7 +1325,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "function* abc(){yield new RegExp(\"foo\")}",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -1420,7 +1333,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "function* abc(){yield* new RegExp(\"foo\")}",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1435,7 +1347,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "console.log({ ...new RegExp('a') })",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1450,7 +1361,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "delete RegExp('a');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1465,7 +1375,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "void RegExp('a');",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1480,7 +1389,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(\"\\\\S+@(\\\\S+\\\\.)+\\\\S+\")**RegExp('a')",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -1492,7 +1400,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(\"\\\\S+@(\\\\S+\\\\.)+\\\\S+\")%RegExp('a')",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -1504,7 +1411,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "a in RegExp('abc')",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1519,7 +1425,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            /abc/ == new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1537,7 +1442,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            /abc/ === new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1555,7 +1459,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            /abc/ != new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1573,7 +1476,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            /abc/ !== new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1591,7 +1493,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            /abc/ > new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1609,7 +1510,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            /abc/ < new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1627,7 +1527,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            /abc/ >= new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1645,7 +1544,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            /abc/ <= new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1663,7 +1561,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            /abc/ << new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1681,7 +1578,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            /abc/ >> new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1699,7 +1595,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            /abc/ >>> new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1717,7 +1612,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            /abc/ ^ new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1735,7 +1629,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            /abc/ & new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1753,7 +1646,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            /abc/ | new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1771,7 +1663,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            null ?? new RegExp('blah')\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1789,7 +1680,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            abc *= new RegExp('blah')\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1807,7 +1697,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            console.log({a: new RegExp('sup')})\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1825,7 +1714,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            console.log(() => {new RegExp('sup')})\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1843,7 +1731,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            function abc() {new RegExp('sup')}\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1861,7 +1748,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            function abc() {return new RegExp('sup')}\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1879,7 +1765,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            abc <<= new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1897,7 +1782,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            abc >>= new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1915,7 +1799,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            abc >>>= new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1933,7 +1816,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            abc ^= new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1951,7 +1833,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            abc &= new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1969,7 +1850,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            abc |= new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -1987,7 +1867,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            abc ??= new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -2005,7 +1884,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            abc &&= new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -2023,7 +1901,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            abc ||= new RegExp('cba');\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -2041,7 +1918,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            abc **= new RegExp('blah')\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -2059,7 +1935,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            abc /= new RegExp('blah')\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -2077,7 +1952,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            abc += new RegExp('blah')\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -2095,7 +1969,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            abc -= new RegExp('blah')\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -2113,7 +1986,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            abc %= new RegExp('blah')\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -2131,7 +2003,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            () => new RegExp('blah')\n            ",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2021
             },
@@ -2149,7 +2020,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "a/RegExp(\"foo\")in b",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2164,7 +2034,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "a/RegExp(\"foo\")instanceof b",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2179,7 +2048,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "do RegExp(\"foo\")\nwhile (true);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2194,7 +2062,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "for(let i;i<5;i++) { break\nnew RegExp('search')}",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2209,7 +2076,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "for(let i;i<5;i++) { continue\nnew RegExp('search')}",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2224,7 +2090,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            switch (value) {\n                case \"possibility\":\n                    console.log('possibility matched')\n                case RegExp('myReg').toString():\n                    console.log('matches a regexp\\' toString value')\n                    break;\n            }\n            ",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2239,7 +2104,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "throw new RegExp('abcdefg') // fail with a regular expression",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2254,7 +2118,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "for (value of new RegExp('something being searched')) { console.log(value) }",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -2263,7 +2126,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "(async function(){for await (value of new RegExp('something being searched')) { console.log(value) }})()",
-            output: null,
             parserOptions: {
                 ecmaVersion: 2018
             },
@@ -2275,7 +2137,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "for (value in new RegExp('something being searched')) { console.log(value) }",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2290,7 +2151,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "if (condition1 && condition2) new RegExp('avalue').test(str);",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp"
@@ -2299,7 +2159,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "debugger\nnew RegExp('myReg')",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2314,7 +2173,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp(\"\\\\\\n\")",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2329,7 +2187,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp(\"\\\\\\t\")",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2344,7 +2201,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp(\"\\\\\\f\")",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2359,7 +2215,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp(\"\\\\\\v\")",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2374,7 +2229,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp(\"\\\\\\r\")",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2389,7 +2243,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(\"\t\")",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2404,7 +2257,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(\"/\")",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2419,7 +2271,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(\"\\.\")",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2434,7 +2285,6 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(\"\\\\.\")",
-            output: null,
             errors: [
                 {
                     messageId: "unexpectedRegExp",
