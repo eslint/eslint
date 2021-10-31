@@ -282,6 +282,38 @@ ruleTester.run("prefer-regex-literals", rule, {
             ]
         },
         {
+            code: "new RegExp(String.raw`abc\nabc`);",
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "NewExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/abc\\nabc/;"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(String.raw`\tabc\nabc`);",
+            output: null,
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "NewExpression",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\tabc\\nabc/;"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             code: "RegExp(String.raw`abc`);",
             output: null,
             errors: [
