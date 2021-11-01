@@ -161,7 +161,7 @@ async function foo(obj) {
 
 This rule has an object option:
 
-* `"allowProperties"` when set to `true`, this rule does not report assignments to properties. Default is `false`.
+* `"allowProperties"`: When set to `true`, the rule does not report assignments to properties. Default is `false`.
 
 ### allowProperties
 
