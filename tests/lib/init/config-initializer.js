@@ -254,6 +254,7 @@ describe("configInitializer", () => {
                 const config = { extends: "google" };
 
                 init.installModules(init.getModulesList(config));
+
                 assert(npmInstallStub.calledOnce);
                 assert(npmInstallStub.firstCall.args[0].some(name => name.startsWith("eslint-config-google@")));
             });
@@ -284,6 +285,24 @@ describe("configInitializer", () => {
                         "eslint-plugin-react@^7.0.1"
                     ]
                 );
+            });
+
+            it("should use npm by default", () => {
+                const config = { extends: "airbnb" };
+
+                init.installModules(init.getModulesList(config));
+
+                assert(npmInstallStub.calledOnce);
+                assert(npmInstallStub.firstCall.args[1] === "npm");
+            });
+
+            it("should use a custom package manager if required", () => {
+                const config = { extends: "airbnb" };
+
+                init.installModules(init.getModulesList(config), "yarn");
+
+                assert(npmInstallStub.calledOnce);
+                assert(npmInstallStub.firstCall.args[1] === "yarn");
             });
 
             describe("hasESLintVersionConflict (Note: peerDependencies always `eslint: \"^3.19.0\"` by stubs)", () => {
