@@ -287,6 +287,17 @@ describe("cli", () => {
         });
     });
 
+    describe("when given an async formatter path", () => {
+        it("should execute without any errors", async () => {
+            const formatterPath = getFixturePath("async-formatter.js");
+            const filePath = getFixturePath("passing.js");
+            const exit = await cli.execute(`-f ${formatterPath} ${filePath}`);
+
+            assert.strictEqual(log.info.getCall(0).args[0], "from async formatter");
+            assert.strictEqual(exit, 0);
+        });
+    });
+
     describe("when executing a file with a lint error", () => {
         it("should exit with error", async () => {
             const filePath = getFixturePath("undef.js");
