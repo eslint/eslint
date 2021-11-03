@@ -6575,7 +6575,7 @@ describe("Linter with FlatConfigArray", () => {
 
     });
 
-    describe.only("verify()", () => {
+    describe("verify()", () => {
 
         describe("Rule Internals", () => {
 
@@ -7722,7 +7722,7 @@ describe("Linter with FlatConfigArray", () => {
         });
 
         describe("Rule Severity", () => {
-            
+
             it("rule should run as warning when set to 1 with a config array", () => {
                 const ruleId = "semi",
                     configs = createFlatConfigArray({
@@ -7731,14 +7731,14 @@ describe("Linter with FlatConfigArray", () => {
                             [ruleId]: 1
                         }
                     });
-    
+
                 configs.normalizeSync();
                 const messages = linter.verify("foo", configs, filename, true);
-    
+
                 assert.strictEqual(messages.length, 1, "Message length is wrong");
                 assert.strictEqual(messages[0].ruleId, ruleId);
             });
-    
+
             it("rule should run as warning when set to 1 with a plain array", () => {
                 const ruleId = "semi",
                     configs = [{
@@ -7747,13 +7747,13 @@ describe("Linter with FlatConfigArray", () => {
                             [ruleId]: 1
                         }
                     }];
-    
+
                 const messages = linter.verify("foo", configs, filename, true);
-    
+
                 assert.strictEqual(messages.length, 1, "Message length is wrong");
                 assert.strictEqual(messages[0].ruleId, ruleId);
             });
-    
+
             it.only("rule should run as warning when set to 1 with an object", () => {
                 const ruleId = "semi",
                     config = {
@@ -7762,15 +7762,15 @@ describe("Linter with FlatConfigArray", () => {
                             [ruleId]: 1
                         }
                     };
-    
+
                 const messages = linter.verify("foo", config, filename, true);
-    
+
                 assert.strictEqual(messages.length, 1, "Message length is wrong");
                 assert.strictEqual(messages[0].ruleId, ruleId);
             });
         });
 
-        describe.only("Custom Parsers", () => {
+        describe("Custom Parsers", () => {
 
             const errorPrefix = "Parsing error: ";
 
@@ -7811,7 +7811,7 @@ describe("Linter with FlatConfigArray", () => {
                         parser: testParsers.unknownLogicalOperator
                     }
                 };
-                
+
                 // This shouldn't throw
                 const messages = linter.verify(code, config, filename);
 
@@ -7955,12 +7955,12 @@ describe("Linter with FlatConfigArray", () => {
                                         "*"(node) {
                                             types2.push(node.type);
                                         }
-                                    }),
+                                    })
                                 }
                             }
                         },
                         rules: {
-                            "test/collect-node-types": "error",
+                            "test/collect-node-types": "error"
                         }
                     };
 
@@ -7993,7 +7993,7 @@ describe("Linter with FlatConfigArray", () => {
                                         Program() {
                                             scope = context.getScope();
                                         }
-                                    }),
+                                    })
                                 }
                             }
                         },
@@ -8001,7 +8001,7 @@ describe("Linter with FlatConfigArray", () => {
                             parser: testParsers.enhancedParser3
                         },
                         rules: {
-                            "test/save-scope1": "error",
+                            "test/save-scope1": "error"
                         }
                     };
 
@@ -8028,12 +8028,12 @@ describe("Linter with FlatConfigArray", () => {
                                         Program() {
                                             scope2 = context.getScope();
                                         }
-                                    }),
+                                    })
                                 }
                             }
                         },
                         rules: {
-                            "test/save-scope2": "error",
+                            "test/save-scope2": "error"
                         }
                     };
 
@@ -8044,7 +8044,7 @@ describe("Linter with FlatConfigArray", () => {
                 });
             });
 
-            it.only("should not pass any default parserOptions to the parser", () => {
+            it("should not pass any default parserOptions to the parser", () => {
                 const messages = linter.verify(";", {
                     languageOptions: {
                         parser: testParsers.throwsWithOptions

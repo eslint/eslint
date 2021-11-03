@@ -158,7 +158,7 @@ describe("FlatConfigArray", () => {
         });
 
         configs.normalizeSync();
-        
+
         const config = configs.getConfig("foo.js");
 
         assert.notStrictEqual(base[0].languageOptions, config.languageOptions);
