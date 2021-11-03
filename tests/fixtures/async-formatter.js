@@ -1,4 +1,4 @@
 /*global module*/
-module.exports = async function(results) {
-  return await Promise.resolve('from async formatter');
+module.exports = function(results) {
+  return Promise.resolve('from async formatter');
 };
