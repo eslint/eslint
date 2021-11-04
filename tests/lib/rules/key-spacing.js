@@ -147,7 +147,8 @@ ruleTester.run("key-spacing", rule, {
         ].join("\n"),
         options: [{
             beforeColon: true,
-            afterColon: true
+            afterColon: true,
+            mode: "minimum"
         }]
     }, {
         code: [
@@ -1292,15 +1293,28 @@ ruleTester.run("key-spacing", rule, {
             "obj = { key ",
             " :     longName };"
         ].join("\n"),
-        output: [
-            "obj = { key ",
-            " : longName };"
-        ].join("\n"),
+        output: "obj = { key : longName };",
         options: [{
             beforeColon: true,
             afterColon: true
         }],
         errors: [
+            { messageId: "extraKey", data: { computed: "", key: "key" }, line: 1, column: 12, type: "Identifier" },
+            { messageId: "extraValue", data: { computed: "", key: "key" }, line: 2, column: 2, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "obj = { key ",
+            " : ",
+            " longName };"
+        ].join("\n"),
+        output: "obj = { key : longName };",
+        options: [{
+            beforeColon: true,
+            afterColon: true
+        }],
+        errors: [
+            { messageId: "extraKey", data: { computed: "", key: "key" }, line: 1, column: 12, type: "Identifier" },
             { messageId: "extraValue", data: { computed: "", key: "key" }, line: 2, column: 2, type: "Identifier" }
         ]
     }, {
