@@ -11,6 +11,16 @@ module.exports = function(results) {
 };
 ```
 
+Formatter can also be an async function (from ESLint 8.2.0), the following shows a simple example:
+
+```js
+//my-awesome-formatter.js
+module.exports = async function(results) {
+    const formatted = await asyncTask();
+    return formatted;
+};
+```
+
 To run ESLint with this formatter, you can use the `-f` (or `--format`) command line flag:
 
 ```bash
