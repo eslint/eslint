@@ -12,7 +12,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-use-before-define: "error"*/
-/*eslint-env es6*/
 
 alert(a);
 var a = 10;
@@ -29,13 +28,29 @@ var b = 1;
     alert(c);
     let c = 1;
 }
+
+{
+    class C extends C {}
+}
+
+{
+    class C {
+        static x = "foo";
+        [C.x]() {}
+    }
+}
+
+{
+    const C = class {
+        static x = C;
+    }
+}
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-use-before-define: "error"*/
-/*eslint-env es6*/
 
 var a;
 a = 10;
@@ -52,6 +67,24 @@ function g() {
 {
     let c;
     c++;
+}
+
+{
+    class C {
+        static x = C;
+    }
+}
+
+{
+    const C = class C {
+        static x = C;
+    }
+}
+
+{
+    const C = class {
+        x = C;
+    }
 }
 ```
 
@@ -103,10 +136,25 @@ Examples of **incorrect** code for the `{ "classes": false }` option:
 
 ```js
 /*eslint no-use-before-define: ["error", { "classes": false }]*/
-/*eslint-env es6*/
 
 new A();
 class A {
+}
+
+{
+    class C extends C {}
+}
+
+{
+    class C extends D {}
+    class D {}
+}
+
+{
+    class C {
+        static x = "foo";
+        [C.x]() {}
+    }
 }
 ```
 
@@ -114,7 +162,6 @@ Examples of **correct** code for the `{ "classes": false }` option:
 
 ```js
 /*eslint no-use-before-define: ["error", { "classes": false }]*/
-/*eslint-env es6*/
 
 function foo() {
     return new A();
@@ -139,6 +186,19 @@ const f = () => {};
 
 g();
 const g = function() {};
+
+{
+    const C = class {
+        static x = C;
+    }
+}
+
+{
+    const C = class {
+        static x = foo;
+    }
+    const foo = 1;
+}
 ```
 
 Examples of **correct** code for the `{ "variables": false }` option:
@@ -158,4 +218,11 @@ const f = () => {};
 
 const e = function() { return g(); }
 const g = function() {}
+
+{
+    const C = class {
+        x = foo;
+    }
+    const foo = 1;
+}
 ```
