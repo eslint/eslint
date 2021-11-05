@@ -47,7 +47,7 @@
   "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
-    "@eslint/eslintrc": "^1.0.3",
+    "@eslint/eslintrc": "^1.0.4",
     "@humanwhocodes/config-array": "^0.6.0",
     "ajv": "^6.10.0",
     "chalk": "^4.0.0",
