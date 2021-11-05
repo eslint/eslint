@@ -211,9 +211,9 @@ If the rule is defined within a plugin, you have to prefix the rule ID with the 
 
 Examples:
 
-    eslint --rule 'quotes: [2, double]'
-    eslint --rule 'guard-for-in: 2' --rule 'brace-style: [2, 1tbs]'
-    eslint --rule 'jquery/dollar-sign: 2'
+    eslint --rule 'quotes: [error, double]'
+    eslint --rule 'guard-for-in: error' --rule 'brace-style: [error, 1tbs]'
+    eslint --rule 'jquery/dollar-sign: error'
 
 ### Fixing problems
 
