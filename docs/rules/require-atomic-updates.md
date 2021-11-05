@@ -50,7 +50,7 @@ This rule reports an assignment to a variable when it detects the following exec
 
 The assignment in step 3 is reported because this flow indicates that the assignment is based on the possibly outdated value of the variable from step 1, as the variable may have been reassigned elsewhere while the function was paused in step 2.
 
-Note that the rule does not report the aforementioned assignment in any of the following cases:
+Note that the rule does not report the assignment in step 3 in any of the following cases:
 
 * If the variable is read again between steps 2 and 3.
 * If the variable cannot be accessed while the function is paused (e.g., if it's a local variable).
