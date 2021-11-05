@@ -1,3 +1,17 @@
+v8.2.0 - November 5, 2021
+
+* [`cf5b6be`](https://github.com/eslint/eslint/commit/cf5b6be6f8144f5932cdf062d380f7c0f51e64bd) chore: update @eslint/eslintrc to avoid different versions of `js-yaml` (#15265) (Milos Djermanovic)
+* [`c9fefd2`](https://github.com/eslint/eslint/commit/c9fefd2e40348b3e02b855597707a557dc4991d5) feat: report class evaluation TDZ errors in no-use-before-define (#15134) (Milos Djermanovic)
+* [`4fd7a6c`](https://github.com/eslint/eslint/commit/4fd7a6ca7339bcbbfa6feda266dcca96684b81c6) perf: don't prepare a fix for valid code in key-spacing (#15239) (Milos Djermanovic)
+* [`c415c04`](https://github.com/eslint/eslint/commit/c415c041912a3abbf106cc5713bdcf4ef42590ac) docs: Use string rule severity in CLI examples (#15253) (Kevin Partington)
+* [`796587a`](https://github.com/eslint/eslint/commit/796587ad950f6804d60473c2b5998ed3ec71c59e) build: upgrade eslint-release to v3.2.0 to support conventional commits (#15246) (Milos Djermanovic)
+* [`12b627d`](https://github.com/eslint/eslint/commit/12b627da401c68a5081822a49068421f1bb2465c) docs: fix typo in `working-with-rules.md` (#15233) (Nitin Kumar)
+* [`a86ffc0`](https://github.com/eslint/eslint/commit/a86ffc076014d1de7eefc7456a8ccfb3a2318155) docs: fix broken anchor in configuration files (#15223) (Pierre Berger)
+* [`fda533c`](https://github.com/eslint/eslint/commit/fda533cda4b70278acfce4e21b5b1ebe52ff7a3d) chore: update `strip-ansi` dependency (#15221) (Nitin Kumar)
+* [`ee8af5f`](https://github.com/eslint/eslint/commit/ee8af5fb864b510ba6b50dcfb706b8b28fdfb74e) docs: Link to unit tests from rule documentation (#15207) (Brandon Mills)
+* [`1c0ca3c`](https://github.com/eslint/eslint/commit/1c0ca3c744dd5761d424d19c9cdcccc569dfe34c) docs: add `ci` and `perf` tags for commit (#15215) (Nitin Kumar)
+* [`67949bd`](https://github.com/eslint/eslint/commit/67949bd9f3cbda08442d2e5946feb9a4f8b22d85) ci: Remove Node 16 CI prerelease workaround (#14935) (Brandon Mills)
+
 v8.1.0 - October 22, 2021
 
 * [`446b4b3`](https://github.com/eslint/eslint/commit/446b4b3583f90dba7e0ac347b57db013aecc101d) Docs: Update commit message format docs (#15200) (Nicholas C. Zakas)
