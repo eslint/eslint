@@ -391,10 +391,11 @@ describe("bin/eslint.js", () => {
             const child = runESLint(["--no-ignore", invalidConfig]);
             const exitCodeAssertion = assertExitCode(child, 2);
             const outputAssertion = getOutput(child).then(output => {
-                const expectedSubstring = ": bad indentation of a mapping entry at line";
-
                 assert.strictEqual(output.stdout, "");
-                assert.include(output.stderr, expectedSubstring);
+                assert.match(
+                    output.stderr,
+                    /: bad indentation of a mapping entry \(\d+:\d+\)/u // a part of the error message from `js-yaml` dependency
+                );
             });
 
             return Promise.all([exitCodeAssertion, outputAssertion]);
