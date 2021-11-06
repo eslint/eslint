@@ -4137,9 +4137,22 @@ var a = "test2";
                         blockScope = context.getScope();
                     }
                 }));
+                linter.defineParser("custom-parser", {
+                    parse: (...args) => espree.parse(...args)
+                });
 
+                // standard parser with latest
                 linter.verify("{}", {
                     rules: { "block-scope": 2 },
+                    parserOptions: { ecmaVersion: "latest" }
+                });
+
+                assert.strictEqual(blockScope.type, "block");
+
+                // custom parser with latest
+                linter.verify("{}", {
+                    rules: { "block-scope": 2 },
+                    parser: "custom-parser",
                     parserOptions: { ecmaVersion: "latest" }
                 });
 
