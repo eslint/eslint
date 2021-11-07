@@ -289,7 +289,7 @@ describe("cli", () => {
 
     describe("when given an async formatter path", () => {
         it("should execute without any errors", async () => {
-            const formatterPath = getFixturePath("async-formatter.js");
+            const formatterPath = getFixturePath("formatters", "async.js");
             const filePath = getFixturePath("passing.js");
             const exit = await cli.execute(`-f ${formatterPath} ${filePath}`);
 

@@ -1160,7 +1160,7 @@ describe("CLIEngine", () => {
 
             const report = engine.executeOnFiles([getFixturePath("formatters")]);
 
-            assert.strictEqual(report.results.length, 3);
+            assert.strictEqual(report.results.length, 4);
             assert.strictEqual(report.errorCount, 0);
             assert.strictEqual(report.warningCount, 0);
             assert.strictEqual(report.fixableErrorCount, 0);
@@ -1200,14 +1200,18 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].warningCount, 0);
             assert.strictEqual(report.results[0].fixableErrorCount, 0);
             assert.strictEqual(report.results[0].fixableWarningCount, 0);
-            assert.strictEqual(report.results[1].errorCount, 3);
+            assert.strictEqual(report.results[1].errorCount, 0);
             assert.strictEqual(report.results[1].warningCount, 0);
-            assert.strictEqual(report.results[1].fixableErrorCount, 3);
+            assert.strictEqual(report.results[1].fixableErrorCount, 0);
             assert.strictEqual(report.results[1].fixableWarningCount, 0);
             assert.strictEqual(report.results[2].errorCount, 3);
             assert.strictEqual(report.results[2].warningCount, 0);
             assert.strictEqual(report.results[2].fixableErrorCount, 3);
             assert.strictEqual(report.results[2].fixableWarningCount, 0);
+            assert.strictEqual(report.results[3].errorCount, 3);
+            assert.strictEqual(report.results[3].warningCount, 0);
+            assert.strictEqual(report.results[3].fixableErrorCount, 3);
+            assert.strictEqual(report.results[3].fixableWarningCount, 0);
         });
 
         it("should process when file is given by not specifying extensions", () => {

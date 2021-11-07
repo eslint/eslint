@@ -1212,7 +1212,7 @@ describe("ESLint", () => {
             });
             const results = await eslint.lintFiles([getFixturePath("formatters")]);
 
-            assert.strictEqual(results.length, 3);
+            assert.strictEqual(results.length, 4);
             assert.strictEqual(results[0].messages.length, 0);
             assert.strictEqual(results[1].messages.length, 0);
             assert.strictEqual(results[2].messages.length, 0);
