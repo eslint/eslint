@@ -92,7 +92,7 @@ function g() {
 
 ```json
 {
-    "no-use-before-define": ["error", { "functions": true, "classes": true }]
+    "no-use-before-define": ["error", { "functions": true, "classes": true, "variables": true }]
 }
 ```
 
