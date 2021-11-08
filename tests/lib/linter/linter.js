@@ -4141,7 +4141,7 @@ var a = "test2";
                     parse: (...args) => espree.parse(...args)
                 });
 
-                // standard parser with latest
+                // Use standard parser
                 linter.verify("{}", {
                     rules: { "block-scope": 2 },
                     parserOptions: { ecmaVersion: "latest" }
@@ -4149,7 +4149,13 @@ var a = "test2";
 
                 assert.strictEqual(blockScope.type, "block");
 
-                // custom parser with latest
+                linter.verify("{}", {
+                    rules: { "block-scope": 2 },
+                    parserOptions: {} // ecmaVersion defaults to 5
+                });
+                assert.strictEqual(blockScope.type, "global");
+
+                // Use custom parser
                 linter.verify("{}", {
                     rules: { "block-scope": 2 },
                     parser: "custom-parser",
@@ -4160,6 +4166,7 @@ var a = "test2";
 
                 linter.verify("{}", {
                     rules: { "block-scope": 2 },
+                    parser: "custom-parser",
                     parserOptions: {} // ecmaVersion defaults to 5
                 });
                 assert.strictEqual(blockScope.type, "global");
