@@ -4087,13 +4087,13 @@ describe("ESLint", () => {
     });
 
     describe("calculateConfigForFile", () => {
-        it("should return the info from Config#getConfig when called", async () => {
+        it("should return the info from Config#getConfig when called", () => {
             const options = {
                 overrideConfigFile: getFixturePath("configurations", "quotes-error.json")
             };
             const engine = new ESLint(options);
             const filePath = getFixturePath("single-quoted.js");
-            const actualConfig = await engine.calculateConfigForFile(filePath);
+            const actualConfig = engine.calculateConfigForFile(filePath);
             const expectedConfig = new CascadingConfigArrayFactory({ specificConfigPath: options.overrideConfigFile })
                 .getConfigArrayForFile(filePath)
                 .extractConfig(filePath)
@@ -4102,34 +4102,34 @@ describe("ESLint", () => {
             assert.deepStrictEqual(actualConfig, expectedConfig);
         });
 
-        it("should return the config for a file that doesn't exist", async () => {
+        it("should return the config for a file that doesn't exist", () => {
             const engine = new ESLint();
             const filePath = getFixturePath("does_not_exist.js");
             const existingSiblingFilePath = getFixturePath("single-quoted.js");
-            const actualConfig = await engine.calculateConfigForFile(filePath);
-            const expectedConfig = await engine.calculateConfigForFile(existingSiblingFilePath);
+            const actualConfig = engine.calculateConfigForFile(filePath);
+            const expectedConfig = engine.calculateConfigForFile(existingSiblingFilePath);
 
             assert.deepStrictEqual(actualConfig, expectedConfig);
         });
 
-        it("should return the config for a virtual file that is a child of an existing file", async () => {
+        it("should return the config for a virtual file that is a child of an existing file", () => {
             const engine = new ESLint();
             const parentFileName = "single-quoted.js";
             const filePath = getFixturePath(parentFileName, "virtual.js"); // single-quoted.js/virtual.js
             const parentFilePath = getFixturePath(parentFileName);
-            const actualConfig = await engine.calculateConfigForFile(filePath);
-            const expectedConfig = await engine.calculateConfigForFile(parentFilePath);
+            const actualConfig = engine.calculateConfigForFile(filePath);
+            const expectedConfig = engine.calculateConfigForFile(parentFilePath);
 
             assert.deepStrictEqual(actualConfig, expectedConfig);
         });
 
-        it("should return the config when run from within a subdir", async () => {
+        it("should return the config when run from within a subdir", () => {
             const options = {
                 cwd: getFixturePath("config-hierarchy", "root-true", "parent", "root", "subdir")
             };
             const engine = new ESLint(options);
             const filePath = getFixturePath("config-hierarchy", "root-true", "parent", "root", ".eslintrc");
-            const actualConfig = await engine.calculateConfigForFile("./.eslintrc");
+            const actualConfig = engine.calculateConfigForFile("./.eslintrc");
             const expectedConfig = new CascadingConfigArrayFactory(options)
                 .getConfigArrayForFile(filePath)
                 .extractConfig(filePath)
@@ -4138,11 +4138,11 @@ describe("ESLint", () => {
             assert.deepStrictEqual(actualConfig, expectedConfig);
         });
 
-        it("should throw an error if a directory path was given.", async () => {
+        it("should throw an error if a directory path was given.", () => {
             const engine = new ESLint();
 
             try {
-                await engine.calculateConfigForFile(".");
+                engine.calculateConfigForFile(".");
             } catch (error) {
                 assert.strictEqual(error.messageTemplate, "print-config-with-directory-path");
                 return;
@@ -4150,14 +4150,20 @@ describe("ESLint", () => {
             assert.fail("should throw an error");
         });
 
-        it("should throw if non-string value is given to 'filePath' parameter", async () => {
-            const eslint = new ESLint();
+        it("should throw if non-string value is given to 'filePath' parameter", () => {
+            const engine = new ESLint();
 
-            await assert.rejects(() => eslint.calculateConfigForFile(null), /'filePath' must be a non-empty string/u);
+            try {
+                engine.calculateConfigForFile(null);
+            } catch (error) {
+                assert.match(error.message, /'filePath' must be a non-empty string/u);
+                return;
+            }
+            assert.fail("should throw an error");
         });
 
         // https://github.com/eslint/eslint/issues/13793
-        it("should throw with an invalid built-in rule config", async () => {
+        it("should throw with an invalid built-in rule config", () => {
             const options = {
                 baseConfig: {
                     rules: {
@@ -4170,10 +4176,13 @@ describe("ESLint", () => {
             const engine = new ESLint(options);
             const filePath = getFixturePath("single-quoted.js");
 
-            await assert.rejects(
-                () => engine.calculateConfigForFile(filePath),
-                /Configuration for rule "no-alert" is invalid:/u
-            );
+            try {
+                engine.calculateConfigForFile(filePath);
+            } catch (error) {
+                assert.match(error.message, /Configuration for rule "no-alert" is invalid:/u);
+                return;
+            }
+            assert.fail("should throw an error");
         });
     });
 
@@ -5078,7 +5087,7 @@ describe("ESLint", () => {
 
     describe("mutability", () => {
         describe("plugins", () => {
-            it("Loading plugin in one instance doesn't mutate to another instance", async () => {
+            it("Loading plugin in one instance doesn't mutate to another instance", () => {
                 const filePath = getFixturePath("single-quoted.js");
                 const engine1 = eslintWithPlugins({
                     cwd: path.join(fixtureDir, ".."),
@@ -5092,8 +5101,8 @@ describe("ESLint", () => {
                     cwd: path.join(fixtureDir, ".."),
                     useEslintrc: false
                 });
-                const fileConfig1 = await engine1.calculateConfigForFile(filePath);
-                const fileConfig2 = await engine2.calculateConfigForFile(filePath);
+                const fileConfig1 = engine1.calculateConfigForFile(filePath);
+                const fileConfig2 = engine2.calculateConfigForFile(filePath);
 
                 // plugin
                 assert.deepStrictEqual(fileConfig1.plugins, ["example"], "Plugin is present for engine 1");
@@ -5102,7 +5111,7 @@ describe("ESLint", () => {
         });
 
         describe("rules", () => {
-            it("Loading rules in one instance doesn't mutate to another instance", async () => {
+            it("Loading rules in one instance doesn't mutate to another instance", () => {
                 const filePath = getFixturePath("single-quoted.js");
                 const engine1 = new ESLint({
                     cwd: path.join(fixtureDir, ".."),
@@ -5113,8 +5122,8 @@ describe("ESLint", () => {
                     cwd: path.join(fixtureDir, ".."),
                     useEslintrc: false
                 });
-                const fileConfig1 = await engine1.calculateConfigForFile(filePath);
-                const fileConfig2 = await engine2.calculateConfigForFile(filePath);
+                const fileConfig1 = engine1.calculateConfigForFile(filePath);
+                const fileConfig2 = engine2.calculateConfigForFile(filePath);
 
                 // plugin
                 assert.deepStrictEqual(fileConfig1.rules["example/example-rule"], [1], "example is present for engine 1");

@@ -225,7 +225,7 @@ This method returns an object containing meta information for each rule that tri
 ### ◆ eslint.calculateConfigForFile(filePath)
 
 ```js
-const config = await eslint.calculateConfigForFile(filePath);
+const config = eslint.calculateConfigForFile(filePath);
 ```
 
 This method calculates the configuration for a given file, which can be useful for debugging purposes.
