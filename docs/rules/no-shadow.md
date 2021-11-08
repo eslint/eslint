@@ -40,15 +40,6 @@ if (true) {
 }
 ```
 
-Examples of **incorrect** code for this rule:
-
-```js
-/*eslint no-shadow: "error"*/
-/*eslint-env es6*/
-
-const person = people.find(person => person.name === 'John');
-```
-
 ## Options
 
 This rule takes one option, an object, with properties `"builtinGlobals"`, `"hoist"`, `"allow"` and `"ignoreOnInitialization"`.
