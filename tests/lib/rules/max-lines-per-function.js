@@ -316,7 +316,7 @@ if ( x === y ) {
                     data: { name: "Function 'name'", linesExceed: 2, maxLines: 2 },
                     line: 3,
                     column: 1,
-                    endLine: 7,
+                    endLine: 4,
                     endColumn: 2
                 }
             ]
@@ -332,7 +332,7 @@ if ( x === y ) {
                     data: { name: "Function 'name'", linesExceed: 2, maxLines: 2 },
                     line: 3,
                     column: 1,
-                    endLine: 7,
+                    endLine: 4,
                     endColumn: 2
                 }
             ]
@@ -348,7 +348,7 @@ if ( x === y ) {
                     data: { name: "Function 'name'", linesExceed: 1, maxLines: 6 },
                     line: 7,
                     column: 1,
-                    endLine: 8,
+                    endLine: 7,
                     endColumn: 2
                 }
             ]
@@ -364,7 +364,7 @@ if ( x === y ) {
                     data: { name: "Function 'name'", linesExceed: 3, maxLines: 1 },
                     line: 2,
                     column: 1,
-                    endLine: 8,
+                    endLine: 4,
                     endColumn: 2
                 }
             ]
@@ -380,7 +380,7 @@ if ( x === y ) {
                     data: { name: "Function 'name'", linesExceed: 4, maxLines: 1 },
                     line: 2,
                     column: 1,
-                    endLine: 8,
+                    endLine: 5,
                     endColumn: 2
                 }
             ]
@@ -645,29 +645,15 @@ if ( x === y ) {
             ]
         },
         {
-            code: `
-foo();
-bar();
-baz();
-quz();
-
-function f() {
-    2
-    3
-    4
-    5
-}
-
-quux();
-            `,
-            options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: true }],
+            code: "\nfoo();\nbar();\nbaz();\nfunction name() {\nvar x = 5;\n\t\n \n\nvar x = 2;\n}\nquz();",
+            options: [{ max: 2, skipComments: false, skipBlankLines: true }],
             errors: [
                 {
                     messageId: "exceed",
-                    data: { name: "Function 'f'", linesExceed: 4, maxLines: 2 },
-                    line: 9,
+                    data: { name: "Function 'name'", linesExceed: 2, maxLines: 2 },
+                    line: 7,
                     column: 1,
-                    endLine: 12,
+                    endLine: 8,
                     endColumn: 2
                 }
             ]
