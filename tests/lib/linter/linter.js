@@ -6906,19 +6906,30 @@ describe.only("Linter with FlatConfigArray", () => {
 
         });
 
-        xdescribe("settings", () => {
-            const code = "test-rule";
+        describe("settings", () => {
+            const ruleId = "test-rule";
 
             it("should pass settings to all rules", () => {
-                linter.defineRule(code, context => ({
-                    Literal(node) {
-                        context.report(node, context.settings.info);
+
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                [ruleId]: context => ({
+                                    Literal(node) {
+                                        context.report(node, context.settings.info);
+                                    }
+                                })
+                            }
+                        }
+                    },
+                    settings: {
+                        info: "Hello"
+                    },
+                    rules: {
+                        [`test/${ruleId}`]: 1
                     }
-                }));
-
-                const config = { rules: {}, settings: { info: "Hello" } };
-
-                config.rules[code] = 1;
+                };
 
                 const messages = linter.verify("0", config, filename);
 
@@ -6927,17 +6938,27 @@ describe.only("Linter with FlatConfigArray", () => {
             });
 
             it("should not have any settings if they were not passed in", () => {
-                linter.defineRule(code, context => ({
-                    Literal(node) {
-                        if (Object.getOwnPropertyNames(context.settings).length !== 0) {
-                            context.report(node, "Settings should be empty");
+
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                [ruleId]: context => ({
+                                    Literal(node) {
+                                        if (Object.getOwnPropertyNames(context.settings).length !== 0) {
+                                            context.report(node, "Settings should be empty");
+                                        }
+                                    }
+                                })
+                            }
                         }
+                    },
+                    settings: {
+                    },
+                    rules: {
+                        [`test/${ruleId}`]: 1
                     }
-                }));
-
-                const config = { rules: {} };
-
-                config.rules[code] = 1;
+                };
 
                 const messages = linter.verify("0", config, filename);
 
