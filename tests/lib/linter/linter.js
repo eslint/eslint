@@ -7221,19 +7221,27 @@ describe.only("Linter with FlatConfigArray", () => {
 
         describe("Rule Context", () => {
 
-            xdescribe("context.getFilename()", () => {
+            describe("context.getFilename()", () => {
                 const ruleId = "filename-rule";
 
                 it("has access to the filename", () => {
-                    linter.defineRule(ruleId, context => ({
-                        Literal(node) {
-                            context.report(node, context.getFilename());
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    [ruleId]: context => ({
+                                        Literal(node) {
+                                            context.report(node, context.getFilename());
+                                        }
+                                    })
+                                }
+                            }
+                        },
+                        rules: {
+                            [`test/${ruleId}`]: 1
                         }
-                    }));
-
-                    const config = { rules: {} };
-
-                    config.rules[ruleId] = 1;
+                    };
 
                     const messages = linter.verify("0", config, filename);
 
@@ -7241,15 +7249,24 @@ describe.only("Linter with FlatConfigArray", () => {
                 });
 
                 it("defaults filename to '<input>'", () => {
-                    linter.defineRule(ruleId, context => ({
-                        Literal(node) {
-                            context.report(node, context.getFilename());
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    [ruleId]: context => ({
+                                        Literal(node) {
+                                            context.report(node, context.getFilename());
+                                        }
+                                    })
+                                }
+                            }
+                        },
+                        rules: {
+                            [`test/${ruleId}`]: 1
                         }
-                    }));
+                    };
 
-                    const config = { rules: {} };
-
-                    config.rules[ruleId] = 1;
 
                     const messages = linter.verify("0", config);
 
@@ -7257,20 +7274,28 @@ describe.only("Linter with FlatConfigArray", () => {
                 });
             });
 
-            xdescribe("context.getPhysicalFilename()", () => {
+            describe("context.getPhysicalFilename()", () => {
 
                 const ruleId = "filename-rule";
 
                 it("has access to the physicalFilename", () => {
-                    linter.defineRule(ruleId, context => ({
-                        Literal(node) {
-                            context.report(node, context.getPhysicalFilename());
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    [ruleId]: context => ({
+                                        Literal(node) {
+                                            context.report(node, context.getPhysicalFilename());
+                                        }
+                                    })
+                                }
+                            }
+                        },
+                        rules: {
+                            [`test/${ruleId}`]: 1
                         }
-                    }));
-
-                    const config = { rules: {} };
-
-                    config.rules[ruleId] = 1;
+                    };
 
                     const messages = linter.verify("0", config, filename);
 
@@ -8127,7 +8152,7 @@ describe.only("Linter with FlatConfigArray", () => {
                     assert(spy && spy.calledOnce);
                 });
 
-                xdescribe("context.getScope()", () => {
+                describe("Scope Internals", () => {
 
                     /**
                      * Get the scope on the node `astSelector` specified.
@@ -8139,18 +8164,29 @@ describe.only("Linter with FlatConfigArray", () => {
                     function getScope(codeToEvaluate, astSelector, ecmaVersion = 5) {
                         let node, scope;
 
-                        linter.defineRule("get-scope", context => ({
-                            [astSelector](node0) {
-                                node = node0;
-                                scope = context.getScope();
-                            }
-                        }));
+                        const config = {
+                            plugins: {
+                                test: {
+                                    rules: {
+                                        "get-scope": context => ({
+                                            [astSelector](node0) {
+                                                node = node0;
+                                                scope = context.getScope();
+                                            }
+                                        })
+                                    }
+                                }
+                            },
+                            languageOptions: {
+                                ecmaVersion,
+                                sourceType: "script"
+                            },
+                            rules: { "test/get-scope": "error" }
+                        };
+
                         linter.verify(
                             codeToEvaluate,
-                            {
-                                parserOptions: { ecmaVersion },
-                                rules: { "get-scope": 2 }
-                            }
+                            config
                         );
 
                         return { node, scope };
@@ -8377,7 +8413,7 @@ describe.only("Linter with FlatConfigArray", () => {
                     });
                 });
 
-                xdescribe("Variables and references", () => {
+                describe("Variables and references", () => {
                     const code = [
                         "a;",
                         "function foo() { b; }",
@@ -8395,17 +8431,32 @@ describe.only("Linter with FlatConfigArray", () => {
                     beforeEach(() => {
                         let ok = false;
 
-                        linter.defineRules({
-                            test(context) {
-                                return {
-                                    Program() {
-                                        scope = context.getScope();
-                                        ok = true;
+                        const config = {
+                            plugins: {
+                                test: {
+                                    rules: {
+                                        test(context) {
+                                            return {
+                                                Program() {
+                                                    scope = context.getScope();
+                                                    ok = true;
+                                                }
+                                            };
+                                        }
                                     }
-                                };
+                                }
+                            },
+                            languageOptions: {
+                                globals: { e: true, f: false },
+                                sourceType: "script",
+                                ecmaVersion: 5
+                            },
+                            rules: {
+                                "test/test": 2
                             }
-                        });
-                        linter.verify(code, { rules: { test: 2 }, globals: { e: true, f: false } });
+                        };
+
+                        linter.verify(code, config);
                         assert(ok);
                     });
 
@@ -8479,7 +8530,7 @@ describe.only("Linter with FlatConfigArray", () => {
                 });
             });
 
-            xdescribe("context.getDeclaredVariables(node)", () => {
+            describe("context.getDeclaredVariables(node)", () => {
 
                 /**
                  * Assert `context.getDeclaredVariables(node)` is valid.
@@ -8489,88 +8540,98 @@ describe.only("Linter with FlatConfigArray", () => {
                  * @returns {void}
                  */
                 function verify(code, type, expectedNamesList) {
-                    linter.defineRules({
-                        test(context) {
+                    const config = {
+                        plugins: {
+                            test: {
 
-                            /**
-                             * Assert `context.getDeclaredVariables(node)` is empty.
-                             * @param {ASTNode} node A node to check.
-                             * @returns {void}
-                             */
-                            function checkEmpty(node) {
-                                assert.strictEqual(0, context.getDeclaredVariables(node).length);
-                            }
-                            const rule = {
-                                Program: checkEmpty,
-                                EmptyStatement: checkEmpty,
-                                BlockStatement: checkEmpty,
-                                ExpressionStatement: checkEmpty,
-                                LabeledStatement: checkEmpty,
-                                BreakStatement: checkEmpty,
-                                ContinueStatement: checkEmpty,
-                                WithStatement: checkEmpty,
-                                SwitchStatement: checkEmpty,
-                                ReturnStatement: checkEmpty,
-                                ThrowStatement: checkEmpty,
-                                TryStatement: checkEmpty,
-                                WhileStatement: checkEmpty,
-                                DoWhileStatement: checkEmpty,
-                                ForStatement: checkEmpty,
-                                ForInStatement: checkEmpty,
-                                DebuggerStatement: checkEmpty,
-                                ThisExpression: checkEmpty,
-                                ArrayExpression: checkEmpty,
-                                ObjectExpression: checkEmpty,
-                                Property: checkEmpty,
-                                SequenceExpression: checkEmpty,
-                                UnaryExpression: checkEmpty,
-                                BinaryExpression: checkEmpty,
-                                AssignmentExpression: checkEmpty,
-                                UpdateExpression: checkEmpty,
-                                LogicalExpression: checkEmpty,
-                                ConditionalExpression: checkEmpty,
-                                CallExpression: checkEmpty,
-                                NewExpression: checkEmpty,
-                                MemberExpression: checkEmpty,
-                                SwitchCase: checkEmpty,
-                                Identifier: checkEmpty,
-                                Literal: checkEmpty,
-                                ForOfStatement: checkEmpty,
-                                ArrowFunctionExpression: checkEmpty,
-                                YieldExpression: checkEmpty,
-                                TemplateLiteral: checkEmpty,
-                                TaggedTemplateExpression: checkEmpty,
-                                TemplateElement: checkEmpty,
-                                ObjectPattern: checkEmpty,
-                                ArrayPattern: checkEmpty,
-                                RestElement: checkEmpty,
-                                AssignmentPattern: checkEmpty,
-                                ClassBody: checkEmpty,
-                                MethodDefinition: checkEmpty,
-                                MetaProperty: checkEmpty
-                            };
+                                rules: {
+                                    test(context) {
 
-                            rule[type] = function(node) {
-                                const expectedNames = expectedNamesList.shift();
-                                const variables = context.getDeclaredVariables(node);
+                                        /**
+                                         * Assert `context.getDeclaredVariables(node)` is empty.
+                                         * @param {ASTNode} node A node to check.
+                                         * @returns {void}
+                                         */
+                                        function checkEmpty(node) {
+                                            assert.strictEqual(0, context.getDeclaredVariables(node).length);
+                                        }
+                                        const rule = {
+                                            Program: checkEmpty,
+                                            EmptyStatement: checkEmpty,
+                                            BlockStatement: checkEmpty,
+                                            ExpressionStatement: checkEmpty,
+                                            LabeledStatement: checkEmpty,
+                                            BreakStatement: checkEmpty,
+                                            ContinueStatement: checkEmpty,
+                                            WithStatement: checkEmpty,
+                                            SwitchStatement: checkEmpty,
+                                            ReturnStatement: checkEmpty,
+                                            ThrowStatement: checkEmpty,
+                                            TryStatement: checkEmpty,
+                                            WhileStatement: checkEmpty,
+                                            DoWhileStatement: checkEmpty,
+                                            ForStatement: checkEmpty,
+                                            ForInStatement: checkEmpty,
+                                            DebuggerStatement: checkEmpty,
+                                            ThisExpression: checkEmpty,
+                                            ArrayExpression: checkEmpty,
+                                            ObjectExpression: checkEmpty,
+                                            Property: checkEmpty,
+                                            SequenceExpression: checkEmpty,
+                                            UnaryExpression: checkEmpty,
+                                            BinaryExpression: checkEmpty,
+                                            AssignmentExpression: checkEmpty,
+                                            UpdateExpression: checkEmpty,
+                                            LogicalExpression: checkEmpty,
+                                            ConditionalExpression: checkEmpty,
+                                            CallExpression: checkEmpty,
+                                            NewExpression: checkEmpty,
+                                            MemberExpression: checkEmpty,
+                                            SwitchCase: checkEmpty,
+                                            Identifier: checkEmpty,
+                                            Literal: checkEmpty,
+                                            ForOfStatement: checkEmpty,
+                                            ArrowFunctionExpression: checkEmpty,
+                                            YieldExpression: checkEmpty,
+                                            TemplateLiteral: checkEmpty,
+                                            TaggedTemplateExpression: checkEmpty,
+                                            TemplateElement: checkEmpty,
+                                            ObjectPattern: checkEmpty,
+                                            ArrayPattern: checkEmpty,
+                                            RestElement: checkEmpty,
+                                            AssignmentPattern: checkEmpty,
+                                            ClassBody: checkEmpty,
+                                            MethodDefinition: checkEmpty,
+                                            MetaProperty: checkEmpty
+                                        };
 
-                                assert(Array.isArray(expectedNames));
-                                assert(Array.isArray(variables));
-                                assert.strictEqual(expectedNames.length, variables.length);
-                                for (let i = variables.length - 1; i >= 0; i--) {
-                                    assert.strictEqual(expectedNames[i], variables[i].name);
+                                        rule[type] = function(node) {
+                                            const expectedNames = expectedNamesList.shift();
+                                            const variables = context.getDeclaredVariables(node);
+
+                                            assert(Array.isArray(expectedNames));
+                                            assert(Array.isArray(variables));
+                                            assert.strictEqual(expectedNames.length, variables.length);
+                                            for (let i = variables.length - 1; i >= 0; i--) {
+                                                assert.strictEqual(expectedNames[i], variables[i].name);
+                                            }
+                                        };
+                                        return rule;
+                                    }
                                 }
-                            };
-                            return rule;
-                        }
-                    });
-                    linter.verify(code, {
-                        rules: { test: 2 },
-                        parserOptions: {
+
+                            }
+                        },
+                        languageOptions: {
                             ecmaVersion: 6,
                             sourceType: "module"
+                        },
+                        rules: {
+                            "test/test": 2
                         }
-                    });
+                    };
+
+                    linter.verify(code, config);
 
                     // Check all expected names are asserted.
                     assert.strictEqual(0, expectedNamesList.length);
@@ -8913,37 +8974,54 @@ describe.only("Linter with FlatConfigArray", () => {
                 });
             });
 
-            xdescribe("context.getCwd()", () => {
+            describe("context.getCwd()", () => {
                 const code = "a;\nb;";
-                const config = { rules: { checker: "error" } };
+                const baseConfig = { rules: { "test/checker": "error" } };
 
                 it("should get cwd correctly in the context", () => {
                     const cwd = "cwd";
-                    const linterWithOption = new Linter({ cwd });
+                    const linterWithOption = new Linter({ cwd, configType: "flat" });
                     let spy;
-
-                    linterWithOption.defineRule("checker", context => {
-                        spy = sinon.spy(() => {
-                            assert.strictEqual(context.getCwd(), cwd);
-                        });
-                        return { Program: spy };
-                    });
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
+                                        spy = sinon.spy(() => {
+                                            assert.strictEqual(context.getCwd(), cwd);
+                                        });
+                                        return { Program: spy };
+                                    }
+                                }
+                            }
+                        },
+                        ...baseConfig
+                    };
 
                     linterWithOption.verify(code, config);
                     assert(spy && spy.calledOnce);
                 });
 
                 it("should assign process.cwd() to it if cwd is undefined", () => {
+
+                    const linterWithOption = new Linter({ configType: "flat" });
                     let spy;
-                    const linterWithOption = new Linter({});
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
 
-                    linterWithOption.defineRule("checker", context => {
-
-                        spy = sinon.spy(() => {
-                            assert.strictEqual(context.getCwd(), process.cwd());
-                        });
-                        return { Program: spy };
-                    });
+                                        spy = sinon.spy(() => {
+                                            assert.strictEqual(context.getCwd(), process.cwd());
+                                        });
+                                        return { Program: spy };
+                                    }
+                                }
+                            }
+                        },
+                        ...baseConfig
+                    };
 
                     linterWithOption.verify(code, config);
                     assert(spy && spy.calledOnce);
@@ -8951,14 +9029,22 @@ describe.only("Linter with FlatConfigArray", () => {
 
                 it("should assign process.cwd() to it if the option is undefined", () => {
                     let spy;
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: context => {
 
-                    linter.defineRule("checker", context => {
-
-                        spy = sinon.spy(() => {
-                            assert.strictEqual(context.getCwd(), process.cwd());
-                        });
-                        return { Program: spy };
-                    });
+                                        spy = sinon.spy(() => {
+                                            assert.strictEqual(context.getCwd(), process.cwd());
+                                        });
+                                        return { Program: spy };
+                                    }
+                                }
+                            }
+                        },
+                        ...baseConfig
+                    };
 
                     linter.verify(code, config);
                     assert(spy && spy.calledOnce);
