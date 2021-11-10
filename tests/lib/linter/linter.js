@@ -6643,7 +6643,6 @@ describe.only("Linter with FlatConfigArray", () => {
                     assert.strictEqual(messages.length, 0);
                 });
 
-
                 it("should pass parser as context.languageOptions.parser to all rules when provided on config", () => {
 
                     const config = {
@@ -6778,6 +6777,293 @@ describe.only("Linter with FlatConfigArray", () => {
 
                     linter.verify("0", config, filename);
                 });
+
+
+                describe("Custom Parsers", () => {
+
+                    const errorPrefix = "Parsing error: ";
+
+                    it("should have file path passed to it", () => {
+                        const code = "/* this is code */";
+                        const parseSpy = sinon.spy(testParsers.stubParser, "parse");
+                        const config = {
+                            languageOptions: {
+                                parser: testParsers.stubParser
+                            }
+                        };
+
+                        linter.verify(code, config, filename, true);
+
+                        sinon.assert.calledWithMatch(parseSpy, "", { filePath: filename });
+                    });
+
+                    it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
+                        const code = "var myDivElement = <div {...this.props} />;";
+                        const config = {
+                            languageOptions: {
+                                parser: esprima,
+                                parserOptions: {
+                                    jsx: true
+                                }
+                            }
+                        };
+
+                        const messages = linter.verify(code, config, filename);
+
+                        assert.strictEqual(messages.length, 0);
+                    });
+
+                    it("should not throw or report errors when the custom parser returns unrecognized operators (https://github.com/eslint/eslint/issues/10475)", () => {
+                        const code = "null %% 'foo'";
+                        const config = {
+                            languageOptions: {
+                                parser: testParsers.unknownLogicalOperator
+                            }
+                        };
+
+                        // This shouldn't throw
+                        const messages = linter.verify(code, config, filename);
+
+                        assert.strictEqual(messages.length, 0);
+                    });
+
+                    it("should not throw or report errors when the custom parser returns nested unrecognized operators (https://github.com/eslint/eslint/issues/10560)", () => {
+                        const code = "foo && bar %% baz";
+                        const config = {
+                            languageOptions: {
+                                parser: testParsers.unknownLogicalOperatorNested
+                            }
+                        };
+
+                        // This shouldn't throw
+                        const messages = linter.verify(code, config, filename);
+
+                        assert.strictEqual(messages.length, 0);
+                    });
+
+                    it("should not throw or return errors when the custom parser returns unknown AST nodes", () => {
+                        const code = "foo && bar %% baz";
+                        const nodes = [];
+                        const config = {
+                            plugins: {
+                                test: {
+                                    rules: {
+                                        "collect-node-types": () => ({
+                                            "*"(node) {
+                                                nodes.push(node.type);
+                                            }
+                                        })
+                                    }
+                                }
+                            },
+                            languageOptions: {
+                                parser: testParsers.nonJSParser
+                            },
+                            rules: {
+                                "test/collect-node-types": "error"
+                            }
+                        };
+
+                        const messages = linter.verify(code, config, filename, true);
+
+                        assert.strictEqual(messages.length, 0);
+                        assert.isTrue(nodes.length > 0);
+                    });
+
+                    it("should strip leading line: prefix from parser error", () => {
+                        const messages = linter.verify(";", {
+                            languageOptions: {
+                                parser: testParsers.lineError
+                            }
+                        }, "filename");
+
+                        assert.strictEqual(messages.length, 1);
+                        assert.strictEqual(messages[0].severity, 2);
+                        assert.strictEqual(messages[0].message, errorPrefix + testParsers.lineError.expectedError);
+                    });
+
+                    it("should not modify a parser error message without a leading line: prefix", () => {
+                        const messages = linter.verify(";", {
+                            languageOptions: {
+                                parser: testParsers.noLineError
+                            }
+                        }, "filename");
+
+                        assert.strictEqual(messages.length, 1);
+                        assert.strictEqual(messages[0].severity, 2);
+                        assert.strictEqual(messages[0].message, errorPrefix + testParsers.noLineError.expectedError);
+                    });
+
+                    describe("if a parser provides 'visitorKeys'", () => {
+                        let types = [];
+                        let sourceCode;
+                        let scopeManager;
+                        let firstChildNodes = [];
+
+                        beforeEach(() => {
+                            types = [];
+                            firstChildNodes = [];
+                            const config = {
+                                plugins: {
+                                    test: {
+                                        rules: {
+                                            "collect-node-types": () => ({
+                                                "*"(node) {
+                                                    types.push(node.type);
+                                                }
+                                            }),
+                                            "save-scope-manager": context => {
+                                                scopeManager = context.getSourceCode().scopeManager;
+
+                                                return {};
+                                            },
+                                            "esquery-option": () => ({
+                                                ":first-child"(node) {
+                                                    firstChildNodes.push(node);
+                                                }
+                                            })
+                                        }
+                                    }
+                                },
+                                languageOptions: {
+                                    parser: testParsers.enhancedParser2
+                                },
+                                rules: {
+                                    "test/collect-node-types": "error",
+                                    "test/save-scope-manager": "error",
+                                    "test/esquery-option": "error"
+                                }
+                            };
+
+                            linter.verify("@foo class A {}", config);
+
+                            sourceCode = linter.getSourceCode();
+                        });
+
+                        it("Traverser should use the visitorKeys (so 'types' includes 'Decorator')", () => {
+                            assert.deepStrictEqual(
+                                types,
+                                ["Program", "ClassDeclaration", "Decorator", "Identifier", "Identifier", "ClassBody"]
+                            );
+                        });
+
+                        it("eslint-scope should use the visitorKeys (so 'childVisitorKeys.ClassDeclaration' includes 'experimentalDecorators')", () => {
+                            assert.deepStrictEqual(
+                                scopeManager.__options.childVisitorKeys.ClassDeclaration, // eslint-disable-line no-underscore-dangle -- ScopeManager API
+                                ["experimentalDecorators", "id", "superClass", "body"]
+                            );
+                        });
+
+                        it("should use the same visitorKeys if the source code object is reused", () => {
+                            const types2 = [];
+                            const config = {
+                                plugins: {
+                                    test: {
+                                        rules: {
+                                            "collect-node-types": () => ({
+                                                "*"(node) {
+                                                    types2.push(node.type);
+                                                }
+                                            })
+                                        }
+                                    }
+                                },
+                                rules: {
+                                    "test/collect-node-types": "error"
+                                }
+                            };
+
+                            linter.verify(sourceCode, config);
+
+                            assert.deepStrictEqual(
+                                types2,
+                                ["Program", "ClassDeclaration", "Decorator", "Identifier", "Identifier", "ClassBody"]
+                            );
+                        });
+
+                        it("esquery should use the visitorKeys (so 'visitorKeys.ClassDeclaration' includes 'experimentalDecorators')", () => {
+                            assert.deepStrictEqual(
+                                firstChildNodes,
+                                [sourceCode.ast.body[0], sourceCode.ast.body[0].experimentalDecorators[0]]
+                            );
+                        });
+                    });
+
+                    describe("if a parser provides 'scope'", () => {
+                        let scope = null;
+                        let sourceCode = null;
+
+                        beforeEach(() => {
+                            const config = {
+                                plugins: {
+                                    test: {
+                                        rules: {
+                                            "save-scope1": context => ({
+                                                Program() {
+                                                    scope = context.getScope();
+                                                }
+                                            })
+                                        }
+                                    }
+                                },
+                                languageOptions: {
+                                    parser: testParsers.enhancedParser3
+                                },
+                                rules: {
+                                    "test/save-scope1": "error"
+                                }
+                            };
+
+                            linter.verify("@foo class A {}", config);
+
+                            sourceCode = linter.getSourceCode();
+                        });
+
+                        it("should use the scope (so the global scope has the reference of '@foo')", () => {
+                            assert.strictEqual(scope.references.length, 1);
+                            assert.deepStrictEqual(
+                                scope.references[0].identifier.name,
+                                "foo"
+                            );
+                        });
+
+                        it("should use the same scope if the source code object is reused", () => {
+                            let scope2 = null;
+                            const config = {
+                                plugins: {
+                                    test: {
+                                        rules: {
+                                            "save-scope2": context => ({
+                                                Program() {
+                                                    scope2 = context.getScope();
+                                                }
+                                            })
+                                        }
+                                    }
+                                },
+                                rules: {
+                                    "test/save-scope2": "error"
+                                }
+                            };
+
+                            linter.verify(sourceCode, config, "test.js");
+
+                            assert(scope2 !== null);
+                            assert(scope2 === scope);
+                        });
+                    });
+
+                    it("should not pass any default parserOptions to the parser", () => {
+                        const messages = linter.verify(";", {
+                            languageOptions: {
+                                parser: testParsers.throwsWithOptions
+                            }
+                        }, "filename");
+
+                        assert.strictEqual(messages.length, 0);
+                    });
+                });
+
 
             });
 
@@ -9102,292 +9388,7 @@ describe.only("Linter with FlatConfigArray", () => {
             });
         });
 
-        describe("Custom Parsers", () => {
-
-            const errorPrefix = "Parsing error: ";
-
-            it("should have file path passed to it", () => {
-                const code = "/* this is code */";
-                const parseSpy = sinon.spy(testParsers.stubParser, "parse");
-                const config = {
-                    languageOptions: {
-                        parser: testParsers.stubParser
-                    }
-                };
-
-                linter.verify(code, config, filename, true);
-
-                sinon.assert.calledWithMatch(parseSpy, "", { filePath: filename });
-            });
-
-            it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
-                const code = "var myDivElement = <div {...this.props} />;";
-                const config = {
-                    languageOptions: {
-                        parser: esprima,
-                        parserOptions: {
-                            jsx: true
-                        }
-                    }
-                };
-
-                const messages = linter.verify(code, config, filename);
-
-                assert.strictEqual(messages.length, 0);
-            });
-
-            it("should not throw or report errors when the custom parser returns unrecognized operators (https://github.com/eslint/eslint/issues/10475)", () => {
-                const code = "null %% 'foo'";
-                const config = {
-                    languageOptions: {
-                        parser: testParsers.unknownLogicalOperator
-                    }
-                };
-
-                // This shouldn't throw
-                const messages = linter.verify(code, config, filename);
-
-                assert.strictEqual(messages.length, 0);
-            });
-
-            it("should not throw or report errors when the custom parser returns nested unrecognized operators (https://github.com/eslint/eslint/issues/10560)", () => {
-                const code = "foo && bar %% baz";
-                const config = {
-                    languageOptions: {
-                        parser: testParsers.unknownLogicalOperatorNested
-                    }
-                };
-
-                // This shouldn't throw
-                const messages = linter.verify(code, config, filename);
-
-                assert.strictEqual(messages.length, 0);
-            });
-
-            it("should not throw or return errors when the custom parser returns unknown AST nodes", () => {
-                const code = "foo && bar %% baz";
-                const nodes = [];
-                const config = {
-                    plugins: {
-                        test: {
-                            rules: {
-                                "collect-node-types": () => ({
-                                    "*"(node) {
-                                        nodes.push(node.type);
-                                    }
-                                })
-                            }
-                        }
-                    },
-                    languageOptions: {
-                        parser: testParsers.nonJSParser
-                    },
-                    rules: {
-                        "test/collect-node-types": "error"
-                    }
-                };
-
-                const messages = linter.verify(code, config, filename, true);
-
-                assert.strictEqual(messages.length, 0);
-                assert.isTrue(nodes.length > 0);
-            });
-
-            it("should strip leading line: prefix from parser error", () => {
-                const messages = linter.verify(";", {
-                    languageOptions: {
-                        parser: testParsers.lineError
-                    }
-                }, "filename");
-
-                assert.strictEqual(messages.length, 1);
-                assert.strictEqual(messages[0].severity, 2);
-                assert.strictEqual(messages[0].message, errorPrefix + testParsers.lineError.expectedError);
-            });
-
-            it("should not modify a parser error message without a leading line: prefix", () => {
-                const messages = linter.verify(";", {
-                    languageOptions: {
-                        parser: testParsers.noLineError
-                    }
-                }, "filename");
-
-                assert.strictEqual(messages.length, 1);
-                assert.strictEqual(messages[0].severity, 2);
-                assert.strictEqual(messages[0].message, errorPrefix + testParsers.noLineError.expectedError);
-            });
-
-            describe("if a parser provides 'visitorKeys'", () => {
-                let types = [];
-                let sourceCode;
-                let scopeManager;
-                let firstChildNodes = [];
-
-                beforeEach(() => {
-                    types = [];
-                    firstChildNodes = [];
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    "collect-node-types": () => ({
-                                        "*"(node) {
-                                            types.push(node.type);
-                                        }
-                                    }),
-                                    "save-scope-manager": context => {
-                                        scopeManager = context.getSourceCode().scopeManager;
-
-                                        return {};
-                                    },
-                                    "esquery-option": () => ({
-                                        ":first-child"(node) {
-                                            firstChildNodes.push(node);
-                                        }
-                                    })
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            parser: testParsers.enhancedParser2
-                        },
-                        rules: {
-                            "test/collect-node-types": "error",
-                            "test/save-scope-manager": "error",
-                            "test/esquery-option": "error"
-                        }
-                    };
-
-                    linter.verify("@foo class A {}", config);
-
-                    sourceCode = linter.getSourceCode();
-                });
-
-                it("Traverser should use the visitorKeys (so 'types' includes 'Decorator')", () => {
-                    assert.deepStrictEqual(
-                        types,
-                        ["Program", "ClassDeclaration", "Decorator", "Identifier", "Identifier", "ClassBody"]
-                    );
-                });
-
-                it("eslint-scope should use the visitorKeys (so 'childVisitorKeys.ClassDeclaration' includes 'experimentalDecorators')", () => {
-                    assert.deepStrictEqual(
-                        scopeManager.__options.childVisitorKeys.ClassDeclaration, // eslint-disable-line no-underscore-dangle -- ScopeManager API
-                        ["experimentalDecorators", "id", "superClass", "body"]
-                    );
-                });
-
-                it("should use the same visitorKeys if the source code object is reused", () => {
-                    const types2 = [];
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    "collect-node-types": () => ({
-                                        "*"(node) {
-                                            types2.push(node.type);
-                                        }
-                                    })
-                                }
-                            }
-                        },
-                        rules: {
-                            "test/collect-node-types": "error"
-                        }
-                    };
-
-                    linter.verify(sourceCode, config);
-
-                    assert.deepStrictEqual(
-                        types2,
-                        ["Program", "ClassDeclaration", "Decorator", "Identifier", "Identifier", "ClassBody"]
-                    );
-                });
-
-                it("esquery should use the visitorKeys (so 'visitorKeys.ClassDeclaration' includes 'experimentalDecorators')", () => {
-                    assert.deepStrictEqual(
-                        firstChildNodes,
-                        [sourceCode.ast.body[0], sourceCode.ast.body[0].experimentalDecorators[0]]
-                    );
-                });
-            });
-
-            describe("if a parser provides 'scope'", () => {
-                let scope = null;
-                let sourceCode = null;
-
-                beforeEach(() => {
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    "save-scope1": context => ({
-                                        Program() {
-                                            scope = context.getScope();
-                                        }
-                                    })
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            parser: testParsers.enhancedParser3
-                        },
-                        rules: {
-                            "test/save-scope1": "error"
-                        }
-                    };
-
-                    linter.verify("@foo class A {}", config);
-
-                    sourceCode = linter.getSourceCode();
-                });
-
-                it("should use the scope (so the global scope has the reference of '@foo')", () => {
-                    assert.strictEqual(scope.references.length, 1);
-                    assert.deepStrictEqual(
-                        scope.references[0].identifier.name,
-                        "foo"
-                    );
-                });
-
-                it("should use the same scope if the source code object is reused", () => {
-                    let scope2 = null;
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    "save-scope2": context => ({
-                                        Program() {
-                                            scope2 = context.getScope();
-                                        }
-                                    })
-                                }
-                            }
-                        },
-                        rules: {
-                            "test/save-scope2": "error"
-                        }
-                    };
-
-                    linter.verify(sourceCode, config, "test.js");
-
-                    assert(scope2 !== null);
-                    assert(scope2 === scope);
-                });
-            });
-
-            it("should not pass any default parserOptions to the parser", () => {
-                const messages = linter.verify(";", {
-                    languageOptions: {
-                        parser: testParsers.throwsWithOptions
-                    }
-                }, "filename");
-
-                assert.strictEqual(messages.length, 0);
-            });
-        });
-
-        xdescribe("Code with a hashbang comment", () => {
+        describe("Code with a hashbang comment", () => {
             const code = "#!bin/program\n\nvar foo;;";
 
             it("should preserve line numbers", () => {
@@ -9401,22 +9402,33 @@ describe.only("Linter with FlatConfigArray", () => {
             });
 
             it("should have a comment with the hashbang in it", () => {
-                const config = { rules: { checker: "error" } };
                 const spy = sinon.spy(context => {
                     const comments = context.getAllComments();
 
                     assert.strictEqual(comments.length, 1);
-                    assert.strictEqual(comments[0].type, "hashbang");
+                    assert.strictEqual(comments[0].type, "Shebang");
                     return {};
                 });
 
-                linter.defineRule("checker", spy);
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                checker: spy
+                            }
+                        }
+                    },
+                    rules: {
+                        "test/checker": "error"
+                    }
+                };
+
                 linter.verify(code, config);
                 assert(spy.calledOnce);
             });
         });
 
-        xdescribe("Options", () => {
+        describe("Options", () => {
 
             describe("filename", () => {
                 it("should allow filename to be passed on options object", () => {
@@ -9425,8 +9437,20 @@ describe.only("Linter with FlatConfigArray", () => {
                         return {};
                     });
 
-                    linter.defineRule("checker", filenameChecker);
-                    linter.verify("foo;", { rules: { checker: "error" } }, { filename: "foo.js" });
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: filenameChecker
+                                }
+                            }
+                        },
+                        rules: {
+                            "test/checker": "error"
+                        }
+                    };
+
+                    linter.verify("foo;", config, { filename: "foo.js" });
                     assert(filenameChecker.calledOnce);
                 });
 
@@ -9436,8 +9460,20 @@ describe.only("Linter with FlatConfigArray", () => {
                         return {};
                     });
 
-                    linter.defineRule("checker", filenameChecker);
-                    linter.verify("foo;", { rules: { checker: "error" } }, "bar.js");
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: filenameChecker
+                                }
+                            }
+                        },
+                        rules: {
+                            "test/checker": "error"
+                        }
+                    };
+
+                    linter.verify("foo;", config, "bar.js");
                     assert(filenameChecker.calledOnce);
                 });
 
@@ -9447,8 +9483,20 @@ describe.only("Linter with FlatConfigArray", () => {
                         return {};
                     });
 
-                    linter.defineRule("checker", filenameChecker);
-                    linter.verify("foo;", { rules: { checker: "error" } }, {});
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: filenameChecker
+                                }
+                            }
+                        },
+                        rules: {
+                            "test/checker": "error"
+                        }
+                    };
+
+                    linter.verify("foo;", config, {});
                     assert(filenameChecker.calledOnce);
                 });
 
@@ -9458,8 +9506,20 @@ describe.only("Linter with FlatConfigArray", () => {
                         return {};
                     });
 
-                    linter.defineRule("checker", filenameChecker);
-                    linter.verify("foo;", { rules: { checker: "error" } });
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: filenameChecker
+                                }
+                            }
+                        },
+                        rules: {
+                            "test/checker": "error"
+                        }
+                    };
+
+                    linter.verify("foo;", config);
                     assert(filenameChecker.calledOnce);
                 });
             });
@@ -9471,8 +9531,20 @@ describe.only("Linter with FlatConfigArray", () => {
                         return {};
                     });
 
-                    linter.defineRule("checker", physicalFilenameChecker);
-                    linter.verify("foo;", { rules: { checker: "error" } }, { filename: "foo.js" });
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: physicalFilenameChecker
+                                }
+                            }
+                        },
+                        rules: {
+                            "test/checker": "error"
+                        }
+                    };
+
+                    linter.verify("foo;", config, { filename: "foo.js" });
                     assert(physicalFilenameChecker.calledOnce);
                 });
 
@@ -9482,8 +9554,20 @@ describe.only("Linter with FlatConfigArray", () => {
                         return {};
                     });
 
-                    linter.defineRule("checker", physicalFilenameChecker);
-                    linter.verify("foo;", { rules: { checker: "error" } }, {});
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: physicalFilenameChecker
+                                }
+                            }
+                        },
+                        rules: {
+                            "test/checker": "error"
+                        }
+                    };
+
+                    linter.verify("foo;", config, {});
                     assert(physicalFilenameChecker.calledOnce);
                 });
 
@@ -9493,8 +9577,20 @@ describe.only("Linter with FlatConfigArray", () => {
                         return {};
                     });
 
-                    linter.defineRule("checker", physicalFilenameChecker);
-                    linter.verify("foo;", { rules: { checker: "error" } });
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: physicalFilenameChecker
+                                }
+                            }
+                        },
+                        rules: {
+                            "test/checker": "error"
+                        }
+                    };
+
+                    linter.verify("foo;", config);
                     assert(physicalFilenameChecker.calledOnce);
                 });
             });
@@ -13098,28 +13194,54 @@ var a = "test2";
             linter.verify("var", config);
         });
 
-        xit("should pass 'id' to rule contexts with the rule id", () => {
+        it("should pass 'id' to rule contexts with the rule id", () => {
+
             const spy = sinon.spy(context => {
-                assert.strictEqual(context.id, "foo-bar-baz");
+                assert.strictEqual(context.id, "test/foo-bar-baz");
                 return {};
             });
 
-            linter.defineRule("foo-bar-baz", spy);
-            linter.verify("x", { rules: { "foo-bar-baz": "error" } });
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            "foo-bar-baz": spy
+                        }
+                    }
+                },
+                rules: {
+                    "test/foo-bar-baz": "error"
+                }
+            };
+
+
+            linter.verify("x", config);
             assert(spy.calledOnce);
         });
 
 
-        xdescribe("when evaluating an empty string", () => {
+        describe("when evaluating an empty string", () => {
             it("runs rules", () => {
-                linter.defineRule("no-programs", context => ({
-                    Program(node) {
-                        context.report({ node, message: "No programs allowed." });
+
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                "no-programs": context => ({
+                                    Program(node) {
+                                        context.report({ node, message: "No programs allowed." });
+                                    }
+                                })
+                            }
+                        }
+                    },
+                    rules: {
+                        "test/no-programs": "error"
                     }
-                }));
+                };
 
                 assert.strictEqual(
-                    linter.verify("", { rules: { "no-programs": "error" } }).length,
+                    linter.verify("", config).length,
                     1
                 );
             });
