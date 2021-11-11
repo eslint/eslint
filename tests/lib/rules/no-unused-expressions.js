@@ -190,6 +190,29 @@ ruleTester.run("no-unused-expressions", rule, {
             options: [{ enforceForJSX: true }],
             parserOptions: { ecmaFeatures: { jsx: true } },
             errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
+        },
+
+        // class static blocks do not have directive prologues
+        {
+            code: "class C { static { 'use strict'; } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
+        },
+        {
+            code: "class C { static { \n'foo'\n'bar'\n } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    messageId: "unusedExpression",
+                    type: "ExpressionStatement",
+                    line: 2
+                },
+                {
+                    messageId: "unusedExpression",
+                    type: "ExpressionStatement",
+                    line: 3
+                }
+            ]
         }
     ]
 });
