@@ -43,6 +43,7 @@ The following selectors are supported:
 * following sibling: `VariableDeclaration ~ VariableDeclaration`
 * adjacent sibling: `ArrayExpression > Literal + SpreadElement`
 * negation: `:not(ForStatement)`
+* has: `:has(ForStatement)`
 * matches-any: `:matches([attr] > :first-child, :last-child)`
 * class of AST node: `:statement`, `:expression`, `:declaration`, `:function`, or `:pattern`
 
