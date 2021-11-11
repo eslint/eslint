@@ -483,6 +483,19 @@ ruleTester.run("semi-spacing", rule, {
                     endColumn: 16
                 }
             ]
+        },
+        {
+            code: "class C { foo;static {}}",
+            output: "class C { foo; static {}}",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "missingWhitespaceAfter",
+                type: "PropertyDefinition",
+                line: 1,
+                column: 14,
+                endLine: 1,
+                endColumn: 15
+            }]
         }
     ]
 });

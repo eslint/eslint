@@ -202,7 +202,19 @@ ruleTester.run("space-before-blocks", rule, {
         { code: "switch(x) { case (9):{ break; } }", options: alwaysArgs },
         { code: "switch(x){ case (9): { break; } }", options: neverArgs },
         { code: "switch(x) { default:{ break; } }", options: alwaysArgs },
-        { code: "switch(x){ default: { break; } }", options: neverArgs }
+        { code: "switch(x){ default: { break; } }", options: neverArgs },
+
+        // not conflict with `keyword-spacing`
+        {
+            code: "(class{ static{} })",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "(class { static {} })",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        }
     ],
     invalid: [
         {
