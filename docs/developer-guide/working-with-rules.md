@@ -24,9 +24,7 @@ Here is the basic format of the source file for a rule:
 // Rule Definition
 //------------------------------------------------------------------------------
 
-/**
- * @type {import('eslint').Rule.RuleModule}
- */
+/** @type {import('eslint').Rule.RuleModule} */
 module.exports = {
     meta: {
         type: "suggestion",
