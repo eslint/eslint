@@ -41,7 +41,8 @@ ruleTester.run("class-methods-use-this", rule, {
         { code: "class A { #bar() {} }", options: [{ exceptMethods: ["#bar"] }], parserOptions: { ecmaVersion: 2022 } },
         { code: "class A { foo = function () {} }", options: [{ enforceForClassFields: false }], parserOptions: { ecmaVersion: 2022 } },
         { code: "class A { foo = () => {} }", options: [{ enforceForClassFields: false }], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { foo() { return class { [this.foo] = 1 }; } }", parserOptions: { ecmaVersion: 2022 } }
+        { code: "class A { foo() { return class { [this.foo] = 1 }; } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A { static {} }", parserOptions: { ecmaVersion: 2022 } }
     ],
     invalid: [
         {
@@ -199,6 +200,13 @@ ruleTester.run("class-methods-use-this", rule, {
         },
         {
             code: "class A { foo () { return function () { foo = this }; } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "missingThis", data: { name: "method 'foo'" }, column: 11, endColumn: 15 }
+            ]
+        },
+        {
+            code: "class A { foo () { return class { static { this; } } } }",
             parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "missingThis", data: { name: "method 'foo'" }, column: 11, endColumn: 15 }
