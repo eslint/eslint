@@ -2792,7 +2792,7 @@ var a = "test2";
                 const comments = context.getAllComments();
 
                 assert.strictEqual(comments.length, 1);
-                assert.strictEqual(comments[0].type, "hashbang");
+                assert.strictEqual(comments[0].type, "Shebang");
                 return {};
             });
 
@@ -6294,7 +6294,7 @@ var a = "test2";
     });
 });
 
-describe.only("Linter with FlatConfigArray", () => {
+describe("Linter with FlatConfigArray", () => {
 
     let linter;
     const filename = "filename.js";
@@ -7058,14 +7058,22 @@ describe.only("Linter with FlatConfigArray", () => {
                         });
                     });
 
-                    it("should not pass any default parserOptions to the parser", () => {
-                        const messages = linter.verify(";", {
-                            languageOptions: {
-                                parser: testParsers.throwsWithOptions
-                            }
-                        }, "filename");
+                    it("should pass default languageOptions to the parser", () => {
 
-                        assert.strictEqual(messages.length, 0);
+                        const spy = sinon.spy((code, options) => espree.parse(code, options));
+
+                        linter.verify(";", {
+                            languageOptions: {
+                                parser: {
+                                    parse: spy
+                                }
+                            }
+                        }, "filename.js");
+
+                        assert(spy.calledWithMatch(";", {
+                            ecmaVersion: espree.latestEcmaVersion + 2009,
+                            sourceType: "module"
+                        }));
                     });
                 });
 
@@ -7347,6 +7355,27 @@ describe.only("Linter with FlatConfigArray", () => {
             assert.strictEqual(messages[1].column, 18);
             assert.strictEqual(messages[2].line, 2);
             assert.strictEqual(messages[2].column, 18);
+        });
+
+        describe("Plugins", () => {
+
+            it("should not load rule definition when rule isn't used", () => {
+
+                const spy = sinon.spy();
+
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                checker: spy
+                            }
+                        }
+                    }
+                };
+
+                linter.verify("code", config, filename);
+                assert.sTrue(spy.notCalled, "Rule should not have been called");
+            });
         });
 
         describe("Rule Internals", () => {
