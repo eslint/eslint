@@ -7374,7 +7374,7 @@ describe("Linter with FlatConfigArray", () => {
                 };
 
                 linter.verify("code", config, filename);
-                assert.sTrue(spy.notCalled, "Rule should not have been called");
+                assert.isTrue(spy.notCalled, "Rule should not have been called");
             });
         });
 
