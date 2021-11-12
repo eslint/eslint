@@ -64,7 +64,7 @@ The `tag` is one of the following:
 * `fix` - for a bug fix.
 * `feat` - either for a backwards-compatible enhancement or for a rule change that adds reported problems.
 * `fix!` - for a backwards-incompatible bug fix.
-* `feat!:` - for a backwards-incompatible enhancement or feature.
+* `feat!` - for a backwards-incompatible enhancement or feature.
 * `docs` - changes to documentation only.
 * `chore` - for changes that aren't user-facing.
 * `build` - changes to build process only.
