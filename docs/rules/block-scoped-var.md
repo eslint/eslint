@@ -41,6 +41,15 @@ function doFor() {
     }
     console.log(y);
 }
+
+class C {
+    static {
+        if (something) {
+            var build = true;
+        }
+        build = false;
+    }
+}
 ```
 
 Examples of **correct** code for this rule:
@@ -83,6 +92,15 @@ function doFor() {
     for (var x = 1; x < 10; x++) {
         var y = f(x);
         console.log(y);
+    }
+}
+
+class C {
+    static {
+        var build = false;
+        if (something) {
+            build = true;
+        }
     }
 }
 ```
