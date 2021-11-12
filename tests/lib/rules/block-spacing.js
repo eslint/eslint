@@ -42,6 +42,9 @@ ruleTester.run("block-spacing", rule, {
         { code: "(() => { bar(); });", parserOptions: { ecmaVersion: 6 } },
         "if (a) { /* comment */ foo(); /* comment */ }",
         "if (a) { //comment\n foo(); }",
+        { code: "class C { static {} }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo; } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { /* comment */foo;/* comment */ } }", parserOptions: { ecmaVersion: 2022 } },
 
         // never
         { code: "{foo();}", options: ["never"] },
@@ -62,7 +65,13 @@ ruleTester.run("block-spacing", rule, {
         { code: "(function() {bar();});", options: ["never"] },
         { code: "(() => {bar();});", options: ["never"], parserOptions: { ecmaVersion: 6 } },
         { code: "if (a) {/* comment */ foo(); /* comment */}", options: ["never"] },
-        { code: "if (a) { //comment\n foo();}", options: ["never"] }
+        { code: "if (a) { //comment\n foo();}", options: ["never"] },
+        { code: "class C { static { } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static {foo;} }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static {/* comment */ foo; /* comment */} }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { // line comment is allowed\n foo;\n} }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static {\nfoo;\n} }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { \n foo; \n } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } }
     ],
 
     invalid: [
@@ -288,6 +297,170 @@ ruleTester.run("block-spacing", rule, {
                     column: 8,
                     endLine: 1,
                     endColumn: 9
+                }
+            ]
+        },
+
+        // class static blocks
+        {
+            code: "class C { static {foo; } }",
+            output: "class C { static { foo; } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    type: "StaticBlock",
+                    messageId: "missing",
+                    data: {
+                        location: "after",
+                        token: "{"
+                    },
+                    line: 1,
+                    column: 18,
+                    endLine: 1,
+                    endColumn: 19
+                }
+            ]
+        },
+        {
+            code: "class C { static { foo;} }",
+            output: "class C { static { foo; } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    type: "StaticBlock",
+                    messageId: "missing",
+                    data: {
+                        location: "before",
+                        token: "}"
+                    },
+                    line: 1,
+                    column: 24,
+                    endLine: 1,
+                    endColumn: 25
+                }
+            ]
+        },
+        {
+            code: "class C { static {foo;} }",
+            output: "class C { static { foo; } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    type: "StaticBlock",
+                    messageId: "missing",
+                    data: {
+                        location: "after",
+                        token: "{"
+                    },
+                    line: 1,
+                    column: 18,
+                    endLine: 1,
+                    endColumn: 19
+                },
+                {
+                    type: "StaticBlock",
+                    messageId: "missing",
+                    data: {
+                        location: "before",
+                        token: "}"
+                    },
+                    line: 1,
+                    column: 23,
+                    endLine: 1,
+                    endColumn: 24
+                }
+            ]
+        },
+        {
+            code: "class C { static {/* comment */} }",
+            output: "class C { static { /* comment */ } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    type: "StaticBlock",
+                    messageId: "missing",
+                    data: {
+                        location: "after",
+                        token: "{"
+                    },
+                    line: 1,
+                    column: 18,
+                    endLine: 1,
+                    endColumn: 19
+                },
+                {
+                    type: "StaticBlock",
+                    messageId: "missing",
+                    data: {
+                        location: "before",
+                        token: "}"
+                    },
+                    line: 1,
+                    column: 32,
+                    endLine: 1,
+                    endColumn: 33
+                }
+            ]
+        },
+        {
+            code: "class C { static {/* comment 1 */ foo; /* comment 2 */} }",
+            output: "class C { static { /* comment 1 */ foo; /* comment 2 */ } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    type: "StaticBlock",
+                    messageId: "missing",
+                    data: {
+                        location: "after",
+                        token: "{"
+                    },
+                    line: 1,
+                    column: 18,
+                    endLine: 1,
+                    endColumn: 19
+                },
+                {
+                    type: "StaticBlock",
+                    messageId: "missing",
+                    data: {
+                        location: "before",
+                        token: "}"
+                    },
+                    line: 1,
+                    column: 55,
+                    endLine: 1,
+                    endColumn: 56
+                }
+            ]
+        },
+        {
+            code: "class C {\n static {foo()\nbar()} }",
+            output: "class C {\n static { foo()\nbar() } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    type: "StaticBlock",
+                    messageId: "missing",
+                    data: {
+                        location: "after",
+                        token: "{"
+                    },
+                    line: 2,
+                    column: 9,
+                    endLine: 2,
+                    endColumn: 10
+                },
+                {
+                    type: "StaticBlock",
+                    messageId: "missing",
+                    data: {
+                        location: "before",
+                        token: "}"
+                    },
+                    line: 3,
+                    column: 6,
+                    endLine: 3,
+                    endColumn: 7
                 }
             ]
         },
@@ -815,6 +988,176 @@ ruleTester.run("block-spacing", rule, {
                     column: 18,
                     endLine: 1,
                     endColumn: 21
+                }
+            ]
+        },
+
+        // class static blocks
+        {
+            code: "class C { static { foo;} }",
+            output: "class C { static {foo;} }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    type: "StaticBlock",
+                    messageId: "extra",
+                    data: {
+                        location: "after",
+                        token: "{"
+                    },
+                    line: 1,
+                    column: 19,
+                    endLine: 1,
+                    endColumn: 20
+                }
+            ]
+        },
+        {
+            code: "class C { static {foo; } }",
+            output: "class C { static {foo;} }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    type: "StaticBlock",
+                    messageId: "extra",
+                    data: {
+                        location: "before",
+                        token: "}"
+                    },
+                    line: 1,
+                    column: 23,
+                    endLine: 1,
+                    endColumn: 24
+                }
+            ]
+        },
+        {
+            code: "class C { static { foo; } }",
+            output: "class C { static {foo;} }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    type: "StaticBlock",
+                    messageId: "extra",
+                    data: {
+                        location: "after",
+                        token: "{"
+                    },
+                    line: 1,
+                    column: 19,
+                    endLine: 1,
+                    endColumn: 20
+                },
+                {
+                    type: "StaticBlock",
+                    messageId: "extra",
+                    data: {
+                        location: "before",
+                        token: "}"
+                    },
+                    line: 1,
+                    column: 24,
+                    endLine: 1,
+                    endColumn: 25
+                }
+            ]
+        },
+        {
+            code: "class C { static { /* comment */ } }",
+            output: "class C { static {/* comment */} }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    type: "StaticBlock",
+                    messageId: "extra",
+                    data: {
+                        location: "after",
+                        token: "{"
+                    },
+                    line: 1,
+                    column: 19,
+                    endLine: 1,
+                    endColumn: 20
+                },
+                {
+                    type: "StaticBlock",
+                    messageId: "extra",
+                    data: {
+                        location: "before",
+                        token: "}"
+                    },
+                    line: 1,
+                    column: 33,
+                    endLine: 1,
+                    endColumn: 34
+                }
+            ]
+        },
+        {
+            code: "class C { static { /* comment 1 */ foo; /* comment 2 */ } }",
+            output: "class C { static {/* comment 1 */ foo; /* comment 2 */} }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    type: "StaticBlock",
+                    messageId: "extra",
+                    data: {
+                        location: "after",
+                        token: "{"
+                    },
+                    line: 1,
+                    column: 19,
+                    endLine: 1,
+                    endColumn: 20
+                },
+                {
+                    type: "StaticBlock",
+                    messageId: "extra",
+                    data: {
+                        location: "before",
+                        token: "}"
+                    },
+                    line: 1,
+                    column: 56,
+                    endLine: 1,
+                    endColumn: 57
+                }
+            ]
+        },
+        {
+            code: "class C { static\n{   foo()\nbar()  } }",
+            output: "class C { static\n{foo()\nbar()} }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    type: "StaticBlock",
+                    messageId: "extra",
+                    data: {
+                        location: "after",
+                        token: "{"
+                    },
+                    line: 2,
+                    column: 2,
+                    endLine: 2,
+                    endColumn: 5
+                },
+                {
+                    type: "StaticBlock",
+                    messageId: "extra",
+                    data: {
+                        location: "before",
+                        token: "}"
+                    },
+                    line: 3,
+                    column: 6,
+                    endLine: 3,
+                    endColumn: 8
                 }
             ]
         }
