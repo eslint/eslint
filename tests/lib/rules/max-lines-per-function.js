@@ -314,9 +314,9 @@ if ( x === y ) {
                 {
                     messageId: "exceed",
                     data: { name: "Function 'name'", linesExceed: 2, maxLines: 2 },
-                    line: 3,
+                    line: 6,
                     column: 1,
-                    endLine: 4,
+                    endLine: 7,
                     endColumn: 2
                 }
             ]
@@ -330,9 +330,9 @@ if ( x === y ) {
                 {
                     messageId: "exceed",
                     data: { name: "Function 'name'", linesExceed: 2, maxLines: 2 },
-                    line: 3,
+                    line: 6,
                     column: 1,
-                    endLine: 4,
+                    endLine: 7,
                     endColumn: 2
                 }
             ]
@@ -346,9 +346,9 @@ if ( x === y ) {
                 {
                     messageId: "exceed",
                     data: { name: "Function 'name'", linesExceed: 1, maxLines: 6 },
-                    line: 7,
+                    line: 8,
                     column: 1,
-                    endLine: 7,
+                    endLine: 8,
                     endColumn: 2
                 }
             ]
@@ -364,7 +364,7 @@ if ( x === y ) {
                     data: { name: "Function 'name'", linesExceed: 3, maxLines: 1 },
                     line: 2,
                     column: 1,
-                    endLine: 4,
+                    endLine: 8,
                     endColumn: 2
                 }
             ]
@@ -380,7 +380,7 @@ if ( x === y ) {
                     data: { name: "Function 'name'", linesExceed: 4, maxLines: 1 },
                     line: 2,
                     column: 1,
-                    endLine: 5,
+                    endLine: 8,
                     endColumn: 2
                 }
             ]
@@ -645,15 +645,15 @@ if ( x === y ) {
             ]
         },
         {
-            code: "\nfoo();\nbar();\nbaz();\nfunction name() {\nvar x = 5;\n\t\n \n\nvar x = 2;\n}\nquz();",
-            options: [{ max: 2, skipComments: false, skipBlankLines: true }],
+            code: "\nfoo();\nbar();\nbaz();\nfunction name() {\nvar x = 5;\n/* comment 1 */\n/* comment 2 */\n\t\n \n\nvar x = 2;\n}\nquz();",
+            options: [{ max: 2, skipComments: true, skipBlankLines: true }],
             errors: [
                 {
                     messageId: "exceed",
                     data: { name: "Function 'name'", linesExceed: 2, maxLines: 2 },
-                    line: 7,
+                    line: 12,
                     column: 1,
-                    endLine: 8,
+                    endLine: 13,
                     endColumn: 2
                 }
             ]
