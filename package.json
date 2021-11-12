@@ -10,6 +10,7 @@
   "exports": {
     "./package.json": "./package.json",
     ".": "./lib/api.js",
+    "./ast-utils": "./lib/rules/utils/ast-utils.js",
     "./use-at-your-own-risk": "./lib/unsupported-api.js"
   },
   "scripts": {
