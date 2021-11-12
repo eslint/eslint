@@ -473,7 +473,8 @@ This option causes ESLint to exit with exit code 2 if one or more fatal parsing 
 
 #### `--debug`
 
-This option outputs debugging information to the console. This information is useful when you're seeing a problem and having a hard time pinpointing it. The ESLint team may ask for this debugging information to help solve bugs.
+This option outputs debugging information to the console. This information is useful when you're seeing a problem and having a hard time pinpointing it. The ESLint team may ask for this debugging information to help solve bugs.  
+Add this flag to an ESLint command line invocation in order to get extra debug information as the command is run (e.g. `eslint --debug test.js` and `eslint test.js --debug` are both equivalent)
 
 #### `-h`, `--help`
 
