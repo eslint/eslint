@@ -6765,15 +6765,26 @@ describe("Linter with FlatConfigArray", () => {
 
                 it("should pass parser as context.languageOptions.parser to all rules when default parser is used", () => {
 
+                    // references to Espree get messed up in a browser context, so wrap it
+                    const fakeParser = {
+                        parse: espree.parse
+                    };
+
+                    const spy = sinon.spy(context => {
+                        assert.strictEqual(context.languageOptions.parser, fakeParser);
+                        return {};
+                    });
+
                     const config = {
                         plugins: {
                             test: {
                                 rules: {
-                                    "test-rule": sinon.mock().withArgs(
-                                        sinon.match({ languageOptions: { parser: espree } })
-                                    ).returns({})
+                                    "test-rule": spy
                                 }
                             }
+                        },
+                        languageOptions: {
+                            parser: fakeParser
                         },
                         rules: {
                             "test/test-rule": 2
@@ -6781,6 +6792,7 @@ describe("Linter with FlatConfigArray", () => {
                     };
 
                     linter.verify("0", config, filename);
+                    assert.isTrue(spy.calledOnce);
                 });
 
 
