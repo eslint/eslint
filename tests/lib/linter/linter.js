@@ -2854,12 +2854,16 @@ var a = "test2";
         linter = new Linter();
 
         const code = TEST_CODE;
-        const results = linter.verify(code, { rules: { foobar: 2 } });
-        const result = results[0];
-        const warningResult = linter.verify(code, { rules: { foobar: 1 } })[0];
-        const arrayOptionResults = linter.verify(code, { rules: { foobar: [2, "always"] } });
-        const objectOptionResults = linter.verify(code, { rules: { foobar: [1, { bar: false }] } });
-        const resultsMultiple = linter.verify(code, { rules: { foobar: 2, barfoo: 1 } });
+        let results, result, warningResult, arrayOptionResults, objectOptionResults, resultsMultiple;
+
+        beforeEach(() => {
+            results = linter.verify(code, { rules: { foobar: 2 } });
+            result = results[0];
+            warningResult = linter.verify(code, { rules: { foobar: 1 } })[0];
+            arrayOptionResults = linter.verify(code, { rules: { foobar: [2, "always"] } });
+            objectOptionResults = linter.verify(code, { rules: { foobar: [1, { bar: false }] } });
+            resultsMultiple = linter.verify(code, { rules: { foobar: 2, barfoo: 1 } });
+        });
 
         it("should report a problem", () => {
             assert.isNotNull(result);
@@ -2906,9 +2910,10 @@ var a = "test2";
 
     describe("when using a rule which has been replaced", () => {
         const code = TEST_CODE;
-        const results = linter.verify(code, { rules: { "no-comma-dangle": 2 } });
 
         it("should report the new rule", () => {
+            const results = linter.verify(code, { rules: { "no-comma-dangle": 2 } });
+
             assert.strictEqual(results[0].ruleId, "no-comma-dangle");
             assert.strictEqual(results[0].message, "Rule 'no-comma-dangle' was removed and replaced by: comma-dangle");
         });
@@ -12432,112 +12437,110 @@ var a = "test2";
 
         });
 
-        xdescribe("Default Global Variables", () => {
+        describe("Default Global Variables", () => {
             const code = "x";
 
             it("builtin global variables should be available in the global scope", () => {
-                const config = { rules: { checker: "error" } };
                 let spy;
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                checker: context => {
+                                    spy = sinon.spy(() => {
+                                        const scope = context.getScope();
 
-                linter.defineRule("checker", context => {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
+                                        assert.notStrictEqual(getVariable(scope, "Object"), null);
+                                        assert.notStrictEqual(getVariable(scope, "Array"), null);
+                                        assert.notStrictEqual(getVariable(scope, "undefined"), null);
+                                    });
 
-                        assert.notStrictEqual(getVariable(scope, "Object"), null);
-                        assert.notStrictEqual(getVariable(scope, "Array"), null);
-                        assert.notStrictEqual(getVariable(scope, "undefined"), null);
-                    });
+                                    return { Program: spy };
+                                }
+                            }
+                        }
+                    },
+                    languageOptions: {
+                        ecmaVersion: 5,
+                        sourceType: "script"
+                    },
+                    rules: {
+                        "test/checker": "error"
+                    }
+                };
 
-                    return { Program: spy };
-                });
+                linter.verify(code, config);
+                assert(spy && spy.calledOnce, "Rule should have been called.");
+            });
+
+            it("ES6 global variables should be available by default", () => {
+                let spy;
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                checker: context => {
+                                    spy = sinon.spy(() => {
+                                        const scope = context.getScope();
+
+                                        assert.notStrictEqual(getVariable(scope, "Promise"), null);
+                                        assert.notStrictEqual(getVariable(scope, "Symbol"), null);
+                                        assert.notStrictEqual(getVariable(scope, "WeakMap"), null);
+                                    });
+
+                                    return { Program: spy };
+                                }
+                            }
+                        }
+                    },
+                    languageOptions: {
+                        sourceType: "script"
+                    },
+                    rules: {
+                        "test/checker": "error"
+                    }
+                };
 
                 linter.verify(code, config);
                 assert(spy && spy.calledOnce);
             });
 
-            it("ES6 global variables should not be available by default", () => {
-                const config = { rules: { checker: "error" } };
-                let spy;
-
-                linter.defineRule("checker", context => {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
-
-                        assert.strictEqual(getVariable(scope, "Promise"), null);
-                        assert.strictEqual(getVariable(scope, "Symbol"), null);
-                        assert.strictEqual(getVariable(scope, "WeakMap"), null);
-                    });
-
-                    return { Program: spy };
-                });
-
-                linter.verify(code, config);
-                assert(spy && spy.calledOnce);
-            });
-
-            it("ES6 global variables should be available in the es6 environment", () => {
-                const config = { rules: { checker: "error" }, env: { es6: true } };
-                let spy;
-
-                linter.defineRule("checker", context => {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
-
-                        assert.notStrictEqual(getVariable(scope, "Promise"), null);
-                        assert.notStrictEqual(getVariable(scope, "Symbol"), null);
-                        assert.notStrictEqual(getVariable(scope, "WeakMap"), null);
-                    });
-
-                    return { Program: spy };
-                });
-
-                linter.verify(code, config);
-                assert(spy && spy.calledOnce);
-            });
-
-            it("ES6 global variables can be disabled when the es6 environment is enabled", () => {
-                const config = { rules: { checker: "error" }, globals: { Promise: "off", Symbol: "off", WeakMap: "off" }, env: { es6: true } };
-                let spy;
-
-                linter.defineRule("checker", context => {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
-
-                        assert.strictEqual(getVariable(scope, "Promise"), null);
-                        assert.strictEqual(getVariable(scope, "Symbol"), null);
-                        assert.strictEqual(getVariable(scope, "WeakMap"), null);
-                    });
-
-                    return { Program: spy };
-                });
-
-                linter.verify(code, config);
-                assert(spy && spy.calledOnce);
-            });
         });
 
-        xdescribe("Suggestions", () => {
+        describe("Suggestions", () => {
             it("provides suggestion information for tools to use", () => {
-                linter.defineRule("rule-with-suggestions", {
-                    meta: { hasSuggestions: true },
-                    create: context => ({
-                        Program(node) {
-                            context.report({
-                                node,
-                                message: "Incorrect spacing",
-                                suggest: [{
-                                    desc: "Insert space at the beginning",
-                                    fix: fixer => fixer.insertTextBefore(node, " ")
-                                }, {
-                                    desc: "Insert space at the end",
-                                    fix: fixer => fixer.insertTextAfter(node, " ")
-                                }]
-                            });
-                        }
-                    })
-                });
 
-                const messages = linter.verify("var a = 1;", { rules: { "rule-with-suggestions": "error" } });
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                "rule-with-suggestions": {
+                                    meta: { hasSuggestions: true },
+                                    create: context => ({
+                                        Program(node) {
+                                            context.report({
+                                                node,
+                                                message: "Incorrect spacing",
+                                                suggest: [{
+                                                    desc: "Insert space at the beginning",
+                                                    fix: fixer => fixer.insertTextBefore(node, " ")
+                                                }, {
+                                                    desc: "Insert space at the end",
+                                                    fix: fixer => fixer.insertTextAfter(node, " ")
+                                                }]
+                                            });
+                                        }
+                                    })
+                                }
+                            }
+                        }
+                    },
+                    rules: {
+                        "test/rule-with-suggestions": "error"
+                    }
+                };
+
+                const messages = linter.verify("var a = 1;", config);
 
                 assert.deepStrictEqual(messages[0].suggestions, [{
                     desc: "Insert space at the beginning",
@@ -12555,32 +12558,44 @@ var a = "test2";
             });
 
             it("supports messageIds for suggestions", () => {
-                linter.defineRule("rule-with-suggestions", {
-                    meta: {
-                        messages: {
-                            suggestion1: "Insert space at the beginning",
-                            suggestion2: "Insert space at the end"
-                        },
-                        hasSuggestions: true
-                    },
-                    create: context => ({
-                        Program(node) {
-                            context.report({
-                                node,
-                                message: "Incorrect spacing",
-                                suggest: [{
-                                    messageId: "suggestion1",
-                                    fix: fixer => fixer.insertTextBefore(node, " ")
-                                }, {
-                                    messageId: "suggestion2",
-                                    fix: fixer => fixer.insertTextAfter(node, " ")
-                                }]
-                            });
-                        }
-                    })
-                });
 
-                const messages = linter.verify("var a = 1;", { rules: { "rule-with-suggestions": "error" } });
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                "rule-with-suggestions": {
+                                    meta: {
+                                        messages: {
+                                            suggestion1: "Insert space at the beginning",
+                                            suggestion2: "Insert space at the end"
+                                        },
+                                        hasSuggestions: true
+                                    },
+                                    create: context => ({
+                                        Program(node) {
+                                            context.report({
+                                                node,
+                                                message: "Incorrect spacing",
+                                                suggest: [{
+                                                    messageId: "suggestion1",
+                                                    fix: fixer => fixer.insertTextBefore(node, " ")
+                                                }, {
+                                                    messageId: "suggestion2",
+                                                    fix: fixer => fixer.insertTextAfter(node, " ")
+                                                }]
+                                            });
+                                        }
+                                    })
+                                }
+                            }
+                        }
+                    },
+                    rules: {
+                        "test/rule-with-suggestions": "error"
+                    }
+                };
+
+                const messages = linter.verify("var a = 1;", config);
 
                 assert.deepStrictEqual(messages[0].suggestions, [{
                     messageId: "suggestion1",
@@ -12600,40 +12615,64 @@ var a = "test2";
             });
 
             it("should throw an error if suggestion is passed but `meta.hasSuggestions` property is not enabled", () => {
-                linter.defineRule("rule-with-suggestions", {
-                    meta: { docs: {}, schema: [] },
-                    create: context => ({
-                        Program(node) {
-                            context.report({
-                                node,
-                                message: "hello world",
-                                suggest: [{ desc: "convert to foo", fix: fixer => fixer.insertTextBefore(node, " ") }]
-                            });
+
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                "rule-with-suggestions": {
+                                    meta: { docs: {}, schema: [] },
+                                    create: context => ({
+                                        Program(node) {
+                                            context.report({
+                                                node,
+                                                message: "hello world",
+                                                suggest: [{ desc: "convert to foo", fix: fixer => fixer.insertTextBefore(node, " ") }]
+                                            });
+                                        }
+                                    })
+                                }
+                            }
                         }
-                    })
-                });
+                    },
+                    rules: {
+                        "test/rule-with-suggestions": "error"
+                    }
+                };
 
                 assert.throws(() => {
-                    linter.verify("0", { rules: { "rule-with-suggestions": "error" } });
+                    linter.verify("0", config);
                 }, "Rules with suggestions must set the `meta.hasSuggestions` property to `true`.");
             });
 
             it("should throw an error if suggestion is passed but `meta.hasSuggestions` property is not enabled and the rule has the obsolete `meta.docs.suggestion` property", () => {
-                linter.defineRule("rule-with-meta-docs-suggestion", {
-                    meta: { docs: { suggestion: true }, schema: [] },
-                    create: context => ({
-                        Program(node) {
-                            context.report({
-                                node,
-                                message: "hello world",
-                                suggest: [{ desc: "convert to foo", fix: fixer => fixer.insertTextBefore(node, " ") }]
-                            });
+
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                "rule-with-meta-docs-suggestion": {
+                                    meta: { docs: { suggestion: true }, schema: [] },
+                                    create: context => ({
+                                        Program(node) {
+                                            context.report({
+                                                node,
+                                                message: "hello world",
+                                                suggest: [{ desc: "convert to foo", fix: fixer => fixer.insertTextBefore(node, " ") }]
+                                            });
+                                        }
+                                    })
+                                }
+                            }
                         }
-                    })
-                });
+                    },
+                    rules: {
+                        "test/rule-with-meta-docs-suggestion": "error"
+                    }
+                };
 
                 assert.throws(() => {
-                    linter.verify("0", { rules: { "rule-with-meta-docs-suggestion": "error" } });
+                    linter.verify("0", config);
                 }, "Rules with suggestions must set the `meta.hasSuggestions` property to `true`. `meta.docs.suggestion` is ignored by ESLint.");
             });
         });
@@ -12671,67 +12710,15 @@ var a = "test2";
                 });
             });
 
-            describe("when using an invalid (undefined) rule", () => {
-                linter = new Linter();
-
-                const code = TEST_CODE;
-                const results = linter.verify(code, { rules: { foobar: 2 } });
-                const result = results[0];
-                const warningResult = linter.verify(code, { rules: { foobar: 1 } })[0];
-                const arrayOptionResults = linter.verify(code, { rules: { foobar: [2, "always"] } });
-                const objectOptionResults = linter.verify(code, { rules: { foobar: [1, { bar: false }] } });
-                const resultsMultiple = linter.verify(code, { rules: { foobar: 2, barfoo: 1 } });
-
-                it("should report a problem", () => {
-                    assert.isNotNull(result);
-                    assert.isArray(results);
-                    assert.isObject(result);
-                    assert.property(result, "ruleId");
-                    assert.strictEqual(result.ruleId, "foobar");
-                });
-
-                it("should report that the rule does not exist", () => {
-                    assert.property(result, "message");
-                    assert.strictEqual(result.message, "Definition for rule 'foobar' was not found.");
-                });
-
-                it("should report at the correct severity", () => {
-                    assert.property(result, "severity");
-                    assert.strictEqual(result.severity, 2);
-                    assert.strictEqual(warningResult.severity, 2); // this is 2, since the rulename is very likely to be wrong
-                });
-
-                it("should accept any valid rule configuration", () => {
-                    assert.isObject(arrayOptionResults[0]);
-                    assert.isObject(objectOptionResults[0]);
-                });
-
-                it("should report multiple missing rules", () => {
-                    assert.isArray(resultsMultiple);
-
-                    assert.deepStrictEqual(
-                        resultsMultiple[1],
-                        {
-                            ruleId: "barfoo",
-                            message: "Definition for rule 'barfoo' was not found.",
-                            line: 1,
-                            column: 1,
-                            endLine: 1,
-                            endColumn: 2,
-                            severity: 2,
-                            nodeType: null
-                        }
-                    );
-                });
-            });
-
             describe("when using a rule which has been replaced", () => {
                 const code = TEST_CODE;
-                const results = linter.verify(code, { rules: { "no-comma-dangle": 2 } });
 
                 it("should report the new rule", () => {
-                    assert.strictEqual(results[0].ruleId, "no-comma-dangle");
-                    assert.strictEqual(results[0].message, "Rule 'no-comma-dangle' was removed and replaced by: comma-dangle");
+
+                    assert.throws(() => {
+                        linter.verify(code, { rules: { "no-comma-dangle": 2 } });
+                    }, /Key "rules": Key "no-comma-dangle": Rule "no-comma-dangle" was removed and replaced by "comma-dangle"/u);
+
                 });
             });
 
@@ -12804,7 +12791,7 @@ var a = "test2";
         });
     });
 
-    xdescribe("verifyAndFix()", () => {
+    describe("verifyAndFix()", () => {
         it("Fixes the code", () => {
             const messages = linter.verifyAndFix("var a", {
                 rules: {
@@ -12855,24 +12842,35 @@ var a = "test2";
 
         it("stops fixing after 10 passes", () => {
 
-            linter.defineRule("add-spaces", {
-                meta: {
-                    fixable: "whitespace"
-                },
-                create(context) {
-                    return {
-                        Program(node) {
-                            context.report({
-                                node,
-                                message: "Add a space before this node.",
-                                fix: fixer => fixer.insertTextBefore(node, " ")
-                            });
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            "add-spaces": {
+                                meta: {
+                                    fixable: "whitespace"
+                                },
+                                create(context) {
+                                    return {
+                                        Program(node) {
+                                            context.report({
+                                                node,
+                                                message: "Add a space before this node.",
+                                                fix: fixer => fixer.insertTextBefore(node, " ")
+                                            });
+                                        }
+                                    };
+                                }
+                            }
                         }
-                    };
+                    }
+                },
+                rules: {
+                    "test/add-spaces": "error"
                 }
-            });
+            };
 
-            const fixResult = linter.verifyAndFix("a", { rules: { "add-spaces": "error" } });
+            const fixResult = linter.verifyAndFix("a", config);
 
             assert.strictEqual(fixResult.fixed, true);
             assert.strictEqual(fixResult.output, `${" ".repeat(10)}a`);
@@ -12880,46 +12878,84 @@ var a = "test2";
         });
 
         it("should throw an error if fix is passed but meta has no `fixable` property", () => {
-            linter.defineRule("test-rule", {
-                meta: {
-                    docs: {},
-                    schema: []
-                },
-                create: context => ({
-                    Program(node) {
-                        context.report(node, "hello world", {}, () => ({ range: [1, 1], text: "" }));
+
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            "test-rule": {
+                                meta: {
+                                    docs: {},
+                                    schema: []
+                                },
+                                create: context => ({
+                                    Program(node) {
+                                        context.report(node, "hello world", {}, () => ({ range: [1, 1], text: "" }));
+                                    }
+                                })
+                            }
+                        }
                     }
-                })
-            });
+                },
+                rules: {
+                    "test/test-rule": "error"
+                }
+            };
+
 
             assert.throws(() => {
-                linter.verify("0", { rules: { "test-rule": "error" } });
-            }, /Fixable rules must set the `meta\.fixable` property to "code" or "whitespace".\nOccurred while linting <input>:1\nRule: "test-rule"$/u);
+                linter.verify("0", config);
+            }, /Fixable rules must set the `meta\.fixable` property to "code" or "whitespace".\nOccurred while linting <input>:1\nRule: "test\/test-rule"$/u);
         });
 
         it("should throw an error if fix is passed and there is no metadata", () => {
-            linter.defineRule("test-rule", {
-                create: context => ({
-                    Program(node) {
-                        context.report(node, "hello world", {}, () => ({ range: [1, 1], text: "" }));
+
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            "test-rule": {
+                                create: context => ({
+                                    Program(node) {
+                                        context.report(node, "hello world", {}, () => ({ range: [1, 1], text: "" }));
+                                    }
+                                })
+                            }
+                        }
                     }
-                })
-            });
+                },
+                rules: {
+                    "test/test-rule": "error"
+                }
+            };
 
             assert.throws(() => {
-                linter.verify("0", { rules: { "test-rule": "error" } });
+                linter.verify("0", config);
             }, /Fixable rules must set the `meta\.fixable` property/u);
         });
 
         it("should throw an error if fix is passed from a legacy-format rule", () => {
-            linter.defineRule("test-rule", context => ({
-                Program(node) {
-                    context.report(node, "hello world", {}, () => ({ range: [1, 1], text: "" }));
+
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            "test-rule": context => ({
+                                Program(node) {
+                                    context.report(node, "hello world", {}, () => ({ range: [1, 1], text: "" }));
+                                }
+                            })
+                        }
+                    }
+                },
+                rules: {
+                    "test/test-rule": "error"
                 }
-            }));
+            };
+
 
             assert.throws(() => {
-                linter.verify("0", { rules: { "test-rule": "error" } });
+                linter.verify("0", config);
             }, /Fixable rules must set the `meta\.fixable` property/u);
         });
     });
@@ -13302,28 +13338,54 @@ var a = "test2";
             assert.strictEqual(messages[0].fatal, true);
         });
 
-        xit("should not crash when we reuse the SourceCode object", () => {
-            linter.verify("function render() { return <div className='test'>{hello}</div> }", { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } });
-            linter.verify(linter.getSourceCode(), { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } });
+        it("should not crash when we reuse the SourceCode object", () => {
+            const config = {
+                languageOptions: {
+                    ecmaVersion: 6,
+                    parserOptions: {
+                        ecmaFeatures: { jsx: true }
+                    }
+                }
+            };
+
+            linter.verify("function render() { return <div className='test'>{hello}</div> }", config);
+            linter.verify(linter.getSourceCode(), config);
         });
 
-        xit("should reuse the SourceCode object", () => {
+        it("should reuse the SourceCode object", () => {
             let ast1 = null,
                 ast2 = null;
 
-            linter.defineRule("save-ast1", () => ({
-                Program(node) {
-                    ast1 = node;
-                }
-            }));
-            linter.defineRule("save-ast2", () => ({
-                Program(node) {
-                    ast2 = node;
-                }
-            }));
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            "save-ast1": () => ({
+                                Program(node) {
+                                    ast1 = node;
+                                }
+                            }),
 
-            linter.verify("function render() { return <div className='test'>{hello}</div> }", { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }, rules: { "save-ast1": 2 } });
-            linter.verify(linter.getSourceCode(), { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }, rules: { "save-ast2": 2 } });
+                            "save-ast2": () => ({
+                                Program(node) {
+                                    ast2 = node;
+                                }
+                            })
+
+                        }
+                    }
+                },
+                languageOptions: {
+                    ecmaVersion: 6,
+                    parserOptions: {
+                        ecmaFeatures: { jsx: true }
+                    }
+                }
+            };
+
+
+            linter.verify("function render() { return <div className='test'>{hello}</div> }", { ...config, rules: { "test/save-ast1": "error" } });
+            linter.verify(linter.getSourceCode(), { ...config, rules: { "test/save-ast2": "error" } });
 
             assert(ast1 !== null);
             assert(ast2 !== null);
