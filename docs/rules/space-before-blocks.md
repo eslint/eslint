@@ -63,6 +63,9 @@ if (a) {
     c();
 }
 
+class C {
+    static{} /*no error. this is checked by `keyword-spacing` rule.*/
+}
 
 function a() {}
 
