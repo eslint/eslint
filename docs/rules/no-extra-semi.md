@@ -17,6 +17,17 @@ function foo() {
     // code
 };
 
+class C {
+    field;;
+
+    method() {
+        // code
+    };
+
+    static {
+        // code
+    };
+};
 ```
 
 Examples of **correct** code for this rule:
@@ -26,10 +37,25 @@ Examples of **correct** code for this rule:
 
 var x = 5;
 
-var foo = function() {
+function foo() {
+    // code
+}
+
+var bar = function() {
     // code
 };
 
+class C {
+    field;
+
+    method() {
+        // code
+    }
+
+    static {
+        // code
+    }
+}
 ```
 
 ## When Not To Use It
