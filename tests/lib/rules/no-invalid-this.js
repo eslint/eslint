@@ -775,6 +775,54 @@ const patterns = [
         valid: [NORMAL], // the global this in non-strict mode is OK.
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
         errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
+    },
+
+    // Class static blocks
+    {
+        code: "class C { static { this.x; } }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "class C { static { () => { this.x; } } }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "class C { static { class D { [this.x]; } } }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "class C { static { function foo() { this.x; } } }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [],
+        invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
+    },
+    {
+        code: "class C { static { (function() { this.x; }); } }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [],
+        invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
+    },
+    {
+        code: "class C { static { (function() { this.x; })(); } }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [],
+        invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
+    },
+    {
+        code: "class C { static {} [this.x]; }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+        errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
     }
 ];
 
