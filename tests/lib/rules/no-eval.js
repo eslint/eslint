@@ -50,6 +50,7 @@ ruleTester.run("no-eval", rule, {
         { code: "class A { static foo() { this.eval(); } }", parserOptions: { ecmaVersion: 6 } },
         { code: "class A { field = this.eval(); }", parserOptions: { ecmaVersion: 2022 } },
         { code: "class A { field = () => this.eval(); }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A { static { this.eval(); } }", parserOptions: { ecmaVersion: 2022 } },
 
         // Allows indirect eval
         { code: "(0, eval)('foo')", options: [{ allowIndirect: true }] },
@@ -130,6 +131,12 @@ ruleTester.run("no-eval", rule, {
         // Class fields
         {
             code: "class C { [this.eval('foo')] }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpected" }]
+        },
+
+        {
+            code: "class A { static {} [this.eval()]; }",
             parserOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpected" }]
         }

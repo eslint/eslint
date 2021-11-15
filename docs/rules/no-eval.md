@@ -66,6 +66,14 @@ class A {
 
     eval() {
     }
+
+    static {
+        // This is a user-defined static method.
+        this.eval("var a = 0");
+    }
+
+    static eval() {
+    }
 }
 ```
 
