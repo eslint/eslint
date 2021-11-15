@@ -493,6 +493,143 @@ ruleTester.run("one-var", rule, {
         {
             code: "var foo = 1;\nlet bar = function() { var x; };\nvar baz = 2;",
             options: [{ var: "never" }]
+        },
+
+        // class static blocks
+        {
+            code: "class C { static { var a; let b; const c = 0; } }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "const a = 0; class C { static { const b = 0; } }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { const b = 0; } } const a = 0; ",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "let a; class C { static { let b; } }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { let b; } } let a;",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "var a; class C { static { var b; } }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { var b; } } var a; ",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "var a; class C { static { if (foo) { var b; } } }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { if (foo) { var b; } } } var a; ",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { const a = 0; if (foo) { const b = 0; } } }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { let a; if (foo) { let b; } } }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { const a = 0; const b = 0; } }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { let a; let b; } }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { var a; var b; } }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { let a; foo; let b; } }",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { let a; const b = 0; let c; } }",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { var a; foo; var b; } }",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { var a; let b; var c; } }",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { let a; if (foo) { let b; } } }",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { if (foo) { let b; } let a;  } }",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { const a = 0; if (foo) { const b = 0; } } }",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { if (foo) { const b = 0; } const a = 0; } }",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { var a; if (foo) var b; } }",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { if (foo) var b; var a; } }",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { if (foo) { var b; } var a; } }",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { let a; let b = 0; } }",
+            options: [{ initialized: "consecutive" }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { var a; var b = 0; } }",
+            options: [{ initialized: "consecutive" }],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -2115,6 +2252,129 @@ ruleTester.run("one-var", rule, {
             options: ["never"],
             errors: [{
                 messageId: "split",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+
+        // class static blocks
+        {
+            code: "class C { static { let x, y; } }",
+            output: "class C { static { let x; let y; } }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "split",
+                data: { type: "let" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "class C { static { var x, y; } }",
+            output: "class C { static { var x; var y; } }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "split",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "class C { static { let x; let y; } }",
+            output: "class C { static { let x,  y; } }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "combine",
+                data: { type: "let" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "class C { static { var x; var y; } }",
+            output: "class C { static { var x,  y; } }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "combine",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "class C { static { let x; foo; let y; } }",
+            output: null,
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "combine",
+                data: { type: "let" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "class C { static { var x; foo; var y; } }",
+            output: null,
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "combine",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "class C { static { var x; if (foo) { var y; } } }",
+            output: null,
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "combine",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "class C { static { let x; let y; } }",
+            output: "class C { static { let x,  y; } }",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "combine",
+                data: { type: "let" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "class C { static { var x; var y; } }",
+            output: "class C { static { var x,  y; } }",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "combine",
+                data: { type: "var" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "class C { static { let a = 0; let b = 1; } }",
+            output: "class C { static { let a = 0,  b = 1; } }",
+            options: [{ initialized: "consecutive" }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "combineInitialized",
+                data: { type: "let" },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "class C { static { var a = 0; var b = 1; } }",
+            output: "class C { static { var a = 0,  b = 1; } }",
+            options: [{ initialized: "consecutive" }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "combineInitialized",
                 data: { type: "var" },
                 type: "VariableDeclaration"
             }]
