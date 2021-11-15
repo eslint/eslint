@@ -172,6 +172,14 @@ Examples of additional **correct** code for this rule with the `"always", { "omi
 if (foo) { bar() }
 
 if (foo) { bar(); baz() }
+
+function f() { bar(); baz() }
+
+class C {
+    foo() { bar(); baz() }
+
+    static { bar(); baz() }
+}
 ```
 
 #### beforeStatementContinuationChars
