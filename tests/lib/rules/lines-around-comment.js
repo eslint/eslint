@@ -9,7 +9,8 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/lines-around-comment"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester"),
+    { unIndent } = require("../../_utils");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -262,6 +263,106 @@ ruleTester.run("lines-around-comment", rule, {
                 allowBlockStart: true
             }]
         },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                        // line comment
+                    }
+
+                    static {
+                        // line comment
+                        foo();
+                    }
+                }`,
+            options: [{
+                beforeLineComment: true,
+                allowBlockStart: true
+            }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    static
+                    {
+                        // line comment
+                    }
+
+                    static
+                    {
+                        // line comment
+                        foo();
+                    }
+                }`,
+            options: [{
+                beforeLineComment: true,
+                allowBlockStart: true
+            }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                        /* block comment */
+                    }
+
+                    static {
+                        /* block
+                           comment */
+                    }
+
+                    static {
+                        /* block comment */
+                        foo();
+                    }
+
+                    static {
+                        /* block
+                           comment */
+                        foo();
+                    }
+                }`,
+            options: [{
+                beforeBlockComment: true,
+                allowBlockStart: true
+            }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    static
+                    {
+                        /* block comment */
+                    }
+
+                    static
+                    {
+                        /* block
+                        comment */
+                    }
+
+                    static
+                    {
+                        /* block comment */
+                        foo();
+                    }
+
+                    static
+                    {
+                        /* block
+                        comment */
+                        foo();
+                    }
+                }`,
+            options: [{
+                beforeBlockComment: true,
+                allowBlockStart: true
+            }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
 
         // check for block end comments
         {
@@ -471,6 +572,54 @@ ruleTester.run("lines-around-comment", rule, {
                 afterBlockComment: true,
                 allowBlockEnd: true
             }]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                        // line comment
+                    }
+
+                    static {
+                        foo();
+                        // line comment
+                    }
+                }`,
+            options: [{
+                afterLineComment: true,
+                allowBlockEnd: true
+            }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                        /* block comment */
+                    }
+
+                    static {
+                        /* block
+                           comment */
+                    }
+
+                    static {
+                        foo();
+                        /* block comment */
+                    }
+
+                    static {
+                        foo();
+                        /* block
+                           comment */
+                    }
+                }`,
+            options: [{
+                beforeBlockComment: false, // default is `true`
+                afterBlockComment: true,
+                allowBlockEnd: true
+            }],
+            parserOptions: { ecmaVersion: 2022 }
         },
 
         // check for object start comments
@@ -1048,6 +1197,346 @@ ruleTester.run("lines-around-comment", rule, {
                 afterLineComment: true
             }],
             errors: [{ messageId: "after", type: "Line", line: 8 }]
+        },
+        {
+            code: unIndent`
+                class C {
+                    // line comment
+                    static{}
+                }`,
+            output: unIndent`
+                class C {
+                    // line comment
+
+                    static{}
+                }`,
+            options: [{
+                beforeLineComment: true,
+                afterLineComment: true,
+                allowBlockStart: true,
+                allowBlockEnd: true,
+                allowClassStart: true,
+                allowClassEnd: true
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "after", type: "Line", line: 2 }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    /* block
+                       comment */
+                    static{}
+                }`,
+            output: unIndent`
+                class C {
+                    /* block
+                       comment */
+
+                    static{}
+                }`,
+            options: [{
+                beforeBlockComment: true,
+                afterBlockComment: true,
+                allowBlockStart: true,
+                allowBlockEnd: true,
+                allowClassStart: true,
+                allowClassEnd: true
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "after", type: "Block", line: 2 }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static
+                    // line comment
+                    {}
+                }`,
+            output: unIndent`
+            class C {
+                static
+
+                // line comment
+
+                {}
+            }`,
+            options: [{
+                beforeLineComment: true,
+                afterLineComment: true,
+                allowBlockStart: true,
+                allowBlockEnd: true,
+                allowClassStart: true,
+                allowClassEnd: true
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "before", type: "Line", line: 3 },
+                { messageId: "after", type: "Line", line: 3 }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static
+                    /* block
+                       comment */
+                    {}
+                }`,
+            output: unIndent`
+            class C {
+                static
+
+                /* block
+                   comment */
+
+                {}
+            }`,
+            options: [{
+                beforeBlockComment: true,
+                afterBlockComment: true,
+                allowBlockStart: true,
+                allowBlockEnd: true,
+                allowClassStart: true,
+                allowClassEnd: true
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "before", type: "Block", line: 3 },
+                { messageId: "after", type: "Block", line: 3 }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                        // line comment
+                        foo();
+                    }
+                }`,
+            output: unIndent`
+                class C {
+                    static {
+                        // line comment
+
+                        foo();
+                    }
+                }`,
+            options: [{
+                beforeLineComment: true,
+                afterLineComment: true,
+                allowBlockStart: true,
+                allowBlockEnd: true
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "after", type: "Line", line: 3 }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                        /* block
+                           comment */
+                        foo();
+                    }
+                }`,
+            output: unIndent`
+                class C {
+                    static {
+                        /* block
+                           comment */
+
+                        foo();
+                    }
+                }`,
+            options: [{
+                beforeBlockComment: true,
+                afterBlockComment: true,
+                allowBlockStart: true,
+                allowBlockEnd: true
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "after", type: "Block", line: 3 }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                        foo();
+                        // line comment
+                    }
+                }`,
+            output: unIndent`
+                class C {
+                    static {
+                        foo();
+
+                        // line comment
+                    }
+                }`,
+            options: [{
+                beforeLineComment: true,
+                afterLineComment: true,
+                allowBlockStart: true,
+                allowBlockEnd: true
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "before", type: "Line", line: 4 }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                        foo();
+                        /* block
+                           comment */
+                    }
+                }`,
+            output: unIndent`
+                class C {
+                    static {
+                        foo();
+
+                        /* block
+                           comment */
+                    }
+                }`,
+            options: [{
+                beforeBlockComment: true,
+                afterBlockComment: true,
+                allowBlockStart: true,
+                allowBlockEnd: true
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "before", type: "Block", line: 4 }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                        foo();
+                        // line comment
+                        bar();
+                    }
+                }`,
+            output: unIndent`
+                class C {
+                    static {
+                        foo();
+
+                        // line comment
+
+                        bar();
+                    }
+                }`,
+            options: [{
+                beforeLineComment: true,
+                afterLineComment: true,
+                allowBlockStart: true,
+                allowBlockEnd: true
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "before", type: "Line", line: 4 },
+                { messageId: "after", type: "Line", line: 4 }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                        foo();
+                        /* block
+                           comment */
+                        bar();
+                    }
+                }`,
+            output: unIndent`
+                class C {
+                    static {
+                        foo();
+
+                        /* block
+                           comment */
+
+                        bar();
+                    }
+                }`,
+            options: [{
+                beforeBlockComment: true,
+                afterBlockComment: true,
+                allowBlockStart: true,
+                allowBlockEnd: true
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "before", type: "Block", line: 4 },
+                { messageId: "after", type: "Block", line: 4 }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static{}
+                    // line comment
+                }`,
+            output: unIndent`
+                class C {
+                    static{}
+
+                    // line comment
+                }`,
+            options: [{
+                beforeLineComment: true,
+                afterLineComment: true,
+                allowBlockStart: true,
+                allowBlockEnd: true,
+                allowClassStart: true,
+                allowClassEnd: true
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "before", type: "Line", line: 3 }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static{}
+                    /* block
+                       comment */
+                }`,
+            output: unIndent`
+                class C {
+                    static{}
+
+                    /* block
+                       comment */
+                }`,
+            options: [{
+                beforeBlockComment: true,
+                afterBlockComment: true,
+                allowBlockStart: true,
+                allowBlockEnd: true,
+                allowClassStart: true,
+                allowClassEnd: true
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "before", type: "Block", line: 3 }
+            ]
         },
 
         // object start comments
