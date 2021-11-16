@@ -91,6 +91,67 @@ ruleTester.run("no-undef", rule, {
         {
             code: "import.meta",
             parserOptions: { ecmaVersion: 2020, sourceType: "module" }
+        },
+
+        // class static blocks
+        {
+            code: "let a; class C { static {} } a;",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "undef", data: { name: "a" } }]
+        },
+        {
+            code: "var a; class C { static {} } a;",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "undef", data: { name: "a" } }]
+        },
+        {
+            code: "a; class C { static {} } var a;",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "undef", data: { name: "a" } }]
+        },
+        {
+            code: "class C { static { C; } }",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+        },
+        {
+            code: "const C = class { static { C; } }",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+        },
+        {
+            code: "class C { static { a; } } var a;",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+        },
+        {
+            code: "class C { static { a; } } let a;",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+        },
+        {
+            code: "class C { static { var a; a; } }",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+        },
+        {
+            code: "class C { static { a; var a; } }",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+        },
+        {
+            code: "class C { static { a; { var a; } } }",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+        },
+        {
+            code: "class C { static { let a; a; } }",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+        },
+        {
+            code: "class C { static { a; let a; } }",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+        },
+        {
+            code: "class C { static { function a() {} a; } }",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+        },
+        {
+            code: "class C { static { a; function a() {} } }",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
         }
     ],
     invalid: [
@@ -114,6 +175,99 @@ ruleTester.run("no-undef", rule, {
                 ecmaVersion: 2018
             },
             errors: [{ messageId: "undef", data: { name: "b" } }]
+        },
+
+        // class static blocks
+        {
+            code: "class C { static { a; } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ messageId: "undef", data: { name: "a" } }]
+        },
+        {
+            code: "class C { static { { let a; } a; } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ messageId: "undef", data: { name: "a" }, column: 31 }]
+        },
+        {
+            code: "class C { static { { function a() {} } a; } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ messageId: "undef", data: { name: "a" }, column: 40 }]
+        },
+        {
+            code: "class C { static { function foo() { var a; }  a; } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ messageId: "undef", data: { name: "a" }, column: 47 }]
+        },
+        {
+            code: "class C { static { var a; } static { a; } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ messageId: "undef", data: { name: "a" }, column: 38 }]
+        },
+        {
+            code: "class C { static { let a; } static { a; } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ messageId: "undef", data: { name: "a" }, column: 38 }]
+        },
+        {
+            code: "class C { static { function a(){} } static { a; } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ messageId: "undef", data: { name: "a" }, column: 46 }]
+        },
+        {
+            code: "class C { static { var a; } foo() { a; } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ messageId: "undef", data: { name: "a" }, column: 37 }]
+        },
+        {
+            code: "class C { static { let a; } foo() { a; } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ messageId: "undef", data: { name: "a" }, column: 37 }]
+        },
+        {
+            code: "class C { static { var a; } [a]; }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ messageId: "undef", data: { name: "a" }, column: 30 }]
+        },
+        {
+            code: "class C { static { let a; } [a]; }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ messageId: "undef", data: { name: "a" }, column: 30 }]
+        },
+        {
+            code: "class C { static { function a() {} } [a]; }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ messageId: "undef", data: { name: "a" }, column: 39 }]
+        },
+        {
+            code: "class C { static { var a; } } a;",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ messageId: "undef", data: { name: "a" }, column: 31 }]
         }
     ]
 });

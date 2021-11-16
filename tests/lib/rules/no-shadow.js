@@ -58,7 +58,12 @@ ruleTester.run("no-shadow", rule, {
         { code: "var Object = 0;", options: [{ builtinGlobals: true }] },
         { code: "var top = 0;", options: [{ builtinGlobals: true }], env: { browser: true } },
         { code: "function foo(cb) { (function (cb) { cb(42); })(cb); }", options: [{ allow: ["cb"] }] },
-        { code: "class C { foo; foo() { let foo; } }", parserOptions: { ecmaVersion: 2022 } }
+        { code: "class C { foo; foo() { let foo; } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { var x; } static { var x; } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { let x; } static { let x; } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { var x; { var x; /* redeclaration */ } } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { { var x; } { var x; /* redeclaration */ } } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { { let x; } { let x; } } }", parserOptions: { ecmaVersion: 2022 } }
     ],
     invalid: [
         {
@@ -715,6 +720,144 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 31
+            }]
+        },
+        {
+            code: "class C { static { let a; { let a; } } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 24
+                },
+                type: "Identifier",
+                line: 1,
+                column: 33
+            }]
+        },
+        {
+            code: "class C { static { var C; } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "C",
+                    shadowedLine: 1,
+                    shadowedColumn: 7
+                },
+                type: "Identifier",
+                line: 1,
+                column: 24
+            }]
+        },
+        {
+            code: "class C { static { let C; } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "C",
+                    shadowedLine: 1,
+                    shadowedColumn: 7
+                },
+                type: "Identifier",
+                line: 1,
+                column: 24
+            }]
+        },
+        {
+            code: "var a; class C { static { var a; } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 5
+                },
+                type: "Identifier",
+                line: 1,
+                column: 31
+            }]
+        },
+        {
+            code: "class C { static { var a; } } var a;",
+            options: [{ hoist: "all" }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 35
+                },
+                type: "Identifier",
+                line: 1,
+                column: 24
+            }]
+        },
+        {
+            code: "class C { static { let a; } } let a;",
+            options: [{ hoist: "all" }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 35
+                },
+                type: "Identifier",
+                line: 1,
+                column: 24
+            }]
+        },
+        {
+            code: "class C { static { var a; } } let a;",
+            options: [{ hoist: "all" }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 35
+                },
+                type: "Identifier",
+                line: 1,
+                column: 24
+            }]
+        },
+        {
+            code: "class C { static { var a; class D { static { var a; } } } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 24
+                },
+                type: "Identifier",
+                line: 1,
+                column: 50
+            }]
+        },
+        {
+            code: "class C { static { let a; class D { static { let a; } } } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 24
+                },
+                type: "Identifier",
+                line: 1,
+                column: 50
             }]
         }
     ]
