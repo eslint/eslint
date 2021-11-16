@@ -88,7 +88,20 @@ ruleTester.run("strict", rule, {
         "function foo() { 'use strict'; return; }",
         { code: "'use strict'; function foo() { return; }", parserOptions: { ecmaFeatures: { globalReturn: true } } },
         { code: "function foo() { return; }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "function foo() { return; }", parserOptions: { ecmaFeatures: { impliedStrict: true } } }
+        { code: "function foo() { return; }", parserOptions: { ecmaFeatures: { impliedStrict: true } } },
+
+        // class static blocks do not have directive prologues, therefore this rule should never require od disallow "use strict" statement in them.
+        { code: "'use strict'; class C { static { foo; } }", options: ["global"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "'use strict'; class C { static { 'use strict'; } }", options: ["global"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "'use strict'; class C { static { 'use strict'; 'use strict'; } }", options: ["global"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo; } }", options: ["function"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { 'use strict'; } }", options: ["function"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { 'use strict'; 'use strict'; } }", options: ["function"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo; } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { 'use strict'; } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { 'use strict'; 'use strict'; } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { 'use strict'; } }", options: ["safe"], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "class C { static { 'use strict'; } }", options: ["safe"], parserOptions: { ecmaVersion: 2022, ecmaFeatures: { impliedStrict: true } } }
 
     ],
     invalid: [
@@ -589,7 +602,60 @@ ruleTester.run("strict", rule, {
             options: ["function"],
             parserOptions: { ecmaVersion: 6 },
             errors: ["Use the function form of 'use strict'."]
-        }
+        },
 
+        // functions inside class static blocks should be checked
+        {
+            code: "'use strict'; class C { static { function foo() { \n'use strict'; } } }",
+            output: null,
+            options: ["global"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "global", line: 2 }]
+        },
+        {
+            code: "class C { static { function foo() { \n'use strict'; } } }",
+            output: null,
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "never", line: 2 }]
+        },
+        {
+            code: "class C { static { function foo() { \n'use strict'; } } }",
+            output: "class C { static { function foo() { \n } } }",
+            options: ["safe"],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: [{ messageId: "module", line: 2 }]
+        },
+        {
+            code: "class C { static { function foo() { \n'use strict'; } } }",
+            output: "class C { static { function foo() { \n } } }",
+            options: ["safe"],
+            parserOptions: { ecmaVersion: 2022, ecmaFeatures: { impliedStrict: true } },
+            errors: [{ messageId: "implied", line: 2 }]
+        },
+        {
+            code: "function foo() {'use strict'; class C { static { function foo() { \n'use strict'; } } } }",
+            output: "function foo() {'use strict'; class C { static { function foo() { \n } } } }",
+            options: ["function"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessary", line: 2 }]
+        },
+        {
+            code: "class C { static { function foo() { \n'use strict'; } } }",
+            output: "class C { static { function foo() { \n } } }",
+            options: ["function"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessaryInClasses", line: 2 }]
+        },
+        {
+            code: "class C { static { function foo() { \n'use strict';\n'use strict'; } } }",
+            output: "class C { static { function foo() { \n\n } } }",
+            options: ["function"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "unnecessaryInClasses", line: 2 },
+                { messageId: "multiple", line: 3 }
+            ]
+        }
     ]
 });
