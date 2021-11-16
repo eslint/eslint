@@ -10,7 +10,8 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/brace-style"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester"),
+    { unIndent } = require("../../_utils");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -204,7 +205,125 @@ ruleTester.run("brace-style", rule, {
         `
           if (foo) bar = function() {}
           else baz()
-        `
+        `,
+
+        // class static blocks
+        {
+            code: unIndent`
+                class C {
+                    static {
+                        foo;
+                    }
+                }
+            `,
+            options: ["1tbs"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {}
+
+                    static {
+                    }
+                }
+            `,
+            options: ["1tbs"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    static { foo; }
+                }
+            `,
+            options: ["1tbs", { allowSingleLine: true }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                        foo;
+                    }
+                }
+            `,
+            options: ["stroustrup"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {}
+
+                    static {
+                    }
+                }
+            `,
+            options: ["stroustrup"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    static { foo; }
+                }
+            `,
+            options: ["stroustrup", { allowSingleLine: true }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C
+                {
+                    static
+                    {
+                        foo;
+                    }
+                }
+            `,
+            options: ["allman"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C
+                {
+                    static
+                    {}
+                }
+            `,
+            options: ["allman"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C
+                {
+                    static {}
+
+                    static { foo; }
+
+                    static
+                    { foo; }
+                }
+            `,
+            options: ["allman", { allowSingleLine: true }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                        {
+                            foo;
+                        }
+                    }
+                }
+            `,
+            options: ["1tbs"],
+            parserOptions: { ecmaVersion: 2022 }
+        }
     ],
 
     invalid: [
@@ -663,6 +782,328 @@ ruleTester.run("brace-style", rule, {
             errors: [
                 { messageId: "nextLineOpen", type: "Punctuator" },
                 { messageId: "nextLineClose", type: "Punctuator" }
+            ]
+        },
+
+        // class static blocks
+        {
+            code: unIndent`
+                class C {
+                    static
+                    {
+                        foo;
+                    }
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static {
+                        foo;
+                    }
+                }
+            `,
+            options: ["1tbs"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "nextLineOpen", type: "Punctuator" }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {foo;
+                    }
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static {
+                foo;
+                    }
+                }
+            `,
+            options: ["1tbs"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "blockSameLine", type: "Punctuator" }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                        foo;}
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static {
+                        foo;
+                }
+                }
+            `,
+            options: ["1tbs"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "singleLineClose", type: "Punctuator" }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static
+                    {foo;}
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static {
+                foo;
+                }
+                }
+            `,
+            options: ["1tbs"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "nextLineOpen", type: "Punctuator" },
+                { messageId: "blockSameLine", type: "Punctuator" },
+                { messageId: "singleLineClose", type: "Punctuator" }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static
+                    {}
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static {}
+                }
+            `,
+            options: ["1tbs"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "nextLineOpen", type: "Punctuator" }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static
+                    {
+                        foo;
+                    }
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static {
+                        foo;
+                    }
+                }
+            `,
+            options: ["stroustrup"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "nextLineOpen", type: "Punctuator" }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {foo;
+                    }
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static {
+                foo;
+                    }
+                }
+            `,
+            options: ["stroustrup"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "blockSameLine", type: "Punctuator" }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                        foo;}
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static {
+                        foo;
+                }
+                }
+            `,
+            options: ["stroustrup"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "singleLineClose", type: "Punctuator" }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static
+                    {foo;}
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static {
+                foo;
+                }
+                }
+            `,
+            options: ["stroustrup"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "nextLineOpen", type: "Punctuator" },
+                { messageId: "blockSameLine", type: "Punctuator" },
+                { messageId: "singleLineClose", type: "Punctuator" }
+            ]
+        },
+        {
+            code: unIndent`
+                class C {
+                    static
+                    {}
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static {}
+                }
+            `,
+            options: ["stroustrup"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "nextLineOpen", type: "Punctuator" }
+            ]
+        },
+        {
+            code: unIndent`
+                class C
+                {
+                    static{
+                        foo;
+                    }
+                }
+            `,
+            output: unIndent`
+                class C
+                {
+                    static
+                {
+                        foo;
+                    }
+                }
+            `,
+            options: ["allman"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "sameLineOpen", type: "Punctuator" }
+            ]
+        },
+        {
+            code: unIndent`
+                class C
+                {
+                    static
+                    {foo;
+                    }
+                }
+            `,
+            output: unIndent`
+                class C
+                {
+                    static
+                    {
+                foo;
+                    }
+                }
+            `,
+            options: ["allman"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "blockSameLine", type: "Punctuator" }
+            ]
+        },
+        {
+            code: unIndent`
+                class C
+                {
+                    static
+                    {
+                        foo;}
+                }
+            `,
+            output: unIndent`
+                class C
+                {
+                    static
+                    {
+                        foo;
+                }
+                }
+            `,
+            options: ["allman"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "singleLineClose", type: "Punctuator" }
+            ]
+        },
+        {
+            code: unIndent`
+                class C
+                {
+                    static{foo;}
+                }
+            `,
+            output: unIndent`
+                class C
+                {
+                    static
+                {
+                foo;
+                }
+                }
+            `,
+            options: ["allman"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "sameLineOpen", type: "Punctuator" },
+                { messageId: "blockSameLine", type: "Punctuator" },
+                { messageId: "singleLineClose", type: "Punctuator" }
+            ]
+        },
+        {
+            code: unIndent`
+                class C
+                {
+                    static{}
+                }
+            `,
+            output: unIndent`
+                class C
+                {
+                    static
+                {}
+                }
+            `,
+            options: ["allman"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "sameLineOpen", type: "Punctuator" }
             ]
         }
     ]
