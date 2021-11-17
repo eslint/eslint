@@ -104,6 +104,25 @@ ruleTester.run("complexity", rule, {
         { code: "class C { x = a || class { y = b || c; z = d || e; }; }", options: [2], parserOptions: { ecmaVersion: 2022 } },
         { code: "class C { x; y = a; static z; static q = b; }", options: [1], parserOptions: { ecmaVersion: 2022 } },
 
+        // class static blocks
+        { code: "function foo() { class C { static { a || b; } static { c || d; } } }", options: [2], parserOptions: { ecmaVersion: 2022 } },
+        { code: "function foo() { a || b; class C { static { c || d; } } }", options: [2], parserOptions: { ecmaVersion: 2022 } },
+        { code: "function foo() { class C { static { a || b; } } c || d; }", options: [2], parserOptions: { ecmaVersion: 2022 } },
+        { code: "function foo() { class C { static { a || b; } } class D { static { c || d; } } }", options: [2], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { a || b; } static { c || d; } }", options: [2], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { a || b; } static { c || d; } static { e || f; } }", options: [2], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { () => a || b; c || d; } }", options: [2], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { a || b; () => c || d; } static { c || d; } }", options: [2], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { a } }", options: [1], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { a } static { b } }", options: [1], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { a || b; } } class D { static { c || d; } }", options: [2], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { a || b; } static c = d || e; }", options: [2], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static a = b || c; static { c || d; } }", options: [2], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { a || b; } c = d || e; }", options: [2], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { a = b || c; static { d || e; } }", options: [2], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { a || b; c || d; } }", options: [3], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { if (a || b) c = d || e; } }", options: [4], parserOptions: { ecmaVersion: 2022 } },
+
         // object property options
         { code: "function b(x) {}", options: [{ max: 1 }] }
     ],
@@ -365,6 +384,139 @@ ruleTester.run("complexity", rule, {
                     column: 27,
                     endLine: 1,
                     endColumn: 33
+                }
+            ]
+        },
+
+        // class static blocks
+        {
+            code: "function foo () { a || b; class C { static {} } c || d; }",
+            options: [2],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [makeError("Function 'foo'", 3, 2)]
+        },
+        {
+            code: "function foo () { a || b; class C { static { c || d; } } e || f; }",
+            options: [2],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [makeError("Function 'foo'", 3, 2)]
+        },
+        {
+            code: "class C { static { a || b; }  }",
+            options: [1],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [makeError("Class static block", 2, 1)]
+        },
+        {
+            code: "class C { static { a || b || c; }  }",
+            options: [2],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [makeError("Class static block", 3, 2)]
+        },
+        {
+            code: "class C { static { a || b; c || d; }  }",
+            options: [2],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [makeError("Class static block", 3, 2)]
+        },
+        {
+            code: "class C { static { a || b; c || d; e || f; }  }",
+            options: [3],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [makeError("Class static block", 4, 3)]
+        },
+        {
+            code: "class C { static { a || b; c || d; { e || f; } }  }",
+            options: [3],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [makeError("Class static block", 4, 3)]
+        },
+        {
+            code: "class C { static { if (a || b) c = d || e; } }",
+            options: [3],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [makeError("Class static block", 4, 3)]
+        },
+        {
+            code: "class C { static { if (a || b) c = (d => e || f)() || (g => h || i)(); } }",
+            options: [3],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [makeError("Class static block", 4, 3)]
+        },
+        {
+            code: "class C { x(){ a || b; } static { c || d || e; } z() { f || g; } }",
+            options: [2],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [makeError("Class static block", 3, 2)]
+        },
+        {
+            code: "class C { x = a || b; static { c || d || e; } y = f || g; }",
+            options: [2],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [makeError("Class static block", 3, 2)]
+        },
+        {
+            code: "class C { static x = a || b; static { c || d || e; } static y = f || g; }",
+            options: [2],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [makeError("Class static block", 3, 2)]
+        },
+        {
+            code: "class C { static { a || b; } static(){ c || d || e; } static { f || g; } }",
+            options: [2],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [makeError("Method 'static'", 3, 2)]
+        },
+        {
+            code: "class C { static { a || b; } static static(){ c || d || e; } static { f || g; } }",
+            options: [2],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [makeError("Static method 'static'", 3, 2)]
+        },
+        {
+            code: "class C { static { a || b; } static x = c || d || e; static { f || g; } }",
+            options: [2],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                ...makeError("Class field initializer", 3, 2),
+                column: 41,
+                endColumn: 52
+            }]
+        },
+        {
+            code: "class C { static { a || b || c || d; } static { e || f || g; } }",
+            options: [3],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                ...makeError("Class static block", 4, 3),
+                column: 11,
+                endColumn: 39
+            }]
+        },
+        {
+            code: "class C { static { a || b || c; } static { d || e || f || g; } }",
+            options: [3],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                ...makeError("Class static block", 4, 3),
+                column: 35,
+                endColumn: 63
+            }]
+        },
+        {
+            code: "class C { static { a || b || c || d; } static { e || f || g || h; } }",
+            options: [3],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    ...makeError("Class static block", 4, 3),
+                    column: 11,
+                    endColumn: 39
+                },
+                {
+                    ...makeError("Class static block", 4, 3),
+                    column: 40,
+                    endColumn: 68
                 }
             ]
         },
