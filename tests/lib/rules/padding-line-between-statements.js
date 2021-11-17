@@ -2626,6 +2626,114 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "block-like" }
             ]
+        },
+
+        // class static blocks
+        {
+            code: "class C {\n static {\n let x;\n\n foo();\n }\n }",
+            options: [
+                { blankLine: "always", prev: "let", next: "expression" }
+            ],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C {\n static {\n let x;\n foo();\n }\n }",
+            options: [
+                { blankLine: "never", prev: "let", next: "expression" }
+            ],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C {\n static {\n let x;\n foo();\n\n const y = 1;\n }\n }",
+            options: [
+                { blankLine: "always", prev: "expression", next: "const" }
+            ],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C {\n static {\n let x;\n foo();\n const y = 1;\n }\n }",
+            options: [
+                { blankLine: "never", prev: "expression", next: "const" }
+            ],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C {\n static {\n let x;\n foo();\n\n const y = 1;\n const z = 1;\n }\n }",
+            options: [
+                { blankLine: "always", prev: "expression", next: "const" }
+            ],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C {\n static {\n let x;\n foo();\n const y = 1;\n const z = 1;\n }\n }",
+            options: [
+                { blankLine: "never", prev: "expression", next: "const" }
+            ],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C {\n static {\n let a = 0;\n let b =0;\n\n bar();\n }\n }",
+            options: [
+                { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
+            ],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { let x; { let y; } let z; } }",
+            options: [
+                { blankLine: "always", prev: "let", next: "let" }
+            ],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { method() { let x; } static { let y; } }",
+            options: [
+                { blankLine: "always", prev: "let", next: "let" }
+            ],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { let y; } method() { let x; } }",
+            options: [
+                { blankLine: "always", prev: "let", next: "let" }
+            ],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { let x; } static { let y; } }",
+            options: [
+                { blankLine: "always", prev: "let", next: "let" }
+            ],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "let x; class C { static { let y; } }",
+            options: [
+                { blankLine: "always", prev: "let", next: "let" }
+            ],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { let x; } } let y;",
+            options: [
+                { blankLine: "always", prev: "let", next: "let" }
+            ],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { let x; } }",
+            options: [
+                { blankLine: "always", prev: "class", next: "let" }
+            ],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { 'use strict'; let x; } }", // 'use strict'; is "espression", because class static blocks don't have directives
+            options: [
+                { blankLine: "always", prev: "directive", next: "let" }
+            ],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -4976,6 +5084,117 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { messageId: "expectedBlankLine" },
                 { messageId: "expectedBlankLine" }
             ]
+        },
+
+        // class static blocks
+        {
+            code: "class C {\n static {\n let x;\n foo();\n }\n }",
+            output: "class C {\n static {\n let x;\n\n foo();\n }\n }",
+            options: [
+                { blankLine: "always", prev: "let", next: "expression" }
+            ],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedBlankLine" }]
+        },
+        {
+            code: "class C {\n static {\n let x;\n\n foo();\n }\n }",
+            output: "class C {\n static {\n let x;\n foo();\n }\n }",
+            options: [
+                { blankLine: "never", prev: "let", next: "expression" }
+            ],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedBlankLine" }]
+        },
+        {
+            code: "class C {\n static {\n let x;\n foo();\n const y = 1;\n }\n }",
+            output: "class C {\n static {\n let x;\n foo();\n\n const y = 1;\n }\n }",
+            options: [
+                { blankLine: "always", prev: "expression", next: "const" }
+            ],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedBlankLine" }]
+        },
+        {
+            code: "class C {\n static {\n let x;\n foo();\n\n const y = 1;\n }\n }",
+            output: "class C {\n static {\n let x;\n foo();\n const y = 1;\n }\n }",
+            options: [
+                { blankLine: "never", prev: "expression", next: "const" }
+            ],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedBlankLine" }]
+        },
+        {
+            code: "class C {\n static {\n let x;\n foo();\n const y = 1;\n const z = 1;\n }\n }",
+            output: "class C {\n static {\n let x;\n foo();\n\n const y = 1;\n const z = 1;\n }\n }",
+            options: [
+                { blankLine: "always", prev: "expression", next: "const" }
+            ],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedBlankLine" }]
+        },
+        {
+            code: "class C {\n static {\n let x;\n foo();\n\n const y = 1;\n const z = 1;\n }\n }",
+            output: "class C {\n static {\n let x;\n foo();\n const y = 1;\n const z = 1;\n }\n }",
+            options: [
+                { blankLine: "never", prev: "expression", next: "const" }
+            ],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedBlankLine" }]
+        },
+        {
+            code: "class C {\n static {\n let a = 0;\n bar();\n }\n }",
+            output: "class C {\n static {\n let a = 0;\n\n bar();\n }\n }",
+            options: [
+                { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
+            ],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedBlankLine" }]
+        },
+        {
+            code: "class C { static { let x; { let y; let z; } let q; } }",
+            output: "class C { static { let x; { let y;\n\n let z; } let q; } }",
+            options: [
+                { blankLine: "always", prev: "let", next: "let" }
+            ],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedBlankLine" }]
+        },
+        {
+            code: "class C { static { { let x; } let y; let z; } }",
+            output: "class C { static { { let x; } let y;\n\n let z; } }",
+            options: [
+                { blankLine: "always", prev: "let", next: "let" }
+            ],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedBlankLine" }]
+        },
+        {
+            code: "class C { static { foo(); if (bar) {} } }",
+            output: "class C { static { foo();\n\n if (bar) {} } }",
+            options: [
+                { blankLine: "always", prev: "expression", next: "block-like" }
+            ],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedBlankLine" }]
+        },
+        {
+            code: "class C { static { let x; } } let y;",
+            output: "class C { static { let x; } }\n\n let y;",
+            options: [
+                { blankLine: "always", prev: "class", next: "let" }
+            ],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedBlankLine" }]
+        },
+        {
+            code: "class C { static { 'use strict'; let x; } }", // 'use strict'; is "espression", because class static blocks don't have directives
+            output: "class C { static { 'use strict';\n\n let x; } }",
+            options: [
+                { blankLine: "always", prev: "expression", next: "let" }
+            ],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedBlankLine" }]
         }
     ]
 });
