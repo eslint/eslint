@@ -785,7 +785,13 @@ ruleTester.run("brace-style", rule, {
             ]
         },
 
-        // class static blocks
+        /*
+         * class static blocks
+         *
+         * Note about the autofix: this rule only inserts linebreaks and removes linebreaks.
+         * It does not aim to produce code with a valid indentation. Indentation and other formatting issues
+         * are expected to be fixed by `indent` and other rules in subsequent iterations.
+         */
         {
             code: unIndent`
                 class C {
