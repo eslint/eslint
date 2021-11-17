@@ -5847,6 +5847,241 @@ ruleTester.run("indent", rule, {
                                                         ar2){}
             `,
             options: [2, { FunctionDeclaration: { parameters: "first" }, FunctionExpression: { parameters: "first" } }]
+        },
+        {
+            code: unIndent`
+                class C {
+                  static {
+                    foo();
+                    bar();
+                  }
+                }
+            `,
+            options: [2],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                        foo();
+                        bar();
+                    }
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                            foo();
+                            bar();
+                    }
+                }
+            `,
+            options: [4, { StaticBlock: { body: 2 } }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                    foo();
+                    bar();
+                    }
+                }
+            `,
+            options: [4, { StaticBlock: { body: 0 } }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                \tstatic {
+                \t\tfoo();
+                \t\tbar();
+                \t}
+                }
+            `,
+            options: ["tab"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                \tstatic {
+                \t\t\tfoo();
+                \t\t\tbar();
+                \t}
+                }
+            `,
+            options: ["tab", { StaticBlock: { body: 2 } }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    static
+                    {
+                        foo();
+                        bar();
+                    }
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                        var x,
+                            y;
+                    }
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    static
+                    {
+                        var x,
+                            y;
+                    }
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                        if (foo) {
+                            bar;
+                        }
+                    }
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {
+                        {
+                            bar;
+                        }
+                    }
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    static {}
+
+                    static {
+                    }
+
+                    static
+                    {
+                    }
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+
+                    static {
+                        foo;
+                    }
+
+                    static {
+                        bar;
+                    }
+
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+
+                    x = 1;
+
+                    static {
+                        foo;
+                    }
+
+                    y = 2;
+
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+
+                    method1(param) {
+                        foo;
+                    }
+
+                    static {
+                        bar;
+                    }
+
+                    method2(param) {
+                        foo;
+                    }
+
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                function f() {
+                    class C {
+                        static {
+                            foo();
+                            bar();
+                        }
+                    }
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: unIndent`
+                class C {
+                    method() {
+                            foo;
+                    }
+                    static {
+                            bar;
+                    }
+                }
+            `,
+            options: [4, { FunctionExpression: { body: 2 }, StaticBlock: { body: 2 } }],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
 
@@ -11813,6 +12048,580 @@ ruleTester.run("indent", rule, {
                 [3, 4, 0, "Identifier"],
                 [4, 8, 0, "Keyword"],
                 [5, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+                static {
+                foo();
+                bar();
+                }
+                }
+            `,
+            output: unIndent`
+                class C {
+                  static {
+                    foo();
+                    bar();
+                  }
+                }
+            `,
+            options: [2],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [2, 2, 0, "Keyword"],
+                [3, 4, 0, "Identifier"],
+                [4, 4, 0, "Identifier"],
+                [5, 2, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+                static {
+                foo();
+                bar();
+                }
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static {
+                        foo();
+                        bar();
+                    }
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [2, 4, 0, "Keyword"],
+                [3, 8, 0, "Identifier"],
+                [4, 8, 0, "Identifier"],
+                [5, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+                        static {
+                    foo();
+                bar();
+                        }
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static {
+                        foo();
+                        bar();
+                    }
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [2, 4, 8, "Keyword"],
+                [3, 8, 4, "Identifier"],
+                [4, 8, 0, "Identifier"],
+                [5, 4, 8, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+                static {
+                foo();
+                bar();
+                }
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static {
+                            foo();
+                            bar();
+                    }
+                }
+            `,
+            options: [4, { StaticBlock: { body: 2 } }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [2, 4, 0, "Keyword"],
+                [3, 12, 0, "Identifier"],
+                [4, 12, 0, "Identifier"],
+                [5, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+                static {
+                foo();
+                bar();
+                }
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static {
+                    foo();
+                    bar();
+                    }
+                }
+            `,
+            options: [4, { StaticBlock: { body: 0 } }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [2, 4, 0, "Keyword"],
+                [3, 4, 0, "Identifier"],
+                [4, 4, 0, "Identifier"],
+                [5, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+                static {
+                foo();
+                bar();
+                }
+                }
+            `,
+            output: unIndent`
+                class C {
+                \tstatic {
+                \t\tfoo();
+                \t\tbar();
+                \t}
+                }
+            `,
+            options: ["tab"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors("tab", [
+                [2, 1, 0, "Keyword"],
+                [3, 2, 0, "Identifier"],
+                [4, 2, 0, "Identifier"],
+                [5, 1, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+                static {
+                foo();
+                bar();
+                }
+                }
+            `,
+            output: unIndent`
+                class C {
+                \tstatic {
+                \t\t\tfoo();
+                \t\t\tbar();
+                \t}
+                }
+            `,
+            options: ["tab", { StaticBlock: { body: 2 } }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors("tab", [
+                [2, 1, 0, "Keyword"],
+                [3, 3, 0, "Identifier"],
+                [4, 3, 0, "Identifier"],
+                [5, 1, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+                static
+                {
+                foo();
+                bar();
+                }
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static
+                    {
+                        foo();
+                        bar();
+                    }
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [2, 4, 0, "Keyword"],
+                [3, 4, 0, "Punctuator"],
+                [4, 8, 0, "Identifier"],
+                [5, 8, 0, "Identifier"],
+                [6, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+                    static
+                        {
+                        foo();
+                        bar();
+                        }
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static
+                    {
+                        foo();
+                        bar();
+                    }
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [3, 4, 8, "Punctuator"],
+                [6, 4, 8, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+                static {
+                var x,
+                y;
+                }
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static {
+                        var x,
+                            y;
+                    }
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [2, 4, 0, "Keyword"],
+                [3, 8, 0, "Keyword"],
+                [4, 12, 0, "Identifier"],
+                [5, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+                static
+                {
+                var x,
+                y;
+                }
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static
+                    {
+                        var x,
+                            y;
+                    }
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [2, 4, 0, "Keyword"],
+                [3, 4, 0, "Punctuator"],
+                [4, 8, 0, "Keyword"],
+                [5, 12, 0, "Identifier"],
+                [6, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+                static {
+                if (foo) {
+                bar;
+                }
+                }
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static {
+                        if (foo) {
+                            bar;
+                        }
+                    }
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [2, 4, 0, "Keyword"],
+                [3, 8, 0, "Keyword"],
+                [4, 12, 0, "Identifier"],
+                [5, 8, 0, "Punctuator"],
+                [6, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+                static {
+                {
+                bar;
+                }
+                }
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static {
+                        {
+                            bar;
+                        }
+                    }
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [2, 4, 0, "Keyword"],
+                [3, 8, 0, "Punctuator"],
+                [4, 12, 0, "Identifier"],
+                [5, 8, 0, "Punctuator"],
+                [6, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+                static {}
+
+                static {
+                }
+
+                static
+                {
+                }
+                }
+            `,
+            output: unIndent`
+                class C {
+                    static {}
+
+                    static {
+                    }
+
+                    static
+                    {
+                    }
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [2, 4, 0, "Keyword"],
+                [4, 4, 0, "Keyword"],
+                [5, 4, 0, "Punctuator"],
+                [7, 4, 0, "Keyword"],
+                [8, 4, 0, "Punctuator"],
+                [9, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+
+                static {
+                    foo;
+                }
+
+                static {
+                    bar;
+                }
+
+                }
+            `,
+            output: unIndent`
+                class C {
+
+                    static {
+                        foo;
+                    }
+
+                    static {
+                        bar;
+                    }
+
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [3, 4, 0, "Keyword"],
+                [4, 8, 4, "Identifier"],
+                [5, 4, 0, "Punctuator"],
+                [7, 4, 0, "Keyword"],
+                [8, 8, 4, "Identifier"],
+                [9, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+
+                x = 1;
+
+                static {
+                    foo;
+                }
+
+                y = 2;
+
+                }
+            `,
+            output: unIndent`
+                class C {
+
+                    x = 1;
+
+                    static {
+                        foo;
+                    }
+
+                    y = 2;
+
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [3, 4, 0, "Identifier"],
+                [5, 4, 0, "Keyword"],
+                [6, 8, 4, "Identifier"],
+                [7, 4, 0, "Punctuator"],
+                [9, 4, 0, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+
+                method1(param) {
+                    foo;
+                }
+
+                static {
+                    bar;
+                }
+
+                method2(param) {
+                    foo;
+                }
+
+                }
+            `,
+            output: unIndent`
+                class C {
+
+                    method1(param) {
+                        foo;
+                    }
+
+                    static {
+                        bar;
+                    }
+
+                    method2(param) {
+                        foo;
+                    }
+
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [3, 4, 0, "Identifier"],
+                [4, 8, 4, "Identifier"],
+                [5, 4, 0, "Punctuator"],
+                [7, 4, 0, "Keyword"],
+                [8, 8, 4, "Identifier"],
+                [9, 4, 0, "Punctuator"],
+                [11, 4, 0, "Identifier"],
+                [12, 8, 4, "Identifier"],
+                [13, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                function f() {
+                class C {
+                static {
+                foo();
+                bar();
+                }
+                }
+                }
+            `,
+            output: unIndent`
+                function f() {
+                    class C {
+                        static {
+                            foo();
+                            bar();
+                        }
+                    }
+                }
+            `,
+            options: [4],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [2, 4, 0, "Keyword"],
+                [3, 8, 0, "Keyword"],
+                [4, 12, 0, "Identifier"],
+                [5, 12, 0, "Identifier"],
+                [6, 8, 0, "Punctuator"],
+                [7, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                class C {
+                method() {
+                foo;
+                }
+                static {
+                bar;
+                }
+                }
+            `,
+            output: unIndent`
+                class C {
+                    method() {
+                            foo;
+                    }
+                    static {
+                            bar;
+                    }
+                }
+            `,
+            options: [4, { FunctionExpression: { body: 2 }, StaticBlock: { body: 2 } }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedErrors([
+                [2, 4, 0, "Identifier"],
+                [3, 12, 0, "Identifier"],
+                [4, 4, 0, "Punctuator"],
+                [5, 4, 0, "Keyword"],
+                [6, 12, 0, "Identifier"],
+                [7, 4, 0, "Punctuator"]
             ])
         }
     ]
