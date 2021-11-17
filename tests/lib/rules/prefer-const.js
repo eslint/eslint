@@ -173,7 +173,56 @@ ruleTester.run("prefer-const", rule, {
 
         // https://github.com/eslint/eslint/issues/10520
         "const x = [1,2]; let y; [,y] = x; y = 0;",
-        "const x = [1,2,3]; let y, z; [y,,z] = x; y = 0; z = 0;"
+        "const x = [1,2,3]; let y, z; [y,,z] = x; y = 0; z = 0;",
+
+        {
+            code: "class C { static { let a = 1; a = 2; } }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { let a; a = 1; a = 2; } }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "let a; class C { static { a = 1; } }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { let a; if (foo) { a = 1; } } }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { let a; if (foo) a = 1; } }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { let a, b; if (foo) { ({ a, b } = foo); } } }",
+            output: null,
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "useConst", data: { name: "a" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "b" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: "class C { static { let a, b; if (foo) ({ a, b } = foo); } }",
+            output: null,
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "useConst", data: { name: "a" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "b" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: "class C { static { a; } } let a = 1; ",
+            options: [{ ignoreReadBeforeAssign: true }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { () => a; let a = 1; } };",
+            options: [{ ignoreReadBeforeAssign: true }],
+            parserOptions: { ecmaVersion: 2022 }
+        }
     ],
     invalid: [
         {
@@ -555,6 +604,86 @@ ruleTester.run("prefer-const", rule, {
             code: "/*eslint no-undef-init:error*/ let foo = undefined;",
             output: "/*eslint no-undef-init:error*/ const foo = undefined;",
             errors: 2
+        },
+
+        {
+            code: "let a = 1; class C { static { a; } }",
+            output: "const a = 1; class C { static { a; } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "useConst", data: { name: "a" }, type: "Identifier" }]
+        },
+        {
+
+            // this is a TDZ error with either `let` or `const`, but that isn't a concern of this rule
+            code: "class C { static { a; } } let a = 1;",
+            output: "class C { static { a; } } const a = 1;",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "useConst", data: { name: "a" }, type: "Identifier" }]
+        },
+        {
+            code: "class C { static { let a = 1; } }",
+            output: "class C { static { const a = 1; } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "useConst", data: { name: "a" }, type: "Identifier" }]
+        },
+        {
+            code: "class C { static { if (foo) { let a = 1; } } }",
+            output: "class C { static { if (foo) { const a = 1; } } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "useConst", data: { name: "a" }, type: "Identifier" }]
+        },
+        {
+            code: "class C { static { let a = 1; if (foo) { a; } } }",
+            output: "class C { static { const a = 1; if (foo) { a; } } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "useConst", data: { name: "a" }, type: "Identifier" }]
+        },
+        {
+            code: "class C { static { if (foo) { let a; a = 1; } } }",
+            output: null,
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "useConst", data: { name: "a" }, type: "Identifier" }]
+        },
+        {
+            code: "class C { static { let a; a = 1; } }",
+            output: null,
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "useConst", data: { name: "a" }, type: "Identifier", column: 27 }]
+        },
+        {
+            code: "class C { static { let { a, b } = foo; } }",
+            output: "class C { static { const { a, b } = foo; } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "useConst", data: { name: "a" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "b" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: "class C { static { let a, b; ({ a, b } = foo); } }",
+            output: null,
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "useConst", data: { name: "a" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "b" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: "class C { static { let a; let b; ({ a, b } = foo); } }",
+            output: null,
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "useConst", data: { name: "a" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "b" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: "class C { static { let a; a = 0; console.log(a); } }",
+            output: null,
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "useConst", data: { name: "a" }, type: "Identifier" }
+            ]
         }
     ]
 });
