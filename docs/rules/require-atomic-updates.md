@@ -124,7 +124,7 @@ function* generator() {
 
 This rule reports an assignment to a property through a variable when it detects the following execution flow in a generator or async function:
 
-1. The variable is read. This can be reading a property through the variable.
+1. The variable or object property is read.
 2. A `yield` or `await` pauses the function.
 3. After the function is resumed, a value is assigned to a property through the variable.
 
