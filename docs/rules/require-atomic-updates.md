@@ -126,7 +126,7 @@ This rule reports an assignment to a property through a variable when it detects
 
 1. The variable or object property is read.
 2. A `yield` or `await` pauses the function.
-3. After the function is resumed, a value is assigned to a property through the variable.
+3. After the function is resumed, a value is assigned to a property.
 
 This logic is similar to the logic for variables, but stricter because the property in step 3 doesn't have to be the same as the property in step 1. It is assumed that the flow depends on the state of the object as a whole.
 
