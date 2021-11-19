@@ -48,7 +48,7 @@ This rule reports an assignment to a variable when it detects the following exec
 2. A `yield` or `await` pauses the function.
 3. After the function is resumed, a value is assigned to the variable from step 1.
 
-The assignment in step 3 is reported because this flow indicates that the assignment is based on the possibly outdated value of the variable from step 1, as the variable may have been reassigned elsewhere while the function was paused in step 2.
+The assignment in step 3 is reported because it may be incorrectly resolved because the value of the variable from step 1 may have changed between steps 2 and 3. In particular, if the variable can be accessed from other execution contexts (for example, if it is not a local variable and therefore other functions can change it), the value of the variable may have changed elsewhere while the function was paused in step 2.
 
 Note that the rule does not report the assignment in step 3 in any of the following cases:
 
