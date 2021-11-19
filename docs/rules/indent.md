@@ -79,6 +79,8 @@ This rule has an object option:
 * `"FunctionExpression"` takes an object to define rules for function expressions.
     * `parameters` (default: 1) enforces indentation level for parameters in a function expression. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the expression must be aligned with the first parameter. This can also be set to `"off"` to disable checking for FunctionExpression parameters.
     * `body` (default: 1) enforces indentation level for the body of a function expression.
+* `"StaticBlock"` takes an object to define rules for class static blocks.
+    * `body` (default: 1) enforces indentation level for the body of a class static block.
 * `"CallExpression"` takes an object to define rules for function call expressions.
     * `arguments` (default: 1) enforces indentation level for arguments in a call expression. This can either be a number indicating indentation level, or the string `"first"` indicating that all arguments of the expression must be aligned with the first argument. This can also be set to `"off"` to disable checking for CallExpression arguments.
 * `"ArrayExpression"` (default: 1) enforces indentation level for elements in arrays. It can also be set to the string `"first"`, indicating that all the elements in the array should be aligned with the first element. This can also be set to `"off"` to disable checking for array elements.
@@ -481,6 +483,56 @@ Examples of **correct** code for this rule with the `2, { "FunctionExpression": 
 var foo = function(bar, baz,
                    qux, boop) {
   qux();
+}
+```
+
+### StaticBlock
+
+Examples of **incorrect** code for this rule with the `2, { "StaticBlock": {"body": 1} }` option:
+
+```js
+/*eslint indent: ["error", 2, { "StaticBlock": {"body": 1} }]*/
+
+class C {
+  static {
+      foo();
+  }
+}
+```
+
+Examples of **correct** code for this rule with the `2, { "StaticBlock": {"body": 1} }` option:
+
+```js
+/*eslint indent: ["error", 2, { "StaticBlock": {"body": 1} }]*/
+
+class C {
+  static {
+    foo();
+  }
+}
+```
+
+Examples of **incorrect** code for this rule with the `2, { "StaticBlock": {"body": 2} }` option:
+
+```js
+/*eslint indent: ["error", 2, { "StaticBlock": {"body": 2} }]*/
+
+class C {
+  static {
+    foo();
+  }
+}
+```
+
+Examples of **correct** code for this rule with the `2, { "StaticBlock": {"body": 2} }` option:
+
+```js
+/*eslint indent: ["error", 2, { "StaticBlock": {"body": 2} }]*/
+
+class C {
+  static {
+      foo();
+  }
 }
 ```
 
