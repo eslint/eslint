@@ -18,13 +18,18 @@ This rule judges from following conditions whether or not the function is a meth
 
 * The function is on an object literal.
 * The function is assigned to a property.
-* The function is a method/getter/setter of ES2015 Classes. (excepts static methods)
+* The function is a method/getter/setter of ES2015 Classes.
 
 And this rule allows `this` keywords in functions below:
 
 * The `call/apply/bind` method of the function is called directly.
 * The function is a callback of array methods (such as `.forEach()`) if `thisArg` is given.
 * The function has `@this` tag in its JSDoc comment.
+
+And this rule always allows `this` keywords in the following contexts:
+
+* In class field initializers.
+* In class static blocks.
 
 Otherwise are considered problems.
 
@@ -166,6 +171,13 @@ Foo.prototype.foo = function foo() {
 };
 
 class Foo {
+
+    // OK, this is in a class field initializer.
+    a = this.b;
+
+    // OK, static initializers also have valid this.
+    static a = this.b;
+
     foo() {
         // OK, this is in a method.
         this.a = 0;
@@ -174,6 +186,12 @@ class Foo {
 
     static foo() {
         // OK, this is in a method (static methods also have valid this).
+        this.a = 0;
+        baz(() => this);
+    }
+
+    static {
+        // OK, static blocks also have valid this.
         this.a = 0;
         baz(() => this);
     }

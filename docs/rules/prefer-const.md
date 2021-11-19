@@ -12,7 +12,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint prefer-const: "error"*/
-/*eslint-env es6*/
 
 // it's initialized and never reassigned.
 let a = 3;
@@ -21,6 +20,14 @@ console.log(a);
 let a;
 a = 0;
 console.log(a);
+
+class C {
+    static {
+        let a;
+        a = 0;
+        console.log(a);
+    }
+}
 
 // `i` is redefined (not reassigned) on each loop step.
 for (let i in [1, 2, 3]) {
@@ -37,7 +44,6 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint prefer-const: "error"*/
-/*eslint-env es6*/
 
 // using const.
 const a = 0;
@@ -58,6 +64,15 @@ if (true) {
     a = 0;
 }
 console.log(a);
+
+// it's initialized in a different scope.
+let a;
+class C {
+    #x;
+    static {
+        a = obj => obj.#x;
+    }
+}
 
 // it's initialized at a place that we cannot write a variable declaration.
 let a;

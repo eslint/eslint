@@ -243,13 +243,14 @@ if(foo) {
 
 ### overrides
 
-Examples of **correct** code for this rule with the `{ "overrides": { "if": { "after": false }, "for": { "after": false }, "while": { "after": false } } }` option:
+Examples of **correct** code for this rule with the `{ "overrides": { "if": { "after": false }, "for": { "after": false }, "while": { "after": false }, "static": { "after": false } } }` option:
 
 ```js
 /*eslint keyword-spacing: ["error", { "overrides": {
   "if": { "after": false },
   "for": { "after": false },
-  "while": { "after": false }
+  "while": { "after": false },
+  "static": { "after": false }
 } }]*/
 
 if(foo) {
@@ -263,7 +264,13 @@ if(foo) {
 for(;;);
 
 while(true) {
-  //...
+    //...
+}
+
+class C {
+    static{
+        //...
+    }
 }
 ```
 

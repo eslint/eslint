@@ -110,7 +110,15 @@ ruleTester.run("block-scoped-var", rule, {
 
         // https://github.com/eslint/eslint/issues/2967
         "(function () { foo(); })(); function foo() {}",
-        { code: "(function () { foo(); })(); function foo() {}", parserOptions: { ecmaVersion: 6, sourceType: "module" } }
+        { code: "(function () { foo(); })(); function foo() {}", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+
+        { code: "class C { static { var foo; foo; } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo; var foo; } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { if (bar) { foo; } var foo; } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "var foo; class C { static { foo; } } ", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo; } } var foo;", parserOptions: { ecmaVersion: 2022 } },
+        { code: "var foo; class C { static {} [foo]; } ", parserOptions: { ecmaVersion: 2022 } },
+        { code: "foo; class C { static {} } var foo; ", parserOptions: { ecmaVersion: 2022 } }
     ],
     invalid: [
         { code: "function f(){ x; { var x; } }", errors: [{ messageId: "outOfScope", data: { name: "x" }, type: "Identifier" }] },
@@ -165,6 +173,11 @@ ruleTester.run("block-scoped-var", rule, {
                 { messageId: "outOfScope", data: { name: "i" }, type: "Identifier" },
                 { messageId: "outOfScope", data: { name: "i" }, type: "Identifier" }
             ]
+        },
+        {
+            code: "class C { static { if (bar) { var foo; } foo; } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "outOfScope", data: { name: "foo" }, type: "Identifier" }]
         }
     ]
 });

@@ -978,6 +978,11 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "class A { a;static[b]; }", options: [NEITHER], parserOptions: { ecmaVersion: 2022 } },
         { code: "class A { a; static #b; }", parserOptions: { ecmaVersion: 2022 } },
         { code: "class A { a;static#b; }", options: [NEITHER], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A { a() {} static {} }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A { a() {}static{} }", options: [NEITHER], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A { a() {} static {} }", options: [override("static", BOTH)], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A { a() {}static{} }", options: [override("static", NEITHER)], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A { a() {}\nstatic\n{} }", options: [NEITHER], parserOptions: { ecmaVersion: 2022 } },
 
         // not conflict with `generator-star-spacing`
         { code: "class A { static* [a]() {} }", parserOptions: { ecmaVersion: 6 } },
@@ -986,6 +991,10 @@ ruleTester.run("keyword-spacing", rule, {
         // not conflict with `semi-spacing`
         { code: "class A { ;static a() {} }", parserOptions: { ecmaVersion: 6 } },
         { code: "class A { ; static a() {} }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A { ;static a; }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A { ; static a ; }", options: [NEITHER], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A { ;static {} }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A { ; static{} }", options: [NEITHER], parserOptions: { ecmaVersion: 2022 } },
 
         //----------------------------------------------------------------------
         // super
@@ -3039,6 +3048,59 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "class A { a; static #b; }",
             output: "class A { a; static#b; }",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: unexpectedAfter("static")
+        },
+        {
+            code: "class A { a() {}static{} }",
+            output: "class A { a() {} static {} }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedBeforeAndAfter("static")
+        },
+        {
+            code: "class A { a() {}static{} }",
+            output: "class A { a() {} static {} }",
+            options: [override("static", BOTH)],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedBeforeAndAfter("static")
+        },
+        {
+            code: "class A {  a() {}static {} }",
+            output: "class A {  a() {} static {} }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedBefore("static")
+        },
+        {
+            code: "class A {  a() {} static{} }",
+            output: "class A {  a() {} static {} }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: expectedAfter("static")
+        },
+        {
+            code: "class A { a() {} static {} }",
+            output: "class A { a() {}static{} }",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: unexpectedBeforeAndAfter("static")
+        },
+        {
+            code: "class A { a() {} static {} }",
+            output: "class A { a() {}static{} }",
+            options: [override("static", NEITHER)],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: unexpectedBeforeAndAfter("static")
+        },
+        {
+            code: "class A { a() {} static{} }",
+            output: "class A { a() {}static{} }",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: unexpectedBefore("static")
+        },
+        {
+            code: "class A { a() {}static {} }",
+            output: "class A { a() {}static{} }",
             options: [NEITHER],
             parserOptions: { ecmaVersion: 2022 },
             errors: unexpectedAfter("static")

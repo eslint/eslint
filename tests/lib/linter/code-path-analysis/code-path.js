@@ -106,6 +106,12 @@ describe("CodePathAnalyzer", () => {
 
             assert.strictEqual(codePath.origin, "class-field-initializer");
         });
+
+        it("should be 'class-static-block' when code path starts inside a class static block", () => {
+            const codePath = parseCodePaths("class Foo { static { this.a=1; } }")[1];
+
+            assert.strictEqual(codePath.origin, "class-static-block");
+        });
     });
 
     describe(".traverseSegments()", () => {
