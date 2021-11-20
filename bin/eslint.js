@@ -9,8 +9,14 @@
 
 "use strict";
 
-// to use V8's code cache to speed up instantiation time
-require("v8-compile-cache");
+/*
+ * If running in Node.js use V8's code cache to speed up instantiation time.
+ * This checks for presence of `Deno` on `globalThis`, because Deno in Node.js
+ * compatibility mode provides polyfill for all globals present in Node (eg. `process`).
+ */
+if (!globalThis.Deno) {
+    require("v8-compile-cache");
+}
 
 // must do this initialization *before* other requires in order to work
 if (process.argv.includes("--debug")) {
