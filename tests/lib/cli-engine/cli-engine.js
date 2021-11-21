@@ -1165,7 +1165,7 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.warningCount, 0);
             assert.strictEqual(report.fixableErrorCount, 0);
             assert.strictEqual(report.fixableWarningCount, 0);
-            assert.strictEqual(report.results.length, 4);
+            assert.strictEqual(report.results.length, 5);
             assert.strictEqual(path.relative(fixturePath, report.results[0].filePath), "async.js");
             assert.strictEqual(report.results[0].errorCount, 0);
             assert.strictEqual(report.results[0].warningCount, 0);
@@ -1178,18 +1178,24 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[1].fixableErrorCount, 0);
             assert.strictEqual(report.results[1].fixableWarningCount, 0);
             assert.strictEqual(report.results[1].messages.length, 0);
-            assert.strictEqual(path.relative(fixturePath, report.results[2].filePath), "simple.js");
+            assert.strictEqual(path.relative(fixturePath, report.results[2].filePath), "cwd.js");
             assert.strictEqual(report.results[2].errorCount, 0);
             assert.strictEqual(report.results[2].warningCount, 0);
             assert.strictEqual(report.results[2].fixableErrorCount, 0);
             assert.strictEqual(report.results[2].fixableWarningCount, 0);
             assert.strictEqual(report.results[2].messages.length, 0);
-            assert.strictEqual(path.relative(fixturePath, report.results[3].filePath), path.join("test", "simple.js"));
+            assert.strictEqual(path.relative(fixturePath, report.results[3].filePath), "simple.js");
             assert.strictEqual(report.results[3].errorCount, 0);
             assert.strictEqual(report.results[3].warningCount, 0);
             assert.strictEqual(report.results[3].fixableErrorCount, 0);
             assert.strictEqual(report.results[3].fixableWarningCount, 0);
             assert.strictEqual(report.results[3].messages.length, 0);
+            assert.strictEqual(path.relative(fixturePath, report.results[4].filePath), path.join("test", "simple.js"));
+            assert.strictEqual(report.results[4].errorCount, 0);
+            assert.strictEqual(report.results[4].warningCount, 0);
+            assert.strictEqual(report.results[4].fixableErrorCount, 0);
+            assert.strictEqual(report.results[4].fixableWarningCount, 0);
+            assert.strictEqual(report.results[4].messages.length, 0);
         });
 
 
@@ -1207,7 +1213,7 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.warningCount, 0);
             assert.strictEqual(report.fixableErrorCount, 6);
             assert.strictEqual(report.fixableWarningCount, 0);
-            assert.strictEqual(report.results.length, 4);
+            assert.strictEqual(report.results.length, 5);
             assert.strictEqual(path.relative(fixturePath, report.results[0].filePath), "async.js");
             assert.strictEqual(report.results[0].errorCount, 0);
             assert.strictEqual(report.results[0].warningCount, 0);
@@ -1218,16 +1224,21 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[1].warningCount, 0);
             assert.strictEqual(report.results[1].fixableErrorCount, 0);
             assert.strictEqual(report.results[1].fixableWarningCount, 0);
-            assert.strictEqual(path.relative(fixturePath, report.results[2].filePath), "simple.js");
-            assert.strictEqual(report.results[2].errorCount, 3);
+            assert.strictEqual(path.relative(fixturePath, report.results[2].filePath), "cwd.js");
+            assert.strictEqual(report.results[2].errorCount, 0);
             assert.strictEqual(report.results[2].warningCount, 0);
-            assert.strictEqual(report.results[2].fixableErrorCount, 3);
+            assert.strictEqual(report.results[2].fixableErrorCount, 0);
             assert.strictEqual(report.results[2].fixableWarningCount, 0);
-            assert.strictEqual(path.relative(fixturePath, report.results[3].filePath), path.join("test", "simple.js"));
+            assert.strictEqual(path.relative(fixturePath, report.results[3].filePath), "simple.js");
             assert.strictEqual(report.results[3].errorCount, 3);
             assert.strictEqual(report.results[3].warningCount, 0);
             assert.strictEqual(report.results[3].fixableErrorCount, 3);
             assert.strictEqual(report.results[3].fixableWarningCount, 0);
+            assert.strictEqual(path.relative(fixturePath, report.results[4].filePath), path.join("test", "simple.js"));
+            assert.strictEqual(report.results[4].errorCount, 3);
+            assert.strictEqual(report.results[4].warningCount, 0);
+            assert.strictEqual(report.results[4].fixableErrorCount, 3);
+            assert.strictEqual(report.results[4].fixableWarningCount, 0);
         });
 
         it("should process when file is given by not specifying extensions", () => {
