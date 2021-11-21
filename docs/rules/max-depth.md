@@ -20,7 +20,6 @@ Examples of **incorrect** code for this rule with the default `{ "max": 4 }` opt
 
 ```js
 /*eslint max-depth: ["error", 4]*/
-/*eslint-env es6*/
 
 function foo() {
     for (;;) { // Nested 1 deep
@@ -40,13 +39,54 @@ Examples of **correct** code for this rule with the default `{ "max": 4 }` optio
 
 ```js
 /*eslint max-depth: ["error", 4]*/
-/*eslint-env es6*/
 
 function foo() {
     for (;;) { // Nested 1 deep
         while (true) { // Nested 2 deep
             if (true) { // Nested 3 deep
                 if (true) { // Nested 4 deep
+                }
+            }
+        }
+    }
+}
+```
+
+Note that class static blocks do not count as nested blocks, and that the depth in them is calculated separately from the enclosing context.
+
+Examples of **incorrect** code for this rule with `{ "max": 2 }` option:
+
+```js
+/*eslint max-depth: ["error", 2]*/
+
+function foo() {
+    if (true) { // Nested 1 deep
+        class C {
+            static {
+                if (true) { // Nested 1 deep
+                    if (true) { // Nested 2 deep
+                        if (true) { // Nested 3 deep
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+Examples of **correct** code for this rule with `{ "max": 2 }` option:
+
+```js
+/*eslint max-depth: ["error", 2]*/
+
+function foo() {
+    if (true) { // Nested 1 deep
+        class C {
+            static {
+                if (true) { // Nested 1 deep
+                    if (true) { // Nested 2 deep
+                    }
                 }
             }
         }
