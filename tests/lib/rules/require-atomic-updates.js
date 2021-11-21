@@ -214,7 +214,29 @@ ruleTester.run("require-atomic-updates", rule, {
                 await a;
                 b = 1;
             }
-        `
+        `,
+
+        // allowProperties
+        {
+            code: `
+                async function a(foo) {
+                    if (foo.bar) {
+                        foo.bar = await something;
+                    }
+                }
+            `,
+            options: [{ allowProperties: true }]
+        },
+        {
+            code: `
+                function* g(foo) {
+                    baz = foo.bar;
+                    yield something;
+                    foo.bar = 1;
+                }
+            `,
+            options: [{ allowProperties: true }]
+        }
     ],
 
     invalid: [
@@ -358,6 +380,99 @@ ruleTester.run("require-atomic-updates", rule, {
                     line: 8
                 }
             ]
+        },
+
+        // allowProperties
+        {
+            code: `
+                async function a(foo) {
+                    if (foo.bar) {
+                        foo.bar = await something;
+                    }
+                }
+            `,
+            errors: [STATIC_PROPERTY_ERROR]
+        },
+        {
+            code: `
+                function* g(foo) {
+                    baz = foo.bar;
+                    yield something;
+                    foo.bar = 1;
+                }
+            `,
+            errors: [STATIC_PROPERTY_ERROR]
+        },
+        {
+            code: `
+                async function a(foo) {
+                    if (foo.bar) {
+                        foo.bar = await something;
+                    }
+                }
+            `,
+            options: [{}],
+            errors: [STATIC_PROPERTY_ERROR]
+
+        },
+        {
+            code: `
+                function* g(foo) {
+                    baz = foo.bar;
+                    yield something;
+                    foo.bar = 1;
+                }
+            `,
+            options: [{}],
+            errors: [STATIC_PROPERTY_ERROR]
+        },
+        {
+            code: `
+                async function a(foo) {
+                    if (foo.bar) {
+                        foo.bar = await something;
+                    }
+                }
+            `,
+            options: [{ allowProperties: false }],
+            errors: [STATIC_PROPERTY_ERROR]
+
+        },
+        {
+            code: `
+                function* g(foo) {
+                    baz = foo.bar;
+                    yield something;
+                    foo.bar = 1;
+                }
+            `,
+            options: [{ allowProperties: false }],
+            errors: [STATIC_PROPERTY_ERROR]
+        },
+        {
+            code: `
+                let foo;
+                async function a() {
+                    if (foo) {
+                        foo = await something;
+                    }
+                }
+            `,
+            options: [{ allowProperties: true }],
+            errors: [VARIABLE_ERROR]
+
+        },
+        {
+            code: `
+                let foo;
+                function* g() {
+                    baz = foo;
+                    yield something;
+                    foo = 1;
+                }
+            `,
+            options: [{ allowProperties: true }],
+            errors: [VARIABLE_ERROR]
         }
     ]
 });
