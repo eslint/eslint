@@ -73,8 +73,27 @@ ruleTester.run("no-inner-declarations", rule, {
         {
             code: "module.exports = function foo(){}",
             options: ["both"]
+        },
+        {
+            code: "class C { method() { function foo() {} } }",
+            options: ["both"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { method() { var x; } }",
+            options: ["both"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { function foo() {} } }",
+            options: ["both"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { var x; } }",
+            options: ["both"],
+            parserOptions: { ecmaVersion: 2022 }
         }
-
     ],
 
     // Examples of code that should trigger the rule
@@ -271,7 +290,54 @@ ruleTester.run("no-inner-declarations", rule, {
                 },
                 type: "VariableDeclaration"
             }]
+        }, {
+            code: "class C { method() { if(test) { var foo; } } }",
+            options: ["both"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "function body"
+                },
+                type: "VariableDeclaration"
+            }]
+        }, {
+            code: "class C { static { if (test) { function foo() {} } } }",
+            options: ["both"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "function",
+                    body: "class static block body"
+                },
+                type: "FunctionDeclaration"
+            }]
+        }, {
+            code: "class C { static { if (test) { var foo; } } }",
+            options: ["both"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "class static block body"
+                },
+                type: "VariableDeclaration"
+            }]
+        }, {
+            code: "class C { static { if (test) { if (anotherTest) { var foo; } } } }",
+            options: ["both"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "class static block body"
+                },
+                type: "VariableDeclaration"
+            }]
         }
-
     ]
 });
