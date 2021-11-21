@@ -38,6 +38,8 @@ ruleTester.run("no-use-before-define", rule, {
         "var foo = function() { foo(); };",
         "var a; for (a in a) {}",
         { code: "var a; for (a of a) {}", parserOptions: { ecmaVersion: 6 } },
+        { code: "let a; class C { static { a; } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { let a; a; } }", parserOptions: { ecmaVersion: 2022 } },
 
         // Block-level bindings
         { code: "\"use strict\"; a(); { function a() {} }", parserOptions: { ecmaVersion: 6 } },
@@ -59,6 +61,11 @@ ruleTester.run("no-use-before-define", rule, {
             code: "var foo = () => bar; var bar;",
             options: [{ variables: false }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class C { static { () => foo; let foo; } }",
+            options: [{ variables: false }],
+            parserOptions: { ecmaVersion: 2022 }
         },
 
         // Tests related to class definition evaluation. These are not TDZ errors.
@@ -155,6 +162,52 @@ ruleTester.run("no-use-before-define", rule, {
         {
             code: "class C { static field = class { field = a; }; } let a;",
             options: [{ variables: false }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { C; } }", // `const C = class { static { C; } }` is TDZ error
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { C; } static {} static { C; } }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "(class C { static { C; } })",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { class D extends C {} } }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { (class { static { C } }) } }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { () => C; } }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "(class C { static { () => C; } })",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "const C = class { static { () => C; } }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { () => D; } } class D {}",
+            options: [{ classes: false }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { () => a; } } let a;",
+            options: [{ variables: false }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "const C = class C { static { C.x; } }",
             parserOptions: { ecmaVersion: 2022 }
         }
     ],
@@ -969,6 +1022,69 @@ ruleTester.run("no-use-before-define", rule, {
         },
         {
             code: "class C { static field = class { static field = a; }; } let a;",
+            options: [{ variables: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" }
+            }]
+        },
+        {
+            code: "const C = class { static { C; } };",
+            options: [{ variables: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "C" }
+            }]
+        },
+        {
+            code: "const C = class { static { (class extends C {}); } };",
+            options: [{ variables: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "C" }
+            }]
+        },
+        {
+            code: "class C { static { a; } } let a;",
+            options: [{ variables: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" }
+            }]
+        },
+        {
+            code: "class C { static { D; } } class D {}",
+            options: [{ classes: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "D" }
+            }]
+        },
+        {
+            code: "class C { static { (class extends D {}); } } class D {}",
+            options: [{ classes: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "D" }
+            }]
+        },
+        {
+            code: "class C { static { (class { [a](){} }); } } let a;",
+            options: [{ variables: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" }
+            }]
+        },
+        {
+            code: "class C { static { (class { static field = a; }); } } let a;",
             options: [{ variables: false }],
             parserOptions: { ecmaVersion: 2022 },
             errors: [{
