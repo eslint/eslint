@@ -28,6 +28,72 @@ ruleTester.run("no-redeclare", rule, {
                 ecmaVersion: 6
             }
         },
+        {
+            code: "var a; class C { static { var a; } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "class C { static { var a; } } var a; ",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "function a(){} class C { static { var a; } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "var a; class C { static { function a(){} } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "class C { static { var a; } static { var a; } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "class C { static { function a(){} } static { function a(){} } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "class C { static { var a; { function a(){} } } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "class C { static { function a(){}; { function a(){} } } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "class C { static { var a; { let a; } } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "class C { static { let a; { let a; } } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "class C { static { { let a; } { let a; } } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
         { code: "var Object = 0;", options: [{ builtinGlobals: false }] },
         { code: "var Object = 0;", options: [{ builtinGlobals: true }], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "var Object = 0;", options: [{ builtinGlobals: true }], parserOptions: { ecmaFeatures: { globalReturn: true } } },
@@ -80,6 +146,37 @@ ruleTester.run("no-redeclare", rule, {
         { code: "var a = 3; var a = 10; var a = 15;", errors: [{ message: "'a' is already defined.", type: "Identifier" }, { message: "'a' is already defined.", type: "Identifier" }] },
         { code: "var a; var a;", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
         { code: "export var a; var a;", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
+
+        // `var` redeclaration in class static blocks. Redeclaration of functions is not allowed in class static blocks.
+        {
+            code: "class C { static { var a; var a; } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ message: "'a' is already defined.", type: "Identifier" }]
+        },
+        {
+            code: "class C { static { var a; { var a; } } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ message: "'a' is already defined.", type: "Identifier" }]
+        },
+        {
+            code: "class C { static { { var a; } var a; } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ message: "'a' is already defined.", type: "Identifier" }]
+        },
+        {
+            code: "class C { static { { var a; } { var a; } } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ message: "'a' is already defined.", type: "Identifier" }]
+        },
+
         {
             code: "var Object = 0;",
             options: [{ builtinGlobals: true }],
