@@ -11,7 +11,7 @@ module.exports = function(results) {
 };
 ```
 
-Formatter can also be an async function (from ESLint 8.2.0), the following shows a simple example:
+Formatter can also be an async function (from ESLint 8.4.0), the following shows a simple example:
 
 ```js
 //my-awesome-formatter.js
