@@ -7126,8 +7126,7 @@ describe("Linter with FlatConfigArray", () => {
 
                     const parserOptions = {
                         ecmaFeatures: {
-                            jsx: true,
-                            globalReturn: true
+                            jsx: true
                         }
                     };
 
@@ -7143,6 +7142,42 @@ describe("Linter with FlatConfigArray", () => {
                         },
                         languageOptions: {
                             parserOptions
+                        },
+                        rules: {
+                            "test/test-rule": 2
+                        }
+                    };
+
+                    linter.verify("0", config, filename);
+                });
+
+                it("should switch globalReturn to false if sourceType is module", () => {
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    "test-rule": sinon.mock().withArgs(
+                                        sinon.match({
+                                            languageOptions: {
+                                                parserOptions: {
+                                                    ecmaFeatures: {
+                                                        globalReturn: false
+                                                    }
+                                                }
+                                            }
+                                        })
+                                    ).returns({})
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            sourceType: "module",
+                            parserOptions: {
+                                ecmaFeatures: {
+                                    globalReturn: true
+                                }
+                            }
                         },
                         rules: {
                             "test/test-rule": 2
