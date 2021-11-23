@@ -4180,6 +4180,34 @@ var a = "test2";
                 assert.strictEqual(ecmaVersion, espree.latestEcmaVersion + 2009, "ecmaVersion should be 2022");
             });
 
+            it("the 'next' is equal to espree.latestEcmaVersion on languageOptions with custom parser", () => {
+                let ecmaVersion = null;
+                const config = { rules: { "ecma-version": 2 }, parser: "custom-parser", parserOptions: { ecmaVersion: "next" } };
+
+                linter.defineParser("custom-parser", testParsers.stubParser);
+                linter.defineRule("ecma-version", context => ({
+                    Program() {
+                        ecmaVersion = context.languageOptions.ecmaVersion;
+                    }
+                }));
+                linter.verify("", config);
+                assert.strictEqual(ecmaVersion, espree.latestEcmaVersion + 2009, "ecmaVersion should be 2022");
+            });
+
+            it("missing ecmaVersion is equal to 5 on languageOptions with custom parser", () => {
+                let ecmaVersion = null;
+                const config = { rules: { "ecma-version": 2 }, parser: "custom-parser" };
+
+                linter.defineParser("custom-parser", testParsers.enhancedParser);
+                linter.defineRule("ecma-version", context => ({
+                    Program() {
+                        ecmaVersion = context.languageOptions.ecmaVersion;
+                    }
+                }));
+                linter.verify("", config);
+                assert.strictEqual(ecmaVersion, 5, "ecmaVersion should be 2022");
+            });
+
             it("should pass normalized ecmaVersion to eslint-scope", () => {
                 let blockScope = null;
 

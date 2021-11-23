@@ -10,9 +10,10 @@
 //-----------------------------------------------------------------------------
 
 const commonjs = {
-    require: false,
-    exports: false,
-    module: false
+    exports: true,
+    global: false,
+    module: false,
+    require: false
 };
 
 const es3 = {
