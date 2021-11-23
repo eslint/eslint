@@ -26,7 +26,18 @@ ruleTester.run("max-depth", rule, {
         "function foo() { if (true) { if (false) { if (true) { } } } }",
 
         // object property options
-        { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [{ max: 3 }] }
+        { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [{ max: 3 }] },
+
+        { code: "class C { static { if (1) { if (2) {} } } }", options: [2], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { if (1) { if (2) {} } if (1) { if (2) {} } } }", options: [2], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { if (1) { if (2) {} } } static { if (1) { if (2) {} } } }", options: [2], parserOptions: { ecmaVersion: 2022 } },
+        { code: "if (1) { class C { static { if (1) { if (2) {} } } } }", options: [2], parserOptions: { ecmaVersion: 2022 } },
+        { code: "function foo() { if (1) { class C { static { if (1) { if (2) {} } } } } }", options: [2], parserOptions: { ecmaVersion: 2022 } },
+        {
+            code: "function foo() { if (1) { if (2) { class C { static { if (1) { if (2) {} } if (1) { if (2) {} } } } } } if (1) { if (2) {} } }",
+            options: [2],
+            parserOptions: { ecmaVersion: 2022 }
+        }
     ],
     invalid: [
         { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [2], errors: [{ messageId: "tooDeeply", data: { depth: 3, maxDepth: 2 }, type: "IfStatement" }] },
@@ -41,6 +52,51 @@ ruleTester.run("max-depth", rule, {
         { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [{ max: 2 }], errors: [{ messageId: "tooDeeply", data: { depth: 3, maxDepth: 2 }, type: "IfStatement" }] },
 
         { code: "function foo() { if (a) { if (b) { if (c) { if (d) { if (e) {} } } } } }", options: [{}], errors: [{ messageId: "tooDeeply", data: { depth: 5, maxDepth: 4 } }] },
-        { code: "function foo() { if (true) {} }", options: [{ max: 0 }], errors: [{ messageId: "tooDeeply", data: { depth: 1, maxDepth: 0 } }] }
+        { code: "function foo() { if (true) {} }", options: [{ max: 0 }], errors: [{ messageId: "tooDeeply", data: { depth: 1, maxDepth: 0 } }] },
+
+        {
+            code: "class C { static { if (1) { if (2) { if (3) {} } } } }",
+            options: [2],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "tooDeeply",
+                data: { depth: 3, maxDepth: 2 },
+                line: 1,
+                column: 38
+            }]
+        },
+        {
+            code: "if (1) { class C { static { if (1) { if (2) { if (3) {} } } } } }",
+            options: [2],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "tooDeeply",
+                data: { depth: 3, maxDepth: 2 },
+                line: 1,
+                column: 47
+            }]
+        },
+        {
+            code: "function foo() { if (1) { class C { static { if (1) { if (2) { if (3) {} } } } } } }",
+            options: [2],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "tooDeeply",
+                data: { depth: 3, maxDepth: 2 },
+                line: 1,
+                column: 64
+            }]
+        },
+        {
+            code: "function foo() { if (1) { class C { static { if (1) { if (2) {} } } } if (2) { if (3) {} } } }",
+            options: [2],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "tooDeeply",
+                data: { depth: 3, maxDepth: 2 },
+                line: 1,
+                column: 80
+            }]
+        }
     ]
 });

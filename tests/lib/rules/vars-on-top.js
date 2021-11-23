@@ -191,6 +191,84 @@ ruleTester.run("vars-on-top", rule, {
                 ecmaVersion: 6,
                 sourceType: "module"
             }
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        var x;",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        var x;",
+                "        foo();",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        var x;",
+                "        var y;",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        var x;",
+                "        var y;",
+                "        foo();",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        let x;",
+                "        var y;",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        foo();",
+                "        let x;",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            }
         }
     ],
 
@@ -425,6 +503,78 @@ ruleTester.run("vars-on-top", rule, {
             parserOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
+            },
+            errors: [error]
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        foo();",
+                "        var x;",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [error]
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        'use strict';", // static blocks do not have directives
+                "        var x;",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [error]
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        var x;",
+                "        foo();",
+                "        var y;",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ ...error, line: 5 }]
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        if (foo) {",
+                "            var x;",
+                "        }",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [error]
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        if (foo)",
+                "            var x;",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
             },
             errors: [error]
         }

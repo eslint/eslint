@@ -1495,7 +1495,10 @@ describe("ast-utils", () => {
             [["(", "123invalidtoken"], false],
             [["(", "1n"], true],
             [["1n", "+"], true],
-            [["1n", "in"], false]
+            [["1n", "in"], false],
+            [["return", "#x"], true],
+            [["yield", "#x"], true],
+            [["get", "#x"], true]
         ]);
 
         CASES.forEach((expectedResult, tokenStrings) => {
