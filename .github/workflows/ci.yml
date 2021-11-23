@@ -56,6 +56,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: denoland/setup-deno@v1
+    - name: Install Packages
+      run: npm install
     - name: Test
       run: deno run --no-check --compat --unstable --allow-read --allow-write=./ ./bin/eslint.js lib/ tests/
 
