@@ -59,7 +59,7 @@ jobs:
     - name: Install Packages
       run: npm install
     - name: Test
-      run: deno run --no-check --compat --unstable --allow-read --allow-write=./ ./bin/eslint.js lib/ tests/
+      run: deno run --no-check --compat --unstable --allow-read --allow-write=./ --allow-env ./bin/eslint.js lib/ tests/
 
   test_on_browser:
     name: Browser Test
