@@ -55,7 +55,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
-    - uses: denoland/setup-deno
+    - uses: denoland/setup-deno@v1
     - name: Test
       run: deno run --no-check --compat --unstable --allow-read --allow-write=./ ./bin/eslint.js lib/ tests/
 
