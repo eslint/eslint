@@ -47,6 +47,18 @@ jobs:
     - name: Fuzz Test
       run: node Makefile fuzz
 
+  test_on_deno:
+    name: Test
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOs-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-deno
+    - name: Test
+      run: deno run --no-check --compat --unstable --allow-read --allow-write=./ ./bin/eslint.js lib/ tests/
+
   test_on_browser:
     name: Browser Test
     runs-on: ubuntu-latest
