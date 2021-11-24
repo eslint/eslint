@@ -15,8 +15,8 @@ This rule has an object option:
 * `"afterBlockComment": true` requires an empty line after block comments
 * `"beforeLineComment": true` requires an empty line before line comments
 * `"afterLineComment": true` requires an empty line after line comments
-* `"allowBlockStart": true` allows comments to appear at the start of block statements
-* `"allowBlockEnd": true` allows comments to appear at the end of block statements
+* `"allowBlockStart": true` allows comments to appear at the start of block statements, function bodies, classes, and class static blocks
+* `"allowBlockEnd": true` allows comments to appear at the end of block statements, function bodies, classes, and class static blocks
 * `"allowObjectStart": true` allows comments to appear at the start of object literals
 * `"allowObjectEnd": true` allows comments to appear at the end of object literals
 * `"allowArrayStart": true` allows comments to appear at the start of array literals
@@ -133,6 +133,25 @@ function foo(){
     var day = "great"
     return day;
 }
+
+if (bar) {
+    // what a great and wonderful day
+    foo();
+}
+
+class C {
+    // what a great and wonderful day
+
+    method() {
+        // what a great and wonderful day
+        foo();
+    }
+
+    static {
+        // what a great and wonderful day
+        foo();
+    }
+}
 ```
 
 Examples of **correct** code for this rule with the `{ "beforeBlockComment": true, "allowBlockStart": true }` options:
@@ -144,6 +163,25 @@ function foo(){
     /* what a great and wonderful day */
     var day = "great"
     return day;
+}
+
+if (bar) {
+    /* what a great and wonderful day */
+    foo();
+}
+
+class C {
+    /* what a great and wonderful day */
+
+    method() {
+        /* what a great and wonderful day */
+        foo();
+    }
+
+    static {
+        /* what a great and wonderful day */
+        foo();
+    }
 }
 ```
 
@@ -159,6 +197,26 @@ function foo(){
     return day;
     // what a great and wonderful day
 }
+
+if (bar) {
+    foo();
+    // what a great and wonderful day
+}
+
+class C {
+
+    method() {
+        foo();
+        // what a great and wonderful day
+    }
+
+    static {
+        foo();
+        // what a great and wonderful day
+    }
+
+    // what a great and wonderful day
+}
 ```
 
 Examples of **correct** code for this rule with the `{ "afterBlockComment": true, "allowBlockEnd": true }` option:
@@ -169,6 +227,29 @@ Examples of **correct** code for this rule with the `{ "afterBlockComment": true
 function foo(){
     var day = "great"
     return day;
+
+    /* what a great and wonderful day */
+}
+
+if (bar) {
+    foo();
+
+    /* what a great and wonderful day */
+}
+
+class C {
+
+    method() {
+        foo();
+
+        /* what a great and wonderful day */
+    }
+
+    static {
+        foo();
+
+        /* what a great and wonderful day */
+    }
 
     /* what a great and wonderful day */
 }

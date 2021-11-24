@@ -112,6 +112,30 @@ let foo = () => {
 }
 ```
 
+Note that this rule does not apply to class static blocks, and that statements in class static blocks do not count as statements in the enclosing function.
+
+Examples of **correct** code for this rule with `{ "max": 2 }` option:
+
+```js
+/*eslint max-statements: ["error", 2]*/
+
+function foo() {
+    let one;
+    let two = class {
+        static {
+            let three;
+            let four;
+            let five;
+            if (six) {
+                let seven;
+                let eight;
+                let nine;
+            }
+        }
+    };
+}
+```
+
 ### ignoreTopLevelFunctions
 
 Examples of additional **correct** code for this rule with the `{ "max": 10 }, { "ignoreTopLevelFunctions": true }` options:

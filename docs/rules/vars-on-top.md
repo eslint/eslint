@@ -14,11 +14,10 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint vars-on-top: "error"*/
 
-// Variable declarations in a block:
+// Variable declaration in a nested block, and a variable declaration after other statements:
 function doSomething() {
-    var first;
     if (true) {
-        first = true;
+        var first = true;
     }
     var second;
 }
@@ -32,9 +31,32 @@ function doSomething() {
 ```js
 /*eslint vars-on-top: "error"*/
 
-// Variables after other statements:
+// Variable declaration after other statements:
 f();
 var a;
+```
+
+```js
+/*eslint vars-on-top: "error"*/
+
+// Variables in class static blocks should be at the top of the static blocks.
+
+class C {
+
+    // Variable declaration in a nested block:
+    static {
+        if (something) {
+            var a = true;
+        }
+    }
+
+    // Variable declaration after other statements:
+    static {
+        f();
+        var a;
+    }
+
+}
 ```
 
 Examples of **correct** code for this rule:
@@ -61,6 +83,26 @@ function doSomething() {
 
 var a;
 f();
+```
+
+```js
+/*eslint vars-on-top: "error"*/
+
+class C {
+
+    static {
+        var a;
+        if (something) {
+            a = true;
+        }
+    }
+
+    static {
+        var a;
+        f();
+    }
+
+}
 ```
 
 ```js

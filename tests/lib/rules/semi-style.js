@@ -127,6 +127,202 @@ ruleTester.run("semi-style", rule, {
                 while (a)
             `,
             options: ["last"]
+        },
+
+        // Class static blocks
+        {
+            code: `
+                class C {
+                    static {}
+                }
+            `,
+            options: ["last"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+                class C {
+                    static {
+                        foo
+                    }
+                }
+            `,
+            options: ["last"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+                class C {
+                    static {
+                        foo
+                        bar
+                    }
+                }
+            `,
+            options: ["last"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+                class C {
+                    static {
+                        ;
+                    }
+                }
+            `,
+            options: ["last"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+                class C {
+                    static {
+                        foo;
+                    }
+                }
+            `,
+            options: ["last"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+                class C {
+                    static {
+                        foo;
+                        bar;
+                    }
+                }
+            `,
+            options: ["last"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+                class C {
+                    static {
+                        foo;
+                        bar;
+                        baz;
+                    }
+                }
+            `,
+            options: ["last"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+                class C {
+                    static {}
+                }
+            `,
+            options: ["first"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+                class C {
+                    static {
+                        foo
+                    }
+                }
+            `,
+            options: ["first"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+                class C {
+                    static {
+                        foo
+                        bar
+                    }
+                }
+            `,
+            options: ["first"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+                class C {
+                    static {
+                        ;
+                    }
+                }
+            `,
+            options: ["first"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+                class C {
+                    static {
+                        ;foo
+                    }
+                }
+            `,
+            options: ["first"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+                class C {
+                    static {
+                        foo;
+                    }
+                }
+            `,
+            options: ["first"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+                class C {
+                    static {
+                        foo
+                        ;bar
+                    }
+                }
+            `,
+            options: ["first"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+                class C {
+                    static {
+                        foo
+                        ;bar;
+                    }
+                }
+            `,
+            options: ["first"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+                class C {
+                    static {
+                        foo
+                        ;bar
+                        ;baz
+                    }
+                }
+            `,
+            options: ["first"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+                class C {
+                    static {
+                        foo
+                        ;bar
+                        ;baz;
+                    }
+                }
+            `,
+            options: ["first"],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -406,6 +602,56 @@ ruleTester.run("semi-style", rule, {
         {
             code: "class C { foo;\nbar }",
             output: "class C { foo\n;bar }",
+            options: ["first"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the beginning of the next line"
+                }
+            }]
+        },
+
+        // Class static blocks
+        {
+            code: "class C { static { foo\n; } }",
+            output: "class C { static { foo;\n} }",
+            options: ["last"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
+        },
+        {
+            code: "class C { static { foo\n ;bar } }",
+            output: "class C { static { foo;\nbar } }",
+            options: ["last"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
+        },
+        {
+            code: "class C { static { foo;\nbar\n ; } }",
+            output: "class C { static { foo;\nbar;\n} }",
+            options: ["last"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
+        },
+        {
+            code: "class C { static { foo;\nbar } }",
+            output: "class C { static { foo\n;bar } }",
             options: ["first"],
             parserOptions: { ecmaVersion: 2022 },
             errors: [{
