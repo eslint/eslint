@@ -404,7 +404,7 @@ This edit information means replacing the range of the `range` property by the `
 
 The `Formatter` value is the object to convert the [LintResult] objects to text. The [eslint.loadFormatter()][eslint-loadformatter] method returns it. It has the following method:
 
-* `format` (`(results: LintResult[]) => string`)<br>
+* `format` (`(results: LintResult[]) => string | Promise<string>`)<br>
   The method to convert the [LintResult] objects to text.
 
 ---
