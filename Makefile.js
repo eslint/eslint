@@ -789,6 +789,8 @@ target.checkRuleFiles = function() {
     RULE_FILES.forEach(filename => {
         const basename = path.basename(filename, ".js");
         const docFilename = `docs/rules/${basename}.md`;
+        const docText = cat(docFilename);
+        const ruleCode = cat(filename);
 
         /**
          * Check if basename is present in rule-types.json file.
@@ -806,7 +808,6 @@ target.checkRuleFiles = function() {
          * @private
          */
         function hasIdInTitle(id) {
-            const docText = cat(docFilename);
             const idOldAtEndOfTitleRegExp = new RegExp(`^# (.*?) \\(${id}\\)`, "u"); // original format
             const idNewAtBeginningOfTitleRegExp = new RegExp(`^# ${id}: `, "u"); // new format is same as rules index
             /*
@@ -824,12 +825,21 @@ target.checkRuleFiles = function() {
          * @private
          */
         function hasDeprecatedInfo() {
-            const ruleCode = cat(filename);
             const deprecatedTagRegExp = /@deprecated in ESLint/u;
-            const docText = cat(docFilename);
             const deprecatedInfoRegExp = /This rule was .+deprecated.+in ESLint/u;
 
             return deprecatedTagRegExp.test(ruleCode) && deprecatedInfoRegExp.test(docText);
+        }
+
+        /**
+         * Check if the rule code has the jsdoc comment with the rule type annotation.
+         * @returns {boolean} true if present
+         * @private
+         */
+        function hasRuleTypeJSDocComment() {
+            const comment = "/** @type {import('../shared/types').Rule} */";
+
+            return ruleCode.includes(comment);
         }
 
         // check for docs
@@ -879,6 +889,11 @@ target.checkRuleFiles = function() {
                     console.error(`Extra rule in eslint:recommended (./conf/eslint-recommended.js): ${basename}. If you just added a rule then don't add an entry for it in this file.`);
                     errors++;
                 }
+            }
+
+            if (!hasRuleTypeJSDocComment()) {
+                console.error(`Missing rule type JSDoc comment from ${basename} rule code.`);
+                errors++;
             }
         }
 
