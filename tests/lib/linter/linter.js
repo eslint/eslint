@@ -9287,10 +9287,10 @@ describe("Linter with FlatConfigArray", () => {
                                             const globalScope = context.getScope(),
                                                 childScope = globalScope.childScopes[0];
 
-                                            assert.isTrue(context.markVariableAsUsed("a"));
+                                            assert.isTrue(context.markVariableAsUsed("a"), "Call to markVariableAsUsed should return true");
 
-                                            assert.isTrue(getVariable(childScope, "a").eslintUsed);
-                                            assert.isUndefined(getVariable(childScope, "b").eslintUsed);
+                                            assert.isTrue(getVariable(childScope, "a").eslintUsed, "'a' should be marked as used.");
+                                            assert.isUndefined(getVariable(childScope, "b").eslintUsed, "'b' should be marked as used.");
                                         });
 
                                         return { "Program:exit": spy };
@@ -9305,7 +9305,7 @@ describe("Linter with FlatConfigArray", () => {
                     };
 
                     linter.verify(code, config);
-                    assert(spy && spy.calledOnce);
+                    assert(spy && spy.calledOnce, "Spy wasn't called.");
                 });
 
                 it("should mark variables in modules as used", () => {
