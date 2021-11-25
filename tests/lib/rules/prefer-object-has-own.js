@@ -34,6 +34,7 @@ ruleTester.run("prefer-object-has-own", rule, {
         "Object.hasOwnProperty.call",
         "foo.Object.hasOwnProperty.call(obj, prop)",
         "foo.hasOwnProperty.call(obj, prop)",
+        "foo.call(Object.prototype.hasOwnProperty, Object.prototype.hasOwnProperty.call)",
         "Object.foo.call(obj, prop)",
         "Object.hasOwnProperty.foo(obj, prop)",
         "Object.hasOwnProperty.call.foo(obj, prop)",
@@ -74,13 +75,16 @@ ruleTester.run("prefer-object-has-own", rule, {
         "({}.hasOwnProperty.foo(obj, prop))",
         "({}[hasOwnProperty].call(obj, prop))",
         "({}.hasOwnProperty[call](obj, prop))",
+        "({}).hasOwnProperty[call](object, property)",
+        "({})[hasOwnProperty].call(object, property)",
         "class C { #hasOwnProperty; foo() { ({}.#hasOwnProperty.call(obj, prop)) } }",
         "class C { #call; foo() { ({}.hasOwnProperty.#call(obj, prop)) } }",
         "({ foo }.hasOwnProperty.call(obj, prop))", // object literal should be empty
         `
         let obj = {};
         Object.hasOwn(obj,"");
-        `
+        `,
+        "const hasProperty = Object.hasOwn(object, property);"
     ],
     invalid: [
         {
@@ -93,6 +97,54 @@ ruleTester.run("prefer-object-has-own", rule, {
         },
         {
             code: "({}).hasOwnProperty.call(obj, 'foo')",
+            errors: [error]
+        },
+        {
+            code: "const hasProperty = Object.prototype.hasOwnProperty.call(object, property);",
+            errors: [error]
+        },
+        {
+            code: "const hasProperty = (( Object.prototype.hasOwnProperty.call(object, property) ));",
+            errors: [error]
+        },
+        {
+            code: "const hasProperty = (( Object.prototype.hasOwnProperty.call ))(object, property);",
+            errors: [error]
+        },
+        {
+            code: "const hasProperty = (( Object.prototype.hasOwnProperty )).call(object, property);",
+            errors: [error]
+        },
+        {
+            code: "const hasProperty = (( Object.prototype )).hasOwnProperty.call(object, property);",
+            errors: [error]
+        },
+        {
+            code: "const hasProperty = (( Object )).prototype.hasOwnProperty.call(object, property);",
+            errors: [error]
+        },
+        {
+            code: "const hasProperty = {}.hasOwnProperty.call(object, property);",
+            errors: [error]
+        },
+        {
+            code: "const hasProperty = (( {}.hasOwnProperty.call(object, property) ));",
+            errors: [error]
+        },
+        {
+            code: "const hasProperty = (( {}.hasOwnProperty.call ))(object, property);",
+            errors: [error]
+        },
+        {
+            code: "const hasProperty = (( {}.hasOwnProperty )).call(object, property);",
+            errors: [error]
+        },
+        {
+            code: "const hasProperty = (( {} )).hasOwnProperty.call(object, property);",
+            errors: [error]
+        },
+        {
+            code: "function foo(){return{}.hasOwnProperty.call(object, property)}",
             errors: [error]
         }
     ]
