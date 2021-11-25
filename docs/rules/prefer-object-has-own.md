@@ -1,6 +1,8 @@
-# Prefer use of Object.hasOwn over `Object.prototype.hasOwnPrototype` (prefer-object-has-own)
+# Prefer `Object.hasOwn(…)` over `Object.prototype.hasOwnProperty.call(…)`
 
-When Object.prototype.hasOwnPrototype.call is used, this rule requires using the `Object.hasOwn` instead. `Object.hasOwn` is a syntactic sugar and makes the code cleaner.
+`Object.hasOwn(…)` is more accessible than `Object.prototype.hasOwnProperty.call(…)`.
+
+It is recommended over Object.hasOwnProperty() because it works for objects created using Object.create(null) and with objects that have overridden the inherited hasOwnProperty() method.
 
 ## Rule Details
 
@@ -8,16 +10,22 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint prefer-object-has-own: "error"*/
+
 Object.prototype.hasOwnProperty.call(obj, "a");
-({}).hasOwnProperty(obj,"a");
-let a = Object.prototype.hasOwnProperty;
+
+({}).hasOwnProperty(obj, "a");
+
+const hasProperty = Object.prototype.hasOwnProperty.call(object, property);
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
 /*eslint prefer-object-has-own: "error"*/
+
 Object.hasOwn(obj, "a");
+
+const hasProperty = Object.hasOwn(object, property);
 ```
 
 ## Related Material
