@@ -41,8 +41,7 @@ ruleTester.run("prefer-object-has-own", rule, {
         "Object.hasOwnProperty[call](obj, prop)",
         "class C { #hasOwnProperty; foo() { Object.#hasOwnProperty.call(obj, prop) } }",
         "class C { #call; foo() { Object.hasOwnProperty.#call(obj, prop) } }",
-
-        // "(Object) => Object.hasOwnProperty.call(obj, prop)", // not global Object
+        "(Object) => Object.hasOwnProperty.call(obj, prop)", // not global Object
         "Object.prototype",
         "Object.prototype(obj, prop)",
         "Object.prototype.hasOwnProperty",
@@ -60,10 +59,7 @@ ruleTester.run("prefer-object-has-own", rule, {
         "class C { #call; foo() { Object.prototype.hasOwnProperty.#call(obj, prop) } }",
         "Object[prototype].hasOwnProperty.call(obj, prop)",
         "class C { #prototype; foo() { Object.#prototype.hasOwnProperty.call(obj, prop) } }",
-
-        /*
-         * "(Object) => Object.prototype.hasOwnProperty.call(obj, prop)", // not global Object
-         */
+        "(Object) => Object.prototype.hasOwnProperty.call(obj, prop)", // not global Object
         "({})",
         "({}(obj, prop))",
         "({}.hasOwnProperty)",
