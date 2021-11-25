@@ -21,7 +21,6 @@ const parserOptions = {
 };
 
 const ruleTester = new RuleTester({ parserOptions });
-const error = { messageId: "useHasOwn" };
 
 ruleTester.run("prefer-object-has-own", rule, {
     valid: [
@@ -89,63 +88,153 @@ ruleTester.run("prefer-object-has-own", rule, {
     invalid: [
         {
             code: "Object.hasOwnProperty.call(obj, 'foo')",
-            errors: [error]
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 1,
+                endLine: 1,
+                endColumn: 39
+            }]
         },
         {
             code: "Object.prototype.hasOwnProperty.call(obj, 'foo')",
-            errors: [error]
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 1,
+                endLine: 1,
+                endColumn: 49
+            }]
         },
         {
             code: "({}).hasOwnProperty.call(obj, 'foo')",
-            errors: [error]
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 1,
+                endLine: 1,
+                endColumn: 37
+            }]
         },
         {
             code: "const hasProperty = Object.prototype.hasOwnProperty.call(object, property);",
-            errors: [error]
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 21,
+                endLine: 1,
+                endColumn: 75
+            }]
         },
         {
             code: "const hasProperty = (( Object.prototype.hasOwnProperty.call(object, property) ));",
-            errors: [error]
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 24,
+                endLine: 1,
+                endColumn: 78
+            }]
         },
         {
             code: "const hasProperty = (( Object.prototype.hasOwnProperty.call ))(object, property);",
-            errors: [error]
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 21,
+                endLine: 1,
+                endColumn: 81
+            }]
         },
         {
             code: "const hasProperty = (( Object.prototype.hasOwnProperty )).call(object, property);",
-            errors: [error]
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 21,
+                endLine: 1,
+                endColumn: 81
+            }]
         },
         {
             code: "const hasProperty = (( Object.prototype )).hasOwnProperty.call(object, property);",
-            errors: [error]
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 21,
+                endLine: 1,
+                endColumn: 81
+            }]
         },
         {
             code: "const hasProperty = (( Object )).prototype.hasOwnProperty.call(object, property);",
-            errors: [error]
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 21,
+                endLine: 1,
+                endColumn: 81
+            }]
         },
         {
             code: "const hasProperty = {}.hasOwnProperty.call(object, property);",
-            errors: [error]
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 21,
+                endLine: 1,
+                endColumn: 61
+            }]
         },
         {
             code: "const hasProperty = (( {}.hasOwnProperty.call(object, property) ));",
-            errors: [error]
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 24,
+                endLine: 1,
+                endColumn: 64
+            }]
         },
         {
             code: "const hasProperty = (( {}.hasOwnProperty.call ))(object, property);",
-            errors: [error]
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 21,
+                endLine: 1,
+                endColumn: 67
+            }]
         },
         {
             code: "const hasProperty = (( {}.hasOwnProperty )).call(object, property);",
-            errors: [error]
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 21,
+                endLine: 1,
+                endColumn: 67
+            }]
         },
         {
             code: "const hasProperty = (( {} )).hasOwnProperty.call(object, property);",
-            errors: [error]
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 21,
+                endLine: 1,
+                endColumn: 67
+            }]
         },
         {
             code: "function foo(){return{}.hasOwnProperty.call(object, property)}",
-            errors: [error]
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 22,
+                endLine: 1,
+                endColumn: 62
+            }]
         }
     ]
 });
