@@ -76,112 +76,86 @@ ruleTester.run("no-misleading-character-class", rule, {
         // RegExp Literals.
         {
             code: "var r = /[👍]/",
-            output: "var r = /[👍]/u",
             errors: [{ messageId: "surrogatePairWithoutUFlag" }]
         },
         {
             code: "var r = /[\\uD83D\\uDC4D]/",
-            output: "var r = /[\\uD83D\\uDC4D]/u",
             errors: [{ messageId: "surrogatePairWithoutUFlag" }]
         },
         {
             code: "var r = /[Á]/",
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: "var r = /[Á]/u",
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: "var r = /[\\u0041\\u0301]/",
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: "var r = /[\\u0041\\u0301]/u",
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: "var r = /[\\u{41}\\u{301}]/u",
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: "var r = /[❇️]/",
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: "var r = /[❇️]/u",
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: "var r = /[\\u2747\\uFE0F]/",
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: "var r = /[\\u2747\\uFE0F]/u",
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: "var r = /[\\u{2747}\\u{FE0F}]/u",
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: "var r = /[👶🏻]/",
-            output: "var r = /[👶🏻]/u",
             errors: [{ messageId: "surrogatePairWithoutUFlag" }]
         },
         {
             code: "var r = /[👶🏻]/u",
-            output: null,
             errors: [{ messageId: "emojiModifier" }]
         },
         {
             code: "var r = /[\\uD83D\\uDC76\\uD83C\\uDFFB]/u",
-            output: null,
             errors: [{ messageId: "emojiModifier" }]
         },
         {
             code: "var r = /[\\u{1F476}\\u{1F3FB}]/u",
-            output: null,
             errors: [{ messageId: "emojiModifier" }]
         },
         {
             code: "var r = /[🇯🇵]/",
-            output: "var r = /[🇯🇵]/u",
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
-        },
-        {
-            code: "var r = /[🇯🇵]/i",
-            output: "var r = /[🇯🇵]/iu",
             errors: [{ messageId: "surrogatePairWithoutUFlag" }]
         },
         {
             code: "var r = /[🇯🇵]/u",
-            output: null,
             errors: [{ messageId: "regionalIndicatorSymbol" }]
         },
         {
             code: "var r = /[\\uD83C\\uDDEF\\uD83C\\uDDF5]/u",
-            output: null,
             errors: [{ messageId: "regionalIndicatorSymbol" }]
         },
         {
             code: "var r = /[\\u{1F1EF}\\u{1F1F5}]/u",
-            output: null,
             errors: [{ messageId: "regionalIndicatorSymbol" }]
         },
         {
             code: "var r = /[👨‍👩‍👦]/",
-            output: "var r = /[👨‍👩‍👦]/u",
             errors: [
                 { messageId: "surrogatePairWithoutUFlag" },
                 { messageId: "zwj" }
@@ -189,134 +163,100 @@ ruleTester.run("no-misleading-character-class", rule, {
         },
         {
             code: "var r = /[👨‍👩‍👦]/u",
-            output: null,
             errors: [{ messageId: "zwj" }]
         },
         {
             code: "var r = /[\\uD83D\\uDC68\\u200D\\uD83D\\uDC69\\u200D\\uD83D\\uDC66]/u",
-            output: null,
             errors: [{ messageId: "zwj" }]
         },
         {
             code: "var r = /[\\u{1F468}\\u{200D}\\u{1F469}\\u{200D}\\u{1F466}]/u",
-            output: null,
             errors: [{ messageId: "zwj" }]
         },
 
         // RegExp constructors.
         {
             code: String.raw`var r = new RegExp("[👍]", "")`,
-            output: String.raw`var r = new RegExp("[👍]", "u")`,
             errors: [{ messageId: "surrogatePairWithoutUFlag" }]
         },
         {
             code: String.raw`var r = new RegExp("[\\uD83D\\uDC4D]", "")`,
-            output: String.raw`var r = new RegExp("[\\uD83D\\uDC4D]", "u")`,
             errors: [{ messageId: "surrogatePairWithoutUFlag" }]
         },
         {
             code: String.raw`var r = new RegExp("[Á]", "")`,
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: String.raw`var r = new RegExp("[Á]", "u")`,
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u0041\\u0301]", "")`,
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u0041\\u0301]", "u")`,
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u{41}\\u{301}]", "u")`,
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: String.raw`var r = new RegExp("[❇️]", "")`,
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: String.raw`var r = new RegExp("[❇️]", "u")`,
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u2747\\uFE0F]", "")`,
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u2747\\uFE0F]", "u")`,
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u{2747}\\u{FE0F}]", "u")`,
-            output: null,
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: String.raw`var r = new RegExp("[👶🏻]", "")`,
-            output: String.raw`var r = new RegExp("[👶🏻]", "u")`,
             errors: [{ messageId: "surrogatePairWithoutUFlag" }]
         },
         {
             code: String.raw`var r = new RegExp("[👶🏻]", "u")`,
-            output: null,
             errors: [{ messageId: "emojiModifier" }]
         },
         {
             code: String.raw`var r = new RegExp("[\\uD83D\\uDC76\\uD83C\\uDFFB]", "u")`,
-            output: null,
             errors: [{ messageId: "emojiModifier" }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u{1F476}\\u{1F3FB}]", "u")`,
-            output: null,
             errors: [{ messageId: "emojiModifier" }]
         },
         {
             code: String.raw`var r = new RegExp("[🇯🇵]", "")`,
-            output: String.raw`var r = new RegExp("[🇯🇵]", "u")`,
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
-        },
-        {
-            code: String.raw`var r = new RegExp("[🇯🇵]", "i")`,
-            output: String.raw`var r = new RegExp("[🇯🇵]", "iu")`,
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
-        },
-        {
-            code: String.raw`var r = new RegExp("[🇯🇵]")`,
-            output: String.raw`var r = new RegExp("[🇯🇵]", "u")`,
             errors: [{ messageId: "surrogatePairWithoutUFlag" }]
         },
         {
             code: String.raw`var r = new RegExp("[🇯🇵]", "u")`,
-            output: null,
             errors: [{ messageId: "regionalIndicatorSymbol" }]
         },
         {
             code: String.raw`var r = new RegExp("[\\uD83C\\uDDEF\\uD83C\\uDDF5]", "u")`,
-            output: null,
             errors: [{ messageId: "regionalIndicatorSymbol" }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u{1F1EF}\\u{1F1F5}]", "u")`,
-            output: null,
             errors: [{ messageId: "regionalIndicatorSymbol" }]
         },
         {
             code: String.raw`var r = new RegExp("[👨‍👩‍👦]", "")`,
-            output: String.raw`var r = new RegExp("[👨‍👩‍👦]", "u")`,
             errors: [
                 { messageId: "surrogatePairWithoutUFlag" },
                 { messageId: "zwj" }
@@ -324,40 +264,33 @@ ruleTester.run("no-misleading-character-class", rule, {
         },
         {
             code: String.raw`var r = new RegExp("[👨‍👩‍👦]", "u")`,
-            output: null,
             errors: [{ messageId: "zwj" }]
         },
         {
             code: String.raw`var r = new RegExp("[\\uD83D\\uDC68\\u200D\\uD83D\\uDC69\\u200D\\uD83D\\uDC66]", "u")`,
-            output: null,
             errors: [{ messageId: "zwj" }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u{1F468}\\u{200D}\\u{1F469}\\u{200D}\\u{1F466}]", "u")`,
-            output: null,
             errors: [{ messageId: "zwj" }]
         },
         {
             code: String.raw`var r = new globalThis.RegExp("[❇️]", "")`,
-            output: null,
             env: { es2020: true },
             errors: [{ messageId: "combiningClass" }]
         },
         {
             code: String.raw`var r = new globalThis.RegExp("[👶🏻]", "u")`,
-            output: null,
             env: { es2020: true },
             errors: [{ messageId: "emojiModifier" }]
         },
         {
             code: String.raw`var r = new globalThis.RegExp("[🇯🇵]", "")`,
-            output: String.raw`var r = new globalThis.RegExp("[🇯🇵]", "u")`,
             env: { es2020: true },
             errors: [{ messageId: "surrogatePairWithoutUFlag" }]
         },
         {
             code: String.raw`var r = new globalThis.RegExp("[\\u{1F468}\\u{200D}\\u{1F469}\\u{200D}\\u{1F466}]", "u")`,
-            output: null,
             env: { es2020: true },
             errors: [{ messageId: "zwj" }]
         }
