@@ -1,4 +1,4 @@
-# Prefer `Object.hasOwn(…)` over `Object.prototype.hasOwnProperty.call(…)`
+# Prefer `Object.hasOwn(…)` over `Object.prototype.hasOwnProperty.call(…)` (prefer-object-has-own)
 
 `Object.hasOwn(…)` is more accessible than `Object.prototype.hasOwnProperty.call(…)`.
 
