@@ -3,17 +3,17 @@
 The get syntax binds an object property to a function that will be called when that property is looked up. It was first introduced in ECMAScript 5:
 
 ```js
-    var p = {
-        get name(){
-            return "nicholas";
-        }
-    };
+var p = {
+    get name(){
+        return "nicholas";
+    }
+};
 
-    Object.defineProperty(p, "age", {
-        get: function (){
-            return 17;
-        }
-    });
+Object.defineProperty(p, "age", {
+    get: function (){
+        return 17;
+    }
+});
 ```
 
 Note that every `getter` is expected to return a value.
