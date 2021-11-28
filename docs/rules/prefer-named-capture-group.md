@@ -1,6 +1,5 @@
 # Suggest using named capture group in regular expression (prefer-named-capture-group)
 
-
 ## Rule Details
 
 With the landing of ECMAScript 2018, named capture groups can be used in regular expressions, which can improve their readability.

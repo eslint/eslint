@@ -29,7 +29,7 @@ eslint -f ./my-awesome-formatter.js src/
 
 In order to use a local file as a custom formatter, you must begin the filename with a dot (such as `./my-awesome-formatter.js` or `../formatters/my-awesome-formatter.js`).
 
-### The `data` Argument
+## The `data` Argument
 
 The exported function receives an optional second argument named `data`. The `data` object provides extended information related to the analysis results. Currently, the `data` object consists of a single property named `rulesMeta`. This property is a dictionary of rule metadata, keyed with `ruleId`. The value for each entry is the `meta` property from the corresponding rule object. The dictionary contains an entry for each rule that was run during the analysis.
 
@@ -357,7 +357,6 @@ error space-infix-ops
 error semi
   src/configs/bundler.js:6:10
 ```
-
 
 ### Complex Argument Passing
 

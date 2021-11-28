@@ -31,5 +31,3 @@ if (Object.is(x, -0)) {
     // doSomething()...
 }
 ```
-
-

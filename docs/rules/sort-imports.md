@@ -22,7 +22,6 @@ import "my-module.js"
 
 When declaring multiple imports, a sorted list of import declarations make it easier for developers to read the code and find necessary imports later. This rule is purely a matter of style.
 
-
 ## Rule Details
 
 This rule checks all import declarations and verifies that all imports are first sorted by the used member syntax and then alphabetically by the first member or alias name.

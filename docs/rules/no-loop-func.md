@@ -26,7 +26,6 @@ for (let i = 0; i < 10; i++) {
 
 In this case, each function created within the loop returns a different number as expected.
 
-
 ## Rule Details
 
 This error is raised to highlight a piece of code that may not work as you expect it to and could also indicate a misunderstanding of how the language works. Your code may run without any problems if you do not fix this error, but in some situations it could behave unexpectedly.

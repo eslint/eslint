@@ -29,7 +29,6 @@ There are two options for this rule:
 * `"always"` enforces providing a radix (default)
 * `"as-needed"` disallows providing the `10` radix
 
-
 ### always
 
 Examples of **incorrect** code for the default `"always"` option:

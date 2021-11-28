@@ -99,7 +99,7 @@ This rule has two options:
 
 ### exceptMethods
 
-```
+```js
 "class-methods-use-this": [<enabled>, { "exceptMethods": [<...exceptions>] }]
 ```
 
@@ -131,7 +131,7 @@ class A {
 
 ## enforceForClassFields
 
-```
+```js
 "class-methods-use-this": [<enabled>, { "enforceForClassFields": true | false }]
 ```
 
