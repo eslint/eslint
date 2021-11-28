@@ -19,7 +19,7 @@
 [ ] Bug fix ([template](https://raw.githubusercontent.com/eslint/eslint/HEAD/templates/bug-report.md))
 [ ] New rule ([template](https://raw.githubusercontent.com/eslint/eslint/HEAD/templates/rule-proposal.md))
 [ ] Changes an existing rule ([template](https://raw.githubusercontent.com/eslint/eslint/HEAD/templates/rule-change-proposal.md))
-[ ] Add autofixing to a rule
+[ ] Add auto fixing to a rule
 [ ] Add a CLI option
 [ ] Add something to the core
 [ ] Other, please explain:
