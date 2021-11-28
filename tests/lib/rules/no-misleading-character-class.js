@@ -76,11 +76,17 @@ ruleTester.run("no-misleading-character-class", rule, {
         // RegExp Literals.
         {
             code: "var r = /[👍]/",
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👍]/u" }]
+            }]
         },
         {
             code: "var r = /[\\uD83D\\uDC4D]/",
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[\\uD83D\\uDC4D]/u" }]
+            }]
         },
         {
             code: "var r = /[Á]/",
@@ -124,7 +130,10 @@ ruleTester.run("no-misleading-character-class", rule, {
         },
         {
             code: "var r = /[👶🏻]/",
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👶🏻]/u" }]
+            }]
         },
         {
             code: "var r = /[👶🏻]/u",
@@ -140,7 +149,17 @@ ruleTester.run("no-misleading-character-class", rule, {
         },
         {
             code: "var r = /[🇯🇵]/",
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[🇯🇵]/u" }]
+            }]
+        },
+        {
+            code: "var r = /[🇯🇵]/i",
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[🇯🇵]/iu" }]
+            }]
         },
         {
             code: "var r = /[🇯🇵]/u",
@@ -157,7 +176,10 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[👨‍👩‍👦]/",
             errors: [
-                { messageId: "surrogatePairWithoutUFlag" },
+                {
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👨‍👩‍👦]/u" }]
+                },
                 { messageId: "zwj" }
             ]
         },
@@ -177,11 +199,17 @@ ruleTester.run("no-misleading-character-class", rule, {
         // RegExp constructors.
         {
             code: String.raw`var r = new RegExp("[👍]", "")`,
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[👍]", "u")` }]
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\uD83D\\uDC4D]", "")`,
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[\\uD83D\\uDC4D]", "u")` }]
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[Á]", "")`,
@@ -225,7 +253,10 @@ ruleTester.run("no-misleading-character-class", rule, {
         },
         {
             code: String.raw`var r = new RegExp("[👶🏻]", "")`,
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[👶🏻]", "u")` }]
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[👶🏻]", "u")`,
@@ -241,7 +272,24 @@ ruleTester.run("no-misleading-character-class", rule, {
         },
         {
             code: String.raw`var r = new RegExp("[🇯🇵]", "")`,
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "u")` }]
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp("[🇯🇵]", "i")`,
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "iu")` }]
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp("[🇯🇵]")`,
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "u")` }]
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[🇯🇵]", "u")`,
@@ -258,7 +306,10 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[👨‍👩‍👦]", "")`,
             errors: [
-                { messageId: "surrogatePairWithoutUFlag" },
+                {
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[👨‍👩‍👦]", "u")` }]
+                },
                 { messageId: "zwj" }
             ]
         },
@@ -287,7 +338,10 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new globalThis.RegExp("[🇯🇵]", "")`,
             env: { es2020: true },
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new globalThis.RegExp("[🇯🇵]", "u")` }]
+            }]
         },
         {
             code: String.raw`var r = new globalThis.RegExp("[\\u{1F468}\\u{200D}\\u{1F469}\\u{200D}\\u{1F466}]", "u")`,
