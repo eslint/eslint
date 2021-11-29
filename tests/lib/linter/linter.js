@@ -13133,6 +13133,29 @@ var a = "test2";
                 assert.deepStrictEqual(preprocess.args[0], [code, filename], "preprocess was called with the wrong arguments");
             });
 
+            it("should run preprocess only once", () => {
+                const logs = [];
+                const config = {
+                    files: ["*.md"],
+                    processor: {
+                        preprocess(text, filenameForText) {
+                            logs.push({
+                                text,
+                                filename: filenameForText
+                            });
+
+                            return [{ text: "bar", filename: "0.js" }];
+                        },
+                        postprocess() {
+                            return [];
+                        }
+                    }
+                };
+
+                linter.verify("foo", config, "a.md");
+                assert.strictEqual(logs.length, 1, "preprocess() should only be called once.");
+            });
+
             it("should apply a preprocessor to the code, and lint each code sample separately", () => {
                 const code = "foo bar baz";
                 const configs = createFlatConfigArray([
