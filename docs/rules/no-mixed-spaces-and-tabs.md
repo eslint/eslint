@@ -59,7 +59,6 @@ function main() {
 }
 ```
 
-
 ## Further Reading
 
 * [Smart Tabs](https://www.emacswiki.org/emacs/SmartTabs)

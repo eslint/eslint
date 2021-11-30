@@ -1,6 +1,5 @@
 # Rules
 
-
 * [Configuring Rules](#configuring-rules)
 * [Disabling Rules](#disabling-rules)
 

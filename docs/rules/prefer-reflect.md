@@ -19,7 +19,7 @@ The prefer-reflect rule will flag usage of any older method, suggesting to inste
 
 ### Exceptions
 
-```
+```js
 "prefer-reflect": [<enabled>, { "exceptions": [<...exceptions>] }]
 ```
 

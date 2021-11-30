@@ -38,7 +38,7 @@ void function(){ foo = 1; }() // will assign foo a value of 1
 +function(){ foo = 1; }() // same as above
 ```
 
-```
+```js
 function(){ foo = 1; }() // will throw SyntaxError
 ```
 

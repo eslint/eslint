@@ -14,7 +14,7 @@ Go to <https://github.com/eslint/eslint> and click the "Fork" button. Follow the
 
 Once you've cloned the repository, run `npm install` to get all the necessary dependencies:
 
-```
+```sh
 $ cd eslint
 $ npm install
 ```
@@ -27,7 +27,7 @@ The *upstream source* is the main ESLint repository where active development hap
 
 To add the upstream source for ESLint, run the following in your repository:
 
-```
+```sh
 git remote add upstream git@github.com:eslint/eslint.git
 ```
 
@@ -49,7 +49,7 @@ Please see the [generator documentation](https://github.com/eslint/generator-esl
 
 Running the tests is the best way to ensure you have correctly set up your development environment. Make sure you're in the `eslint` directory and run:
 
-```
+```sh
 npm test
 ```
 

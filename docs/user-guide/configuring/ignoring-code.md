@@ -1,6 +1,5 @@
 # Ignoring Code
 
-
 * [`ignorePatterns` in Config Files](#ignorepatterns-in-config-files)
 * [The `.eslintignore` File](#the-eslintignore-file)
 * [Using an Alternate File](#using-an-alternate-file)

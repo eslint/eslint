@@ -20,7 +20,6 @@ Some style guides may require a consistent spacing for function names.
 
 This rule aims to enforce a consistent spacing after function names. It takes one argument. If it is `"always"` then all function names must be followed by at least one space. If `"never"` then there should be no spaces between the name and the parameter list. The default is `"never"`.
 
-
 Examples of **incorrect** code for this rule:
 
 ```js

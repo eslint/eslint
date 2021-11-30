@@ -51,7 +51,6 @@ ESLint v8.0.0 has removed the `codeframe` and `table` formatters from the core. 
 
 **Related issue(s):** [#14277](https://github.com/eslint/eslint/issues/14277), [#14316](https://github.com/eslint/eslint/pull/14316)
 
-
 ## <a name="comma-dangle"></a> `comma-dangle` rule schema is stricter
 
 In ESLint v7.0.0, the `comma-dangle` rule could be configured like this without error:
@@ -104,7 +103,6 @@ Four new rules have been enabled in the `eslint:recommended` preset.
 **To address:** Fix errors or disable these rules.
 
 **Related issue(s):** [#14673](https://github.com/eslint/eslint/issues/14673)
-
 
 ## <a name="suggestions"></a> Rules require `meta.hasSuggestions` to provide suggestions
 
@@ -218,7 +216,6 @@ In ESLint v8.0.0 (via Acorn v8.0.0), the key and value are now separate objects 
 1. Use the `range` property of each node to determine if the key and value occupy the same location.
 
 **Related issue(s):** [#14591](https://github.com/eslint/eslint/pull/14591#issuecomment-887733070)
-
 
 ## <a name="remove-cliengine"></a> The `CLIEngine` class has been removed
 

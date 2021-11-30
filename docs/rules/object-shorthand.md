@@ -43,7 +43,6 @@ properties defined where the key name matches name of the assigned variable.
 
 Each of the following properties would warn:
 
-
 ```js
 /*eslint object-shorthand: "error"*/
 /*eslint-env es6*/

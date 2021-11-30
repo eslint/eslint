@@ -842,7 +842,6 @@ if (foo) {
 }
 ```
 
-
 ## Compatibility
 
 * **JSHint**: `indent`

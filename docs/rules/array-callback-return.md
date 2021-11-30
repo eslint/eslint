@@ -144,7 +144,6 @@ myArray.forEach(item => {
 });
 ```
 
-
 ## Known Limitations
 
 This rule checks callback functions of methods with the given names, *even if* the object which has the method is *not* an array.

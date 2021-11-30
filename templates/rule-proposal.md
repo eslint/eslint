@@ -1,7 +1,6 @@
 **Please describe what the rule should do:**
 
-
-**What category of rule is this? (place an "X" next to just one item)**
+**What category of rule is this (place an "X" next to just one item)?**
 
 [ ] Enforces code style
 [ ] Warns about a potential error
@@ -15,4 +14,3 @@
 ```
 
 **Why should this rule be included in ESLint (instead of a plugin)?**
-

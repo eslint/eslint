@@ -110,12 +110,10 @@ var arr = [,2 ,3]
 
 If your project will not be following a consistent comma-spacing pattern, turn this rule off.
 
-
 ## Further Reading
 
 * [JavaScript](http://javascript.crockford.com/code.html)
 * [Dojo Style Guide](https://dojotoolkit.org/reference-guide/1.9/developer/styleguide.html)
-
 
 ## Related Rules
 

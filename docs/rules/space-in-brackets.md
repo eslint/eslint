@@ -232,7 +232,6 @@ var arr = [ {
 
 Examples of **correct** code when `"objectsInArrays"` is set to `false`:
 
-
 ```js
 var arr = [{ 'foo': 'bar' }];
 var arr = [{
