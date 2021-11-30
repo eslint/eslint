@@ -122,7 +122,7 @@ Each `message` object contains information about the ESLint rule that was trigge
 
 The formatter function receives an object as the second argument. The object has two properties:
 
-* `cwd` ... The current working directory. This value comes from the `cwd` constructor option of the [ESLint](nodejs-api.md#◆-new-eslint-options) class.
+* `cwd` ... The current working directory. This value comes from the `cwd` constructor option of the [ESLint](nodejs-api.md#-new-eslintoptions) class.
 * `rulesMeta` ... The `meta` property values of rules. See the [Working with Rules](working-with-rules.md) page for more information about rules.
 
 For example, here's what the object would look like if one rule, `no-extra-semi`, had been run:
