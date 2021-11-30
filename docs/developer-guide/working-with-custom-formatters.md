@@ -148,7 +148,7 @@ For example, here's what the object would look like if one rule, `no-extra-semi`
 }
 ```
 
-**Note:** if a linting is executed by deprecated `CLIEngine` class, the `context` argument may be a different value because it up to the API users. Please check whether the `context` argument is an expected value or not if you want to support legacy environments.
+**Note:** if a linting is executed by deprecated `CLIEngine` class, the `context` argument may be a different value because it is up to the API users. Please check whether the `context` argument is an expected value or not if you want to support legacy environments.
 
 ## Examples
 
