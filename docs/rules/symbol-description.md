@@ -9,7 +9,6 @@ var someString = "some description";
 var bar = Symbol(someString);
 ```
 
-
 Using `description` promotes easier debugging: when a symbol is logged the description is used:
 
 ```js
@@ -21,11 +20,9 @@ var foo = Symbol("some description");
 
 It may facilitate identifying symbols when one is observed during debugging.
 
-
 ## Rule Details
 
 This rules requires a description when creating symbols.
-
 
 ## Examples
 
@@ -49,7 +46,6 @@ var foo = Symbol("some description");
 var someString = "some description";
 var bar = Symbol(someString);
 ```
-
 
 ## When Not To Use It
 

@@ -10,7 +10,7 @@ This rule enforces a maximum number of lines per function, in order to aid in ma
 
 Nested long method chains like the below example are often broken onto separate lines for readability:
 
-```
+```js
 function() {
     return m("div", [
         m("table", {className: "table table-striped latest-data"}, [

@@ -24,4 +24,4 @@ Please sign our [Contributor License Agreement](https://cla.js.foundation/eslint
 ## Full Documentation
 
 Our full contribution guidelines can be found at:
-https://eslint.org/docs/developer-guide/contributing/
+<https://eslint.org/docs/developer-guide/contributing/>

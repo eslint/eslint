@@ -22,7 +22,6 @@ Because `undefined` can be overwritten or shadowed, reading `undefined` can give
 
 As an alternative, you can use the [no-global-assign](no-global-assign.md) and [no-shadow-restricted-names](no-shadow-restricted-names.md) rules to prevent `undefined` from being shadowed or assigned a different value. This ensures that `undefined` will always hold its original, expected value.
 
-
 ## Rule Details
 
 This rule aims to eliminate the use of `undefined`, and as such, generates a warning whenever it is used.

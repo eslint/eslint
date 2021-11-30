@@ -1,6 +1,6 @@
 # Command Line Interface
 
-To run ESLint on Node.js, you must have npm installed. If npm is not installed, follow the instructions here: https://www.npmjs.com/
+To run ESLint on Node.js, you must have npm installed. If npm is not installed, follow the instructions here: <https://www.npmjs.com/>
 
 Once npm is installed, run the following
 
@@ -232,7 +232,7 @@ This option has the same effect as `--fix` with one difference: the fixes are no
 
 Because the default formatter does not output the fixed code, you'll have to use another one (e.g. `json`) to get the fixes. Here's an example of this pattern:
 
-```
+```sh
 getSomeText | eslint --stdin --fix-dry-run --format=json
 ```
 
@@ -249,7 +249,7 @@ This option allows you to specify the type of fixes to apply when using either `
 
 You can specify one or more fix type on the command line. Here are some examples:
 
-```
+```sh
 eslint --fix --fix-type suggestion .
 eslint --fix --fix-type suggestion --fix-type problem .
 eslint --fix --fix-type suggestion,layout .
@@ -473,7 +473,7 @@ This option causes ESLint to exit with exit code 2 if one or more fatal parsing 
 
 #### `--debug`
 
-This option outputs debugging information to the console. This information is useful when you're seeing a problem and having a hard time pinpointing it. The ESLint team may ask for this debugging information to help solve bugs.  
+This option outputs debugging information to the console. This information is useful when you're seeing a problem and having a hard time pinpointing it. The ESLint team may ask for this debugging information to help solve bugs.
 Add this flag to an ESLint command line invocation in order to get extra debug information as the command is run (e.g. `eslint --debug test.js` and `eslint test.js --debug` are equivalent)
 
 #### `-h`, `--help`

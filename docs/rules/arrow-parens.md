@@ -20,7 +20,6 @@ a => {}
 Following this style will help you find arrow functions (`=>`) which may be mistakenly included in a condition
 when a comparison such as `>=` was the intent.
 
-
 ```js
 /*eslint-env es6*/
 

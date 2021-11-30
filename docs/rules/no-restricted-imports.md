@@ -91,7 +91,7 @@ or like this if you want to apply a custom message to pattern matches:
 
 The custom message will be appended to the default error message.
 
-To restrict the use of all Node.js core imports (via https://github.com/nodejs/node/tree/master/lib):
+To restrict the use of all Node.js core imports (via <https://github.com/nodejs/node/tree/master/lib>):
 
 ```json
     "no-restricted-imports": ["error",

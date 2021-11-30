@@ -26,7 +26,6 @@ This rule has an object option:
 * `"applyDefaultIgnorePatterns"` enables or disables the default comment patterns to be ignored by the rule
 * `"ignorePattern"` custom patterns to be ignored by the rule
 
-
 ### beforeBlockComment
 
 Examples of **incorrect** code for this rule with the default `{ "beforeBlockComment": true }` option:
@@ -515,7 +514,6 @@ const [
 ] = ["great", "not great"];
 ```
 
-
 ### ignorePattern
 
 By default this rule ignores comments starting with the following words: `eslint`, `jshint`, `jslint`, `istanbul`, `global`, `exported`, `jscs`. To ignore more comments in addition to the defaults, set the `ignorePattern` option to a string pattern that will be passed to the [`RegExp` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp).
@@ -567,7 +565,6 @@ foo();
 /* eslint mentioned in comment */
 
 ```
-
 
 ## When Not To Use It
 

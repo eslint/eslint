@@ -32,9 +32,11 @@ Once your shareable config is ready, you can [publish to npm](https://docs.npmjs
 
 You should declare your dependency on ESLint in `package.json` using the [peerDependencies](https://docs.npmjs.com/files/package.json#peerdependencies) field. The recommended way to declare a dependency for future proof compatibility is with the ">=" range syntax, using the lowest required ESLint version. For example:
 
-```
-"peerDependencies": {
-    "eslint": ">= 3"
+```json
+{
+    "peerDependencies": {
+        "eslint": ">= 3"
+    }
 }
 ```
 
@@ -75,7 +77,6 @@ You can also omit the `eslint-config-` and it will be automatically assumed by E
 ### npm scoped modules
 
 npm [scoped modules](https://docs.npmjs.com/misc/scope) are also supported in a number of ways.
-
 
 By using the module name:
 

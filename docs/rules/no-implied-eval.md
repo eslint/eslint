@@ -19,7 +19,6 @@ setTimeout(function() {
 
 The best practice is to always use a function for the first argument of `setTimeout()` and `setInterval()` (and avoid `execScript()`).
 
-
 ## Rule Details
 
 This rule aims to eliminate implied `eval()` through the use of `setTimeout()`, `setInterval()` or `execScript()`. As such, it will warn when either function is used with a string as the first argument.

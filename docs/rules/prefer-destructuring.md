@@ -179,7 +179,6 @@ var foo = $('body')[0];
 var [bar] = $('body'); // fails with a TypeError
 ```
 
-
 ## Further Reading
 
 If you want to learn more about destructuring, check out the links below:
