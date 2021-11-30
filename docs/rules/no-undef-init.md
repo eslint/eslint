@@ -16,7 +16,6 @@ var foo = undefined;
 
 It's considered a best practice to avoid initializing variables to `undefined`.
 
-
 ## Rule Details
 
 This rule aims to eliminate `var` and `let` variable declarations that initialize to `undefined`.

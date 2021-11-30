@@ -36,7 +36,6 @@ will generate
 1:18  Unexpected mix of '&&' and '?:'. (no-mixed-operators)
 ```
 
-
 ## Rule Details
 
 This rule checks `BinaryExpression`, `LogicalExpression` and `ConditionalExpression`.

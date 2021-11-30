@@ -165,7 +165,6 @@ There are some cases where you might want to call a callback function more than 
  may lead to incorrect behavior. In those cases you may want to reserve a special name for those callbacks and
  not include that in the list of callbacks that trigger warnings.
 
-
 ## Further Reading
 
 * [The Art Of Node: Callbacks](https://github.com/maxogden/art-of-node#callbacks)

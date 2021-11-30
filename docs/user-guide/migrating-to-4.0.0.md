@@ -4,7 +4,7 @@ ESLint v4.0.0 is the fourth major version release. We have made several breaking
 
 The lists below are ordered roughly by the number of users each change is expected to affect, where the first items are expected to affect the most users.
 
-### Breaking changes for users
+## Breaking changes for users
 
 1. [New rules have been added to `eslint:recommended`](#eslint-recommended-changes)
 1. [The `indent` rule is more strict](#indent-rewrite)
@@ -15,14 +15,14 @@ The lists below are ordered roughly by the number of users each change is expect
 1. [The `no-multi-spaces` rule is more strict by default](#no-multi-spaces-eol-comments)
 1. [References to scoped plugins in config files are now required to include the scope](#scoped-plugin-resolution)
 
-### Breaking changes for plugin/custom rule developers
+## Breaking changes for plugin/custom rule developers
 
 1. [`RuleTester` now validates properties of test cases](#rule-tester-validation)
 1. [AST nodes no longer have comment properties](#comment-attachment)
 1. [`LineComment` and `BlockComment` events will no longer be emitted during AST traversal](#event-comments)
 1. [Shebangs are now returned from comment APIs](#shebangs)
 
-### Breaking changes for integration developers
+## Breaking changes for integration developers
 
 1. [The `global` property in the `linter.verify()` API is no longer supported](#global-property)
 1. [More report messages now have full location ranges](#report-locations)
@@ -186,7 +186,7 @@ Starting in 4.0, `LineComment` and `BlockComments` events will not be emitted du
 
 **To address:** Instead of relying on `LineComment` and `BlockComment`, rules can now use `sourceCode.getAllComments()` to get all comments in a file. To check all comments of a specific type, rules can use the following pattern:
 
-```
+```js
 sourceCode.getAllComments().filter(comment => comment.type === "Line");
 sourceCode.getAllComments().filter(comment => comment.type === "Block");
 ```
@@ -199,7 +199,7 @@ In 4.0, shebang comments are treated as comment tokens of type `Shebang` and wil
 
 **To address:** If you have a custom rule that performs operations on comments, some additional logic might be required to ensure that shebang comments are correctly handled or filtered out:
 
-```
+```js
 sourceCode.getAllComments().filter(comment => comment.type !== "Shebang");
 ```
 

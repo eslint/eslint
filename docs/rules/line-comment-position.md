@@ -11,7 +11,6 @@ var foo = "bar";  // beside comment
 
 This rule enforces consistent position of line comments. Block comments are not affected by this rule. By default, this rule ignores comments starting with the following words: `eslint`, `jshint`, `jslint`, `istanbul`, `global`, `exported`, `jscs`, `falls through`.
 
-
 ## Options
 
 This rule takes one argument, which can be a string or an object. The string settings are the same as those of the `position` property (explained below). The object option has the following properties:
@@ -33,7 +32,6 @@ Examples of **correct** code for the `{ "position": "above" }` option:
 1 + 1;
 ```
 
-
 Examples of **incorrect** code for the `{ "position": "above" }` option:
 
 ```js
@@ -49,7 +47,6 @@ Examples of **correct** code for the `{ "position": "beside" }` option:
 /*eslint line-comment-position: ["error", { "position": "beside" }]*/
 1 + 1; // valid comment
 ```
-
 
 Examples of **incorrect** code for the `{ "position": "beside" }` option:
 

@@ -81,7 +81,6 @@ In this case, the `fail()` function throws an error that is intended to be caugh
 
 If you are throwing an error inside of an asynchronous function for this purpose, then you may want to disable this rule.
 
-
 ## Related Rules
 
 * [require-yield](require-yield.md)

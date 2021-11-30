@@ -392,7 +392,7 @@ Here is how overrides work in a configuration file:
 
 ### Relative glob patterns
 
-```
+```pt
 project-root
 ├── app
 │   ├── lib

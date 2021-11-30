@@ -1,6 +1,6 @@
 # Command Line Interface
 
-To run ESLint on Node.js, you must have npm installed. If npm is not installed, follow the instructions here: https://www.npmjs.com/
+To run ESLint on Node.js, you must have npm installed. If npm is not installed, follow the instructions here: <https://www.npmjs.com/>
 
 Once npm is installed, run the following
 
@@ -30,62 +30,62 @@ The command line utility has several options. You can view the options by runnin
 eslint [options] file.js [file.js] [dir]
 
 Basic configuration:
-  --no-eslintrc                  Disable use of configuration from .eslintrc.*
-  -c, --config path::String      Use this configuration, overriding .eslintrc.* config options if present
-  --env [String]                 Specify environments
-  --ext [String]                 Specify JavaScript file extensions - default: .js
-  --global [String]              Define global variables
-  --parser String                Specify the parser to be used
-  --parser-options Object        Specify parser options
+  --no-eslintrc                   Disable use of configuration from .eslintrc.*
+  -c, --config path::String       Use this configuration, overriding .eslintrc.* config options if present
+  --env [String]                  Specify environments
+  --ext [String]                  Specify JavaScript file extensions
+  --global [String]               Define global variables
+  --parser String                 Specify the parser to be used
+  --parser-options Object         Specify parser options
   --resolve-plugins-relative-to path::String  A folder where plugins should be resolved from, CWD by default
 
 Specifying rules and plugins:
-  --rulesdir [path::String]      Use additional rules from this directory
-  --plugin [String]              Specify plugins
-  --rule Object                  Specify rules
+  --plugin [String]               Specify plugins
+  --rule Object                   Specify rules
+  --rulesdir [path::String]       Load additional rules from this directory. Deprecated: Use rules from plugins
 
 Fixing problems:
-  --fix                          Automatically fix problems
-  --fix-dry-run                  Automatically fix problems without saving the changes to the file system
-  --fix-type Array               Specify the types of fixes to apply (directive, problem, suggestion, layout)
+  --fix                           Automatically fix problems
+  --fix-dry-run                   Automatically fix problems without saving the changes to the file system
+  --fix-type Array                Specify the types of fixes to apply (directive, problem, suggestion, layout)
 
 Ignoring files:
-  --ignore-path path::String     Specify path of ignore file
-  --no-ignore                    Disable use of ignore files and patterns
-  --ignore-pattern [String]      Pattern of files to ignore (in addition to those in .eslintignore)
+  --ignore-path path::String      Specify path of ignore file
+  --no-ignore                     Disable use of ignore files and patterns
+  --ignore-pattern [String]       Pattern of files to ignore (in addition to those in .eslintignore)
 
 Using stdin:
-  --stdin                        Lint code provided on <STDIN> - default: false
-  --stdin-filename String        Specify filename to process STDIN as
+  --stdin                         Lint code provided on <STDIN> - default: false
+  --stdin-filename String         Specify filename to process STDIN as
 
 Handling warnings:
-  --quiet                        Report errors only - default: false
-  --max-warnings Int             Number of warnings to trigger nonzero exit code - default: -1
+  --quiet                         Report errors only - default: false
+  --max-warnings Int              Number of warnings to trigger nonzero exit code - default: -1
 
 Output:
   -o, --output-file path::String  Specify file to write report to
-  -f, --format String            Use a specific output format - default: stylish
-  --color, --no-color            Force enabling/disabling of color
+  -f, --format String             Use a specific output format - default: stylish
+  --color, --no-color             Force enabling/disabling of color
 
 Inline configuration comments:
-  --no-inline-config             Prevent comments from changing config or rules
+  --no-inline-config              Prevent comments from changing config or rules
   --report-unused-disable-directives  Adds reported errors for unused eslint-disable directives
 
 Caching:
-  --cache                        Only check changed files - default: false
-  --cache-file path::String      Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
-  --cache-location path::String  Path to the cache file or directory
-  --cache-strategy String        Strategy to use for detecting changed files - either: metadata or content - default: metadata
+  --cache                         Only check changed files - default: false
+  --cache-file path::String       Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
+  --cache-location path::String   Path to the cache file or directory
+  --cache-strategy String         Strategy to use for detecting changed files in the cache - either: metadata or content - default: metadata
 
 Miscellaneous:
-  --init                         Run config initialization wizard - default: false
-  --env-info                     Output execution environment information - default: false
-  --no-error-on-unmatched-pattern  Prevent errors when pattern is unmatched - default: false
-  --exit-on-fatal-error          Exit with exit code 2 in case of fatal error - default: false
-  --debug                        Output debugging information
-  -h, --help                     Show help
-  -v, --version                  Output the version number
-  --print-config path::String    Print the configuration for the given file
+  --init                          Run config initialization wizard - default: false
+  --env-info                      Output execution environment information - default: false
+  --no-error-on-unmatched-pattern  Prevent errors when pattern is unmatched
+  --exit-on-fatal-error           Exit with exit code 2 in case of fatal error - default: false
+  --debug                         Output debugging information
+  -h, --help                      Show help
+  -v, --version                   Output the version number
+  --print-config path::String     Print the configuration for the given file
 ```
 
 Options that accept array values can be specified by repeating the option or with a comma-delimited list (other than `--ignore-pattern` which does not allow the second style).
@@ -178,20 +178,6 @@ Changes the folder where plugins are resolved from. By default, plugins are reso
 
 ### Specifying rules and plugins
 
-#### `--rulesdir`
-
-This option allows you to specify another directory from which to load rules files. This allows you to dynamically load new rules at run time. This is useful when you have custom rules that aren't suitable for being bundled with ESLint.
-
-Example:
-
-    eslint --rulesdir my-rules/ file.js
-
-The rules in your custom rules directory must follow the same format as bundled rules to work properly. You can also specify multiple locations for custom rules by including multiple `--rulesdir` options:
-
-    eslint --rulesdir my-rules/ --rulesdir my-other-rules/ file.js
-
-Note that, as with core rules and plugin rules, you still need to enable the rules in configuration or via the `--rule` CLI option in order to actually run those rules during linting. Specifying a rules directory with `--rulesdir` does not automatically enable the rules within that directory.
-
 #### `--plugin`
 
 This option specifies a plugin to load. You can omit the prefix `eslint-plugin-` from the plugin name.
@@ -215,6 +201,22 @@ Examples:
     eslint --rule 'guard-for-in: error' --rule 'brace-style: [error, 1tbs]'
     eslint --rule 'jquery/dollar-sign: error'
 
+#### `--rulesdir`
+
+**Deprecated**: Use rules from plugins instead.
+
+This option allows you to specify another directory from which to load rules files. This allows you to dynamically load new rules at run time. This is useful when you have custom rules that aren't suitable for being bundled with ESLint.
+
+Example:
+
+    eslint --rulesdir my-rules/ file.js
+
+The rules in your custom rules directory must follow the same format as bundled rules to work properly. You can also specify multiple locations for custom rules by including multiple `--rulesdir` options:
+
+    eslint --rulesdir my-rules/ --rulesdir my-other-rules/ file.js
+
+Note that, as with core rules and plugin rules, you still need to enable the rules in configuration or via the `--rule` CLI option in order to actually run those rules during linting. Specifying a rules directory with `--rulesdir` does not automatically enable the rules within that directory.
+
 ### Fixing problems
 
 #### `--fix`
@@ -232,7 +234,7 @@ This option has the same effect as `--fix` with one difference: the fixes are no
 
 Because the default formatter does not output the fixed code, you'll have to use another one (e.g. `json`) to get the fixes. Here's an example of this pattern:
 
-```
+```sh
 getSomeText | eslint --stdin --fix-dry-run --format=json
 ```
 
@@ -249,7 +251,7 @@ This option allows you to specify the type of fixes to apply when using either `
 
 You can specify one or more fix type on the command line. Here are some examples:
 
-```
+```sh
 eslint --fix --fix-type suggestion .
 eslint --fix --fix-type suggestion --fix-type problem .
 eslint --fix --fix-type suggestion,layout .
@@ -473,7 +475,7 @@ This option causes ESLint to exit with exit code 2 if one or more fatal parsing 
 
 #### `--debug`
 
-This option outputs debugging information to the console. This information is useful when you're seeing a problem and having a hard time pinpointing it. The ESLint team may ask for this debugging information to help solve bugs.  
+This option outputs debugging information to the console. This information is useful when you're seeing a problem and having a hard time pinpointing it. The ESLint team may ask for this debugging information to help solve bugs.
 Add this flag to an ESLint command line invocation in order to get extra debug information as the command is run (e.g. `eslint --debug test.js` and `eslint test.js --debug` are equivalent)
 
 #### `-h`, `--help`

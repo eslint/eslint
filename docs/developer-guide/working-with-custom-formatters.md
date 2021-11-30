@@ -361,7 +361,6 @@ error semi
   src/configs/bundler.js:6:10
 ```
 
-
 ### Complex Argument Passing
 
 If you find the custom formatter pattern doesn't provide enough options for the way you'd like to format ESLint results, the best option is to use ESLint's built-in [JSON formatter](https://eslint.org/docs/user-guide/formatters/) and pipe the output to a second program. For example:

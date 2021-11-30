@@ -189,8 +189,6 @@ bar();
 
    ![Loop Event's Example 5](./code-path-analysis/loop-event-example-for-5.svg)
 
-
-
 ## Usage Examples
 
 ### To check whether or not this is reachable
