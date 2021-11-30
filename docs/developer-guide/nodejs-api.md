@@ -758,16 +758,16 @@ A test case is an object with the following properties:
 
 In addition to the properties above, invalid test cases can also have the following properties:
 
-* `errors` (number or array, required): Asserts some properties of the errors that the rule is expected to produce when run on this code. If this is a number, asserts the number of errors produced. Otherwise, this should be a list of objects, each containing information about a single reported error. The following properties can be used for an error (all are optional):
-    * `message` (string/regexp): The message for the error
-    * `messageId` (string): The Id for the error. See [testing errors with messageId](#testing-errors-with-messageid) for details
+* `errors` (number or array, required): Asserts some properties of the errors that the rule is expected to produce when run on this code. If this is a number, asserts the number of errors produced. Otherwise, this should be a list of objects, each containing information about a single reported error. The following properties can be used for an error (all are optional unless otherwise noted):
+    * `message` (string/regexp): The message for the error. Must provide this or `messageId`
+    * `messageId` (string): The Id for the error. Must provide this or `message`. See [testing errors with messageId](#testing-errors-with-messageid) for details
     * `data` (object): Placeholder data which can be used in combination with `messageId`
     * `type` (string): The type of the reported AST node
     * `line` (number): The 1-based line number of the reported location
     * `column` (number): The 1-based column number of the reported location
     * `endLine` (number): The 1-based line number of the end of the reported location
     * `endColumn` (number): The 1-based column number of the end of the reported location
-    * `suggestions` (array): An array of objects with suggestion details to check. See [Testing Suggestions](#testing-suggestions) for details
+    * `suggestions` (array): An array of objects with suggestion details to check. Required if the rule produces suggestion. See [Testing Suggestions](#testing-suggestions) for details
 
     If a string is provided as an error instead of an object, the string is used to assert the `message` of the error.
 * `output` (string, required if the rule fixes code): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null`, asserts that none of the reported problems suggest autofixes.
@@ -807,12 +807,12 @@ Please note that `data` in a test case does not assert `data` passed to `context
 
 ### Testing Suggestions
 
-Suggestions can be tested by defining a `suggestions` key on an errors object. The options to check for the suggestions are the following (all are optional):
+Suggestions can be tested by defining a `suggestions` key on an errors object. The options to check for the suggestions are the following:
 
-* `desc` (string): The suggestion `desc` value
-* `messageId` (string): The suggestion `messageId` value for suggestions that use `messageId`s
+* `desc` (string): The suggestion `desc` value. Must provide this or `messageId`
+* `messageId` (string): The suggestion `messageId` value for suggestions that use `messageId`s. Must provide this or `desc`
 * `data` (object): Placeholder data which can be used in combination with `messageId`
-* `output` (string): A code string representing the result of applying the suggestion fix to the input code
+* `output` (string, required): A code string representing the result of applying the suggestion fix to the input code
 
 Example:
 
