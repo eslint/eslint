@@ -135,7 +135,6 @@ For example, here's what the object would look like if one rule, `no-extra-semi`
             type: "suggestion",
             docs: {
                 description: "disallow unnecessary semicolons",
-                category: "Possible Errors",
                 recommended: true,
                 url: "https://eslint.org/docs/rules/no-extra-semi"
             },
