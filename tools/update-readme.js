@@ -123,5 +123,8 @@ let newReadme = readme.replace(/<!--teamstart-->[\w\W]*?<!--teamend-->/u, ejs.re
 
 newReadme = newReadme.replace(/<!--sponsorsstart-->[\w\W]*?<!--sponsorsend-->/u, formatSponsors(allSponsors));
 
+// replace multiple consecutive blank lines with just one blank line
+newReadme = newReadme.replace(/(?<=^|\n)\n{2,}/gu, "\n");
+
 // output to the file
 fs.writeFileSync(README_FILE_PATH, newReadme, "utf8");
