@@ -30,4 +30,4 @@ const hasProperty = Object.hasOwn(object, property);
 
 ## Related Material
 
-[MDN Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn)
+[MDN documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn)

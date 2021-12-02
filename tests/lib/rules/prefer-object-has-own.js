@@ -84,6 +84,7 @@ ruleTester.run("prefer-object-has-own", rule, {
     invalid: [
         {
             code: "Object.hasOwnProperty.call(obj, 'foo')",
+            output: "Object.hasOwn('foo')",
             errors: [{
                 messageId: "useHasOwn",
                 line: 1,
@@ -93,7 +94,19 @@ ruleTester.run("prefer-object-has-own", rule, {
             }]
         },
         {
+            code: "Object.hasOwnProperty.call(obj, property)",
+            output: "Object.hasOwn(property)",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 1,
+                endLine: 1,
+                endColumn: 42
+            }]
+        },
+        {
             code: "Object.prototype.hasOwnProperty.call(obj, 'foo')",
+            output: "Object.hasOwn('foo')",
             errors: [{
                 messageId: "useHasOwn",
                 line: 1,
@@ -104,6 +117,7 @@ ruleTester.run("prefer-object-has-own", rule, {
         },
         {
             code: "({}).hasOwnProperty.call(obj, 'foo')",
+            output: "Object.hasOwn('foo')",
             errors: [{
                 messageId: "useHasOwn",
                 line: 1,
@@ -114,6 +128,7 @@ ruleTester.run("prefer-object-has-own", rule, {
         },
         {
             code: "const hasProperty = Object.prototype.hasOwnProperty.call(object, property);",
+            output: "const hasProperty = Object.hasOwn(property);",
             errors: [{
                 messageId: "useHasOwn",
                 line: 1,
@@ -124,6 +139,7 @@ ruleTester.run("prefer-object-has-own", rule, {
         },
         {
             code: "const hasProperty = (( Object.prototype.hasOwnProperty.call(object, property) ));",
+            output: "const hasProperty = (( Object.hasOwn(property) ));",
             errors: [{
                 messageId: "useHasOwn",
                 line: 1,
@@ -134,6 +150,7 @@ ruleTester.run("prefer-object-has-own", rule, {
         },
         {
             code: "const hasProperty = (( Object.prototype.hasOwnProperty.call ))(object, property);",
+            output: "const hasProperty = (( Object.hasOwn ))(property);",
             errors: [{
                 messageId: "useHasOwn",
                 line: 1,
@@ -144,6 +161,7 @@ ruleTester.run("prefer-object-has-own", rule, {
         },
         {
             code: "const hasProperty = (( Object.prototype.hasOwnProperty )).call(object, property);",
+            output: "const hasProperty = Object.hasOwn(property);",
             errors: [{
                 messageId: "useHasOwn",
                 line: 1,
@@ -154,6 +172,7 @@ ruleTester.run("prefer-object-has-own", rule, {
         },
         {
             code: "const hasProperty = (( Object.prototype )).hasOwnProperty.call(object, property);",
+            output: "const hasProperty = Object.hasOwn(property);",
             errors: [{
                 messageId: "useHasOwn",
                 line: 1,
@@ -164,6 +183,7 @@ ruleTester.run("prefer-object-has-own", rule, {
         },
         {
             code: "const hasProperty = (( Object )).prototype.hasOwnProperty.call(object, property);",
+            output: "const hasProperty = Object.hasOwn(property);",
             errors: [{
                 messageId: "useHasOwn",
                 line: 1,
@@ -174,6 +194,7 @@ ruleTester.run("prefer-object-has-own", rule, {
         },
         {
             code: "const hasProperty = {}.hasOwnProperty.call(object, property);",
+            output: "const hasProperty = Object.hasOwn(property);",
             errors: [{
                 messageId: "useHasOwn",
                 line: 1,
@@ -184,6 +205,7 @@ ruleTester.run("prefer-object-has-own", rule, {
         },
         {
             code: "const hasProperty = (( {}.hasOwnProperty.call(object, property) ));",
+            output: "const hasProperty = (( Object.hasOwn(property) ));",
             errors: [{
                 messageId: "useHasOwn",
                 line: 1,
@@ -194,6 +216,7 @@ ruleTester.run("prefer-object-has-own", rule, {
         },
         {
             code: "const hasProperty = (( {}.hasOwnProperty.call ))(object, property);",
+            output: "const hasProperty = (( Object.hasOwn ))(property);",
             errors: [{
                 messageId: "useHasOwn",
                 line: 1,
@@ -204,6 +227,7 @@ ruleTester.run("prefer-object-has-own", rule, {
         },
         {
             code: "const hasProperty = (( {}.hasOwnProperty )).call(object, property);",
+            output: "const hasProperty = Object.hasOwn(property);",
             errors: [{
                 messageId: "useHasOwn",
                 line: 1,
@@ -214,6 +238,7 @@ ruleTester.run("prefer-object-has-own", rule, {
         },
         {
             code: "const hasProperty = (( {} )).hasOwnProperty.call(object, property);",
+            output: "const hasProperty = Object.hasOwn(property);",
             errors: [{
                 messageId: "useHasOwn",
                 line: 1,
@@ -223,13 +248,14 @@ ruleTester.run("prefer-object-has-own", rule, {
             }]
         },
         {
-            code: "function foo(){return{}.hasOwnProperty.call(object, property)}",
+            code: "function foo(){return {}.hasOwnProperty.call(object, property)}",
+            output: "function foo(){return Object.hasOwn(property)}",
             errors: [{
                 messageId: "useHasOwn",
                 line: 1,
-                column: 22,
+                column: 23,
                 endLine: 1,
-                endColumn: 62
+                endColumn: 63
             }]
         }
     ]
