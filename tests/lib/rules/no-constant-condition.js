@@ -174,7 +174,8 @@ ruleTester.run("no-constant-condition", rule, {
         "function* foo() {for (; ; yield) {}}",
         "function* foo() {while (true) {function* foo() {yield;}yield;}}",
         "function* foo() { for (let x = yield; x < 10; x++) {yield;}yield;}",
-        "function* foo() { for (let x = yield; ; x++) { yield; }}"
+        "function* foo() { for (let x = yield; ; x++) { yield; }}",
+        "if (new Number(x) + 1 === 2) {}"
     ],
     invalid: [
         { code: "for(;true;);", errors: [{ messageId: "unexpected", type: "Literal" }] },
@@ -387,6 +388,16 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "if(0b1n);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "if(0o1n);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "if(0x1n);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "if(0x1n || foo);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "LogicalExpression" }] }
+        { code: "if(0x1n || foo);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+
+        // Classes and instances are always truthy
+        { code: "if(class {}) {}", errors: [{ messageId: "unexpected" }] },
+        { code: "if(new Foo()) {}", errors: [{ messageId: "unexpected" }] },
+
+        // Boxed primitives are always truthy
+        { code: "if(new Boolean(foo)) {}", errors: [{ messageId: "unexpected" }] },
+        { code: "if(new String(foo)) {}", errors: [{ messageId: "unexpected" }] },
+        { code: "if(new Number(foo)) {}", errors: [{ messageId: "unexpected" }] }
+
     ]
 });

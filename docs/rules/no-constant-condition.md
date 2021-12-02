@@ -32,6 +32,14 @@ if (x &&= false) {
     doSomethingNever();
 }
 
+if (class {}) {
+    doSomethingAlways();
+}
+
+if (new Boolean(x)) {
+    doSomethingAlways();
+}
+
 if (x ||= true) {
     doSomethingAlways();
 }
