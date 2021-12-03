@@ -2,7 +2,7 @@
 
 `Object.hasOwn(…)` is more accessible than `Object.prototype.hasOwnProperty.call(…)`.
 
-It is recommended over Object.hasOwnProperty() because it works for objects created using Object.create(null) and with objects that have overridden the inherited hasOwnProperty() method.
+It is recommended over `Object#hasOwnProperty()` because it works for objects created using `Object.create(null)` and with objects that have overridden the inherited `hasOwnProperty()` method.
 
 ## Rule Details
 
@@ -30,4 +30,4 @@ const hasProperty = Object.hasOwn(object, property);
 
 ## Related Material
 
-[MDN documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn)
+* [Object.hasOwn()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn)
