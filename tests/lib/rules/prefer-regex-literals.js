@@ -2324,6 +2324,20 @@ ruleTester.run("prefer-regex-literals", rule, {
                     ]
                 }
             ]
+        },
+        {
+            code: "new RegExp(\"\\u000A\\u000A\");",
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "unexpectedRegExp",
+                            output: "/\\n\\n/;"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 });
