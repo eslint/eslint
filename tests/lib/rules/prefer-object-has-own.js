@@ -1,6 +1,7 @@
 /**
  * @fileoverview Prefers Object.hasOwn instead of Object.prototype.hasOwnProperty
- * @author Nitin Kumar, Gautam Arora
+ * @author Nitin Kumar
+ * @author Gautam Arora
  */
 
 "use strict";
