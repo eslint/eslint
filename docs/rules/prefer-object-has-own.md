@@ -4,6 +4,22 @@
 
 It is recommended over `Object#hasOwnProperty()` because it works for objects created using `Object.create(null)` and with objects that have overridden the inherited `hasOwnProperty()` method.
 
+```js
+const foo = {
+  hasOwnProperty: function() {
+    return false;
+  },
+  bar: 'Hello World'
+};
+
+console.log(Object.hasOwn(foo, 'bar')); // true - remplementation of hasOwnProperty() does not affect Object
+
+const bar = Object.create(null);
+bar.prop = 'exists';
+
+console.log(Object.hasOwn(bar, 'prop')); // true - works irrespective of how the object is created.
+```
+
 ## Rule Details
 
 Examples of **incorrect** code for this rule:
