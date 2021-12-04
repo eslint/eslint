@@ -4205,7 +4205,7 @@ var a = "test2";
                     }
                 }));
                 linter.verify("", config);
-                assert.strictEqual(ecmaVersion, 5, "ecmaVersion should be 2022");
+                assert.strictEqual(ecmaVersion, 5, "ecmaVersion should be 5");
             });
 
             it("should pass normalized ecmaVersion to eslint-scope", () => {
