@@ -187,6 +187,7 @@ Parser options are set in your `.eslintrc.*` file by using the `parserOptions` p
 
 * `ecmaVersion` - set to 3, 5 (default), 6, 7, 8, 9, 10, 11, 12, or 13 to specify the version of ECMAScript syntax you want to use. You can also set to 2015 (same as 6), 2016 (same as 7), 2017 (same as 8), 2018 (same as 9), 2019 (same as 10), 2020 (same as 11), 2021 (same as 12), or 2022 (same as 13) to use the year-based naming. You can also set "latest" to use the most recently supported version.
 * `sourceType` - set to `"script"` (default) or `"module"` if your code is in ECMAScript modules.
+* `allowReserved` - allow the use of reserved words as identifiers (if `ecmaVersion` is 3).
 * `ecmaFeatures` - an object indicating which additional language features you'd like to use:
     * `globalReturn` - allow `return` statements in the global scope
     * `impliedStrict` - enable global [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) (if `ecmaVersion` is 5 or greater)
