@@ -12,7 +12,7 @@ const foo = {
   bar: 'Hello World'
 };
 
-console.log(Object.hasOwn(foo, 'bar')); // true - remplementation of hasOwnProperty() does not affect Object
+console.log(Object.hasOwn(foo, 'bar')); // true - re-implementation of hasOwnProperty() does not affect Object
 
 const bar = Object.create(null);
 bar.prop = 'exists';
