@@ -29,6 +29,7 @@ ruleTester.run("prefer-object-has-own", rule, {
         "Object(obj, prop)",
         "Object.hasOwnProperty",
         "Object.hasOwnProperty(prop)",
+        "hasOwnProperty(obj, prop)",
         "foo.hasOwnProperty(prop)",
         "foo.hasOwnProperty(obj, prop)",
         "Object.hasOwnProperty.call",
