@@ -1,3 +1,23 @@
+v8.4.0 - December 3, 2021
+
+* [`efede90`](https://github.com/eslint/eslint/commit/efede90d59edc5cca9cd739df7e98f1ff00ca37d) chore: upgrade @eslint/eslintrc@1.0.5 (#15389) (Milos Djermanovic)
+* [`5771663`](https://github.com/eslint/eslint/commit/5771663e8d3e86fec9454ee0af439c6989506bf3) feat: add `allowReserved` parser option (#15387) (Milos Djermanovic)
+* [`32ac37a`](https://github.com/eslint/eslint/commit/32ac37a76b2e009a8f106229bc7732671d358189) feat: Flat config support in Linter (refs #13481) (#15185) (Nicholas C. Zakas)
+* [`54deec5`](https://github.com/eslint/eslint/commit/54deec56bc25d516becaf767769ee7543f491d62) docs: update integrations.md (#15380) (Vlad Sholokhov)
+* [`d041f34`](https://github.com/eslint/eslint/commit/d041f345cdf0306f15faa2f305fe1d21ef137eb1) feat: Treat Class/New Expressions as truthy in no-constant-condition (#15326) (Jordan Eldredge)
+* [`8f44cf5`](https://github.com/eslint/eslint/commit/8f44cf505765b663e371412ab57f0f1dbbe78513) feat: report only lines that exceed the limit in max-lines-per-function (#15140) (Sneh Khatri)
+* [`fa0423a`](https://github.com/eslint/eslint/commit/fa0423af7f8453f6c97b915b3b026f258b76a600) docs: fix typo in PR template (#15365) (Nitin Kumar)
+* [`0b8c846`](https://github.com/eslint/eslint/commit/0b8c846c77234125fbb211980bc1e62dc8791513) chore: fix update-readme to avoid multiple consecutive blank lines (#15375) (Milos Djermanovic)
+* [`808ad35`](https://github.com/eslint/eslint/commit/808ad35f204c838cd5eb8d766807dc43692f42f9) feat: pass cwd to formatters (refs eslint/rfcs#57) (#13392) (Toru Nagashima)
+* [`94b2a8b`](https://github.com/eslint/eslint/commit/94b2a8b3d1f7d139dd6b06216a64727b7d5f009b) chore: Use default Chromium binary in M1 Mac tests (#15371) (Brandon Mills)
+* [`4940cc5`](https://github.com/eslint/eslint/commit/4940cc5c4903a691fe51d409137dd573c4c7706e) fix: mark --rulesdir option as deprecated in CLI docs (#15310) (Kevin Partington)
+* [`e233920`](https://github.com/eslint/eslint/commit/e233920857e282ba22116ad5f1dcc6dfabc8ef5b) docs: enable a few more markdownlint rules and fix violations (#15368) (Bryan Mishkin)
+* [`ba58d94`](https://github.com/eslint/eslint/commit/ba58d94cb51d4d2644c024446d5750eaf4853129) ci: use node `v16` for Verify Files (#15364) (Nitin Kumar)
+* [`632176d`](https://github.com/eslint/eslint/commit/632176dc43180ea4e7f99da429fee3ee3814a04d) docs: Dedent needlessly indented example in getter-return docs (#15363) (Jordan Eldredge)
+* [`4497e88`](https://github.com/eslint/eslint/commit/4497e880248c24dc19eea8a5466555b847c0c7eb) docs: Update release notes blog post template (#15285) (Nicholas C. Zakas)
+* [`f1b7499`](https://github.com/eslint/eslint/commit/f1b7499a5162d3be918328ce496eb80692353a5a) feat: support async formatters (#15243) (MO)
+* [`1e32ee5`](https://github.com/eslint/eslint/commit/1e32ee591e978188b121604d0af9cbc04a50a3b5) chore: add jsdoc type annotation to rules (#15291) (Bryan Mishkin)
+
 v8.3.0 - November 21, 2021
 
 * [`60b0a29`](https://github.com/eslint/eslint/commit/60b0a292efd1b9cdc318b1e88a0cb7bbf14860b1) feat: add `allowProperties` option to require-atomic-updates (#15238) (Milos Djermanovic)
