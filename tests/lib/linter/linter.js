@@ -6432,7 +6432,7 @@ describe("Linter with FlatConfigArray", () => {
                     linter.verify("foo", config, filename);
                 });
 
-                it("ecmaVersion should be normalized to to latest year by default", () => {
+                it("ecmaVersion should be normalized to latest year by default", () => {
                     const config = {
                         plugins: {
                             test: {
