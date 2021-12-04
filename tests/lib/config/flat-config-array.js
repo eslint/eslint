@@ -78,7 +78,7 @@ const baseConfig = {
 function createFlatConfigArray(configs) {
     return new FlatConfigArray(configs, {
         basePath: __dirname,
-        baseConfig
+        baseConfig: [baseConfig]
     });
 }
 
@@ -142,6 +142,29 @@ function normalizeRuleConfig(rulesConfig) {
 //-----------------------------------------------------------------------------
 
 describe("FlatConfigArray", () => {
+
+    it("should not reuse languageOptions.parserOptions across configs", () => {
+        const base = [{
+            languageOptions: {
+                parserOptions: {
+                    foo: true
+                }
+            }
+        }];
+
+        const configs = new FlatConfigArray([], {
+            basePath: __dirname,
+            baseConfig: base
+        });
+
+        configs.normalizeSync();
+
+        const config = configs.getConfig("foo.js");
+
+        assert.notStrictEqual(base[0].languageOptions, config.languageOptions);
+        assert.notStrictEqual(base[0].languageOptions.parserOptions, config.languageOptions.parserOptions, "parserOptions should be new object");
+    });
+
 
     describe("Special configs", () => {
         it("eslint:recommended is replaced with an actual config", async () => {
@@ -638,7 +661,7 @@ describe("FlatConfigArray", () => {
                                 ecmaVersion: "true"
                             }
                         }
-                    ], "Expected a number.");
+                    ], /Key "languageOptions": Key "ecmaVersion": Expected a number or "latest"\./u);
                 });
 
                 it("should merge two objects when second object has overrides", () => assertMergedResult([

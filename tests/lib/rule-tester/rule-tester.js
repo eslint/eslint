@@ -1042,6 +1042,7 @@ describe("RuleTester", () => {
         });
         assert.strictEqual(spy.args[1][1].parser, require.resolve("esprima"));
     });
+
     it("should pass normalized ecmaVersion to the rule", () => {
         const reportEcmaVersionRule = {
             meta: {
@@ -1169,6 +1170,8 @@ describe("RuleTester", () => {
                     parserOptions: { ecmaVersion: "latest" },
                     env: { es2020: true }
                 },
+
+                // Non-Espree parsers normalize ecmaVersion if it's not "latest"
                 {
                     code: "",
                     errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
@@ -1194,7 +1197,7 @@ describe("RuleTester", () => {
                 },
                 {
                     code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: 6 } }],
                     parser: notEspree,
                     parserOptions: { ecmaVersion: 2015 }
                 },
