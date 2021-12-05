@@ -410,7 +410,7 @@ describe("configInitializer", () => {
             });
 
             it("should create the config based on examined files", () => {
-                assert.deepStrictEqual(config.rules.quotes, ["error", "double"]);
+                assert.strictEqual(config.rules.quotes, "error");
                 assert.strictEqual(config.rules.semi, "off");
             });
 
