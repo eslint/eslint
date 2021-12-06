@@ -197,7 +197,7 @@ let obj = {
 Examples of **correct** code for the `{minKeys: 4}` option:
 
 ```js
-/*eslint sort-keys: ["error", "asc", {minKeys: 4}]*//
+/*eslint sort-keys: ["error", "asc", {minKeys: 4}]*/
 /*eslint-env es6*/
 
 // 3 keys
