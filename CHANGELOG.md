@@ -1,3 +1,8 @@
+v8.4.1 - December 6, 2021
+
+* [`234e3d9`](https://github.com/eslint/eslint/commit/234e3d98eeab8956cefb14c982b9c348c21bb2d9) fix: revert changes to reported locations in max-lines-per-function (#15397) (Milos Djermanovic)
+* [`fa4d483`](https://github.com/eslint/eslint/commit/fa4d4830a0e77f92154079ada17ffb893ce64232) docs: fix typo in example for `sort-keys` rule (#15393) (Nitin Kumar)
+
 v8.4.0 - December 3, 2021
 
 * [`efede90`](https://github.com/eslint/eslint/commit/efede90d59edc5cca9cd739df7e98f1ff00ca37d) chore: upgrade @eslint/eslintrc@1.0.5 (#15389) (Milos Djermanovic)
