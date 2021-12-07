@@ -81,7 +81,9 @@ ruleTester.run("prefer-object-has-own", rule, {
         let obj = {};
         Object.hasOwn(obj,"");
         `,
-        "const hasProperty = Object.hasOwn(object, property);"
+        "const hasProperty = Object.hasOwn(object, property);",
+        `/* global Object: off */
+        ({}).hasOwnProperty.call(a, b);`
     ],
     invalid: [
         {
@@ -126,6 +128,19 @@ ruleTester.run("prefer-object-has-own", rule, {
                 column: 1,
                 endLine: 1,
                 endColumn: 37
+            }]
+        },
+
+        //  prevent autofixing if there are any comments
+        {
+            code: "Object/* comment */.prototype.hasOwnProperty.call(a, b);",
+            output: null,
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 1,
+                endLine: 1,
+                endColumn: 56
             }]
         },
         {
