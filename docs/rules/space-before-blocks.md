@@ -29,7 +29,7 @@ The default is `"always"`.
 Examples of **incorrect** code for this rule with the "always" option:
 
 ```js
-/*eslint space-before-blocks: "error"*/
+/*eslint space-before-blocks: "always"*/
 
 if (a){
     b();
@@ -51,7 +51,7 @@ class Foo{
 Examples of **correct** code for this rule with the `"always"` option:
 
 ```js
-/*eslint space-before-blocks: "error"*/
+/*eslint space-before-blocks: "always"*/
 
 if (a) {
     b();
