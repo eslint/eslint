@@ -129,7 +129,7 @@ class A {
 }
 ```
 
-## enforceForClassFields
+### enforceForClassFields
 
 ```js
 "class-methods-use-this": [<enabled>, { "enforceForClassFields": true | false }]
