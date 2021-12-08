@@ -313,14 +313,14 @@ See [no-dupe-keys](no-dupe-keys.md) if you also want to disallow duplicate keys 
 
 See [no-dupe-class-members](no-dupe-class-members.md) if you also want to disallow duplicate names in class definitions.
 
-## Further Reading
-
-* [Object Setters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set)
-* [Object Getters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get)
-* [Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
-
 ## Related Rules
 
 * [accessor-pairs](accessor-pairs.md)
 * [no-dupe-keys](no-dupe-keys.md)
 * [no-dupe-class-members](no-dupe-class-members.md)
+
+## Further Reading
+
+* [Object Setters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set)
+* [Object Getters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get)
+* [Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)

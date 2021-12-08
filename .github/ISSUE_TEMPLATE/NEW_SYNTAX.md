@@ -20,7 +20,7 @@ assignees: ''
 
 **Please provide the TC39 URL for the syntax proposal:**
 
-
+<!-- for example, <https://github.com/tc39/proposal-top-level-await> -->
 
 **Please provide some example code for the new syntax:**
 
@@ -32,12 +32,12 @@ assignees: ''
 
 Please check off all items that have already been completed. Be sure to paste the pull request URLs next to each item so we can verify the work as done.
 
-- [ ] Ecma262 update: <!-- paste PR URL for this syntax here -->
-- [ ] ESTree update: <!-- paste PR URL for this ESTree update here -->
-- [ ] Acorn update: <!-- paste PR URL for this syntax here -->
-- [ ] `eslint-visitor-keys` update: <!-- paste PR URL for this syntax here -->
-- [ ] `espree` update: <!-- paste PR URL for this syntax here -->
-- [ ] `eslint-scope` update: <!-- paste PR URL for this syntax here -->
-- [ ] `eslint` update: <!-- paste PR URL for this syntax here -->
+* [ ] Ecma262 update: <!-- paste PR URL for this syntax here -->
+* [ ] ESTree update: <!-- paste PR URL for this ESTree update here -->
+* [ ] Acorn update: <!-- paste PR URL for this syntax here -->
+* [ ] `eslint-visitor-keys` update: <!-- paste PR URL for this syntax here -->
+* [ ] `espree` update: <!-- paste PR URL for this syntax here -->
+* [ ] `eslint-scope` update: <!-- paste PR URL for this syntax here -->
+* [ ] `eslint` update: <!-- paste PR URL for this syntax here -->
 
 **Are you willing to submit a pull request to implement this syntax?**

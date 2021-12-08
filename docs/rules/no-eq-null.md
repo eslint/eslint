@@ -40,10 +40,10 @@ while (qux !== null) {
 }
 ```
 
-## Compatibility
-
-* **JSHint**: This rule corresponds to `eqnull` rule of JSHint.
-
 ## When Not To Use It
 
 If you want to enforce type-checking operations in general, use the more powerful [eqeqeq](./eqeqeq) instead.
+
+## Compatibility
+
+* **JSHint**: This rule corresponds to `eqnull` rule of JSHint.

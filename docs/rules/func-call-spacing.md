@@ -17,12 +17,12 @@ new Date ();
 
 This rule requires or disallows spaces between the function name and the opening parenthesis that calls it.
 
-## options
+## Options
 
 This rule has a string option:
 
-- `"never"` (default) disallows space between the function name and the opening parenthesis.
-- `"always"` requires space between the function name and the opening parenthesis.
+* `"never"` (default) disallows space between the function name and the opening parenthesis.
+* `"always"` requires space between the function name and the opening parenthesis.
 
 Further, in `"always"` mode, a second object option is available that contains a single boolean `allowNewlines` property.
 
@@ -97,9 +97,9 @@ This rule can safely be turned off if your project does not care about enforcing
 
 ## Related Rules
 
-- [no-spaced-func](no-spaced-func.md) (deprecated)
+* [no-spaced-func](no-spaced-func.md) (deprecated)
 
 ## Compatibility
 
-- **JSCS**: [disallowSpacesInCallExpression](https://jscs-dev.github.io/rule/disallowSpacesInCallExpression)
-- **JSCS**: [requireSpacesInCallExpression](https://jscs-dev.github.io/rule/requireSpacesInCallExpression)
+* **JSCS**: [disallowSpacesInCallExpression](https://jscs-dev.github.io/rule/disallowSpacesInCallExpression)
+* **JSCS**: [requireSpacesInCallExpression](https://jscs-dev.github.io/rule/requireSpacesInCallExpression)
