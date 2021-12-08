@@ -1,5 +1,5 @@
 /**
- * @fileoverview Prefers Object.hasOwn instead of Object.prototype.hasOwnProperty
+ * @fileoverview Tests for prefer-object-has-own rule.
  * @author Nitin Kumar
  * @author Gautam Arora
  */
@@ -80,6 +80,7 @@ ruleTester.run("prefer-object-has-own", rule, {
         "class C { #hasOwnProperty; foo() { ({}.#hasOwnProperty.call(obj, prop)) } }",
         "class C { #call; foo() { ({}.hasOwnProperty.#call(obj, prop)) } }",
         "({ foo }.hasOwnProperty.call(obj, prop))", // object literal should be empty
+        "(Object) => ({}).hasOwnProperty.call(obj, prop)", // Object is shadowed, so Object.hasOwn cannot be used here
         `
         let obj = {};
         Object.hasOwn(obj,"");
@@ -276,6 +277,72 @@ ruleTester.run("prefer-object-has-own", rule, {
                 column: 23,
                 endLine: 1,
                 endColumn: 63
+            }]
+        },
+        {
+            code: "Object['prototype']['hasOwnProperty']['call'](object, property);",
+            output: "Object.hasOwn(object, property);",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 1,
+                endLine: 1,
+                endColumn: 64
+            }]
+        },
+        {
+            code: "Object[`prototype`][`hasOwnProperty`][`call`](object, property);",
+            output: "Object.hasOwn(object, property);",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 1,
+                endLine: 1,
+                endColumn: 64
+            }]
+        },
+        {
+            code: "Object['hasOwnProperty']['call'](object, property);",
+            output: "Object.hasOwn(object, property);",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 1,
+                endLine: 1,
+                endColumn: 51
+            }]
+        },
+        {
+            code: "Object[`hasOwnProperty`][`call`](object, property);",
+            output: "Object.hasOwn(object, property);",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 1,
+                endLine: 1,
+                endColumn: 51
+            }]
+        },
+        {
+            code: "({})['hasOwnProperty']['call'](object, property);",
+            output: "Object.hasOwn(object, property);",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 1,
+                endLine: 1,
+                endColumn: 49
+            }]
+        },
+        {
+            code: "({})[`hasOwnProperty`][`call`](object, property);",
+            output: "Object.hasOwn(object, property);",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 1,
+                endLine: 1,
+                endColumn: 49
             }]
         }
     ]
