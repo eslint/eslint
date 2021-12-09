@@ -1,23 +1,21 @@
 # Prefer `Object.hasOwn()` over `Object.prototype.hasOwnProperty.call()` (prefer-object-has-own)
 
-`Object.hasOwn()` is more accessible than `Object.prototype.hasOwnProperty.call()`.
-
-It is recommended over `Object#hasOwnProperty()` because it works for objects created using `Object.create(null)` and with objects that have overridden the inherited `hasOwnProperty()` method.
+It is very common to write code like:
 
 ```js
-const foo = {
-  hasOwnProperty: function() {
-    return false;
-  },
-  bar: 'Hello World'
-};
+if (Object.prototype.hasOwnProperty.call(object, "foo")) {
+  console.log("has property foo");
+}
+```
 
-console.log(Object.hasOwn(foo, 'bar')); // true - re-implementation of hasOwnProperty() does not affect Object
+This is a common practice because methods on Object.prototype can sometimes be unavailable or redefined (see the [no-prototype-bultins](no-prototype-builtins.md) rule).
 
-const bar = Object.create(null);
-bar.prop = 'exists';
+Introduced in ES2022, Object.hasOwn() is a shorter alternative to Object.prototype.hasOwnProperty.call():
 
-console.log(Object.hasOwn(bar, 'prop')); // true - works irrespective of how the object is created.
+```js
+if (Object.hasOwn(object, "foo")) {
+  console.log("has property foo")
+}
 ```
 
 ## Rule Details
