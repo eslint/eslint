@@ -225,6 +225,17 @@ ruleTester.run("prefer-object-has-own", rule, {
             }]
         },
         {
+            code: "const hasProperty={}.hasOwnProperty.call(object, property);",
+            output: "const hasProperty=Object.hasOwn(object, property);",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 19,
+                endLine: 1,
+                endColumn: 59
+            }]
+        },
+        {
             code: "const hasProperty = (( {}.hasOwnProperty.call(object, property) ));",
             output: "const hasProperty = (( Object.hasOwn(object, property) ));",
             errors: [{
@@ -277,6 +288,19 @@ ruleTester.run("prefer-object-has-own", rule, {
                 column: 23,
                 endLine: 1,
                 endColumn: 63
+            }]
+        },
+
+        // https://github.com/eslint/eslint/pull/15346#issuecomment-991417335
+        {
+            code: "function foo(){return{}.hasOwnProperty.call(object, property)}",
+            output: "function foo(){return Object.hasOwn(object, property)}",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 22,
+                endLine: 1,
+                endColumn: 62
             }]
         },
         {
