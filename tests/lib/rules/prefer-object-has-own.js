@@ -304,6 +304,39 @@ ruleTester.run("prefer-object-has-own", rule, {
             }]
         },
         {
+            code: "function foo(){return/*comment*/{}.hasOwnProperty.call(object, property)}",
+            output: "function foo(){return/*comment*/Object.hasOwn(object, property)}",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 33,
+                endLine: 1,
+                endColumn: 73
+            }]
+        },
+        {
+            code: "async function foo(){return await{}.hasOwnProperty.call(object, property)}",
+            output: "async function foo(){return await Object.hasOwn(object, property)}",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 34,
+                endLine: 1,
+                endColumn: 74
+            }]
+        },
+        {
+            code: "async function foo(){return await/*comment*/{}.hasOwnProperty.call(object, property)}",
+            output: "async function foo(){return await/*comment*/Object.hasOwn(object, property)}",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 45,
+                endLine: 1,
+                endColumn: 85
+            }]
+        },
+        {
             code: "Object['prototype']['hasOwnProperty']['call'](object, property);",
             output: "Object.hasOwn(object, property);",
             errors: [{
