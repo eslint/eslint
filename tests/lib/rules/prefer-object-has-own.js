@@ -337,6 +337,28 @@ ruleTester.run("prefer-object-has-own", rule, {
             }]
         },
         {
+            code: "for (const x of{}.hasOwnProperty.call(object, property).toString());",
+            output: "for (const x of Object.hasOwn(object, property).toString());",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 16,
+                endLine: 1,
+                endColumn: 56
+            }]
+        },
+        {
+            code: "for (const x of/*comment*/{}.hasOwnProperty.call(object, property).toString());",
+            output: "for (const x of/*comment*/Object.hasOwn(object, property).toString());",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 27,
+                endLine: 1,
+                endColumn: 67
+            }]
+        },
+        {
             code: "Object['prototype']['hasOwnProperty']['call'](object, property);",
             output: "Object.hasOwn(object, property);",
             errors: [{
