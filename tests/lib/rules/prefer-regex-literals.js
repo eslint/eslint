@@ -145,7 +145,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "NewExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/abc/;"
                         }
                     ]
@@ -160,7 +160,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "CallExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/abc/;"
                         }
                     ]
@@ -175,7 +175,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "NewExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/abc/g;"
                         }
                     ]
@@ -190,7 +190,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "CallExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/abc/g;"
                         }
                     ]
@@ -205,7 +205,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "NewExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/abc/;"
                         }
                     ]
@@ -220,7 +220,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "CallExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/abc/;"
                         }
                     ]
@@ -235,7 +235,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "NewExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/abc/g;"
                         }
                     ]
@@ -250,7 +250,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "CallExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/abc/g;"
                         }
                     ]
@@ -265,7 +265,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "NewExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/abc/;"
                         }
                     ]
@@ -280,7 +280,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "NewExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/abc\\nabc/;"
                         }
                     ]
@@ -295,7 +295,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "NewExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\tabc\\nabc/;"
                         }
                     ]
@@ -310,7 +310,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "CallExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/abc/;"
                         }
                     ]
@@ -325,7 +325,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "NewExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/abc/g;"
                         }
                     ]
@@ -340,7 +340,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "CallExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/abc/g;"
                         }
                     ]
@@ -355,7 +355,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "NewExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/a/;"
                         }
                     ]
@@ -370,7 +370,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "NewExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/(?:)/;"
                         }
                     ]
@@ -385,7 +385,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "CallExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/(?:)/;"
                         }
                     ]
@@ -400,7 +400,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "NewExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/(?:)/;"
                         }
                     ]
@@ -415,7 +415,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "NewExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/a/g;"
                         }
                     ]
@@ -430,7 +430,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "CallExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/a/g;"
                         }
                     ]
@@ -445,7 +445,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "CallExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/a/g;"
                         }
                     ]
@@ -460,7 +460,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "NewExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\d/g;"
                         }
                     ]
@@ -475,7 +475,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "NewExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\\\d/g;"
                         }
                     ]
@@ -490,7 +490,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "NewExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\\\d/g;"
                         }
                     ]
@@ -505,7 +505,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "NewExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\\\d/g;"
                         }
                     ]
@@ -520,7 +520,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "CallExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/a/g;"
                         }
                     ]
@@ -538,7 +538,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "NewExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/a/;"
                         }
                     ]
@@ -556,7 +556,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     type: "CallExpression",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/a/;"
                         }
                     ]
@@ -642,7 +642,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     column: 1,
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/a/;"
                         }
                     ]
@@ -656,7 +656,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/a/;"
                         }
                     ]
@@ -759,7 +759,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/abc/d;"
                         }
                     ]
@@ -773,7 +773,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\\\/;"
                         }
                     ]
@@ -790,7 +790,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\n/;"
                         }
                     ]
@@ -804,7 +804,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\n\\n/;"
                         }
                     ]
@@ -818,7 +818,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\t/;"
                         }
                     ]
@@ -832,7 +832,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\t\\t/;"
                         }
                     ]
@@ -846,7 +846,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\r\\n/;"
                         }
                     ]
@@ -884,7 +884,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\v/;"
                         }
                     ]
@@ -898,7 +898,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\v\\v/;"
                         }
                     ]
@@ -912,7 +912,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\f/;"
                         }
                     ]
@@ -926,7 +926,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\f\\f/;"
                         }
                     ]
@@ -940,7 +940,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\b/;"
                         }
                     ]
@@ -954,7 +954,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\b\\b/;"
                         }
                     ]
@@ -968,7 +968,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\B\\b/;"
                         }
                     ]
@@ -982,7 +982,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\w/;"
                         }
                     ]
@@ -999,7 +999,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\W/;"
                         }
                     ]
@@ -1013,7 +1013,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\s/;"
                         }
                     ]
@@ -1027,7 +1027,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\S/"
                         }
                     ]
@@ -1044,7 +1044,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\d/;"
                         }
                     ]
@@ -1061,7 +1061,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\D/"
                         }
                     ]
@@ -1078,7 +1078,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\\\\\D/"
                         }
                     ]
@@ -1092,7 +1092,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\D\\D/"
                         }
                     ]
@@ -1144,7 +1144,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\78\\126\\5934/"
                         }
                     ]
@@ -1161,7 +1161,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\x56\\x78\\x45/;"
                         }
                     ]
@@ -1175,7 +1175,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "a in(/abc/)"
                         }
                     ]
@@ -1208,7 +1208,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "x = y;\n            /foo/.test(x) ? bar() : baz()"
                         }
                     ]
@@ -1222,7 +1222,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "typeof /foo/"
                         }
                     ]
@@ -1250,7 +1250,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "[   /someregular/]"
                         }
                     ]
@@ -1264,7 +1264,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "const totallyValidatesEmails = /\\S+@(\\S+\\.)+\\S+/\n            if (typeof totallyValidatesEmails === 'object') {\n                runSomethingThatExists(Regexp('stuff'))\n            }"
                         }
                     ]
@@ -1304,7 +1304,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "#!/usr/bin/sh\n            /foo/"
                         }
                     ]
@@ -1338,7 +1338,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "function* abc(){yield* /foo/}"
                         }
                     ]
@@ -1352,7 +1352,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "console.log({ .../a/ })"
                         }
                     ]
@@ -1366,7 +1366,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "delete /a/;"
                         }
                     ]
@@ -1380,7 +1380,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "void /a/;"
                         }
                     ]
@@ -1416,7 +1416,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "a in /abc/"
                         }
                     ]
@@ -1433,7 +1433,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            /abc/ == /cba/;\n            "
                         }
                     ]
@@ -1450,7 +1450,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            /abc/ === /cba/;\n            "
                         }
                     ]
@@ -1467,7 +1467,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            /abc/ != /cba/;\n            "
                         }
                     ]
@@ -1484,7 +1484,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            /abc/ !== /cba/;\n            "
                         }
                     ]
@@ -1501,7 +1501,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            /abc/ > /cba/;\n            "
                         }
                     ]
@@ -1518,7 +1518,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            /abc/ < /cba/;\n            "
                         }
                     ]
@@ -1535,7 +1535,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            /abc/ >= /cba/;\n            "
                         }
                     ]
@@ -1552,7 +1552,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            /abc/ <= /cba/;\n            "
                         }
                     ]
@@ -1569,7 +1569,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            /abc/ << /cba/;\n            "
                         }
                     ]
@@ -1586,7 +1586,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            /abc/ >> /cba/;\n            "
                         }
                     ]
@@ -1603,7 +1603,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            /abc/ >>> /cba/;\n            "
                         }
                     ]
@@ -1620,7 +1620,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            /abc/ ^ /cba/;\n            "
                         }
                     ]
@@ -1637,7 +1637,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            /abc/ & /cba/;\n            "
                         }
                     ]
@@ -1654,7 +1654,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            /abc/ | /cba/;\n            "
                         }
                     ]
@@ -1671,7 +1671,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            null ?? /blah/\n            "
                         }
                     ]
@@ -1688,7 +1688,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            abc *= /blah/\n            "
                         }
                     ]
@@ -1705,7 +1705,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            console.log({a: /sup/})\n            "
                         }
                     ]
@@ -1722,7 +1722,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            console.log(() => {/sup/})\n            "
                         }
                     ]
@@ -1739,7 +1739,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            function abc() {/sup/}\n            "
                         }
                     ]
@@ -1756,7 +1756,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            function abc() {return /sup/}\n            "
                         }
                     ]
@@ -1773,7 +1773,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            abc <<= /cba/;\n            "
                         }
                     ]
@@ -1790,7 +1790,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            abc >>= /cba/;\n            "
                         }
                     ]
@@ -1807,7 +1807,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            abc >>>= /cba/;\n            "
                         }
                     ]
@@ -1824,7 +1824,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            abc ^= /cba/;\n            "
                         }
                     ]
@@ -1841,7 +1841,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            abc &= /cba/;\n            "
                         }
                     ]
@@ -1858,7 +1858,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            abc |= /cba/;\n            "
                         }
                     ]
@@ -1875,7 +1875,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            abc ??= /cba/;\n            "
                         }
                     ]
@@ -1892,7 +1892,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            abc &&= /cba/;\n            "
                         }
                     ]
@@ -1909,7 +1909,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            abc ||= /cba/;\n            "
                         }
                     ]
@@ -1926,7 +1926,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            abc **= /blah/\n            "
                         }
                     ]
@@ -1943,7 +1943,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            abc /= /blah/\n            "
                         }
                     ]
@@ -1960,7 +1960,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            abc += /blah/\n            "
                         }
                     ]
@@ -1977,7 +1977,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            abc -= /blah/\n            "
                         }
                     ]
@@ -1994,7 +1994,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            abc %= /blah/\n            "
                         }
                     ]
@@ -2011,7 +2011,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            () => /blah/\n            "
                         }
                     ]
@@ -2025,7 +2025,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "a/ /foo/ in b"
                         }
                     ]
@@ -2039,7 +2039,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "a/ /foo/ instanceof b"
                         }
                     ]
@@ -2053,7 +2053,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "do /foo/\nwhile (true);"
                         }
                     ]
@@ -2067,7 +2067,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "for(let i;i<5;i++) { break\n/search/}"
                         }
                     ]
@@ -2081,7 +2081,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "for(let i;i<5;i++) { continue\n/search/}"
                         }
                     ]
@@ -2095,7 +2095,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "\n            switch (value) {\n                case \"possibility\":\n                    console.log('possibility matched')\n                case /myReg/.toString():\n                    console.log('matches a regexp\\' toString value')\n                    break;\n            }\n            "
                         }
                     ]
@@ -2109,7 +2109,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "throw /abcdefg/ // fail with a regular expression"
                         }
                     ]
@@ -2142,7 +2142,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "for (value in /something being searched/) { console.log(value) }"
                         }
                     ]
@@ -2164,7 +2164,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "debugger\n/myReg/"
                         }
                     ]
@@ -2178,7 +2178,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\n/"
                         }
                     ]
@@ -2192,7 +2192,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\t/"
                         }
                     ]
@@ -2206,7 +2206,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\f/"
                         }
                     ]
@@ -2220,7 +2220,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\v/"
                         }
                     ]
@@ -2234,7 +2234,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\r/"
                         }
                     ]
@@ -2248,7 +2248,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\t/"
                         }
                     ]
@@ -2262,7 +2262,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\//"
                         }
                     ]
@@ -2276,7 +2276,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/./"
                         }
                     ]
@@ -2290,7 +2290,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\./"
                         }
                     ]
@@ -2304,7 +2304,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\n\\n/"
                         }
                     ]
@@ -2318,7 +2318,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\n\\f\\n/"
                         }
                     ]
@@ -2332,7 +2332,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRegExp",
                     suggestions: [
                         {
-                            messageId: "unexpectedRegExp",
+                            messageId: "replaceWithLiteral",
                             output: "/\\n\\n/;"
                         }
                     ]
