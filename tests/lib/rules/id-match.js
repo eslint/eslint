@@ -185,6 +185,17 @@ ruleTester.run("id-match", rule, {
             }]
         },
 
+        // Should not report for global references that are native objects - https://github.com/eslint/eslint/issues/15395
+        {
+            code: `
+            var foo = Object.keys(bar);
+            var a = Array.from(b);
+            `,
+            options: ["^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$", {
+                properties: true
+            }]
+        },
+
         // Class Methods
         {
             code: "class x { foo() {} }",
@@ -636,6 +647,33 @@ ruleTester.run("id-match", rule, {
             errors: [
                 {
                     message: "Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+
+        // https://github.com/eslint/eslint/issues/15395
+        {
+            code: `
+            const foo_variable = 1;
+            class MyClass {
+            }
+            let a = new MyClass();
+            let b = {id: 1};
+            let c = Object.keys(b);
+            let d = Array.from(b);
+            `,
+            options: ["^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'foo_variable' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+                    type: "Identifier"
+                },
+                {
+                    message: "Identifier 'MyClass' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
                     type: "Identifier"
                 }
             ]
