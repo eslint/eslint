@@ -662,6 +662,8 @@ ruleTester.run("id-match", rule, {
             let b = {id: 1};
             let c = Object.keys(b);
             let d = Array.from(b);
+            let e = (Object) => Object.keys(obj, prop); // not global Object
+            let f = (Array) => Array.from(obj, prop); // not global Array
             `,
             options: ["^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$", {
                 properties: true
@@ -670,11 +672,39 @@ ruleTester.run("id-match", rule, {
             errors: [
                 {
                     message: "Identifier 'foo_variable' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
-                    type: "Identifier"
+                    type: "Identifier",
+                    line: 2,
+                    column: 19
                 },
                 {
                     message: "Identifier 'MyClass' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
-                    type: "Identifier"
+                    type: "Identifier",
+                    line: 3,
+                    column: 19
+                },
+                {
+                    message: "Identifier 'Object' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+                    type: "Identifier",
+                    line: 9,
+                    column: 22
+                },
+                {
+                    message: "Identifier 'Object' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+                    type: "Identifier",
+                    line: 9,
+                    column: 33
+                },
+                {
+                    message: "Identifier 'Array' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+                    type: "Identifier",
+                    line: 10,
+                    column: 22
+                },
+                {
+                    message: "Identifier 'Array' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+                    type: "Identifier",
+                    line: 10,
+                    column: 32
                 }
             ]
         },
