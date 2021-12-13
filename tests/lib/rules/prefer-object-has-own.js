@@ -381,6 +381,17 @@ ruleTester.run("prefer-object-has-own", rule, {
             }]
         },
         {
+            code: "function foo(){return({}.hasOwnProperty.call)(object, property)}",
+            output: "function foo(){return(Object.hasOwn)(object, property)}",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 22,
+                endLine: 1,
+                endColumn: 64
+            }]
+        },
+        {
             code: "Object['prototype']['hasOwnProperty']['call'](object, property);",
             output: "Object.hasOwn(object, property);",
             errors: [{
