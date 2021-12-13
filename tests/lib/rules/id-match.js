@@ -185,7 +185,7 @@ ruleTester.run("id-match", rule, {
             }]
         },
 
-        // Should not report for global references that are native objects - https://github.com/eslint/eslint/issues/15395
+        // Should not report for global references - https://github.com/eslint/eslint/issues/15395
         {
             code: `
             var foo = Object.keys(bar);
@@ -664,6 +664,7 @@ ruleTester.run("id-match", rule, {
             let d = Array.from(b);
             let e = (Object) => Object.keys(obj, prop); // not global Object
             let f = (Array) => Array.from(obj, prop); // not global Array
+            foo.Array = 5; // not global Array
             `,
             options: ["^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$", {
                 properties: true
@@ -682,6 +683,8 @@ ruleTester.run("id-match", rule, {
                     line: 3,
                     column: 19
                 },
+
+                // let e = (Object) => Object.keys(obj, prop)
                 {
                     message: "Identifier 'Object' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
                     type: "Identifier",
@@ -694,6 +697,8 @@ ruleTester.run("id-match", rule, {
                     line: 9,
                     column: 33
                 },
+
+                // let f =(Array) => Array.from(obj, prop);
                 {
                     message: "Identifier 'Array' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
                     type: "Identifier",
@@ -705,6 +710,14 @@ ruleTester.run("id-match", rule, {
                     type: "Identifier",
                     line: 10,
                     column: 32
+                },
+
+                // foo.Array = 5;
+                {
+                    message: "Identifier 'Array' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+                    type: "Identifier",
+                    line: 11,
+                    column: 17
                 }
             ]
         },
