@@ -49,7 +49,6 @@ obj[ 'foo']
 var x = {[ b ]: a}
 obj[foo[ bar ]]
 
-// applies to the spacing for dynamic keys (computed property key) when destructuring objects.
 const { [ a ]: someProp } = obj;
 ({ [ b ]: anotherProp } = anotherObj);
 ```
@@ -65,7 +64,6 @@ obj['foo']
 var x = {[b]: a}
 obj[foo[bar]]
 
-// applies to the spacing for dynamic keys (computed property key) when destructuring objects.
 const { [a]: someProp } = obj;
 ({ [b]: anotherProp } = anotherObj);
 ```
