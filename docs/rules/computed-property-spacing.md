@@ -48,6 +48,9 @@ obj[foo ]
 obj[ 'foo']
 var x = {[ b ]: a}
 obj[foo[ bar ]]
+
+const { [ a ]: someProp } = obj;
+({ [ b ]: anotherProp } = anotherObj);
 ```
 
 Examples of **correct** code for this rule with the default `"never"` option:
@@ -60,6 +63,9 @@ obj[foo]
 obj['foo']
 var x = {[b]: a}
 obj[foo[bar]]
+
+const { [a]: someProp } = obj;
+({ [b]: anotherProp } = anotherObj);
 ```
 
 ### always
@@ -76,6 +82,8 @@ obj[ foo]
 obj['foo' ]
 obj[foo[ bar ]]
 var x = {[ b]: a}
+const { [a]: someProp } = obj;
+({ [b ]: anotherProp } = anotherObj);
 ```
 
 Examples of **correct** code for this rule with the `"always"` option:
@@ -88,6 +96,8 @@ obj[ foo ]
 obj[ 'foo' ]
 var x = {[ b ]: a}
 obj[ foo[ bar ] ]
+const { [ a ]: someProp } = obj;
+({ [ b ]: anotherProp } = anotherObj);
 ```
 
 #### enforceForClassMembers
