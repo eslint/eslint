@@ -188,12 +188,14 @@ ruleTester.run("id-match", rule, {
         // Should not report for global references - https://github.com/eslint/eslint/issues/15395
         {
             code: `
-            var foo = Object.keys(bar);
-            var a = Array.from(b);
+            const foo = Object.keys(bar);
+            const a = Array.from(b);
+            const bar = () => Array;
             `,
             options: ["^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$", {
                 properties: true
-            }]
+            }],
+            parserOptions: { ecmaVersion: 2022 }
         },
 
         // Class Methods
