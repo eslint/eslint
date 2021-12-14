@@ -667,7 +667,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "new RegExp('+');",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -675,7 +676,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "new RegExp('*');",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -683,7 +685,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "RegExp('+');",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -691,7 +694,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "RegExp('*');",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -699,7 +703,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "new RegExp('+', 'g');",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -707,7 +712,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "new RegExp('*', 'g');",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -715,7 +721,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "RegExp('+', 'g');",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -723,7 +730,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "RegExp('*', 'g');",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -734,7 +742,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             },
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -745,7 +754,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             },
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -857,7 +867,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "RegExp('\\u1234', 'g')",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -865,7 +876,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "RegExp('\\u{1234}', 'g')",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -873,7 +885,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "RegExp('\\u{11111}', 'g')",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -1106,7 +1119,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             },
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -1114,7 +1128,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "new RegExp('\\\\0\\\\0', '');",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -1122,7 +1137,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "new RegExp('\\0\\0', 'g');",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -1130,7 +1146,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "RegExp('\\\\0\\\\0\\\\0', '')",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -1186,7 +1203,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "x = y\n            RegExp(\"foo\").test(x) ? bar() : baz()",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -1194,10 +1212,12 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "func(new RegExp(String.raw`\\w{1, 2`, 'u'),new RegExp(String.raw`\\w{1, 2`, 'u'))",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 },
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -1233,13 +1253,31 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "RegExp(\"foo\") instanceof RegExp(String.raw`blahblah`, 'g') ? typeof new RegExp('(\\\\p{Emoji_Presentation})\\\\1', `ug`) : false",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "/foo/ instanceof RegExp(String.raw`blahblah`, 'g') ? typeof new RegExp('(\\\\p{Emoji_Presentation})\\\\1', `ug`) : false"
+                        }
+                    ]
                 },
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "RegExp(\"foo\") instanceof /blahblah/g ? typeof new RegExp('(\\\\p{Emoji_Presentation})\\\\1', `ug`) : false"
+                        }
+                    ]
                 },
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "RegExp(\"foo\") instanceof RegExp(String.raw`blahblah`, 'g') ? typeof /(\\p{Emoji_Presentation})\\1/ug : false"
+                        }
+                    ]
                 }
             ]
         },
@@ -1275,25 +1313,67 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "!new RegExp('^Hey, ', 'u') && new RegExp('jk$') && ~new RegExp('^Sup, ') || new RegExp('hi') + new RegExp('person') === -new RegExp('hi again') ? 5 * new RegExp('abc') : 'notregbutstring'",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "!/^Hey, /u && new RegExp('jk$') && ~new RegExp('^Sup, ') || new RegExp('hi') + new RegExp('person') === -new RegExp('hi again') ? 5 * new RegExp('abc') : 'notregbutstring'"
+                        }
+                    ]
                 },
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "!new RegExp('^Hey, ', 'u') && /jk$/ && ~new RegExp('^Sup, ') || new RegExp('hi') + new RegExp('person') === -new RegExp('hi again') ? 5 * new RegExp('abc') : 'notregbutstring'"
+                        }
+                    ]
                 },
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "!new RegExp('^Hey, ', 'u') && new RegExp('jk$') && ~/^Sup, / || new RegExp('hi') + new RegExp('person') === -new RegExp('hi again') ? 5 * new RegExp('abc') : 'notregbutstring'"
+                        }
+                    ]
                 },
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "!new RegExp('^Hey, ', 'u') && new RegExp('jk$') && ~new RegExp('^Sup, ') || /hi/ + new RegExp('person') === -new RegExp('hi again') ? 5 * new RegExp('abc') : 'notregbutstring'"
+                        }
+                    ]
                 },
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "!new RegExp('^Hey, ', 'u') && new RegExp('jk$') && ~new RegExp('^Sup, ') || new RegExp('hi') + /person/ === -new RegExp('hi again') ? 5 * new RegExp('abc') : 'notregbutstring'"
+                        }
+                    ]
                 },
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "!new RegExp('^Hey, ', 'u') && new RegExp('jk$') && ~new RegExp('^Sup, ') || new RegExp('hi') + new RegExp('person') === -/hi again/ ? 5 * new RegExp('abc') : 'notregbutstring'"
+                        }
+                    ]
                 },
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "!new RegExp('^Hey, ', 'u') && new RegExp('jk$') && ~new RegExp('^Sup, ') || new RegExp('hi') + new RegExp('person') === -new RegExp('hi again') ? 5 * /abc/ : 'notregbutstring'"
+                        }
+                    ]
                 }
             ]
         },
@@ -1319,7 +1399,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             },
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -1327,7 +1408,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "function* abc(){yield new RegExp(\"foo\")}",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -1391,10 +1473,22 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "new RegExp(\"\\\\S+@(\\\\S+\\\\.)+\\\\S+\")**RegExp('a')",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "/\\S+@(\\S+\\.)+\\S+/**RegExp('a')"
+                        }
+                    ]
                 },
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "new RegExp(\"\\\\S+@(\\\\S+\\\\.)+\\\\S+\")**/a/"
+                        }
+                    ]
                 }
             ]
         },
@@ -1402,10 +1496,22 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "new RegExp(\"\\\\S+@(\\\\S+\\\\.)+\\\\S+\")%RegExp('a')",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "/\\S+@(\\S+\\.)+\\S+/%RegExp('a')"
+                        }
+                    ]
                 },
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "new RegExp(\"\\\\S+@(\\\\S+\\\\.)+\\\\S+\")%/a/"
+                        }
+                    ]
                 }
             ]
         },
@@ -2120,7 +2226,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "for (value of new RegExp('something being searched')) { console.log(value) }",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -2131,7 +2238,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             },
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -2153,7 +2261,8 @@ ruleTester.run("prefer-regex-literals", rule, {
             code: "if (condition1 && condition2) new RegExp('avalue').test(str);",
             errors: [
                 {
-                    messageId: "unexpectedRegExp"
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         },
@@ -2336,6 +2445,15 @@ ruleTester.run("prefer-regex-literals", rule, {
                             output: "/\\n\\n/;"
                         }
                     ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp('mysafereg' /* comment explaining its safety */)",
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
                 }
             ]
         }
