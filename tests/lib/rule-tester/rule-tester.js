@@ -2441,6 +2441,65 @@ describe("RuleTester", () => {
 
             return assertion;
         });
+
+        it('should throw if "name" property is not a string', () => {
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: [{ code: "foo", name: 123 }],
+                    invalid: [{ code: "foo" }]
+
+                });
+            }, /Optional test case property 'name' must be a string/u);
+
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: ["foo"],
+                    invalid: [{ code: "foo", name: 123 }]
+                });
+            }, /Optional test case property 'name' must be a string/u);
+        });
+
+        it('should throw if "code" property is not a string', () => {
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: [{ code: 123 }],
+                    invalid: [{ code: "foo" }]
+
+                });
+            }, /Test case must specify a string value for 'code'/u);
+
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: [123],
+                    invalid: [{ code: "foo" }]
+
+                });
+            }, /Test case must specify a string value for 'code'/u);
+
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: ["foo"],
+                    invalid: [{ code: 123 }]
+                });
+            }, /Test case must specify a string value for 'code'/u);
+        });
+
+        it('should throw if "code" property is missing', () => {
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: [{ }],
+                    invalid: [{ code: "foo" }]
+
+                });
+            }, /Test case must specify a string value for 'code'/u);
+
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: ["foo"],
+                    invalid: [{ }]
+                });
+            }, /Test case must specify a string value for 'code'/u);
+        });
     });
 
     // https://github.com/eslint/eslint/issues/11615
