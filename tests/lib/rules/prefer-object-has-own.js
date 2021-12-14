@@ -225,6 +225,17 @@ ruleTester.run("prefer-object-has-own", rule, {
             }]
         },
         {
+            code: "const hasProperty={}.hasOwnProperty.call(object, property);",
+            output: "const hasProperty=Object.hasOwn(object, property);",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 19,
+                endLine: 1,
+                endColumn: 59
+            }]
+        },
+        {
             code: "const hasProperty = (( {}.hasOwnProperty.call(object, property) ));",
             output: "const hasProperty = (( Object.hasOwn(object, property) ));",
             errors: [{
@@ -277,6 +288,107 @@ ruleTester.run("prefer-object-has-own", rule, {
                 column: 23,
                 endLine: 1,
                 endColumn: 63
+            }]
+        },
+
+        // https://github.com/eslint/eslint/pull/15346#issuecomment-991417335
+        {
+            code: "function foo(){return{}.hasOwnProperty.call(object, property)}",
+            output: "function foo(){return Object.hasOwn(object, property)}",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 22,
+                endLine: 1,
+                endColumn: 62
+            }]
+        },
+        {
+            code: "function foo(){return/*comment*/{}.hasOwnProperty.call(object, property)}",
+            output: "function foo(){return/*comment*/Object.hasOwn(object, property)}",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 33,
+                endLine: 1,
+                endColumn: 73
+            }]
+        },
+        {
+            code: "async function foo(){return await{}.hasOwnProperty.call(object, property)}",
+            output: "async function foo(){return await Object.hasOwn(object, property)}",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 34,
+                endLine: 1,
+                endColumn: 74
+            }]
+        },
+        {
+            code: "async function foo(){return await/*comment*/{}.hasOwnProperty.call(object, property)}",
+            output: "async function foo(){return await/*comment*/Object.hasOwn(object, property)}",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 45,
+                endLine: 1,
+                endColumn: 85
+            }]
+        },
+        {
+            code: "for (const x of{}.hasOwnProperty.call(object, property).toString());",
+            output: "for (const x of Object.hasOwn(object, property).toString());",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 16,
+                endLine: 1,
+                endColumn: 56
+            }]
+        },
+        {
+            code: "for (const x of/*comment*/{}.hasOwnProperty.call(object, property).toString());",
+            output: "for (const x of/*comment*/Object.hasOwn(object, property).toString());",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 27,
+                endLine: 1,
+                endColumn: 67
+            }]
+        },
+        {
+            code: "for (const x in{}.hasOwnProperty.call(object, property).toString());",
+            output: "for (const x in Object.hasOwn(object, property).toString());",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 16,
+                endLine: 1,
+                endColumn: 56
+            }]
+        },
+        {
+            code: "for (const x in/*comment*/{}.hasOwnProperty.call(object, property).toString());",
+            output: "for (const x in/*comment*/Object.hasOwn(object, property).toString());",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 27,
+                endLine: 1,
+                endColumn: 67
+            }]
+        },
+        {
+            code: "function foo(){return({}.hasOwnProperty.call)(object, property)}",
+            output: "function foo(){return(Object.hasOwn)(object, property)}",
+            errors: [{
+                messageId: "useHasOwn",
+                line: 1,
+                column: 22,
+                endLine: 1,
+                endColumn: 64
             }]
         },
         {
