@@ -265,7 +265,30 @@ ruleTester.run("computed-property-spacing", rule, {
             ].join("\n"),
             options: ["never"],
             parserOptions: { ecmaVersion: 6 }
+        },
+
+        // Destructuring Assignment
+        {
+            code: "const { [a]: someProp } = obj;",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({ [a]: someProp } = obj);",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const { [ a ]: someProp } = obj;",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({ [ a ]: someProp } = obj);",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 }
         }
+
     ],
 
     invalid: [
@@ -2061,6 +2084,66 @@ ruleTester.run("computed-property-spacing", rule, {
             errors: [
                 { messageId: "unexpectedSpaceAfter", data: { tokenValue: "[" } },
                 { messageId: "unexpectedSpaceBefore", data: { tokenValue: "]" } }
+            ]
+        },
+
+        // Destructuring Assignment
+        {
+            code: "const { [ a]: someProp } = obj;",
+            output: "const { [a]: someProp } = obj;",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "unexpectedSpaceAfter", data: { tokenValue: "[" } }
+            ]
+        },
+        {
+            code: "const { [a ]: someProp } = obj;",
+            output: "const { [a]: someProp } = obj;",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "unexpectedSpaceBefore", data: { tokenValue: "]" } }
+            ]
+        },
+        {
+            code: "const { [ a ]: someProp } = obj;",
+            output: "const { [a]: someProp } = obj;",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "unexpectedSpaceAfter", data: { tokenValue: "[" } },
+                { messageId: "unexpectedSpaceBefore", data: { tokenValue: "]" } }
+            ]
+        },
+        {
+            code: "({ [ a ]: someProp } = obj);",
+            output: "({ [a]: someProp } = obj);",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "unexpectedSpaceAfter", data: { tokenValue: "[" } },
+                { messageId: "unexpectedSpaceBefore", data: { tokenValue: "]" } }
+            ]
+        },
+        {
+            code: "const { [a]: someProp } = obj;",
+            output: "const { [ a ]: someProp } = obj;",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "missingSpaceAfter", data: { tokenValue: "[" } },
+                { messageId: "missingSpaceBefore", data: { tokenValue: "]" } }
+            ]
+        },
+        {
+            code: "({ [a]: someProp } = obj);",
+            output: "({ [ a ]: someProp } = obj);",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "missingSpaceAfter", data: { tokenValue: "[" } },
+                { messageId: "missingSpaceBefore", data: { tokenValue: "]" } }
             ]
         }
     ]
