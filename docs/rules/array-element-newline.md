@@ -42,7 +42,12 @@ Examples of **incorrect** code for this rule with the default `"always"` option:
 
 var c = [1, 2];
 var d = [1, 2, 3];
-var e = [
+var e = [1, 2, 3
+];
+var f = [
+  1, 2, 3
+];
+var g = [
     function foo() {
         dosomething();
     }, function bar() {
@@ -63,6 +68,11 @@ var c = [1,
 var d = [1,
     2,
     3];
+var d = [
+  1, 
+  2, 
+  3
+];
 var e = [
     function foo() {
         dosomething();
@@ -109,6 +119,11 @@ var b = [1];
 var c = [1, 2];
 var d = [1, 2, 3];
 var e = [
+    1, 2, 3];
+var f = [
+  1, 2, 3
+];
+var g = [
     function foo() {
         dosomething();
     }, function bar() {
