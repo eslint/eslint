@@ -1,0 +1,6 @@
+failure-threshold: "style"
+ignored:
+  - DL3007
+  - DL3008
+  - DL3013
+  - DL3018

@@ -1,0 +1,7 @@
+*
+!bin/
+!conf/
+!dockerfiles/
+!lib/
+!messages/
+!package.json
