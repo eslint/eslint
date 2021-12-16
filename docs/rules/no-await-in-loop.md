@@ -33,13 +33,16 @@ async function foo(things) {
 }
 ```
 
+If it is desired that each successive operation only starts after the previous one has completed,
+`for await...of` can be used, combined with an async generator.
+
 ## Rule Details
 
 This rule disallows the use of `await` within loop bodies.
 
 ## Examples
 
-Examples of **correct** code for this rule:
+Examples of **correct** code for this rule when the iterations of the loop are independent:
 
 ```js
 /*eslint no-await-in-loop: "error"*/
@@ -52,6 +55,28 @@ async function foo(things) {
   }
   // Now that all the asynchronous operations are running, here we wait until they all complete.
   return baz(await Promise.all(results));
+}
+```
+
+Examples of **correct** code for this rule when the iterations of the loop need to be executed in sequence
+(requires ES2018/ES9, see [Further Reading](#further-reading) below):
+
+```js
+/*eslint no-await-in-loop: "error"*/
+
+// create an async generator, which yields a promise for each `thing`.
+async function* resultGenerator(things) {
+    for (const thing of things) {
+        yield bar(thing);
+    }
+}
+
+async function foo(things) {
+    const results = [];
+    for await (const result of resultGenerator(things)) {
+        results.push(result);
+    }
+    return baz(results);
 }
 ```
 
@@ -75,5 +100,9 @@ async function foo(things) {
 In many cases the iterations of a loop are not actually independent of each-other. For example, the
 output of one iteration might be used as the input to another. Or, loops may be used to retry
 asynchronous operations that were unsuccessful. Or, loops may be used to prevent your code from sending
-an excessive amount of requests in parallel. In such cases it makes sense to use `await` within a
-loop and it is recommended to disable the rule via a standard ESLint disable comment.
+an excessive amount of requests in parallel. In such cases, if the `for await...of` approach is unavailable,
+it makes sense to use `await` within a loop and it is recommended to disable the rule via a standard ESLint disable comment.
+
+## Further Reading
+
+* [MDN: for await...of](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of)
