@@ -1120,7 +1120,12 @@ ruleTester.run("prefer-regex-literals", rule, {
             errors: [
                 {
                     messageId: "unexpectedRegExp",
-                    suggestions: null
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "/\\0\\0/;"
+                        }
+                    ]
                 }
             ]
         },
@@ -1129,7 +1134,12 @@ ruleTester.run("prefer-regex-literals", rule, {
             errors: [
                 {
                     messageId: "unexpectedRegExp",
-                    suggestions: null
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "/\\0\\0/;"
+                        }
+                    ]
                 }
             ]
         },
@@ -1147,7 +1157,12 @@ ruleTester.run("prefer-regex-literals", rule, {
             errors: [
                 {
                     messageId: "unexpectedRegExp",
-                    suggestions: null
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "/\\0\\0\\0/"
+                        }
+                    ]
                 }
             ]
         },
