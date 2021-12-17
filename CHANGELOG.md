@@ -1,3 +1,19 @@
+v8.5.0 - December 17, 2021
+
+* [`7d832d4`](https://github.com/eslint/eslint/commit/7d832d4ad55f3c987aca8d858809cbcb77697648) fix: improve `prefer-template` fixer (#15230) (Nitin Kumar)
+* [`94e77a6`](https://github.com/eslint/eslint/commit/94e77a693fd5124c9057320310b41e92567d7e76) feat: Suggestions support for `prefer-regex-literals` (#15077) (Yash Singh)
+* [`314c84c`](https://github.com/eslint/eslint/commit/314c84c1b83b32e75587ce7a77130eac7e2a8f49) docs: add an incorrect code example in for-direction (#15434) (Holger Jeromin)
+* [`981fb48`](https://github.com/eslint/eslint/commit/981fb48991448bec171d7d4332d7dc514252f83f) fix: do not report global references in `id-match` rule (#15420) (Nitin Kumar)
+* [`3928175`](https://github.com/eslint/eslint/commit/3928175d01c6ac2b37147b3256c56df8faf2c6c4) docs: add destructuring examples for `computed-property-spacing` (#15423) (Nitin Kumar)
+* [`225f211`](https://github.com/eslint/eslint/commit/225f2111ebcfc6bcd2d475f5261c85eb00fb0191) test: add destructuring test cases for `computed-property-spacing` (#15424) (Nitin Kumar)
+* [`f13d4a6`](https://github.com/eslint/eslint/commit/f13d4a6cf7c7ff6160be7426fc6fe02e3e37a0b7) fix: improve autofix of `prefer-object-has-own` (#15419) (Nitin Kumar)
+* [`f4559a0`](https://github.com/eslint/eslint/commit/f4559a0f7150ad7494658bd5ea846cfca5073caf) fix: add helpful message when test case has non-string code/name (#15425) (Bryan Mishkin)
+* [`a53e59e`](https://github.com/eslint/eslint/commit/a53e59eab7da52e3df095a679a6fdab74a7bce6f) docs: add more examples for `array-element-newline` rule (#15427) (Nitin Kumar)
+* [`f2c7ba6`](https://github.com/eslint/eslint/commit/f2c7ba6c34c8943dc24a1c41317d536c1a63cb36) ci: use node v16 for `macOS` and `windows` jobs (#15418) (Nitin Kumar)
+* [`eafaf52`](https://github.com/eslint/eslint/commit/eafaf52464c01072fcf7be2bd2d91cd0b3ae67d0) feat: add `prefer-object-has-own` rule (#15346) (Nitin Kumar)
+* [`74cf0a0`](https://github.com/eslint/eslint/commit/74cf0a040e1a83990d8d7eb57e1f5ce919a11ebe) docs: update CLA info (#15370) (Nitin Kumar)
+* [`e84195e`](https://github.com/eslint/eslint/commit/e84195ea39b5cf54d7a551c62671af80b859f1ac) docs: fix heading level for an option in `class-methods-use-this` rule (#15399) (Takuya Fukuju)
+
 v8.4.1 - December 6, 2021
 
 * [`234e3d9`](https://github.com/eslint/eslint/commit/234e3d98eeab8956cefb14c982b9c348c21bb2d9) fix: revert changes to reported locations in max-lines-per-function (#15397) (Milos Djermanovic)
