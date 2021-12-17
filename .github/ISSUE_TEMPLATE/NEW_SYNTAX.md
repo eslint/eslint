@@ -32,12 +32,14 @@ assignees: ''
 
 Please check off all items that have already been completed. Be sure to paste the pull request URLs next to each item so we can verify the work as done.
 
-* [ ] Ecma262 update: <!-- paste PR URL for this syntax here -->
-* [ ] ESTree update: <!-- paste PR URL for this ESTree update here -->
-* [ ] Acorn update: <!-- paste PR URL for this syntax here -->
-* [ ] `eslint-visitor-keys` update: <!-- paste PR URL for this syntax here -->
-* [ ] `espree` update: <!-- paste PR URL for this syntax here -->
-* [ ] `eslint-scope` update: <!-- paste PR URL for this syntax here -->
-* [ ] `eslint` update: <!-- paste PR URL for this syntax here -->
+- [ ] Ecma262 update: <!-- paste PR URL for this syntax here -->
+- [ ] ESTree update: <!-- paste PR URL for this ESTree update here -->
+- [ ] Acorn update: <!-- paste PR URL for this syntax here -->
+- [ ] `eslint-visitor-keys` update: <!-- paste PR URL for this syntax here -->
+- [ ] `espree` update: <!-- paste PR URL for this syntax here -->
+- [ ] `eslint-scope` update: <!-- paste PR URL for this syntax here -->
+- [ ] `eslint` update: <!-- paste PR URL for this syntax here -->
 
 **Are you willing to submit a pull request to implement this syntax?**
+
+<!-- markdownlint-disable-file MD004 -->

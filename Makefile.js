@@ -886,7 +886,7 @@ target.checkRuleFiles = function() {
             }
 
             // check for proper doc headers
-            if (!hasKnownHeaders(basename)) {
+            if (!hasKnownHeaders()) {
                 console.error("Unknown or misplaced header in the doc page of rule %s, allowed headers (and their order) are: '%s'", basename, knownHeaders.join("', '"));
                 errors++;
             }
