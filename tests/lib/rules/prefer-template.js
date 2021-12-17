@@ -223,6 +223,187 @@ ruleTester.run("prefer-template", rule, {
             code: "foo + '\\0'",
             output: "`${foo  }\\0`",
             errors
+        },
+
+        // https://github.com/eslint/eslint/issues/15083
+        {
+            code: `"default-src 'self' https://*.google.com;"
+            + "frame-ancestors 'none';"
+            + "report-to " + foo + ";"`,
+            output: `\`default-src 'self' https://*.google.com;\`
+            + \`frame-ancestors 'none';\`
+            + \`report-to \${  foo  };\``,
+            errors
+        },
+        {
+            code: "'a' + 'b' + foo",
+            output: "`a` + `b${  foo}`",
+            errors
+        },
+        {
+            code: "'a' + 'b' + foo + 'c' + 'd'",
+            output: "`a` + `b${  foo  }c` + `d`",
+            errors
+        },
+        {
+            code: "'a' + 'b + c' + foo + 'd' + 'e'",
+            output: "`a` + `b + c${  foo  }d` + `e`",
+            errors
+        },
+        {
+            code: "'a' + 'b' + foo + ('c' + 'd')",
+            output: "`a` + `b${  foo  }c` + `d`",
+            errors
+        },
+        {
+            code: "'a' + 'b' + foo + ('a' + 'b')",
+            output: "`a` + `b${  foo  }a` + `b`",
+            errors
+        },
+        {
+            code: "'a' + 'b' + foo + ('c' + 'd') + ('e' + 'f')",
+            output: "`a` + `b${  foo  }c` + `d` + `e` + `f`",
+            errors
+        },
+        {
+            code: "foo + ('a' + 'b') + ('c' + 'd')",
+            output: "`${foo  }a` + `b` + `c` + `d`",
+            errors
+        },
+        {
+            code: "'a' + foo + ('b' + 'c') + ('d' + bar + 'e')",
+            output: "`a${  foo  }b` + `c` + `d${  bar  }e`",
+            errors
+        },
+        {
+            code: "foo + ('b' + 'c') + ('d' + bar + 'e')",
+            output: "`${foo  }b` + `c` + `d${  bar  }e`",
+            errors
+        },
+        {
+            code: "'a' + 'b' + foo + ('c' + 'd' + 'e')",
+            output: "`a` + `b${  foo  }c` + `d` + `e`",
+            errors
+        },
+        {
+            code: "'a' + 'b' + foo + ('c' + bar + 'd')",
+            output: "`a` + `b${  foo  }c${  bar  }d`",
+            errors
+        },
+        {
+            code: "'a' + 'b' + foo + ('c' + bar + ('d' + 'e') + 'f')",
+            output: "`a` + `b${  foo  }c${  bar  }d` + `e` + `f`",
+            errors
+        },
+        {
+            code: "'a' + 'b' + foo + ('c' + bar + 'e') + 'f' + test",
+            output: "`a` + `b${  foo  }c${  bar  }e` + `f${  test}`",
+            errors
+        },
+        {
+            code: "'a' + foo + ('b' + bar + 'c') + ('d' + test)",
+            output: "`a${  foo  }b${  bar  }c` + `d${  test}`",
+            errors
+        },
+        {
+            code: "'a' + foo + ('b' + 'c') + ('d' + bar)",
+            output: "`a${  foo  }b` + `c` + `d${  bar}`",
+            errors
+        },
+        {
+            code: "foo + ('a' + bar + 'b') + 'c' + test",
+            output: "`${foo  }a${  bar  }b` + `c${  test}`",
+            errors
+        },
+        {
+            code: "'a' + '`b`' + c",
+            output: "`a` + `\\`b\\`${  c}`",
+            errors
+        },
+        {
+            code: "'a' + '`b` + `c`' + d",
+            output: "`a` + `\\`b\\` + \\`c\\`${  d}`",
+            errors
+        },
+        {
+            code: "'a' + b + ('`c`' + '`d`')",
+            output: "`a${  b  }\\`c\\`` + `\\`d\\``",
+            errors
+        },
+        {
+            code: "'`a`' + b + ('`c`' + '`d`')",
+            output: "`\\`a\\`${  b  }\\`c\\`` + `\\`d\\``",
+            errors
+        },
+        {
+            code: "foo + ('`a`' + bar + '`b`') + '`c`' + test",
+            output: "`${foo  }\\`a\\`${  bar  }\\`b\\`` + `\\`c\\`${  test}`",
+            errors
+        },
+        {
+            code: "'a' + ('b' + 'c') + d",
+            output: "`a` + `b` + `c${  d}`",
+            errors
+        },
+        {
+            code: "'a' + ('`b`' + '`c`') + d",
+            output: "`a` + `\\`b\\`` + `\\`c\\`${  d}`",
+            errors
+        },
+        {
+            code: "a + ('b' + 'c') + d",
+            output: "`${a  }b` + `c${  d}`",
+            errors
+        },
+        {
+            code: "a + ('b' + 'c') + (d + 'e')",
+            output: "`${a  }b` + `c${  d  }e`",
+            errors
+        },
+        {
+            code: "a + ('`b`' + '`c`') + d",
+            output: "`${a  }\\`b\\`` + `\\`c\\`${  d}`",
+            errors
+        },
+        {
+            code: "a + ('`b` + `c`' + '`d`') + e",
+            output: "`${a  }\\`b\\` + \\`c\\`` + `\\`d\\`${  e}`",
+            errors
+        },
+        {
+            code: "'a' + ('b' + 'c' + 'd') + e",
+            output: "`a` + `b` + `c` + `d${  e}`",
+            errors
+        },
+        {
+            code: "'a' + ('b' + 'c' + 'd' + (e + 'f') + 'g' +'h' + 'i') + j",
+            output: "`a` + `b` + `c` + `d${  e  }fg` +`h` + `i${  j}`",
+            errors
+        },
+        {
+            code: "a + (('b' + 'c') + 'd')",
+            output: "`${a  }b` + `c` + `d`",
+            errors
+        },
+        {
+            code: "(a + 'b') + ('c' + 'd') + e",
+            output: "`${a  }b` + `c` + `d${  e}`",
+            errors
+        },
+        {
+            code: "var foo = \"Hello \" + \"world \" + \"another \" + test",
+            output: "var foo = `Hello ` + `world ` + `another ${  test}`",
+            errors
+        },
+        {
+            code: "'Hello ' + '\"world\" ' + test",
+            output: "`Hello ` + `\"world\" ${  test}`",
+            errors
+        },
+        {
+            code: "\"Hello \" + \"'world' \" + test",
+            output: "`Hello ` + `'world' ${  test}`",
+            errors
         }
     ]
 });
