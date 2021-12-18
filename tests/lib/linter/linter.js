@@ -11312,6 +11312,25 @@ var a = "test2";
                     assert.strictEqual(messages.length, 0);
                 });
 
+                // For https://github.com/eslint/eslint/issues/14284
+                it("should ignore violation if block comment span multiple lines with description", () => {
+                    const code = `
+                    /* eslint-disable-next-line no-alert --
+                        description on why this exception is seen as appropriate but past a
+                        comfortable reading line length 
+                    */
+                    alert("buzz");
+                    `;
+                    const config = {
+                        rules: {
+                            "no-alert": 1
+                        }
+                    };
+                    const messages = linter.verify(code, config, filename);
+
+                    assert.strictEqual(messages.length, 0);
+                });
+
                 it("should ignore violations only of specified rule", () => {
                     const code = [
                         "// eslint-disable-next-line no-console",
