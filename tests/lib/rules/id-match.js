@@ -237,6 +237,30 @@ ruleTester.run("id-match", rule, {
             }],
             parserOptions: { ecmaVersion: 2022 }
         },
+        {
+            code: `
+            const foo = {
+                [a]: 1,
+            };
+            `,
+            options: ["^[^a]", {
+                properties: false,
+                onlyDeclarations: false
+            }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+            const foo = {
+                [a]: 1,
+            };
+            `,
+            options: ["^[^a]", {
+                properties: true,
+                onlyDeclarations: true
+            }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
 
         // Class Methods
         {
@@ -861,6 +885,24 @@ ruleTester.run("id-match", rule, {
                 },
                 {
                     message: "Identifier 'bar_one' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: `
+            const foo = {
+                [a]: 1,
+            };
+            `,
+            options: ["^[^a]", {
+                properties: true,
+                onlyDeclarations: false
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    message: "Identifier 'a' does not match the pattern '^[^a]'.",
                     type: "Identifier"
                 }
             ]
