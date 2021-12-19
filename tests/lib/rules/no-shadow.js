@@ -78,7 +78,9 @@ ruleTester.run("no-shadow", rule, {
         { code: "var y = bar && foo(y => y);", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "var z = bar(foo(z => z));", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "var z = boo(bar(foo(z => z)));", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "var match = function (person) { return person.name === 'foo'; };\nconst person = [].find(match);", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } }
+        { code: "var match = function (person) { return person.name === 'foo'; };\nconst person = [].find(match);", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const a = foo(x || (a => {}))", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const { a = 1 } = foo(a => {})", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
@@ -902,6 +904,7 @@ ruleTester.run("no-shadow", rule, {
         },
         {
             code: "const a = fn(()=>{ class C { fn () { const a = 42; return a } } return new C() })",
+            options: [{ ignoreOnInitialization: true }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
@@ -913,6 +916,38 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 44
+            }]
+        },
+        {
+            code: "function a() {}\nfoo(a => {});",
+            options: [{ ignoreOnInitialization: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 10
+                },
+                type: "Identifier",
+                line: 2,
+                column: 5
+            }]
+        },
+        {
+            code: "const a = fn(()=>{ function C() { this.fn=function() { const a = 42; return a } } return new C() });",
+            options: [{ ignoreOnInitialization: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 7
+                },
+                type: "Identifier",
+                line: 1,
+                column: 62
             }]
         }
     ]
