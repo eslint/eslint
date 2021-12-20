@@ -26,7 +26,8 @@ Examples of **incorrect** code for this rule:
 `\#{foo}`;
 /\!/;
 /\@/;
-
+/[\[]/;
+/[a-z\-]/;
 ```
 
 Examples of **correct** code for this rule:
@@ -46,7 +47,9 @@ Examples of **correct** code for this rule:
 /\\/g;
 /\t/g;
 /\w\$\*\^\./;
-
+/[[]/;
+/[\]]/;
+/[a-z-]/;
 ```
 
 ## When Not To Use It
