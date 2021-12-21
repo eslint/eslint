@@ -244,18 +244,6 @@ ruleTester.run("id-match", rule, {
             };
             `,
             options: ["^[^a]", {
-                properties: false,
-                onlyDeclarations: false
-            }],
-            parserOptions: { ecmaVersion: 2022 }
-        },
-        {
-            code: `
-            const foo = {
-                [a]: 1,
-            };
-            `,
-            options: ["^[^a]", {
                 properties: true,
                 onlyDeclarations: true
             }],
