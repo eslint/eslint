@@ -273,14 +273,18 @@ var o = {
 
 The code above creates an object with just a setter for the property `"a"`.
 
+See [no-dupe-keys](no-dupe-keys.md) if you also want to disallow duplicate keys in object literals.
+
+See [no-dupe-class-members](no-dupe-class-members.md) if you also want to disallow duplicate names in class definitions.
+
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the simultaneous presence of setters and getters on objects.
 
 ## Related Rules
 
-* [no-dupe-keys](no-dupe-keys.md) if you also want to disallow duplicate keys in object literals.
-* [no-dupe-class-members](no-dupe-class-members.md) if you also want to disallow duplicate names in class definitions.
+* [no-dupe-keys](no-dupe-keys.md)
+* [no-dupe-class-members](no-dupe-class-members.md)
 
 ## Further Reading
 
