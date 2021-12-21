@@ -197,6 +197,58 @@ ruleTester.run("id-match", rule, {
             }],
             parserOptions: { ecmaVersion: 2022 }
         },
+        {
+            code: `
+            const foo = {
+                foo_one: 1,
+                bar_one: 2,
+                fooBar: 3
+            };
+            `,
+            options: ["^[^_]+$", {
+                properties: false
+            }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+            const foo = {
+                foo_one: 1,
+                bar_one: 2,
+                fooBar: 3
+            };
+            `,
+            options: ["^[^_]+$", {
+                onlyDeclarations: true
+            }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+            const foo = {
+                foo_one: 1,
+                bar_one: 2,
+                fooBar: 3
+            };
+            `,
+            options: ["^[^_]+$", {
+                properties: false,
+                onlyDeclarations: false
+            }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+            const foo = {
+                [a]: 1,
+            };
+            `,
+            options: ["^[^a]", {
+                properties: true,
+                onlyDeclarations: true
+            }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
 
         // Class Methods
         {
@@ -774,7 +826,74 @@ ruleTester.run("id-match", rule, {
                     type: "PrivateIdentifier"
                 }
             ]
-        }
+        },
 
+        // https://github.com/eslint/eslint/issues/15123
+        {
+            code: `
+            const foo = {
+                foo_one: 1,
+                bar_one: 2,
+                fooBar: 3
+            };
+            `,
+            options: ["^[^_]+$", {
+                properties: true,
+                onlyDeclarations: true
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    message: "Identifier 'foo_one' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                },
+                {
+                    message: "Identifier 'bar_one' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: `
+            const foo = {
+                foo_one: 1,
+                bar_one: 2,
+                fooBar: 3
+            };
+            `,
+            options: ["^[^_]+$", {
+                properties: true,
+                onlyDeclarations: false
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    message: "Identifier 'foo_one' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                },
+                {
+                    message: "Identifier 'bar_one' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: `
+            const foo = {
+                [a]: 1,
+            };
+            `,
+            options: ["^[^a]", {
+                properties: true,
+                onlyDeclarations: false
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    message: "Identifier 'a' does not match the pattern '^[^a]'.",
+                    type: "Identifier"
+                }
+            ]
+        }
     ]
 });
