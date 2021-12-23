@@ -7352,6 +7352,123 @@ describe("Linter with FlatConfigArray", () => {
                     assert.strictEqual(messages.length, 0);
                 });
 
+                it("should not allow the use of reserved words as variable names in ES3", () => {
+                    const code = "var char;";
+                    const messages = linter.verify(code, {
+                        languageOptions: {
+                            ecmaVersion: 3,
+                            sourceType: "script"
+                        }
+                    }, filename);
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].severity, 2);
+                    assert.isTrue(messages[0].fatal);
+                    assert.match(messages[0].message, /^Parsing error:.*'char'/u);
+                });
+
+                it("should not allow the use of reserved words as property names in member expressions in ES3", () => {
+                    const code = "obj.char;";
+                    const messages = linter.verify(code, {
+                        languageOptions: {
+                            ecmaVersion: 3,
+                            sourceType: "script"
+                        }
+                    }, filename);
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].severity, 2);
+                    assert.isTrue(messages[0].fatal);
+                    assert.match(messages[0].message, /^Parsing error:.*'char'/u);
+                });
+
+                it("should not allow the use of reserved words as property names in object literals in ES3", () => {
+                    const code = "var obj = { char: 1 };";
+                    const messages = linter.verify(code, {
+                        languageOptions: {
+                            ecmaVersion: 3,
+                            sourceType: "script"
+                        }
+                    }, filename);
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].severity, 2);
+                    assert.isTrue(messages[0].fatal);
+                    assert.match(messages[0].message, /^Parsing error:.*'char'/u);
+                });
+
+                it("should allow the use of reserved words as variable and property names in ES3 when allowReserved is true", () => {
+                    const code = "var char; obj.char; var obj = { char: 1 };";
+                    const messages = linter.verify(code, {
+                        languageOptions: {
+                            ecmaVersion: 3,
+                            sourceType: "script",
+                            parserOptions: {
+                                allowReserved: true
+                            }
+                        }
+                    }, filename);
+
+                    assert.strictEqual(messages.length, 0);
+                });
+
+                it("should not allow the use of reserved words as variable names in ES > 3", () => {
+                    const ecmaVersions = [void 0, ...espree.supportedEcmaVersions.filter(ecmaVersion => ecmaVersion > 3)];
+
+                    ecmaVersions.forEach(ecmaVersion => {
+                        const code = "var enum;";
+                        const messages = linter.verify(code, {
+                            languageOptions: {
+                                ...ecmaVersion ? { ecmaVersion } : {},
+                                sourceType: "script"
+                            }
+                        }, filename);
+
+                        assert.strictEqual(messages.length, 1);
+                        assert.strictEqual(messages[0].severity, 2);
+                        assert.isTrue(messages[0].fatal);
+                        assert.match(messages[0].message, /^Parsing error:.*'enum'/u);
+                    });
+                });
+
+                it("should allow the use of reserved words as property names in ES > 3", () => {
+                    const ecmaVersions = [void 0, ...espree.supportedEcmaVersions.filter(ecmaVersion => ecmaVersion > 3)];
+
+                    ecmaVersions.forEach(ecmaVersion => {
+                        const code = "obj.enum; obj.function; var obj = { enum: 1, function: 2 };";
+                        const messages = linter.verify(code, {
+                            languageOptions: {
+                                ...ecmaVersion ? { ecmaVersion } : {},
+                                sourceType: "script"
+                            }
+                        }, filename);
+
+                        assert.strictEqual(messages.length, 0);
+                    });
+                });
+
+                it("should not allow `allowReserved: true` in ES > 3", () => {
+                    const ecmaVersions = [void 0, ...espree.supportedEcmaVersions.filter(ecmaVersion => ecmaVersion > 3)];
+
+                    ecmaVersions.forEach(ecmaVersion => {
+                        const code = "";
+                        const messages = linter.verify(code, {
+                            languageOptions: {
+                                ...ecmaVersion ? { ecmaVersion } : {},
+                                sourceType: "script",
+                                parserOptions: {
+                                    allowReserved: true
+                                }
+                            }
+                        }, filename);
+
+                        assert.strictEqual(messages.length, 1);
+                        assert.strictEqual(messages[0].severity, 2);
+                        assert.isTrue(messages[0].fatal);
+                        assert.match(messages[0].message, /^Parsing error:.*allowReserved/u);
+                    });
+                });
+
             });
 
         });
