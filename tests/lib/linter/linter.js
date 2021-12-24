@@ -12198,6 +12198,132 @@ var a = "test2";
                     );
                 });
 
+                it("reports problems for unused eslint-disable-next-line comments (in config)", () => {
+                    assert.deepStrictEqual(
+                        linter.verify("// eslint-disable-next-line", {
+                            linterOptions: {
+                                reportUnusedDisableDirectives: true
+                            }
+                        }),
+                        [
+                            {
+                                ruleId: null,
+                                message: "Unused eslint-disable directive (no problems were reported).",
+                                line: 1,
+                                column: 1,
+                                fix: {
+                                    range: [0, 27],
+                                    text: " "
+                                },
+                                severity: 1,
+                                nodeType: null
+                            }
+                        ]
+                    );
+                });
+
+                it("reports problems for unused multiline eslint-disable-next-line comments (in config)", () => {
+                    assert.deepStrictEqual(
+                        linter.verify("/* \neslint-disable-next-line\n */", {
+                            linterOptions: {
+                                reportUnusedDisableDirectives: true
+                            }
+                        }),
+                        [
+                            {
+                                ruleId: null,
+                                message: "Unused eslint-disable directive (no problems were reported).",
+                                line: 1,
+                                column: 1,
+                                fix: {
+                                    range: [0, 32],
+                                    text: " "
+                                },
+                                severity: 1,
+                                nodeType: null
+                            }
+                        ]
+                    );
+                });
+
+                it("reports problems for partially unused eslint-disable-next-line comments (in config)", () => {
+                    const code = "// eslint-disable-next-line no-alert, no-redeclare \nalert('test');";
+                    const config = {
+                        linterOptions: {
+                            reportUnusedDisableDirectives: true
+                        },
+                        rules: {
+                            "no-alert": 1,
+                            "no-redeclare": 1
+                        }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        filename,
+                        allowInlineConfig: true
+                    });
+
+                    assert.deepStrictEqual(
+                        messages,
+                        [
+                            {
+                                ruleId: null,
+                                message: "Unused eslint-disable directive (no problems were reported from 'no-redeclare').",
+                                line: 1,
+                                column: 1,
+                                fix: {
+                                    range: [36, 50],
+                                    text: ""
+                                },
+                                severity: 1,
+                                nodeType: null
+                            }
+                        ]
+                    );
+                });
+
+                it("reports problems for partially unused multiline eslint-disable-next-line comments (in config)", () => {
+                    const code = `
+                    /* eslint-disable-next-line no-alert, no-redeclare --
+                     * Here's a very long description about why this configuration is necessary
+                     * along with some additional information
+                    **/
+                    alert('test');
+                    `;
+                    const config = {
+                        linterOptions: {
+                            reportUnusedDisableDirectives: true
+                        },
+                        rules: {
+                            "no-alert": 1,
+                            "no-redeclare": 1
+                        }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        filename,
+                        allowInlineConfig: true
+                    });
+
+                    assert.deepStrictEqual(
+                        messages,
+                        [
+                            {
+                                ruleId: null,
+                                message: "Unused eslint-disable directive (no problems were reported from 'no-redeclare').",
+                                line: 2,
+                                column: 21,
+                                fix: {
+                                    range: [57, 71],
+                                    text: ""
+                                },
+                                severity: 1,
+                                nodeType: null
+                            }
+                        ]
+                    );
+                });
+
                 describe("autofix", () => {
                     const alwaysReportsRule = {
                         create(context) {
