@@ -53,10 +53,10 @@ var baz = "Don't use \\8 and \\9 escapes.";
 var quux = "\0\u0038";
 ```
 
-## Further Reading
-
-* [NonOctalDecimalEscapeSequence](https://tc39.es/ecma262/#prod-annexB-NonOctalDecimalEscapeSequence) in ECMAScript specification
-
 ## Related Rules
 
 * [no-octal-escape](no-octal-escape.md)
+
+## Further Reading
+
+* [NonOctalDecimalEscapeSequence](https://tc39.es/ecma262/#prod-annexB-NonOctalDecimalEscapeSequence) in ECMAScript specification

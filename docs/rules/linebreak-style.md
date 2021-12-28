@@ -66,7 +66,7 @@ function foo(params) { // \r\n
 } // \r\n
 ```
 
-## Using this rule with version control systems
+### Using this rule with version control systems
 
 Version control systems sometimes have special behavior for linebreaks. To make it easy for developers to contribute to your codebase from different platforms, you may want to configure your VCS to handle linebreaks appropriately.
 

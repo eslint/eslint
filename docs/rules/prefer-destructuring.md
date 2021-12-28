@@ -18,8 +18,8 @@ The rule has a second object with a single key, `enforceForRenamedProperties`, w
 
 **Note**: It is not possible to determine if a variable will be referring to an object or an array at runtime. This rule therefore guesses the assignment type by checking whether the key being accessed is an integer. This can lead to the following possibly confusing situations:
 
-- Accessing an object property whose key is an integer will fall under the category `array` destructuring.
-- Accessing an array element through a computed index will fall under the category `object` destructuring.
+* Accessing an object property whose key is an integer will fall under the category `array` destructuring.
+* Accessing an array element through a computed index will fall under the category `object` destructuring.
 
 The `--fix` option on the command line fixes only problems reported in variable declarations, and among them only those that fall under the category `object` destructuring. Furthermore, the name of the declared variable has to be the same as the name used for non-computed member access in the initializer. For example, `var foo = object.foo` can be automatically fixed by this rule. Problems that involve computed member access (e.g., `var foo = object[foo]`) or renamed properties (e.g., `var foo = object.bar`) are not automatically fixed.
 
@@ -183,5 +183,5 @@ var [bar] = $('body'); // fails with a TypeError
 
 If you want to learn more about destructuring, check out the links below:
 
-- [Destructuring Assignment (MDN)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
-- [Destructuring and parameter handling in ECMAScript 6 (2ality blog)](http://2ality.com/2015/01/es6-destructuring.html)
+* [Destructuring Assignment (MDN)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+* [Destructuring and parameter handling in ECMAScript 6 (2ality blog)](http://2ality.com/2015/01/es6-destructuring.html)

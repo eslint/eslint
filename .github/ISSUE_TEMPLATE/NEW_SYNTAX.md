@@ -20,7 +20,7 @@ assignees: ''
 
 **Please provide the TC39 URL for the syntax proposal:**
 
-
+<!-- for example, <https://github.com/tc39/proposal-top-level-await> -->
 
 **Please provide some example code for the new syntax:**
 
@@ -41,3 +41,5 @@ Please check off all items that have already been completed. Be sure to paste th
 - [ ] `eslint` update: <!-- paste PR URL for this syntax here -->
 
 **Are you willing to submit a pull request to implement this syntax?**
+
+<!-- markdownlint-disable-file MD004 -->

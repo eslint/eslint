@@ -90,9 +90,9 @@ will be prohibited, because two properties, but not all properties, appear on th
 
 This rule applies equally to all property specifications, regardless of notation, including:
 
-- `a: 1` (ES5)
-- `a` (ES2015 shorthand property)
-- ``[`prop${a}`]`` (ES2015 computed property name)
+* `a: 1` (ES5)
+* `a` (ES2015 shorthand property)
+* ``[`prop${a}`]`` (ES2015 computed property name)
 
 Thus, the rule (without the object option) prohibits both of these:
 
@@ -258,13 +258,13 @@ const obj3 = {
 
 You can turn this rule off if you want to decide, case-by-case, whether to place property specifications on separate lines.
 
-## Compatibility
-
-- **JSCS**: This rule provides partial compatibility with [requireObjectKeysOnNewLine](https://jscs-dev.github.io/rule/requireObjectKeysOnNewLine).
-
 ## Related Rules
 
-- [brace-style](brace-style.md)
-- [comma-dangle](comma-dangle.md)
-- [key-spacing](key-spacing.md)
-- [object-curly-spacing](object-curly-spacing.md)
+* [brace-style](brace-style.md)
+* [comma-dangle](comma-dangle.md)
+* [key-spacing](key-spacing.md)
+* [object-curly-spacing](object-curly-spacing.md)
+
+## Compatibility
+
+* **JSCS**: This rule provides partial compatibility with [requireObjectKeysOnNewLine](https://jscs-dev.github.io/rule/requireObjectKeysOnNewLine).

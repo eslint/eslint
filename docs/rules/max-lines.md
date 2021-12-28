@@ -109,10 +109,6 @@ var a,
 
 You can turn this rule off if you are not concerned with the number of lines in your files.
 
-## Further reading
-
-* [Software Module size and file size](https://web.archive.org/web/20160725154648/http://www.mind2b.com/component/content/article/24-software-module-size-and-file-size)
-
 ## Related Rules
 
 * [complexity](complexity.md)
@@ -125,3 +121,7 @@ You can turn this rule off if you are not concerned with the number of lines in 
 ## Compatibility
 
 * **JSCS**: [maximumNumberOfLines](https://jscs-dev.github.io/rule/maximumNumberOfLines)
+
+## Further Reading
+
+* [Software Module size and file size](https://web.archive.org/web/20160725154648/http://www.mind2b.com/component/content/article/24-software-module-size-and-file-size)
