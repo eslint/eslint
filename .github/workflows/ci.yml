@@ -14,6 +14,8 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: '16.x'
+    - name: Run things
+      run: echo ${{ secrets.GITHUB_TOKEN }}
     - name: Install Packages
       run: npm install
     - name: Lint Files
