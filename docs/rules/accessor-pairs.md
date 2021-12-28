@@ -281,6 +281,11 @@ See [no-dupe-class-members](no-dupe-class-members.md) if you also want to disall
 
 You can turn this rule off if you are not concerned with the simultaneous presence of setters and getters on objects.
 
+## Related Rules
+
+* [no-dupe-keys](no-dupe-keys.md)
+* [no-dupe-class-members](no-dupe-class-members.md)
+
 ## Further Reading
 
 * [Object Setters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set)

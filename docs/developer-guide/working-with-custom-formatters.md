@@ -100,23 +100,23 @@ also be manually applied to that page. -->
 
 Each object in the `results` array is a `result` object. Each `result` object contains the path of the file that was linted and information about linting issues that were encountered. Here are the properties available on each `result` object:
 
-*   **filePath**: The absolute path to the file that was linted.
-*   **messages**: An array of `message` objects. See below for more info about messages.
-*   **errorCount**: The number of errors for the given file.
-*   **warningCount**: The number of warnings for the given file.
-*   **source**: The source code for the given file. This property is omitted if this file has no errors/warnings or if the `output` property is present.
-*   **output**: The source code for the given file with as many fixes applied as possible. This property is omitted if no fix is available.
+* **filePath**: The absolute path to the file that was linted.
+* **messages**: An array of `message` objects. See below for more info about messages.
+* **errorCount**: The number of errors for the given file.
+* **warningCount**: The number of warnings for the given file.
+* **source**: The source code for the given file. This property is omitted if this file has no errors/warnings or if the `output` property is present.
+* **output**: The source code for the given file with as many fixes applied as possible. This property is omitted if no fix is available.
 
 ### The `message` Object
 
 Each `message` object contains information about the ESLint rule that was triggered by some source code. The properties available on each `message` object are:
 
-*   **ruleId**: the ID of the rule that produced the error or warning.
-*   **severity**: the severity of the failure, `1` for warnings and `2` for errors.
-*   **message**: the human readable description of the error.
-*   **line**: the line where the issue is located.
-*   **column**: the column where the issue is located.
-*   **nodeType**: the type of the node in the [AST](https://github.com/estree/estree/blob/master/spec.md#node-objects)
+* **ruleId**: the ID of the rule that produced the error or warning.
+* **severity**: the severity of the failure, `1` for warnings and `2` for errors.
+* **message**: the human readable description of the error.
+* **line**: the line where the issue is located.
+* **column**: the column where the issue is located.
+* **nodeType**: the type of the node in the [AST](https://github.com/estree/estree/blob/master/spec.md#node-objects)
 
 ## The `context` Argument
 

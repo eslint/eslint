@@ -2,6 +2,8 @@ default: true
 
 # Exclusions for deliberate/widespread violations
 MD002: false     # First header should be a h1 header
+MD004:           # Unordered list style
+    style: asterisk
 MD007:           # Unordered list indentation
     indent: 4
 MD013: false     # Line length

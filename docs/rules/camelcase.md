@@ -241,7 +241,7 @@ Examples of **correct** code for this rule with the `{ "ignoreGlobals": true }` 
 const foo = no_camelcased;
 ```
 
-## allow
+### allow
 
 Examples of **correct** code for this rule with the `allow` option:
 

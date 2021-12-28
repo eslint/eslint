@@ -146,7 +146,7 @@ This rule has an object option, with one option:
 
 * `"ignore"` - an optional array of loop types that will be ignored by this rule.
 
-## ignore
+### ignore
 
 You can specify up to 5 different elements in the `"ignore"` array:
 

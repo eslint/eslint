@@ -147,7 +147,7 @@ var single = 'single';
 var single = `single`;
 ```
 
-`{ "allowTemplateLiterals": false }` will not disallow the usage of all template literals. If you want to forbid any instance of template literals, use [no-restricted-syntax](https://eslint.org/docs/rules/no-restricted-syntax) and target the `TemplateLiteral` selector.
+`{ "allowTemplateLiterals": false }` will not disallow the usage of all template literals. If you want to forbid any instance of template literals, use [no-restricted-syntax](no-restricted-syntax.md) and target the `TemplateLiteral` selector.
 
 ## When Not To Use It
 

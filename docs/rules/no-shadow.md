@@ -164,10 +164,10 @@ foo(function (err, result) {
 });
 ```
 
-## Further Reading
-
-* [Variable Shadowing](https://en.wikipedia.org/wiki/Variable_shadowing)
-
 ## Related Rules
 
 * [no-shadow-restricted-names](no-shadow-restricted-names.md)
+
+## Further Reading
+
+* [Variable Shadowing](https://en.wikipedia.org/wiki/Variable_shadowing)

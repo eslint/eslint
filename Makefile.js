@@ -15,6 +15,7 @@ const checker = require("npm-license"),
     dateformat = require("dateformat"),
     fs = require("fs"),
     glob = require("glob"),
+    marked = require("marked"),
     markdownlint = require("markdownlint"),
     os = require("os"),
     path = require("path"),
@@ -790,7 +791,9 @@ target.checkRuleFiles = function() {
         const basename = path.basename(filename, ".js");
         const docFilename = `docs/rules/${basename}.md`;
         const docText = cat(docFilename);
+        const docMarkdown = marked.lexer(docText, { gfm: true, silent: false });
         const ruleCode = cat(filename);
+        const knownHeaders = ["Rule Details", "Options", "Environments", "Examples", "Known Limitations", "When Not To Use It", "Related Rules", "Compatibility", "Further Reading"];
 
         /**
          * Check if basename is present in rule-types.json file.
@@ -820,7 +823,35 @@ target.checkRuleFiles = function() {
         }
 
         /**
-         * Check if deprecated information is in rule code and READNE.md.
+         * Check if all H2 headers are known and in the expected order
+         * Only H2 headers are checked as H1 and H3 are variable and/or rule specific.
+         * @returns {boolean} true if all headers are known and in the right order
+         */
+        function hasKnownHeaders() {
+            const headers = docMarkdown.filter(token => token.type === "heading" && token.depth === 2).map(header => header.text);
+
+            for (const header of headers) {
+                if (!knownHeaders.includes(header)) {
+                    return false;
+                }
+            }
+
+            /*
+             * Check only the subset of used headers for the correct order
+             */
+            const presentHeaders = knownHeaders.filter(header => headers.includes(header));
+
+            for (let i = 0; i < presentHeaders.length; ++i) {
+                if (presentHeaders[i] !== headers[i]) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /**
+         * Check if deprecated information is in rule code and README.md.
          * @returns {boolean} true if present
          * @private
          */
@@ -851,6 +882,12 @@ target.checkRuleFiles = function() {
             // check for proper doc format
             if (!hasIdInTitle(basename)) {
                 console.error("Missing id in the doc page's title of rule %s", basename);
+                errors++;
+            }
+
+            // check for proper doc headers
+            if (!hasKnownHeaders()) {
+                console.error("Unknown or misplaced header in the doc page of rule %s, allowed headers (and their order) are: '%s'", basename, knownHeaders.join("', '"));
                 errors++;
             }
         }

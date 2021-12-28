@@ -214,13 +214,13 @@ and you also don't want this rule to warn you about the read-only globals, you c
 
 In the case of an ES module, if you don't want this rule to warn you about the read-only globals you can disable this rule.
 
+## Related Rules
+
+* [no-undef](no-undef.md)
+* [no-global-assign](no-global-assign.md)
+
 ## Further Reading
 
 * [Immediately-Invoked Function Expression (IIFE)](http://benalman.com/news/2010/11/immediately-invoked-function-expression/)
 * [ReferenceError: assignment to undeclared variable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Undeclared_var)
 * [Temporal Dead Zone](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_dead_zone)
-
-## Related Rules
-
-* [no-undef](no-undef.md)
-* [no-global-assign](no-global-assign.md)
