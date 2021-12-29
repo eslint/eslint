@@ -25,7 +25,20 @@ const applyDisableDirectives = require("../../../lib/linter/apply-disable-direct
  */
 function createParentComment(range, value, ruleIds = []) {
     return {
-        commentToken: { range, value },
+        commentToken: {
+            range,
+            loc: {
+                start: {
+                    line: 1,
+                    column: 1
+                },
+                end: {
+                    line: 1,
+                    column: value ? value.length : 10
+                }
+            },
+            value
+        },
         ruleIds
     };
 }
@@ -1294,7 +1307,7 @@ describe("apply-disable-directives", () => {
                         parentComment: createParentComment([0, 27]),
                         type: "disable-next-line",
                         line: 1,
-                        column: 1,
+                        column: 2,
                         ruleId: null
                     }],
                     problems: [],
@@ -1305,7 +1318,7 @@ describe("apply-disable-directives", () => {
                         ruleId: null,
                         message: "Unused eslint-disable directive (no problems were reported).",
                         line: 1,
-                        column: 1,
+                        column: 2,
                         fix: {
                             range: [0, 27],
                             text: " "
