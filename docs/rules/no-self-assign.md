@@ -24,6 +24,10 @@ foo = foo;
 [a, ...b] = [x, ...b];
 
 ({a, b} = {a, x});
+
+foo &&= foo;
+foo ||= foo;
+foo ??= foo;
 ```
 
 Examples of **correct** code for this rule:
@@ -49,6 +53,10 @@ obj[a] = obj["a"];
 // This ignores if there is a function call.
 obj.a().b = obj.a().b;
 a().b = a().b;
+
+// `&=` and `|=` have an effect on non-integers.
+foo &= foo;
+foo |= foo;
 
 // Known limitation: this does not support computed properties except single literal or single identifier.
 obj[a + b] = obj[a + b];
