@@ -6,15 +6,20 @@
 
 #### Prerequisites checklist
 
-- [ ] I have read the [contributing guidelines](https://github.com/eslint/eslint/blob/master/CONTRIBUTING.md).
+- [ ] I have read the [contributing guidelines](https://github.com/eslint/eslint/blob/HEAD/CONTRIBUTING.md).
 
 #### What is the purpose of this pull request? (put an "X" next to an item)
 
+<!--
+    The following template is intentionally not a markdown checkbox list for the reasons
+    explained in https://github.com/eslint/eslint/pull/12848#issuecomment-580302888
+-->
+
 [ ] Documentation update
-[ ] Bug fix ([template](https://raw.githubusercontent.com/eslint/eslint/master/templates/bug-report.md))
-[ ] New rule ([template](https://raw.githubusercontent.com/eslint/eslint/master/templates/rule-proposal.md))
-[ ] Changes an existing rule ([template](https://raw.githubusercontent.com/eslint/eslint/master/templates/rule-change-proposal.md))
-[ ] Add autofixing to a rule
+[ ] Bug fix ([template](https://raw.githubusercontent.com/eslint/eslint/HEAD/templates/bug-report.md))
+[ ] New rule ([template](https://raw.githubusercontent.com/eslint/eslint/HEAD/templates/rule-proposal.md))
+[ ] Changes an existing rule ([template](https://raw.githubusercontent.com/eslint/eslint/HEAD/templates/rule-change-proposal.md))
+[ ] Add autofix to a rule
 [ ] Add a CLI option
 [ ] Add something to the core
 [ ] Other, please explain:
@@ -37,5 +42,6 @@
 
 #### What changes did you make? (Give an overview)
 
-
 #### Is there anything you'd like reviewers to focus on?
+
+<!-- markdownlint-disable-file MD004 -->

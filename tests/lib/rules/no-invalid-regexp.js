@@ -12,6 +12,10 @@
 const rule = require("../../../lib/rules/no-invalid-regexp"),
     { RuleTester } = require("../../../lib/rule-tester");
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester();
 
 ruleTester.run("no-invalid-regexp", rule, {
@@ -58,6 +62,9 @@ ruleTester.run("no-invalid-regexp", rule, {
         "new RegExp('(?<\\\\u{1d49c}>.)', 'g')",
         "new RegExp('(?<𝒜>.)', 'g');",
         "new RegExp('\\\\p{Script=Nandinagari}', 'u');",
+
+        // ES2022
+        "new RegExp('a+(?<Z>z)?', 'd')",
 
         // allowConstructorFlags
         {

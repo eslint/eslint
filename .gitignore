@@ -3,6 +3,8 @@ test.js
 coverage/
 build/
 npm-debug.log
+yarn-error.log
+.pnpm-debug.log
 .DS_Store
 tmp/
 debug/
@@ -23,3 +25,4 @@ versions.json
 /tests/fixtures/autofix-integration/temp.js
 yarn.lock
 package-lock.json
+pnpm-lock.yaml

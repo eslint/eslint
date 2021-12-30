@@ -8,29 +8,29 @@ The lists below are ordered roughly by the number of users each change is expect
 
 ### Breaking changes for users
 
-- [Node.js 8 is no longer supported](#drop-node-8)
-- [Lint files matched by `overrides[].files` by default](#additional-lint-targets)
-- [The base path of `overrides` and `ignorePatterns` is changed if the config file is given by the `--config`/`--ignore-path` options](#base-path-change)
-- [The place where ESLint loads plugins from is changed](#plugin-loading-change)
-- [Runtime deprecation warnings for `~/.eslintrc.*` config files](#runtime-deprecation-on-personal-config-files)
-- [Default ignore patterns have changed](#default-ignore-patterns)
-- [Description in directive comments](#description-in-directive-comments)
-- [Node.js/CommonJS rules are deprecated](#deprecate-node-rules)
-- [Several rules have been updated to cover more cases](#rules-strict)
-- [`eslint:recommended` has been updated](#eslint-recommended)
+* [Node.js 8 is no longer supported](#drop-node-8)
+* [Lint files matched by `overrides[].files` by default](#additional-lint-targets)
+* [The base path of `overrides` and `ignorePatterns` is changed if the config file is given by the `--config`/`--ignore-path` options](#base-path-change)
+* [The place where ESLint loads plugins from is changed](#plugin-loading-change)
+* [Runtime deprecation warnings for `~/.eslintrc.*` config files](#runtime-deprecation-on-personal-config-files)
+* [Default ignore patterns have changed](#default-ignore-patterns)
+* [Description in directive comments](#description-in-directive-comments)
+* [Node.js/CommonJS rules are deprecated](#deprecate-node-rules)
+* [Several rules have been updated to cover more cases](#rules-strict)
+* [`eslint:recommended` has been updated](#eslint-recommended)
 
 ### Breaking changes for plugin developers
 
-- [Node.js 8 is no longer supported](#drop-node-8)
-- [Lint files matched by `overrides[].files` by default](#additional-lint-targets)
-- [Plugin resolution has been updated](#plugin-loading-change)
-- [Additional validation added to the `RuleTester` class](#rule-tester-strict)
+* [Node.js 8 is no longer supported](#drop-node-8)
+* [Lint files matched by `overrides[].files` by default](#additional-lint-targets)
+* [Plugin resolution has been updated](#plugin-loading-change)
+* [Additional validation added to the `RuleTester` class](#rule-tester-strict)
 
 ### Breaking changes for integration developers
 
-- [Node.js 8 is no longer supported](#drop-node-8)
-- [Plugin resolution has been updated](#plugin-loading-change)
-- [The `CLIEngine` class has been deprecated](#deprecate-cliengine)
+* [Node.js 8 is no longer supported](#drop-node-8)
+* [Plugin resolution has been updated](#plugin-loading-change)
+* [The `CLIEngine` class has been deprecated](#deprecate-cliengine)
 
 ---
 
@@ -38,8 +38,8 @@ The lists below are ordered roughly by the number of users each change is expect
 
 Node.js 8 reached EOL in December 2019, and we are officially dropping support for it in this release. ESLint now supports the following versions of Node.js:
 
-- Node.js 10 (`10.12.0` and above)
-- Node.js 12 and above
+* Node.js 10 (`10.12.0` and above)
+* Node.js 12 and above
 
 **To address:** Make sure you upgrade to at least Node.js `10.12.0` when using ESLint v7.0.0. One important thing to double check is the Node.js version supported by your editor when using ESLint via editor integrations. If you are unable to upgrade, we recommend continuing to use ESLint 6 until you are able to upgrade Node.js.
 
@@ -71,12 +71,12 @@ If you maintain plugins that check files with extensions other than `.js`, this 
 
 Up until now, ESLint has resolved the following paths relative to the directory path of the _entry_ configuration file:
 
-- Configuration files (`.eslintrc.*`)
-    - relative paths in the `overrides[].files` setting
-    - relative paths in the `overrides[].excludedFiles` setting
-    - paths which start with `/` in the `ignorePatterns` setting
-- Ignore files (`.eslintignore`)
-    - paths which start with `/`
+* Configuration files (`.eslintrc.*`)
+    * relative paths in the `overrides[].files` setting
+    * relative paths in the `overrides[].excludedFiles` setting
+    * paths which start with `/` in the `ignorePatterns` setting
+* Ignore files (`.eslintignore`)
+    * paths which start with `/`
 
 Starting in ESLint v7.0.0, configuration files and ignore files passed to ESLint using the `--config path/to/a-config` and `--ignore-path path/to/a-ignore` CLI flags, respectively, will resolve from the current working directory rather than the file location. This allows for users to utilize shared plugins without having to install them directly in their project.
 
@@ -113,14 +113,14 @@ Personal config files have been deprecated since [v6.7.0](https://eslint.org/blo
 
 Up until now, ESLint has ignored the following files by default:
 
-- Dotfiles (`.*`)
-- `node_modules` in the current working directory (`/node_modules/*`)
-- `bower_components` in the current working directory (`/bower_components/*`)
+* Dotfiles (`.*`)
+* `node_modules` in the current working directory (`/node_modules/*`)
+* `bower_components` in the current working directory (`/bower_components/*`)
 
 ESLint v7.0.0 ignores `node_modules/*` of subdirectories as well, but no longer ignores `bower_components/*` and `.eslintrc.js`. Therefore, the new default ignore patterns are:
 
-- Dotfiles except `.eslintrc.*` (`.*` but not `.eslintrc.*`)
-- `node_modules` (`/**/node_modules/*`)
+* Dotfiles except `.eslintrc.*` (`.*` but not `.eslintrc.*`)
+* `node_modules` (`/**/node_modules/*`)
 
 **To address:** Modify your `.eslintignore` or the `ignorePatterns` property of your config file if you don't want to lint `bower_components/*` and `.eslintrc.js`.
 
@@ -165,16 +165,16 @@ The ten Node.js/CommonJS rules in core have been deprecated and moved to the [es
 
 Several rules have been enhanced and now report additional errors:
 
-- [accessor-pairs](https://eslint.org/docs/rules/accessor-pairs) rule now recognizes class members by default.
-- [array-callback-return](https://eslint.org/docs/rules/array-callback-return) rule now recognizes `flatMap` method.
-- [computed-property-spacing](https://eslint.org/docs/rules/computed-property-spacing) rule now recognizes class members by default.
-- [func-names](https://eslint.org/docs/rules/func-names) rule now recognizes function declarations in default exports.
-- [no-extra-parens](https://eslint.org/docs/rules/no-extra-parens) rule now recognizes parentheses in assignment targets.
-- [no-dupe-class-members](https://eslint.org/docs/rules/no-dupe-class-members) rule now recognizes computed keys for static class members.
-- [no-magic-numbers](https://eslint.org/docs/rules/no-magic-numbers) rule now recognizes bigint literals.
-- [radix](https://eslint.org/docs/rules/radix) rule now recognizes invalid numbers for the second parameter of `parseInt()`.
-- [use-isnan](https://eslint.org/docs/rules/use-isnan) rule now recognizes class members by default.
-- [yoda](https://eslint.org/docs/rules/yoda) rule now recognizes bigint literals.
+* [accessor-pairs](https://eslint.org/docs/rules/accessor-pairs) rule now recognizes class members by default.
+* [array-callback-return](https://eslint.org/docs/rules/array-callback-return) rule now recognizes `flatMap` method.
+* [computed-property-spacing](https://eslint.org/docs/rules/computed-property-spacing) rule now recognizes class members by default.
+* [func-names](https://eslint.org/docs/rules/func-names) rule now recognizes function declarations in default exports.
+* [no-extra-parens](https://eslint.org/docs/rules/no-extra-parens) rule now recognizes parentheses in assignment targets.
+* [no-dupe-class-members](https://eslint.org/docs/rules/no-dupe-class-members) rule now recognizes computed keys for static class members.
+* [no-magic-numbers](https://eslint.org/docs/rules/no-magic-numbers) rule now recognizes bigint literals.
+* [radix](https://eslint.org/docs/rules/radix) rule now recognizes invalid numbers for the second parameter of `parseInt()`.
+* [use-isnan](https://eslint.org/docs/rules/use-isnan) rule now recognizes class members by default.
+* [yoda](https://eslint.org/docs/rules/yoda) rule now recognizes bigint literals.
 
 **To address:** Fix errors or disable these rules.
 
@@ -184,9 +184,9 @@ Several rules have been enhanced and now report additional errors:
 
 Three new rules have been enabled in the `eslint:recommended` preset.
 
-- [no-dupe-else-if](https://eslint.org/docs/rules/no-dupe-else-if)
-- [no-import-assign](https://eslint.org/docs/rules/no-import-assign)
-- [no-setter-return](https://eslint.org/docs/rules/no-setter-return)
+* [no-dupe-else-if](https://eslint.org/docs/rules/no-dupe-else-if)
+* [no-import-assign](https://eslint.org/docs/rules/no-import-assign)
+* [no-setter-return](https://eslint.org/docs/rules/no-setter-return)
 
 **To address:** Fix errors or disable these rules.
 
@@ -196,9 +196,9 @@ Three new rules have been enabled in the `eslint:recommended` preset.
 
 The `RuleTester` now validates the following:
 
-- It fails test cases if the rule under test uses the non-standard `node.start` or `node.end` properties. Rules should use `node.range` instead.
-- It fails test cases if the rule under test provides an autofix but a test case doesn't have an `output` property. Add an `output` property to test cases to test the rule's autofix functionality.
-- It fails test cases if any unknown properties are found in the objects in the `errors` property.
+* It fails test cases if the rule under test uses the non-standard `node.start` or `node.end` properties. Rules should use `node.range` instead.
+* It fails test cases if the rule under test provides an autofix but a test case doesn't have an `output` property. Add an `output` property to test cases to test the rule's autofix functionality.
+* It fails test cases if any unknown properties are found in the objects in the `errors` property.
 
 **To address:** Modify your rule or test case if existing test cases fail.
 
@@ -226,7 +226,7 @@ The `CLIEngine` class provides a synchronous API that is blocking the implementa
 | `getRules()`                                 | (not implemented yet)              |
 | `resolveFileGlobPatterns()`                  | (removed ※2)                       |
 
-- ※1 The `engine.getFormatter()` method currently returns the object of loaded packages as-is, which made it difficult to add new features to formatters for backward compatibility reasons. The new `eslint.loadFormatter()` method returns an adapter object that wraps the object of loaded packages, to ease the process of adding new features. Additionally, the adapter object has access to the `ESLint` instance to calculate default data (using loaded plugin rules to make `rulesMeta`, for example). As a result, the `ESLint` class only implements an instance version of the `loadFormatter()` method.
-- ※2 Since ESLint 6, ESLint uses different logic from the `resolveFileGlobPatterns()` method to iterate files, making this method obsolete.
+* ※1 The `engine.getFormatter()` method currently returns the object of loaded packages as-is, which made it difficult to add new features to formatters for backward compatibility reasons. The new `eslint.loadFormatter()` method returns an adapter object that wraps the object of loaded packages, to ease the process of adding new features. Additionally, the adapter object has access to the `ESLint` instance to calculate default data (using loaded plugin rules to make `rulesMeta`, for example). As a result, the `ESLint` class only implements an instance version of the `loadFormatter()` method.
+* ※2 Since ESLint 6, ESLint uses different logic from the `resolveFileGlobPatterns()` method to iterate files, making this method obsolete.
 
 **Related issue(s):** [RFC40](https://github.com/eslint/rfcs/blob/master/designs/2019-move-to-async-api/README.md), [#12939](https://github.com/eslint/eslint/pull/12939)

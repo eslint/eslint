@@ -9,7 +9,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const lodash = require("lodash");
+const merge = require("lodash.merge");
+
 const rule = require("../../../lib/rules/no-invalid-this");
 const { RuleTester } = require("../../../lib/rule-tester");
 
@@ -69,7 +70,7 @@ function extractPatterns(patterns, type) {
 
     // Clone and apply the pattern environment.
     const patternsList = patterns.map(pattern => pattern[type].map(applyCondition => {
-        const thisPattern = lodash.cloneDeep(pattern);
+        const thisPattern = merge({}, pattern);
 
         applyCondition(thisPattern);
 
@@ -79,13 +80,15 @@ function extractPatterns(patterns, type) {
             thisPattern.code += " /* should error */";
         }
 
-        return lodash.omit(thisPattern, ["valid", "invalid"]);
+        delete thisPattern.valid;
+        delete thisPattern.invalid;
+
+        return thisPattern;
     }));
 
     // Flatten.
     return [].concat(...patternsList);
 }
-
 
 //------------------------------------------------------------------------------
 // Tests
@@ -720,6 +723,8 @@ const patterns = [
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
+
+    // Logical assignments
     {
         code: "obj.method &&= function () { console.log(this); z(x => console.log(x, this)); }",
         parserOptions: { ecmaVersion: 2021 },
@@ -737,6 +742,87 @@ const patterns = [
         parserOptions: { ecmaVersion: 2021 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
+    },
+
+    // Class fields.
+    {
+        code: "class C { field = console.log(this); }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "class C { field = z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "class C { field = function () { console.log(this); z(x => console.log(x, this)); }; }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "class C { #field = function () { console.log(this); z(x => console.log(x, this)); }; }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "class C { [this.foo]; }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [NORMAL], // the global this in non-strict mode is OK.
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+        errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
+    },
+
+    // Class static blocks
+    {
+        code: "class C { static { this.x; } }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "class C { static { () => { this.x; } } }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "class C { static { class D { [this.x]; } } }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "class C { static { function foo() { this.x; } } }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [],
+        invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
+    },
+    {
+        code: "class C { static { (function() { this.x; }); } }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [],
+        invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
+    },
+    {
+        code: "class C { static { (function() { this.x; })(); } }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [],
+        invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
+    },
+    {
+        code: "class C { static {} [this.x]; }",
+        parserOptions: { ecmaVersion: 2022 },
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+        errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
     }
 ];
 

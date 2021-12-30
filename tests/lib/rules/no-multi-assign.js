@@ -13,7 +13,7 @@ const rule = require("../../../lib/rules/no-multi-assign"),
     { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
-// Fixtures
+// Helpers
 //------------------------------------------------------------------------------
 
 /**
@@ -33,7 +33,6 @@ function errorAt(line, column, type) {
     };
 }
 
-
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -51,7 +50,13 @@ ruleTester.run("no-mutli-assign", rule, {
         { code: "for(let a = 0, b = 0;;){}", parserOptions: { ecmaVersion: 6 } },
         { code: "for(const a = 0, b = 0;;){}", parserOptions: { ecmaVersion: 6 } },
         { code: "export let a, b;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export let a,\n b = 0;", parserOptions: { ecmaVersion: 6, sourceType: "module" } }
+        { code: "export let a,\n b = 0;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "const x = {};const y = {};x.one = y.one = 1;", options: [{ ignoreNonDeclaration: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "let a, b;a = b = 1", options: [{ ignoreNonDeclaration: true }], parserOptions: { ecmaVersion: 6 } },
+        {
+            code: "class C { [foo = 0] = 0 }",
+            parserOptions: { ecmaVersion: 2022 }
+        }
     ],
 
     invalid: [
@@ -136,6 +141,54 @@ ruleTester.run("no-mutli-assign", rule, {
             code: "a = b = 7 * 12 + 5;",
             errors: [
                 errorAt(1, 5, "AssignmentExpression")
+            ]
+        },
+        {
+            code: "const x = {};\nconst y = x.one = 1;",
+            options: [{ ignoreNonDeclaration: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                errorAt(2, 11, "AssignmentExpression")
+            ]
+
+        },
+        {
+            code: "let a, b;a = b = 1",
+            options: [{}],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                errorAt(1, 14, "AssignmentExpression")
+            ]
+        },
+        {
+            code: "let x, y;x = y = 'baz'",
+            options: [{ ignoreNonDeclaration: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                errorAt(1, 14, "AssignmentExpression")
+            ]
+        },
+        {
+            code: "const a = b = 1",
+            options: [{ ignoreNonDeclaration: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                errorAt(1, 11, "AssignmentExpression")
+            ]
+        },
+        {
+            code: "class C { field = foo = 0 }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                errorAt(1, 19, "AssignmentExpression")
+            ]
+        },
+        {
+            code: "class C { field = foo = 0 }",
+            options: [{ ignoreNonDeclaration: true }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                errorAt(1, 19, "AssignmentExpression")
             ]
         }
     ]

@@ -46,6 +46,19 @@ var foo = { "class": "CS 101" }
 var x = foo["class"]; // Property name is a reserved word, square-bracket notation required
 ```
 
+Examples of additional **correct** code for the `{ "allowKeywords": false }` option:
+
+```js
+/*eslint dot-notation: ["error", { "allowKeywords": false }]*/
+
+class C {
+    #in;
+    foo() {
+        this.#in; // Dot notation is required for private identifiers
+    }
+}
+```
+
 ### allowPattern
 
 For example, when preparing data to be sent to an external API, it is often required to use property names that include underscores.  If the `camelcase` rule is in effect, these [snake case](https://en.wikipedia.org/wiki/Snake_case) properties would not be allowed.  By providing an `allowPattern` to the `dot-notation` rule, these snake case properties can be accessed with bracket notation.

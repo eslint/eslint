@@ -1,6 +1,5 @@
 # Rules
 
-
 * [Configuring Rules](#configuring-rules)
 * [Disabling Rules](#disabling-rules)
 
@@ -20,7 +19,7 @@ To configure rules inside of a file using configuration comments, use a comment 
 /* eslint eqeqeq: "off", curly: "error" */
 ```
 
-In this example, [`eqeqeq`](https://eslint.org/docs/rules/eqeqeq) is turned off and [`curly`](.https://eslint.org/docs/rules/curly) is turned on as an error. You can also use the numeric equivalent for the rule severity:
+In this example, [`eqeqeq`](https://eslint.org/docs/rules/eqeqeq) is turned off and [`curly`](https://eslint.org/docs/rules/curly) is turned on as an error. You can also use the numeric equivalent for the rule severity:
 
 ```js
 /* eslint eqeqeq: 0, curly: 2 */
@@ -201,6 +200,13 @@ alert('foo'); /* eslint-disable-line no-alert, quotes, semi */
 
 /* eslint-disable-next-line no-alert, quotes, semi */
 alert('foo');
+
+/* eslint-disable-next-line 
+  no-alert, 
+  quotes, 
+  semi 
+*/
+alert('foo');
 ```
 
 All of the above methods also work for plugin rules. For example, to disable `eslint-plugin-example`'s `rule-name` rule, combine the plugin's name (`example`) and the rule's name (`rule-name`) into `example/rule-name`:
@@ -214,6 +220,12 @@ Configuration comments can include descriptions to explain why the comment is ne
 
 ```js
 // eslint-disable-next-line no-console -- Here's a description about why this configuration is necessary.
+console.log('hello');
+
+/* eslint-disable-next-line no-console --
+ * Here's a very long description about why this configuration is necessary
+ * along with some additional information
+**/
 console.log('hello');
 ```
 

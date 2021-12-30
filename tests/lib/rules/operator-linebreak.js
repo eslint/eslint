@@ -56,6 +56,7 @@ ruleTester.run("operator-linebreak", rule, {
         { code: "\n1 + 1", options: ["none"] },
         { code: "1 + 1\n", options: ["none"] },
         { code: "answer = everything ? 42 : foo;", options: ["none"] },
+        { code: "(a\n) + (\nb)", options: ["none"] },
         { code: "answer = everything \n?\n 42 : foo;", options: [null, { overrides: { "?": "ignore" } }] },
         { code: "answer = everything ? 42 \n:\n foo;", options: [null, { overrides: { ":": "ignore" } }] },
 
@@ -98,6 +99,52 @@ ruleTester.run("operator-linebreak", rule, {
             code: "a ??= \n b",
             options: ["after", { overrides: { "??": "before" } }],
             parserOptions: { ecmaVersion: 2021 }
+        },
+
+        // class fields
+        {
+            code: "class C { foo =\n0 }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo\n= 0 }",
+            options: ["before"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [foo\n]= 0 }",
+            options: ["before"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [foo]\n= 0 }",
+            options: ["before"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [foo\n]\n= 0 }",
+            options: ["before"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [foo\n]= 0 }",
+            options: ["after"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [foo\n]=\n0 }",
+            options: ["after"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { [foo\n]= 0 }",
+            options: ["none"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo\n=\n0 }",
+            options: ["none", { overrides: { "=": "ignore" } }],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
 
@@ -769,6 +816,98 @@ ruleTester.run("operator-linebreak", rule, {
                 column: 1,
                 endLine: 2,
                 endColumn: 4
+            }]
+        },
+
+        // class fields
+        {
+            code: "class C { a\n= 0; }",
+            output: "class C { a =\n0; }",
+            options: ["after"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "operatorAtEnd",
+                data: { operator: "=" },
+                type: "PropertyDefinition",
+                line: 2,
+                column: 1,
+                endLine: 2,
+                endColumn: 2
+            }]
+        },
+        {
+            code: "class C { a =\n0; }",
+            output: "class C { a\n= 0; }",
+            options: ["before"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "operatorAtBeginning",
+                data: { operator: "=" },
+                type: "PropertyDefinition",
+                line: 1,
+                column: 13,
+                endLine: 1,
+                endColumn: 14
+            }]
+        },
+        {
+            code: "class C { a =\n0; }",
+            output: "class C { a =0; }",
+            options: ["none"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "noLinebreak",
+                data: { operator: "=" },
+                type: "PropertyDefinition",
+                line: 1,
+                column: 13,
+                endLine: 1,
+                endColumn: 14
+            }]
+        },
+        {
+            code: "class C { [a]\n= 0; }",
+            output: "class C { [a] =\n0; }",
+            options: ["after"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "operatorAtEnd",
+                data: { operator: "=" },
+                type: "PropertyDefinition",
+                line: 2,
+                column: 1,
+                endLine: 2,
+                endColumn: 2
+            }]
+        },
+        {
+            code: "class C { [a] =\n0; }",
+            output: "class C { [a]\n= 0; }",
+            options: ["before"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "operatorAtBeginning",
+                data: { operator: "=" },
+                type: "PropertyDefinition",
+                line: 1,
+                column: 15,
+                endLine: 1,
+                endColumn: 16
+            }]
+        },
+        {
+            code: "class C { [a]\n =0; }",
+            output: "class C { [a] =0; }",
+            options: ["none"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "noLinebreak",
+                data: { operator: "=" },
+                type: "PropertyDefinition",
+                line: 2,
+                column: 2,
+                endLine: 2,
+                endColumn: 3
             }]
         }
     ]

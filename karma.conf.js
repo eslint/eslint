@@ -1,7 +1,8 @@
 "use strict";
 const os = require("os");
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
-if (os.arch() === "arm64") {
+if (os.platform === "linux" && os.arch() === "arm64") {
 
     // For arm64 architecture, install chromium-browser using "apt-get install chromium-browser"
     process.env.CHROME_BIN = "/usr/bin/chromium-browser";
@@ -15,17 +16,25 @@ module.exports = function(config) {
         // base path that will be used to resolve all patterns (eg. files, exclude)
         basePath: "",
 
+        // next three sections allow console.log to work
+        client: {
+            captureConsole: true
+        },
+
+        browserConsoleLogOptions: {
+            terminal: true,
+            level: "log"
+        },
 
         /*
          * frameworks to use
          * available frameworks: https://npmjs.org/browse/keyword/karma-adapter
          */
-        frameworks: ["mocha"],
+        frameworks: ["mocha", "webpack"],
 
 
         // list of files / patterns to load in the browser
         files: [
-            "build/eslint.js",
             "tests/lib/linter/linter.js"
         ],
 
@@ -44,6 +53,14 @@ module.exports = function(config) {
         },
         webpack: {
             mode: "none",
+            plugins: [
+                new NodePolyfillPlugin()
+            ],
+            resolve: {
+                alias: {
+                    "../../../lib/linter$": "../../../build/eslint.js"
+                }
+            },
             stats: "errors-only"
         },
         webpackMiddleware: {

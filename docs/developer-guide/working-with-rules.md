@@ -24,6 +24,7 @@ Here is the basic format of the source file for a rule:
 // Rule Definition
 //------------------------------------------------------------------------------
 
+/** @type {import('eslint').Rule.RuleModule} */
 module.exports = {
     meta: {
         type: "suggestion",
@@ -61,14 +62,17 @@ The source file for a rule exports an object with the following properties.
     * `description` (string) provides the short description of the rule in the [rules index](../rules/)
     * `category` (string) specifies the heading under which the rule is listed in the [rules index](../rules/)
     * `recommended` (boolean) is whether the `"extends": "eslint:recommended"` property in a [configuration file](../user-guide/configuring/configuration-files.md#extending-configuration-files) enables the rule
-    * `url` (string) specifies the URL at which the full documentation can be accessed
-    * `suggestion` (boolean) specifies whether rules can return suggestions (defaults to false if omitted)
+    * `url` (string) specifies the URL at which the full documentation can be accessed (enabling code editors to provide a helpful link on highlighted rule violations)
 
     In a custom rule or plugin, you can omit `docs` or include any properties that you need in it.
 
-* `fixable` (string) is either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../user-guide/command-line-interface.md#fix) automatically fixes problems reported by the rule
+* `fixable` (string) is either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../user-guide/command-line-interface.md#--fix) automatically fixes problems reported by the rule
 
     **Important:** the `fixable` property is mandatory for fixable rules. If this property isn't specified, ESLint will throw an error whenever the rule attempts to produce a fix. Omit the `fixable` property if the rule is not fixable.
+
+* `hasSuggestions` (boolean) specifies whether rules can return suggestions (defaults to `false` if omitted)
+
+     **Important:** the `hasSuggestions` property is mandatory for rules that provide suggestions. If this property isn't set to `true`, ESLint will throw an error whenever the rule attempts to produce a suggestion. Omit the `hasSuggestions` property if the rule does not provide suggestions.
 
 * `schema` (array) specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../user-guide/configuring/rules.md#configuring-rules)
 
@@ -127,7 +131,7 @@ The `context` object contains additional functionality that is helpful for rules
 Additionally, the `context` object has the following methods:
 
 * `getAncestors()` - returns an array of the ancestors of the currently-traversed node, starting at the root of the AST and continuing through the direct parent of the current node. This array does not include the currently-traversed node itself.
-* `getCwd()` - returns the `cwd` passed to [Linter](./nodejs-api.md#Linter). It is a path to a directory that should be considered as the current working directory.
+* `getCwd()` - returns the `cwd` passed to [Linter](./nodejs-api.md#linter). It is a path to a directory that should be considered as the current working directory.
 * `getDeclaredVariables(node)` - returns a list of [variables](./scope-manager-interface.md#variable-interface) declared by the given node. This information can be used to track references to variables.
     * If the node is a `VariableDeclaration`, all variables declared in the declaration are returned.
     * If the node is a `VariableDeclarator`, all variables declared in the declarator are returned.
@@ -139,8 +143,9 @@ Additionally, the `context` object has the following methods:
     * If the node is an `ImportSpecifier`, `ImportDefaultSpecifier`, or `ImportNamespaceSpecifier`, the declared variable is returned.
     * Otherwise, if the node does not declare any variables, an empty array is returned.
 * `getFilename()` - returns the filename associated with the source.
+* `getPhysicalFilename()` - when linting a file, it returns the full path of the file on disk without any code block information. When linting text, it returns the value passed to `—stdin-filename` or `<text>` if not specified.
 * `getScope()` - returns the [scope](./scope-manager-interface.md#scope-interface) of the currently-traversed node. This information can be used to track references to variables.
-* `getSourceCode()` - returns a [`SourceCode`](#context-getsourcecode) object that you can use to work with the source that was passed to ESLint.
+* `getSourceCode()` - returns a [`SourceCode`](#contextgetsourcecode) object that you can use to work with the source that was passed to ESLint.
 * `markVariableAsUsed(name)` - marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars.md) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
 * `report(descriptor)` - reports a problem in the code (see the [dedicated section](#contextreport)).
 
@@ -314,6 +319,8 @@ The `fixer` object has the following methods:
 * `replaceText(nodeOrToken, text)` - replaces the text in the given node or token
 * `replaceTextRange(range, text)` - replaces the text in the given range
 
+A range is a two-item array containing character indices inside of the source code. The first item is the start of the range (inclusive) and the second item is the end of the range (exclusive). Every node and token has a `range` property to identify the source code range they represent.
+
 The above methods return a `fixing` object.
 The `fix()` function can return the following values:
 
@@ -345,6 +352,24 @@ Best practices for fixes:
 
     * This fixer can just select a quote type arbitrarily. If it guesses wrong, the resulting code will be automatically reported and fixed by the [`quotes`](/docs/rules/quotes.md) rule.
 
+Note: Making fixes as small as possible is a best practice, but in some cases it may be correct to extend the range of the fix in order to intentionally prevent other rules from making fixes in a surrounding range in the same pass. For instance, if replacement text declares a new variable, it can be useful to prevent other changes in the scope of the variable as they might cause name collisions.
+
+The following example replaces `node` and also ensures that no other fixes will be applied in the range of `node.parent` in the same pass:
+
+```js
+context.report({
+    node,
+    message,
+    *fix(fixer) {
+        yield fixer.replaceText(node, replacementText);
+
+        // extend range of the fix to the range of `node.parent`
+        yield fixer.insertTextBefore(node.parent, "");
+        yield fixer.insertTextAfter(node.parent, "");
+    }
+});
+```
+
 ### Providing Suggestions
 
 In some cases fixes aren't appropriate to be automatically applied, for example, if a fix potentially changes functionality or if there are multiple valid ways to fix a rule depending on the implementation intent (see the best practices for [applying fixes](#applying-fixes) listed above). In these cases, there is an alternative `suggest` option on `context.report()` that allows other tools, such as editors, to expose helpers for users to manually apply a suggestion.
@@ -375,7 +400,9 @@ context.report({
 {% endraw %}
 ```
 
-Note: Suggestions will be applied as a stand-alone change, without triggering multipass fixes. Each suggestion should focus on a singular change in the code and should not try to conform to user defined styles. For example, if a suggestion is adding a new statement into the codebase, it should not try to match correct indentation, or confirm to user preferences on presence/absence of semicolons. All of those things can be corrected by multipass autofix when the user triggers it.
+**Important:** The `meta.hasSuggestions` property is mandatory for rules that provide suggestions. ESLint will throw an error if a rule attempts to produce a suggestion but does not [export](#rule-basics) this property.
+
+Note: Suggestions will be applied as a stand-alone change, without triggering multipass fixes. Each suggestion should focus on a singular change in the code and should not try to conform to user defined styles. For example, if a suggestion is adding a new statement into the codebase, it should not try to match correct indentation, or conform to user preferences on presence/absence of semicolons. All of those things can be corrected by multipass autofix when the user triggers it.
 
 Best practices for suggestions:
 
@@ -386,7 +413,7 @@ Suggestions are intended to provide fixes. ESLint will automatically remove the 
 
 #### Suggestion `messageId`s
 
-Instead of using a `desc` key for suggestions a `messageId` can be used instead. This works the same way as `messageId`s for the overall error (see [messageIds](#messageIds)). Here is an example of how to use it in a rule:
+Instead of using a `desc` key for suggestions a `messageId` can be used instead. This works the same way as `messageId`s for the overall error (see [messageIds](#messageids)). Here is an example of how to use it in a rule:
 
 ```js
 {% raw %}
@@ -396,7 +423,8 @@ module.exports = {
             unnecessaryEscape: "Unnecessary escape character: \\{{character}}.",
             removeEscape: "Remove the `\\`. This maintains the current functionality.",
             escapeBackslash: "Replace the `\\` with `\\\\` to include the actual backslash character."
-        }
+        },
+        hasSuggestions: true
     },
     create: function(context) {
         // ...
@@ -437,7 +465,8 @@ module.exports = {
         messages: {
             unnecessaryEscape: "Unnecessary escape character: \\{{character}}.",
             removeEscape: "Remove `\\` before {{character}}.",
-        }
+        },
+        hasSuggestions: true
     },
     create: function(context) {
         // ...
@@ -500,7 +529,7 @@ module.exports = {
 };
 ```
 
-Once you have an instance of `SourceCode`, you can use the methods on it to work with the code:
+Once you have an instance of `SourceCode`, you can use the following methods on it to work with the code:
 
 * `getText(node)` - returns the source code for the given node. Omit `node` to get the whole source.
 * `getAllComments()` - returns an array of all comments in the source.
@@ -666,8 +695,8 @@ To keep the linting process efficient and unobtrusive, it is useful to verify th
 When developing in the ESLint core repository, the `npm run perf` command gives a high-level overview of ESLint running time with all core rules enabled.
 
 ```bash
-$ git checkout master
-Switched to branch 'master'
+$ git checkout main
+Switched to branch 'main'
 
 $ npm run perf
 CPU Speed is 2200 with multiplier 7500000

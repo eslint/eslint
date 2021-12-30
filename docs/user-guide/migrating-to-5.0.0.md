@@ -4,7 +4,7 @@ ESLint v5.0.0 is the fifth major version release. We have made a few breaking ch
 
 The lists below are ordered roughly by the number of users each change is expected to affect, where the first items are expected to affect the most users.
 
-### Breaking changes for users
+## Breaking changes for users
 
 1. [Node.js 4 is no longer supported](#drop-node-4)
 1. [New rules have been added to `eslint:recommended`](#eslint-recommended-changes)
@@ -16,7 +16,7 @@ The lists below are ordered roughly by the number of users each change is expect
 1. [Plugins in scoped packages are now resolvable in configs](#scoped-plugins)
 1. [Multi-line `eslint-disable-line` directives are now reported as problems](#multiline-directives)
 
-### Breaking changes for plugin/custom rule developers
+## Breaking changes for plugin/custom rule developers
 
 1. [The `parent` property of AST nodes is now set before rules start running](#parent-before-rules)
 1. [When using the default parser, spread operators now have type `SpreadElement`](#spread-operators)
@@ -27,7 +27,7 @@ The lists below are ordered roughly by the number of users each change is expect
 1. [`RuleTester` now uses strict equality checks in its assertions](#rule-tester-equality)
 1. [Rules are now required to provide messages along with reports](#required-report-messages)
 
-### Breaking changes for integration developers
+## Breaking changes for integration developers
 
 1. [The `source` property is no longer available on individual linting messages](#source-property)
 1. [Fatal errors now result in an exit code of 2](#exit-code-two)

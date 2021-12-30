@@ -5,19 +5,24 @@
 
 "use strict";
 
-module.exports = context => {
-    return {
-        Program(node) {
-            context.report({
-                node,
-                message: "No programs allowed."
-            });
+module.exports = {
+    meta: {
+        fixable: "code"
+    },
+    create(context) {
+        return {
+            Program(node) {
+                context.report({
+                    node,
+                    message: "No programs allowed."
+                });
 
-            context.report({
-                node,
-                message: "Seriously, no programs allowed.",
-                fix: fixer => fixer.remove(node)
-            });
+                context.report({
+                    node,
+                    message: "Seriously, no programs allowed.",
+                    fix: fixer => fixer.remove(node)
+                });
+            }
         }
     }
 };

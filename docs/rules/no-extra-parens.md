@@ -48,6 +48,14 @@ for (a of (b));
 typeof (a);
 
 (function(){} ? a() : b());
+
+class A {
+    [(x)] = 1;
+}
+
+class B {
+    x = (y + z);
+}
 ```
 
 Examples of **correct** code for this rule with the default `"all"` option:
@@ -72,6 +80,14 @@ for (a of b);
 for (a in b, c);
 
 for (a in b);
+
+class A {
+    [x] = 1;
+}
+
+class B {
+    x = y + z;
+}
 ```
 
 ### conditionalAssign
@@ -273,12 +289,12 @@ a = (b * c);
 typeof (a);
 ```
 
-## Further Reading
-
-* [MDN: Operator Precedence](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence)
-
 ## Related Rules
 
 * [arrow-parens](arrow-parens.md)
 * [no-cond-assign](no-cond-assign.md)
 * [no-return-assign](no-return-assign.md)
+
+## Further Reading
+
+* [MDN: Operator Precedence](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence)

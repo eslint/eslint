@@ -1,0 +1,54 @@
+name: "\U0001F680 Propose a new core rule"
+description: "Propose a new rule to be added to the ESLint core"
+title: "New Rule: (fill in)"
+labels:
+  - rule
+  - feature
+body:
+- type: markdown
+  attributes:
+    value: By opening an issue, you agree to abide by the [Open JS Foundation Code of Conduct](https://eslint.org/conduct).
+- type: input
+  attributes:
+    label: Rule details
+    description: What should the new rule do?
+  validations:
+    required: true
+- type: input
+  attributes:
+    label: Related ECMAScript feature
+    description: What new ECMAScript feature does this rule relate to? Note that we only accept new core rules related to new ECMAScript features.
+  validations:
+    required: true
+- type: dropdown
+  attributes:
+    label: What type of rule is this?
+    options:
+      - Warns about a potential problem
+      - Suggests an alternate way of doing something
+      - Enforces a formatting/stylistic preference
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Example code
+    description: Please provide some example JavaScript code that this rule will warn about. This field will render as JavaScript.
+    render: js
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Why should this rule be in the core instead of a plugin?
+    description: In general, we prefer that rules be implemented in plugins where they can be tailored to your specific use case.
+  validations:
+    required: true
+- type: checkboxes
+  attributes:
+    label: Participation
+    options:
+      - label: I am willing to submit a pull request to implement this rule.
+        required: false
+- type: textarea
+  attributes:
+    label: Additional comments
+    description: Is there anything else that's important for the team to know?

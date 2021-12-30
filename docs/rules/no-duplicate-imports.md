@@ -12,7 +12,7 @@ import { find } from 'module';
 
 ## Rule Details
 
-This rule requires that all imports from a single module exists in a single `import` statement.
+This rule requires that all imports from a single module that can be merged exist in a single `import` statement.
 
 Example of **incorrect** code for this rule:
 
@@ -31,6 +31,16 @@ Example of **correct** code for this rule:
 
 import { merge, find } from 'module';
 import something from 'another-module';
+```
+
+Example of **correct** code for this rule:
+
+```js
+/*eslint no-duplicate-imports: "error"*/
+
+// not mergeable
+import { merge } from 'module';
+import * as something from 'module';
 ```
 
 ## Options
@@ -57,4 +67,18 @@ Example of **correct** code for this rule with the `{ "includeExports": true }` 
 import { merge, find } from 'module';
 
 export { find };
+```
+
+Example of **correct** code for this rule with the `{ "includeExports": true }` option:
+
+```js
+/*eslint no-duplicate-imports: ["error", { "includeExports": true }]*/
+
+import { merge, find } from 'module';
+
+// cannot be merged with the above import
+export * as something from 'module';
+
+// cannot be written differently
+export * from 'module';
 ```

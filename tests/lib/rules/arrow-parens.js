@@ -18,6 +18,7 @@ const parser = baseParser.bind(null, "arrow-parens");
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 const valid = [

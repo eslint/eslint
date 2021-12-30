@@ -183,7 +183,101 @@ ruleTester.run("id-match", rule, {
             options: ["^[^_]+$", {
                 properties: false
             }]
+        },
+
+        // Should not report for global references - https://github.com/eslint/eslint/issues/15395
+        {
+            code: `
+            const foo = Object.keys(bar);
+            const a = Array.from(b);
+            const bar = () => Array;
+            `,
+            options: ["^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+            const foo = {
+                foo_one: 1,
+                bar_one: 2,
+                fooBar: 3
+            };
+            `,
+            options: ["^[^_]+$", {
+                properties: false
+            }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+            const foo = {
+                foo_one: 1,
+                bar_one: 2,
+                fooBar: 3
+            };
+            `,
+            options: ["^[^_]+$", {
+                onlyDeclarations: true
+            }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+            const foo = {
+                foo_one: 1,
+                bar_one: 2,
+                fooBar: 3
+            };
+            `,
+            options: ["^[^_]+$", {
+                properties: false,
+                onlyDeclarations: false
+            }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+            const foo = {
+                [a]: 1,
+            };
+            `,
+            options: ["^[^a]", {
+                properties: true,
+                onlyDeclarations: true
+            }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+
+        // Class Methods
+        {
+            code: "class x { foo() {} }",
+            options: ["^[^_]+$"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class x { #foo() {} }",
+            options: ["^[^_]+$"],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+
+        // Class Fields
+        {
+            code: "class x { _foo = 1; }",
+            options: ["^[^_]+$", {
+                classFields: false
+            }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class x { #_foo = 1; }",
+            options: ["^[^_]+$", {
+                classFields: false
+            }],
+            parserOptions: { ecmaVersion: 2022 }
         }
+
     ],
     invalid: [
         {
@@ -607,6 +701,196 @@ ruleTester.run("id-match", rule, {
             errors: [
                 {
                     message: "Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+
+        // https://github.com/eslint/eslint/issues/15395
+        {
+            code: `
+            const foo_variable = 1;
+            class MyClass {
+            }
+            let a = new MyClass();
+            let b = {id: 1};
+            let c = Object.keys(b);
+            let d = Array.from(b);
+            let e = (Object) => Object.keys(obj, prop); // not global Object
+            let f = (Array) => Array.from(obj, prop); // not global Array
+            foo.Array = 5; // not global Array
+            `,
+            options: ["^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'foo_variable' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+                    type: "Identifier",
+                    line: 2,
+                    column: 19
+                },
+                {
+                    message: "Identifier 'MyClass' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+                    type: "Identifier",
+                    line: 3,
+                    column: 19
+                },
+
+                // let e = (Object) => Object.keys(obj, prop)
+                {
+                    message: "Identifier 'Object' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+                    type: "Identifier",
+                    line: 9,
+                    column: 22
+                },
+                {
+                    message: "Identifier 'Object' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+                    type: "Identifier",
+                    line: 9,
+                    column: 33
+                },
+
+                // let f =(Array) => Array.from(obj, prop);
+                {
+                    message: "Identifier 'Array' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+                    type: "Identifier",
+                    line: 10,
+                    column: 22
+                },
+                {
+                    message: "Identifier 'Array' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+                    type: "Identifier",
+                    line: 10,
+                    column: 32
+                },
+
+                // foo.Array = 5;
+                {
+                    message: "Identifier 'Array' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+                    type: "Identifier",
+                    line: 11,
+                    column: 17
+                }
+            ]
+        },
+
+        // Class Methods
+        {
+            code: "class x { _foo() {} }",
+            options: ["^[^_]+$"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    message: "Identifier '_foo' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "class x { #_foo() {} }",
+            options: ["^[^_]+$"],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    message: "Identifier '#_foo' does not match the pattern '^[^_]+$'.",
+                    type: "PrivateIdentifier"
+                }
+            ]
+        },
+
+        // Class Fields
+        {
+            code: "class x { _foo = 1; }",
+            options: ["^[^_]+$", {
+                classFields: true
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    message: "Identifier '_foo' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "class x { #_foo = 1; }",
+            options: ["^[^_]+$", {
+                classFields: true
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    message: "Identifier '#_foo' does not match the pattern '^[^_]+$'.",
+                    type: "PrivateIdentifier"
+                }
+            ]
+        },
+
+        // https://github.com/eslint/eslint/issues/15123
+        {
+            code: `
+            const foo = {
+                foo_one: 1,
+                bar_one: 2,
+                fooBar: 3
+            };
+            `,
+            options: ["^[^_]+$", {
+                properties: true,
+                onlyDeclarations: true
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    message: "Identifier 'foo_one' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                },
+                {
+                    message: "Identifier 'bar_one' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: `
+            const foo = {
+                foo_one: 1,
+                bar_one: 2,
+                fooBar: 3
+            };
+            `,
+            options: ["^[^_]+$", {
+                properties: true,
+                onlyDeclarations: false
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    message: "Identifier 'foo_one' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                },
+                {
+                    message: "Identifier 'bar_one' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: `
+            const foo = {
+                [a]: 1,
+            };
+            `,
+            options: ["^[^a]", {
+                properties: true,
+                onlyDeclarations: false
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    message: "Identifier 'a' does not match the pattern '^[^a]'.",
                     type: "Identifier"
                 }
             ]

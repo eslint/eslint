@@ -10,12 +10,24 @@
 //------------------------------------------------------------------------------
 
 const assert = require("assert");
-const lodash = require("lodash");
 const eslump = require("eslump");
 const espree = require("espree");
 const SourceCodeFixer = require("../lib/linter/source-code-fixer");
 const ruleConfigs = require("../lib/init/config-rule").createCoreRuleConfigs(true);
 const sampleMinimizer = require("./code-sample-minimizer");
+
+//------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
+
+/**
+ * Gets a random item from an array
+ * @param {any[]} array The array to sample
+ * @returns {any} The random item
+ */
+function sample(array) {
+    return array[Math.floor(Math.random() * array.length)];
+}
 
 //------------------------------------------------------------------------------
 // Public API
@@ -31,7 +43,7 @@ const sampleMinimizer = require("./code-sample-minimizer");
  * might also be passed other keys.
  * @param {boolean} [options.checkAutofixes=true] `true` if the fuzzer should check for autofix bugs. The fuzzer runs
  * roughly 4 times slower with autofix checking enabled.
- * @param {function(number)} [options.progressCallback] A function that gets called once for each code sample, with the total number of errors found so far
+ * @param {function(number) : void} [options.progressCallback] A function that gets called once for each code sample, with the total number of errors found so far
  * @returns {Object[]} A list of problems found. Each problem has the following properties:
  * type (string): The type of problem. This is either "crash" (a rule crashes) or "autofix" (an autofix produces a syntax error)
  * text (string): The text that ESLint should be run on to reproduce the problem
@@ -125,10 +137,16 @@ function fuzz(options) {
     }
 
     for (let i = 0; i < options.count; progressCallback(problems.length), i++) {
-        const sourceType = lodash.sample(["script", "module"]);
+        const rules = {};
+
+        for (const [id, configs] of Object.entries(ruleConfigs)) {
+            rules[id] = sample(configs);
+        }
+
+        const sourceType = sample(["script", "module"]);
         const text = codeGenerator({ sourceType });
         const config = {
-            rules: lodash.mapValues(ruleConfigs, lodash.sample),
+            rules,
             parserOptions: {
                 sourceType,
                 ecmaVersion: espree.latestEcmaVersion

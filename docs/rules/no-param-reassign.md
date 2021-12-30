@@ -150,7 +150,6 @@ function foo(barBaz) {
 }
 ```
 
-
 ## When Not To Use It
 
 If you want to allow assignment to function parameters, then you can safely disable this rule.

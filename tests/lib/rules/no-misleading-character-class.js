@@ -12,7 +12,7 @@ const rule = require("../../../lib/rules/no-misleading-character-class"),
     { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
-// Helpers
+// Tests
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({

@@ -30,7 +30,11 @@ function parseCodePaths(code) {
             retv.push(codePath);
         }
     }));
-    linter.verify(code, { rules: { test: 2 } });
+
+    linter.verify(code, {
+        rules: { test: 2 },
+        parserOptions: { ecmaVersion: "latest" }
+    });
 
     return retv;
 }
@@ -50,7 +54,7 @@ function getOrderOfTraversing(codePath, options, callback) {
     codePath.traverseSegments(options, (segment, controller) => {
         retv.push(segment.id);
         if (callback) {
-            callback(segment, controller); // eslint-disable-line node/callback-return
+            callback(segment, controller); // eslint-disable-line node/callback-return -- At end of inner function
         }
     });
 
@@ -62,9 +66,58 @@ function getOrderOfTraversing(codePath, options, callback) {
 //------------------------------------------------------------------------------
 
 describe("CodePathAnalyzer", () => {
+
+    /*
+     * If you need to output the code paths and DOT graph information for a
+     * particular piece of code, udpate and uncomment the following test and
+     * then run:
+     * DEBUG=eslint:code-path npx mocha tests/lib/linter/code-path-analysis/
+     *
+     * All the information you need will be output to the console.
+     */
+    /*
+     * it.only("test", () => {
+     *     const codePaths = parseCodePaths("class Foo { a = () => b }");
+     * });
+     */
+
+    describe("CodePath#origin", () => {
+
+        it("should be 'program' when code path starts at root node", () => {
+            const codePath = parseCodePaths("foo(); bar(); baz();")[0];
+
+            assert.strictEqual(codePath.origin, "program");
+        });
+
+        it("should be 'function' when code path starts inside a function", () => {
+            const codePath = parseCodePaths("function foo() {}")[1];
+
+            assert.strictEqual(codePath.origin, "function");
+        });
+
+        it("should be 'function' when code path starts inside an arrow function", () => {
+            const codePath = parseCodePaths("let foo = () => {}")[1];
+
+            assert.strictEqual(codePath.origin, "function");
+        });
+
+        it("should be 'class-field-initializer' when code path starts inside a class field initializer", () => {
+            const codePath = parseCodePaths("class Foo { a=1; }")[1];
+
+            assert.strictEqual(codePath.origin, "class-field-initializer");
+        });
+
+        it("should be 'class-static-block' when code path starts inside a class static block", () => {
+            const codePath = parseCodePaths("class Foo { static { this.a=1; } }")[1];
+
+            assert.strictEqual(codePath.origin, "class-static-block");
+        });
+    });
+
     describe(".traverseSegments()", () => {
+
         describe("should traverse segments from the first to the end:", () => {
-            /* eslint-disable internal-rules/multiline-comment-style */
+            /* eslint-disable internal-rules/multiline-comment-style -- Commenting out */
             it("simple", () => {
                 const codePath = parseCodePaths("foo(); bar(); baz();")[0];
                 const order = getOrderOfTraversing(codePath);
@@ -301,6 +354,6 @@ describe("CodePathAnalyzer", () => {
             */
         });
 
-        /* eslint-enable internal-rules/multiline-comment-style */
+        /* eslint-enable internal-rules/multiline-comment-style -- Commenting out */
     });
 });

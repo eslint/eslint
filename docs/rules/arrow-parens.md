@@ -20,7 +20,6 @@ a => {}
 Following this style will help you find arrow functions (`=>`) which may be mistakenly included in a condition
 when a comparison such as `>=` was the intent.
 
-
 ```js
 /*eslint-env es6*/
 
@@ -52,7 +51,7 @@ This rule has a string option and an object one.
 String options are:
 
 * `"always"` (default) requires parens around arguments in all cases.
-* `"as-needed"` enforces no braces where they can be omitted.
+* `"as-needed"` enforces no parens where they can be omitted.
 
 Object properties for variants of the `"as-needed"` option:
 

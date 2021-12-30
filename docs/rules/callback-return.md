@@ -165,12 +165,11 @@ There are some cases where you might want to call a callback function more than 
  may lead to incorrect behavior. In those cases you may want to reserve a special name for those callbacks and
  not include that in the list of callbacks that trigger warnings.
 
+## Related Rules
+
+* [handle-callback-err](handle-callback-err.md)
 
 ## Further Reading
 
 * [The Art Of Node: Callbacks](https://github.com/maxogden/art-of-node#callbacks)
 * [Nodejitsu: What are the error conventions?](https://docs.nodejitsu.com/articles/errors/what-are-the-error-conventions/)
-
-## Related Rules
-
-* [handle-callback-err](handle-callback-err.md)

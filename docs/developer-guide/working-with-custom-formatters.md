@@ -6,8 +6,18 @@ Each formatter is just a function that receives a `results` object and returns a
 
 ```js
 //my-awesome-formatter.js
-module.exports = function(results) {
+module.exports = function(results, context) {
     return JSON.stringify(results, null, 2);
+};
+```
+
+Formatter can also be an async function (from ESLint v8.4.0), the following shows a simple example:
+
+```js
+//my-awesome-formatter.js
+module.exports = async function(results) {
+    const formatted = await asyncTask();
+    return formatted;
 };
 ```
 
@@ -18,35 +28,6 @@ eslint -f ./my-awesome-formatter.js src/
 ```
 
 In order to use a local file as a custom formatter, you must begin the filename with a dot (such as `./my-awesome-formatter.js` or `../formatters/my-awesome-formatter.js`).
-
-### The `data` Argument
-
-The exported function receives an optional second argument named `data`. The `data` object provides extended information related to the analysis results. Currently, the `data` object consists of a single property named `rulesMeta`. This property is a dictionary of rule metadata, keyed with `ruleId`. The value for each entry is the `meta` property from the corresponding rule object. The dictionary contains an entry for each rule that was run during the analysis.
-
-Here's what the `data` object would look like if one rule, `no-extra-semi`, had been run:
-
-```js
-{
-    rulesMeta: {
-        "no-extra-semi": {
-            type: "suggestion",
-            docs: {
-                description: "disallow unnecessary semicolons",
-                category: "Possible Errors",
-                recommended: true,
-                url: "https://eslint.org/docs/rules/no-extra-semi"
-            },
-            fixable: "code",
-            schema: [],
-            messages: {
-                unexpected: "Unnecessary semicolon."
-            }
-        }
-    }
-}
-```
-
-The [Using Rule metadata](#using-rule-metadata) example shows how to use the `data` object in a custom formatter. See the [Working with Rules](https://eslint.org/docs/developer-guide/working-with-rules) page for more information about rules.
 
 ## Packaging the Custom Formatter
 
@@ -68,14 +49,14 @@ Tips for `package.json`:
 
 See all [formatters on npm](https://www.npmjs.com/search?q=eslint-formatter);
 
-## The `results` Object
+## The `results` Argument
 
 The `results` object passed into a formatter is an array of objects containing the lint results for individual files. Here's some example output:
 
 ```js
 [
     {
-        filePath: "path/to/file.js",
+        filePath: "/path/to/a/file.js",
         messages: [
             {
                 ruleId: "curly",
@@ -102,7 +83,7 @@ The `results` object passed into a formatter is an array of objects containing t
             "var err = doStuff();\nif (err) console.log('failed tests: ' + err);\nprocess.exit(1);\n"
     },
     {
-        filePath: "Gruntfile.js",
+        filePath: "/path/to/Gruntfile.js",
         messages: [],
         errorCount: 0,
         warningCount: 0,
@@ -119,23 +100,55 @@ also be manually applied to that page. -->
 
 Each object in the `results` array is a `result` object. Each `result` object contains the path of the file that was linted and information about linting issues that were encountered. Here are the properties available on each `result` object:
 
-*   **filePath**: The absolute path to the file that was linted.
-*   **messages**: An array of `message` objects. See below for more info about messages.
-*   **errorCount**: The number of errors for the given file.
-*   **warningCount**: The number of warnings for the given file.
-*   **source**: The source code for the given file. This property is omitted if this file has no errors/warnings or if the `output` property is present.
-*   **output**: The source code for the given file with as many fixes applied as possible. This property is omitted if no fix is available.
+* **filePath**: The absolute path to the file that was linted.
+* **messages**: An array of `message` objects. See below for more info about messages.
+* **errorCount**: The number of errors for the given file.
+* **warningCount**: The number of warnings for the given file.
+* **source**: The source code for the given file. This property is omitted if this file has no errors/warnings or if the `output` property is present.
+* **output**: The source code for the given file with as many fixes applied as possible. This property is omitted if no fix is available.
 
 ### The `message` Object
 
 Each `message` object contains information about the ESLint rule that was triggered by some source code. The properties available on each `message` object are:
 
-*   **ruleId**: the ID of the rule that produced the error or warning.
-*   **severity**: the severity of the failure, `1` for warnings and `2` for errors.
-*   **message**: the human readable description of the error.
-*   **line**: the line where the issue is located.
-*   **column**: the column where the issue is located.
-*   **nodeType**: the type of the node in the [AST](https://github.com/estree/estree/blob/master/spec.md#node-objects)
+* **ruleId**: the ID of the rule that produced the error or warning.
+* **severity**: the severity of the failure, `1` for warnings and `2` for errors.
+* **message**: the human readable description of the error.
+* **line**: the line where the issue is located.
+* **column**: the column where the issue is located.
+* **nodeType**: the type of the node in the [AST](https://github.com/estree/estree/blob/master/spec.md#node-objects)
+
+## The `context` Argument
+
+The formatter function receives an object as the second argument. The object has two properties:
+
+* `cwd` ... The current working directory. This value comes from the `cwd` constructor option of the [ESLint](nodejs-api.md#-new-eslintoptions) class.
+* `rulesMeta` ... The `meta` property values of rules. See the [Working with Rules](working-with-rules.md) page for more information about rules.
+
+For example, here's what the object would look like if one rule, `no-extra-semi`, had been run:
+
+```js
+{
+    cwd: "/path/to/cwd",
+    rulesMeta: {
+        "no-extra-semi": {
+            type: "suggestion",
+            docs: {
+                description: "disallow unnecessary semicolons",
+                recommended: true,
+                url: "https://eslint.org/docs/rules/no-extra-semi"
+            },
+            fixable: "code",
+            schema: [],
+            messages: {
+                unexpected: "Unnecessary semicolon."
+            }
+        }
+    }
+}
+```
+
+**Note:** if a linting is executed by deprecated `CLIEngine` class, the `context` argument may be a different value because it is up to the API users. Please check whether the `context` argument is an expected value or not if you want to support legacy environments.
 
 ## Examples
 
@@ -144,7 +157,7 @@ Each `message` object contains information about the ESLint rule that was trigge
 A formatter that only cares about the total count of errors and warnings will look like this:
 
 ```javascript
-module.exports = function(results) {
+module.exports = function(results, context) {
     // accumulate the errors and warnings
     var summary = results.reduce(
         function(seq, current) {
@@ -186,7 +199,7 @@ Errors: 2, Warnings: 4
 A more complex report will look something like this:
 
 ```javascript
-module.exports = function(results, data) {
+module.exports = function(results, context) {
     var results = results || [];
 
     var summary = results.reduce(
@@ -195,7 +208,7 @@ module.exports = function(results, data) {
                 var logMessage = {
                     filePath: current.filePath,
                     ruleId: msg.ruleId,
-                    ruleUrl: data.rulesMeta[msg.ruleId].docs.url,
+                    ruleUrl: context.rulesMeta[msg.ruleId].docs.url,
                     message: msg.message,
                     line: msg.line,
                     column: msg.column
@@ -347,7 +360,6 @@ error space-infix-ops
 error semi
   src/configs/bundler.js:6:10
 ```
-
 
 ### Complex Argument Passing
 

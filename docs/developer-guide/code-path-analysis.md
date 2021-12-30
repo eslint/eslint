@@ -27,6 +27,7 @@ This has references of both the initial segment and the final segments of a code
 `CodePath` has the following properties:
 
 * `id` (`string`) - A unique string. Respective rules can use `id` to save additional information for each code path.
+* `origin` (`string`) - The reason that the code path was started. May be `"program"`, `"function"`, `"class-field-initializer"`, or `"class-static-block"`.
 * `initialSegment` (`CodePathSegment`) - The initial segment of this code path.
 * `finalSegments` (`CodePathSegment[]`) - The final segments which includes both returned and thrown.
 * `returnedSegments` (`CodePathSegment[]`) - The final segments which includes only returned.
@@ -188,15 +189,11 @@ bar();
 
    ![Loop Event's Example 5](./code-path-analysis/loop-event-example-for-5.svg)
 
-
-
 ## Usage Examples
 
 ### To check whether or not this is reachable
 
 ```js
-var last = require("lodash").last;
-
 function isReachable(segment) {
     return segment.reachable;
 }
@@ -215,7 +212,7 @@ module.exports = function(context) {
 
         // Checks reachable or not.
         "ExpressionStatement": function(node) {
-            var codePath = last(codePathStack);
+            var codePath = codePathStack[codePathStack.length - 1];
 
             // Checks the current code path segments.
             if (!codePath.currentSegments.some(isReachable)) {
@@ -227,9 +224,9 @@ module.exports = function(context) {
 ```
 
 See Also:
-[no-unreachable](https://github.com/eslint/eslint/blob/master/lib/rules/no-unreachable.js),
-[no-fallthrough](https://github.com/eslint/eslint/blob/master/lib/rules/no-fallthrough.js),
-[consistent-return](https://github.com/eslint/eslint/blob/master/lib/rules/consistent-return.js)
+[no-unreachable](https://github.com/eslint/eslint/blob/HEAD/lib/rules/no-unreachable.js),
+[no-fallthrough](https://github.com/eslint/eslint/blob/HEAD/lib/rules/no-fallthrough.js),
+[consistent-return](https://github.com/eslint/eslint/blob/HEAD/lib/rules/consistent-return.js)
 
 ### To check state of a code path
 
@@ -239,8 +236,6 @@ So a rule must not modify those instances.
 Please use a map of information instead.
 
 ```js
-var last = require("lodash").last;
-
 function hasCb(node, context) {
     if (node.type.indexOf("Function") !== -1) {
         return context.getDeclaredVariables(node).some(function(v) {
@@ -285,8 +280,10 @@ module.exports = function(context) {
 
         // Manages state of code paths.
         "onCodePathSegmentStart": function(segment) {
+            var funcInfo = funcInfoStack[funcInfoStack.length - 1];
+
             // Ignores if `cb` doesn't exist.
-            if (!last(funcInfoStack).hasCb) {
+            if (!funcInfo.hasCb) {
                 return;
             }
 
@@ -304,7 +301,7 @@ module.exports = function(context) {
 
         // Checks reachable or not.
         "CallExpression": function(node) {
-            var funcInfo = last(funcInfoStack);
+            var funcInfo = funcInfoStack[funcInfoStack.length - 1];
 
             // Ignores if `cb` doesn't exist.
             if (!funcInfo.hasCb) {
@@ -325,8 +322,8 @@ module.exports = function(context) {
 ```
 
 See Also:
-[constructor-super](https://github.com/eslint/eslint/blob/master/lib/rules/constructor-super.js),
-[no-this-before-super](https://github.com/eslint/eslint/blob/master/lib/rules/no-this-before-super.js)
+[constructor-super](https://github.com/eslint/eslint/blob/HEAD/lib/rules/constructor-super.js),
+[no-this-before-super](https://github.com/eslint/eslint/blob/HEAD/lib/rules/no-this-before-super.js)
 
 ## Code Path Examples
 

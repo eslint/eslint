@@ -13,7 +13,7 @@ const rule = require("../../../lib/rules/no-lone-blocks"),
     { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
-// Helpers
+// Tests
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
@@ -57,7 +57,16 @@ ruleTester.run("no-lone-blocks", rule, {
             }
           }
         `,
-        { code: "function foo() { { const x = 4 } const x = 3 }", parserOptions: { ecmaVersion: 6 } }
+        { code: "function foo() { { const x = 4 } const x = 3 }", parserOptions: { ecmaVersion: 6 } },
+
+        { code: "class C { static {} }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo; } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { if (foo) { block; } } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { lbl: { block; } } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { { let block; } something; } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { something; { const block = 1; } } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { { function block(){} } something; } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { something; { class block {}  } } }", parserOptions: { ecmaVersion: 2022 } }
     ],
     invalid: [
         {
@@ -234,6 +243,202 @@ ruleTester.run("no-lone-blocks", rule, {
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
                 line: 3
+            }]
+        },
+        {
+            code: `
+              class C {
+                static {
+                  if (foo) {
+                    {
+                        let block;
+                    }
+                  }
+                }
+              }
+            `,
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "redundantNestedBlock",
+                type: "BlockStatement",
+                line: 5
+            }]
+        },
+        {
+            code: `
+              class C {
+                static {
+                  if (foo) {
+                    {
+                        block;
+                    }
+                    something;
+                  }
+                }
+              }
+            `,
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "redundantNestedBlock",
+                type: "BlockStatement",
+                line: 5
+            }]
+        },
+        {
+            code: `
+              class C {
+                static {
+                  {
+                    block;
+                  }
+                }
+              }
+            `,
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "redundantNestedBlock",
+                type: "BlockStatement",
+                line: 4
+            }]
+        },
+        {
+            code: `
+              class C {
+                static {
+                  {
+                    let block;
+                  }
+                }
+              }
+            `,
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "redundantNestedBlock",
+                type: "BlockStatement",
+                line: 4
+            }]
+        },
+        {
+            code: `
+              class C {
+                static {
+                  {
+                    const block = 1;
+                  }
+                }
+              }
+            `,
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "redundantNestedBlock",
+                type: "BlockStatement",
+                line: 4
+            }]
+        },
+        {
+            code: `
+              class C {
+                static {
+                  {
+                    function block() {}
+                  }
+                }
+              }
+            `,
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "redundantNestedBlock",
+                type: "BlockStatement",
+                line: 4
+            }]
+        },
+        {
+            code: `
+              class C {
+                static {
+                  {
+                    class block {}
+                  }
+                }
+              }
+            `,
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "redundantNestedBlock",
+                type: "BlockStatement",
+                line: 4
+            }]
+        },
+        {
+            code: `
+              class C {
+                static {
+                  {
+                    var block;
+                  }
+                  something;
+                }
+              }
+            `,
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "redundantNestedBlock",
+                type: "BlockStatement",
+                line: 4
+            }]
+        },
+        {
+            code: `
+              class C {
+                static {
+                  something;
+                  {
+                    var block;
+                  }
+                }
+              }
+            `,
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "redundantNestedBlock",
+                type: "BlockStatement",
+                line: 5
+            }]
+        },
+        {
+            code: `
+              class C {
+                static {
+                  {
+                    block;
+                  }
+                  something;
+                }
+              }
+            `,
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "redundantNestedBlock",
+                type: "BlockStatement",
+                line: 4
+            }]
+        },
+        {
+            code: `
+              class C {
+                static {
+                  something;
+                  {
+                    block;
+                  }
+                }
+              }
+            `,
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "redundantNestedBlock",
+                type: "BlockStatement",
+                line: 5
             }]
         }
     ]

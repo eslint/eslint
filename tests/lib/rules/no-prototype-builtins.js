@@ -15,6 +15,7 @@ const rule = require("../../../lib/rules/no-prototype-builtins"),
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester();
 
 ruleTester.run("no-prototype-builtins", rule, {
@@ -43,6 +44,7 @@ ruleTester.run("no-prototype-builtins", rule, {
         { code: "foo?.['propertyIsEnumerabl']('bar')", parserOptions: { ecmaVersion: 2020 } },
         "foo[1]('bar')",
         "foo[null]('bar')",
+        { code: "class C { #hasOwnProperty; foo() { obj.#hasOwnProperty('bar'); } }", parserOptions: { ecmaVersion: 2022 } },
 
         // out of scope for this rule
         "foo['hasOwn' + 'Property']('bar')",

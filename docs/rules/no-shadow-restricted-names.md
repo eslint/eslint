@@ -37,11 +37,11 @@ function f(a, b){}
 var undefined;
 ```
 
+## Related Rules
+
+* [no-shadow](no-shadow.md)
+
 ## Further Reading
 
 * [Annotated ES5 - §15.1.1](https://es5.github.io/#x15.1.1)
 * [Annotated ES5 - Annex C](https://es5.github.io/#C)
-
-## Related Rules
-
-* [no-shadow](no-shadow.md)

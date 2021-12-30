@@ -26,12 +26,19 @@ const foo = bar = "baz";
 let a =
     b =
     c;
+
+class Foo {
+    a = b = 10;
+}
+
+a = b = "quux";
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-multi-assign: "error"*/
+
 var a = 5;
 var b = 5;
 var c = 5;
@@ -41,6 +48,50 @@ const bar = "baz";
 
 let a = c;
 let b = c;
+
+class Foo {
+    a = 10;
+    b = 10;
+}
+
+a = "quux";
+b = "quux";
+```
+
+## Options
+
+This rule has an object option:
+
+* `"ignoreNonDeclaration"`: When set to `true`, the rule allows chains that don't include initializing a variable in a declaration or initializing a class field. Default is `false`.
+
+### ignoreNonDeclaration
+
+Examples of **correct** code for the `{ "ignoreNonDeclaration": true }` option:
+
+```js
+/*eslint no-multi-assign: ["error", { "ignoreNonDeclaration": true }]*/
+
+let a;
+let b;
+a = b = "baz";
+
+const x = {};
+const y = {};
+x.one = y.one = 1;
+```
+
+Examples of **incorrect** code for the `{ "ignoreNonDeclaration": true }` option:
+
+```js
+/*eslint no-multi-assign: ["error", { "ignoreNonDeclaration": true }]*/
+
+let a = b = "baz";
+
+const foo = bar = 1;
+
+class Foo {
+    a = b = 10;
+}
 ```
 
 ## Related Rules

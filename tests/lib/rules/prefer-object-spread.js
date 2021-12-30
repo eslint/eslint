@@ -6,9 +6,16 @@
 
 "use strict";
 
-const rule = require("../../../lib/rules/prefer-object-spread");
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
 
+const rule = require("../../../lib/rules/prefer-object-spread");
 const { RuleTester } = require("../../../lib/rule-tester");
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 const parserOptions = {
     ecmaVersion: 2018,
@@ -75,6 +82,10 @@ ruleTester.run("prefer-object-spread", rule, {
                 globalThis.Object.assign({}, foo)
                 `,
             env: { es2020: true }
+        },
+        {
+            code: "class C { #assign; foo() { Object.#assign({}, foo); } }",
+            parserOptions: { ecmaVersion: 2022 }
         },
 
         // ignore Object.assign() with > 1 arguments if any of the arguments is an object expression with a getter/setter

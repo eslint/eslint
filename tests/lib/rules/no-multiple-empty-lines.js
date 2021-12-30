@@ -12,10 +12,8 @@ const rule = require("../../../lib/rules/no-multiple-empty-lines"),
     { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
-// Tests
+// Helpers
 //------------------------------------------------------------------------------
-
-const ruleTester = new RuleTester();
 
 /**
  * Creates the expected error message object for the specified number of lines
@@ -69,6 +67,11 @@ function getExpectedErrorBOF(lines) {
     };
 }
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
+const ruleTester = new RuleTester();
 
 ruleTester.run("no-multiple-empty-lines", rule, {
 

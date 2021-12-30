@@ -232,7 +232,6 @@ const Quux = class {
 }
 ```
 
-
 ## Known Limitations
 
 Due to the limits of static analysis, this rule does not account for possible side effects and in certain cases
@@ -281,6 +280,11 @@ See [no-dupe-class-members](no-dupe-class-members.md) if you also want to disall
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the simultaneous presence of setters and getters on objects.
+
+## Related Rules
+
+* [no-dupe-keys](no-dupe-keys.md)
+* [no-dupe-class-members](no-dupe-class-members.md)
 
 ## Further Reading
 

@@ -10,14 +10,16 @@ This rule disallows specified identifiers in assignments and `function` definiti
 
 This rule will catch disallowed identifiers that are:
 
-- variable declarations
-- function declarations
-- object properties assigned to during object creation
+* variable declarations
+* function declarations
+* object properties assigned to during object creation
+* class fields
+* class methods
 
 It will not catch disallowed identifiers that are:
 
-- function calls (so you can still use functions you do not have control over)
-- object properties (so you can still use objects you do not have control over)
+* function calls (so you can still use functions you do not have control over)
+* object properties (so you can still use objects you do not have control over)
 
 ## Options
 
@@ -49,6 +51,22 @@ element.callback = function() {
 var itemSet = {
     data: [...]
 };
+
+class Foo {
+    data = [];
+}
+
+class Foo {
+    #data = [];
+}
+
+class Foo {
+    callback( {);
+}
+
+class Foo {
+    #callback( {);
+}
 ```
 
 Examples of **correct** code for this rule with sample `"data", "callback"` restricted identifiers:
@@ -75,6 +93,22 @@ callback(); // all function calls are ignored
 foo.callback(); // all function calls are ignored
 
 foo.data; // all property names that are not assignments are ignored
+
+class Foo {
+    items = [];
+}
+
+class Foo {
+    #items = [];
+}
+
+class Foo {
+    method( {);
+}
+
+class Foo {
+    #method( {);
+}
 ```
 
 ## When Not To Use It

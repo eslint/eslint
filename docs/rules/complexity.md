@@ -57,6 +57,53 @@ function b() {
 }
 ```
 
+Class field initializers and class static blocks are implicit functions. Therefore, their complexity is calculated separately for each initializer and each static block, and it doesn't contribute to the complexity of the enclosing code.
+
+Examples of additional **incorrect** code for a maximum of 2:
+
+```js
+/*eslint complexity: ["error", 2]*/
+
+class C {
+    x = a || b || c; // this initializer has complexity = 3
+}
+
+class D { // this static block has complexity = 3
+    static {
+        if (foo) {
+            bar = baz || qux;
+        }
+    }
+}
+```
+
+Examples of additional **correct** code for a maximum of 2:
+
+```js
+/*eslint complexity: ["error", 2]*/
+
+function foo() { // this function has complexity = 1
+    class C {
+        x = a + b; // this initializer has complexity = 1
+        y = c || d; // this initializer has complexity = 2
+        z = e && f; // this initializer has complexity = 2
+
+        static p = g || h; // this initializer has complexity = 2
+        static q = i ? j : k; // this initializer has complexity = 2
+
+        static { // this static block has complexity = 2
+            if (foo) {
+                baz = bar;
+            }
+        }
+
+        static { // this static block has complexity = 2
+            qux = baz || quux;
+        }
+    }
+}
+```
+
 ## Options
 
 Optionally, you may specify a `max` object property:
@@ -77,14 +124,6 @@ is equivalent to
 
 If you can't determine an appropriate complexity limit for your code, then it's best to disable this rule.
 
-## Further Reading
-
-* [Cyclomatic Complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity)
-* [Complexity Analysis of JavaScript Code](https://ariya.io/2012/12/complexity-analysis-of-javascript-code)
-* [More about Complexity in JavaScript](https://craftsmanshipforsoftware.com/2015/05/25/complexity-for-javascript/)
-* [About Complexity](https://web.archive.org/web/20160808115119/http://jscomplexity.org/complexity)
-* [Discussion about Complexity in ESLint and more links](https://github.com/eslint/eslint/issues/4808#issuecomment-167795140)
-
 ## Related Rules
 
 * [max-depth](max-depth.md)
@@ -94,3 +133,11 @@ If you can't determine an appropriate complexity limit for your code, then it's 
 * [max-nested-callbacks](max-nested-callbacks.md)
 * [max-params](max-params.md)
 * [max-statements](max-statements.md)
+
+## Further Reading
+
+* [Cyclomatic Complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity)
+* [Complexity Analysis of JavaScript Code](https://ariya.io/2012/12/complexity-analysis-of-javascript-code)
+* [More about Complexity in JavaScript](https://craftsmanshipforsoftware.com/2015/05/25/complexity-for-javascript/)
+* [About Complexity](https://web.archive.org/web/20160808115119/http://jscomplexity.org/complexity)
+* [Discussion about Complexity in ESLint and more links](https://github.com/eslint/eslint/issues/4808#issuecomment-167795140)

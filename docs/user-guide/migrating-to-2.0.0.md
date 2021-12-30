@@ -285,7 +285,7 @@ if (variable) {
 }
 ```
 
-Further Reading: https://estools.github.io/escope/
+Further Reading: <https://estools.github.io/escope/>
 
 ## Default Changes When Using `eslint:recommended`
 
@@ -307,7 +307,7 @@ The rule `func-style` has a default configuration of `"expression"`, but in ESLi
 
 ESLint 2.0.0 removes these conflicting defaults, and so you may begin seeing linting errors related to these rules.
 
-**To address:**  If you would like to maintain the previous behavior, update your configuration for `no-multiple-empty-lines` by adding `{"max": 2}`, and change `func-style` to `"declaration"`. For example:
+**To address:** If you would like to maintain the previous behavior, update your configuration for `no-multiple-empty-lines` by adding `{"max": 2}`, and change `func-style` to `"declaration"`. For example:
 
 ```json
 {

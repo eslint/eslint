@@ -13,6 +13,10 @@ const assert = require("chai").assert;
 const eslintAll = require("../../conf/eslint-all");
 const rules = eslintAll.rules;
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 describe("eslint-all", () => {
     it("should only include rules", () => {
         const ruleNames = Object.keys(rules);

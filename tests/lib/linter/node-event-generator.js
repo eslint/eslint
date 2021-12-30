@@ -17,8 +17,9 @@ const assert = require("assert"),
     createEmitter = require("../../../lib/linter/safe-emitter"),
     NodeEventGenerator = require("../../../lib/linter/node-event-generator");
 
+
 //------------------------------------------------------------------------------
-// Tests
+// Constants
 //------------------------------------------------------------------------------
 
 const ESPREE_CONFIG = {
@@ -30,6 +31,10 @@ const ESPREE_CONFIG = {
 };
 
 const STANDARD_ESQUERY_OPTION = { visitorKeys: vk.KEYS, fallback: Traverser.getKeys };
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 describe("NodeEventGenerator", () => {
     EventGeneratorTester.testEventGeneratorInterface(
@@ -253,6 +258,20 @@ describe("NodeEventGenerator", () => {
         );
 
         assertEmissions(
+            "function foo(){} var x; (function (p){}); () => {};",
+            [":function", "ExpressionStatement > :function", "VariableDeclaration, :function[params.length=1]"],
+            ast => [
+                [":function", ast.body[0]], // function foo(){}
+                ["VariableDeclaration, :function[params.length=1]", ast.body[1]], // var x;
+                [":function", ast.body[2].expression], // function (p){}
+                ["ExpressionStatement > :function", ast.body[2].expression], // function (p){}
+                ["VariableDeclaration, :function[params.length=1]", ast.body[2].expression], // function (p){}
+                [":function", ast.body[3].expression], // () => {}
+                ["ExpressionStatement > :function", ast.body[3].expression] // () => {}
+            ]
+        );
+
+        assertEmissions(
             "foo;",
             [
                 "*",
@@ -307,6 +326,15 @@ describe("NodeEventGenerator", () => {
             ast => [
                 ["[name.length=3]:exit", ast.body[0].expression],
                 ["[name.length=3]:exit", ast.body[1].expression]
+            ]
+        );
+
+        // https://github.com/eslint/eslint/issues/14799
+        assertEmissions(
+            "const {a = 1} = b;",
+            ["Property > .key"],
+            ast => [
+                ["Property > .key", ast.body[0].declarations[0].id.properties[0].key]
             ]
         );
     });

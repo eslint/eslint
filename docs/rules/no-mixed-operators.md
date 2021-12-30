@@ -36,7 +36,6 @@ will generate
 1:18  Unexpected mix of '&&' and '?:'. (no-mixed-operators)
 ```
 
-
 ## Rule Details
 
 This rule checks `BinaryExpression`, `LogicalExpression` and `ConditionalExpression`.
@@ -122,6 +121,10 @@ var foo = a & b | c;
 /*eslint no-mixed-operators: ["error", {"groups": [["&&", "||", "?:"]]}]*/
 
 var foo = a || b ? c : d;
+
+var bar = a ? b || c : d;
+
+var baz = a ? b : c || d;
 ```
 
 Examples of **correct** code for this rule with `{"groups": [["&", "|", "^", "~", "<<", ">>", ">>>"], ["&&", "||"]]}` option:
@@ -145,6 +148,11 @@ var foo = (a + b) * c;
 
 var foo = (a || b) ? c : d;
 var foo = a || (b ? c : d);
+
+var bar = a ? (b || c) : d;
+
+var baz = a ? b : (c || d);
+var baz = (a ? b : c) || d;
 ```
 
 ### allowSamePrecedence

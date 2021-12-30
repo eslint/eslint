@@ -4,15 +4,26 @@
  */
 "use strict";
 
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
+
 const fs = require("fs");
 const path = require("path");
 const os = require("os");
 const { assert } = require("chai");
 const sh = require("shelljs");
-const { CascadingConfigArrayFactory } =
-    require("@eslint/eslintrc/lib/cascading-config-array-factory");
+const {
+    Legacy: {
+        CascadingConfigArrayFactory
+    }
+} = require("@eslint/eslintrc");
 const { createCustomTeardown } = require("../../_utils");
 const { FileEnumerator } = require("../../../lib/cli-engine/file-enumerator");
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 describe("FileEnumerator", () => {
     describe("'iterateFiles(patterns)' method should iterate files and configs.", () => {
@@ -54,7 +65,7 @@ describe("FileEnumerator", () => {
 
             describe("if 'lib/*.js' was given,", () => {
 
-                /** @type {Array<{config:(typeof import('../../../lib/cli-engine'))["ConfigArray"], filePath:string, ignored:boolean}>} */
+                /** @type {Array<{config:(typeof import('../../../lib/cli-engine')).ConfigArray, filePath:string, ignored:boolean}>} */
                 let list;
 
                 beforeEach(() => {
@@ -86,7 +97,7 @@ describe("FileEnumerator", () => {
 
             describe("if 'lib/**/*.js' was given,", () => {
 
-                /** @type {Array<{config:(typeof import('../../../lib/cli-engine'))["ConfigArray"], filePath:string, ignored:boolean}>} */
+                /** @type {Array<{config:(typeof import('../../../lib/cli-engine')).ConfigArray, filePath:string, ignored:boolean}>} */
                 let list;
 
                 beforeEach(() => {
@@ -129,7 +140,7 @@ describe("FileEnumerator", () => {
 
             describe("if 'lib/*.js' and 'test/*.js' were given,", () => {
 
-                /** @type {Array<{config:(typeof import('../../../lib/cli-engine'))["ConfigArray"], filePath:string, ignored:boolean}>} */
+                /** @type {Array<{config:(typeof import('../../../lib/cli-engine')).ConfigArray, filePath:string, ignored:boolean}>} */
                 let list;
 
                 beforeEach(() => {
@@ -215,7 +226,7 @@ describe("FileEnumerator", () => {
                  * it just for this hook. Mocha uses `this` to set timeouts on
                  * an individual hook level.
                  */
-                this.timeout(60 * 1000); // eslint-disable-line no-invalid-this
+                this.timeout(60 * 1000); // eslint-disable-line no-invalid-this -- Mocha API
                 fixtureDir = `${os.tmpdir()}/eslint/tests/fixtures/`;
                 sh.mkdir("-p", fixtureDir);
                 sh.cp("-r", "./tests/fixtures/*", fixtureDir);

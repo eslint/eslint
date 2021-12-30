@@ -6,11 +6,11 @@ Some people consider large functions a code smell. Large functions tend to do a 
 
 This rule enforces a maximum number of lines per function, in order to aid in maintainability and reduce complexity.
 
-## Why not use `max-statements` or other complexity measurement rules instead?
+### Why not use `max-statements` or other complexity measurement rules instead?
 
 Nested long method chains like the below example are often broken onto separate lines for readability:
 
-```
+```js
 function() {
     return m("div", [
         m("table", {className: "table table-striped latest-data"}, [

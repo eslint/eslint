@@ -10,9 +10,9 @@ This rule aims to reduce the scrolling required when reading through your code. 
 
 This rule has an object option:
 
--   `"max"` (default: `2`) enforces a maximum number of consecutive empty lines.
--   `"maxEOF"` enforces a maximum number of consecutive empty lines at the end of files.
--   `"maxBOF"` enforces a maximum number of consecutive empty lines at the beginning of files.
+* `"max"` (default: `2`) enforces a maximum number of consecutive empty lines.
+* `"maxEOF"` enforces a maximum number of consecutive empty lines at the end of files.
+* `"maxBOF"` enforces a maximum number of consecutive empty lines at the beginning of files.
 
 ### max
 
@@ -69,7 +69,7 @@ var bar = 3;
 
 **Incorrect**:
 
-```
+```js
 1    /*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }]*/⏎
 2    ⏎
 3    var foo = 5;⏎
@@ -82,7 +82,7 @@ var bar = 3;
 
 **Correct**:
 
-```
+```js
 1    /*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }]*/⏎
 2    ⏎
 3    var foo = 5;⏎

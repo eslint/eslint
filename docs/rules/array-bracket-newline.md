@@ -267,15 +267,14 @@ var e = [
 ];
 ```
 
-
 ## When Not To Use It
 
 If you don't want to enforce line breaks after opening and before closing array brackets, don't enable this rule.
 
-## Compatibility
-
-* **JSCS:** [validateNewlineAfterArrayElements](https://jscs-dev.github.io/rule/validateNewlineAfterArrayElements)
-
 ## Related Rules
 
 * [array-bracket-spacing](array-bracket-spacing.md)
+
+## Compatibility
+
+* **JSCS:** [validateNewlineAfterArrayElements](https://jscs-dev.github.io/rule/validateNewlineAfterArrayElements)

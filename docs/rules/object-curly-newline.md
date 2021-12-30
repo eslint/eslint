@@ -1,17 +1,17 @@
-# enforce consistent line breaks inside braces (object-curly-newline)
+# enforce consistent line breaks after opening and before closing braces (object-curly-newline)
 
 A number of style guides require or disallow line breaks inside of object braces and other tokens.
 
 ## Rule Details
 
-This rule enforces consistent line breaks inside braces of object literals or destructuring assignments.
+This rule requires or disallows a line break between `{` and its following token, and between `}` and its preceding token of object literals or destructuring assignments.
 
 ## Options
 
 This rule has either a string option:
 
-* `"always"` requires line breaks inside braces
-* `"never"` disallows line breaks inside braces
+* `"always"` requires line breaks after opening and before closing braces
+* `"never"` disallows line breaks after opening and before closing braces
 
 Or an object option:
 
@@ -531,14 +531,9 @@ export { foo, bar } from 'foo-bar';
 export { foo as f, bar } from 'foo-bar';
 ```
 
-## Compatibility
-
-* **JSCS**: [requirePaddingNewLinesInObjects](https://jscs-dev.github.io/rule/requirePaddingNewLinesInObjects)
-* **JSCS**: [disallowPaddingNewLinesInObjects](https://jscs-dev.github.io/rule/disallowPaddingNewLinesInObjects)
-
 ## When Not To Use It
 
-If you don't want to enforce consistent line breaks inside braces, then it's safe to disable this rule.
+If you don't want to enforce consistent line breaks after opening and before closing braces, then it's safe to disable this rule.
 
 ## Related Rules
 
@@ -546,3 +541,8 @@ If you don't want to enforce consistent line breaks inside braces, then it's saf
 * [key-spacing](key-spacing.md)
 * [object-curly-spacing](object-curly-spacing.md)
 * [object-property-newline](object-property-newline.md)
+
+## Compatibility
+
+* **JSCS**: [requirePaddingNewLinesInObjects](https://jscs-dev.github.io/rule/requirePaddingNewLinesInObjects)
+* **JSCS**: [disallowPaddingNewLinesInObjects](https://jscs-dev.github.io/rule/disallowPaddingNewLinesInObjects)

@@ -38,7 +38,7 @@ void function(){ foo = 1; }() // will assign foo a value of 1
 +function(){ foo = 1; }() // same as above
 ```
 
-```
+```js
 function(){ foo = 1; }() // will throw SyntaxError
 ```
 
@@ -96,12 +96,12 @@ void someFunction();
 
 If you intentionally use the `void` operator then you can disable this rule.
 
-## Further Reading
-
-* [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/void)
-* [Bad Parts: Appendix B - JavaScript: The Good Parts by Douglas Crockford](https://oreilly.com/javascript/excerpts/javascript-good-parts/bad-parts.html)
-
 ## Related Rules
 
 * [no-undef-init](no-undef-init.md)
 * [no-undefined](no-undefined.md)
+
+## Further Reading
+
+* [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/void)
+* [Bad Parts: Appendix B - JavaScript: The Good Parts by Douglas Crockford](https://oreilly.com/javascript/excerpts/javascript-good-parts/bad-parts.html)

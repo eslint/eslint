@@ -68,6 +68,7 @@ if (a) {
 
 This rule has an object option:
 
+* `"ignoredNodes"` can be used to disable indentation checking for any AST node. This accepts an array of [selectors](/docs/developer-guide/selectors.md). If an AST node is matched by any of the selectors, the indentation of tokens which are direct children of that node will be ignored. This can be used as an escape hatch to relax the rule if you disagree with the indentation that it enforces for a particular syntactic pattern.
 * `"SwitchCase"` (default: 0) enforces indentation level for `case` clauses in `switch` statements
 * `"VariableDeclarator"` (default: 1) enforces indentation level for `var` declarators; can also take an object to define separate rules for `var`, `let` and `const` declarations. It can also be `"first"`, indicating all the declarators should be aligned with the first declarator.
 * `"outerIIFEBody"` (default: 1) enforces indentation level for file-level IIFEs. This can also be set to `"off"` to disable checking for file-level IIFEs.
@@ -78,6 +79,8 @@ This rule has an object option:
 * `"FunctionExpression"` takes an object to define rules for function expressions.
     * `parameters` (default: 1) enforces indentation level for parameters in a function expression. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the expression must be aligned with the first parameter. This can also be set to `"off"` to disable checking for FunctionExpression parameters.
     * `body` (default: 1) enforces indentation level for the body of a function expression.
+* `"StaticBlock"` takes an object to define rules for class static blocks.
+    * `body` (default: 1) enforces indentation level for the body of a class static block.
 * `"CallExpression"` takes an object to define rules for function call expressions.
     * `arguments` (default: 1) enforces indentation level for arguments in a call expression. This can either be a number indicating indentation level, or the string `"first"` indicating that all arguments of the expression must be aligned with the first argument. This can also be set to `"off"` to disable checking for CallExpression arguments.
 * `"ArrayExpression"` (default: 1) enforces indentation level for elements in arrays. It can also be set to the string `"first"`, indicating that all the elements in the array should be aligned with the first element. This can also be set to `"off"` to disable checking for array elements.
@@ -85,7 +88,6 @@ This rule has an object option:
 * `"ImportDeclaration"` (default: 1) enforces indentation level for import statements. It can be set to the string `"first"`, indicating that all imported members from a module should be aligned with the first member in the list. This can also be set to `"off"` to disable checking for imported module members.
 * `"flatTernaryExpressions": true` (`false` by default) requires no indentation for ternary expressions which are nested in other ternary expressions.
 * `"offsetTernaryExpressions": true` (`false` by default) requires indentation for values of ternary expressions.
-* `"ignoredNodes"` accepts an array of [selectors](/docs/developer-guide/selectors.md). If an AST node is matched by any of the selectors, the indentation of tokens which are direct children of that node will be ignored. This can be used as an escape hatch to relax the rule if you disagree with the indentation that it enforces for a particular syntactic pattern.
 * `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
 
 Level of indentation denotes the multiple of the indent specified. Example:
@@ -132,6 +134,41 @@ if (a) {
 /*tab*/}
 }
 ```
+
+### ignoredNodes
+
+The following configuration ignores the indentation of `ConditionalExpression` ("ternary expression") nodes:
+
+Examples of **correct** code for this rule with the `4, { "ignoredNodes": ["ConditionalExpression"] }` option:
+
+```js
+/*eslint indent: ["error", 4, { "ignoredNodes": ["ConditionalExpression"] }]*/
+
+var a = foo
+      ? bar
+      : baz;
+
+var a = foo
+                ? bar
+: baz;
+```
+
+The following configuration ignores indentation in the body of IIFEs.
+
+Examples of **correct** code for this rule with the `4, { "ignoredNodes": ["CallExpression > FunctionExpression.callee > BlockStatement.body"] }` option:
+
+```js
+/*eslint indent: ["error", 4, { "ignoredNodes": ["CallExpression > FunctionExpression.callee > BlockStatement.body"] }]*/
+
+(function() {
+
+foo();
+bar();
+
+})
+```
+
+All AST node types can be found at [ESTree](https://github.com/estree/estree) specification. You can use [AST Explorer](https://astexplorer.net/) with the espree parser to examine AST tree of a code snippet.
 
 ### SwitchCase
 
@@ -449,6 +486,56 @@ var foo = function(bar, baz,
 }
 ```
 
+### StaticBlock
+
+Examples of **incorrect** code for this rule with the `2, { "StaticBlock": {"body": 1} }` option:
+
+```js
+/*eslint indent: ["error", 2, { "StaticBlock": {"body": 1} }]*/
+
+class C {
+  static {
+      foo();
+  }
+}
+```
+
+Examples of **correct** code for this rule with the `2, { "StaticBlock": {"body": 1} }` option:
+
+```js
+/*eslint indent: ["error", 2, { "StaticBlock": {"body": 1} }]*/
+
+class C {
+  static {
+    foo();
+  }
+}
+```
+
+Examples of **incorrect** code for this rule with the `2, { "StaticBlock": {"body": 2} }` option:
+
+```js
+/*eslint indent: ["error", 2, { "StaticBlock": {"body": 2} }]*/
+
+class C {
+  static {
+    foo();
+  }
+}
+```
+
+Examples of **correct** code for this rule with the `2, { "StaticBlock": {"body": 2} }` option:
+
+```js
+/*eslint indent: ["error", 2, { "StaticBlock": {"body": 2} }]*/
+
+class C {
+  static {
+      foo();
+  }
+}
+```
+
 ### CallExpression
 
 Examples of **incorrect** code for this rule with the `2, { "CallExpression": {"arguments": 1} }` option:
@@ -740,39 +827,6 @@ condition
       }
 ```
 
-### ignoredNodes
-
-The following configuration ignores the indentation of `ConditionalExpression` ("ternary expression") nodes:
-
-Examples of **correct** code for this rule with the `4, { "ignoredNodes": ["ConditionalExpression"] }` option:
-
-```js
-/*eslint indent: ["error", 4, { "ignoredNodes": ["ConditionalExpression"] }]*/
-
-var a = foo
-      ? bar
-      : baz;
-
-var a = foo
-                ? bar
-: baz;
-```
-
-The following configuration ignores indentation in the body of IIFEs.
-
-Examples of **correct** code for this rule with the `4, { "ignoredNodes": ["CallExpression > FunctionExpression.callee > BlockStatement.body"] }` option:
-
-```js
-/*eslint indent: ["error", 4, { "ignoredNodes": ["CallExpression > FunctionExpression.callee > BlockStatement.body"] }]*/
-
-(function() {
-
-foo();
-bar();
-
-})
-```
-
 ### ignoreComments
 
 Examples of additional **correct** code for this rule with the `4, { "ignoreComments": true }` option:
@@ -787,7 +841,6 @@ if (foo) {
     doSomethingElse();
 }
 ```
-
 
 ## Compatibility
 

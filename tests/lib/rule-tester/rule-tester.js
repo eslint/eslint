@@ -12,7 +12,7 @@ const sinon = require("sinon"),
     { RuleTester } = require("../../../lib/rule-tester"),
     assert = require("chai").assert,
     nodeAssert = require("assert"),
-    { noop } = require("lodash");
+    espree = require("espree");
 
 const NODE_ASSERT_STRICT_EQUAL_OPERATOR = (() => {
     try {
@@ -22,6 +22,15 @@ const NODE_ASSERT_STRICT_EQUAL_OPERATOR = (() => {
     }
     throw new Error("unexpected successful assertion");
 })();
+
+/**
+ * Do nothing.
+ * @returns {void}
+ */
+function noop() {
+
+    // do nothing.
+}
 
 //------------------------------------------------------------------------------
 // Rewire Things
@@ -87,6 +96,266 @@ describe("RuleTester", () => {
     beforeEach(() => {
         RuleTester.resetDefaultConfig();
         ruleTester = new RuleTester();
+    });
+
+    describe("only", () => {
+        describe("`itOnly` accessor", () => {
+            describe("when `itOnly` is set", () => {
+                before(() => {
+                    RuleTester.itOnly = sinon.spy();
+                });
+                after(() => {
+                    RuleTester.itOnly = void 0;
+                });
+                beforeEach(() => {
+                    RuleTester.itOnly.resetHistory();
+                    ruleTester = new RuleTester();
+                });
+
+                it("is called by exclusive tests", () => {
+                    ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                        valid: [{
+                            code: "const notVar = 42;",
+                            only: true
+                        }],
+                        invalid: []
+                    });
+
+                    sinon.assert.calledWith(RuleTester.itOnly, "const notVar = 42;");
+                });
+            });
+
+            describe("when `it` is set and has an `only()` method", () => {
+                before(() => {
+                    RuleTester.it.only = () => {};
+                    sinon.spy(RuleTester.it, "only");
+                });
+                after(() => {
+                    RuleTester.it.only = void 0;
+                });
+                beforeEach(() => {
+                    RuleTester.it.only.resetHistory();
+                    ruleTester = new RuleTester();
+                });
+
+                it("is called by tests with `only` set", () => {
+                    ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                        valid: [{
+                            code: "const notVar = 42;",
+                            only: true
+                        }],
+                        invalid: []
+                    });
+
+                    sinon.assert.calledWith(RuleTester.it.only, "const notVar = 42;");
+                });
+            });
+
+            describe("when global `it` is a function that has an `only()` method", () => {
+                let originalGlobalItOnly;
+
+                before(() => {
+
+                    /*
+                     * We run tests with `--forbid-only`, so we have to override
+                     * `it.only` to prevent the real one from being called.
+                     */
+                    originalGlobalItOnly = it.only;
+                    it.only = () => {};
+                    sinon.spy(it, "only");
+                });
+                after(() => {
+                    it.only = originalGlobalItOnly;
+                });
+                beforeEach(() => {
+                    it.only.resetHistory();
+                    ruleTester = new RuleTester();
+                });
+
+                it("is called by tests with `only` set", () => {
+                    ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                        valid: [{
+                            code: "const notVar = 42;",
+                            only: true
+                        }],
+                        invalid: []
+                    });
+
+                    sinon.assert.calledWith(it.only, "const notVar = 42;");
+                });
+            });
+
+            describe("when `describe` and `it` are overridden without `itOnly`", () => {
+                let originalGlobalItOnly;
+
+                before(() => {
+
+                    /*
+                     * These tests override `describe` and `it` already, so we
+                     * don't need to override them here. We do, however, need to
+                     * remove `only` from the global `it` to prevent it from
+                     * being used instead.
+                     */
+                    originalGlobalItOnly = it.only;
+                    it.only = void 0;
+                });
+                after(() => {
+                    it.only = originalGlobalItOnly;
+                });
+                beforeEach(() => {
+                    ruleTester = new RuleTester();
+                });
+
+                it("throws an error recommending overriding `itOnly`", () => {
+                    assert.throws(() => {
+                        ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                            valid: [{
+                                code: "const notVar = 42;",
+                                only: true
+                            }],
+                            invalid: []
+                        });
+                    }, "Set `RuleTester.itOnly` to use `only` with a custom test framework.");
+                });
+            });
+
+            describe("when global `it` is a function that does not have an `only()` method", () => {
+                let originalGlobalIt;
+                let originalRuleTesterDescribe;
+                let originalRuleTesterIt;
+
+                before(() => {
+                    originalGlobalIt = global.it;
+
+                    // eslint-disable-next-line no-global-assign -- Temporarily override Mocha global
+                    it = () => {};
+
+                    /*
+                     * These tests override `describe` and `it`, so we need to
+                     * un-override them here so they won't interfere.
+                     */
+                    originalRuleTesterDescribe = RuleTester.describe;
+                    RuleTester.describe = void 0;
+                    originalRuleTesterIt = RuleTester.it;
+                    RuleTester.it = void 0;
+                });
+                after(() => {
+
+                    // eslint-disable-next-line no-global-assign -- Restore Mocha global
+                    it = originalGlobalIt;
+                    RuleTester.describe = originalRuleTesterDescribe;
+                    RuleTester.it = originalRuleTesterIt;
+                });
+                beforeEach(() => {
+                    ruleTester = new RuleTester();
+                });
+
+                it("throws an error explaining that the current test framework does not support `only`", () => {
+                    assert.throws(() => {
+                        ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                            valid: [{
+                                code: "const notVar = 42;",
+                                only: true
+                            }],
+                            invalid: []
+                        });
+                    }, "The current test framework does not support exclusive tests with `only`.");
+                });
+            });
+        });
+
+        describe("test cases", () => {
+            const ruleName = "no-var";
+            const rule = require("../../fixtures/testers/rule-tester/no-var");
+
+            let originalRuleTesterIt;
+            let spyRuleTesterIt;
+            let originalRuleTesterItOnly;
+            let spyRuleTesterItOnly;
+
+            before(() => {
+                originalRuleTesterIt = RuleTester.it;
+                spyRuleTesterIt = sinon.spy();
+                RuleTester.it = spyRuleTesterIt;
+                originalRuleTesterItOnly = RuleTester.itOnly;
+                spyRuleTesterItOnly = sinon.spy();
+                RuleTester.itOnly = spyRuleTesterItOnly;
+            });
+            after(() => {
+                RuleTester.it = originalRuleTesterIt;
+                RuleTester.itOnly = originalRuleTesterItOnly;
+            });
+            beforeEach(() => {
+                spyRuleTesterIt.resetHistory();
+                spyRuleTesterItOnly.resetHistory();
+                ruleTester = new RuleTester();
+            });
+
+            it("isn't called for normal tests", () => {
+                ruleTester.run(ruleName, rule, {
+                    valid: ["const notVar = 42;"],
+                    invalid: []
+                });
+                sinon.assert.calledWith(spyRuleTesterIt, "const notVar = 42;");
+                sinon.assert.notCalled(spyRuleTesterItOnly);
+            });
+
+            it("calls it or itOnly for every test case", () => {
+
+                /*
+                 * `RuleTester` doesn't implement test case exclusivity itself.
+                 * Setting `only: true` just causes `RuleTester` to call
+                 * whatever `only()` function is provided by the test framework
+                 * instead of the regular `it()` function.
+                 */
+
+                ruleTester.run(ruleName, rule, {
+                    valid: [
+                        "const valid = 42;",
+                        {
+                            code: "const onlyValid = 42;",
+                            only: true
+                        }
+                    ],
+                    invalid: [
+                        {
+                            code: "var invalid = 42;",
+                            errors: [/^Bad var/u]
+                        },
+                        {
+                            code: "var onlyInvalid = 42;",
+                            errors: [/^Bad var/u],
+                            only: true
+                        }
+                    ]
+                });
+
+                sinon.assert.calledWith(spyRuleTesterIt, "const valid = 42;");
+                sinon.assert.calledWith(spyRuleTesterItOnly, "const onlyValid = 42;");
+                sinon.assert.calledWith(spyRuleTesterIt, "var invalid = 42;");
+                sinon.assert.calledWith(spyRuleTesterItOnly, "var onlyInvalid = 42;");
+            });
+        });
+
+        describe("static helper wrapper", () => {
+            it("adds `only` to string test cases", () => {
+                const test = RuleTester.only("const valid = 42;");
+
+                assert.deepStrictEqual(test, {
+                    code: "const valid = 42;",
+                    only: true
+                });
+            });
+
+            it("adds `only` to object test cases", () => {
+                const test = RuleTester.only({ code: "const valid = 42;" });
+
+                assert.deepStrictEqual(test, {
+                    code: "const valid = 42;",
+                    only: true
+                });
+            });
+        });
     });
 
     it("should not throw an error when everything passes", () => {
@@ -774,6 +1043,206 @@ describe("RuleTester", () => {
         assert.strictEqual(spy.args[1][1].parser, require.resolve("esprima"));
     });
 
+    it("should pass normalized ecmaVersion to the rule", () => {
+        const reportEcmaVersionRule = {
+            meta: {
+                messages: {
+                    ecmaVersionMessage: "context.parserOptions.ecmaVersion is {{type}} {{ecmaVersion}}."
+                }
+            },
+            create: context => ({
+                Program(node) {
+                    const { ecmaVersion } = context.parserOptions;
+
+                    context.report({
+                        node,
+                        messageId: "ecmaVersionMessage",
+                        data: { type: typeof ecmaVersion, ecmaVersion }
+                    });
+                }
+            })
+        };
+
+        const notEspree = require.resolve("../../fixtures/parsers/empty-program-parser");
+
+        ruleTester.run("report-ecma-version", reportEcmaVersionRule, {
+            valid: [],
+            invalid: [
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }]
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    parserOptions: {}
+                },
+                {
+                    code: "<div/>",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    parserOptions: { ecmaFeatures: { jsx: true } }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    parser: require.resolve("espree")
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                    parserOptions: { ecmaVersion: 6 }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                    parserOptions: { ecmaVersion: 2015 }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    env: { browser: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    env: { es6: false }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                    env: { es6: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "8" } }],
+                    env: { es6: false, es2017: true }
+                },
+                {
+                    code: "let x",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                    env: { es6: "truthy" }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "8" } }],
+                    env: { es2017: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "11" } }],
+                    env: { es2020: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "12" } }],
+                    env: { es2021: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
+                    parserOptions: { ecmaVersion: "latest" }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
+                    parser: require.resolve("espree"),
+                    parserOptions: { ecmaVersion: "latest" }
+                },
+                {
+                    code: "<div/>",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
+                    parserOptions: { ecmaVersion: "latest", ecmaFeatures: { jsx: true } }
+                },
+                {
+                    code: "import 'foo'",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
+                    parserOptions: { ecmaVersion: "latest", sourceType: "module" }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
+                    parserOptions: { ecmaVersion: "latest" },
+                    env: { es6: true }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
+                    parserOptions: { ecmaVersion: "latest" },
+                    env: { es2020: true }
+                },
+
+                // Non-Espree parsers normalize ecmaVersion if it's not "latest"
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    parser: notEspree
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
+                    parser: notEspree,
+                    parserOptions: {}
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "5" } }],
+                    parser: notEspree,
+                    parserOptions: { ecmaVersion: 5 }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                    parser: notEspree,
+                    parserOptions: { ecmaVersion: 6 }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: 6 } }],
+                    parser: notEspree,
+                    parserOptions: { ecmaVersion: 2015 }
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "string", ecmaVersion: "latest" } }],
+                    parser: notEspree,
+                    parserOptions: { ecmaVersion: "latest" }
+                }
+            ]
+        });
+
+        [{ parserOptions: { ecmaVersion: 6 } }, { env: { es6: true } }].forEach(options => {
+            new RuleTester(options).run("report-ecma-version", reportEcmaVersionRule, {
+                valid: [],
+                invalid: [
+                    {
+                        code: "",
+                        errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }]
+                    },
+                    {
+                        code: "",
+                        errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
+                        parserOptions: {}
+                    }
+                ]
+            });
+        });
+
+        new RuleTester({ parser: notEspree }).run("report-ecma-version", reportEcmaVersionRule, {
+            valid: [],
+            invalid: [
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }]
+                },
+                {
+                    code: "",
+                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "string", ecmaVersion: "latest" } }],
+                    parserOptions: { ecmaVersion: "latest" }
+                }
+            ]
+        });
+    });
+
     it("should pass-through services from parseForESLint to the rule", () => {
         const enhancedParserPath = require.resolve("../../fixtures/parsers/enhanced-parser");
         const disallowHiRule = {
@@ -1281,7 +1750,7 @@ describe("RuleTester", () => {
                     { code: "var foo = bar;", output: "5", errors: 1 }
                 ]
             });
-        }, "Fixable rules should export a `meta.fixable` property.");
+        }, /Fixable rules must set the `meta\.fixable` property/u);
     });
     it("should throw an error if a legacy-format rule produces fixes", () => {
 
@@ -1305,7 +1774,7 @@ describe("RuleTester", () => {
                     { code: "var foo = bar;", output: "5", errors: 1 }
                 ]
             });
-        }, "Fixable rules should export a `meta.fixable` property.");
+        }, /Fixable rules must set the `meta\.fixable` property/u);
     });
 
     describe("suggestions", () => {
@@ -1813,6 +2282,17 @@ describe("RuleTester", () => {
                 });
             }, /Invalid suggestion property name 'outpt'/u);
         });
+
+        it("should throw an error if a rule that doesn't have `meta.hasSuggestions` enabled produces suggestions", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-missing-hasSuggestions-property", require("../../fixtures/testers/rule-tester/suggestions").withoutHasSuggestionsProperty, {
+                    valid: [],
+                    invalid: [
+                        { code: "var foo = bar;", output: "5", errors: 1 }
+                    ]
+                });
+            }, "Rules with suggestions must set the `meta.hasSuggestions` property to `true`.");
+        });
     });
 
     describe("naming test cases", () => {
@@ -1821,8 +2301,8 @@ describe("RuleTester", () => {
          * Asserts that a particular value will be emitted from an EventEmitter.
          * @param {EventEmitter} emitter The emitter that should emit a value
          * @param {string} emitType The type of emission to listen for
-         * @param {*} expectedValue The value that should be emitted
-         * @returns {Promise} A Promise that fulfills if the value is emitted, and rejects if something else is emitted.
+         * @param {any} expectedValue The value that should be emitted
+         * @returns {Promise<void>} A Promise that fulfills if the value is emitted, and rejects if something else is emitted.
          * The Promise will be indefinitely pending if no value is emitted.
          */
         function assertEmitted(emitter, emitType, expectedValue) {
@@ -1908,6 +2388,118 @@ describe("RuleTester", () => {
 
             return assertion;
         });
+
+        it('should use the "name" property if set to a non-empty string', () => {
+            const assertion = assertEmitted(ruleTesterTestEmitter, "it", "my test");
+
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    {
+                        name: "my test",
+                        code: "var x = invalid(code);",
+                        output: " x = invalid(code);",
+                        errors: 1
+                    }
+                ]
+            });
+
+            return assertion;
+        });
+
+        it('should use the "name" property if set to a non-empty string for valid cases too', () => {
+            const assertion = assertEmitted(ruleTesterTestEmitter, "it", "my test");
+
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [
+                    {
+                        name: "my test",
+                        code: "valid(code);"
+                    }
+                ],
+                invalid: []
+            });
+
+            return assertion;
+        });
+
+
+        it('should use the test code as the name if the "name" property is set to an empty string', () => {
+            const assertion = assertEmitted(ruleTesterTestEmitter, "it", "var x = invalid(code);");
+
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    {
+                        name: "",
+                        code: "var x = invalid(code);",
+                        output: " x = invalid(code);",
+                        errors: 1
+                    }
+                ]
+            });
+
+            return assertion;
+        });
+
+        it('should throw if "name" property is not a string', () => {
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: [{ code: "foo", name: 123 }],
+                    invalid: [{ code: "foo" }]
+
+                });
+            }, /Optional test case property 'name' must be a string/u);
+
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: ["foo"],
+                    invalid: [{ code: "foo", name: 123 }]
+                });
+            }, /Optional test case property 'name' must be a string/u);
+        });
+
+        it('should throw if "code" property is not a string', () => {
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: [{ code: 123 }],
+                    invalid: [{ code: "foo" }]
+
+                });
+            }, /Test case must specify a string value for 'code'/u);
+
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: [123],
+                    invalid: [{ code: "foo" }]
+
+                });
+            }, /Test case must specify a string value for 'code'/u);
+
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: ["foo"],
+                    invalid: [{ code: 123 }]
+                });
+            }, /Test case must specify a string value for 'code'/u);
+        });
+
+        it('should throw if "code" property is missing', () => {
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: [{ }],
+                    invalid: [{ code: "foo" }]
+
+                });
+            }, /Test case must specify a string value for 'code'/u);
+
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: ["foo"],
+                    invalid: [{ }]
+                });
+            }, /Test case must specify a string value for 'code'/u);
+        });
     });
 
     // https://github.com/eslint/eslint/issues/11615
@@ -1915,17 +2507,24 @@ describe("RuleTester", () => {
         assert.throw(() => {
             ruleTester.run(
                 "foo",
-                context => ({
-                    Identifier(node) {
-                        context.report({
-                            node,
-                            message: "make a syntax error",
-                            fix(fixer) {
-                                return fixer.replaceText(node, "one two");
+                {
+                    meta: {
+                        fixable: "code"
+                    },
+                    create(context) {
+                        return {
+                            Identifier(node) {
+                                context.report({
+                                    node,
+                                    message: "make a syntax error",
+                                    fix(fixer) {
+                                        return fixer.replaceText(node, "one two");
+                                    }
+                                });
                             }
-                        });
+                        };
                     }
-                }),
+                },
                 {
                     valid: ["one()"],
                     invalid: []
@@ -1994,6 +2593,39 @@ describe("RuleTester", () => {
             sinon.assert.calledWith(spyRuleTesterIt, code);
         });
 
+    });
+
+    describe("SourceCode#getComments()", () => {
+        const useGetCommentsRule = {
+            create: context => ({
+                Program(node) {
+                    const sourceCode = context.getSourceCode();
+
+                    sourceCode.getComments(node);
+                }
+            })
+        };
+
+        it("should throw if called from a valid test case", () => {
+            assert.throws(() => {
+                ruleTester.run("use-get-comments", useGetCommentsRule, {
+                    valid: [""],
+                    invalid: []
+                });
+            }, /`SourceCode#getComments\(\)` is deprecated/u);
+        });
+
+        it("should throw if called from an invalid test case", () => {
+            assert.throws(() => {
+                ruleTester.run("use-get-comments", useGetCommentsRule, {
+                    valid: [],
+                    invalid: [{
+                        code: "",
+                        errors: [{}]
+                    }]
+                });
+            }, /`SourceCode#getComments\(\)` is deprecated/u);
+        });
     });
 
 });

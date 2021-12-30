@@ -32,9 +32,11 @@ Once your shareable config is ready, you can [publish to npm](https://docs.npmjs
 
 You should declare your dependency on ESLint in `package.json` using the [peerDependencies](https://docs.npmjs.com/files/package.json#peerdependencies) field. The recommended way to declare a dependency for future proof compatibility is with the ">=" range syntax, using the lowest required ESLint version. For example:
 
-```
-"peerDependencies": {
-    "eslint": ">= 3"
+```json
+{
+    "peerDependencies": {
+        "eslint": ">= 3"
+    }
 }
 ```
 
@@ -76,7 +78,6 @@ You can also omit the `eslint-config-` and it will be automatically assumed by E
 
 npm [scoped modules](https://docs.npmjs.com/misc/scope) are also supported in a number of ways.
 
-
 By using the module name:
 
 ```json
@@ -93,7 +94,7 @@ You can also omit the `eslint-config` and it will be automatically assumed by ES
 }
 ```
 
-The module name can also be customized, just note that when using [scoped modules](https://docs.npmjs.com/misc/scope) it is not possible to omit the `eslint-config-` prefix. Doing so would result in package naming conflicts, and thus in resolution errors in most of cases. For example a package named `@scope/eslint-config-myconfig` vs `@scope/my-config`, since both are valid scoped package names, the configuration should be specified as:
+The module name can also be customized, just note that when using [scoped modules](https://docs.npmjs.com/misc/scope) it is not possible to omit the `eslint-config-` prefix. Doing so would result in package naming conflicts, and thus in resolution errors in most of cases. For example a package named `@scope/eslint-config-myconfig` vs `@scope/myconfig`, since both are valid scoped package names, the configuration should be specified as:
 
 ```json
 {

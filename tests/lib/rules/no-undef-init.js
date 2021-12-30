@@ -22,7 +22,11 @@ ruleTester.run("no-undef-init", rule, {
     valid: [
         "var a;",
         { code: "const foo = undefined", parserOptions: { ecmaVersion: 6 } },
-        "var undefined = 5; var foo = undefined;"
+        "var undefined = 5; var foo = undefined;",
+
+        // doesn't apply to class fields
+        { code: "class C { field = undefined; }", parserOptions: { ecmaVersion: 2022 } }
+
     ],
     invalid: [
         {

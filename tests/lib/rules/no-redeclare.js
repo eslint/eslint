@@ -9,7 +9,6 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const path = require("path");
 const rule = require("../../../lib/rules/no-redeclare");
 const { RuleTester } = require("../../../lib/rule-tester");
 
@@ -17,7 +16,6 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const looseParserPath = path.resolve(__dirname, "../../tools/loose-parser.js");
 const ruleTester = new RuleTester();
 
 ruleTester.run("no-redeclare", rule, {
@@ -28,6 +26,72 @@ ruleTester.run("no-redeclare", rule, {
             code: "if (true) {\n    let b = 2;\n} else {    \nlet b = 3;\n}",
             parserOptions: {
                 ecmaVersion: 6
+            }
+        },
+        {
+            code: "var a; class C { static { var a; } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "class C { static { var a; } } var a; ",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "function a(){} class C { static { var a; } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "var a; class C { static { function a(){} } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "class C { static { var a; } static { var a; } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "class C { static { function a(){} } static { function a(){} } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "class C { static { var a; { function a(){} } } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "class C { static { function a(){}; { function a(){} } } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "class C { static { var a; { let a; } } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "class C { static { let a; { let a; } } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "class C { static { { let a; } { let a; } } }",
+            parserOptions: {
+                ecmaVersion: 2022
             }
         },
         { code: "var Object = 0;", options: [{ builtinGlobals: false }] },
@@ -82,6 +146,37 @@ ruleTester.run("no-redeclare", rule, {
         { code: "var a = 3; var a = 10; var a = 15;", errors: [{ message: "'a' is already defined.", type: "Identifier" }, { message: "'a' is already defined.", type: "Identifier" }] },
         { code: "var a; var a;", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
         { code: "export var a; var a;", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
+
+        // `var` redeclaration in class static blocks. Redeclaration of functions is not allowed in class static blocks.
+        {
+            code: "class C { static { var a; var a; } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ message: "'a' is already defined.", type: "Identifier" }]
+        },
+        {
+            code: "class C { static { var a; { var a; } } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ message: "'a' is already defined.", type: "Identifier" }]
+        },
+        {
+            code: "class C { static { { var a; } var a; } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ message: "'a' is already defined.", type: "Identifier" }]
+        },
+        {
+            code: "class C { static { { var a; } { var a; } } }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ message: "'a' is already defined.", type: "Identifier" }]
+        },
+
         {
             code: "var Object = 0;",
             options: [{ builtinGlobals: true }],
@@ -202,112 +297,6 @@ ruleTester.run("no-redeclare", rule, {
             env: { browser: true },
             errors: [
                 { message: "'top' is already defined as a built-in global variable.", type: "Identifier" }
-            ]
-        },
-
-        // let/const
-        {
-            code: "let a; let a;",
-            parser: looseParserPath,
-            parserOptions: { ecmaVersion: 2015 },
-            errors: [
-                { message: "'a' is already defined.", type: "Identifier" }
-            ]
-        },
-        {
-            code: "let a; let a;",
-            parser: looseParserPath,
-            parserOptions: { ecmaVersion: 2015, sourceType: "module" },
-            errors: [
-                { message: "'a' is already defined.", type: "Identifier" }
-            ]
-        },
-        {
-            code: "let a; let a;",
-            parser: looseParserPath,
-            parserOptions: { ecmaVersion: 2015, ecmaFeatures: { globalReturn: true } },
-            errors: [
-                { message: "'a' is already defined.", type: "Identifier" }
-            ]
-        },
-        {
-            code: "let a; const a = 0;",
-            parser: looseParserPath,
-            parserOptions: { ecmaVersion: 2015 },
-            errors: [
-                { message: "'a' is already defined.", type: "Identifier" }
-            ]
-        },
-        {
-            code: "const a = 0; const a = 0;",
-            parser: looseParserPath,
-            parserOptions: { ecmaVersion: 2015 },
-            errors: [
-                { message: "'a' is already defined.", type: "Identifier" }
-            ]
-        },
-        {
-            code: "if (test) { let a; let a; }",
-            parser: looseParserPath,
-            parserOptions: { ecmaVersion: 2015 },
-            errors: [
-                { message: "'a' is already defined.", type: "Identifier" }
-            ]
-        },
-        {
-            code: "switch (test) { case 0: let a; let a; }",
-            parser: looseParserPath,
-            parserOptions: { ecmaVersion: 2015 },
-            errors: [
-                { message: "'a' is already defined.", type: "Identifier" }
-            ]
-        },
-        {
-            code: "for (let a, a;;);",
-            parser: looseParserPath,
-            parserOptions: { ecmaVersion: 2015 },
-            errors: [
-                { message: "'a' is already defined.", type: "Identifier" }
-            ]
-        },
-        {
-            code: "for (let [a, a] in xs);",
-            parser: looseParserPath,
-            parserOptions: { ecmaVersion: 2015 },
-            errors: [
-                { message: "'a' is already defined.", type: "Identifier" }
-            ]
-        },
-        {
-            code: "for (let [a, a] of xs);",
-            parser: looseParserPath,
-            parserOptions: { ecmaVersion: 2015 },
-            errors: [
-                { message: "'a' is already defined.", type: "Identifier" }
-            ]
-        },
-        {
-            code: "function f() { let a; let a; }",
-            parser: looseParserPath,
-            parserOptions: { ecmaVersion: 2015 },
-            errors: [
-                { message: "'a' is already defined.", type: "Identifier" }
-            ]
-        },
-        {
-            code: "function f(a) { let a; }",
-            parser: looseParserPath,
-            parserOptions: { ecmaVersion: 2015 },
-            errors: [
-                { message: "'a' is already defined.", type: "Identifier" }
-            ]
-        },
-        {
-            code: "function f() { if (test) { let a; let a; } }",
-            parser: looseParserPath,
-            parserOptions: { ecmaVersion: 2015 },
-            errors: [
-                { message: "'a' is already defined.", type: "Identifier" }
             ]
         },
 

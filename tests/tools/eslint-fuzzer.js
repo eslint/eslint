@@ -1,10 +1,18 @@
 "use strict";
 
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
+
 const assert = require("chai").assert;
 const eslint = require("../..");
 const espree = require("espree");
 const sinon = require("sinon");
 const configRule = require("../../lib/init/config-rule");
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 describe("eslint-fuzzer", function() {
     let fakeRule, fuzz;
@@ -13,7 +21,7 @@ describe("eslint-fuzzer", function() {
      * These tests take awhile because isolating which rule caused an error requires running eslint up to hundreds of
      * times, one rule at a time.
      */
-    this.timeout(15000); // eslint-disable-line no-invalid-this
+    this.timeout(15000); // eslint-disable-line no-invalid-this -- Mocha timeout
 
     const linter = new eslint.Linter();
     const coreRules = linter.getRules();

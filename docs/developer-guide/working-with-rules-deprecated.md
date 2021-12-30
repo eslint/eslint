@@ -1,4 +1,6 @@
-# Working with Rules
+# Working with Rules (Deprecated)
+
+**Note:** This page covers the deprecated rule format for ESLint <= 2.13.1. [This is the most recent rule format](./working-with-rules.md).
 
 Each rule in ESLint has two files named with its identifier (for example, `no-extra-semi`).
 
@@ -491,8 +493,8 @@ To keep the linting process efficient and unobtrusive, it is useful to verify th
 The `npm run perf` command gives a high-level overview of ESLint running time with default rules (`eslint:recommended`) enabled.
 
 ```bash
-$ git checkout master
-Switched to branch 'master'
+$ git checkout main
+Switched to branch 'main'
 
 $ npm run perf
 CPU Speed is 2200 with multiplier 7500000

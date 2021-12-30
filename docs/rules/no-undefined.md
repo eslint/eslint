@@ -22,7 +22,6 @@ Because `undefined` can be overwritten or shadowed, reading `undefined` can give
 
 As an alternative, you can use the [no-global-assign](no-global-assign.md) and [no-shadow-restricted-names](no-shadow-restricted-names.md) rules to prevent `undefined` from being shadowed or assigned a different value. This ensures that `undefined` will always hold its original, expected value.
 
-
 ## Rule Details
 
 This rule aims to eliminate the use of `undefined`, and as such, generates a warning whenever it is used.
@@ -65,15 +64,15 @@ global.undefined = "foo";
 
 If you want to allow the use of `undefined` in your code, then you can safely turn this rule off.
 
-## Further Reading
-
-* [undefined - JavaScript \| MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)
-* [Understanding JavaScript’s ‘undefined’ \| JavaScript, JavaScript...](https://javascriptweblog.wordpress.com/2010/08/16/understanding-undefined-and-preventing-referenceerrors/)
-* [ECMA262 edition 5.1 &sect;15.1.1.3: undefined](https://es5.github.io/#x15.1.1.3)
-
 ## Related Rules
 
 * [no-undef-init](no-undef-init.md)
 * [no-void](no-void.md)
 * [no-shadow-restricted-names](no-shadow-restricted-names.md)
 * [no-global-assign](no-global-assign.md)
+
+## Further Reading
+
+* [undefined - JavaScript \| MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)
+* [Understanding JavaScript’s ‘undefined’ \| JavaScript, JavaScript...](https://javascriptweblog.wordpress.com/2010/08/16/understanding-undefined-and-preventing-referenceerrors/)
+* [ECMA262 edition 5.1 &sect;15.1.1.3: undefined](https://es5.github.io/#x15.1.1.3)

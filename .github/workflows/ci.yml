@@ -1,9 +1,9 @@
 name: CI
 on:
   push:
-    branches: [master]
+    branches: [master, main]
   pull_request:
-    branches: [master]
+    branches: [master, main]
 
 jobs:
   verify_files:
@@ -11,7 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '16.x'
     - name: Install Packages
       run: npm install
     - name: Lint Files
@@ -26,24 +28,20 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [15.x, 14.x, 13.x, 12.x, 10.x, "10.12.0"]
+        node: [17.x, 16.x, 14.x, 12.x, "12.22.0"]
         include:
         - os: windows-latest
-          node: "12.x"
+          node: "16.x"
         - os: macOS-latest
-          node: "12.x"
+          node: "16.x"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node }}
     - name: Install Packages
       run: npm install
-      if: ${{ !startswith(matrix.node, '15') }}
-    - name: Install Packages
-      run: npm install --legacy-peer-deps
-      if: ${{ startswith(matrix.node, '15') }}
     - name: Test
       run: node Makefile mocha
     - name: Fuzz Test
@@ -54,7 +52,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '12'
     - name: Install Packages
       run: npm install
     - name: Test

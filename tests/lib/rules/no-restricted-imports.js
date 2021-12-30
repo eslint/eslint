@@ -29,6 +29,19 @@ ruleTester.run("no-restricted-imports", rule, {
         { code: "import \"foo/bar\";", options: ["foo"] },
         { code: "import withPaths from \"foo/bar\";", options: [{ paths: ["foo", "bar"] }] },
         { code: "import withPatterns from \"foo/bar\";", options: [{ patterns: ["foo/c*"] }] },
+        { code: "import foo from 'foo';", options: ["../foo"] },
+        { code: "import foo from 'foo';", options: [{ paths: ["../foo"] }] },
+        { code: "import foo from 'foo';", options: [{ patterns: ["../foo"] }] },
+        { code: "import foo from 'foo';", options: ["/foo"] },
+        { code: "import foo from 'foo';", options: [{ paths: ["/foo"] }] },
+        "import relative from '../foo';",
+        { code: "import relative from '../foo';", options: ["../notFoo"] },
+        { code: "import relativeWithPaths from '../foo';", options: [{ paths: ["../notFoo"] }] },
+        { code: "import relativeWithPatterns from '../foo';", options: [{ patterns: ["notFoo"] }] },
+        "import absolute from '/foo';",
+        { code: "import absolute from '/foo';", options: ["/notFoo"] },
+        { code: "import absoluteWithPaths from '/foo';", options: [{ paths: ["/notFoo"] }] },
+        { code: "import absoluteWithPatterns from '/foo';", options: [{ patterns: ["notFoo"] }] },
         {
             code: "import withPatternsAndPaths from \"foo/bar\";",
             options: [{ paths: ["foo"], patterns: ["foo/c*"] }]
@@ -36,6 +49,10 @@ ruleTester.run("no-restricted-imports", rule, {
         {
             code: "import withGitignores from \"foo/bar\";",
             options: [{ patterns: ["foo/*", "!foo/bar"] }]
+        },
+        {
+            code: "import withPatterns from \"foo/bar\";",
+            options: [{ patterns: [{ group: ["foo/*", "!foo/bar"], message: "foo is forbidden, use bar instead" }] }]
         },
         {
             code: "import AllowedObject from \"foo\";",
@@ -234,6 +251,36 @@ ruleTester.run("no-restricted-imports", rule, {
     }, {
         code: "import withPatterns from \"foo/bar\";",
         options: [{ patterns: ["bar"] }],
+        errors: [{
+            message: "'foo/bar' import is restricted from being used by a pattern.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 36
+        }]
+    }, {
+        code: "import withPatterns from \"foo/baz\";",
+        options: [{ patterns: [{ group: ["foo/*", "!foo/bar"], message: "foo is forbidden, use foo/bar instead" }] }],
+        errors: [{
+            message: "'foo/baz' import is restricted from being used by a pattern. foo is forbidden, use foo/bar instead",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 36
+        }]
+    }, {
+        code: "import withPatterns from \"foo/baz\";",
+        options: [{ patterns: [{ group: ["foo/bar", "foo/baz"], message: "some foo subimports are restricted" }] }],
+        errors: [{
+            message: "'foo/baz' import is restricted from being used by a pattern. some foo subimports are restricted",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 36
+        }]
+    }, {
+        code: "import withPatterns from \"foo/bar\";",
+        options: [{ patterns: [{ group: ["foo/bar"] }] }],
         errors: [{
             message: "'foo/bar' import is restricted from being used by a pattern.",
             type: "ImportDeclaration",
@@ -780,6 +827,72 @@ ruleTester.run("no-restricted-imports", rule, {
             line: 1,
             column: 15,
             endColumn: 29
+        }]
+    },
+    {
+        code: "import relative from '../foo';",
+        options: ["../foo"],
+        errors: [{
+            message: "'../foo' import is restricted from being used.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 31
+        }]
+    },
+    {
+        code: "import relativeWithPaths from '../foo';",
+        options: [{ paths: ["../foo"] }],
+        errors: [{
+            message: "'../foo' import is restricted from being used.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 40
+        }]
+    },
+    {
+        code: "import relativeWithPatterns from '../foo';",
+        options: [{ patterns: ["../foo"] }],
+        errors: [{
+            message: "'../foo' import is restricted from being used by a pattern.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 43
+        }]
+    },
+    {
+        code: "import absolute from '/foo';",
+        options: ["/foo"],
+        errors: [{
+            message: "'/foo' import is restricted from being used.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 29
+        }]
+    },
+    {
+        code: "import absoluteWithPaths from '/foo';",
+        options: [{ paths: ["/foo"] }],
+        errors: [{
+            message: "'/foo' import is restricted from being used.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 38
+        }]
+    },
+    {
+        code: "import absoluteWithPatterns from '/foo';",
+        options: [{ patterns: ["foo"] }],
+        errors: [{
+            message: "'/foo' import is restricted from being used by a pattern.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 41
         }]
     }
     ]

@@ -10,11 +10,29 @@ This automatically starts Mocha and runs all tests in the `tests` directory. You
 
 ## Running Individual Tests
 
-If you want to quickly run just one test, you can do so by running Mocha directly and passing in the filename. For example:
+If you want to quickly run just one test file, you can do so by running Mocha directly and passing in the filename. For example:
 
     npm run test:cli tests/lib/rules/no-wrap-func.js
 
-Running individual tests is useful when you're working on a specific bug and iterating on the solution. You should be sure to run `npm test` before submitting a pull request.
+If you want to run just one or a subset of `RuleTester` test cases, add `only: true` to each test case or wrap the test case in `RuleTester.only(...)` to add it automatically:
+
+```js
+ruleTester.run("my-rule", myRule, {
+    valid: [
+        RuleTester.only("const valid = 42;"),
+        // Other valid cases
+    ],
+    invalid: [
+        {
+            code: "const invalid = 42;",
+            only: true,
+        },
+        // Other invalid cases
+    ]
+})
+```
+
+Running individual tests is useful when you're working on a specific bug and iterating on the solution. You should be sure to run `npm test` before submitting a pull request. `npm test` uses Mocha's `--forbid-only` option to prevent `only` tests from passing full test runs.
 
 ## More Control on Unit Testing
 

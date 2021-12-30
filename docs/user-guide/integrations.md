@@ -15,7 +15,7 @@
     * [eslint.tmbundle](https://github.com/ryanfitzer/eslint.tmbundle)
     * [javascript-eslint.tmbundle](https://github.com/natesilva/javascript-eslint.tmbundle)
 * Atom: [linter-eslint](https://atom.io/packages/linter-eslint)
-* IntelliJ IDEA, RubyMine, WebStorm, PhpStorm, PyCharm, AppCode, Android Studio, 0xDBE: [ESLint Plugin](https://plugins.jetbrains.com/plugin/7494-eslint)
+* IntelliJ IDEA, WebStorm, PhpStorm, PyCharm, RubyMine, and other JetBrains IDEs: [How to use ESLint](https://www.jetbrains.com/help/webstorm/eslint.html)
 * Visual Studio Code: [ESLint Extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 * Brackets: Included and [Brackets ESLint](https://github.com/brackets-userland/brackets-eslint)
 
@@ -27,7 +27,7 @@
 * Broccoli: [broccoli-eslint](https://www.npmjs.com/package/broccoli-eslint)
 * Browserify: [eslintify](https://www.npmjs.com/package/eslintify)
 * Webpack: [eslint-webpack-plugin](https://www.npmjs.com/package/eslint-webpack-plugin)
-* Rollup: [rollup-plugin-eslint](https://www.npmjs.com/package/rollup-plugin-eslint)
+* Rollup: [@rollup/plugin-eslint](https://www.npmjs.com/package/@rollup/plugin-eslint)
 * Ember-cli: [ember-cli-eslint](https://www.npmjs.com/package/ember-cli-eslint)
 * Sails.js: [sails-hook-lint](https://www.npmjs.com/package/sails-hook-lint), [sails-eslint](https://www.npmjs.com/package/sails-eslint)
 * Start: [@start/plugin-lib-eslint](https://www.npmjs.com/package/@start/plugin-lib-eslint)
@@ -44,6 +44,7 @@
 * [Git Precommit Hook](https://coderwall.com/p/zq8jlq/eslint-pre-commit-hook)
 * [Git pre-commit hook that only lints staged changes](https://gist.github.com/dahjelle/8ddedf0aebd488208a9a7c829f19b9e8)
 * [overcommit Git hook manager](https://github.com/brigade/overcommit)
+* [Mega-Linter](https://nvuillam.github.io/mega-linter): Linters aggregator for CI, [embedding eslint](https://nvuillam.github.io/mega-linter/descriptors/javascript_eslint/)
 
 ## Testing
 

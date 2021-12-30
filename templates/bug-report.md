@@ -1,4 +1,4 @@
-**Tell us about your environment**
+**Tell us about your environment:**
 
 * **ESLint Version:**
 * **Node Version:**
@@ -23,4 +23,3 @@
 **What did you expect to happen?**
 
 **What actually happened? Please include the actual, raw output from ESLint.**
-

@@ -4,7 +4,7 @@ ESLint v6.0.0 is a major release of ESLint. We have made a few breaking changes 
 
 The lists below are ordered roughly by the number of users each change is expected to affect, where the first items are expected to affect the most users.
 
-### Breaking changes for users
+## Breaking changes for users
 
 1. [Node.js 6 is no longer supported](#drop-node-6)
 1. [`eslint:recommended` has been updated](#eslint-recommended-changes)
@@ -20,14 +20,14 @@ The lists below are ordered roughly by the number of users each change is expect
 1. [The deprecated `experimentalObjectRestSpread` option has been removed](#experimental-object-rest-spread)
 1. [User-provided regular expressions in rule options are parsed with the unicode flag](#unicode-regexes)
 
-### Breaking changes for plugin/custom rule developers
+## Breaking changes for plugin/custom rule developers
 
 1. [Plugin authors may need to update installation instructions](#plugin-documentation)
 1. [`RuleTester` now validates against invalid `default` keywords in rule schemas](#rule-tester-defaults)
 1. [`RuleTester` now requires an absolute path on `parser` option](#rule-tester-parser)
 1. [The `eslintExplicitGlobalComment` scope analysis property has been removed](#eslintExplicitGlobalComment)
 
-### Breaking changes for integration developers
+## Breaking changes for integration developers
 
 1. [Plugins and shareable configs are no longer affected by ESLint's location](#package-loading-simplification)
 1. [`Linter` no longer tries to load missing parsers from the filesystem](#linter-parsers)

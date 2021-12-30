@@ -76,6 +76,8 @@ Object option (when `"never"`):
 * `"beforeStatementContinuationChars": "always"` requires semicolons at the end of statements if the next line starts with `[`, `(`, `/`, `+`, or `-`.
 * `"beforeStatementContinuationChars": "never"` disallows semicolons as the end of statements if it doesn't make ASI hazard even if the next line starts with `[`, `(`, `/`, `+`, or `-`.
 
+**Note:** `beforeStatementContinuationChars` does not apply to class fields because class fields are not statements.
+
 ### always
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
@@ -87,6 +89,10 @@ var name = "ESLint"
 
 object.method = function() {
     // ...
+}
+
+class Foo {
+    bar = 1
 }
 ```
 
@@ -100,6 +106,10 @@ var name = "ESLint";
 object.method = function() {
     // ...
 };
+
+class Foo {
+    bar = 1;
+}
 ```
 
 ### never
@@ -114,6 +124,10 @@ var name = "ESLint";
 object.method = function() {
     // ...
 };
+
+class Foo {
+    bar = 1;
+}
 ```
 
 Examples of **correct** code for this rule with the `"never"` option:
@@ -142,6 +156,10 @@ import b from "b"
 ;(function() {
     // ...
 })()
+
+class Foo {
+    bar = 1
+}
 ```
 
 #### omitLastInOneLineBlock
@@ -154,6 +172,14 @@ Examples of additional **correct** code for this rule with the `"always", { "omi
 if (foo) { bar() }
 
 if (foo) { bar(); baz() }
+
+function f() { bar(); baz() }
+
+class C {
+    foo() { bar(); baz() }
+
+    static { bar(); baz() }
+}
 ```
 
 #### beforeStatementContinuationChars
@@ -184,13 +210,13 @@ import a from "a"
 
 If you do not want to enforce semicolon usage (or omission) in any particular way, then you can turn this rule off.
 
-## Further Reading
-
-* [An Open Letter to JavaScript Leaders Regarding Semicolons](http://blog.izs.me/post/2353458699/an-open-letter-to-javascript-leaders-regarding)
-* [JavaScript Semicolon Insertion](http://inimino.org/~inimino/blog/javascript_semicolons)
-
 ## Related Rules
 
 * [no-extra-semi](no-extra-semi.md)
 * [no-unexpected-multiline](no-unexpected-multiline.md)
 * [semi-spacing](semi-spacing.md)
+
+## Further Reading
+
+* [An Open Letter to JavaScript Leaders Regarding Semicolons](http://blog.izs.me/post/2353458699/an-open-letter-to-javascript-leaders-regarding)
+* [JavaScript Semicolon Insertion](http://inimino.org/~inimino/blog/javascript_semicolons)

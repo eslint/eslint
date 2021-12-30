@@ -48,7 +48,7 @@ delete allSponsors.backers;
  * @returns {string} The HTML for the members list.
  */
 function formatTeamMembers(members) {
-    /* eslint-disable indent*/
+    /* eslint-disable indent -- Allow deeper template substitution indent */
     return stripIndents`
         <table><tbody><tr>${
         members.map((member, index) => `<td align="center" valign="top" width="11%">
@@ -58,7 +58,7 @@ function formatTeamMembers(members) {
             </a>
             </td>${(index + 1) % 9 === 0 ? "</tr><tr>" : ""}`).join("")
         }</tr></tbody></table>`;
-    /* eslint-enable indent*/
+    /* eslint-enable indent -- Allow deeper template substitution indent */
 }
 
 /**
@@ -69,7 +69,7 @@ function formatTeamMembers(members) {
 function formatSponsors(sponsors) {
     const nonEmptySponsors = Object.keys(sponsors).filter(tier => sponsors[tier].length > 0);
 
-    /* eslint-disable indent*/
+    /* eslint-disable indent -- Allow deeper template substitution indent */
     return stripIndents`<!--sponsorsstart-->
         ${
             nonEmptySponsors.map(tier => `<h3>${tier[0].toUpperCase()}${tier.slice(1)} Sponsors</h3>
@@ -78,7 +78,7 @@ function formatSponsors(sponsors) {
             }</p>`).join("")
         }
     <!--sponsorsend-->`;
-    /* eslint-enable indent*/
+    /* eslint-enable indent -- Allow deeper template substitution indent */
 }
 
 //-----------------------------------------------------------------------------
@@ -122,6 +122,9 @@ let newReadme = readme.replace(/<!--teamstart-->[\w\W]*?<!--teamend-->/u, ejs.re
 }));
 
 newReadme = newReadme.replace(/<!--sponsorsstart-->[\w\W]*?<!--sponsorsend-->/u, formatSponsors(allSponsors));
+
+// replace multiple consecutive blank lines with just one blank line
+newReadme = newReadme.replace(/(?<=^|\n)\n{2,}/gu, "\n");
 
 // output to the file
 fs.writeFileSync(README_FILE_PATH, newReadme, "utf8");

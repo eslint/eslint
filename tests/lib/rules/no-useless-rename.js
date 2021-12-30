@@ -12,6 +12,10 @@
 const rule = require("../../../lib/rules/no-useless-rename"),
     { RuleTester } = require("../../../lib/rule-tester");
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, sourceType: "module" } });
 
 ruleTester.run("no-useless-rename", rule, {

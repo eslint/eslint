@@ -16,7 +16,11 @@ const assert = require("chai").assert,
     fs = require("fs"),
     os = require("os"),
     hash = require("../../../lib/cli-engine/hash"),
-    { CascadingConfigArrayFactory } = require("@eslint/eslintrc/lib/cascading-config-array-factory"),
+    {
+        Legacy: {
+            CascadingConfigArrayFactory
+        }
+    } = require("@eslint/eslintrc"),
     { unIndent, createCustomTeardown } = require("../../_utils");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
@@ -40,10 +44,10 @@ describe("CLIEngine", () => {
         originalDir = process.cwd(),
         fixtureDir = path.resolve(fs.realpathSync(os.tmpdir()), "eslint/fixtures");
 
-    /** @type {import("../../../lib/cli-engine")["CLIEngine"]} */
+    /** @type {import("../../../lib/cli-engine").CLIEngine} */
     let CLIEngine;
 
-    /** @type {import("../../../lib/cli-engine/cli-engine")["getCLIEngineInternalSlots"]} */
+    /** @type {import("../../../lib/cli-engine/cli-engine").getCLIEngineInternalSlots} */
     let getCLIEngineInternalSlots;
 
     /**
@@ -69,14 +73,13 @@ describe("CLIEngine", () => {
      * @private
      */
     function cliEngineWithPlugins(options) {
-        const engine = new CLIEngine(options);
-
-        // load the mocked plugins
-        engine.addPlugin(examplePluginName, examplePlugin);
-        engine.addPlugin(examplePluginNameWithNamespace, examplePlugin);
-        engine.addPlugin(examplePreprocessorName, require("../../fixtures/processors/custom-processor"));
-
-        return engine;
+        return new CLIEngine(options, {
+            preloadedPlugins: {
+                [examplePluginName]: examplePlugin,
+                [examplePluginNameWithNamespace]: examplePlugin,
+                [examplePreprocessorName]: require("../../fixtures/processors/custom-processor")
+            }
+        });
     }
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
@@ -88,7 +91,7 @@ describe("CLIEngine", () => {
          * exceeds the default test timeout, so raise it just for this hook.
          * Mocha uses `this` to set timeouts on an individual hook level.
          */
-        this.timeout(60 * 1000); // eslint-disable-line no-invalid-this
+        this.timeout(60 * 1000); // eslint-disable-line no-invalid-this -- Mocha API
         shell.mkdir("-p", fixtureDir);
         shell.cp("-r", "./tests/fixtures/.", fixtureDir);
     });
@@ -116,7 +119,7 @@ describe("CLIEngine", () => {
 
         it("should report one fatal message when given a path by --ignore-path that is not a file when ignore is true.", () => {
             assert.throws(() => {
-                // eslint-disable-next-line no-new
+                // eslint-disable-next-line no-new -- Testing synchronous throwing
                 new CLIEngine({ ignorePath: fixtureDir });
             }, `Cannot read .eslintignore file: ${fixtureDir}\nError: EISDIR: illegal operation on a directory, read`);
         });
@@ -125,7 +128,7 @@ describe("CLIEngine", () => {
         it("should not modify baseConfig when format is specified", () => {
             const customBaseConfig = { root: true };
 
-            new CLIEngine({ baseConfig: customBaseConfig, format: "foo" }); // eslint-disable-line no-new
+            new CLIEngine({ baseConfig: customBaseConfig, format: "foo" }); // eslint-disable-line no-new -- Test side effects
 
             assert.deepStrictEqual(customBaseConfig, { root: true });
         });
@@ -144,6 +147,7 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results.length, 1);
             assert.strictEqual(report.errorCount, 5);
             assert.strictEqual(report.warningCount, 0);
+            assert.strictEqual(report.fatalErrorCount, 0);
             assert.strictEqual(report.fixableErrorCount, 3);
             assert.strictEqual(report.fixableWarningCount, 0);
             assert.strictEqual(report.results[0].messages.length, 5);
@@ -310,6 +314,7 @@ describe("CLIEngine", () => {
                         messages: [],
                         errorCount: 0,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var bar = foo;"
@@ -317,6 +322,7 @@ describe("CLIEngine", () => {
                 ],
                 errorCount: 0,
                 warningCount: 0,
+                fatalErrorCount: 0,
                 fixableErrorCount: 0,
                 fixableWarningCount: 0,
                 usedDeprecatedRules: []
@@ -519,6 +525,7 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         source: "var bar = foo"
@@ -526,6 +533,7 @@ describe("CLIEngine", () => {
                 ],
                 errorCount: 1,
                 warningCount: 0,
+                fatalErrorCount: 0,
                 fixableErrorCount: 0,
                 fixableWarningCount: 0,
                 usedDeprecatedRules: []
@@ -562,6 +570,7 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fatalErrorCount: 1,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var bar = foothis is a syntax error."
@@ -569,6 +578,7 @@ describe("CLIEngine", () => {
                 ],
                 errorCount: 1,
                 warningCount: 0,
+                fatalErrorCount: 1,
                 fixableErrorCount: 0,
                 fixableWarningCount: 0,
                 usedDeprecatedRules: []
@@ -604,6 +614,7 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fatalErrorCount: 1,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         source: "var bar ="
@@ -611,6 +622,7 @@ describe("CLIEngine", () => {
                 ],
                 errorCount: 1,
                 warningCount: 0,
+                fatalErrorCount: 1,
                 fixableErrorCount: 0,
                 fixableWarningCount: 0,
                 usedDeprecatedRules: []
@@ -692,6 +704,7 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fatalErrorCount: 1,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         source: "var bar = foothis is a syntax error.\n return bar;"
@@ -699,6 +712,7 @@ describe("CLIEngine", () => {
                 ],
                 errorCount: 1,
                 warningCount: 0,
+                fatalErrorCount: 1,
                 fixableErrorCount: 0,
                 fixableWarningCount: 0,
                 usedDeprecatedRules: []
@@ -726,7 +740,7 @@ describe("CLIEngine", () => {
             const Module = require("module");
             let originalFindPath = null;
 
-            /* eslint-disable no-underscore-dangle */
+            /* eslint-disable no-underscore-dangle -- Private Node API overriding */
             before(() => {
                 originalFindPath = Module._findPath;
                 Module._findPath = function(id, ...otherArgs) {
@@ -739,7 +753,7 @@ describe("CLIEngine", () => {
             after(() => {
                 Module._findPath = originalFindPath;
             });
-            /* eslint-enable no-underscore-dangle */
+            /* eslint-enable no-underscore-dangle -- Private Node API overriding */
 
             it("should resolve 'plugins:[\"@scope\"]' to 'node_modules/@scope/eslint-plugin'.", () => {
                 engine = new CLIEngine({ cwd: getFixturePath("plugin-shorthand/basic") });
@@ -777,7 +791,7 @@ describe("CLIEngine", () => {
 
     describe("executeOnFiles()", () => {
 
-        /** @type {InstanceType<import("../../../lib/cli-engine")["CLIEngine"]>} */
+        /** @type {InstanceType<import("../../../lib/cli-engine").CLIEngine>} */
         let engine;
 
         it("should use correct parser when custom parser is specified", () => {
@@ -1144,28 +1158,44 @@ describe("CLIEngine", () => {
                 configFile: getFixturePath("configurations", "semi-error.json")
             });
 
-            const report = engine.executeOnFiles([getFixturePath("formatters")]);
+            const fixturePath = getFixturePath("formatters");
+            const report = engine.executeOnFiles([fixturePath]);
 
-            assert.strictEqual(report.results.length, 3);
             assert.strictEqual(report.errorCount, 0);
             assert.strictEqual(report.warningCount, 0);
             assert.strictEqual(report.fixableErrorCount, 0);
             assert.strictEqual(report.fixableWarningCount, 0);
-            assert.strictEqual(report.results[0].messages.length, 0);
-            assert.strictEqual(report.results[1].messages.length, 0);
-            assert.strictEqual(report.results[2].messages.length, 0);
+            assert.strictEqual(report.results.length, 5);
+            assert.strictEqual(path.relative(fixturePath, report.results[0].filePath), "async.js");
             assert.strictEqual(report.results[0].errorCount, 0);
             assert.strictEqual(report.results[0].warningCount, 0);
             assert.strictEqual(report.results[0].fixableErrorCount, 0);
             assert.strictEqual(report.results[0].fixableWarningCount, 0);
+            assert.strictEqual(report.results[0].messages.length, 0);
+            assert.strictEqual(path.relative(fixturePath, report.results[1].filePath), "broken.js");
             assert.strictEqual(report.results[1].errorCount, 0);
             assert.strictEqual(report.results[1].warningCount, 0);
             assert.strictEqual(report.results[1].fixableErrorCount, 0);
             assert.strictEqual(report.results[1].fixableWarningCount, 0);
+            assert.strictEqual(report.results[1].messages.length, 0);
+            assert.strictEqual(path.relative(fixturePath, report.results[2].filePath), "cwd.js");
             assert.strictEqual(report.results[2].errorCount, 0);
             assert.strictEqual(report.results[2].warningCount, 0);
             assert.strictEqual(report.results[2].fixableErrorCount, 0);
             assert.strictEqual(report.results[2].fixableWarningCount, 0);
+            assert.strictEqual(report.results[2].messages.length, 0);
+            assert.strictEqual(path.relative(fixturePath, report.results[3].filePath), "simple.js");
+            assert.strictEqual(report.results[3].errorCount, 0);
+            assert.strictEqual(report.results[3].warningCount, 0);
+            assert.strictEqual(report.results[3].fixableErrorCount, 0);
+            assert.strictEqual(report.results[3].fixableWarningCount, 0);
+            assert.strictEqual(report.results[3].messages.length, 0);
+            assert.strictEqual(path.relative(fixturePath, report.results[4].filePath), path.join("test", "simple.js"));
+            assert.strictEqual(report.results[4].errorCount, 0);
+            assert.strictEqual(report.results[4].warningCount, 0);
+            assert.strictEqual(report.results[4].fixableErrorCount, 0);
+            assert.strictEqual(report.results[4].fixableWarningCount, 0);
+            assert.strictEqual(report.results[4].messages.length, 0);
         });
 
 
@@ -1176,24 +1206,39 @@ describe("CLIEngine", () => {
                 configFile: getFixturePath("configurations", "single-quotes-error.json")
             });
 
-            const report = engine.executeOnFiles([getFixturePath("formatters")]);
+            const fixturePath = getFixturePath("formatters");
+            const report = engine.executeOnFiles([fixturePath]);
 
             assert.strictEqual(report.errorCount, 6);
             assert.strictEqual(report.warningCount, 0);
             assert.strictEqual(report.fixableErrorCount, 6);
             assert.strictEqual(report.fixableWarningCount, 0);
+            assert.strictEqual(report.results.length, 5);
+            assert.strictEqual(path.relative(fixturePath, report.results[0].filePath), "async.js");
             assert.strictEqual(report.results[0].errorCount, 0);
             assert.strictEqual(report.results[0].warningCount, 0);
             assert.strictEqual(report.results[0].fixableErrorCount, 0);
             assert.strictEqual(report.results[0].fixableWarningCount, 0);
-            assert.strictEqual(report.results[1].errorCount, 3);
+            assert.strictEqual(path.relative(fixturePath, report.results[1].filePath), "broken.js");
+            assert.strictEqual(report.results[1].errorCount, 0);
             assert.strictEqual(report.results[1].warningCount, 0);
-            assert.strictEqual(report.results[1].fixableErrorCount, 3);
+            assert.strictEqual(report.results[1].fixableErrorCount, 0);
             assert.strictEqual(report.results[1].fixableWarningCount, 0);
-            assert.strictEqual(report.results[2].errorCount, 3);
+            assert.strictEqual(path.relative(fixturePath, report.results[2].filePath), "cwd.js");
+            assert.strictEqual(report.results[2].errorCount, 0);
             assert.strictEqual(report.results[2].warningCount, 0);
-            assert.strictEqual(report.results[2].fixableErrorCount, 3);
+            assert.strictEqual(report.results[2].fixableErrorCount, 0);
             assert.strictEqual(report.results[2].fixableWarningCount, 0);
+            assert.strictEqual(path.relative(fixturePath, report.results[3].filePath), "simple.js");
+            assert.strictEqual(report.results[3].errorCount, 3);
+            assert.strictEqual(report.results[3].warningCount, 0);
+            assert.strictEqual(report.results[3].fixableErrorCount, 3);
+            assert.strictEqual(report.results[3].fixableWarningCount, 0);
+            assert.strictEqual(path.relative(fixturePath, report.results[4].filePath), path.join("test", "simple.js"));
+            assert.strictEqual(report.results[4].errorCount, 3);
+            assert.strictEqual(report.results[4].warningCount, 0);
+            assert.strictEqual(report.results[4].fixableErrorCount, 3);
+            assert.strictEqual(report.results[4].fixableWarningCount, 0);
         });
 
         it("should process when file is given by not specifying extensions", () => {
@@ -1684,6 +1729,7 @@ describe("CLIEngine", () => {
                         messages: [],
                         errorCount: 0,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "true ? \"yes\" : \"no\";\n"
@@ -1693,6 +1739,7 @@ describe("CLIEngine", () => {
                         messages: [],
                         errorCount: 0,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0
                     },
@@ -1713,6 +1760,7 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var msg = \"hi\";\nif (msg == \"hi\") {\n\n}\n"
@@ -1734,6 +1782,7 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var msg = \"hi\" + foo;\n"
@@ -2132,9 +2181,15 @@ describe("CLIEngine", () => {
                     useEslintrc: false,
                     plugins: ["test"],
                     rules: { "test/example-rule": 1 }
+                }, {
+                    preloadedPlugins: {
+                        "eslint-plugin-test": {
+                            rules: {
+                                "example-rule": require("../../fixtures/rules/custom-rule")
+                            }
+                        }
+                    }
                 });
-
-                engine.addPlugin("eslint-plugin-test", { rules: { "example-rule": require("../../fixtures/rules/custom-rule") } });
 
                 const report = engine.executeOnFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
 
@@ -2849,16 +2904,18 @@ describe("CLIEngine", () => {
                     },
                     extensions: ["js", "txt"],
                     cwd: path.join(fixtureDir, "..")
-                });
-
-                engine.addPlugin("test-processor", {
-                    processors: {
-                        ".txt": {
-                            preprocess(text) {
-                                return [text];
-                            },
-                            postprocess(messages) {
-                                return messages[0];
+                }, {
+                    preloadedPlugins: {
+                        "test-processor": {
+                            processors: {
+                                ".txt": {
+                                    preprocess(text) {
+                                        return [text];
+                                    },
+                                    postprocess(messages) {
+                                        return messages[0];
+                                    }
+                                }
                             }
                         }
                     }
@@ -2892,17 +2949,19 @@ describe("CLIEngine", () => {
                     },
                     extensions: ["js", "txt"],
                     cwd: path.join(fixtureDir, "..")
-                });
-
-                engine.addPlugin("test-processor", {
-                    processors: {
-                        ".txt": {
-                            preprocess(text) {
-                                return [text.replace("a()", "b()")];
-                            },
-                            postprocess(messages) {
-                                messages[0][0].ruleId = "post-processed";
-                                return messages[0];
+                }, {
+                    preloadedPlugins: {
+                        "test-processor": {
+                            processors: {
+                                ".txt": {
+                                    preprocess(text) {
+                                        return [text.replace("a()", "b()")];
+                                    },
+                                    postprocess(messages) {
+                                        messages[0][0].ruleId = "post-processed";
+                                        return messages[0];
+                                    }
+                                }
                             }
                         }
                     }
@@ -2936,17 +2995,19 @@ describe("CLIEngine", () => {
                     },
                     extensions: ["js", "txt"],
                     ignore: false
-                });
-
-                engine.addPlugin("test-processor", {
-                    processors: {
-                        ".txt": {
-                            preprocess(text) {
-                                return [text.replace("a()", "b()")];
-                            },
-                            postprocess(messages) {
-                                messages[0][0].ruleId = "post-processed";
-                                return messages[0];
+                }, {
+                    preloadedPlugins: {
+                        "test-processor": {
+                            processors: {
+                                ".txt": {
+                                    preprocess(text) {
+                                        return [text.replace("a()", "b()")];
+                                    },
+                                    postprocess(messages) {
+                                        messages[0][0].ruleId = "post-processed";
+                                        return messages[0];
+                                    }
+                                }
                             }
                         }
                     }
@@ -2988,11 +3049,13 @@ describe("CLIEngine", () => {
                         extensions: ["js", "txt"],
                         ignore: false,
                         fix: true
-                    });
-
-                    engine.addPlugin("test-processor", {
-                        processors: {
-                            ".html": Object.assign({ supportsAutofix: true }, HTML_PROCESSOR)
+                    }, {
+                        preloadedPlugins: {
+                            "test-processor": {
+                                processors: {
+                                    ".html": Object.assign({ supportsAutofix: true }, HTML_PROCESSOR)
+                                }
+                            }
                         }
                     });
 
@@ -3012,9 +3075,15 @@ describe("CLIEngine", () => {
                         extensions: ["js", "txt"],
                         ignore: false,
                         fix: true
+                    }, {
+                        preloadedPlugins: {
+                            "test-processor": {
+                                processors: {
+                                    ".html": HTML_PROCESSOR
+                                }
+                            }
+                        }
                     });
-
-                    engine.addPlugin("test-processor", { processors: { ".html": HTML_PROCESSOR } });
 
                     const report = engine.executeOnText("<script>foo</script>", "foo.html");
 
@@ -3031,11 +3100,13 @@ describe("CLIEngine", () => {
                         },
                         extensions: ["js", "txt"],
                         ignore: false
-                    });
-
-                    engine.addPlugin("test-processor", {
-                        processors: {
-                            ".html": Object.assign({ supportsAutofix: true }, HTML_PROCESSOR)
+                    }, {
+                        preloadedPlugins: {
+                            "test-processor": {
+                                processors: {
+                                    ".html": Object.assign({ supportsAutofix: true }, HTML_PROCESSOR)
+                                }
+                            }
                         }
                     });
 
@@ -4284,7 +4355,7 @@ describe("CLIEngine", () => {
 
                 assert.throw(() => {
                     try {
-                        // eslint-disable-next-line no-new
+                        // eslint-disable-next-line no-new -- Check for throwing
                         new CLIEngine({ cwd });
                     } catch (error) {
                         assert.strictEqual(error.messageTemplate, "failed-to-read-json");
@@ -4310,7 +4381,7 @@ describe("CLIEngine", () => {
                 const cwd = getFixturePath("ignored-paths", "bad-package-json-ignore");
 
                 assert.throws(() => {
-                    // eslint-disable-next-line no-new
+                    // eslint-disable-next-line no-new -- Check for throwing
                     new CLIEngine({ cwd });
                 }, "Package.json eslintIgnore property requires an array of paths");
             });
@@ -4442,7 +4513,7 @@ describe("CLIEngine", () => {
                 const ignorePath = getFixturePath("ignored-paths", "not-a-directory", ".foobaz");
 
                 assert.throws(() => {
-                    // eslint-disable-next-line no-new
+                    // eslint-disable-next-line no-new -- Check for throwing
                     new CLIEngine({ ignorePath, cwd });
                 }, "Cannot read .eslintignore file");
             });
@@ -4628,7 +4699,7 @@ describe("CLIEngine", () => {
             assert.isFunction(formatter);
         });
 
-        it("should return null when a customer formatter doesn't exist", () => {
+        it("should return null when a custom formatter doesn't exist", () => {
             const engine = new CLIEngine(),
                 formatterPath = getFixturePath("formatters", "doesntexist.js"),
                 fullFormatterPath = path.resolve(formatterPath);
@@ -4645,6 +4716,18 @@ describe("CLIEngine", () => {
             assert.throws(() => {
                 engine.getFormatter("special");
             }, `There was a problem loading formatter: ${fullFormatterPath}\nError: Cannot find module '${fullFormatterPath}'`);
+        });
+
+        it("should throw when a built-in formatter no longer exists", () => {
+            const engine = new CLIEngine();
+
+            assert.throws(() => {
+                engine.getFormatter("table");
+            }, "The table formatter is no longer part of core ESLint. Install it manually with `npm install -D eslint-formatter-table`");
+
+            assert.throws(() => {
+                engine.getFormatter("codeframe");
+            }, "The codeframe formatter is no longer part of core ESLint. Install it manually with `npm install -D eslint-formatter-codeframe`");
         });
 
         it("should throw if the required formatter exists but has an error", () => {
@@ -4866,10 +4949,14 @@ describe("CLIEngine", () => {
             assert(engine.getRules().has("node/no-deprecated-api"), "node/no-deprecated-api is present");
         });
 
-        it("should expose the rules of the plugin that is added by 'addPlugin'.", () => {
-            const engine = new CLIEngine({ plugins: ["foo"] });
-
-            engine.addPlugin("foo", require("eslint-plugin-node"));
+        it("should expose the list of rules from a preloaded plugin", () => {
+            const engine = new CLIEngine({
+                plugins: ["foo"]
+            }, {
+                preloadedPlugins: {
+                    foo: require("eslint-plugin-node")
+                }
+            });
 
             assert(engine.getRules().has("foo/no-deprecated-api"), "foo/no-deprecated-api is present");
         });
@@ -5008,6 +5095,7 @@ describe("CLIEngine", () => {
             const config = {
                 envs: ["browser"],
                 ignore: true,
+                useEslintrc: false,
                 allowInlineConfig: false,
                 rules: {
                     "eol-last": 0,
@@ -5034,6 +5122,7 @@ describe("CLIEngine", () => {
             const config = {
                 envs: ["browser"],
                 ignore: true,
+                useEslintrc: false,
 
                 // allowInlineConfig: true is the default
                 rules: {
@@ -5071,20 +5160,26 @@ describe("CLIEngine", () => {
                                     message: "Unused eslint-disable directive (no problems were reported).",
                                     line: 1,
                                     column: 1,
+                                    fix: {
+                                        range: [0, 20],
+                                        text: " "
+                                    },
                                     severity: 2,
                                     nodeType: null
                                 }
                             ],
                             errorCount: 1,
                             warningCount: 0,
-                            fixableErrorCount: 0,
+                            fatalErrorCount: 0,
+                            fixableErrorCount: 1,
                             fixableWarningCount: 0,
                             source: "/* eslint-disable */"
                         }
                     ],
                     errorCount: 1,
                     warningCount: 0,
-                    fixableErrorCount: 0,
+                    fatalErrorCount: 0,
+                    fixableErrorCount: 1,
                     fixableWarningCount: 0,
                     usedDeprecatedRules: []
                 }
@@ -6155,7 +6250,8 @@ describe("CLIEngine", () => {
                             }
                         ],
                         source: "a == b",
-                        warningCount: 0
+                        warningCount: 0,
+                        fatalErrorCount: 0
                     }
                 ]);
             });
@@ -6177,7 +6273,8 @@ describe("CLIEngine", () => {
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         messages: [],
-                        warningCount: 0
+                        warningCount: 0,
+                        fatalErrorCount: 0
                     }
                 ]);
             });
@@ -6223,7 +6320,8 @@ describe("CLIEngine", () => {
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         messages: [],
-                        warningCount: 0
+                        warningCount: 0,
+                        fatalErrorCount: 0
                     }
                 ]);
             });
@@ -6258,7 +6356,8 @@ describe("CLIEngine", () => {
                             }
                         ],
                         source: "a == b",
-                        warningCount: 0
+                        warningCount: 0,
+                        fatalErrorCount: 0
                     }
                 ]);
             });

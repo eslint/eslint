@@ -1,6 +1,5 @@
 # Language Options
 
-
 * [Specifying Environments](#specifying-environments)
 * [Specifying Globals](#specifying-globals)
 * [Specifying Parser Options](#specifying-parser-options)
@@ -174,7 +173,6 @@ Globals can be disabled with the string `"off"`. For example, in an environment 
 
 For historical reasons, the boolean value `false` and the string value `"readable"` are equivalent to `"readonly"`. Similarly, the boolean value `true` and the string value `"writeable"` are equivalent to `"writable"`. However, the use of older values is deprecated.
 
-
 ## Specifying Parser Options
 
 ESLint allows you to specify the JavaScript language options you want to support. By default, ESLint expects ECMAScript 5 syntax. You can override that setting to enable support for other ECMAScript versions as well as JSX by using parser options.
@@ -187,8 +185,9 @@ For ES6 syntax, use `{ "parserOptions": { "ecmaVersion": 6 } }`; for new ES6 glo
 
 Parser options are set in your `.eslintrc.*` file by using the `parserOptions` property. The available options are:
 
-* `ecmaVersion` - set to 3, 5 (default), 6, 7, 8, 9, 10, 11, or 12 to specify the version of ECMAScript syntax you want to use. You can also set to 2015 (same as 6), 2016 (same as 7), 2017 (same as 8), 2018 (same as 9), 2019 (same as 10), 2020 (same as 11), or 2021 (same as 12) to use the year-based naming.
+* `ecmaVersion` - set to 3, 5 (default), 6, 7, 8, 9, 10, 11, 12, or 13 to specify the version of ECMAScript syntax you want to use. You can also set to 2015 (same as 6), 2016 (same as 7), 2017 (same as 8), 2018 (same as 9), 2019 (same as 10), 2020 (same as 11), 2021 (same as 12), or 2022 (same as 13) to use the year-based naming. You can also set "latest" to use the most recently supported version.
 * `sourceType` - set to `"script"` (default) or `"module"` if your code is in ECMAScript modules.
+* `allowReserved` - allow the use of reserved words as identifiers (if `ecmaVersion` is 3).
 * `ecmaFeatures` - an object indicating which additional language features you'd like to use:
     * `globalReturn` - allow `return` statements in the global scope
     * `impliedStrict` - enable global [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) (if `ecmaVersion` is 5 or greater)
@@ -199,7 +198,7 @@ Here's an example `.eslintrc.json` file:
 ```json
 {
     "parserOptions": {
-        "ecmaVersion": 6,
+        "ecmaVersion": "latest",
         "sourceType": "module",
         "ecmaFeatures": {
             "jsx": true

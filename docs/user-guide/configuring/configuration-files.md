@@ -6,7 +6,7 @@
 * [Cascading and Hierarchy](#cascading-and-hierarchy)
 * [Extending Configuration Files](#extending-configuration-files)
 * [Configuration Based on Glob Patterns](#configuration-based-on-glob-patterns)
-* [Personal Configuration Files](#personal-configuration-files)
+* [Personal Configuration Files](#personal-configuration-files-deprecated)
 
 ## Configuration File Formats
 
@@ -37,7 +37,34 @@ The second way to use configuration files is to save the file wherever you would
 
     eslint -c myconfig.json myfiletotest.js
 
-If you are using one configuration file and want ESLint to ignore any `.eslintrc.*` files, make sure to use [`--no-eslintrc`](https://eslint.org/docs/user-guide/command-line-interface#-no-eslintrc) along with the [`-c`](https://eslint.org/docs/user-guide/command-line-interface#-c-config) flag.
+If you are using one configuration file and want ESLint to ignore any `.eslintrc.*` files, make sure to use [`--no-eslintrc`](https://eslint.org/docs/user-guide/command-line-interface#--no-eslintrc) along with the [`-c`](https://eslint.org/docs/user-guide/command-line-interface#-c---config) flag.
+
+Here's an example JSON configuration file that uses the `typescript-eslint` parser to support TypeScript syntax:
+
+```json
+{
+    "root": true,
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": { "project": ["./tsconfig.json"] },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "@typescript-eslint/strict-boolean-expressions": [
+            2,
+            {
+                "allowString" : false,
+                "allowNumber" : false
+            }
+        ]
+    },
+    "ignorePatterns": ["src/**/*.test.ts", "src/frontend/generated/*"]
+}
+```
 
 ### Comments in configuration files
 
@@ -191,7 +218,11 @@ The `rules` property can do any of the following to extend (or override) the set
 * override options for rules from base configurations:
     * Base config: `"quotes": ["error", "single", "avoid-escape"]`
     * Derived config: `"quotes": ["error", "single"]`
-    * Resulting actual config: `"quotes": ["error", "single"]
+    * Resulting actual config: `"quotes": ["error", "single"]`
+* override options for rules given as object from base configurations:
+    * Base config: `"max-lines": ["error", { "max": 200, "skipBlankLines": true, "skipComments": true }]`
+    * Derived config: `"max-lines": ["error", { "max": 100 }]`
+    * Resulting actual config: `"max-lines": ["error", { "max": 100 }]` where `skipBlankLines` and `skipComments` default to `false`
 
 ### Using a shareable configuration package
 
@@ -297,7 +328,7 @@ The `extends` property value can be `"eslint:all"` to enable all core rules in t
 
 You might enable all core rules as a shortcut to explore rules and options while you decide on the configuration for a project, especially if you rarely override options or disable rules. The default options for rules are not endorsements by ESLint (for example, the default option for the [`quotes`](https://eslint.org/docs/rules/quotes) rule does not mean double quotes are better than single quotes).
 
-If your configuration extends `eslint:all`, after you upgrade to a newer major or minor version of ESLint, review the reported problems before you use the `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#fix), so you know if a new fixable rule will make changes to the code.
+If your configuration extends `eslint:all`, after you upgrade to a newer major or minor version of ESLint, review the reported problems before you use the `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#--fix), so you know if a new fixable rule will make changes to the code.
 
 Example of a configuration file in JavaScript format:
 
@@ -361,7 +392,7 @@ Here is how overrides work in a configuration file:
 
 ### Relative glob patterns
 
-```
+```pt
 project-root
 ├── app
 │   ├── lib

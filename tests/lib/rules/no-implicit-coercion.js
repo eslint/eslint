@@ -88,7 +88,23 @@ ruleTester.run("no-implicit-coercion", rule, {
         { code: "`${foo}` + ''", parserOptions: { ecmaVersion: 6 } },
         "foo += 'bar'",
         { code: "foo += `${bar}`", parserOptions: { ecmaVersion: 6 } },
-        "+42"
+        { code: "`a${foo}`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "`${foo}b`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "`${foo}${bar}`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "tag`${foo}`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "`${foo}`", parserOptions: { ecmaVersion: 6 } },
+        { code: "`${foo}`", options: [{ }], parserOptions: { ecmaVersion: 6 } },
+        { code: "`${foo}`", options: [{ disallowTemplateShorthand: false }], parserOptions: { ecmaVersion: 6 } },
+        "+42",
+
+        // https://github.com/eslint/eslint/issues/14623
+        "'' + String(foo)",
+        "String(foo) + ''",
+        { code: "`` + String(foo)", parserOptions: { ecmaVersion: 6 } },
+        { code: "String(foo) + ``", parserOptions: { ecmaVersion: 6 } },
+        { code: "`${'foo'}`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "`${`foo`}`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "`${String(foo)}`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
@@ -246,6 +262,39 @@ ruleTester.run("no-implicit-coercion", rule, {
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo.bar)" },
                 type: "BinaryExpression"
+            }]
+        },
+        {
+            code: "`${foo}`",
+            output: "String(foo)",
+            options: [{ disallowTemplateShorthand: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "String(foo)" },
+                type: "TemplateLiteral"
+            }]
+        },
+        {
+            code: "`\\\n${foo}`",
+            output: "String(foo)",
+            options: [{ disallowTemplateShorthand: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "String(foo)" },
+                type: "TemplateLiteral"
+            }]
+        },
+        {
+            code: "`${foo}\\\n`",
+            output: "String(foo)",
+            options: [{ disallowTemplateShorthand: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "String(foo)" },
+                type: "TemplateLiteral"
             }]
         },
         {

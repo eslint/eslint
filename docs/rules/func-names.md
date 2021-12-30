@@ -17,14 +17,14 @@ This rule can enforce or disallow the use of named function expressions.
 This rule has a string option:
 
 * `"always"` (default) requires function expressions to have a name
-* `"as-needed"` requires function expressions to have a name, if the name cannot be assigned automatically in an ES6 environment
+* `"as-needed"` requires function expressions to have a name, if the name isn't assigned automatically per the ECMAScript specification.
 * `"never"` disallows named function expressions, except in recursive functions, where a name is needed
 
 This rule has an object option:
 
 * `"generators": "always" | "as-needed" | "never"`
     * `"always"` require named generators
-    * `"as-needed"` require named generators if the name cannot be assigned automatically in an ES6 environment.
+    * `"as-needed"` require named generators if the name isn't assigned automatically per the ECMAScript specification.
     * `"never"` disallow named generators where possible.
 
 When a value for `generators` is not provided the behavior for generator functions falls back to the base option.
@@ -97,6 +97,13 @@ var bar = function() {};
 const cat = {
   meow: function() {}
 }
+
+class C {
+    #bar = function() {};
+    baz = function() {};
+}
+
+quux ??= function() {};
 
 (function bar() {
     // ...
@@ -199,12 +206,12 @@ Examples of **correct** code for this rule with the `"never", { "generators": "a
 var foo = bar(function *baz() {});
 ```
 
-## Further Reading
-
-* [Functions Explained](http://markdaggett.com/blog/2013/02/15/functions-explained/)
-* [Function Names in ES6](http://2ality.com/2015/09/function-names-es6.html)
-
 ## Compatibility
 
 * **JSCS**: [requireAnonymousFunctions](https://jscs-dev.github.io/rule/requireAnonymousFunctions)
 * **JSCS**: [disallowAnonymousFunctions](https://jscs-dev.github.io/rule/disallowAnonymousFunctions)
+
+## Further Reading
+
+* [Functions Explained](http://markdaggett.com/blog/2013/02/15/functions-explained/)
+* [Function Names in ES6](http://2ality.com/2015/09/function-names-es6.html)
