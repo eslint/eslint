@@ -25,6 +25,8 @@ ruleTester.run("no-self-assign", rule, {
         "a += a",
         "a = +a",
         "a = [a]",
+        "a &= a",
+        "a |= a",
         { code: "let a = a", parserOptions: { ecmaVersion: 6 } },
         { code: "const a = a", parserOptions: { ecmaVersion: 6 } },
         { code: "[a] = a", parserOptions: { ecmaVersion: 6 } },
@@ -150,14 +152,6 @@ ruleTester.run("no-self-assign", rule, {
         },
 
         // logical assignment
-        {
-            code: "a &= a",
-            errors: [{ messageId: "selfAssignment", data: { name: "a" } }]
-        },
-        {
-            code: "a |= a",
-            errors: [{ messageId: "selfAssignment", data: { name: "a" } }]
-        },
         {
             code: "a &&= a",
             parserOptions: { ecmaVersion: 2021 },
