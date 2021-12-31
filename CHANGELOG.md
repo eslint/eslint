@@ -1,3 +1,16 @@
+v8.6.0 - December 31, 2021
+
+* [`3a384fc`](https://github.com/eslint/eslint/commit/3a384fc287cebb7be5fe5ed95497d578437a503a) chore: Upgrade espree to 9.3.0 (#15473) (Brandon Mills)
+* [`1443cc2`](https://github.com/eslint/eslint/commit/1443cc2fc8785157936b864258924fe9bcd23210) chore: Update blogpost.md.ejs (#15468) (Nicholas C. Zakas)
+* [`6c4dee2`](https://github.com/eslint/eslint/commit/6c4dee2e87dac8d0751ce2426ded651ed0986112) docs: Document homedir is a configuration root (#15469) (Bas Bosman)
+* [`6802a54`](https://github.com/eslint/eslint/commit/6802a54837ea008bef4d5ae11522941693ba5ef6) feat: handle logical assignment in no-self-assign (#14152) (Zzzen)
+* [`3b38018`](https://github.com/eslint/eslint/commit/3b38018ef5cb004ad5bc011de726bd2df2eb2f3f) feat: allow to define `eslint-disable-next-line` in multiple lines (#15436) (Nitin Kumar)
+* [`51c37b1`](https://github.com/eslint/eslint/commit/51c37b118aed9c0d7a0efd40c491efca04c82ef9) docs: consistency changes (#15404) (Bas Bosman)
+* [`28e907a`](https://github.com/eslint/eslint/commit/28e907a4ca05a026d156f814f4118f8fe713e99d) refactor: remove unused parameter in `linter.js` (#15451) (Milos Djermanovic)
+* [`eaa08d3`](https://github.com/eslint/eslint/commit/eaa08d3055b195bce59cc96bb63ac29038cd7c7d) test: add tests for `allowReserved` parser option with flat config (#15450) (Milos Djermanovic)
+* [`9d6fe5a`](https://github.com/eslint/eslint/commit/9d6fe5a6b65f397bafc5eb0a995e96717cdc9b53) feat: false negative with `onlyDeclarations` + `properties` in id-match (#15431) (Nitin Kumar)
+* [`775d181`](https://github.com/eslint/eslint/commit/775d18138244a28ebe1cb92849cd0f4e8cd27672) docs: Mention character classes in no-useless-escape (#15421) (Sebastian Simon)
+
 v8.5.0 - December 17, 2021
 
 * [`7d832d4`](https://github.com/eslint/eslint/commit/7d832d4ad55f3c987aca8d858809cbcb77697648) fix: improve `prefer-template` fixer (#15230) (Nitin Kumar)
