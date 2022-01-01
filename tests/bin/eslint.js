@@ -104,6 +104,7 @@ describe("bin/eslint.js", () => {
                 {
                     filePath: "<text>",
                     messages: [],
+                    suppressedMessages: [],
                     errorCount: 0,
                     fatalErrorCount: 0,
                     warningCount: 0,

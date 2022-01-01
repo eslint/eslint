@@ -19,6 +19,7 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
     * [static getErrorResults()][eslint-geterrorresults]
     * [LintResult type][lintresult]
     * [LintMessage type][lintmessage]
+    * [SuppressedLintMessage type][suppressedlintmessage]
     * [EditInfo type][editinfo]
     * [Formatter type][formatter]
 * [SourceCode](#sourcecode)
@@ -26,6 +27,7 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
 * [Linter](#linter)
     * [verify()](#linterverify)
     * [verifyAndFix()](#linterverifyandfix)
+    * [getSuppressedMessages()](#getsuppressedmessages)
     * [defineRule()](#linterdefinerule)
     * [defineRules()](#linterdefinerules)
     * [getRules()](#lintergetrules)
@@ -347,6 +349,8 @@ The `LintResult` value is the information of the linting result of each file. Th
   The absolute path to the file of this result. This is the string `"<text>"` if the file path is unknown (when you didn't pass the `options.filePath` option to the [`eslint.lintText()`][eslint-linttext] method).
 * `messages` (`LintMessage[]`)<br>
   The array of [LintMessage] objects.
+* `suppressedMessages` (`SuppressedLintMessage[]`)<br>
+  The array of [SuppressedLintMessage] objects.
 * `fixableErrorCount` (`number`)<br>
   The number of errors that can be fixed automatically by the `fix` constructor option.
 * `fixableWarningCount` (`number`)<br>
@@ -388,6 +392,33 @@ The `LintMessage` value is the information of each linting error. The `messages`
   The [EditInfo] object of autofix. This property is undefined if this message is not fixable.
 * `suggestions` (`{ desc: string; fix: EditInfo }[] | undefined`)<br>
   The list of suggestions. Each suggestion is the pair of a description and an [EditInfo] object to fix code. API users such as editor integrations can choose one of them to fix the problem of this message. This property is undefined if this message doesn't have any suggestions.
+
+### ◆ SuppressedLintMessage type
+
+The `SuppressedLintMessage` value is the information of each suppressed linting error. The `suppressedMessages` property of the [LintResult] type contains it. It has the following properties:
+
+* `ruleId` (`string` | `null`)<br>
+  Same as `ruleId` in [LintMessage] type.
+* `severity` (`1 | 2`)<br>
+  Same as `severity` in [LintMessage] type.
+* `fatal` (`boolean | undefined`)<br>
+  Same as `fatal` in [LintMessage] type.
+* `message` (`string`)<br>
+  Same as `message` in [LintMessage] type.
+* `line` (`number | undefined`)<br>
+  Same as `line` in [LintMessage] type.
+* `column` (`number | undefined`)<br>
+  Same as `column` in [LintMessage] type.
+* `endLine` (`number | undefined`)<br>
+  Same as `endLine` in [LintMessage] type.
+* `endColumn` (`number | undefined`)<br>
+  Same as `endColumn` in [LintMessage] type.
+* `fix` (`EditInfo | undefined`)<br>
+  Same as `fix` in [LintMessage] type.
+* `suggestions` (`{ desc: string; fix: EditInfo }[] | undefined`)<br>
+  Same as `suggestions` in [LintMessage] type.
+* `suppressions` (`{ kind: string; justification: string}[]`)<br>
+  The list of suppressions. Each suppression is the pair of a kind and a justification.
 
 ### ◆ EditInfo type
 
@@ -550,6 +581,22 @@ The information available for each linting message is:
 * `endLine` - the end line of the range on which the error occurred (this property is omitted if it's not range).
 * `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
 * `suggestions` - an array of objects describing possible lint fixes for editors to programmatically enable (see details in the [Working with Rules docs](./working-with-rules.md#providing-suggestions)).
+
+You can get the suppressed messages from the pervious run by `getSuppressedMessages()` method. If there is not a previous run, `getSuppressedMessage()` will return an empty list.
+
+```js
+const Linter = require("eslint").Linter;
+const linter = new Linter();
+
+const messages = linter.verify("var foo = bar; // eslint-disable-line -- Need to suppress", {
+    rules: {
+        semi: 2
+    }
+}, { filename: "foo.js" });
+const suppressedMessages = linter.getSuppressedMessages();
+
+console.log(suppressedMessages.suppressions); // [{ "kind": "directive", "justification": "Need to suppress }]
+```
 
 Linting message objects have a deprecated `source` property. This property **will be removed** from linting messages in an upcoming breaking release. If you depend on this property, you should now use the `SourceCode` instance provided by the linter.
 
@@ -912,6 +959,7 @@ ruleTester.run("my-rule", myRule, {
 [eslint-geterrorresults]: #-eslintgeterrorresultsresults
 [lintresult]: #-lintresult-type
 [lintmessage]: #-lintmessage-type
+[suppressedlintmessage]: #-suppressedlintmessage-type
 [editinfo]: #-editinfo-type
 [formatter]: #-formatter-type
 [linter]: #linter
