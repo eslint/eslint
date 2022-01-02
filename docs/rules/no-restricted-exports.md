@@ -18,7 +18,7 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-restricted-exports: ["error", {
-    "restrictedNamedExports": ["foo", "bar", "Baz", "a", "b", "c", "d"]
+    "restrictedNamedExports": ["foo", "bar", "Baz", "a", "b", "c", "d", "e", "👍"]
 }]*/
 
 export const foo = 1;
@@ -35,14 +35,18 @@ export { someFunction as b };
 
 export { c } from 'some_module';
 
-export { something as d } from 'some_module';
+export { "d" } from 'some_module';
+
+export { something as e } from 'some_module';
+
+export { "👍" } from 'some_module';
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-restricted-exports: ["error", {
-    "restrictedNamedExports": ["foo", "bar", "Baz", "a", "b", "c", "d"]
+    "restrictedNamedExports": ["foo", "bar", "Baz", "a", "b", "c", "d", "e", "👍"]
 }]*/
 
 export const quux = 1;
@@ -60,6 +64,8 @@ export { someFunction };
 export { c as someName } from 'some_module';
 
 export { something } from 'some_module';
+
+export { "👍" as thumbsUp } from 'some_module';
 ```
 
 ### Default exports

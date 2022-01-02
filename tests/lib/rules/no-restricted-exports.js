@@ -16,7 +16,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020, sourceType: "module" } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022, sourceType: "module" } });
 
 ruleTester.run("no-restricted-exports", rule, {
     valid: [
@@ -57,8 +57,12 @@ ruleTester.run("no-restricted-exports", rule, {
         { code: "var b; export { b as a };", options: [{ restrictedNamedExports: ["x"] }] },
         { code: "export { a } from 'foo';", options: [{ restrictedNamedExports: ["x"] }] },
         { code: "export { b as a } from 'foo';", options: [{ restrictedNamedExports: ["x"] }] },
+        { code: "export { '' } from 'foo';", options: [{ restrictedNamedExports: ["undefined"] }] },
+        { code: "export { '' } from 'foo';", options: [{ restrictedNamedExports: [" "] }] },
+        { code: "export { ' ' } from 'foo';", options: [{ restrictedNamedExports: [""] }] },
+        { code: "export { ' a', 'a ' } from 'foo';", options: [{ restrictedNamedExports: ["a"] }] },
 
-        // does not mistakenly disallow non-exported identifiers that appear in named export declarations
+        // does not mistakenly disallow non-exported names that appear in named export declarations
         { code: "export var b = a;", options: [{ restrictedNamedExports: ["a"] }] },
         { code: "export let [b = a] = [];", options: [{ restrictedNamedExports: ["a"] }] },
         { code: "export const [b] = [a];", options: [{ restrictedNamedExports: ["a"] }] },
@@ -69,7 +73,10 @@ ruleTester.run("no-restricted-exports", rule, {
         { code: "export class A { a(){} }", options: [{ restrictedNamedExports: ["a"] }] },
         { code: "export class A extends B {}", options: [{ restrictedNamedExports: ["B"] }] },
         { code: "var a; export { a as b };", options: [{ restrictedNamedExports: ["a"] }] },
+        { code: "var a; export { a as 'a ' };", options: [{ restrictedNamedExports: ["a"] }] },
         { code: "export { a as b } from 'foo';", options: [{ restrictedNamedExports: ["a"] }] },
+        { code: "export { a as 'a ' } from 'foo';", options: [{ restrictedNamedExports: ["a"] }] },
+        { code: "export { 'a' as 'a ' } from 'foo';", options: [{ restrictedNamedExports: ["a"] }] },
 
         // does not check source in re-export declarations
         { code: "export { b } from 'a';", options: [{ restrictedNamedExports: ["a"] }] },
@@ -187,6 +194,59 @@ ruleTester.run("no-restricted-exports", rule, {
             options: [{ restrictedNamedExports: ["a"] }],
             errors: [{ messageId: "restrictedNamed", data: { name: "a" }, type: "Identifier" }]
         },
+
+        // string literals
+        {
+            code: "let a; export { a as 'a' };",
+            options: [{ restrictedNamedExports: ["a"] }],
+            errors: [{ messageId: "restrictedNamed", data: { name: "a" }, type: "Literal", column: 22 }]
+        },
+        {
+            code: "let a; export { a as 'b' };",
+            options: [{ restrictedNamedExports: ["b"] }],
+            errors: [{ messageId: "restrictedNamed", data: { name: "b" }, type: "Literal", column: 22 }]
+        },
+        {
+            code: "let a; export { a as ' b ' };",
+            options: [{ restrictedNamedExports: [" b "] }],
+            errors: [{ messageId: "restrictedNamed", data: { name: " b " }, type: "Literal", column: 22 }]
+        },
+        {
+            code: "let a; export { a as '👍' };",
+            options: [{ restrictedNamedExports: ["👍"] }],
+            errors: [{ messageId: "restrictedNamed", data: { name: "👍" }, type: "Literal", column: 22 }]
+        },
+        {
+            code: "export { 'a' } from 'foo';",
+            options: [{ restrictedNamedExports: ["a"] }],
+            errors: [{ messageId: "restrictedNamed", data: { name: "a" }, type: "Literal" }]
+        },
+        {
+            code: "export { '' } from 'foo';",
+            options: [{ restrictedNamedExports: [""] }],
+            errors: [{ messageId: "restrictedNamed", data: { name: "" }, type: "Literal" }]
+        },
+        {
+            code: "export { ' ' } from 'foo';",
+            options: [{ restrictedNamedExports: [" "] }],
+            errors: [{ messageId: "restrictedNamed", data: { name: " " }, type: "Literal" }]
+        },
+        {
+            code: "export { b as 'a' } from 'foo';",
+            options: [{ restrictedNamedExports: ["a"] }],
+            errors: [{ messageId: "restrictedNamed", data: { name: "a" }, type: "Literal" }]
+        },
+        {
+            code: "export { b as '\\u0061' } from 'foo';",
+            options: [{ restrictedNamedExports: ["a"] }],
+            errors: [{ messageId: "restrictedNamed", data: { name: "a" }, type: "Literal" }]
+        },
+        {
+            code: "export * as 'a' from 'foo';",
+            options: [{ restrictedNamedExports: ["a"] }],
+            errors: [{ messageId: "restrictedNamed", data: { name: "a" }, type: "Literal" }]
+        },
+
 
         // destructuring
         {
