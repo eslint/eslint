@@ -77,6 +77,16 @@ ruleTester.run("quotes", rule, {
         { code: "import a from \"a\"; import b from 'b';", options: ["backtick"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "export * from \"a\"; export * from 'b';", options: ["backtick"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
 
+        // `backtick` should not warn module export names.
+        { code: "import { \"a\" as b, 'c' as d } from 'mod';", options: ["backtick"], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "let a, c; export { a as \"b\", c as 'd' };", options: ["backtick"], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export { \"a\", 'b' } from 'mod';", options: ["backtick"], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export { a as \"b\", c as 'd' } from 'mod';", options: ["backtick"], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export { \"a\" as b, 'c' as d } from 'mod';", options: ["backtick"], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export { \"a\" as \"b\", 'c' as 'd' } from 'mod';", options: ["backtick"], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export * as \"a\" from 'mod';", options: ["backtick"], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export * as 'a' from 'mod';", options: ["backtick"], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+
         // `backtick` should not warn property/method names (not computed).
         { code: "var obj = {\"key0\": 0, 'key1': 1};", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
         { code: "class Foo { 'bar'(){} }", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
