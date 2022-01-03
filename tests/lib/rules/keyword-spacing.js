@@ -126,14 +126,53 @@ ruleTester.run("keyword-spacing", rule, {
         // as
         //----------------------------------------------------------------------
 
+        // import { a as b }
+        { code: "import { a } from \"foo\"", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import { a as b } from \"foo\"", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import { \"a\" as b } from \"foo\"", parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "import{ a }from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import{ a as b }from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import{ \"a\"as b }from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "import{ \"a\" as b }from\"foo\"", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "import { a as b } from \"foo\"", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "import { \"a\"as b } from \"foo\"", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+
+        // export { a as b }
+        { code: "let a; export { a };", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export { \"a\" } from \"foo\";", parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "let a; export { a as b };", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "let a; export { a as \"b\" };", parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export { \"a\" as b } from \"foo\";", parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export { \"a\" as \"b\" } from \"foo\";", parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "let a; export{ a };", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export{ \"a\" }from\"foo\";", options: [NEITHER], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "let a; export{ a as b };", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "let a; export{ a as\"b\" };", options: [NEITHER], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export{ \"a\"as b }from\"foo\";", options: [NEITHER], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export{ \"a\"as\"b\" }from\"foo\";", options: [NEITHER], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "let a; export{ a as \"b\" };", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export{ \"a\" as b }from\"foo\";", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export{ \"a\" as \"b\" }from\"foo\";", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "let a; export { a as b };", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "let a; export { a as\"b\" };", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export { \"a\"as b } from \"foo\";", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export { \"a\"as\"b\" } from \"foo\";", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+
+        // import * as a
         { code: "import * as a from \"foo\"", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "import*as a from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "import* as a from\"foo\"", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "import *as a from \"foo\"", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+
+        // export * as a
         { code: "export * as a from \"foo\"", parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export * as \"a\" from \"foo\"", parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
         { code: "export*as a from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export*as\"a\"from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
         { code: "export* as a from\"foo\"", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export* as \"a\"from\"foo\"", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
         { code: "export *as a from \"foo\"", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export *as\"a\" from \"foo\"", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
 
         //----------------------------------------------------------------------
         // async
@@ -654,15 +693,21 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "import {foo} from \"foo\"", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "export {foo} from \"foo\"", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "export * from \"foo\"", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export * as \"x\" from \"foo\"", parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
         { code: "import{foo}from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "export{foo}from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "export*from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export*as x from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export*as\"x\"from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
         { code: "import{foo} from \"foo\"", options: [override("from", BOTH)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "export{foo} from \"foo\"", options: [override("from", BOTH)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "export* from \"foo\"", options: [override("from", BOTH)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export*as\"x\" from \"foo\"", options: [override("from", BOTH)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
         { code: "import {foo}from\"foo\"", options: [override("from", NEITHER)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "export {foo}from\"foo\"", options: [override("from", NEITHER)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "export *from\"foo\"", options: [override("from", NEITHER)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export * as x from\"foo\"", options: [override("from", NEITHER)], parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export * as \"x\"from\"foo\"", options: [override("from", NEITHER)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
 
         //----------------------------------------------------------------------
         // function
@@ -1469,6 +1514,119 @@ ruleTester.run("keyword-spacing", rule, {
         // as
         //----------------------------------------------------------------------
 
+        // import { a as b }
+        {
+            code: "import { \"a\"as b } from \"foo\"",
+            output: "import { \"a\" as b } from \"foo\"",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: expectedBefore("as")
+        },
+        {
+            code: "import{ \"a\" as b }from\"foo\"",
+            output: "import{ \"a\"as b }from\"foo\"",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: unexpectedBefore("as")
+        },
+        {
+            code: "import{ \"a\"as b }from\"foo\"",
+            output: "import{ \"a\" as b }from\"foo\"",
+            options: [override("as", BOTH)],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: expectedBefore("as")
+        },
+        {
+            code: "import { \"a\" as b } from \"foo\"",
+            output: "import { \"a\"as b } from \"foo\"",
+            options: [override("as", NEITHER)],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: unexpectedBefore("as")
+        },
+
+        // export { a as b }
+        {
+            code: "let a; export { a as\"b\" };",
+            output: "let a; export { a as \"b\" };",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: expectedAfter("as")
+        },
+        {
+            code: "export { \"a\"as b } from \"foo\";",
+            output: "export { \"a\" as b } from \"foo\";",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: expectedBefore("as")
+        },
+        {
+            code: "export { \"a\"as\"b\" } from \"foo\";",
+            output: "export { \"a\" as \"b\" } from \"foo\";",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: expectedBeforeAndAfter("as")
+        },
+        {
+            code: "let a; export{ a as \"b\" };",
+            output: "let a; export{ a as\"b\" };",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: unexpectedAfter("as")
+        },
+        {
+            code: "export{ \"a\" as b }from\"foo\";",
+            output: "export{ \"a\"as b }from\"foo\";",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: unexpectedBefore("as")
+        },
+        {
+            code: "export{ \"a\" as \"b\" }from\"foo\";",
+            output: "export{ \"a\"as\"b\" }from\"foo\";",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: unexpectedBeforeAndAfter("as")
+        },
+        {
+            code: "let a; export{ a as\"b\" };",
+            output: "let a; export{ a as \"b\" };",
+            options: [override("as", BOTH)],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: expectedAfter("as")
+        },
+        {
+            code: "export{ \"a\"as b }from\"foo\";",
+            output: "export{ \"a\" as b }from\"foo\";",
+            options: [override("as", BOTH)],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: expectedBefore("as")
+        },
+        {
+            code: "export{ \"a\"as\"b\" }from\"foo\";",
+            output: "export{ \"a\" as \"b\" }from\"foo\";",
+            options: [override("as", BOTH)],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: expectedBeforeAndAfter("as")
+        },
+        {
+            code: "let a; export { a as \"b\" };",
+            output: "let a; export { a as\"b\" };",
+            options: [override("as", NEITHER)],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: unexpectedAfter("as")
+        },
+        {
+            code: "export { \"a\" as b } from \"foo\";",
+            output: "export { \"a\"as b } from \"foo\";",
+            options: [override("as", NEITHER)],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: unexpectedBefore("as")
+        },
+        {
+            code: "export { \"a\" as \"b\" } from \"foo\";",
+            output: "export { \"a\"as\"b\" } from \"foo\";",
+            options: [override("as", NEITHER)],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: unexpectedBeforeAndAfter("as")
+        },
+
+        // import * as a
         {
             code: "import *as a from \"foo\"",
             output: "import * as a from \"foo\"",
@@ -1524,11 +1682,19 @@ ruleTester.run("keyword-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: unexpectedBefore("as")
         },
+
+        // export * as a
         {
             code: "export *as a from \"foo\"",
             output: "export * as a from \"foo\"",
             parserOptions: { ecmaVersion: 2020, sourceType: "module" },
             errors: expectedBefore("as")
+        },
+        {
+            code: "export *as\"a\" from \"foo\"",
+            output: "export * as \"a\" from \"foo\"",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: expectedBeforeAndAfter("as")
         },
         {
             code: "export* as a from\"foo\"",
@@ -1538,6 +1704,13 @@ ruleTester.run("keyword-spacing", rule, {
             errors: unexpectedBefore("as")
         },
         {
+            code: "export* as \"a\"from\"foo\"",
+            output: "export*as\"a\"from\"foo\"",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: unexpectedBeforeAndAfter("as")
+        },
+        {
             code: "export*as a from\"foo\"",
             output: "export* as a from\"foo\"",
             options: [override("as", BOTH)],
@@ -1545,11 +1718,25 @@ ruleTester.run("keyword-spacing", rule, {
             errors: expectedBefore("as")
         },
         {
+            code: "export*as\"a\"from\"foo\"",
+            output: "export* as \"a\"from\"foo\"",
+            options: [override("as", BOTH)],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: expectedBeforeAndAfter("as")
+        },
+        {
             code: "export * as a from \"foo\"",
             output: "export *as a from \"foo\"",
             options: [override("as", NEITHER)],
             parserOptions: { ecmaVersion: 2020, sourceType: "module" },
             errors: unexpectedBefore("as")
+        },
+        {
+            code: "export * as \"a\" from \"foo\"",
+            output: "export *as\"a\" from \"foo\"",
+            options: [override("as", NEITHER)],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: unexpectedBeforeAndAfter("as")
         },
 
         //----------------------------------------------------------------------
@@ -2400,6 +2587,12 @@ ruleTester.run("keyword-spacing", rule, {
             errors: expectedBeforeAndAfter("from")
         },
         {
+            code: "export * as \"a\"from\"foo\"",
+            output: "export * as \"a\" from \"foo\"",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: expectedBeforeAndAfter("from")
+        },
+        {
             code: "import{foo} from \"foo\"",
             output: "import{foo}from\"foo\"",
             options: [NEITHER],
@@ -2418,6 +2611,20 @@ ruleTester.run("keyword-spacing", rule, {
             output: "export*from\"foo\"",
             options: [NEITHER],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: unexpectedBeforeAndAfter("from")
+        },
+        {
+            code: "export*as x from \"foo\"",
+            output: "export*as x from\"foo\"",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            errors: unexpectedAfter("from")
+        },
+        {
+            code: "export*as\"x\" from \"foo\"",
+            output: "export*as\"x\"from\"foo\"",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("from")
         },
         {
@@ -2442,6 +2649,13 @@ ruleTester.run("keyword-spacing", rule, {
             errors: expectedBeforeAndAfter("from")
         },
         {
+            code: "export*as\"x\"from\"foo\"",
+            output: "export*as\"x\" from \"foo\"",
+            options: [override("from", BOTH)],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: expectedBeforeAndAfter("from")
+        },
+        {
             code: "import {foo} from \"foo\"",
             output: "import {foo}from\"foo\"",
             options: [override("from", NEITHER)],
@@ -2460,6 +2674,20 @@ ruleTester.run("keyword-spacing", rule, {
             output: "export *from\"foo\"",
             options: [override("from", NEITHER)],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: unexpectedBeforeAndAfter("from")
+        },
+        {
+            code: "export * as x from \"foo\"",
+            output: "export * as x from\"foo\"",
+            options: [override("from", NEITHER)],
+            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            errors: unexpectedAfter("from")
+        },
+        {
+            code: "export * as \"x\" from \"foo\"",
+            output: "export * as \"x\"from\"foo\"",
+            options: [override("from", NEITHER)],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("from")
         },
 
