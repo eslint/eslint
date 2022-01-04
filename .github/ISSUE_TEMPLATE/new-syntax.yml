@@ -38,7 +38,7 @@ body:
         required: false
       - label: "ESTree update: <!-- paste PR URL for this ESTree update here -->"
         required: false
-      - label: "Acorn update: <!-- paste PR URL for this syntax here -->>"
+      - label: "Acorn update: <!-- paste PR URL for this syntax here -->"
         required: false
       - label: "`eslint-visitor-keys` update: <!-- paste PR URL for this syntax here -->"
         required: false
