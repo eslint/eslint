@@ -28,20 +28,26 @@ body:
     render: js
   validations:
     required: true
-- type: textarea
+- type: checkboxes
   attributes:
     label: Implementation Checklist
     description: |
       Please check off all items that have already been completed. Be sure to paste the pull request URLs next to each item so we can verify the work as done.
-    render: markdown
-    value: |
-      - [ ] Ecma262 update: <!-- paste PR URL for this syntax here -->
-      - [ ] ESTree update: <!-- paste PR URL for this ESTree update here -->
-      - [ ] Acorn update: <!-- paste PR URL for this syntax here -->
-      - [ ] `eslint-visitor-keys` update: <!-- paste PR URL for this syntax here -->
-      - [ ] `espree` update: <!-- paste PR URL for this syntax here -->
-      - [ ] `eslint-scope` update: <!-- paste PR URL for this syntax here -->
-      - [ ] `eslint` update: <!-- paste PR URL for this syntax here -->
+    options:
+      - label: "Ecma262 update: <!-- paste PR URL for this syntax here -->"
+        required: false
+      - label: "ESTree update: <!-- paste PR URL for this ESTree update here -->"
+        required: false
+      - label: "Acorn update: <!-- paste PR URL for this syntax here -->>"
+        required: false
+      - label: "`eslint-visitor-keys` update: <!-- paste PR URL for this syntax here -->"
+        required: false
+      - label: "`espree` update: <!-- paste PR URL for this syntax here -->"
+        required: false
+      - label: "`eslint-scope` update: <!-- paste PR URL for this syntax here -->"
+        required: false
+      - label: "`eslint` update: <!-- paste PR URL for this syntax here -->"
+        required: false
 - type: checkboxes
   attributes:
     label: Participation
