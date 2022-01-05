@@ -243,14 +243,15 @@ if(foo) {
 
 ### overrides
 
-Examples of **correct** code for this rule with the `{ "overrides": { "if": { "after": false }, "for": { "after": false }, "while": { "after": false }, "static": { "after": false } } }` option:
+Examples of **correct** code for this rule with the `{ "overrides": { "if": { "after": false }, "for": { "after": false }, "while": { "after": false }, "static": { "after": false }, "as": { "after": false } } }` option:
 
 ```js
 /*eslint keyword-spacing: ["error", { "overrides": {
   "if": { "after": false },
   "for": { "after": false },
   "while": { "after": false },
-  "static": { "after": false }
+  "static": { "after": false },
+  "as": { "after": false }
 } }]*/
 
 if(foo) {
@@ -272,6 +273,8 @@ class C {
         //...
     }
 }
+
+export { C as"my class" };
 ```
 
 ## When Not To Use It
