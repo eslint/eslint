@@ -165,10 +165,31 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
+            code: "import { snake_cased as snake_cased } from 'mod'",
+            options: [{ ignoreImports: true }],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+        },
+        {
+            code: "import { 'snake_cased' as snake_cased } from 'mod'",
+            options: [{ ignoreImports: true }],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+        },
+        {
             code: "import { camelCased } from 'mod'",
             options: [{ ignoreImports: false }],
             parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
+
+        // this rule doesn't apply to quoted module export names, as it doesn't apply to quoted property names.
+        {
+            code: "export { a as 'snake_cased' } from 'mod'",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+        },
+        {
+            code: "export * as 'snake_cased' from 'mod'",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+        },
+
         {
             code: "var _camelCased = aGlobalVariable",
             options: [{ ignoreGlobals: false }],
@@ -664,6 +685,29 @@ ruleTester.run("camelcase", rule, {
                 {
                     messageId: "notCamelCase",
                     data: { name: "no_camel_cased" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import { 'snake_cased' as snake_cased } from 'mod'",
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "snake_cased" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import { 'snake_cased' as another_snake_cased } from 'mod'",
+            options: [{ ignoreImports: true }],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "another_snake_cased" },
                     type: "Identifier"
                 }
             ]
