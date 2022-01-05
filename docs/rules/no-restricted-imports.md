@@ -91,7 +91,7 @@ or like this if you want to apply a custom message to pattern matches:
 
 The custom message will be appended to the default error message.
 
-Pattern matches can also be customized to be case-sensitive:
+Pattern matches can also be configured to be case-sensitive:
 
 ```json
 "no-restricted-imports": ["error", {
