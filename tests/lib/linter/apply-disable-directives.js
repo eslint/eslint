@@ -669,7 +669,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [
-                        { type: "disable-next-line", line: 1, column: 1, ruleId: null, justification: "j1" },
+                        { parentComment: createParentComment([0, 31]), type: "disable-next-line", line: 1, column: 1, ruleId: null, justification: "j1" },
                         { type: "enable", line: 1, column: 5, ruleId: null, justification: "j2" }
                     ],
                     problems: [{ line: 2, column: 2, ruleId: "foo" }]
