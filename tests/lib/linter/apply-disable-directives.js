@@ -55,7 +55,7 @@ describe("apply-disable-directives", () => {
                     directives: [{ parentComment: createParentComment([0, 7]), type: "disable", line: 1, column: 8, ruleId: null, justification: "justification" }],
                     problems: [{ line: 1, column: 7, ruleId: "foo" }]
                 }),
-                { messages: [{ line: 1, column: 7, ruleId: "foo" }], suppressedMessages: [] }
+                [{ line: 1, column: 7, ruleId: "foo" }]
             );
         });
 
@@ -65,7 +65,7 @@ describe("apply-disable-directives", () => {
                     directives: [{ parentComment: createParentComment([21, 27]), type: "disable", line: 2, column: 1, ruleId: null, justification: "justification" }],
                     problems: [{ line: 1, column: 10, ruleId: "foo" }]
                 }),
-                { messages: [{ line: 1, column: 10, ruleId: "foo" }], suppressedMessages: [] }
+                [{ line: 1, column: 10, ruleId: "foo" }]
             );
         });
 
@@ -75,7 +75,7 @@ describe("apply-disable-directives", () => {
                     directives: [{ type: "disable", line: 1, column: 8, ruleId: null, justification: "justification" }],
                     problems: [{ line: 1, column: 8, ruleId: null }]
                 }),
-                { messages: [], suppressedMessages: [{ line: 1, column: 8, ruleId: null, suppressions: [{ kind: "directive", justification: "justification" }] }] }
+                [{ line: 1, column: 8, ruleId: null, suppressions: [{ kind: "directive", justification: "justification" }] }]
             );
         });
 
@@ -85,7 +85,7 @@ describe("apply-disable-directives", () => {
                     directives: [{ type: "disable", line: 1, column: 8, ruleId: null, justification: "justification" }],
                     problems: [{ line: 1, column: 10, ruleId: "foo" }]
                 }),
-                { messages: [], suppressedMessages: [{ line: 1, column: 10, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }] }
+                [{ line: 1, column: 10, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }]
             );
         });
 
@@ -95,7 +95,7 @@ describe("apply-disable-directives", () => {
                     directives: [{ type: "disable", line: 1, column: 8, ruleId: null, justification: "justification" }],
                     problems: [{ line: 2, column: 3, ruleId: "foo" }]
                 }),
-                { messages: [], suppressedMessages: [{ line: 2, column: 3, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }] }
+                [{ line: 2, column: 3, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }]
             );
         });
     });
@@ -107,7 +107,7 @@ describe("apply-disable-directives", () => {
                     directives: [{ type: "disable", line: 1, column: 8, ruleId: "foo", justification: "justification" }],
                     problems: [{ line: 2, column: 3, ruleId: "foo" }]
                 }),
-                { messages: [], suppressedMessages: [{ line: 2, column: 3, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }] }
+                [{ line: 2, column: 3, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }]
             );
         });
 
@@ -117,7 +117,7 @@ describe("apply-disable-directives", () => {
                     directives: [{ type: "disable", line: 1, column: 8, ruleId: "foo", justification: "justification" }],
                     problems: [{ line: 1, column: 8, ruleId: "foo" }]
                 }),
-                { messages: [], suppressedMessages: [{ line: 1, column: 8, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }] }
+                [{ line: 1, column: 8, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }]
             );
         });
 
@@ -134,7 +134,7 @@ describe("apply-disable-directives", () => {
                     }],
                     problems: [{ line: 2, column: 3, ruleId: "not-foo" }]
                 }),
-                { messages: [{ line: 2, column: 3, ruleId: "not-foo" }], suppressedMessages: [] }
+                [{ line: 2, column: 3, ruleId: "not-foo" }]
             );
         });
 
@@ -150,7 +150,7 @@ describe("apply-disable-directives", () => {
                     }],
                     problems: [{ line: 1, column: 7, ruleId: "foo" }]
                 }),
-                { messages: [{ line: 1, column: 7, ruleId: "foo" }], suppressedMessages: [] }
+                [{ line: 1, column: 7, ruleId: "foo" }]
             );
         });
     });
@@ -179,7 +179,7 @@ describe("apply-disable-directives", () => {
                     ],
                     problems: [{ line: 1, column: 27, ruleId: "foo" }]
                 }),
-                { messages: [{ line: 1, column: 27, ruleId: "foo" }], suppressedMessages: [] }
+                [{ line: 1, column: 27, ruleId: "foo" }]
             );
         });
 
@@ -206,7 +206,7 @@ describe("apply-disable-directives", () => {
                     ],
                     problems: [{ line: 1, column: 26, ruleId: "foo" }]
                 }),
-                { messages: [{ line: 1, column: 26, ruleId: "foo" }], suppressedMessages: [] }
+                [{ line: 1, column: 26, ruleId: "foo" }]
             );
         });
 
@@ -219,7 +219,7 @@ describe("apply-disable-directives", () => {
                     ],
                     problems: [{ line: 1, column: 3, ruleId: "foo" }]
                 }),
-                { messages: [], suppressedMessages: [{ line: 1, column: 3, ruleId: "foo", suppressions: [{ kind: "directive", justification: "j1" }] }] }
+                [{ line: 1, column: 3, ruleId: "foo", suppressions: [{ kind: "directive", justification: "j1" }] }]
             );
         });
 
@@ -254,7 +254,7 @@ describe("apply-disable-directives", () => {
                     ],
                     problems: [{ line: 3, column: 3, ruleId: "foo" }]
                 }),
-                { messages: [], suppressedMessages: [{ line: 3, column: 3, ruleId: "foo", suppressions: [{ kind: "directive", justification: "j3" }] }] }
+                [{ line: 3, column: 3, ruleId: "foo", suppressions: [{ kind: "directive", justification: "j3" }] }]
             );
         });
 
@@ -289,7 +289,7 @@ describe("apply-disable-directives", () => {
                     ],
                     problems: [{ line: 3, column: 3, ruleId: "foo" }]
                 }),
-                { messages: [], suppressedMessages: [{ line: 3, column: 3, ruleId: "foo", suppressions: [{ kind: "directive", justification: "j3" }] }] }
+                [{ line: 3, column: 3, ruleId: "foo", suppressions: [{ kind: "directive", justification: "j3" }] }]
             );
         });
 
@@ -316,7 +316,7 @@ describe("apply-disable-directives", () => {
                     ],
                     problems: [{ line: 1, column: 3, ruleId: "not-foo" }]
                 }),
-                { messages: [{ line: 1, column: 3, ruleId: "not-foo" }], suppressedMessages: [] }
+                [{ line: 1, column: 3, ruleId: "not-foo" }]
             );
         });
     });
@@ -345,7 +345,7 @@ describe("apply-disable-directives", () => {
                     ],
                     problems: [{ line: 2, column: 4, ruleId: "foo" }]
                 }),
-                { messages: [{ line: 2, column: 4, ruleId: "foo" }], suppressedMessages: [] }
+                [{ line: 2, column: 4, ruleId: "foo" }]
             );
         });
 
@@ -372,7 +372,7 @@ describe("apply-disable-directives", () => {
                     ],
                     problems: [{ line: 2, column: 1, ruleId: "foo" }]
                 }),
-                { messages: [{ line: 2, column: 1, ruleId: "foo" }], suppressedMessages: [] }
+                [{ line: 2, column: 1, ruleId: "foo" }]
             );
         });
 
@@ -385,7 +385,7 @@ describe("apply-disable-directives", () => {
                     ],
                     problems: [{ line: 2, column: 4, ruleId: "not-foo" }]
                 }),
-                { messages: [], suppressedMessages: [{ line: 2, column: 4, ruleId: "not-foo", suppressions: [{ kind: "directive", justification: "j1" }] }] }
+                [{ line: 2, column: 4, ruleId: "not-foo", suppressions: [{ kind: "directive", justification: "j1" }] }]
             );
         });
 
@@ -406,18 +406,14 @@ describe("apply-disable-directives", () => {
                         { line: 1, column: 50, ruleId: "bar" }
                     ]
                 }),
-                {
-                    messages: [
-                        { line: 1, column: 30, ruleId: "foo" },
-                        { line: 1, column: 50, ruleId: "foo" },
-                        { line: 1, column: 50, ruleId: "bar" }
-                    ],
-                    suppressedMessages: [
-                        { line: 1, column: 10, ruleId: "foo", suppressions: [{ kind: "directive", justification: "j1" }] },
-                        { line: 1, column: 10, ruleId: "bar", suppressions: [{ kind: "directive", justification: "j1" }] },
-                        { line: 1, column: 30, ruleId: "bar", suppressions: [{ kind: "directive", justification: "j1" }] }
-                    ]
-                }
+                [
+                    { line: 1, column: 10, ruleId: "foo", suppressions: [{ kind: "directive", justification: "j1" }] },
+                    { line: 1, column: 10, ruleId: "bar", suppressions: [{ kind: "directive", justification: "j1" }] },
+                    { line: 1, column: 30, ruleId: "foo" },
+                    { line: 1, column: 30, ruleId: "bar", suppressions: [{ kind: "directive", justification: "j1" }] },
+                    { line: 1, column: 50, ruleId: "foo" },
+                    { line: 1, column: 50, ruleId: "bar" }
+                ]
             );
         });
     });
@@ -436,7 +432,7 @@ describe("apply-disable-directives", () => {
                     }],
                     problems: [{ line: 1, column: 5, ruleId: "foo" }]
                 }),
-                { messages: [{ line: 1, column: 5, ruleId: "foo" }], suppressedMessages: [] }
+                [{ line: 1, column: 5, ruleId: "foo" }]
             );
         });
 
@@ -453,7 +449,7 @@ describe("apply-disable-directives", () => {
                     }],
                     problems: [{ line: 1, column: 1, ruleId: "foo" }]
                 }),
-                { messages: [], suppressedMessages: [{ line: 1, column: 1, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }] }
+                [{ line: 1, column: 1, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }]
             );
         });
 
@@ -470,7 +466,7 @@ describe("apply-disable-directives", () => {
                     }],
                     problems: [{ line: 1, column: 10, ruleId: "foo" }]
                 }),
-                { messages: [], suppressedMessages: [{ line: 1, column: 10, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }] }
+                [{ line: 1, column: 10, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }]
             );
         });
 
@@ -487,7 +483,7 @@ describe("apply-disable-directives", () => {
                     }],
                     problems: [{ line: 2, column: 1, ruleId: "foo" }]
                 }),
-                { messages: [{ line: 2, column: 1, ruleId: "foo" }], suppressedMessages: [] }
+                [{ line: 2, column: 1, ruleId: "foo" }]
             );
         });
     });
@@ -506,7 +502,7 @@ describe("apply-disable-directives", () => {
                     }],
                     problems: [{ line: 1, column: 2, ruleId: "foo" }]
                 }),
-                { messages: [], suppressedMessages: [{ line: 1, column: 2, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }] }
+                [{ line: 1, column: 2, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }]
             );
         });
 
@@ -523,7 +519,7 @@ describe("apply-disable-directives", () => {
                     }],
                     problems: [{ line: 1, column: 2, ruleId: "not-foo" }]
                 }),
-                { messages: [{ line: 1, column: 2, ruleId: "not-foo" }], suppressedMessages: [] }
+                [{ line: 1, column: 2, ruleId: "not-foo" }]
             );
         });
 
@@ -550,7 +546,7 @@ describe("apply-disable-directives", () => {
                     ],
                     problems: [{ line: 1, column: 5, ruleId: "not-foo" }]
                 }),
-                { messages: [], suppressedMessages: [{ line: 1, column: 5, ruleId: "not-foo", suppressions: [{ kind: "directive", justification: "j1" }] }] }
+                [{ line: 1, column: 5, ruleId: "not-foo", suppressions: [{ kind: "directive", justification: "j1" }] }]
             );
         });
 
@@ -609,7 +605,7 @@ describe("apply-disable-directives", () => {
                     ],
                     problems: [{ line: 2, column: 1, ruleId: "foo" }]
                 }),
-                { messages: [], suppressedMessages: [{ line: 2, column: 1, ruleId: "foo", suppressions: [{ kind: "directive", justification: "j2" }] }] }
+                [{ line: 2, column: 1, ruleId: "foo", suppressions: [{ kind: "directive", justification: "j2" }] }]
             );
         });
     });
@@ -628,7 +624,7 @@ describe("apply-disable-directives", () => {
                     }],
                     problems: [{ line: 2, column: 3, ruleId: "foo" }]
                 }),
-                { messages: [], suppressedMessages: [{ line: 2, column: 3, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }] }
+                [{ line: 2, column: 3, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }]
             );
         });
 
@@ -644,7 +640,7 @@ describe("apply-disable-directives", () => {
                     }],
                     problems: [{ line: 1, column: 3, ruleId: "foo" }]
                 }),
-                { messages: [{ line: 1, column: 3, ruleId: "foo" }], suppressedMessages: [] }
+                [{ line: 1, column: 3, ruleId: "foo" }]
             );
         });
 
@@ -661,7 +657,7 @@ describe("apply-disable-directives", () => {
                     }],
                     problems: [{ line: 3, column: 3, ruleId: "foo" }]
                 }),
-                { messages: [{ line: 3, column: 3, ruleId: "foo" }], suppressedMessages: [] }
+                [{ line: 3, column: 3, ruleId: "foo" }]
             );
         });
 
@@ -674,7 +670,7 @@ describe("apply-disable-directives", () => {
                     ],
                     problems: [{ line: 2, column: 2, ruleId: "foo" }]
                 }),
-                { messages: [], suppressedMessages: [{ line: 2, column: 2, ruleId: "foo", suppressions: [{ kind: "directive", justification: "j1" }] }] }
+                [{ line: 2, column: 2, ruleId: "foo", suppressions: [{ kind: "directive", justification: "j1" }] }]
             );
         });
     });
@@ -686,7 +682,7 @@ describe("apply-disable-directives", () => {
                     directives: [{ type: "disable-next-line", line: 1, column: 1, ruleId: "foo", justification: "justification" }],
                     problems: [{ line: 2, column: 1, ruleId: "foo" }]
                 }),
-                { messages: [], suppressedMessages: [{ line: 2, column: 1, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }] }
+                [{ line: 2, column: 1, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }]
             );
         });
 
@@ -703,7 +699,7 @@ describe("apply-disable-directives", () => {
                     }],
                     problems: [{ line: 2, column: 1, ruleId: "not-foo" }]
                 }),
-                { messages: [{ line: 2, column: 1, ruleId: "not-foo" }], suppressedMessages: [] }
+                [{ line: 2, column: 1, ruleId: "not-foo" }]
             );
         });
     });
@@ -735,21 +731,18 @@ describe("apply-disable-directives", () => {
                     problems: [],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [{
-                        ruleId: null,
-                        message: "Unused eslint-disable directive (no problems were reported).",
-                        line: 1,
-                        column: 1,
-                        fix: {
-                            range: [0, 20],
-                            text: " "
-                        },
-                        severity: 2,
-                        nodeType: null
-                    }],
-                    suppressedMessages: []
-                }
+                [{
+                    ruleId: null,
+                    message: "Unused eslint-disable directive (no problems were reported).",
+                    line: 1,
+                    column: 1,
+                    fix: {
+                        range: [0, 20],
+                        text: " "
+                    },
+                    severity: 2,
+                    nodeType: null
+                }]
             );
         });
 
@@ -767,17 +760,14 @@ describe("apply-disable-directives", () => {
                     problems: [],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [{
-                        ruleId: null,
-                        message: "Unused eslint-disable directive (no problems were reported).",
-                        line: 1,
-                        column: 1,
-                        severity: 2,
-                        nodeType: null
-                    }],
-                    suppressedMessages: []
-                }
+                [{
+                    ruleId: null,
+                    message: "Unused eslint-disable directive (no problems were reported).",
+                    line: 1,
+                    column: 1,
+                    severity: 2,
+                    nodeType: null
+                }]
             );
         });
 
@@ -788,7 +778,7 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 2, column: 1, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error"
                 }),
-                { messages: [], suppressedMessages: [{ line: 2, column: 1, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }] }
+                [{ line: 2, column: 1, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }]
             );
         });
 
@@ -806,21 +796,18 @@ describe("apply-disable-directives", () => {
                     problems: [],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [{
-                        ruleId: null,
-                        message: "Unused eslint-disable directive (no problems were reported from 'foo').",
-                        line: 1,
-                        column: 1,
-                        fix: {
-                            range: [0, 21],
-                            text: " "
-                        },
-                        severity: 2,
-                        nodeType: null
-                    }],
-                    suppressedMessages: []
-                }
+                [{
+                    ruleId: null,
+                    message: "Unused eslint-disable directive (no problems were reported from 'foo').",
+                    line: 1,
+                    column: 1,
+                    fix: {
+                        range: [0, 21],
+                        text: " "
+                    },
+                    severity: 2,
+                    nodeType: null
+                }]
             );
         });
 
@@ -838,28 +825,25 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 1, column: 20, ruleId: "not-foo" }],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [
-                        {
-                            ruleId: null,
-                            message: "Unused eslint-disable directive (no problems were reported from 'foo').",
-                            line: 1,
-                            column: 1,
-                            fix: {
-                                range: [0, 24],
-                                text: " "
-                            },
-                            severity: 2,
-                            nodeType: null
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported from 'foo').",
+                        line: 1,
+                        column: 1,
+                        fix: {
+                            range: [0, 24],
+                            text: " "
                         },
-                        {
-                            ruleId: "not-foo",
-                            line: 1,
-                            column: 20
-                        }
-                    ],
-                    suppressedMessages: []
-                }
+                        severity: 2,
+                        nodeType: null
+                    },
+                    {
+                        ruleId: "not-foo",
+                        line: 1,
+                        column: 20
+                    }
+                ]
             );
         });
 
@@ -887,28 +871,25 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 1, column: 2, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [
-                        {
-                            ruleId: "foo",
-                            line: 1,
-                            column: 2
+                [
+                    {
+                        ruleId: "foo",
+                        line: 1,
+                        column: 2
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported).",
+                        fix: {
+                            range: [0, 21],
+                            text: " "
                         },
-                        {
-                            ruleId: null,
-                            message: "Unused eslint-disable directive (no problems were reported).",
-                            fix: {
-                                range: [0, 21],
-                                text: " "
-                            },
-                            line: 1,
-                            column: 8,
-                            severity: 2,
-                            nodeType: null
-                        }
-                    ],
-                    suppressedMessages: []
-                }
+                        line: 1,
+                        column: 8,
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
             );
         });
 
@@ -936,21 +917,18 @@ describe("apply-disable-directives", () => {
                     problems: [],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [{
-                        ruleId: null,
-                        message: "Unused eslint-disable directive (no problems were reported).",
-                        line: 1,
-                        column: 1,
-                        fix: {
-                            range: [0, 20],
-                            text: " "
-                        },
-                        severity: 2,
-                        nodeType: null
-                    }],
-                    suppressedMessages: []
-                }
+                [{
+                    ruleId: null,
+                    message: "Unused eslint-disable directive (no problems were reported).",
+                    line: 1,
+                    column: 1,
+                    fix: {
+                        range: [0, 20],
+                        text: " "
+                    },
+                    severity: 2,
+                    nodeType: null
+                }]
             );
         });
 
@@ -978,35 +956,32 @@ describe("apply-disable-directives", () => {
                     problems: [],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [
-                        {
-                            ruleId: null,
-                            message: "Unused eslint-disable directive (no problems were reported).",
-                            line: 1,
-                            column: 1,
-                            fix: {
-                                range: [0, 21],
-                                text: " "
-                            },
-                            severity: 2,
-                            nodeType: null
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported).",
+                        line: 1,
+                        column: 1,
+                        fix: {
+                            range: [0, 21],
+                            text: " "
                         },
-                        {
-                            ruleId: null,
-                            message: "Unused eslint-disable directive (no problems were reported).",
-                            line: 2,
-                            column: 1,
-                            fix: {
-                                range: [21, 42],
-                                text: " "
-                            },
-                            severity: 2,
-                            nodeType: null
-                        }
-                    ],
-                    suppressedMessages: []
-                }
+                        severity: 2,
+                        nodeType: null
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported).",
+                        line: 2,
+                        column: 1,
+                        fix: {
+                            range: [21, 42],
+                            text: " "
+                        },
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
             );
         });
 
@@ -1034,8 +1009,8 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 3, column: 1, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [{
+                [
+                    {
                         ruleId: null,
                         message: "Unused eslint-disable directive (no problems were reported).",
                         line: 1,
@@ -1046,8 +1021,8 @@ describe("apply-disable-directives", () => {
                         },
                         severity: 2,
                         nodeType: null
-                    }],
-                    suppressedMessages: [{
+                    },
+                    {
                         line: 3,
                         column: 1,
                         ruleId: "foo",
@@ -1055,8 +1030,8 @@ describe("apply-disable-directives", () => {
                             { kind: "directive", justification: "j1" },
                             { kind: "directive", justification: "j2" }
                         ]
-                    }]
-                }
+                    }
+                ]
             );
         });
 
@@ -1084,8 +1059,8 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 3, column: 1, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [{
+                [
+                    {
                         ruleId: null,
                         message: "Unused eslint-disable directive (no problems were reported from 'foo').",
                         line: 1,
@@ -1096,8 +1071,8 @@ describe("apply-disable-directives", () => {
                         },
                         severity: 2,
                         nodeType: null
-                    }],
-                    suppressedMessages: [{
+                    },
+                    {
                         line: 3,
                         column: 1,
                         ruleId: "foo",
@@ -1105,8 +1080,8 @@ describe("apply-disable-directives", () => {
                             { kind: "directive", justification: "j1" },
                             { kind: "directive", justification: "j2" }
                         ]
-                    }]
-                }
+                    }
+                ]
             );
         });
 
@@ -1117,7 +1092,7 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 1, column: 6, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error"
                 }),
-                { messages: [], suppressedMessages: [{ line: 1, column: 6, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }] }
+                [{ line: 1, column: 6, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }]
             );
         });
 
@@ -1145,8 +1120,8 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 3, column: 1, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [{
+                [
+                    {
                         ruleId: null,
                         message: "Unused eslint-disable directive (no problems were reported).",
                         line: 1,
@@ -1157,8 +1132,8 @@ describe("apply-disable-directives", () => {
                         },
                         severity: 2,
                         nodeType: null
-                    }],
-                    suppressedMessages: [{
+                    },
+                    {
                         line: 3,
                         column: 1,
                         ruleId: "foo",
@@ -1166,8 +1141,8 @@ describe("apply-disable-directives", () => {
                             { kind: "directive", justification: "j1" },
                             { kind: "directive", justification: "j2" }
                         ]
-                    }]
-                }
+                    }
+                ]
             );
         });
 
@@ -1195,8 +1170,8 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 3, column: 1, ruleId: "bar" }],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [{
+                [
+                    {
                         ruleId: null,
                         message: "Unused eslint-disable directive (no problems were reported from 'foo').",
                         line: 2,
@@ -1207,14 +1182,14 @@ describe("apply-disable-directives", () => {
                         },
                         severity: 2,
                         nodeType: null
-                    }],
-                    suppressedMessages: [{
+                    },
+                    {
                         line: 3,
                         column: 1,
                         ruleId: "bar",
                         suppressions: [{ kind: "directive", justification: "j1" }]
-                    }]
-                }
+                    }
+                ]
             );
         });
 
@@ -1242,28 +1217,25 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 1, column: 30, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [
-                        {
-                            ruleId: null,
-                            message: "Unused eslint-disable directive (no problems were reported from 'foo').",
-                            line: 1,
-                            column: 1,
-                            fix: {
-                                range: [0, 20],
-                                text: " "
-                            },
-                            severity: 2,
-                            nodeType: null
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported from 'foo').",
+                        line: 1,
+                        column: 1,
+                        fix: {
+                            range: [0, 20],
+                            text: " "
                         },
-                        {
-                            ruleId: "foo",
-                            line: 1,
-                            column: 30
-                        }
-                    ],
-                    suppressedMessages: []
-                }
+                        severity: 2,
+                        nodeType: null
+                    },
+                    {
+                        ruleId: "foo",
+                        line: 1,
+                        column: 30
+                    }
+                ]
             );
         });
 
@@ -1291,28 +1263,25 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 1, column: 30, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [
-                        {
-                            ruleId: null,
-                            message: "Unused eslint-disable directive (no problems were reported from 'foo').",
-                            line: 1,
-                            column: 1,
-                            fix: {
-                                range: [0, 24],
-                                text: " "
-                            },
-                            severity: 2,
-                            nodeType: null
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported from 'foo').",
+                        line: 1,
+                        column: 1,
+                        fix: {
+                            range: [0, 24],
+                            text: " "
                         },
-                        {
-                            ruleId: "foo",
-                            line: 1,
-                            column: 30
-                        }
-                    ],
-                    suppressedMessages: []
-                }
+                        severity: 2,
+                        nodeType: null
+                    },
+                    {
+                        ruleId: "foo",
+                        line: 1,
+                        column: 30
+                    }
+                ]
             );
         });
 
@@ -1348,40 +1317,37 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 4, column: 1, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [
-                        {
-                            ruleId: null,
-                            message: "Unused eslint-disable directive (no problems were reported).",
-                            line: 1,
-                            column: 1,
-                            fix: {
-                                range: [0, 21],
-                                text: " "
-                            },
-                            severity: 2,
-                            nodeType: null
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported).",
+                        line: 1,
+                        column: 1,
+                        fix: {
+                            range: [0, 21],
+                            text: " "
                         },
-                        {
-                            ruleId: null,
-                            message: "Unused eslint-disable directive (no problems were reported from 'foo').",
-                            line: 2,
-                            column: 1,
-                            fix: {
-                                range: [22, 45],
-                                text: " "
-                            },
-                            severity: 2,
-                            nodeType: null
+                        severity: 2,
+                        nodeType: null
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported from 'foo').",
+                        line: 2,
+                        column: 1,
+                        fix: {
+                            range: [22, 45],
+                            text: " "
                         },
-                        {
-                            ruleId: "foo",
-                            line: 4,
-                            column: 1
-                        }
-                    ],
-                    suppressedMessages: []
-                }
+                        severity: 2,
+                        nodeType: null
+                    },
+                    {
+                        ruleId: "foo",
+                        line: 4,
+                        column: 1
+                    }
+                ]
             );
         });
 
@@ -1399,8 +1365,8 @@ describe("apply-disable-directives", () => {
                     problems: [],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [{
+                [
+                    {
                         ruleId: null,
                         message: "Unused eslint-disable directive (no problems were reported).",
                         line: 1,
@@ -1411,9 +1377,8 @@ describe("apply-disable-directives", () => {
                         },
                         severity: 2,
                         nodeType: null
-                    }],
-                    suppressedMessages: []
-                }
+                    }
+                ]
             );
         });
 
@@ -1425,7 +1390,7 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 1, column: 10, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error"
                 }),
-                { messages: [], suppressedMessages: [{ line: 1, column: 10, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }] }
+                [{ line: 1, column: 10, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }]
             );
         });
 
@@ -1443,8 +1408,8 @@ describe("apply-disable-directives", () => {
                     problems: [],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [{
+                [
+                    {
                         ruleId: null,
                         message: "Unused eslint-disable directive (no problems were reported).",
                         line: 1,
@@ -1455,9 +1420,8 @@ describe("apply-disable-directives", () => {
                         },
                         severity: 2,
                         nodeType: null
-                    }],
-                    suppressedMessages: []
-                }
+                    }
+                ]
             );
         });
 
@@ -1468,7 +1432,7 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 2, column: 10, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error"
                 }),
-                { messages: [], suppressedMessages: [{ line: 2, column: 10, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }] }
+                [{ line: 2, column: 10, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }]
             );
         });
 
@@ -1482,35 +1446,32 @@ describe("apply-disable-directives", () => {
                     problems: [],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [
-                        {
-                            ruleId: null,
-                            message: "Unused eslint-disable directive (no problems were reported).",
-                            line: 1,
-                            column: 1,
-                            fix: {
-                                range: [0, 20],
-                                text: " "
-                            },
-                            severity: 2,
-                            nodeType: null
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported).",
+                        line: 1,
+                        column: 1,
+                        fix: {
+                            range: [0, 20],
+                            text: " "
                         },
-                        {
-                            ruleId: null,
-                            message: "Unused eslint-disable directive (no problems were reported).",
-                            line: 1,
-                            column: 22,
-                            fix: {
-                                range: [20, 43],
-                                text: " "
-                            },
-                            severity: 2,
-                            nodeType: null
-                        }
-                    ],
-                    suppressedMessages: []
-                }
+                        severity: 2,
+                        nodeType: null
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported).",
+                        line: 1,
+                        column: 22,
+                        fix: {
+                            range: [20, 43],
+                            text: " "
+                        },
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
             );
         });
 
@@ -1528,7 +1489,7 @@ describe("apply-disable-directives", () => {
                     problems: [],
                     reportUnusedDisableDirectives: "off"
                 }),
-                { messages: [], suppressedMessages: [] }
+                []
             );
         });
     });
@@ -1560,8 +1521,8 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 2, column: 1, ruleId: "used" }],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [{
+                [
+                    {
                         ruleId: null,
                         message: "Unused eslint-disable directive (no problems were reported from 'unused').",
                         line: 1,
@@ -1572,14 +1533,14 @@ describe("apply-disable-directives", () => {
                         },
                         severity: 2,
                         nodeType: null
-                    }],
-                    suppressedMessages: [{
+                    },
+                    {
                         line: 2,
                         column: 1,
                         ruleId: "used",
                         suppressions: [{ kind: "directive", justification: "j1" }]
-                    }]
-                }
+                    }
+                ]
             );
         });
         it("Adds a problem for /* eslint-disable used , unused , -- unused and used are ok */", () => {
@@ -1608,8 +1569,8 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 2, column: 1, ruleId: "used" }],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [{
+                [
+                    {
                         ruleId: null,
                         message: "Unused eslint-disable directive (no problems were reported from 'unused').",
                         line: 1,
@@ -1620,14 +1581,14 @@ describe("apply-disable-directives", () => {
                         },
                         severity: 2,
                         nodeType: null
-                    }],
-                    suppressedMessages: [{
+                    },
+                    {
                         line: 2,
                         column: 1,
                         ruleId: "used",
                         suppressions: [{ kind: "directive", justification: "j1" }]
-                    }]
-                }
+                    }
+                ]
             );
         });
 
@@ -1657,8 +1618,8 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 2, column: 1, ruleId: "used" }],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [{
+                [
+                    {
                         ruleId: null,
                         message: "Unused eslint-disable directive (no problems were reported from 'unused').",
                         line: 1,
@@ -1669,14 +1630,14 @@ describe("apply-disable-directives", () => {
                         },
                         severity: 2,
                         nodeType: null
-                    }],
-                    suppressedMessages: [{
+                    },
+                    {
                         line: 2,
                         column: 1,
                         ruleId: "used",
                         suppressions: [{ kind: "directive", justification: "j2" }]
-                    }]
-                }
+                    }
+                ]
             );
         });
 
@@ -1706,8 +1667,8 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 2, column: 1, ruleId: "used" }],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [{
+                [
+                    {
                         ruleId: null,
                         message: "Unused eslint-disable directive (no problems were reported from 'unused').",
                         line: 1,
@@ -1718,14 +1679,14 @@ describe("apply-disable-directives", () => {
                         },
                         severity: 2,
                         nodeType: null
-                    }],
-                    suppressedMessages: [{
+                    },
+                    {
                         line: 2,
                         column: 1,
                         ruleId: "used",
                         suppressions: [{ kind: "directive", justification: "j2" }]
-                    }]
-                }
+                    }
+                ]
             );
         });
 
@@ -1763,40 +1724,38 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 2, column: 1, ruleId: "used" }],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [
-                        {
-                            ruleId: null,
-                            message: "Unused eslint-disable directive (no problems were reported from 'unused-1').",
-                            line: 1,
-                            column: 18,
-                            fix: {
-                                range: [18, 28],
-                                text: ""
-                            },
-                            severity: 2,
-                            nodeType: null
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported from 'unused-1').",
+                        line: 1,
+                        column: 18,
+                        fix: {
+                            range: [18, 28],
+                            text: ""
                         },
-                        {
-                            ruleId: null,
-                            message: "Unused eslint-disable directive (no problems were reported from 'unused-2').",
-                            line: 1,
-                            column: 28,
-                            fix: {
-                                range: [26, 36],
-                                text: ""
-                            },
-                            severity: 2,
-                            nodeType: null
-                        }
-                    ],
-                    suppressedMessages: [{
+                        severity: 2,
+                        nodeType: null
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported from 'unused-2').",
+                        line: 1,
+                        column: 28,
+                        fix: {
+                            range: [26, 36],
+                            text: ""
+                        },
+                        severity: 2,
+                        nodeType: null
+                    },
+                    {
                         line: 2,
                         column: 1,
                         ruleId: "used",
                         suppressions: [{ kind: "directive", justification: "j3" }]
-                    }]
-                }
+                    }
+                ]
             );
         });
 
@@ -1842,52 +1801,50 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 2, column: 1, ruleId: "used" }],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [
-                        {
-                            ruleId: null,
-                            message: "Unused eslint-disable directive (no problems were reported from 'unused-1').",
-                            line: 1,
-                            column: 18,
-                            fix: {
-                                range: [18, 28],
-                                text: ""
-                            },
-                            severity: 2,
-                            nodeType: null
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported from 'unused-1').",
+                        line: 1,
+                        column: 18,
+                        fix: {
+                            range: [18, 28],
+                            text: ""
                         },
-                        {
-                            ruleId: null,
-                            message: "Unused eslint-disable directive (no problems were reported from 'unused-2').",
-                            line: 1,
-                            column: 28,
-                            fix: {
-                                range: [26, 36],
-                                text: ""
-                            },
-                            severity: 2,
-                            nodeType: null
+                        severity: 2,
+                        nodeType: null
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported from 'unused-2').",
+                        line: 1,
+                        column: 28,
+                        fix: {
+                            range: [26, 36],
+                            text: ""
                         },
-                        {
-                            ruleId: null,
-                            message: "Unused eslint-disable directive (no problems were reported from 'unused-3').",
-                            line: 1,
-                            column: 43,
-                            fix: {
-                                range: [42, 52],
-                                text: ""
-                            },
-                            severity: 2,
-                            nodeType: null
-                        }
-                    ],
-                    suppressedMessages: [{
+                        severity: 2,
+                        nodeType: null
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported from 'unused-3').",
+                        line: 1,
+                        column: 43,
+                        fix: {
+                            range: [42, 52],
+                            text: ""
+                        },
+                        severity: 2,
+                        nodeType: null
+                    },
+                    {
                         line: 2,
                         column: 1,
                         ruleId: "used",
                         suppressions: [{ kind: "directive", justification: "j3" }]
-                    }]
-                }
+                    }
+                ]
             );
         });
 
@@ -1917,8 +1874,8 @@ describe("apply-disable-directives", () => {
                     problems: [],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [{
+                [
+                    {
                         ruleId: null,
                         message: "Unused eslint-disable directive (no problems were reported from 'unused-1' or 'unused-2').",
                         line: 1,
@@ -1929,9 +1886,8 @@ describe("apply-disable-directives", () => {
                         },
                         severity: 2,
                         nodeType: null
-                    }],
-                    suppressedMessages: []
-                }
+                    }
+                ]
             );
         });
 
@@ -1966,8 +1922,8 @@ describe("apply-disable-directives", () => {
                     problems: [],
                     reportUnusedDisableDirectives: "error"
                 }),
-                {
-                    messages: [{
+                [
+                    {
                         ruleId: null,
                         message: "Unused eslint-disable directive (no problems were reported from 'unused-1', 'unused-2', or 'unused-3').",
                         line: 1,
@@ -1978,9 +1934,8 @@ describe("apply-disable-directives", () => {
                         },
                         severity: 2,
                         nodeType: null
-                    }],
-                    suppressedMessages: []
-                }
+                    }
+                ]
             );
         });
     });
