@@ -894,6 +894,26 @@ ruleTester.run("id-match", rule, {
                     type: "Identifier"
                 }
             ]
+        },
+
+        // https://github.com/eslint/eslint/issues/15443
+        {
+            code: `
+            const foo = {
+                [a]: 1,
+            };
+            `,
+            options: ["^[^a]", {
+                properties: false,
+                onlyDeclarations: false
+            }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    message: "Identifier 'a' does not match the pattern '^[^a]'.",
+                    type: "Identifier"
+                }
+            ]
         }
     ]
 });
