@@ -20,7 +20,7 @@ npm install eslint --save-dev
 yarn add eslint --dev
 ```
 
-You should then set up a configuration file, and the easiest way to do that is to use the `--init` flag:
+You should then set up a configuration file, and the easiest way to do that is:
 
 ```sh
 $ npm init @eslint/config
