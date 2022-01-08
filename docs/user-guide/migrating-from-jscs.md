@@ -42,7 +42,7 @@ $ polyjuice --jscs .jscsrc.json ./foo/.jscsrc.json > .eslintrc.json
 If you don't want to convert your JSCS configuration directly into an ESLint configuration, then you can use ESLint's built-in wizard to get you started. Just run:
 
 ```sh
-$ eslint --init
+$ npm init @eslint/config
 ```
 
 You'll be guided through a series of questions that will help you setup a basic configuration file to get you started.
