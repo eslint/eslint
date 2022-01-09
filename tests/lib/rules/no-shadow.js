@@ -64,7 +64,8 @@ ruleTester.run("no-shadow", rule, {
         { code: "class C { static { var x; { var x; /* redeclaration */ } } }", parserOptions: { ecmaVersion: 2022 } },
         { code: "class C { static { { var x; } { var x; /* redeclaration */ } } }", parserOptions: { ecmaVersion: 2022 } },
         { code: "class C { static { { let x; } { let x; } } }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "const a = [].find(a=>a)", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const a = [].find(a => a)", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const a = [].find(function(a) { return a; })", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "const [a = [].find(a => true)] = dummy", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "const { a = [].find(a => true) } = dummy", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "function func(a = [].find(a => true)) {}", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
@@ -80,7 +81,9 @@ ruleTester.run("no-shadow", rule, {
         { code: "var z = boo(bar(foo(z => z)));", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "var match = function (person) { return person.name === 'foo'; };\nconst person = [].find(match);", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "const a = foo(x || (a => {}))", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "const { a = 1 } = foo(a => {})", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } }
+        { code: "const { a = 1 } = foo(a => {})", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const person = {...people.find((person) => person.firstName.startsWith('s'))}", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 2021 } },
+        { code: "const person = { firstName: people.filter((person) => person.firstName.startsWith('s')).map((person) => person.firstName)[0]}", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 2021 } }
     ],
     invalid: [
         {
@@ -948,6 +951,38 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 62
+            }]
+        },
+        {
+            code: "const x = foo(() => { const bar = () => { return x => {}; }; return bar; });",
+            options: [{ ignoreOnInitialization: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 7
+                },
+                type: "Identifier",
+                line: 1,
+                column: 50
+            }]
+        },
+        {
+            code: "const x = foo(() => { return { bar(x) {} }; });",
+            options: [{ ignoreOnInitialization: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 7
+                },
+                type: "Identifier",
+                line: 1,
+                column: 36
             }]
         }
     ]
