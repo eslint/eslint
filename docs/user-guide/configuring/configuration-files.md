@@ -232,7 +232,7 @@ A [sharable configuration](https://eslint.org/docs/developer-guide/shareable-con
 
 The `extends` property value can omit the `eslint-config-` prefix of the package name.
 
-The `eslint --init` command can create a configuration so you can extend a popular style guide (for example, `eslint-config-standard`).
+The `npm init @eslint/config` command can create a configuration so you can extend a popular style guide (for example, `eslint-config-standard`).
 
 Example of a configuration file in YAML format:
 

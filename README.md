@@ -54,7 +54,7 @@ $ npm install eslint --save-dev
 You should then set up a configuration file:
 
 ```sh
-$ ./node_modules/.bin/eslint --init
+$ npm init @eslint/config
 ```
 
 After that, you can run ESLint on any file or directory like this:
@@ -65,7 +65,7 @@ $ ./node_modules/.bin/eslint yourfile.js
 
 ## <a name="configuration"></a>Configuration
 
-After running `eslint --init`, you'll have a `.eslintrc` file in your directory. In it, you'll see some rules configured like this:
+After running `npm init @eslint/config`, you'll have a `.eslintrc` file in your directory. In it, you'll see some rules configured like this:
 
 ```json
 {
