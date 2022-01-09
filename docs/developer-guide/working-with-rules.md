@@ -593,6 +593,7 @@ Please note that the following methods have been deprecated and will be removed 
 * `getTokenOrCommentBefore()` - replaced by `getTokenBefore()` with the `{ includeComments: true }` option
 * `getTokenOrCommentAfter()` - replaced by `getTokenAfter()` with the `{ includeComments: true }` option
 * `isSpaceBetweenTokens()` - replaced by `isSpaceBetween()`
+* `getJSDocComment()` - [has no replacement](https://eslint.org/blog/2018/11/jsdoc-end-of-life)
 
 ### Options Schemas
 
