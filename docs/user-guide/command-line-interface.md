@@ -457,7 +457,7 @@ Example:
 
 #### `--init`
 
-This option will start config initialization wizard. It's designed to help new users quickly create .eslintrc file by answering a few questions, choosing a popular style guide, or inspecting your source files and attempting to automatically generate a suitable configuration.
+This option will run `npm init @eslint/config` to start config initialization wizard. It's designed to help new users quickly create .eslintrc file by answering a few questions, choosing a popular style guide.
 
 The resulting configuration file will be created in the current directory.
 
