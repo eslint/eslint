@@ -189,10 +189,6 @@ var x = foo(x => x)
 
 Because the shadowing variable x will shadow an uninitialized shadowed variable x.
 
-## Further Reading
-
-* [Variable Shadowing](https://en.wikipedia.org/wiki/Variable_shadowing)
-
 ## Related Rules
 
 * [no-shadow-restricted-names](no-shadow-restricted-names.md)
