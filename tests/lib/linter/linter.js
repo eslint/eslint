@@ -244,8 +244,8 @@ describe("Linter", () => {
 
         it("should have a suppressed message", () => {
             const code = [
-                "/* eslint-disable no-alert -- j1",
-                " * j2",
+                "/* eslint-disable no-alert --- j1",
+                " * --- j2",
                 " */",
                 "alert(\"test\");"
             ].join("\n");
@@ -261,7 +261,7 @@ describe("Linter", () => {
             assert.strictEqual(suppressedMessages[0].ruleId, "no-alert");
             assert.deepStrictEqual(
                 suppressedMessages[0].suppressions,
-                [{ kind: "directive", justification: "j1\n * j2" }]
+                [{ kind: "directive", justification: "j1\n * --- j2" }]
             );
         });
 
