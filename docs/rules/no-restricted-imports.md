@@ -150,7 +150,11 @@ import DisallowedObject from "foo";
     message: "Please import 'DisallowedObject' from '/bar/baz/' instead."
 }]}]*/
 
+import { DisallowedObject } from "foo";
+
 import { DisallowedObject as AllowedObject } from "foo";
+
+import { "DisallowedObject" as AllowedObject } from "foo";
 ```
 
 ```js

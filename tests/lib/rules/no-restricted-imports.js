@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/no-restricted-imports"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020, sourceType: "module" } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022, sourceType: "module" } });
 
 ruleTester.run("no-restricted-imports", rule, {
     valid: [
@@ -93,6 +93,34 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         },
         {
+            code: "import { 'AllowedObject' as bar } from \"foo\";",
+            options: [{
+                paths: [{
+                    name: "foo",
+                    importNames: ["DisallowedObject"],
+                    message: "Please import 'DisallowedObject' from /bar/ instead."
+                }]
+            }]
+        },
+        {
+            code: "import { ' ' as bar } from \"foo\";",
+            options: [{
+                paths: [{
+                    name: "foo",
+                    importNames: [""]
+                }]
+            }]
+        },
+        {
+            code: "import { '' as bar } from \"foo\";",
+            options: [{
+                paths: [{
+                    name: "foo",
+                    importNames: [" "]
+                }]
+            }]
+        },
+        {
             code: "import { DisallowedObject } from \"foo\";",
             options: [{
                 paths: [{
@@ -104,6 +132,16 @@ ruleTester.run("no-restricted-imports", rule, {
         },
         {
             code: "import { AllowedObject as DisallowedObject } from \"foo\";",
+            options: [{
+                paths: [{
+                    name: "foo",
+                    importNames: ["DisallowedObject"],
+                    message: "Please import 'DisallowedObject' from /bar/ instead."
+                }]
+            }]
+        },
+        {
+            code: "import { 'AllowedObject' as DisallowedObject } from \"foo\";",
             options: [{
                 paths: [{
                     name: "foo",
@@ -195,6 +233,24 @@ ruleTester.run("no-restricted-imports", rule, {
             options: [{
                 name: "bar",
                 importNames: ["DisallowedObject"]
+            }]
+        },
+        {
+            code: "export { 'AllowedObject' } from \"foo\";",
+            options: [{
+                paths: [{
+                    name: "foo",
+                    importNames: ["DisallowedObject"]
+                }]
+            }]
+        },
+        {
+            code: "export { 'AllowedObject' as DisallowedObject } from \"foo\";",
+            options: [{
+                paths: [{
+                    name: "foo",
+                    importNames: ["DisallowedObject"]
+                }]
             }]
         }
     ],
@@ -343,6 +399,70 @@ ruleTester.run("no-restricted-imports", rule, {
             line: 1,
             column: 9,
             endColumn: 17
+        }]
+    }, {
+        code: "export {'foo' as b} from \"fs\";",
+        options: [{
+            paths: [{
+                name: "fs",
+                importNames: ["foo"],
+                message: "Don't import 'foo'."
+            }]
+        }],
+        errors: [{
+            message: "'foo' import from 'fs' is restricted. Don't import 'foo'.",
+            type: "ExportNamedDeclaration",
+            line: 1,
+            column: 9,
+            endColumn: 19
+        }]
+    }, {
+        code: "export {'foo'} from \"fs\";",
+        options: [{
+            paths: [{
+                name: "fs",
+                importNames: ["foo"],
+                message: "Don't import 'foo'."
+            }]
+        }],
+        errors: [{
+            message: "'foo' import from 'fs' is restricted. Don't import 'foo'.",
+            type: "ExportNamedDeclaration",
+            line: 1,
+            column: 9,
+            endColumn: 14
+        }]
+    }, {
+        code: "export {'👍'} from \"fs\";",
+        options: [{
+            paths: [{
+                name: "fs",
+                importNames: ["👍"],
+                message: "Don't import '👍'."
+            }]
+        }],
+        errors: [{
+            message: "'👍' import from 'fs' is restricted. Don't import '👍'.",
+            type: "ExportNamedDeclaration",
+            line: 1,
+            column: 9,
+            endColumn: 13
+        }]
+    }, {
+        code: "export {''} from \"fs\";",
+        options: [{
+            paths: [{
+                name: "fs",
+                importNames: [""],
+                message: "Don't import ''."
+            }]
+        }],
+        errors: [{
+            message: "'' import from 'fs' is restricted. Don't import ''.",
+            type: "ExportNamedDeclaration",
+            line: 1,
+            column: 9,
+            endColumn: 11
         }]
     }, {
         code: "export * as ns from \"fs\";",
@@ -503,6 +623,55 @@ ruleTester.run("no-restricted-imports", rule, {
             line: 1,
             column: 10,
             endColumn: 43
+        }]
+    },
+    {
+        code: "import { 'DisallowedObject' as AllowedObject } from \"foo\";",
+        options: [{
+            paths: [{
+                name: "foo",
+                importNames: ["DisallowedObject"],
+                message: "Please import 'DisallowedObject' from /bar/ instead."
+            }]
+        }],
+        errors: [{
+            message: "'DisallowedObject' import from 'foo' is restricted. Please import 'DisallowedObject' from /bar/ instead.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 45
+        }]
+    },
+    {
+        code: "import { '👍' as bar } from \"foo\";",
+        options: [{
+            paths: [{
+                name: "foo",
+                importNames: ["👍"]
+            }]
+        }],
+        errors: [{
+            message: "'👍' import from 'foo' is restricted.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 21
+        }]
+    },
+    {
+        code: "import { '' as bar } from \"foo\";",
+        options: [{
+            paths: [{
+                name: "foo",
+                importNames: [""]
+            }]
+        }],
+        errors: [{
+            message: "'' import from 'foo' is restricted.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 19
         }]
     },
     {
