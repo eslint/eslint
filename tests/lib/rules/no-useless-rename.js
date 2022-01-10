@@ -47,11 +47,43 @@ ruleTester.run("no-useless-rename", rule, {
         "import {foo} from 'foo';",
         "import {foo as bar} from 'foo';",
         "import {foo as bar, baz as qux} from 'foo';",
+        {
+            code: "import {'foo' as bar} from 'baz';",
+            parserOptions: { ecmaVersion: 2022 }
+        },
         "export {foo} from 'foo';",
         "var foo = 0;export {foo as bar};",
         "var foo = 0; var baz = 0; export {foo as bar, baz as qux};",
         "export {foo as bar} from 'foo';",
         "export {foo as bar, baz as qux} from 'foo';",
+        {
+            code: "var foo = 0; export {foo as 'bar'};",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "export {foo as 'bar'} from 'baz';",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "export {'foo' as bar} from 'baz';",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "export {'foo' as 'bar'} from 'baz';",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "export {'' as ' '} from 'baz';",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "export {' ' as ''} from 'baz';",
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "export {'foo'} from 'bar';",
+            parserOptions: { ecmaVersion: 2022 }
+        },
         {
             code: "const {...stuff} = myObject;",
             parserOptions: { ecmaVersion: 2018 }
@@ -381,6 +413,12 @@ ruleTester.run("no-useless-rename", rule, {
             errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Import", name: "foo" } }]
         },
         {
+            code: "import {'foo' as foo} from 'foo';",
+            output: "import {foo} from 'foo';",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Import", name: "foo" } }]
+        },
+        {
             code: "import {\\u0061 as a} from 'foo';",
             output: "import {a} from 'foo';",
             errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Import", name: "a" } }]
@@ -417,6 +455,42 @@ ruleTester.run("no-useless-rename", rule, {
             code: "var foo = 0; export {foo as foo};",
             output: "var foo = 0; export {foo};",
             errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
+        },
+        {
+            code: "var foo = 0; export {foo as 'foo'};",
+            output: "var foo = 0; export {foo};",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
+        },
+        {
+            code: "export {foo as 'foo'} from 'bar';",
+            output: "export {foo} from 'bar';",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
+        },
+        {
+            code: "export {'foo' as foo} from 'bar';",
+            output: "export {'foo'} from 'bar';",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
+        },
+        {
+            code: "export {'foo' as 'foo'} from 'bar';",
+            output: "export {'foo'} from 'bar';",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
+        },
+        {
+            code: "export {' 👍 ' as ' 👍 '} from 'bar';",
+            output: "export {' 👍 '} from 'bar';",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: " 👍 " } }]
+        },
+        {
+            code: "export {'' as ''} from 'bar';",
+            output: "export {''} from 'bar';",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "" } }]
         },
         {
             code: "var a = 0; export {a as \\u0061};",
