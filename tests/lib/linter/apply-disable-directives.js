@@ -380,8 +380,22 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [
-                        { type: "disable", line: 1, column: 1, ruleId: null, justification: "j1" },
-                        { type: "enable", line: 2, column: 1, ruleId: "foo", justification: "j2" }
+                        {
+                            parentComment: createParentComment([0, 20]),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: null,
+                            justification: "j1"
+                        },
+                        {
+                            parentComment: createParentComment([21, 44]),
+                            type: "enable",
+                            line: 2,
+                            column: 1,
+                            ruleId: "foo",
+                            justification: "j2"
+                        }
                     ],
                     problems: [{ line: 2, column: 4, ruleId: "not-foo" }]
                 }),
@@ -1123,11 +1137,11 @@ describe("apply-disable-directives", () => {
                 [
                     {
                         ruleId: null,
-                        message: "Unused eslint-disable directive (no problems were reported).",
-                        line: 1,
+                        message: "Unused eslint-disable directive (no problems were reported from 'foo').",
+                        line: 2,
                         column: 1,
                         fix: {
-                            range: [0, 21],
+                            range: [22, 45],
                             text: " "
                         },
                         severity: 2,

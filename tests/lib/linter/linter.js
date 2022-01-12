@@ -3897,6 +3897,29 @@ var a = "test2";
             assert.strictEqual(suppressedMessages[0].suppressions.length, 2);
         });
 
+        it("reports problems for multiple unused eslint-disable comments with mutliple ruleIds", () => {
+            const code = [
+                "/* eslint no-undef: 2, no-void: 2 */",
+                "/* eslint-disable no-undef -- j1 */",
+                "void foo; //eslint-disable-line no-undef, no-void -- j2"
+            ].join("\n");
+            const config = {
+                rules: {
+                    "no-undef": 2,
+                    "no-void": 2
+                }
+            };
+            const messages = linter.verify(code, config, { reportUnusedDisableDirectives: true });
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(suppressedMessages.length, 2);
+            assert.strictEqual(suppressedMessages[0].ruleId, "no-void");
+            assert.strictEqual(suppressedMessages[0].suppressions.length, 1);
+            assert.strictEqual(suppressedMessages[1].ruleId, "no-undef");
+            assert.strictEqual(suppressedMessages[1].suppressions.length, 2);
+        });
+
         it("reports problems for unused eslint-disable comments (error)", () => {
             const messages = linter.verify("/* eslint-disable */", {}, { reportUnusedDisableDirectives: "error" });
             const suppressedMessages = linter.getSuppressedMessages();
