@@ -265,6 +265,55 @@ describe("Linter", () => {
             );
         });
 
+        it("should not report a lint message", () => {
+            const code = [
+                "/* eslint-disable -- j1 */",
+                "// eslint-disable-next-line -- j2",
+                "alert(\"test\");"
+            ].join("\n");
+            const config = {
+                rules: { "no-alert": 1 }
+            };
+            const messages = linter.verify(code, config);
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 0);
+
+            assert.strictEqual(suppressedMessages.length, 1);
+            assert.strictEqual(suppressedMessages[0].ruleId, "no-alert");
+            assert.deepStrictEqual(
+                suppressedMessages[0].suppressions,
+                [
+                    { kind: "directive", justification: "j1" },
+                    { kind: "directive", justification: "j2" }
+                ]
+            );
+        });
+
+        it("should not report a lint message", () => {
+            const code = [
+                "/* eslint-disable -- j1 */",
+                "alert(\"test\"); // eslint-disable-line -- j2"
+            ].join("\n");
+            const config = {
+                rules: { "no-alert": 1 }
+            };
+            const messages = linter.verify(code, config);
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 0);
+
+            assert.strictEqual(suppressedMessages.length, 1);
+            assert.strictEqual(suppressedMessages[0].ruleId, "no-alert");
+            assert.deepStrictEqual(
+                suppressedMessages[0].suppressions,
+                [
+                    { kind: "directive", justification: "j1" },
+                    { kind: "directive", justification: "j2" }
+                ]
+            );
+        });
+
         it("should have a suppressed message with multiple suppressions", () => {
             const code = [
                 "/* eslint-disable no-alert -- j1 */",
