@@ -86,6 +86,7 @@ Miscellaneous:
   -h, --help                      Show help
   -v, --version                   Output the version number
   --print-config path::String     Print the configuration for the given file
+  --concurrency                   The concurrency level to use when linting files
 ```
 
 Options that accept array values can be specified by repeating the option or with a comma-delimited list (other than `--ignore-pattern` which does not allow the second style).
@@ -493,6 +494,10 @@ This option outputs the configuration to be used for the file passed. When prese
 Example:
 
     eslint --print-config file.js
+
+#### `--concurrency`
+
+This option sets the concurrency level when linting files. Linting may be faster for large when this option is greater than 1.
 
 ## Ignoring files from linting
 

@@ -389,4 +389,24 @@ describe("options", () => {
             assert.strictEqual(currentOptions.printConfig, "file.js");
         });
     });
+
+    describe("--concurrency", () => {
+        it("should return correct value for .concurrency when passed", () => {
+            const currentOptions = options.parse("--concurrency 10");
+
+            assert.strictEqual(currentOptions.concurrency, 10);
+        });
+
+        it("should return 1 for .concurrency when not passed", () => {
+            const currentOptions = options.parse("");
+
+            assert.strictEqual(currentOptions.concurrency, 1);
+        });
+
+        it("should throw an error when supplied with a non-integer", () => {
+            assert.throws(() => {
+                options.parse("--concurrency 10.2");
+            }, /Invalid value for option 'concurrency' - expected type Int/u);
+        });
+    });
 });

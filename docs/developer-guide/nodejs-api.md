@@ -140,6 +140,8 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
   Default is `[]`. An array of paths to directories to load custom rules from.
 * `options.useEslintrc` (`boolean`)<br>
   Default is `true`. If `false` is present, ESLint doesn't load configuration files (`.eslintrc.*` files). Only the configuration of the constructor options is valid.
+* `options.concurrency` (`number`)<br>
+  Default is 1. Sets the concurrency level to use when linting files.
 
 ##### Autofix
 
