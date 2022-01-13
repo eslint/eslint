@@ -1952,5 +1952,72 @@ describe("apply-disable-directives", () => {
                 ]
             );
         });
+
+        it("Adds a problem for /* eslint-disable foo */ \\n (problem from foo and bar) // eslint-disable-line foo, bar", () => {
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment: createParentComment([0, 29], " eslint-disable foo ", ["foo"]),
+                            ruleId: "foo",
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            justification: "j1"
+                        },
+                        {
+                            parentComment: createParentComment([41, 81], " eslint-disable-line foo, bar", ["foo", "bar"]),
+                            ruleId: "foo",
+                            type: "disable-line",
+                            line: 2,
+                            column: 11,
+                            justification: "j2"
+                        },
+                        {
+                            parentComment: createParentComment([41, 81], " eslint-disable-line foo, bar ", ["foo", "bar"]),
+                            ruleId: "bar",
+                            type: "disable-line",
+                            line: 2,
+                            column: 11,
+                            justification: "j2"
+                        }
+                    ],
+                    problems: [
+                        { line: 2, column: 1, ruleId: "bar" },
+                        { line: 2, column: 6, ruleId: "foo" }
+                    ],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        ruleId: "bar",
+                        line: 2,
+                        column: 1,
+                        suppressions: [{ kind: "directive", justification: "j2" }]
+                    },
+                    {
+                        ruleId: "foo",
+                        line: 2,
+                        column: 6,
+                        suppressions: [
+                            { kind: "directive", justification: "j1" },
+                            { kind: "directive", justification: "j2" }
+                        ]
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported from 'foo').",
+                        line: 2,
+                        column: 11,
+                        fix: {
+                            range: [64, 69],
+                            text: ""
+                        },
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
     });
 });

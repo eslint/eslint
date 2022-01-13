@@ -3879,9 +3879,27 @@ var a = "test2";
             assert.strictEqual(suppressedMessages.length, 0);
         });
 
-        it("reports problems for multiple unused eslint-disable comments", () => {
+        it("reports problems for multiple eslint-disable comments, including unused ones", () => {
             const code = [
                 "/* eslint-disable no-alert -- j1 */",
+                "alert(\"test\"); //eslint-disable-line no-alert -- j2"
+            ].join("\n");
+            const config = {
+                rules: {
+                    "no-alert": 2
+                }
+            };
+            const messages = linter.verify(code, config, { reportUnusedDisableDirectives: true });
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(suppressedMessages.length, 1);
+            assert.strictEqual(suppressedMessages[0].suppressions.length, 2);
+        });
+
+        it("reports problems for eslint-disable-line and eslint-disable-next-line comments, including unused ones", () => {
+            const code = [
+                "// eslint-disable-next-line no-alert -- j1 */",
                 "alert(\"test\"); //eslint-disable-line no-alert -- j2"
             ].join("\n");
             const config = {
