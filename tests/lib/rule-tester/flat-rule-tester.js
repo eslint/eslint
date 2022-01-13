@@ -1064,192 +1064,14 @@ describe("FlatRuleTester", () => {
             ]
         });
 
-        const lastConfig = spy.args[1][1][2];
+        const configs = spy.args[1][1];
+        const config = configs.getConfig("test.js");
 
-        assert.strictEqual(lastConfig.languageOptions.parser, esprima);
-    });
-
-    it.only("should pass normalized ecmaVersion to the rule", () => {
-        const reportEcmaVersionRule = {
-            meta: {
-                messages: {
-                    ecmaVersionMessage: "context.languageOptions.ecmaVersion is {{type}} {{ecmaVersion}}."
-                }
-            },
-            create: context => ({
-                Program(node) {
-                    const { ecmaVersion } = context.languageOptions;
-
-                    context.report({
-                        node,
-                        messageId: "ecmaVersionMessage",
-                        data: { type: typeof ecmaVersion, ecmaVersion }
-                    });
-                }
-            })
-        };
-
-        const notEspree = require("../../fixtures/parsers/empty-program-parser");
-        const latestEcmaVersion = 2009 + espree.latestEcmaVersion;
-
-        ruleTester.run("report-ecma-version", reportEcmaVersionRule, {
-            valid: [],
-            invalid: [
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: latestEcmaVersion } }]
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: latestEcmaVersion } }],
-                    languageOptions: {
-                        parserOptions: {}
-                    }
-                },
-                {
-                    code: "<div/>",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: latestEcmaVersion } }],
-                    languageOptions: {
-                        parserOptions: { ecmaFeatures: { jsx: true } }
-                    }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: latestEcmaVersion } }],
-                    languageOptions: {
-                        parser: require("espree")
-                    }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "2015" } }],
-                    languageOptions: { ecmaVersion: 6 }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "2015" } }],
-                    languageOptions: { ecmaVersion: 2015 }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: latestEcmaVersion } }],
-                    languageOptions: {
-                        ecmaVersion: "latest"
-                    }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: latestEcmaVersion } }],
-                    languageOptions: {
-                        parser: require("espree"),
-                        ecmaVersion: "latest"
-                    }
-                },
-                {
-                    code: "<div/>",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: latestEcmaVersion } }],
-                    languageOptions: {
-                        ecmaVersion: "latest", 
-                        parserOptions: {
-                            ecmaFeatures: { jsx: true }
-                        }
-                    }
-                },
-                {
-                    code: "import 'foo'",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: latestEcmaVersion } }],
-                    languageOptions: {
-                        ecmaVersion: "latest",
-                        sourceType: "module"
-                    }
-                },
-
-                // Non-Espree parsers normalize ecmaVersion if it's not "latest"
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
-                    languageOptions: {
-                        parser: notEspree
-                    }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
-                    languageOptions: {
-                        parser: notEspree,
-                        parserOptions: {}
-                    }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "5" } }],
-                    languageOptions: {
-                        parser: notEspree,
-                        parserOptions: { ecmaVersion: 5 }
-                    }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
-                    languageOptions: {
-                        parser: notEspree,
-                        parserOptions: { ecmaVersion: 6 }
-                    }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: 6 } }],
-                    languageOptions: {
-                        parser: notEspree,
-                        parserOptions: { ecmaVersion: 2015 }
-                    }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "string", ecmaVersion: "latest" } }],
-                    languageOptions: {
-                        parser: notEspree,
-                        parserOptions: { ecmaVersion: "latest" }
-                    }
-                }
-            ]
-        });
-
-        [{ parserOptions: { ecmaVersion: 6 } }, { env: { es6: true } }].forEach(options => {
-            new FlatRuleTester(options).run("report-ecma-version", reportEcmaVersionRule, {
-                valid: [],
-                invalid: [
-                    {
-                        code: "",
-                        errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }]
-                    },
-                    {
-                        code: "",
-                        errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
-                        parserOptions: {}
-                    }
-                ]
-            });
-        });
-
-        new FlatRuleTester({ parser: notEspree }).run("report-ecma-version", reportEcmaVersionRule, {
-            valid: [],
-            invalid: [
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }]
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "string", ecmaVersion: "latest" } }],
-                    parserOptions: { ecmaVersion: "latest" }
-                }
-            ]
-        });
+        assert.strictEqual(config.languageOptions.parser, esprima);
     });
 
     it("should pass-through services from parseForESLint to the rule", () => {
-        const enhancedParserPath = require.resolve("../../fixtures/parsers/enhanced-parser");
+        const enhancedParser = require("../../fixtures/parsers/enhanced-parser");
         const disallowHiRule = {
             create: context => ({
                 Literal(node) {
@@ -1266,13 +1088,17 @@ describe("FlatRuleTester", () => {
             valid: [
                 {
                     code: "'Hello!'",
-                    parser: enhancedParserPath
+                    languageOptions: {
+                        parser: enhancedParser
+                    }
                 }
             ],
             invalid: [
                 {
                     code: "'Hi!'",
-                    parser: enhancedParserPath,
+                    languageOptions: {
+                        parser: enhancedParser
+                    },
                     errors: [{ message: "Don't use 'Hi!'" }]
                 }
             ]
@@ -1357,7 +1183,7 @@ describe("FlatRuleTester", () => {
         }, /ESLint configuration in rule-tester is invalid./u);
     });
 
-    it("throw an error when an invalid config value is included", () => {
+    it("throw an error when env is included in config", () => {
         assert.throws(() => {
             ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [
@@ -1365,12 +1191,14 @@ describe("FlatRuleTester", () => {
                 ],
                 invalid: []
             });
-        }, /Property "env" is the wrong type./u);
+        }, /Unexpected key "env" found./u);
     });
 
     it("should pass-through the tester config to the rule", () => {
         ruleTester = new FlatRuleTester({
-            globals: { test: true }
+            languageOptions: {
+                globals: { test: true }
+            }
         });
 
         ruleTester.run("no-test-global", require("../../fixtures/testers/rule-tester/no-test-global"), {
@@ -1378,28 +1206,28 @@ describe("FlatRuleTester", () => {
                 "var test = 'foo'",
                 "var test2 = test"
             ],
-            invalid: [{ code: "bar", errors: 1, globals: { foo: true } }]
+            invalid: [{ code: "bar", errors: 1, languageOptions: { globals: { foo: true } } }]
         });
     });
 
     it("should correctly set the globals configuration", () => {
-        const config = { globals: { test: true } };
+        const config = { languageOptions: { globals: { test: true } } };
 
         FlatRuleTester.setDefaultConfig(config);
         assert(
-            FlatRuleTester.getDefaultConfig().globals.test,
+            FlatRuleTester.getDefaultConfig().languageOptions.globals.test,
             "The default config object is incorrect"
         );
     });
 
     it("should correctly reset the global configuration", () => {
-        const config = { globals: { test: true } };
+        const config = { languageOptions: { globals: { test: true } } };
 
         FlatRuleTester.setDefaultConfig(config);
         FlatRuleTester.resetDefaultConfig();
         assert.deepStrictEqual(
             FlatRuleTester.getDefaultConfig(),
-            { rules: {} },
+            { rules: { "rule-tester/validate-ast": "error" } },
             "The default configuration has not reset correctly"
         );
     });
@@ -1426,7 +1254,7 @@ describe("FlatRuleTester", () => {
     });
 
     it("should pass-through the globals config to the tester then to the to rule", () => {
-        const config = { globals: { test: true } };
+        const config = { languageOptions: { sourceType: "script", globals: { test: true } } };
 
         FlatRuleTester.setDefaultConfig(config);
         ruleTester = new FlatRuleTester();
@@ -1436,7 +1264,7 @@ describe("FlatRuleTester", () => {
                 "var test = 'foo'",
                 "var test2 = test"
             ],
-            invalid: [{ code: "bar", errors: 1, globals: { foo: true } }]
+            invalid: [{ code: "bar", errors: 1, languageOptions: { globals: { foo: true } } }]
         });
     });
 
