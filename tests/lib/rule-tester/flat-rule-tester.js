@@ -11,8 +11,7 @@ const sinon = require("sinon"),
     EventEmitter = require("events"),
     FlatRuleTester = require("../../../lib/rule-tester/flat-rule-tester"),
     assert = require("chai").assert,
-    nodeAssert = require("assert"),
-    espree = require("espree");
+    nodeAssert = require("assert");
 
 const NODE_ASSERT_STRICT_EQUAL_OPERATOR = (() => {
     try {
@@ -1047,6 +1046,7 @@ describe("FlatRuleTester", () => {
         const spy = sinon.spy(ruleTester.linter, "verify");
         const esprima = require("esprima");
 
+        esprima.name = "esprima";
         ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
             valid: [
                 {
@@ -1067,7 +1067,10 @@ describe("FlatRuleTester", () => {
         const configs = spy.args[1][1];
         const config = configs.getConfig("test.js");
 
-        assert.strictEqual(config.languageOptions.parser, esprima);
+        assert.strictEqual(
+            config.languageOptions.parser[Symbol.for("eslint.RuleTester.parser")],
+            esprima
+        );
     });
 
     it("should pass-through services from parseForESLint to the rule", () => {
@@ -1394,48 +1397,48 @@ describe("FlatRuleTester", () => {
             });
         }, "Use token.range[1] instead of token.end");
 
-        const enhancedParserPath = require.resolve("../../fixtures/parsers/enhanced-parser");
+        const enhancedParser = require("../../fixtures/parsers/enhanced-parser");
 
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
-                valid: [{ code: "foo(a, b)", parser: enhancedParserPath }],
+                valid: [{ code: "foo(a, b)", languageOptions: { parser: enhancedParser } }],
                 invalid: []
             });
         }, "Use node.range[0] instead of node.start");
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
                 valid: [],
-                invalid: [{ code: "var a = b * (c + d) / e;", parser: enhancedParserPath, errors: 1 }]
+                invalid: [{ code: "var a = b * (c + d) / e;", languageOptions: { parser: enhancedParser }, errors: 1 }]
             });
         }, "Use node.range[1] instead of node.end");
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
                 valid: [],
-                invalid: [{ code: "var a = -b * c;", parser: enhancedParserPath, errors: 1 }]
+                invalid: [{ code: "var a = -b * c;", languageOptions: { parser: enhancedParser }, errors: 1 }]
             });
         }, "Use token.range[0] instead of token.start");
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
-                valid: [{ code: "var a = b ? c : d;", parser: enhancedParserPath }],
+                valid: [{ code: "var a = b ? c : d;", languageOptions: { parser: enhancedParser } }],
                 invalid: []
             });
         }, "Use token.range[1] instead of token.end");
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
-                valid: [{ code: "function f() { /* comment */ }", parser: enhancedParserPath }],
+                valid: [{ code: "function f() { /* comment */ }", languageOptions: { parser: enhancedParser } }],
                 invalid: []
             });
         }, "Use token.range[0] instead of token.start");
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
                 valid: [],
-                invalid: [{ code: "var x = //\n {\n //comment\n //\n}", parser: enhancedParserPath, errors: 1 }]
+                invalid: [{ code: "var x = //\n {\n //comment\n //\n}", languageOptions: { parser: enhancedParser }, errors: 1 }]
             });
         }, "Use token.range[1] instead of token.end");
 
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
-                valid: [{ code: "@foo class A {}", parser: require.resolve("../../fixtures/parsers/enhanced-parser2") }],
+                valid: [{ code: "@foo class A {}", languageOptions: { parser: require("../../fixtures/parsers/enhanced-parser2") } }],
                 invalid: []
             });
         }, "Use node.range[0] instead of node.start");
