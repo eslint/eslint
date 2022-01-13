@@ -1,4 +1,6 @@
-# Disallow Symbol Constructor (no-new-symbol)
+# no-new-symbol
+
+Disallows `new` operators with the `Symbol` object.
 
 `Symbol` is not intended to be used with the `new` operator, but to be called as a function.
 

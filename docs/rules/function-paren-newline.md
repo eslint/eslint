@@ -1,4 +1,6 @@
-# enforce consistent line breaks inside function parentheses (function-paren-newline)
+# function-paren-newline
+
+Enforces consistent line breaks inside function parentheses.
 
 Many style guides require or disallow newlines inside of function parentheses.
 

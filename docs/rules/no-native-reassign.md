@@ -1,4 +1,6 @@
-# Disallow Reassignment of Native Objects (no-native-reassign)
+# no-native-reassign
+
+Disallows reassignment of native objects.
 
 This rule was **deprecated** in ESLint v3.3.0 and replaced by the [no-global-assign](no-global-assign.md) rule.
 

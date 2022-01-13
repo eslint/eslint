@@ -1,4 +1,6 @@
-# Suggest using `const` (prefer-const)
+# prefer-const
+
+Requires `const` declarations for variables that are never reassigned after declared.
 
 If a variable is never reassigned, using the `const` declaration is better.
 

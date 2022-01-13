@@ -1,4 +1,6 @@
-# disallow assignment operators in conditional statements (no-cond-assign)
+# no-cond-assign
+
+Disallows assignment operators in conditional statements.
 
 In conditional statements, it is very easy to mistype a comparison operator (such as `==`) as an assignment operator (such as `=`). For example:
 

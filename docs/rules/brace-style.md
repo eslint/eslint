@@ -1,4 +1,6 @@
-# Require Brace Style (brace-style)
+# brace-style
+
+Enforces consistent brace style for blocks.
 
 Brace style is closely related to [indent style](https://en.wikipedia.org/wiki/Indent_style) in programming and describes the placement of braces relative to their control statement and body. There are probably a dozen, if not more, brace styles in the world.
 

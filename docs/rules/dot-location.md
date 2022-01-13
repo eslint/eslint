@@ -1,4 +1,6 @@
-# Enforce newline before and after dot (dot-location)
+# dot-location
+
+Enforces newline before and after dots.
 
 JavaScript allows you to place newlines before or after a dot in a member expression.
 

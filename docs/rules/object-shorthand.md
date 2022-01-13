@@ -1,4 +1,6 @@
-# Require Object Literal Shorthand Syntax (object-shorthand)
+# object-shorthand
+
+Requires or disallows method and property shorthand syntax for object literals.
 
 ECMAScript 6 provides a concise form for defining object literal methods and properties. This
 syntax can make defining complex object literals much cleaner.

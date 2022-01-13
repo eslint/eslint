@@ -1,4 +1,6 @@
-# Suggest using the rest parameters instead of `arguments` (prefer-rest-params)
+# prefer-rest-params
+
+Suggests using rest parameters instead of `arguments`.
 
 There are rest parameters in ES2015.
 We can use that feature for variadic functions instead of the `arguments` variable.

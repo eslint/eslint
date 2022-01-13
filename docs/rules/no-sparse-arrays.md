@@ -1,4 +1,6 @@
-# disallow sparse arrays (no-sparse-arrays)
+# no-sparse-arrays
+
+Disallows sparse arrays.
 
 Sparse arrays contain empty slots, most frequently due to multiple commas being used in an array literal, such as:
 

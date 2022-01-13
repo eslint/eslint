@@ -1,4 +1,6 @@
-# Enforce spacing around the `*` in `yield*` expressions (yield-star-spacing)
+# yield-star-spacing
+
+Enforces spacing around the `*` in `yield*` expressions.
 
 ## Rule Details
 

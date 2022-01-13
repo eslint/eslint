@@ -1,4 +1,6 @@
-# Disallow `await` inside of loops (no-await-in-loop)
+# no-await-in-loop
+
+Disallows `await` inside of loops.
 
 Performing an operation on each element of an iterable is a common task. However, performing an
 `await` as part of each operation is an indication that the program is not taking full advantage of

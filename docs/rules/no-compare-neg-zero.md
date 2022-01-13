@@ -1,4 +1,6 @@
-# disallow comparing against -0 (no-compare-neg-zero)
+# no-compare-neg-zero
+
+Disallows comparing against -0.
 
 ## Rule Details
 

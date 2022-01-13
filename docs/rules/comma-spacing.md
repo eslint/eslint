@@ -1,4 +1,6 @@
-# Enforces spacing around commas (comma-spacing)
+# comma-spacing
+
+Enforces spacing around commas.
 
 Spacing around commas improves readability of a list of items. Although most of the style guidelines for languages prescribe adding a space after a comma and not before it, it is subjective to the preferences of a project.
 

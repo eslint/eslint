@@ -1,4 +1,6 @@
-# space-in-brackets: enforce consistent spacing inside braces of object literals and brackets of array literals
+# space-in-brackets
+
+Enforces consistent spacing inside braces of object literals and brackets of array literals.
 
 (removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [object-curly-spacing](object-curly-spacing.md) and [array-bracket-spacing](array-bracket-spacing.md) rules.
 

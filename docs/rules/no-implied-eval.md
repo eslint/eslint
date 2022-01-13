@@ -1,4 +1,6 @@
-# Disallow Implied eval() (no-implied-eval)
+# no-implied-eval
+
+Disallows the use of `eval()`-like methods.
 
 It's considered a good practice to avoid using `eval()` in JavaScript. There are security and performance implications involved with doing so, which is why many linters (including ESLint) recommend disallowing `eval()`. However, there are some other ways to pass a string and have it interpreted as JavaScript code that have similar concerns.
 

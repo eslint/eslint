@@ -1,4 +1,6 @@
-# Require IIFEs to be Wrapped (wrap-iife)
+# wrap-iife
+
+Requires IIFEs to be wrapped.
 
 You can immediately invoke function expressions, but not function declarations. A common technique to create an immediately-invoked function expression (IIFE) is to wrap a function declaration in parentheses. The opening parentheses causes the contained function to be parsed as an expression, rather than a declaration.
 

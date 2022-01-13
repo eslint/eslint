@@ -1,4 +1,6 @@
-# require or disallow semicolons instead of ASI (semi)
+# semi
+
+Requires or disallows semicolons instead of ASI.
 
 JavaScript doesn't require semicolons at the end of each statement. In many cases, the JavaScript engine can determine that a semicolon should be in a certain spot and will automatically add it. This feature is known as **automatic semicolon insertion (ASI)** and is considered one of the more controversial features of JavaScript. For example, the following lines are both valid:
 

@@ -1,4 +1,6 @@
-# Disallow Use of `__proto__` (no-proto)
+# no-proto
+
+Disallows the use of the `__proto__` property.
 
 `__proto__` property has been deprecated as of ECMAScript 3.1 and shouldn't be used in the code. Use `Object.getPrototypeOf` and `Object.setPrototypeOf` instead.
 

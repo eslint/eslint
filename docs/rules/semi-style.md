@@ -1,4 +1,6 @@
-# Enforce location of semicolons (semi-style)
+# semi-style
+
+Enforces location of semicolons.
 
 Generally, semicolons are at the end of lines. However, in semicolon-less style, semicolons are at the beginning of lines. This rule enforces that semicolons are at the configured location.
 

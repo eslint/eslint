@@ -1,4 +1,6 @@
-# disallow inline comments after code (no-inline-comments)
+# no-inline-comments
+
+Disallows inline comments after code.
 
 Some style guides disallow comments on the same line as code. Code can become difficult to read if comments immediately follow the code on the same line.
 On the other hand, it is sometimes faster and more obvious to put comments immediately following code.

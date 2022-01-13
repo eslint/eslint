@@ -1,4 +1,6 @@
-# require or disallow newlines around directives (lines-around-directive)
+# lines-around-directive
+
+Requires or disallow newlines around directives.
 
 This rule was **deprecated** in ESLint v4.0.0 and replaced by the [padding-line-between-statements](padding-line-between-statements.md) rule.
 

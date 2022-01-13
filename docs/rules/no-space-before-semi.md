@@ -1,4 +1,6 @@
-# no-space-before-semi: disallow spaces before semicolons
+# no-space-before-semi
+
+Disallows spaces before semicolons.
 
 (removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [semi-spacing](semi-spacing.md) rule.
 

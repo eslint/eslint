@@ -1,4 +1,6 @@
-# no-reserved-keys: disallow unquoted reserved words as property names in object literals
+# no-reserved-keys
+
+Disallows unquoted reserved words as property names in object literals.
 
 (removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [quote-props](quote-props.md) rule.
 

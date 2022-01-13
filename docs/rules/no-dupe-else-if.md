@@ -1,4 +1,6 @@
-# Disallow duplicate conditions in `if-else-if` chains (no-dupe-else-if)
+# no-dupe-else-if
+
+Disallows duplicate conditions in `if-else-if` chains.
 
 `if-else-if` chains are commonly used when there is a need to execute only one branch (or at most one branch) out of several possible branches, based on certain conditions.
 

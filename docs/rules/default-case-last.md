@@ -1,4 +1,6 @@
-# Enforce default clauses in switch statements to be last (default-case-last)
+# default-case-last
+
+Enforces default clauses in switch statements to be last.
 
 A `switch` statement can optionally have a `default` clause.
 

@@ -1,4 +1,6 @@
-# Disallow generator functions that do not have `yield` (require-yield)
+# require-yield
+
+Disallows generator functions that do not have `yield`.
 
 ## Rule Details
 

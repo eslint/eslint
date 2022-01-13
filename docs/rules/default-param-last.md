@@ -1,4 +1,6 @@
-# enforce default parameters to be last (default-param-last)
+# default-param-last
+
+Enforces default parameters to be last.
 
 Putting default parameter at last allows function calls to omit optional tail arguments.
 

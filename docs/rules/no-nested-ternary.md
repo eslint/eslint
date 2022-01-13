@@ -1,4 +1,6 @@
-# disallow nested ternary expressions (no-nested-ternary)
+# no-nested-ternary
+
+Disallows nested ternary expressions.
 
 Nesting ternary expressions can make code more difficult to understand.
 

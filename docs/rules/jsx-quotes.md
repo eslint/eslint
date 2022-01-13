@@ -1,4 +1,6 @@
-# enforce the consistent use of either double or single quotes in JSX attributes (jsx-quotes)
+# jsx-quotes
+
+Enforces the consistent use of either double or single quotes in JSX attributes.
 
 JSX attribute values can contain string literals, which are delimited with single or double quotes.
 

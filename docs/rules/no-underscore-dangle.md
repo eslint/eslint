@@ -1,4 +1,6 @@
-# disallow dangling underscores in identifiers (no-underscore-dangle)
+# no-underscore-dangle
+
+Disallows dangling underscores in identifiers.
 
 As far as naming conventions for identifiers go, dangling underscores may be the most polarizing in JavaScript. Dangling underscores are underscores at either the beginning or end of an identifier, such as:
 

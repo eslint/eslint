@@ -1,4 +1,6 @@
-# require or disallow initialization in variable declarations (init-declarations)
+# init-declarations
+
+Requires or disallows initialization in variable declarations.
 
 In JavaScript, variables can be assigned during declaration, or at any point afterwards using an assignment statement. For example, in the following code, `foo` is initialized during declaration, while `bar` is initialized later.
 

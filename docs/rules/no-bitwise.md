@@ -1,4 +1,6 @@
-# disallow bitwise operators (no-bitwise)
+# no-bitwise
+
+Disallows bitwise operators.
 
 The use of bitwise operators in JavaScript is very rare and often `&` or `|` is simply a mistyped `&&` or `||`, which will lead to unexpected behavior.
 

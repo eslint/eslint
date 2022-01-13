@@ -1,4 +1,6 @@
-# Enforce Return After Callback (callback-return)
+# callback-return
+
+Enforces return after callback.
 
 This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-node`](https://github.com/mysticatea/eslint-plugin-node).
 

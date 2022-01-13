@@ -1,4 +1,6 @@
-# disallow the unary operators `++` and `--` (no-plusplus)
+# no-plusplus
+
+Disallows the unary operators `++` and `--`.
 
 Because the unary `++` and `--` operators are subject to automatic semicolon insertion, differences in whitespace can change semantics of source code.
 

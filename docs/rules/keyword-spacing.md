@@ -1,4 +1,6 @@
-# enforce consistent spacing before and after keywords (keyword-spacing)
+# keyword-spacing
+
+Enforces consistent spacing before and after keywords.
 
 Keywords are syntax elements of JavaScript, such as `try` and `if`.
 These keywords have special meaning to the language and so often appear in a different color in code editors.
