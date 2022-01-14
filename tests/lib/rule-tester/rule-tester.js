@@ -2628,45 +2628,50 @@ describe("RuleTester", () => {
         });
     });
 
-    it("should allow subclasses to set the describe/it/itOnly statics and should correctly use those values", () => {
-        const assertionDescribe = assertEmitted(ruleTesterTestEmitter, "custom describe", "this-is-a-rule-name");
-        const assertionIt = assertEmitted(ruleTesterTestEmitter, "custom it", "valid(code);");
-        const assertionItOnly = assertEmitted(ruleTesterTestEmitter, "custom itOnly", "validOnly(code);");
+    describe("Subclassing", () => {
 
-        /**
-         * Subclass for testing
-         */
-        class RuleTesterSubclass extends RuleTester { }
-        RuleTesterSubclass.describe = function(text, method) {
-            ruleTesterTestEmitter.emit("custom describe", text, method);
-            return method.call(this);
-        };
-        RuleTesterSubclass.it = function(text, method) {
-            ruleTesterTestEmitter.emit("custom it", text, method);
-            return method.call(this);
-        };
-        RuleTesterSubclass.itOnly = function(text, method) {
-            ruleTesterTestEmitter.emit("custom itOnly", text, method);
-            return method.call(this);
-        };
+        it("should allow subclasses to set the describe/it/itOnly statics and should correctly use those values", () => {
+            const assertionDescribe = assertEmitted(ruleTesterTestEmitter, "custom describe", "this-is-a-rule-name");
+            const assertionIt = assertEmitted(ruleTesterTestEmitter, "custom it", "valid(code);");
+            const assertionItOnly = assertEmitted(ruleTesterTestEmitter, "custom itOnly", "validOnly(code);");
 
-        const ruleTesterSubclass = new RuleTesterSubclass();
+            /**
+             * Subclass for testing
+             */
+            class RuleTesterSubclass extends RuleTester { }
+            RuleTesterSubclass.describe = function(text, method) {
+                ruleTesterTestEmitter.emit("custom describe", text, method);
+                return method.call(this);
+            };
+            RuleTesterSubclass.it = function(text, method) {
+                ruleTesterTestEmitter.emit("custom it", text, method);
+                return method.call(this);
+            };
+            RuleTesterSubclass.itOnly = function(text, method) {
+                ruleTesterTestEmitter.emit("custom itOnly", text, method);
+                return method.call(this);
+            };
 
-        ruleTesterSubclass.run("this-is-a-rule-name", require("../../fixtures/testers/rule-tester/no-var"), {
-            valid: [
-                "valid(code);",
-                {
-                    code: "validOnly(code);",
-                    only: true
-                }
-            ],
-            invalid: []
+            const ruleTesterSubclass = new RuleTesterSubclass();
+
+            ruleTesterSubclass.run("this-is-a-rule-name", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [
+                    "valid(code);",
+                    {
+                        code: "validOnly(code);",
+                        only: true
+                    }
+                ],
+                invalid: []
+            });
+
+            return Promise.all([
+                assertionDescribe,
+                assertionIt,
+                assertionItOnly
+            ]);
         });
 
-        return Promise.all([
-            assertionDescribe,
-            assertionIt,
-            assertionItOnly
-        ]);
     });
+
 });

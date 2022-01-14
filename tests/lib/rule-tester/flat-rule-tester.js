@@ -2131,27 +2131,27 @@ describe("FlatRuleTester", () => {
         });
     });
 
-    describe("naming test cases", () => {
-
-        /**
-         * Asserts that a particular value will be emitted from an EventEmitter.
-         * @param {EventEmitter} emitter The emitter that should emit a value
-         * @param {string} emitType The type of emission to listen for
-         * @param {any} expectedValue The value that should be emitted
-         * @returns {Promise<void>} A Promise that fulfills if the value is emitted, and rejects if something else is emitted.
-         * The Promise will be indefinitely pending if no value is emitted.
-         */
-        function assertEmitted(emitter, emitType, expectedValue) {
-            return new Promise((resolve, reject) => {
-                emitter.once(emitType, emittedValue => {
-                    if (emittedValue === expectedValue) {
-                        resolve();
-                    } else {
-                        reject(new Error(`Expected ${expectedValue} to be emitted but ${emittedValue} was emitted instead.`));
-                    }
-                });
+    /**
+     * Asserts that a particular value will be emitted from an EventEmitter.
+     * @param {EventEmitter} emitter The emitter that should emit a value
+     * @param {string} emitType The type of emission to listen for
+     * @param {any} expectedValue The value that should be emitted
+     * @returns {Promise<void>} A Promise that fulfills if the value is emitted, and rejects if something else is emitted.
+     * The Promise will be indefinitely pending if no value is emitted.
+     */
+    function assertEmitted(emitter, emitType, expectedValue) {
+        return new Promise((resolve, reject) => {
+            emitter.once(emitType, emittedValue => {
+                if (emittedValue === expectedValue) {
+                    resolve();
+                } else {
+                    reject(new Error(`Expected ${expectedValue} to be emitted but ${emittedValue} was emitted instead.`));
+                }
             });
-        }
+        });
+    }
+
+    describe("naming test cases", () => {
 
         it("should use the first argument as the name of the test suite", () => {
             const assertion = assertEmitted(ruleTesterTestEmitter, "describe", "this-is-a-rule-name");
@@ -2462,6 +2462,51 @@ describe("FlatRuleTester", () => {
                 });
             }, /`SourceCode#getComments\(\)` is deprecated/u);
         });
+    });
+
+    describe("Subclassing", () => {
+        it("should allow subclasses to s`et the describe/it/itOnly statics and should correctly use those values", () => {
+            const assertionDescribe = assertEmitted(ruleTesterTestEmitter, "custom describe", "this-is-a-rule-name");
+            const assertionIt = assertEmitted(ruleTesterTestEmitter, "custom it", "valid(code);");
+            const assertionItOnly = assertEmitted(ruleTesterTestEmitter, "custom itOnly", "validOnly(code);");
+
+            /**
+             * Subclass for testing
+             */
+            class RuleTesterSubclass extends FlatRuleTester { }
+            RuleTesterSubclass.describe = function(text, method) {
+                ruleTesterTestEmitter.emit("custom describe", text, method);
+                return method.call(this);
+            };
+            RuleTesterSubclass.it = function(text, method) {
+                ruleTesterTestEmitter.emit("custom it", text, method);
+                return method.call(this);
+            };
+            RuleTesterSubclass.itOnly = function(text, method) {
+                ruleTesterTestEmitter.emit("custom itOnly", text, method);
+                return method.call(this);
+            };
+
+            const ruleTesterSubclass = new RuleTesterSubclass();
+
+            ruleTesterSubclass.run("this-is-a-rule-name", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [
+                    "valid(code);",
+                    {
+                        code: "validOnly(code);",
+                        only: true
+                    }
+                ],
+                invalid: []
+            });
+
+            return Promise.all([
+                assertionDescribe,
+                assertionIt,
+                assertionItOnly
+            ]);
+        });
+
     });
 
 });
