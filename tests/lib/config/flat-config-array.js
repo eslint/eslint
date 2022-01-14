@@ -143,6 +143,24 @@ function normalizeRuleConfig(rulesConfig) {
 
 describe("FlatConfigArray", () => {
 
+    it("should allow noniterable baseConfig objects", () => {
+        const base = {
+            languageOptions: {
+                parserOptions: {
+                    foo: true
+                }
+            }
+        };
+
+        const configs = new FlatConfigArray([], {
+            basePath: __dirname,
+            baseConfig: base
+        });
+
+        // should not throw error
+        configs.normalizeSync();
+    });
+
     it("should not reuse languageOptions.parserOptions across configs", () => {
         const base = [{
             languageOptions: {
@@ -164,7 +182,6 @@ describe("FlatConfigArray", () => {
         assert.notStrictEqual(base[0].languageOptions, config.languageOptions);
         assert.notStrictEqual(base[0].languageOptions.parserOptions, config.languageOptions.parserOptions, "parserOptions should be new object");
     });
-
 
     describe("Special configs", () => {
         it("eslint:recommended is replaced with an actual config", async () => {
