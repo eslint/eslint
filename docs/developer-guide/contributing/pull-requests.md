@@ -30,7 +30,7 @@ Details about each step are found below.
 
 The first step to sending a pull request is to create a new branch in your ESLint fork. Give the branch a descriptive name that describes what it is you're fixing, such as:
 
-```sh
+```shell
 $ git checkout -b issue1234
 ```
 
@@ -42,7 +42,7 @@ You should do all of your development for the issue in this branch.
 
 Make the changes to the code and tests, following the [code conventions](../code-conventions.md) as you go. Once you have finished, commit the changes to your branch:
 
-```sh
+```shell
 $ git add -A
 $ git commit
 ```
@@ -91,7 +91,7 @@ The commit message format is important because these messages are used to create
 
 Before you send the pull request, be sure to rebase onto the upstream source. This ensures your code is running on the latest available code.
 
-```sh
+```shell
 git fetch upstream
 git rebase upstream/main
 ```
@@ -100,7 +100,7 @@ git rebase upstream/main
 
 After rebasing, be sure to run all of the tests once again to make sure nothing broke:
 
-```sh
+```shell
 npm test
 ```
 
@@ -123,13 +123,13 @@ With your code ready to go, this is a good time to double-check your submission 
 
 Next, push your changes to your clone:
 
-```sh
+```shell
 git push origin issue1234
 ```
 
 If you are unable to push because some references are old, do a forced push instead:
 
-```sh
+```shell
 git push -f origin issue1234
 ```
 
@@ -149,13 +149,13 @@ Once your pull request is sent, it's time for the team to review it. As such, pl
 
 If your commit message is in the incorrect format, you'll be asked to update it. You can do so via:
 
-```sh
+```shell
 $ git commit --amend
 ```
 
 This will open up your editor so you can make changes. After that, you'll need to do a forced push to your branch:
 
-```sh
+```shell
 $ git push origin issue1234 -f
 ```
 
@@ -163,7 +163,7 @@ $ git push origin issue1234 -f
 
 If we ask you to make code changes, there's no need to close the pull request and create a new one. Just go back to the branch on your fork and make your changes. Then, when you're ready, you can add your changes into the branch:
 
-```sh
+```shell
 $ git add -A
 $ git commit
 $ git push origin issue1234
@@ -177,13 +177,13 @@ The commit messages in subsequent commits do not need to be in any specific form
 
 If your code is out-of-date, we might ask you to rebase. That means we want you to apply your changes on top of the latest upstream code. Make sure you have set up a [development environment](../development-environment.md) and then you can rebase using these commands:
 
-```sh
+```shell
 $ git fetch upstream
 $ git rebase upstream/main
 ```
 
 You might find that there are merge conflicts when you attempt to rebase. Please [resolve the conflicts](https://help.github.com/articles/resolving-merge-conflicts-after-a-git-rebase/) and then do a forced push to your branch:
 
-```sh
+```shell
 $ git push origin issue1234 -f
 ```
