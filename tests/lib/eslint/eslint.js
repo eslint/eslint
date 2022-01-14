@@ -324,6 +324,7 @@ describe("ESLint", () => {
             assert.strictEqual(results[0].messages[0].output, void 0);
             assert.strictEqual(results[0].errorCount, 0);
             assert.strictEqual(results[0].warningCount, 1);
+            assert.strictEqual(results[0].fatalErrorCount, 0);
             assert.strictEqual(results[0].fixableErrorCount, 0);
             assert.strictEqual(results[0].fixableWarningCount, 0);
             assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
@@ -1044,6 +1045,7 @@ describe("ESLint", () => {
             assert.strictEqual(results.length, 1);
             assert.strictEqual(results[0].errorCount, 0);
             assert.strictEqual(results[0].warningCount, 1);
+            assert.strictEqual(results[0].fatalErrorCount, 0);
             assert.strictEqual(results[0].fixableErrorCount, 0);
             assert.strictEqual(results[0].fixableWarningCount, 0);
             assert.strictEqual(results[0].messages[0].message, expectedMsg);
@@ -1105,6 +1107,7 @@ describe("ESLint", () => {
             assert.strictEqual(results.length, 1);
             assert.strictEqual(results[0].errorCount, 0);
             assert.strictEqual(results[0].warningCount, 1);
+            assert.strictEqual(results[0].fatalErrorCount, 0);
             assert.strictEqual(results[0].fixableErrorCount, 0);
             assert.strictEqual(results[0].fixableWarningCount, 0);
             assert.strictEqual(results[0].messages[0].message, expectedMsg);
@@ -1127,6 +1130,7 @@ describe("ESLint", () => {
             assert.strictEqual(results.length, 1);
             assert.strictEqual(results[0].errorCount, 0);
             assert.strictEqual(results[0].warningCount, 1);
+            assert.strictEqual(results[0].fatalErrorCount, 0);
             assert.strictEqual(results[0].fixableErrorCount, 0);
             assert.strictEqual(results[0].fixableWarningCount, 0);
             assert.strictEqual(results[0].messages[0].message, expectedMsg);
@@ -1413,6 +1417,7 @@ describe("ESLint", () => {
             assert.strictEqual(results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override.");
             assert.strictEqual(results[0].errorCount, 0);
             assert.strictEqual(results[0].warningCount, 1);
+            assert.strictEqual(results[0].fatalErrorCount, 0);
             assert.strictEqual(results[0].fixableErrorCount, 0);
             assert.strictEqual(results[0].fixableWarningCount, 0);
         });
@@ -4822,6 +4827,9 @@ describe("ESLint", () => {
             assert.strictEqual(results.length, 1);
             assert.strictEqual(results[0].errorCount, 0);
             assert.strictEqual(results[0].warningCount, 1);
+            assert.strictEqual(results[0].fatalErrorCount, 0);
+            assert.strictEqual(results[0].fixableErrorCount, 0);
+            assert.strictEqual(results[0].fixableWarningCount, 0);
         });
 
         it("should return source code of file in the `source` property", async () => {
