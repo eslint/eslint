@@ -1,30 +1,34 @@
 # Command Line Interface
 
-To run ESLint on Node.js, you must have npm installed. If npm is not installed, follow the instructions here: <https://www.npmjs.com/>
+ESLint requires Node.js for installation. Follow the instructions in the [Getting Started Guide](https://eslint.org/docs/user-guide/getting-started) to install ESLint.
 
-Once npm is installed, run the following
+Most users use [`npx`](https://docs.npmjs.com/cli/v8/commands/npx) to run ESLint on the command line like this:
 
-    npm i -g eslint
-
-This installs the ESLint CLI from the npm repository. To run ESLint, use the following format:
-
-    eslint [options] [file|dir|glob]*
+```shell
+npx eslint [options] [file|dir|glob]*
+```
 
 Such as:
 
-    eslint file1.js file2.js
+```shell
+# Run on two files
+npx eslint file1.js file2.js
 
-or:
-
-    eslint lib/**
+# Run on multiples files
+npx eslint lib/**
+```
 
 Please note that when passing a glob as a parameter, it will be expanded by your shell. The results of the expansion can vary depending on your shell, and its configuration. If you want to use node `glob` syntax, you have to quote your parameter (using double quotes if you need it to run in Windows), as follows:
 
-    eslint "lib/**"
+```shell
+npx eslint "lib/**"
+```
+
+**Note:** You can also use alternative package managers such as [Yarn](https://yarnpkg.com/) or [pnpm](https://pnpm.io/) to run ESLint. Please refer to your package manager's documentation for the correct syntax.
 
 ## Options
 
-The command line utility has several options. You can view the options by running `eslint -h`.
+The command line utility has several options. You can view the options by running `npx eslint -h`.
 
 ```text
 eslint [options] file.js [file.js] [dir]
@@ -92,9 +96,9 @@ Options that accept array values can be specified by repeating the option or wit
 
 Example:
 
-    eslint --ext .jsx --ext .js lib/
+    npx eslint --ext .jsx --ext .js lib/
 
-    eslint --ext .jsx,.js lib/
+    npx eslint --ext .jsx,.js lib/
 
 ### Basic configuration
 
@@ -104,7 +108,7 @@ Disables use of configuration from `.eslintrc.*` and `package.json` files.
 
 Example:
 
-    eslint --no-eslintrc file.js
+    npx eslint --no-eslintrc file.js
 
 #### `-c`, `--config`
 
@@ -112,7 +116,7 @@ This option allows you to specify an additional configuration file for ESLint (s
 
 Example:
 
-    eslint -c ~/my-eslint.json file.js
+    npx eslint -c ~/my-eslint.json file.js
 
 This example uses the configuration file at `~/my-eslint.json`.
 
@@ -124,8 +128,8 @@ This option enables specific environments. Details about the global variables de
 
 Examples:
 
-    eslint --env browser,node file.js
-    eslint --env browser --env node file.js
+    npx eslint --env browser,node file.js
+    npx eslint --env browser --env node file.js
 
 #### `--ext`
 
@@ -135,17 +139,17 @@ By default, ESLint lints `*.js` files and the files that match the `overrides` e
 Examples:
 
     # Use only .ts extension
-    eslint . --ext .ts
+    npx eslint . --ext .ts
 
     # Use both .js and .ts
-    eslint . --ext .js --ext .ts
+    npx eslint . --ext .js --ext .ts
 
     # Also use both .js and .ts
-    eslint . --ext .js,.ts
+    npx eslint . --ext .js,.ts
 
 **Note:** `--ext` is only used when the arguments are directories. If you use glob patterns or file names, then `--ext` is ignored.
 
-For example, `eslint lib/* --ext .js` will match all files within the `lib/` directory, regardless of extension.
+For example, `npx eslint lib/* --ext .js` will match all files within the `lib/` directory, regardless of extension.
 
 #### `--global`
 
@@ -153,8 +157,8 @@ This option defines global variables so that they will not be flagged as undefin
 
 Examples:
 
-    eslint --global require,exports:true file.js
-    eslint --global require --global exports:true
+    npx eslint --global require,exports:true file.js
+    npx eslint --global require --global exports:true
 
 #### `--parser`
 
@@ -166,8 +170,8 @@ This option allows you to specify parser options to be used by ESLint. Note that
 
 Examples:
 
-    echo '3 ** 4' | eslint --stdin --parser-options=ecmaVersion:6 # will fail with a parsing error
-    echo '3 ** 4' | eslint --stdin --parser-options=ecmaVersion:7 # succeeds, yay!
+    echo '3 ** 4' | npx eslint --stdin --parser-options=ecmaVersion:6 # will fail with a parsing error
+    echo '3 ** 4' | npx eslint --stdin --parser-options=ecmaVersion:7 # succeeds, yay!
 
 #### `--resolve-plugins-relative-to`
 
@@ -186,8 +190,8 @@ Before using the plugin, you have to install it using npm.
 
 Examples:
 
-    eslint --plugin jquery file.js
-    eslint --plugin eslint-plugin-mocha file.js
+    npx eslint --plugin jquery file.js
+    npx eslint --plugin eslint-plugin-mocha file.js
 
 #### `--rule`
 
@@ -197,9 +201,9 @@ If the rule is defined within a plugin, you have to prefix the rule ID with the 
 
 Examples:
 
-    eslint --rule 'quotes: [error, double]'
-    eslint --rule 'guard-for-in: error' --rule 'brace-style: [error, 1tbs]'
-    eslint --rule 'jquery/dollar-sign: error'
+    npx eslint --rule 'quotes: [error, double]'
+    npx eslint --rule 'guard-for-in: error' --rule 'brace-style: [error, 1tbs]'
+    npx eslint --rule 'jquery/dollar-sign: error'
 
 #### `--rulesdir`
 
@@ -209,11 +213,11 @@ This option allows you to specify another directory from which to load rules fil
 
 Example:
 
-    eslint --rulesdir my-rules/ file.js
+    npx eslint --rulesdir my-rules/ file.js
 
 The rules in your custom rules directory must follow the same format as bundled rules to work properly. You can also specify multiple locations for custom rules by including multiple `--rulesdir` options:
 
-    eslint --rulesdir my-rules/ --rulesdir my-other-rules/ file.js
+    npx eslint --rulesdir my-rules/ --rulesdir my-other-rules/ file.js
 
 Note that, as with core rules and plugin rules, you still need to enable the rules in configuration or via the `--rule` CLI option in order to actually run those rules during linting. Specifying a rules directory with `--rulesdir` does not automatically enable the rules within that directory.
 
@@ -235,7 +239,7 @@ This option has the same effect as `--fix` with one difference: the fixes are no
 Because the default formatter does not output the fixed code, you'll have to use another one (e.g. `json`) to get the fixes. Here's an example of this pattern:
 
 ```shell
-getSomeText | eslint --stdin --fix-dry-run --format=json
+getSomeText | npx eslint --stdin --fix-dry-run --format=json
 ```
 
 This flag can be useful for integrations (e.g. editor plugins) which need to autofix text from the command line without saving it to the filesystem.
@@ -252,9 +256,9 @@ This option allows you to specify the type of fixes to apply when using either `
 You can specify one or more fix type on the command line. Here are some examples:
 
 ```shell
-eslint --fix --fix-type suggestion .
-eslint --fix --fix-type suggestion --fix-type problem .
-eslint --fix --fix-type suggestion,layout .
+npx eslint --fix --fix-type suggestion .
+npx eslint --fix --fix-type suggestion --fix-type problem .
+npx eslint --fix --fix-type suggestion,layout .
 ```
 
 This option is helpful if you are using another program to format your code but you would still like ESLint to apply other types of fixes.
@@ -267,8 +271,8 @@ This option allows you to specify the file to use as your `.eslintignore`. By de
 
 Example:
 
-    eslint --ignore-path tmp/.eslintignore file.js
-    eslint --ignore-path .gitignore file.js
+    npx eslint --ignore-path tmp/.eslintignore file.js
+    npx eslint --ignore-path .gitignore file.js
 
 #### `--no-ignore`
 
@@ -276,7 +280,7 @@ Disables excluding of files from `.eslintignore`, `--ignore-path`, `--ignore-pat
 
 Example:
 
-    eslint --no-ignore file.js
+    npx eslint --no-ignore file.js
 
 #### `--ignore-pattern`
 
@@ -284,7 +288,7 @@ This option allows you to specify patterns of files to ignore (in addition to th
 
 Example:
 
-    eslint --ignore-pattern '/lib/' --ignore-pattern '/src/vendor/*' .
+    npx eslint --ignore-pattern '/lib/' --ignore-pattern '/src/vendor/*' .
 
 ### Using stdin
 
@@ -294,7 +298,7 @@ This option tells ESLint to read and lint source code from STDIN instead of from
 
 Example:
 
-    cat myfile.js | eslint --stdin
+    cat myfile.js | npx eslint --stdin
 
 #### `--stdin-filename`
 
@@ -302,7 +306,7 @@ This option allows you to specify a filename to process STDIN as. This is useful
 
 Example
 
-    cat myfile.js | eslint --stdin --stdin-filename=myfile.js
+    cat myfile.js | npx eslint --stdin --stdin-filename=myfile.js
 
 ### Handling warnings
 
@@ -312,7 +316,7 @@ This option allows you to disable reporting on warnings. If you enable this opti
 
 Example:
 
-    eslint --quiet file.js
+    npx eslint --quiet file.js
 
 #### `--max-warnings`
 
@@ -322,7 +326,7 @@ Normally, if ESLint runs and finds no errors (only warnings), it will exit with 
 
 Example:
 
-    eslint --max-warnings 10 file.js
+    npx eslint --max-warnings 10 file.js
 
 ### Output
 
@@ -332,7 +336,7 @@ Enable report to be written to a file.
 
 Example:
 
-    eslint -o ./test/test.html
+    npx eslint -o ./test/test.html
 
 When specified, the given format is output into the provided file name.
 
@@ -353,13 +357,13 @@ This option specifies the output format for the console. Possible formats are:
 
 Example:
 
-    eslint -f compact file.js
+    npx eslint -f compact file.js
 
 You can also use a custom formatter from the command line by specifying a path to the custom formatter file.
 
 Example:
 
-    eslint -f ./customformat.js file.js
+    npx eslint -f ./customformat.js file.js
 
 An npm-installed formatter is resolved with or without `eslint-formatter-` prefix.
 
@@ -367,14 +371,14 @@ Example:
 
     npm install eslint-formatter-pretty
 
-    eslint -f pretty file.js
+    npx eslint -f pretty file.js
 
     // equivalent:
-    eslint -f eslint-formatter-pretty file.js
+    npx eslint -f eslint-formatter-pretty file.js
 
 When specified, the given format is output to the console. If you'd like to save that output into a file, you can do so on the command line like so:
 
-    eslint -f compact file.js > results.txt
+    npx eslint -f compact file.js > results.txt
 
 This saves the output into the `results.txt` file.
 
@@ -384,8 +388,8 @@ This option forces the enabling/disabling of colorized output. You can use this 
 
 Examples:
 
-    eslint --color file.js | cat
-    eslint --no-color file.js
+    npx eslint --color file.js | cat
+    npx eslint --no-color file.js
 
 ### Inline configuration comments
 
@@ -405,7 +409,7 @@ config without files modifying it. All inline config comments are ignored, e.g.:
 
 Example:
 
-    eslint --no-inline-config file.js
+    npx eslint --no-inline-config file.js
 
 #### `--report-unused-disable-directives`
 
@@ -415,7 +419,7 @@ This option causes ESLint to report directive comments like `// eslint-disable-l
 
 Example:
 
-    eslint --report-unused-disable-directives file.js
+    npx eslint --report-unused-disable-directives file.js
 
 ### Caching
 
@@ -441,7 +445,7 @@ If a directory is specified, a cache file will be created inside the specified f
 
 Example:
 
-    eslint "src/**/*.js" --cache --cache-location "/Users/user/.eslintcache/"
+    npx eslint "src/**/*.js" --cache --cache-location "/Users/user/.eslintcache/"
 
 #### `--cache-strategy`
 
@@ -451,7 +455,7 @@ The `content` strategy can be useful in cases where the modification time of you
 
 Example:
 
-    eslint "src/**/*.js" --cache --cache-strategy content
+    npx eslint "src/**/*.js" --cache --cache-strategy content
 
 ### Miscellaneous
 
@@ -476,7 +480,7 @@ This option causes ESLint to exit with exit code 2 if one or more fatal parsing 
 #### `--debug`
 
 This option outputs debugging information to the console. This information is useful when you're seeing a problem and having a hard time pinpointing it. The ESLint team may ask for this debugging information to help solve bugs.
-Add this flag to an ESLint command line invocation in order to get extra debug information as the command is run (e.g. `eslint --debug test.js` and `eslint test.js --debug` are equivalent)
+Add this flag to an ESLint command line invocation in order to get extra debug information as the command is run (e.g. `npx eslint --debug test.js` and `npx eslint test.js --debug` are equivalent)
 
 #### `-h`, `--help`
 
@@ -492,7 +496,7 @@ This option outputs the configuration to be used for the file passed. When prese
 
 Example:
 
-    eslint --print-config file.js
+    npx eslint --print-config file.js
 
 ## Ignoring files from linting
 
