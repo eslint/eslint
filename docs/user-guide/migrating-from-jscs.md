@@ -15,7 +15,7 @@ Before beginning the process of migrating to ESLint, it's helpful to understand 
 
 To install Polyjuice:
 
-```sh
+```shell
 $ npm install -g polyjuice
 ```
 
@@ -23,7 +23,7 @@ Polyjuice works with JSON configuration files, so if you're using a JavaScript o
 
 To convert your configuration file, pass in the location of your `.jscs.json` file using the `--jscs` flag:
 
-```sh
+```shell
 $ polyjuice --jscs .jscsrc.json > .eslintrc.json
 ```
 
@@ -31,7 +31,7 @@ This creates a `.eslintrc.json` with the equivalent rules from `.jscsrc.json`.
 
 If you have multiple `.jscsrc.json` files, you can pass them all and Polyjuice will combine them into one `.eslintrc.json` file:
 
-```sh
+```shell
 $ polyjuice --jscs .jscsrc.json ./foo/.jscsrc.json > .eslintrc.json
 ```
 
@@ -41,7 +41,7 @@ $ polyjuice --jscs .jscsrc.json ./foo/.jscsrc.json > .eslintrc.json
 
 If you don't want to convert your JSCS configuration directly into an ESLint configuration, then you can use ESLint's built-in wizard to get you started. Just run:
 
-```sh
+```shell
 $ npm init @eslint/config
 ```
 
@@ -74,7 +74,7 @@ As an example, suppose that you are using the `airbnb` preset, so your `.jscsrc`
 
 In order to get the same functionality in ESLint, you would first need to install the `eslint-config-airbnb` shareable config package:
 
-```sh
+```shell
 $ npm install eslint-config-airbnb-base --save-dev
 ```
 
@@ -110,13 +110,13 @@ Both JSCS and ESLint have command line arguments corresponding to many of their 
 
 JSCS uses the `--fix` option to apply automatic fixes to code:
 
-```sh
+```shell
 $ jscs --fix file.js
 ```
 
 ESLint has the same option:
 
-```sh
+```shell
 $ eslint --fix file.js
 ```
 
@@ -124,13 +124,13 @@ $ eslint --fix file.js
 
 The JSCS `--auto-configure` option created a configuration based on what it found in a given file:
 
-```sh
+```shell
 $ jscs --auto-configure file.js
 ```
 
 In ESLint, there's a similar option when you use `--init`. Just select "Inspect your JavaScript file(s)":
 
-```sh
+```shell
 $ eslint --init
 ? How would you like to configure ESLint? (Use arrow keys)
 > Answer questions about your style
@@ -142,14 +142,14 @@ $ eslint --init
 
 JSCS allows you to specify a configuration file to use on the command line using either `--config` or `-c`, such as:
 
-```sh
+```shell
 $ jscs --config myconfig.json file.js
 $ jscs -c myconfig.json file.js
 ```
 
 Both flags are also supported by ESLint:
 
-```sh
+```shell
 $ eslint --config myconfig.json file.js
 $ eslint -c myconfig.json file.js
 ```
@@ -158,12 +158,12 @@ $ eslint -c myconfig.json file.js
 
 In JSCS, you can pipe code in like this:
 
-```sh
+```shell
 $ cat file.js | jscs
 ```
 
 In ESLint, you can also pipe in code, but you need to use the `--stdin` flag:
 
-```sh
+```shell
 $ cat file.js | eslint --stdin
 ```

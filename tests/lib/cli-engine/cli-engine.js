@@ -235,6 +235,7 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results.length, 1);
             assert.strictEqual(report.errorCount, 0);
             assert.strictEqual(report.warningCount, 1);
+            assert.strictEqual(report.fatalErrorCount, 0);
             assert.strictEqual(report.fixableErrorCount, 0);
             assert.strictEqual(report.fixableWarningCount, 0);
             assert.strictEqual(report.results[0].filePath, getFixturePath("passing.js"));
@@ -243,6 +244,7 @@ describe("CLIEngine", () => {
             assert.isUndefined(report.results[0].messages[0].output);
             assert.strictEqual(report.results[0].errorCount, 0);
             assert.strictEqual(report.results[0].warningCount, 1);
+            assert.strictEqual(report.results[0].fatalErrorCount, 0);
             assert.strictEqual(report.results[0].fixableErrorCount, 0);
             assert.strictEqual(report.results[0].fixableWarningCount, 0);
         });
@@ -982,6 +984,7 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results.length, 1);
             assert.strictEqual(report.results[0].errorCount, 0);
             assert.strictEqual(report.results[0].warningCount, 1);
+            assert.strictEqual(report.results[0].fatalErrorCount, 0);
             assert.strictEqual(report.results[0].fixableErrorCount, 0);
             assert.strictEqual(report.results[0].fixableWarningCount, 0);
             assert.strictEqual(report.results[0].messages[0].message, expectedMsg);
@@ -1045,6 +1048,7 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results.length, 1);
             assert.strictEqual(report.results[0].errorCount, 0);
             assert.strictEqual(report.results[0].warningCount, 1);
+            assert.strictEqual(report.results[0].fatalErrorCount, 0);
             assert.strictEqual(report.results[0].fixableErrorCount, 0);
             assert.strictEqual(report.results[0].fixableWarningCount, 0);
             assert.strictEqual(report.results[0].messages[0].message, expectedMsg);
@@ -1066,6 +1070,7 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results.length, 1);
             assert.strictEqual(report.results[0].errorCount, 0);
             assert.strictEqual(report.results[0].warningCount, 1);
+            assert.strictEqual(report.results[0].fatalErrorCount, 0);
             assert.strictEqual(report.results[0].fixableErrorCount, 0);
             assert.strictEqual(report.results[0].fixableWarningCount, 0);
             assert.strictEqual(report.results[0].messages[0].message, expectedMsg);
@@ -1415,6 +1420,7 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results.length, 1);
             assert.strictEqual(report.errorCount, 0);
             assert.strictEqual(report.warningCount, 1);
+            assert.strictEqual(report.fatalErrorCount, 0);
             assert.strictEqual(report.fixableErrorCount, 0);
             assert.strictEqual(report.fixableWarningCount, 0);
             assert.strictEqual(report.results[0].filePath, filePath);
@@ -1422,6 +1428,7 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override.");
             assert.strictEqual(report.results[0].errorCount, 0);
             assert.strictEqual(report.results[0].warningCount, 1);
+            assert.strictEqual(report.results[0].fatalErrorCount, 0);
             assert.strictEqual(report.results[0].fixableErrorCount, 0);
             assert.strictEqual(report.results[0].fixableWarningCount, 0);
         });
@@ -4824,12 +4831,14 @@ describe("CLIEngine", () => {
             assert.lengthOf(report.results, 1);
             assert.strictEqual(report.errorCount, 0);
             assert.strictEqual(report.warningCount, 1);
+            assert.strictEqual(report.fatalErrorCount, 0);
             assert.strictEqual(report.fixableErrorCount, 0);
             assert.strictEqual(report.fixableWarningCount, 0);
             assert.strictEqual(report.results[0].errorCount, 0);
             assert.strictEqual(report.results[0].warningCount, 1);
-            assert.strictEqual(report.fixableErrorCount, 0);
-            assert.strictEqual(report.fixableWarningCount, 0);
+            assert.strictEqual(report.results[0].fatalErrorCount, 0);
+            assert.strictEqual(report.results[0].fixableErrorCount, 0);
+            assert.strictEqual(report.results[0].fixableWarningCount, 0);
         });
 
         it("should return source code of file in the `source` property", () => {

@@ -238,7 +238,7 @@ This option has the same effect as `--fix` with one difference: the fixes are no
 
 Because the default formatter does not output the fixed code, you'll have to use another one (e.g. `json`) to get the fixes. Here's an example of this pattern:
 
-```bash
+```shell
 getSomeText | npx eslint --stdin --fix-dry-run --format=json
 ```
 
@@ -255,7 +255,7 @@ This option allows you to specify the type of fixes to apply when using either `
 
 You can specify one or more fix type on the command line. Here are some examples:
 
-```bash
+```shell
 npx eslint --fix --fix-type suggestion .
 npx eslint --fix --fix-type suggestion --fix-type problem .
 npx eslint --fix --fix-type suggestion,layout .
