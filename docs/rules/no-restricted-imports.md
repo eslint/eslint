@@ -91,6 +91,17 @@ or like this if you want to apply a custom message to pattern matches:
 
 The custom message will be appended to the default error message.
 
+Pattern matches can also be configured to be case-sensitive:
+
+```json
+"no-restricted-imports": ["error", {
+    "patterns": [{
+      "group": ["import1/private/prefix[A-Z]*"],
+      "caseSensitive": true
+    }]
+}]
+```
+
 To restrict the use of all Node.js core imports (via <https://github.com/nodejs/node/tree/master/lib>):
 
 ```json
@@ -176,6 +187,15 @@ import * as Foo from "foo";
 import pick from 'lodash/pick';
 ```
 
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["foo[A-Z]*"],
+    caseSensitive: true
+}]}]*/
+
+import pick from 'fooBar';
+```
+
 Examples of **correct** code for this rule:
 
 ```js
@@ -216,6 +236,15 @@ import { AllowedObject as DisallowedObject } from "foo";
 }]}]*/
 
 import lodash from 'lodash';
+```
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["foo[A-Z]*"],
+    caseSensitive: true
+}]}]*/
+
+import pick from 'food';
 ```
 
 ## When Not To Use It
