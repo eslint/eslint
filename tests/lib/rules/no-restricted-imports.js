@@ -55,6 +55,16 @@ ruleTester.run("no-restricted-imports", rule, {
             options: [{ patterns: [{ group: ["foo/*", "!foo/bar"], message: "foo is forbidden, use bar instead" }] }]
         },
         {
+            code: "import withPatternsCaseSensitive from 'foo';",
+            options: [{
+                patterns: [{
+                    group: ["FOO"],
+                    message: "foo is forbidden, use bar instead",
+                    caseSensitive: true
+                }]
+            }]
+        },
+        {
             code: "import AllowedObject from \"foo\";",
             options: [{
                 paths: [{
@@ -343,6 +353,16 @@ ruleTester.run("no-restricted-imports", rule, {
             line: 1,
             column: 1,
             endColumn: 36
+        }]
+    }, {
+        code: "import withPatternsCaseInsensitive from 'foo';",
+        options: [{ patterns: [{ group: ["FOO"] }] }],
+        errors: [{
+            message: "'foo' import is restricted from being used by a pattern.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 47
         }]
     }, {
         code: "import withGitignores from \"foo/bar\";",
