@@ -1,3 +1,25 @@
+v8.7.0 - January 15, 2022
+
+* [`369fb1b`](https://github.com/eslint/eslint/commit/369fb1b066279d761e59502111c2580834a41648) chore: Upgrade to eslint-visitor-keys@3.2.0 (#15526) (Brandon Mills)
+* [`a8db9a5`](https://github.com/eslint/eslint/commit/a8db9a597672d3f9122f1cc8de8dfeb6a7f6aeac) fix: no-invalid-this false positive in class field initializer (#15495) (Milos Djermanovic)
+* [`19ad061`](https://github.com/eslint/eslint/commit/19ad061290e1e97f760cfdce90a651cea9042c32) feat: no-restricted-imports support casing (#15439) (gfyoung)
+* [`f50f849`](https://github.com/eslint/eslint/commit/f50f849d2d2d92f28a944846cda209eaf624b9f4) docs: Update CLI docs to prefer local install (#15513) (Nicholas C. Zakas)
+* [`0469eb1`](https://github.com/eslint/eslint/commit/0469eb1028e82e71a2da8608a1b8864dc3f47f24) docs: Update shell code fences for new website (#15522) (Olga)
+* [`02d6426`](https://github.com/eslint/eslint/commit/02d642690282189664b9551e02fb7ff0e4b5c4fb) fix: Correctly consume RuleTester statics (#15507) (Brad Zacher)
+* [`db15802`](https://github.com/eslint/eslint/commit/db15802ec4d129c89e563a4bf43ec610292695ab) fix: Add property `fatalErrorCount` to ignored file results (#15520) (Francesco Trotta)
+* [`03ac8cf`](https://github.com/eslint/eslint/commit/03ac8cfc773279c01a62897692160f9a883ff4f5) fix: Prevent false positives with no-constant-condition (#15486) (Jordan Eldredge)
+* [`564ecdb`](https://github.com/eslint/eslint/commit/564ecdb992c6e236fa3ca903f8b2a645afc32d7e) feat: Support arbitrary module namespace names in no-restricted-imports (#15491) (Milos Djermanovic)
+* [`968a02a`](https://github.com/eslint/eslint/commit/968a02af455f76446269afe07191c6aa37d44a88) feat: Support arbitrary module namespace names in no-useless-rename (#15493) (Milos Djermanovic)
+* [`ba6317b`](https://github.com/eslint/eslint/commit/ba6317b4031c9f782b317bd1d9913e70b5625f28) ci: remove master branch from CI configs (#15501) (Milos Djermanovic)
+* [`0d2b9a6`](https://github.com/eslint/eslint/commit/0d2b9a6dfa544f7ab084425eafc90a90aa14bcae) feat: move `eslint --init` to @eslint/create-config (#15150) (唯然)
+* [`79b6340`](https://github.com/eslint/eslint/commit/79b6340d6ced0ad62628de6e51dce18d50a5be9f) chore: fixed typo in client-Engine (#15497) (Abhay Gupta)
+* [`127f524`](https://github.com/eslint/eslint/commit/127f524337f92dd72d36e71e646c91c9715ad444) feat: false negative with `property` option in `id-match` (#15474) (Nitin Kumar)
+* [`359b2c1`](https://github.com/eslint/eslint/commit/359b2c18233cb48f7dae9433a877e5727fab3411) feat: Support arbitrary module namespace names in the camelcase rule (#15490) (Milos Djermanovic)
+* [`3549571`](https://github.com/eslint/eslint/commit/3549571702dc3e0d9a4d3de615adb6abb13859c4) feat: Support arbitrary module namespace names in the quotes rule (#15479) (Milos Djermanovic)
+* [`5563c45`](https://github.com/eslint/eslint/commit/5563c454901aafd54e01521e923cdcbaf051b08d) feat: Support arbitrary module namespace names in keyword-spacing (#15481) (Milos Djermanovic)
+* [`fd3683f`](https://github.com/eslint/eslint/commit/fd3683f2f5ead78a2444163cab6849784a966a0a) feat: Support arbitrary module namespace names in no-restricted-exports (#15478) (Milos Djermanovic)
+* [`6278281`](https://github.com/eslint/eslint/commit/6278281fab5e1a9623c32ace62a050561e1c0a21) chore: switch `new syntax` issue template to forms (#15480) (Nitin Kumar)
+
 v8.6.0 - December 31, 2021
 
 * [`3a384fc`](https://github.com/eslint/eslint/commit/3a384fc287cebb7be5fe5ed95497d578437a503a) chore: Upgrade espree to 9.3.0 (#15473) (Brandon Mills)
