@@ -9,7 +9,10 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
-const { parseRuleId, getRuleFromConfig } = require("../../../lib/config/config-helpers");
+const {
+    parseRuleId,
+    getRuleFromConfig
+} = require("../../../lib/config/flat-config-helpers");
 const assert = require("chai").assert;
 
 //-----------------------------------------------------------------------------
@@ -40,10 +43,19 @@ describe("Config Helpers", () => {
         });
 
         it("should return plugin name and rule name with a/b/c format", () => {
-            const result = parseRuleId("test/foo/bar");
+            const result = parseRuleId("node/no-unsupported-features/es-builtins");
 
             assert.deepStrictEqual(result, {
-                pluginName: "test/foo",
+                pluginName: "node",
+                ruleName: "no-unsupported-features/es-builtins"
+            });
+        });
+
+        it("should return plugin name and rule name with @a/b/c format", () => {
+            const result = parseRuleId("@test/foo/bar");
+
+            assert.deepStrictEqual(result, {
+                pluginName: "@test/foo",
                 ruleName: "bar"
             });
         });

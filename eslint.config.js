@@ -10,7 +10,6 @@
 //-----------------------------------------------------------------------------
 
 const path = require("path");
-const eslintPlugin = require("eslint-plugin-eslint-plugin");
 const internalPlugin = require("eslint-plugin-internal-rules");
 const { FlatCompat } = require("@eslint/eslintrc");
 const globals = require("globals");
@@ -70,7 +69,6 @@ module.exports = [
     ...compat.extends("eslint", "plugin:eslint-plugin/recommended"),
     {
         plugins: {
-            "eslint-plugin": eslintPlugin,
             "internal-rules": internalPlugin
         },
         languageOptions: {
