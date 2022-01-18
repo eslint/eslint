@@ -15083,6 +15083,7 @@ var a = "test2";
                     extraConfig,
                     { rules: { "test/report-original-text": "error" } }
                 ]);
+
                 configs.normalizeSync();
 
                 const problems = linter.verify(
