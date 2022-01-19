@@ -14,7 +14,7 @@ Such as:
 # Run on two files
 npx eslint file1.js file2.js
 
-# Run on multiples files
+# Run on multiple files
 npx eslint lib/**
 ```
 
