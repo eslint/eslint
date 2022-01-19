@@ -74,6 +74,7 @@
     "functional-red-black-tree": "^1.0.1",
     "glob-parent": "^6.0.1",
     "globals": "^13.15.0",
+    "globby": "^11.1.0",
     "ignore": "^5.2.0",
     "import-fresh": "^3.0.0",
     "imurmurhash": "^0.1.4",
