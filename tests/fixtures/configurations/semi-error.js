@@ -1,5 +1,6 @@
 module.exports = {
     rules: {
-        quotes: [2, "double"]
+        semi: 1,
+        strict: 0
     }
 };
