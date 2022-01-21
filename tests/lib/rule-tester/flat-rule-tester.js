@@ -2511,7 +2511,7 @@ describe("FlatRuleTester", () => {
     });
 
     describe("Subclassing", () => {
-        it("should allow subclasses to s`et the describe/it/itOnly statics and should correctly use those values", () => {
+        it("should allow subclasses to set the describe/it/itOnly statics and should correctly use those values", () => {
             const assertionDescribe = assertEmitted(ruleTesterTestEmitter, "custom describe", "this-is-a-rule-name");
             const assertionIt = assertEmitted(ruleTesterTestEmitter, "custom it", "valid(code);");
             const assertionItOnly = assertEmitted(ruleTesterTestEmitter, "custom itOnly", "validOnly(code);");
