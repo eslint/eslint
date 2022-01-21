@@ -13,6 +13,10 @@ const sinon = require("sinon"),
     assert = require("chai").assert,
     nodeAssert = require("assert");
 
+//-----------------------------------------------------------------------------
+// Helpers
+//-----------------------------------------------------------------------------
+
 const NODE_ASSERT_STRICT_EQUAL_OPERATOR = (() => {
     try {
         nodeAssert.strictEqual(1, 2);
@@ -21,6 +25,23 @@ const NODE_ASSERT_STRICT_EQUAL_OPERATOR = (() => {
     }
     throw new Error("unexpected successful assertion");
 })();
+
+/**
+ * A helper function to verify Node.js core error messages.
+ * @param {string} actual The actual input
+ * @param {string} expected The expected input
+ * @returns {Function} Error callback to verify that the message is correct
+ *                     for the actual and expected input.
+ */
+function assertErrorMatches(actual, expected) {
+    const err = new nodeAssert.AssertionError({
+        actual,
+        expected,
+        operator: NODE_ASSERT_STRICT_EQUAL_OPERATOR
+    });
+
+    return err.message;
+}
 
 /**
  * Do nothing.
@@ -57,6 +78,8 @@ const ruleTesterTestEmitter = new EventEmitter();
 
 describe("FlatRuleTester", () => {
 
+    let ruleTester;
+
     // Stub `describe()` and `it()` while this test suite.
     before(() => {
         FlatRuleTester.describe = function(text, method) {
@@ -68,33 +91,79 @@ describe("FlatRuleTester", () => {
             return method.call(this);
         };
     });
+
     after(() => {
         FlatRuleTester.describe = null;
         FlatRuleTester.it = null;
     });
 
-    let ruleTester;
+    beforeEach(() => {
+        ruleTester = new FlatRuleTester();
+    });
 
-    /**
-     * A helper function to verify Node.js core error messages.
-     * @param {string} actual The actual input
-     * @param {string} expected The expected input
-     * @returns {Function} Error callback to verify that the message is correct
-     *                     for the actual and expected input.
-     */
-    function assertErrorMatches(actual, expected) {
-        const err = new nodeAssert.AssertionError({
-            actual,
-            expected,
-            operator: NODE_ASSERT_STRICT_EQUAL_OPERATOR
+    describe("Default Config", () => {
+
+        afterEach(() => {
+            FlatRuleTester.resetDefaultConfig();
         });
 
-        return err.message;
-    }
+        it("should correctly set the globals configuration", () => {
+            const config = { languageOptions: { globals: { test: true } } };
 
-    beforeEach(() => {
-        FlatRuleTester.resetDefaultConfig();
-        ruleTester = new FlatRuleTester();
+            FlatRuleTester.setDefaultConfig(config);
+            assert(
+                FlatRuleTester.getDefaultConfig().languageOptions.globals.test,
+                "The default config object is incorrect"
+            );
+        });
+
+        it("should correctly reset the global configuration", () => {
+            const config = { languageOptions: { globals: { test: true } } };
+
+            FlatRuleTester.setDefaultConfig(config);
+            FlatRuleTester.resetDefaultConfig();
+            assert.deepStrictEqual(
+                FlatRuleTester.getDefaultConfig(),
+                { rules: {} },
+                "The default configuration has not reset correctly"
+            );
+        });
+
+        it("should enforce the global configuration to be an object", () => {
+
+            /**
+             * Set the default config for the rules tester
+             * @param {Object} config configuration object
+             * @returns {Function} Function to be executed
+             * @private
+             */
+            function setConfig(config) {
+                return function() {
+                    FlatRuleTester.setDefaultConfig(config);
+                };
+            }
+            assert.throw(setConfig());
+            assert.throw(setConfig(1));
+            assert.throw(setConfig(3.14));
+            assert.throw(setConfig("foo"));
+            assert.throw(setConfig(null));
+            assert.throw(setConfig(true));
+        });
+
+        it("should pass-through the globals config to the tester then to the to rule", () => {
+            const config = { languageOptions: { sourceType: "script", globals: { test: true } } };
+
+            FlatRuleTester.setDefaultConfig(config);
+            ruleTester = new FlatRuleTester();
+
+            ruleTester.run("no-test-global", require("../../fixtures/testers/rule-tester/no-test-global"), {
+                valid: [
+                    "var test = 'foo'",
+                    "var test2 = test"
+                ],
+                invalid: [{ code: "bar", errors: 1, languageOptions: { globals: { foo: true } } }]
+            });
+        });
     });
 
     describe("only", () => {
@@ -366,6 +435,20 @@ describe("FlatRuleTester", () => {
                 { code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression" }] }
             ]
         });
+    });
+
+    it("should throw correct error when valid code is invalid and enables other core rule", () => {
+
+        assert.throws(() => {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [
+                    "/*eslint semi: 2*/ eval(foo);"
+                ],
+                invalid: [
+                    { code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression" }] }
+                ]
+            });
+        }, /Should have no errors but had 1/u);
     });
 
     it("should throw an error when valid code is invalid", () => {
@@ -1042,71 +1125,92 @@ describe("FlatRuleTester", () => {
         }, /options must be an array/u);
     });
 
-    it("should pass-through the parser to the rule", () => {
-        const spy = sinon.spy(ruleTester.linter, "verify");
-        const esprima = require("esprima");
+    describe("Parsers", () => {
 
-        esprima.name = "esprima";
-        ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
-            valid: [
-                {
-                    code: "Eval(foo)"
-                }
-            ],
-            invalid: [
-                {
-                    code: "eval(foo)",
-                    languageOptions: {
-                        parser: esprima
-                    },
-                    errors: [{ line: 1 }]
-                }
-            ]
+        it("should pass-through the parser to the rule", () => {
+            const spy = sinon.spy(ruleTester.linter, "verify");
+            const esprima = require("esprima");
+
+            esprima.name = "esprima";
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [
+                    {
+                        code: "Eval(foo)"
+                    }
+                ],
+                invalid: [
+                    {
+                        code: "eval(foo)",
+                        languageOptions: {
+                            parser: esprima
+                        },
+                        errors: [{ line: 1 }]
+                    }
+                ]
+            });
+
+            const configs = spy.args[1][1];
+            const config = configs.getConfig("test.js");
+
+            assert.strictEqual(
+                config.languageOptions.parser[Symbol.for("eslint.RuleTester.parser")],
+                esprima
+            );
         });
 
-        const configs = spy.args[1][1];
-        const config = configs.getConfig("test.js");
+        it("should pass-through services from parseForESLint to the rule", () => {
+            const enhancedParser = require("../../fixtures/parsers/enhanced-parser");
+            const disallowHiRule = {
+                create: context => ({
+                    Literal(node) {
+                        const disallowed = context.parserServices.test.getMessage(); // returns "Hi!"
 
-        assert.strictEqual(
-            config.languageOptions.parser[Symbol.for("eslint.RuleTester.parser")],
-            esprima
-        );
-    });
-
-    it("should pass-through services from parseForESLint to the rule", () => {
-        const enhancedParser = require("../../fixtures/parsers/enhanced-parser");
-        const disallowHiRule = {
-            create: context => ({
-                Literal(node) {
-                    const disallowed = context.parserServices.test.getMessage(); // returns "Hi!"
-
-                    if (node.value === disallowed) {
-                        context.report({ node, message: `Don't use '${disallowed}'` });
+                        if (node.value === disallowed) {
+                            context.report({ node, message: `Don't use '${disallowed}'` });
+                        }
                     }
-                }
-            })
-        };
+                })
+            };
 
-        ruleTester.run("no-hi", disallowHiRule, {
-            valid: [
-                {
-                    code: "'Hello!'",
-                    languageOptions: {
-                        parser: enhancedParser
+            ruleTester.run("no-hi", disallowHiRule, {
+                valid: [
+                    {
+                        code: "'Hello!'",
+                        languageOptions: {
+                            parser: enhancedParser
+                        }
                     }
-                }
-            ],
-            invalid: [
-                {
-                    code: "'Hi!'",
-                    languageOptions: {
-                        parser: enhancedParser
-                    },
-                    errors: [{ message: "Don't use 'Hi!'" }]
-                }
-            ]
+                ],
+                invalid: [
+                    {
+                        code: "'Hi!'",
+                        languageOptions: {
+                            parser: enhancedParser
+                        },
+                        errors: [{ message: "Don't use 'Hi!'" }]
+                    }
+                ]
+            });
         });
+
+        it("should throw an error when the parser is not an object", () => {
+            assert.throws(() => {
+                ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        languageOptions: {
+                            parser: "esprima"
+                        },
+                        errors: 1
+                    }]
+                });
+            }, /Parser must be an object with a parse\(\) or parseForESLint\(\) method/u);
+
+        });
+
     });
+
 
     it("should prevent invalid options schemas", () => {
         assert.throws(() => {
@@ -1203,64 +1307,6 @@ describe("FlatRuleTester", () => {
                 globals: { test: true }
             }
         });
-
-        ruleTester.run("no-test-global", require("../../fixtures/testers/rule-tester/no-test-global"), {
-            valid: [
-                "var test = 'foo'",
-                "var test2 = test"
-            ],
-            invalid: [{ code: "bar", errors: 1, languageOptions: { globals: { foo: true } } }]
-        });
-    });
-
-    it("should correctly set the globals configuration", () => {
-        const config = { languageOptions: { globals: { test: true } } };
-
-        FlatRuleTester.setDefaultConfig(config);
-        assert(
-            FlatRuleTester.getDefaultConfig().languageOptions.globals.test,
-            "The default config object is incorrect"
-        );
-    });
-
-    it("should correctly reset the global configuration", () => {
-        const config = { languageOptions: { globals: { test: true } } };
-
-        FlatRuleTester.setDefaultConfig(config);
-        FlatRuleTester.resetDefaultConfig();
-        assert.deepStrictEqual(
-            FlatRuleTester.getDefaultConfig(),
-            { rules: { "rule-tester/validate-ast": "error" } },
-            "The default configuration has not reset correctly"
-        );
-    });
-
-    it("should enforce the global configuration to be an object", () => {
-
-        /**
-         * Set the default config for the rules tester
-         * @param {Object} config configuration object
-         * @returns {Function} Function to be executed
-         * @private
-         */
-        function setConfig(config) {
-            return function() {
-                FlatRuleTester.setDefaultConfig(config);
-            };
-        }
-        assert.throw(setConfig());
-        assert.throw(setConfig(1));
-        assert.throw(setConfig(3.14));
-        assert.throw(setConfig("foo"));
-        assert.throw(setConfig(null));
-        assert.throw(setConfig(true));
-    });
-
-    it("should pass-through the globals config to the tester then to the to rule", () => {
-        const config = { languageOptions: { sourceType: "script", globals: { test: true } } };
-
-        FlatRuleTester.setDefaultConfig(config);
-        ruleTester = new FlatRuleTester();
 
         ruleTester.run("no-test-global", require("../../fixtures/testers/rule-tester/no-test-global"), {
             valid: [
