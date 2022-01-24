@@ -676,6 +676,7 @@ describe("FlatESLint", () => {
 
         it("should use correct parser when custom parser is specified", async () => {
             const filePath = path.resolve(__dirname, "../../fixtures/configurations/parser/custom.js");
+            
             eslint = new FlatESLint({
                 cwd: originalDir,
                 ignore: false,
@@ -686,6 +687,7 @@ describe("FlatESLint", () => {
                     }
                 }
             });
+            
             const results = await eslint.lintFiles([filePath]);
             
             assert.strictEqual(results.length, 1);
@@ -850,7 +852,7 @@ describe("FlatESLint", () => {
             }, /No files matching 'fixtures\/files\/\*' were found \(glob was disabled\)\./u);
         });
 
-        describe("Ignoring Files", () => {
+        describe.only("Ignoring Files", () => {
 
             it("should report on all files passed explicitly, even if ignored by default", async () => {
                 eslint = new FlatESLint({
