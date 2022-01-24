@@ -27,7 +27,6 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
 * [Linter](#linter)
     * [verify()](#linterverify)
     * [verifyAndFix()](#linterverifyandfix)
-    * [getSuppressedMessages()](#getsuppressedmessages)
     * [defineRule()](#linterdefinerule)
     * [defineRules()](#linterdefinerules)
     * [getRules()](#lintergetrules)
@@ -582,7 +581,7 @@ The information available for each linting message is:
 * `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
 * `suggestions` - an array of objects describing possible lint fixes for editors to programmatically enable (see details in the [Working with Rules docs](./working-with-rules.md#providing-suggestions)).
 
-You can get the suppressed messages from the pervious run by `getSuppressedMessages()` method. If there is not a previous run, `getSuppressedMessage()` will return an empty list.
+You can get the suppressed messages from the previous run by `getSuppressedMessages()` method. If there is not a previous run, `getSuppressedMessage()` will return an empty list.
 
 ```js
 const Linter = require("eslint").Linter;
@@ -590,12 +589,12 @@ const linter = new Linter();
 
 const messages = linter.verify("var foo = bar; // eslint-disable-line -- Need to suppress", {
     rules: {
-        semi: 2
+        semi: ["error", "never"]
     }
 }, { filename: "foo.js" });
 const suppressedMessages = linter.getSuppressedMessages();
 
-console.log(suppressedMessages.suppressions); // [{ "kind": "directive", "justification": "Need to suppress }]
+console.log(suppressedMessages[0].suppressions); // [{ "kind": "directive", "justification": "Need to suppress" }]
 ```
 
 Linting message objects have a deprecated `source` property. This property **will be removed** from linting messages in an upcoming breaking release. If you depend on this property, you should now use the `SourceCode` instance provided by the linter.
