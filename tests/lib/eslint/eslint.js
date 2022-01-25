@@ -4895,6 +4895,22 @@ describe("ESLint", () => {
             assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
         });
 
+        it("should return one rule meta when there is a suppressed linting error", async () => {
+            const engine = new ESLint({
+                useEslintrc: false,
+                overrideConfig: {
+                    rules: {
+                        semi: 2
+                    }
+                }
+            });
+
+            const results = await engine.lintText("a // eslint-disable-line semi");
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
+        });
+
         it("should return multiple rule meta when there are multiple linting errors", async () => {
             const engine = new ESLint({
                 useEslintrc: false,
