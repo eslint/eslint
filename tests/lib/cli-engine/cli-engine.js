@@ -4893,29 +4893,14 @@ describe("CLIEngine", () => {
             assert.lengthOf(errorResults[0].suppressedMessages, 0);
         });
 
-        it("should report 5 error suppressedMessages when looking for errors only", () => {
-
+        it("should report no error messages when looking for errors only", () => {
             process.chdir(originalDir);
             const engine = new CLIEngine();
 
             const report = engine.executeOnText("var foo = 'bar'; // eslint-disable-line strict, no-var, no-unused-vars, quotes, eol-last -- justification");
             const errorResults = CLIEngine.getErrorResults(report.results);
 
-            assert.lengthOf(errorResults[0].messages, 0);
-            assert.strictEqual(errorResults[0].errorCount, 0);
-            assert.strictEqual(errorResults[0].fixableErrorCount, 0);
-            assert.strictEqual(errorResults[0].fixableWarningCount, 0);
-            assert.lengthOf(errorResults[0].suppressedMessages, 5);
-            assert.strictEqual(errorResults[0].suppressedMessages[0].ruleId, "strict");
-            assert.strictEqual(errorResults[0].suppressedMessages[0].severity, 2);
-            assert.strictEqual(errorResults[0].suppressedMessages[1].ruleId, "no-var");
-            assert.strictEqual(errorResults[0].suppressedMessages[1].severity, 2);
-            assert.strictEqual(errorResults[0].suppressedMessages[2].ruleId, "no-unused-vars");
-            assert.strictEqual(errorResults[0].suppressedMessages[2].severity, 2);
-            assert.strictEqual(errorResults[0].suppressedMessages[3].ruleId, "quotes");
-            assert.strictEqual(errorResults[0].suppressedMessages[3].severity, 2);
-            assert.strictEqual(errorResults[0].suppressedMessages[4].ruleId, "eol-last");
-            assert.strictEqual(errorResults[0].suppressedMessages[4].severity, 2);
+            assert.lengthOf(errorResults, 0);
         });
 
         it("should not mutate passed report.results parameter", () => {
@@ -4930,6 +4915,24 @@ describe("CLIEngine", () => {
             CLIEngine.getErrorResults(report.results);
 
             assert.lengthOf(report.results[0].messages, reportResultsLength);
+        });
+
+        it("should report no suppressed error messages when looking for errors only", () => {
+            process.chdir(originalDir);
+            const engine = new CLIEngine({
+                rules: {
+                    quotes: [1, "double"],
+                    "no-var": 2
+                }
+            });
+
+            const report = engine.executeOnText("var foo = 'bar'; // eslint-disable-line quotes -- justification\n");
+            const errorResults = CLIEngine.getErrorResults(report.results);
+
+            assert.lengthOf(report.results[0].messages, 3);
+            assert.lengthOf(report.results[0].suppressedMessages, 1);
+            assert.lengthOf(errorResults[0].messages, 3);
+            assert.lengthOf(errorResults[0].suppressedMessages, 0);
         });
 
         it("should report a warningCount of 0 when looking for errors only", () => {
