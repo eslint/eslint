@@ -4941,6 +4941,19 @@ describe("ESLint", () => {
         });
     });
 
+    describe("getLoadedRulesMeta()", () => {
+        it("should return meta data of built-in rules", async () => {
+            const engine = new ESLint({
+                useEslintrc: false
+            });
+
+            const rulesMeta = engine.getLoadedRulesMeta();
+            const preferConst = rulesMeta.get("prefer-const");
+
+            assert.strictEqual(preferConst.fixable, coreRules.get("prefer-const").meta.fixable);
+        });
+    });
+
     describe("outputFixes()", () => {
         afterEach(() => {
             sinon.verifyAndRestore();
