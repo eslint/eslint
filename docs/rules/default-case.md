@@ -1,6 +1,6 @@
 # default-case
 
-Requires a default case in switch statements.
+Requires a `default` case in switch statements.
 
 Some code conventions require that all `switch` statements have a `default` case, even if the default case is empty, such as:
 
@@ -15,7 +15,7 @@ switch (foo) {
         break;
 
     default:
-        // do nothing
+    // do nothing
 }
 ```
 

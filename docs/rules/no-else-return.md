@@ -1,6 +1,6 @@
 # no-else-return
 
-Disallows return before else.
+Disallows `return` before `else`.
 
 If an `if` block contains a `return` statement, the `else` block becomes unnecessary. Its contents can be placed outside of the block.
 
