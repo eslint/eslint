@@ -1,4 +1,6 @@
-# disallow `require` calls to be mixed with regular variable declarations (no-mixed-requires)
+# no-mixed-requires
+
+Disallows `require` calls to be mixed with regular variable declarations.
 
 This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-node`](https://github.com/mysticatea/eslint-plugin-node).
 

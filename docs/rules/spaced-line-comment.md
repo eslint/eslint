@@ -1,4 +1,6 @@
-# spaced-line-comment: enforce consistent spacing after `//` in line comments
+# spaced-line-comment
+
+Enforces consistent spacing after `//` in line comments.
 
 (removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [spaced-comment](spaced-comment.md) rule.
 

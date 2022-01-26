@@ -1,4 +1,6 @@
-# Treat var as Block Scoped (block-scoped-var)
+# block-scoped-var
+
+Enforces treating `var` as block scoped.
 
 The `block-scoped-var` rule generates warnings when variables are used outside of the block in which they were defined. This emulates C-style block scope.
 

@@ -1,4 +1,6 @@
-# Disallow unnecessary computed property keys in objects and classes (no-useless-computed-key)
+# no-useless-computed-key
+
+Disallows unnecessary computed property keys in objects and classes.
 
 It's unnecessary to use computed properties with literals such as:
 

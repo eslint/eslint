@@ -1,4 +1,6 @@
-# Disallow or enforce spaces inside of computed properties (computed-property-spacing)
+# computed-property-spacing
+
+Disallows or enforces spaces inside of computed properties.
 
 While formatting preferences are very personal, a number of style guides require
 or disallow spaces between computed properties in the following situations:

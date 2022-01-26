@@ -1,4 +1,6 @@
-# Disallow Unused Expressions (no-unused-expressions)
+# no-unused-expressions
+
+Disallows unused expressions.
 
 An unused expression which has no effect on the state of the program indicates a logic error.
 

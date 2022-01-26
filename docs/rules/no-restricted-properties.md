@@ -1,4 +1,6 @@
-# disallow certain object properties (no-restricted-properties)
+# no-restricted-properties
+
+Disallows certain object properties.
 
 Certain properties on objects may be disallowed in a codebase. This is useful for deprecating an API or restricting usage of a module's methods. For example, you may want to disallow using `describe.only` when using Mocha or telling people to use `Object.assign` instead of `_.extend`.
 

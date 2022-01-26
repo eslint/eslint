@@ -1,4 +1,6 @@
-# disallow assigning to imported bindings (no-import-assign)
+# no-import-assign
+
+Disallows assigning to imported bindings.
 
 The updates of imported bindings by ES Modules cause runtime errors.
 

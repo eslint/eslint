@@ -1,4 +1,6 @@
-# Enforce spacing before and after semicolons (semi-spacing)
+# semi-spacing
+
+Enforces spacing before and after semicolons.
 
 JavaScript allows you to place unnecessary spaces before or after a semicolon.
 

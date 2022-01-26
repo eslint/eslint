@@ -1,4 +1,6 @@
-# Require space before/after arrow function's arrow (arrow-spacing)
+# arrow-spacing
+
+Requires space before/after arrow function's arrow.
 
 This rule normalize style of spacing before/after an arrow function's arrow(`=>`).
 

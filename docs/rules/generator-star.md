@@ -1,4 +1,6 @@
-# generator-star: enforce consistent spacing around the asterisk in generator functions
+# generator-star
+
+Enforces consistent spacing around the asterisk in generator functions.
 
 (removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [generator-star-spacing](generator-star-spacing.md) rule.
 

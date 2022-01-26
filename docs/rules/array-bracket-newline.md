@@ -1,4 +1,6 @@
-# enforce line breaks after opening and before closing array brackets (array-bracket-newline)
+# array-bracket-newline
+
+Enforces line breaks after opening and before closing array brackets.
 
 A number of style guides require or disallow line breaks inside of array brackets.
 

@@ -1,4 +1,6 @@
-# Enforce Usage of Spacing in Template Strings (template-curly-spacing)
+# template-curly-spacing
+
+Enforces usage of spacing in template strings.
 
 We can embed expressions in template strings with using a pair of `${` and `}`.
 

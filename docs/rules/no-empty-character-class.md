@@ -1,4 +1,6 @@
-# disallow empty character classes in regular expressions (no-empty-character-class)
+# no-empty-character-class
+
+Disallows empty character classes in regular expressions.
 
 Because empty character classes in regular expressions do not match anything, they might be typing mistakes.
 

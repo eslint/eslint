@@ -1,4 +1,6 @@
-# Disallow Use of the Comma Operator (no-sequences)
+# no-sequences
+
+Disallows use of the comma operator.
 
 The comma operator includes multiple expressions where only one is expected. It evaluates each operand from left to right and returns the value of the last operand. However, this frequently obscures side effects, and its use is often an accident. Here are some examples of sequences:
 

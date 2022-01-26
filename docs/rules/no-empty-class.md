@@ -1,4 +1,6 @@
-# no-empty-class: disallow empty character classes in regular expressions
+# no-empty-class
+
+Disallows empty character classes in regular expressions.
 
 (removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [no-empty-character-class](no-empty-character-class.md) rule.
 

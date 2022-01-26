@@ -1,4 +1,6 @@
-# Disallow Multiline Strings (no-multi-str)
+# no-multi-str
+
+Disallows multiline strings.
 
 It's possible to create multiline strings in JavaScript by using a slash before a newline, such as:
 

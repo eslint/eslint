@@ -1,4 +1,6 @@
-# Enforces getter/setter pairs in objects and classes (accessor-pairs)
+# accessor-pairs
+
+Enforces getter/setter pairs in objects and classes.
 
 It's a common mistake in JavaScript to create an object with just a setter for a property but never have a corresponding getter defined for it. Without a getter, you cannot read the property, so it ends up not being used.
 

@@ -1,4 +1,6 @@
-# disallow use of the Buffer() constructor (no-buffer-constructor)
+# no-buffer-constructor
+
+Disallows use of the `Buffer()` constructor.
 
 This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-node`](https://github.com/mysticatea/eslint-plugin-node).
 

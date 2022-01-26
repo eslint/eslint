@@ -1,4 +1,6 @@
-# disallow irregular whitespace (no-irregular-whitespace)
+# no-irregular-whitespace
+
+Disallows irregular whitespace characters.
 
 Invalid or irregular whitespace causes issues with ECMAScript 5 parsers and also makes code harder to debug in a similar nature to mixed tabs and spaces.
 

@@ -1,4 +1,6 @@
-# Disallow Use of caller/callee (no-caller)
+# no-caller
+
+Disallows use of `caller`/`callee`.
 
 The use of `arguments.caller` and `arguments.callee` make several code optimizations impossible. They have been deprecated in future versions of JavaScript and their use is forbidden in ECMAScript 5 while in strict mode.
 

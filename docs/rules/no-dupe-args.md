@@ -1,4 +1,6 @@
-# disallow duplicate arguments in `function` definitions (no-dupe-args)
+# no-dupe-args
+
+Disallows duplicate arguments in `function` definitions.
 
 If more than one parameter has the same name in a function definition, the last occurrence "shadows" the preceding occurrences. A duplicated name might be a typing error.
 

@@ -1,4 +1,6 @@
-# Disallow Extending of Native Objects (no-extend-native)
+# no-extend-native
+
+Disallows extending of native objects.
 
 In JavaScript, you can extend any object, including builtin or "native" objects. Sometimes people change the behavior of these native objects in ways that break the assumptions made about them in other parts of the code.
 

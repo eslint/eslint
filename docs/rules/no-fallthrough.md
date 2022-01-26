@@ -1,4 +1,6 @@
-# Disallow Case Statement Fallthrough (no-fallthrough)
+# no-fallthrough
+
+Disallows case statement fallthroughs.
 
 The `switch` statement in JavaScript is one of the more error-prone constructs of the language thanks in part to the ability to "fall through" from one `case` to the next. For example:
 

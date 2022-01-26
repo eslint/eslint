@@ -1,4 +1,6 @@
-# Disallow or enforce spaces inside of blocks after opening block and before closing block (block-spacing)
+# block-spacing
+
+Disallows or enforces spaces inside of blocks after opening blocks and before closing blocks.
 
 ## Rule Details
 

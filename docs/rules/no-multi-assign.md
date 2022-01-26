@@ -1,4 +1,6 @@
-# Disallow Use of Chained Assignment Expressions (no-multi-assign)
+# no-multi-assign
+
+Disallows use of chained assignment expressions.
 
 Chaining the assignment of variables can lead to unexpected results and be difficult to read.
 

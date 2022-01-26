@@ -1,4 +1,6 @@
-# enforce consistent line breaks after opening and before closing braces (object-curly-newline)
+# object-curly-newline
+
+Enforces consistent line breaks after opening and before closing braces.
 
 A number of style guides require or disallow line breaks inside of object braces and other tokens.
 

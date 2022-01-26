@@ -1,4 +1,6 @@
-# Enforce that class methods utilize `this` (class-methods-use-this)
+# class-methods-use-this
+
+Enforces that class methods utilize `this`.
 
 If a class method does not use `this`, it can *sometimes* be made into a static function. If you do convert the method into a static function, instances of the class that call that particular method have to be converted to a static call as well (`MyClass.callStaticMethod()`)
 

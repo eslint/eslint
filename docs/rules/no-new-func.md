@@ -1,4 +1,6 @@
-# Disallow Function Constructor (no-new-func)
+# no-new-func
+
+Disallows `new` operators with the `Function` object.
 
 It's possible to create functions in JavaScript from strings at runtime using the `Function` constructor, such as:
 

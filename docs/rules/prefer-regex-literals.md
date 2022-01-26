@@ -1,4 +1,6 @@
-# Disallow use of the `RegExp` constructor in favor of regular expression literals (prefer-regex-literals)
+# prefer-regex-literals
+
+Disallows use of the `RegExp` constructor in favor of regular expression literals.
 
 There are two ways to create a regular expression:
 

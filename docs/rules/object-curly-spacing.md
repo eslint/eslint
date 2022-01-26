@@ -1,4 +1,6 @@
-# enforce consistent spacing inside braces (object-curly-spacing)
+# object-curly-spacing
+
+Enforces consistent spacing inside braces.
 
 While formatting preferences are very personal, a number of style guides require
 or disallow spaces between curly braces in the following situations:

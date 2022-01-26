@@ -1,4 +1,6 @@
-# disallow negated conditions (no-negated-condition)
+# no-negated-condition
+
+Disallows negated conditions.
 
 Negated conditions are more difficult to understand. Code can be made more readable by inverting the condition instead.
 

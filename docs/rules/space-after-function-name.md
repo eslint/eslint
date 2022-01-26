@@ -1,4 +1,6 @@
-# space-after-function-name: enforce consistent spacing after name in function definitions
+# space-after-function-name
+
+Enforces consistent spacing after name in function definitions.
 
 (removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [space-before-function-paren](space-before-function-paren.md) rule.
 

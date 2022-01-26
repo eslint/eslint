@@ -1,4 +1,6 @@
-# Disallow lexical declarations in case/default clauses (no-case-declarations)
+# no-case-declarations
+
+Disallows lexical declarations in case/default clauses.
 
 This rule disallows lexical declarations (`let`, `const`, `function` and `class`)
 in `case`/`default` clauses. The reason is that the lexical declaration is visible

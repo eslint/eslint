@@ -1,4 +1,6 @@
-# require identifiers to match a specified regular expression (id-match)
+# id-match
+
+Requires identifiers to match a specified regular expression.
 
 > "There are only two hard things in Computer Science: cache invalidation and naming things." — Phil Karlton
 

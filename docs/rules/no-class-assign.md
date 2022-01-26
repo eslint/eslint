@@ -1,4 +1,6 @@
-# Disallow modifying variables of class declarations (no-class-assign)
+# no-class-assign
+
+Disallows modifying variables of class declarations.
 
 `ClassDeclaration` creates a variable, and we can modify the variable.
 

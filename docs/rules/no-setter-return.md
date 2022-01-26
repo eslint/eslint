@@ -1,4 +1,6 @@
-# Disallow returning values from setters (no-setter-return)
+# no-setter-return
+
+Disallows returning values from setters.
 
 Setters cannot return values.
 

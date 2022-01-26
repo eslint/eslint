@@ -1,4 +1,6 @@
-# Disallow renaming import, export, and destructured assignments to the same name (no-useless-rename)
+# no-useless-rename
+
+Disallows renaming import, export, and destructured assignments to the same name.
 
 ES2015 allows for the renaming of references in import and export statements as well as destructuring assignments. This gives programmers a concise syntax for performing these operations while renaming these references:
 

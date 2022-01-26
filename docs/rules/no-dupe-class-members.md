@@ -1,4 +1,6 @@
-# Disallow duplicate name in class members (no-dupe-class-members)
+# no-dupe-class-members
+
+Disallows duplicate name in class members.
 
 If there are declarations of the same name in class members, the last declaration overwrites other declarations silently.
 It can cause unexpected behaviors.

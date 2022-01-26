@@ -1,4 +1,6 @@
-# Disallow Unnecessary Labels (no-extra-label)
+# no-extra-label
+
+Disallows unnecessary labels.
 
 If a loop contains no nested loops or switches, labeling the loop is unnecessary.
 

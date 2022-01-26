@@ -1,4 +1,6 @@
-# no-empty-label: disallow labels for anything other than loops and switches
+# no-empty-label
+
+Disallows labels for anything other than loops and switches.
 
 (removed) This rule was **removed** in ESLint v2.0 and **replaced** by the [no-labels](no-labels.md) rule.
 

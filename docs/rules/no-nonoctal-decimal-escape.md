@@ -1,4 +1,6 @@
-# Disallow `\8` and `\9` escape sequences in string literals (no-nonoctal-decimal-escape)
+# no-nonoctal-decimal-escape
+
+Disallows `\8` and `\9` escape sequences in string literals.
 
 Although not being specified in the language until ECMAScript 2021, `\8` and `\9` escape sequences in string literals were allowed in most JavaScript engines, and treated as "useless" escapes:
 

@@ -1,4 +1,6 @@
-# Disallow duplicate imports (no-duplicate-imports)
+# no-duplicate-imports
+
+Disallows duplicate imports.
 
 Using a single `import` statement per module will make the code clearer because you can see everything being imported from that module on one line.
 

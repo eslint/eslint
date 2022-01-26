@@ -809,17 +809,10 @@ target.checkRuleFiles = function() {
          * @param {string} id id to check for
          * @returns {boolean} true if present
          * @private
+         * @todo Will remove this check when the main heading is automatically generated from rule metadata.
          */
         function hasIdInTitle(id) {
-            const idOldAtEndOfTitleRegExp = new RegExp(`^# (.*?) \\(${id}\\)`, "u"); // original format
-            const idNewAtBeginningOfTitleRegExp = new RegExp(`^# ${id}: `, "u"); // new format is same as rules index
-            /*
-             * 1. Added support for new format.
-             * 2. Will remove support for old format after all docs files have new format.
-             * 3. Will remove this check when the main heading is automatically generated from rule metadata.
-             */
-
-            return idNewAtBeginningOfTitleRegExp.test(docText) || idOldAtEndOfTitleRegExp.test(docText);
+            return new RegExp(`^# ${id}`, "u").test(docText);
         }
 
         /**
@@ -879,7 +872,7 @@ target.checkRuleFiles = function() {
             errors++;
         } else {
 
-            // check for proper doc format
+            // check for proper doc h1 format
             if (!hasIdInTitle(basename)) {
                 console.error("Missing id in the doc page's title of rule %s", basename);
                 errors++;

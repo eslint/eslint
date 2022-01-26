@@ -1,4 +1,6 @@
-# disallow mixed spaces and tabs for indentation (no-mixed-spaces-and-tabs)
+# no-mixed-spaces-and-tabs
+
+Disallows mixed spaces and tabs for indentation.
 
 Most code conventions require either tabs or spaces be used for indentation. As such, it's usually an error if a single line of code is indented with both tabs and spaces.
 

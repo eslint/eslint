@@ -1,4 +1,6 @@
-# disallow unnecessary parentheses (no-extra-parens)
+# no-extra-parens
+
+Disallows unnecessary parentheses.
 
 This rule restricts the use of parentheses to only where they are necessary.
 
