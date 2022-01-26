@@ -11,6 +11,7 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
     * [lintFiles()][eslint-lintfiles]
     * [lintText()][eslint-linttext]
     * [getRulesMetaForResults()][eslint-getrulesmetaforresults]
+    * [getLoadedRulesMeta()][eslint-getloadedrulesmeta]
     * [calculateConfigForFile()][eslint-calculateconfigforfile]
     * [isPathIgnored()][eslint-ispathignored]
     * [loadFormatter()][eslint-loadformatter]
@@ -216,6 +217,19 @@ This method returns an object containing meta information for each rule that tri
 
 * `results` (`LintResult[]`)<br>
   An array of [LintResult] objects returned from a call to `ESLint#lintFiles()` or `ESLint#lintText()`.
+
+#### Return Value
+
+* (`Object`)<br>
+  An object whose property names are the rule IDs from the `results` and whose property values are the rule's meta information (if available).
+
+### ◆ eslint.getLoadedRulesMeta()
+
+```js
+const loadedMeta = eslint.getLoadedRulesMeta();
+```
+
+This method returns an object containing meta information for each rule that was loaded.
 
 #### Return Value
 
@@ -904,6 +918,7 @@ ruleTester.run("my-rule", myRule, {
 [eslint-lintfiles]: #-eslintlintfilespatterns
 [eslint-linttext]: #-eslintlinttextcode-options
 [eslint-getrulesmetaforresults]: #-eslintgetrulesmetaforresultsresults
+[eslint-getloadedrulesmeta]: #-eslintgetloadedrulesmeta
 [eslint-calculateconfigforfile]: #-eslintcalculateconfigforfilefilepath
 [eslint-ispathignored]: #-eslintispathignoredfilepath
 [eslint-loadformatter]: #-eslintloadformatternameorpath
