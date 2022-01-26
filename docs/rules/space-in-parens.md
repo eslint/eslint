@@ -1,4 +1,6 @@
-# Disallow or enforce spaces inside of parentheses (space-in-parens)
+# space-in-parens
+
+Disallows or enforce spaces inside of parentheses.
 
 Some style guides require or disallow spaces inside of parentheses:
 

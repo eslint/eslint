@@ -1,4 +1,6 @@
-# Disallow use of `this`/`super` before calling `super()` in constructors. (no-this-before-super)
+# no-this-before-super
+
+Disallows use of `this`/`super` before calling `super()` in constructors.
 
 In the constructor of derived classes, if `this`/`super` are used before `super()` calls, it raises a reference error.
 

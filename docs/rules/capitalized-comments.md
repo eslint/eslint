@@ -1,4 +1,6 @@
-# enforce or disallow capitalization of the first letter of a comment (capitalized-comments)
+# capitalized-comments
+
+Enforces or disallows capitalization of the first letter of a comment.
 
 Comments are useful for leaving information for future developers. In order for that information to be useful and not distracting, it is sometimes desirable for comments to follow a particular style. One element of comment formatting styles is whether the first word of a comment should be capitalized or lowercase.
 

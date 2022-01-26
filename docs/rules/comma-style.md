@@ -1,4 +1,6 @@
-# Comma style (comma-style)
+# comma-style
+
+Enforces consistent comma styles.
 
 The Comma Style rule enforces styles for comma-separated lists. There are two comma styles primarily used in JavaScript:
 

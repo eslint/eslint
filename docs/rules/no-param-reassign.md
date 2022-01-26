@@ -1,4 +1,6 @@
-# Disallow Reassignment of Function Parameters (no-param-reassign)
+# no-param-reassign
+
+Disallows reassignment of function parameters.
 
 Assignment to variables declared as function parameters can be misleading and lead to confusing behavior, as modifying function parameters will also mutate the `arguments` object. Often, assignment to function parameters is unintended and indicative of a mistake or programmer error.
 

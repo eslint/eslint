@@ -1,4 +1,6 @@
-# disallow variable declarations from shadowing variables declared in the outer scope (no-shadow)
+# no-shadow
+
+Disallows variable declarations from shadowing variables declared in the outer scope.
 
 Shadowing is the process by which a local variable shares the same name as a variable in its containing scope. For example:
 

@@ -1,4 +1,6 @@
-# Prefer `Object.hasOwn()` over `Object.prototype.hasOwnProperty.call()` (prefer-object-has-own)
+# prefer-object-has-own
+
+Prefer `Object.hasOwn()` over `Object.prototype.hasOwnProperty.call()`.
 
 It is very common to write code like:
 

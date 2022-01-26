@@ -1,4 +1,6 @@
-# Disallow Synchronous Methods (no-sync)
+# no-sync
+
+Disallows synchronous methods.
 
 This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-node`](https://github.com/mysticatea/eslint-plugin-node).
 

@@ -1,4 +1,6 @@
-# disallow calling global object properties as functions (no-obj-calls)
+# no-obj-calls
+
+Disallows calling global object properties as functions.
 
 ECMAScript provides several global objects that are intended to be used as-is. Some of these objects look as if they could be constructors due their capitalization (such as `Math` and `JSON`) but will throw an error if you try to execute them as functions.
 

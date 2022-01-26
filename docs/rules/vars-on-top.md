@@ -1,4 +1,6 @@
-# Require Variable Declarations to be at the top of their scope (vars-on-top)
+# vars-on-top
+
+Requires variable declarations to be at the top of their scope.
 
 The `vars-on-top` rule generates warnings when variable declarations are not used serially at the top of a function scope or the top of a program.
 By default variable declarations are always moved (“hoisted”) invisibly to the top of their containing scope by the JavaScript interpreter.

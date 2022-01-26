@@ -1,4 +1,6 @@
-# disallow octal literals (no-octal)
+# no-octal
+
+Disallows octal literals.
 
 Octal literals are numerals that begin with a leading zero, such as:
 

@@ -1,4 +1,6 @@
-# Disallow specified names in exports (no-restricted-exports)
+# no-restricted-exports
+
+Disallows specified names in exports.
 
 In a project, certain names may be disallowed from being used as exported names for various reasons.
 

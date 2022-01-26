@@ -1,4 +1,6 @@
-# Require or disallow spacing between template tags and their literals (template-tag-spacing)
+# template-tag-spacing
+
+Requires or disallow spacing between template tags and their literals.
 
 With ES6, it's possible to create functions called [tagged template literals](#further-reading) where the function parameters consist of a template literal's strings and expressions.
 

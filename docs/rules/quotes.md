@@ -1,4 +1,6 @@
-# enforce the consistent use of either backticks, double, or single quotes (quotes)
+# quotes
+
+Enforces the consistent use of either backticks, double, or single quotes.
 
 JavaScript allows you to define strings in one of three ways: double quotes, single quotes, and backticks (as of ECMAScript 6). For example:
 

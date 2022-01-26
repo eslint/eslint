@@ -1,4 +1,6 @@
-# Requires or disallows a whitespace (space or tab) beginning a comment (spaced-comment)
+# spaced-comment
+
+Enforces consistent spacing after the `//` or `/*` in a comment.
 
 Some style guides require or disallow a whitespace immediately after the initial `//` or `/*` of a comment.
 Whitespace after the `//` or `/*` makes it easier to read text in comments.

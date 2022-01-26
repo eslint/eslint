@@ -1,4 +1,6 @@
-# Enforce spacing between rest and spread operators and their expressions (rest-spread-spacing)
+# rest-spread-spacing
+
+Enforces spacing between rest and spread operators and their expressions.
 
 ES2015 introduced the rest and spread operators, which expand an iterable structure into its individual parts. Some examples of their usage are as follows:
 

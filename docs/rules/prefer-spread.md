@@ -1,4 +1,6 @@
-# Suggest using spread syntax instead of `.apply()`. (prefer-spread)
+# prefer-spread
+
+Suggests using spread syntax instead of `.apply()`.
 
 Before ES2015, one must use `Function.prototype.apply()` to call variadic functions.
 

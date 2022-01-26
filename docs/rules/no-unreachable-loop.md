@@ -1,4 +1,6 @@
-# Disallow loops with a body that allows only one iteration (no-unreachable-loop)
+# no-unreachable-loop
+
+Disallows loops with a body that allows only one iteration.
 
 A loop that can never reach the second iteration is a possible error in the code.
 

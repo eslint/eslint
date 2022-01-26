@@ -1,4 +1,6 @@
-# disallow all tabs (no-tabs)
+# no-tabs
+
+Disallows all tabs.
 
 Some style guides don't allow the use of tab characters at all, including within comments.
 

@@ -1,4 +1,6 @@
-# space-after-keywords: enforce consistent spacing after keywords
+# space-after-keywords
+
+Enforces consistent spacing after keywords.
 
 (removed) This rule was **removed** in ESLint v2.0 and replaced by the [keyword-spacing](keyword-spacing.md) rule.
 

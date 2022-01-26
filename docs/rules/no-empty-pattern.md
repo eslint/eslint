@@ -1,4 +1,6 @@
-# Disallow empty destructuring patterns (no-empty-pattern)
+# no-empty-pattern
+
+Disallows empty destructuring patterns.
 
 When using destructuring, it's possible to create a pattern that has no effect. This happens when empty curly braces are used to the right of an embedded object destructuring pattern, such as:
 

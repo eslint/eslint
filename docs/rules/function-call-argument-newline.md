@@ -1,4 +1,6 @@
-# enforce line breaks between arguments of a function call (function-call-argument-newline)
+# function-call-argument-newline
+
+Enforces line breaks between arguments of a function call.
 
 A number of style guides require or disallow line breaks between arguments of a function call.
 

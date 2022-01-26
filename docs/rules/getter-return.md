@@ -1,4 +1,6 @@
-# Enforces that a return statement is present in property getters (getter-return)
+# getter-return
+
+Enforces that a `return` statement is present in property getters.
 
 The get syntax binds an object property to a function that will be called when that property is looked up. It was first introduced in ECMAScript 5:
 

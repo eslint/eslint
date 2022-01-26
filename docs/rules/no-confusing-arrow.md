@@ -1,4 +1,6 @@
-# Disallow arrow functions where they could be confused with comparisons (no-confusing-arrow)
+# no-confusing-arrow
+
+Disallows arrow functions where they could be confused with comparisons.
 
 Arrow functions (`=>`) are similar in syntax to some comparison operators (`>`, `<`, `<=`, and `>=`). This rule warns against using the arrow function syntax in places where it could be confused with a comparison operator.
 

@@ -1,4 +1,6 @@
-# Disallow Self Assignment (no-self-assign)
+# no-self-assign
+
+Disallows assignments where both sides are exactly the same.
 
 Self assignments have no effect, so probably those are an error due to incomplete refactoring.
 Those indicate that what you should do is still remaining.

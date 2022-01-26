@@ -1,4 +1,6 @@
-# Enforces return statements in callbacks of array's methods (array-callback-return)
+# array-callback-return
+
+Enforces return statements in callbacks of array's methods.
 
 `Array` has several methods for filtering, mapping, and folding.
 If we forget to write `return` statement in a callback of those, it's probably a mistake. If you don't want to use a return or don't need the returned results, consider using [.forEach](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach) instead.

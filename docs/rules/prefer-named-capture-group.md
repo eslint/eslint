@@ -1,4 +1,6 @@
-# Suggest using named capture group in regular expression (prefer-named-capture-group)
+# prefer-named-capture-group
+
+Suggest using named capture group in regular expression.
 
 ## Rule Details
 

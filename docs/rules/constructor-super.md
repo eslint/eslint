@@ -1,4 +1,6 @@
-# Verify calls of `super()` in constructors (constructor-super)
+# constructor-super
+
+Verifies calls of `super()` in constructors.
 
 Constructors of derived classes must call `super()`.
 Constructors of non derived classes must not call `super()`.

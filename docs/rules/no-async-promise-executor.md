@@ -1,4 +1,6 @@
-# disallow using an async function as a Promise executor (no-async-promise-executor)
+# no-async-promise-executor
+
+Disallows using an async function as a Promise executor.
 
 The `new Promise` constructor accepts an *executor* function as an argument, which has `resolve` and `reject` parameters that can be used to control the state of the created Promise. For example:
 

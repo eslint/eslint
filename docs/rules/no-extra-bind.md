@@ -1,4 +1,6 @@
-# Disallow unnecessary function binding (no-extra-bind)
+# no-extra-bind
+
+Disallows unnecessary function binding.
 
 The `bind()` method is used to create functions with specific `this` values and, optionally, binds arguments to specific values. When used to specify the value of `this`, it's important that the function actually uses `this` in its function body. For example:
 

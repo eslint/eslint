@@ -1,4 +1,6 @@
-# enforce position of line comments (line-comment-position)
+# line-comment-position
+
+Enforces position of line comments.
 
 Line comments can be positioned above or beside code. This rule helps teams maintain a consistent style.
 

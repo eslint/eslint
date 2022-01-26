@@ -1,4 +1,6 @@
-# Enforce "for" loop update clause moving the counter in the right direction. (for-direction)
+# for-direction
+
+Enforces `for` loop update clause moving the counter in the right direction.
 
 ## Rule Details
 

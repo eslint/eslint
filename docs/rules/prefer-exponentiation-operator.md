@@ -1,4 +1,6 @@
-# Disallow the use of `Math.pow` in favor of the `**` operator (prefer-exponentiation-operator)
+# prefer-exponentiation-operator
+
+Disallows the use of `Math.pow` in favor of the `**` operator.
 
 Introduced in ES2016, the infix exponentiation operator `**` is an alternative for the standard `Math.pow` function.
 

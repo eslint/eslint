@@ -1,4 +1,6 @@
-# no-comma-dangle: disallow trailing commas in object and array literals
+# no-comma-dangle
+
+Disallows trailing commas in object and array literals.
 
 (removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [comma-dangle](comma-dangle.md) rule.
 

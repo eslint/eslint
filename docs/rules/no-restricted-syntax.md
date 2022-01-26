@@ -1,4 +1,6 @@
-# disallow specified syntax (no-restricted-syntax)
+# no-restricted-syntax
+
+Disallows specified syntax.
 
 JavaScript has a lot of language features, and not everyone likes all of them. As a result, some projects choose to disallow the use of certain language features altogether. For instance, you might decide to disallow the use of `try-catch` or `class`, or you might decide to disallow the use of the `in` operator.
 

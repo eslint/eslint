@@ -1,4 +1,6 @@
-# Disallow unmodified conditions of loops (no-unmodified-loop-condition)
+# no-unmodified-loop-condition
+
+Disallows unmodified conditions of loops.
 
 Variables in a loop condition often are modified in the loop.
 If not, it's possibly a mistake.

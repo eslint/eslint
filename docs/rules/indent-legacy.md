@@ -1,4 +1,6 @@
-# enforce consistent indentation (indent-legacy)
+# indent-legacy
+
+Enforces consistent indentation.
 
 This rule was **deprecated** in ESLint v4.0.0.
 

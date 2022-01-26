@@ -1,4 +1,6 @@
-# Require using arrow functions for callbacks (prefer-arrow-callback)
+# prefer-arrow-callback
+
+Requires using arrow functions for callbacks.
 
 Arrow functions can be an attractive alternative to function expressions for callbacks or function arguments.
 

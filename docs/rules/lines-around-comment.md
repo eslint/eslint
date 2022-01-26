@@ -1,4 +1,6 @@
-# require empty lines around comments (lines-around-comment)
+# lines-around-comment
+
+Requires empty lines around comments.
 
 Many style guides require empty lines before or after comments. The primary goal
 of these rules is to make the comments easier to read and improve readability of the code.

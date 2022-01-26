@@ -1,4 +1,6 @@
-# space-before-keywords: enforce consistent spacing before keywords
+# space-before-keywords
+
+Enforces consistent spacing before keywords.
 
 (removed) This rule was **removed** in ESLint v2.0 and **replaced** by the [keyword-spacing](keyword-spacing.md) rule.
 

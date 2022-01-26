@@ -1,4 +1,6 @@
-# require or disallow newlines around variable declarations (one-var-declaration-per-line)
+# one-var-declaration-per-line
+
+Requires or disallows newlines around variable declarations.
 
 Some developers declare multiple var statements on the same line:
 

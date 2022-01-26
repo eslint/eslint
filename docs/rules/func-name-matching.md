@@ -1,4 +1,6 @@
-# require function names to match the name of the variable or property to which they are assigned (func-name-matching)
+# func-name-matching
+
+Requires function names to match the name of the variable or property to which they are assigned.
 
 ## Rule Details
 

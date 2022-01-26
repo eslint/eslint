@@ -1,4 +1,6 @@
-# disallow negating the left operand in `in` expressions (no-negated-in-lhs)
+# no-negated-in-lhs
+
+Disallows negating the left operand in `in` expressions.
 
 This rule was **deprecated** in ESLint v3.3.0 and replaced by the [no-unsafe-negation](no-unsafe-negation.md) rule.
 

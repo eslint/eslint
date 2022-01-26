@@ -1,4 +1,6 @@
-# require an empty line before `return` statements (newline-before-return)
+# newline-before-return
+
+Requires an empty line before `return` statements.
 
 This rule was **deprecated** in ESLint v4.0.0 and replaced by the [padding-line-between-statements](padding-line-between-statements.md) rule.
 

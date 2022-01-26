@@ -1,4 +1,6 @@
-# Disallows unnecessary `return await` (no-return-await)
+# no-return-await
+
+Disallows unnecessary `return await`.
 
 Using `return await` inside an `async function` keeps the current function in the call stack until the Promise that is being awaited has resolved, at the cost of an extra microtask before resolving the outer Promise. `return await` can also be used in a try/catch statement to catch errors from another function that returns a Promise.
 

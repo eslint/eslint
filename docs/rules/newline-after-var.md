@@ -1,4 +1,6 @@
-# require or disallow an empty line after variable declarations (newline-after-var)
+# newline-after-var
+
+Requires or disallows an empty line after variable declarations.
 
 This rule was **deprecated** in ESLint v4.0.0 and replaced by the [padding-line-between-statements](padding-line-between-statements.md) rule.
 

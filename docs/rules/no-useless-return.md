@@ -1,4 +1,6 @@
-# Disallow redundant return statements (no-useless-return)
+# no-useless-return
+
+Disallows redundant return statements.
 
 A `return;` statement with nothing after it is redundant, and has no effect on the runtime behavior of a function. This can be confusing, so it's better to disallow these redundant statements.
 
