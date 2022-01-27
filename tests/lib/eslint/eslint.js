@@ -400,6 +400,7 @@ describe("ESLint", () => {
                 {
                     filePath: getFixturePath("passing.js"),
                     messages: [],
+                    suppressedMessages: [],
                     errorCount: 0,
                     warningCount: 0,
                     fatalErrorCount: 0,
@@ -601,6 +602,7 @@ describe("ESLint", () => {
                             nodeType: "Identifier"
                         }
                     ],
+                    suppressedMessages: [],
                     errorCount: 1,
                     warningCount: 0,
                     fatalErrorCount: 0,
@@ -641,6 +643,7 @@ describe("ESLint", () => {
                             column: 19
                         }
                     ],
+                    suppressedMessages: [],
                     errorCount: 1,
                     warningCount: 0,
                     fatalErrorCount: 1,
@@ -680,6 +683,7 @@ describe("ESLint", () => {
                             column: 10
                         }
                     ],
+                    suppressedMessages: [],
                     errorCount: 1,
                     warningCount: 0,
                     fatalErrorCount: 1,
@@ -768,6 +772,7 @@ describe("ESLint", () => {
                             column: 19
                         }
                     ],
+                    suppressedMessages: [],
                     errorCount: 1,
                     warningCount: 0,
                     fatalErrorCount: 1,
@@ -1686,6 +1691,7 @@ describe("ESLint", () => {
                     {
                         filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/multipass.js")),
                         messages: [],
+                        suppressedMessages: [],
                         errorCount: 0,
                         warningCount: 0,
                         fatalErrorCount: 0,
@@ -1697,6 +1703,7 @@ describe("ESLint", () => {
                     {
                         filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/ok.js")),
                         messages: [],
+                        suppressedMessages: [],
                         errorCount: 0,
                         warningCount: 0,
                         fatalErrorCount: 0,
@@ -1719,6 +1726,7 @@ describe("ESLint", () => {
                                 severity: 2
                             }
                         ],
+                        suppressedMessages: [],
                         errorCount: 1,
                         warningCount: 0,
                         fatalErrorCount: 0,
@@ -1742,6 +1750,7 @@ describe("ESLint", () => {
                                 severity: 2
                             }
                         ],
+                        suppressedMessages: [],
                         errorCount: 1,
                         warningCount: 0,
                         fatalErrorCount: 0,
@@ -4894,6 +4903,22 @@ describe("ESLint", () => {
             assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
         });
 
+        it("should return one rule meta when there is a suppressed linting error", async () => {
+            const engine = new ESLint({
+                useEslintrc: false,
+                overrideConfig: {
+                    rules: {
+                        semi: 2
+                    }
+                }
+            });
+
+            const results = await engine.lintText("a // eslint-disable-line semi");
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
+        });
+
         it("should return multiple rule meta when there are multiple linting errors", async () => {
             const engine = new ESLint({
                 useEslintrc: false,
@@ -5086,6 +5111,7 @@ describe("ESLint", () => {
                                 nodeType: null
                             }
                         ],
+                        suppressedMessages: [],
                         errorCount: 1,
                         warningCount: 0,
                         fatalErrorCount: 0,
@@ -6141,6 +6167,7 @@ describe("ESLint", () => {
                                 severity: 2
                             }
                         ],
+                        suppressedMessages: [],
                         source: "a == b",
                         usedDeprecatedRules: [],
                         warningCount: 0,
@@ -6166,6 +6193,7 @@ describe("ESLint", () => {
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         messages: [],
+                        suppressedMessages: [],
                         usedDeprecatedRules: [],
                         warningCount: 0,
                         fatalErrorCount: 0
@@ -6214,6 +6242,7 @@ describe("ESLint", () => {
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         messages: [],
+                        suppressedMessages: [],
                         usedDeprecatedRules: [],
                         warningCount: 0,
                         fatalErrorCount: 0
@@ -6250,6 +6279,7 @@ describe("ESLint", () => {
                                 severity: 2
                             }
                         ],
+                        suppressedMessages: [],
                         source: "a == b",
                         usedDeprecatedRules: [],
                         warningCount: 0,
