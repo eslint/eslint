@@ -1131,7 +1131,6 @@ describe("FlatRuleTester", () => {
             const spy = sinon.spy(ruleTester.linter, "verify");
             const esprima = require("esprima");
 
-            esprima.name = "esprima";
             ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [
                     {
