@@ -1,3 +1,11 @@
+v8.8.0 - January 28, 2022
+
+* [`5d60812`](https://github.com/eslint/eslint/commit/5d60812d440762dff72420714273c714c4c5d074) feat: implement rfc 2021-suppression-support (#15459) (Yiwei Ding)
+* [`5769cc2`](https://github.com/eslint/eslint/commit/5769cc23eca7197bb5993a0201cc269a056d4dfd) docs: fix relative link (#15544) (Nick Schonning)
+* [`ccbc35f`](https://github.com/eslint/eslint/commit/ccbc35ff3ebc89bb524a8fd8dc60df9408e58275) docs: trimmed rules h1s to just be rule names (#15514) (Josh Goldberg)
+* [`851f1f1`](https://github.com/eslint/eslint/commit/851f1f18bd1a5da32c1b645bfcb28fadc627ad9e) docs: fixed typo in comment (#15531) (Jiapei Liang)
+* [`7d7af55`](https://github.com/eslint/eslint/commit/7d7af55759eab2328aeeb71098d91f4a5e41b269) docs: address upcoming violation of markdownlint rule MD050/strong-style (#15529) (David Anson)
+
 v8.7.0 - January 15, 2022
 
 * [`369fb1b`](https://github.com/eslint/eslint/commit/369fb1b066279d761e59502111c2580834a41648) chore: Upgrade to eslint-visitor-keys@3.2.0 (#15526) (Brandon Mills)
