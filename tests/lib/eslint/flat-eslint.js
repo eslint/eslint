@@ -889,12 +889,13 @@ describe("FlatESLint", () => {
 
             it("should not check default ignored files without --no-ignore flag", async () => {
                 eslint = new FlatESLint({
-                    cwd: getFixturePath("cli-engine")
+                    cwd: getFixturePath("cli-engine"),
+                    configFile: false
                 });
 
                 await assert.rejects(async () => {
                     await eslint.lintFiles(["node_modules"]);
-                }, /All files matched by 'node_modules' are ignored\./u);
+                }, /All files matched by 'node_modules\/\*\*\/\*.js' are ignored\./u);
             });
 
             // https://github.com/eslint/eslint/issues/5547
@@ -906,93 +907,7 @@ describe("FlatESLint", () => {
 
                 await assert.rejects(async () => {
                     await eslint.lintFiles(["node_modules"]);
-                }, /All files matched by 'node_modules' are ignored\./u);
-            });
-
-            it("should not check .hidden files if they are passed explicitly without --no-ignore flag", async () => {
-                eslint = new FlatESLint({
-                    cwd: getFixturePath(".."),
-                    configFile: false,
-                    overrideConfig: {
-                        rules: {
-                            quotes: [2, "single"]
-                        }
-                    }
-                });
-                const results = await eslint.lintFiles(["fixtures/files/.bar.js"]);
-                const expectedMsg = "File ignored by default.  Use a negated ignore pattern (like \"--ignore-pattern '!<relative/path/to/filename>'\") to override.";
-
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].errorCount, 0);
-                assert.strictEqual(results[0].warningCount, 1);
-                assert.strictEqual(results[0].fixableErrorCount, 0);
-                assert.strictEqual(results[0].fixableWarningCount, 0);
-                assert.strictEqual(results[0].messages[0].message, expectedMsg);
-            });
-
-            // https://github.com/eslint/eslint/issues/12873
-            it("should not check files within a .hidden folder if they are passed explicitly without the --no-ignore flag", async () => {
-                eslint = new FlatESLint({
-                    cwd: getFixturePath("cli-engine"),
-                    configFile: false,
-                    overrideConfig: {
-                        rules: {
-                            quotes: [2, "single"]
-                        }
-                    }
-                });
-                const results = await eslint.lintFiles(["hidden/.hiddenfolder/double-quotes.js"]);
-                const expectedMsg = "File ignored by default.  Use a negated ignore pattern (like \"--ignore-pattern '!<relative/path/to/filename>'\") to override.";
-
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].errorCount, 0);
-                assert.strictEqual(results[0].warningCount, 1);
-                assert.strictEqual(results[0].fixableErrorCount, 0);
-                assert.strictEqual(results[0].fixableWarningCount, 0);
-                assert.strictEqual(results[0].messages[0].message, expectedMsg);
-            });
-
-            it("should check .hidden files if they are passed explicitly with --no-ignore flag", async () => {
-                eslint = new FlatESLint({
-                    cwd: getFixturePath(".."),
-                    ignore: false,
-                    configFile: false,
-                    overrideConfig: {
-                        rules: {
-                            quotes: [2, "single"]
-                        }
-                    }
-                });
-                const results = await eslint.lintFiles(["fixtures/files/.bar.js"]);
-
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].warningCount, 0);
-                assert.strictEqual(results[0].errorCount, 1);
-                assert.strictEqual(results[0].fixableErrorCount, 1);
-                assert.strictEqual(results[0].fixableWarningCount, 0);
-                assert.strictEqual(results[0].messages[0].ruleId, "quotes");
-            });
-
-            it("should check .hidden files if they are unignored with an --ignore-pattern", async () => {
-                eslint = new FlatESLint({
-                    cwd: getFixturePath("cli-engine"),
-                    ignore: true,
-                    configFile: false,
-                    overrideConfig: {
-                        ignorePatterns: "!.hidden*",
-                        rules: {
-                            quotes: [2, "single"]
-                        }
-                    }
-                });
-                const results = await eslint.lintFiles(["hidden/"]);
-
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].warningCount, 0);
-                assert.strictEqual(results[0].errorCount, 1);
-                assert.strictEqual(results[0].fixableErrorCount, 1);
-                assert.strictEqual(results[0].fixableWarningCount, 0);
-                assert.strictEqual(results[0].messages[0].ruleId, "quotes");
+                }, /All files matched by 'node_modules\/\*\*\/\*\.js' are ignored\./u);
             });
 
             it("should throw an error when given a directory with all eslint excluded files in the directory", async () => {
