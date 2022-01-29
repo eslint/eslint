@@ -83,7 +83,8 @@ ruleTester.run("no-shadow", rule, {
         { code: "const a = foo(x || (a => {}))", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "const { a = 1 } = foo(a => {})", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "const person = {...people.find((person) => person.firstName.startsWith('s'))}", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 2021 } },
-        { code: "const person = { firstName: people.filter((person) => person.firstName.startsWith('s')).map((person) => person.firstName)[0]}", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 2021 } }
+        { code: "const person = { firstName: people.filter((person) => person.firstName.startsWith('s')).map((person) => person.firstName)[0]}", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 2021 } },
+        { code: "() => { const y = foo(y => y); }", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
