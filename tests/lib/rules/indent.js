@@ -6082,6 +6082,18 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { FunctionExpression: { body: 2 }, StaticBlock: { body: 2 } }],
             parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code:
+                "module.exports = function IsUnclampedIntegerElementType(type) {\n" +
+                "\treturn type === 'Int8'\n" +
+                "\t\t|| type === 'Uint8'\n" +
+                "\t\t|| type === 'Int16'\n" +
+                "\t\t|| type === 'Uint16'\n" +
+                "\t\t|| type === 'Int32'\n" +
+                "\t\t|| type === 'Uint32';\n" +
+                "};",
+            options: ["tab", { BinaryExpression: 2 }]
         }
     ],
 
@@ -12622,6 +12634,35 @@ ruleTester.run("indent", rule, {
                 [5, 4, 0, "Keyword"],
                 [6, 12, 0, "Identifier"],
                 [7, 4, 0, "Punctuator"]
+            ])
+        },
+
+        {
+            code:
+                "module.exports = function IsUnclampedIntegerElementType(type) {\n" +
+                "\treturn type === 'Int8'\n" +
+                "    || type === 'Uint8'\n" +
+                "    || type === 'Int16'\n" +
+                "    || type === 'Uint16'\n" +
+                "    || type === 'Int32'\n" +
+                "    || type === 'Uint32';\n" +
+                "};",
+            output:
+                "module.exports = function IsUnclampedIntegerElementType(type) {\n" +
+                "\treturn type === 'Int8'\n" +
+                "\t\t|| type === 'Uint8'\n" +
+                "\t\t|| type === 'Int16'\n" +
+                "\t\t|| type === 'Uint16'\n" +
+                "\t\t|| type === 'Int32'\n" +
+                "\t\t|| type === 'Uint32';\n" +
+                "};",
+            options: ["tab", { BinaryExpression: 2 }],
+            errors: expectedErrors("tab", [
+                [3, 2, "4 spaces", "Punctuator"],
+                [4, 2, "4 spaces", "Punctuator"],
+                [5, 2, "4 spaces", "Punctuator"],
+                [6, 2, "4 spaces", "Punctuator"],
+                [7, 2, "4 spaces", "Punctuator"]
             ])
         }
     ]

@@ -91,6 +91,7 @@ This rule has an object option:
 * `"flatTernaryExpressions": true` (`false` by default) requires no indentation for ternary expressions which are nested in other ternary expressions.
 * `"offsetTernaryExpressions": true` (`false` by default) requires indentation for values of ternary expressions.
 * `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
+* `"BinaryExpression"` `"ignore"` by default; enforces indentation level for BinaryExpressions like `||` or `&&`
 
 Level of indentation denotes the multiple of the indent specified. Example:
 
