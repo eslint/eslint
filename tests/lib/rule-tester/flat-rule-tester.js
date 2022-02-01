@@ -164,6 +164,41 @@ describe("FlatRuleTester", () => {
                 invalid: [{ code: "bar", errors: 1, languageOptions: { globals: { foo: true } } }]
             });
         });
+
+        it("should throw an error if node.start is accessed with parser in default config", () => {
+            const enhancedParser = require("../../fixtures/parsers/enhanced-parser");
+
+            FlatRuleTester.setDefaultConfig({
+                languageOptions: {
+                    parser: enhancedParser
+                }
+            });
+            ruleTester = new FlatRuleTester();
+
+            /*
+             * Note: More robust test for start/end found later in file.
+             * This one is just for checking the default config has a
+             * parser that is wrapped.
+             */
+            const usesStartEndRule = {
+                create() {
+
+                    return {
+                        CallExpression(node) {
+                            noop(node.arguments[1].start);
+                        }
+                    };
+                }
+            };
+
+            assert.throws(() => {
+                ruleTester.run("uses-start-end", usesStartEndRule, {
+                    valid: ["foo(a, b)"],
+                    invalid: []
+                });
+            }, "Use node.range[0] instead of node.start");
+        });
+
     });
 
     describe("only", () => {
@@ -1333,6 +1368,39 @@ describe("FlatRuleTester", () => {
                 ]
             });
         }, "Rule should not modify AST.");
+    });
+
+    it("should throw an error node.start is accessed with custom parser", () => {
+        const enhancedParser = require("../../fixtures/parsers/enhanced-parser");
+
+        ruleTester = new FlatRuleTester({
+            languageOptions: {
+                parser: enhancedParser
+            }
+        });
+
+        /*
+         * Note: More robust test for start/end found later in file.
+         * This one is just for checking the custom config has a
+         * parser that is wrapped.
+         */
+        const usesStartEndRule = {
+            create() {
+
+                return {
+                    CallExpression(node) {
+                        noop(node.arguments[1].start);
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("uses-start-end", usesStartEndRule, {
+                valid: ["foo(a, b)"],
+                invalid: []
+            });
+        }, "Use node.range[0] instead of node.start");
     });
 
     it("should throw an error if AST was modified (at Program)", () => {
