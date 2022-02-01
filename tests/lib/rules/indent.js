@@ -6093,7 +6093,7 @@ ruleTester.run("indent", rule, {
                 "\t\t|| type === 'Int32'\n" +
                 "\t\t|| type === 'Uint32';\n" +
                 "};",
-            options: ["tab", { BinaryExpression: 2 }]
+            options: ["tab", { BinaryExpression: 1 }]
         }
     ],
 
@@ -12656,7 +12656,7 @@ ruleTester.run("indent", rule, {
                 "\t\t|| type === 'Int32'\n" +
                 "\t\t|| type === 'Uint32';\n" +
                 "};",
-            options: ["tab", { BinaryExpression: 2 }],
+            options: ["tab", { BinaryExpression: 1 }],
             errors: expectedErrors("tab", [
                 [3, 2, "4 spaces", "Punctuator"],
                 [4, 2, "4 spaces", "Punctuator"],
