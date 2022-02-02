@@ -39,7 +39,7 @@ body:
   attributes:
     label: What did you do?
     description: |
-      Please include a *minimal* reproduction case with source code, configuration file, any other information about how you're using ESLint. You can use Markdown in this field.
+      Please include a *minimal* reproduction case. If possible, include a link to a reproduction of the problem in the [ESLint demo](https://eslint.org/demo). Otherwise, include source code, configuration file(s), and any other information about how you're using ESLint. You can use Markdown in this field.
     value: |
       <details>
       <summary>Configuration</summary>
