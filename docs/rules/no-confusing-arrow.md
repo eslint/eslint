@@ -41,12 +41,12 @@ var x = (a) => { return 1 ? 2 : 3; };
 
 ## Options
 
-This rule accepts a single options argument with the following defaults:
+This rule accepts two options argument with the following defaults:
 
 ```json
 {
     "rules": {
-        "no-confusing-arrow": ["error", {"allowParens": true}]
+        "no-confusing-arrow": ["error", {"allowParens": true,"onlyOneSimpleParam": false}]
     }
 }
 ```
@@ -62,6 +62,19 @@ Examples of **incorrect** code for this rule with the `{"allowParens": false}` o
 /*eslint no-confusing-arrow: ["error", {"allowParens": false}]*/
 /*eslint-env es6*/
 var x = a => (1 ? 2 : 3);
+var x = (a) => (1 ? 2 : 3);
+```
+
+`onlyOneSimpleParam` is a boolean setting that can be `true` or `false`(false):
+
+1. `true` warns if arrow functions with a single argument that is either an identifier or a primitive literal is used.
+2. `false` relaxes the rule.
+
+Examples of **incorrect** code for this rule with the `{"onlyOneSimpleParam": true}` option:
+
+```js
+/*eslint no-confusing-arrow: ["error", {"onlyOneSimpleParam": true}]*/
+/*eslint-env es6*/
 var x = (a) => (1 ? 2 : 3);
 ```
 
