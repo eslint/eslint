@@ -1,6 +1,6 @@
 # Change Requests
 
-If you'd like to request a change to ESLint, please [create a new issue](https://github.com/eslint/eslint/issues/new?template=CHANGE.md) on GitHub. Be sure to include the following information:
+If you'd like to request a change to ESLint, please [create a new issue](https://github.com/eslint/eslint/issues/new/choose) on GitHub. Be sure to include the following information:
 
 1. The version of ESLint you are using.
 1. The problem you want to solve.
