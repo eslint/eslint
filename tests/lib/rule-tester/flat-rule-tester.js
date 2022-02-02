@@ -9,10 +9,13 @@
 //------------------------------------------------------------------------------
 const sinon = require("sinon"),
     EventEmitter = require("events"),
-    { RuleTester } = require("../../../lib/rule-tester"),
+    FlatRuleTester = require("../../../lib/rule-tester/flat-rule-tester"),
     assert = require("chai").assert,
-    nodeAssert = require("assert"),
-    espree = require("espree");
+    nodeAssert = require("assert");
+
+//-----------------------------------------------------------------------------
+// Helpers
+//-----------------------------------------------------------------------------
 
 const NODE_ASSERT_STRICT_EQUAL_OPERATOR = (() => {
     try {
@@ -22,6 +25,23 @@ const NODE_ASSERT_STRICT_EQUAL_OPERATOR = (() => {
     }
     throw new Error("unexpected successful assertion");
 })();
+
+/**
+ * A helper function to verify Node.js core error messages.
+ * @param {string} actual The actual input
+ * @param {string} expected The expected input
+ * @returns {Function} Error callback to verify that the message is correct
+ *                     for the actual and expected input.
+ */
+function assertErrorMatches(actual, expected) {
+    const err = new nodeAssert.AssertionError({
+        actual,
+        expected,
+        operator: NODE_ASSERT_STRICT_EQUAL_OPERATOR
+    });
+
+    return err.message;
+}
 
 /**
  * Do nothing.
@@ -56,60 +76,143 @@ const ruleTesterTestEmitter = new EventEmitter();
 // Tests
 //------------------------------------------------------------------------------
 
-describe("RuleTester", () => {
+describe("FlatRuleTester", () => {
+
+    let ruleTester;
 
     // Stub `describe()` and `it()` while this test suite.
     before(() => {
-        RuleTester.describe = function(text, method) {
+        FlatRuleTester.describe = function(text, method) {
             ruleTesterTestEmitter.emit("describe", text, method);
             return method.call(this);
         };
-        RuleTester.it = function(text, method) {
+        FlatRuleTester.it = function(text, method) {
             ruleTesterTestEmitter.emit("it", text, method);
             return method.call(this);
         };
     });
+
     after(() => {
-        RuleTester.describe = null;
-        RuleTester.it = null;
+        FlatRuleTester.describe = null;
+        FlatRuleTester.it = null;
     });
 
-    let ruleTester;
+    beforeEach(() => {
+        ruleTester = new FlatRuleTester();
+    });
 
-    /**
-     * A helper function to verify Node.js core error messages.
-     * @param {string} actual The actual input
-     * @param {string} expected The expected input
-     * @returns {Function} Error callback to verify that the message is correct
-     *                     for the actual and expected input.
-     */
-    function assertErrorMatches(actual, expected) {
-        const err = new nodeAssert.AssertionError({
-            actual,
-            expected,
-            operator: NODE_ASSERT_STRICT_EQUAL_OPERATOR
+    describe("Default Config", () => {
+
+        afterEach(() => {
+            FlatRuleTester.resetDefaultConfig();
         });
 
-        return err.message;
-    }
+        it("should correctly set the globals configuration", () => {
+            const config = { languageOptions: { globals: { test: true } } };
 
-    beforeEach(() => {
-        RuleTester.resetDefaultConfig();
-        ruleTester = new RuleTester();
+            FlatRuleTester.setDefaultConfig(config);
+            assert(
+                FlatRuleTester.getDefaultConfig().languageOptions.globals.test,
+                "The default config object is incorrect"
+            );
+        });
+
+        it("should correctly reset the global configuration", () => {
+            const config = { languageOptions: { globals: { test: true } } };
+
+            FlatRuleTester.setDefaultConfig(config);
+            FlatRuleTester.resetDefaultConfig();
+            assert.deepStrictEqual(
+                FlatRuleTester.getDefaultConfig(),
+                { rules: {} },
+                "The default configuration has not reset correctly"
+            );
+        });
+
+        it("should enforce the global configuration to be an object", () => {
+
+            /**
+             * Set the default config for the rules tester
+             * @param {Object} config configuration object
+             * @returns {Function} Function to be executed
+             * @private
+             */
+            function setConfig(config) {
+                return function() {
+                    FlatRuleTester.setDefaultConfig(config);
+                };
+            }
+            assert.throw(setConfig());
+            assert.throw(setConfig(1));
+            assert.throw(setConfig(3.14));
+            assert.throw(setConfig("foo"));
+            assert.throw(setConfig(null));
+            assert.throw(setConfig(true));
+        });
+
+        it("should pass-through the globals config to the tester then to the to rule", () => {
+            const config = { languageOptions: { sourceType: "script", globals: { test: true } } };
+
+            FlatRuleTester.setDefaultConfig(config);
+            ruleTester = new FlatRuleTester();
+
+            ruleTester.run("no-test-global", require("../../fixtures/testers/rule-tester/no-test-global"), {
+                valid: [
+                    "var test = 'foo'",
+                    "var test2 = test"
+                ],
+                invalid: [{ code: "bar", errors: 1, languageOptions: { globals: { foo: true } } }]
+            });
+        });
+
+        it("should throw an error if node.start is accessed with parser in default config", () => {
+            const enhancedParser = require("../../fixtures/parsers/enhanced-parser");
+
+            FlatRuleTester.setDefaultConfig({
+                languageOptions: {
+                    parser: enhancedParser
+                }
+            });
+            ruleTester = new FlatRuleTester();
+
+            /*
+             * Note: More robust test for start/end found later in file.
+             * This one is just for checking the default config has a
+             * parser that is wrapped.
+             */
+            const usesStartEndRule = {
+                create() {
+
+                    return {
+                        CallExpression(node) {
+                            noop(node.arguments[1].start);
+                        }
+                    };
+                }
+            };
+
+            assert.throws(() => {
+                ruleTester.run("uses-start-end", usesStartEndRule, {
+                    valid: ["foo(a, b)"],
+                    invalid: []
+                });
+            }, "Use node.range[0] instead of node.start");
+        });
+
     });
 
     describe("only", () => {
         describe("`itOnly` accessor", () => {
             describe("when `itOnly` is set", () => {
                 before(() => {
-                    RuleTester.itOnly = sinon.spy();
+                    FlatRuleTester.itOnly = sinon.spy();
                 });
                 after(() => {
-                    RuleTester.itOnly = void 0;
+                    FlatRuleTester.itOnly = void 0;
                 });
                 beforeEach(() => {
-                    RuleTester.itOnly.resetHistory();
-                    ruleTester = new RuleTester();
+                    FlatRuleTester.itOnly.resetHistory();
+                    ruleTester = new FlatRuleTester();
                 });
 
                 it("is called by exclusive tests", () => {
@@ -121,21 +224,21 @@ describe("RuleTester", () => {
                         invalid: []
                     });
 
-                    sinon.assert.calledWith(RuleTester.itOnly, "const notVar = 42;");
+                    sinon.assert.calledWith(FlatRuleTester.itOnly, "const notVar = 42;");
                 });
             });
 
             describe("when `it` is set and has an `only()` method", () => {
                 before(() => {
-                    RuleTester.it.only = () => {};
-                    sinon.spy(RuleTester.it, "only");
+                    FlatRuleTester.it.only = () => {};
+                    sinon.spy(FlatRuleTester.it, "only");
                 });
                 after(() => {
-                    RuleTester.it.only = void 0;
+                    FlatRuleTester.it.only = void 0;
                 });
                 beforeEach(() => {
-                    RuleTester.it.only.resetHistory();
-                    ruleTester = new RuleTester();
+                    FlatRuleTester.it.only.resetHistory();
+                    ruleTester = new FlatRuleTester();
                 });
 
                 it("is called by tests with `only` set", () => {
@@ -147,7 +250,7 @@ describe("RuleTester", () => {
                         invalid: []
                     });
 
-                    sinon.assert.calledWith(RuleTester.it.only, "const notVar = 42;");
+                    sinon.assert.calledWith(FlatRuleTester.it.only, "const notVar = 42;");
                 });
             });
 
@@ -169,7 +272,7 @@ describe("RuleTester", () => {
                 });
                 beforeEach(() => {
                     it.only.resetHistory();
-                    ruleTester = new RuleTester();
+                    ruleTester = new FlatRuleTester();
                 });
 
                 it("is called by tests with `only` set", () => {
@@ -203,7 +306,7 @@ describe("RuleTester", () => {
                     it.only = originalGlobalItOnly;
                 });
                 beforeEach(() => {
-                    ruleTester = new RuleTester();
+                    ruleTester = new FlatRuleTester();
                 });
 
                 it("throws an error recommending overriding `itOnly`", () => {
@@ -234,20 +337,20 @@ describe("RuleTester", () => {
                      * These tests override `describe` and `it`, so we need to
                      * un-override them here so they won't interfere.
                      */
-                    originalRuleTesterDescribe = RuleTester.describe;
-                    RuleTester.describe = void 0;
-                    originalRuleTesterIt = RuleTester.it;
-                    RuleTester.it = void 0;
+                    originalRuleTesterDescribe = FlatRuleTester.describe;
+                    FlatRuleTester.describe = void 0;
+                    originalRuleTesterIt = FlatRuleTester.it;
+                    FlatRuleTester.it = void 0;
                 });
                 after(() => {
 
                     // eslint-disable-next-line no-global-assign -- Restore Mocha global
                     it = originalGlobalIt;
-                    RuleTester.describe = originalRuleTesterDescribe;
-                    RuleTester.it = originalRuleTesterIt;
+                    FlatRuleTester.describe = originalRuleTesterDescribe;
+                    FlatRuleTester.it = originalRuleTesterIt;
                 });
                 beforeEach(() => {
-                    ruleTester = new RuleTester();
+                    ruleTester = new FlatRuleTester();
                 });
 
                 it("throws an error explaining that the current test framework does not support `only`", () => {
@@ -274,21 +377,21 @@ describe("RuleTester", () => {
             let spyRuleTesterItOnly;
 
             before(() => {
-                originalRuleTesterIt = RuleTester.it;
+                originalRuleTesterIt = FlatRuleTester.it;
                 spyRuleTesterIt = sinon.spy();
-                RuleTester.it = spyRuleTesterIt;
-                originalRuleTesterItOnly = RuleTester.itOnly;
+                FlatRuleTester.it = spyRuleTesterIt;
+                originalRuleTesterItOnly = FlatRuleTester.itOnly;
                 spyRuleTesterItOnly = sinon.spy();
-                RuleTester.itOnly = spyRuleTesterItOnly;
+                FlatRuleTester.itOnly = spyRuleTesterItOnly;
             });
             after(() => {
-                RuleTester.it = originalRuleTesterIt;
-                RuleTester.itOnly = originalRuleTesterItOnly;
+                FlatRuleTester.it = originalRuleTesterIt;
+                FlatRuleTester.itOnly = originalRuleTesterItOnly;
             });
             beforeEach(() => {
                 spyRuleTesterIt.resetHistory();
                 spyRuleTesterItOnly.resetHistory();
-                ruleTester = new RuleTester();
+                ruleTester = new FlatRuleTester();
             });
 
             it("isn't called for normal tests", () => {
@@ -339,7 +442,7 @@ describe("RuleTester", () => {
 
         describe("static helper wrapper", () => {
             it("adds `only` to string test cases", () => {
-                const test = RuleTester.only("const valid = 42;");
+                const test = FlatRuleTester.only("const valid = 42;");
 
                 assert.deepStrictEqual(test, {
                     code: "const valid = 42;",
@@ -348,7 +451,7 @@ describe("RuleTester", () => {
             });
 
             it("adds `only` to object test cases", () => {
-                const test = RuleTester.only({ code: "const valid = 42;" });
+                const test = FlatRuleTester.only({ code: "const valid = 42;" });
 
                 assert.deepStrictEqual(test, {
                     code: "const valid = 42;",
@@ -367,6 +470,20 @@ describe("RuleTester", () => {
                 { code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression" }] }
             ]
         });
+    });
+
+    it("should throw correct error when valid code is invalid and enables other core rule", () => {
+
+        assert.throws(() => {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [
+                    "/*eslint semi: 2*/ eval(foo);"
+                ],
+                invalid: [
+                    { code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression" }] }
+                ]
+            });
+        }, /Should have no errors but had 1/u);
     });
 
     it("should throw an error when valid code is invalid", () => {
@@ -895,7 +1012,7 @@ describe("RuleTester", () => {
             ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [],
                 invalid: [
-                    { code: "eval(`foo`)", output: "eval(`foo`);", errors: [{}] }
+                    { code: "eval(`foo`", output: "eval(`foo`);", errors: [{}] }
                 ]
             });
         }, /fatal parsing error/iu);
@@ -914,27 +1031,47 @@ describe("RuleTester", () => {
     it("should pass-through the globals config of valid tests to the to rule", () => {
         ruleTester.run("no-test-global", require("../../fixtures/testers/rule-tester/no-test-global"), {
             valid: [
-                "var test = 'foo'",
+                {
+                    code: "var test = 'foo'",
+                    languageOptions: {
+                        sourceType: "script"
+                    }
+                },
                 {
                     code: "var test2 = 'bar'",
-                    globals: { test: true }
+                    languageOptions: {
+                        globals: { test: true }
+                    }
                 }
             ],
             invalid: [{ code: "bar", errors: 1 }]
         });
     });
 
-    it("should pass-through the globals config of invalid tests to the to rule", () => {
+    it("should pass-through the globals config of invalid tests to the rule", () => {
         ruleTester.run("no-test-global", require("../../fixtures/testers/rule-tester/no-test-global"), {
-            valid: ["var test = 'foo'"],
+            valid: [
+                {
+                    code: "var test = 'foo'",
+                    languageOptions: {
+                        sourceType: "script"
+                    }
+                }
+            ],
             invalid: [
                 {
                     code: "var test = 'foo'; var foo = 'bar'",
+                    languageOptions: {
+                        sourceType: "script"
+                    },
                     errors: 1
                 },
                 {
                     code: "var test = 'foo'",
-                    globals: { foo: true },
+                    languageOptions: {
+                        sourceType: "script",
+                        globals: { foo: true }
+                    },
                     errors: [{ message: "Global variable foo should not be used." }]
                 }
             ]
@@ -1023,256 +1160,91 @@ describe("RuleTester", () => {
         }, /options must be an array/u);
     });
 
-    it("should pass-through the parser to the rule", () => {
-        const spy = sinon.spy(ruleTester.linter, "verify");
+    describe("Parsers", () => {
 
-        ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
-            valid: [
-                {
-                    code: "Eval(foo)"
-                }
-            ],
-            invalid: [
-                {
-                    code: "eval(foo)",
-                    parser: require.resolve("esprima"),
-                    errors: [{ line: 1 }]
-                }
-            ]
-        });
-        assert.strictEqual(spy.args[1][1].parser, require.resolve("esprima"));
-    });
+        it("should pass-through the parser to the rule", () => {
+            const spy = sinon.spy(ruleTester.linter, "verify");
+            const esprima = require("esprima");
 
-    it("should pass normalized ecmaVersion to the rule", () => {
-        const reportEcmaVersionRule = {
-            meta: {
-                messages: {
-                    ecmaVersionMessage: "context.parserOptions.ecmaVersion is {{type}} {{ecmaVersion}}."
-                }
-            },
-            create: context => ({
-                Program(node) {
-                    const { ecmaVersion } = context.parserOptions;
-
-                    context.report({
-                        node,
-                        messageId: "ecmaVersionMessage",
-                        data: { type: typeof ecmaVersion, ecmaVersion }
-                    });
-                }
-            })
-        };
-
-        const notEspree = require.resolve("../../fixtures/parsers/empty-program-parser");
-
-        ruleTester.run("report-ecma-version", reportEcmaVersionRule, {
-            valid: [],
-            invalid: [
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }]
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
-                    parserOptions: {}
-                },
-                {
-                    code: "<div/>",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
-                    parserOptions: { ecmaFeatures: { jsx: true } }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
-                    parser: require.resolve("espree")
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
-                    parserOptions: { ecmaVersion: 6 }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
-                    parserOptions: { ecmaVersion: 2015 }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
-                    env: { browser: true }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
-                    env: { es6: false }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
-                    env: { es6: true }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "8" } }],
-                    env: { es6: false, es2017: true }
-                },
-                {
-                    code: "let x",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
-                    env: { es6: "truthy" }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "8" } }],
-                    env: { es2017: true }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "11" } }],
-                    env: { es2020: true }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "12" } }],
-                    env: { es2021: true }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
-                    parserOptions: { ecmaVersion: "latest" }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
-                    parser: require.resolve("espree"),
-                    parserOptions: { ecmaVersion: "latest" }
-                },
-                {
-                    code: "<div/>",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
-                    parserOptions: { ecmaVersion: "latest", ecmaFeatures: { jsx: true } }
-                },
-                {
-                    code: "import 'foo'",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
-                    parserOptions: { ecmaVersion: "latest", sourceType: "module" }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
-                    parserOptions: { ecmaVersion: "latest" },
-                    env: { es6: true }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
-                    parserOptions: { ecmaVersion: "latest" },
-                    env: { es2020: true }
-                },
-
-                // Non-Espree parsers normalize ecmaVersion if it's not "latest"
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
-                    parser: notEspree
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
-                    parser: notEspree,
-                    parserOptions: {}
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "5" } }],
-                    parser: notEspree,
-                    parserOptions: { ecmaVersion: 5 }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
-                    parser: notEspree,
-                    parserOptions: { ecmaVersion: 6 }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: 6 } }],
-                    parser: notEspree,
-                    parserOptions: { ecmaVersion: 2015 }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "string", ecmaVersion: "latest" } }],
-                    parser: notEspree,
-                    parserOptions: { ecmaVersion: "latest" }
-                }
-            ]
-        });
-
-        [{ parserOptions: { ecmaVersion: 6 } }, { env: { es6: true } }].forEach(options => {
-            new RuleTester(options).run("report-ecma-version", reportEcmaVersionRule, {
-                valid: [],
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [
+                    {
+                        code: "Eval(foo)"
+                    }
+                ],
                 invalid: [
                     {
-                        code: "",
-                        errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }]
-                    },
+                        code: "eval(foo)",
+                        languageOptions: {
+                            parser: esprima
+                        },
+                        errors: [{ line: 1 }]
+                    }
+                ]
+            });
+
+            const configs = spy.args[1][1];
+            const config = configs.getConfig("test.js");
+
+            assert.strictEqual(
+                config.languageOptions.parser[Symbol.for("eslint.RuleTester.parser")],
+                esprima
+            );
+        });
+
+        it("should pass-through services from parseForESLint to the rule", () => {
+            const enhancedParser = require("../../fixtures/parsers/enhanced-parser");
+            const disallowHiRule = {
+                create: context => ({
+                    Literal(node) {
+                        const disallowed = context.parserServices.test.getMessage(); // returns "Hi!"
+
+                        if (node.value === disallowed) {
+                            context.report({ node, message: `Don't use '${disallowed}'` });
+                        }
+                    }
+                })
+            };
+
+            ruleTester.run("no-hi", disallowHiRule, {
+                valid: [
                     {
-                        code: "",
-                        errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
-                        parserOptions: {}
+                        code: "'Hello!'",
+                        languageOptions: {
+                            parser: enhancedParser
+                        }
+                    }
+                ],
+                invalid: [
+                    {
+                        code: "'Hi!'",
+                        languageOptions: {
+                            parser: enhancedParser
+                        },
+                        errors: [{ message: "Don't use 'Hi!'" }]
                     }
                 ]
             });
         });
 
-        new RuleTester({ parser: notEspree }).run("report-ecma-version", reportEcmaVersionRule, {
-            valid: [],
-            invalid: [
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }]
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "string", ecmaVersion: "latest" } }],
-                    parserOptions: { ecmaVersion: "latest" }
-                }
-            ]
+        it("should throw an error when the parser is not an object", () => {
+            assert.throws(() => {
+                ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        languageOptions: {
+                            parser: "esprima"
+                        },
+                        errors: 1
+                    }]
+                });
+            }, /Parser must be an object with a parse\(\) or parseForESLint\(\) method/u);
+
         });
+
     });
 
-    it("should pass-through services from parseForESLint to the rule", () => {
-        const enhancedParserPath = require.resolve("../../fixtures/parsers/enhanced-parser");
-        const disallowHiRule = {
-            create: context => ({
-                Literal(node) {
-                    const disallowed = context.parserServices.test.getMessage(); // returns "Hi!"
-
-                    if (node.value === disallowed) {
-                        context.report({ node, message: `Don't use '${disallowed}'` });
-                    }
-                }
-            })
-        };
-
-        ruleTester.run("no-hi", disallowHiRule, {
-            valid: [
-                {
-                    code: "'Hello!'",
-                    parser: enhancedParserPath
-                }
-            ],
-            invalid: [
-                {
-                    code: "'Hi!'",
-                    parser: enhancedParserPath,
-                    errors: [{ message: "Don't use 'Hi!'" }]
-                }
-            ]
-        });
-    });
 
     it("should prevent invalid options schemas", () => {
         assert.throws(() => {
@@ -1352,7 +1324,7 @@ describe("RuleTester", () => {
         }, /ESLint configuration in rule-tester is invalid./u);
     });
 
-    it("throw an error when an invalid config value is included", () => {
+    it("throw an error when env is included in config", () => {
         assert.throws(() => {
             ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [
@@ -1360,12 +1332,14 @@ describe("RuleTester", () => {
                 ],
                 invalid: []
             });
-        }, /Property "env" is the wrong type./u);
+        }, /Unexpected key "env" found./u);
     });
 
     it("should pass-through the tester config to the rule", () => {
-        ruleTester = new RuleTester({
-            globals: { test: true }
+        ruleTester = new FlatRuleTester({
+            languageOptions: {
+                globals: { test: true }
+            }
         });
 
         ruleTester.run("no-test-global", require("../../fixtures/testers/rule-tester/no-test-global"), {
@@ -1373,65 +1347,7 @@ describe("RuleTester", () => {
                 "var test = 'foo'",
                 "var test2 = test"
             ],
-            invalid: [{ code: "bar", errors: 1, globals: { foo: true } }]
-        });
-    });
-
-    it("should correctly set the globals configuration", () => {
-        const config = { globals: { test: true } };
-
-        RuleTester.setDefaultConfig(config);
-        assert(
-            RuleTester.getDefaultConfig().globals.test,
-            "The default config object is incorrect"
-        );
-    });
-
-    it("should correctly reset the global configuration", () => {
-        const config = { globals: { test: true } };
-
-        RuleTester.setDefaultConfig(config);
-        RuleTester.resetDefaultConfig();
-        assert.deepStrictEqual(
-            RuleTester.getDefaultConfig(),
-            { rules: {} },
-            "The default configuration has not reset correctly"
-        );
-    });
-
-    it("should enforce the global configuration to be an object", () => {
-
-        /**
-         * Set the default config for the rules tester
-         * @param {Object} config configuration object
-         * @returns {Function} Function to be executed
-         * @private
-         */
-        function setConfig(config) {
-            return function() {
-                RuleTester.setDefaultConfig(config);
-            };
-        }
-        assert.throw(setConfig());
-        assert.throw(setConfig(1));
-        assert.throw(setConfig(3.14));
-        assert.throw(setConfig("foo"));
-        assert.throw(setConfig(null));
-        assert.throw(setConfig(true));
-    });
-
-    it("should pass-through the globals config to the tester then to the to rule", () => {
-        const config = { globals: { test: true } };
-
-        RuleTester.setDefaultConfig(config);
-        ruleTester = new RuleTester();
-
-        ruleTester.run("no-test-global", require("../../fixtures/testers/rule-tester/no-test-global"), {
-            valid: [
-                "var test = 'foo'",
-                "var test2 = test"
-            ],
-            invalid: [{ code: "bar", errors: 1, globals: { foo: true } }]
+            invalid: [{ code: "bar", errors: 1, languageOptions: { globals: { foo: true } } }]
         });
     });
 
@@ -1452,6 +1368,39 @@ describe("RuleTester", () => {
                 ]
             });
         }, "Rule should not modify AST.");
+    });
+
+    it("should throw an error node.start is accessed with custom parser", () => {
+        const enhancedParser = require("../../fixtures/parsers/enhanced-parser");
+
+        ruleTester = new FlatRuleTester({
+            languageOptions: {
+                parser: enhancedParser
+            }
+        });
+
+        /*
+         * Note: More robust test for start/end found later in file.
+         * This one is just for checking the custom config has a
+         * parser that is wrapped.
+         */
+        const usesStartEndRule = {
+            create() {
+
+                return {
+                    CallExpression(node) {
+                        noop(node.arguments[1].start);
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("uses-start-end", usesStartEndRule, {
+                valid: ["foo(a, b)"],
+                invalid: []
+            });
+        }, "Use node.range[0] instead of node.start");
     });
 
     it("should throw an error if AST was modified (at Program)", () => {
@@ -1561,48 +1510,48 @@ describe("RuleTester", () => {
             });
         }, "Use token.range[1] instead of token.end");
 
-        const enhancedParserPath = require.resolve("../../fixtures/parsers/enhanced-parser");
+        const enhancedParser = require("../../fixtures/parsers/enhanced-parser");
 
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
-                valid: [{ code: "foo(a, b)", parser: enhancedParserPath }],
+                valid: [{ code: "foo(a, b)", languageOptions: { parser: enhancedParser } }],
                 invalid: []
             });
         }, "Use node.range[0] instead of node.start");
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
                 valid: [],
-                invalid: [{ code: "var a = b * (c + d) / e;", parser: enhancedParserPath, errors: 1 }]
+                invalid: [{ code: "var a = b * (c + d) / e;", languageOptions: { parser: enhancedParser }, errors: 1 }]
             });
         }, "Use node.range[1] instead of node.end");
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
                 valid: [],
-                invalid: [{ code: "var a = -b * c;", parser: enhancedParserPath, errors: 1 }]
+                invalid: [{ code: "var a = -b * c;", languageOptions: { parser: enhancedParser }, errors: 1 }]
             });
         }, "Use token.range[0] instead of token.start");
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
-                valid: [{ code: "var a = b ? c : d;", parser: enhancedParserPath }],
+                valid: [{ code: "var a = b ? c : d;", languageOptions: { parser: enhancedParser } }],
                 invalid: []
             });
         }, "Use token.range[1] instead of token.end");
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
-                valid: [{ code: "function f() { /* comment */ }", parser: enhancedParserPath }],
+                valid: [{ code: "function f() { /* comment */ }", languageOptions: { parser: enhancedParser } }],
                 invalid: []
             });
         }, "Use token.range[0] instead of token.start");
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
                 valid: [],
-                invalid: [{ code: "var x = //\n {\n //comment\n //\n}", parser: enhancedParserPath, errors: 1 }]
+                invalid: [{ code: "var x = //\n {\n //comment\n //\n}", languageOptions: { parser: enhancedParser }, errors: 1 }]
             });
         }, "Use token.range[1] instead of token.end");
 
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
-                valid: [{ code: "@foo class A {}", parser: require.resolve("../../fixtures/parsers/enhanced-parser2") }],
+                valid: [{ code: "@foo class A {}", languageOptions: { parser: require("../../fixtures/parsers/enhanced-parser2") } }],
                 invalid: []
             });
         }, "Use node.range[0] instead of node.start");
@@ -2538,16 +2487,16 @@ describe("RuleTester", () => {
         let spyRuleTesterIt;
 
         before(() => {
-            originalRuleTesterIt = RuleTester.it;
+            originalRuleTesterIt = FlatRuleTester.it;
             spyRuleTesterIt = sinon.spy();
-            RuleTester.it = spyRuleTesterIt;
+            FlatRuleTester.it = spyRuleTesterIt;
         });
         after(() => {
-            RuleTester.it = originalRuleTesterIt;
+            FlatRuleTester.it = originalRuleTesterIt;
         });
         beforeEach(() => {
             spyRuleTesterIt.resetHistory();
-            ruleTester = new RuleTester();
+            ruleTester = new FlatRuleTester();
         });
         it("should present newline when using back-tick as new line", () => {
             const code = `
@@ -2629,7 +2578,6 @@ describe("RuleTester", () => {
     });
 
     describe("Subclassing", () => {
-
         it("should allow subclasses to set the describe/it/itOnly statics and should correctly use those values", () => {
             const assertionDescribe = assertEmitted(ruleTesterTestEmitter, "custom describe", "this-is-a-rule-name");
             const assertionIt = assertEmitted(ruleTesterTestEmitter, "custom it", "valid(code);");
@@ -2638,7 +2586,7 @@ describe("RuleTester", () => {
             /**
              * Subclass for testing
              */
-            class RuleTesterSubclass extends RuleTester { }
+            class RuleTesterSubclass extends FlatRuleTester { }
             RuleTesterSubclass.describe = function(text, method) {
                 ruleTesterTestEmitter.emit("custom describe", text, method);
                 return method.call(this);
