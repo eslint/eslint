@@ -153,5 +153,5 @@ global.eval("var a = 0");
 
 ## Further Reading
 
-* [Eval is Evil, Part One](https://blogs.msdn.com/b/ericlippert/archive/2003/11/01/53329.aspx)
+* [Eval is Evil, Part One](https://ericlippert.com/2003/11/01/eval-is-evil-part-one/)
 * [How evil is eval](https://javascriptweblog.wordpress.com/2010/04/19/how-evil-is-eval/)
