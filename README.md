@@ -48,19 +48,19 @@ Prerequisites: [Node.js](https://nodejs.org/) (`^12.22.0`, `^14.17.0`, or `>=16.
 You can install ESLint using npm:
 
 ```sh
-$ npm install eslint --save-dev
+npm install eslint --save-dev
 ```
 
 You should then set up a configuration file:
 
 ```sh
-$ npm init @eslint/config
+npm init @eslint/config
 ```
 
 After that, you can run ESLint on any file or directory like this:
 
 ```sh
-$ ./node_modules/.bin/eslint yourfile.js
+./node_modules/.bin/eslint yourfile.js
 ```
 
 ## <a name="configuration"></a>Configuration

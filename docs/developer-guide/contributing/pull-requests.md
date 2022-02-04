@@ -31,7 +31,7 @@ Details about each step are found below.
 The first step to sending a pull request is to create a new branch in your ESLint fork. Give the branch a descriptive name that describes what it is you're fixing, such as:
 
 ```shell
-$ git checkout -b issue1234
+git checkout -b issue1234
 ```
 
 You should do all of your development for the issue in this branch.
@@ -43,8 +43,8 @@ You should do all of your development for the issue in this branch.
 Make the changes to the code and tests, following the [code conventions](../code-conventions.md) as you go. Once you have finished, commit the changes to your branch:
 
 ```shell
-$ git add -A
-$ git commit
+git add -A
+git commit
 ```
 
 All ESLint projects follow [Conventional Commits](https://www.conventionalcommits.org/) for our commit messages. Here's an example commit message:
@@ -150,13 +150,13 @@ Once your pull request is sent, it's time for the team to review it. As such, pl
 If your commit message is in the incorrect format, you'll be asked to update it. You can do so via:
 
 ```shell
-$ git commit --amend
+git commit --amend
 ```
 
 This will open up your editor so you can make changes. After that, you'll need to do a forced push to your branch:
 
 ```shell
-$ git push origin issue1234 -f
+git push origin issue1234 -f
 ```
 
 ### Updating the Code
@@ -164,9 +164,9 @@ $ git push origin issue1234 -f
 If we ask you to make code changes, there's no need to close the pull request and create a new one. Just go back to the branch on your fork and make your changes. Then, when you're ready, you can add your changes into the branch:
 
 ```shell
-$ git add -A
-$ git commit
-$ git push origin issue1234
+git add -A
+git commit
+git push origin issue1234
 ```
 
 When updating the code, it's usually better to add additional commits to your branch rather than amending the original commit, because reviewers can easily tell which changes were made in response to a particular review. When we merge pull requests, we will squash all the commits from your branch into a single commit on the `main` branch.
@@ -178,12 +178,12 @@ The commit messages in subsequent commits do not need to be in any specific form
 If your code is out-of-date, we might ask you to rebase. That means we want you to apply your changes on top of the latest upstream code. Make sure you have set up a [development environment](../development-environment.md) and then you can rebase using these commands:
 
 ```shell
-$ git fetch upstream
-$ git rebase upstream/main
+git fetch upstream
+git rebase upstream/main
 ```
 
 You might find that there are merge conflicts when you attempt to rebase. Please [resolve the conflicts](https://help.github.com/articles/resolving-merge-conflicts-after-a-git-rebase/) and then do a forced push to your branch:
 
 ```shell
-$ git push origin issue1234 -f
+git push origin issue1234 -f
 ```

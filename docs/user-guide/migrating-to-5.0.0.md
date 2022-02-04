@@ -100,7 +100,7 @@ For compatibility, ESLint v5 will treat `ecmaFeatures: { experimentalObjectRestS
 Previous versions of ESLint silently ignored any nonexistent files and globs provided on the command line:
 
 ```bash
-$ eslint nonexistent-file.js 'nonexistent-folder/**/*.js' # exits without any errors in ESLint v4
+eslint nonexistent-file.js 'nonexistent-folder/**/*.js' # exits without any errors in ESLint v4
 ```
 
 Many users found this behavior confusing, because if they made a typo in a filename, ESLint would appear to lint that file successfully while actually not linting anything.
