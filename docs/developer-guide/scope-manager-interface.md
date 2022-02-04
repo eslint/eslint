@@ -204,6 +204,11 @@ Those members are defined but not used in ESLint.
 * **Type:** `string`
 * **Description:** The name of this variable.
 
+#### scope
+
+* **Type:** `Scope`
+* **Description:** The scope in which this variable is defined.
+
 #### identifiers
 
 * **Type:** `ASTNode[]`
