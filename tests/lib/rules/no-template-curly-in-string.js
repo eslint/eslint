@@ -74,6 +74,36 @@ ruleTester.run("no-template-curly-in-string", rule, {
             code: "'Hello, ${{foo: \"bar\"}.foo}'",
             parserOptions,
             errors: [{ messageId }]
+        },
+        {
+            code: "'\\'Hello\\', ${\\'name\\'}'",
+            parserOptions,
+            errors: [{ messageId }]
+        },
+        {
+            code: "'\"Hello\", ${\"name\"}'",
+            parserOptions,
+            errors: [{ messageId }]
+        },
+        {
+            code: "'`Hello`, ${`name`}'",
+            parserOptions,
+            errors: [{ messageId }]
+        },
+        {
+            code: "\"'Hello', ${'name'}\"",
+            parserOptions,
+            errors: [{ messageId }]
+        },
+        {
+            code: "\"\\\"Hello\\\", ${\\\"name\\\"}\"",
+            parserOptions,
+            errors: [{ messageId }]
+        },
+        {
+            code: "\"`Hello`, ${`name`}\"",
+            parserOptions,
+            errors: [{ messageId }]
         }
     ]
 });
