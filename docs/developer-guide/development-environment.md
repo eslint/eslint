@@ -15,8 +15,8 @@ Go to <https://github.com/eslint/eslint> and click the "Fork" button. Follow the
 Once you've cloned the repository, run `npm install` to get all the necessary dependencies:
 
 ```shell
-$ cd eslint
-$ npm install
+cd eslint
+npm install
 ```
 
 You must be connected to the Internet for this step to work. You'll see a lot of utilities being downloaded.

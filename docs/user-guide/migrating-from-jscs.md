@@ -16,7 +16,7 @@ Before beginning the process of migrating to ESLint, it's helpful to understand 
 To install Polyjuice:
 
 ```shell
-$ npm install -g polyjuice
+npm install -g polyjuice
 ```
 
 Polyjuice works with JSON configuration files, so if you're using a JavaScript or YAML JSCS configuration file, you should first convert it into a JSON configuration file.
@@ -24,7 +24,7 @@ Polyjuice works with JSON configuration files, so if you're using a JavaScript o
 To convert your configuration file, pass in the location of your `.jscs.json` file using the `--jscs` flag:
 
 ```shell
-$ polyjuice --jscs .jscsrc.json > .eslintrc.json
+polyjuice --jscs .jscsrc.json > .eslintrc.json
 ```
 
 This creates a `.eslintrc.json` with the equivalent rules from `.jscsrc.json`.
@@ -32,7 +32,7 @@ This creates a `.eslintrc.json` with the equivalent rules from `.jscsrc.json`.
 If you have multiple `.jscsrc.json` files, you can pass them all and Polyjuice will combine them into one `.eslintrc.json` file:
 
 ```shell
-$ polyjuice --jscs .jscsrc.json ./foo/.jscsrc.json > .eslintrc.json
+polyjuice --jscs .jscsrc.json ./foo/.jscsrc.json > .eslintrc.json
 ```
 
 **Note:** Polyjuice does a good job of creating a reasonable ESLint configuration from your JSCS configuration, but it may not be 100%. You may still see different warnings than you saw with JSCS, and so you may need to further modify your configuration after using Polyjuice. This is especially true if you're using inline comments to enable/disable certain rules in JSCS (you'll need to manually convert those to use ESLint-style comments instead, see "Disabling Rules Inline" later in this page).
@@ -42,7 +42,7 @@ $ polyjuice --jscs .jscsrc.json ./foo/.jscsrc.json > .eslintrc.json
 If you don't want to convert your JSCS configuration directly into an ESLint configuration, then you can use ESLint's built-in wizard to get you started. Just run:
 
 ```shell
-$ npm init @eslint/config
+npm init @eslint/config
 ```
 
 You'll be guided through a series of questions that will help you setup a basic configuration file to get you started.
@@ -75,7 +75,7 @@ As an example, suppose that you are using the `airbnb` preset, so your `.jscsrc`
 In order to get the same functionality in ESLint, you would first need to install the `eslint-config-airbnb` shareable config package:
 
 ```shell
-$ npm install eslint-config-airbnb-base --save-dev
+npm install eslint-config-airbnb-base --save-dev
 ```
 
 And then you would modify your configuration file like this:
@@ -111,13 +111,13 @@ Both JSCS and ESLint have command line arguments corresponding to many of their 
 JSCS uses the `--fix` option to apply automatic fixes to code:
 
 ```shell
-$ jscs --fix file.js
+jscs --fix file.js
 ```
 
 ESLint has the same option:
 
 ```shell
-$ eslint --fix file.js
+eslint --fix file.js
 ```
 
 ### `--auto-configure`
@@ -125,13 +125,13 @@ $ eslint --fix file.js
 The JSCS `--auto-configure` option created a configuration based on what it found in a given file:
 
 ```shell
-$ jscs --auto-configure file.js
+jscs --auto-configure file.js
 ```
 
 In ESLint, there's a similar option when you use `--init`. Just select "Inspect your JavaScript file(s)":
 
 ```shell
-$ eslint --init
+eslint --init
 ? How would you like to configure ESLint? (Use arrow keys)
 > Answer questions about your style
   Use a popular style guide
@@ -143,15 +143,15 @@ $ eslint --init
 JSCS allows you to specify a configuration file to use on the command line using either `--config` or `-c`, such as:
 
 ```shell
-$ jscs --config myconfig.json file.js
-$ jscs -c myconfig.json file.js
+jscs --config myconfig.json file.js
+jscs -c myconfig.json file.js
 ```
 
 Both flags are also supported by ESLint:
 
 ```shell
-$ eslint --config myconfig.json file.js
-$ eslint -c myconfig.json file.js
+eslint --config myconfig.json file.js
+eslint -c myconfig.json file.js
 ```
 
 ## Piping Code Into ESLint
@@ -159,11 +159,11 @@ $ eslint -c myconfig.json file.js
 In JSCS, you can pipe code in like this:
 
 ```shell
-$ cat file.js | jscs
+cat file.js | jscs
 ```
 
 In ESLint, you can also pipe in code, but you need to use the `--stdin` flag:
 
 ```shell
-$ cat file.js | eslint --stdin
+cat file.js | eslint --stdin
 ```

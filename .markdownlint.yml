@@ -7,7 +7,6 @@ MD004:           # Unordered list style
 MD007:           # Unordered list indentation
     indent: 4
 MD013: false     # Line length
-MD014: false     # Dollar signs used before commands without showing output
 MD019: false     # Multiple spaces after hash on atx style header
 MD021: false     # Multiple spaces inside hashes on closed atx style header
 MD024: false     # Multiple headers with the same content
