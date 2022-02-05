@@ -985,6 +985,22 @@ ruleTester.run("no-shadow", rule, {
                 line: 1,
                 column: 36
             }]
+        },
+        {
+            code: "const x = () => { foo(x => x); }",
+            options: [{ ignoreOnInitialization: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 7
+                },
+                type: "Identifier",
+                line: 1,
+                column: 23
+            }]
         }
     ]
 });
