@@ -6085,7 +6085,31 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
-                "module.exports = function IsUnclampedIntegerElementType(type) {\n" +
+                "module.exports = function binaryExpressionIgnore(type) {\n" +
+                "\treturn type === 'Int8'\n" +
+                "    || type === 'Uint8'\n" +
+                "    || type === 'Int16'\n" +
+                "    || type === 'Uint16'\n" +
+                "    || type === 'Int32'\n" +
+                "    || type === 'Uint32';\n" +
+                "};",
+            options: ["tab", { BinaryExpression: "ignore" }]
+        },
+        {
+            code:
+                "module.exports = function binaryExpressionZero(type) {\n" +
+                "\treturn type === 'Int8'\n" +
+                "\t|| type === 'Uint8'\n" +
+                "\t|| type === 'Int16'\n" +
+                "\t|| type === 'Uint16'\n" +
+                "\t|| type === 'Int32'\n" +
+                "\t|| type === 'Uint32';\n" +
+                "};",
+            options: ["tab", { BinaryExpression: 0 }]
+        },
+        {
+            code:
+                "module.exports = function binaryExpressionOne(type) {\n" +
                 "\treturn type === 'Int8'\n" +
                 "\t\t|| type === 'Uint8'\n" +
                 "\t\t|| type === 'Int16'\n" +
@@ -6094,6 +6118,18 @@ ruleTester.run("indent", rule, {
                 "\t\t|| type === 'Uint32';\n" +
                 "};",
             options: ["tab", { BinaryExpression: 1 }]
+        },
+        {
+            code:
+                "module.exports = function binaryExpressionTwo(type) {\n" +
+                "\treturn type === 'Int8'\n" +
+                "\t\t\t|| type === 'Uint8'\n" +
+                "\t\t\t|| type === 'Int16'\n" +
+                "\t\t\t|| type === 'Uint16'\n" +
+                "\t\t\t|| type === 'Int32'\n" +
+                "\t\t\t|| type === 'Uint32';\n" +
+                "};",
+            options: ["tab", { BinaryExpression: 2 }]
         }
     ],
 
