@@ -845,6 +845,47 @@ if (foo) {
 }
 ```
 
+### BinaryExpression
+
+Examples of **correct** code for this rule with the default `2, { "BinaryExpression": "ignore" }` option:
+
+```js
+/*eslint indent: ["error", 2, { "BinaryExpression": "ignore" }]*/
+
+function f() {
+  return foo
+      || bar
+        || baz
+    || quux;
+}
+```
+
+Examples of **correct** code for this rule with the default `2, { "BinaryExpression": 1 }` option:
+
+```js
+/*eslint indent: ["error", 2, { "BinaryExpression": 1 }]*/
+
+function f() {
+  return foo
+    || bar
+    || baz
+    || quux;
+}
+```
+
+Examples of **correct** code for this rule with the `2, { "BinaryExpression": 0 }` option:
+
+```js
+/*eslint indent: ["error", 2, { "BinaryExpression": 0 }]*/
+
+function f() {
+  return foo
+  || bar
+  || baz
+  || quux;
+}
+```
+
 ## Compatibility
 
 * **JSHint**: `indent`
