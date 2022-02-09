@@ -865,6 +865,14 @@ const patterns = [
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
         errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
+    },
+
+    // in es3, "use strict" directives do not apply
+    {
+        code: "function foo() { 'use strict'; this.eval(); }",
+        parserOptions: { ecmaVersion: 3 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT],
+        invalid: []
     }
 ];
 
