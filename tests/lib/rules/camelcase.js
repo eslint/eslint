@@ -1455,16 +1455,31 @@ ruleTester.run("camelcase", rule, {
             `,
             options: [{ properties: "always", ignoreDestructuring: true }],
             parserOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "notCamelCase", data: { name: "some_property" } }]
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "some_property" },
+                    line: 3,
+                    column: 27
+                }
+            ]
         },
         {
             code: `
             const { some_property } = obj;
+            doSomething({ some_property });
             doSomething({ [some_property]: "bar" });
             `,
             options: [{ properties: "never", ignoreDestructuring: true }],
             parserOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "notCamelCase", data: { name: "some_property" } }]
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "some_property" },
+                    line: 4,
+                    column: 28
+                }
+            ]
         },
         {
             code: `
