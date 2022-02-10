@@ -242,6 +242,11 @@ class C {
         let qux;
     }
 }
+
+// declarations with multiple variables are allowed in for-loop initializers
+for (var i = 0, len = arr.length; i < len; i++) {
+    doSomething(arr[i]);
+}
 ```
 
 ### consecutive
