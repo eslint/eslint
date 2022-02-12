@@ -1,3 +1,22 @@
+v8.9.0 - February 11, 2022
+
+* [`68f64a9`](https://github.com/eslint/eslint/commit/68f64a9218341e5e9d83270c72587e1b413846de) feat: update eslint-scope to ignore `"use strict"` directives in ES3 (#15595) (Milos Djermanovic)
+* [`db57639`](https://github.com/eslint/eslint/commit/db576396d20f5e31af1a90f8e5d88e08284a1672) feat: add `es2016`, `es2018`, `es2019`, and `es2022` environments (#15587) (Milos Djermanovic)
+* [`586d45c`](https://github.com/eslint/eslint/commit/586d45c54b8468fb23376b7b2aedf984cf701cc2) chore: Upgrade to espree@9.3.1 (#15600) (Milos Djermanovic)
+* [`623e1e2`](https://github.com/eslint/eslint/commit/623e1e28643381025b393a379493d9baea9b4869) chore: Upgrade to eslint-visitor-keys@3.3.0 (#15599) (Milos Djermanovic)
+* [`570a036`](https://github.com/eslint/eslint/commit/570a03699c5abfbcde39bb00fba39329695771e5) docs: add `one-var` example with `for-loop` initializer (#15596) (Milos Djermanovic)
+* [`2dc38aa`](https://github.com/eslint/eslint/commit/2dc38aa653f1d5137a9abf82024c67a11620bb7c) feat: fix bug with arrow function return types in function-paren-newline (#15541) (Milos Djermanovic)
+* [`355b23d`](https://github.com/eslint/eslint/commit/355b23d0c4e050be4e53292f552a47c10ec6e00e) chore: fix outdated link to Code of Conduct in PR template (#15578) (Rich Trott)
+* [`417191d`](https://github.com/eslint/eslint/commit/417191dff0dbfa353675c409e25f27f578ee1559) docs: Remove the $ prefix in terminal commands (#15565) (Andreas Lewis)
+* [`389ff34`](https://github.com/eslint/eslint/commit/389ff34e26cb8ebad49e5ace0280a1f859f8d7ca) docs: add missing `Variable#scope` property in the scope manager docs (#15571) (Milos Djermanovic)
+* [`b10fef2`](https://github.com/eslint/eslint/commit/b10fef25c99134d514fec4ddde19302661db5974) ci: use Node 16 for browser test (#15569) (Milos Djermanovic)
+* [`f63795d`](https://github.com/eslint/eslint/commit/f63795dc710f6394d884932034a3e0cbe48f4ad2) docs: no-eval replace dead link with working one (#15568) (rasenplanscher)
+* [`6f940c3`](https://github.com/eslint/eslint/commit/6f940c3ce715327f282c197d0f71b91848e5d83d) feat: Implement FlatRuleTester (#15519) (Nicholas C. Zakas)
+* [`0383591`](https://github.com/eslint/eslint/commit/0383591a6cd7083455af9e34fa9333da7fed46bf) docs: Remove old Markdown issue template (#15556) (Brandon Mills)
+* [`92f89fb`](https://github.com/eslint/eslint/commit/92f89fb0647fef10468fd70d6782a845d75330e3) chore: suggest demo link in bug report template (#15557) (Brandon Mills)
+* [`a8dd5a2`](https://github.com/eslint/eslint/commit/a8dd5a286bcb68595b85cd29490e081251a2c3c7) docs: add 'when not to use it' section in no-duplicate-case docs (#15563) (Milos Djermanovic)
+* [`1ad439e`](https://github.com/eslint/eslint/commit/1ad439ed1d6c4ee50183c8f5d146a771e6c1be4c) docs: add missed verb in docs (#15550) (Jeff Mosawy)
+
 v8.8.0 - January 28, 2022
 
 * [`5d60812`](https://github.com/eslint/eslint/commit/5d60812d440762dff72420714273c714c4c5d074) feat: implement rfc 2021-suppression-support (#15459) (Yiwei Ding)
