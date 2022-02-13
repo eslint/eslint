@@ -168,6 +168,7 @@ foo(function (err, result) {
 
 The `ignoreOnInitialization` option is `false` by default.
 If it is `true`, the rule prevents reporting variables on initialization statements, the shadowed variable must be on the left side and the shadowing variable must be on the right side.
+The option reports also the shadowing variables that are inside IIFE.
 
 Examples of **incorrect** code for the default `{ "ignoreOnInitialization": "true" }` option:
 
@@ -185,6 +186,8 @@ Examples of **correct** code for the `{ "ignoreOnInitialization": true }` option
 /*eslint no-shadow: ["error", { "ignoreOnInitialization": true }]*/
 
 var x = foo(x => x)
+
+var x = (x => x)()
 ```
 
 Because the shadowing variable x will shadow an uninitialized shadowed variable x.
