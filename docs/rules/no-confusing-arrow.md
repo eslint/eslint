@@ -8,7 +8,7 @@ Here's an example where the usage of `=>` could be confusing:
 
 ```js
 // The intent is not clear
-var x = (a) => (1 ? 2 : 3);
+var x = a => 1 ? 2 : 3;
 // Did the author mean this
 var x = function (a) {
     return 1 ? 2 : 3;
@@ -25,8 +25,8 @@ Examples of **incorrect** code for this rule:
 /*eslint no-confusing-arrow: "error"*/
 /*eslint-env es6*/
 
-var x = (a) => (1 ? 2 : 3);
-var x = (a) => (1 ? 2 : 3);
+var x = a => 1 ? 2 : 3;
+var x = (a) => 1 ? 2 : 3;
 ```
 
 Examples of **correct** code for this rule:
@@ -34,12 +34,8 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-confusing-arrow: "error"*/
 /*eslint-env es6*/
-
+var x = a => (1 ? 2 : 3);
 var x = (a) => (1 ? 2 : 3);
-var x = (a) => (1 ? 2 : 3);
-var x = (a) => {
-    return 1 ? 2 : 3;
-};
 var x = (a) => {
     return 1 ? 2 : 3;
 };
@@ -71,23 +67,27 @@ Examples of **incorrect** code for this rule with the `{"allowParens": false}` o
 /*eslint no-confusing-arrow: ["error", {"allowParens": false}]*/
 /*eslint-env es6*/
 var x = (a) => (1 ? 2 : 3);
-var x = (a) => (1 ? 2 : 3);
 ```
 
 `onlyOneSimpleParam` is a boolean setting that can be `true` or `false`(default):
 
-1. `true` relaxes the rule and doesn't report errors if 0 or more than 1 arguments is used or the argument is not an identifier.
+1. `true` relaxes the rule and doesn't report errors if the arrow function has 0 or more than 1 parameters, or the parameter is not an identifier.
+2. `false` warns regardless of parameters.
 
 Examples of **correct** code for this rule with the `{"onlyOneSimpleParam": true}` option:
 
 ```js
 /*eslint no-confusing-arrow: ["error", {"onlyOneSimpleParam": true}]*/
 /*eslint-env es6*/
-() => (1 ? 2 : 3);
-(a, b) => (1 ? 2 : 3);
+() => 1 ? 2 : 3;
+(a, b) => 1 ? 2 : 3;
+(a = b) => 1 ? 2 : 3;
+({ a }) => 1 ? 2 : 3;
+([a]) => 1 ? 2 : 3;
+(...a) => 1 ? 2 : 3;
 ```
 
 ## Related Rules
 
-*   [no-constant-condition](no-constant-condition.md)
-*   [arrow-parens](arrow-parens.md)
+* [no-constant-condition](no-constant-condition.md)
+* [arrow-parens](arrow-parens.md)
