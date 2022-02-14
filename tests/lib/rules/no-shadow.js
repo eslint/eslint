@@ -90,7 +90,8 @@ ruleTester.run("no-shadow", rule, {
         { code: "var y = bar && (y => y)();", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "var x = (x => x)((y => y)());", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "const { a = 1 } = (a => {})()", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "() => { const y = (y => y)(); }", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } }
+        { code: "() => { const y = (y => y)(); }", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const [x = y => y] = [].map(y => y)", parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
