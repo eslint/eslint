@@ -550,7 +550,7 @@ describe("FileEnumerator", () => {
         const files = {
             "file.js": "",
             ".eslintrc.json": JSON.stringify({
-                extends: ["eslint:recommended"]
+                extends: ["eslint:recommended", "eslint:all"]
             })
         };
         const { prepare, cleanup, getPath } = createCustomTeardown({ cwd: root, files });
