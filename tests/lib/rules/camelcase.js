@@ -407,6 +407,35 @@ ruleTester.run("camelcase", rule, {
             code: "class C { snake_case; #snake_case; #snake_case2() {} }",
             options: [{ properties: "never" }],
             parserOptions: { ecmaVersion: 2022 }
+        },
+
+        // Combinations of `properties` and `ignoreDestructring`
+        {
+            code: `
+            const { some_property } = obj;
+
+            const bar = { some_property };
+
+            obj.some_property = 10;
+
+            const xyz = { some_property: obj.some_property };
+
+            const foo = ({ some_property }) => {
+                console.log(some_property)
+            };
+            `,
+            options: [{ properties: "never", ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+
+        // https://github.com/eslint/eslint/issues/15572
+        {
+            code: `
+            const { some_property } = obj;
+            doSomething({ some_property });
+            `,
+            options: [{ properties: "never", ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -1416,6 +1445,78 @@ ruleTester.run("camelcase", rule, {
             options: [{ properties: "always" }],
             parserOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "notCamelCasePrivate", data: { name: "snake_case" } }]
+        },
+
+        // Combinations of `properties` and `ignoreDestructring`
+        {
+            code: `
+            const { some_property } = obj;
+            doSomething({ some_property });
+            `,
+            options: [{ properties: "always", ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "some_property" },
+                    line: 3,
+                    column: 27
+                }
+            ]
+        },
+        {
+            code: `
+            const { some_property } = obj;
+            doSomething({ some_property });
+            doSomething({ [some_property]: "bar" });
+            `,
+            options: [{ properties: "never", ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "some_property" },
+                    line: 4,
+                    column: 28
+                }
+            ]
+        },
+        {
+            code: `
+            const { some_property } = obj;
+
+            const bar = { some_property };
+
+            obj.some_property = 10;
+
+            const xyz = { some_property: obj.some_property };
+
+            const foo = ({ some_property }) => {
+                console.log(some_property)
+            };
+            `,
+            options: [{ properties: "always", ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "some_property" },
+                    line: 4,
+                    column: 27
+                },
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "some_property" },
+                    line: 6,
+                    column: 17
+                },
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "some_property" },
+                    line: 8,
+                    column: 27
+                }
+            ]
         }
     ]
 });
