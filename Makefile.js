@@ -73,7 +73,7 @@ const NODE = "node ", // intentional extra space
     JSON_FILES = find("conf/").filter(fileType("json")),
     MARKDOWNLINT_IGNORED_FILES = fs.readFileSync(path.join(__dirname, ".markdownlintignore"), "utf-8").split("\n"),
     MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")).filter(file => !MARKDOWNLINT_IGNORED_FILES.includes(file)),
-    TEST_FILES = "\"tests/{bin,lib,tools}/**/*.js\"",
+    TEST_FILES = "\"tests/{bin,conf,lib,tools}/**/*.js\"",
     PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslintrc.yml"),
     PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
     PERF_MULTIFILES_TARGETS = `"${PERF_MULTIFILES_TARGET_DIR + path.sep}{lib,tests${path.sep}lib}${path.sep}**${path.sep}*.js"`,
