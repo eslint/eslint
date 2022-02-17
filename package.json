@@ -122,6 +122,7 @@
     "node-polyfill-webpack-plugin": "^1.0.3",
     "npm-license": "^0.3.3",
     "nyc": "^15.0.1",
+    "pirates": "^4.0.5",
     "progress": "^2.0.3",
     "proxyquire": "^2.0.1",
     "puppeteer": "^9.1.1",

@@ -27,6 +27,7 @@ const {
 const hash = require("../../../lib/cli-engine/hash");
 const { unIndent, createCustomTeardown } = require("../../_utils");
 const coreRules = require("../../../lib/rules");
+const childProcess = require("child_process");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -6691,6 +6692,47 @@ describe("ESLint", () => {
                 const results = await engine.lintFiles("*/test.js");
 
                 assert.strictEqual(results.length, 2);
+            });
+        });
+    });
+
+    describe("loading rules", () => {
+        it("should not load unused core rules", done => {
+            let calledDone = false;
+
+            const cwd = getFixturePath("lazy-loading-rules");
+            const pattern = "foo.js";
+            const usedRules = ["semi"];
+
+            const forkedProcess = childProcess.fork(
+                path.join(__dirname, "../../_utils/test-lazy-loading-rules.js"),
+                [cwd, pattern, String(usedRules)]
+            );
+
+            // this is an error message
+            forkedProcess.on("message", ({ message, stack }) => {
+                if (calledDone) {
+                    return;
+                }
+                calledDone = true;
+
+                const error = new Error(message);
+
+                error.stack = stack;
+                done(error);
+            });
+
+            forkedProcess.on("exit", exitCode => {
+                if (calledDone) {
+                    return;
+                }
+                calledDone = true;
+
+                if (exitCode === 0) {
+                    done();
+                } else {
+                    done(new Error("Forked process exited with a non-zero exit code"));
+                }
             });
         });
     });
