@@ -453,7 +453,7 @@ describe("ESLint", () => {
                 const messageFromRule = messages.find(message => message.ruleId === ruleId);
 
                 assert.ok(
-                    typeof messageFromRule === "object" && messageFromRule !== null, // LintResult object
+                    typeof messageFromRule === "object" && messageFromRule !== null, // LintMessage object
                     `Expected a message from rule '${ruleId}'`
                 );
                 assert.strictEqual(messageFromRule.severity, 2);
