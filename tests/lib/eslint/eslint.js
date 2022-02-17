@@ -452,7 +452,10 @@ describe("ESLint", () => {
             expectedRules.forEach(ruleId => {
                 const messageFromRule = messages.find(message => message.ruleId === ruleId);
 
-                assert.ok(messageFromRule, `Expected a message from rule '${ruleId}'`);
+                assert.ok(
+                    typeof messageFromRule === "object" && messageFromRule !== null, // LintResult object
+                    `Expected a message from rule '${ruleId}'`
+                );
                 assert.strictEqual(messageFromRule.severity, 2);
             });
 
