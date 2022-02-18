@@ -30,7 +30,15 @@ ruleTester.run("no-confusing-arrow", rule, {
         { code: "var x = (a) => { return 1 ? 2 : 3; }", options: [{ allowParens: false }] },
 
         "var x = a => (1 ? 2 : 3)",
-        { code: "var x = a => (1 ? 2 : 3)", options: [{ allowParens: true }] }
+        { code: "var x = a => (1 ? 2 : 3)", options: [{ allowParens: true }] },
+
+        "var x = (a,b) => (1 ? 2 : 3)",
+        { code: "() => 1 ? 2 : 3", options: [{ onlyOneSimpleParam: true }] },
+        { code: "(a, b) => 1 ? 2 : 3", options: [{ onlyOneSimpleParam: true }] },
+        { code: "(a = b) => 1 ? 2 : 3", options: [{ onlyOneSimpleParam: true }] },
+        { code: "({ a }) => 1 ? 2 : 3", options: [{ onlyOneSimpleParam: true }] },
+        { code: "([a]) => 1 ? 2 : 3", options: [{ onlyOneSimpleParam: true }] },
+        { code: "(...a) => 1 ? 2 : 3", options: [{ onlyOneSimpleParam: true }] }
     ],
     invalid: [
         {
@@ -70,6 +78,48 @@ ruleTester.run("no-confusing-arrow", rule, {
         {
             code: "var x = (a) => 1 ? 2 : 3",
             output: "var x = (a) => (1 ? 2 : 3)",
+            errors: [{ messageId: "confusing" }]
+        },
+        {
+            code: "var x = () => 1 ? 2 : 3",
+            output: "var x = () => (1 ? 2 : 3)",
+            errors: [{ messageId: "confusing" }]
+        },
+        {
+            code: "var x = () => 1 ? 2 : 3",
+            output: "var x = () => (1 ? 2 : 3)",
+            options: [{}],
+            errors: [{ messageId: "confusing" }]
+        },
+        {
+            code: "var x = () => 1 ? 2 : 3",
+            output: "var x = () => (1 ? 2 : 3)",
+            options: [{ onlyOneSimpleParam: false }],
+            errors: [{ messageId: "confusing" }]
+        },
+        {
+            code: "var x = (a, b) => 1 ? 2 : 3",
+            output: "var x = (a, b) => (1 ? 2 : 3)",
+            errors: [{ messageId: "confusing" }]
+        },
+        {
+            code: "var x = (a = b) => 1 ? 2 : 3",
+            output: "var x = (a = b) => (1 ? 2 : 3)",
+            errors: [{ messageId: "confusing" }]
+        },
+        {
+            code: "var x = ({ a }) => 1 ? 2 : 3",
+            output: "var x = ({ a }) => (1 ? 2 : 3)",
+            errors: [{ messageId: "confusing" }]
+        },
+        {
+            code: "var x = ([a]) => 1 ? 2 : 3",
+            output: "var x = ([a]) => (1 ? 2 : 3)",
+            errors: [{ messageId: "confusing" }]
+        },
+        {
+            code: "var x = (...a) => 1 ? 2 : 3",
+            output: "var x = (...a) => (1 ? 2 : 3)",
             errors: [{ messageId: "confusing" }]
         }
     ]
