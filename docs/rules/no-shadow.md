@@ -166,11 +166,11 @@ foo(function (err, result) {
 
 ### ignoreOnInitialization
 
-The `ignoreOnInitialization` option is `false` by default.
-If it is `true`, the rule prevents reporting variables on initialization statements, the shadowed variable must be on the left side and the shadowing variable must be on the right side.
-The option reports also the shadowing variables that are inside IIFE.
+The `ignoreOnInitialization` option is `false` by default. If it is `true`, it prevents reporting shadowing of variables in their initializers when the shadowed variable is presumably still uninitialized.
 
-Examples of **incorrect** code for the default `{ "ignoreOnInitialization": "true" }` option:
+The shadowed variable must be on the left side. The shadowing variable must be on the right side and declared in a callback function or in an IIFE.
+
+Examples of **incorrect** code for the `{ "ignoreOnInitialization": "true" }` option:
 
 ```js
 /*eslint no-shadow: ["error", { "ignoreOnInitialization": true }]*/
@@ -178,7 +178,7 @@ Examples of **incorrect** code for the default `{ "ignoreOnInitialization": "tru
 var x = x => x;
 ```
 
-Because the shadowing variable x will shadow an initialized shadowed variable x.
+Because the shadowing variable `x` will shadow the already initialized shadowed variable `x`.
 
 Examples of **correct** code for the `{ "ignoreOnInitialization": true }` option:
 
@@ -187,10 +187,10 @@ Examples of **correct** code for the `{ "ignoreOnInitialization": true }` option
 
 var x = foo(x => x)
 
-var x = (x => x)()
+var y = (y => y)()
 ```
 
-Because the shadowing variable x will shadow an uninitialized shadowed variable x.
+The rationale for callback functions is the assumption that they will be called during the initialization, so that at the time when the shadowing variable will be used, the shadowed variable has not yet been initialized.
 
 ## Related Rules
 
