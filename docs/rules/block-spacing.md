@@ -75,3 +75,8 @@ class C {
 ## When Not To Use It
 
 If you don't want to be notified about spacing style inside of blocks, you can safely disable this rule.
+
+## Related Rules
+
+* [space-before-blocks](space-before-blocks.md)
+* [brace-style](brace-style.md)
