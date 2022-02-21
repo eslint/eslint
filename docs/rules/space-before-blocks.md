@@ -217,4 +217,5 @@ You can turn this rule off if you are not concerned with the consistency of spac
 * [keyword-spacing](keyword-spacing.md)
 * [arrow-spacing](arrow-spacing.md)
 * [switch-colon-spacing](switch-colon-spacing.md)
+* [block-spacing](block-spacing.md)
 * [brace-style](brace-style.md)
