@@ -6,7 +6,6 @@ If you want to contribute to an ESLint repo, please use a GitHub pull request. T
 
 If you'd like to work on a pull request and you've never submitted code before, follow these steps:
 
-1. Sign our [Contributor License Agreement](https://cla.js.foundation/eslint/eslint).
 1. Set up a [development environment](../development-environment.md).
 1. If you want to implement a breaking change or a change to the core, ensure there's an issue that describes what you're doing and the issue has been accepted. You can create a new issue or just indicate you're [working on an existing issue](working-on-issues.md). Bug fixes, documentation changes, and other pull requests do not require an issue.
 
@@ -136,6 +135,8 @@ git push -f origin issue1234
 ### Step 7: Send the pull request<a name="step7"></a>
 
 Now you're ready to send the pull request. Go to your ESLint fork and then follow the [GitHub documentation](https://help.github.com/articles/creating-a-pull-request) on how to send a pull request.
+
+In order to submit code or documentation to an ESLint project, you’ll be asked to sign our CLA when you send your first pull request. (Read more about the Open JS Foundation CLA process at <https://cla.openjsf.org/>.)
 
 ## Following Up
 
