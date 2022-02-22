@@ -37,3 +37,7 @@ Running individual tests is useful when you're working on a specific bug and ite
 ## More Control on Unit Testing
 
 `npm run test:cli` is an alias of the Mocha cli in `./node_modules/.bin/mocha`. [Options](https://mochajs.org/#command-line-usage) are available to be provided to help to better control the test to run.
+
+The default timeout for tests in `npm test` is 10000ms. You may change the timeout by providing `ESLINT_MOCHA_TIMEOUT` environment variable, for example:
+
+    ESLINT_MOCHA_TIMEOUT=20000 npm test
