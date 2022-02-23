@@ -770,7 +770,7 @@ describe("FlatESLint", () => {
             eslint = new FlatESLint({
                 cwd: path.join(fixtureDir, ".."),
                 extensions: [".js2"],
-                configFile: getFixturePath("eslint.config.js")
+                configFile: getFixturePath("eslint.config.js"),
             });
             const results = await eslint.lintFiles([getFixturePath("files/foo.js2")]);
 
@@ -801,7 +801,7 @@ describe("FlatESLint", () => {
                 extensions: [".js", ".js2"],
                 ignore: false,
                 cwd: getFixturePath(".."),
-                configFile: getFixturePath("eslint.config.js")
+                configFile: getFixturePath("eslint.config.js"),
             });
             const results = await eslint.lintFiles(["fixtures/files/"]);
 
@@ -815,7 +815,8 @@ describe("FlatESLint", () => {
                 extensions: [".js", ".js2"],
                 ignore: false,
                 cwd: path.join(fixtureDir, ".."),
-                configFile: getFixturePath("eslint.config.js")
+                configFile: getFixturePath("eslint.config.js"),
+
             });
             const results = await eslint.lintFiles(["fixtures/files/*"]);
 
@@ -829,7 +830,8 @@ describe("FlatESLint", () => {
                 extensions: [".js", ".js2"],
                 ignore: false,
                 cwd: getFixturePath(".."),
-                configFile: getFixturePath("eslint.config.js")
+                configFile: getFixturePath("eslint.config.js"),
+
             });
             const results = await eslint.lintFiles(["fixtures/files/*"]);
 
@@ -844,7 +846,8 @@ describe("FlatESLint", () => {
                 ignore: false,
                 cwd: getFixturePath(".."),
                 configFile: false,
-                globInputPaths: false
+                globInputPaths: false,
+
             });
 
             await assert.rejects(async () => {
@@ -852,7 +855,7 @@ describe("FlatESLint", () => {
             }, /No files matching 'fixtures\/files\/\*' were found \(glob was disabled\)\./u);
         });
 
-        describe.only("Ignoring Files", () => {
+        describe("Ignoring Files", () => {
 
             it("should report on all files passed explicitly, even if ignored by default", async () => {
                 eslint = new FlatESLint({
@@ -869,9 +872,10 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results[0].messages[0].message, expectedMsg);
             });
 
-            xit("should report on globs with explicit inclusion of dotfiles, even though ignored by default", async () => {
+            it("should report on globs with explicit inclusion of dotfiles", async () => {
                 eslint = new FlatESLint({
                     cwd: getFixturePath("cli-engine"),
+                    configFile: false,
                     overrideConfig: {
                         rules: {
                             quotes: [2, "single"]
@@ -1008,10 +1012,12 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results[0].fixableWarningCount, 0);
             });
 
-            it.only("should return two messages when given a file in excluded files list while ignore is off", async () => {
+            it("should return two messages when given a file in excluded files list while ignore is off", async () => {
                 eslint = new FlatESLint({
+                    cwd: getFixturePath(),
                     ignorePath: getFixturePath(".eslintignore"),
                     ignore: false,
+                    configFile: false,
                     overrideConfig: {
                         rules: {
                             "no-undef": 2
@@ -1035,7 +1041,8 @@ describe("FlatESLint", () => {
             eslint = new FlatESLint({
                 extensions: [".js", ".js2"],
                 ignore: false,
-                cwd: path.join(fixtureDir, "..")
+                cwd: path.join(fixtureDir, ".."),
+                configFile: false,
             });
             const results = await eslint.lintFiles(["fixtures/files/*.?s*"]);
 
@@ -1089,7 +1096,8 @@ describe("FlatESLint", () => {
         it("should process when file is given by not specifying extensions", async () => {
             eslint = new FlatESLint({
                 ignore: false,
-                cwd: path.join(fixtureDir, "..")
+                cwd: path.join(fixtureDir, ".."),
+                configFile: false,
             });
             const results = await eslint.lintFiles(["fixtures/files/foo.js2"]);
 
@@ -3160,7 +3168,7 @@ describe("FlatESLint", () => {
                     cwd: root,
                     files: {
                         "test.js": "/* globals foo */",
-                        ".eslintrc.yml": "noInlineConfig: true"
+                        "eslint.config.js": "module.exports = { linterOptions: { noInlineConfig: true } };"
                     }
                 });
 
@@ -3172,29 +3180,9 @@ describe("FlatESLint", () => {
                 const messages = results[0].messages;
 
                 assert.strictEqual(messages.length, 1);
-                assert.strictEqual(messages[0].message, "'/*globals*/' has no effect because you have 'noInlineConfig' setting in your config (.eslintrc.yml).");
+                assert.strictEqual(messages[0].message, "'/*globals*/' has no effect because you have 'noInlineConfig' setting in your config.");
             });
 
-            it("should show the config file what the 'noInlineConfig' came from.", async () => {
-                const teardown = createCustomTeardown({
-                    cwd: root,
-                    files: {
-                        "node_modules/eslint-config-foo/index.js": "module.exports = {noInlineConfig: true}",
-                        "test.js": "/* globals foo */",
-                        ".eslintrc.yml": "extends: foo"
-                    }
-                });
-
-                await teardown.prepare();
-                cleanup = teardown.cleanup;
-                eslint = new FlatESLint({ cwd: teardown.getPath() });
-
-                const results = await eslint.lintFiles(["test.js"]);
-                const messages = results[0].messages;
-
-                assert.strictEqual(messages.length, 1);
-                assert.strictEqual(messages[0].message, "'/*globals*/' has no effect because you have 'noInlineConfig' setting in your config (.eslintrc.yml » eslint-config-foo).");
-            });
         });
 
         describe("with 'reportUnusedDisableDirectives' setting", () => {
@@ -3213,7 +3201,7 @@ describe("FlatESLint", () => {
                     cwd: root,
                     files: {
                         "test.js": "/* eslint-disable eqeqeq */",
-                        ".eslintrc.yml": "reportUnusedDisableDirectives: true"
+                        "eslint.config.js": "module.exports = { linterOptions: { reportUnusedDisableDirectives: true } }"
                     }
                 });
 
@@ -3278,112 +3266,6 @@ describe("FlatESLint", () => {
                     assert.strictEqual(messages[0].severity, 2);
                     assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'eqeqeq').");
                 });
-            });
-        });
-
-        describe("with 'overrides[*].extends' setting on deep locations", () => {
-            const root = getFixturePath("cli-engine/deeply-overrides-i-extends");
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
-                files: {
-                    "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
-                        overrides: [{ files: ["*test*"], extends: "two" }]
-                    })}`,
-                    "node_modules/eslint-config-two/index.js": `module.exports = ${JSON.stringify({
-                        overrides: [{ files: ["*.js"], extends: "three" }]
-                    })}`,
-                    "node_modules/eslint-config-three/index.js": `module.exports = ${JSON.stringify({
-                        rules: { "no-console": "error" }
-                    })}`,
-                    "test.js": "console.log('hello')",
-                    ".eslintrc.yml": "extends: one"
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("should not throw.", async () => {
-                eslint = new FlatESLint({ cwd: getPath() });
-                const results = await eslint.lintFiles(["test.js"]);
-                const messages = results[0].messages;
-
-                assert.strictEqual(messages.length, 1);
-                assert.strictEqual(messages[0].ruleId, "no-console");
-            });
-        });
-
-        describe("don't ignore the entry directory.", () => {
-            const root = getFixturePath("cli-engine/dont-ignore-entry-dir");
-
-            let cleanup;
-
-            beforeEach(() => {
-                cleanup = () => { };
-            });
-
-            afterEach(async () => {
-                await cleanup();
-
-                const configFilePath = path.resolve(root, "../.eslintrc.json");
-
-                if (shell.test("-e", configFilePath)) {
-                    shell.rm(configFilePath);
-                }
-            });
-
-            it("'lintFiles(\".\")' should not load config files from outside of \".\".", async () => {
-                const teardown = createCustomTeardown({
-                    cwd: root,
-                    files: {
-                        "../.eslintrc.json": "BROKEN FILE",
-                        ".eslintrc.json": JSON.stringify({ root: true }),
-                        "index.js": "console.log(\"hello\")"
-                    }
-                });
-
-                await teardown.prepare();
-                cleanup = teardown.cleanup;
-                eslint = new FlatESLint({ cwd: teardown.getPath() });
-
-                // Don't throw "failed to load config file" error.
-                await eslint.lintFiles(".");
-            });
-
-            it("'lintFiles(\".\")' should not ignore '.' even if 'ignorePatterns' contains it.", async () => {
-                const teardown = createCustomTeardown({
-                    cwd: root,
-                    files: {
-                        "../.eslintrc.json": { ignorePatterns: ["/dont-ignore-entry-dir"] },
-                        ".eslintrc.json": { root: true },
-                        "index.js": "console.log(\"hello\")"
-                    }
-                });
-
-                await teardown.prepare();
-                cleanup = teardown.cleanup;
-                eslint = new FlatESLint({ cwd: teardown.getPath() });
-
-                // Don't throw "file not found" error.
-                await eslint.lintFiles(".");
-            });
-
-            it("'lintFiles(\"subdir\")' should not ignore './subdir' even if 'ignorePatterns' contains it.", async () => {
-                const teardown = createCustomTeardown({
-                    cwd: root,
-                    files: {
-                        ".eslintrc.json": { ignorePatterns: ["/subdir"] },
-                        "subdir/.eslintrc.json": { root: true },
-                        "subdir/index.js": "console.log(\"hello\")"
-                    }
-                });
-
-                await teardown.prepare();
-                cleanup = teardown.cleanup;
-                eslint = new FlatESLint({ cwd: teardown.getPath() });
-
-                // Don't throw "file not found" error.
-                await eslint.lintFiles("subdir");
             });
         });
 
@@ -3529,7 +3411,7 @@ describe("FlatESLint", () => {
         });
     });
 
-    describe("calculateConfigForFile", () => {
+    xdescribe("calculateConfigForFile", () => {
         it("should return the info from Config#getConfig when called", async () => {
             const options = {
                 configFile: getFixturePath("configurations", "quotes-error.json")
