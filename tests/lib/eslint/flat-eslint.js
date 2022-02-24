@@ -2617,7 +2617,7 @@ describe("FlatESLint", () => {
                     const { defineProcessor } = require("pattern-processor");
                     const processor = defineProcessor(${/```(\w+)\n([\s\S]+?)\n```/gu});
                     exports.processors = {
-                        ".md": { ...processor, supportsAutofix: true },
+                        "markdown": { ...processor, supportsAutofix: true },
                         "non-fixable": processor
                     };
                 `,
@@ -2626,7 +2626,7 @@ describe("FlatESLint", () => {
                     const processor = defineProcessor(${/<script lang="(\w*)">\n([\s\S]+?)\n<\/script>/gu});
                     const legacyProcessor = defineProcessor(${/<script lang="(\w*)">\n([\s\S]+?)\n<\/script>/gu}, true);
                     exports.processors = {
-                        ".html": { ...processor, supportsAutofix: true },
+                        "html": { ...processor, supportsAutofix: true },
                         "non-fixable": processor,
                         "legacy": legacyProcessor
                     };
@@ -2655,15 +2655,27 @@ describe("FlatESLint", () => {
 
             afterEach(() => cleanup());
 
-            it("should lint only JavaScript blocks if '--ext' was not given.", async () => {
+            it.only("should lint only JavaScript blocks if '--ext' was not given.", async () => {
                 const teardown = createCustomTeardown({
                     cwd: root,
                     files: {
                         ...commonFiles,
-                        ".eslintrc.json": {
-                            plugins: ["markdown", "html"],
-                            rules: { semi: "error" }
-                        }
+                        "eslint.config.js": `module.exports = [
+                            {
+                                plugins: {
+                                    markdown: require("eslint-plugin-markdown"),
+                                    html: require("eslint-plugin-html")
+                                }
+                            },
+                            {
+                                files: ["**/*.js"],
+                                rules: { semi: "error" }
+                            },
+                            {
+                                files: ["**/*.md"],
+                                processor: "markdown/markdown"
+                            }
+                        ];`
                     }
                 });
 
@@ -2671,22 +2683,38 @@ describe("FlatESLint", () => {
                 await teardown.prepare();
                 eslint = new FlatESLint({ cwd: teardown.getPath() });
                 const results = await eslint.lintFiles(["test.md"]);
-
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 1);
+console.dir(results[0])
+                assert.strictEqual(results.length, 1, "Should have one result.");
+                assert.strictEqual(results[0].messages.length, 1, "Should have one message.");
                 assert.strictEqual(results[0].messages[0].ruleId, "semi");
-                assert.strictEqual(results[0].messages[0].line, 2);
+                assert.strictEqual(results[0].messages[0].line, 2, "Message should be on line 2.");
             });
 
-            it("should fix only JavaScript blocks if '--ext' was not given.", async () => {
+            xit("should fix only JavaScript blocks if '--ext' was not given.", async () => {
                 const teardown = createCustomTeardown({
                     cwd: root,
                     files: {
                         ...commonFiles,
-                        ".eslintrc.json": {
-                            plugins: ["markdown", "html"],
-                            rules: { semi: "error" }
-                        }
+                        "eslint.config.js": `module.exports = [
+                            {
+                                plugins: {
+                                    markdown: require("eslint-plugin-markdown"),
+                                    html: require("eslint-plugin-html")
+                                }
+                            },
+                            {
+                                files: ["**/*.js"],
+                                rules: { semi: "error" }
+                            },
+                            {
+                                files: ["**/*.md"],
+                                processor: "markdown/markdown"
+                            },
+                            {
+                                files: ["**/*.html"],
+                                processor: "html/html"
+                            }
+                        ];`
                     }
                 });
 
@@ -2718,10 +2746,26 @@ describe("FlatESLint", () => {
                     cwd: root,
                     files: {
                         ...commonFiles,
-                        ".eslintrc.json": {
-                            plugins: ["markdown", "html"],
-                            rules: { semi: "error" }
-                        }
+                        "eslint.config.js": `module.exports = [
+                            {
+                                plugins: {
+                                    markdown: require("eslint-plugin-markdown"),
+                                    html: require("eslint-plugin-html")
+                                }
+                            },
+                            {
+                                files: ["**/*.js"],
+                                rules: { semi: "error" }
+                            },
+                            {
+                                files: ["**/*.md"],
+                                processor: "markdown/markdown"
+                            },
+                            {
+                                files: ["**/*.html"],
+                                processor: "html/html"
+                            }
+                        ];`
                     }
                 });
 
@@ -2729,13 +2773,13 @@ describe("FlatESLint", () => {
                 cleanup = teardown.cleanup;
                 eslint = new FlatESLint({ cwd: teardown.getPath(), extensions: ["js", "html"] });
                 const results = await eslint.lintFiles(["test.md"]);
-
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 2);
+                
+                assert.strictEqual(results.length, 1, "Should have one result.");
+                assert.strictEqual(results[0].messages.length, 2, "Should have two messages.");
                 assert.strictEqual(results[0].messages[0].ruleId, "semi"); // JS block
-                assert.strictEqual(results[0].messages[0].line, 2);
+                assert.strictEqual(results[0].messages[0].line, 2, "First error should be on line 2");
                 assert.strictEqual(results[0].messages[1].ruleId, "semi"); // JS block in HTML block
-                assert.strictEqual(results[0].messages[1].line, 7);
+                assert.strictEqual(results[0].messages[1].line, 7, "Second error should be on line 7.");
             });
 
             it("should fix HTML blocks as well with multiple processors if '--ext' option was given.", async () => {
@@ -2958,142 +3002,6 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results[0].messages[0].line, 2);
                 assert.strictEqual(results[0].messages[1].ruleId, "semi"); // JS block in HTML block
                 assert.strictEqual(results[0].messages[1].line, 7);
-            });
-        });
-
-        describe("MODULE_NOT_FOUND error handling", () => {
-            const cwd = getFixturePath("module-not-found");
-
-            beforeEach(() => {
-                eslint = new FlatESLint({ cwd });
-            });
-
-            it("should throw an error with a message template when 'extends' property has a non-existence JavaScript config.", async () => {
-                try {
-                    await eslint.lintText("test", { filePath: "extends-js/test.js" });
-                } catch (err) {
-                    assert.strictEqual(err.messageTemplate, "extend-config-missing");
-                    assert.deepStrictEqual(err.messageData, {
-                        configName: "nonexistent-config",
-                        importerName: getFixturePath("module-not-found", "extends-js", ".eslintrc.yml")
-                    });
-                    return;
-                }
-                assert.fail("Expected to throw an error");
-            });
-
-            it("should throw an error with a message template when 'extends' property has a non-existence plugin config.", async () => {
-                try {
-                    await eslint.lintText("test", { filePath: "extends-plugin/test.js" });
-                } catch (err) {
-                    assert.strictEqual(err.code, "MODULE_NOT_FOUND");
-                    assert.strictEqual(err.messageTemplate, "plugin-missing");
-                    assert.deepStrictEqual(err.messageData, {
-                        importerName: `extends-plugin${path.sep}.eslintrc.yml`,
-                        pluginName: "eslint-plugin-nonexistent-plugin",
-                        resolvePluginsRelativeTo: path.join(cwd, "extends-plugin") // the directory of the config file.
-                    });
-                    return;
-                }
-                assert.fail("Expected to throw an error");
-            });
-
-            it("should throw an error with a message template when 'plugins' property has a non-existence plugin.", async () => {
-                try {
-                    await eslint.lintText("test", { filePath: "plugins/test.js" });
-                } catch (err) {
-                    assert.strictEqual(err.code, "MODULE_NOT_FOUND");
-                    assert.strictEqual(err.messageTemplate, "plugin-missing");
-                    assert.deepStrictEqual(err.messageData, {
-                        importerName: `plugins${path.sep}.eslintrc.yml`,
-                        pluginName: "eslint-plugin-nonexistent-plugin",
-                        resolvePluginsRelativeTo: path.join(cwd, "plugins") // the directory of the config file.
-                    });
-                    return;
-                }
-                assert.fail("Expected to throw an error");
-            });
-
-            it("should throw an error with no message template when a JavaScript config threw a 'MODULE_NOT_FOUND' error.", async () => {
-                try {
-                    await eslint.lintText("test", { filePath: "throw-in-config-itself/test.js" });
-                } catch (err) {
-                    assert.strictEqual(err.code, "MODULE_NOT_FOUND");
-                    assert.strictEqual(err.messageTemplate, void 0);
-                    return;
-                }
-                assert.fail("Expected to throw an error");
-            });
-
-            it("should throw an error with no message template when 'extends' property has a JavaScript config that throws a 'MODULE_NOT_FOUND' error.", async () => {
-                try {
-                    await eslint.lintText("test", { filePath: "throw-in-extends-js/test.js" });
-                } catch (err) {
-                    assert.strictEqual(err.code, "MODULE_NOT_FOUND");
-                    assert.strictEqual(err.messageTemplate, void 0);
-                    return;
-                }
-                assert.fail("Expected to throw an error");
-            });
-
-            it("should throw an error with no message template when 'extends' property has a plugin config that throws a 'MODULE_NOT_FOUND' error.", async () => {
-                try {
-                    await eslint.lintText("test", { filePath: "throw-in-extends-plugin/test.js" });
-                } catch (err) {
-                    assert.strictEqual(err.code, "MODULE_NOT_FOUND");
-                    assert.strictEqual(err.messageTemplate, void 0);
-                    return;
-                }
-                assert.fail("Expected to throw an error");
-            });
-
-            it("should throw an error with no message template when 'plugins' property has a plugin config that throws a 'MODULE_NOT_FOUND' error.", async () => {
-                try {
-                    await eslint.lintText("test", { filePath: "throw-in-plugins/test.js" });
-                } catch (err) {
-                    assert.strictEqual(err.code, "MODULE_NOT_FOUND");
-                    assert.strictEqual(err.messageTemplate, void 0);
-                    return;
-                }
-                assert.fail("Expected to throw an error");
-            });
-        });
-
-        describe("with '--rulesdir' option", () => {
-
-            const rootPath = getFixturePath("cli-engine/with-rulesdir");
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: rootPath,
-                files: {
-                    "internal-rules/test.js": `
-                            module.exports = context => ({
-                                ExpressionStatement(node) {
-                                    context.report({ node, message: "ok" })
-                                }
-                            })
-                        `,
-                    ".eslintrc.json": {
-                        root: true,
-                        rules: { test: "error" }
-                    },
-                    "test.js": "console.log('hello')"
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-
-            it("should use the configured rules which are defined by '--rulesdir' option.", async () => {
-                eslint = new FlatESLint({
-                    cwd: getPath(),
-                    rulePaths: ["internal-rules"]
-                });
-                const results = await eslint.lintFiles(["test.js"]);
-
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].message, "ok");
             });
         });
 
