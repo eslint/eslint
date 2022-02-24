@@ -33,7 +33,7 @@ This rule disallows the following characters except where the options allow:
     \u2001 - Em Quad
     \u2002 - En Space - <ENSP>
     \u2003 - Em Space - <EMSP>
-    \u2004 - Tree-Per-Em
+    \u2004 - Three-Per-Em
     \u2005 - Four-Per-Em
     \u2006 - Six-Per-Em
     \u2007 - Figure Space
