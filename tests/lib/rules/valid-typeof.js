@@ -142,6 +142,10 @@ ruleTester.run("valid-typeof", rule, {
             errors: [{ messageId: "notString", type: "Identifier" }]
         },
         {
+            code: "if (typeof bar !== undefined) {}",
+            errors: [{ messageId: "notString", type: "Identifier" }]
+        },
+        {
             code: "typeof foo === undefined",
             options: [{ requireStringLiterals: true }],
             errors: [{ messageId: "notString", type: "Identifier" }]
