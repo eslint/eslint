@@ -44,11 +44,11 @@ if (true) {
 
 ## Options
 
-This rule takes one option, an object, with properties `"builtinGlobals"`, `"hoist"` and `"allow"`.
+This rule takes one option, an object, with properties `"builtinGlobals"`, `"hoist"`, `"allow"` and `"ignoreOnInitialization"`.
 
 ```json
 {
-    "no-shadow": ["error", { "builtinGlobals": false, "hoist": "functions", "allow": [] }]
+    "no-shadow": ["error", { "builtinGlobals": false, "hoist": "functions", "allow": [], "ignoreOnInitialization": false }]
 }
 ```
 
@@ -165,6 +165,34 @@ foo(function (err, result) {
   console.log({ err, result });
 });
 ```
+
+### ignoreOnInitialization
+
+The `ignoreOnInitialization` option is `false` by default. If it is `true`, it prevents reporting shadowing of variables in their initializers when the shadowed variable is presumably still uninitialized.
+
+The shadowed variable must be on the left side. The shadowing variable must be on the right side and declared in a callback function or in an IIFE.
+
+Examples of **incorrect** code for the `{ "ignoreOnInitialization": "true" }` option:
+
+```js
+/*eslint no-shadow: ["error", { "ignoreOnInitialization": true }]*/
+
+var x = x => x;
+```
+
+Because the shadowing variable `x` will shadow the already initialized shadowed variable `x`.
+
+Examples of **correct** code for the `{ "ignoreOnInitialization": true }` option:
+
+```js
+/*eslint no-shadow: ["error", { "ignoreOnInitialization": true }]*/
+
+var x = foo(x => x)
+
+var y = (y => y)()
+```
+
+The rationale for callback functions is the assumption that they will be called during the initialization, so that at the time when the shadowing variable will be used, the shadowed variable has not yet been initialized.
 
 ## Related Rules
 

@@ -63,7 +63,35 @@ ruleTester.run("no-shadow", rule, {
         { code: "class C { static { let x; } static { let x; } }", parserOptions: { ecmaVersion: 2022 } },
         { code: "class C { static { var x; { var x; /* redeclaration */ } } }", parserOptions: { ecmaVersion: 2022 } },
         { code: "class C { static { { var x; } { var x; /* redeclaration */ } } }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { { let x; } { let x; } } }", parserOptions: { ecmaVersion: 2022 } }
+        { code: "class C { static { { let x; } { let x; } } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "const a = [].find(a => a)", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const a = [].find(function(a) { return a; })", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const [a = [].find(a => true)] = dummy", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const { a = [].find(a => true) } = dummy", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "function func(a = [].find(a => true)) {}", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "for (const a in [].find(a => true)) {}", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "for (const a of [].find(a => true)) {}", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const a = [].map(a => true).filter(a => a === 'b')", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const a = [].map(a => true).filter(a => a === 'b').find(a => a === 'c')", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const { a } = (({ a }) => ({ a }))();", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const person = people.find(item => {const person = item.name; return person === 'foo'})", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var y = bar || foo(y => y);", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var y = bar && foo(y => y);", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var z = bar(foo(z => z));", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var z = boo(bar(foo(z => z)));", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var match = function (person) { return person.name === 'foo'; };\nconst person = [].find(match);", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const a = foo(x || (a => {}))", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const { a = 1 } = foo(a => {})", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const person = {...people.find((person) => person.firstName.startsWith('s'))}", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 2021 } },
+        { code: "const person = { firstName: people.filter((person) => person.firstName.startsWith('s')).map((person) => person.firstName)[0]}", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 2021 } },
+        { code: "() => { const y = foo(y => y); }", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const x = (x => x)()", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var y = bar || (y => y)();", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var y = bar && (y => y)();", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = (x => x)((y => y)());", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const { a = 1 } = (a => {})()", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "() => { const y = (y => y)(); }", options: [{ ignoreOnInitialization: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const [x = y => y] = [].map(y => y)", parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
@@ -858,6 +886,232 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 50
+            }]
+        },
+        {
+            code: "let x = foo((x,y) => {});\nlet y;",
+            options: [{ hoist: "all" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noShadow",
+                    data: {
+                        name: "x",
+                        shadowedLine: 1,
+                        shadowedColumn: 5
+                    },
+                    type: "Identifier"
+                },
+                {
+                    messageId: "noShadow",
+                    data: {
+                        name: "y",
+                        shadowedLine: 2,
+                        shadowedColumn: 5
+                    },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "const a = fn(()=>{ class C { fn () { const a = 42; return a } } return new C() })",
+            options: [{ ignoreOnInitialization: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 7
+                },
+                type: "Identifier",
+                line: 1,
+                column: 44
+            }]
+        },
+        {
+            code: "function a() {}\nfoo(a => {});",
+            options: [{ ignoreOnInitialization: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 10
+                },
+                type: "Identifier",
+                line: 2,
+                column: 5
+            }]
+        },
+        {
+            code: "const a = fn(()=>{ function C() { this.fn=function() { const a = 42; return a } } return new C() });",
+            options: [{ ignoreOnInitialization: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 7
+                },
+                type: "Identifier",
+                line: 1,
+                column: 62
+            }]
+        },
+        {
+            code: "const x = foo(() => { const bar = () => { return x => {}; }; return bar; });",
+            options: [{ ignoreOnInitialization: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 7
+                },
+                type: "Identifier",
+                line: 1,
+                column: 50
+            }]
+        },
+        {
+            code: "const x = foo(() => { return { bar(x) {} }; });",
+            options: [{ ignoreOnInitialization: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 7
+                },
+                type: "Identifier",
+                line: 1,
+                column: 36
+            }]
+        },
+        {
+            code: "const x = () => { foo(x => x); }",
+            options: [{ ignoreOnInitialization: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 7
+                },
+                type: "Identifier",
+                line: 1,
+                column: 23
+            }]
+        },
+        {
+            code: "const foo = () => { let x; bar(x => x); }",
+            options: [{ ignoreOnInitialization: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 25
+                },
+                type: "Identifier",
+                line: 1,
+                column: 32
+            }]
+        },
+        {
+            code: "foo(() => { const x = x => x; });",
+            options: [{ ignoreOnInitialization: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 19
+                },
+                type: "Identifier",
+                line: 1,
+                column: 23
+            }]
+        },
+        {
+            code: "const foo = (x) => { bar(x => {}) }",
+            options: [{ ignoreOnInitialization: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 14
+                },
+                type: "Identifier",
+                line: 1,
+                column: 26
+            }]
+        },
+        {
+            code: "let x = ((x,y) => {})();\nlet y;",
+            options: [{ hoist: "all" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noShadow",
+                    data: {
+                        name: "x",
+                        shadowedLine: 1,
+                        shadowedColumn: 5
+                    },
+                    type: "Identifier"
+                },
+                {
+                    messageId: "noShadow",
+                    data: {
+                        name: "y",
+                        shadowedLine: 2,
+                        shadowedColumn: 5
+                    },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "const a = (()=>{ class C { fn () { const a = 42; return a } } return new C() })()",
+            options: [{ ignoreOnInitialization: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "a",
+                    shadowedLine: 1,
+                    shadowedColumn: 7
+                },
+                type: "Identifier",
+                line: 1,
+                column: 42
+            }]
+        },
+        {
+            code: "const x = () => { (x => x)(); }",
+            options: [{ ignoreOnInitialization: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "noShadow",
+                data: {
+                    name: "x",
+                    shadowedLine: 1,
+                    shadowedColumn: 7
+                },
+                type: "Identifier",
+                line: 1,
+                column: 20
             }]
         }
     ]
