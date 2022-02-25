@@ -38,4 +38,4 @@ We're always looking for contributions from the community. This section explains
 
 ## Signing the CLA
 
-In order to submit code or documentation to an ESLint project, you will need to electronically sign our Contributor License Agreement. The CLA is the commonly used Apache-style template, and is you giving us permission to use your contribution. You only need to sign the CLA once for any OpenJS Foundation projects that use EasyCLA. You will be asked to sign the CLA in the first pull request you open. 
+In order to submit code or documentation to an ESLint project, you will need to electronically sign our Contributor License Agreement. The CLA is the commonly used Apache-style template, and is you giving us permission to use your contribution. You only need to sign the CLA once for any OpenJS Foundation projects that use EasyCLA. You will be asked to sign the CLA in the first pull request you open.
