@@ -1,3 +1,20 @@
+v8.10.0 - February 25, 2022
+
+* [`cdc5802`](https://github.com/eslint/eslint/commit/cdc58025d9a8b522f516c3665d225b69a76c4ee1) fix: Avoid `__dirname` for built-in configs (#15616) (DoZerg)
+* [`7cec74e`](https://github.com/eslint/eslint/commit/7cec74e842b6e51da1b00a9e9b2c9da97dd17362) chore: upgrade @eslint/eslintrc@1.2.0 (#15648) (Milos Djermanovic)
+* [`6e2c325`](https://github.com/eslint/eslint/commit/6e2c325324479df1b3f868cf00a529b67d2c3d82) feat: Add `ignoreOnInitialization` option to no-shadow rule (#14963) (Soufiane Boutahlil)
+* [`1005bd5`](https://github.com/eslint/eslint/commit/1005bd525a08208fee124149a6ad4cf9da20d7d5) docs: update CLA information (#15630) (Nitin Kumar)
+* [`5d65c3b`](https://github.com/eslint/eslint/commit/5d65c3bc1e514ed07406c502437a1642913b27ed) docs: Fix typo in `no-irregular-whitespace` (#15634) (Ryota Sekiya)
+* [`11c8580`](https://github.com/eslint/eslint/commit/11c8580de0dcedd5577cffe2b23d23a322cc97df) chore: read `ESLINT_MOCHA_TIMEOUT` env var in Makefile.js (#15626) (Piggy)
+* [`b93af98`](https://github.com/eslint/eslint/commit/b93af98b3c417225a027cabc964c38e779adb945) docs: add links between rules about whitespace around block curly braces (#15625) (Milos Djermanovic)
+* [`ebc0460`](https://github.com/eslint/eslint/commit/ebc0460c411ea608ba5bab05829a1fd122fe21e8) docs: update babel links (#15624) (Milos Djermanovic)
+* [`115cae5`](https://github.com/eslint/eslint/commit/115cae54125b9ef509af90620f51d4a692b51ab7) feat: `--debug` prints time it takes to parse a file (#15609) (Bartek Iwańczuk)
+* [`345e70d`](https://github.com/eslint/eslint/commit/345e70d9d6490fb12b18953f56f3cea28fd61d83) feat: Add `onlyOneSimpleParam` option to no-confusing-arrow rule (#15566) (Gautam Arora)
+* [`bfaa548`](https://github.com/eslint/eslint/commit/bfaa5488bbc794c0d160fb55bd277a2c618953b2) test: add integration tests with built-in configs (#15612) (Milos Djermanovic)
+* [`39a2fb3`](https://github.com/eslint/eslint/commit/39a2fb3f448a7096bfb2fc172fef6cc3f6a7ed3b) perf: fix lazy loading of core rules (#15606) (Milos Djermanovic)
+* [`3fc9196`](https://github.com/eslint/eslint/commit/3fc919626ef6a00e35bb6b559b60a1e89cf6ca1a) chore: include `tests/conf` in test runs (#15610) (Milos Djermanovic)
+* [`ee7c5d1`](https://github.com/eslint/eslint/commit/ee7c5d14a2cb5ce352d1851cec858b942572d2cc) fix: false positive in `camelcase` with combined properties (#15581) (Nitin Kumar)
+
 v8.9.0 - February 11, 2022
 
 * [`68f64a9`](https://github.com/eslint/eslint/commit/68f64a9218341e5e9d83270c72587e1b413846de) feat: update eslint-scope to ignore `"use strict"` directives in ES3 (#15595) (Milos Djermanovic)
