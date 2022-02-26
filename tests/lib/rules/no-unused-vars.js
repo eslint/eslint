@@ -164,7 +164,7 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "var [ firstItemIgnored, secondItem ] = items;\nconsole.log(secondItem);", options: [{ vars: "all", varsIgnorePattern: "[iI]gnored" }], parserOptions: { ecmaVersion: 6 } },
 
         // https://github.com/eslint/eslint/issues/15611
-        { code: "const [ _b ] = items;", options: [{ destructuredArrayIgnorePattern: "^_" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const [ a, _b, c ] = items;\nconsole.log(a+c);", options: [{ destructuredArrayIgnorePattern: "^_" }], parserOptions: { ecmaVersion: 6 } },
 
         // for-in loops (see #2342)
         "(function(obj) { var name; for ( name in obj ) return; })({});",
