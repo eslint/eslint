@@ -149,17 +149,17 @@ ruleTester.run("valid-typeof", rule, {
         {
             code: "typeof foo === undefined",
             options: [{ requireStringLiterals: true }],
-            errors: [{ messageId: "invalidValue", type: "Identifier" }]
+            errors: [{ messageId: "notString", type: "Identifier" }]
         },
         {
             code: "undefined === typeof foo",
             options: [{ requireStringLiterals: true }],
-            errors: [{ messageId: "invalidValue", type: "Identifier" }]
+            errors: [{ messageId: "notString", type: "Identifier" }]
         },
         {
             code: "undefined == typeof foo",
             options: [{ requireStringLiterals: true }],
-            errors: [{ messageId: "invalidValue", type: "Identifier" }]
+            errors: [{ messageId: "notString", type: "Identifier" }]
         },
         {
             code: "typeof foo === `undefined${foo}`",
