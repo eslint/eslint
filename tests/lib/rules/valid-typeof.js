@@ -139,7 +139,18 @@ ruleTester.run("valid-typeof", rule, {
         },
         {
             code: "if (typeof bar !== undefined) {}",
-            errors: [{ messageId: "invalidValue", type: "Identifier" }]
+            errors: [
+                {
+                    messageId: "invalidValue",
+                    type: "Identifier",
+                    data: { type: "undefined" },
+                    suggestions: [
+                        {
+                            messageId: "suggestString",
+                            output: 'if (typeof bar !== "undefined") {}'
+                        }
+                    ]
+                }]
         },
         {
             code: "typeof foo == Object",
