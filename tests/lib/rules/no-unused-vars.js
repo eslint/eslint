@@ -165,6 +165,8 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "const [ a, _b, c ] = items;\nconsole.log(a+c);", options: [{ destructuredArrayIgnorePattern: "^_" }], parserOptions: { ecmaVersion: 6 } },
         { code: "const { x: [_a, foo] } = bar;\nconsole.log(foo);", options: [{ destructuredArrayIgnorePattern: "^_" }], parserOptions: { ecmaVersion: 6 } },
         { code: "function baz([_b, foo]) { foo; };\nbaz()", options: [{ destructuredArrayIgnorePattern: "^_" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "function baz({x: [_b, foo]}) {foo};\nbaz()", options: [{ destructuredArrayIgnorePattern: "^_" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "function baz([{x: [_b, foo]}]) {foo};\nbaz()", options: [{ destructuredArrayIgnorePattern: "^_" }], parserOptions: { ecmaVersion: 6 } },
 
         // for-in loops (see #2342)
         "(function(obj) { var name; for ( name in obj ) return; })({});",
@@ -547,6 +549,23 @@ ruleTester.run("no-unused-vars", rule, {
                     ...assignedError("_a"),
                     line: 3,
                     column: 21
+                }
+            ]
+        },
+        {
+            code: `
+            function foo([{_a, bar}]) {
+                bar;
+            }
+            foo();
+            `,
+            options: [{ destructuredArrayIgnorePattern: "^_" }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                {
+                    ...definedError("_a"),
+                    line: 2,
+                    column: 28
                 }
             ]
         },
