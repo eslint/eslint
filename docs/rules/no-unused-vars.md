@@ -257,6 +257,11 @@ function baz([_c, x]) {
     x;
 }
 baz();
+
+function test({p: [_q, r]}) {
+    r;
+}
+test();
 ```
 
 ### caughtErrors
