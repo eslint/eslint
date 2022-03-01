@@ -247,9 +247,16 @@ Examples of **correct** code for the `{ "destructuredArrayIgnorePattern": "^_" }
 ```js
 /*eslint no-unused-vars: ["error", { "destructuredArrayIgnorePattern": "^_" }]*/
 
-const [a, _b, c] = ["a", "b", "c"]
+const [a, _b, c] = ["a", "b", "c"];
+console.log(a+c);
 
-console.log(a + c);
+const { x: [_a, foo] } = bar;
+console.log(foo);
+
+function baz([_c, x]) {
+    x;
+}
+baz();
 ```
 
 ### caughtErrors
