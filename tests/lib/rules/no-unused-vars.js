@@ -163,6 +163,7 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "function foo(a, _b) { return a; } foo();", options: [{ args: "after-used", argsIgnorePattern: "^_" }] },
         { code: "var [ firstItemIgnored, secondItem ] = items;\nconsole.log(secondItem);", options: [{ vars: "all", varsIgnorePattern: "[iI]gnored" }], parserOptions: { ecmaVersion: 6 } },
         { code: "const [ a, _b, c ] = items;\nconsole.log(a+c);", options: [{ destructuredArrayIgnorePattern: "^_" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "const [ [a, _b, c] ] = items;\nconsole.log(a+c);", options: [{ destructuredArrayIgnorePattern: "^_" }], parserOptions: { ecmaVersion: 6 } },
         { code: "const { x: [_a, foo] } = bar;\nconsole.log(foo);", options: [{ destructuredArrayIgnorePattern: "^_" }], parserOptions: { ecmaVersion: 6 } },
         { code: "function baz([_b, foo]) { foo; };\nbaz()", options: [{ destructuredArrayIgnorePattern: "^_" }], parserOptions: { ecmaVersion: 6 } },
         { code: "function baz({x: [_b, foo]}) {foo};\nbaz()", options: [{ destructuredArrayIgnorePattern: "^_" }], parserOptions: { ecmaVersion: 6 } },
