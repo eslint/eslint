@@ -10,6 +10,7 @@
 //------------------------------------------------------------------------------
 
 const path = require("path"),
+    { unIndent } = require("../../_utils"),
     rule = require("../../../lib/rules/comma-dangle"),
     { RuleTester } = require("../../../lib/rule-tester");
 
@@ -34,6 +35,29 @@ function parser(name) {
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
+
+ruleTester.defineRule("add-named-import", {
+    meta: {
+        fixable: "code"
+    },
+    create(context) {
+        return {
+            ImportDeclaration(node) {
+                const sourceCode = context.getSourceCode();
+                const closingBrace = sourceCode.getLastToken(node, token => token.value === "}");
+                const addComma = sourceCode.getTokenBefore(closingBrace).value !== ",";
+
+                context.report({
+                    message: "Add I18nManager.",
+                    node,
+                    fix(fixer) {
+                        return fixer.insertTextBefore(closingBrace, `${addComma ? "," : ""}I18nManager`);
+                    }
+                });
+            }
+        };
+    }
+});
 
 ruleTester.run("comma-dangle", rule, {
     valid: [
@@ -1766,6 +1790,66 @@ let d = 0;export {d,};
             output: "foo(a)",
             parserOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/15660
+        {
+            code: unIndent`
+                /*eslint add-named-import:1*/
+                import {
+                    StyleSheet,
+                    View,
+                    TextInput,
+                    ImageBackground,
+                    Image,
+                    TouchableOpacity,
+                    SafeAreaView
+                } from 'react-native';
+            `,
+            output: unIndent`
+                /*eslint add-named-import:1*/
+                import {
+                    StyleSheet,
+                    View,
+                    TextInput,
+                    ImageBackground,
+                    Image,
+                    TouchableOpacity,
+                    SafeAreaView,
+                } from 'react-native';
+            `,
+            options: [{ imports: "always-multiline" }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: 2
+        },
+        {
+            code: unIndent`
+                /*eslint add-named-import:1*/
+                import {
+                    StyleSheet,
+                    View,
+                    TextInput,
+                    ImageBackground,
+                    Image,
+                    TouchableOpacity,
+                    SafeAreaView,
+                } from 'react-native';
+            `,
+            output: unIndent`
+                /*eslint add-named-import:1*/
+                import {
+                    StyleSheet,
+                    View,
+                    TextInput,
+                    ImageBackground,
+                    Image,
+                    TouchableOpacity,
+                    SafeAreaView
+                } from 'react-native';
+            `,
+            options: [{ imports: "never" }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: 2
         }
     ]
 });
