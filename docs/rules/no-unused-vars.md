@@ -240,7 +240,7 @@ foo();
 
 ### destructuredArrayIgnorePattern
 
-The `destructuredArrayIgnorePattern` option specifies exceptions not to check for usage: destructuring assignments from an array whose names match a regexp pattern. For example, variables whose names begin with an underscore.
+The `destructuredArrayIgnorePattern` option specifies exceptions not to check for usage: elements of array destructuring patterns whose names match a regexp pattern. For example, variables whose names begin with an underscore.
 
 Examples of **correct** code for the `{ "destructuredArrayIgnorePattern": "^_" }` option:
 
