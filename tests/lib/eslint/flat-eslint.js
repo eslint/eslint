@@ -780,12 +780,19 @@ describe("FlatESLint", () => {
 
         it("should fall back to defaults when extensions is set to an empty array", async () => {
             eslint = new FlatESLint({
-                cwd: getFixturePath("configurations"),
-                configFile: getFixturePath("configurations", "quotes-error.js"),
+                cwd: getFixturePath(),
+                configFile: false,
+                ignore: false,
+                overrideConfig: {
+                    rules: {
+                        quotes: ["error", "double"]
+                    }
+                },
                 extensions: []
             });
-            const results = await eslint.lintFiles([getFixturePath("single-quoted.js")]);
 
+            const results = await eslint.lintFiles([getFixturePath("single-quoted.js")]);
+            
             assert.strictEqual(results.length, 1);
             assert.strictEqual(results[0].messages.length, 1);
             assert.strictEqual(results[0].messages[0].ruleId, "quotes");
@@ -840,14 +847,13 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[1].messages.length, 0);
         });
 
-        it("should not resolve globs when 'globInputPaths' option is false", async () => {
+        it.only("should not resolve globs when 'globInputPaths' option is false", async () => {
             eslint = new FlatESLint({
                 extensions: [".js", ".js2"],
                 ignore: false,
                 cwd: getFixturePath(".."),
                 configFile: false,
-                globInputPaths: false,
-
+                globInputPaths: false
             });
 
             await assert.rejects(async () => {
@@ -2931,7 +2937,7 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results[0].messages[2].line, 10);
             });
 
-            it.only("should throw an error if invalid processor was specified.", async () => {
+            it("should throw an error if invalid processor was specified.", async () => {
                 const teardown = createCustomTeardown({
                     cwd: root,
                     files: {
@@ -2983,7 +2989,7 @@ describe("FlatESLint", () => {
                         "b.js": "",
                         "ab.js": "",
                         "[ab].js": "",
-                        ".eslintrc.yml": "root: true"
+                        "eslint.config.js": "module.exports = [];"
                     }
                 });
 
@@ -3004,7 +3010,7 @@ describe("FlatESLint", () => {
                         "a.js": "",
                         "b.js": "",
                         "ab.js": "",
-                        ".eslintrc.yml": "root: true"
+                        "eslint.config.js": "module.exports = [];"
                     }
                 });
 
@@ -3034,7 +3040,7 @@ describe("FlatESLint", () => {
                     cwd: root,
                     files: {
                         "test.js": "/* globals foo */",
-                        "eslint.config.js": "module.exports = { linterOptions: { noInlineConfig: true } };"
+                        "eslint.config.js": "module.exports = [{ linterOptions: { noInlineConfig: true } }];"
                     }
                 });
 
