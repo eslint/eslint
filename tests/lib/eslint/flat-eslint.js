@@ -2879,32 +2879,40 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results[0].messages[1].line, 7);
             });
 
-            it.only("should use the same config as one which has 'processor' property in order to lint blocks in HTML if the processor was legacy style.", async () => {
+            it("should use the same config as one which has 'processor' property in order to lint blocks in HTML if the processor was legacy style.", async () => {
                 const teardown = createCustomTeardown({
                     cwd: root,
                     files: {
                         ...commonFiles,
-                        ".eslintrc.json": {
-                            plugins: ["markdown", "html"],
-                            rules: { semi: "error" },
-                            overrides: [
-                                {
-                                    files: "*.html",
-                                    processor: "html/legacy", // this processor returns strings rather than `{text, filename}`
-                                    rules: {
-                                        semi: "off",
-                                        "no-console": "error"
-                                    }
+                        "eslint.config.js": `module.exports = [
+                            {
+                                plugins: {
+                                    markdown: require("eslint-plugin-markdown"),
+                                    html: require("eslint-plugin-html")
                                 },
-                                {
-                                    files: "**/*.html/*.js",
-                                    rules: {
-                                        semi: "error",
-                                        "no-console": "off"
-                                    }
+                                rules: { semi: "error" }
+                            },
+                            {
+                                files: ["**/*.md"],
+                                processor: "markdown/markdown"
+                            },
+                            {
+                                files: ["**/*.html"],
+                                processor: "html/legacy",  // this processor returns strings rather than '{ text, filename }'
+                                rules: {
+                                    semi: "off",
+                                    "no-console": "error"
                                 }
-                            ]
-                        }
+                            },
+                            {
+                                files: ["**/*.html/*.js"],
+                                rules: {
+                                    semi: "error",
+                                    "no-console": "off"
+                                }
+                            }
+
+                        ];`
                     }
                 });
 
@@ -2923,15 +2931,24 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results[0].messages[2].line, 10);
             });
 
-            it("should throw an error if invalid processor was specified.", async () => {
+            it.only("should throw an error if invalid processor was specified.", async () => {
                 const teardown = createCustomTeardown({
                     cwd: root,
                     files: {
                         ...commonFiles,
-                        ".eslintrc.json": {
-                            plugins: ["markdown", "html"],
-                            processor: "markdown/unknown"
-                        }
+                        "eslint.config.js": `module.exports = [
+                            {
+                                plugins: {
+                                    markdown: require("eslint-plugin-markdown"),
+                                    html: require("eslint-plugin-html")
+                                }
+                            },
+                            {
+                                files: ["**/*.md"],
+                                processor: "markdown/unknown"
+                            }
+
+                        ];`
                     }
                 });
 
@@ -2941,43 +2958,9 @@ describe("FlatESLint", () => {
 
                 await assert.rejects(async () => {
                     await eslint.lintFiles(["test.md"]);
-                }, /ESLint configuration of processor in '\.eslintrc\.json' is invalid: 'markdown\/unknown' was not found\./u);
+                }, /Key "processor": Could not find "unknown" in plugin "markdown"/u);
             });
 
-            it("should lint HTML blocks as well with multiple processors if 'overrides[].files' is present.", async () => {
-                const teardown = createCustomTeardown({
-                    cwd: root,
-                    files: {
-                        ...commonFiles,
-                        ".eslintrc.json": {
-                            plugins: ["markdown", "html"],
-                            rules: { semi: "error" },
-                            overrides: [
-                                {
-                                    files: "*.html",
-                                    processor: "html/.html"
-                                },
-                                {
-                                    files: "*.md",
-                                    processor: "markdown/.md"
-                                }
-                            ]
-                        }
-                    }
-                });
-
-                await teardown.prepare();
-                cleanup = teardown.cleanup;
-                eslint = new FlatESLint({ cwd: teardown.getPath() });
-                const results = await eslint.lintFiles(["test.md"]);
-
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 2);
-                assert.strictEqual(results[0].messages[0].ruleId, "semi"); // JS block
-                assert.strictEqual(results[0].messages[0].line, 2);
-                assert.strictEqual(results[0].messages[1].ruleId, "semi"); // JS block in HTML block
-                assert.strictEqual(results[0].messages[1].line, 7);
-            });
         });
 
         describe("glob pattern '[ab].js'", () => {
