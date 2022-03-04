@@ -160,17 +160,50 @@ ruleTester.run("valid-typeof", rule, {
         {
             code: "typeof foo === undefined",
             options: [{ requireStringLiterals: true }],
-            errors: [{ messageId: "notString", type: "Identifier" }]
+            errors: [
+                {
+                    messageId: "notString",
+                    type: "Identifier",
+                    suggestions: [
+                        {
+                            messageId: "suggestString",
+                            data: { type: "undefined" },
+                            output: 'typeof foo === "undefined"'
+                        }
+                    ]
+                }]
         },
         {
             code: "undefined === typeof foo",
             options: [{ requireStringLiterals: true }],
-            errors: [{ messageId: "notString", type: "Identifier" }]
+            errors: [
+                {
+                    messageId: "notString",
+                    type: "Identifier",
+                    suggestions: [
+                        {
+                            messageId: "suggestString",
+                            data: { type: "undefined" },
+                            output: '"undefined" === typeof foo'
+                        }
+                    ]
+                }]
         },
         {
             code: "undefined == typeof foo",
             options: [{ requireStringLiterals: true }],
-            errors: [{ messageId: "notString", type: "Identifier" }]
+            errors: [
+                {
+                    messageId: "notString",
+                    type: "Identifier",
+                    suggestions: [
+                        {
+                            messageId: "suggestString",
+                            data: { type: "undefined" },
+                            output: '"undefined" == typeof foo'
+                        }
+                    ]
+                }]
         },
         {
             code: "typeof foo === `undefined${foo}`",
