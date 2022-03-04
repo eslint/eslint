@@ -847,7 +847,7 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[1].messages.length, 0);
         });
 
-        it.only("should not resolve globs when 'globInputPaths' option is false", async () => {
+        it("should not resolve globs when 'globInputPaths' option is false", async () => {
             eslint = new FlatESLint({
                 extensions: [".js", ".js2"],
                 ignore: false,
@@ -1059,8 +1059,14 @@ describe("FlatESLint", () => {
 
         it("should return one error message when given a config with rules with options and severity level set to error", async () => {
             eslint = new FlatESLint({
-                cwd: getFixturePath("configurations"),
-                configFile: getFixturePath("configurations", "quotes-error.js")
+                cwd: getFixturePath(),
+                configFile: false,
+                overrideConfig: {
+                    rules: {
+                        quotes: ["error", "double"]
+                    }
+                },
+                ignore: false
             });
             const results = await eslint.lintFiles([getFixturePath("single-quoted.js")]);
 
@@ -1074,29 +1080,52 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[0].fixableWarningCount, 0);
         });
 
-        it("should return 3 messages when given a config file and a directory of 3 valid files", async () => {
+        it("should return 5 results when given a config and a directory of 5 valid files", async () => {
             eslint = new FlatESLint({
                 cwd: path.join(fixtureDir, ".."),
-                configFile: getFixturePath("configurations", "semi-error.js")
+                configFile: false,
+                overrideConfig: {
+                    rules: {
+                        semi: 1,
+                        strict: 0
+                    }
+                }
             });
-            const results = await eslint.lintFiles([getFixturePath("formatters")]);
 
-            assert.strictEqual(results.length, 3);
-            assert.strictEqual(results[0].messages.length, 0);
-            assert.strictEqual(results[1].messages.length, 0);
-            assert.strictEqual(results[2].messages.length, 0);
+            const formattersDir = getFixturePath("formatters");
+            const results = await eslint.lintFiles([formattersDir]);
+            
+            assert.strictEqual(results.length, 5);
+            assert.strictEqual(path.relative(formattersDir, results[0].filePath), "async.js");
             assert.strictEqual(results[0].errorCount, 0);
             assert.strictEqual(results[0].warningCount, 0);
             assert.strictEqual(results[0].fixableErrorCount, 0);
             assert.strictEqual(results[0].fixableWarningCount, 0);
+            assert.strictEqual(results[0].messages.length, 0);
+            assert.strictEqual(path.relative(formattersDir, results[1].filePath), "broken.js");
             assert.strictEqual(results[1].errorCount, 0);
             assert.strictEqual(results[1].warningCount, 0);
             assert.strictEqual(results[1].fixableErrorCount, 0);
             assert.strictEqual(results[1].fixableWarningCount, 0);
+            assert.strictEqual(results[1].messages.length, 0);
+            assert.strictEqual(path.relative(formattersDir, results[2].filePath), "cwd.js");
             assert.strictEqual(results[2].errorCount, 0);
             assert.strictEqual(results[2].warningCount, 0);
             assert.strictEqual(results[2].fixableErrorCount, 0);
             assert.strictEqual(results[2].fixableWarningCount, 0);
+            assert.strictEqual(results[2].messages.length, 0);
+            assert.strictEqual(path.relative(formattersDir, results[3].filePath), "simple.js");
+            assert.strictEqual(results[3].errorCount, 0);
+            assert.strictEqual(results[3].warningCount, 0);
+            assert.strictEqual(results[3].fixableErrorCount, 0);
+            assert.strictEqual(results[3].fixableWarningCount, 0);
+            assert.strictEqual(results[3].messages.length, 0);
+            assert.strictEqual(path.relative(formattersDir, results[4].filePath), path.join("test", "simple.js"));
+            assert.strictEqual(results[4].errorCount, 0);
+            assert.strictEqual(results[4].warningCount, 0);
+            assert.strictEqual(results[4].fixableErrorCount, 0);
+            assert.strictEqual(results[4].fixableWarningCount, 0);
+            assert.strictEqual(results[4].messages.length, 0);
         });
 
         it("should process when file is given by not specifying extensions", async () => {
@@ -2654,17 +2683,15 @@ describe("FlatESLint", () => {
                 `
             };
 
-            let cleanup;
+            // unique directory for each test to avoid quirky disk-cleanup errors
+            let id;
 
-            beforeEach(() => {
-                cleanup = () => { };
-            });
-
-            afterEach(() => cleanup());
+            beforeEach(() => (id = Date.now().toString()));
+            afterEach(() => fs.rmSync(root, { recursive: true, force: true }));
 
             it("should lint only JavaScript blocks if '--ext' was not given.", async () => {
                 const teardown = createCustomTeardown({
-                    cwd: root,
+                    cwd: path.join(root, id),
                     files: {
                         ...commonFiles,
                         "eslint.config.js": `module.exports = [
@@ -2686,7 +2713,6 @@ describe("FlatESLint", () => {
                     }
                 });
 
-                cleanup = teardown.cleanup;
                 await teardown.prepare();
                 eslint = new FlatESLint({ cwd: teardown.getPath() });
                 const results = await eslint.lintFiles(["test.md"]);
@@ -2699,7 +2725,7 @@ describe("FlatESLint", () => {
 
             it("should fix only JavaScript blocks if '--ext' was not given.", async () => {
                 const teardown = createCustomTeardown({
-                    cwd: root,
+                    cwd: path.join(root, id),
                     files: {
                         ...commonFiles,
                         "eslint.config.js": `module.exports = [
@@ -2721,7 +2747,6 @@ describe("FlatESLint", () => {
                 });
 
                 await teardown.prepare();
-                cleanup = teardown.cleanup;
                 eslint = new FlatESLint({ cwd: teardown.getPath(), fix: true });
                 const results = await eslint.lintFiles(["test.md"]);
 
@@ -2745,7 +2770,7 @@ describe("FlatESLint", () => {
 
             it("should lint HTML blocks as well with multiple processors if represented in config.", async () => {
                 const teardown = createCustomTeardown({
-                    cwd: root,
+                    cwd: path.join(root, id),
                     files: {
                         ...commonFiles,
                         "eslint.config.js": `module.exports = [
@@ -2772,7 +2797,6 @@ describe("FlatESLint", () => {
                 });
 
                 await teardown.prepare();
-                cleanup = teardown.cleanup;
                 eslint = new FlatESLint({ cwd: teardown.getPath(), extensions: ["js", "html"] });
                 const results = await eslint.lintFiles(["test.md"]);
                 
@@ -2786,7 +2810,7 @@ describe("FlatESLint", () => {
 
             it("should fix HTML blocks as well with multiple processors if represented in config.", async () => {
                 const teardown = createCustomTeardown({
-                    cwd: root,
+                    cwd: path.join(root, id),
                     files: {
                         ...commonFiles,
                         "eslint.config.js": `module.exports = [
@@ -2813,7 +2837,6 @@ describe("FlatESLint", () => {
                 });
 
                 await teardown.prepare();
-                cleanup = teardown.cleanup;
                 eslint = new FlatESLint({ cwd: teardown.getPath(), extensions: ["js", "html"], fix: true });
                 const results = await eslint.lintFiles(["test.md"]);
 
@@ -2837,7 +2860,7 @@ describe("FlatESLint", () => {
 
             it("should use the config '**/*.html/*.js' to lint JavaScript blocks in HTML.", async () => {
                 const teardown = createCustomTeardown({
-                    cwd: root,
+                    cwd: path.join(root, id),
                     files: {
                         ...commonFiles,
                         "eslint.config.js": `module.exports = [
@@ -2873,7 +2896,6 @@ describe("FlatESLint", () => {
                 });
 
                 await teardown.prepare();
-                cleanup = teardown.cleanup;
                 eslint = new FlatESLint({ cwd: teardown.getPath(), extensions: ["js", "html"] });
                 const results = await eslint.lintFiles(["test.md"]);
 
@@ -2887,7 +2909,7 @@ describe("FlatESLint", () => {
 
             it("should use the same config as one which has 'processor' property in order to lint blocks in HTML if the processor was legacy style.", async () => {
                 const teardown = createCustomTeardown({
-                    cwd: root,
+                    cwd: path.join(root, id),
                     files: {
                         ...commonFiles,
                         "eslint.config.js": `module.exports = [
@@ -2923,7 +2945,6 @@ describe("FlatESLint", () => {
                 });
 
                 await teardown.prepare();
-                cleanup = teardown.cleanup;
                 eslint = new FlatESLint({ cwd: teardown.getPath(), extensions: ["js", "html"] });
                 const results = await eslint.lintFiles(["test.md"]);
 
@@ -2939,7 +2960,7 @@ describe("FlatESLint", () => {
 
             it("should throw an error if invalid processor was specified.", async () => {
                 const teardown = createCustomTeardown({
-                    cwd: root,
+                    cwd: path.join(root, id),
                     files: {
                         ...commonFiles,
                         "eslint.config.js": `module.exports = [
@@ -2959,7 +2980,6 @@ describe("FlatESLint", () => {
                 });
 
                 await teardown.prepare();
-                cleanup = teardown.cleanup;
                 eslint = new FlatESLint({ cwd: teardown.getPath() });
 
                 await assert.rejects(async () => {
