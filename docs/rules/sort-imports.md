@@ -7,6 +7,7 @@ The import statement is used to import members (functions, objects or primitives
 ```js
 // single - Import single member.
 import myMember from "my-module.js";
+import {myOtherMember} from "my-other-module.js";
 
 // multiple - Import multiple members.
 import {foo, bar} from "my-module.js";
@@ -72,7 +73,7 @@ import * as foo from 'foo.js';
 import {alpha, beta} from 'alpha.js';
 import {delta, gamma} from 'delta.js';
 import a from 'baz.js';
-import b from 'qux.js';
+import {b} from 'qux.js';
 
 /*eslint sort-imports: "error"*/
 import a from 'foo.js';
@@ -84,6 +85,7 @@ import 'foo.js'
 import * as bar from 'bar.js';
 import {a, b} from 'baz.js';
 import c from 'qux.js';
+import {d} from 'quux.js';
 
 /*eslint sort-imports: "error"*/
 import {a, b, c} from 'foo.js'
@@ -106,6 +108,10 @@ import {a, b} from 'bar.js';
 
 /*eslint sort-imports: "error"*/
 import a from 'foo.js';
+import {b, c} from 'bar.js';
+
+/*eslint sort-imports: "error"*/
+import {a} from 'foo.js';
 import {b, c} from 'bar.js';
 
 /*eslint sort-imports: "error"*/
