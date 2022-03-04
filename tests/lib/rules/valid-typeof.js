@@ -143,10 +143,10 @@ ruleTester.run("valid-typeof", rule, {
                 {
                     messageId: "invalidValue",
                     type: "Identifier",
-                    data: { type: "undefined" },
                     suggestions: [
                         {
                             messageId: "suggestString",
+                            data: { type: "undefined" },
                             output: 'if (typeof bar !== "undefined") {}'
                         }
                     ]
