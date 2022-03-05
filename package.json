@@ -47,7 +47,7 @@
   "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
-    "@eslint/eslintrc": "github:eslint/eslintrc#chore/update-ignore",
+    "@eslint/eslintrc": "github:eslint/eslintrc",
     "@humanwhocodes/config-array": "^0.9.2",
     "ajv": "^6.10.0",
     "chalk": "^4.0.0",
