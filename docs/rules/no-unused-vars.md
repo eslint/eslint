@@ -262,6 +262,13 @@ function test({p: [_q, r]}) {
     r;
 }
 test();
+
+let _m, n;
+
+foo.forEach(item => {
+    [_m, n] = item;
+    console.log(n);
+});
 ```
 
 ### caughtErrors
