@@ -493,12 +493,12 @@ ruleTester.run("no-unused-vars", rule, {
             parserOptions: { ecmaVersion: 2020 },
             errors: [
                 {
-                    ...assignedError("a", ". Allowed unused vars must match /^_/u"),
+                    ...assignedError("a", ". Allowed unused elements of array destructuring patterns must match /^_/u"),
                     line: 3,
                     column: 20
                 },
                 {
-                    ...assignedError("c", ". Allowed unused vars must match /^_/u"),
+                    ...assignedError("c", ". Allowed unused elements of array destructuring patterns must match /^_/u"),
                     line: 3,
                     column: 27
                 }
@@ -516,12 +516,12 @@ ruleTester.run("no-unused-vars", rule, {
             parserOptions: { ecmaVersion: 2020 },
             errors: [
                 {
-                    ...assignedError("a", ". Allowed unused vars must match /^_/u"),
+                    ...assignedError("a", ". Allowed unused elements of array destructuring patterns must match /^_/u"),
                     line: 3,
                     column: 20
                 },
                 {
-                    ...assignedError("c", ". Allowed unused vars must match /^_/u"),
+                    ...assignedError("c", ". Allowed unused elements of array destructuring patterns must match /^_/u"),
                     line: 3,
                     column: 27
                 },
