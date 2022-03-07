@@ -1128,18 +1128,6 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[4].messages.length, 0);
         });
 
-        it("should process when file is given by not specifying extensions", async () => {
-            eslint = new FlatESLint({
-                ignore: false,
-                cwd: path.join(fixtureDir, ".."),
-                configFile: false,
-            });
-            const results = await eslint.lintFiles(["fixtures/files/foo.js2"]);
-
-            assert.strictEqual(results.length, 1);
-            assert.strictEqual(results[0].messages.length, 0);
-        });
-
         it("should return zero messages when given a config with browser globals", async () => {
             eslint = new FlatESLint({
                 cwd: path.join(fixtureDir, ".."),
@@ -2384,21 +2372,18 @@ describe("FlatESLint", () => {
                     eslint = new FlatESLint({
                         configFile: false,
                         overrideConfig: {
-                            plugins: ["test-processor"],
+                            files: ["**/*.html"],
+                            plugins: {
+                                test: { processors: { "html": Object.assign({ supportsAutofix: true }, HTML_PROCESSOR) } }
+                            },
+                            processor: "test/html",
                             rules: {
                                 semi: 2
                             }
                         },
                         extensions: ["js", "txt"],
                         ignore: false,
-                        fix: true,
-                        plugins: {
-                            "test-processor": {
-                                processors: {
-                                    ".html": Object.assign({ supportsAutofix: true }, HTML_PROCESSOR)
-                                }
-                            }
-                        }
+                        fix: true
                     });
                     const results = await eslint.lintText("<script>foo</script>", { filePath: "foo.html" });
 
@@ -2410,20 +2395,20 @@ describe("FlatESLint", () => {
                     eslint = new FlatESLint({
                         configFile: false,
                         overrideConfig: {
-                            plugins: ["test-processor"],
+                            files: ["**/*.html"],
+                            plugins: {
+                                test: { processors: { "html": HTML_PROCESSOR } }
+                            },
+                            processor: "test/html",
                             rules: {
                                 semi: 2
                             }
                         },
-                        extensions: ["js", "txt"],
                         ignore: false,
-                        fix: true,
-                        plugins: {
-                            "test-processor": { processors: { ".html": HTML_PROCESSOR } }
-                        }
+                        fix: true
                     });
                     const results = await eslint.lintText("<script>foo</script>", { filePath: "foo.html" });
-
+                    
                     assert.strictEqual(results[0].messages.length, 1);
                     assert(!Object.prototype.hasOwnProperty.call(results[0], "output"));
                 });
@@ -2432,20 +2417,17 @@ describe("FlatESLint", () => {
                     eslint = new FlatESLint({
                         configFile: false,
                         overrideConfig: {
-                            plugins: ["test-processor"],
+                            files: ["**/*.html"],
+                            plugins: {
+                                test: { processors: { "html": Object.assign({ supportsAutofix: true }, HTML_PROCESSOR) } }
+                            },
+                            processor: "test/html",
                             rules: {
                                 semi: 2
                             }
                         },
                         extensions: ["js", "txt"],
-                        ignore: false,
-                        plugins: {
-                            "test-processor": {
-                                processors: {
-                                    ".html": Object.assign({ supportsAutofix: true }, HTML_PROCESSOR)
-                                }
-                            }
-                        }
+                        ignore: false
                     });
                     const results = await eslint.lintText("<script>foo</script>", { filePath: "foo.html" });
 
@@ -2472,7 +2454,7 @@ describe("FlatESLint", () => {
             it("should throw if the directory exists and is empty", async () => {
                 await assert.rejects(async () => {
                     await eslint.lintFiles(["empty"]);
-                }, /No files matching 'empty' were found\./u);
+                }, /No files matching 'empty\/\*\*\/\*\.js' were found\./u);
             });
 
             it("one glob pattern", async () => {
@@ -2493,154 +2475,6 @@ describe("FlatESLint", () => {
                 }, /No files matching 'non-exist\.js' were found\./u);
             });
         });
-
-        describe("overrides", () => {
-            beforeEach(() => {
-                eslint = new FlatESLint({
-                    cwd: getFixturePath("cli-engine/overrides-with-dot"),
-                    ignore: false
-                });
-            });
-
-            it("should recognize dotfiles", async () => {
-                const ret = await eslint.lintFiles([".test-target.js"]);
-
-                assert.strictEqual(ret.length, 1);
-                assert.strictEqual(ret[0].messages.length, 1);
-                assert.strictEqual(ret[0].messages[0].ruleId, "no-unused-vars");
-            });
-        });
-
-        describe("a config file setting should have higher priority than a shareable config file's settings always; https://github.com/eslint/eslint/issues/11510", () => {
-
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: path.join(os.tmpdir(), "eslint/11510"),
-                files: {
-                    "no-console-error-in-overrides.json": JSON.stringify({
-                        overrides: [{
-                            files: ["*.js"],
-                            rules: { "no-console": "error" }
-                        }]
-                    }),
-                    ".eslintrc.json": JSON.stringify({
-                        extends: "./no-console-error-in-overrides.json",
-                        rules: { "no-console": "off" }
-                    }),
-                    "a.js": "console.log();"
-                }
-            });
-
-            beforeEach(() => {
-                eslint = new FlatESLint({ cwd: getPath() });
-                return prepare();
-            });
-
-            afterEach(cleanup);
-
-            it("should not report 'no-console' error.", async () => {
-                const results = await eslint.lintFiles("a.js");
-
-                assert.strictEqual(results.length, 1);
-                assert.deepStrictEqual(results[0].messages, []);
-            });
-        });
-
-        describe("configs of plugin rules should be validated even if 'plugins' key doesn't exist; https://github.com/eslint/eslint/issues/11559", () => {
-
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: path.join(os.tmpdir(), "eslint/11559"),
-                files: {
-                    "node_modules/eslint-plugin-test/index.js": `
-                            exports.configs = {
-                                recommended: { plugins: ["test"] }
-                            };
-                            exports.rules = {
-                                foo: {
-                                    meta: { schema: [{ type: "number" }] },
-                                    create() { return {}; }
-                                }
-                            };
-                        `,
-                    ".eslintrc.json": JSON.stringify({
-
-                        // Import via the recommended config.
-                        extends: "plugin:test/recommended",
-
-                        // Has invalid option.
-                        rules: { "test/foo": ["error", "invalid-option"] }
-                    }),
-                    "a.js": "console.log();"
-                }
-            });
-
-            beforeEach(() => {
-                eslint = new FlatESLint({ cwd: getPath() });
-                return prepare();
-            });
-
-            afterEach(cleanup);
-
-
-            it("should throw fatal error.", async () => {
-                await assert.rejects(async () => {
-                    await eslint.lintFiles("a.js");
-                }, /invalid-option/u);
-            });
-        });
-
-        describe("'--fix-type' should not crash even if plugin rules exist; https://github.com/eslint/eslint/issues/11586", () => {
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: path.join(os.tmpdir(), "cli-engine/11586"),
-                files: {
-                    "node_modules/eslint-plugin-test/index.js": `
-                            exports.rules = {
-                                "no-example": {
-                                    meta: { type: "problem", fixable: "code" },
-                                    create(context) {
-                                        return {
-                                            Identifier(node) {
-                                                if (node.name === "example") {
-                                                    context.report({
-                                                        node,
-                                                        message: "fix",
-                                                        fix: fixer => fixer.replaceText(node, "fixed")
-                                                    })
-                                                }
-                                            }
-                                        };
-                                    }
-                                }
-                            };
-                        `,
-                    ".eslintrc.json": {
-                        plugins: ["test"],
-                        rules: { "test/no-example": "error" }
-                    },
-                    "a.js": "example;"
-                }
-            });
-
-            beforeEach(() => {
-                eslint = new FlatESLint({
-                    cwd: getPath(),
-                    fix: true,
-                    fixTypes: ["problem"]
-                });
-
-                return prepare();
-            });
-
-            afterEach(cleanup);
-
-            it("should not crash.", async () => {
-                const results = await eslint.lintFiles("a.js");
-
-                assert.strictEqual(results.length, 1);
-                assert.deepStrictEqual(results[0].messages, []);
-                assert.deepStrictEqual(results[0].output, "fixed;");
-            });
-        });
-
 
         describe("multiple processors", () => {
             const root = path.join(os.tmpdir(), "eslint/eslint/multiple-processors");
