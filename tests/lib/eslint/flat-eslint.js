@@ -669,7 +669,7 @@ describe("FlatESLint", () => {
         });
     });
 
-    describe.only("lintFiles()", () => {
+    describe("lintFiles()", () => {
 
         /** @type {InstanceType<import("../../../lib/eslint").ESLint>} */
         let eslint;
@@ -1142,6 +1142,7 @@ describe("FlatESLint", () => {
         it("should return zero messages when given an option to add browser globals", async () => {
             eslint = new FlatESLint({
                 cwd: path.join(fixtureDir, ".."),
+                configFile: false,
                 overrideConfig: {
                     languageOptions: {
                         globals: {
@@ -1202,16 +1203,18 @@ describe("FlatESLint", () => {
         it("should return zero messages when executing a file with a shebang", async () => {
             eslint = new FlatESLint({
                 ignore: false,
+                cwd: getFixturePath(),
                 configFile: getFixturePath("eslint.config.js")
             });
             const results = await eslint.lintFiles([getFixturePath("shebang.js")]);
 
             assert.strictEqual(results.length, 1);
-            assert.strictEqual(results[0].messages.length, 0);
+            assert.strictEqual(results[0].messages.length, 0, "Should have lint messages.");
         });
 
         it("should return zero messages when executing without a config file", async () => {
             eslint = new FlatESLint({
+                cwd: getFixturePath(),
                 ignore: false,
                 configFile: false
             });
@@ -1435,23 +1438,22 @@ describe("FlatESLint", () => {
             });
         });
 
-        // working
         describe("plugins", () => {
             it("should return two messages when executing with config file that specifies a plugin", async () => {
                 eslint = eslintWithPlugins({
-                    cwd: path.join(fixtureDir, ".."),
+                    cwd: path.resolve(fixtureDir, ".."),
                     configFile: getFixturePath("configurations", "plugins-with-prefix.js"),
                 });
                 const results = await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test/test-custom-rule.js"))]);
-
+                
                 assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 2);
+                assert.strictEqual(results[0].messages.length, 2, "Expected two messages.");
                 assert.strictEqual(results[0].messages[0].ruleId, "example/example-rule");
             });
 
             it("should return two messages when executing with cli option that specifies a plugin", async () => {
                 eslint = eslintWithPlugins({
-                    cwd: path.join(fixtureDir, ".."),
+                    cwd: path.resolve(fixtureDir, ".."),
                     configFile: false,
                     overrideConfig: {
                         rules: { "example/example-rule": 1 }
@@ -1466,7 +1468,7 @@ describe("FlatESLint", () => {
 
             it("should return two messages when executing with cli option that specifies preloaded plugin", async () => {
                 eslint = new FlatESLint({
-                    cwd: path.join(fixtureDir, ".."),
+                    cwd: path.resolve(fixtureDir, ".."),
                     configFile: false,
                     overrideConfig: {
                         rules: { "test/example-rule": 1 }
@@ -1483,7 +1485,7 @@ describe("FlatESLint", () => {
             });
         });
 
-        describe("cache", () => {
+        xdescribe("cache", () => {
 
             /**
              * helper method to delete a file without caring about exceptions
@@ -2161,106 +2163,80 @@ describe("FlatESLint", () => {
         });
 
         describe("processors", () => {
-            it("should return two messages when executing with config file that specifies a processor", async () => {
-                eslint = eslintWithPlugins({
-                    configFile: getFixturePath("configurations", "processors.json"),
-                    extensions: ["js", "txt"],
-                    cwd: path.join(fixtureDir, "..")
-                });
-                const results = await eslint.lintFiles([fs.realpathSync(getFixturePath("processors", "test", "test-processor.txt"))]);
-
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 2);
-            });
 
             it("should return two messages when executing with config file that specifies preloaded processor", async () => {
                 eslint = new FlatESLint({
                     configFile: false,
-                    overrideConfig: {
-                        plugins: ["test-processor"],
-                        rules: {
-                            "no-console": 2,
-                            "no-unused-vars": 2
-                        }
-                    },
-                    extensions: ["js", "txt"],
-                    cwd: path.join(fixtureDir, ".."),
-                    plugins: {
-                        "test-processor": {
-                            processors: {
-                                ".txt": {
-                                    preprocess(text) {
-                                        return [text];
-                                    },
-                                    postprocess(messages) {
-                                        return messages[0];
+                    overrideConfig: [
+                        {
+                            plugins: {
+                                test: {
+                                    processors: {
+                                        txt: {
+                                            preprocess(text) {
+                                                return [text];
+                                            },
+                                            postprocess(messages) {
+                                                return messages[0];
+                                            }
+                                        }
                                     }
                                 }
+                            },
+                            processor: "test/txt",
+                            rules: {
+                                "no-console": 2,
+                                "no-unused-vars": 2
                             }
+                        },
+                        {
+                            files: ["**/*.txt/*.txt"],
                         }
-                    }
+                    ],
+
+                    extensions: ["js", "txt"],
+                    cwd: path.join(fixtureDir, "..")
                 });
                 const results = await eslint.lintFiles([fs.realpathSync(getFixturePath("processors", "test", "test-processor.txt"))]);
 
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
-            });
-
-            it("should run processors when calling lintFiles with config file that specifies a processor", async () => {
-                eslint = eslintWithPlugins({
-                    configFile: getFixturePath("configurations", "processors.json"),
-                    configFile: false,
-                    extensions: ["js", "txt"],
-                    cwd: path.join(fixtureDir, "..")
-                });
-                const results = await eslint.lintFiles([getFixturePath("processors", "test", "test-processor.txt")]);
-
-                assert.strictEqual(results[0].messages[0].message, "'b' is defined but never used.");
-                assert.strictEqual(results[0].messages[0].ruleId, "post-processed");
             });
 
             it("should run processors when calling lintFiles with config file that specifies preloaded processor", async () => {
                 eslint = new FlatESLint({
                     configFile: false,
-                    overrideConfig: {
-                        plugins: ["test-processor"],
-                        rules: {
-                            "no-console": 2,
-                            "no-unused-vars": 2
-                        }
-                    },
-                    extensions: ["js", "txt"],
-                    cwd: path.join(fixtureDir, ".."),
-                    plugins: {
-                        "test-processor": {
-                            processors: {
-                                ".txt": {
-                                    preprocess(text) {
-                                        return [text.replace("a()", "b()")];
-                                    },
-                                    postprocess(messages) {
-                                        messages[0][0].ruleId = "post-processed";
-                                        return messages[0];
+                    overrideConfig: [
+                        {
+                            plugins: {
+                                test: {
+                                    processors: {
+                                        txt: {
+                                            preprocess(text) {
+                                                return [text.replace("a()", "b()")];
+                                            },
+                                            postprocess(messages) {
+                                                messages[0][0].ruleId = "post-processed";
+                                                return messages[0];
+                                            }
+                                        }
                                     }
                                 }
+                            },
+                            processor: "test/txt",
+                            rules: {
+                                "no-console": 2,
+                                "no-unused-vars": 2
                             }
+                        },
+                        {
+                            files: ["**/*.txt/*.txt"],
                         }
-                    }
+                    ],
+                    extensions: ["js", "txt"],
+                    cwd: path.join(fixtureDir, "..")
                 });
                 const results = await eslint.lintFiles([getFixturePath("processors", "test", "test-processor.txt")]);
-
-                assert.strictEqual(results[0].messages[0].message, "'b' is defined but never used.");
-                assert.strictEqual(results[0].messages[0].ruleId, "post-processed");
-            });
-
-            it("should run processors when calling lintText with config file that specifies a processor", async () => {
-                eslint = eslintWithPlugins({
-                    configFile: getFixturePath("configurations", "processors.json"),
-                    configFile: false,
-                    extensions: ["js", "txt"],
-                    ignore: false
-                });
-                const results = await eslint.lintText("function a() {console.log(\"Test\");}", { filePath: "tests/fixtures/processors/test/test-processor.txt" });
 
                 assert.strictEqual(results[0].messages[0].message, "'b' is defined but never used.");
                 assert.strictEqual(results[0].messages[0].ruleId, "post-processed");
@@ -2269,30 +2245,35 @@ describe("FlatESLint", () => {
             it("should run processors when calling lintText with config file that specifies preloaded processor", async () => {
                 eslint = new FlatESLint({
                     configFile: false,
-                    overrideConfig: {
-                        plugins: ["test-processor"],
-                        rules: {
-                            "no-console": 2,
-                            "no-unused-vars": 2
-                        }
-                    },
-                    extensions: ["js", "txt"],
-                    ignore: false,
-                    plugins: {
-                        "test-processor": {
-                            processors: {
-                                ".txt": {
-                                    preprocess(text) {
-                                        return [text.replace("a()", "b()")];
-                                    },
-                                    postprocess(messages) {
-                                        messages[0][0].ruleId = "post-processed";
-                                        return messages[0];
+                    overrideConfig: [
+                        {
+                            plugins: {
+                                test: {
+                                    processors: {
+                                        txt: {
+                                            preprocess(text) {
+                                                return [text.replace("a()", "b()")];
+                                            },
+                                            postprocess(messages) {
+                                                messages[0][0].ruleId = "post-processed";
+                                                return messages[0];
+                                            }
+                                        }
                                     }
                                 }
+                            },
+                            processor: "test/txt",
+                            rules: {
+                                "no-console": 2,
+                                "no-unused-vars": 2
                             }
+                        },
+                        {
+                            files: ["**/*.txt/*.txt"],
                         }
-                    }
+                    ],
+                    extensions: ["js", "txt"],
+                    ignore: false,
                 });
                 const results = await eslint.lintText("function a() {console.log(\"Test\");}", { filePath: "tests/fixtures/processors/test/test-processor.txt" });
 
@@ -2305,41 +2286,43 @@ describe("FlatESLint", () => {
 
                 eslint = new FlatESLint({
                     configFile: false,
-                    overrideConfig: {
-                        plugins: ["test-processor"],
-                        overrides: [{
+                    overrideConfig: [
+                        {
+                            plugins: {
+                                test: {
+                                    processors: {
+                                        txt: {
+                                            preprocess(text) {
+                                                count++;
+                                                return [
+                                                    {
+
+                                                        // it will be run twice, and text will be as-is at the second time, then it will not run third time
+                                                        text: text.replace("a()", "b()"),
+                                                        filename: ".txt"
+                                                    }
+                                                ];
+                                            },
+                                            postprocess(messages) {
+                                                messages[0][0].ruleId = "post-processed";
+                                                return messages[0];
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            processor: "test/txt"
+                        },
+                        {
                             files: ["**/*.txt/*.txt"],
                             rules: {
                                 "no-console": 2,
                                 "no-unused-vars": 2
                             }
-                        }]
-                    },
-                    extensions: ["txt"],
-                    ignore: false,
-                    plugins: {
-                        "test-processor": {
-                            processors: {
-                                ".txt": {
-                                    preprocess(text) {
-                                        count++;
-                                        return [
-                                            {
-
-                                                // it will be run twice, and text will be as-is at the second time, then it will not run third time
-                                                text: text.replace("a()", "b()"),
-                                                filename: ".txt"
-                                            }
-                                        ];
-                                    },
-                                    postprocess(messages) {
-                                        messages[0][0].ruleId = "post-processed";
-                                        return messages[0];
-                                    }
-                                }
-                            }
                         }
-                    }
+                    ],
+                    extensions: ["txt"],
+                    ignore: false
                 });
                 const results = await eslint.lintText("function a() {console.log(\"Test\");}", { filePath: "tests/fixtures/processors/test/test-processor.txt" });
 
@@ -3276,19 +3259,26 @@ describe("FlatESLint", () => {
                 assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/node_modules/package/file.js")));
             });
 
-            xit("should allow subfolders of defaultPatterns to be unignored by ignorePattern", async () => {
+            it("should allow subfolders of defaultPatterns to be unignored by ignorePattern", async () => {
                 const cwd = getFixturePath("ignored-paths");
                 const engine = new FlatESLint({
                     cwd,
+                    configFile: false,
                     ignorePatterns: "!/node_modules/package"
                 });
 
-                assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules", "package", "file.js")));
+                const result = await engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules", "package", "file.js"));
+
+                assert(!result, "File should not be ignored");
             });
 
-            xit("should allow subfolders of defaultPatterns to be unignored by ignorePath", async () => {
+            it("should allow subfolders of defaultPatterns to be unignored by ignorePath", async () => {
                 const cwd = getFixturePath("ignored-paths");
-                const engine = new FlatESLint({ cwd, ignorePath: getFixturePath("ignored-paths", ".eslintignoreWithUnignoredDefaults") });
+                const engine = new FlatESLint({
+                    cwd,
+                    configFile: false,
+                    ignorePath: getFixturePath("ignored-paths", ".eslintignoreWithUnignoredDefaults")
+                });
 
                 assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules", "package", "file.js")));
             });
@@ -3361,7 +3351,7 @@ describe("FlatESLint", () => {
 
         });
 
-        describe("with ignorePatterns option", () => {
+        describe.only("with ignorePatterns option", () => {
             it("should accept a string for options.ignorePatterns", async () => {
                 const cwd = getFixturePath("ignored-paths", "ignore-pattern");
                 const engine = new FlatESLint({
@@ -3374,13 +3364,13 @@ describe("FlatESLint", () => {
 
             it("should accept an array for options.ignorePattern", async () => {
                 const engine = new FlatESLint({
-                    ignorePatterns: ["a", "b"],
+                    ignorePatterns: ["a.js", "b.js"],
                     configFile: false
                 });
 
-                assert(await engine.isPathIgnored("a"));
-                assert(await engine.isPathIgnored("b"));
-                assert(!await engine.isPathIgnored("c"));
+                assert(await engine.isPathIgnored("a.js"), "a.js should be ignored");
+                assert(await engine.isPathIgnored("b.js"), "b.js should be ignored");
+                assert(!await engine.isPathIgnored("c.js"), "c.js should not be ignored");
             });
 
             it("should return true for files which match an ignorePattern even if they do not exist on the filesystem", async () => {
