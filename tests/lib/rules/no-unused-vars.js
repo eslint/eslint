@@ -203,6 +203,40 @@ ruleTester.run("no-unused-vars", rule, {
             options: [{ destructuredArrayIgnorePattern: "^_" }],
             parserOptions: { ecmaVersion: 6 }
         },
+        {
+            code: `
+            // doesn't report _x
+            let _x, y;
+            _x = 1;
+            [_x, y] = foo;
+            y;
+
+            // doesn't report _a
+            let _a, b;
+            [_a, b] = foo;
+            _a = 1;
+            b;
+            `,
+            options: [{ destructuredArrayIgnorePattern: "^_" }],
+            parserOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: `
+            // doesn't report _x
+            let _x, y;
+            _x = 1;
+            [_x, y] = foo;
+            y;
+
+            // doesn't report _a
+            let _a, b;
+            _a = 1;
+            ({_a, ...b } = foo);
+            b;
+            `,
+            options: [{ destructuredArrayIgnorePattern: "^_", ignoreRestSiblings: true }],
+            parserOptions: { ecmaVersion: 2018 }
+        },
 
         // for-in loops (see #2342)
         "(function(obj) { var name; for ( name in obj ) return; })({});",
