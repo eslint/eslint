@@ -269,6 +269,11 @@ foo.forEach(item => {
     [_m, n] = item;
     console.log(n);
 });
+
+let _o, p;
+_o = 1;
+[_o, p] = foo;
+p;
 ```
 
 ### caughtErrors
