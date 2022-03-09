@@ -144,7 +144,7 @@ console.log('bar');
 /* eslint-enable no-alert, no-console */
 ```
 
-**Note:** `/* esline-enable */` without any specific rules will cause all errors to be re-enabled. You will have to re-specify the errors you wish to keep disabled.
+**Note:** `/* esline-enable */` without any specific rules listed will cause all disabled rules to be re-enabled.
 
 To disable rule warnings in an entire file, put a `/* eslint-disable */` block comment at the top of the file:
 
