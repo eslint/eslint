@@ -16,6 +16,10 @@ var a = "prop";
 var obj = {
   [a]: "value" // computed property key in object literal (ECMAScript 6)
 };
+
+var obj = { prop: "value" };
+var a = "prop";
+var { [a]: x } = obj; // computed property key in object destructuring pattern (ECMAScript 6)
 ```
 
 ## Rule Details
