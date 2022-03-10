@@ -185,7 +185,17 @@ ruleTester.run("no-constant-condition", rule, {
         "if (`${[a]}`) {}",
         "if (+[a]) {}",
         "if (0 - [a]) {}",
-        "if (1 * [a]) {}"
+        "if (1 * [a]) {}",
+
+        // Boolean function
+        "if (Boolean(a)) {}",
+        "if (Boolean(...args)) {}",
+        "if (foo.Boolean(1)) {}",
+        "function foo(Boolean) { if (Boolean(1)) {} }",
+        "const Boolean = () => {}; if (Boolean(1)) {}",
+        { code: "if (Boolean()) {}", globals: { Boolean: "off" } },
+        "const undefined = 'lol'; if (undefined) {}",
+        { code: "if (undefined) {}", globals: { undefined: "off" } }
     ],
     invalid: [
         { code: "for(;true;);", errors: [{ messageId: "unexpected", type: "Literal" }] },
@@ -396,6 +406,18 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "if(new Number(foo)) {}", errors: [{ messageId: "unexpected" }] },
 
         // Spreading a constant array
-        { code: "if(`${[...['a']]}`) {}", errors: [{ messageId: "unexpected" }] }
+        { code: "if(`${[...['a']]}`) {}", errors: [{ messageId: "unexpected" }] },
+
+        /*
+         * undefined is always falsy (except in old browsers that let you
+         * re-assign, but that's an abscure enough edge case to not worry about)
+         */
+        { code: "if (undefined) {}", errors: [{ messageId: "unexpected" }] },
+
+        // Coercion to boolean via Boolean function
+        { code: "if (Boolean(1)) {}", errors: [{ messageId: "unexpected" }] },
+        { code: "if (Boolean()) {}", errors: [{ messageId: "unexpected" }] },
+        { code: "if (Boolean([a])) {}", errors: [{ messageId: "unexpected" }] },
+        { code: "if (Boolean(1)) { function Boolean() {}}", errors: [{ messageId: "unexpected" }] }
     ]
 });
