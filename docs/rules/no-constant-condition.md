@@ -42,6 +42,14 @@ if (new Boolean(x)) {
     doSomethingAlways();
 }
 
+if (Boolean(1)) {
+    doSomethingAlways();
+}
+
+if (undefined) {
+    doSomethingUnfinished();
+}
+
 if (x ||= true) {
     doSomethingAlways();
 }
