@@ -238,6 +238,43 @@ function foo(x, _y) {
 foo();
 ```
 
+### destructuredArrayIgnorePattern
+
+The `destructuredArrayIgnorePattern` option specifies exceptions not to check for usage: elements of array destructuring patterns whose names match a regexp pattern. For example, variables whose names begin with an underscore.
+
+Examples of **correct** code for the `{ "destructuredArrayIgnorePattern": "^_" }` option:
+
+```js
+/*eslint no-unused-vars: ["error", { "destructuredArrayIgnorePattern": "^_" }]*/
+
+const [a, _b, c] = ["a", "b", "c"];
+console.log(a+c);
+
+const { x: [_a, foo] } = bar;
+console.log(foo);
+
+function baz([_c, x]) {
+    x;
+}
+baz();
+
+function test({p: [_q, r]}) {
+    r;
+}
+test();
+
+let _m, n;
+foo.forEach(item => {
+    [_m, n] = item;
+    console.log(n);
+});
+
+let _o, p;
+_o = 1;
+[_o, p] = foo;
+p;
+```
+
 ### caughtErrors
 
 The `caughtErrors` option is used for `catch` block arguments validation.

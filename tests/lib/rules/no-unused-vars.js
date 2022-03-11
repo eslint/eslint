@@ -162,6 +162,81 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "function foo(_a) { } foo();", options: [{ args: "all", argsIgnorePattern: "^_" }] },
         { code: "function foo(a, _b) { return a; } foo();", options: [{ args: "after-used", argsIgnorePattern: "^_" }] },
         { code: "var [ firstItemIgnored, secondItem ] = items;\nconsole.log(secondItem);", options: [{ vars: "all", varsIgnorePattern: "[iI]gnored" }], parserOptions: { ecmaVersion: 6 } },
+        {
+            code: "const [ a, _b, c ] = items;\nconsole.log(a+c);",
+            options: [{ destructuredArrayIgnorePattern: "^_" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const [ [a, _b, c] ] = items;\nconsole.log(a+c);",
+            options: [{ destructuredArrayIgnorePattern: "^_" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const { x: [_a, foo] } = bar;\nconsole.log(foo);",
+            options: [{ destructuredArrayIgnorePattern: "^_" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "function baz([_b, foo]) { foo; };\nbaz()",
+            options: [{ destructuredArrayIgnorePattern: "^_" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "function baz({x: [_b, foo]}) {foo};\nbaz()",
+            options: [{ destructuredArrayIgnorePattern: "^_" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "function baz([{x: [_b, foo]}]) {foo};\nbaz()",
+            options: [{ destructuredArrayIgnorePattern: "^_" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: `
+            let _a, b;
+            foo.forEach(item => {
+                [_a, b] = item;
+                doSomething(b);
+            });
+            `,
+            options: [{ destructuredArrayIgnorePattern: "^_" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: `
+            // doesn't report _x
+            let _x, y;
+            _x = 1;
+            [_x, y] = foo;
+            y;
+
+            // doesn't report _a
+            let _a, b;
+            [_a, b] = foo;
+            _a = 1;
+            b;
+            `,
+            options: [{ destructuredArrayIgnorePattern: "^_" }],
+            parserOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: `
+            // doesn't report _x
+            let _x, y;
+            _x = 1;
+            [_x, y] = foo;
+            y;
+
+            // doesn't report _a
+            let _a, b;
+            _a = 1;
+            ({_a, ...b } = foo);
+            b;
+            `,
+            options: [{ destructuredArrayIgnorePattern: "^_", ignoreRestSiblings: true }],
+            parserOptions: { ecmaVersion: 2018 }
+        },
 
         // for-in loops (see #2342)
         "(function(obj) { var name; for ( name in obj ) return; })({});",
@@ -461,6 +536,131 @@ ruleTester.run("no-unused-vars", rule, {
                     additional: ". Allowed unused vars must match /[iI]gnored/u"
                 }
             }]
+        },
+
+        // https://github.com/eslint/eslint/issues/15611
+        {
+            code: `
+            const array = ['a', 'b', 'c'];
+            const [a, _b, c] = array;
+            const newArray = [a, c];
+            `,
+            options: [{ destructuredArrayIgnorePattern: "^_" }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+
+                // should report only `newArray`
+                { ...assignedError("newArray"), line: 4, column: 19 }
+            ]
+        },
+        {
+            code: `
+            const array = ['a', 'b', 'c', 'd', 'e'];
+            const [a, _b, c] = array;
+            `,
+            options: [{ destructuredArrayIgnorePattern: "^_" }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                {
+                    ...assignedError("a", ". Allowed unused elements of array destructuring patterns must match /^_/u"),
+                    line: 3,
+                    column: 20
+                },
+                {
+                    ...assignedError("c", ". Allowed unused elements of array destructuring patterns must match /^_/u"),
+                    line: 3,
+                    column: 27
+                }
+            ]
+        },
+        {
+            code: `
+            const array = ['a', 'b', 'c'];
+            const [a, _b, c] = array;
+            const fooArray = ['foo'];
+            const barArray = ['bar'];
+            const ignoreArray = ['ignore'];
+            `,
+            options: [{ destructuredArrayIgnorePattern: "^_", varsIgnorePattern: "ignore" }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                {
+                    ...assignedError("a", ". Allowed unused elements of array destructuring patterns must match /^_/u"),
+                    line: 3,
+                    column: 20
+                },
+                {
+                    ...assignedError("c", ". Allowed unused elements of array destructuring patterns must match /^_/u"),
+                    line: 3,
+                    column: 27
+                },
+                {
+                    ...assignedError("fooArray", ". Allowed unused vars must match /ignore/u"),
+                    line: 4,
+                    column: 19
+                },
+                {
+                    ...assignedError("barArray", ". Allowed unused vars must match /ignore/u"),
+                    line: 5,
+                    column: 19
+                }
+            ]
+        },
+        {
+            code: `
+            const array = [obj];
+            const [{_a, foo}] = array;
+            console.log(foo);
+            `,
+            options: [{ destructuredArrayIgnorePattern: "^_" }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                {
+                    ...assignedError("_a"),
+                    line: 3,
+                    column: 21
+                }
+            ]
+        },
+        {
+            code: `
+            function foo([{_a, bar}]) {
+                bar;
+            }
+            foo();
+            `,
+            options: [{ destructuredArrayIgnorePattern: "^_" }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                {
+                    ...definedError("_a"),
+                    line: 2,
+                    column: 28
+                }
+            ]
+        },
+        {
+            code: `
+            let _a, b;
+
+            foo.forEach(item => {
+                [a, b] = item;
+            });
+            `,
+            options: [{ destructuredArrayIgnorePattern: "^_" }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                {
+                    ...definedError("_a"),
+                    line: 2,
+                    column: 17
+                },
+                {
+                    ...assignedError("b"),
+                    line: 2,
+                    column: 21
+                }
+            ]
         },
 
         // for-in loops (see #2342)
