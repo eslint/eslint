@@ -1,3 +1,18 @@
+v8.11.0 - March 11, 2022
+
+* [`6814922`](https://github.com/eslint/eslint/commit/68149221637faa8e4f2718773e751126b7ae8ac9) fix: escaping for square brackets in ignore patterns (#15666) (Milos Djermanovic)
+* [`c481cec`](https://github.com/eslint/eslint/commit/c481cecacc728618832b4044374e445d332b4381) docs: add fast-eslint-8 to atom integrations (userguide) (#15695) (db developer)
+* [`800bd25`](https://github.com/eslint/eslint/commit/800bd258e4484de24323809ebbf13fc72fcbabac) feat: add `destructuredArrayIgnorePattern` option in `no-unused-vars` (#15649) (Nitin Kumar)
+* [`8933fe7`](https://github.com/eslint/eslint/commit/8933fe7afcc7cdd99cc0efccc08e8fe3a5e2996f) feat: Catch `undefined` and `Boolean()` in no-constant-condition (#15613) (Jordan Eldredge)
+* [`d2255db`](https://github.com/eslint/eslint/commit/d2255db24526de604b4a34e90c870158c4ea277e) docs: Add clarification about `eslint-enable` (#15680) (dosisod)
+* [`385c9ad`](https://github.com/eslint/eslint/commit/385c9ad685b24b1821ec4085596b3aad299fb751) chore: rm trailing space in docs (#15689) (唯然)
+* [`f90fd9d`](https://github.com/eslint/eslint/commit/f90fd9d779a5b28dfd15ca3f993e6b3cd09e71e8) feat: Add ESLint favicon to the HTML report document (#15671) (Mahdi Hosseinzadeh)
+* [`8b9433c`](https://github.com/eslint/eslint/commit/8b9433c90c842d8ec06f633df7fbba6ac6d5036b) docs: add object pattern to first section of computed-property-spacing (#15679) (Milos Djermanovic)
+* [`de800c3`](https://github.com/eslint/eslint/commit/de800c3c0b8e3f85921b40eaa97134fef12effa2) docs: link to minimatch docs added.  (#15688) (Gaurav Tewari)
+* [`57b8a57`](https://github.com/eslint/eslint/commit/57b8a57be75ed2379fe39c93168175090dfe4cdd) feat: `valid-typeof` always ban `undefined` (#15635) (Zzzen)
+* [`8f675b1`](https://github.com/eslint/eslint/commit/8f675b1f7f6c0591abe36c20410d226bd9e1faa6) docs: sort-imports add single named import example (#15675) (Arye Eidelman)
+* [`c178ce7`](https://github.com/eslint/eslint/commit/c178ce7044b5c19db2f4aabfdbe58003db5062fd) fix: extend the autofix range in comma-dangle to ensure the last element (#15669) (Milos Djermanovic)
+
 v8.10.0 - February 25, 2022
 
 * [`cdc5802`](https://github.com/eslint/eslint/commit/cdc58025d9a8b522f516c3665d225b69a76c4ee1) fix: Avoid `__dirname` for built-in configs (#15616) (DoZerg)
