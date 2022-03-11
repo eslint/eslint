@@ -1446,6 +1446,21 @@ describe("ESLint", () => {
             }, /All files matched by '\.\/tests\/fixtures\/cli-engine\/' are ignored\./u);
         });
 
+        // https://github.com/eslint/eslint/issues/15642
+        it("should ignore files that are ignored by patterns with escaped brackets", async () => {
+            eslint = new ESLint({
+                ignorePath: getFixturePath("ignored-paths", ".eslintignoreWithEscapedBrackets"),
+                useEslintrc: false,
+                cwd: getFixturePath("ignored-paths")
+            });
+
+            // Only `brackets/index.js` should be linted. Other files in `brackets/` should be ignored.
+            const results = await eslint.lintFiles(["brackets/*.js"]);
+
+            assert.strictEqual(results.length, 1);
+            assert.strictEqual(results[0].filePath, getFixturePath("ignored-paths", "brackets", "index.js"));
+        });
+
         it("should throw an error when all given files are ignored via ignore-pattern", async () => {
             eslint = new ESLint({
                 overrideConfig: {
@@ -4676,6 +4691,28 @@ describe("ESLint", () => {
                 const engine = new ESLint({ ignorePath, cwd });
 
                 assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "negation", "unignore.js")));
+            });
+
+            // https://github.com/eslint/eslint/issues/15642
+            it("should correctly handle patterns with escaped brackets", async () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreWithEscapedBrackets");
+                const engine = new ESLint({ ignorePath, cwd });
+
+                const subdir = "brackets";
+
+                assert(
+                    !await engine.isPathIgnored(getFixturePath("ignored-paths", subdir, "index.js")),
+                    `'${subdir}/index.js' should not be ignored`
+                );
+
+                for (const filename of ["[index.js", "index].js", "[index].js"]) {
+                    assert(
+                        await engine.isPathIgnored(getFixturePath("ignored-paths", subdir, filename)),
+                        `'${subdir}/${filename}' should be ignored`
+                    );
+                }
+
             });
         });
 
