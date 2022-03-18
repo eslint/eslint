@@ -3211,7 +3211,7 @@ describe("FlatESLint", () => {
         });
     });
 
-    describe("isPathIgnored", () => {
+    describe.only("isPathIgnored", () => {
         it("should check if the given path is ignored", async () => {
             const engine = new FlatESLint({
                 ignorePath: getFixturePath(".eslintignore2"),
@@ -3351,7 +3351,7 @@ describe("FlatESLint", () => {
 
         });
 
-        describe.only("with ignorePatterns option", () => {
+        describe("with ignorePatterns option", () => {
             it("should accept a string for options.ignorePatterns", async () => {
                 const cwd = getFixturePath("ignored-paths", "ignore-pattern");
                 const engine = new FlatESLint({
@@ -3399,9 +3399,14 @@ describe("FlatESLint", () => {
 
             it("should return false for file in subfolder of cwd matching an ignore pattern with leading '/'", async () => {
                 const cwd = getFixturePath("ignored-paths");
-                const engine = new FlatESLint({ ignorePatterns: ["/undef.js"], cwd });
+                const filePath = getFixturePath("ignored-paths", "subdir", "undef.js");
+                const engine = new FlatESLint({
+                    ignorePatterns: ["/undef.js"],
+                    configFile: false,
+                    cwd
+                });
 
-                assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "subdir", "undef.js")));
+                assert(!await engine.isPathIgnored(filePath));
             });
 
             it("should return true for file matching a child of an ignore pattern", async () => {
@@ -3427,18 +3432,22 @@ describe("FlatESLint", () => {
 
             it("two globstar '**' ignore pattern should ignore files in nested directories", async () => {
                 const cwd = getFixturePath("ignored-paths");
-                const engine = new FlatESLint({ ignorePatterns: ["**/*.js"], cwd });
+                const engine = new FlatESLint({
+                    configFile: false,
+                    ignorePatterns: ["**/*.js"],
+                    cwd
+                });
 
-                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "foo.js")));
-                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar.js")));
-                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar/baz.js")));
-                assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "foo.j2")));
-                assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar.j2")));
-                assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar/baz.j2")));
+                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "foo.js")), "foo.js should be ignored");
+                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar.js")), "foo/bar.js should be ignored");
+                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar/baz.js")), "foo/bar/baz.js");
+                assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "foo.cjs")), "foo.cjs should not be ignored");
+                assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar.cjs")), "foo/bar.cjs should not be ignored");
+                assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar/baz.cjs")), "foo/bar/baz.cjs should not be ignored");
             });
         });
 
-        describe("with ignorePath option", () => {
+        describe.only("with ignorePath option", () => {
             it("initialization with ignorePath should work when cwd is a parent directory", async () => {
                 const cwd = getFixturePath("ignored-paths");
                 const ignorePath = getFixturePath("ignored-paths", "custom-name", "ignore-file");
@@ -3486,11 +3495,13 @@ describe("FlatESLint", () => {
 
             it("should resolve relative paths from CWD", async () => {
                 const cwd = getFixturePath("ignored-paths", "subdir");
-                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreForDifferentCwd");
-                const engine = new FlatESLint({ ignorePath, cwd });
 
-                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/undef.js")));
-                assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+                // /undef.js in ignore file
+                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreForDifferentCwd");
+                const engine = new FlatESLint({ ignorePath, cwd, configFile: false });
+
+                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/undef.js")), "subdir/undef.js should be ignored");
+                assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/subdir/undef.js")), "subdir/subdir/undef.js should not be ignored");
             });
 
             it("should resolve relative paths from CWD when it's in a child directory", async () => {
@@ -3509,14 +3520,20 @@ describe("FlatESLint", () => {
             it("should resolve relative paths from CWD when it contains negated globs", async () => {
                 const cwd = getFixturePath("ignored-paths");
                 const ignorePath = getFixturePath("ignored-paths", "subdir/.eslintignoreInChildDir");
-                const engine = new FlatESLint({ ignorePath, cwd });
+                const engine = new FlatESLint({
+                    ignorePath,
+                    cwd,
+                    overrideConfig: {
+                        files: ["**/*.txt"]
+                    }
+                });
 
-                assert(await engine.isPathIgnored("subdir/blah.txt"));
-                assert(await engine.isPathIgnored("blah.txt"));
-                assert(await engine.isPathIgnored("subdir/bar.txt"));
-                assert(!await engine.isPathIgnored("bar.txt"));
-                assert(!await engine.isPathIgnored("subdir/baz.txt"));
-                assert(!await engine.isPathIgnored("baz.txt"));
+                assert(await engine.isPathIgnored("subdir/blah.txt"), "subdir/blah.txt should be ignore");
+                assert(await engine.isPathIgnored("blah.txt"), "blah.txt should be ignored");
+                assert(await engine.isPathIgnored("subdir/bar.txt"), "subdir/bar.txt should be ignored");
+                assert(!await engine.isPathIgnored("bar.txt"), "bar.txt should not be ignored");
+                assert(!await engine.isPathIgnored("baz.txt"), "baz.txt should not be ignored");
+                assert(!await engine.isPathIgnored("subdir/baz.txt"), "subdir/baz.txt should not be ignored");
             });
 
             it("should resolve default ignore patterns from the CWD even when the ignorePath is in a subdirectory", async () => {
