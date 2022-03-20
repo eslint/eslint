@@ -1,4 +1,4 @@
-# disallow expressions where the operation doesn’t affect the value (no-constant-binary-expression)
+# no-constant-binary-expression
 
 Comparisons which will always evaluate to true or false and logical expressions (`||`, `&&`, `??`) which either always short circuit or never short circuit are both likely indications of programmer error.
 
