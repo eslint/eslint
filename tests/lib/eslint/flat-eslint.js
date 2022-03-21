@@ -3211,7 +3211,7 @@ describe("FlatESLint", () => {
         });
     });
 
-    describe.only("isPathIgnored", () => {
+    describe("isPathIgnored", () => {
         it("should check if the given path is ignored", async () => {
             const engine = new FlatESLint({
                 ignorePath: getFixturePath(".eslintignore2"),
@@ -3717,7 +3717,6 @@ describe("FlatESLint", () => {
                 configFile: false,
                 overrideConfig: {
                     rules: {
-                        strict: ["error", "global"],
                         quotes: "error",
                         "no-var": "error",
                         "eol-last": "error",
@@ -3728,20 +3727,18 @@ describe("FlatESLint", () => {
             const results = await engine.lintText("var foo = 'bar';");
             const errorResults = FlatESLint.getErrorResults(results);
 
-            assert.strictEqual(errorResults[0].messages.length, 5, "messages.length is wrong");
-            assert.strictEqual(errorResults[0].errorCount, 5, "errorCount is wrong");
-            assert.strictEqual(errorResults[0].fixableErrorCount, 2, "fixableErrorCount is wrong");
+            assert.strictEqual(errorResults[0].messages.length, 4, "messages.length is wrong");
+            assert.strictEqual(errorResults[0].errorCount, 4, "errorCount is wrong");
+            assert.strictEqual(errorResults[0].fixableErrorCount, 3, "fixableErrorCount is wrong");
             assert.strictEqual(errorResults[0].fixableWarningCount, 0, "fixableWarningCount is wrong");
-            assert.strictEqual(errorResults[0].messages[0].ruleId, "strict");
+            assert.strictEqual(errorResults[0].messages[0].ruleId, "no-var");
             assert.strictEqual(errorResults[0].messages[0].severity, 2);
-            assert.strictEqual(errorResults[0].messages[1].ruleId, "no-var");
+            assert.strictEqual(errorResults[0].messages[1].ruleId, "no-unused-vars");
             assert.strictEqual(errorResults[0].messages[1].severity, 2);
-            assert.strictEqual(errorResults[0].messages[2].ruleId, "no-unused-vars");
+            assert.strictEqual(errorResults[0].messages[2].ruleId, "quotes");
             assert.strictEqual(errorResults[0].messages[2].severity, 2);
-            assert.strictEqual(errorResults[0].messages[3].ruleId, "quotes");
+            assert.strictEqual(errorResults[0].messages[3].ruleId, "eol-last");
             assert.strictEqual(errorResults[0].messages[3].severity, 2);
-            assert.strictEqual(errorResults[0].messages[4].ruleId, "eol-last");
-            assert.strictEqual(errorResults[0].messages[4].severity, 2);
         });
 
         it("should not mutate passed report parameter", async () => {
@@ -3894,7 +3891,7 @@ describe("FlatESLint", () => {
                 }
             });
 
-            const results = await engine.lintText("a");
+            const results = await engine.lintText("a", { filePath: "foo.js" });
             const rulesMeta = engine.getRulesMetaForResults(results);
 
             assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
@@ -3946,7 +3943,7 @@ describe("FlatESLint", () => {
         });
     });
 
-    describe("outputFixes()", () => {
+    xdescribe("outputFixes()", () => {
         afterEach(() => {
             sinon.verifyAndRestore();
         });
@@ -4113,14 +4110,23 @@ describe("FlatESLint", () => {
     });
 
     describe("mutability", () => {
-        describe("plugins", () => {
-            it("Loading plugin in one instance doesn't mutate to another instance", async () => {
+
+        describe("rules", () => {
+            it("Loading rules in one instance doesn't mutate to another instance", async () => {
                 const filePath = getFixturePath("single-quoted.js");
-                const engine1 = eslintWithPlugins({
+                const engine1 = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
                     configFile: false,
                     overrideConfig: {
-                        plugins: ["example"],
+                        plugins: {
+                            example: {
+                                rules: {
+                                    "example-rule"() {
+                                        return {};
+                                    }
+                                }
+                            }
+                        },
                         rules: { "example/example-rule": 1 }
                     }
                 });
@@ -4130,45 +4136,24 @@ describe("FlatESLint", () => {
                 });
                 const fileConfig1 = await engine1.calculateConfigForFile(filePath);
                 const fileConfig2 = await engine2.calculateConfigForFile(filePath);
-
-                // plugin
-                assert.deepStrictEqual(fileConfig1.plugins, ["example"], "Plugin is present for engine 1");
-                assert.deepStrictEqual(fileConfig2.plugins, [], "Plugin is not present for engine 2");
-            });
-        });
-
-        describe("rules", () => {
-            it("Loading rules in one instance doesn't mutate to another instance", async () => {
-                const filePath = getFixturePath("single-quoted.js");
-                const engine1 = new FlatESLint({
-                    cwd: path.join(fixtureDir, ".."),
-                    configFile: false,
-                    overrideConfig: { rules: { "example/example-rule": 1 } }
-                });
-                const engine2 = new FlatESLint({
-                    cwd: path.join(fixtureDir, ".."),
-                    configFile: false
-                });
-                const fileConfig1 = await engine1.calculateConfigForFile(filePath);
-                const fileConfig2 = await engine2.calculateConfigForFile(filePath);
-
+                
                 // plugin
                 assert.deepStrictEqual(fileConfig1.rules["example/example-rule"], [1], "example is present for engine 1");
-                assert.strictEqual(fileConfig2.rules["example/example-rule"], void 0, "example is not present for engine 2");
+                assert.strictEqual(fileConfig2.rules, void 0, "example is not present for engine 2");
             });
         });
     });
 
-    describe("with ignorePatterns config", () => {
+    describe("with ignores config", () => {
         const root = getFixturePath("cli-engine/ignore-patterns");
 
-        describe("ignorePatterns can add an ignore pattern ('foo.js').", () => {
+        describe("ignores can add an ignore pattern ('foo.js').", () => {
             const { prepare, cleanup, getPath } = createCustomTeardown({
                 cwd: root,
                 files: {
-                    ".eslintrc.json": {
-                        ignorePatterns: "foo.js"
-                    },
+                    "eslint.config.js": `module.exports = {
+                        ignores: ["**/foo.js"]
+                    };`,
                     "foo.js": "",
                     "bar.js": "",
                     "subdir/foo.js": "",
@@ -4201,18 +4186,19 @@ describe("FlatESLint", () => {
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "bar.js"),
+                    path.join(root, "eslint.config.js"),
                     path.join(root, "subdir/bar.js")
                 ]);
             });
         });
 
-        describe("ignorePatterns can add ignore patterns ('foo.js', '/bar.js').", () => {
+        describe("ignores can add ignore patterns ('**/foo.js', '/bar.js').", () => {
             const { prepare, cleanup, getPath } = createCustomTeardown({
                 cwd: root,
                 files: {
-                    ".eslintrc.json": {
-                        ignorePatterns: ["foo.js", "/bar.js"]
-                    },
+                    "eslint.config.js": `module.exports = {
+                        ignores: ["**/foo.js", "bar.js"]
+                    };`,
                     "foo.js": "",
                     "bar.js": "",
                     "baz.js": "",
@@ -4247,20 +4233,21 @@ describe("FlatESLint", () => {
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "baz.js"),
+                    path.join(root, "eslint.config.js"),
                     path.join(root, "subdir/bar.js"),
                     path.join(root, "subdir/baz.js")
                 ]);
             });
         });
 
-        describe("ignorePatterns can unignore '/node_modules/foo'.", () => {
+        describe.only("ignorePatterns can unignore '/node_modules/foo'.", () => {
 
             const { prepare, cleanup, getPath } = createCustomTeardown({
                 cwd: root,
                 files: {
-                    ".eslintrc.json": {
-                        ignorePatterns: "!/node_modules/foo"
-                    },
+                    "eslint.config.js": `module.exports = {
+                        ignores: ["!**/node_modules/foo/**"]
+                    };`,
                     "node_modules/foo/index.js": "",
                     "node_modules/foo/.dot.js": "",
                     "node_modules/bar/index.js": "",
@@ -4277,10 +4264,10 @@ describe("FlatESLint", () => {
                 assert.strictEqual(await engine.isPathIgnored("node_modules/foo/index.js"), false);
             });
 
-            it("'isPathIgnored()' should return 'true' for 'node_modules/foo/.dot.js'.", async () => {
+            it("'isPathIgnored()' should return 'false' for 'node_modules/foo/.dot.js'.", async () => {
                 const engine = new FlatESLint({ cwd: getPath() });
 
-                assert.strictEqual(await engine.isPathIgnored("node_modules/foo/.dot.js"), true);
+                assert.strictEqual(await engine.isPathIgnored("node_modules/foo/.dot.js"), false);
             });
 
             it("'isPathIgnored()' should return 'true' for 'node_modules/bar/index.js'.", async () => {
@@ -4296,42 +4283,9 @@ describe("FlatESLint", () => {
                     .sort();
 
                 assert.deepStrictEqual(filePaths, [
+                    path.join(root, "eslint.config.js"),
                     path.join(root, "foo.js"),
                     path.join(root, "node_modules/foo/index.js")
-                ]);
-            });
-        });
-
-        describe("ignorePatterns can unignore '.eslintrc.js'.", () => {
-
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
-                files: {
-                    ".eslintrc.js": `module.exports = ${JSON.stringify({
-                        ignorePatterns: "!.eslintrc.js"
-                    })}`,
-                    "foo.js": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'isPathIgnored()' should return 'false' for '.eslintrc.js'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored(".eslintrc.js"), false);
-            });
-
-            it("'lintFiles()' should verify '.eslintrc.js'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-                const filePaths = (await engine.lintFiles("**/*.js"))
-                    .map(r => r.filePath)
-                    .sort();
-
-                assert.deepStrictEqual(filePaths, [
-                    path.join(root, ".eslintrc.js"),
-                    path.join(root, "foo.js")
                 ]);
             });
         });
