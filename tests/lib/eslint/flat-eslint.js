@@ -3390,13 +3390,6 @@ describe("FlatESLint", () => {
                 assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
             });
 
-            it("should return false for file matching an invalid ignore pattern with leading './'", async () => {
-                const cwd = getFixturePath("ignored-paths");
-                const engine = new FlatESLint({ ignorePatterns: ["./undef.js"], cwd });
-
-                assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
-            });
-
             it("should return false for file in subfolder of cwd matching an ignore pattern with leading '/'", async () => {
                 const cwd = getFixturePath("ignored-paths");
                 const filePath = getFixturePath("ignored-paths", "subdir", "undef.js");
@@ -3447,7 +3440,7 @@ describe("FlatESLint", () => {
             });
         });
 
-        describe.only("with ignorePath option", () => {
+        describe("with ignorePath option", () => {
             it("initialization with ignorePath should work when cwd is a parent directory", async () => {
                 const cwd = getFixturePath("ignored-paths");
                 const ignorePath = getFixturePath("ignored-paths", "custom-name", "ignore-file");
@@ -3555,7 +3548,7 @@ describe("FlatESLint", () => {
             it("should handle .eslintignore which contains CRLF correctly.", async () => {
                 const ignoreFileContent = fs.readFileSync(getFixturePath("ignored-paths", "crlf/.eslintignore"), "utf8");
 
-                assert(ignoreFileContent.includes("\r"), "crlf/.eslintignore should contains CR.");
+                assert(ignoreFileContent.includes("\r"), "crlf/.eslintignore should contains CR.", "Ignore file must have CRLF for test to pass.");
                 const cwd = getFixturePath("ignored-paths");
                 const ignorePath = getFixturePath("ignored-paths", "crlf/.eslintignore");
                 const engine = new FlatESLint({ ignorePath, cwd });
@@ -3563,15 +3556,6 @@ describe("FlatESLint", () => {
                 assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "crlf/hide1/a.js")));
                 assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "crlf/hide2/a.js")));
                 assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "crlf/hide3/a.js")));
-            });
-
-            it("should not include comments in ignore rules", async () => {
-                const cwd = getFixturePath("ignored-paths");
-                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreWithComments");
-                const engine = new FlatESLint({ ignorePath, cwd });
-
-                assert(!await engine.isPathIgnored("# should be ignored"));
-                assert(await engine.isPathIgnored("this_one_not"));
             });
 
             it("should ignore a non-negated pattern", async () => {
@@ -3595,12 +3579,12 @@ describe("FlatESLint", () => {
             it("should return false for ignored file when unignored with ignore pattern", async () => {
                 const cwd = getFixturePath("ignored-paths");
                 const engine = new FlatESLint({
-                    ignorePath: getFixturePath("ignored-paths", ".eslintignore"),
-                    ignorePatterns: ["!sampleignorepattern"],
+                    ignorePath: getFixturePath("ignored-paths", ".eslintignoreForNegationTest"),
+                    ignorePatterns: ["!undef.js"],
                     cwd
                 });
 
-                assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "sampleignorepattern")));
+                assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
             });
         });
 
