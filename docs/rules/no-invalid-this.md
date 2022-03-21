@@ -30,6 +30,7 @@ And this rule allows `this` keywords in functions below:
 
 And this rule always allows `this` keywords in the following contexts:
 
+* At the top level of scripts.
 * In class field initializers.
 * In class static blocks.
 
