@@ -4240,7 +4240,14 @@ describe("FlatESLint", () => {
             });
         });
 
-        describe.only("ignorePatterns can unignore '/node_modules/foo'.", () => {
+
+        /*
+         * These tests fail due to a bug in fast-flob that doesn't allow
+         * negated patterns inside of ignores. These tests won't work until
+         * this bug is fixed:
+         * https://github.com/mrmlnc/fast-glob/issues/356
+         */
+        xdescribe("ignorePatterns can unignore '/node_modules/foo'.", () => {
 
             const { prepare, cleanup, getPath } = createCustomTeardown({
                 cwd: root,
@@ -4290,12 +4297,12 @@ describe("FlatESLint", () => {
             });
         });
 
-        describe(".eslintignore can re-ignore files that are unignored by ignorePatterns.", () => {
+        xdescribe(".eslintignore can re-ignore files that are unignored by ignorePatterns.", () => {
             const { prepare, cleanup, getPath } = createCustomTeardown({
                 cwd: root,
                 files: {
-                    ".eslintrc.js": `module.exports = ${JSON.stringify({
-                        ignorePatterns: "!.*"
+                    "eslint.config.js": `module.exports = ${JSON.stringify({
+                        ignores: ["!.*"]
                     })}`,
                     ".eslintignore": ".foo*",
                     ".foo.js": "",
@@ -4318,7 +4325,7 @@ describe("FlatESLint", () => {
                 assert.strictEqual(await engine.isPathIgnored(".bar.js"), false);
             });
 
-            it("'lintFiles()' should not verify re-ignored '.foo.js'.", async () => {
+            it("'lintFiles()' should not lint re-ignored '.foo.js'.", async () => {
                 const engine = new FlatESLint({ cwd: getPath() });
                 const filePaths = (await engine.lintFiles("**/*.js"))
                     .map(r => r.filePath)
@@ -4326,17 +4333,17 @@ describe("FlatESLint", () => {
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, ".bar.js"),
-                    path.join(root, ".eslintrc.js")
+                    path.join(root, "eslint.config.js")
                 ]);
             });
         });
 
-        describe(".eslintignore can unignore files that are ignored by ignorePatterns.", () => {
+        xdescribe(".eslintignore can unignore files that are ignored by ignorePatterns.", () => {
             const { prepare, cleanup, getPath } = createCustomTeardown({
                 cwd: root,
                 files: {
-                    ".eslintrc.js": `module.exports = ${JSON.stringify({
-                        ignorePatterns: "*.js"
+                    "eslint.config.js": `module.exports = ${JSON.stringify({
+                        ignores: ["**/*.js"]
                     })}`,
                     ".eslintignore": "!foo.js",
                     "foo.js": "",
@@ -4371,393 +4378,14 @@ describe("FlatESLint", () => {
             });
         });
 
-        describe("ignorePatterns in the config file in a child directory affects to only in the directory.", () => {
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
-                files: {
-                    ".eslintrc.json": JSON.stringify({
-                        ignorePatterns: "foo.js"
-                    }),
-                    "subdir/.eslintrc.json": JSON.stringify({
-                        ignorePatterns: "bar.js"
-                    }),
-                    "foo.js": "",
-                    "bar.js": "",
-                    "subdir/foo.js": "",
-                    "subdir/bar.js": "",
-                    "subdir/subsubdir/foo.js": "",
-                    "subdir/subsubdir/bar.js": ""
-                }
-            });
-
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'isPathIgnored()' should return 'true' for 'foo.js'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("foo.js"), true);
-                assert.strictEqual(await engine.isPathIgnored("subdir/foo.js"), true);
-                assert.strictEqual(await engine.isPathIgnored("subdir/subsubdir/foo.js"), true);
-            });
-
-            it("'isPathIgnored()' should return 'true' for 'bar.js' in 'subdir'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("subdir/bar.js"), true);
-                assert.strictEqual(await engine.isPathIgnored("subdir/subsubdir/bar.js"), true);
-            });
-
-            it("'isPathIgnored()' should return 'false' for 'bar.js' in the outside of 'subdir'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("bar.js"), false);
-            });
-
-            it("'lintFiles()' should verify 'bar.js' in the outside of 'subdir'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-                const filePaths = (await engine.lintFiles("**/*.js"))
-                    .map(r => r.filePath)
-                    .sort();
-
-                assert.deepStrictEqual(filePaths, [
-                    path.join(root, "bar.js")
-                ]);
-            });
-        });
-
-        describe("ignorePatterns in the config file in a child directory can unignore the ignored files in the parent directory's config.", () => {
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
-                files: {
-                    ".eslintrc.json": JSON.stringify({
-                        ignorePatterns: "foo.js"
-                    }),
-                    "subdir/.eslintrc.json": JSON.stringify({
-                        ignorePatterns: "!foo.js"
-                    }),
-                    "foo.js": "",
-                    "subdir/foo.js": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'isPathIgnored()' should return 'true' for 'foo.js' in the root directory.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("foo.js"), true);
-            });
-
-            it("'isPathIgnored()' should return 'false' for 'foo.js' in the child directory.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("subdir/foo.js"), false);
-            });
-
-            it("'lintFiles()' should verify 'foo.js' in the child directory.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-                const filePaths = (await engine.lintFiles("**/*.js"))
-                    .map(r => r.filePath)
-                    .sort();
-
-                assert.deepStrictEqual(filePaths, [
-                    path.join(root, "subdir/foo.js")
-                ]);
-            });
-        });
-
-        describe(".eslintignore can unignore files that are ignored by ignorePatterns in the config file in the child directory.", () => {
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
-                files: {
-                    ".eslintrc.json": JSON.stringify({}),
-                    "subdir/.eslintrc.json": JSON.stringify({
-                        ignorePatterns: "*.js"
-                    }),
-                    ".eslintignore": "!foo.js",
-                    "foo.js": "",
-                    "subdir/foo.js": "",
-                    "subdir/bar.js": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'isPathIgnored()' should return 'false' for unignored 'foo.js'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("foo.js"), false);
-                assert.strictEqual(await engine.isPathIgnored("subdir/foo.js"), false);
-            });
-
-            it("'isPathIgnored()' should return 'true' for ignored 'bar.js'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("subdir/bar.js"), true);
-            });
-
-            it("'lintFiles()' should verify unignored 'foo.js'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-                const filePaths = (await engine.lintFiles("**/*.js"))
-                    .map(r => r.filePath)
-                    .sort();
-
-                assert.deepStrictEqual(filePaths, [
-                    path.join(root, "foo.js"),
-                    path.join(root, "subdir/foo.js")
-                ]);
-            });
-        });
-
-        describe("if the config in a child directory has 'root:true', ignorePatterns in the config file in the parent directory should not be used.", () => {
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
-                files: {
-                    ".eslintrc.json": JSON.stringify({
-                        ignorePatterns: "foo.js"
-                    }),
-                    "subdir/.eslintrc.json": JSON.stringify({
-                        root: true,
-                        ignorePatterns: "bar.js"
-                    }),
-                    "foo.js": "",
-                    "bar.js": "",
-                    "subdir/foo.js": "",
-                    "subdir/bar.js": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'isPathIgnored()' should return 'true' for 'foo.js' in the root directory.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("foo.js"), true);
-            });
-
-            it("'isPathIgnored()' should return 'false' for 'bar.js' in the root directory.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("bar.js"), false);
-            });
-
-            it("'isPathIgnored()' should return 'false' for 'foo.js' in the child directory.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("subdir/foo.js"), false);
-            });
-
-            it("'isPathIgnored()' should return 'true' for 'bar.js' in the child directory.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("subdir/bar.js"), true);
-            });
-
-            it("'lintFiles()' should verify 'bar.js' in the root directory and 'foo.js' in the child directory.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-                const filePaths = (await engine.lintFiles("**/*.js"))
-                    .map(r => r.filePath)
-                    .sort();
-
-                assert.deepStrictEqual(filePaths, [
-                    path.join(root, "bar.js"),
-                    path.join(root, "subdir/foo.js")
-                ]);
-            });
-        });
-
-        describe("even if the config in a child directory has 'root:true', .eslintignore should be used.", () => {
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
-                files: {
-                    ".eslintrc.json": JSON.stringify({}),
-                    "subdir/.eslintrc.json": JSON.stringify({
-                        root: true,
-                        ignorePatterns: "bar.js"
-                    }),
-                    ".eslintignore": "foo.js",
-                    "foo.js": "",
-                    "bar.js": "",
-                    "subdir/foo.js": "",
-                    "subdir/bar.js": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'isPathIgnored()' should return 'true' for 'foo.js'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("foo.js"), true);
-                assert.strictEqual(await engine.isPathIgnored("subdir/foo.js"), true);
-            });
-
-            it("'isPathIgnored()' should return 'false' for 'bar.js' in the root directory.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("bar.js"), false);
-            });
-
-            it("'isPathIgnored()' should return 'true' for 'bar.js' in the child directory.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("subdir/bar.js"), true);
-            });
-
-            it("'lintFiles()' should verify 'bar.js' in the root directory.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-                const filePaths = (await engine.lintFiles("**/*.js"))
-                    .map(r => r.filePath)
-                    .sort();
-
-                assert.deepStrictEqual(filePaths, [
-                    path.join(root, "bar.js")
-                ]);
-            });
-        });
-
-        describe("ignorePatterns in the shareable config should be used.", () => {
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
-                files: {
-                    "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
-                        ignorePatterns: "foo.js"
-                    })}`,
-                    ".eslintrc.json": JSON.stringify({
-                        extends: "one"
-                    }),
-                    "foo.js": "",
-                    "bar.js": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'isPathIgnored()' should return 'true' for 'foo.js'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("foo.js"), true);
-            });
-
-            it("'isPathIgnored()' should return 'false' for 'bar.js'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("bar.js"), false);
-            });
-
-            it("'lintFiles()' should verify 'bar.js'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-                const filePaths = (await engine.lintFiles("**/*.js"))
-                    .map(r => r.filePath)
-                    .sort();
-
-                assert.deepStrictEqual(filePaths, [
-                    path.join(root, "bar.js")
-                ]);
-            });
-        });
-
-        describe("ignorePatterns in the shareable config should be relative to the entry config file.", () => {
+        describe("ignores in a config file should not be used if ignore: false.", () => {
 
             const { prepare, cleanup, getPath } = createCustomTeardown({
                 cwd: root,
                 files: {
-                    "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
-                        ignorePatterns: "/foo.js"
-                    })}`,
-                    ".eslintrc.json": JSON.stringify({
-                        extends: "one"
-                    }),
-                    "foo.js": "",
-                    "subdir/foo.js": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'isPathIgnored()' should return 'true' for 'foo.js'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("foo.js"), true);
-            });
-
-            it("'isPathIgnored()' should return 'false' for 'subdir/foo.js'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("subdir/foo.js"), false);
-            });
-
-            it("'lintFiles()' should verify 'subdir/foo.js'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-                const filePaths = (await engine.lintFiles("**/*.js"))
-                    .map(r => r.filePath)
-                    .sort();
-
-                assert.deepStrictEqual(filePaths, [
-                    path.join(root, "subdir/foo.js")
-                ]);
-            });
-        });
-
-        describe("ignorePatterns in a config file can unignore the files which are ignored by ignorePatterns in the shareable config.", () => {
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
-                files: {
-                    "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
-                        ignorePatterns: "*.js"
-                    })}`,
-                    ".eslintrc.json": JSON.stringify({
-                        extends: "one",
-                        ignorePatterns: "!bar.js"
-                    }),
-                    "foo.js": "",
-                    "bar.js": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'isPathIgnored()' should return 'true' for 'foo.js'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("foo.js"), true);
-            });
-
-            it("'isPathIgnored()' should return 'false' for 'bar.js'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                assert.strictEqual(await engine.isPathIgnored("bar.js"), false);
-            });
-
-            it("'lintFiles()' should verify 'bar.js'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-                const filePaths = (await engine.lintFiles("**/*.js"))
-                    .map(r => r.filePath)
-                    .sort();
-
-                assert.deepStrictEqual(filePaths, [
-                    path.join(root, "bar.js")
-                ]);
-            });
-        });
-
-        describe("ignorePatterns in a config file should not be used if --no-ignore option was given.", () => {
-
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
-                files: {
-                    ".eslintrc.json": JSON.stringify({
-                        ignorePatterns: "*.js"
-                    }),
+                    "eslint.config.js": `module.exports = {
+                        ignores: ["*.js"]
+                    }`,
                     "foo.js": ""
                 }
             });
@@ -4778,57 +4406,26 @@ describe("FlatESLint", () => {
                     .sort();
 
                 assert.deepStrictEqual(filePaths, [
+                    path.join(root, "eslint.config.js"),
                     path.join(root, "foo.js")
                 ]);
             });
         });
 
-        describe("ignorePatterns in overrides section is not allowed.", () => {
-
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
-                files: {
-                    ".eslintrc.js": `module.exports = ${JSON.stringify({
-                        overrides: [
-                            {
-                                files: "*.js",
-                                ignorePatterns: "foo.js"
-                            }
-                        ]
-                    })}`,
-                    "foo.js": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("should throw a configuration error.", async () => {
-                await assert.rejects(async () => {
-                    const engine = new FlatESLint({ cwd: getPath() });
-
-                    await engine.lintFiles("*.js");
-                }, /Unexpected top-level property "overrides\[0\]\.ignorePatterns"/u);
-            });
-        });
     });
 
     describe("'overrides[].files' adds lint targets", () => {
         const root = getFixturePath("cli-engine/additional-lint-targets");
 
 
-        describe("if { files: 'foo/*.txt', excludedFiles: '**/ignore.txt' } is present,", () => {
+        describe.only("if { files: 'foo/*.txt', ignores: '**/ignore.txt' } is present,", () => {
             const { prepare, cleanup, getPath } = createCustomTeardown({
                 cwd: root,
                 files: {
-                    ".eslintrc.json": JSON.stringify({
-                        overrides: [
-                            {
-                                files: "foo/*.txt",
-                                excludedFiles: "**/ignore.txt"
-                            }
-                        ]
-                    }),
+                    "eslint.config.js": `module.exports = [{
+                        files: ["foo/*.txt"],
+                        ignores: ["**/ignore.txt"]
+                    }];`,
                     "foo/nested/test.txt": "",
                     "foo/test.js": "",
                     "foo/test.txt": "",
@@ -4853,6 +4450,7 @@ describe("FlatESLint", () => {
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "bar/test.js"),
+                    path.join(root, "eslint.config.js"),
                     path.join(root, "foo/test.js"),
                     path.join(root, "foo/test.txt"),
                     path.join(root, "test.js")
@@ -4867,6 +4465,7 @@ describe("FlatESLint", () => {
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "bar/test.js"),
+                    path.join(root, "eslint.config.js"),
                     path.join(root, "foo/test.js"),
                     path.join(root, "test.js")
                 ]);
