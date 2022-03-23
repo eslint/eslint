@@ -128,6 +128,15 @@ const patterns = [
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT],
         invalid: [MODULES]
     },
+    {
+        code: "this.eval('foo');",
+        parserOptions: {
+            ecmaVersion: 6
+        },
+        errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT],
+        invalid: [MODULES]
+    },
 
     // IIFE.
     {
