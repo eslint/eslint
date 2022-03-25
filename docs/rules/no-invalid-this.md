@@ -1,14 +1,18 @@
 # no-invalid-this
 
-Disallows `this` keywords outside of classes or class-like objects.
+Disallows use of `this` in contexts where the value of `this` is `undefined`.
 
 Under the strict mode, `this` keywords outside of classes or class-like objects might be `undefined` and raise a `TypeError`.
 
 ## Rule Details
 
-This rule aims to flag usage of `this` keywords outside of classes or class-like objects.
+This rule aims to flag usage of `this` keywords in contexts where the value of `this` is `undefined`.
 
-Basically, this rule checks whether or not a function containing `this` keyword is a constructor or a method.
+Top-level `this` in scripts is always considered valid because it refers to the global object regardless of the strict mode.
+
+Top-level `this` in ECMAScript modules is always considered invalid because its value is `undefined`.
+
+For `this` inside functions, this rule basically checks whether or not the function containing `this` keyword is a constructor or a method. Note that arrow functions have lexical `this`, and that therefore this rule checks their enclosing contexts.
 
 This rule judges from following conditions whether or not the function is a constructor:
 
@@ -47,9 +51,6 @@ Examples of **incorrect** code for this rule in strict mode:
 
 "use strict";
 
-this.a = 0;
-baz(() => this);
-
 (function() {
     this.a = 0;
     baz(() => this);
@@ -69,11 +70,6 @@ foo(function() {
     this.a = 0;
     baz(() => this);
 });
-
-obj.foo = () => {
-    // `this` of arrow functions is the outer scope's.
-    this.a = 0;
-};
 
 var obj = {
     aaa: function() {
@@ -98,6 +94,9 @@ Examples of **correct** code for this rule in strict mode:
 /*eslint-env es6*/
 
 "use strict";
+
+this.a = 0;
+baz(() => this);
 
 function Foo() {
     // OK, this is in a legacy style constructor.
