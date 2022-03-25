@@ -1,3 +1,8 @@
+v8.12.0 - March 25, 2022
+
+* [`685a67a`](https://github.com/eslint/eslint/commit/685a67a62bdea19ca9ce12008a034b8d31162422) feat: fix logic for top-level `this` in no-invalid-this and no-eval (#15712) (Milos Djermanovic)
+* [`18f5e05`](https://github.com/eslint/eslint/commit/18f5e05bce10503186989d81ca484abb185a2c9d) chore: padding-line-between-statements remove useless `additionalItems` (#15706) (Martin Sadovy)
+
 v8.11.0 - March 11, 2022
 
 * [`6814922`](https://github.com/eslint/eslint/commit/68149221637faa8e4f2718773e751126b7ae8ac9) fix: escaping for square brackets in ignore patterns (#15666) (Milos Djermanovic)
