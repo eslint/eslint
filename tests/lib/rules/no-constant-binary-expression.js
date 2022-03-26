@@ -44,7 +44,12 @@ ruleTester.run("no-constant-binary-expression", rule, {
 
         "delete bar.baz === true",
 
-        "foo.Boolean(true) && foo"
+        "foo.Boolean(true) && foo",
+        "function Boolean(n) { return n; }; Boolean(x) ?? foo",
+        "function String(n) { return n; }; String(x) ?? foo",
+        "function Number(n) { return n; }; Number(x) ?? foo",
+        "function Boolean(n) { return Math.random(); }; Boolean(x) === 1",
+        "function Boolean(n) { return Math.random(); }; Boolean(1) == true"
     ],
     invalid: [
 
