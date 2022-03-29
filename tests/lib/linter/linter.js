@@ -3425,7 +3425,7 @@ var a = "test2";
             const version = linter.version;
 
             assert.isString(version);
-            assert.isTrue(parseInt(version[0], 10) >= 3);
+            assert.isTrue(Number.parseInt(version[0], 10) >= 3);
         });
     });
 
@@ -12562,7 +12562,7 @@ var a = "test2";
                     const code = `
                     /* eslint-disable-next-line no-alert --
                         description on why this exception is seen as appropriate but past a
-                        comfortable reading line length 
+                        comfortable reading line length
                     */
                     alert("buzz");
                     `;
@@ -14757,7 +14757,7 @@ var a = "test2";
             const version = linter.version;
 
             assert.isString(version);
-            assert.isTrue(parseInt(version[0], 10) >= 3);
+            assert.isTrue(Number.parseInt(version[0], 10) >= 3);
         });
     });
 

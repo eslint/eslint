@@ -21,7 +21,7 @@ const {
 } = path.parse(require.resolve("../../lib/rules"));
 
 // Show full stack trace. The default 10 is usually not enough to find the root cause of this problem.
-Error.stackTraceLimit = Infinity;
+Error.stackTraceLimit = Number.POSITIVE_INFINITY;
 
 const [cwd, pattern, usedRulesCommaSeparated] = process.argv.slice(2);
 
@@ -62,5 +62,7 @@ addHook(
     await eslint.lintFiles([pattern]);
 })().catch(({ message, stack }) => {
     process.send({ message, stack });
+
+    // eslint-disable-next-line unicorn/no-process-exit -- CLI
     process.exit(1);
 });

@@ -271,7 +271,7 @@ describe("bin/eslint.js", () => {
                     assert.isTrue(fs.existsSync(CACHE_PATH), "Cache file should exist at the given location");
 
                     // Cache file should contain valid JSON
-                    JSON.parse(fs.readFileSync(CACHE_PATH, "utf8"));
+                    JSON.parse(fs.readFileSync(CACHE_PATH));
                 });
             });
         });
@@ -323,7 +323,7 @@ describe("bin/eslint.js", () => {
 
                 // Sanity check
                 assert.throws(
-                    () => JSON.parse(fs.readFileSync(CACHE_PATH, "utf8")),
+                    () => JSON.parse(fs.readFileSync(CACHE_PATH)),
                     SyntaxError,
                     /Unexpected token/u,
                     "Cache file should not contain valid JSON at the start"
@@ -337,7 +337,7 @@ describe("bin/eslint.js", () => {
                     assert.isTrue(fs.existsSync(CACHE_PATH), "Cache file should exist at the given location");
 
                     // Cache file should contain valid JSON
-                    JSON.parse(fs.readFileSync(CACHE_PATH, "utf8"));
+                    JSON.parse(fs.readFileSync(CACHE_PATH));
                 });
             });
 

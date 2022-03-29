@@ -101,6 +101,7 @@
     "eslint-plugin-jsdoc": "^37.0.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-release": "^3.2.0",
+    "eslint-plugin-unicorn": "^41.0.1",
     "eslump": "^3.0.0",
     "esprima": "^4.0.1",
     "fs-teardown": "^0.1.3",

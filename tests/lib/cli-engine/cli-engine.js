@@ -5342,7 +5342,7 @@ describe("CLIEngine", () => {
             const version = eslintCLI.version;
 
             assert.isString(version);
-            assert.isTrue(parseInt(version[0], 10) >= 3);
+            assert.isTrue(Number.parseInt(version[0], 10) >= 3);
         });
     });
 

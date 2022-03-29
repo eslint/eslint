@@ -4,6 +4,10 @@ extends:
     - "plugin:node/recommended"
     - "plugin:jsdoc/recommended"
     - "plugin:eslint-comments/recommended"
+    # - "plugin:sonarjs/recommended"
+    - "plugin:unicorn/recommended"
+parserOptions:
+    sourceType: "script"
 settings:
     jsdoc:
         tagNamePreference:
@@ -18,11 +22,9 @@ settings:
               message: "Use a more precise type or if necessary use `any` or `ArbitraryCallbackResult`"
               replacement: "any"
             # Function:
-            #   message: "Point to a `@callback` namepath or `GenericCallback` if truly arbitrary in form"
-            #   replacement: "GenericCallback"
+            #   message: "Point to a `@callback` namepath"
             # function:
-            #   message: "Point to a `@callback` namepath or `GenericCallback` if truly arbitrary in form"
-            #   replacement: "GenericCallback"
+            #   message: "Point to a `@callback` namepath"
             function:
               message: "Point to a `@callback` namepath or `Function` if truly arbitrary in form"
               replacement: "Function"
@@ -31,21 +33,13 @@ settings:
             ".<>":
               message: "Prefer type form without dot"
               replacement: "<>"
-            # Object:
-            #   message: "Use the specific object type or `PlainObject` if truly arbitrary"
-            #   replacement: "PlainObject"
-            # object:
-            #   message: "Use the specific object type or `PlainObject` if truly arbitrary"
-            #   replacement: "PlainObject"
             object:
                message: "Use the specific object type or `Object` if truly arbitrary"
                replacement: "Object"
             # Array:
-            #   message: "Use the specific array type or `GenericArray` if it is truly arbitrary."
-            #   replacement: "GenericArray"
+            #   message: "Use the specific array type."
             # array:
-            #   message: "Use specific array type or `GenericArray` if it is truly arbitrary."
-            #   replacement: "GenericArray"
+            #   message: "Use the specific array type."
             array: "Array"
 
 rules:
@@ -72,11 +66,6 @@ rules:
     dot-notation: ["error", { allowKeywords: true }]
     eol-last: "error"
     eqeqeq: "error"
-
-    eslint-comments/disable-enable-pair: ["error"]
-    eslint-comments/no-unused-disable: "error"
-    eslint-comments/require-description: "error"
-
     func-call-spacing: "error"
     func-style: ["error", "declaration"]
     function-call-argument-newline: ["error", "consistent"]
@@ -84,55 +73,6 @@ rules:
     generator-star-spacing: "error"
     grouped-accessor-pairs: "error"
     guard-for-in: "error"
-
-    # jsdoc: adopt non-recommended rules or change recommended configuration
-    # jsdoc/check-examples: "error"
-    # jsdoc/check-indentation: "error" # Revisit if allowing configurable spaces after tag line breaks
-    jsdoc/check-line-alignment: ["error", "never"]
-    jsdoc/check-syntax: "error"
-    # jsdoc/check-types': ["error', { exemptTagContexts: [ { tag: "typedef", types: ["object", "GenericObject"] } ] }
-
-    jsdoc/check-values: ["error", { allowedLicenses: true }]
-    jsdoc/newline-after-description: ["error", "never"]
-    jsdoc/no-bad-blocks: "error"
-    jsdoc/require-asterisk-prefix: "error"
-    jsdoc/require-description: ["error", { checkConstructors: false }]
-    # jsdoc/require-file-overview: "error"
-    jsdoc/require-hyphen-before-param-description: ["error", "never"]
-    jsdoc/require-returns: ["error", { forceRequireReturn: true, forceReturnsWithAsync: true }]
-    jsdoc/require-throws: "error"
-    jsdoc/tag-lines: ["error", "never", { tags: { example: { lines: "always" }, fileoverview: { lines: "any" } } }]
-
-    # jsdoc: disable recommended rules
-    jsdoc/no-undefined-types: "off"
-    jsdoc/require-yields: "off"
-
-    # jsdoc: change recommended rules from warnings into errors
-    jsdoc/check-access: "error"
-    jsdoc/check-alignment: "error"
-    jsdoc/check-param-names: "error"
-    jsdoc/check-property-names: "error"
-    jsdoc/check-tag-names: "error"
-    jsdoc/check-types: "error"
-    jsdoc/empty-tags: "error"
-    jsdoc/implements-on-classes: "error"
-    jsdoc/multiline-blocks: "error"
-    jsdoc/no-multi-asterisks: "error"
-    jsdoc/require-jsdoc: ["error", { require: {ClassDeclaration: true} }]
-    jsdoc/require-param: "error"
-    jsdoc/require-param-description: "error"
-    jsdoc/require-param-name: "error"
-    jsdoc/require-param-type: "error"
-    jsdoc/require-property: "error"
-    jsdoc/require-property-description: "error"
-    jsdoc/require-property-name: "error"
-    jsdoc/require-property-type: "error"
-    jsdoc/require-returns-check: "error"
-    jsdoc/require-returns-description: "error"
-    jsdoc/require-returns-type: "error"
-    jsdoc/require-yields-check: "error"
-    jsdoc/valid-types: "error"
-
     key-spacing: ["error", { beforeColon: false, afterColon: true }]
     keyword-spacing: "error"
     lines-around-comment: ["error", {
@@ -217,14 +157,6 @@ rules:
     no-useless-return: "error"
     no-whitespace-before-property: "error"
     no-var: "error"
-
-    node/callback-return: ["error", ["cb", "callback", "next"]]
-    node/handle-callback-err: ["error", "err"]
-    node/no-deprecated-api: "error"
-    node/no-mixed-requires: "error"
-    node/no-new-require: "error"
-    node/no-path-concat: "error"
-
     object-curly-newline: ["error", { "consistent": true, "multiline": true }]
     object-curly-spacing: ["error", "always"]
     object-property-newline: ["error", { "allowAllPropertiesOnSameLine": true }]
@@ -281,3 +213,129 @@ rules:
     wrap-iife: "error"
     yield-star-spacing: "error"
     yoda: ["error", "never", { exceptRange: true }]
+
+    # From recommended
+    eslint-comments/disable-enable-pair: "error"
+    # eslint-comments/no-aggregating-enable: "error", # Probably should apply
+    # eslint-comments/no-duplicate-disable: "error", # Probably should apply
+    # eslint-comments/no-unlimited-disable: "error", # Probably should apply
+    # eslint-comments/no-unused-enable: "error", # Probably should apply
+
+    # Enable useful non-recommended
+    eslint-comments/no-unused-disable: "error"
+    eslint-comments/require-description: "error"
+
+    # Enable useful non-recommended
+    # jsdoc/check-examples: "error" # Disabled until ESLint 8 may restore ability to use
+    # jsdoc/check-indentation: "error" # Revisit if allowing configurable spaces after tag line breaks
+    # jsdoc/require-file-overview: "error" # Decide policy on folders on which to apply
+    jsdoc/check-syntax: "error"
+    jsdoc/no-bad-blocks: "error"
+    jsdoc/require-asterisk-prefix: "error"
+    jsdoc/require-description: ["error", { checkConstructors: false }]
+    jsdoc/require-hyphen-before-param-description: ["error", "never"]
+    jsdoc/require-throws: "error"
+
+    # Change recommended configuration
+    jsdoc/check-line-alignment: ["error", "never"]
+    jsdoc/check-values: ["error", { allowedLicenses: true }]
+    jsdoc/newline-after-description: ["error", "never"]
+    jsdoc/require-jsdoc: ["error", { require: {ClassDeclaration: true} }]
+    jsdoc/require-returns: ["error", { forceRequireReturn: true, forceReturnsWithAsync: true }]
+    jsdoc/tag-lines: ["error", "never", { tags: { example: { lines: "always" }, fileoverview: { lines: "any" } } }]
+
+    # Disable recommended rules
+    jsdoc/no-undefined-types: "off" # Isn't globally or import aware
+    jsdoc/require-yields: "off"
+
+    # Change recommended rules from warnings into errors
+    jsdoc/check-access: "error"
+    jsdoc/check-alignment: "error"
+    jsdoc/check-param-names: "error"
+    jsdoc/check-property-names: "error"
+    jsdoc/check-tag-names: "error"
+    jsdoc/check-types: "error"
+    jsdoc/empty-tags: "error"
+    jsdoc/implements-on-classes: "error"
+    jsdoc/multiline-blocks: "error"
+    jsdoc/no-multi-asterisks: "error"
+    jsdoc/require-param-description: "error"
+    jsdoc/require-param-name: "error"
+    jsdoc/require-param-type: "error"
+    jsdoc/require-param: "error"
+    jsdoc/require-property-description: "error"
+    jsdoc/require-property-name: "error"
+    jsdoc/require-property-type: "error"
+    jsdoc/require-property: "error"
+    jsdoc/require-returns-check: "error"
+    jsdoc/require-returns-description: "error"
+    jsdoc/require-returns-type: "error"
+    jsdoc/require-yields-check: "error"
+    jsdoc/valid-types: "error"
+
+    # Change configuration (non-recommended)
+    node/callback-return: ["error", ["cb", "callback", "next"]]
+    node/handle-callback-err: ["error", "err"]
+
+    # Enable useful non-recommended
+    node/no-deprecated-api: "error"
+    node/no-mixed-requires: "error"
+    node/no-new-require: "error"
+    node/no-path-concat: "error"
+
+    # Disable
+    sonarjs/cognitive-complexity: "off"
+    sonarjs/max-switch-cases: "off"
+    sonarjs/no-collapsible-if: "off"
+    sonarjs/no-duplicate-string: "off"
+    sonarjs/no-identical-functions: "off"
+    sonarjs/no-nested-switch: "off"
+    sonarjs/no-nested-template-literals: "off"
+    sonarjs/no-small-switch: "off"
+    sonarjs/prefer-immediate-return: "off"
+
+    # Disable for now but might want to enable
+    unicorn/no-array-callback-reference: "off"
+    unicorn/no-await-expression-member: "off"
+    unicorn/prefer-object-from-entries: "off"
+
+    # Disable
+    unicorn/catch-error-name: "off"
+    unicorn/consistent-destructuring: "off"
+    unicorn/consistent-function-scoping: "off"
+    unicorn/empty-brace-spaces: "off"
+    unicorn/explicit-length-check: "off"
+    unicorn/filename-case: "off"
+    unicorn/import-index: "off"
+    unicorn/import-style: "off"
+    unicorn/no-array-for-each: "off"
+    unicorn/no-array-reduce: "off"
+    unicorn/no-lonely-if: "off"
+    unicorn/no-nested-ternary: "off"
+    unicorn/no-null: "off"
+    unicorn/no-unreadable-array-destructuring: "off"
+    unicorn/no-useless-undefined: "off"
+    unicorn/numeric-separators-style: "off"
+    unicorn/prefer-array-flat-map: "off"
+    unicorn/prefer-array-flat: "off"
+    unicorn/prefer-exponentiation-operator: "off"
+    unicorn/prefer-module: "off"
+    unicorn/prefer-node-protocol: "off"
+    unicorn/prefer-optional-catch-binding: "off"
+    unicorn/prefer-prototype-methods: "off"
+    unicorn/prefer-set-has: "off"
+    unicorn/prefer-spread: "off"
+    unicorn/prefer-string-slice: "off"
+    unicorn/prefer-switch: "off"
+    unicorn/prefer-ternary: "off"
+    unicorn/prevent-abbreviations: "off"
+    unicorn/throw-new-error: "off"
+
+    # Enable useful non-recommended
+    unicorn/custom-error-definition: "error"
+    unicorn/no-unsafe-regex: "error"
+
+    # Change recommended configuration
+    unicorn/better-regex: ["error", {sortCharacterClasses: false}]
+    unicorn/expiring-todo-comments: ["error", {allowWarningComments: true, terms: ["todo"]}]
+    unicorn/prefer-number-properties: "warn"

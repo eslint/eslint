@@ -52,7 +52,7 @@ function defineInMemoryFs({
                 }
                 fs.writeFileSync(filePath, content);
             } else {
-                throw new Error(`Invalid content: ${typeof content}`);
+                throw new TypeError(`Invalid content: ${typeof content}`);
             }
         }
     }(cwd(), files));

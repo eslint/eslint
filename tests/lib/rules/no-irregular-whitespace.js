@@ -59,7 +59,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
         "'\u0085';",
         "'\u00A0';",
         "'\u180E';",
-        "'\ufeff';",
+        "'\uFEFF';",
         "'\u2000';",
         "'\u2001';",
         "'\u2002';",
@@ -75,14 +75,14 @@ ruleTester.run("no-irregular-whitespace", rule, {
         "'\\\u2028';", // multiline string
         "'\\\u2029';", // multiline string
         "'\u202F';",
-        "'\u205f';",
+        "'\u205F';",
         "'\u3000';",
         { code: "// \u000B", options: [{ skipComments: true }] },
         { code: "// \u000C", options: [{ skipComments: true }] },
         { code: "// \u0085", options: [{ skipComments: true }] },
         { code: "// \u00A0", options: [{ skipComments: true }] },
         { code: "// \u180E", options: [{ skipComments: true }] },
-        { code: "// \ufeff", options: [{ skipComments: true }] },
+        { code: "// \uFEFF", options: [{ skipComments: true }] },
         { code: "// \u2000", options: [{ skipComments: true }] },
         { code: "// \u2001", options: [{ skipComments: true }] },
         { code: "// \u2002", options: [{ skipComments: true }] },
@@ -96,14 +96,14 @@ ruleTester.run("no-irregular-whitespace", rule, {
         { code: "// \u200A", options: [{ skipComments: true }] },
         { code: "// \u200B", options: [{ skipComments: true }] },
         { code: "// \u202F", options: [{ skipComments: true }] },
-        { code: "// \u205f", options: [{ skipComments: true }] },
+        { code: "// \u205F", options: [{ skipComments: true }] },
         { code: "// \u3000", options: [{ skipComments: true }] },
         { code: "/* \u000B */", options: [{ skipComments: true }] },
         { code: "/* \u000C */", options: [{ skipComments: true }] },
         { code: "/* \u0085 */", options: [{ skipComments: true }] },
         { code: "/* \u00A0 */", options: [{ skipComments: true }] },
         { code: "/* \u180E */", options: [{ skipComments: true }] },
-        { code: "/* \ufeff */", options: [{ skipComments: true }] },
+        { code: "/* \uFEFF */", options: [{ skipComments: true }] },
         { code: "/* \u2000 */", options: [{ skipComments: true }] },
         { code: "/* \u2001 */", options: [{ skipComments: true }] },
         { code: "/* \u2002 */", options: [{ skipComments: true }] },
@@ -119,14 +119,14 @@ ruleTester.run("no-irregular-whitespace", rule, {
         { code: "/* \u2028 */", options: [{ skipComments: true }] },
         { code: "/* \u2029 */", options: [{ skipComments: true }] },
         { code: "/* \u202F */", options: [{ skipComments: true }] },
-        { code: "/* \u205f */", options: [{ skipComments: true }] },
+        { code: "/* \u205F */", options: [{ skipComments: true }] },
         { code: "/* \u3000 */", options: [{ skipComments: true }] },
         { code: "/\u000B/", options: [{ skipRegExps: true }] },
         { code: "/\u000C/", options: [{ skipRegExps: true }] },
         { code: "/\u0085/", options: [{ skipRegExps: true }] },
         { code: "/\u00A0/", options: [{ skipRegExps: true }] },
         { code: "/\u180E/", options: [{ skipRegExps: true }] },
-        { code: "/\ufeff/", options: [{ skipRegExps: true }] },
+        { code: "/\uFEFF/", options: [{ skipRegExps: true }] },
         { code: "/\u2000/", options: [{ skipRegExps: true }] },
         { code: "/\u2001/", options: [{ skipRegExps: true }] },
         { code: "/\u2002/", options: [{ skipRegExps: true }] },
@@ -140,14 +140,14 @@ ruleTester.run("no-irregular-whitespace", rule, {
         { code: "/\u200A/", options: [{ skipRegExps: true }] },
         { code: "/\u200B/", options: [{ skipRegExps: true }] },
         { code: "/\u202F/", options: [{ skipRegExps: true }] },
-        { code: "/\u205f/", options: [{ skipRegExps: true }] },
+        { code: "/\u205F/", options: [{ skipRegExps: true }] },
         { code: "/\u3000/", options: [{ skipRegExps: true }] },
         { code: "`\u000B`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "`\u000C`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "`\u0085`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "`\u00A0`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "`\u180E`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\ufeff`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "`\uFEFF`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "`\u2000`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "`\u2001`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "`\u2002`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
@@ -161,7 +161,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
         { code: "`\u200A`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "`\u200B`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "`\u202F`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u205f`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "`\u205F`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "`\u3000`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
 
         { code: "`\u3000${foo}\u3000`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
@@ -198,7 +198,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
          * },
          */
         {
-            code: "var any \ufeff = 'thing';",
+            code: "var any \uFEFF = 'thing';",
             errors: expectedErrors
         },
         {
@@ -258,7 +258,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
             errors: expectedErrors
         },
         {
-            code: "var any \u205f = 'thing';",
+            code: "var any \u205F = 'thing';",
             errors: expectedErrors
         },
         {
@@ -326,7 +326,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
             errors: expectedCommentErrors
         },
         {
-            code: "// \ufeff",
+            code: "// \uFEFF",
             errors: expectedCommentErrors
         },
         {
@@ -382,7 +382,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
             errors: expectedCommentErrors
         },
         {
-            code: "// \u205f",
+            code: "// \u205F",
             errors: expectedCommentErrors
         },
         {
@@ -410,7 +410,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
             errors: expectedCommentErrors
         },
         {
-            code: "/* \ufeff */",
+            code: "/* \uFEFF */",
             errors: expectedCommentErrors
         },
         {
@@ -474,7 +474,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
             errors: expectedCommentErrors
         },
         {
-            code: "/* \u205f */",
+            code: "/* \u205F */",
             errors: expectedCommentErrors
         },
         {

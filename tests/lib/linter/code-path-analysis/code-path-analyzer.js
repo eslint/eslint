@@ -568,8 +568,8 @@ describe("CodePathAnalyzer", () => {
                 assert.strictEqual(messages.length, 0, "Unexpected linting error in code.");
                 assert.strictEqual(actual.length, expected.length, "a count of code paths is wrong.");
 
-                for (let i = 0; i < actual.length; ++i) {
-                    assert.strictEqual(actual[i], expected[i]);
+                for (const [i, element] of actual.entries()) {
+                    assert.strictEqual(element, expected[i]);
                 }
             });
         });

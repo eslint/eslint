@@ -221,10 +221,10 @@ class RuleConfigSet {
         const objectConfigSet = {
             objectConfigs: [],
             add(property, values) {
-                for (let idx = 0; idx < values.length; idx++) {
+                for (const value of values) {
                     const optionObj = {};
 
-                    optionObj[property] = values[idx];
+                    optionObj[property] = value;
                     this.objectConfigs.push(optionObj);
                 }
             },

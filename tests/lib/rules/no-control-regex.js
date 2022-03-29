@@ -29,10 +29,10 @@ ruleTester.run("no-control-regex", rule, {
         "new (function foo(){})('\\x1f')"
     ],
     invalid: [
-        { code: String.raw`var regex = /\x1f/`, errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }] },
-        { code: String.raw`var regex = /\\\x1f\\x1e/`, errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }] },
-        { code: String.raw`var regex = /\\\x1fFOO\\x00/`, errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }] },
-        { code: String.raw`var regex = /FOO\\\x1fFOO\\x1f/`, errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }] },
+        { code: String.raw`var regex = /\u001F/`, errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }] },
+        { code: String.raw`var regex = /\\\u001F\\x1e/`, errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }] },
+        { code: String.raw`var regex = /\\\u001FFOO\\x00/`, errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }] },
+        { code: String.raw`var regex = /FOO\\\u001FFOO\\x1f/`, errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }] },
         { code: "var regex = new RegExp('\\x1f\\x1e')", errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f, \\x1e" }, type: "Literal" }] },
         { code: "var regex = new RegExp('\\x1fFOO\\x00')", errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f, \\x00" }, type: "Literal" }] },
         { code: "var regex = new RegExp('FOO\\x1fFOO\\x1f')", errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f, \\x1f" }, type: "Literal" }] },
@@ -43,7 +43,7 @@ ruleTester.run("no-control-regex", rule, {
             errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
         },
         {
-            code: String.raw`var regex = /(?<\u{1d49c}>.)\x1f/`,
+            code: String.raw`var regex = /(?<\u{1D49C}>.)\u001F/`,
             parserOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
         }
