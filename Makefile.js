@@ -622,7 +622,12 @@ target.gensite = function(prereleaseVersion) {
 
     // 3. Copy docs folder to a temporary directory
     echo("> Copying the docs folder (Step 3)");
-    cp("-rf", "docs/*", TEMP_DIR);
+    docFiles.forEach(filePath => {
+        cp("-rf", `docs/src${filePath}*`, TEMP_DIR);
+    });
+
+    // special case (for now)
+    cp("-f", "docs/src/pages/index.md", path.join(TEMP_DIR, "index.md"));
 
     let versions = test("-f", "./versions.json") ? JSON.parse(cat("./versions.json")) : {};
 
