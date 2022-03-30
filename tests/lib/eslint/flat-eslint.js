@@ -4418,7 +4418,7 @@ describe("FlatESLint", () => {
         const root = getFixturePath("cli-engine/additional-lint-targets");
 
 
-        describe.only("if { files: 'foo/*.txt', ignores: '**/ignore.txt' } is present,", () => {
+        describe("if { files: 'foo/*.txt', ignores: '**/ignore.txt' } is present,", () => {
             const { prepare, cleanup, getPath } = createCustomTeardown({
                 cwd: root,
                 files: {
@@ -4472,18 +4472,64 @@ describe("FlatESLint", () => {
             });
         });
 
+        describe("if { files: 'foo/*.txt', ignores: '**/ignore.txt' } is present and subdirectory is passed,", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    "eslint.config.js": `module.exports = [{
+                        files: ["foo/*.txt"],
+                        ignores: ["**/ignore.txt"]
+                    }];`,
+                    "foo/nested/test.txt": "",
+                    "foo/test.js": "",
+                    "foo/test.txt": "",
+                    "foo/ignore.txt": "",
+                    "bar/test.js": "",
+                    "bar/test.txt": "",
+                    "bar/ignore.txt": "",
+                    "test.js": "",
+                    "test.txt": "",
+                    "ignore.txt": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'lintFiles()' with a directory path should contain 'foo/test.txt'.", async () => {
+                const engine = new FlatESLint({ cwd: getPath() });
+                const filePaths = (await engine.lintFiles("foo"))
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "foo/test.js"),
+                    path.join(root, "foo/test.txt")
+                ]);
+            });
+
+            it("'lintFiles()' with a glob pattern '*.js' should not contain 'foo/test.txt'.", async () => {
+                const engine = new FlatESLint({ cwd: getPath() });
+                const filePaths = (await engine.lintFiles("foo/*.js"))
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "foo/test.js")
+                ]);
+            });
+        });
+
         describe("if { files: 'foo/**/*.txt' } is present,", () => {
 
             const { prepare, cleanup, getPath } = createCustomTeardown({
                 cwd: root,
                 files: {
-                    ".eslintrc.json": JSON.stringify({
-                        overrides: [
-                            {
-                                files: "foo/**/*.txt"
-                            }
-                        ]
-                    }),
+                    "eslint.config.js": `module.exports = [
+                        {
+                            files: ["foo/**/*.txt"]
+                        }
+                    ]`,
                     "foo/nested/test.txt": "",
                     "foo/test.js": "",
                     "foo/test.txt": "",
@@ -4505,6 +4551,7 @@ describe("FlatESLint", () => {
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "bar/test.js"),
+                    path.join(root, "eslint.config.js"),
                     path.join(root, "foo/nested/test.txt"),
                     path.join(root, "foo/test.js"),
                     path.join(root, "foo/test.txt"),
@@ -4513,18 +4560,16 @@ describe("FlatESLint", () => {
             });
         });
 
-        describe("if { files: 'foo/**/*' } is present,", () => {
+        describe.only("if { files: 'foo/**/*' } is present,", () => {
 
             const { prepare, cleanup, getPath } = createCustomTeardown({
                 cwd: root,
                 files: {
-                    ".eslintrc.json": JSON.stringify({
-                        overrides: [
-                            {
-                                files: "foo/**/*"
-                            }
-                        ]
-                    }),
+                    "eslint.config.js": `module.exports = [
+                        {
+                            files: ["foo/**/*"]
+                        }
+                    ]`,
                     "foo/nested/test.txt": "",
                     "foo/test.js": "",
                     "foo/test.txt": "",
@@ -4546,101 +4591,13 @@ describe("FlatESLint", () => {
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "bar/test.js"),
+                    path.join(root, "eslint.config.js"),
                     path.join(root, "foo/test.js"),
                     path.join(root, "test.js")
                 ]);
             });
         });
 
-        describe("if { files: 'foo/**/*.txt' } is present in a shareable config,", () => {
-
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
-                files: {
-                    "node_modules/eslint-config-foo/index.js": `module.exports = ${JSON.stringify({
-                        overrides: [
-                            {
-                                files: "foo/**/*.txt"
-                            }
-                        ]
-                    })}`,
-                    ".eslintrc.json": JSON.stringify({
-                        extends: "foo"
-                    }),
-                    "foo/nested/test.txt": "",
-                    "foo/test.js": "",
-                    "foo/test.txt": "",
-                    "bar/test.js": "",
-                    "bar/test.txt": "",
-                    "test.js": "",
-                    "test.txt": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'lintFiles()' with a directory path should contain 'foo/test.txt' and 'foo/nested/test.txt'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-                const filePaths = (await engine.lintFiles("."))
-                    .map(r => r.filePath)
-                    .sort();
-
-                assert.deepStrictEqual(filePaths, [
-                    path.join(root, "bar/test.js"),
-                    path.join(root, "foo/nested/test.txt"),
-                    path.join(root, "foo/test.js"),
-                    path.join(root, "foo/test.txt"),
-                    path.join(root, "test.js")
-                ]);
-            });
-        });
-
-        describe("if { files: 'foo/**/*.txt' } is present in a plugin config,", () => {
-
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
-                files: {
-                    "node_modules/eslint-plugin-foo/index.js": `exports.configs = ${JSON.stringify({
-                        bar: {
-                            overrides: [
-                                {
-                                    files: "foo/**/*.txt"
-                                }
-                            ]
-                        }
-                    })}`,
-                    ".eslintrc.json": JSON.stringify({
-                        extends: "plugin:foo/bar"
-                    }),
-                    "foo/nested/test.txt": "",
-                    "foo/test.js": "",
-                    "foo/test.txt": "",
-                    "bar/test.js": "",
-                    "bar/test.txt": "",
-                    "test.js": "",
-                    "test.txt": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'lintFiles()' with a directory path should contain 'foo/test.txt' and 'foo/nested/test.txt'.", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-                const filePaths = (await engine.lintFiles("."))
-                    .map(r => r.filePath)
-                    .sort();
-
-                assert.deepStrictEqual(filePaths, [
-                    path.join(root, "bar/test.js"),
-                    path.join(root, "foo/nested/test.txt"),
-                    path.join(root, "foo/test.js"),
-                    path.join(root, "foo/test.txt"),
-                    path.join(root, "test.js")
-                ]);
-            });
-        });
     });
 
     describe("'ignorePatterns', 'overrides[].files', and 'overrides[].excludedFiles' of the configuration that the '--config' option provided should be resolved from CWD.", () => {
