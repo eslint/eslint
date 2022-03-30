@@ -655,7 +655,7 @@ target.gensite = function(prereleaseVersion) {
 
             const rulesUrl = "https://github.com/eslint/eslint/tree/HEAD/lib/rules/",
                 testsUrl = "https://github.com/eslint/eslint/tree/HEAD/tests/lib/rules/",
-                docsUrl = "https://github.com/eslint/eslint/tree/HEAD/docs/rules/",
+                docsUrl = "https://github.com/eslint/eslint/tree/HEAD/docs/src/rules/",
                 baseName = path.basename(filename),
                 sourceBaseName = `${path.basename(filename, ".md")}.js`,
                 sourcePath = path.join("lib/rules", sourceBaseName),
@@ -794,7 +794,7 @@ target.checkRuleFiles = function() {
 
     RULE_FILES.forEach(filename => {
         const basename = path.basename(filename, ".js");
-        const docFilename = `docs/rules/${basename}.md`;
+        const docFilename = `docs/src/rules/${basename}.md`;
         const docText = cat(docFilename);
         const docMarkdown = marked.lexer(docText, { gfm: true, silent: false });
         const ruleCode = cat(filename);
