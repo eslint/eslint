@@ -4414,13 +4414,13 @@ describe("FlatESLint", () => {
 
     });
 
-    describe("'overrides[].files' adds lint targets", () => {
+    describe.only("config.files' adds lint targets", () => {
         const root = getFixturePath("cli-engine/additional-lint-targets");
 
 
         describe("if { files: 'foo/*.txt', ignores: '**/ignore.txt' } is present,", () => {
             const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
+                cwd: root + 1,
                 files: {
                     "eslint.config.js": `module.exports = [{
                         files: ["foo/*.txt"],
@@ -4449,11 +4449,11 @@ describe("FlatESLint", () => {
                     .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, "bar/test.js"),
-                    path.join(root, "eslint.config.js"),
-                    path.join(root, "foo/test.js"),
-                    path.join(root, "foo/test.txt"),
-                    path.join(root, "test.js")
+                    path.join(getPath(), "bar/test.js"),
+                    path.join(getPath(), "eslint.config.js"),
+                    path.join(getPath(), "foo/test.js"),
+                    path.join(getPath(), "foo/test.txt"),
+                    path.join(getPath(), "test.js")
                 ]);
             });
 
@@ -4464,17 +4464,17 @@ describe("FlatESLint", () => {
                     .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, "bar/test.js"),
-                    path.join(root, "eslint.config.js"),
-                    path.join(root, "foo/test.js"),
-                    path.join(root, "test.js")
+                    path.join(getPath(), "bar/test.js"),
+                    path.join(getPath(), "eslint.config.js"),
+                    path.join(getPath(), "foo/test.js"),
+                    path.join(getPath(), "test.js")
                 ]);
             });
         });
 
         describe("if { files: 'foo/*.txt', ignores: '**/ignore.txt' } is present and subdirectory is passed,", () => {
             const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
+                cwd: root + 2,
                 files: {
                     "eslint.config.js": `module.exports = [{
                         files: ["foo/*.txt"],
@@ -4503,8 +4503,8 @@ describe("FlatESLint", () => {
                     .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, "foo/test.js"),
-                    path.join(root, "foo/test.txt")
+                    path.join(getPath(), "foo/test.js"),
+                    path.join(getPath(), "foo/test.txt")
                 ]);
             });
 
@@ -4515,7 +4515,7 @@ describe("FlatESLint", () => {
                     .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, "foo/test.js")
+                    path.join(getPath(), "foo/test.js")
                 ]);
             });
         });
@@ -4523,7 +4523,7 @@ describe("FlatESLint", () => {
         describe("if { files: 'foo/**/*.txt' } is present,", () => {
 
             const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
+                cwd: root + 3,
                 files: {
                     "eslint.config.js": `module.exports = [
                         {
@@ -4550,20 +4550,20 @@ describe("FlatESLint", () => {
                     .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, "bar/test.js"),
-                    path.join(root, "eslint.config.js"),
-                    path.join(root, "foo/nested/test.txt"),
-                    path.join(root, "foo/test.js"),
-                    path.join(root, "foo/test.txt"),
-                    path.join(root, "test.js")
+                    path.join(getPath(), "bar/test.js"),
+                    path.join(getPath(), "eslint.config.js"),
+                    path.join(getPath(), "foo/nested/test.txt"),
+                    path.join(getPath(), "foo/test.js"),
+                    path.join(getPath(), "foo/test.txt"),
+                    path.join(getPath(), "test.js")
                 ]);
             });
         });
 
-        describe.only("if { files: 'foo/**/*' } is present,", () => {
+        describe("if { files: 'foo/**/*' } is present,", () => {
 
             const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
+                cwd: root + 4,
                 files: {
                     "eslint.config.js": `module.exports = [
                         {
@@ -4590,10 +4590,10 @@ describe("FlatESLint", () => {
                     .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, "bar/test.js"),
-                    path.join(root, "eslint.config.js"),
-                    path.join(root, "foo/test.js"),
-                    path.join(root, "test.js")
+                    path.join(getPath(), "bar/test.js"),
+                    path.join(getPath(), "eslint.config.js"),
+                    path.join(getPath(), "foo/test.js"),
+                    path.join(getPath(), "test.js")
                 ]);
             });
         });
