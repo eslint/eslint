@@ -49,7 +49,10 @@ ruleTester.run("no-constant-binary-expression", rule, {
         "function String(n) { return n; }; String(x) ?? foo",
         "function Number(n) { return n; }; Number(x) ?? foo",
         "function Boolean(n) { return Math.random(); }; Boolean(x) === 1",
-        "function Boolean(n) { return Math.random(); }; Boolean(1) == true"
+        "function Boolean(n) { return Math.random(); }; Boolean(1) == true",
+
+        "new Foo() === x",
+        "x === new someObj.Promise()"
     ],
     invalid: [
 
@@ -282,7 +285,9 @@ ruleTester.run("no-constant-binary-expression", rule, {
         { code: "x === (() => {})", errors: [{ messageId: "alwaysNew" }] },
         { code: "x === (function() {})", errors: [{ messageId: "alwaysNew" }] },
         { code: "x === (class {})", errors: [{ messageId: "alwaysNew" }] },
-        { code: "x === new Foo()", errors: [{ messageId: "alwaysNew" }] },
+        { code: "x === new Boolean()", errors: [{ messageId: "alwaysNew" }] },
+        { code: "x === new Promise()", env: { es6: true }, errors: [{ messageId: "alwaysNew" }] },
+        { code: "x === new WeakSet()", env: { es6: true }, errors: [{ messageId: "alwaysNew" }] },
         { code: "x === (foo, {})", errors: [{ messageId: "alwaysNew" }] },
         { code: "x === (y = {})", errors: [{ messageId: "alwaysNew" }] },
         { code: "x === (y ? {} : [])", errors: [{ messageId: "alwaysNew" }] },
