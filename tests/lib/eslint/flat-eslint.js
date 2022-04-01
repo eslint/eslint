@@ -4414,7 +4414,7 @@ describe("FlatESLint", () => {
 
     });
 
-    describe.only("config.files' adds lint targets", () => {
+    describe("config.files' adds lint targets", () => {
         const root = getFixturePath("cli-engine/additional-lint-targets");
 
 
@@ -4600,23 +4600,21 @@ describe("FlatESLint", () => {
 
     });
 
-    describe("'ignorePatterns', 'overrides[].files', and 'overrides[].excludedFiles' of the configuration that the '--config' option provided should be resolved from CWD.", () => {
+    describe.only("'ignores', 'files' of the configuration that the '--config' option provided should be resolved from CWD.", () => {
         const root = getFixturePath("cli-engine/config-and-overrides-files");
-
-        describe("if { files: 'foo/*.txt', ... } is present by '--config node_modules/myconf/.eslintrc.json',", () => {
+        
+        describe("if { files: 'foo/*.txt', ... } is present by '--config node_modules/myconf/eslint.config.js',", () => {
             const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
+                cwd: root + "a1",
                 files: {
-                    "node_modules/myconf/.eslintrc.json": {
-                        overrides: [
-                            {
-                                files: "foo/*.js",
-                                rules: {
-                                    eqeqeq: "error"
-                                }
+                    "node_modules/myconf/eslint.config.js": `module.exports = [
+                        {
+                            files: ["foo/*.js"],
+                            rules: {
+                                eqeqeq: "error"
                             }
-                        ]
-                    },
+                        }
+                    ];`,
                     "node_modules/myconf/foo/test.js": "a == b",
                     "foo/test.js": "a == b"
                 }
@@ -4625,9 +4623,9 @@ describe("FlatESLint", () => {
             beforeEach(prepare);
             afterEach(cleanup);
 
-            it("'lintFiles()' with 'foo/test.js' should use the override entry.", async () => {
+            it("'lintFiles()' with 'foo/test.js' should use the files entry.", async () => {
                 const engine = new FlatESLint({
-                    configFile: "node_modules/myconf/.eslintrc.json",
+                    configFile: "node_modules/myconf/eslint.config.js",
                     cwd: getPath(),
                     ignore: false,
                 });
@@ -4661,10 +4659,10 @@ describe("FlatESLint", () => {
                 ]);
             });
 
-            it("'lintFiles()' with 'node_modules/myconf/foo/test.js' should NOT use the override entry.", async () => {
+            it("'lintFiles()' with 'node_modules/myconf/foo/test.js' should NOT use the files entry.", async () => {
                 const engine = new FlatESLint({
-                    configFile: "node_modules/myconf/.eslintrc.json",
-                    cwd: root,
+                    configFile: "node_modules/myconf/eslint.config.js",
+                    cwd: getPath(),
                     ignore: false,
                 });
                 const results = await engine.lintFiles("node_modules/myconf/foo/test.js");
@@ -4685,22 +4683,20 @@ describe("FlatESLint", () => {
             });
         });
 
-        describe("if { files: '*', excludedFiles: 'foo/*.txt', ... } is present by '--config node_modules/myconf/.eslintrc.json',", () => {
+        describe.only("if { files: '*', ignores: 'foo/*.txt', ... } is present by '--config bar/myconf/eslint.config.js',", () => {
             const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
+                cwd: root + "a2",
                 files: {
-                    "node_modules/myconf/.eslintrc.json": JSON.stringify({
-                        overrides: [
-                            {
-                                files: "*",
-                                excludedFiles: "foo/*.js",
-                                rules: {
-                                    eqeqeq: "error"
-                                }
+                    "bar/myconf/eslint.config.js": `module.exports = [
+                        {
+                            files: ["*"],
+                            ignores: ["foo/*.js"],
+                            rules: {
+                                eqeqeq: "error"
                             }
-                        ]
-                    }),
-                    "node_modules/myconf/foo/test.js": "a == b",
+                        }
+                    ]`,
+                    "bar/myconf/foo/test.js": "a == b",
                     "foo/test.js": "a == b"
                 }
             });
@@ -4708,10 +4704,10 @@ describe("FlatESLint", () => {
             beforeEach(prepare);
             afterEach(cleanup);
 
-            it("'lintFiles()' with 'foo/test.js' should NOT use the override entry.", async () => {
+            it("'lintFiles()' with 'foo/test.js' should have no errors because no rules are enabled.", async () => {
                 const engine = new FlatESLint({
-                    configFile: "node_modules/myconf/.eslintrc.json",
-                    cwd: root,
+                    configFile: "bar/myconf/eslint.config.js",
+                    cwd: getPath(),
                     ignore: false,
                 });
                 const results = await engine.lintFiles("foo/test.js");
@@ -4731,19 +4727,19 @@ describe("FlatESLint", () => {
                 ]);
             });
 
-            it("'lintFiles()' with 'node_modules/myconf/foo/test.js' should use the override entry.", async () => {
+            it("'lintFiles()' with 'bar/myconf/foo/test.js' should have an error because eqeqeq is enabled.", async () => {
                 const engine = new FlatESLint({
-                    configFile: "node_modules/myconf/.eslintrc.json",
-                    cwd: root,
+                    configFile: "bar/myconf/eslint.config.js",
+                    cwd: getPath(),
                     ignore: false
                 });
-                const results = await engine.lintFiles("node_modules/myconf/foo/test.js");
+                const results = await engine.lintFiles("bar/myconf/foo/test.js");
 
                 // Expected to be an 'eqeqeq' error because the file doesn't match to `$CWD/foo/*.js`.
                 assert.deepStrictEqual(results, [
                     {
                         errorCount: 1,
-                        filePath: path.join(getPath(), "node_modules/myconf/foo/test.js"),
+                        filePath: path.join(getPath(), "bar/myconf/foo/test.js"),
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         messages: [
