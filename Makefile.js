@@ -623,7 +623,7 @@ target.gensite = function(prereleaseVersion) {
     // 3. Copy docs folder to a temporary directory
     echo("> Copying the docs folder (Step 3)");
     docFiles.forEach(filePath => {
-        cp("-rf", `docs/src${filePath}*`, TEMP_DIR);
+        cp("-rf", `docs/src${filePath}*`, `${TEMP_DIR}/${filePath}`);
     });
 
     // special case (for now)
