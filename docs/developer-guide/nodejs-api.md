@@ -56,8 +56,8 @@ const { ESLint } = require("eslint");
   const results = await eslint.lintFiles(["lib/**/*.js"]);
 
   // 3. Format the results.
-  const loadedFormatter = await eslint.loadFormatter("stylish");
-  const resultText = loadedFormatter.format(results);
+  const formatter = await eslint.loadFormatter("stylish");
+  const resultText = formatter.format(results);
 
   // 4. Output it.
   console.log(resultText);
@@ -83,8 +83,8 @@ const { ESLint } = require("eslint");
   await ESLint.outputFixes(results);
 
   // 4. Format the results.
-  const loadedFormatter = await eslint.loadFormatter("stylish");
-  const resultText = loadedFormatter.format(results);
+  const formatter = await eslint.loadFormatter("stylish");
+  const resultText = formatter.format(results);
 
   // 5. Output it.
   console.log(resultText);
@@ -268,7 +268,7 @@ This method checks if a given file is ignored by your configuration.
 ### ◆ eslint.loadFormatter(nameOrPath)
 
 ```js
-const loadedFormatter = await eslint.loadFormatter(nameOrPath);
+const formatter = await eslint.loadFormatter(nameOrPath);
 ```
 
 This method loads a formatter. Formatters convert lint results to a human- or machine-readable string.
