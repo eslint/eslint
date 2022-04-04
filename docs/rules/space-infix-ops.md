@@ -8,7 +8,7 @@ While formatting preferences are very personal, a number of style guides require
 var sum = 1 + 2;
 ```
 
-The proponents of these extra spaces believe it make the code easier to read and can more easily highlight potential errors, such as:
+Proponents of this rule believe that it makes code easier to read and can more easily highlight potential errors, such as:
 
 ```js
 var sum = i+++2;
