@@ -2,7 +2,7 @@
 
 While ESLint has some built-in formatters available to format the linting results, it's also possible to create and distribute your own custom formatters. You can include custom formatters in your project directly or create an npm package to distribute them separately.
 
-Each formatter is just a function that receives a `results` object and returns a string. For example, the following is how the `json` built-in formatter is implemented:
+Each formatter is just a function that receives a `results` object and a `context` and returns a string. For example, the following is how the `json` built-in formatter is implemented:
 
 ```js
 //my-awesome-formatter.js
@@ -11,7 +11,7 @@ module.exports = function(results, context) {
 };
 ```
 
-Formatter can also be an async function (from ESLint v8.4.0), the following shows a simple example:
+A formatter can also be an async function (from ESLint v8.4.0), the following shows a simple example:
 
 ```js
 //my-awesome-formatter.js
@@ -280,7 +280,7 @@ warning no-unused-vars (https://eslint.org/docs/rules/no-unused-vars)
 
 ## Passing Arguments to Formatters
 
-While custom formatter do not receive arguments in addition to the results object, it is possible to pass additional data into formatters.
+While formatter functions do not receive arguments in addition to the results object and the context, it is possible to pass additional data into custom formatters using the methods described below.
 
 ## Using Environment Variables
 
