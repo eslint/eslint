@@ -622,7 +622,11 @@ target.gensite = function(prereleaseVersion) {
 
     // 3. Copy docs folder to a temporary directory
     echo("> Copying the docs folder (Step 3)");
-    cp("-rf", "docs/*", TEMP_DIR);
+    cp("-rf", "docs/src/*", TEMP_DIR);
+
+    // special case (for now)
+    cp("-f", "docs/src/pages/index.md", path.join(TEMP_DIR, "index.md"));
+    rm("-rf", path.join(TEMP_DIR, "pages"));
 
     let versions = test("-f", "./versions.json") ? JSON.parse(cat("./versions.json")) : {};
 
@@ -650,12 +654,12 @@ target.gensite = function(prereleaseVersion) {
 
             const rulesUrl = "https://github.com/eslint/eslint/tree/HEAD/lib/rules/",
                 testsUrl = "https://github.com/eslint/eslint/tree/HEAD/tests/lib/rules/",
-                docsUrl = "https://github.com/eslint/eslint/tree/HEAD/docs/rules/",
+                docsUrl = "https://github.com/eslint/eslint/tree/HEAD/docs/src/rules/",
                 baseName = path.basename(filename),
                 sourceBaseName = `${path.basename(filename, ".md")}.js`,
                 sourcePath = path.join("lib/rules", sourceBaseName),
                 ruleName = path.basename(filename, ".md"),
-                filePath = path.join("docs", path.relative("tmp", filename));
+                filePath = path.posix.join("docs", path.relative("tmp", filename));
             let text = cat(filename),
                 ruleType = "",
                 title;
@@ -697,7 +701,7 @@ target.gensite = function(prereleaseVersion) {
                 "---",
                 `title: ${title}`,
                 "layout: doc",
-                `edit_link: https://github.com/eslint/eslint/edit/main/${filePath}`,
+                `edit_link: https://github.com/eslint/eslint/edit/main/${filePath.replace("docs/", "docs/src/")}`,
                 ruleType,
                 "---",
                 "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",
@@ -789,7 +793,7 @@ target.checkRuleFiles = function() {
 
     RULE_FILES.forEach(filename => {
         const basename = path.basename(filename, ".js");
-        const docFilename = `docs/rules/${basename}.md`;
+        const docFilename = `docs/src/rules/${basename}.md`;
         const docText = cat(docFilename);
         const docMarkdown = marked.lexer(docText, { gfm: true, silent: false });
         const ruleCode = cat(filename);
