@@ -2295,6 +2295,64 @@ describe("RuleTester", () => {
         });
     });
 
+    describe("deprecations", () => {
+        it("should output a deprecation warning when using a function-style rule", () => {
+
+            /**
+             * Legacy-format rule (a function instead of an object with `create` method).
+             * @param {RuleContext} context The ESLint rule context object.
+             * @returns {Object} Listeners.
+             */
+            function functionStyleRule(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+
+            const spy = sinon.spy(console, "warn");
+
+            ruleTester.run("functionStyleRule", functionStyleRule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+
+            assert.strictEqual(spy.callCount, 1, "calls `console.warn` once");
+            assert.deepStrictEqual(spy.getCall(0).args, ["DEPRECATION WARNING: This rule is using the deprecated function-style format and will stop working in ESLint v9. Please convert to object-style rules: https://eslint.org/docs/developer-guide/working-with-rules This lint rule can assist with the conversion: https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/main/docs/rules/prefer-object-rule.md"]);
+
+            spy.restore();
+        });
+
+        it("should output a deprecation warning when using options with a schema-less rule", () => {
+            const ruleWithNoOptions = {
+                create(context) {
+                    return {
+                        Program(node) {
+                            context.report({ node, message: "bad" });
+                        }
+                    };
+                }
+            };
+
+            const spy = sinon.spy(console, "warn");
+
+            ruleTester.run("ruleWithNoOptions", ruleWithNoOptions, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", options: [{ foo: true }], errors: 1 }
+                ]
+            });
+
+            assert.strictEqual(spy.callCount, 1, "calls `console.warn` once");
+            assert.deepStrictEqual(spy.getCall(0).args, ["DEPRECATION WARNING: This test case specifies `options` but the rule is missing `meta.schema` and will stop working in ESLint v9. Please add `meta.schema`: https://eslint.org/docs/developer-guide/working-with-rules#options-schemas This lint rule can assist with the conversion: https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-schema.md"]);
+
+            spy.restore();
+        });
+    });
+
     /**
      * Asserts that a particular value will be emitted from an EventEmitter.
      * @param {EventEmitter} emitter The emitter that should emit a value
