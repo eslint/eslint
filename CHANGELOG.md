@@ -1,3 +1,13 @@
+v8.13.0 - April 8, 2022
+
+* [`274acbd`](https://github.com/eslint/eslint/commit/274acbd56537f6b8199da1ac9e7bced74ae81b56) feat: fix no-eval logic for `this` in arrow functions (#15755) (Milos Djermanovic)
+* [`bb4c0d5`](https://github.com/eslint/eslint/commit/bb4c0d530a231a8a14ed70ad61c06e284bbaaef0) chore: Refactor docs to work with docs.eslint.org (#15744) (Nicholas C. Zakas)
+* [`97b57ae`](https://github.com/eslint/eslint/commit/97b57ae3ebae9150456f5516c64b6d2ba75b4038) fix: invalid operator in operator-assignment messages (#15759) (Milos Djermanovic)
+* [`c32482e`](https://github.com/eslint/eslint/commit/c32482e4fd4ad09f3d5fd960dc1fb7c1b4e56f23) docs: Typo in space-infix-ops docs  (#15754) (kmin-jeong)
+* [`f2c2d35`](https://github.com/eslint/eslint/commit/f2c2d350425268efa4b78ee6e0a2df8860e0efad) docs: disambiguate types `FormatterFunction` and `LoadedFormatter` (#15727) (Francesco Trotta)
+* [`d36f12f`](https://github.com/eslint/eslint/commit/d36f12f71b3e4f9e9552f1054d7a75be4dc03671) chore: remove `lib/init` from eslint config (#15748) (Milos Djermanovic)
+* [`a59a4e6`](https://github.com/eslint/eslint/commit/a59a4e6e9217b3cc503c0a702b9e3b02b20b980d) chore: replace `trimLeft`/`trimRight` with `trimStart`/`trimEnd` (#15750) (Milos Djermanovic)
+
 v8.12.0 - March 25, 2022
 
 * [`685a67a`](https://github.com/eslint/eslint/commit/685a67a62bdea19ca9ce12008a034b8d31162422) feat: fix logic for top-level `this` in no-invalid-this and no-eval (#15712) (Milos Djermanovic)
