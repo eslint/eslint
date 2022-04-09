@@ -31,6 +31,7 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-constant-binary-expression: "error"*/
+
 const value1 = +x == null;
 
 const value2 = condition ? x : {} || DEFAULT;
@@ -48,6 +49,7 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-constant-binary-expression: "error"*/
+
 const value1 = x == null;
 
 const value2 = (condition ? x : {}) || DEFAULT;
@@ -63,4 +65,4 @@ const arrIsEmpty = someArr.length === 0;
 
 Related Rules:
 
-* [`no-constant-condition`](https://eslint.org/docs/rules/no-constant-condition)
+* [no-constant-condition](no-constant-condition.md)

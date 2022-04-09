@@ -52,7 +52,10 @@ ruleTester.run("no-constant-binary-expression", rule, {
         "function Boolean(n) { return Math.random(); }; Boolean(1) == true",
 
         "new Foo() === x",
-        "x === new someObj.Promise()"
+        "x === new someObj.Promise()",
+        "Boolean(foo) === true",
+        "function foo(undefined) { undefined ?? bar;}",
+        { code: "new Foo() === bar;", globals: { Foo: "writable" } }
     ],
     invalid: [
 

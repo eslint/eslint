@@ -128,4 +128,4 @@ do {
 
 ## Related Rules
 
-* [`no-constant-binary-expression`](https://eslint.org/docs/rules/no-constant-binary-expression)
+* [no-constant-binary-expression](no-constant-binary-expression.md)
