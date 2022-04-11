@@ -39,6 +39,9 @@ ruleTester.run("no-inline-comments", rule, {
         "// A solitary comment",
         "var a = 1; // eslint-disable-line no-debugger",
         "var a = 1; /* eslint-disable-line no-debugger */",
+        "foo(); /* global foo */",
+        "foo(); /* globals foo */",
+        "var foo; /* exported foo */",
 
         // JSX exception
         `var a = (
