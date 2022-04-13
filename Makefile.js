@@ -798,7 +798,7 @@ target.checkRuleFiles = function() {
          * @todo Will remove this check when the main heading is automatically generated from rule metadata.
          */
         function hasIdInTitle(id) {
-            return new RegExp(`^title: ${id}`, "u").test(docText);
+            return new RegExp(`title: ${id}`, "u").test(docText);
         }
 
         /**
