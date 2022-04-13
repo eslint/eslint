@@ -1,11 +1,11 @@
 ---
 title: Architecture
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/architecture.md
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/architecture/index.md
 
 ---
 
-<center><img alt="dependency graph" src="./architecture/dependency.svg"></center>
+<center><img alt="dependency graph" src="dependency.svg"></center>
 
 At a high level, there are a few key parts to ESLint:
 
