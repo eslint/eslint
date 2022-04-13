@@ -1,4 +1,11 @@
-# padded-blocks
+---
+title: padded-blocks
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/padded-blocks.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Requires or disallows padding within blocks.
 
@@ -478,5 +485,5 @@ You can turn this rule off if you are not concerned with the consistency of padd
 
 ## Related Rules
 
-* [lines-between-class-members](lines-between-class-members.md)
-* [padding-line-between-statements](padding-line-between-statements.md)
+* [lines-between-class-members](lines-between-class-members)
+* [padding-line-between-statements](padding-line-between-statements)

@@ -1,4 +1,9 @@
-# no-console
+---
+title: no-console
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-console.md
+rule_type: suggestion
+---
 
 Disallows the use of `console`.
 
@@ -95,5 +100,5 @@ However, you might not want to manually add `eslint-disable-next-line` or `eslin
 
 ## Related Rules
 
-* [no-alert](no-alert.md)
-* [no-debugger](no-debugger.md)
+* [no-alert](no-alert)
+* [no-debugger](no-debugger)

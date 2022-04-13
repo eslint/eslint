@@ -1,4 +1,11 @@
-# jsx-quotes
+---
+title: jsx-quotes
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/jsx-quotes.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Enforces the consistent use of either double or single quotes in JSX attributes.
 
@@ -72,4 +79,4 @@ You can turn this rule off if you don’t use JSX or if you aren’t concerned w
 
 ## Related Rules
 
-* [quotes](quotes.md)
+* [quotes](quotes)

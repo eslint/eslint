@@ -1,4 +1,11 @@
-# quotes
+---
+title: quotes
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/quotes.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Enforces the consistent use of either backticks, double, or single quotes.
 
@@ -149,7 +156,7 @@ var single = 'single';
 var single = `single`;
 ```
 
-`{ "allowTemplateLiterals": false }` will not disallow the usage of all template literals. If you want to forbid any instance of template literals, use [no-restricted-syntax](no-restricted-syntax.md) and target the `TemplateLiteral` selector.
+`{ "allowTemplateLiterals": false }` will not disallow the usage of all template literals. If you want to forbid any instance of template literals, use [no-restricted-syntax](no-restricted-syntax) and target the `TemplateLiteral` selector.
 
 ## When Not To Use It
 

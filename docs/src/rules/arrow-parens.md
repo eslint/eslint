@@ -1,4 +1,11 @@
-# arrow-parens
+---
+title: arrow-parens
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/arrow-parens.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Requires parens in arrow function arguments.
 

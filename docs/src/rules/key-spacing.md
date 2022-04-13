@@ -1,4 +1,11 @@
-# key-spacing
+---
+title: key-spacing
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/key-spacing.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Enforces consistent spacing between keys and values in object literal properties.
 

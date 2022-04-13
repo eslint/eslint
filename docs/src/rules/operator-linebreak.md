@@ -1,4 +1,11 @@
-# operator-linebreak
+---
+title: operator-linebreak
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/operator-linebreak.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Enforces consistent linebreak style for operators.
 
@@ -335,4 +342,4 @@ If your project will not be using a common operator line break style, turn this 
 
 ## Related Rules
 
-* [comma-style](comma-style.md)
+* [comma-style](comma-style)

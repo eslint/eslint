@@ -1,4 +1,11 @@
-# sort-imports
+---
+title: sort-imports
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/sort-imports.md
+rule_type: suggestion
+---
+
+<!--FIXABLE-->
 
 Enforces sorted import declarations within modules.
 
@@ -288,5 +295,5 @@ This rule is a formatting preference and not following it won't negatively affec
 
 ## Related Rules
 
-* [sort-keys](sort-keys.md)
-* [sort-vars](sort-vars.md)
+* [sort-keys](sort-keys)
+* [sort-vars](sort-vars)

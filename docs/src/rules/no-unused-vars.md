@@ -1,4 +1,11 @@
-# no-unused-vars
+---
+title: no-unused-vars
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-unused-vars.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
 
 Disallows unused variables.
 

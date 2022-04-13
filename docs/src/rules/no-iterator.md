@@ -1,4 +1,9 @@
-# no-iterator
+---
+title: no-iterator
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-iterator.md
+rule_type: suggestion
+---
 
 Disallows the use of the `__iterator__` property.
 

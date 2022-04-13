@@ -1,8 +1,13 @@
-# no-extra-strict
+---
+title: no-extra-strict
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-extra-strict.md
+
+---
 
 Disallows strict mode directives when already in strict mode.
 
-(removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [strict](strict.md) rule. The `"global"` or `"function"` options in the new rule are similar to the removed rule.
+(removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [strict](strict) rule. The `"global"` or `"function"` options in the new rule are similar to the removed rule.
 
 The `"use strict";` directive applies to the scope in which it appears and all inner scopes contained within that scope. Therefore, using the `"use strict";` directive in one of these inner scopes is unnecessary.
 
@@ -50,3 +55,7 @@ Examples of **correct** code for this rule:
 ## Further Reading
 
 * [The ECMAScript 5 Annotated Specification - Strict Mode](https://es5.github.io/#C)
+
+## Resources
+
+* [Documentation source](https://github.com/eslint/eslint/tree/HEAD/docs/src/rules/no-extra-strict.md)

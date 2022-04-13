@@ -1,4 +1,13 @@
-# no-regex-spaces
+---
+title: no-regex-spaces
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-regex-spaces.md
+rule_type: suggestion
+---
+
+<!--RECOMMENDED-->
+
+<!--FIXABLE-->
 
 Disallows multiple spaces in regular expression literals.
 
@@ -44,5 +53,5 @@ If you want to allow multiple spaces in a regular expression, then you can safel
 
 ## Related Rules
 
-* [no-div-regex](no-div-regex.md)
-* [no-control-regex](no-control-regex.md)
+* [no-div-regex](no-div-regex)
+* [no-control-regex](no-control-regex)

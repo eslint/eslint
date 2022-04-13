@@ -1,4 +1,9 @@
-# func-names
+---
+title: func-names
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/func-names.md
+rule_type: suggestion
+---
 
 Requires or disallows named `function` expressions.
 

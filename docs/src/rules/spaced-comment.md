@@ -1,4 +1,11 @@
-# spaced-comment
+---
+title: spaced-comment
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/spaced-comment.md
+rule_type: suggestion
+---
+
+<!--FIXABLE-->
 
 Enforces consistent spacing after the `//` or `/*` in a comment.
 
@@ -285,4 +292,4 @@ subsequent lines are ignored
 
 ## Related Rules
 
-* [spaced-line-comment](spaced-line-comment.md)
+* [spaced-line-comment](spaced-line-comment)

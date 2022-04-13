@@ -1,4 +1,9 @@
-# Architecture
+---
+title: Architecture
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/architecture.md
+
+---
 
 <center><img alt="dependency graph" src="./architecture/dependency.svg"></center>
 

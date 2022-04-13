@@ -1,6 +1,11 @@
-# Reporting Bugs
+---
+title: Reporting Bugs
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/contributing/reporting-bugs.md
 
-If you think you've found a bug in ESLint, please [create a new issue](https://github.com/eslint/eslint/issues/new/choose) or a [pull request](/docs/developer-guide/contributing/pull-requests.md) on GitHub.
+---
+
+If you think you've found a bug in ESLint, please [create a new issue](https://github.com/eslint/eslint/issues/new/choose) or a [pull request](/docs/developer-guide/contributing/pull-requests) on GitHub.
 
 Please include as much detail as possible to help us properly address your issue. If we need to triage issues and constantly ask people for more detail, that's time taken away from actually fixing issues. Help us be as efficient as possible by including a lot of detail in your issues.
 

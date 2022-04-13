@@ -1,4 +1,11 @@
-# require-yield
+---
+title: require-yield
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/require-yield.md
+rule_type: suggestion
+---
+
+<!--RECOMMENDED-->
 
 Disallows generator functions that do not have `yield`.
 
@@ -44,4 +51,4 @@ If you don't want to notify generator functions that have no `yield` expression,
 
 ## Related Rules
 
-* [require-await](require-await.md)
+* [require-await](require-await)

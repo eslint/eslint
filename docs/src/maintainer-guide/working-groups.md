@@ -1,4 +1,9 @@
-# Working Groups
+---
+title: Working Groups
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/maintainer-guide/working-groups.md
+
+---
 
 The ESLint TSC may form working groups to focus on a specific area of the project.
 

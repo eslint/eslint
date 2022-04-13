@@ -1,4 +1,9 @@
-# global-require
+---
+title: global-require
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/global-require.md
+rule_type: suggestion
+---
 
 Enforces `require()` on the top-level module scope.
 

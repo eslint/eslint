@@ -1,4 +1,9 @@
-# Selectors
+---
+title: Selectors
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/selectors.md
+
+---
 
 Some rules and APIs allow the use of selectors to query an AST. This page is intended to:
 
@@ -90,7 +95,7 @@ If multiple selectors have equal specificity, their listeners will be called in 
 
 ### Restricting syntax with selectors
 
-With the [no-restricted-syntax](/docs/rules/no-restricted-syntax.md) rule, you can restrict the usage of particular syntax in your code. For example, you can use the following configuration to disallow using `if` statements that do not have block statements as their body:
+With the [no-restricted-syntax](/docs/rules/no-restricted-syntax) rule, you can restrict the usage of particular syntax in your code. For example, you can use the following configuration to disallow using `if` statements that do not have block statements as their body:
 
 ```json
 {

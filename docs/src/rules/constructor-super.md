@@ -1,4 +1,11 @@
-# constructor-super
+---
+title: constructor-super
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/constructor-super.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
 
 Verifies calls of `super()` in constructors.
 

@@ -1,4 +1,11 @@
-# multiline-ternary
+---
+title: multiline-ternary
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/multiline-ternary.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Enforces or disallows newlines between operands of ternary expressions.
 
@@ -21,7 +28,7 @@ var foo = bar > baz ?
 ## Rule Details
 
 This rule enforces or disallows newlines between operands of a ternary expression.
-Note: The location of the operators is not enforced by this rule. Please see the [operator-linebreak](operator-linebreak.md) rule if you are interested in enforcing the location of the operators themselves.
+Note: The location of the operators is not enforced by this rule. Please see the [operator-linebreak](operator-linebreak) rule if you are interested in enforcing the location of the operators themselves.
 
 ## Options
 
@@ -148,7 +155,7 @@ You can safely disable this rule if you do not have any strict conventions about
 
 ## Related Rules
 
-* [operator-linebreak](operator-linebreak.md)
+* [operator-linebreak](operator-linebreak)
 
 ## Compatibility
 

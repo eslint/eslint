@@ -1,4 +1,9 @@
-# no-array-constructor
+---
+title: no-array-constructor
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-array-constructor.md
+rule_type: suggestion
+---
 
 Disallows `Array` constructors.
 
@@ -41,5 +46,5 @@ rule may be disabled if the constructor style is preferred.
 
 ## Related Rules
 
-* [no-new-object](no-new-object.md)
-* [no-new-wrappers](no-new-wrappers.md)
+* [no-new-object](no-new-object)
+* [no-new-wrappers](no-new-wrappers)

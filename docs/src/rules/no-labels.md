@@ -1,4 +1,9 @@
-# no-labels
+---
+title: no-labels
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-labels.md
+rule_type: suggestion
+---
 
 Disallows labeled statements.
 
@@ -120,6 +125,6 @@ If you need to use labeled statements everywhere, then you can safely disable th
 
 ## Related Rules
 
-* [no-extra-label](./no-extra-label.md)
-* [no-label-var](./no-label-var.md)
-* [no-unused-labels](./no-unused-labels.md)
+* [no-extra-label](./no-extra-label)
+* [no-label-var](./no-label-var)
+* [no-unused-labels](./no-unused-labels)

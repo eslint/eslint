@@ -1,4 +1,11 @@
-# no-unneeded-ternary
+---
+title: no-unneeded-ternary
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-unneeded-ternary.md
+rule_type: suggestion
+---
+
+<!--FIXABLE-->
 
 Disallows ternary operators when simpler alternatives exist.
 
@@ -11,7 +18,6 @@ var isYes = answer === 1 ? true : false;
 
 // Good
 var isYes = answer === 1;
-
 
 // Bad
 var isNo = answer === 1 ? false : true;
@@ -90,5 +96,5 @@ You can turn this rule off if you are not concerned with unnecessary complexity 
 
 ## Related Rules
 
-* [no-ternary](no-ternary.md)
-* [no-nested-ternary](no-nested-ternary.md)
+* [no-ternary](no-ternary)
+* [no-nested-ternary](no-nested-ternary)

@@ -1,4 +1,9 @@
-# Migrating from JSCS
+---
+title: Migrating from JSCS
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/migrating-from-jscs.md
+
+---
 
 In April 2016, we [announced](https://eslint.org/blog/2016/04/welcoming-jscs-to-eslint) that the JSCS project was shutting down and the JSCS team would be joining the ESLint team. This guide is intended to help those who are using JSCS to migrate their settings and projects to use ESLint. We've tried to automate as much of the conversion as possible, but there are some manual changes that are needed.
 

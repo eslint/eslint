@@ -1,4 +1,11 @@
-# lines-between-class-members
+---
+title: lines-between-class-members
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/lines-between-class-members.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Requires or disallows an empty line between class members.
 
@@ -124,8 +131,8 @@ If you don't want to enforce empty lines between class members, you can disable 
 
 ## Related Rules
 
-* [padded-blocks](padded-blocks.md)
-* [padding-line-between-statements](padding-line-between-statements.md)
+* [padded-blocks](padded-blocks)
+* [padding-line-between-statements](padding-line-between-statements)
 
 ## Compatibility
 

@@ -1,4 +1,13 @@
-# no-unsafe-negation
+---
+title: no-unsafe-negation
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-unsafe-negation.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
+
+<!--SUGGESTIONS-->
 
 Disallows negating the left operand of relational operators.
 

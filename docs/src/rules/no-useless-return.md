@@ -1,4 +1,11 @@
-# no-useless-return
+---
+title: no-useless-return
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-useless-return.md
+rule_type: suggestion
+---
+
+<!--FIXABLE-->
 
 Disallows redundant return statements.
 

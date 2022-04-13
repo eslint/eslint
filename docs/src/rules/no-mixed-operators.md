@@ -1,4 +1,9 @@
-# no-mixed-operators
+---
+title: no-mixed-operators
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-mixed-operators.md
+rule_type: suggestion
+---
 
 Disallows mixes of different operators.
 
@@ -42,8 +47,8 @@ will generate
 
 This rule checks `BinaryExpression`, `LogicalExpression` and `ConditionalExpression`.
 
-This rule may conflict with [no-extra-parens](no-extra-parens.md) rule.
-If you use both this and [no-extra-parens](no-extra-parens.md) rule together, you need to use the `nestedBinaryExpressions` option of [no-extra-parens](no-extra-parens.md) rule.
+This rule may conflict with [no-extra-parens](no-extra-parens) rule.
+If you use both this and [no-extra-parens](no-extra-parens) rule together, you need to use the `nestedBinaryExpressions` option of [no-extra-parens](no-extra-parens) rule.
 
 Examples of **incorrect** code for this rule:
 
@@ -192,4 +197,4 @@ If you don't want to be notified about mixed operators, then it's safe to disabl
 
 ## Related Rules
 
-* [no-extra-parens](no-extra-parens.md)
+* [no-extra-parens](no-extra-parens)

@@ -1,4 +1,11 @@
-# no-case-declarations
+---
+title: no-case-declarations
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-case-declarations.md
+rule_type: suggestion
+---
+
+<!--RECOMMENDED-->
 
 Disallows lexical declarations in case/default clauses.
 
@@ -74,4 +81,4 @@ If you depend on fall through behavior and want access to bindings introduced in
 
 ## Related Rules
 
-* [no-fallthrough](no-fallthrough.md)
+* [no-fallthrough](no-fallthrough)

@@ -1,8 +1,13 @@
-# space-before-keywords
+---
+title: space-before-keywords
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/space-before-keywords.md
+
+---
 
 Enforces consistent spacing before keywords.
 
-(removed) This rule was **removed** in ESLint v2.0 and **replaced** by the [keyword-spacing](keyword-spacing.md) rule.
+(removed) This rule was **removed** in ESLint v2.0 and **replaced** by the [keyword-spacing](keyword-spacing) rule.
 
 (fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#--fix) automatically fixed problems reported by this rule.
 
@@ -30,7 +35,7 @@ must be preceded by at least one space. If `"never"` then no spaces will be allo
 the keywords `else`, `while` (do...while), `finally` and `catch`. The default value is `"always"`.
 
 This rule will allow keywords to be preceded by an opening curly brace (`{`). If you wish to alter
-this behavior, consider using the [block-spacing](block-spacing.md) rule.
+this behavior, consider using the [block-spacing](block-spacing) rule.
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
@@ -109,8 +114,12 @@ If you do not wish to enforce consistency on keyword spacing.
 
 ## Related Rules
 
-* [space-after-keywords](space-after-keywords.md)
-* [block-spacing](block-spacing.md)
-* [space-return-throw-case](space-return-throw-case.md)
-* [space-unary-ops](space-unary-ops.md)
-* [space-infix-ops](space-infix-ops.md)
+* [space-after-keywords](space-after-keywords)
+* [block-spacing](block-spacing)
+* [space-return-throw-case](space-return-throw-case)
+* [space-unary-ops](space-unary-ops)
+* [space-infix-ops](space-infix-ops)
+
+## Resources
+
+* [Documentation source](https://github.com/eslint/eslint/tree/HEAD/docs/src/rules/space-before-keywords.md)

@@ -1,4 +1,11 @@
-# no-unsafe-finally
+---
+title: no-unsafe-finally
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-unsafe-finally.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
 
 Disallows control flow statements in `finally` blocks.
 

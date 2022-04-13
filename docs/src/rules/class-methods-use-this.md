@@ -1,4 +1,9 @@
-# class-methods-use-this
+---
+title: class-methods-use-this
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/class-methods-use-this.md
+rule_type: suggestion
+---
 
 Enforces that class methods utilize `this`.
 

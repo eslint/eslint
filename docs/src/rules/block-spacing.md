@@ -1,4 +1,11 @@
-# block-spacing
+---
+title: block-spacing
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/block-spacing.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Disallows or enforces spaces inside of blocks after opening blocks and before closing blocks.
 
@@ -78,5 +85,5 @@ If you don't want to be notified about spacing style inside of blocks, you can s
 
 ## Related Rules
 
-* [space-before-blocks](space-before-blocks.md)
-* [brace-style](brace-style.md)
+* [space-before-blocks](space-before-blocks)
+* [brace-style](brace-style)

@@ -1,4 +1,11 @@
-# no-whitespace-before-property
+---
+title: no-whitespace-before-property
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-whitespace-before-property.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Disallows whitespace before properties.
 

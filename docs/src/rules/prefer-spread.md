@@ -1,4 +1,9 @@
-# prefer-spread
+---
+title: prefer-spread
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-spread.md
+rule_type: suggestion
+---
 
 Suggests using spread syntax instead of `.apply()`.
 
@@ -77,4 +82,4 @@ In ES2015 (ES6) or later, if you don't want to be notified about `Function.proto
 
 ## Related Rules
 
-* [no-useless-call](no-useless-call.md)
+* [no-useless-call](no-useless-call)

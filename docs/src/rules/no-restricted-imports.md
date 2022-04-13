@@ -1,4 +1,9 @@
-# no-restricted-imports
+---
+title: no-restricted-imports
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-restricted-imports.md
+rule_type: suggestion
+---
 
 Disallows specific imports.
 

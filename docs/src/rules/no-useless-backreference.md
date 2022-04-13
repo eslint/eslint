@@ -1,4 +1,11 @@
-# no-useless-backreference
+---
+title: no-useless-backreference
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-useless-backreference.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
 
 Disallows useless backreferences in regular expressions.
 
@@ -123,9 +130,9 @@ Examples of additional **correct** code for this rule:
 
 ## Related Rules
 
-* [no-control-regex](no-control-regex.md)
-* [no-empty-character-class](no-empty-character-class.md)
-* [no-invalid-regexp](no-invalid-regexp.md)
+* [no-control-regex](no-control-regex)
+* [no-empty-character-class](no-empty-character-class)
+* [no-invalid-regexp](no-invalid-regexp)
 
 ## Further Reading
 

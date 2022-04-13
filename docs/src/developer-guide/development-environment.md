@@ -1,4 +1,9 @@
-# Development Environment
+---
+title: Development Environment
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/development-environment.md
+
+---
 
 ESLint has a very lightweight development environment that makes updating code fast and easy. This is a step-by-step guide to setting up a local development environment that will let you contribute back to the project.
 
@@ -59,7 +64,7 @@ The testing takes a few minutes to complete. If any tests fail, that likely mean
 
 ### Workflow
 
-Once you have your development environment installed, you can make and submit changes to the ESLint source files. Doing this successfully requires careful adherence to our [pull-request submission workflow](contributing/pull-requests.md).
+Once you have your development environment installed, you can make and submit changes to the ESLint source files. Doing this successfully requires careful adherence to our [pull-request submission workflow](contributing/pull-requests).
 
 ### Build Scripts
 

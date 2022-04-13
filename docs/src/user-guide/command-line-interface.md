@@ -1,4 +1,9 @@
-# Command Line Interface
+---
+title: Command Line Interface
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/command-line-interface.md
+
+---
 
 ESLint requires Node.js for installation. Follow the instructions in the [Getting Started Guide](https://eslint.org/docs/user-guide/getting-started) to install ESLint.
 
@@ -124,7 +129,7 @@ If `.eslintrc.*` and/or `package.json` files are also used for configuration (i.
 
 #### `--env`
 
-This option enables specific environments. Details about the global variables defined by each environment are available on the [Specifying Environments](configuring/language-options.md#specifying-environments) documentation. This option only enables environments; it does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the option multiple times.
+This option enables specific environments. Details about the global variables defined by each environment are available on the [Specifying Environments](configuring/language-options#specifying-environments) documentation. This option only enables environments; it does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the option multiple times.
 
 Examples:
 
@@ -284,7 +289,7 @@ Example:
 
 #### `--ignore-pattern`
 
-This option allows you to specify patterns of files to ignore (in addition to those in `.eslintignore`). You can repeat the option to provide multiple patterns. The supported syntax is the same as for `.eslintignore` [files](configuring/ignoring-code.md#the-eslintignore-file), which use the same patterns as the `.gitignore` [specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
+This option allows you to specify patterns of files to ignore (in addition to those in `.eslintignore`). You can repeat the option to provide multiple patterns. The supported syntax is the same as for `.eslintignore` [files](configuring/ignoring-code#the-eslintignore-file), which use the same patterns as the `.gitignore` [specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
 
 Example:
 
@@ -344,16 +349,16 @@ When specified, the given format is output into the provided file name.
 
 This option specifies the output format for the console. Possible formats are:
 
-* [checkstyle](formatters.md/#checkstyle)
-* [compact](formatters.md/#compact)
-* [html](formatters.md/#html)
-* [jslint-xml](formatters.md/#jslint-xml)
-* [json](formatters.md/#json)
-* [junit](formatters.md/#junit)
-* [stylish](formatters.md/#stylish) (the default)
-* [tap](formatters.md/#tap)
-* [unix](formatters.md/#unix)
-* [visualstudio](formatters.md/#visualstudio)
+* [checkstyle](formatters/#checkstyle)
+* [compact](formatters/#compact)
+* [html](formatters/#html)
+* [jslint-xml](formatters/#jslint-xml)
+* [json](formatters/#json)
+* [junit](formatters/#junit)
+* [stylish](formatters/#stylish) (the default)
+* [tap](formatters/#tap)
+* [unix](formatters/#unix)
+* [visualstudio](formatters/#visualstudio)
 
 Example:
 
@@ -505,7 +510,7 @@ ESLint supports `.eslintignore` files to exclude files from the linting process 
     temp.js
     **/vendor/*.js
 
-A more detailed breakdown of supported patterns and directories ESLint ignores by default can be found in [Ignoring Code](configuring/ignoring-code.md).
+A more detailed breakdown of supported patterns and directories ESLint ignores by default can be found in [Ignoring Code](configuring/ignoring-code).
 
 ## Exit codes
 

@@ -1,4 +1,11 @@
-# padding-line-between-statements
+---
+title: padding-line-between-statements
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/padding-line-between-statements.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Requires or disallows padding lines between statements.
 
@@ -87,7 +94,7 @@ You can supply any number of configurations. If a statement pair matches multipl
 
 ## Examples
 
-This configuration would require blank lines before all `return` statements, like the [newline-before-return](newline-before-return.md) rule.
+This configuration would require blank lines before all `return` statements, like the [newline-before-return](newline-before-return) rule.
 
 Examples of **incorrect** code for the `[{ blankLine: "always", prev: "*", next: "return" }]` configuration:
 
@@ -124,7 +131,7 @@ function foo() {
 
 ----
 
-This configuration would require blank lines after every sequence of variable declarations, like the [newline-after-var](newline-after-var.md) rule.
+This configuration would require blank lines after every sequence of variable declarations, like the [newline-after-var](newline-after-var) rule.
 
 Examples of **incorrect** code for the `[{ blankLine: "always", prev: ["const", "let", "var"], next: "*"}, { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"]}]` configuration:
 
@@ -200,7 +207,7 @@ class C {
 
 ----
 
-This configuration would require blank lines after all directive prologues, like the [lines-around-directive](lines-around-directive.md) rule.
+This configuration would require blank lines after all directive prologues, like the [lines-around-directive](lines-around-directive) rule.
 
 Examples of **incorrect** code for the `[{ blankLine: "always", prev: "directive", next: "*" }, { blankLine: "any", prev: "directive", next: "directive" }]` configuration:
 
