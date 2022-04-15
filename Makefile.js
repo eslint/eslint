@@ -674,9 +674,9 @@ target.gensite = function(prereleaseVersion) {
                 const isFixable = rule && rule.meta.fixable;
                 const hasSuggestions = rule && rule.meta.hasSuggestions;
 
-                text = text.replace("<!-- FIXABLE -->", isFixable ? FIXABLE_TEXT : "")
-                    .replace("<!-- SUGGESTIONS -->", hasSuggestions ? HAS_SUGGESTIONS_TEXT : "")
-                    .replace("<!-- RECOMMENDED -->", isRecommended ? RECOMMENDED_TEXT : "");
+                text = text.replace("<!--FIXABLE-->", isFixable ? FIXABLE_TEXT : "")
+                    .replace("<!--SUGGESTIONS-->", hasSuggestions ? HAS_SUGGESTIONS_TEXT : "")
+                    .replace("<!--RECOMMENDED-->", isRecommended ? RECOMMENDED_TEXT : "");
 
                 title = `${ruleName}`;
 
