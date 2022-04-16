@@ -660,8 +660,7 @@ target.gensite = function(prereleaseVersion) {
                 sourcePath = path.join("lib/rules", sourceBaseName),
                 ruleName = path.basename(filename, ".md"),
                 filePath = path.posix.join("docs", path.relative("tmp", filename));
-            let text = cat(filename),
-                title;
+            let text = cat(filename);
 
             process.stdout.write(`> Updating files (Steps 4-9): ${i}/${length} - ${filePath + " ".repeat(30)}\r`);
 
@@ -678,17 +677,6 @@ target.gensite = function(prereleaseVersion) {
                     .replace("<!--SUGGESTIONS-->", hasSuggestions ? HAS_SUGGESTIONS_TEXT : "")
                     .replace("<!--RECOMMENDED-->", isRecommended ? RECOMMENDED_TEXT : "");
 
-                title = `${ruleName}`;
-
-            } else {
-
-                // extract the title from the file itself
-                title = text.match(/#([^#].+)\n/u);
-                if (title) {
-                    title = title[1].trim();
-                } else {
-                    title = "Documentation";
-                }
             }
 
             // 6. Remove .md extension for relative links and change README to empty string

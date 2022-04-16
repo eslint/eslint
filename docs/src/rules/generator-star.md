@@ -2,7 +2,6 @@
 title: generator-star
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/generator-star.md
-
 ---
 
 Enforces consistent spacing around the asterisk in generator functions.
@@ -131,7 +130,3 @@ If your project will not be using generators you do not need this rule.
 ## Further Reading
 
 * [Understanding ES6: Generators](https://leanpub.com/understandinges6/read/#leanpub-auto-generators)
-
-## Resources
-
-* [Documentation source](https://github.com/eslint/eslint/tree/HEAD/docs/src/rules/generator-star.md)
