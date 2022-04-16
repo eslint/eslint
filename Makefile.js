@@ -172,12 +172,6 @@ function generateFormatterExamples(formatterInfo, prereleaseVersion) {
         }
     }
 
-    const formattersDir = path.dirname(filename);
-
-    if (!test("-d", formattersDir)) {
-        mkdir(formattersDir);
-    }
-
     output.to(filename);
     formatterInfo.formatterResults.html.result.to(htmlFilename);
 }
@@ -617,7 +611,7 @@ target.gensite = function(prereleaseVersion) {
         const fullPath = path.join(DOCS_DIR, filePath),
             htmlFullPath = fullPath.replace(".md", ".html");
 
-        if (test("-d", fullPath)) {
+        if (test("-f", fullPath)) {
             rm("-rf", fullPath);
 
             if (filePath.indexOf(".md") >= 0 && test("-f", htmlFullPath)) {
