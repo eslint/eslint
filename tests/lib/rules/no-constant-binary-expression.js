@@ -55,6 +55,12 @@ ruleTester.run("no-constant-binary-expression", rule, {
         "x === new someObj.Promise()",
         "Boolean(foo) === true",
         "function foo(undefined) { undefined ?? bar;}",
+        "function foo(undefined) { undefined == true;}",
+        "function foo(undefined) { undefined === true;}",
+        "true === String(x)",
+        "true === Number(x)",
+        "[...arr, 1] == true",
+        "[,,,] == true",
         { code: "new Foo() === bar;", globals: { Foo: "writable" } }
     ],
     invalid: [
@@ -203,6 +209,10 @@ ruleTester.run("no-constant-binary-expression", rule, {
         { code: "(a -= 1) === true", errors: [{ messageId: "constantBinaryOperand" }] },
         { code: "(a *= 1) === true", errors: [{ messageId: "constantBinaryOperand" }] },
         { code: "(a %= 1) === true", errors: [{ messageId: "constantBinaryOperand" }] },
+        { code: "(a ** b) === true", errors: [{ messageId: "constantBinaryOperand" }] },
+        { code: "(a << b) === true", errors: [{ messageId: "constantBinaryOperand" }] },
+        { code: "(a >> b) === true", errors: [{ messageId: "constantBinaryOperand" }] },
+        { code: "(a >>> b) === true", errors: [{ messageId: "constantBinaryOperand" }] },
         { code: "--a === true", errors: [{ messageId: "constantBinaryOperand" }] },
         { code: "a-- === true", errors: [{ messageId: "constantBinaryOperand" }] },
         { code: "++a === true", errors: [{ messageId: "constantBinaryOperand" }] },
@@ -215,6 +225,9 @@ ruleTester.run("no-constant-binary-expression", rule, {
         { code: "(a | b) === true", errors: [{ messageId: "constantBinaryOperand" }] },
         { code: "(a ^ b) === true", errors: [{ messageId: "constantBinaryOperand" }] },
         { code: "(a & b) === true", errors: [{ messageId: "constantBinaryOperand" }] },
+        { code: "Boolean(0) === Boolean(1)", errors: [{ messageId: "constantBinaryOperand" }] },
+        { code: "true === String(1)", errors: [{ messageId: "constantBinaryOperand" }] },
+        { code: "true === Number(true)", errors: [{ messageId: "constantBinaryOperand" }] },
         { code: "Boolean(0) == !({})", errors: [{ messageId: "constantBinaryOperand" }] },
 
         // Binary expression with strict comparison to null
@@ -277,9 +290,9 @@ ruleTester.run("no-constant-binary-expression", rule, {
          * If both sides are newly constructed objects, we can tell they will
          * never be equal, even with == equality.
          */
-        { code: "[a] == [a]", errors: [{ messageId: "constantBinaryOperand" }] },
-        { code: "[a] != [a]", errors: [{ messageId: "constantBinaryOperand" }] },
-        { code: "({}) == []", errors: [{ messageId: "constantBinaryOperand" }] },
+        { code: "[a] == [a]", errors: [{ messageId: "bothAlwaysNew" }] },
+        { code: "[a] != [a]", errors: [{ messageId: "bothAlwaysNew" }] },
+        { code: "({}) == []", errors: [{ messageId: "bothAlwaysNew" }] },
 
         // Comparing to always new objects
         { code: "x === {}", errors: [{ messageId: "alwaysNew" }] },
