@@ -1,5 +1,7 @@
 # no-constant-binary-expression
 
+Disallows expressions where the operation doesn't affect the value.
+
 Comparisons which will always evaluate to true or false and logical expressions (`||`, `&&`, `??`) which either always short circuit or never short circuit are both likely indications of programmer error.
 
 These errors are especially common in complex expressions where operator precedence is easy to misjudge. For example:
@@ -40,7 +42,7 @@ const value3 = !foo == null;
 
 const value4 = new Boolean(foo) === true;
 
-const arrIsEmpty = someObj === {};
+const objIsEmpty = someObj === {};
 
 const arrIsEmpty = someArr === [];
 ```
@@ -58,7 +60,7 @@ const value3 = !(foo == null);
 
 const value4 = Boolean(foo) === true;
 
-const arrIsEmpty = Object.keys(someObj).length === 0;
+const objIsEmpty = Object.keys(someObj).length === 0;
 
 const arrIsEmpty = someArr.length === 0;
 ```

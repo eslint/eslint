@@ -57,8 +57,6 @@ ruleTester.run("no-constant-binary-expression", rule, {
         "function foo(undefined) { undefined ?? bar;}",
         "function foo(undefined) { undefined == true;}",
         "function foo(undefined) { undefined === true;}",
-        "true === String(x)",
-        "true === Number(x)",
         "[...arr, 1] == true",
         "[,,,] == true",
         { code: "new Foo() === bar;", globals: { Foo: "writable" } }
@@ -226,8 +224,8 @@ ruleTester.run("no-constant-binary-expression", rule, {
         { code: "(a ^ b) === true", errors: [{ messageId: "constantBinaryOperand" }] },
         { code: "(a & b) === true", errors: [{ messageId: "constantBinaryOperand" }] },
         { code: "Boolean(0) === Boolean(1)", errors: [{ messageId: "constantBinaryOperand" }] },
-        { code: "true === String(1)", errors: [{ messageId: "constantBinaryOperand" }] },
-        { code: "true === Number(true)", errors: [{ messageId: "constantBinaryOperand" }] },
+        { code: "true === String(x)", errors: [{ messageId: "constantBinaryOperand" }] },
+        { code: "true === Number(x)", errors: [{ messageId: "constantBinaryOperand" }] },
         { code: "Boolean(0) == !({})", errors: [{ messageId: "constantBinaryOperand" }] },
 
         // Binary expression with strict comparison to null
