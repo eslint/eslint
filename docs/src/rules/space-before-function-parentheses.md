@@ -265,7 +265,3 @@ You can turn this rule off if you are not concerned with the consistency of spac
 
 * [space-after-keywords](space-after-keywords)
 * [space-return-throw-case](space-return-throw-case)
-
-## Resources
-
-* [Documentation source](https://github.com/eslint/eslint/tree/HEAD/docs/src/rules/space-before-function-parentheses.md)

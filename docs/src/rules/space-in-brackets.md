@@ -312,7 +312,3 @@ You can turn this rule off if you are not concerned with the consistency of spac
 * [object-curly-spacing](object-curly-spacing)
 * [space-in-parens](space-in-parens)
 * [computed-property-spacing](computed-property-spacing)
-
-## Resources
-
-* [Documentation source](https://github.com/eslint/eslint/tree/HEAD/docs/src/rules/space-in-brackets.md)

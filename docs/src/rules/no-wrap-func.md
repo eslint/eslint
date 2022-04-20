@@ -38,7 +38,3 @@ var a = function() {/*...*/};
 
 (function() {/*...*/})();
 ```
-
-## Resources
-
-* [Documentation source](https://github.com/eslint/eslint/tree/HEAD/docs/src/rules/no-wrap-func.md)

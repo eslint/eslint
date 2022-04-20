@@ -44,7 +44,3 @@ If you don't want to be notified about usage of labels, then it's safe to disabl
 * [no-labels](./no-labels)
 * [no-label-var](./no-label-var)
 * [no-unused-labels](./no-unused-labels)
-
-## Resources
-
-* [Documentation source](https://github.com/eslint/eslint/tree/HEAD/docs/src/rules/no-empty-label.md)

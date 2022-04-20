@@ -48,7 +48,3 @@ var foo = "bar";
 
 * [semi](semi)
 * [no-extra-semi](no-extra-semi)
-
-## Resources
-
-* [Documentation source](https://github.com/eslint/eslint/tree/HEAD/docs/src/rules/no-space-before-semi.md)

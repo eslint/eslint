@@ -38,7 +38,3 @@ function f(){ return -a; }
 
 switch(a){ case 'a': break; }
 ```
-
-## Resources
-
-* [Documentation source](https://github.com/eslint/eslint/tree/HEAD/docs/src/rules/space-return-throw-case.md)

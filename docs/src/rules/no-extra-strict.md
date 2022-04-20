@@ -55,7 +55,3 @@ Examples of **correct** code for this rule:
 ## Further Reading
 
 * [The ECMAScript 5 Annotated Specification - Strict Mode](https://es5.github.io/#C)
-
-## Resources
-
-* [Documentation source](https://github.com/eslint/eslint/tree/HEAD/docs/src/rules/no-extra-strict.md)

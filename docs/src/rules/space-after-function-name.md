@@ -56,7 +56,3 @@ function bar (x) {
     // ...
 }
 ```
-
-## Resources
-
-* [Documentation source](https://github.com/eslint/eslint/tree/HEAD/docs/src/rules/space-after-function-name.md)

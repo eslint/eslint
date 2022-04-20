@@ -44,7 +44,3 @@ new C
 ```js
 void 0
 ```
-
-## Resources
-
-* [Documentation source](https://github.com/eslint/eslint/tree/HEAD/docs/src/rules/space-unary-word-ops.md)

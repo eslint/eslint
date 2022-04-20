@@ -66,7 +66,3 @@ Warns whenever `"use strict"` is used in the global scope such that it could con
 ## When Not To Use It
 
 When a project may use non-strict-mode code side by side with strict-mode code and the files are not concatenated, the decision to use global strict mode can be made on an individual basis, rendering this rule unnecessary.
-
-## Resources
-
-* [Documentation source](https://github.com/eslint/eslint/tree/HEAD/docs/src/rules/global-strict.md)

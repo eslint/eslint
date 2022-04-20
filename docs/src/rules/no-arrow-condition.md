@@ -53,7 +53,3 @@ var x = (a) => 1 ? 2 : 3
 * [arrow-parens](arrow-parens)
 * [no-confusing-arrow](no-confusing-arrow)
 * [no-constant-condition](no-constant-condition)
-
-## Resources
-
-* [Documentation source](https://github.com/eslint/eslint/tree/HEAD/docs/src/rules/no-arrow-condition.md)

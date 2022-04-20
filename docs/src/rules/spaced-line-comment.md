@@ -77,7 +77,3 @@ var foo = 5;
 ## Related Rules
 
 * [spaced-comment](spaced-comment)
-
-## Resources
-
-* [Documentation source](https://github.com/eslint/eslint/tree/HEAD/docs/src/rules/spaced-line-comment.md)

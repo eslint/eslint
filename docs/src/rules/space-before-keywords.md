@@ -119,7 +119,3 @@ If you do not wish to enforce consistency on keyword spacing.
 * [space-return-throw-case](space-return-throw-case)
 * [space-unary-ops](space-unary-ops)
 * [space-infix-ops](space-infix-ops)
-
-## Resources
-
-* [Documentation source](https://github.com/eslint/eslint/tree/HEAD/docs/src/rules/space-before-keywords.md)

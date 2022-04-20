@@ -38,7 +38,3 @@ var foo = /^abc[a-z]/;
 
 var bar = new RegExp("^abc[]");
 ```
-
-## Resources
-
-* [Documentation source](https://github.com/eslint/eslint/tree/HEAD/docs/src/rules/no-empty-class.md)
