@@ -1,4 +1,11 @@
-# space-unary-ops
+---
+title: space-unary-ops
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/space-unary-ops.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Requires or disallow spaces before/after unary operators.
 

@@ -1,4 +1,11 @@
-# no-dupe-else-if
+---
+title: no-dupe-else-if
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-dupe-else-if.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
 
 Disallows duplicate conditions in `if-else-if` chains.
 
@@ -176,5 +183,5 @@ In rare cases where you really need identical test conditions in the same chain,
 
 ## Related Rules
 
-* [no-duplicate-case](no-duplicate-case.md)
-* [no-lonely-if](no-lonely-if.md)
+* [no-duplicate-case](no-duplicate-case)
+* [no-lonely-if](no-lonely-if)

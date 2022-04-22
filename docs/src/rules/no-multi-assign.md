@@ -1,4 +1,9 @@
-# no-multi-assign
+---
+title: no-multi-assign
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-multi-assign.md
+rule_type: suggestion
+---
 
 Disallows use of chained assignment expressions.
 
@@ -98,4 +103,4 @@ class Foo {
 
 ## Related Rules
 
-* [max-statements-per-line](max-statements-per-line.md)
+* [max-statements-per-line](max-statements-per-line)

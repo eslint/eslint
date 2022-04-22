@@ -1,4 +1,11 @@
-# no-new-symbol
+---
+title: no-new-symbol
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-new-symbol.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
 
 Disallows `new` operators with the `Symbol` object.
 
@@ -32,7 +39,6 @@ Examples of **correct** code for this rule:
 /*eslint-env es6*/
 
 var foo = Symbol('foo');
-
 
 // Ignores shadowed Symbol.
 function bar(Symbol) {

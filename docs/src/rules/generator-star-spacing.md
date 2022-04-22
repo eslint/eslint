@@ -1,4 +1,11 @@
-# generator-star-spacing
+---
+title: generator-star-spacing
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/generator-star-spacing.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Enforces spacing around the `*` in generator functions.
 

@@ -1,4 +1,9 @@
-# no-invalid-this
+---
+title: no-invalid-this
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-invalid-this.md
+rule_type: suggestion
+---
 
 Disallows use of `this` in contexts where the value of `this` is `undefined`.
 

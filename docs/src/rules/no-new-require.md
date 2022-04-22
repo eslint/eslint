@@ -1,4 +1,9 @@
-# no-new-require
+---
+title: no-new-require
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-new-require.md
+rule_type: suggestion
+---
 
 Disallows `new` operators with calls to `require`.
 

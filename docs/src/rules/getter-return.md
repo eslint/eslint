@@ -1,4 +1,11 @@
-# getter-return
+---
+title: getter-return
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/getter-return.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
 
 Enforces that a `return` statement is present in property getters.
 

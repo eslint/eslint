@@ -1,4 +1,11 @@
-# no-cond-assign
+---
+title: no-cond-assign
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-cond-assign.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
 
 Disallows assignment operators in conditional statements.
 
@@ -126,4 +133,4 @@ if (x === 0) {
 
 ## Related Rules
 
-* [no-extra-parens](no-extra-parens.md)
+* [no-extra-parens](no-extra-parens)

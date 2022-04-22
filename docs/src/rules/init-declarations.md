@@ -1,4 +1,9 @@
-# init-declarations
+---
+title: init-declarations
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/init-declarations.md
+rule_type: suggestion
+---
 
 Requires or disallows initialization in variable declarations.
 

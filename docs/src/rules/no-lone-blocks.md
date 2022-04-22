@@ -1,4 +1,9 @@
-# no-lone-blocks
+---
+title: no-lone-blocks
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-lone-blocks.md
+rule_type: suggestion
+---
 
 Disallows unnecessary nested blocks.
 

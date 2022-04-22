@@ -1,4 +1,9 @@
-# max-len
+---
+title: max-len
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/max-len.md
+rule_type: layout
+---
 
 Enforces a maximum line length.
 
@@ -156,8 +161,8 @@ var dep = require('really/really/really/really/really/really/really/really/long/
 
 ## Related Rules
 
-* [complexity](complexity.md)
-* [max-depth](max-depth.md)
-* [max-nested-callbacks](max-nested-callbacks.md)
-* [max-params](max-params.md)
-* [max-statements](max-statements.md)
+* [complexity](complexity)
+* [max-depth](max-depth)
+* [max-nested-callbacks](max-nested-callbacks)
+* [max-params](max-params)
+* [max-statements](max-statements)

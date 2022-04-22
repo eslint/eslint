@@ -1,4 +1,13 @@
-# no-nonoctal-decimal-escape
+---
+title: no-nonoctal-decimal-escape
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-nonoctal-decimal-escape.md
+rule_type: suggestion
+---
+
+<!--RECOMMENDED-->
+
+<!--SUGGESTIONS-->
 
 Disallows `\8` and `\9` escape sequences in string literals.
 
@@ -57,7 +66,7 @@ var quux = "\0\u0038";
 
 ## Related Rules
 
-* [no-octal-escape](no-octal-escape.md)
+* [no-octal-escape](no-octal-escape)
 
 ## Further Reading
 

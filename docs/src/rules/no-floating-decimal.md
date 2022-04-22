@@ -1,4 +1,11 @@
-# no-floating-decimal
+---
+title: no-floating-decimal
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-floating-decimal.md
+rule_type: suggestion
+---
+
+<!--FIXABLE-->
 
 Disallows leading or trailing decimal points in numeric literals.
 

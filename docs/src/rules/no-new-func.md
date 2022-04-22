@@ -1,4 +1,9 @@
-# no-new-func
+---
+title: no-new-func
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-new-func.md
+rule_type: suggestion
+---
 
 Disallows `new` operators with the `Function` object.
 

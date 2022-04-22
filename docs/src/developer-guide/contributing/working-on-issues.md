@@ -1,4 +1,9 @@
-# Working on Issues
+---
+title: Working on Issues
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/contributing/working-on-issues.md
+
+---
 
 Our public [issues tracker](https://github.com/eslint/eslint/issues) lists all of the things we plan on doing as well as suggestions from the community. Before starting to work on an issue, be sure you read through the rest of this page.
 

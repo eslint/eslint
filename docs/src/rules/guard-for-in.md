@@ -1,4 +1,9 @@
-# guard-for-in
+---
+title: guard-for-in
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/guard-for-in.md
+rule_type: suggestion
+---
 
 Requires `for in` loops to include an `if` statement.
 
@@ -10,7 +15,7 @@ for (key in foo) {
 }
 ```
 
-Note that simply checking `foo.hasOwnProperty(key)` is likely to cause an error in some cases; see [no-prototype-builtins](no-prototype-builtins.md).
+Note that simply checking `foo.hasOwnProperty(key)` is likely to cause an error in some cases; see [no-prototype-builtins](no-prototype-builtins).
 
 ## Rule Details
 
@@ -46,7 +51,7 @@ for (key in foo) {
 
 ## Related Rules
 
-* [no-prototype-builtins](no-prototype-builtins.md)
+* [no-prototype-builtins](no-prototype-builtins)
 
 ## Further Reading
 

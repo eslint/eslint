@@ -1,4 +1,9 @@
-# no-useless-constructor
+---
+title: no-useless-constructor
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-useless-constructor.md
+rule_type: suggestion
+---
 
 Disallows unnecessary constructors.
 

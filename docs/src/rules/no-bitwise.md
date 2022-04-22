@@ -1,4 +1,9 @@
-# no-bitwise
+---
+title: no-bitwise
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-bitwise.md
+rule_type: suggestion
+---
 
 Disallows bitwise operators.
 

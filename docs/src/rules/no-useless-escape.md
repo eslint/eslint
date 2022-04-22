@@ -1,4 +1,13 @@
-# no-useless-escape
+---
+title: no-useless-escape
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-useless-escape.md
+rule_type: suggestion
+---
+
+<!--RECOMMENDED-->
+
+<!--SUGGESTIONS-->
 
 Disallows unnecessary escape characters.
 

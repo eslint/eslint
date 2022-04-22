@@ -1,4 +1,13 @@
-# valid-typeof
+---
+title: valid-typeof
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/valid-typeof.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
+
+<!--SUGGESTIONS-->
 
 Enforces comparing `typeof` expressions against valid strings.
 

@@ -1,4 +1,9 @@
-# Reviewing Pull Requests
+---
+title: Reviewing Pull Requests
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/maintainer-guide/pullrequests.md
+
+---
 
 Pull requests are submitted frequently and represent our best opportunity to interact with the community. As such, it's important that pull requests are well-reviewed before being merged and that interactions on pull requests are positive.
 

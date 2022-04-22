@@ -1,8 +1,15 @@
-# newline-after-var
+---
+title: newline-after-var
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/newline-after-var.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Requires or disallows an empty line after variable declarations.
 
-This rule was **deprecated** in ESLint v4.0.0 and replaced by the [padding-line-between-statements](padding-line-between-statements.md) rule.
+This rule was **deprecated** in ESLint v4.0.0 and replaced by the [padding-line-between-statements](padding-line-between-statements) rule.
 
 As of today there is no consistency in separating variable declarations from the rest of the code. Some developers leave an empty line between var statements and the rest of the code like:
 

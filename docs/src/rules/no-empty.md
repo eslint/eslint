@@ -1,4 +1,11 @@
-# no-empty
+---
+title: no-empty
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-empty.md
+rule_type: suggestion
+---
+
+<!--RECOMMENDED-->
 
 Disallows empty block statements.
 
@@ -88,4 +95,4 @@ If you intentionally use empty block statements then you can disable this rule.
 
 ## Related Rules
 
-* [no-empty-function](./no-empty-function.md)
+* [no-empty-function](./no-empty-function)

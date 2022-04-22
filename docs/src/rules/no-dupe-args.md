@@ -1,4 +1,11 @@
-# no-dupe-args
+---
+title: no-dupe-args
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-dupe-args.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
 
 Disallows duplicate arguments in `function` definitions.
 

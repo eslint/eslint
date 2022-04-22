@@ -1,8 +1,13 @@
-# no-arrow-condition
+---
+title: no-arrow-condition
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-arrow-condition.md
+
+---
 
 Disallows arrow functions where test conditions are expected.
 
-(removed) This rule was **removed** in ESLint v2.0 and **replaced** by a combination of the [no-confusing-arrow](no-confusing-arrow.md) and [no-constant-condition](no-constant-condition.md) rules.
+(removed) This rule was **removed** in ESLint v2.0 and **replaced** by a combination of the [no-confusing-arrow](no-confusing-arrow) and [no-constant-condition](no-constant-condition) rules.
 
 Arrow functions (`=>`) are similar in syntax to some comparison operators (`>`, `<`, `<=`, and `>=`). This rule warns against using the arrow function syntax in places where a condition is expected. Even if the arguments of the arrow function are wrapped with parens, this rule still warns about it.
 
@@ -45,6 +50,6 @@ var x = (a) => 1 ? 2 : 3
 
 ## Related Rules
 
-* [arrow-parens](arrow-parens.md)
-* [no-confusing-arrow](no-confusing-arrow.md)
-* [no-constant-condition](no-constant-condition.md)
+* [arrow-parens](arrow-parens)
+* [no-confusing-arrow](no-confusing-arrow)
+* [no-constant-condition](no-constant-condition)

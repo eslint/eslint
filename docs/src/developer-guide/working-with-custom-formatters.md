@@ -1,4 +1,9 @@
-# Working with Custom Formatters
+---
+title: Working with Custom Formatters
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/working-with-custom-formatters.md
+
+---
 
 While ESLint has some built-in formatters available to format the linting results, it's also possible to create and distribute your own custom formatters. You can include custom formatters in your project directly or create an npm package to distribute them separately.
 
@@ -122,8 +127,8 @@ Each `message` object contains information about the ESLint rule that was trigge
 
 The formatter function receives an object as the second argument. The object has two properties:
 
-* `cwd` ... The current working directory. This value comes from the `cwd` constructor option of the [ESLint](nodejs-api.md#-new-eslintoptions) class.
-* `rulesMeta` ... The `meta` property values of rules. See the [Working with Rules](working-with-rules.md) page for more information about rules.
+* `cwd` ... The current working directory. This value comes from the `cwd` constructor option of the [ESLint](nodejs-api#-new-eslintoptions) class.
+* `rulesMeta` ... The `meta` property values of rules. See the [Working with Rules](working-with-rules) page for more information about rules.
 
 For example, here's what the object would look like if one rule, `no-extra-semi`, had been run:
 

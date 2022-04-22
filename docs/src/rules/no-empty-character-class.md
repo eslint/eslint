@@ -1,4 +1,11 @@
-# no-empty-character-class
+---
+title: no-empty-character-class
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-empty-character-class.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
 
 Disallows empty character classes in regular expressions.
 

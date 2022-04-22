@@ -660,9 +660,7 @@ target.gensite = function(prereleaseVersion) {
                 sourcePath = path.join("lib/rules", sourceBaseName),
                 ruleName = path.basename(filename, ".md"),
                 filePath = path.posix.join("docs", path.relative("tmp", filename));
-            let text = cat(filename),
-                ruleType = "",
-                title;
+            let text = cat(filename);
 
             process.stdout.write(`> Updating files (Steps 4-9): ${i}/${length} - ${filePath + " ".repeat(30)}\r`);
 
@@ -675,39 +673,11 @@ target.gensite = function(prereleaseVersion) {
                 const isFixable = rule && rule.meta.fixable;
                 const hasSuggestions = rule && rule.meta.hasSuggestions;
 
-                // Incorporate the special portion into the documentation content
-                const textSplit = text.split("\n");
-                const ruleHeading = textSplit[0];
-                const ruleDocsContent = textSplit.slice(1).join("\n");
+                text = text.replace("<!--FIXABLE-->", isFixable ? FIXABLE_TEXT : "")
+                    .replace("<!--SUGGESTIONS-->", hasSuggestions ? HAS_SUGGESTIONS_TEXT : "")
+                    .replace("<!--RECOMMENDED-->", isRecommended ? RECOMMENDED_TEXT : "");
 
-                text = `${ruleHeading}${isRecommended ? RECOMMENDED_TEXT : ""}${isFixable ? FIXABLE_TEXT : ""}${hasSuggestions ? HAS_SUGGESTIONS_TEXT : ""}\n${ruleDocsContent}`;
-                title = `${ruleName} - Rules`;
-
-                if (rule && rule.meta) {
-                    ruleType = `rule_type: ${rule.meta.type}`;
-                }
-            } else {
-
-                // extract the title from the file itself
-                title = text.match(/#([^#].+)\n/u);
-                if (title) {
-                    title = title[1].trim();
-                } else {
-                    title = "Documentation";
-                }
             }
-
-            text = [
-                "---",
-                `title: ${title}`,
-                "layout: doc",
-                `edit_link: https://github.com/eslint/eslint/edit/main/${filePath.replace("docs/", "docs/src/")}`,
-                ruleType,
-                "---",
-                "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",
-                "",
-                text
-            ].join("\n");
 
             // 6. Remove .md extension for relative links and change README to empty string
             text = text.replace(/\((?!https?:\/\/)([^)]*?)\.md(.*?)\)/gu, "($1$2)").replace("README.html", "");
@@ -816,7 +786,7 @@ target.checkRuleFiles = function() {
          * @todo Will remove this check when the main heading is automatically generated from rule metadata.
          */
         function hasIdInTitle(id) {
-            return new RegExp(`^# ${id}`, "u").test(docText);
+            return new RegExp(`title: ${id}`, "u").test(docText);
         }
 
         /**

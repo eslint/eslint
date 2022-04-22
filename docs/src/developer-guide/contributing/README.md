@@ -1,4 +1,9 @@
-# Contributing
+---
+title: Contributing
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/contributing/README.md
+
+---
 
 One of the great things about open source projects is that anyone can contribute in any number of meaningful ways. ESLint couldn't exist without the help of the many contributors it's had since the project began, and we want you to feel like you can contribute and make a difference as well.
 
@@ -12,15 +17,15 @@ ESLint welcomes contributions from everyone and adheres to the [OpenJS Foundatio
 
 Think you found a problem? We'd love to hear about it. This section explains how to submit a bug, the type of information we need to properly verify it, and the overall process.
 
-## Proposing a [New Rule](new-rules.md)
+## Proposing a [New Rule](new-rules)
 
 We get a lot of proposals for new rules in ESLint. This section explains how we determine which rules are accepted and what information you should provide to help us evaluate your proposal.
 
-## Proposing a [Rule Change](rule-changes.md)
+## Proposing a [Rule Change](rule-changes)
 
 Want to make a change to an existing rule? This section explains the process and how we evaluate such proposals.
 
-## Requesting a [Change](changes.md)
+## Requesting a [Change](changes)
 
 If you'd like to request a change other than a bug fix or new rule, this section explains that process.
 
@@ -28,11 +33,11 @@ If you'd like to request a change other than a bug fix or new rule, this section
 
 To report a security vulnerability in ESLint, please use our [HackerOne program](https://hackerone.com/eslint).
 
-## [Working on Issues](working-on-issues.md)
+## [Working on Issues](working-on-issues)
 
 Have some extra time and want to contribute? This section talks about the process of working on issues.
 
-## Submitting a [Pull Request](pull-requests.md)
+## Submitting a [Pull Request](pull-requests)
 
 We're always looking for contributions from the community. This section explains the requirements for pull requests and the process of contributing code.
 

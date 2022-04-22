@@ -1,4 +1,11 @@
-# no-trailing-spaces
+---
+title: no-trailing-spaces
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-trailing-spaces.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Disallows trailing whitespace at the end of lines.
 

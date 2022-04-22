@@ -1,4 +1,11 @@
-# prefer-arrow-callback
+---
+title: prefer-arrow-callback
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-arrow-callback.md
+rule_type: suggestion
+---
+
+<!--FIXABLE-->
 
 Requires using arrow functions for callbacks.
 

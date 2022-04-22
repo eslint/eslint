@@ -1,4 +1,11 @@
-# indent-legacy
+---
+title: indent-legacy
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/indent-legacy.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Enforces consistent indentation.
 
@@ -249,7 +256,6 @@ Examples of **incorrect** code for this rule with the options `2, { "outerIIFEBo
 
 })();
 
-
 if(y) {
 console.log('foo');
 }
@@ -267,7 +273,6 @@ function foo(x) {
 }
 
 })();
-
 
 if(y) {
    console.log('foo');

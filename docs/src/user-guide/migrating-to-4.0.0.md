@@ -1,4 +1,9 @@
-# Migrating to v4.0.0
+---
+title: Migrating to v4.0.0
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/migrating-to-4.0.0.md
+
+---
 
 ESLint v4.0.0 is the fourth major version release. We have made several breaking changes in this release; however, we expect that most of the changes will only affect a very small percentage of users. This guide is intended to walk you through the changes.
 

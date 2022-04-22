@@ -1,4 +1,9 @@
-# Pull Requests
+---
+title: Pull Requests
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/contributing/pull-requests.md
+
+---
 
 If you want to contribute to an ESLint repo, please use a GitHub pull request. This is the fastest way for us to evaluate your code and to merge it into the code base. Please don't file an issue with snippets of code. Doing so means that we need to manually merge the changes in and update any appropriate tests. That decreases the likelihood that your code is going to get included in a timely manner. Please use pull requests.
 
@@ -6,8 +11,8 @@ If you want to contribute to an ESLint repo, please use a GitHub pull request. T
 
 If you'd like to work on a pull request and you've never submitted code before, follow these steps:
 
-1. Set up a [development environment](../development-environment.md).
-1. If you want to implement a breaking change or a change to the core, ensure there's an issue that describes what you're doing and the issue has been accepted. You can create a new issue or just indicate you're [working on an existing issue](working-on-issues.md). Bug fixes, documentation changes, and other pull requests do not require an issue.
+1. Set up a [development environment](../development-environment).
+1. If you want to implement a breaking change or a change to the core, ensure there's an issue that describes what you're doing and the issue has been accepted. You can create a new issue or just indicate you're [working on an existing issue](working-on-issues). Bug fixes, documentation changes, and other pull requests do not require an issue.
 
 After that, you're ready to start working on code.
 
@@ -39,7 +44,7 @@ You should do all of your development for the issue in this branch.
 
 ### Step 2: Make your changes<a name="step2"></a>
 
-Make the changes to the code and tests, following the [code conventions](../code-conventions.md) as you go. Once you have finished, commit the changes to your branch:
+Make the changes to the code and tests, following the [code conventions](../code-conventions) as you go. Once you have finished, commit the changes to your branch:
 
 ```shell
 git add -A
@@ -72,7 +77,7 @@ The `tag` is one of the following:
 * `ci` - changes to our CI configuration files and scripts.
 * `perf` - a code change that improves performance.
 
-Use the [labels of the issue you are working on](working-on-issues.md#issue-labels) to determine the best tag.
+Use the [labels of the issue you are working on](working-on-issues#issue-labels) to determine the best tag.
 
 The message summary should be a one-sentence description of the change, and it must be 72 characters in length or shorter. If the pull request addresses an issue, then the issue number should be mentioned in the body of the commit message in the format `Fixes #1234`. If the commit doesn't completely fix the issue, then use `Refs #1234` instead of `Fixes #1234`.
 
@@ -116,7 +121,7 @@ With your code ready to go, this is a good time to double-check your submission 
 * Make separate pull requests for unrelated changes. Large pull requests with multiple unrelated changes may be closed without merging.
 * All changes must be accompanied by tests, even if the feature you're working on previously had no tests.
 * All user-facing changes must be accompanied by appropriate documentation.
-* Follow the [Code Conventions](../code-conventions.md).
+* Follow the [Code Conventions](../code-conventions).
 
 ### Step 6: Push your changes<a name="step6"></a>
 
@@ -176,7 +181,7 @@ The commit messages in subsequent commits do not need to be in any specific form
 
 ### Rebasing
 
-If your code is out-of-date, we might ask you to rebase. That means we want you to apply your changes on top of the latest upstream code. Make sure you have set up a [development environment](../development-environment.md) and then you can rebase using these commands:
+If your code is out-of-date, we might ask you to rebase. That means we want you to apply your changes on top of the latest upstream code. Make sure you have set up a [development environment](../development-environment) and then you can rebase using these commands:
 
 ```shell
 git fetch upstream

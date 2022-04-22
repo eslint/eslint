@@ -1,4 +1,9 @@
-# no-plusplus
+---
+title: no-plusplus
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-plusplus.md
+rule_type: suggestion
+---
 
 Disallows the unary operators `++` and `--`.
 

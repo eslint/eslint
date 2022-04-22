@@ -1,4 +1,9 @@
-# prefer-named-capture-group
+---
+title: prefer-named-capture-group
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-named-capture-group.md
+rule_type: suggestion
+---
 
 Suggest using named capture group in regular expression.
 
@@ -48,4 +53,4 @@ If you are targeting ECMAScript 2017 and/or older environments, you should not u
 
 ## Related Rules
 
-* [no-invalid-regexp](./no-invalid-regexp.md)
+* [no-invalid-regexp](./no-invalid-regexp)

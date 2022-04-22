@@ -1,4 +1,9 @@
-# func-style
+---
+title: func-style
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/func-style.md
+rule_type: suggestion
+---
 
 Enforces the consistent use of either `function` declarations or expressions.
 

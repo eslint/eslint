@@ -1,4 +1,11 @@
-# no-extra-label
+---
+title: no-extra-label
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-extra-label.md
+rule_type: suggestion
+---
+
+<!--FIXABLE-->
 
 Disallows unnecessary labels.
 
@@ -79,6 +86,6 @@ If you don't want to be notified about usage of labels, then it's safe to disabl
 
 ## Related Rules
 
-* [no-labels](./no-labels.md)
-* [no-label-var](./no-label-var.md)
-* [no-unused-labels](./no-unused-labels.md)
+* [no-labels](./no-labels)
+* [no-label-var](./no-label-var)
+* [no-unused-labels](./no-unused-labels)

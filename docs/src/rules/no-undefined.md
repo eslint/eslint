@@ -1,4 +1,9 @@
-# no-undefined
+---
+title: no-undefined
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-undefined.md
+rule_type: suggestion
+---
 
 Disallows the use of `undefined` as an identifier.
 
@@ -22,7 +27,7 @@ Because `undefined` can be overwritten or shadowed, reading `undefined` can give
 * Checking if a value is `undefined` should be done with `typeof`.
 * Using the `void` operator to generate the value of `undefined` if necessary.
 
-As an alternative, you can use the [no-global-assign](no-global-assign.md) and [no-shadow-restricted-names](no-shadow-restricted-names.md) rules to prevent `undefined` from being shadowed or assigned a different value. This ensures that `undefined` will always hold its original, expected value.
+As an alternative, you can use the [no-global-assign](no-global-assign) and [no-shadow-restricted-names](no-shadow-restricted-names) rules to prevent `undefined` from being shadowed or assigned a different value. This ensures that `undefined` will always hold its original, expected value.
 
 ## Rule Details
 
@@ -68,10 +73,10 @@ If you want to allow the use of `undefined` in your code, then you can safely tu
 
 ## Related Rules
 
-* [no-undef-init](no-undef-init.md)
-* [no-void](no-void.md)
-* [no-shadow-restricted-names](no-shadow-restricted-names.md)
-* [no-global-assign](no-global-assign.md)
+* [no-undef-init](no-undef-init)
+* [no-void](no-void)
+* [no-shadow-restricted-names](no-shadow-restricted-names)
+* [no-global-assign](no-global-assign)
 
 ## Further Reading
 

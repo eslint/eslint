@@ -1,4 +1,11 @@
-# prefer-template
+---
+title: prefer-template
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-template.md
+rule_type: suggestion
+---
+
+<!--FIXABLE-->
 
 Suggests using template literals instead of string concatenation.
 
@@ -51,5 +58,5 @@ In ES2015 (ES6) or later, if you don't want to be notified about string concaten
 
 ## Related Rules
 
-* [no-useless-concat](no-useless-concat.md)
-* [quotes](quotes.md)
+* [no-useless-concat](no-useless-concat)
+* [quotes](quotes)

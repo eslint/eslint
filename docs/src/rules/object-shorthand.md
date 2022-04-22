@@ -1,4 +1,11 @@
-# object-shorthand
+---
+title: object-shorthand
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/object-shorthand.md
+rule_type: suggestion
+---
+
+<!--FIXABLE-->
 
 Requires or disallows method and property shorthand syntax for object literals.
 
@@ -246,7 +253,7 @@ syntax harder to read and may not want to encourage it with this rule.
 
 ## Related Rules
 
-* [`no-useless-rename`](no-useless-rename.md) which disallows renaming import, export, and destructured assignments to the same name.
+* [`no-useless-rename`](no-useless-rename) which disallows renaming import, export, and destructured assignments to the same name.
 
 ## Further Reading
 

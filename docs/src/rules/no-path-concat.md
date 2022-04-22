@@ -1,4 +1,9 @@
-# no-path-concat
+---
+title: no-path-concat
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-path-concat.md
+rule_type: suggestion
+---
 
 Disallows string concatenation when using `__dirname` and `__filename`.
 

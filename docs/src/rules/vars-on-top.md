@@ -1,4 +1,9 @@
-# vars-on-top
+---
+title: vars-on-top
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/vars-on-top.md
+rule_type: suggestion
+---
 
 Requires variable declarations to be at the top of their scope.
 

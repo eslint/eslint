@@ -1,4 +1,9 @@
-# id-denylist
+---
+title: id-denylist
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/id-denylist.md
+rule_type: suggestion
+---
 
 Disallows specified identifiers.
 
