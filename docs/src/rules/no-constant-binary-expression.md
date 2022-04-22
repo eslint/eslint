@@ -27,7 +27,7 @@ const isEmpty = x === [];
 
 This rule identifies `==` and `===` comparisons which, based on the semantics of the JavaScript language, will always evaluate to `true` or `false`.
 
-It also identifies `||`, `&&` and `??` logical expressions which will either always or never short circuit.
+It also identifies `||`, `&&` and `??` logical expressions which will either always or never short-circuit.
 
 Examples of **incorrect** code for this rule:
 
