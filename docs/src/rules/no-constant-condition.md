@@ -135,4 +135,4 @@ do {
 
 ## Related Rules
 
-* [no-constant-binary-expression](no-constant-binary-expression.md)
+* [no-constant-binary-expression](no-constant-binary-expression)
