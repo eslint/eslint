@@ -2,7 +2,7 @@
 
 Disallows expressions where the operation doesn't affect the value.
 
-Comparisons which will always evaluate to true or false and logical expressions (`||`, `&&`, `??`) which either always short circuit or never short circuit are both likely indications of programmer error.
+Comparisons which will always evaluate to true or false and logical expressions (`||`, `&&`, `??`) which either always short-circuit or never short-circuit are both likely indications of programmer error.
 
 These errors are especially common in complex expressions where operator precedence is easy to misjudge. For example:
 
