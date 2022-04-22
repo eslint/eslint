@@ -1,3 +1,13 @@
+v8.14.0 - April 22, 2022
+
+* [`35fa1dd`](https://github.com/eslint/eslint/commit/35fa1dd8932ef3e55c37ec0e4b73b5d88f187e69) fix: allow project paths to have URL-encoded characters (#15795) (Milos Djermanovic)
+* [`735458c`](https://github.com/eslint/eslint/commit/735458cc96d4ecdb4ed97448b63ed4a579890b13) chore: add static frontmatter to no-constant-binary-expression docs (#15798) (Milos Djermanovic)
+* [`ab6363d`](https://github.com/eslint/eslint/commit/ab6363dffb9dfd9c6a9abb5292fc712745fe7a64) feat: Add rule no-constant-binary-expression (#15296) (Jordan Eldredge)
+* [`db28f2c`](https://github.com/eslint/eslint/commit/db28f2c9ea6b654f615daf2f7e6f1a2034b85062) chore: Add static frontmatter to docs (#15782) (Nicholas C. Zakas)
+* [`c2407e8`](https://github.com/eslint/eslint/commit/c2407e81caf2d50325d9aa09bae70d38615ddf2c) build: add node v18 (#15791) (唯然)
+* [`413f1d5`](https://github.com/eslint/eslint/commit/413f1d55f0ad05b6fe75bdde6df423253806797d) fix: update `astUtils.isDirectiveComment` with `globals` and `exported` (#15775) (Milos Djermanovic)
+* [`3bca59e`](https://github.com/eslint/eslint/commit/3bca59e30de73fb82d4def262ae1df72089df80d) chore: markdownlint autofix on commit (#15783) (Nicholas C. Zakas)
+
 v8.13.0 - April 8, 2022
 
 * [`274acbd`](https://github.com/eslint/eslint/commit/274acbd56537f6b8199da1ac9e7bced74ae81b56) feat: fix no-eval logic for `this` in arrow functions (#15755) (Milos Djermanovic)
