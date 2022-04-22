@@ -90,6 +90,7 @@
     "no-confusing-arrow": "suggestion",
     "no-console": "suggestion",
     "no-const-assign": "problem",
+    "no-constant-binary-expression": "problem",
     "no-constant-condition": "problem",
     "no-constructor-return": "problem",
     "no-continue": "suggestion",
