@@ -1,4 +1,11 @@
-# no-useless-rename
+---
+title: no-useless-rename
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-useless-rename.md
+rule_type: suggestion
+---
+
+<!--FIXABLE-->
 
 Disallows renaming import, export, and destructured assignments to the same name.
 
@@ -125,7 +132,7 @@ You can safely disable this rule if you do not care about redundantly renaming i
 
 ## Related Rules
 
-* [`object-shorthand`](object-shorthand.md) which can enforce this behavior for properties in object literals.
+* [`object-shorthand`](object-shorthand) which can enforce this behavior for properties in object literals.
 
 ## Compatibility
 

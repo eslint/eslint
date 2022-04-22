@@ -1,8 +1,13 @@
-# no-empty-label
+---
+title: no-empty-label
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-empty-label.md
+
+---
 
 Disallows labels for anything other than loops and switches.
 
-(removed) This rule was **removed** in ESLint v2.0 and **replaced** by the [no-labels](no-labels.md) rule.
+(removed) This rule was **removed** in ESLint v2.0 and **replaced** by the [no-labels](no-labels) rule.
 
 Labeled statements are only used in conjunction with labeled break and continue statements. ECMAScript has no goto statement.
 
@@ -36,6 +41,6 @@ If you don't want to be notified about usage of labels, then it's safe to disabl
 
 ## Related Rules
 
-* [no-labels](./no-labels.md)
-* [no-label-var](./no-label-var.md)
-* [no-unused-labels](./no-unused-labels.md)
+* [no-labels](./no-labels)
+* [no-label-var](./no-label-var)
+* [no-unused-labels](./no-unused-labels)

@@ -1,4 +1,9 @@
-# callback-return
+---
+title: callback-return
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/callback-return.md
+rule_type: suggestion
+---
 
 Enforces return after callback.
 
@@ -169,7 +174,7 @@ There are some cases where you might want to call a callback function more than 
 
 ## Related Rules
 
-* [handle-callback-err](handle-callback-err.md)
+* [handle-callback-err](handle-callback-err)
 
 ## Further Reading
 

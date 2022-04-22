@@ -1,4 +1,11 @@
-# object-curly-newline
+---
+title: object-curly-newline
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/object-curly-newline.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Enforces consistent line breaks after opening and before closing braces.
 
@@ -371,7 +378,6 @@ Examples of **correct** code for this rule with the default `{ "consistent": tru
 /*eslint object-curly-newline: ["error", { "consistent": true }]*/
 /*eslint-env es6*/
 
-
 let empty1 = {};
 let empty2 = {
 };
@@ -539,10 +545,10 @@ If you don't want to enforce consistent line breaks after opening and before clo
 
 ## Related Rules
 
-* [comma-spacing](comma-spacing.md)
-* [key-spacing](key-spacing.md)
-* [object-curly-spacing](object-curly-spacing.md)
-* [object-property-newline](object-property-newline.md)
+* [comma-spacing](comma-spacing)
+* [key-spacing](key-spacing)
+* [object-curly-spacing](object-curly-spacing)
+* [object-property-newline](object-property-newline)
 
 ## Compatibility
 

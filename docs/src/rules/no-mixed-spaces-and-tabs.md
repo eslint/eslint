@@ -1,4 +1,11 @@
-# no-mixed-spaces-and-tabs
+---
+title: no-mixed-spaces-and-tabs
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-mixed-spaces-and-tabs.md
+rule_type: layout
+---
+
+<!--RECOMMENDED-->
 
 Disallows mixed spaces and tabs for indentation.
 

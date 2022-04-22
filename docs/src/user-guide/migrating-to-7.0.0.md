@@ -1,4 +1,9 @@
-# Migrating to v7.0.0
+---
+title: Migrating to v7.0.0
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/migrating-to-7.0.0.md
+
+---
 
 ESLint v7.0.0 is a major release of ESLint. We have made a few breaking changes in this release. This guide is intended to walk you through the breaking changes.
 

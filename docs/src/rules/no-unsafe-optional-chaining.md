@@ -1,4 +1,11 @@
-# no-unsafe-optional-chaining
+---
+title: no-unsafe-optional-chaining
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-unsafe-optional-chaining.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
 
 Disallows use of optional chaining in contexts where the `undefined` value is not allowed.
 

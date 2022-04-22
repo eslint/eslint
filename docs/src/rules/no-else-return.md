@@ -1,4 +1,11 @@
-# no-else-return
+---
+title: no-else-return
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-else-return.md
+rule_type: suggestion
+---
+
+<!--FIXABLE-->
 
 Disallows `return` before `else`.
 

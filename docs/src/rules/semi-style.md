@@ -1,4 +1,11 @@
-# semi-style
+---
+title: semi-style
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/semi-style.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Enforces location of semicolons.
 
@@ -121,6 +128,6 @@ If you don't want to notify the location of semicolons, then it's safe to disabl
 
 ## Related Rules
 
-* [no-extra-semi](./no-extra-semi.md)
-* [semi](./semi.md)
-* [semi-spacing](./semi-spacing.md)
+* [no-extra-semi](./no-extra-semi)
+* [semi](./semi)
+* [semi-spacing](./semi-spacing)

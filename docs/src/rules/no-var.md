@@ -1,4 +1,11 @@
-# no-var
+---
+title: no-var
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-var.md
+rule_type: suggestion
+---
+
+<!--FIXABLE-->
 
 Requires `let` or `const` instead of `var`.
 

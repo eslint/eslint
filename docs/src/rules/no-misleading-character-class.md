@@ -1,4 +1,11 @@
-# no-misleading-character-class
+---
+title: no-misleading-character-class
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-misleading-character-class.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
 
 Disallows characters which are made with multiple code points in character class syntax.
 

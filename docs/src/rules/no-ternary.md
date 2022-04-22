@@ -1,4 +1,9 @@
-# no-ternary
+---
+title: no-ternary
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-ternary.md
+rule_type: suggestion
+---
 
 Disallows ternary operators.
 
@@ -48,5 +53,5 @@ function quux() {
 
 ## Related Rules
 
-* [no-nested-ternary](no-nested-ternary.md)
-* [no-unneeded-ternary](no-unneeded-ternary.md)
+* [no-nested-ternary](no-nested-ternary)
+* [no-unneeded-ternary](no-unneeded-ternary)

@@ -1,4 +1,11 @@
-# no-ex-assign
+---
+title: no-ex-assign
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-ex-assign.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
 
 Disallows reassigning exceptions in `catch` clauses.
 

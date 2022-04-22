@@ -1,4 +1,11 @@
-# implicit-arrow-linebreak
+---
+title: implicit-arrow-linebreak
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/implicit-arrow-linebreak.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Enforces the location of arrow function bodies with implicit returns.
 
@@ -80,7 +87,6 @@ Examples of **correct** code for this rule with the `"below"` option:
 ```js
 /* eslint implicit-arrow-linebreak: ["error", "below"] */
 
-
 (foo) =>
   bar;
 
@@ -96,8 +102,8 @@ Examples of **correct** code for this rule with the `"below"` option:
 
 If you're not concerned about consistent locations of implicitly returned arrow function expressions, you should not turn on this rule.
 
-You can also disable this rule if you are using the `"always"` option for the [`arrow-body-style`](arrow-body-style.md), since this will disable the use of implicit returns in arrow functions.
+You can also disable this rule if you are using the `"always"` option for the [`arrow-body-style`](arrow-body-style), since this will disable the use of implicit returns in arrow functions.
 
 ## Related Rules
 
-* [`brace-style`](brace-style.md) which enforces this behavior for arrow functions with block bodies.
+* [`brace-style`](brace-style) which enforces this behavior for arrow functions with block bodies.

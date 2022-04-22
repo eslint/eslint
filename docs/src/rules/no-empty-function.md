@@ -1,4 +1,9 @@
-# no-empty-function
+---
+title: no-empty-function
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-empty-function.md
+rule_type: suggestion
+---
 
 Disallows empty functions.
 
@@ -346,4 +351,4 @@ If you don't want to be notified about empty functions, then it's safe to disabl
 
 ## Related Rules
 
-* [no-empty](./no-empty.md)
+* [no-empty](./no-empty)

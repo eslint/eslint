@@ -1,4 +1,9 @@
-# Unit Tests
+---
+title: Unit Tests
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/unit-tests.md
+
+---
 
 Most parts of ESLint have unit tests associated with them. Unit tests are written using [Mocha](https://mochajs.org/) and are required when making contributions to ESLint. You'll find all of the unit tests in the `tests` directory.
 

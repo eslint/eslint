@@ -1,4 +1,11 @@
-# no-confusing-arrow
+---
+title: no-confusing-arrow
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-confusing-arrow.md
+rule_type: suggestion
+---
+
+<!--FIXABLE-->
 
 Disallows arrow functions where they could be confused with comparisons.
 
@@ -91,5 +98,5 @@ Examples of **correct** code for this rule with the `{"onlyOneSimpleParam": true
 
 ## Related Rules
 
-* [no-constant-condition](no-constant-condition.md)
-* [arrow-parens](arrow-parens.md)
+* [no-constant-condition](no-constant-condition)
+* [arrow-parens](arrow-parens)

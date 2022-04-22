@@ -1,4 +1,9 @@
-# no-restricted-syntax
+---
+title: no-restricted-syntax
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-restricted-syntax.md
+rule_type: suggestion
+---
 
 Disallows specified syntax.
 
@@ -80,7 +85,7 @@ If you don't want to restrict your code from using any JavaScript features or sy
 
 ## Related Rules
 
-* [no-alert](no-alert.md)
-* [no-console](no-console.md)
-* [no-debugger](no-debugger.md)
-* [no-restricted-properties](no-restricted-properties.md)
+* [no-alert](no-alert)
+* [no-console](no-console)
+* [no-debugger](no-debugger)
+* [no-restricted-properties](no-restricted-properties)

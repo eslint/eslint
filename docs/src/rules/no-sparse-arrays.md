@@ -1,4 +1,11 @@
-# no-sparse-arrays
+---
+title: no-sparse-arrays
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-sparse-arrays.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
 
 Disallows sparse arrays.
 

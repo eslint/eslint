@@ -1,4 +1,9 @@
-# no-new-object
+---
+title: no-new-object
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-new-object.md
+rule_type: suggestion
+---
 
 Disallows `new` operators with the `Object` object.
 
@@ -51,5 +56,5 @@ If you wish to allow the use of the `Object` constructor, you can safely turn th
 
 ## Related Rules
 
-* [no-array-constructor](no-array-constructor.md)
-* [no-new-wrappers](no-new-wrappers.md)
+* [no-array-constructor](no-array-constructor)
+* [no-new-wrappers](no-new-wrappers)

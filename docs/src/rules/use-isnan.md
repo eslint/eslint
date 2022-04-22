@@ -1,4 +1,11 @@
-# use-isnan
+---
+title: use-isnan
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/use-isnan.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
 
 Requires calls to `isNaN()` when checking for `NaN`.
 

@@ -1,4 +1,9 @@
-# no-eq-null
+---
+title: no-eq-null
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-eq-null.md
+rule_type: suggestion
+---
 
 Disallows `null` comparisons without type-checking operators,
 

@@ -1,4 +1,11 @@
-# no-const-assign
+---
+title: no-const-assign
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-const-assign.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
 
 Disallows modifying variables that are declared using `const`.
 

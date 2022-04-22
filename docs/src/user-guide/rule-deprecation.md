@@ -1,4 +1,9 @@
-# Rule Deprecation
+---
+title: Rule Deprecation
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/rule-deprecation.md
+
+---
 
 Balancing the trade-offs of improving a tool and the frustration these changes can cause is a difficult task. One key area in which this affects our users is in the removal of rules.
 

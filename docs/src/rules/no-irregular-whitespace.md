@@ -1,4 +1,11 @@
-# no-irregular-whitespace
+---
+title: no-irregular-whitespace
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-irregular-whitespace.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
 
 Disallows irregular whitespace characters.
 

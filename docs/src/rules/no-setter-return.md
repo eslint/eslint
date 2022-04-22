@@ -1,4 +1,11 @@
-# no-setter-return
+---
+title: no-setter-return
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-setter-return.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
 
 Disallows returning values from setters.
 
@@ -96,7 +103,7 @@ Object.defineProperty(foo, "bar", {
 
 ## Related Rules
 
-* [getter-return](getter-return.md)
+* [getter-return](getter-return)
 
 ## Further Reading
 

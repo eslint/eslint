@@ -1,4 +1,11 @@
-# no-class-assign
+---
+title: no-class-assign
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-class-assign.md
+rule_type: problem
+---
+
+<!--RECOMMENDED-->
 
 Disallows modifying variables of class declarations.
 

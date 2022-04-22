@@ -1,6 +1,11 @@
-# Working with Rules (Deprecated)
+---
+title: Working with Rules (Deprecated)
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/working-with-rules-deprecated.md
 
-**Note:** This page covers the deprecated rule format for ESLint <= 2.13.1. [This is the most recent rule format](./working-with-rules.md).
+---
+
+**Note:** This page covers the deprecated rule format for ESLint <= 2.13.1. [This is the most recent rule format](./working-with-rules).
 
 Each rule in ESLint has two files named with its identifier (for example, `no-extra-semi`).
 
@@ -34,17 +39,17 @@ module.exports.schema = []; // no options
 
 ## Rule Basics
 
-`schema` (array) specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../user-guide/configuring/rules.md#configuring-rules)
+`schema` (array) specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../user-guide/configuring/rules#configuring-rules)
 
 `create` (function) returns an object with methods that ESLint calls to "visit" nodes while traversing the abstract syntax tree (AST as defined by [ESTree](https://github.com/estree/estree)) of JavaScript code:
 
 * if a key is a node type, ESLint calls that **visitor** function while going **down** the tree
 * if a key is a node type plus `:exit`, ESLint calls that **visitor** function while going **up** the tree
-* if a key is an event name, ESLint calls that **handler** function for [code path analysis](./code-path-analysis.md)
+* if a key is an event name, ESLint calls that **handler** function for [code path analysis](./code-path-analysis)
 
 A rule can use the current node and its surrounding tree to report or fix problems.
 
-Here are methods for the [array-callback-return](../rules/array-callback-return.md) rule:
+Here are methods for the [array-callback-return](../rules/array-callback-return) rule:
 
 ```js
 function checkLastSegment (node) {
@@ -74,7 +79,7 @@ module.exports = function(context) {
 
 The `context` object contains additional functionality that is helpful for rules to do their jobs. As the name implies, the `context` object contains information that is relevant to the context of the rule. The `context` object has the following properties:
 
-* `parserOptions` - the parser options configured for this run (more details [here](../user-guide/configuring/language-options.md#specifying-parser-options)).
+* `parserOptions` - the parser options configured for this run (more details [here](../user-guide/configuring/language-options#specifying-parser-options)).
 * `id` - the rule ID.
 * `options` - an array of rule options.
 * `settings` - the `settings` from configuration.
@@ -87,7 +92,7 @@ Additionally, the `context` object has the following methods:
 * `getFilename()` - returns the filename associated with the source.
 * `getScope()` - returns the current scope.
 * `getSourceCode()` - returns a `SourceCode` object that you can use to work with the source that was passed to ESLint
-* `markVariableAsUsed(name)` - marks the named variable in scope as used. This affects the [no-unused-vars](../rules/no-unused-vars.md) rule.
+* `markVariableAsUsed(name)` - marks the named variable in scope as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule.
 * `report(descriptor)` - reports a problem in the code.
 
 **Deprecated:** The following methods on the `context` object are deprecated. Please use the corresponding methods on `SourceCode` instead:
@@ -324,7 +329,7 @@ Keep in mind that comments are technically not a part of the AST and are only at
 ESLint analyzes code paths while traversing AST.
 You can access that code path objects with five events related to code paths.
 
-[details here](./code-path-analysis.md)
+[details here](./code-path-analysis)
 
 ## Rule Unit Tests
 
@@ -478,7 +483,7 @@ valid: [
 ]
 ```
 
-The options available and the expected syntax for `parserOptions` is the same as those used in [configuration](../user-guide/configuring/language-options.md#specifying-parser-options).
+The options available and the expected syntax for `parserOptions` is the same as those used in [configuration](../user-guide/configuring/language-options#specifying-parser-options).
 
 ### Write Several Tests
 
@@ -574,4 +579,4 @@ Runtime rules are written in the same format as all other rules. Create your rul
 
 1. Place all of your runtime rules in the same directory (i.e., `eslint_rules`).
 2. Create a [configuration file](../user-guide/configuring/) and specify your rule ID error level under the `rules` key. Your rule will not run unless it has a value of `1` or `2` in the configuration file.
-3. Run the [command line interface](../user-guide/command-line-interface.md) using the `--rulesdir` option to specify the location of your runtime rules.
+3. Run the [command line interface](../user-guide/command-line-interface) using the `--rulesdir` option to specify the location of your runtime rules.

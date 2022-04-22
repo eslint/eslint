@@ -1,4 +1,9 @@
-# Getting Started with ESLint
+---
+title: Getting Started with ESLint
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/getting-started.md
+
+---
 
 ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs. In many ways, it is similar to JSLint and JSHint with a few exceptions:
 
@@ -46,7 +51,7 @@ It is also possible to install ESLint globally rather than locally (using `npm i
 
 ## Configuration
 
-**Note:** If you are coming from a version before 1.0.0 please see the [migration guide](migrating-to-1.0.0.md).
+**Note:** If you are coming from a version before 1.0.0 please see the [migration guide](migrating-to-1.0.0).
 
 After running `npm init @eslint/config`, you'll have a `.eslintrc.{js,yml,json}` file in your directory. In it, you'll see some rules configured like this:
 
@@ -82,7 +87,7 @@ Because of this line, all of the rules marked "(recommended)" on the [rules page
 ## Next Steps
 
 * Learn about [advanced configuration](configuring/) of ESLint.
-* Get familiar with the [command line options](command-line-interface.md).
-* Explore [ESLint integrations](integrations.md) into other tools like editors, build systems, and more.
-* Can't find just the right rule?  Make your own [custom rule](/docs/developer-guide/working-with-rules.md).
+* Get familiar with the [command line options](command-line-interface).
+* Explore [ESLint integrations](integrations) into other tools like editors, build systems, and more.
+* Can't find just the right rule?  Make your own [custom rule](/docs/developer-guide/working-with-rules).
 * Make ESLint even better by [contributing](/docs/developer-guide/contributing/).

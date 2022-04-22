@@ -1,4 +1,9 @@
-# camelcase
+---
+title: camelcase
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/camelcase.md
+rule_type: suggestion
+---
 
 Enforces camelcase naming convention.
 

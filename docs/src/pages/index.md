@@ -1,4 +1,8 @@
-# Documentation
+---
+title: Documentation
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/pages/index.md
+---
 
 Welcome to our documentation pages! What would you like to view?
 

@@ -1,4 +1,11 @@
-# semi
+---
+title: semi
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/semi.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Requires or disallows semicolons instead of ASI.
 
@@ -31,7 +38,7 @@ return;
 }
 ```
 
-Effectively, a semicolon is inserted after the `return` statement, causing the code below it (a labeled literal inside a block) to be unreachable. This rule and the [no-unreachable](no-unreachable.md) rule will protect your code from such cases.
+Effectively, a semicolon is inserted after the `return` statement, causing the code below it (a labeled literal inside a block) to be unreachable. This rule and the [no-unreachable](no-unreachable) rule will protect your code from such cases.
 
 On the other side of the argument are those who say that since semicolons are inserted automatically, they are optional and do not need to be inserted manually. However, the ASI mechanism can also be tricky to people who don't use semicolons. For example, consider this code:
 
@@ -46,7 +53,7 @@ var globalCounter = { }
 })()
 ```
 
-In this example, a semicolon will not be inserted after the first line, causing a run-time error (because an empty object is called as if it's a function). The [no-unexpected-multiline](no-unexpected-multiline.md) rule can protect your code from such cases.
+In this example, a semicolon will not be inserted after the first line, causing a run-time error (because an empty object is called as if it's a function). The [no-unexpected-multiline](no-unexpected-multiline) rule can protect your code from such cases.
 
 Although ASI allows for more freedom over your coding style, it can also make your code behave in an unexpected way, whether you use semicolons or not. Therefore, it is best to know when ASI takes place and when it does not, and have ESLint protect your code from these potentially unexpected cases. In short, as once described by Isaac Schlueter, a `\n` character always ends a statement (just like a semicolon) unless one of the following is true:
 
@@ -214,9 +221,9 @@ If you do not want to enforce semicolon usage (or omission) in any particular wa
 
 ## Related Rules
 
-* [no-extra-semi](no-extra-semi.md)
-* [no-unexpected-multiline](no-unexpected-multiline.md)
-* [semi-spacing](semi-spacing.md)
+* [no-extra-semi](no-extra-semi)
+* [no-unexpected-multiline](no-unexpected-multiline)
+* [semi-spacing](semi-spacing)
 
 ## Further Reading
 

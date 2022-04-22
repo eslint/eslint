@@ -1,4 +1,11 @@
-# lines-around-comment
+---
+title: lines-around-comment
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/lines-around-comment.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Requires empty lines around comments.
 
@@ -529,7 +536,6 @@ foo();
 /* eslint mentioned in this comment */,
 bar();
 
-
 /*eslint lines-around-comment: ["error", { "ignorePattern": "pragma" }] */
 
 foo();
@@ -574,5 +580,5 @@ Many people enjoy a terser code style and don't mind comments bumping up against
 
 ## Related Rules
 
-* [space-before-blocks](space-before-blocks.md)
-* [spaced-comment](spaced-comment.md)
+* [space-before-blocks](space-before-blocks)
+* [spaced-comment](spaced-comment)

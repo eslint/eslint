@@ -1,4 +1,11 @@
-# comma-spacing
+---
+title: comma-spacing
+layout: doc
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/comma-spacing.md
+rule_type: layout
+---
+
+<!--FIXABLE-->
 
 Enforces spacing around commas.
 
@@ -16,7 +23,7 @@ This rule enforces consistent spacing before and after commas in variable declar
 This rule does not apply in an `ArrayExpression` or `ArrayPattern` in either of the following cases:
 
 * adjacent null elements
-* an initial null element, to avoid conflicts with the [`array-bracket-spacing`](array-bracket-spacing.md) rule
+* an initial null element, to avoid conflicts with the [`array-bracket-spacing`](array-bracket-spacing) rule
 
 ## Options
 
@@ -114,14 +121,14 @@ If your project will not be following a consistent comma-spacing pattern, turn t
 
 ## Related Rules
 
-* [array-bracket-spacing](array-bracket-spacing.md)
-* [comma-style](comma-style.md)
-* [space-in-brackets](space-in-brackets.md) (deprecated)
-* [space-in-parens](space-in-parens.md)
-* [space-infix-ops](space-infix-ops.md)
-* [space-after-keywords](space-after-keywords.md)
-* [space-unary-ops](space-unary-ops.md)
-* [space-return-throw-case](space-return-throw-case.md)
+* [array-bracket-spacing](array-bracket-spacing)
+* [comma-style](comma-style)
+* [space-in-brackets](space-in-brackets) (deprecated)
+* [space-in-parens](space-in-parens)
+* [space-infix-ops](space-infix-ops)
+* [space-after-keywords](space-after-keywords)
+* [space-unary-ops](space-unary-ops)
+* [space-return-throw-case](space-return-throw-case)
 
 ## Further Reading
 
