@@ -14,7 +14,7 @@ const x = a + b ?? c;
 // the `?? c` has no effect.
 ```
 
-Additionally, we detect comparisons to newly constructed objects/arrays/functions/etc. In JavaScript, where objects are compared by reference, a newly constructed object can _never_ `===` any other value. This can be surprising for programmers coming from languages where objects are compared by value.
+Additionally, this rule detects comparisons to newly constructed objects/arrays/functions/etc. In JavaScript, where objects are compared by reference, a newly constructed object can _never_ `===` any other value. This can be surprising for programmers coming from languages where objects are compared by value.
 
 ```js
 // Programmers coming from a language where objects are compared by value might expect this to work:
