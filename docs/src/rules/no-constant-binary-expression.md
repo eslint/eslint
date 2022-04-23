@@ -70,6 +70,6 @@ const objIsEmpty = Object.keys(someObj).length === 0;
 const arrIsEmpty = someArr.length === 0;
 ```
 
-Related Rules:
+## Related Rules
 
 * [no-constant-condition](no-constant-condition)
