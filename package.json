@@ -47,7 +47,7 @@
   "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
-    "@eslint/eslintrc": "^1.2.2",
+    "@eslint/eslintrc": "github:opravil-jan/eslintrc#bump-version",
     "@humanwhocodes/config-array": "^0.9.2",
     "ajv": "^6.10.0",
     "chalk": "^4.0.0",
@@ -74,7 +74,7 @@
     "json-stable-stringify-without-jsonify": "^1.0.1",
     "levn": "^0.4.1",
     "lodash.merge": "^4.6.2",
-    "minimatch": "^3.0.4",
+    "minimatch": "^5.0.1",
     "natural-compare": "^1.4.0",
     "optionator": "^0.9.1",
     "regexpp": "^3.2.0",
