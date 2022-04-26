@@ -19,8 +19,7 @@ The following elements of regular expression patterns are considered possible er
 
 * Hexadecimal character escapes from `\x00` to `\x1F`.
 * Unicode character escapes from `\u0000` to `\u001F`.
-* Raw characters from U+0000 to U+001F.
-* Escaped raw characters from U+0000 to U+001F.
+* Unescaped raw characters from U+0000 to U+001F.
 
 Control escapes such as `\t` and `\n` are allowed by this rule.
 
@@ -34,7 +33,7 @@ var pattern2 = /\x0C/;
 var pattern3 = /\x1F/;
 var pattern4 = /\u000C/;
 var pattern5 = new RegExp("\x0C"); // raw U+000C character in the pattern
-var pattern6 = new RegExp("\\x0C"); // escaped raw U+000C character in the pattern
+var pattern6 = new RegExp("\\x0C"); // \x0C pattern
 ```
 
 Examples of **correct** code for this rule:
