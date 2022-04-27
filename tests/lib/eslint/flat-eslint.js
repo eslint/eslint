@@ -4509,7 +4509,7 @@ describe("FlatESLint", () => {
 
     });
 
-    describe.only("'ignores', 'files' of the configuration that the '--config' option provided should be resolved from CWD.", () => {
+    describe("'ignores', 'files' of the configuration that the '--config' option provided should be resolved from CWD.", () => {
         const root = getFixturePath("cli-engine/config-and-overrides-files");
 
         describe("if { files: 'foo/*.txt', ... } is present by '--config node_modules/myconf/eslint.config.js',", () => {
