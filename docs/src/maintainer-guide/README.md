@@ -1,7 +1,12 @@
 ---
 title: Maintainer Guide
 layout: doc
+permalink: /maintainer-guide/index.html
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/maintainer-guide/README.md
+eleventyNavigation:
+    key: maintainer guide 
+    title: Maintainer Guide 
+    order: 3
 
 ---
 

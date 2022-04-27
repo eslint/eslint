@@ -1,0 +1,5 @@
+<ul class="versions-list">
+    {%- for version in versions.items -%}
+    <li><a href="{{ version.url }}" {% if config.version == version.number %} data-current="true" {% endif %}>v{{ version.number }}</a></li>
+    {%- endfor -%}
+</ul>

@@ -1,0 +1,98 @@
+/* PERSON */
+.person {
+  position: relative; }
+
+.person--contributor {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: .75rem; }
+
+.person--author {
+  margin-bottom: 3rem;
+  margin-block-end: 3rem; }
+  @media all and (min-width: 680px) {
+    .person--author {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      grid-gap: 3rem; } }
+
+.person--author__details {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: .75rem; }
+
+.person__photo {
+  display: block;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: none;
+  max-width: initial;
+  margin-bottom: .875rem;
+  margin-block-end: .875rem;
+  /* contributor in the post sidebar */ }
+  .person__photo.person__photo--large {
+    width: 5rem;
+    height: 5rem;
+    margin-bottom: 1.25rem;
+    margin-block-end: 1.25rem; }
+  .person__photo.person__photo--medium {
+    width: 3.5rem;
+    height: 3.5rem; }
+  .person__photo.person__photo--small {
+    width: 3rem;
+    height: 3rem; }
+  .post__sidebar-module .person__photo {
+    width: 3rem;
+    height: 3rem; }
+
+.person__bio a:hover {
+  color: var(--link-color); }
+
+.person__name {
+  font-weight: 500;
+  color: var(--headings-color);
+  font-size: 1.125rem; }
+  .post .person__name {
+    font-size: var(--step-0); }
+
+.person__handle {
+  text-decoration: none;
+  color: var(--link-color);
+  display: block;
+  margin-bottom: .5rem;
+  margin-block-end: .5rem; }
+  .post .person__handle {
+    color: inherit; }
+    .post .person__handle:hover {
+      color: var(--link-color); }
+  .post__sidebar-module .person__handle::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    offset-block-start: 0;
+    offset-block-end: 0;
+    offset-inline-start: 0;
+    offset-inline-end: 0; }
+
+.person__title {
+  display: block;
+  margin-bottom: .5rem;
+  margin-block-end: .5rem; }
+
+.person__social-links ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 1rem; }
+
+/* team page */
+.people-list {
+  display: grid;
+  grid-gap: 3rem 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }

@@ -1,7 +1,12 @@
 ---
 title: Developer Guide
 layout: doc
+permalink: /developer-guide/index.html
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/README.md
+eleventyNavigation:
+    key: developer guide 
+    title: Developer Guide 
+    order: 2
 
 ---
 

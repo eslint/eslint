@@ -1,0 +1,40 @@
+.swatches {
+  margin: 0;
+  padding: 0;
+  margin-top: var(--space-l-2xl);
+  margin-block-start: var(--space-l-2xl);
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap; }
+  @media all and (min-width: 1023px) {
+    .swatches {
+      display: grid;
+      margin: 0;
+      overflow: initial;
+      grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+      grid-gap: 2rem .5rem; } }
+
+.swatch {
+  min-width: 105px;
+  margin: 0;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+  display: inline-flex;
+  flex-direction: column-reverse;
+  margin-right: 1rem;
+  margin-inline-end: 1rem;
+  overflow: hidden; }
+  .swatch svg {
+    display: block;
+    max-width: 100%;
+    width: 124px;
+    height: 80px; }
+  .swatch figcaption {
+    display: block;
+    padding: .75rem; }
+    .swatch figcaption span {
+      display: block; }
+
+.swatch__description {
+  color: var(--headings-color);
+  font-weight: 500; }

@@ -1,0 +1,56 @@
+
+{%- macro ruleCategories(params) -%}
+<div class="rule-categories" aria-label="Rule Categories">
+    {%- if params.recommended == true -%}
+    <div class="rule-category">
+        <span class="rule-category__icon">✅ <span class="visually-hidden">Recommended</span></span>
+        <p class="rule-category__description">
+            if the <code>"extends": "eslint:recommended"</code> property in a <a href="../user-guide/configuring#extending-configuration-files">configuration file</a> enables the rule
+        </p>
+    </div>
+    {%- endif -%}
+    {%- if params.fixable == true -%}
+    <div class="rule-category">
+        <span class="rule-category__icon">🛠 <span class="visually-hidden">Fixable</span></span>
+        <p class="rule-category__description">
+            if some problems reported by the rule are automatically fixable by the <code>--fix</code> <a href="../user-guide/command-line-interface#--fix">command line</a> option
+        </p>
+    </div>
+    {%- endif -%}
+    {%- if params.hasSuggestions == true -%}
+    <div class="rule-category">
+        <span class="rule-category__icon">💡 <span class="visually-hidden">hasSuggestions</span></span>
+        <p class="rule-category__description">
+            if some problems reported by the rule are manually fixable by editor <a href="../developer-guide/working-with-rules#providing-suggestions">suggestions</a>
+        </p>
+    </div>
+    {%- endif -%}
+</div>
+{%- endmacro -%}
+
+{%- macro recommended() -%}
+<div class="rule-category">
+    <span class="rule-category__icon">✅ <span class="visually-hidden">Recommended</span></span>
+    <p class="rule-category__description">
+        if the <code>"extends": "eslint:recommended"</code> property in a configuration file enables the rule.
+    </p>
+</div>
+{%- endmacro -%}
+
+{%- macro fixable() -%}
+<div class="rule-category">
+    <span class="rule-category__icon">🛠 <span class="visually-hidden">Fixable</span></span>
+    <p class="rule-category__description">
+        if some problems reported by the rule are automatically fixable by the <code>--fix</code> command line option
+    </p>
+</div>
+{%- endmacro -%}
+
+{%- macro hasSuggestions() -%}
+<div class="rule-category">
+    <span class="rule-category__icon">💡 <span class="visually-hidden">hasSuggestions</span></span>
+    <p class="rule-category__description">
+        if some problems reported by the rule are manually fixable by editor suggestions
+    </p>
+</div>
+{%- endmacro -%}

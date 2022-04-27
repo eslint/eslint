@@ -1,0 +1,151 @@
+.docs-index {
+    a {
+        border-radius: var(--border-radius);
+        text-decoration: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: .5rem .75rem;
+        margin-left: -.75rem;
+        margin-inline-start: -.75rem;
+        color: var(--headings-color);
+
+        &:hover,
+        &[aria-current="true"] {
+            background-color: var(--docs-lightest-background-color);
+            color: var(--link-color);
+        }
+    }
+}
+
+.docs-index__item {
+    margin: 0;
+
+    ul ul {
+        padding-left: .75rem;
+    }
+
+    &[data-has-children] {
+        margin-bottom: .5rem;
+    }
+}
+
+.docs-index>ul>.docs-index__item {
+    margin-top: 1.5rem;
+    margin-block-start: 1.5rem;
+
+    >a {
+        color: var(--icon-color);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: .875rem;
+        font-weight: 500;
+    }
+}
+
+/* Styles for the accordion icon */
+.index-js .index-icon {
+    display: block !important;
+    width: 0.75rem;
+    height: 0.5rem;
+    transform-origin: 50% 50%;
+    transition: all 0.1s linear;
+    color: inherit;
+}
+
+.index-js [aria-expanded="true"] .index-icon {
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.index-js [aria-hidden="true"] {
+    display: none;
+}
+
+.index-js [aria-hidden="false"] {
+    display: block;
+}
+
+.docs-index__list {
+    &[data-open="false"] {
+        display: none;
+
+        @media all and (min-width: 1023px) {
+            display: block;
+        }
+    }
+
+    &[data-open="true"] {
+        display: block;
+
+        @media all and (min-width: 1023px) {
+            display: block;
+        }
+    }
+}
+
+.docs-index-toggle {
+    cursor: pointer;
+    display: flex;
+    width: 100%;
+    padding: .75rem 1.125rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    font-weight: 500;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    // background-color: var(--lightest-background-color);
+    // color: inherit;
+
+    background-color: var(--secondary-button-background-color);
+    color: var(--secondary-button-text-color);
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.1);
+
+    &:hover {
+        background-color: var(--secondary-button-hover-color);
+    }
+
+    @media all and (min-width: 1023px) {
+        display: none;
+    }
+
+    svg {
+        width: 1.5em;
+        height: 1.5em;
+        color: inherit;
+        fill: none;
+        stroke-width: 4;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    #ham-top,
+    #ham-middle,
+    #ham-bottom {
+        transition: all .2s linear;
+    }
+
+    #ham-top {
+        transform-origin: 30px 37px;
+    }
+
+    #ham-bottom {
+        transform-origin: 30px 63px;
+    }
+
+    &[aria-expanded="true"] {
+        #ham-middle {
+            opacity: 0;
+        }
+
+        #ham-top {
+
+            transform: rotate(41deg);
+        }
+
+        #ham-bottom {
+            transform: rotate(-41deg);
+        }
+    }
+}

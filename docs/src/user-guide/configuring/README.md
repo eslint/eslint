@@ -1,7 +1,14 @@
 ---
 title: Configuring ESLint
 layout: doc
+permalink: /user-guide/configuring/index.html
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/configuring/README.md
+eleventyNavigation:
+    key: configuring
+    parent: user guide
+    title: Configuring
+    order: 2
+
 ---
 
 ESLint is designed to be flexible and configurable for your use case. You can turn off every rule and run only with basic syntax validation or mix and match the bundled rules and your custom rules to fit the needs of your project. There are two primary ways to configure ESLint:

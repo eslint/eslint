@@ -1,0 +1,60 @@
+.hero .grid {
+    @media all and (min-width: 800px) {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-gap: 2rem;
+        align-items: center;
+    }
+
+    .span-1-7 {
+        grid-column: 1 / 2;
+    }
+
+    .span-10-12 {
+        grid-column: 2 / 3;
+        justify-self: end;
+    }
+}
+
+.hero {
+    border-bottom: 1px solid var(--divider-color);
+    border-block-end: 1px solid var(--divider-color);
+    background-color: var(--hero-background-color);
+
+    @media all and (min-width: 800px) {
+        // when the ad is displayed
+        min-height: calc(285px + var(--space-xl-4xl));
+    }
+
+    .content-container {
+        padding: var(--space-xl-4xl) 0;
+        margin: 0;
+    }
+
+    >.content-container {
+        margin: 0 auto;
+        padding: 0 calc(1rem + 1vw);
+        padding-bottom: 0;
+        align-items: center;
+    }
+}
+
+.hero--homepage {
+
+    .section-title {
+        margin-bottom: 1.5rem;
+        margin-block-end: 1.5rem;
+    }
+
+    .section-supporting-text {
+        margin: 0;
+        font-size: var(--step-1);
+        text-align: left;
+    }
+
+    .eslint-actions {
+        font-size: var(--step-1);
+        margin-top: 3rem;
+        margin-block-start: 3rem;
+    }
+}

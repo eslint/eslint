@@ -1,0 +1,6 @@
+.c-toc ol {
+  list-style: decimal-leading-zero; }
+
+.c-toc--main a {
+  font-weight: 500;
+  font-size: 1.5rem; }

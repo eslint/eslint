@@ -2,6 +2,11 @@
 title: Plugins
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/configuring/plugins.md
+eleventyNavigation:
+    key: configuring plugins
+    parent: configuring
+    title: Configuring Plugins
+    order: 4
 
 ---
 

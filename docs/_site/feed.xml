@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ESLint Blog</title>
+  <subtitle>feed description</subtitle>
+  <link href="https://eslint.org.com/feed.xml" rel="self"/>
+  <link href="https://eslint.org/"/>
+  <updated>2022-04-27T18:09:32Z</updated>
+  <id>https://eslint.org/</id>
+  <author>
+    <name>ESLint</name>
+    <email></email>
+  </author>
+</feed>

@@ -2,6 +2,11 @@
 title: Source Code
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/source-code.md
+eleventyNavigation:
+    key: getting the source code
+    parent: developer guide
+    title: Getting the Source Code
+    order: 1
 
 ---
 

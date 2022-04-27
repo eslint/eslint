@@ -1,0 +1,161 @@
+*,
+*:before,
+*:after,
+*:first-letter,
+p:first-line,
+div:first-line,
+blockquote:first-line,
+li:first-line {
+  background: transparent !important;
+  color: #000 !important;
+  box-shadow: none !important;
+  text-shadow: none !important; }
+
+body {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.45;
+  font-family: Helvetica, sans-serif;
+  color: #000;
+  background: none;
+  font-size: 14pt; }
+
+.grid {
+  display: block; }
+
+main,
+.docs-content,
+.docs-wrapper {
+  display: block;
+  width: 100%;
+  max-width: 75ch;
+  margin: 1cm auto; }
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  page-break-after: avoid; }
+
+h1 {
+  font-size: 19pt; }
+
+h2 {
+  font-size: 17pt; }
+
+h3 {
+  font-size: 15pt; }
+
+h4,
+h5,
+h6 {
+  font-size: 14pt; }
+
+p,
+h2,
+h3 {
+  orphans: 3;
+  widows: 3; }
+
+code {
+  font: 12pt Courier, monospace; }
+
+blockquote {
+  margin: 1.2em;
+  padding: 1em;
+  font-size: 12pt; }
+
+hr {
+  background-color: #ccc; }
+
+/* Images */
+img {
+  max-width: 100% !important; }
+
+a img {
+  border: none; }
+
+/* Links */
+a:link,
+a:visited {
+  background: transparent;
+  font-weight: 700;
+  text-decoration: underline;
+  color: #333; }
+
+abbr[title]:after {
+  content: " (" attr(title) ")"; }
+
+/* Don't show linked images  */
+a[href^="http://"] {
+  color: #000; }
+
+a[href$=".jpg"]:after,
+a[href$=".jpeg"]:after,
+a[href$=".gif"]:after,
+a[href$=".png"]:after {
+  content: " (" attr(href) ") ";
+  display: none; }
+
+/* Don't show links that are fragment identifiers, or use the `javascript:` pseudo protocol .. taken from html5boilerplate */
+a[href^="#"]:after,
+a[href^="javascript:"]:after {
+  content: ""; }
+
+/* Table */
+table {
+  margin: 1px;
+  text-align: left; }
+
+th {
+  border-bottom: 1px solid #333;
+  font-weight: bold; }
+
+td {
+  border-bottom: 1px solid #333; }
+
+th,
+td {
+  padding: 4px 10px 4px 0; }
+
+tfoot {
+  font-style: italic; }
+
+caption {
+  background: #fff;
+  margin-bottom: 2em;
+  text-align: left; }
+
+thead {
+  display: table-header-group; }
+
+img,
+tr {
+  page-break-inside: avoid; }
+
+body > *:not(main),
+aside,
+*[class*="sidebar"] {
+  display: none; }
+
+button,
+.c-btn.c-btn--playground,
+.docs-edit-link {
+  display: none; }
+
+a[href^='http']:not([href*='mywebsite.com'])::after {
+  content: " (" attr(href) ")"; }
+
+.resource a::after {
+  display: none; }
+
+ul {
+  page-break-inside: avoid; }
+
+@media print {
+  @page {
+    margin: 1cm; } }

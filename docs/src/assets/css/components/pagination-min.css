@@ -1,0 +1,23 @@
+/* Pagination within (and between) individual posts */
+.c-post-pagination ul {
+  list-style: none;
+  width: 100%;
+  outline: 1px solid yellow;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: flex-start;
+  align-items: flex-start; }
+
+.c-post-pagination li {
+  -webkit-flex: 1;
+  flex: 1;
+  display: -webkit-flex;
+  display: flex; }
+
+.c-post-pagination a {
+  display: block;
+  padding: .5em; }
+
+/* Pagination on collection pages */
+.c-collection-pagination {
+  outline: 1px solid yellow; }

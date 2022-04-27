@@ -1,0 +1,98 @@
+.card {
+  text-align: left;
+  align-self: stretch;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2rem;
+  flex: none; }
+
+.blog-page .card:first-of-type,
+.card--featured {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; }
+  @media all and (min-width: 1023px) {
+    .blog-page .card:first-of-type,
+    .card--featured {
+      margin-bottom: var(--space-xl-2xl);
+      margin-block-end: var(--space-xl-2xl); } }
+  .blog-page .card:first-of-type .card__cover,
+  .card--featured .card__cover {
+    flex: 3 1 450px; }
+  .blog-page .card:first-of-type .card__content,
+  .card--featured .card__content {
+    flex: 3 1 225px; }
+
+.card__cover {
+  display: block; }
+  .card__cover img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--border-radius);
+    object-fit: cover;
+    aspect-ratio: 7 / 4; }
+
+.card__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column; }
+
+.card .card__title {
+  margin-top: 0;
+  margin-bottom: .5rem;
+  margin-block-start: 0;
+  margin-block-end: .5rem; }
+  .card .card__title a {
+    color: inherit;
+    text-decoration: none; }
+    .card .card__title a:hover {
+      color: var(--link-color); }
+
+.card__teaser {
+  margin-bottom: 2rem;
+  margin-block-end: 2rem;
+  font-size: var(--step-0); }
+
+.card__footer {
+  justify-self: flex-end;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: .75rem; }
+
+.blog-post__author-photo {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%; }
+
+.blog-post__author-name {
+  font-size: var(--step--1);
+  line-height: 1.5;
+  font-weight: 500;
+  color: var(--headings-color); }
+
+.blog-post__publish-date {
+  font-size: var(--step--1);
+  line-height: 1.5; }
+
+.blog-post__category {
+  background-color: var(--body-background-color);
+  border-radius: 1rem; }
+
+.card .badge-group {
+  margin-bottom: 1rem;
+  margin-block-end: 1rem; }
+
+.badge-group {
+  background-color: var(--lightest-background-color);
+  color: var(--link-color);
+  border-radius: 1rem;
+  display: inline-flex;
+  padding: .25rem;
+  font-size: var(--step--1);
+  flex: none;
+  align-self: flex-start; }
+  .badge-group span {
+    display: inline-flex;
+    padding: 0.125rem .5rem; }

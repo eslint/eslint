@@ -1,0 +1,16 @@
+.eslint-social-icons {
+  margin-bottom: -1rem;
+  margin-block-end: -1rem; }
+  .eslint-social-icons ul {
+    margin: 0;
+    padding: 0;
+    margin-left: -1rem;
+    margin-inline-start: -1rem;
+    display: inline-flex; }
+    .eslint-social-icons ul li {
+      margin: 0;
+      display: inline-flex;
+      align-items: center; }
+      .eslint-social-icons ul li a {
+        display: flex;
+        padding: 1rem; }

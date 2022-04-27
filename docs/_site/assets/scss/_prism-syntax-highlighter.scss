@@ -1,0 +1,125 @@
+code[class*="language-"],
+pre[class*="language-"] {
+    font-family: var(--mono-font), Consolas,
+        Monaco,
+        'Andale Mono',
+        'Ubuntu Mono',
+        monospace;
+    font-size: 1em;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+@media print {
+
+    code[class*="language-"],
+    pre[class*="language-"] {
+        text-shadow: none;
+    }
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    overflow: auto;
+    background-color: var(--color-neutral-50);
+    border-radius: var(--border-radius);
+
+    background-color: var(--lightest-background-color);
+    color: var(--color-neutral-900);
+
+    [data-theme="dark"] & {
+        color: var(--color-neutral-100);
+    }
+}
+
+:not(pre)>code[class*="language-"],
+pre[class*="language-"] {
+    background-color: var(--lightest-background-color);
+}
+
+/* Inline code */
+:not(pre)>code[class*="language-"] {
+    padding: .1em;
+    border-radius: .3em;
+    white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: #6E7F8E;
+
+    [data-theme="dark"] & {
+        color: #8E9FAE;
+    }
+}
+
+
+.token.namespace {
+    opacity: .7;
+}
+
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: var(--link-color);
+}
+
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    color: var(--link-color);
+}
+
+.token.important,
+.token.bold {
+    font-weight: bold;
+}
+
+.token.italic {
+    font-style: italic;
+}
+
+.token.entity {
+    cursor: help;
+}
+
+pre {
+    counter-reset: lineNumber;
+}
+
+code .highlight-line:before {
+    -webkit-user-select: none;
+    color: var(--icon-color);
+    content: counter(lineNumber);
+    counter-increment: lineNumber;
+    display: inline-block;
+    font-variant-numeric: tabular-nums;
+    margin-right: 1.2em;
+    padding-right: 1.2em;
+    margin-inline-end: 1.2em;
+    padding-inline-end: 1.2em;
+    text-align: right;
+    width: 2.4em;
+}

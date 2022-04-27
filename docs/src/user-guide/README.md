@@ -1,8 +1,12 @@
 ---
 title: User Guide
 layout: doc
+permalink: /user-guide/index.html
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/README.md
-
+eleventyNavigation:
+    key: user guide 
+    title: User Guide 
+    order: 1
 ---
 
 This guide is intended for those who wish to use ESLint as an end-user. If you're looking for how to extend ESLint or work with the ESLint source code, please see the [Developer Guide](../developer-guide).

@@ -1,0 +1,174 @@
+.problems {
+  display: inline-block;
+  position: relative; }
+
+.eslint-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem; }
+  @media all and (min-width: 640px) {
+    .eslint-actions {
+      flex-direction: row; } }
+
+.eslint-install-code-wrapper {
+  position: relative; }
+
+.eslint-install-code {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--lightest-background-color);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--divider-color);
+  padding: .75rem 1.25rem .75rem 1rem;
+  white-space: nowrap;
+  margin-top: 1.5rem;
+  margin-block-start: 1.5rem;
+  overflow-x: auto;
+  max-width: 100%;
+  color: var(--headings-color); }
+  [data-theme="dark"] .eslint-install-code {
+    background-color: var(--color-neutral-700); }
+  .eslint-install-code code {
+    color: var(--headings-color); }
+  .eslint-install-code input {
+    all: unset;
+    min-width: 30ch;
+    color: inherit;
+    font-family: var(--mono-font); }
+    .eslint-install-code input::selection {
+      background-color: #fff;
+      color: var(--body-text-color); }
+
+.eslint-install-code__btn .c-icon {
+  color: var(--body-text-color); }
+
+.eslint-install-code__btn:hover .c-icon, .eslint-install-code__btn:focus .c-icon, .eslint-install-code__btn:active .c-icon {
+  color: var(--link-color); }
+
+.eslint-install-code__btn[data-copied="true"] .c-icon {
+  color: var(--link-color); }
+
+.eslint-install-code__announcement {
+  font-size: .875rem;
+  padding: .25rem .75rem;
+  font-size: var(--step--1);
+  border-radius: var(--border-radius);
+  display: block;
+  position: absolute;
+  top: calc(100% + .5rem);
+  offset-block-start: calc(100% + .5rem);
+  transition: opacity 1s linear 3s; }
+  .eslint-install-code__announcement[data-fades-out] {
+    opacity: 0; }
+
+.eslint-versions-col {
+  display: flex;
+  flex-direction: column; }
+  @media all and (min-width: 1023px) {
+    .eslint-versions-col {
+      align-items: flex-end; } }
+
+.eslint-versions {
+  margin-top: 3rem;
+  margin-block-start: 3rem;
+  display: inline-flex;
+  flex-direction: column; }
+  .eslint-versions dt {
+    border-bottom: 1px solid var(--divider-color);
+    padding: .25em 0;
+    margin-bottom: .5em;
+    padding-right: 1rem;
+    border-block-end: 1px solid var(--divider-color);
+    padding: .25em 0;
+    margin-block-end: .5em;
+    padding-inline-end: 1rem; }
+  .eslint-versions dd {
+    margin-left: 0;
+    margin-bottom: 1rem;
+    padding-right: 1rem;
+    margin-inline-start: 0;
+    margin-block-end: 1rem;
+    padding-inline-end: 1rem; }
+  .eslint-versions .c-icon {
+    margin-right: .5rem;
+    margin-inline-end: .5rem; }
+
+/* homepage metrics section */
+.metrics {
+  background-color: var(--lightest-background-color);
+  color: var(--link-color);
+  font-size: 1.125rem;
+  border-radius: var(--border-radius);
+  padding: var(--space-l-2xl); }
+  @media all and (min-width: 768px) {
+    .metrics {
+      display: flex; } }
+
+.metrics__item {
+  flex: 1;
+  display: block;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem; }
+
+.metrics__value {
+  display: block;
+  font-size: var(--step-6);
+  line-height: 1;
+  font-family: var(--mono-font);
+  flex: 9999;
+  margin-bottom: .75rem;
+  margin-block-end: .75rem; }
+
+/* Homepage Features Section */
+.features-wrapper.grid {
+  align-items: center; }
+
+.features {
+  border-left: 4px solid var(--lighter-background-color);
+  padding-left: 1.5rem;
+  border-inline-start: 4px solid var(--lighter-background-color);
+  padding-inline-start: 1.5rem; }
+
+.feature {
+  padding: 2rem 0; }
+  .feature:not(:last-of-type) {
+    border-bottom: 1px solid var(--divider-color);
+    border-block-end: 1px solid var(--divider-color); }
+  .donate-page .feature {
+    border-bottom: none;
+    border-block-end: none; }
+
+.feature__title {
+  font-size: var(--step-1);
+  font-family: var(--text-font);
+  margin-bottom: .5rem;
+  margin-block-end: .5rem; }
+
+.feature__description {
+  margin-bottom: 1.25rem;
+  margin-block-end: 1.25rem; }
+
+.feature__details-link {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  text-decoration: none; }
+  .feature__details-link:hover {
+    text-decoration: underline; }
+
+.features-image {
+  display: none; }
+  .features-image img {
+    margin: 2rem auto; }
+    .donate-page .features-image img {
+      overflow: hidden;
+      display: block;
+      border-radius: var(--border-radius); }
+  @media all and (min-width: 1023px) {
+    .features-image {
+      display: block; } }

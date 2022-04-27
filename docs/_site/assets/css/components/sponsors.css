@@ -1,0 +1,38 @@
+/* sponsors lists */
+.sponsors.sponsors {
+  text-align: center;
+  margin-bottom: var(--space-m-l);
+  margin-block-end: var(--space-m-l);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; }
+  @media all and (max-width: 1023px) {
+    .sponsors.sponsors {
+      margin-top: 2.5rem;
+      margin-block-start: 2.5rem; } }
+  .sponsors.sponsors li {
+    display: inline-block;
+    margin: 0 .75rem 1.5rem; }
+    .sponsors.sponsors li a {
+      display: block; }
+  .sponsors.sponsors picture, .sponsors.sponsors img {
+    display: block;
+    height: auto;
+    max-height: 3rem; }
+
+.sponsors.sponsors--backers picture, .sponsors.sponsors--backers img {
+  border-radius: 50%; }
+
+.sponsors.sponsors--platinum picture, .sponsors.sponsors--platinum img {
+  max-height: 8rem; }
+
+.sponsors.sponsors--gold picture, .sponsors.sponsors--gold img {
+  max-height: 6rem; }
+
+.sponsors.sponsors--silver picture, .sponsors.sponsors--silver img {
+  max-height: 8rem; }
+
+.sponsors.sponsors--bronze picture, .sponsors.sponsors--bronze img,
+.sponsors.sponsors--technology picture,
+.sponsors.sponsors--technology img {
+  max-height: 3rem; }

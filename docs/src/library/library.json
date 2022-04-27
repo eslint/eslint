@@ -1,0 +1,4 @@
+{
+    "layout": "components.html",
+    "permalink": "/component-library/{{ page.fileSlug }}/index.html"
+}

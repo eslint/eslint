@@ -1,4 +1,5 @@
 /node_modules
+/docs/node_modules
 test.js
 coverage/
 build/

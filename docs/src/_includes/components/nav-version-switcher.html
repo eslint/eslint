@@ -1,0 +1,23 @@
+<div class="version-switcher">
+    <a href="/versions/" class="switcher-fallback">Versions</a>
+
+    <div hidden role="region" class="switcher switcher--version" aria-labelledby="nav-version-switcher-label" id="nav-version-switcher">
+        <span id="nav-version-switcher-label" hidden>Language Switcher</span>
+        <div class="infobox visually-hidden" id="nav-version-infobox">
+            Selecting a language will take you to the ESLint Web site in that language.
+        </div>
+
+        <label class="switcher__label label--block" for="version-select">
+            Version
+        </label>
+        <select name="version selector" id="nav-version-select" aria-describedby="version-infobox" class="c-custom-select switcher__select auto-switcher">
+            {% for version in versions.items %}
+            <option value="{{ version.number }}"
+                    data-url="{{ version.url }}"
+                    {% if config.version == version.number %} selected {% endif %}>
+                v{{ version.number }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
