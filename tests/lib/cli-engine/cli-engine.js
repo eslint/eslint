@@ -5394,6 +5394,117 @@ describe("CLIEngine", () => {
     describe("with ignorePatterns config", () => {
         const root = getFixturePath("cli-engine/ignore-patterns");
 
+        describe("applies to processor code blocks", () => {
+
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files: {
+                    ".eslintrc.json": {
+                        plugins: ["test-processor"],
+                        rules: {
+                            "no-console": 2
+                        },
+
+                        // Add an override so that .jsx files and processor blocks also get linted.
+                        overrides: [
+                            {
+                                files: "*.jsx",
+                                parserOptions: {
+                                    jsx: true
+                                }
+                            }
+                        ]
+                    },
+                    "foo.txt": [
+                        "js:console.log(42);",
+                        "jsx:console.log(42);"
+                    ].join("\n")
+                }
+            });
+
+            const testProcessor = {
+                processors: {
+                    ".txt": {
+                        preprocess(text) {
+                            return text.split("\n").map((line, index) => {
+                                const [syntax, code] = line.split(":");
+
+                                return {
+                                    filename: `${index}.${syntax}`,
+                                    text: code
+                                };
+                            });
+                        },
+                        postprocess(allMessages) {
+                            return allMessages
+                                .map((messages, index) =>
+                                    messages.map(message => ({
+                                        ...message,
+                                        line: index + 1
+                                    })))
+                                .flat();
+                        }
+                    }
+                }
+            };
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("normally lints both blocks", () => {
+                const engine = new CLIEngine({
+                    cwd: getPath()
+                }, {
+                    preloadedPlugins: {
+                        "test-processor": testProcessor
+                    }
+                });
+
+                const report = engine.executeOnFiles(["foo.txt"]);
+
+                assert.strictEqual(report.results.length, 1);
+                assert.strictEqual(report.results[0].messages.length, 2);
+                assert.strictEqual(report.results[0].messages[0].line, 1);
+                assert.strictEqual(report.results[0].messages[1].line, 2);
+            });
+
+            it("when ignoring all .js files", () => {
+                const engine = new CLIEngine({
+                    cwd: getPath(),
+                    ignorePattern: "**/*.js"
+                }, {
+                    preloadedPlugins: {
+                        "test-processor": testProcessor
+                    }
+                });
+
+                const report = engine.executeOnFiles(["foo.txt"]);
+
+                // The .js block on line 1 should be ignored. This error is on the .jsx block on line 2.
+                assert.strictEqual(report.results.length, 1);
+                assert.strictEqual(report.results[0].messages.length, 1);
+                assert.strictEqual(report.results[0].messages[0].line, 2);
+            });
+
+            it("when ignoring .js blocks inside .txt files", () => {
+                const engine = new CLIEngine({
+                    cwd: getPath(),
+                    ignorePattern: "**/*.txt/*.js"
+                }, {
+                    preloadedPlugins: {
+                        "test-processor": testProcessor
+                    }
+                });
+
+                const report = engine.executeOnFiles(["foo.txt"]);
+
+                // The .js block on line 1 should be ignored. This error is on the .jsx block on line 2.
+                assert.strictEqual(report.results.length, 1);
+                assert.strictEqual(report.results[0].messages.length, 1);
+                assert.strictEqual(report.results[0].messages[0].line, 2);
+            });
+        });
+
         describe("ignorePatterns can add an ignore pattern ('foo.js').", () => {
 
             const { prepare, cleanup, getPath } = createCustomTeardown({
