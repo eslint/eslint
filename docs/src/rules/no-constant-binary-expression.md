@@ -12,7 +12,7 @@ Comparisons which will always evaluate to true or false and logical expressions 
 These errors are especially common in complex expressions where operator precedence is easy to misjudge. For example:
 
 ```js
-// One might think this would evaluate as `x + (b ?? c)`:
+// One might think this would evaluate as `a + (b ?? c)`:
 const x = a + b ?? c;
 
 // But it actually evaluates as `(a + b) ?? c`. Since `a + b` can never be null,
