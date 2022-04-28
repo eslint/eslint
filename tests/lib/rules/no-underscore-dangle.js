@@ -73,7 +73,8 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "class foo { _field; }", parserOptions: { ecmaVersion: 2022 } },
         { code: "class foo { _field; }", options: [{ enforceInClassFields: false }], parserOptions: { ecmaVersion: 2022 } },
         { code: "class foo { #_field; }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class foo { #_field; }", options: [{ enforceInClassFields: false }], parserOptions: { ecmaVersion: 2022 } }
+        { code: "class foo { #_field; }", options: [{ enforceInClassFields: false }], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class foo { _field; }", options: [{}], parserOptions: { ecmaVersion: 2022 } }
     ],
     invalid: [
         { code: "var _foo = 1", errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_foo" }, type: "VariableDeclarator" }] },
