@@ -122,7 +122,7 @@ ruleTester.run("no-underscore-dangle", rule, {
             code: "class foo { #_field; }",
             options: [{ enforceInClassFields: true }],
             parserOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_field" } }]
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "#_field" } }]
         },
         {
             code: "class foo { field_; }",
@@ -134,7 +134,7 @@ ruleTester.run("no-underscore-dangle", rule, {
             code: "class foo { #field_; }",
             options: [{ enforceInClassFields: true }],
             parserOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "field_" } }]
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "#field_" } }]
         }
     ]
 });
