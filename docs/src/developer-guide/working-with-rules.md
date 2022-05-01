@@ -541,7 +541,6 @@ Once you have an instance of `SourceCode`, you can use the following methods on 
 * `getCommentsBefore(nodeOrToken)` - returns an array of comment tokens that occur directly before the given node or token.
 * `getCommentsAfter(nodeOrToken)` - returns an array of comment tokens that occur directly after the given node or token.
 * `getCommentsInside(node)` - returns an array of all comment tokens inside a given node.
-* `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none.
 * `isSpaceBetween(nodeOrToken, nodeOrToken)` - returns true if there is a whitespace character between the two tokens or, if given a node, the last token of the first node and the first token of the second node.
 * `getFirstToken(node, skipOptions)` - returns the first token representing the given node.
 * `getFirstTokens(node, countOptions)` - returns the first `count` tokens representing the given node.
@@ -598,6 +597,7 @@ Please note that the following methods have been deprecated and will be removed 
 * `getTokenOrCommentBefore()` - replaced by `getTokenBefore()` with the `{ includeComments: true }` option
 * `getTokenOrCommentAfter()` - replaced by `getTokenAfter()` with the `{ includeComments: true }` option
 * `isSpaceBetweenTokens()` - replaced by `isSpaceBetween()`
+* `getJSDocComment()`
 
 ### Options Schemas
 
