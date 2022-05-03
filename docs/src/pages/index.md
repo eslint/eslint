@@ -1,7 +1,6 @@
 ---
 title: Documentation
 layout: doc
-permalink: /index.html
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/pages/index.md
 ---
 
