@@ -1,7 +1,7 @@
 ---
 title: Configuring ESLint
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/configuring/README.md
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/configuring/index.md
 eleventyNavigation:
     key: configuring
     parent: user guide

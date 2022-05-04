@@ -634,7 +634,6 @@ target.gensite = function(prereleaseVersion) {
     });
 
     // special case (for now)
-    cp("-f", "docs/src/pages/index.md", path.join(TEMP_DIR, "index.md"));
     rm("-rf", path.join(TEMP_DIR, "pages"));
 
     let versions = test("-f", "./versions.json") ? JSON.parse(cat("./versions.json")) : {};

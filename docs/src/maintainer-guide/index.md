@@ -1,7 +1,7 @@
 ---
 title: Maintainer Guide
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/maintainer-guide/README.md
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/maintainer-guide/index.md
 eleventyNavigation:
     key: maintainer guide 
     title: Maintainer Guide 
