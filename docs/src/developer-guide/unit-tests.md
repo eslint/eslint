@@ -22,7 +22,7 @@ This automatically starts Mocha and runs all tests in the `tests` directory. You
 
 If you want to quickly run just one test file, you can do so by running Mocha directly and passing in the filename. For example:
 
-    npm run test:cli tests/lib/rules/no-wrap-func.js
+    npm run test:cli tests/lib/rules/no-undef.js
 
 If you want to run just one or a subset of `RuleTester` test cases, add `only: true` to each test case or wrap the test case in `RuleTester.only(...)` to add it automatically:
 
