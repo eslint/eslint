@@ -54,6 +54,7 @@ This rule has an object option:
 * `"allowAfterSuper": false` (default) disallows dangling underscores in members of the `super` object
 * `"allowAfterThisConstructor": false` (default) disallows dangling underscores in members of the `this.constructor` object
 * `"enforceInMethodNames": false` (default) allows dangling underscores in method names
+* `"enforceInClassFields": false` (default) allows dangling underscores in es2022 class fields names
 * `"allowFunctionParams": true` (default) allows dangling underscores in function parameter names
 
 ### allow
@@ -122,6 +123,34 @@ const o = {
 const o = {
   bar_() = {}
 };
+```
+
+### enforceInClassFields
+
+Examples of **incorrect** code for this rule with the `{ "enforceInClassFields": true }` option:
+
+```js
+/*eslint no-underscore-dangle: ["error", { "enforceInClassFields": true }]*/
+
+class Foo {
+    _bar;
+}
+
+class Foo {
+    _bar = () => {};
+}
+
+class Foo {
+    bar_;
+}
+
+class Foo {
+    #_bar;
+}
+
+class Foo {
+    #bar_;
+}
 ```
 
 ### allowFunctionParams
