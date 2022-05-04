@@ -1,0 +1,35 @@
+.docs-main {
+
+    h6,
+    .h6 {
+        font-size: var(--step-0);
+    }
+
+    h5,
+    .h5 {
+        font-size: var(--step-0); // 20
+    }
+
+    h4,
+    .h4 {
+        font-size: var(--step-1); // 24
+    }
+
+    h3,
+    .h3 {
+        font-size: var(--step-2);
+        line-height: 1.2;
+    }
+
+    h2,
+    .h2 {
+        font-size: var(--step-3);
+        line-height: 1.2;
+    }
+
+    h1,
+    .h1 {
+        font-size: var(--step-4);
+        line-height: 1.2;
+    }
+}

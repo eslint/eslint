@@ -1,0 +1,53 @@
+.theme-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  position: relative; }
+
+.theme-switcher-label.theme-switcher-label {
+  font-size: inherit;
+  color: inherit;
+  font: inherit;
+  font-family: var(--text-font);
+  margin: 0; }
+
+.theme-switcher__buttons {
+  display: flex;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--body-background-color); }
+
+.theme-switcher__button {
+  flex: 0;
+  box-shadow: var(--shadow-xs);
+  padding: .625rem .875rem;
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  width: 40px;
+  height: 40px; }
+  .theme-switcher__button:first-of-type {
+    border-right: 0.5px solid var(--border-color);
+    border-inline-end: 0.5px solid var(--border-color); }
+  .theme-switcher__button:last-of-type {
+    border-left: 0.5px solid var(--border-color);
+    border-inline-start: 0.5px solid var(--border-color); }
+  .theme-switcher__button .theme-switcher__icon {
+    color: var(--icon-color); }
+  .theme-switcher__button:hover .theme-switcher__icon {
+    color: var(--link-color); }
+
+.theme-switcher__button[aria-pressed="true"] .theme-switcher__icon {
+  color: var(--link-color); }
+
+.theme-switcher__button[aria-pressed="true"]:hover .theme-switcher__icon {
+  color: var(--link-color); }
+
+.theme-switcher__button[aria-pressed="false"] .theme-switcher__icon {
+  color: var(--icon-color); }
+
+.theme-switcher__button[aria-pressed="false"]:hover .theme-switcher__icon {
+  color: var(--link-color); }
+
+.theme-switcher__button:hover .theme-switcher__icon {
+  color: var(--link-color); }

@@ -1,0 +1,84 @@
+.site-nav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  grid-column: 1 / -1;
+  grid-row: 1; }
+  .site-nav ul {
+    list-style: none;
+    font-size: var(--step-1);
+    margin-top: 1rem;
+    margin-block-start: 1rem; }
+    @media all and (min-width: 680px) {
+      .site-nav ul {
+        font-size: var(--step-0);
+        margin-top: 0;
+        margin-block-start: 0;
+        align-items: center;
+        display: flex; } }
+    .site-nav ul[data-open="false"] {
+      display: none; }
+    @media all and (min-width: 680px) {
+      .site-nav ul[data-open="true"] {
+        display: flex; } }
+  .site-nav .flexer {
+    display: flex;
+    justify-self: flex-end;
+    align-self: flex-end; }
+  .site-nav a:not(.c-btn) {
+    text-decoration: none;
+    color: inherit;
+    transition: color .2s linear; }
+    .site-nav a:not(.c-btn):hover {
+      color: var(--link-color); }
+  .site-nav a:not(.c-btn)[data-current="page"],
+  .site-nav a:not(.c-btn)[data-current="true"] {
+    color: var(--link-color);
+    text-decoration: none;
+    font-weight: 500; }
+
+.site-nav-toggle {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  margin-left: .5rem;
+  margin-right: -10px;
+  margin-inline-start: .5rem;
+  margin-inline-end: -10px; }
+  .site-nav-toggle svg {
+    width: 40px;
+    height: 40px;
+    color: var(--headings-color);
+    fill: none;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round; }
+  .site-nav-toggle #ham-top,
+  .site-nav-toggle #ham-middle,
+  .site-nav-toggle #ham-bottom {
+    transition: all .2s linear; }
+  .site-nav-toggle #ham-top {
+    transform-origin: 30px 37px; }
+  .site-nav-toggle #ham-bottom {
+    transform-origin: 30px 63px; }
+  .site-nav-toggle[aria-expanded="true"] #ham-middle {
+    opacity: 0; }
+  .site-nav-toggle[aria-expanded="true"] #ham-top {
+    transform: rotate(41deg); }
+  .site-nav-toggle[aria-expanded="true"] #ham-bottom {
+    transform: rotate(-41deg); }
+
+@media all and (min-width: 680px) {
+  .site-nav {
+    flex-direction: row;
+    grid-column: auto;
+    gap: 2rem; }
+    .site-nav ul {
+      display: flex;
+      gap: 2rem;
+      font-size: var(--step-0); }
+      .site-nav ul li {
+        margin-bottom: 0;
+        margin-block-end: 0; }
+    .site-nav .flexer {
+      order: 1; } }

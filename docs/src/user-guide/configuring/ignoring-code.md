@@ -2,6 +2,11 @@
 title: Ignoring Code
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/configuring/ignoring-code.md
+eleventyNavigation:
+    key: ignoring code
+    parent: configuring
+    title: Ignoring Code
+    order: 5
 
 ---
 

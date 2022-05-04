@@ -1,0 +1,2098 @@
+{
+  "deprecated": {
+    "description": "These rules have been deprecated in accordance with the <a href=\"/docs/user-guide/rule-deprecation\">deprecation policy</a>, and replaced by newer rules:",
+    "name": "Deprecated",
+    "rules": [
+      {
+        "name": "callback-return",
+        "replacedBy": []
+      },
+      {
+        "name": "global-require",
+        "replacedBy": []
+      },
+      {
+        "name": "handle-callback-err",
+        "replacedBy": []
+      },
+      {
+        "name": "id-blacklist",
+        "replacedBy": [
+          "id-denylist"
+        ]
+      },
+      {
+        "name": "indent-legacy",
+        "replacedBy": [
+          "indent"
+        ]
+      },
+      {
+        "name": "lines-around-directive",
+        "replacedBy": [
+          "padding-line-between-statements"
+        ]
+      },
+      {
+        "name": "newline-after-var",
+        "replacedBy": [
+          "padding-line-between-statements"
+        ]
+      },
+      {
+        "name": "newline-before-return",
+        "replacedBy": [
+          "padding-line-between-statements"
+        ]
+      },
+      {
+        "name": "no-buffer-constructor",
+        "replacedBy": []
+      },
+      {
+        "name": "no-catch-shadow",
+        "replacedBy": [
+          "no-shadow"
+        ]
+      },
+      {
+        "name": "no-mixed-requires",
+        "replacedBy": []
+      },
+      {
+        "name": "no-native-reassign",
+        "replacedBy": [
+          "no-global-assign"
+        ]
+      },
+      {
+        "name": "no-negated-in-lhs",
+        "replacedBy": [
+          "no-unsafe-negation"
+        ]
+      },
+      {
+        "name": "no-new-require",
+        "replacedBy": []
+      },
+      {
+        "name": "no-path-concat",
+        "replacedBy": []
+      },
+      {
+        "name": "no-process-env",
+        "replacedBy": []
+      },
+      {
+        "name": "no-process-exit",
+        "replacedBy": []
+      },
+      {
+        "name": "no-restricted-modules",
+        "replacedBy": []
+      },
+      {
+        "name": "no-spaced-func",
+        "replacedBy": [
+          "func-call-spacing"
+        ]
+      },
+      {
+        "name": "no-sync",
+        "replacedBy": []
+      },
+      {
+        "name": "prefer-reflect",
+        "replacedBy": []
+      },
+      {
+        "name": "require-jsdoc",
+        "replacedBy": []
+      },
+      {
+        "name": "valid-jsdoc",
+        "replacedBy": []
+      }
+    ]
+  },
+  "removed": {
+    "description": "These rules from older versions of ESLint (before the <a href=\"/docs/user-guide/rule-deprecation\">deprecation policy</a> existed) have been replaced by newer rules:",
+    "name": "Removed",
+    "rules": [
+      {
+        "removed": "generator-star",
+        "replacedBy": [
+          "generator-star-spacing"
+        ]
+      },
+      {
+        "removed": "global-strict",
+        "replacedBy": [
+          "strict"
+        ]
+      },
+      {
+        "removed": "no-arrow-condition",
+        "replacedBy": [
+          "no-confusing-arrow",
+          "no-constant-condition"
+        ]
+      },
+      {
+        "removed": "no-comma-dangle",
+        "replacedBy": [
+          "comma-dangle"
+        ]
+      },
+      {
+        "removed": "no-empty-class",
+        "replacedBy": [
+          "no-empty-character-class"
+        ]
+      },
+      {
+        "removed": "no-empty-label",
+        "replacedBy": [
+          "no-labels"
+        ]
+      },
+      {
+        "removed": "no-extra-strict",
+        "replacedBy": [
+          "strict"
+        ]
+      },
+      {
+        "removed": "no-reserved-keys",
+        "replacedBy": [
+          "quote-props"
+        ]
+      },
+      {
+        "removed": "no-space-before-semi",
+        "replacedBy": [
+          "semi-spacing"
+        ]
+      },
+      {
+        "removed": "no-wrap-func",
+        "replacedBy": [
+          "no-extra-parens"
+        ]
+      },
+      {
+        "removed": "space-after-function-name",
+        "replacedBy": [
+          "space-before-function-paren"
+        ]
+      },
+      {
+        "removed": "space-after-keywords",
+        "replacedBy": [
+          "keyword-spacing"
+        ]
+      },
+      {
+        "removed": "space-before-function-parentheses",
+        "replacedBy": [
+          "space-before-function-paren"
+        ]
+      },
+      {
+        "removed": "space-before-keywords",
+        "replacedBy": [
+          "keyword-spacing"
+        ]
+      },
+      {
+        "removed": "space-in-brackets",
+        "replacedBy": [
+          "object-curly-spacing",
+          "array-bracket-spacing"
+        ]
+      },
+      {
+        "removed": "space-return-throw-case",
+        "replacedBy": [
+          "keyword-spacing"
+        ]
+      },
+      {
+        "removed": "space-unary-word-ops",
+        "replacedBy": [
+          "space-unary-ops"
+        ]
+      },
+      {
+        "removed": "spaced-line-comment",
+        "replacedBy": [
+          "spaced-comment"
+        ]
+      }
+    ]
+  },
+  "types": [
+    {
+      "description": "These rules relate to possible logic errors in code:",
+      "displayName": "Possible Problems",
+      "name": "problem",
+      "rules": [
+        {
+          "description": "enforce `return` statements in callbacks of array methods",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "array-callback-return",
+          "recommended": false
+        },
+        {
+          "description": "require `super()` calls in constructors",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "constructor-super",
+          "recommended": true
+        },
+        {
+          "description": "enforce \"for\" loop update clause moving the counter in the right direction.",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "for-direction",
+          "recommended": true
+        },
+        {
+          "description": "enforce `return` statements in getters",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "getter-return",
+          "recommended": true
+        },
+        {
+          "description": "disallow using an async function as a Promise executor",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-async-promise-executor",
+          "recommended": true
+        },
+        {
+          "description": "disallow `await` inside of loops",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-await-in-loop",
+          "recommended": false
+        },
+        {
+          "description": "disallow reassigning class members",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-class-assign",
+          "recommended": true
+        },
+        {
+          "description": "disallow comparing against -0",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-compare-neg-zero",
+          "recommended": true
+        },
+        {
+          "description": "disallow assignment operators in conditional expressions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-cond-assign",
+          "recommended": true
+        },
+        {
+          "description": "disallow reassigning `const` variables",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-const-assign",
+          "recommended": true
+        },
+        {
+          "description": "disallow constant expressions in conditions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-constant-condition",
+          "recommended": true
+        },
+        {
+          "description": "disallow returning value from constructor",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-constructor-return",
+          "recommended": false
+        },
+        {
+          "description": "disallow control characters in regular expressions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-control-regex",
+          "recommended": true
+        },
+        {
+          "description": "disallow the use of `debugger`",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-debugger",
+          "recommended": true
+        },
+        {
+          "description": "disallow duplicate arguments in `function` definitions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-dupe-args",
+          "recommended": true
+        },
+        {
+          "description": "disallow duplicate class members",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-dupe-class-members",
+          "recommended": true
+        },
+        {
+          "description": "disallow duplicate conditions in if-else-if chains",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-dupe-else-if",
+          "recommended": true
+        },
+        {
+          "description": "disallow duplicate keys in object literals",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-dupe-keys",
+          "recommended": true
+        },
+        {
+          "description": "disallow duplicate case labels",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-duplicate-case",
+          "recommended": true
+        },
+        {
+          "description": "disallow duplicate module imports",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-duplicate-imports",
+          "recommended": false
+        },
+        {
+          "description": "disallow empty character classes in regular expressions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-empty-character-class",
+          "recommended": true
+        },
+        {
+          "description": "disallow empty destructuring patterns",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-empty-pattern",
+          "recommended": true
+        },
+        {
+          "description": "disallow reassigning exceptions in `catch` clauses",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-ex-assign",
+          "recommended": true
+        },
+        {
+          "description": "disallow fallthrough of `case` statements",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-fallthrough",
+          "recommended": true
+        },
+        {
+          "description": "disallow reassigning `function` declarations",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-func-assign",
+          "recommended": true
+        },
+        {
+          "description": "disallow assigning to imported bindings",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-import-assign",
+          "recommended": true
+        },
+        {
+          "description": "disallow variable or `function` declarations in nested blocks",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-inner-declarations",
+          "recommended": true
+        },
+        {
+          "description": "disallow invalid regular expression strings in `RegExp` constructors",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-invalid-regexp",
+          "recommended": true
+        },
+        {
+          "description": "disallow irregular whitespace",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-irregular-whitespace",
+          "recommended": true
+        },
+        {
+          "description": "disallow literal numbers that lose precision",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-loss-of-precision",
+          "recommended": true
+        },
+        {
+          "description": "disallow characters which are made with multiple code points in character class syntax",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-misleading-character-class",
+          "recommended": true
+        },
+        {
+          "description": "disallow `new` operators with the `Symbol` object",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-new-symbol",
+          "recommended": true
+        },
+        {
+          "description": "disallow calling global object properties as functions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-obj-calls",
+          "recommended": true
+        },
+        {
+          "description": "disallow returning values from Promise executor functions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-promise-executor-return",
+          "recommended": false
+        },
+        {
+          "description": "disallow calling some `Object.prototype` methods directly on objects",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-prototype-builtins",
+          "recommended": true
+        },
+        {
+          "description": "disallow assignments where both sides are exactly the same",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-self-assign",
+          "recommended": true
+        },
+        {
+          "description": "disallow comparisons where both sides are exactly the same",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-self-compare",
+          "recommended": false
+        },
+        {
+          "description": "disallow returning values from setters",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-setter-return",
+          "recommended": true
+        },
+        {
+          "description": "disallow sparse arrays",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-sparse-arrays",
+          "recommended": true
+        },
+        {
+          "description": "disallow template literal placeholder syntax in regular strings",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-template-curly-in-string",
+          "recommended": false
+        },
+        {
+          "description": "disallow `this`/`super` before calling `super()` in constructors",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-this-before-super",
+          "recommended": true
+        },
+        {
+          "description": "disallow the use of undeclared variables unless mentioned in `/*global */` comments",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-undef",
+          "recommended": true
+        },
+        {
+          "description": "disallow confusing multiline expressions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-unexpected-multiline",
+          "recommended": true
+        },
+        {
+          "description": "disallow unmodified loop conditions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-unmodified-loop-condition",
+          "recommended": false
+        },
+        {
+          "description": "disallow unreachable code after `return`, `throw`, `continue`, and `break` statements",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-unreachable",
+          "recommended": true
+        },
+        {
+          "description": "disallow loops with a body that allows only one iteration",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-unreachable-loop",
+          "recommended": false
+        },
+        {
+          "description": "disallow control flow statements in `finally` blocks",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-unsafe-finally",
+          "recommended": true
+        },
+        {
+          "description": "disallow negating the left operand of relational operators",
+          "fixable": false,
+          "hasSuggestions": true,
+          "name": "no-unsafe-negation",
+          "recommended": true
+        },
+        {
+          "description": "disallow use of optional chaining in contexts where the `undefined` value is not allowed",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-unsafe-optional-chaining",
+          "recommended": true
+        },
+        {
+          "description": "disallow unused private class members",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-unused-private-class-members",
+          "recommended": false
+        },
+        {
+          "description": "disallow unused variables",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-unused-vars",
+          "recommended": true
+        },
+        {
+          "description": "disallow the use of variables before they are defined",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-use-before-define",
+          "recommended": false
+        },
+        {
+          "description": "disallow useless backreferences in regular expressions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-useless-backreference",
+          "recommended": true
+        },
+        {
+          "description": "disallow assignments that can lead to race conditions due to usage of `await` or `yield`",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "require-atomic-updates",
+          "recommended": false
+        },
+        {
+          "description": "require calls to `isNaN()` when checking for `NaN`",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "use-isnan",
+          "recommended": true
+        },
+        {
+          "description": "enforce comparing `typeof` expressions against valid strings",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "valid-typeof",
+          "recommended": true
+        }
+      ]
+    },
+    {
+      "description": "These rules suggest alternate ways of doing things:",
+      "displayName": "Suggestions",
+      "name": "suggestion",
+      "rules": [
+        {
+          "description": "enforce getter and setter pairs in objects and classes",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "accessor-pairs",
+          "recommended": false
+        },
+        {
+          "description": "require braces around arrow function bodies",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "arrow-body-style",
+          "recommended": false
+        },
+        {
+          "description": "enforce the use of variables within the scope they are defined",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "block-scoped-var",
+          "recommended": false
+        },
+        {
+          "description": "enforce camelcase naming convention",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "camelcase",
+          "recommended": false
+        },
+        {
+          "description": "enforce or disallow capitalization of the first letter of a comment",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "capitalized-comments",
+          "recommended": false
+        },
+        {
+          "description": "enforce that class methods utilize `this`",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "class-methods-use-this",
+          "recommended": false
+        },
+        {
+          "description": "enforce a maximum cyclomatic complexity allowed in a program",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "complexity",
+          "recommended": false
+        },
+        {
+          "description": "require `return` statements to either always or never specify values",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "consistent-return",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent naming when capturing the current execution context",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "consistent-this",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent brace style for all control statements",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "curly",
+          "recommended": false
+        },
+        {
+          "description": "require `default` cases in `switch` statements",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "default-case",
+          "recommended": false
+        },
+        {
+          "description": "enforce default clauses in switch statements to be last",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "default-case-last",
+          "recommended": false
+        },
+        {
+          "description": "enforce default parameters to be last",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "default-param-last",
+          "recommended": false
+        },
+        {
+          "description": "enforce dot notation whenever possible",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "dot-notation",
+          "recommended": false
+        },
+        {
+          "description": "require the use of `===` and `!==`",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "eqeqeq",
+          "recommended": false
+        },
+        {
+          "description": "require function names to match the name of the variable or property to which they are assigned",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "func-name-matching",
+          "recommended": false
+        },
+        {
+          "description": "require or disallow named `function` expressions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "func-names",
+          "recommended": false
+        },
+        {
+          "description": "enforce the consistent use of either `function` declarations or expressions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "func-style",
+          "recommended": false
+        },
+        {
+          "description": "require grouped accessor pairs in object literals and classes",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "grouped-accessor-pairs",
+          "recommended": false
+        },
+        {
+          "description": "require `for-in` loops to include an `if` statement",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "guard-for-in",
+          "recommended": false
+        },
+        {
+          "description": "disallow specified identifiers",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "id-denylist",
+          "recommended": false
+        },
+        {
+          "description": "enforce minimum and maximum identifier lengths",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "id-length",
+          "recommended": false
+        },
+        {
+          "description": "require identifiers to match a specified regular expression",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "id-match",
+          "recommended": false
+        },
+        {
+          "description": "require or disallow initialization in variable declarations",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "init-declarations",
+          "recommended": false
+        },
+        {
+          "description": "enforce a maximum number of classes per file",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "max-classes-per-file",
+          "recommended": false
+        },
+        {
+          "description": "enforce a maximum depth that blocks can be nested",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "max-depth",
+          "recommended": false
+        },
+        {
+          "description": "enforce a maximum number of lines per file",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "max-lines",
+          "recommended": false
+        },
+        {
+          "description": "enforce a maximum number of lines of code in a function",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "max-lines-per-function",
+          "recommended": false
+        },
+        {
+          "description": "enforce a maximum depth that callbacks can be nested",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "max-nested-callbacks",
+          "recommended": false
+        },
+        {
+          "description": "enforce a maximum number of parameters in function definitions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "max-params",
+          "recommended": false
+        },
+        {
+          "description": "enforce a maximum number of statements allowed in function blocks",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "max-statements",
+          "recommended": false
+        },
+        {
+          "description": "enforce a particular style for multiline comments",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "multiline-comment-style",
+          "recommended": false
+        },
+        {
+          "description": "require constructor names to begin with a capital letter",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "new-cap",
+          "recommended": false
+        },
+        {
+          "description": "disallow the use of `alert`, `confirm`, and `prompt`",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-alert",
+          "recommended": false
+        },
+        {
+          "description": "disallow `Array` constructors",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-array-constructor",
+          "recommended": false
+        },
+        {
+          "description": "disallow bitwise operators",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-bitwise",
+          "recommended": false
+        },
+        {
+          "description": "disallow the use of `arguments.caller` or `arguments.callee`",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-caller",
+          "recommended": false
+        },
+        {
+          "description": "disallow lexical declarations in case clauses",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-case-declarations",
+          "recommended": true
+        },
+        {
+          "description": "disallow arrow functions where they could be confused with comparisons",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-confusing-arrow",
+          "recommended": false
+        },
+        {
+          "description": "disallow the use of `console`",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-console",
+          "recommended": false
+        },
+        {
+          "description": "disallow `continue` statements",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-continue",
+          "recommended": false
+        },
+        {
+          "description": "disallow deleting variables",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-delete-var",
+          "recommended": true
+        },
+        {
+          "description": "disallow division operators explicitly at the beginning of regular expressions",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-div-regex",
+          "recommended": false
+        },
+        {
+          "description": "disallow `else` blocks after `return` statements in `if` statements",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-else-return",
+          "recommended": false
+        },
+        {
+          "description": "disallow empty block statements",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-empty",
+          "recommended": true
+        },
+        {
+          "description": "disallow empty functions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-empty-function",
+          "recommended": false
+        },
+        {
+          "description": "disallow `null` comparisons without type-checking operators",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-eq-null",
+          "recommended": false
+        },
+        {
+          "description": "disallow the use of `eval()`",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-eval",
+          "recommended": false
+        },
+        {
+          "description": "disallow extending native types",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-extend-native",
+          "recommended": false
+        },
+        {
+          "description": "disallow unnecessary calls to `.bind()`",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-extra-bind",
+          "recommended": false
+        },
+        {
+          "description": "disallow unnecessary boolean casts",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-extra-boolean-cast",
+          "recommended": true
+        },
+        {
+          "description": "disallow unnecessary labels",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-extra-label",
+          "recommended": false
+        },
+        {
+          "description": "disallow unnecessary semicolons",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-extra-semi",
+          "recommended": true
+        },
+        {
+          "description": "disallow leading or trailing decimal points in numeric literals",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-floating-decimal",
+          "recommended": false
+        },
+        {
+          "description": "disallow assignments to native objects or read-only global variables",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-global-assign",
+          "recommended": true
+        },
+        {
+          "description": "disallow shorthand type conversions",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-implicit-coercion",
+          "recommended": false
+        },
+        {
+          "description": "disallow declarations in the global scope",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-implicit-globals",
+          "recommended": false
+        },
+        {
+          "description": "disallow the use of `eval()`-like methods",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-implied-eval",
+          "recommended": false
+        },
+        {
+          "description": "disallow inline comments after code",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-inline-comments",
+          "recommended": false
+        },
+        {
+          "description": "disallow `this` keywords outside of classes or class-like objects",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-invalid-this",
+          "recommended": false
+        },
+        {
+          "description": "disallow the use of the `__iterator__` property",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-iterator",
+          "recommended": false
+        },
+        {
+          "description": "disallow labels that share a name with a variable",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-label-var",
+          "recommended": false
+        },
+        {
+          "description": "disallow labeled statements",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-labels",
+          "recommended": false
+        },
+        {
+          "description": "disallow unnecessary nested blocks",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-lone-blocks",
+          "recommended": false
+        },
+        {
+          "description": "disallow `if` statements as the only statement in `else` blocks",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-lonely-if",
+          "recommended": false
+        },
+        {
+          "description": "disallow function declarations that contain unsafe references inside loop statements",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-loop-func",
+          "recommended": false
+        },
+        {
+          "description": "disallow magic numbers",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-magic-numbers",
+          "recommended": false
+        },
+        {
+          "description": "disallow mixed binary operators",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-mixed-operators",
+          "recommended": false
+        },
+        {
+          "description": "disallow use of chained assignment expressions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-multi-assign",
+          "recommended": false
+        },
+        {
+          "description": "disallow multiline strings",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-multi-str",
+          "recommended": false
+        },
+        {
+          "description": "disallow negated conditions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-negated-condition",
+          "recommended": false
+        },
+        {
+          "description": "disallow nested ternary expressions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-nested-ternary",
+          "recommended": false
+        },
+        {
+          "description": "disallow `new` operators outside of assignments or comparisons",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-new",
+          "recommended": false
+        },
+        {
+          "description": "disallow `new` operators with the `Function` object",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-new-func",
+          "recommended": false
+        },
+        {
+          "description": "disallow `Object` constructors",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-new-object",
+          "recommended": false
+        },
+        {
+          "description": "disallow `new` operators with the `String`, `Number`, and `Boolean` objects",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-new-wrappers",
+          "recommended": false
+        },
+        {
+          "description": "disallow `\\8` and `\\9` escape sequences in string literals",
+          "fixable": false,
+          "hasSuggestions": true,
+          "name": "no-nonoctal-decimal-escape",
+          "recommended": true
+        },
+        {
+          "description": "disallow octal literals",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-octal",
+          "recommended": true
+        },
+        {
+          "description": "disallow octal escape sequences in string literals",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-octal-escape",
+          "recommended": false
+        },
+        {
+          "description": "disallow reassigning `function` parameters",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-param-reassign",
+          "recommended": false
+        },
+        {
+          "description": "disallow the unary operators `++` and `--`",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-plusplus",
+          "recommended": false
+        },
+        {
+          "description": "disallow the use of the `__proto__` property",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-proto",
+          "recommended": false
+        },
+        {
+          "description": "disallow variable redeclaration",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-redeclare",
+          "recommended": true
+        },
+        {
+          "description": "disallow multiple spaces in regular expressions",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-regex-spaces",
+          "recommended": true
+        },
+        {
+          "description": "disallow specified names in exports",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-restricted-exports",
+          "recommended": false
+        },
+        {
+          "description": "disallow specified global variables",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-restricted-globals",
+          "recommended": false
+        },
+        {
+          "description": "disallow specified modules when loaded by `import`",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-restricted-imports",
+          "recommended": false
+        },
+        {
+          "description": "disallow certain properties on certain objects",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-restricted-properties",
+          "recommended": false
+        },
+        {
+          "description": "disallow specified syntax",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-restricted-syntax",
+          "recommended": false
+        },
+        {
+          "description": "disallow assignment operators in `return` statements",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-return-assign",
+          "recommended": false
+        },
+        {
+          "description": "disallow unnecessary `return await`",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-return-await",
+          "recommended": false
+        },
+        {
+          "description": "disallow `javascript:` urls",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-script-url",
+          "recommended": false
+        },
+        {
+          "description": "disallow comma operators",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-sequences",
+          "recommended": false
+        },
+        {
+          "description": "disallow variable declarations from shadowing variables declared in the outer scope",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-shadow",
+          "recommended": false
+        },
+        {
+          "description": "disallow identifiers from shadowing restricted names",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-shadow-restricted-names",
+          "recommended": true
+        },
+        {
+          "description": "disallow ternary operators",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-ternary",
+          "recommended": false
+        },
+        {
+          "description": "disallow throwing literals as exceptions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-throw-literal",
+          "recommended": false
+        },
+        {
+          "description": "disallow initializing variables to `undefined`",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-undef-init",
+          "recommended": false
+        },
+        {
+          "description": "disallow the use of `undefined` as an identifier",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-undefined",
+          "recommended": false
+        },
+        {
+          "description": "disallow dangling underscores in identifiers",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-underscore-dangle",
+          "recommended": false
+        },
+        {
+          "description": "disallow ternary operators when simpler alternatives exist",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-unneeded-ternary",
+          "recommended": false
+        },
+        {
+          "description": "disallow unused expressions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-unused-expressions",
+          "recommended": false
+        },
+        {
+          "description": "disallow unused labels",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-unused-labels",
+          "recommended": true
+        },
+        {
+          "description": "disallow unnecessary calls to `.call()` and `.apply()`",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-useless-call",
+          "recommended": false
+        },
+        {
+          "description": "disallow unnecessary `catch` clauses",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-useless-catch",
+          "recommended": true
+        },
+        {
+          "description": "disallow unnecessary computed property keys in objects and classes",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-useless-computed-key",
+          "recommended": false
+        },
+        {
+          "description": "disallow unnecessary concatenation of literals or template literals",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-useless-concat",
+          "recommended": false
+        },
+        {
+          "description": "disallow unnecessary constructors",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-useless-constructor",
+          "recommended": false
+        },
+        {
+          "description": "disallow unnecessary escape characters",
+          "fixable": false,
+          "hasSuggestions": true,
+          "name": "no-useless-escape",
+          "recommended": true
+        },
+        {
+          "description": "disallow renaming import, export, and destructured assignments to the same name",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-useless-rename",
+          "recommended": false
+        },
+        {
+          "description": "disallow redundant return statements",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-useless-return",
+          "recommended": false
+        },
+        {
+          "description": "require `let` or `const` instead of `var`",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-var",
+          "recommended": false
+        },
+        {
+          "description": "disallow `void` operators",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-void",
+          "recommended": false
+        },
+        {
+          "description": "disallow specified warning terms in comments",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-warning-comments",
+          "recommended": false
+        },
+        {
+          "description": "disallow `with` statements",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-with",
+          "recommended": true
+        },
+        {
+          "description": "require or disallow method and property shorthand syntax for object literals",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "object-shorthand",
+          "recommended": false
+        },
+        {
+          "description": "enforce variables to be declared either together or separately in functions",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "one-var",
+          "recommended": false
+        },
+        {
+          "description": "require or disallow newlines around variable declarations",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "one-var-declaration-per-line",
+          "recommended": false
+        },
+        {
+          "description": "require or disallow assignment operator shorthand where possible",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "operator-assignment",
+          "recommended": false
+        },
+        {
+          "description": "require using arrow functions for callbacks",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "prefer-arrow-callback",
+          "recommended": false
+        },
+        {
+          "description": "require `const` declarations for variables that are never reassigned after declared",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "prefer-const",
+          "recommended": false
+        },
+        {
+          "description": "require destructuring from arrays and/or objects",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "prefer-destructuring",
+          "recommended": false
+        },
+        {
+          "description": "disallow the use of `Math.pow` in favor of the `**` operator",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "prefer-exponentiation-operator",
+          "recommended": false
+        },
+        {
+          "description": "enforce using named capture group in regular expression",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "prefer-named-capture-group",
+          "recommended": false
+        },
+        {
+          "description": "disallow `parseInt()` and `Number.parseInt()` in favor of binary, octal, and hexadecimal literals",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "prefer-numeric-literals",
+          "recommended": false
+        },
+        {
+          "description": "disallow use of `Object.prototype.hasOwnProperty.call()` and prefer use of `Object.hasOwn()`",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "prefer-object-has-own",
+          "recommended": false
+        },
+        {
+          "description": "disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead.",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "prefer-object-spread",
+          "recommended": false
+        },
+        {
+          "description": "require using Error objects as Promise rejection reasons",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "prefer-promise-reject-errors",
+          "recommended": false
+        },
+        {
+          "description": "disallow use of the `RegExp` constructor in favor of regular expression literals",
+          "fixable": false,
+          "hasSuggestions": true,
+          "name": "prefer-regex-literals",
+          "recommended": false
+        },
+        {
+          "description": "require rest parameters instead of `arguments`",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "prefer-rest-params",
+          "recommended": false
+        },
+        {
+          "description": "require spread operators instead of `.apply()`",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "prefer-spread",
+          "recommended": false
+        },
+        {
+          "description": "require template literals instead of string concatenation",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "prefer-template",
+          "recommended": false
+        },
+        {
+          "description": "require quotes around object literal property names",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "quote-props",
+          "recommended": false
+        },
+        {
+          "description": "enforce the consistent use of the radix argument when using `parseInt()`",
+          "fixable": false,
+          "hasSuggestions": true,
+          "name": "radix",
+          "recommended": false
+        },
+        {
+          "description": "disallow async functions which have no `await` expression",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "require-await",
+          "recommended": false
+        },
+        {
+          "description": "enforce the use of `u` flag on RegExp",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "require-unicode-regexp",
+          "recommended": false
+        },
+        {
+          "description": "require generator functions to contain `yield`",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "require-yield",
+          "recommended": true
+        },
+        {
+          "description": "enforce sorted import declarations within modules",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "sort-imports",
+          "recommended": false
+        },
+        {
+          "description": "require object keys to be sorted",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "sort-keys",
+          "recommended": false
+        },
+        {
+          "description": "require variables within the same declaration block to be sorted",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "sort-vars",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent spacing after the `//` or `/*` in a comment",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "spaced-comment",
+          "recommended": false
+        },
+        {
+          "description": "require or disallow strict mode directives",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "strict",
+          "recommended": false
+        },
+        {
+          "description": "require symbol descriptions",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "symbol-description",
+          "recommended": false
+        },
+        {
+          "description": "require `var` declarations be placed at the top of their containing scope",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "vars-on-top",
+          "recommended": false
+        },
+        {
+          "description": "require or disallow \"Yoda\" conditions",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "yoda",
+          "recommended": false
+        }
+      ]
+    },
+    {
+      "description": "These rules care about how the code looks rather than how it executes:",
+      "displayName": "Layout & Formatting",
+      "name": "layout",
+      "rules": [
+        {
+          "description": "enforce linebreaks after opening and before closing array brackets",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "array-bracket-newline",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent spacing inside array brackets",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "array-bracket-spacing",
+          "recommended": false
+        },
+        {
+          "description": "enforce line breaks after each array element",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "array-element-newline",
+          "recommended": false
+        },
+        {
+          "description": "require parentheses around arrow function arguments",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "arrow-parens",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent spacing before and after the arrow in arrow functions",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "arrow-spacing",
+          "recommended": false
+        },
+        {
+          "description": "disallow or enforce spaces inside of blocks after opening block and before closing block",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "block-spacing",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent brace style for blocks",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "brace-style",
+          "recommended": false
+        },
+        {
+          "description": "require or disallow trailing commas",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "comma-dangle",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent spacing before and after commas",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "comma-spacing",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent comma style",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "comma-style",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent spacing inside computed property brackets",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "computed-property-spacing",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent newlines before and after dots",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "dot-location",
+          "recommended": false
+        },
+        {
+          "description": "require or disallow newline at the end of files",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "eol-last",
+          "recommended": false
+        },
+        {
+          "description": "require or disallow spacing between function identifiers and their invocations",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "func-call-spacing",
+          "recommended": false
+        },
+        {
+          "description": "enforce line breaks between arguments of a function call",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "function-call-argument-newline",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent line breaks inside function parentheses",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "function-paren-newline",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent spacing around `*` operators in generator functions",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "generator-star-spacing",
+          "recommended": false
+        },
+        {
+          "description": "enforce the location of arrow function bodies",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "implicit-arrow-linebreak",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent indentation",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "indent",
+          "recommended": false
+        },
+        {
+          "description": "enforce the consistent use of either double or single quotes in JSX attributes",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "jsx-quotes",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent spacing between keys and values in object literal properties",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "key-spacing",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent spacing before and after keywords",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "keyword-spacing",
+          "recommended": false
+        },
+        {
+          "description": "enforce position of line comments",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "line-comment-position",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent linebreak style",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "linebreak-style",
+          "recommended": false
+        },
+        {
+          "description": "require empty lines around comments",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "lines-around-comment",
+          "recommended": false
+        },
+        {
+          "description": "require or disallow an empty line between class members",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "lines-between-class-members",
+          "recommended": false
+        },
+        {
+          "description": "enforce a maximum line length",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "max-len",
+          "recommended": false
+        },
+        {
+          "description": "enforce a maximum number of statements allowed per line",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "max-statements-per-line",
+          "recommended": false
+        },
+        {
+          "description": "enforce newlines between operands of ternary expressions",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "multiline-ternary",
+          "recommended": false
+        },
+        {
+          "description": "enforce or disallow parentheses when invoking a constructor with no arguments",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "new-parens",
+          "recommended": false
+        },
+        {
+          "description": "require a newline after each call in a method chain",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "newline-per-chained-call",
+          "recommended": false
+        },
+        {
+          "description": "disallow unnecessary parentheses",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-extra-parens",
+          "recommended": false
+        },
+        {
+          "description": "disallow mixed spaces and tabs for indentation",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-mixed-spaces-and-tabs",
+          "recommended": true
+        },
+        {
+          "description": "disallow multiple spaces",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-multi-spaces",
+          "recommended": false
+        },
+        {
+          "description": "disallow multiple empty lines",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-multiple-empty-lines",
+          "recommended": false
+        },
+        {
+          "description": "disallow all tabs",
+          "fixable": false,
+          "hasSuggestions": false,
+          "name": "no-tabs",
+          "recommended": false
+        },
+        {
+          "description": "disallow trailing whitespace at the end of lines",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-trailing-spaces",
+          "recommended": false
+        },
+        {
+          "description": "disallow whitespace before properties",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "no-whitespace-before-property",
+          "recommended": false
+        },
+        {
+          "description": "enforce the location of single-line statements",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "nonblock-statement-body-position",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent line breaks after opening and before closing braces",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "object-curly-newline",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent spacing inside braces",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "object-curly-spacing",
+          "recommended": false
+        },
+        {
+          "description": "enforce placing object properties on separate lines",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "object-property-newline",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent linebreak style for operators",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "operator-linebreak",
+          "recommended": false
+        },
+        {
+          "description": "require or disallow padding within blocks",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "padded-blocks",
+          "recommended": false
+        },
+        {
+          "description": "require or disallow padding lines between statements",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "padding-line-between-statements",
+          "recommended": false
+        },
+        {
+          "description": "enforce the consistent use of either backticks, double, or single quotes",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "quotes",
+          "recommended": false
+        },
+        {
+          "description": "enforce spacing between rest and spread operators and their expressions",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "rest-spread-spacing",
+          "recommended": false
+        },
+        {
+          "description": "require or disallow semicolons instead of ASI",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "semi",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent spacing before and after semicolons",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "semi-spacing",
+          "recommended": false
+        },
+        {
+          "description": "enforce location of semicolons",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "semi-style",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent spacing before blocks",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "space-before-blocks",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent spacing before `function` definition opening parenthesis",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "space-before-function-paren",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent spacing inside parentheses",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "space-in-parens",
+          "recommended": false
+        },
+        {
+          "description": "require spacing around infix operators",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "space-infix-ops",
+          "recommended": false
+        },
+        {
+          "description": "enforce consistent spacing before or after unary operators",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "space-unary-ops",
+          "recommended": false
+        },
+        {
+          "description": "enforce spacing around colons of switch statements",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "switch-colon-spacing",
+          "recommended": false
+        },
+        {
+          "description": "require or disallow spacing around embedded expressions of template strings",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "template-curly-spacing",
+          "recommended": false
+        },
+        {
+          "description": "require or disallow spacing between template tags and their literals",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "template-tag-spacing",
+          "recommended": false
+        },
+        {
+          "description": "require or disallow Unicode byte order mark (BOM)",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "unicode-bom",
+          "recommended": false
+        },
+        {
+          "description": "require parentheses around immediate `function` invocations",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "wrap-iife",
+          "recommended": false
+        },
+        {
+          "description": "require parenthesis around regex literals",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "wrap-regex",
+          "recommended": false
+        },
+        {
+          "description": "require or disallow spacing around the `*` in `yield*` expressions",
+          "fixable": true,
+          "hasSuggestions": false,
+          "name": "yield-star-spacing",
+          "recommended": false
+        }
+      ]
+    }
+  ]
+}

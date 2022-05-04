@@ -2,6 +2,11 @@
 title: Migrating to v8.0.0
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/migrating-to-8.0.0.md
+eleventyNavigation:
+    key: migrating to v8
+    parent: user guide
+    title: Migrating to v8.x
+    order: 6
 
 ---
 
@@ -72,10 +77,16 @@ With this configuration, the rule would ignore the third element in the array be
 
 **To address:** Change your rule configuration so that there are only two elements in the array, and the second element is either a string or an object, such as:
 
-```jsonc
+```json
 {
     "comma-dangle": ["error", "never"],
-    // or
+}
+```
+
+or
+
+```json
+{
     "comma-dangle": ["error", {
         "arrays": "never",
         "objects": "never",

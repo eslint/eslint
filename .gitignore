@@ -1,4 +1,5 @@
 /node_modules
+/docs/node_modules
 test.js
 coverage/
 build/
@@ -26,3 +27,6 @@ versions.json
 yarn.lock
 package-lock.json
 pnpm-lock.yaml
+
+# Docs site output
+_site

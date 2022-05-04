@@ -1,0 +1,79 @@
+button {
+    border: none;
+    background: none;
+    font: inherit;
+    cursor: pointer;
+    line-height: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.c-btn {
+    background: none;
+    border: none;
+    font: inherit;
+    font-family: var(--text-font);
+    cursor: pointer;
+    line-height: inherit;
+    font-weight: 500;
+    font-size: var(--step-0);
+    display: inline-flex;
+    padding: .75em 1.125em;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius);
+
+    transition: background-color .2s linear,
+        border-color .2s linear;
+
+    svg {
+        color: inherit;
+    }
+}
+
+.c-btn--large {
+    font-size: 1.125rem;
+    padding: .88em 1.5em;
+}
+
+.c-btn--block {
+    display: flex;
+    width: 100%;
+}
+
+a.c-btn {
+    text-decoration: none;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    align-items: center;
+}
+
+.c-btn--primary {
+    background-color: var(--primary-button-background-color);
+    color: var(--primary-button-text-color);
+
+    &:hover {
+        background-color: var(--primary-button-hover-color);
+    }
+}
+
+.c-btn--secondary {
+    background-color: var(--secondary-button-background-color);
+    color: var(--secondary-button-text-color);
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.1);
+
+    &:hover {
+        background-color: var(--secondary-button-hover-color);
+    }
+}
+
+.c-btn--ghost {
+    color: var(--body-text-color);
+    border: 1px solid var(--border-color);
+
+    &:hover {
+        border-color: var(--link-color);
+    }
+}

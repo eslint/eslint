@@ -1,0 +1,25 @@
+<div class="version-switcher">
+    <a href="/versions/" class="switcher-fallback">Versions</a>
+
+    <div hidden role="region" class="switcher switcher--version" aria-labelledby="version-switcher-label" id="version-switcher">
+        <span id="version-switcher-label" hidden>Version Switcher</span>
+        <div class="infobox visually-hidden" id="version-infobox">
+            Selecting a version will take you to the ESLint Web site for that version.
+        </div>
+
+        <label class="switcher__label label--block" for="version-select">
+            Version
+        </label>
+        <select name="version selector" id="version-select" aria-describedby="version-infobox" class="c-custom-select switcher__select auto-switcher">
+            <option value="{{ eslintVersion }}" selected>
+                v{{ eslintVersion }}
+            </option>
+            {% for version in versions.items %}
+            <option value="{{ version.number }}"
+                    data-url="{{ version.url }}">
+                v{{ version.number }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
