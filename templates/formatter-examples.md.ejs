@@ -1,8 +1,7 @@
 ---
-title: Documentation
+title: ESLint Formatters
 layout: doc
 ---
-# ESLint Formatters
 
 ESLint comes with several built-in formatters to control the appearance of the linting results, and supports third-party formatters as well.
 
