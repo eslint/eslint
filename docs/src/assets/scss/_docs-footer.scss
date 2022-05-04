@@ -1,0 +1,48 @@
+.docs-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    justify-content: space-between;
+    align-items: baseline;
+
+    @media all and (max-width: 800px) {
+        padding: 1.5rem 0 4rem;
+    }
+}
+
+.copyright p {
+    margin: 0;
+}
+
+.docs-socials-and-legal {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    @media all and (max-width: 800px) {
+        text-align: center;
+    }
+}
+
+.docs-switchers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+
+    .theme-switcher,
+    .language-switcher {
+        flex: 1 1 240px;
+    }
+
+    .theme-switcher {
+        @media all and (max-width: 800px) {
+            justify-content: center;
+        }
+    }
+
+    .language-switcher {
+        @media all and (max-width: 800px) {
+            justify-content: center;
+        }
+    }
+}

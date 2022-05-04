@@ -1,0 +1,37 @@
+
+@import "tokens/themes.scss";
+@import "tokens/spacing.scss";
+@import "tokens/typography.scss";
+@import "tokens/ui.scss";
+
+@import "_typography.scss";
+@import "_docs-typography.scss";
+@import "_foundations.scss";
+@import "_prism-syntax-highlighter.scss";
+@import "_docs-header.scss";
+@import "_docs-footer.scss";
+@import "_site-footer.scss";
+@import "_forms.scss";
+@import "_docs.scss";
+
+@import "components/buttons.scss";
+@import "components/docs-navigation.scss";
+@import "components/toc.scss";
+@import "components/search.scss";
+@import "components/alert.scss";
+@import "components/rules.scss";
+@import "components/languages.scss";
+@import "components/versions.scss";
+@import "components/social-icons.scss";
+@import "components/hero.scss";
+@import "components/theme-switcher.scss";
+@import "components/version-switcher.scss";
+@import "components/language-switcher.scss";
+@import "components/docs-index.scss";
+@import "components/tabs.scss";
+@import "components/docs-resources.scss";
+@import "components/index.scss";
+
+@import "_carbon-ads.scss";
+
+@import "_utilities.scss";

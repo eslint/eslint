@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="{{ config.lang }}" class="no-js">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO -->
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ desc }}">
+    <!--<link rel="canonical" href="https://docs.eslint.org{{ page.url | url }}">-->
+
+    <!-- favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any"><!-- 32×32 -->
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png"><!-- 180×180 -->
+    <link rel="manifest" href="/manifest.webmanifest">
+
+    <!-- social sharing previews. Make sure every page template has title, desc, and cover url -->
+    <!-- Open graph -->
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ desc }}">
+    <meta property="og:image" content="{{ cover }}" />
+    <meta property="og:image:alt" content="{{ coverAlt }}">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ metadata.url }}{{ page.url }}">
+    <!-- Twitter -->
+    <meta name="twitter:title" content="{{ title }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@geteslint">
+    <meta name="twitter:description" content="{{ desc }}">
+    <meta name="twitter:image" content="{{ cover }}">
+    <meta name="twitter:creator" content="@geteslint">
+
+
+    <script type="module">
+        // This is a capable browser, let's improve the UI further!
+        document.documentElement.classList.add("enhanced");
+        document.documentElement.classList.remove('no-js');
+    </script>
+
+    <link rel="preload" href="{{ '/assets/fonts/SpaceGrotesk-Medium-subset.woff2' | url }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ '/assets/fonts/Inter-Regular-subset.woff2' | url }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ '/assets/fonts/SpaceMono-Regular-subset.woff2' | url }}" as="font" type="font/woff2" crossorigin>
+
+    <script>
+        (function(){
+            var theme = window.localStorage.getItem("theme");
+            if (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+            else if (theme) document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+
+
+    <style>
+        /* Space Grotesk for headings */
+        @font-face {
+            font-family: "Space Grotesk";
+            src: url("{{ '/assets/fonts/SpaceGrotesk-Medium-subset.woff2' | url }}") format("woff2"),
+            url("{{ '/assets/fonts/SpaceGrotesk-Medium-subset.zopfli.woff' | url }}") format("woff");
+            font-weight: 500;
+            font-display: swap;
+        }
+
+        /* Inter for body text */
+
+        @font-face {
+            font-family: "Inter";
+            src: url("{{ '/assets/fonts/Inter-Regular-subset.woff2' | url }}") format("woff2"),
+            url("{{ '/assets/fonts/Inter-Regular-subset.zopfli.woff' | url }}") format("woff");
+            font-weight: 400;
+            font-display: swap;
+        }
+
+        /* Space Mono for code snippets */
+
+        @font-face {
+            font-family: "Space Mono";
+            src: url("{{ '/assets/fonts/SpaceMono-Regular-subset.woff2' | url }}") format("woff2"),
+            url("{{ '/assets/fonts/SpaceMono-Regular-subset.zopfli.woff' | url }}") format("woff");
+            font-weight: 400;
+            font-display: swap;
+        }
+    </style>
+    <script>
+        if ("fonts" in document) {
+            var InterSemiBold = new FontFace("Inter", "url({{ '/assets/fonts/Inter-SemiBold-subset.woff2' | url }}) format('woff2'), url({{ '/assets/fonts/Inter-SemiBold-subset.zopfli.woff' | url }}) format('woff')", {
+                weight: "500",
+                style: "normal"
+            });
+
+            Promise.all([InterSemiBold.load()]).then(function(fonts) {
+                fonts.forEach(function(font) {
+                    document.fonts.add(font);
+                });
+            });
+        }
+    </script>
+    <script src="{{ '/assets/js/themes.js' | url }}"></script>
+    <script type="module" src="{{ '/assets/js/search.js' | url }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ '/assets/css/styles.css' | url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/print.css' | url }}" media="print">
+</head>
+
+<body class="{{ hook }} docs">
+    <a href="#main" class="c-btn c-btn--primary" id="skip-link">Skip to main content</a>
+
+    {{ content | safe }}
+
+    <script src="{{ '/assets/js/css-vars-ponyfill@2.js' | url }}"></script>
+    <script src="{{ '/assets/js/focus-visible.js' | url }}"></script>
+    <script src="{{ '/assets/js/main.js' | url }}"></script>
+    <script src="{{ '/assets/js/tabs.js' | url }}"></script>
+
+    {%- if hook == "component-library" -%}
+    <script src="{{ '/assets/js/components-index.js' | url }}"></script>
+    {%- endif -%}
+
+
+</body>
+
+</html>

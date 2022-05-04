@@ -1,0 +1,70 @@
+.c-accordion__heading {
+  font-size: var(--step-1);
+  font-size: 1.125rem;
+  font-weight: 600;
+  font-family: var(--text-font);
+  color: var(--headings-color); }
+  .accordion-js .c-accordion__heading {
+    margin: 0; }
+  .c-accordion__heading > button {
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    font: inherit;
+    font-size: inherit;
+    font-weight: 500;
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    line-height: 1.5;
+    padding: 0;
+    border-radius: 0;
+    position: relative;
+    border: none;
+    transition: outline 0.1s linear;
+    margin-bottom: 2rem;
+    margin-block-end: 2rem; }
+    .c-accordion__heading > button[aria-expanded="true"] {
+      margin-bottom: 0;
+      margin-block-end: 0; }
+    .c-accordion__heading > button svg {
+      flex: none; }
+
+.c-accordion__panel {
+  margin-bottom: 4rem;
+  margin-block-end: 4rem; }
+  .accordion-js .c-accordion__panel {
+    margin-bottom: 0;
+    margin-block-end: 0;
+    padding: .5rem 0;
+    padding-right: 3rem;
+    padding-inline-end: 3rem; }
+    .accordion-js .c-accordion__panel[aria-hidden="true"] {
+      margin-bottom: 0;
+      margin-block-end: 0; }
+    .accordion-js .c-accordion__panel[aria-hidden="false"] {
+      margin-bottom: 2rem;
+      margin-block-end: 2rem; }
+
+/* Styles for the accordion icon */
+.c-accordion .accordion-icon {
+  display: block !important;
+  width: 0.75rem;
+  height: 0.5rem;
+  transform-origin: 50% 50%;
+  margin-left: 3rem;
+  margin-inline-start: 3rem;
+  transition: all 0.1s linear;
+  color: var(--color-neutral-400); }
+
+.c-accordion [aria-expanded="true"] .accordion-icon {
+  -ms-transform: translateY(-50%) rotate(180deg);
+  transform: translateY(-50%) rotate(180deg); }
+
+.c-accordion [aria-hidden="true"] {
+  display: none; }
+
+.c-accordion [aria-hidden="false"] {
+  display: block !important; }

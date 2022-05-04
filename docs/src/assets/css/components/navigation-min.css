@@ -1,0 +1,5 @@
+.site-nav ul {
+  display: -webkit-flex;
+  display: flex;
+  gap: 1em;
+  list-style: none; }

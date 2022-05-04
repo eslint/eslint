@@ -622,10 +622,18 @@ target.gensite = function(prereleaseVersion) {
 
     // 3. Copy docs folder to a temporary directory
     echo("> Copying the docs folder (Step 3)");
-    cp("-rf", "docs/src/*", TEMP_DIR);
+    docFiles.forEach(filePath => {
+        const pathToCopy = path.join("docs/src", filePath, "*"),
+            tempPath = path.join(TEMP_DIR, filePath);
+
+        if (!test("-d", tempPath)) {
+            mkdir(tempPath);
+        }
+
+        cp("-rf", pathToCopy, tempPath);
+    });
 
     // special case (for now)
-    cp("-f", "docs/src/pages/index.md", path.join(TEMP_DIR, "index.md"));
     rm("-rf", path.join(TEMP_DIR, "pages"));
 
     let versions = test("-f", "./versions.json") ? JSON.parse(cat("./versions.json")) : {};

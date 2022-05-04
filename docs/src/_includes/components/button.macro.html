@@ -1,0 +1,26 @@
+{%- macro button(behavior="link", params) -%}
+    {%- if params.behavior == "action" -%}
+    <button type="button" class="c-btn
+                {% if params.type == 'primary' %} c-btn--primary {%- endif -%}
+                {% if params.type == 'secondary' %} c-btn--secondary {%- endif -%}
+                {% if params.type == 'ghost' %} c-btn--ghost {%- endif -%}">
+        {%- if params.text -%}
+            {{ params.text }}
+        {%- else -%}
+            This is a button button
+        {%- endif -%}
+    </button>
+    {%- else -%}
+    <a href="{{ params.url }}"
+        class="c-btn
+                {% if params.type == 'primary' %} c-btn--primary {%- endif -%}
+                {% if params.type == 'secondary' %} c-btn--secondary {%- endif -%}
+                {% if params.type == 'ghost' %} c-btn--ghost {%- endif -%}">
+        {%- if params.text -%}
+            {{ params.text }}
+        {%- else -%}
+            This is a link styled like a button
+        {%- endif -%}
+    </a>
+    {%- endif -%}
+{%- endmacro -%}

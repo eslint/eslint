@@ -2,6 +2,11 @@
 title: Working with Custom Formatters
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/working-with-custom-formatters.md
+eleventyNavigation:
+    key: working with custom formatters
+    parent: developer guide
+    title: Working with Custom Formatters
+    order: 6
 
 ---
 

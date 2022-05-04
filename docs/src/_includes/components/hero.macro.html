@@ -1,0 +1,29 @@
+{%- macro hero(params) -%}
+<div class="section hero">
+    <div class="content-container grid">
+        <div class="span-1-7 content-container">
+            {%- if params.post -%}
+                <p class="post__meta">Published {{ params.post.date }} under <a href="/blog/category/{{ params.post.categoryURL }}">{{ params.post.category  }}</a></p>
+            {%- endif -%}
+            <h1 class="section-title">{{ params.title }}</h1>
+            <p class="section-supporting-text">
+                {{ params.supporting_text | safe }}
+            </p>
+            {% if params.buttons %}
+            <div class="eslint-actions">
+                {% if params.buttons.primary %}
+                    <a href="{{ params.buttons.primary.primaryURL }}" class="c-btn c-btn--primary">{{ params.buttons.primary.primaryText }}</a>
+                {% endif %}
+                {% if params.buttons.secondary %}
+                    <a href="{{ params.buttons.secondary.secondaryURL }}" class="c-btn c-btn--secondary">{{ params.buttons.secondary.secondaryText }}</a>
+                {% endif %}
+            </div>
+
+            {% endif %}
+        </div>
+        <div class="span-10-12 hero-ad">
+            {% include "partials/carbon-ad.html" %}
+        </div>
+    </div>
+</div>
+{%- endmacro -%}

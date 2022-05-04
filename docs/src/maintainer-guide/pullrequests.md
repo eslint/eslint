@@ -2,6 +2,11 @@
 title: Reviewing Pull Requests
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/maintainer-guide/pullrequests.md
+eleventyNavigation:
+    key: reviewing pull requests
+    parent: maintainer guide 
+    title: Reviewing Pull Requests
+    order: 2
 
 ---
 

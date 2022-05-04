@@ -1,0 +1,40 @@
+.site-header {
+    padding: .75rem 0;
+    border-top: 4px solid var(--link-color);
+    border-bottom: 1px solid var(--divider-color);
+    border-block-start: 4px solid var(--link-color);
+    border-block-end: 1px solid var(--divider-color);
+
+    .docs-wrapper {
+        display: grid;
+        align-items: start;
+        padding-top: 0;
+        padding-bottom: 0;
+
+        padding-block-start: 0;
+        padding-block-end: 0;
+
+        @media all and (min-width: 1024px) {
+            justify-content: space-between;
+        }
+    }
+}
+
+.logo-link {
+    display: inline-flex;
+    justify-self: start;
+    flex: none;
+    place-content: center;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    padding: .5rem 0;
+}
+
+.logo svg {
+    display: inline-block;
+    margin-bottom: -4px;
+    margin-block-end: -4px;
+    width: 100%;
+    max-width: 100px;
+    height: auto;
+}

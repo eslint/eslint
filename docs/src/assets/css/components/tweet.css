@@ -1,0 +1,14 @@
+blockquote.tweet {
+  padding: 1em 1em 1em 4em;
+  margin: 2rem 0;
+  position: relative;
+  font-size: 1.1rem; }
+  blockquote.tweet cite {
+    font-size: 1rem; }
+
+.tweet__icon {
+  width: 2.5em;
+  height: 2.5em;
+  position: absolute;
+  left: .5em;
+  top: .5em; }

@@ -81,7 +81,7 @@ Version control systems sometimes have special behavior for linebreaks. To make 
 
 For example, the default behavior of [git](https://git-scm.com/) on Windows systems is to convert LF linebreaks to CRLF when checking out files, but to store the linebreaks as LF when committing a change. This will cause the `linebreak-style` rule to report errors if configured with the `"unix"` setting, because the files that ESLint sees will have CRLF linebreaks. If you use git, you may want to add a line to your [`.gitattributes` file](https://git-scm.com/docs/gitattributes) to prevent git from converting linebreaks in `.js` files:
 
-```pt
+```txt
 *.js text eol=lf
 ```
 

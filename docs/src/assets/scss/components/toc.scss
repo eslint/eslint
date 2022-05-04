@@ -1,0 +1,102 @@
+.docs-toc {
+    margin: 2rem 0;
+}
+
+.c-toc {
+    ol {
+        margin: 0;
+
+        li {
+            position: relative;
+            margin-bottom: .25rem;
+            margin-block-end: .25rem;
+            padding-left: 1rem;
+            padding-inline-start: 1rem;
+
+            > ol {
+                margin-top: .25rem;
+            }
+        }
+
+        li::before {
+            content: "└";
+            color: var(--icon-color);
+            position: absolute;
+            left: -.4rem;
+            offset-inline-start: -.4rem;
+        }
+    }
+
+    a {
+        text-decoration: none;
+        color: var(--headings-color);
+
+        &:hover {
+            color: var(--link-color);
+        }
+    }
+}
+
+.c-toc__label.c-toc__label {
+    font-size: var(--step-0);
+    color: var(--body-text-color);
+    font-family: var(--text-font);
+    margin-bottom: .5rem;
+    margin-block-end: .5rem;
+}
+
+.c-toc__label {
+    width: fit-content;
+
+    button {
+        color: var(--link-color);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font: inherit;
+        font-size: inherit;
+        font-weight: 500;
+        width: 100%;
+        height: 100%;
+        text-align: left;
+        line-height: 1.5;
+        padding: 0;
+        border-radius: 0;
+        position: relative;
+        border: none;
+        transition: outline 0.1s linear;
+
+        svg {
+            flex: none;
+        }
+    }
+}
+
+/* Styles for the accordion icon */
+.toc-trigger-icon {
+    display: block !important; // to override aria-hidden
+    width: 0.75rem;
+    height: 0.5rem;
+    transform-origin: 50% 50%;
+    margin-left: 3rem;
+    margin-inline-start: 3rem;
+    transition: all 0.1s linear;
+    color: var(--color-neutral-400);
+
+    [aria-expanded="true"] & {
+        -ms-transform: translateY(-50%) rotate(180deg);
+        transform: translateY(-50%) rotate(180deg);
+    }
+}
+
+
+
+.c-toc__panel {
+    &[data-open="false"] {
+        display: none;
+    }
+    &[data-open="true"] {
+        display: block;
+    }
+}

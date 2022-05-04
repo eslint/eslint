@@ -1,0 +1,37 @@
+---
+layout: base.njk
+---
+
+{% include "partials/docs-header.html" %}
+
+<div class="docs-wrapper">
+    <div class="docs-left-sidebar">
+        <div class="desktop-only">
+            {% include 'components/version-switcher.html' %}
+            {% include 'components/search.html' %}
+        </div>
+            {% include 'components/docs-index.html' %}
+    </div>
+
+    <div class="docs-content">
+        <main id="main" tabindex="-1" class="docs-main">
+            <h1>{{ title }}</h1>
+            {% include 'components/docs-toc.html' %}
+
+            {{ content | safe }}
+
+            <div class="docs-edit-link">
+                <a href="{{ edit_link }}" class="c-btn c-btn--secondary">Edit this page</a>
+            </div>
+        </main>
+
+        <div class="docs-right-sidebar">
+            <aside class="docs-ad">
+                {%- include 'partials/carbon-ad.html' -%}
+            </aside>
+            {% include "partials/docs-footer.html" %}
+        </div>
+    </div>
+</div>
+
+<script src="{{ '/assets/js/tabs.js' | url }}"></script>

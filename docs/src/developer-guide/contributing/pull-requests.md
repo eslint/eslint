@@ -53,7 +53,7 @@ git commit
 
 All ESLint projects follow [Conventional Commits](https://www.conventionalcommits.org/) for our commit messages. Here's an example commit message:
 
-```pt
+```txt
 tag: Short description of what you did
 
 Longer description here if necessary
@@ -83,7 +83,7 @@ The message summary should be a one-sentence description of the change, and it m
 
 Here are some good commit message summary examples:
 
-```pt
+```txt
 build: Update Travis to only test Node 0.10
 fix: Semi rule incorrectly flagging extra semicolon
 chore: Upgrade Esprima to 1.2, switch to using comment attachment

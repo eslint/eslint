@@ -1,0 +1,23 @@
+.search {
+  margin-bottom: 1.5rem; }
+
+.search__input-wrapper {
+  position: relative; }
+
+.search__input {
+  padding-left: 2.5rem;
+  padding-inline-start: 2.5rem;
+  outline-offset: 1px;
+  width: 100%; }
+
+.search__icon {
+  color: var(--body-text-color);
+  position: absolute;
+  top: 50%;
+  offset-block-start: 50%;
+  transform: translateY(-50%);
+  left: .75rem;
+  offset-inline-start: .75rem; }
+
+.algolia-docsearch-suggestion--highlight {
+  background-color: var(--color-warning-300); }

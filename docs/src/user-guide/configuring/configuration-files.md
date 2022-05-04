@@ -2,6 +2,11 @@
 title: Configuration Files
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/configuring/configuration-files.md
+eleventyNavigation:
+    key: configuration files
+    parent: configuring
+    title: Configuration Files
+    order: 1
 
 ---
 
@@ -401,7 +406,7 @@ Here is how overrides work in a configuration file:
 
 ### Relative glob patterns
 
-```pt
+```txt
 project-root
 ├── app
 │   ├── lib
