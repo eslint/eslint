@@ -1,0 +1,36 @@
+
+In TypeScript, types may be optional when defined that way.
+
+Since it seems like the biggest pain you are having is finding type definitions for external libraries, you can create an ambient definition for any variable you don't want to type checking for:
+
+declare var variableName: any;
+For example, for jQuery it would be declare var $: any;. Then you could do: $("#test").myNonExistentFunction(); if you wanted.
+
+Alternatively, when using es2015 modules the following code could be done to allow the library to be imported:
+
+declare module "jquery" {
+    var _temp: any;
+    export = _temp;
+}
+Shorthand ambient module declarations (TS 2.0+)
+
+In TS 2.0+, a better way to disable type checking for imports is to create a .d.ts file in your project and define shorthand ambient module declarations:
+
+declare module "jquery";
+// or use a wildcard
+declare module "express-*"; // or use "*" to allow everything
+This will allow you to use those imports freely without type checking:
+
+import $ from "jquery";
+
+$.something(); // ok at compile time, but will be an error at runtime
+That said, the best path to take in this scenario is in a .d.ts file in your project to gradually define the interface of the library you're depending on based on what you use.
+
+ts-ignore comments (TS 2.6+)
+
+It's possible to disable any TypeScript error by using // @ts-ignore comments in TypeScript 2.6+. For example:
+
+if (false) {
+    // @ts-ignore: Unreachable code error
+    console.log("hello");
+}
