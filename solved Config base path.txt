@@ -1,0 +1,46 @@
+Add getter/setter to your Model:
+
+TestModel.php
+
+<?php
+class TestModel   
+{
+    protected $_basePath;
+
+    /**
+     * @param string
+     */
+    public function setBasePath($path)
+    {
+        $this->_basePath = $path;
+    }
+}
+Now inject this when you instantiate your model
+
+Service Manager Config:
+
+'factories' => array(
+    'Application\Model\TestModel' => function($sm){
+        $model= new \Application\Model\TestModel();
+        // Just grab what we want from the view helper
+        $helper = $sm->get('viewhelpermanager')->get('basePath');
+        $path = $helper(); // or $helper('filenamehere') for added file path
+        // Alternatively you can just use the request to get the path
+        //$path = $sm->get('Request')->getBasePath();
+
+        $model->setBasePath($path);
+
+        return $model;
+    },
+If you have the Service manager / Service Locator available inside your model you could just directly get the value inside your model using one of the methods above.
+
+ $path = $serviceManager->get('Request')->getBasePath();
+If you look at how the ViewHelper is instantiated you see it first checks the config:
+
+$config = $serviceLocator->get('Config');
+if (isset($config['view_manager']) && isset($config['view_manager']['base_path'])) {
+     $basePath = $config['view_manager']['base_path'];
+} 
+else {
+    $basePath = $serviceLocator->get('Request')->getBasePath();
+}
