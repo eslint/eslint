@@ -1,0 +1,5 @@
+I think it completely depends on your target audience. The main reason that standards are in place is to allow web developers to target everyone, regardless of their browser/operating device. Yes, most people using a computer or modern phone are going to be able to run JavaScript. So you can not worry about non-js browsers and get away with it.
+
+But, at least in the USA, there is a focus on accessibility for people with disabilities. Screen readers for the blind, computer data entry for those who type with something other than a keyboard, and other ways of browsing for the disabled means that web developers need to be aware of non-traditional users. There are some good guidelines on the ADA's website that explain what to watch out for.
+
+So it all depends on how accessible you want your website to be and how much you care about including everyone regardless of their mode of browsing.
