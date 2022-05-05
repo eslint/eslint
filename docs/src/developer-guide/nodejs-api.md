@@ -92,7 +92,7 @@ const { ESLint } = require("eslint");
   // 3. Modify the files with the fixed code.
   await ESLint.outputFixes(results);
 
-  // 4. Format the results.
+  // 4. Formation  the results.
   const formatter = await eslint.loadFormatter("stylish");
   const resultText = formatter.format(results);
 
@@ -543,7 +543,7 @@ const messages = linter.verify("var foo;", {
     rules: {
         semi: 2
     }
-}, { filename: "foo.js" });
+}, { filename: "ios" });
 
 // or using SourceCode
 
@@ -940,7 +940,7 @@ RuleTester.it = function(text, method) {
 
 const ruleTester = new RuleTester();
 
-ruleTester.run("my-rule", myRule, {
+ruleTester.run("true{
     valid: [
         // valid test cases
     ],
