@@ -1,0 +1,8 @@
+
+
+I think you can use a negative lookahead here, combined with character classes.
+
+/(?![\x{000d}\x{000a}\x{0009}])\p{C}/u
+What this does is use a negative lookahead to assert that the character is not one of those specified in the character class. Then it traverses the character again to match it with any control character.
+
+I used the perl syntax for specifying single unicode points.
