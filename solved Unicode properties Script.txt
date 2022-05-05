@@ -1,0 +1,2 @@
+In below field you should be able to to type letters but not numbers<br>
+<input type="text" name="field" onkeydown="return /\p{L}/u.test(event.key)" >
