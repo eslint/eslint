@@ -1,3 +1,24 @@
+v8.15.0 - May 6, 2022
+
+* [`1ba6a92`](https://github.com/eslint/eslint/commit/1ba6a926eedcfe725900ed95cf029cff02d0355a) chore: upgrade @eslint/eslintrc@1.2.3 (#15847) (Milos Djermanovic)
+* [`8bf9440`](https://github.com/eslint/eslint/commit/8bf9440ac47907ffd27aba095428908e7ddeae8a) fix: "use strict" should not trigger strict mode in ES3 (#15846) (Milos Djermanovic)
+* [`28116cc`](https://github.com/eslint/eslint/commit/28116ccce4b99da3d5aa9b8994dd3652df7b1cab) docs: update AST node names link in no-restricted-syntax (#15843) (Milos Djermanovic)
+* [`8167aa7`](https://github.com/eslint/eslint/commit/8167aa7d43d00f1a0e8400f73c0dd66798fd4c56) chore: bump version of minimatch due to security issue PRISMA-2022-0039 (#15774) (Jan Opravil)
+* [`272965f`](https://github.com/eslint/eslint/commit/272965feda8adfbf5bfa0e01b37df27ce70fc9fd) docs: fix h1 heading on formatters page (#15834) (Milos Djermanovic)
+* [`a798166`](https://github.com/eslint/eslint/commit/a7981669fffe33deaf4fbe295f660edc8ccad4cd) docs: update example for running individual rule tests (#15833) (Milos Djermanovic)
+* [`b8995a4`](https://github.com/eslint/eslint/commit/b8995a40087f3a1e4e87c239951f91ddaac73571) chore: Implement docs site (#15815) (Nicholas C. Zakas)
+* [`ab37d3b`](https://github.com/eslint/eslint/commit/ab37d3ba302856007beb833c34b56658a34bbb5d) feat: add `enforceInClassFields` option to no-underscore-dangle (#15818) (Roberto Cestari)
+* [`57e732b`](https://github.com/eslint/eslint/commit/57e732be4e349470fad3e3cc44d96bf0746a598b) docs: mark `SourceCode#getJSDocComment` deprecated in working-with-rules (#15829) (Milos Djermanovic)
+* [`9a90abf`](https://github.com/eslint/eslint/commit/9a90abf59e31247c03a24ca789cd6157504f63ed) docs: update docs directory in working-with-rules (#15830) (Milos Djermanovic)
+* [`810adda`](https://github.com/eslint/eslint/commit/810addac9b958c03d69f5f8f21d47ff7fb4c5db6) docs: add more examples for prefer-object-spread (#15831) (coderaiser)
+* [`06b1edb`](https://github.com/eslint/eslint/commit/06b1edb68f251558601bf68d47e6bbde693089c9) docs: clarify no-control-regex rule (#15808) (Milos Djermanovic)
+* [`6494e3e`](https://github.com/eslint/eslint/commit/6494e3e8916f0a07226bdd8c8f6b2c5f0884bf6b) chore: update link in `codeql-analysis.yml` (#15817) (Milos Djermanovic)
+* [`9ecd42f`](https://github.com/eslint/eslint/commit/9ecd42f36462331a0d697e74323a4d24f0cf02fc) docs: Fixed typo in code comment (#15812) (Addison G)
+* [`36503ec`](https://github.com/eslint/eslint/commit/36503ec8b6fca292be8e584792fc2ad056df4d2f) chore: enable no-constant-binary-expression in eslint-config-eslint (#15807) (唯然)
+* [`de992b7`](https://github.com/eslint/eslint/commit/de992b7016e3d91092de7748f0375943ad2c77f0) docs: remove links to 2fa document (#15804) (Milos Djermanovic)
+* [`5222659`](https://github.com/eslint/eslint/commit/52226593974fc7fcb60f1be73b165863b3d1a7fb) docs: fix 'Related Rules' heading in no-constant-binary-expression (#15799) (Milos Djermanovic)
+* [`e70ae81`](https://github.com/eslint/eslint/commit/e70ae8116256e5b69c6eac1ed71c0fa33a8e6d7a) docs: Update README team and sponsors (ESLint Jenkins)
+
 v8.14.0 - April 22, 2022
 
 * [`35fa1dd`](https://github.com/eslint/eslint/commit/35fa1dd8932ef3e55c37ec0e4b73b5d88f187e69) fix: allow project paths to have URL-encoded characters (#15795) (Milos Djermanovic)
