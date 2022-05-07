@@ -1,5 +1,10 @@
 name: urlsup
 on:
+  push:
+    branches: [main]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [main]
   schedule:
     # Run at 00:00 UTC every Sunday
     - cron: '0 0 * * */7'
