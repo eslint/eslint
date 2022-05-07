@@ -1,9 +1,0 @@
-languages:
-  JavaScript: true
-
-exclude_paths:
-  - tests/**
-
-engines:
-  eslint:
-    enabled: true
