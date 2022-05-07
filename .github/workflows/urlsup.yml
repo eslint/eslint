@@ -1,0 +1,17 @@
+name: urlsup
+on:
+  schedule:
+    # Run at 00:00 UTC every Sunday
+    - cron: '0 0 * * */7'
+env:
+  FORCE_COLOR: 1
+jobs:
+  urlsup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Validate that links are up
+        uses: simeg/urlsup-action@v1.0.0
+        with:
+          args: docs/**/*.md --threads 10
+
