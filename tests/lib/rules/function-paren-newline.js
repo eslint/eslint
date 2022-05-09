@@ -30,6 +30,7 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run("function-paren-newline", rule, {
 
     valid: [
+        "new new Foo();",
 
         // multiline option (default)
         "function baz(foo, bar) {}",
