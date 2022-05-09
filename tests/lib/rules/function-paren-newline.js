@@ -1177,6 +1177,18 @@ ruleTester.run("function-paren-newline", rule, {
         },
         {
             code: `
+                new new C()(
+                );
+            `,
+            output: `
+                new new C()();
+            `,
+            options: ["never"],
+            errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR]
+        },
+
+        {
+            code: `
                 function baz(
                     foo,
                     bar
