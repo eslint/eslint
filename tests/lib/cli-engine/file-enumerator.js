@@ -63,6 +63,12 @@ describe("FileEnumerator", () => {
                 Array.from(enumerator.iterateFiles(["lib/*.js", ""])); // don't throw "file not found" error.
             });
 
+            it("should handle long glob arguments", () => {
+                const longGlob = "nested,".repeat(100).slice(0, -1);
+
+                Array.from(enumerator.iterateFiles([`lib/{${longGlob}}/*.js`])); // don't throw "name too long" error.
+            });
+
             describe("if 'lib/*.js' was given,", () => {
 
                 /** @type {Array<{config:(typeof import('../../../lib/cli-engine')).ConfigArray, filePath:string, ignored:boolean}>} */
