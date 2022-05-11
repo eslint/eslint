@@ -90,43 +90,73 @@ ruleTester.run("no-misleading-character-class", rule, {
         },
         {
             code: "var r = /[Á]/",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[Á]/u",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\u0041\\u0301]/",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\u0041\\u0301]/u",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\u{41}\\u{301}]/u",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[❇️]/",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[❇️]/u",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\u2747\\uFE0F]/",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\u2747\\uFE0F]/u",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\u{2747}\\u{FE0F}]/u",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[👶🏻]/",
@@ -137,15 +167,24 @@ ruleTester.run("no-misleading-character-class", rule, {
         },
         {
             code: "var r = /[👶🏻]/u",
-            errors: [{ messageId: "emojiModifier" }]
+            errors: [{
+                messageId: "emojiModifier",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\uD83D\\uDC76\\uD83C\\uDFFB]/u",
-            errors: [{ messageId: "emojiModifier" }]
+            errors: [{
+                messageId: "emojiModifier",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\u{1F476}\\u{1F3FB}]/u",
-            errors: [{ messageId: "emojiModifier" }]
+            errors: [{
+                messageId: "emojiModifier",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[🇯🇵]/",
@@ -163,15 +202,24 @@ ruleTester.run("no-misleading-character-class", rule, {
         },
         {
             code: "var r = /[🇯🇵]/u",
-            errors: [{ messageId: "regionalIndicatorSymbol" }]
+            errors: [{
+                messageId: "regionalIndicatorSymbol",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\uD83C\\uDDEF\\uD83C\\uDDF5]/u",
-            errors: [{ messageId: "regionalIndicatorSymbol" }]
+            errors: [{
+                messageId: "regionalIndicatorSymbol",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\u{1F1EF}\\u{1F1F5}]/u",
-            errors: [{ messageId: "regionalIndicatorSymbol" }]
+            errors: [{
+                messageId: "regionalIndicatorSymbol",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[👨‍👩‍👦]/",
@@ -180,20 +228,32 @@ ruleTester.run("no-misleading-character-class", rule, {
                     messageId: "surrogatePairWithoutUFlag",
                     suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👨‍👩‍👦]/u" }]
                 },
-                { messageId: "zwj" }
+                {
+                    messageId: "zwj",
+                    suggestions: null
+                }
             ]
         },
         {
             code: "var r = /[👨‍👩‍👦]/u",
-            errors: [{ messageId: "zwj" }]
+            errors: [{
+                messageId: "zwj",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\uD83D\\uDC68\\u200D\\uD83D\\uDC69\\u200D\\uD83D\\uDC66]/u",
-            errors: [{ messageId: "zwj" }]
+            errors: [{
+                messageId: "zwj",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\u{1F468}\\u{200D}\\u{1F469}\\u{200D}\\u{1F466}]/u",
-            errors: [{ messageId: "zwj" }]
+            errors: [{
+                messageId: "zwj",
+                suggestions: null
+            }]
         },
 
         // RegExp constructors.
@@ -213,43 +273,73 @@ ruleTester.run("no-misleading-character-class", rule, {
         },
         {
             code: String.raw`var r = new RegExp("[Á]", "")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[Á]", "u")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u0041\\u0301]", "")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u0041\\u0301]", "u")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u{41}\\u{301}]", "u")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[❇️]", "")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[❇️]", "u")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u2747\\uFE0F]", "")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u2747\\uFE0F]", "u")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u{2747}\\u{FE0F}]", "u")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[👶🏻]", "")`,
@@ -260,15 +350,24 @@ ruleTester.run("no-misleading-character-class", rule, {
         },
         {
             code: String.raw`var r = new RegExp("[👶🏻]", "u")`,
-            errors: [{ messageId: "emojiModifier" }]
+            errors: [{
+                messageId: "emojiModifier",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\uD83D\\uDC76\\uD83C\\uDFFB]", "u")`,
-            errors: [{ messageId: "emojiModifier" }]
+            errors: [{
+                messageId: "emojiModifier",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u{1F476}\\u{1F3FB}]", "u")`,
-            errors: [{ messageId: "emojiModifier" }]
+            errors: [{
+                messageId: "emojiModifier",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[🇯🇵]", "")`,
@@ -293,15 +392,24 @@ ruleTester.run("no-misleading-character-class", rule, {
         },
         {
             code: String.raw`var r = new RegExp("[🇯🇵]", "u")`,
-            errors: [{ messageId: "regionalIndicatorSymbol" }]
+            errors: [{
+                messageId: "regionalIndicatorSymbol",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\uD83C\\uDDEF\\uD83C\\uDDF5]", "u")`,
-            errors: [{ messageId: "regionalIndicatorSymbol" }]
+            errors: [{
+                messageId: "regionalIndicatorSymbol",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u{1F1EF}\\u{1F1F5}]", "u")`,
-            errors: [{ messageId: "regionalIndicatorSymbol" }]
+            errors: [{
+                messageId: "regionalIndicatorSymbol",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[👨‍👩‍👦]", "")`,
@@ -310,30 +418,48 @@ ruleTester.run("no-misleading-character-class", rule, {
                     messageId: "surrogatePairWithoutUFlag",
                     suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[👨‍👩‍👦]", "u")` }]
                 },
-                { messageId: "zwj" }
+                {
+                    messageId: "zwj",
+                    suggestions: null
+                }
             ]
         },
         {
             code: String.raw`var r = new RegExp("[👨‍👩‍👦]", "u")`,
-            errors: [{ messageId: "zwj" }]
+            errors: [{
+                messageId: "zwj",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\uD83D\\uDC68\\u200D\\uD83D\\uDC69\\u200D\\uD83D\\uDC66]", "u")`,
-            errors: [{ messageId: "zwj" }]
+            errors: [{
+                messageId: "zwj",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u{1F468}\\u{200D}\\u{1F469}\\u{200D}\\u{1F466}]", "u")`,
-            errors: [{ messageId: "zwj" }]
+            errors: [{
+                messageId: "zwj",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new globalThis.RegExp("[❇️]", "")`,
             env: { es2020: true },
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new globalThis.RegExp("[👶🏻]", "u")`,
             env: { es2020: true },
-            errors: [{ messageId: "emojiModifier" }]
+            errors: [{
+                messageId: "emojiModifier",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new globalThis.RegExp("[🇯🇵]", "")`,
@@ -346,7 +472,10 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new globalThis.RegExp("[\\u{1F468}\\u{200D}\\u{1F469}\\u{200D}\\u{1F466}]", "u")`,
             env: { es2020: true },
-            errors: [{ messageId: "zwj" }]
+            errors: [{
+                messageId: "zwj",
+                suggestions: null
+            }]
         }
     ]
 });
