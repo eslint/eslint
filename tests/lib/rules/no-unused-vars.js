@@ -252,6 +252,15 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "(function(obj) { for ( const name in obj ) { return true } })({})", parserOptions: { ecmaVersion: 6 } },
         { code: "(function(obj) { for ( const name in obj ) return true })({})", parserOptions: { ecmaVersion: 6 } },
 
+        // For-of loops
+        { code: "(function(iter) { let name; for ( name of iter ) return; })({});", parserOptions: { ecmaVersion: 6 } },
+        { code: "(function(iter) { let name; for ( name of iter ) { return; } })({});", parserOptions: { ecmaVersion: 6 } },
+        { code: "(function(iter) { for ( let name of iter ) { return true } })({})", parserOptions: { ecmaVersion: 6 } },
+        { code: "(function(iter) { for ( let name of iter ) return true })({})", parserOptions: { ecmaVersion: 6 } },
+
+        { code: "(function(iter) { for ( const name of iter ) { return true } })({})", parserOptions: { ecmaVersion: 6 } },
+        { code: "(function(iter) { for ( const name of iter ) return true })({})", parserOptions: { ecmaVersion: 6 } },
+
         // Sequence Expressions (See https://github.com/eslint/eslint/issues/14325)
         { code: "let x = 0; foo = (0, x++);", parserOptions: { ecmaVersion: 6 } },
         { code: "let x = 0; foo = (0, x += 1);", parserOptions: { ecmaVersion: 6 } },
@@ -695,6 +704,50 @@ ruleTester.run("no-unused-vars", rule, {
             errors: [{
                 line: 1,
                 column: 28,
+                messageId: "unusedVar",
+                data: {
+                    varName: "name",
+                    action: "assigned a value",
+                    additional: ""
+                }
+            }]
+        },
+
+        // For-of loops
+        {
+            code: "(function(iter) { var name; for ( name of iter ) { i(); return; } })({});",
+            env: { es6: true },
+            errors: [{
+                line: 1,
+                column: 35,
+                messageId: "unusedVar",
+                data: {
+                    varName: "name",
+                    action: "assigned a value",
+                    additional: ""
+                }
+            }]
+        },
+        {
+            code: "(function(iter) { var name; for ( name of iter ) { } })({});",
+            env: { es6: true },
+            errors: [{
+                line: 1,
+                column: 35,
+                messageId: "unusedVar",
+                data: {
+                    varName: "name",
+                    action: "assigned a value",
+                    additional: ""
+                }
+            }]
+        },
+        {
+            code: "(function(iter) { for ( var name of iter ) { } })({});",
+            env: { es6: true },
+            errors: [{
+                line: 1,
+                column: 29,
                 messageId: "unusedVar",
                 data: {
                     varName: "name",
