@@ -3,6 +3,9 @@ title: block-scoped-var
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/block-scoped-var.md
 rule_type: suggestion
+further_reading:
+- http://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var#var_hoisting
 ---
 
 Enforces treating `var` as block scoped.
@@ -111,8 +114,3 @@ class C {
     }
 }
 ```
-
-## Further Reading
-
-* [JavaScript Scoping and Hoisting](http://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html)
-* [var Hoisting](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var#var_hoisting)
