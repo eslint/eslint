@@ -426,6 +426,36 @@ ruleTester.run("no-misleading-character-class", rule, {
             }]
         },
         {
+            code: String.raw`var r = new RegExp("[🇯🇵]",)`,
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "u",)` }]
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp(("[🇯🇵]"))`,
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp(("[🇯🇵]"), "u")` }]
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp((("[🇯🇵]")))`,
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp((("[🇯🇵]")), "u")` }]
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp(("[🇯🇵]"),)`,
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp(("[🇯🇵]"), "u",)` }]
+            }]
+        },
+        {
             code: String.raw`var r = new RegExp("[🇯🇵]", "u")`,
             errors: [{
                 messageId: "regionalIndicatorSymbol",
