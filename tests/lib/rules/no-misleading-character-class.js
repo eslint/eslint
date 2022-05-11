@@ -332,6 +332,45 @@ ruleTester.run("no-misleading-character-class", rule, {
             }]
         },
         {
+            code: String.raw`var r = new RegExp("[👍]", "")`,
+            parserOptions: { ecmaVersion: 3 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: null // ecmaVersion doesn't support the 'u' flag
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp("[👍]", "")`,
+            parserOptions: { ecmaVersion: 5 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: null // ecmaVersion doesn't support the 'u' flag
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp("[👍]\\a", "")`,
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: null // pattern would be invalid with the 'u' flag
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp("/(?<=[👍])", "")`,
+            parserOptions: { ecmaVersion: 9 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("/(?<=[👍])", "u")` }]
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp("/(?<=[👍])", "")`,
+            parserOptions: { ecmaVersion: 2018 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("/(?<=[👍])", "u")` }]
+            }]
+        },
+        {
             code: String.raw`var r = new RegExp("[Á]", "")`,
             errors: [{
                 messageId: "combiningClass",
