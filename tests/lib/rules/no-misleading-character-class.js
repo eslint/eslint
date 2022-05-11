@@ -89,6 +89,45 @@ ruleTester.run("no-misleading-character-class", rule, {
             }]
         },
         {
+            code: "var r = /[👍]/",
+            parserOptions: { ecmaVersion: 3 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: null // ecmaVersion doesn't support the 'u' flag
+            }]
+        },
+        {
+            code: "var r = /[👍]/",
+            parserOptions: { ecmaVersion: 5 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: null // ecmaVersion doesn't support the 'u' flag
+            }]
+        },
+        {
+            code: "var r = /[👍]\\a/",
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: null // pattern would be invalid with the 'u' flag
+            }]
+        },
+        {
+            code: "var r = /(?<=[👍])/",
+            parserOptions: { ecmaVersion: 9 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /(?<=[👍])/u" }]
+            }]
+        },
+        {
+            code: "var r = /(?<=[👍])/",
+            parserOptions: { ecmaVersion: 2018 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /(?<=[👍])/u" }]
+            }]
+        },
+        {
             code: "var r = /[Á]/",
             errors: [{
                 messageId: "combiningClass",
