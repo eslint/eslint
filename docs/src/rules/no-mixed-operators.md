@@ -12,8 +12,6 @@ This rule warns when different operators are used consecutively without parenthe
 
 ```js
 var foo = a && b || c || d;    /*BAD: Unexpected mix of '&&' and '||'.*/
-var foo = a && b ? c : d;      /*BAD: Unexpected mix of '&&' and '?:'.*/
-var foo = (a && b) ? c : d;    /*GOOD*/
 var foo = (a && b) || c || d;  /*GOOD*/
 var foo = a && (b || c || d);  /*GOOD*/
 ```
@@ -30,17 +28,6 @@ will generate
 ```shell
 1:13  Unexpected mix of '&&' and '||'. (no-mixed-operators)
 1:18  Unexpected mix of '&&' and '||'. (no-mixed-operators)
-```
-
-```js
-var foo = a && b ? c : d;
-```
-
-will generate
-
-```shell
-1:13  Unexpected mix of '&&' and '?:'. (no-mixed-operators)
-1:18  Unexpected mix of '&&' and '?:'. (no-mixed-operators)
 ```
 
 ## Rule Details
