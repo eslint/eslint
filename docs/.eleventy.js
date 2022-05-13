@@ -126,8 +126,6 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addNunjucksAsyncShortcode("link", async function(link) {
         const { body: html, url } = await got(link);
         const metadata = await metascraper({ html, url });
-
-        const encodedURL = encodeURIComponent(link);
         const the_url = (new URL(link)); // same as url
         const domain = the_url.hostname;
 
