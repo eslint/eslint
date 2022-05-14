@@ -126,7 +126,7 @@ describe("NodeEventGenerator", () => {
             it(possibleQueries.join("; "), () => {
                 const ast = espree.parse(sourceText, ESPREE_CONFIG);
                 const emissions = getEmissions(ast, possibleQueries)
-                    .filter(emission => possibleQueries.indexOf(emission[0]) !== -1);
+                    .filter(emission => possibleQueries.includes(emission[0]));
 
                 assert.deepStrictEqual(emissions, expectedEmissions(ast));
             });
@@ -388,7 +388,7 @@ describe("NodeEventGenerator", () => {
         function assertEmissions(ast, visitorKeys, possibleQueries, expectedEmissions) {
             it(possibleQueries.join("; "), () => {
                 const emissions = getEmissions(ast, visitorKeys, possibleQueries)
-                    .filter(emission => possibleQueries.indexOf(emission[0]) !== -1);
+                    .filter(emission => possibleQueries.includes(emission[0]));
 
                 assert.deepStrictEqual(emissions, expectedEmissions(ast));
             });
