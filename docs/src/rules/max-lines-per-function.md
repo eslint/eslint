@@ -3,6 +3,14 @@ title: max-lines-per-function
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/max-lines-per-function.md
 rule_type: suggestion
+related_rules:
+- complexity
+- max-depth
+- max-lines
+- max-nested-callbacks
+- max-params
+- max-statements
+- max-statements-per-line
 ---
 
 Enforces a maximum function length.
@@ -194,13 +202,3 @@ Examples of **correct** code for this rule with the `{ "IIFEs": true }` option:
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the number of lines in your functions.
-
-## Related Rules
-
-* [complexity](complexity)
-* [max-depth](max-depth)
-* [max-lines](max-lines)
-* [max-nested-callbacks](max-nested-callbacks)
-* [max-params](max-params)
-* [max-statements](max-statements)
-* [max-statements-per-line](max-statements-per-line)

@@ -3,6 +3,8 @@ title: no-useless-rename
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-useless-rename.md
 rule_type: suggestion
+related_rules:
+- `object-shorthand`
 ---
 
 <!--FIXABLE-->
@@ -129,10 +131,6 @@ function foo({ bar: bar }) {}
 ## When Not To Use It
 
 You can safely disable this rule if you do not care about redundantly renaming import, export, and destructuring assignments.
-
-## Related Rules
-
-* [`object-shorthand`](object-shorthand) which can enforce this behavior for properties in object literals.
 
 ## Compatibility
 

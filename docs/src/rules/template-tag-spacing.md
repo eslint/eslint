@@ -3,6 +3,9 @@ title: template-tag-spacing
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/template-tag-spacing.md
 rule_type: layout
+further_reading:
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_template_literals
+- http://exploringjs.com/es6/ch_template-literals.html#_examples-of-using-tagged-template-literals
 ---
 
 <!--FIXABLE-->
@@ -76,10 +79,3 @@ func `Hello world`;
 ## When Not To Use It
 
 If you don't want to be notified about usage of spacing between tag functions and their template literals, then it's safe to disable this rule.
-
-## Further Reading
-
-If you want to learn more about tagged template literals, check out the links below:
-
-* [Template literals (MDN)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_template_literals)
-* [Examples of using tagged template literals (Exploring ES6)](http://exploringjs.com/es6/ch_template-literals.html#_examples-of-using-tagged-template-literals)

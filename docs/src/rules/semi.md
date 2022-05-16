@@ -3,6 +3,13 @@ title: semi
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/semi.md
 rule_type: layout
+related_rules:
+- no-extra-semi
+- no-unexpected-multiline
+- semi-spacing
+further_reading:
+- http://blog.izs.me/post/2353458699/an-open-letter-to-javascript-leaders-regarding
+- http://inimino.org/~inimino/blog/javascript_semicolons
 ---
 
 <!--FIXABLE-->
@@ -218,14 +225,3 @@ import a from "a"
 ## When Not To Use It
 
 If you do not want to enforce semicolon usage (or omission) in any particular way, then you can turn this rule off.
-
-## Related Rules
-
-* [no-extra-semi](no-extra-semi)
-* [no-unexpected-multiline](no-unexpected-multiline)
-* [semi-spacing](semi-spacing)
-
-## Further Reading
-
-* [An Open Letter to JavaScript Leaders Regarding Semicolons](http://blog.izs.me/post/2353458699/an-open-letter-to-javascript-leaders-regarding)
-* [JavaScript Semicolon Insertion](http://inimino.org/~inimino/blog/javascript_semicolons)

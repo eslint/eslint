@@ -3,6 +3,8 @@ title: no-constant-condition
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-constant-condition.md
 rule_type: problem
+related_rules:
+- no-constant-binary-expression
 ---
 
 <!--RECOMMENDED-->
@@ -132,7 +134,3 @@ do {
     }
 } while (true)
 ```
-
-## Related Rules
-
-* [no-constant-binary-expression](no-constant-binary-expression)

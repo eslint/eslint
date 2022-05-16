@@ -3,6 +3,10 @@ title: prefer-reflect
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-reflect.md
 rule_type: suggestion
+related_rules:
+- no-useless-call
+- prefer-spread
+- no-delete-var
 ---
 
 Suggest using Reflect methods where applicable.
@@ -338,9 +342,3 @@ Reflect.deleteProperty(foo, 'bar');
 This rule should not be used in ES3/5 environments.
 
 In ES2015 (ES6) or later, if you don't want to be notified about places where Reflect could be used, you can safely disable this rule.
-
-## Related Rules
-
-* [no-useless-call](no-useless-call)
-* [prefer-spread](prefer-spread)
-* [no-delete-var](no-delete-var)

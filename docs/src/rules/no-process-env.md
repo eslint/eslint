@@ -3,6 +3,9 @@ title: no-process-env
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-process-env.md
 rule_type: suggestion
+further_reading:
+- https://stackoverflow.com/questions/5869216/how-to-store-node-js-deployment-settings-configuration-files
+- https://blog.benhall.me.uk/2012/02/storing-application-config-data-in/
 ---
 
 Disallows the use of `process.env`.
@@ -40,8 +43,3 @@ if(config.env === "development") {
 ## When Not To Use It
 
 If you prefer to use `process.env` throughout your project to retrieve values from environment variables, then you can safely disable this rule.
-
-## Further Reading
-
-* [How to store Node.js deployment settings/configuration files? - Stack Overflow](https://stackoverflow.com/questions/5869216/how-to-store-node-js-deployment-settings-configuration-files)
-* [Storing Node.js application config data - Ben Hall's blog](https://blog.benhall.me.uk/2012/02/storing-application-config-data-in/)

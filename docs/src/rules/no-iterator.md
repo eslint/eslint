@@ -3,6 +3,10 @@ title: no-iterator
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-iterator.md
 rule_type: suggestion
+further_reading:
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators
+- https://kangax.github.io/es5-compat-table/es6/#Iterators
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Deprecated_and_obsolete_features#Object_methods
 ---
 
 Disallows the use of the `__iterator__` property.
@@ -43,9 +47,3 @@ Examples of **correct** code for this rule:
 
 var __iterator__ = foo; // Not using the `__iterator__` property.
 ```
-
-## Further Reading
-
-* [MDN - Iterators and Generators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators)
-* [ECMAScript 6 compatibility table - Iterators](https://kangax.github.io/es5-compat-table/es6/#Iterators)
-* [Deprecated and Obsolete Features](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Deprecated_and_obsolete_features#Object_methods)

@@ -3,6 +3,9 @@ title: class-methods-use-this
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/class-methods-use-this.md
 rule_type: suggestion
+further_reading:
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static
 ---
 
 Enforces that class methods utilize `this`.
@@ -173,8 +176,3 @@ class A {
     foo = () => {}
 }
 ```
-
-## Further Reading
-
-* [Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
-* [Static Methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static)

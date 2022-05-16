@@ -3,6 +3,11 @@ title: callback-return
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/callback-return.md
 rule_type: suggestion
+related_rules:
+- handle-callback-err
+further_reading:
+- https://github.com/maxogden/art-of-node#callbacks
+- https://docs.nodejitsu.com/articles/errors/what-are-the-error-conventions/
 ---
 
 Enforces return after callback.
@@ -171,12 +176,3 @@ function foo(err, callback) {
 There are some cases where you might want to call a callback function more than once. In those cases this rule
  may lead to incorrect behavior. In those cases you may want to reserve a special name for those callbacks and
  not include that in the list of callbacks that trigger warnings.
-
-## Related Rules
-
-* [handle-callback-err](handle-callback-err)
-
-## Further Reading
-
-* [The Art Of Node: Callbacks](https://github.com/maxogden/art-of-node#callbacks)
-* [Nodejitsu: What are the error conventions?](https://docs.nodejitsu.com/articles/errors/what-are-the-error-conventions/)

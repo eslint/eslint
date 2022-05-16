@@ -3,6 +3,8 @@ title: no-invalid-regexp
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-invalid-regexp.md
 rule_type: problem
+further_reading:
+- https://es5.github.io/#x7.8.5
 ---
 
 <!--RECOMMENDED-->
@@ -60,7 +62,3 @@ new RegExp('.', 'a')
 
 new RegExp('.', 'az')
 ```
-
-## Further Reading
-
-* [Annotated ES5 §7.8.5 - Regular Expression Literals](https://es5.github.io/#x7.8.5)

@@ -3,6 +3,8 @@ title: no-implied-eval
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-implied-eval.md
 rule_type: suggestion
+related_rules:
+- no-eval
 ---
 
 Disallows the use of `eval()`-like methods.
@@ -63,7 +65,3 @@ setInterval(function() {
 ## When Not To Use It
 
 If you want to allow `setTimeout()` and `setInterval()` with string arguments, then you can safely disable this rule.
-
-## Related Rules
-
-* [no-eval](no-eval)

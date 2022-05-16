@@ -3,6 +3,11 @@ title: object-curly-newline
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/object-curly-newline.md
 rule_type: layout
+related_rules:
+- comma-spacing
+- key-spacing
+- object-curly-spacing
+- object-property-newline
 ---
 
 <!--FIXABLE-->
@@ -542,13 +547,6 @@ export { foo as f, bar } from 'foo-bar';
 ## When Not To Use It
 
 If you don't want to enforce consistent line breaks after opening and before closing braces, then it's safe to disable this rule.
-
-## Related Rules
-
-* [comma-spacing](comma-spacing)
-* [key-spacing](key-spacing)
-* [object-curly-spacing](object-curly-spacing)
-* [object-property-newline](object-property-newline)
 
 ## Compatibility
 

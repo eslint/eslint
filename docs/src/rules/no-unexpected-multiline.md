@@ -3,6 +3,10 @@ title: no-unexpected-multiline
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-unexpected-multiline.md
 rule_type: problem
+related_rules:
+- func-call-spacing
+- semi
+- space-unary-ops
 ---
 
 <!--RECOMMENDED-->
@@ -75,9 +79,3 @@ tag `hello`
 You can turn this rule off if you are confident that you will not accidentally introduce code like this.
 
 Note that the patterns considered problems are **not** flagged by the [semi](semi) rule.
-
-## Related Rules
-
-* [func-call-spacing](func-call-spacing)
-* [semi](semi)
-* [space-unary-ops](space-unary-ops)

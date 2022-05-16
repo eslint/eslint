@@ -3,6 +3,10 @@ title: default-case-last
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/default-case-last.md
 rule_type: suggestion
+related_rules:
+- default-case
+further_reading:
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch
 ---
 
 Enforces default clauses in switch statements to be last.
@@ -122,11 +126,3 @@ if (foo !== 0) {
 }
 doSomethingAnyway();
 ```
-
-## Related Rules
-
-* [default-case](default-case)
-
-## Further Reading
-
-* [MDN switch statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch)

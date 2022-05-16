@@ -3,6 +3,14 @@ title: max-params
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/max-params.md
 rule_type: suggestion
+related_rules:
+- complexity
+- max-depth
+- max-len
+- max-lines
+- max-lines-per-function
+- max-nested-callbacks
+- max-statements
 ---
 
 Enforces a maximum number of parameters in function definitions.
@@ -58,13 +66,3 @@ let foo = (bar, baz, qux) => {
     doSomething();
 };
 ```
-
-## Related Rules
-
-* [complexity](complexity)
-* [max-depth](max-depth)
-* [max-len](max-len)
-* [max-lines](max-lines)
-* [max-lines-per-function](max-lines-per-function)
-* [max-nested-callbacks](max-nested-callbacks)
-* [max-statements](max-statements)

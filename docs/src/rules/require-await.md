@@ -3,6 +3,8 @@ title: require-await
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/require-await.md
 rule_type: suggestion
+related_rules:
+- require-yield
 ---
 
 Disallows async functions which have no `await` expression.
@@ -87,7 +89,3 @@ fail().catch(error => {
 In this case, the `fail()` function throws an error that is intended to be caught by the `catch()` handler assigned later. Converting the `fail()` function into a synchronous function would require the call to `fail()` to be refactored to use a `try-catch` statement instead of a promise.
 
 If you are throwing an error inside of an asynchronous function for this purpose, then you may want to disable this rule.
-
-## Related Rules
-
-* [require-yield](require-yield)

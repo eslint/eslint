@@ -3,6 +3,8 @@ title: generator-star-spacing
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/generator-star-spacing.md
 rule_type: layout
+further_reading:
+- https://leanpub.com/understandinges6/read/#leanpub-auto-generators
 ---
 
 <!--FIXABLE-->
@@ -210,7 +212,3 @@ class Class { static * method() {} }
 ## When Not To Use It
 
 If your project will not be using generators or you are not concerned with spacing consistency, you do not need this rule.
-
-## Further Reading
-
-* [Understanding ES6: Generators](https://leanpub.com/understandinges6/read/#leanpub-auto-generators)

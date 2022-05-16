@@ -3,6 +3,15 @@ title: max-lines
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/max-lines.md
 rule_type: suggestion
+related_rules:
+- complexity
+- max-depth
+- max-lines-per-function
+- max-nested-callbacks
+- max-params
+- max-statements
+further_reading:
+- https://web.archive.org/web/20160725154648/http://www.mind2b.com/component/content/article/24-software-module-size-and-file-size
 ---
 
 Enforces a maximum file length.
@@ -116,19 +125,6 @@ var a,
 
 You can turn this rule off if you are not concerned with the number of lines in your files.
 
-## Related Rules
-
-* [complexity](complexity)
-* [max-depth](max-depth)
-* [max-lines-per-function](max-lines-per-function)
-* [max-nested-callbacks](max-nested-callbacks)
-* [max-params](max-params)
-* [max-statements](max-statements)
-
 ## Compatibility
 
 * **JSCS**: [maximumNumberOfLines](https://jscs-dev.github.io/rule/maximumNumberOfLines)
-
-## Further Reading
-
-* [Software Module size and file size](https://web.archive.org/web/20160725154648/http://www.mind2b.com/component/content/article/24-software-module-size-and-file-size)

@@ -3,6 +3,10 @@ title: no-empty-label
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-empty-label.md
 
+related_rules:
+- no-labels
+- no-label-var
+- no-unused-labels
 ---
 
 Disallows labels for anything other than loops and switches.
@@ -38,9 +42,3 @@ for (var i=10; i; i--) {
 ## When Not To Use It
 
 If you don't want to be notified about usage of labels, then it's safe to disable this rule.
-
-## Related Rules
-
-* [no-labels](./no-labels)
-* [no-label-var](./no-label-var)
-* [no-unused-labels](./no-unused-labels)

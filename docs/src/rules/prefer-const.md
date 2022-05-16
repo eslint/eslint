@@ -3,6 +3,9 @@ title: prefer-const
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-const.md
 rule_type: suggestion
+related_rules:
+- no-var
+- no-use-before-define
 ---
 
 <!--FIXABLE-->
@@ -222,8 +225,3 @@ function initialize() {
 ## When Not To Use It
 
 If you don't want to be notified about variables that are never reassigned after initial assignment, you can safely disable this rule.
-
-## Related Rules
-
-* [no-var](no-var)
-* [no-use-before-define](no-use-before-define)

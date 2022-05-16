@@ -3,6 +3,11 @@ title: no-debugger
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-debugger.md
 rule_type: problem
+related_rules:
+- no-alert
+- no-console
+further_reading:
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger
 ---
 
 <!--RECOMMENDED-->
@@ -39,12 +44,3 @@ function isTruthy(x) {
 ## When Not To Use It
 
 If your code is still very much in development and don't want to worry about stripping `debugger` statements, then turn this rule off. You'll generally want to turn it back on when testing code prior to deployment.
-
-## Related Rules
-
-* [no-alert](no-alert)
-* [no-console](no-console)
-
-## Further Reading
-
-* [Debugger](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger)

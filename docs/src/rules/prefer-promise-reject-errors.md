@@ -3,6 +3,10 @@ title: prefer-promise-reject-errors
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-promise-reject-errors.md
 rule_type: suggestion
+related_rules:
+- `no-throw-literal`
+further_reading:
+- http://bluebirdjs.com/docs/warning-explanations.html#warning-a-promise-was-rejected-with-a-non-error
 ---
 
 Requires using Error objects as Promise rejection reasons.
@@ -78,11 +82,3 @@ To avoid conflicts between rules, this rule does not report non-error values use
 ## When Not To Use It
 
 If you're using custom non-error values as Promise rejection reasons, you can turn off this rule.
-
-## Related Rules
-
-* [`no-throw-literal`](no-throw-literal)
-
-## Further Reading
-
-* [Warning: a promise was rejected with a non-error](http://bluebirdjs.com/docs/warning-explanations.html#warning-a-promise-was-rejected-with-a-non-error)

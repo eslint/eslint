@@ -3,6 +3,12 @@ title: no-useless-backreference
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-useless-backreference.md
 rule_type: problem
+related_rules:
+- no-control-regex
+- no-empty-character-class
+- no-invalid-regexp
+further_reading:
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
 ---
 
 <!--RECOMMENDED-->
@@ -127,13 +133,3 @@ Examples of additional **correct** code for this rule:
 /^\1$/.test("\x01"); // true. Since the group 1 doesn't exist, \1 is treated as an octal escape sequence.
 /^(a)\1\2$/.test("aa\x02"); // true. In this case, \1 is a backreference, \2 is an octal escape sequence.
 ```
-
-## Related Rules
-
-* [no-control-regex](no-control-regex)
-* [no-empty-character-class](no-empty-character-class)
-* [no-invalid-regexp](no-invalid-regexp)
-
-## Further Reading
-
-* [MDN: Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)

@@ -3,6 +3,8 @@ title: prefer-rest-params
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-rest-params.md
 rule_type: suggestion
+related_rules:
+- prefer-spread
 ---
 
 Suggests using rest parameters instead of `arguments`.
@@ -66,7 +68,3 @@ function foo() {
 This rule should not be used in ES3/5 environments.
 
 In ES2015 (ES6) or later, if you don't want to be notified about `arguments` variables, then it's safe to disable this rule.
-
-## Related Rules
-
-* [prefer-spread](prefer-spread)

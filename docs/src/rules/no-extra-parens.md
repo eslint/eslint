@@ -3,6 +3,12 @@ title: no-extra-parens
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-extra-parens.md
 rule_type: layout
+related_rules:
+- arrow-parens
+- no-cond-assign
+- no-return-assign
+further_reading:
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
 ---
 
 <!--FIXABLE-->
@@ -297,13 +303,3 @@ a = (b * c);
 
 typeof (a);
 ```
-
-## Related Rules
-
-* [arrow-parens](arrow-parens)
-* [no-cond-assign](no-cond-assign)
-* [no-return-assign](no-return-assign)
-
-## Further Reading
-
-* [MDN: Operator Precedence](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence)

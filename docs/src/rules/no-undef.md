@@ -3,6 +3,9 @@ title: no-undef
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-undef.md
 rule_type: problem
+related_rules:
+- no-global-assign
+- no-redeclare
 ---
 
 <!--RECOMMENDED-->
@@ -109,11 +112,6 @@ module.exports = function() {
 ## When Not To Use It
 
 If explicit declaration of global variables is not to your taste.
-
-## Related Rules
-
-* [no-global-assign](no-global-assign)
-* [no-redeclare](no-redeclare)
 
 ## Compatibility
 

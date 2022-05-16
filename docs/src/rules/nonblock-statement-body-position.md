@@ -3,6 +3,8 @@ title: nonblock-statement-body-position
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/nonblock-statement-body-position.md
 rule_type: layout
+further_reading:
+- https://jscs-dev.github.io/rule/requireNewlineBeforeSingleStatementsInIf
 ---
 
 <!--FIXABLE-->
@@ -161,7 +163,3 @@ while (foo)
 ## When Not To Use It
 
 If you're not concerned about consistent locations of single-line statements, you should not turn on this rule. You can also disable this rule if you're using the `"all"` option for the [`curly`](/docs/rules/curly) rule, because this will disallow single-line statements entirely.
-
-## Further Reading
-
-* JSCS: [requireNewlineBeforeSingleStatementsInIf](https://jscs-dev.github.io/rule/requireNewlineBeforeSingleStatementsInIf)

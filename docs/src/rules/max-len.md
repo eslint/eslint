@@ -3,6 +3,12 @@ title: max-len
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/max-len.md
 rule_type: layout
+related_rules:
+- complexity
+- max-depth
+- max-nested-callbacks
+- max-params
+- max-statements
 ---
 
 Enforces a maximum line length.
@@ -158,11 +164,3 @@ Examples of **correct** code for this rule with the `ignorePattern` option:
 
 var dep = require('really/really/really/really/really/really/really/really/long/module');
 ```
-
-## Related Rules
-
-* [complexity](complexity)
-* [max-depth](max-depth)
-* [max-nested-callbacks](max-nested-callbacks)
-* [max-params](max-params)
-* [max-statements](max-statements)

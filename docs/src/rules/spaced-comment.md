@@ -3,6 +3,8 @@ title: spaced-comment
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/spaced-comment.md
 rule_type: suggestion
+related_rules:
+- spaced-line-comment
 ---
 
 <!--FIXABLE-->
@@ -289,7 +291,3 @@ subsequent lines are ignored
 
 /*global ABC*/
 ```
-
-## Related Rules
-
-* [spaced-line-comment](spaced-line-comment)

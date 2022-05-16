@@ -3,6 +3,15 @@ title: no-undefined
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-undefined.md
 rule_type: suggestion
+related_rules:
+- no-undef-init
+- no-void
+- no-shadow-restricted-names
+- no-global-assign
+further_reading:
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined
+- https://javascriptweblog.wordpress.com/2010/08/16/understanding-undefined-and-preventing-referenceerrors/
+- https://es5.github.io/#x15.1.1.3
 ---
 
 Disallows the use of `undefined` as an identifier.
@@ -70,16 +79,3 @@ global.undefined = "foo";
 ## When Not To Use It
 
 If you want to allow the use of `undefined` in your code, then you can safely turn this rule off.
-
-## Related Rules
-
-* [no-undef-init](no-undef-init)
-* [no-void](no-void)
-* [no-shadow-restricted-names](no-shadow-restricted-names)
-* [no-global-assign](no-global-assign)
-
-## Further Reading
-
-* [undefined - JavaScript \| MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)
-* [Understanding JavaScript’s ‘undefined’ \| JavaScript, JavaScript...](https://javascriptweblog.wordpress.com/2010/08/16/understanding-undefined-and-preventing-referenceerrors/)
-* [ECMA262 edition 5.1 &sect;15.1.1.3: undefined](https://es5.github.io/#x15.1.1.3)

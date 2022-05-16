@@ -3,6 +3,10 @@ title: object-shorthand
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/object-shorthand.md
 rule_type: suggestion
+related_rules:
+- `no-useless-rename`
+further_reading:
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer
 ---
 
 <!--FIXABLE-->
@@ -250,11 +254,3 @@ var foo = {
 
 Anyone not yet in an ES6 environment would not want to apply this rule. Others may find the terseness of the shorthand
 syntax harder to read and may not want to encourage it with this rule.
-
-## Related Rules
-
-* [`no-useless-rename`](no-useless-rename) which disallows renaming import, export, and destructured assignments to the same name.
-
-## Further Reading
-
-[Object initializer - MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer)

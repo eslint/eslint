@@ -3,6 +3,9 @@ title: dot-location
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/dot-location.md
 rule_type: layout
+related_rules:
+- newline-after-var
+- dot-notation
 ---
 
 <!--FIXABLE-->
@@ -87,8 +90,3 @@ var bar = object.property;
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the consistency of newlines before or after dots in member expressions.
-
-## Related Rules
-
-* [newline-after-var](newline-after-var)
-* [dot-notation](dot-notation)

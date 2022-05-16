@@ -3,6 +3,10 @@ title: computed-property-spacing
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/computed-property-spacing.md
 rule_type: layout
+related_rules:
+- array-bracket-spacing
+- comma-spacing
+- space-in-parens
 ---
 
 <!--FIXABLE-->
@@ -180,9 +184,3 @@ const Bar = class {
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the consistency of computed properties.
-
-## Related Rules
-
-* [array-bracket-spacing](array-bracket-spacing)
-* [comma-spacing](comma-spacing)
-* [space-in-parens](space-in-parens)

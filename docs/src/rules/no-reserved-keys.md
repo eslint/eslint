@@ -3,6 +3,8 @@ title: no-reserved-keys
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-reserved-keys.md
 
+further_reading:
+- https://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names
 ---
 
 Disallows unquoted reserved words as property names in object literals.
@@ -54,7 +56,3 @@ var values = {
 ## When Not To Use It
 
 If your code is only going to be executed in an ECMAScript 5 or higher environment, then you can safely leave this rule off.
-
-## Further Reading
-
-* [Reserved words as property names](https://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names)

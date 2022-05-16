@@ -3,6 +3,11 @@ title: object-curly-spacing
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/object-curly-spacing.md
 rule_type: layout
+related_rules:
+- array-bracket-spacing
+- comma-spacing
+- computed-property-spacing
+- space-in-parens
 ---
 
 <!--FIXABLE-->
@@ -156,10 +161,3 @@ var obj = { "foo": { "baz": 1, "bar": 2 }};
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the consistency of spacing between curly braces.
-
-## Related Rules
-
-* [array-bracket-spacing](array-bracket-spacing)
-* [comma-spacing](comma-spacing)
-* [computed-property-spacing](computed-property-spacing)
-* [space-in-parens](space-in-parens)

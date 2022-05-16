@@ -3,6 +3,12 @@ title: no-void
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-void.md
 rule_type: suggestion
+related_rules:
+- no-undef-init
+- no-undefined
+further_reading:
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/void
+- https://oreilly.com/javascript/excerpts/javascript-good-parts/bad-parts.html
 ---
 
 Disallows use of the void operator.
@@ -102,13 +108,3 @@ void someFunction();
 ## When Not To Use It
 
 If you intentionally use the `void` operator then you can disable this rule.
-
-## Related Rules
-
-* [no-undef-init](no-undef-init)
-* [no-undefined](no-undefined)
-
-## Further Reading
-
-* [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/void)
-* [Bad Parts: Appendix B - JavaScript: The Good Parts by Douglas Crockford](https://oreilly.com/javascript/excerpts/javascript-good-parts/bad-parts.html)

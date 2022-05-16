@@ -3,6 +3,10 @@ title: no-global-assign
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-global-assign.md
 rule_type: suggestion
+related_rules:
+- no-extend-native
+- no-redeclare
+- no-shadow
 ---
 
 <!--RECOMMENDED-->
@@ -90,9 +94,3 @@ This rule accepts an `exceptions` option, which can be used to specify a list of
 ## When Not To Use It
 
 If you are trying to override one of the native objects.
-
-## Related Rules
-
-* [no-extend-native](no-extend-native)
-* [no-redeclare](no-redeclare)
-* [no-shadow](no-shadow)

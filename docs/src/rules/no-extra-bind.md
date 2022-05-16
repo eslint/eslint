@@ -3,6 +3,9 @@ title: no-extra-bind
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-extra-bind.md
 rule_type: suggestion
+further_reading:
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
+- https://www.smashingmagazine.com/2014/01/understanding-javascript-function-prototype-bind/
 ---
 
 <!--FIXABLE-->
@@ -88,8 +91,3 @@ var x = function (a) {
 ## When Not To Use It
 
 If you are not concerned about unnecessary calls to `bind()`, you can safely disable this rule.
-
-## Further Reading
-
-* [Function.prototype.bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)
-* [Understanding JavaScript's Function.prototype.bind](https://www.smashingmagazine.com/2014/01/understanding-javascript-function-prototype-bind/)

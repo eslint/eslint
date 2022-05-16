@@ -3,6 +3,9 @@ title: quote-props
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/quote-props.md
 rule_type: suggestion
+further_reading:
+- https://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names
+- https://mathiasbynens.be/notes/javascript-properties
 ---
 
 <!--FIXABLE-->
@@ -270,8 +273,3 @@ var x = {
 ## When Not To Use It
 
 If you don't care if property names are consistently wrapped in quotes or not, and you don't target legacy ES3 environments, turn this rule off.
-
-## Further Reading
-
-* [Reserved words as property names](https://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names)
-* [Unquoted property names / object keys in JavaScript](https://mathiasbynens.be/notes/javascript-properties)

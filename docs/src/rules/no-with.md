@@ -3,6 +3,8 @@ title: no-with
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-with.md
 rule_type: suggestion
+further_reading:
+- https://yuiblog.com/blog/2006/04/11/with-statement-considered-harmful/
 ---
 
 <!--RECOMMENDED-->
@@ -39,7 +41,3 @@ const r = ({x, y}) => Math.sqrt(x * x + y * y);
 ## When Not To Use It
 
 If you intentionally use `with` statements then you can disable this rule.
-
-## Further Reading
-
-* [with Statement Considered Harmful](https://yuiblog.com/blog/2006/04/11/with-statement-considered-harmful/)
