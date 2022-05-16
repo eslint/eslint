@@ -23,7 +23,7 @@ const { ESLINT_VERSION } = process.env;
 //-----------------------------------------------------------------------------
 
 /*
- * Because we want to differentiate between the development branch and the
+ * Because we want to differentiate between the development branch and the 
  * most recent release, we need a way to override the version. The
  * ESLINT_VERSION environment variable allows us to set this to override
  * the value displayed on the website. The most common case is we will set
@@ -31,4 +31,4 @@ const { ESLINT_VERSION } = process.env;
  * GitHub. Otherwise, we will use the version from package.json.
  */
 
-module.exports = ESLINT_VERSION || pkg.version;
+module.exports = ESLINT_VERSION ?? pkg.version;
