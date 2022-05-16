@@ -8,8 +8,8 @@ related_rules:
 - no-unexpected-multiline
 - semi-spacing
 further_reading:
-- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#automatic_semicolon_insertion
 - https://blog.izs.me/2010/12/an-open-letter-to-javascript-leaders-regarding/
+- https://web.archive.org/web/20200420230322/http://inimino.org/~inimino/blog/javascript_semicolons
 ---
 
 <!--FIXABLE-->

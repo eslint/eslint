@@ -7,6 +7,7 @@ related_rules:
 - handle-callback-err
 further_reading:
 - https://github.com/maxogden/art-of-node#callbacks
+- https://web.archive.org/web/20171224042620/https://docs.nodejitsu.com/articles/errors/what-are-the-error-conventions/
 ---
 
 Enforces return after callback.
