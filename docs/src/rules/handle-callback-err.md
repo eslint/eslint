@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/handle-call
 rule_type: suggestion
 further_reading:
 - https://github.com/maxogden/art-of-node#callbacks
-- https://docs.nodejitsu.com/articles/errors/what-are-the-error-conventions/
 ---
 
 Enforces callback error handling.

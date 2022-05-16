@@ -7,7 +7,6 @@ related_rules:
 - operator-linebreak
 further_reading:
 - https://gist.github.com/isaacs/357981
-- https://docs.npmjs.com/misc/coding-style
 ---
 
 <!--FIXABLE-->

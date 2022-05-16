@@ -13,8 +13,6 @@ related_rules:
 - max-statements
 further_reading:
 - http://book.mixu.net/node/ch7.html
-- https://howtonode.org/control-flow
-- https://howtonode.org/control-flow-part-ii
 ---
 
 Enforces a maximum depth that callbacks can be nested.

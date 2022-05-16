@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-irregula
 rule_type: problem
 further_reading:
 - https://es5.github.io/#x7.2
-- http://timelessrepo.com/json-isnt-a-javascript-subset
 ---
 
 <!--RECOMMENDED-->
