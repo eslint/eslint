@@ -4,7 +4,7 @@ layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-useless-rename.md
 rule_type: suggestion
 related_rules:
-- `object-shorthand`
+- object-shorthand
 ---
 
 <!--FIXABLE-->

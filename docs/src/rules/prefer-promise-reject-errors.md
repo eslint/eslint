@@ -4,7 +4,7 @@ layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-promise-reject-errors.md
 rule_type: suggestion
 related_rules:
-- `no-throw-literal`
+- no-throw-literal
 further_reading:
 - http://bluebirdjs.com/docs/warning-explanations.html#warning-a-promise-was-rejected-with-a-non-error
 ---
