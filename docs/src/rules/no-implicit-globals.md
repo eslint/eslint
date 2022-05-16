@@ -7,7 +7,7 @@ related_rules:
 - no-undef
 - no-global-assign
 further_reading:
-- http://benalman.com/news/2010/11/immediately-invoked-function-expression/
+- https://benalman.com/news/2010/11/immediately-invoked-function-expression/
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Undeclared_var
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_dead_zone
 ---

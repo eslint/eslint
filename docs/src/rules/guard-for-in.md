@@ -7,7 +7,7 @@ related_rules:
 - no-prototype-builtins
 further_reading:
 - https://javascriptweblog.wordpress.com/2011/01/04/exploring-javascript-for-in-loops/
-- http://2ality.com/2012/01/objects-as-maps.html
+- https://2ality.com/2012/01/objects-as-maps.html
 ---
 
 Requires `for in` loops to include an `if` statement.

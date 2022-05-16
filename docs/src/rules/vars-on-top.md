@@ -4,10 +4,10 @@ layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/vars-on-top.md
 rule_type: suggestion
 further_reading:
-- http://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html
+- https://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var#var_hoisting
-- http://danielhough.co.uk/blog/single-var-pattern-rant/
-- http://benalman.com/news/2012/05/multiple-var-statements-javascript/
+- https://danhough.com/blog/single-var-pattern-rant/
+- https://benalman.com/news/2012/05/multiple-var-statements-javascript/
 ---
 
 Requires variable declarations to be at the top of their scope.

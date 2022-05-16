@@ -9,7 +9,7 @@ related_rules:
 - semi-spacing
 further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#automatic_semicolon_insertion
-- http://blog.izs.me/post/2353458699/an-open-letter-to-javascript-leaders-regarding
+- https://blog.izs.me/2010/12/an-open-letter-to-javascript-leaders-regarding/
 ---
 
 <!--FIXABLE-->

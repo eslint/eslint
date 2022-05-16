@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-dest
 rule_type: suggestion
 further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
-- http://2ality.com/2015/01/es6-destructuring.html
+- https://2ality.com/2015/01/es6-destructuring.html
 ---
 
 <!--FIXABLE-->

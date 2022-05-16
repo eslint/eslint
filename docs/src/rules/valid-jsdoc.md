@@ -6,7 +6,7 @@ rule_type: suggestion
 related_rules:
 - require-jsdoc
 further_reading:
-- http://usejsdoc.org
+- https://jsdoc.app
 ---
 
 <!--FIXABLE-->

@@ -4,7 +4,7 @@ layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-proto.md
 rule_type: suggestion
 further_reading:
-- http://ejohn.org/blog/objectgetprototypeof/
+- https://johnresig.com/blog/objectgetprototypeof/
 ---
 
 Disallows the use of the `__proto__` property.
