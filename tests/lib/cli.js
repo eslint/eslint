@@ -552,9 +552,9 @@ describe("cli", () => {
             const call = log.info.getCall(0);
 
             assert.isTrue(log.info.calledOnce);
-            assert.isTrue(call.args[0].indexOf("String!") > -1);
-            assert.isTrue(call.args[0].indexOf("Literal!") > -1);
-            assert.isTrue(call.args[0].indexOf("2 problems") > -1);
+            assert.isTrue(call.args[0].includes("String!"));
+            assert.isTrue(call.args[0].includes("Literal!"));
+            assert.isTrue(call.args[0].includes("2 problems"));
             assert.isTrue(log.info.neverCalledWith(""));
             assert.strictEqual(exit, 1);
         });

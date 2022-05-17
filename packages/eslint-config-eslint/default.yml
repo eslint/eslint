@@ -4,6 +4,8 @@ extends:
     - "plugin:node/recommended"
     - "plugin:jsdoc/recommended"
     - "plugin:eslint-comments/recommended"
+plugins:
+    - unicorn
 settings:
     jsdoc:
         tagNamePreference:
@@ -279,6 +281,19 @@ rules:
     template-curly-spacing: ["error", "never"]
     template-tag-spacing: "error"
     unicode-bom: "error"
+
+    # Selectively-enable unicorn rules since many of its recommended rules are too aggressive/stylistic for us.
+    unicorn/prefer-array-find: "error"
+    unicorn/prefer-array-flat-map: "error"
+    unicorn/prefer-array-flat: "error"
+    unicorn/prefer-array-index-of: "error"
+    unicorn/prefer-array-some: "error"
+    unicorn/prefer-includes: "error"
+    unicorn/prefer-set-has: "error"
+    unicorn/prefer-string-slice: "error"
+    unicorn/prefer-string-starts-ends-with: "error"
+    unicorn/prefer-string-trim-start-end: "error"
+
     wrap-iife: "error"
     yield-star-spacing: "error"
     yoda: ["error", "never", { exceptRange: true }]
