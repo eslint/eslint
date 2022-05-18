@@ -123,19 +123,27 @@ module.exports = function(eleventyConfig) {
     /**********************************************************************
      *  Shortcodes
      * ********************************************************************/
-    eleventyConfig.addNunjucksAsyncShortcode("link", async function(link) {
-        const { body: html, url } = await got(link);
-        const metadata = await metascraper({ html, url });
-        const the_url = (new URL(link)); // same as url
-        const domain = the_url.hostname;
+    eleventyConfig.addNunjucksShortcode("link", function(url) {
+
+        const urlData = this.ctx.further_reading_links[url];
+
+        if (!urlData) {
+            throw new Error(`Data missing for ${url}`);
+        }
+
+        const {
+            domain,
+            title,
+            logo
+        } = urlData;
 
         return `
         <article class="resource">
             <div class="resource__image">
-                <img class="resource__img" width="75" height="75" src="${metadata.logo}" alt="Avatar image for ${domain}" />
+                <img class="resource__img" width="75" height="75" src="${logo}" alt="Avatar image for ${domain}" />
             </div>
             <div class="resource__content">
-                <a href="${metadata.url}" class="resource__title"> ${metadata.title} </a><br>
+                <a href="${url}" class="resource__title"> ${title} </a><br>
                 <span class="resource__domain"> ${domain}</span>
             </div>
             <svg class="c-icon resource__icon" width="13" height="12" viewBox="0 0 13 12" fill="none">

@@ -1,0 +1,15 @@
+{%- macro further_reading_link(params) -%}
+<article class="resource">
+    <div class="resource__image">
+        <img class="resource__img" width="75" height="75" src="{{further_reading[params.url].logo}}" alt="Avatar image for {{further_reading[params.url].domain}}" />
+    </div>
+    <div class="resource__content">
+        <a href="{{further_reading[url].url}}" class="resource__title"> {{further_reading[params.url].title}} </a><br>
+        <span class="resource__domain"> {{further_reading[params.url].domain}}</span>
+    </div>
+    <svg class="c-icon resource__icon" width="13" height="12" viewBox="0 0 13 12" fill="none">
+        <path d="M1.5 11L11.5 1M11.5 1H1.5M11.5 1V11" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+    </svg>
+</article>
+{%- endmacro -%}
