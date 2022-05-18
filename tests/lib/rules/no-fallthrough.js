@@ -100,6 +100,10 @@ ruleTester.run("no-fallthrough", rule, {
         {
             code: "switch(foo) { case 0: \n /* with comments */  \n case 1: b(); }",
             options: [{ allowEmptyCase: true }]
+        },
+        {
+            code: "switch (a) {\n case 1: \n ; case 2: }",
+            options: [{ allowEmptyCase: true }]
         }
     ],
     invalid: [
