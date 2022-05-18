@@ -129,13 +129,27 @@ module.exports = function(eleventyConfig) {
         const the_url = (new URL(link)); // same as url
         const domain = the_url.hostname;
 
+        let href = metadata.url;
+
+        /*
+         * Restore `#` fragment from the original link. At this point, the fragment may have been lost
+         * during the process if `got` encountered redirects or if `metascraper` has found URL in the HTML document.
+         */
+        if (!href.includes("#")) {
+            const originalFragmentMatch = /#(?:.)+/u.exec(link);
+
+            if (originalFragmentMatch) {
+                href += originalFragmentMatch[0];
+            }
+        }
+
         return `
         <article class="resource">
             <div class="resource__image">
                 <img class="resource__img" width="75" height="75" src="${metadata.logo}" alt="Avatar image for ${domain}" />
             </div>
             <div class="resource__content">
-                <a href="${metadata.url}" class="resource__title"> ${metadata.title} </a><br>
+                <a href="${href}" class="resource__title"> ${metadata.title} </a><br>
                 <span class="resource__domain"> ${domain}</span>
             </div>
             <svg class="c-icon resource__icon" width="13" height="12" viewBox="0 0 13 12" fill="none">
