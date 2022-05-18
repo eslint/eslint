@@ -3,6 +3,9 @@ title: no-restricted-globals
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-restricted-globals.md
 rule_type: suggestion
+related_rules:
+- no-restricted-properties
+- no-restricted-syntax
 ---
 
 Disallows specific global variables.
@@ -90,8 +93,3 @@ function onClick() {
     console.log(event);    // Unexpected global variable 'event'. Use local parameter instead.
 }
 ```
-
-## Related Rules
-
-* [no-restricted-properties](no-restricted-properties)
-* [no-restricted-syntax](no-restricted-syntax)

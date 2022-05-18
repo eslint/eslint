@@ -3,6 +3,11 @@ title: no-unreachable-loop
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-unreachable-loop.md
 rule_type: problem
+related_rules:
+- no-unreachable
+- no-constant-condition
+- no-unmodified-loop-condition
+- for-direction
 ---
 
 Disallows loops with a body that allows only one iteration.
@@ -188,10 +193,3 @@ for (let i = 0; i < 10; i++) {
     }
 }
 ```
-
-## Related Rules
-
-* [no-unreachable](no-unreachable)
-* [no-constant-condition](no-constant-condition)
-* [no-unmodified-loop-condition](no-unmodified-loop-condition)
-* [for-direction](for-direction)

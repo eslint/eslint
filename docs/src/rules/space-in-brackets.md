@@ -3,6 +3,11 @@ title: space-in-brackets
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/space-in-brackets.md
 
+related_rules:
+- array-bracket-spacing
+- object-curly-spacing
+- space-in-parens
+- computed-property-spacing
 ---
 
 Enforces consistent spacing inside braces of object literals and brackets of array literals.
@@ -305,10 +310,3 @@ var foo = obj[0, 1];
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the consistency of spacing between brackets.
-
-## Related Rules
-
-* [array-bracket-spacing](array-bracket-spacing)
-* [object-curly-spacing](object-curly-spacing)
-* [space-in-parens](space-in-parens)
-* [computed-property-spacing](computed-property-spacing)

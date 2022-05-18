@@ -3,6 +3,12 @@ title: space-before-keywords
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/space-before-keywords.md
 
+related_rules:
+- space-after-keywords
+- block-spacing
+- space-return-throw-case
+- space-unary-ops
+- space-infix-ops
 ---
 
 Enforces consistent spacing before keywords.
@@ -111,11 +117,3 @@ try{}catch(e) {}
 ## When Not To Use It
 
 If you do not wish to enforce consistency on keyword spacing.
-
-## Related Rules
-
-* [space-after-keywords](space-after-keywords)
-* [block-spacing](block-spacing)
-* [space-return-throw-case](space-return-throw-case)
-* [space-unary-ops](space-unary-ops)
-* [space-infix-ops](space-infix-ops)

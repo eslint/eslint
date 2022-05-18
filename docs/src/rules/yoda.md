@@ -3,6 +3,9 @@ title: yoda
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/yoda.md
 rule_type: suggestion
+further_reading:
+- https://en.wikipedia.org/wiki/Yoda_conditions
+- http://thomas.tuerke.net/on/design/?with=1249091668#msg1146181680
 ---
 
 <!--FIXABLE-->
@@ -189,8 +192,3 @@ if (-1 < str.indexOf(substr)) {
     // ...
 }
 ```
-
-## Further Reading
-
-* [Yoda Conditions](https://en.wikipedia.org/wiki/Yoda_conditions)
-* [Yoda Notation and Safe Switching](http://thomas.tuerke.net/on/design/?with=1249091668#msg1146181680)

@@ -3,6 +3,11 @@ title: no-eval
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-eval.md
 rule_type: suggestion
+related_rules:
+- no-implied-eval
+further_reading:
+- https://ericlippert.com/2003/11/01/eval-is-evil-part-one/
+- https://javascriptweblog.wordpress.com/2010/04/19/how-evil-is-eval/
 ---
 
 Disallows eval().
@@ -151,12 +156,3 @@ global.eval("var a = 0");
   var foo = window;
   foo.eval("var a = 0");
   ```
-
-## Related Rules
-
-* [no-implied-eval](no-implied-eval)
-
-## Further Reading
-
-* [Eval is Evil, Part One](https://ericlippert.com/2003/11/01/eval-is-evil-part-one/)
-* [How evil is eval](https://javascriptweblog.wordpress.com/2010/04/19/how-evil-is-eval/)

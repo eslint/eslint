@@ -3,6 +3,12 @@ title: semi-spacing
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/semi-spacing.md
 rule_type: layout
+related_rules:
+- semi
+- no-extra-semi
+- comma-spacing
+- block-spacing
+- space-in-parens
 ---
 
 <!--FIXABLE-->
@@ -108,11 +114,3 @@ for (i = 0 ;i < 10 ;i++) {}
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the consistency of spacing before or after semicolons.
-
-## Related Rules
-
-* [semi](semi)
-* [no-extra-semi](no-extra-semi)
-* [comma-spacing](comma-spacing)
-* [block-spacing](block-spacing)
-* [space-in-parens](space-in-parens)

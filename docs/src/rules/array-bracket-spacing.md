@@ -3,6 +3,10 @@ title: array-bracket-spacing
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/array-bracket-spacing.md
 rule_type: layout
+related_rules:
+- space-in-parens
+- object-curly-spacing
+- computed-property-spacing
 ---
 
 <!--FIXABLE-->
@@ -224,9 +228,3 @@ var arr = [[ 1, 2 ], 2, [ 3, 4 ]];
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the consistency of spacing between array brackets.
-
-## Related Rules
-
-* [space-in-parens](space-in-parens)
-* [object-curly-spacing](object-curly-spacing)
-* [computed-property-spacing](computed-property-spacing)

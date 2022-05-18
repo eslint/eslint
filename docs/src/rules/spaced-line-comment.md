@@ -3,6 +3,8 @@ title: spaced-line-comment
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/spaced-line-comment.md
 
+related_rules:
+- spaced-comment
 ---
 
 Enforces consistent spacing after `//` in line comments.
@@ -73,7 +75,3 @@ var foo = 5;
 // Comment block
 //-+-+-+-+-+-+-+
 ```
-
-## Related Rules
-
-* [spaced-comment](spaced-comment)

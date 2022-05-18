@@ -3,6 +3,10 @@ title: no-nonoctal-decimal-escape
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-nonoctal-decimal-escape.md
 rule_type: suggestion
+related_rules:
+- no-octal-escape
+further_reading:
+- https://tc39.es/ecma262/#prod-annexB-NonOctalDecimalEscapeSequence
 ---
 
 <!--RECOMMENDED-->
@@ -63,11 +67,3 @@ var baz = "Don't use \\8 and \\9 escapes.";
 
 var quux = "\0\u0038";
 ```
-
-## Related Rules
-
-* [no-octal-escape](no-octal-escape)
-
-## Further Reading
-
-* [NonOctalDecimalEscapeSequence](https://tc39.es/ecma262/#prod-annexB-NonOctalDecimalEscapeSequence) in ECMAScript specification

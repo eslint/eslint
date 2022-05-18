@@ -3,6 +3,8 @@ title: newline-before-return
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/newline-before-return.md
 rule_type: layout
+related_rules:
+- newline-after-var
 ---
 
 <!--FIXABLE-->
@@ -119,7 +121,3 @@ function foo() {
 ## When Not To Use It
 
 You can safely disable this rule if you do not have any strict conventions about whitespace before `return` statements.
-
-## Related Rules
-
-* [newline-after-var](newline-after-var)

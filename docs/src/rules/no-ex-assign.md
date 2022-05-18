@@ -3,6 +3,8 @@ title: no-ex-assign
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-ex-assign.md
 rule_type: problem
+further_reading:
+- https://bocoup.com/blog/the-catch-with-try-catch
 ---
 
 <!--RECOMMENDED-->
@@ -39,7 +41,3 @@ try {
     var foo = 10;
 }
 ```
-
-## Further Reading
-
-* [The "catch" with try...catch](https://bocoup.com/blog/the-catch-with-try-catch) by Ben Alman explains how the exception identifier can leak into the outer scope in IE 6-8

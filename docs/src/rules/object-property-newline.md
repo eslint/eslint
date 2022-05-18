@@ -3,6 +3,11 @@ title: object-property-newline
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/object-property-newline.md
 rule_type: layout
+related_rules:
+- brace-style
+- comma-dangle
+- key-spacing
+- object-curly-spacing
 ---
 
 <!--FIXABLE-->
@@ -266,13 +271,6 @@ const obj3 = {
 ## When Not To Use It
 
 You can turn this rule off if you want to decide, case-by-case, whether to place property specifications on separate lines.
-
-## Related Rules
-
-* [brace-style](brace-style)
-* [comma-dangle](comma-dangle)
-* [key-spacing](key-spacing)
-* [object-curly-spacing](object-curly-spacing)
 
 ## Compatibility
 

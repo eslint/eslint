@@ -3,6 +3,12 @@ title: space-before-blocks
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/space-before-blocks.md
 rule_type: layout
+related_rules:
+- keyword-spacing
+- arrow-spacing
+- switch-colon-spacing
+- block-spacing
+- brace-style
 ---
 
 <!--FIXABLE-->
@@ -218,11 +224,3 @@ class Foo {
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the consistency of spacing before blocks.
-
-## Related Rules
-
-* [keyword-spacing](keyword-spacing)
-* [arrow-spacing](arrow-spacing)
-* [switch-colon-spacing](switch-colon-spacing)
-* [block-spacing](block-spacing)
-* [brace-style](brace-style)

@@ -3,6 +3,11 @@ title: no-new-wrappers
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-new-wrappers.md
 rule_type: suggestion
+related_rules:
+- no-array-constructor
+- no-new-object
+further_reading:
+- https://www.inkling.com/read/javascript-definitive-guide-david-flanagan-6th/chapter-3/wrapper-objects
 ---
 
 Disallows `new` operators with the `String`, `Number`, and `Boolean` objects.
@@ -74,12 +79,3 @@ var object = new MyString();
 ## When Not To Use It
 
 If you want to allow the use of primitive wrapper objects, then you can safely disable this rule.
-
-## Related Rules
-
-* [no-array-constructor](no-array-constructor)
-* [no-new-object](no-new-object)
-
-## Further Reading
-
-* [Wrapper objects](https://www.inkling.com/read/javascript-definitive-guide-david-flanagan-6th/chapter-3/wrapper-objects)

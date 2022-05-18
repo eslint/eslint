@@ -3,6 +3,8 @@ title: no-proto
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-proto.md
 rule_type: suggestion
+further_reading:
+- https://johnresig.com/blog/objectgetprototypeof/
 ---
 
 Disallows the use of the `__proto__` property.
@@ -43,7 +45,3 @@ var c = { __proto__: a };
 
 You might want to turn this rule off if you need to support legacy browsers which implement the
 `__proto__` property but not `Object.getPrototypeOf` or `Object.setPrototypeOf`.
-
-## Further Reading
-
-* [Object.getPrototypeOf](http://ejohn.org/blog/objectgetprototypeof/)

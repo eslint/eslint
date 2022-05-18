@@ -3,6 +3,8 @@ title: prefer-named-capture-group
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-named-capture-group.md
 rule_type: suggestion
+related_rules:
+- no-invalid-regexp
 ---
 
 Suggest using named capture group in regular expression.
@@ -50,7 +52,3 @@ foo.exec('bar').groups.id; // Retrieve the group result.
 ## When Not To Use It
 
 If you are targeting ECMAScript 2017 and/or older environments, you should not use this rule, because this ECMAScript feature is only supported in ECMAScript 2018 and/or newer environments.
-
-## Related Rules
-
-* [no-invalid-regexp](./no-invalid-regexp)

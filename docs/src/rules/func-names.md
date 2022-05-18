@@ -3,6 +3,9 @@ title: func-names
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/func-names.md
 rule_type: suggestion
+further_reading:
+- https://web.archive.org/web/20201112040809/http://markdaggett.com/blog/2013/02/15/functions-explained/
+- https://2ality.com/2015/09/function-names-es6.html
 ---
 
 Requires or disallows named `function` expressions.
@@ -217,8 +220,3 @@ var foo = bar(function *baz() {});
 
 * **JSCS**: [requireAnonymousFunctions](https://jscs-dev.github.io/rule/requireAnonymousFunctions)
 * **JSCS**: [disallowAnonymousFunctions](https://jscs-dev.github.io/rule/disallowAnonymousFunctions)
-
-## Further Reading
-
-* [Functions Explained](http://markdaggett.com/blog/2013/02/15/functions-explained/)
-* [Function Names in ES6](http://2ality.com/2015/09/function-names-es6.html)

@@ -3,6 +3,8 @@ title: no-redeclare
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-redeclare.md
 rule_type: suggestion
+related_rules:
+- no-shadow
 ---
 
 <!--RECOMMENDED-->
@@ -87,7 +89,3 @@ var top = 0;
 The `browser` environment has many built-in global variables (for example, `top`). Some of built-in global variables cannot be redeclared.
 
 Note that when using the `node` or `commonjs` environments (or `ecmaFeatures.globalReturn`, if using the default parser), the top scope of a program is not actually the global scope, but rather a "module" scope. When this is the case, declaring a variable named after a builtin global is not a redeclaration, but rather a shadowing of the global variable. In that case, the [`no-shadow`](no-shadow) rule with the `"builtinGlobals"` option should be used.
-
-## Related Rules
-
-* [no-shadow](no-shadow)

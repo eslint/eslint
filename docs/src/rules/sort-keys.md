@@ -3,6 +3,9 @@ title: sort-keys
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/sort-keys.md
 rule_type: suggestion
+related_rules:
+- sort-imports
+- sort-vars
 ---
 
 Requires object keys to be sorted.
@@ -224,11 +227,6 @@ let obj = {
 ## When Not To Use It
 
 If you don't want to notify about properties' order, then it's safe to disable this rule.
-
-## Related Rules
-
-* [sort-imports](sort-imports)
-* [sort-vars](sort-vars)
 
 ## Compatibility
 

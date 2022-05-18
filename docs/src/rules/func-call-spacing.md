@@ -3,6 +3,8 @@ title: func-call-spacing
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/func-call-spacing.md
 rule_type: layout
+related_rules:
+- no-spaced-func
 ---
 
 <!--FIXABLE-->
@@ -103,10 +105,6 @@ fn
 ## When Not To Use It
 
 This rule can safely be turned off if your project does not care about enforcing a consistent style for spacing within function calls.
-
-## Related Rules
-
-* [no-spaced-func](no-spaced-func) (deprecated)
 
 ## Compatibility
 
