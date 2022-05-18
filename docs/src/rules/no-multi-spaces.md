@@ -3,6 +3,14 @@ title: no-multi-spaces
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-multi-spaces.md
 rule_type: layout
+related_rules:
+- key-spacing
+- space-infix-ops
+- space-in-brackets
+- space-in-parens
+- space-after-keywords
+- space-unary-ops
+- space-return-throw-case
 ---
 
 <!--FIXABLE-->
@@ -168,13 +176,3 @@ import someOtherMod from 'some-other-mod';
 ## When Not To Use It
 
 If you don't want to check and disallow multiple spaces, then you should turn this rule off.
-
-## Related Rules
-
-* [key-spacing](key-spacing)
-* [space-infix-ops](space-infix-ops)
-* [space-in-brackets](space-in-brackets) (deprecated)
-* [space-in-parens](space-in-parens)
-* [space-after-keywords](space-after-keywords)
-* [space-unary-ops](space-unary-ops)
-* [space-return-throw-case](space-return-throw-case)

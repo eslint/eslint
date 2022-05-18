@@ -3,6 +3,13 @@ title: accessor-pairs
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/accessor-pairs.md
 rule_type: suggestion
+related_rules:
+- no-dupe-keys
+- no-dupe-class-members
+further_reading:
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects
 ---
 
 Enforces getter/setter pairs in objects and classes.
@@ -287,14 +294,3 @@ See [no-dupe-class-members](no-dupe-class-members) if you also want to disallow 
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the simultaneous presence of setters and getters on objects.
-
-## Related Rules
-
-* [no-dupe-keys](no-dupe-keys)
-* [no-dupe-class-members](no-dupe-class-members)
-
-## Further Reading
-
-* [Object Setters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set)
-* [Object Getters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get)
-* [Working with Objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects)

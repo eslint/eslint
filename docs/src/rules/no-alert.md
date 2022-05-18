@@ -3,6 +3,9 @@ title: no-alert
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-alert.md
 rule_type: suggestion
+related_rules:
+- no-console
+- no-debugger
 ---
 
 Disallows the use of `alert`, `confirm`, and `prompt`.
@@ -45,8 +48,3 @@ function foo() {
     alert();
 }
 ```
-
-## Related Rules
-
-* [no-console](no-console)
-* [no-debugger](no-debugger)

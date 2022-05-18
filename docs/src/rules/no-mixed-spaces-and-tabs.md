@@ -3,6 +3,8 @@ title: no-mixed-spaces-and-tabs
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-mixed-spaces-and-tabs.md
 rule_type: layout
+further_reading:
+- https://www.emacswiki.org/emacs/SmartTabs
 ---
 
 <!--RECOMMENDED-->
@@ -67,7 +69,3 @@ function main() {
         y = 7;
 }
 ```
-
-## Further Reading
-
-* [Smart Tabs](https://www.emacswiki.org/emacs/SmartTabs)

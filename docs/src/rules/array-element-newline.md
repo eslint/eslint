@@ -3,6 +3,15 @@ title: array-element-newline
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/array-element-newline.md
 rule_type: layout
+related_rules:
+- array-bracket-spacing
+- array-bracket-newline
+- object-property-newline
+- object-curly-spacing
+- object-curly-newline
+- max-statements-per-line
+- block-spacing
+- brace-style
 ---
 
 <!--FIXABLE-->
@@ -382,17 +391,6 @@ var [i = function foo() {
 ## When Not To Use It
 
 If you don't want to enforce linebreaks between array elements, don't enable this rule.
-
-## Related Rules
-
-* [array-bracket-spacing](array-bracket-spacing)
-* [array-bracket-newline](array-bracket-newline)
-* [object-property-newline](object-property-newline)
-* [object-curly-spacing](object-curly-spacing)
-* [object-curly-newline](object-curly-newline)
-* [max-statements-per-line](max-statements-per-line)
-* [block-spacing](block-spacing)
-* [brace-style](brace-style)
 
 ## Compatibility
 

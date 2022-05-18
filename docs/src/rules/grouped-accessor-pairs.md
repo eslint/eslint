@@ -3,6 +3,14 @@ title: grouped-accessor-pairs
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/grouped-accessor-pairs.md
 rule_type: suggestion
+related_rules:
+- accessor-pairs
+- no-dupe-keys
+- no-dupe-class-members
+further_reading:
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
 ---
 
 Requires grouped accessor pairs in object literals and classes.
@@ -319,15 +327,3 @@ Also, this rule does not report any warnings for properties that have duplicate 
 See [no-dupe-keys](no-dupe-keys) if you also want to disallow duplicate keys in object literals.
 
 See [no-dupe-class-members](no-dupe-class-members) if you also want to disallow duplicate names in class definitions.
-
-## Related Rules
-
-* [accessor-pairs](accessor-pairs)
-* [no-dupe-keys](no-dupe-keys)
-* [no-dupe-class-members](no-dupe-class-members)
-
-## Further Reading
-
-* [Object Setters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set)
-* [Object Getters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get)
-* [Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)

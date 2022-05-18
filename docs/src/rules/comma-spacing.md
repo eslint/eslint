@@ -3,6 +3,18 @@ title: comma-spacing
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/comma-spacing.md
 rule_type: layout
+related_rules:
+- array-bracket-spacing
+- comma-style
+- space-in-brackets
+- space-in-parens
+- space-infix-ops
+- space-after-keywords
+- space-unary-ops
+- space-return-throw-case
+further_reading:
+- https://www.crockford.com/code.html
+- https://dojotoolkit.org/reference-guide/1.9/developer/styleguide.html
 ---
 
 <!--FIXABLE-->
@@ -118,19 +130,3 @@ var arr = [,2 ,3]
 ## When Not To Use It
 
 If your project will not be following a consistent comma-spacing pattern, turn this rule off.
-
-## Related Rules
-
-* [array-bracket-spacing](array-bracket-spacing)
-* [comma-style](comma-style)
-* [space-in-brackets](space-in-brackets) (deprecated)
-* [space-in-parens](space-in-parens)
-* [space-infix-ops](space-infix-ops)
-* [space-after-keywords](space-after-keywords)
-* [space-unary-ops](space-unary-ops)
-* [space-return-throw-case](space-return-throw-case)
-
-## Further Reading
-
-* [JavaScript](http://javascript.crockford.com/code.html)
-* [Dojo Style Guide](https://dojotoolkit.org/reference-guide/1.9/developer/styleguide.html)

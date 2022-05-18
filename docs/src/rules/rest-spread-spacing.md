@@ -3,6 +3,8 @@ title: rest-spread-spacing
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/rest-spread-spacing.md
 rule_type: layout
+further_reading:
+- https://github.com/tc39/proposal-object-rest-spread
 ---
 
 <!--FIXABLE-->
@@ -143,7 +145,3 @@ let n = { x, y, ... z };
 ## When Not To Use It
 
 You can safely disable this rule if you do not care about enforcing consistent spacing between spread operators and their expressions.
-
-## Further Reading
-
-* [Object Rest/Spread Properties for ECMAScript](https://github.com/tc39/proposal-object-rest-spread)

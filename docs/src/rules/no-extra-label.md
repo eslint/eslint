@@ -3,6 +3,10 @@ title: no-extra-label
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-extra-label.md
 rule_type: suggestion
+related_rules:
+- no-labels
+- no-label-var
+- no-unused-labels
 ---
 
 <!--FIXABLE-->
@@ -83,9 +87,3 @@ C: switch (a) {
 ## When Not To Use It
 
 If you don't want to be notified about usage of labels, then it's safe to disable this rule.
-
-## Related Rules
-
-* [no-labels](./no-labels)
-* [no-label-var](./no-label-var)
-* [no-unused-labels](./no-unused-labels)

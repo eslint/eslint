@@ -3,6 +3,10 @@ title: valid-jsdoc
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/valid-jsdoc.md
 rule_type: suggestion
+related_rules:
+- require-jsdoc
+further_reading:
+- https://jsdoc.app
 ---
 
 <!--FIXABLE-->
@@ -392,11 +396,3 @@ function add(num1, num2) {
 ## When Not To Use It
 
 If you aren't using JSDoc, then you can safely turn this rule off.
-
-## Related Rules
-
-* [require-jsdoc](require-jsdoc)
-
-## Further Reading
-
-* [JSDoc](http://usejsdoc.org)

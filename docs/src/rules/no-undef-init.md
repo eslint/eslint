@@ -3,6 +3,9 @@ title: no-undef-init
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-undef-init.md
 rule_type: suggestion
+related_rules:
+- no-undefined
+- no-void
 ---
 
 <!--FIXABLE-->
@@ -129,8 +132,3 @@ for (i = 0; i < 10; i++) {
     x = i;
 }
 ```
-
-## Related Rules
-
-* [no-undefined](no-undefined)
-* [no-void](no-void)

@@ -3,6 +3,18 @@ title: max-nested-callbacks
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/max-nested-callbacks.md
 rule_type: suggestion
+related_rules:
+- complexity
+- max-depth
+- max-len
+- max-lines
+- max-lines-per-function
+- max-params
+- max-statements
+further_reading:
+- http://book.mixu.net/node/ch7.html
+- https://web.archive.org/web/20220104141150/https://howtonode.org/control-flow
+- https://web.archive.org/web/20220127215850/https://howtonode.org/control-flow-part-ii
 ---
 
 Enforces a maximum depth that callbacks can be nested.
@@ -74,19 +86,3 @@ function handleFoo4() {
     foo5();
 }
 ```
-
-## Related Rules
-
-* [complexity](complexity)
-* [max-depth](max-depth)
-* [max-len](max-len)
-* [max-lines](max-lines)
-* [max-lines-per-function](max-lines-per-function)
-* [max-params](max-params)
-* [max-statements](max-statements)
-
-## Further Reading
-
-* [Control flow in Node.js](http://book.mixu.net/node/ch7.html)
-* [Control Flow in Node](https://howtonode.org/control-flow)
-* [Control Flow in Node Part II](https://howtonode.org/control-flow-part-ii)

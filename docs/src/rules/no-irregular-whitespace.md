@@ -3,6 +3,9 @@ title: no-irregular-whitespace
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-irregular-whitespace.md
 rule_type: problem
+further_reading:
+- https://es5.github.io/#x7.2
+- https://web.archive.org/web/20200414142829/http://timelessrepo.com/json-isnt-a-javascript-subset
 ---
 
 <!--RECOMMENDED-->
@@ -174,8 +177,3 @@ function thing() {
 ## When Not To Use It
 
 If you decide that you wish to use whitespace other than tabs and spaces outside of strings in your application.
-
-## Further Reading
-
-* [ECMA whitespace](https://es5.github.io/#x7.2)
-* [JSON whitespace issues](http://timelessrepo.com/json-isnt-a-javascript-subset)

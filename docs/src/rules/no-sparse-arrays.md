@@ -3,6 +3,8 @@ title: no-sparse-arrays
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-sparse-arrays.md
 rule_type: problem
+further_reading:
+- https://www.nczonline.net/blog/2007/09/09/inconsistent-array-literals/
 ---
 
 <!--RECOMMENDED-->
@@ -53,7 +55,3 @@ var colors = [ "red", "blue", ];
 ## When Not To Use It
 
 If you want to use sparse arrays, then it is safe to disable this rule.
-
-## Further Reading
-
-* [Inconsistent array literals](https://www.nczonline.net/blog/2007/09/09/inconsistent-array-literals/)

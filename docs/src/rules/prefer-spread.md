@@ -3,6 +3,8 @@ title: prefer-spread
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-spread.md
 rule_type: suggestion
+related_rules:
+- no-useless-call
 ---
 
 Suggests using spread syntax instead of `.apply()`.
@@ -79,7 +81,3 @@ a[++i].foo.apply(a[i], args);
 This rule should not be used in ES3/5 environments.
 
 In ES2015 (ES6) or later, if you don't want to be notified about `Function.prototype.apply()` callings, you can safely disable this rule.
-
-## Related Rules
-
-* [no-useless-call](no-useless-call)

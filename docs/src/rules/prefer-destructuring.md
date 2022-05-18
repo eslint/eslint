@@ -3,6 +3,9 @@ title: prefer-destructuring
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-destructuring.md
 rule_type: suggestion
+further_reading:
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
+- https://2ality.com/2015/01/es6-destructuring.html
 ---
 
 <!--FIXABLE-->
@@ -187,10 +190,3 @@ var $ = require('jquery');
 var foo = $('body')[0];
 var [bar] = $('body'); // fails with a TypeError
 ```
-
-## Further Reading
-
-If you want to learn more about destructuring, check out the links below:
-
-* [Destructuring Assignment (MDN)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
-* [Destructuring and parameter handling in ECMAScript 6 (2ality blog)](http://2ality.com/2015/01/es6-destructuring.html)

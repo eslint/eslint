@@ -3,6 +3,10 @@ title: no-setter-return
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-setter-return.md
 rule_type: problem
+related_rules:
+- getter-return
+further_reading:
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set
 ---
 
 <!--RECOMMENDED-->
@@ -100,11 +104,3 @@ Object.defineProperty(foo, "bar", {
     }
 });
 ```
-
-## Related Rules
-
-* [getter-return](getter-return)
-
-## Further Reading
-
-* [MDN setter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set)

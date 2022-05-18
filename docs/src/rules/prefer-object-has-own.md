@@ -3,6 +3,8 @@ title: prefer-object-has-own
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-object-has-own.md
 rule_type: suggestion
+further_reading:
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn
 ---
 
 <!--FIXABLE-->
@@ -56,7 +58,3 @@ const hasProperty = Object.hasOwn(object, property);
 ## When Not To Use It
 
 This rule should not be used unless ES2022 is supported in your codebase.
-
-## Further Reading
-
-* [Object.hasOwn()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn)

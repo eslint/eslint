@@ -775,7 +775,7 @@ target.checkRuleFiles = function() {
         const docText = cat(docFilename);
         const docMarkdown = marked.lexer(docText, { gfm: true, silent: false });
         const ruleCode = cat(filename);
-        const knownHeaders = ["Rule Details", "Options", "Environments", "Examples", "Known Limitations", "When Not To Use It", "Related Rules", "Compatibility", "Further Reading"];
+        const knownHeaders = ["Rule Details", "Options", "Environments", "Examples", "Known Limitations", "When Not To Use It", "Compatibility"];
 
         /**
          * Check if basename is present in rule-types.json file.

@@ -3,6 +3,9 @@ title: no-control-regex
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-control-regex.md
 rule_type: problem
+related_rules:
+- no-div-regex
+- no-regex-spaces
 ---
 
 <!--RECOMMENDED-->
@@ -67,8 +70,3 @@ There is no difference in behavior between `new RegExp("\t")` and `new RegExp("\
 ## When Not To Use It
 
 If you need to use control character pattern matching, then you should turn this rule off.
-
-## Related Rules
-
-* [no-div-regex](no-div-regex)
-* [no-regex-spaces](no-regex-spaces)

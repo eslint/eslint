@@ -3,6 +3,8 @@ title: no-extra-strict
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-extra-strict.md
 
+further_reading:
+- https://es5.github.io/#C
 ---
 
 Disallows strict mode directives when already in strict mode.
@@ -51,7 +53,3 @@ Examples of **correct** code for this rule:
     var foo = true;
 }());
 ```
-
-## Further Reading
-
-* [The ECMAScript 5 Annotated Specification - Strict Mode](https://es5.github.io/#C)

@@ -3,6 +3,10 @@ title: no-shadow
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-shadow.md
 rule_type: suggestion
+related_rules:
+- no-shadow-restricted-names
+further_reading:
+- https://en.wikipedia.org/wiki/Variable_shadowing
 ---
 
 Disallows variable declarations from shadowing variables declared in the outer scope.
@@ -198,11 +202,3 @@ var y = (y => y)()
 ```
 
 The rationale for callback functions is the assumption that they will be called during the initialization, so that at the time when the shadowing variable will be used, the shadowed variable has not yet been initialized.
-
-## Related Rules
-
-* [no-shadow-restricted-names](no-shadow-restricted-names)
-
-## Further Reading
-
-* [Variable Shadowing](https://en.wikipedia.org/wiki/Variable_shadowing)

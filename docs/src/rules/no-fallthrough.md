@@ -3,6 +3,8 @@ title: no-fallthrough
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-fallthrough.md
 rule_type: problem
+related_rules:
+- default-case
 ---
 
 <!--RECOMMENDED-->
@@ -194,7 +196,3 @@ switch(foo) {
 ## When Not To Use It
 
 If you don't want to enforce that each `case` statement should end with a `throw`, `return`, `break`, or comment, then you can safely turn this rule off.
-
-## Related Rules
-
-* [default-case](default-case)

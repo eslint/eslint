@@ -3,6 +3,8 @@ title: no-case-declarations
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-case-declarations.md
 rule_type: suggestion
+related_rules:
+- no-fallthrough
 ---
 
 <!--RECOMMENDED-->
@@ -78,7 +80,3 @@ switch (foo) {
 ## When Not To Use It
 
 If you depend on fall through behavior and want access to bindings introduced in the case block.
-
-## Related Rules
-
-* [no-fallthrough](no-fallthrough)
