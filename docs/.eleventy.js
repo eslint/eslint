@@ -343,6 +343,15 @@ module.exports = function(eleventyConfig) {
     return {
         passthroughFileCopy: true,
 
+        /*
+         * The site is loaded from /docs on eslint.org and so we need to adjust
+         * the path prefix so URLs are evaluated correctly.
+         * 
+         * The path prefix is turned off for deploy previews so we can properly
+         * see changes before deployed.
+         */
+        pathPrefix: process.env.CONTEXT === "deploy-preview" ? "" : "/docs",
+
         markdownTemplateEngine: 'njk',
         dataTemplateEngine: 'njk',
         htmlTemplateEngine: 'njk',
