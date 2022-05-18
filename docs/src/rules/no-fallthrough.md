@@ -163,9 +163,11 @@ Note that the last `case` statement in these examples does not cause a warning b
 
 ## Options
 
-This rule accepts a single options argument:
+This rule has an object option for exceptions:
 
-* Set the `commentPattern` option to a regular expression string to change the test for intentional fallthrough comment
+* Set the `commentPattern` option to a regular expression string to change the test for intentional fallthrough comment.
+
+* Set the `allowEmptyCase` option to true to allow empty `case` intentionally.
 
 ### commentPattern
 
@@ -191,6 +193,29 @@ switch(foo) {
     default:
         doSomething();
 }
+```
+
+### allowEmptyCase
+
+Examples for **correct** code for the `{ "allowEmptyCase": true }` option:
+
+```js
+/* eslint no-fallthrough: ["error", { "allowEmptyCase": true }] */
+
+switch(foo){
+    case 1:
+
+    case 2: doSomething();
+}
+
+switch(foo){
+    case 1:
+    /*
+    Put a message here 
+    */
+    case 2: doSomething();
+}
+
 ```
 
 ## When Not To Use It
