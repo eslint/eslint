@@ -1,33 +1,33 @@
 /**
  * @fileoverview Script to fetch link data.
- * 
+ *
  * To fetch info about all files:
- * 
- *      node tools/fetch-links.js
- * 
+ *
+ *      node tools/fetch-docs-links.js
+ *
  * To fetch info for just selected files (for use with lint-staged):
- * 
- *      node tools/fetch-links.js docs/src/user-guide/index.md
- * 
+ *
+ *      node tools/fetch-docs-links.js docs/src/user-guide/index.md
+ *
  * @author Nicholas C. Zakas
  */
+
+"use strict";
 
 //-----------------------------------------------------------------------------
 // Requirements
 //-----------------------------------------------------------------------------
 
 const matter = require("gray-matter");
-const metascraper = require('metascraper')([
-    require('metascraper-image')(),
-    require('metascraper-logo')(),
-    require('metascraper-logo-favicon')(),
-    require('metascraper-publisher')(),
-    require('metascraper-title')(),
-    require('metascraper-description')(),
-    require('metascraper-url')()
+const metascraper = require("metascraper")([
+    require("metascraper-image")(),
+    require("metascraper-logo")(),
+    require("metascraper-logo-favicon")(),
+    require("metascraper-title")(),
+    require("metascraper-description")()
 ]);
-const got = require('got');
-const path = require('path');
+const got = require("got");
+const path = require("path");
 const fs = require("fs/promises");
 const glob = require("fast-glob");
 
@@ -35,7 +35,7 @@ const glob = require("fast-glob");
 // Data
 //-----------------------------------------------------------------------------
 
-const BASE_DIR = path.resolve(__dirname, "../../");
+const BASE_DIR = path.resolve(__dirname, "../");
 const SRC_DIR = path.resolve(BASE_DIR, "docs/src");
 const DATA_DIR = path.resolve(SRC_DIR, "_data");
 const DATA_FILE_PATH = path.resolve(DATA_DIR, "further_reading_links.json");
@@ -44,11 +44,10 @@ const DATA_FILE_PATH = path.resolve(DATA_DIR, "further_reading_links.json");
 let filenames = process.argv.slice(2);
 
 if (filenames.length === 0) {
-    filenames = glob.sync("rules/*.md", { cwd: SRC_DIR })
-        .map(filename => path.resolve(SRC_DIR, filename));
-} else {
-    filenames = filenames.map(filename => path.resolve(BASE_DIR, filename));
+    filenames = glob.sync("docs/src/rules/*.md", { cwd: BASE_DIR });
 }
+
+filenames = filenames.map(filename => path.resolve(BASE_DIR, filename));
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -57,10 +56,10 @@ if (filenames.length === 0) {
 /**
  * Fetches metadata information for a given URL.
  * @param {string} url The URL to fetch data for.
- * @returns {Promise<object>} An object with metadata info. 
+ * @returns {Promise<object>} An object with metadata info.
  */
 async function fetchLinkMeta(url) {
-    const { body: html, url: returnedURL } = await got(url);
+    const { body: html } = await got(url);
     const metadata = await metascraper({ html, url });
     const domain = (new URL(url)).hostname;
 
@@ -68,7 +67,8 @@ async function fetchLinkMeta(url) {
         domain,
         url,
         logo: metadata.logo,
-        title: metadata.title
+        title: metadata.title,
+        description: metadata.description
     };
 }
 

@@ -140,7 +140,7 @@ module.exports = function(eleventyConfig) {
         return `
         <article class="resource">
             <div class="resource__image">
-                <img class="resource__img" width="75" height="75" src="${logo}" alt="Avatar image for ${domain}" />
+                <img class="resource__img" width="75" height="75" src="${logo}" alt="Avatar image for ${domain}" onerror="this.src = '/icon.svg'" />
             </div>
             <div class="resource__content">
                 <a href="${url}" class="resource__title"> ${title} </a><br>
@@ -305,7 +305,7 @@ module.exports = function(eleventyConfig) {
     // START, eleventy-img
     function imageShortcode(src, alt, cls, sizes = "(max-width: 768px) 100vw, 50vw") {
         const source = src;
-        // console.log(`Generating image(s) from:  ${src}`)
+        
         let options = {
             widths: [600, 900, 1500],
             formats: ["webp", "jpeg"],

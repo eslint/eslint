@@ -25,14 +25,16 @@
     "publish-release": "node Makefile.js publishRelease",
     "gensite": "node Makefile.js gensite",
     "webpack": "node Makefile.js webpack",
-    "perf": "node Makefile.js perf"
+    "perf": "node Makefile.js perf",
+    "docs:update-links": "node tools/fetch-docs-links.js"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
     "*.js": "eslint --fix",
-    "*.md": "markdownlint --fix"
+    "*.md": "markdownlint --fix",
+    "docs/src/rules/*.md": "node tools/fetch-docs-links.js"
   },
   "files": [
     "LICENSE",
@@ -104,8 +106,11 @@
     "eslint-release": "^3.2.0",
     "eslump": "^3.0.0",
     "esprima": "^4.0.1",
+    "fast-glob": "^3.2.11",
     "fs-teardown": "^0.1.3",
     "glob": "^7.1.6",
+    "got": "^11.8.3",
+    "gray-matter": "^4.0.3",
     "jsdoc": "^3.5.5",
     "karma": "^6.1.1",
     "karma-chrome-launcher": "^3.1.0",
@@ -118,6 +123,12 @@
     "markdownlint-cli": "^0.30.0",
     "marked": "^4.0.8",
     "memfs": "^3.0.1",
+    "metascraper": "^5.25.7",
+    "metascraper-description": "^5.25.7",
+    "metascraper-image": "^5.29.3",
+    "metascraper-logo": "^5.25.7",
+    "metascraper-logo-favicon": "^5.25.7",
+    "metascraper-title": "^5.25.7",
     "mocha": "^8.3.2",
     "mocha-junit-reporter": "^2.0.0",
     "node-polyfill-webpack-plugin": "^1.0.3",
