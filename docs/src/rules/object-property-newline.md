@@ -108,7 +108,7 @@ This rule applies equally to all property specifications, regardless of notation
 * `a` (ES2015 shorthand property)
 * ``[`prop${a}`]`` (ES2015 computed property name)
 
-Thus, the rule (without the object option) prohibits both of these:
+Thus, the rule (without the optional exception) prohibits both of these:
 
 ```js
 const newObject = {
