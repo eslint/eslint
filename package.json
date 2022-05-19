@@ -34,7 +34,10 @@
   "lint-staged": {
     "*.js": "eslint --fix",
     "*.md": "markdownlint --fix",
-    "docs/src/rules/*.md": "node tools/fetch-docs-links.js"
+    "docs/src/rules/*.md": [
+      "node tools/fetch-docs-links.js",
+      "git add docs/src/_data/further_reading_links.json"
+    ]
   },
   "files": [
     "LICENSE",

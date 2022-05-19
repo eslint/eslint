@@ -6,16 +6,6 @@ const slugify = require("slugify");
 const markdownIt = require("markdown-it");
 const markdownItAnchor = require('markdown-it-anchor');
 const Image = require("@11ty/eleventy-img");
-const metascraper = require('metascraper')([
-    require('metascraper-image')(),
-    require('metascraper-logo')(),
-    require('metascraper-logo-favicon')(),
-    require('metascraper-publisher')(),
-    require('metascraper-title')(),
-    require('metascraper-description')(),
-    require('metascraper-url')()
-]);
-const got = require('got');
 const path = require('path');
 
 const {
@@ -140,7 +130,7 @@ module.exports = function(eleventyConfig) {
         return `
         <article class="resource">
             <div class="resource__image">
-                <img class="resource__img" width="75" height="75" src="${logo}" alt="Avatar image for ${domain}" onerror="this.src = '/icon.svg'" />
+                <img class="resource__img" width="75" height="75" src="${logo}" alt="Avatar image for ${domain}" onerror="this.onerror = null; this.src = '/icon.svg'" />
             </div>
             <div class="resource__content">
                 <a href="${url}" class="resource__title"> ${title} </a><br>

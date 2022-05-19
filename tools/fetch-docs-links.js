@@ -59,9 +59,9 @@ filenames = filenames.map(filename => path.resolve(BASE_DIR, filename));
  * @returns {Promise<object>} An object with metadata info.
  */
 async function fetchLinkMeta(url) {
-    const { body: html } = await got(url);
-    const metadata = await metascraper({ html, url });
-    const domain = (new URL(url)).hostname;
+    const { body: html, url: returnedURL } = await got(url);
+    const metadata = await metascraper({ html, url: returnedURL });
+    const domain = (new URL(returnedURL)).hostname;
 
     return {
         domain,
