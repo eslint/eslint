@@ -1,0 +1,28 @@
+name: 'Docs Deploy'
+
+on:
+  release:
+    types: ['published']
+
+jobs:
+  deploy:
+    name: 'Deploy'
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+      - run: cd docs
+      - name: Install Packages
+        run: npm install
+      - name: Build Site
+        run: npm run build
+      - name: Deploy to Netlify
+        run: npx netlify deploy --dir=_site --message='Docs deploy v${{ github.event.release.name }}' 
+        with:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_DEPLOY_TO_PROD: true
