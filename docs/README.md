@@ -8,7 +8,7 @@ npm start
 
 ## Scripts
 
-To update the links data file, run this from the `eslint` folder (not the `docs` folder):
+To update the links data file, run this from the root folder (not the `docs` folder):
 
 ```shell
 npm run update:docs-links
