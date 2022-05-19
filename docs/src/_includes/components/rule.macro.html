@@ -7,7 +7,7 @@
             <span class="rule__status">deprecated</span>
         </p>
         {%- if params.replacedBy|length -%}
-        <p class="rule__description">Replaced by <a href="/rules/{{ params.replacedBy }}"><code>{{ params.replacedBy }}</code></a></p>
+        <p class="rule__description">Replaced by <a href="{{ '/rules' | url }}/{{ params.replacedBy }}"><code>{{ params.replacedBy }}</code></a></p>
         {%- else -%}<p class="rule__description">{{ params.description }}</p>
         {%- endif -%}
         {%- elseif params.removed == true -%}
@@ -16,11 +16,11 @@
             <span class="rule__status">removed</span>
         </p>
         {%- if params.replacedBy -%}
-        <p class="rule__description">Replaced by <a href="/rules/{{ params.replacedBy }}"><code>{{ params.replacedBy }}</code></a></p>
+        <p class="rule__description">Replaced by <a href="{{ '/rules' | url }}/{{ params.replacedBy }}"><code>{{ params.replacedBy }}</code></a></p>
         {%- else -%}<p class="rule__description">{{ params.description }}</p>
         {%- endif -%}
         {%- else -%}
-        <a href="/rules/{{ params.name }}" class="rule__name">{{ params.name }}</a>
+        <a href="{{ '/rules' | url }}/{{ params.name }}" class="rule__name">{{ params.name }}</a>
         <p class="rule__description">{{ params.description }}</p>
         {%- endif -%}
     </div>
