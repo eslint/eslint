@@ -26,7 +26,14 @@ ruleTester.run("no-control-regex", rule, {
         "var regex = RegExp('x1f')",
         "new RegExp('[')",
         "RegExp('[')",
-        "new (function foo(){})('\\x1f')"
+        "new (function foo(){})('\\x1f')",
+        { code: String.raw`/\u{20}/u`, parserOptions: { ecmaVersion: 2015 } },
+        String.raw`/\u{1F}/`,
+        String.raw`/\u{1F}/g`,
+        String.raw`new RegExp("\\u{20}", "u")`,
+        String.raw`new RegExp("\\u{1F}")`,
+        String.raw`new RegExp("\\u{1F}", "g")`,
+        String.raw`new RegExp("\\u{1F}", flags)` // when flags are unknown, this rule assumes there's no `u` flag
     ],
     invalid: [
         { code: String.raw`var regex = /\x1f/`, errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }] },
@@ -45,6 +52,38 @@ ruleTester.run("no-control-regex", rule, {
         {
             code: String.raw`var regex = /(?<\u{1d49c}>.)\x1f/`,
             parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+        },
+        {
+            code: String.raw`new RegExp("\\u001F", flags)`,
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+        },
+        {
+            code: String.raw`/\u{1111}*\x1F/u`,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+        },
+        {
+            code: String.raw`new RegExp("\\u{1111}*\\x1F", "u")`,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+        },
+        {
+            code: String.raw`/\u{1F}/u`,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+        },
+        {
+            code: String.raw`/\u{1F}/gui`,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+        },
+        {
+            code: String.raw`new RegExp("\\u{1F}", "u")`,
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+        },
+        {
+            code: String.raw`new RegExp("\\u{1F}", "gui")`,
             errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
         }
     ]
