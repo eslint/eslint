@@ -11,5 +11,5 @@ npm start
 To update the links data file, run this from the root folder (not the `docs` folder):
 
 ```shell
-npm run update:docs-links
+npm run docs:update-links
 ```
