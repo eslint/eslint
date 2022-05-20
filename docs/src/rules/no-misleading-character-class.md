@@ -7,6 +7,8 @@ rule_type: problem
 
 <!--RECOMMENDED-->
 
+<!--SUGGESTIONS-->
+
 Disallows characters which are made with multiple code points in character class syntax.
 
 Unicode includes the characters which are made with multiple code points.
