@@ -76,223 +76,549 @@ ruleTester.run("no-misleading-character-class", rule, {
         // RegExp Literals.
         {
             code: "var r = /[👍]/",
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👍]/u" }]
+            }]
         },
         {
             code: "var r = /[\\uD83D\\uDC4D]/",
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[\\uD83D\\uDC4D]/u" }]
+            }]
+        },
+        {
+            code: "var r = /[👍]/",
+            parserOptions: { ecmaVersion: 3 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: null // ecmaVersion doesn't support the 'u' flag
+            }]
+        },
+        {
+            code: "var r = /[👍]/",
+            parserOptions: { ecmaVersion: 5 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: null // ecmaVersion doesn't support the 'u' flag
+            }]
+        },
+        {
+            code: "var r = /[👍]\\a/",
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: null // pattern would be invalid with the 'u' flag
+            }]
+        },
+        {
+            code: "var r = /(?<=[👍])/",
+            parserOptions: { ecmaVersion: 9 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /(?<=[👍])/u" }]
+            }]
+        },
+        {
+            code: "var r = /(?<=[👍])/",
+            parserOptions: { ecmaVersion: 2018 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /(?<=[👍])/u" }]
+            }]
         },
         {
             code: "var r = /[Á]/",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[Á]/u",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\u0041\\u0301]/",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\u0041\\u0301]/u",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\u{41}\\u{301}]/u",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[❇️]/",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[❇️]/u",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\u2747\\uFE0F]/",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\u2747\\uFE0F]/u",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\u{2747}\\u{FE0F}]/u",
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[👶🏻]/",
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👶🏻]/u" }]
+            }]
         },
         {
             code: "var r = /[👶🏻]/u",
-            errors: [{ messageId: "emojiModifier" }]
+            errors: [{
+                messageId: "emojiModifier",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\uD83D\\uDC76\\uD83C\\uDFFB]/u",
-            errors: [{ messageId: "emojiModifier" }]
+            errors: [{
+                messageId: "emojiModifier",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\u{1F476}\\u{1F3FB}]/u",
-            errors: [{ messageId: "emojiModifier" }]
+            errors: [{
+                messageId: "emojiModifier",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[🇯🇵]/",
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[🇯🇵]/u" }]
+            }]
+        },
+        {
+            code: "var r = /[🇯🇵]/i",
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[🇯🇵]/iu" }]
+            }]
         },
         {
             code: "var r = /[🇯🇵]/u",
-            errors: [{ messageId: "regionalIndicatorSymbol" }]
+            errors: [{
+                messageId: "regionalIndicatorSymbol",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\uD83C\\uDDEF\\uD83C\\uDDF5]/u",
-            errors: [{ messageId: "regionalIndicatorSymbol" }]
+            errors: [{
+                messageId: "regionalIndicatorSymbol",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\u{1F1EF}\\u{1F1F5}]/u",
-            errors: [{ messageId: "regionalIndicatorSymbol" }]
+            errors: [{
+                messageId: "regionalIndicatorSymbol",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[👨‍👩‍👦]/",
             errors: [
-                { messageId: "surrogatePairWithoutUFlag" },
-                { messageId: "zwj" }
+                {
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👨‍👩‍👦]/u" }]
+                },
+                {
+                    messageId: "zwj",
+                    suggestions: null
+                }
             ]
         },
         {
             code: "var r = /[👨‍👩‍👦]/u",
-            errors: [{ messageId: "zwj" }]
+            errors: [{
+                messageId: "zwj",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\uD83D\\uDC68\\u200D\\uD83D\\uDC69\\u200D\\uD83D\\uDC66]/u",
-            errors: [{ messageId: "zwj" }]
+            errors: [{
+                messageId: "zwj",
+                suggestions: null
+            }]
         },
         {
             code: "var r = /[\\u{1F468}\\u{200D}\\u{1F469}\\u{200D}\\u{1F466}]/u",
-            errors: [{ messageId: "zwj" }]
+            errors: [{
+                messageId: "zwj",
+                suggestions: null
+            }]
         },
 
         // RegExp constructors.
         {
             code: String.raw`var r = new RegExp("[👍]", "")`,
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[👍]", "u")` }]
+            }]
+        },
+        {
+            code: "var r = new RegExp('[👍]', ``)",
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = new RegExp('[👍]', `u`)" }]
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp("[👍]", flags)`,
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: null
+            }]
+        },
+        {
+            code: String.raw`const flags = ""; var r = new RegExp("[👍]", flags)`,
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\uD83D\\uDC4D]", "")`,
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[\\uD83D\\uDC4D]", "u")` }]
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp("[👍]", "")`,
+            parserOptions: { ecmaVersion: 3 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: null // ecmaVersion doesn't support the 'u' flag
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp("[👍]", "")`,
+            parserOptions: { ecmaVersion: 5 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: null // ecmaVersion doesn't support the 'u' flag
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp("[👍]\\a", "")`,
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: null // pattern would be invalid with the 'u' flag
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp("/(?<=[👍])", "")`,
+            parserOptions: { ecmaVersion: 9 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("/(?<=[👍])", "u")` }]
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp("/(?<=[👍])", "")`,
+            parserOptions: { ecmaVersion: 2018 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("/(?<=[👍])", "u")` }]
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[Á]", "")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[Á]", "u")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u0041\\u0301]", "")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u0041\\u0301]", "u")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u{41}\\u{301}]", "u")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[❇️]", "")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[❇️]", "u")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u2747\\uFE0F]", "")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u2747\\uFE0F]", "u")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u{2747}\\u{FE0F}]", "u")`,
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[👶🏻]", "")`,
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[👶🏻]", "u")` }]
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[👶🏻]", "u")`,
-            errors: [{ messageId: "emojiModifier" }]
+            errors: [{
+                messageId: "emojiModifier",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\uD83D\\uDC76\\uD83C\\uDFFB]", "u")`,
-            errors: [{ messageId: "emojiModifier" }]
+            errors: [{
+                messageId: "emojiModifier",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u{1F476}\\u{1F3FB}]", "u")`,
-            errors: [{ messageId: "emojiModifier" }]
+            errors: [{
+                messageId: "emojiModifier",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[🇯🇵]", "")`,
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "u")` }]
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp("[🇯🇵]", "i")`,
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "iu")` }]
+            }]
+        },
+        {
+            code: "var r = new RegExp('[🇯🇵]', `i`)",
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = new RegExp('[🇯🇵]', `iu`)" }]
+            }]
+        },
+        {
+            code: "var r = new RegExp('[🇯🇵]', `${foo}`)",
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = new RegExp('[🇯🇵]', `${foo}u`)" }]
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp("[🇯🇵]")`,
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "u")` }]
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp("[🇯🇵]",)`,
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "u",)` }]
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp(("[🇯🇵]"))`,
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp(("[🇯🇵]"), "u")` }]
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp((("[🇯🇵]")))`,
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp((("[🇯🇵]")), "u")` }]
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp(("[🇯🇵]"),)`,
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp(("[🇯🇵]"), "u",)` }]
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[🇯🇵]", "u")`,
-            errors: [{ messageId: "regionalIndicatorSymbol" }]
+            errors: [{
+                messageId: "regionalIndicatorSymbol",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\uD83C\\uDDEF\\uD83C\\uDDF5]", "u")`,
-            errors: [{ messageId: "regionalIndicatorSymbol" }]
+            errors: [{
+                messageId: "regionalIndicatorSymbol",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u{1F1EF}\\u{1F1F5}]", "u")`,
-            errors: [{ messageId: "regionalIndicatorSymbol" }]
+            errors: [{
+                messageId: "regionalIndicatorSymbol",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[👨‍👩‍👦]", "")`,
             errors: [
-                { messageId: "surrogatePairWithoutUFlag" },
-                { messageId: "zwj" }
+                {
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[👨‍👩‍👦]", "u")` }]
+                },
+                {
+                    messageId: "zwj",
+                    suggestions: null
+                }
             ]
         },
         {
             code: String.raw`var r = new RegExp("[👨‍👩‍👦]", "u")`,
-            errors: [{ messageId: "zwj" }]
+            errors: [{
+                messageId: "zwj",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\uD83D\\uDC68\\u200D\\uD83D\\uDC69\\u200D\\uD83D\\uDC66]", "u")`,
-            errors: [{ messageId: "zwj" }]
+            errors: [{
+                messageId: "zwj",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new RegExp("[\\u{1F468}\\u{200D}\\u{1F469}\\u{200D}\\u{1F466}]", "u")`,
-            errors: [{ messageId: "zwj" }]
+            errors: [{
+                messageId: "zwj",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new globalThis.RegExp("[❇️]", "")`,
             env: { es2020: true },
-            errors: [{ messageId: "combiningClass" }]
+            errors: [{
+                messageId: "combiningClass",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new globalThis.RegExp("[👶🏻]", "u")`,
             env: { es2020: true },
-            errors: [{ messageId: "emojiModifier" }]
+            errors: [{
+                messageId: "emojiModifier",
+                suggestions: null
+            }]
         },
         {
             code: String.raw`var r = new globalThis.RegExp("[🇯🇵]", "")`,
             env: { es2020: true },
-            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new globalThis.RegExp("[🇯🇵]", "u")` }]
+            }]
         },
         {
             code: String.raw`var r = new globalThis.RegExp("[\\u{1F468}\\u{200D}\\u{1F469}\\u{200D}\\u{1F466}]", "u")`,
             env: { es2020: true },
-            errors: [{ messageId: "zwj" }]
+            errors: [{
+                messageId: "zwj",
+                suggestions: null
+            }]
         }
     ]
 });
