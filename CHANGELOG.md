@@ -1,3 +1,23 @@
+v8.16.0 - May 20, 2022
+
+* [`1768d0d`](https://github.com/eslint/eslint/commit/1768d0de58e10046ed3e54f0fa52be48ba41f12b) chore: upgrade @eslint/eslintrc@1.3.0 (#15903) (Milos Djermanovic)
+* [`050d5f4`](https://github.com/eslint/eslint/commit/050d5f4e0456ae9a9d769f4306bc0d60058b0898) docs: Static further reading links (#15890) (Nicholas C. Zakas)
+* [`cab0c22`](https://github.com/eslint/eslint/commit/cab0c2287e12561d869dfcfcd1c4e14c9d6d70d5) feat: add Unicode flag suggestion in no-misleading-character-class (#15867) (Milos Djermanovic)
+* [`c686e4c`](https://github.com/eslint/eslint/commit/c686e4c4a04525118f5585fd76bdba59dddf3a97) chore: Add deploy workflow for docs site (#15894) (Nicholas C. Zakas)
+* [`38ae956`](https://github.com/eslint/eslint/commit/38ae9564a41e1d38adad55976565d85c5c981e1d) feat: check Unicode code point escapes in no-control-regex (#15862) (Milos Djermanovic)
+* [`36287c0`](https://github.com/eslint/eslint/commit/36287c00d56596fbb2672cfe3f9b9dd24b2926da) docs: fix absolute paths in related rules shortcode to work from /docs (#15892) (Milos Djermanovic)
+* [`90b6990`](https://github.com/eslint/eslint/commit/90b69901efd265fd11425540928793f1387095cc) docs: fix absolute links in rule macro to work from /docs (#15891) (Milos Djermanovic)
+* [`f437249`](https://github.com/eslint/eslint/commit/f437249a3bedb47155d33ac753b821ae31b814fa) docs: Adjust docs site path prefix (#15889) (Nicholas C. Zakas)
+* [`6e16025`](https://github.com/eslint/eslint/commit/6e16025e8fbffa0e1d0c977cb4b6eae30a502d9b) docs: update 'Related Rules' and 'Further Reading' in remaining rules (#15884) (Milos Djermanovic)
+* [`c7894cd`](https://github.com/eslint/eslint/commit/c7894cd433319e09b10a80b260a5398dac0d5dab) chore: enable some rules from eslint-plugin-unicorn internally (#15878) (Bryan Mishkin)
+* [`ea65cb5`](https://github.com/eslint/eslint/commit/ea65cb5435162ad29559d175e68f5b6d97e6cdcc) chore: upgrade eslint-plugin-eslint-plugin@^4.2.0 (#15882) (唯然)
+* [`cc29c69`](https://github.com/eslint/eslint/commit/cc29c696a08430fcbf202482306b8c3dbccc0257) chore: Upgrade official GitHub actions to latest versions (#15880) (Darius Dzien)
+* [`5891c75`](https://github.com/eslint/eslint/commit/5891c7533f500110129fdea7b9b63c8a409da0bd) chore: Refactor rule docs format (#15869) (Nicholas C. Zakas)
+* [`ee69cd3`](https://github.com/eslint/eslint/commit/ee69cd30b3551b3adebfd959a44a9a149221946a) feat: Update global variables (#15871) (Sébastien Règne)
+* [`1d39f69`](https://github.com/eslint/eslint/commit/1d39f698a22e2995bbfcf90b6dafd196a173092a) docs: remove confusing examples for no-mixed-operators (#15875) (Milos Djermanovic)
+* [`3071d76`](https://github.com/eslint/eslint/commit/3071d76772c002bd7b03053be5be54da52c01242) docs: Fix some grammar issues (#15837) (byodian)
+* [`3f09aab`](https://github.com/eslint/eslint/commit/3f09aab709980ca974b721de474be2dd183409a2) fix: function-paren-newline crash on "new new Foo();" (#15850) (coderaiser)
+
 v8.15.0 - May 6, 2022
 
 * [`1ba6a92`](https://github.com/eslint/eslint/commit/1ba6a926eedcfe725900ed95cf029cff02d0355a) chore: upgrade @eslint/eslintrc@1.2.3 (#15847) (Milos Djermanovic)
