@@ -25,6 +25,15 @@ const {
 module.exports = function(eleventyConfig) {
     let now = new Date();
 
+    /*
+     * The site is loaded from /docs on eslint.org and so we need to adjust
+     * the path prefix so URLs are evaluated correctly.
+     *
+     * The path prefix is turned off for deploy previews so we can properly
+     * see changes before deployed.
+    */
+    const pathPrefix = process.env.CONTEXT === "deploy-preview" ? "" : "/docs";
+
     /*****************************************************************************************
      *  Filters
      * ***************************************************************************************/
@@ -180,7 +189,7 @@ module.exports = function(eleventyConfig) {
 
         rules.forEach(function(rule) {
             let list_item = `<li class="related-rules__list__item">
-                <a href="/rules/${rule}">
+                <a href="${pathPrefix}/rules/${rule}">
                     <span>${rule}</span>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -343,14 +352,7 @@ module.exports = function(eleventyConfig) {
     return {
         passthroughFileCopy: true,
 
-        /*
-         * The site is loaded from /docs on eslint.org and so we need to adjust
-         * the path prefix so URLs are evaluated correctly.
-         * 
-         * The path prefix is turned off for deploy previews so we can properly
-         * see changes before deployed.
-         */
-        pathPrefix: process.env.CONTEXT === "deploy-preview" ? "" : "/docs",
+        pathPrefix,
 
         markdownTemplateEngine: 'njk',
         dataTemplateEngine: 'njk',
