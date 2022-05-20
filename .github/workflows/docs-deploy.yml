@@ -10,18 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-      - run: cd docs
-      - name: Install Packages
-        run: npm install
-      - name: Build Site
-        run: npm run build
-      - name: Deploy to Netlify
-        run: npx netlify deploy --dir=_site --message='Docs deploy ${{ github.event.release.tag_name }}' 
+      - working-directory: docs
+        run: |
+          npm install
+          npm run build
+          npx netlify deploy --dir=_site --message='Docs deploy ${{ github.event.release.tag_name }}' 
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
