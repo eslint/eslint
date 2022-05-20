@@ -34,6 +34,17 @@ layout: base.njk
 
         {% set all_content = [all_content, further_reading_content] | join %}
     {% endif %}
+        
+    {% if rule_type %}
+        {% set resources_content %}
+            <h2 id="resources">Resources</h2>
+            <ul>
+                <li><a href="https://github.com/eslint/eslint/blob/main/lib/rules/{{ title }}.js">Rule source</a></li>
+                <li><a href="https://github.com/eslint/eslint/blob/main/tests/rules/{{ title }}.js">Tests source</a></li>
+            </ul>
+        {% endset %}
+        {% set all_content = [all_content, resources_content] | join %}
+    {% endif %}
 
     <div class="docs-content">
         <main id="main" tabindex="-1" class="docs-main">
