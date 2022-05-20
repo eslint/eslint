@@ -27,7 +27,9 @@ layout: base.njk
     {% if further_reading %}
         {% set further_reading_content %}
             <h2 id="further-reading">Further Reading</h2>
-            {# async shortcodes don't work here so need to manually insert later #}
+            {% for url in further_reading %}
+                {% link url %}
+            {% endfor %}
         {% endset %}
 
         {% set all_content = [all_content, further_reading_content] | join %}
@@ -39,13 +41,6 @@ layout: base.njk
             {% include 'components/docs-toc.html' %}
 
             {{ all_content | safe }}
-
-            {# now insert the async-fetched link data if necessary #}
-            {% if further_reading %}
-                {% for url in further_reading %}
-                    {% link url %}
-                {% endfor %}            
-            {% endif %}
 
             <div class="docs-edit-link">
                 <a href="{{ edit_link }}" class="c-btn c-btn--secondary">Edit this page</a>

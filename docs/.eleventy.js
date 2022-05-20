@@ -6,16 +6,6 @@ const slugify = require("slugify");
 const markdownIt = require("markdown-it");
 const markdownItAnchor = require('markdown-it-anchor');
 const Image = require("@11ty/eleventy-img");
-const metascraper = require('metascraper')([
-    require('metascraper-image')(),
-    require('metascraper-logo')(),
-    require('metascraper-logo-favicon')(),
-    require('metascraper-publisher')(),
-    require('metascraper-title')(),
-    require('metascraper-description')(),
-    require('metascraper-url')()
-]);
-const got = require('got');
 const path = require('path');
 
 const {
@@ -132,19 +122,27 @@ module.exports = function(eleventyConfig) {
     /**********************************************************************
      *  Shortcodes
      * ********************************************************************/
-    eleventyConfig.addNunjucksAsyncShortcode("link", async function(link) {
-        const { body: html, url } = await got(link);
-        const metadata = await metascraper({ html, url });
-        const the_url = (new URL(link)); // same as url
-        const domain = the_url.hostname;
+    eleventyConfig.addNunjucksShortcode("link", function(url) {
+
+        const urlData = this.ctx.further_reading_links[url];
+
+        if (!urlData) {
+            throw new Error(`Data missing for ${url}`);
+        }
+
+        const {
+            domain,
+            title,
+            logo
+        } = urlData;
 
         return `
         <article class="resource">
             <div class="resource__image">
-                <img class="resource__img" width="75" height="75" src="${metadata.logo}" alt="Avatar image for ${domain}" />
+                <img class="resource__img" width="75" height="75" src="${logo}" alt="Avatar image for ${domain}" onerror="this.onerror = null; this.src = '/icon.svg'" />
             </div>
             <div class="resource__content">
-                <a href="${metadata.url}" class="resource__title"> ${metadata.title} </a><br>
+                <a href="${url}" class="resource__title"> ${title} </a><br>
                 <span class="resource__domain"> ${domain}</span>
             </div>
             <svg class="c-icon resource__icon" width="13" height="12" viewBox="0 0 13 12" fill="none">
@@ -306,7 +304,7 @@ module.exports = function(eleventyConfig) {
     // START, eleventy-img
     function imageShortcode(src, alt, cls, sizes = "(max-width: 768px) 100vw, 50vw") {
         const source = src;
-        // console.log(`Generating image(s) from:  ${src}`)
+        
         let options = {
             widths: [600, 900, 1500],
             formats: ["webp", "jpeg"],
