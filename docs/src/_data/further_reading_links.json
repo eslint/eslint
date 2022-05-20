@@ -1,0 +1,688 @@
+{
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "setter - JavaScript | MDN",
+        "description": "The set syntax binds an object property to a function to be called when there is an attempt to set that property."
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "getter - JavaScript | MDN",
+        "description": "The get syntax binds an object property to a function that will be called when that property is looked up."
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "Working with objects - JavaScript | MDN",
+        "description": "JavaScript is designed on a simple object-based paradigm. An object is a collection of properties, and a property is an association between a name (or key) and a value. A property’s value can be a function, in which case the property is known as a method. In addition to objects that are predefined i…"
+    },
+    "https://github.com/airbnb/javascript#arrows--one-arg-parens": {
+        "domain": "github.com",
+        "url": "https://github.com/airbnb/javascript#arrows--one-arg-parens",
+        "logo": "https://github.com/fluidicon.png",
+        "title": "GitHub - airbnb/javascript: JavaScript Style Guide",
+        "description": "JavaScript Style Guide. Contribute to airbnb/javascript development by creating an account on GitHub."
+    },
+    "https://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html": {
+        "domain": "www.adequatelygood.com",
+        "url": "https://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html",
+        "logo": "https://www.adequatelygood.com/favicon.ico",
+        "title": "JavaScript Scoping and Hoisting",
+        "description": null
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var#var_hoisting": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var#var_hoisting",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "var - JavaScript | MDN",
+        "description": "The var statement declares a function-scoped or globally-scoped variable, optionally initializing it to a value."
+    },
+    "https://en.wikipedia.org/wiki/Indent_style": {
+        "domain": "en.wikipedia.org",
+        "url": "https://en.wikipedia.org/wiki/Indent_style",
+        "logo": "https://en.wikipedia.org/static/apple-touch/wikipedia.png",
+        "title": "Indentation style - Wikipedia",
+        "description": null
+    },
+    "https://github.com/maxogden/art-of-node#callbacks": {
+        "domain": "github.com",
+        "url": "https://github.com/maxogden/art-of-node#callbacks",
+        "logo": "https://github.com/fluidicon.png",
+        "title": "GitHub - maxogden/art-of-node: a short introduction to node.js",
+        "description": ":snowflake: a short introduction to node.js. Contribute to maxogden/art-of-node development by creating an account on GitHub."
+    },
+    "https://web.archive.org/web/20171224042620/https://docs.nodejitsu.com/articles/errors/what-are-the-error-conventions/": {
+        "domain": "web.archive.org",
+        "url": "https://web.archive.org/web/20171224042620/https://docs.nodejitsu.com/articles/errors/what-are-the-error-conventions/",
+        "logo": "https://archive.org/favicon.ico",
+        "title": "What are the error conventions? - docs.nodejitsu.com",
+        "description": "docs.nodejitsu.com is a growing collection of how-to articles for node.js, written by the community and curated by Nodejitsu and friends. These articles range from basic to advanced, and provide relevant code samples and insights into the design and philosophy of node itself."
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "Classes - JavaScript | MDN",
+        "description": "Classes are a template for creating objects. They encapsulate data with code to work on that data. Classes in JS are built on prototypes but also have some syntax and semantics that are not shared with ES5 class-like semantics."
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "static - JavaScript | MDN",
+        "description": "The static keyword defines a static method or property for a class, or a class static initialization block (see the link for more information about this usage). Neither static methods nor static properties can be called on instances of the class. Instead, they’re called on the class itself."
+    },
+    "https://www.crockford.com/code.html": {
+        "domain": "www.crockford.com",
+        "url": "https://www.crockford.com/code.html",
+        "logo": "https://www.crockford.com/favicon.png",
+        "title": "Code Conventions for the JavaScript Programming Language",
+        "description": null
+    },
+    "https://dojotoolkit.org/reference-guide/1.9/developer/styleguide.html": {
+        "domain": "dojotoolkit.org",
+        "url": "https://dojotoolkit.org/reference-guide/1.9/developer/styleguide.html",
+        "logo": "https://dojotoolkit.org/images/favicons/apple-touch-icon-152x152.png",
+        "title": "Dojo Style Guide — The Dojo Toolkit - Reference Guide",
+        "description": null
+    },
+    "https://gist.github.com/isaacs/357981": {
+        "domain": "gist.github.com",
+        "url": "https://gist.github.com/isaacs/357981",
+        "logo": "https://gist.github.com/fluidicon.png",
+        "title": "A better coding convention for lists and object literals in JavaScript",
+        "description": "A better coding convention for lists and object literals in JavaScript - comma-first-var.js"
+    },
+    "https://en.wikipedia.org/wiki/Cyclomatic_complexity": {
+        "domain": "en.wikipedia.org",
+        "url": "https://en.wikipedia.org/wiki/Cyclomatic_complexity",
+        "logo": "https://en.wikipedia.org/static/apple-touch/wikipedia.png",
+        "title": "Cyclomatic complexity - Wikipedia",
+        "description": null
+    },
+    "https://ariya.io/2012/12/complexity-analysis-of-javascript-code": {
+        "domain": "ariya.io",
+        "url": "https://ariya.io/2012/12/complexity-analysis-of-javascript-code",
+        "logo": "https://ariya.io/favicon.ico",
+        "title": "Complexity Analysis of JavaScript Code",
+        "description": "Nobody likes to read complex code, especially if it’s someone’s else code. A preventive approach to block any complex code entering the application is by watching its complexity carefully."
+    },
+    "https://craftsmanshipforsoftware.com/2015/05/25/complexity-for-javascript/": {
+        "domain": "craftsmanshipforsoftware.com",
+        "url": "https://craftsmanshipforsoftware.com/2015/05/25/complexity-for-javascript/",
+        "logo": "https://s0.wp.com/i/webclip.png",
+        "title": "Complexity for JavaScript",
+        "description": "The control of complexity control presents the core problem of software development. The huge variety of decisions a developer faces on a day-to-day basis cry for methods of controlling and contain…"
+    },
+    "https://web.archive.org/web/20160808115119/http://jscomplexity.org/complexity": {
+        "domain": "web.archive.org",
+        "url": "https://web.archive.org/web/20160808115119/http://jscomplexity.org/complexity",
+        "logo": "https://archive.org/favicon.ico",
+        "title": "About complexity | JSComplexity.org",
+        "description": "A discussion of software complexity metrics and how they are calculated."
+    },
+    "https://github.com/eslint/eslint/issues/4808#issuecomment-167795140": {
+        "domain": "github.com",
+        "url": "https://github.com/eslint/eslint/issues/4808#issuecomment-167795140",
+        "logo": "https://github.com/fluidicon.png",
+        "title": "Complexity has no default · Issue #4808 · eslint/eslint",
+        "description": "Enabling the complexity rule with only a severity has no effect. We have tried to give sane defaults to all rules, and I think this should be no exception. I don&#39;t know what a good number would..."
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "switch - JavaScript | MDN",
+        "description": "The switch statement evaluates an expression, matching the expression’s value to a case clause, and executes statements associated with that case, as well as statements in cases that follow the matching case."
+    },
+    "https://web.archive.org/web/20201112040809/http://markdaggett.com/blog/2013/02/15/functions-explained/": {
+        "domain": "web.archive.org",
+        "url": "https://web.archive.org/web/20201112040809/http://markdaggett.com/blog/2013/02/15/functions-explained/",
+        "logo": "https://web.archive.org/web/20201112040809im_/http://markdaggett.com/favicon.ico",
+        "title": "Functions Explained - Mark Daggett’s Blog",
+        "description": "A Deep Dive into JavaScript Functions\nBased on my readership I have to assume most of you are familiar with JavaScript already. Therefore, it may …"
+    },
+    "https://2ality.com/2015/09/function-names-es6.html": {
+        "domain": "2ality.com",
+        "url": "https://2ality.com/2015/09/function-names-es6.html",
+        "logo": "https://2ality.com/img/favicon.png",
+        "title": "The names of functions in ES6",
+        "description": null
+    },
+    "https://leanpub.com/understandinges6/read/#leanpub-auto-generators": {
+        "domain": "leanpub.com",
+        "url": "https://leanpub.com/understandinges6/read/#leanpub-auto-generators",
+        "logo": "https://leanpub.com/understandinges6/read/favicons/mstile-310x310.png",
+        "title": "Read Understanding ECMAScript 6 | Leanpub",
+        "description": null
+    },
+    "https://leanpub.com/understandinges6/read/#leanpub-auto-accessor-properties": {
+        "domain": "leanpub.com",
+        "url": "https://leanpub.com/understandinges6/read/#leanpub-auto-accessor-properties",
+        "logo": "https://leanpub.com/understandinges6/read/favicons/mstile-310x310.png",
+        "title": "Read Understanding ECMAScript 6 | Leanpub",
+        "description": null
+    },
+    "https://javascriptweblog.wordpress.com/2011/01/04/exploring-javascript-for-in-loops/": {
+        "domain": "javascriptweblog.wordpress.com",
+        "url": "https://javascriptweblog.wordpress.com/2011/01/04/exploring-javascript-for-in-loops/",
+        "logo": "https://s1.wp.com/i/favicon.ico",
+        "title": "Exploring JavaScript for-in loops",
+        "description": "The for-in loop is the only cross-browser technique for iterating the properties of generic objects. There’s a bunch of literature about the dangers of using for-in to iterate arrays and when…"
+    },
+    "https://2ality.com/2012/01/objects-as-maps.html": {
+        "domain": "2ality.com",
+        "url": "https://2ality.com/2012/01/objects-as-maps.html",
+        "logo": "https://2ality.com/img/favicon.png",
+        "title": "The pitfalls of using objects as maps in JavaScript",
+        "description": null
+    },
+    "https://web.archive.org/web/20160725154648/http://www.mind2b.com/component/content/article/24-software-module-size-and-file-size": {
+        "domain": "web.archive.org",
+        "url": "https://web.archive.org/web/20160725154648/http://www.mind2b.com/component/content/article/24-software-module-size-and-file-size",
+        "logo": "https://archive.org/favicon.ico",
+        "title": "Software Module size and file size",
+        "description": null
+    },
+    "http://book.mixu.net/node/ch7.html": {
+        "domain": "book.mixu.net",
+        "url": "http://book.mixu.net/node/ch7.html",
+        "logo": null,
+        "title": "7. Control flow - Mixu’s Node book",
+        "description": null
+    },
+    "https://web.archive.org/web/20220104141150/https://howtonode.org/control-flow": {
+        "domain": "web.archive.org",
+        "url": "https://web.archive.org/web/20220104141150/https://howtonode.org/control-flow",
+        "logo": "https://web.archive.org/web/20220104141150im_/https://howtonode.org/favicon.ico",
+        "title": "Control Flow in Node - How To Node - NodeJS",
+        "description": "Learn the zen of coding in NodeJS."
+    },
+    "https://web.archive.org/web/20220127215850/https://howtonode.org/control-flow-part-ii": {
+        "domain": "web.archive.org",
+        "url": "https://web.archive.org/web/20220127215850/https://howtonode.org/control-flow-part-ii",
+        "logo": "https://web.archive.org/web/20220127215850im_/https://howtonode.org/favicon.ico",
+        "title": "Control Flow in Node Part II - How To Node - NodeJS",
+        "description": "Learn the zen of coding in NodeJS."
+    },
+    "https://nodejs.org/api/buffer.html": {
+        "domain": "nodejs.org",
+        "url": "https://nodejs.org/api/buffer.html",
+        "logo": "https://nodejs.org/favicon.ico",
+        "title": "Buffer | Node.js v18.2.0 Documentation",
+        "description": null
+    },
+    "https://github.com/ChALkeR/notes/blob/master/Lets-fix-Buffer-API.md": {
+        "domain": "github.com",
+        "url": "https://github.com/ChALkeR/notes/blob/master/Lets-fix-Buffer-API.md",
+        "logo": "https://github.com/fluidicon.png",
+        "title": "notes/Lets-fix-Buffer-API.md at master · ChALkeR/notes",
+        "description": "Some public notes. Contribute to ChALkeR/notes development by creating an account on GitHub."
+    },
+    "https://github.com/nodejs/node/issues/4660": {
+        "domain": "github.com",
+        "url": "https://github.com/nodejs/node/issues/4660",
+        "logo": "https://github.com/fluidicon.png",
+        "title": "Buffer(number) is unsafe · Issue #4660 · nodejs/node",
+        "description": "tl;dr This issue proposes: Change new Buffer(number) to return safe, zeroed-out memory Create a new API for creating uninitialized Buffers, Buffer.alloc(number) Update: Jan 15, 2016 Upon further co..."
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "debugger - JavaScript | MDN",
+        "description": "The debugger statement invokes any available debugging functionality, such as setting a breakpoint. If no debugging functionality is available, this statement has no effect."
+    },
+    "https://ericlippert.com/2003/11/01/eval-is-evil-part-one/": {
+        "domain": "ericlippert.com",
+        "url": "https://ericlippert.com/2003/11/01/eval-is-evil-part-one/",
+        "logo": "https://s1.wp.com/i/favicon.ico",
+        "title": "Eval is evil, part one",
+        "description": "The eval method — which takes a string containing JScript code, compiles it and runs it — is probably the most powerful and most misused method in JScript. There are a few scenarios in …"
+    },
+    "https://javascriptweblog.wordpress.com/2010/04/19/how-evil-is-eval/": {
+        "domain": "javascriptweblog.wordpress.com",
+        "url": "https://javascriptweblog.wordpress.com/2010/04/19/how-evil-is-eval/",
+        "logo": "https://s1.wp.com/i/favicon.ico",
+        "title": "How evil is eval?",
+        "description": "“eval is Evil: The eval function is the most misused feature of JavaScript. Avoid it” Douglas Crockford in JavaScript: The Good Parts I like The Good Parts. It’s essential reading…"
+    },
+    "https://bocoup.com/blog/the-catch-with-try-catch": {
+        "domain": "bocoup.com",
+        "url": "https://bocoup.com/blog/the-catch-with-try-catch",
+        "logo": "https://static3.bocoup.com/assets/2015/10/06163533/favicon.png",
+        "title": "The",
+        "description": "I’ve recently been working on an update to JavaScript Debug, which has me doing a lot of cross-browser testing, and I noticed a few “interesting quirks” with try…catch in Internet Explorer 6-8 that I couldn’t find documented anywhere."
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "Function.prototype.bind() - JavaScript | MDN",
+        "description": "The bind() method creates a new function that, when called, has its this keyword set to the provided value, with a given sequence of arguments preceding any provided when the new function is called."
+    },
+    "https://www.smashingmagazine.com/2014/01/understanding-javascript-function-prototype-bind/": {
+        "domain": "www.smashingmagazine.com",
+        "url": "https://www.smashingmagazine.com/2014/01/understanding-javascript-function-prototype-bind/",
+        "logo": "https://www.smashingmagazine.com/images/favicon/apple-touch-icon.png",
+        "title": "Understanding JavaScript Bind () — Smashing Magazine",
+        "description": "Function binding is probably your least concern when beginning with JavaScript, but when you realize that you need a solution to the problem of how to keep the context of “this” within another function, then you might not realize that what you actually need is Function.prototype.bind()."
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "Operator precedence - JavaScript | MDN",
+        "description": "Operator precedence determines how operators are parsed concerning each other. Operators with higher precedence become the operands of operators with lower precedence."
+    },
+    "https://es5.github.io/#C": {
+        "domain": "es5.github.io",
+        "url": "https://es5.github.io/#C",
+        "logo": "https://es5.github.io/favicon.ico",
+        "title": "Annotated ES5",
+        "description": null
+    },
+    "https://benalman.com/news/2010/11/immediately-invoked-function-expression/": {
+        "domain": "benalman.com",
+        "url": "https://benalman.com/news/2010/11/immediately-invoked-function-expression/",
+        "logo": "https://benalman.com/favicon.ico",
+        "title": "Ben Alman » Immediately-Invoked Function Expression (IIFE)",
+        "description": null
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Undeclared_var": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Undeclared_var",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "ReferenceError: assignment to undeclared variable “x” - JavaScript | MDN",
+        "description": "The JavaScript strict mode-only exception “Assignment to undeclared variable” occurs when the value has been assigned to an undeclared variable."
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_dead_zone": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_dead_zone",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "let - JavaScript | MDN",
+        "description": "The let statement declares a block-scoped local variable, optionally initializing it to a value."
+    },
+    "https://es5.github.io/#x7.8.5": {
+        "domain": "es5.github.io",
+        "url": "https://es5.github.io/#x7.8.5",
+        "logo": "https://es5.github.io/favicon.ico",
+        "title": "Annotated ES5",
+        "description": null
+    },
+    "https://es5.github.io/#x7.2": {
+        "domain": "es5.github.io",
+        "url": "https://es5.github.io/#x7.2",
+        "logo": "https://es5.github.io/favicon.ico",
+        "title": "Annotated ES5",
+        "description": null
+    },
+    "https://web.archive.org/web/20200414142829/http://timelessrepo.com/json-isnt-a-javascript-subset": {
+        "domain": "web.archive.org",
+        "url": "https://web.archive.org/web/20200414142829/http://timelessrepo.com/json-isnt-a-javascript-subset",
+        "logo": "https://archive.org/favicon.ico",
+        "title": "JSON: The JavaScript subset that isn’t - Timeless",
+        "description": null
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "Iterators and generators - JavaScript | MDN",
+        "description": "Iterators and Generators bring the concept of iteration directly into the core language and provide a mechanism for customizing the behavior of for...of loops."
+    },
+    "https://kangax.github.io/es5-compat-table/es6/#Iterators": {
+        "domain": "kangax.github.io",
+        "url": "https://kangax.github.io/es5-compat-table/es6/#Iterators",
+        "logo": "https://github.io/favicon.ico",
+        "title": null,
+        "description": null
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Deprecated_and_obsolete_features#Object_methods": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Deprecated_and_obsolete_features#Object_methods",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "Deprecated and obsolete features - JavaScript | MDN",
+        "description": "This page lists features of JavaScript that are deprecated (that is, still available but planned for removal) and obsolete (that is, no longer usable)."
+    },
+    "https://www.emacswiki.org/emacs/SmartTabs": {
+        "domain": "www.emacswiki.org",
+        "url": "https://www.emacswiki.org/emacs/SmartTabs",
+        "logo": "https://www.emacswiki.org/favicon.ico",
+        "title": "EmacsWiki: Smart Tabs",
+        "description": null
+    },
+    "https://www.ecma-international.org/ecma-262/6.0/#sec-symbol-objects": {
+        "domain": "www.ecma-international.org",
+        "url": "https://www.ecma-international.org/ecma-262/6.0/#sec-symbol-objects",
+        "logo": "https://www.ecma-international.org/ecma-262/6.0/favicon.ico",
+        "title": "ECMAScript 2015 Language Specification – ECMA-262 6th Edition",
+        "description": null
+    },
+    "https://www.inkling.com/read/javascript-definitive-guide-david-flanagan-6th/chapter-3/wrapper-objects": {
+        "domain": "www.inkling.com",
+        "url": "https://www.inkling.com/read/javascript-definitive-guide-david-flanagan-6th/chapter-3/wrapper-objects",
+        "logo": "https://inklingstatic.a.ssl.fastly.net/static_assets/20220214.223700z.8c5796a9.docker/images/favicon.ico",
+        "title": "Unsupported Browser",
+        "description": null
+    },
+    "https://tc39.es/ecma262/#prod-annexB-NonOctalDecimalEscapeSequence": {
+        "domain": "tc39.es",
+        "url": "https://tc39.es/ecma262/#prod-annexB-NonOctalDecimalEscapeSequence",
+        "logo": "https://tc39.es/ecma262/img/favicon.ico",
+        "title": "ECMAScript® 2023 Language Specification",
+        "description": null
+    },
+    "https://es5.github.io/#x15.8": {
+        "domain": "es5.github.io",
+        "url": "https://es5.github.io/#x15.8",
+        "logo": "https://es5.github.io/favicon.ico",
+        "title": "Annotated ES5",
+        "description": null
+    },
+    "https://spin.atomicobject.com/2011/04/10/javascript-don-t-reassign-your-function-arguments/": {
+        "domain": "spin.atomicobject.com",
+        "url": "https://spin.atomicobject.com/2011/04/10/javascript-don-t-reassign-your-function-arguments/",
+        "logo": "https://spin.atomicobject.com/wp-content/themes/spin/images/favicon.ico",
+        "title": "JavaScript: Don’t Reassign Your Function Arguments",
+        "description": "The point of this post is to raise awareness that reassigning the value of an argument variable mutates the arguments object."
+    },
+    "https://stackoverflow.com/questions/5869216/how-to-store-node-js-deployment-settings-configuration-files": {
+        "domain": "stackoverflow.com",
+        "url": "https://stackoverflow.com/questions/5869216/how-to-store-node-js-deployment-settings-configuration-files",
+        "logo": "https://cdn.sstatic.net/Sites/stackoverflow/Img/apple-touch-icon.png?v=c78bd457575a",
+        "title": "How to store Node.js deployment settings/configuration files?",
+        "description": "I have been working on a few Node apps, and I’ve been looking for a good pattern of storing deployment-related settings. In the Django world (where I come from), the common practise would be to hav..."
+    },
+    "https://blog.benhall.me.uk/2012/02/storing-application-config-data-in/": {
+        "domain": "blog.benhall.me.uk",
+        "url": "https://blog.benhall.me.uk/2012/02/storing-application-config-data-in/",
+        "logo": null,
+        "title": "Storing Node.js application config data – Ben Hall’s Blog",
+        "description": null
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "Promise - JavaScript | MDN",
+        "description": "The Promise object represents the eventual completion (or failure) of an asynchronous operation and its resulting value."
+    },
+    "https://johnresig.com/blog/objectgetprototypeof/": {
+        "domain": "johnresig.com",
+        "url": "https://johnresig.com/blog/objectgetprototypeof/",
+        "logo": "https://johnresig.com/wp-content/uploads/2017/04/cropped-jeresig-2016.1024-270x270.jpg",
+        "title": "John Resig - Object.getPrototypeOf",
+        "description": null
+    },
+    "https://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names": {
+        "domain": "kangax.github.io",
+        "url": "https://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names",
+        "logo": "https://kangax.github.io/compat-table/favicon.ico",
+        "title": "ECMAScript 5 compatibility table",
+        "description": null
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "async function - JavaScript | MDN",
+        "description": "An async function is a function declared with the async keyword, and the await keyword is permitted within it. The async and await keywords enable asynchronous, promise-based behavior to be written in a cleaner style, avoiding the need to explicitly configure promise chains."
+    },
+    "https://jakearchibald.com/2017/await-vs-return-vs-return-await/": {
+        "domain": "jakearchibald.com",
+        "url": "https://jakearchibald.com/2017/await-vs-return-vs-return-await/",
+        "logo": "https://jakearchibald.com/c/favicon-67801369.png",
+        "title": "await vs return vs return await",
+        "description": null
+    },
+    "https://stackoverflow.com/questions/13497971/what-is-the-matter-with-script-targeted-urls": {
+        "domain": "stackoverflow.com",
+        "url": "https://stackoverflow.com/questions/13497971/what-is-the-matter-with-script-targeted-urls",
+        "logo": "https://cdn.sstatic.net/Sites/stackoverflow/Img/apple-touch-icon.png?v=c78bd457575a",
+        "title": "What is the matter with script-targeted URLs?",
+        "description": "I’m using JSHint, and it got the following error: Script URL. Which I noticed that happened because on this particular line there is a string containing a javascript:... URL. I know that JSHint"
+    },
+    "https://es5.github.io/#x15.1.1": {
+        "domain": "es5.github.io",
+        "url": "https://es5.github.io/#x15.1.1",
+        "logo": "https://es5.github.io/favicon.ico",
+        "title": "Annotated ES5",
+        "description": null
+    },
+    "https://en.wikipedia.org/wiki/Variable_shadowing": {
+        "domain": "en.wikipedia.org",
+        "url": "https://en.wikipedia.org/wiki/Variable_shadowing",
+        "logo": "https://en.wikipedia.org/static/apple-touch/wikipedia.png",
+        "title": "Variable shadowing - Wikipedia",
+        "description": null
+    },
+    "https://www.nczonline.net/blog/2007/09/09/inconsistent-array-literals/": {
+        "domain": "www.nczonline.net",
+        "url": "https://www.nczonline.net/blog/2007/09/09/inconsistent-array-literals/",
+        "logo": "https://www.nczonline.net/images/favicon.png",
+        "title": "Inconsistent array literals",
+        "description": "Back at the Rich Web Experience, I helped lead a “birds of a feather” group discussion on JavaScript. In that discussion, someone called me a JavaScript expert. I quickly explained that I don’t..."
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "undefined - JavaScript | MDN",
+        "description": "The global undefined property represents the primitive value undefined. It is one of JavaScript’s primitive types."
+    },
+    "https://javascriptweblog.wordpress.com/2010/08/16/understanding-undefined-and-preventing-referenceerrors/": {
+        "domain": "javascriptweblog.wordpress.com",
+        "url": "https://javascriptweblog.wordpress.com/2010/08/16/understanding-undefined-and-preventing-referenceerrors/",
+        "logo": "https://s1.wp.com/i/favicon.ico",
+        "title": "Understanding JavaScript’s ‘undefined’",
+        "description": "Compared to other languages, JavaScript’s concept of undefined is a little confusing. In particular, trying to understand ReferenceErrors (“x is not defined”) and how best to code…"
+    },
+    "https://es5.github.io/#x15.1.1.3": {
+        "domain": "es5.github.io",
+        "url": "https://es5.github.io/#x15.1.1.3",
+        "logo": "https://es5.github.io/favicon.ico",
+        "title": "Annotated ES5",
+        "description": null
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "Regular expressions - JavaScript | MDN",
+        "description": "Regular expressions are patterns used to match character combinations in strings. In JavaScript, regular expressions are also objects. These patterns are used with the exec() and test() methods of RegExp, and with the match(), matchAll(), replace(), replaceAll(), search(), and split() methods of S…"
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/void": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/void",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "void operator - JavaScript | MDN",
+        "description": "The void operator evaluates the given expression and then returns undefined."
+    },
+    "https://oreilly.com/javascript/excerpts/javascript-good-parts/bad-parts.html": {
+        "domain": "oreilly.com",
+        "url": "https://oreilly.com/javascript/excerpts/javascript-good-parts/bad-parts.html",
+        "logo": "https://www.oreilly.com/favicon.ico",
+        "title": "O’Reilly Media - Technology and Business Training",
+        "description": "Gain technology and business knowledge and hone your skills with learning resources created and curated by O’Reilly’s experts: live online training, video, books, our platform has content from 200+ of the world’s best publishers."
+    },
+    "https://web.archive.org/web/20200717110117/https://yuiblog.com/blog/2006/04/11/with-statement-considered-harmful/": {
+        "domain": "web.archive.org",
+        "url": "https://web.archive.org/web/20200717110117/https://yuiblog.com/blog/2006/04/11/with-statement-considered-harmful/",
+        "logo": "https://web.archive.org/web/20200717110117im_/https://yuiblog.com/favicon.ico",
+        "title": "with Statement Considered Harmful",
+        "description": null
+    },
+    "https://jscs-dev.github.io/rule/requireNewlineBeforeSingleStatementsInIf": {
+        "domain": "jscs-dev.github.io",
+        "url": "https://jscs-dev.github.io/rule/requireNewlineBeforeSingleStatementsInIf",
+        "logo": "https://jscs-dev.github.io/favicon.ico",
+        "title": "JSCS",
+        "description": null
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "Object initializer - JavaScript | MDN",
+        "description": "Objects can be initialized using new Object(), Object.create(), or using the literal notation (initializer notation). An object initializer is a comma-delimited list of zero or more pairs of property names and associated values of an object, enclosed in curly braces ({})."
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "Arrow function expressions - JavaScript | MDN",
+        "description": "An arrow function expression is a compact alternative to a traditional function expression, but is limited and can’t be used in all situations."
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "Destructuring assignment - JavaScript | MDN",
+        "description": "The destructuring assignment syntax is a JavaScript expression that makes it possible to unpack values from arrays, or properties from objects, into distinct variables."
+    },
+    "https://2ality.com/2015/01/es6-destructuring.html": {
+        "domain": "2ality.com",
+        "url": "https://2ality.com/2015/01/es6-destructuring.html",
+        "logo": "https://2ality.com/img/favicon.png",
+        "title": "Destructuring and parameter handling in ECMAScript 6",
+        "description": null
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Exponentiation": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Exponentiation",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "Expressions and operators - JavaScript | MDN",
+        "description": "This chapter documents all the JavaScript language operators, expressions and keywords."
+    },
+    "https://bugs.chromium.org/p/v8/issues/detail?id=5848": {
+        "domain": "bugs.chromium.org",
+        "url": "https://bugs.chromium.org/p/v8/issues/detail?id=5848",
+        "logo": "https://bugs.chromium.org/static/images/monorail.ico",
+        "title": "5848 - v8 - V8 JavaScript Engine - Monorail",
+        "description": null
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "Object.hasOwn() - JavaScript | MDN",
+        "description": "The Object.hasOwn() static method returns true if the specified object has the indicated property as its own property. If the property is inherited, or does not exist, the method returns false."
+    },
+    "http://bluebirdjs.com/docs/warning-explanations.html#warning-a-promise-was-rejected-with-a-non-error": {
+        "domain": "bluebirdjs.com",
+        "url": "http://bluebirdjs.com/docs/warning-explanations.html#warning-a-promise-was-rejected-with-a-non-error",
+        "logo": "//bluebirdjs.com/img/favicon.png",
+        "title": "Warning Explanations | bluebird",
+        "description": "Bluebird is a fully featured JavaScript promises library with unmatched performance."
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "RegExp - JavaScript | MDN",
+        "description": "The RegExp object is used for matching text with a pattern."
+    },
+    "https://mathiasbynens.be/notes/javascript-properties": {
+        "domain": "mathiasbynens.be",
+        "url": "https://mathiasbynens.be/notes/javascript-properties",
+        "logo": "https://mathiasbynens.be/favicon.ico",
+        "title": "Unquoted property names / object keys in JavaScript · Mathias Bynens",
+        "description": null
+    },
+    "https://davidwalsh.name/parseint-radix": {
+        "domain": "davidwalsh.name",
+        "url": "https://davidwalsh.name/parseint-radix",
+        "logo": "https://davidwalsh.name/wp-content/themes/punky/images/favicon-144.png",
+        "title": "parseInt Radix",
+        "description": "The radix is important if you’re need to guarantee accuracy with variable input (basic number, binary, etc.). For best results, always use a radix of 10!"
+    },
+    "https://github.com/tc39/proposal-object-rest-spread": {
+        "domain": "github.com",
+        "url": "https://github.com/tc39/proposal-object-rest-spread",
+        "logo": "https://github.com/fluidicon.png",
+        "title": "GitHub - tc39/proposal-object-rest-spread: Rest/Spread Properties for ECMAScript",
+        "description": "Rest/Spread Properties for ECMAScript. Contribute to tc39/proposal-object-rest-spread development by creating an account on GitHub."
+    },
+    "https://blog.izs.me/2010/12/an-open-letter-to-javascript-leaders-regarding/": {
+        "domain": "blog.izs.me",
+        "url": "https://blog.izs.me/2010/12/an-open-letter-to-javascript-leaders-regarding/",
+        "logo": "https://blog.izs.me/favicon.ico",
+        "title": "An Open Letter to JavaScript Leaders Regarding Semicolons",
+        "description": "Writing and Stuff from Isaac Z. Schlueter"
+    },
+    "https://web.archive.org/web/20200420230322/http://inimino.org/~inimino/blog/javascript_semicolons": {
+        "domain": "web.archive.org",
+        "url": "https://web.archive.org/web/20200420230322/http://inimino.org/~inimino/blog/javascript_semicolons",
+        "logo": "https://archive.org/favicon.ico",
+        "title": "JavaScript Semicolon Insertion",
+        "description": null
+    },
+    "https://www.ecma-international.org/ecma-262/6.0/#sec-symbol-description": {
+        "domain": "www.ecma-international.org",
+        "url": "https://www.ecma-international.org/ecma-262/6.0/#sec-symbol-description",
+        "logo": "https://www.ecma-international.org/ecma-262/6.0/favicon.ico",
+        "title": "ECMAScript 2015 Language Specification – ECMA-262 6th Edition",
+        "description": null
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_template_literals": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_template_literals",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "Template literals (Template strings) - JavaScript | MDN",
+        "description": "Template literals are literals delimited with backtick (`) characters, allowing for multi-line strings, for string interpolation with embedded expressions, and for special constructs called tagged templates."
+    },
+    "https://exploringjs.com/es6/ch_template-literals.html#_examples-of-using-tagged-template-literals": {
+        "domain": "exploringjs.com",
+        "url": "https://exploringjs.com/es6/ch_template-literals.html#_examples-of-using-tagged-template-literals",
+        "logo": "https://exploringjs.com/es6/images/favicon-128.png",
+        "title": "8. Template literals",
+        "description": null
+    },
+    "https://jsdoc.app": {
+        "domain": "jsdoc.app",
+        "url": "https://jsdoc.app",
+        "logo": null,
+        "title": "Use JSDoc: Index",
+        "description": "Official documentation for JSDoc 3."
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "typeof - JavaScript | MDN",
+        "description": "The typeof operator returns a string indicating the type of the unevaluated operand."
+    },
+    "https://danhough.com/blog/single-var-pattern-rant/": {
+        "domain": "danhough.com",
+        "url": "https://danhough.com/blog/single-var-pattern-rant/",
+        "logo": "https://danhough.com/img/meta/apple-touch-icon-152x152.png",
+        "title": "A criticism of the Single Var Pattern in JavaScript, and a simple alternative — Dan Hough",
+        "description": "Dan Hough is a software developer & consultant, a writer and public speaker."
+    },
+    "https://benalman.com/news/2012/05/multiple-var-statements-javascript/": {
+        "domain": "benalman.com",
+        "url": "https://benalman.com/news/2012/05/multiple-var-statements-javascript/",
+        "logo": "https://benalman.com/favicon.ico",
+        "title": "Ben Alman » Multiple var statements in JavaScript, not superfluous",
+        "description": null
+    },
+    "https://en.wikipedia.org/wiki/Yoda_conditions": {
+        "domain": "en.wikipedia.org",
+        "url": "https://en.wikipedia.org/wiki/Yoda_conditions",
+        "logo": "https://en.wikipedia.org/static/apple-touch/wikipedia.png",
+        "title": "Yoda conditions - Wikipedia",
+        "description": null
+    },
+    "http://thomas.tuerke.net/on/design/?with=1249091668#msg1146181680": {
+        "domain": "thomas.tuerke.net",
+        "url": "http://thomas.tuerke.net/on/design/?with=1249091668#msg1146181680",
+        "logo": "//thomas.tuerke.net/images/tmtlogo.ico",
+        "title": "Coding in Style",
+        "description": "Thomas M. Tuerke topical weblog"
+    }
+}
