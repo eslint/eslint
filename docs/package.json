@@ -30,6 +30,7 @@
         "imagemin-cli": "^7.0.0",
         "markdown-it": "^12.2.0",
         "markdown-it-anchor": "^8.1.2",
+        "netlify-cli": "^10.3.1",
         "node-sass": "^6.0.1",
         "npm-run-all": "^4.1.5",
         "rimraf": "^3.0.2",
