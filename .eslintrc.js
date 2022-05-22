@@ -79,7 +79,6 @@ module.exports = {
             ],
             rules: {
                 "eslint-plugin/prefer-message-ids": "error",
-                "eslint-plugin/prefer-output-null": "error",
                 "eslint-plugin/prefer-placeholders": "error",
                 "eslint-plugin/prefer-replace-text": "error",
                 "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
@@ -100,6 +99,7 @@ module.exports = {
                 "plugin:eslint-plugin/tests-recommended"
             ],
             rules: {
+                "eslint-plugin/prefer-output-null": "error",
                 "eslint-plugin/test-case-property-ordering": "error",
                 "eslint-plugin/test-case-shorthand-strings": "error"
             }
