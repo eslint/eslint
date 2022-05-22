@@ -482,8 +482,17 @@ target.lint = function([fix = false] = []) {
     let errors = 0,
         lastReturn;
 
+    /*
+     * In order to successfully lint JavaScript files in the `docs` directory, dependencies declared in `docs/package.json`
+     * would have to be installed in `docs/node_modules`. In particular, eslint-plugin-node rules examine `docs/node_modules`
+     * when analyzing `require()` calls from CJS modules in the `docs` directory. Since our release process does not run `npm install`
+     * in the `docs` directory, linting would fail and break the release. Also, working on the main `eslint` package does not require
+     * installing dependencies declared in `docs/package.json`, so most contributors will not have `docs/node_modules` locally.
+     * Therefore, we add `--ignore-pattern docs` to exclude linting the `docs` directory from this command.
+     * There is a separate command `target.lintDocsJS` for linting JavaScript files in the `docs` directory.
+     */
     echo("Validating JavaScript files");
-    lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} .`);
+    lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} . --ignore-pattern docs`);
     if (lastReturn.code !== 0) {
         errors++;
     }
