@@ -24,11 +24,10 @@ module.exports = function(eleventyConfig) {
      */
     const pathPrefix = process.env.CONTEXT === "deploy-preview" ? "" : "/docs";
 
-    /**
-     ****************************************************************************************
-     *  Filters
-     * **************************************************************************************
-     */
+    //------------------------------------------------------------------------------
+    // Filters
+    //------------------------------------------------------------------------------
+
     eleventyConfig.addFilter("limitTo", (arr, limit) => arr.slice(0, limit));
 
     eleventyConfig.addFilter("jsonify", variable => JSON.stringify(variable));
@@ -92,11 +91,10 @@ module.exports = function(eleventyConfig) {
         return markdown.render(value);
     });
 
-    /**
-     ****************************************************************************************
-     *  Plugins
-     * **************************************************************************************
-     */
+    //------------------------------------------------------------------------------
+    // Plugins
+    //------------------------------------------------------------------------------
+
     eleventyConfig.addPlugin(eleventyNavigationPlugin);
     eleventyConfig.addPlugin(syntaxHighlight, {
         alwaysWrapLineHighlights: true
@@ -121,11 +119,10 @@ module.exports = function(eleventyConfig) {
 
         }).use(markdownItAnchor, {}).disable("code"));
 
-    /**
-     *********************************************************************
-     *  Shortcodes
-     * *******************************************************************
-     */
+    //------------------------------------------------------------------------------
+    // Shortcodes
+    //------------------------------------------------------------------------------
+
     eleventyConfig.addNunjucksShortcode("link", function(url) {
 
         // eslint-disable-next-line no-invalid-this -- Eleventy API
@@ -242,12 +239,9 @@ module.exports = function(eleventyConfig) {
 
     eleventyConfig.addWatchTarget("./src/assets/");
 
-
-    /**
-     ****************************************************************************************
-     *  File PassThroughs
-     * **************************************************************************************
-     */
+    //------------------------------------------------------------------------------
+    // File PassThroughs
+    //------------------------------------------------------------------------------
 
     eleventyConfig.addPassthroughCopy({
         "./src/static": "/"
@@ -283,11 +277,9 @@ module.exports = function(eleventyConfig) {
         "./node_modules/algoliasearch/dist/algoliasearch-lite.esm.browser.js": "/assets/js/algoliasearch.js"
     });
 
-    /**
-     ****************************************************************************************
-     *  Collections
-     * **************************************************************************************
-     */
+    //------------------------------------------------------------------------------
+    // Collections
+    //------------------------------------------------------------------------------
 
     eleventyConfig.addCollection("docs", collection => collection.getFilteredByGlob("./src/**/**/*.md"));
 
