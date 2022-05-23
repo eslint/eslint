@@ -1083,6 +1083,17 @@ ruleTester.run("no-restricted-imports", rule, {
             column: 1,
             endColumn: 41
         }]
+    },
+    {
+        code: "import absoluteWithPatterns from '#foo/bar';",
+        options: [{ patterns: ["\\#foo"] }],
+        errors: [{
+            message: "'#foo/bar' import is restricted from being used by a pattern.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 45
+        }]
     }
     ]
 });
