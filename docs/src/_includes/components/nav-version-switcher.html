@@ -11,6 +11,9 @@
             Version
         </label>
         <select name="version selector" id="nav-version-select" aria-describedby="version-infobox" class="c-custom-select switcher__select auto-switcher">
+            <option value="{{ eslintVersion }}" selected>
+                v{{ eslintVersion }}
+            </option>
             {% for version in versions.items %}
             <option value="{{ version.number }}"
                     data-url="{{ version.url }}"
