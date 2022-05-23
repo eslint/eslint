@@ -18,8 +18,7 @@ const client = algoliasearch('L633P0C2IR', 'bb6bbd2940351f3afc18844a6b06a6e8');
 const index = client.initIndex('eslint');
 
 // page
-const resultsElement = document.querySelector('#search-results');
-const searchInput = document.querySelector('#search');
+const searchInputs = document.querySelectorAll('input.search__input');
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -38,9 +37,10 @@ function fetchSearchResults(query) {
 
 /**
  * Removes any current search results from the display.
+ * @param {Element} resultsElement The HTML element used to display search results.
  * @returns {void}
  */
-function clearSearchResults() {
+function clearSearchResults(resultsElement) {
     while (resultsElement.firstChild) {
         resultsElement.removeChild(resultsElement.firstChild);
     }
@@ -49,11 +49,11 @@ function clearSearchResults() {
 /**
  * Displays the given search results in the page.
  * @param {Array<object>} results The search results to display.
+ * @param {Element} resultsElement The HTML element used to display search results.
  * @returns {void}
  */
-function displaySearchResults(results) {
-
-    clearSearchResults();
+function displaySearchResults(results,resultsElement) {
+    clearSearchResults(resultsElement);
 
     if (results.length) {
 
@@ -82,16 +82,21 @@ function displaySearchResults(results) {
 
 
 // listen for input changes
-searchInput.addEventListener('keyup', function (event) {
-    const query = searchInput.value;
+searchInputs.forEach((searchInput) => {
+    searchInput.addEventListener('keyup', function (event) {
+        const resultsElement = document.querySelector(`#${searchInput.id}-results`);
+        const query = searchInput.value;
 
-    if (query.length > 2) {
-        fetchSearchResults(query)
-            .then(displaySearchResults)
-            .catch(clearSearchResults);
-    } else {
-        clearSearchResults();
-    }
+        if (query.length > 2) {
+            fetchSearchResults(query)
+                .then(function (results) { displaySearchResults(results, resultsElement) })
+                .catch(function () {
+                    clearSearchResults(resultsElement);
+                });
+        } else {
+            clearSearchResults(resultsElement);
+        }
+    });
 });
 
     // add an event listenrer for a click on the search link
