@@ -515,7 +515,7 @@ ESLint supports `.eslintignore` files to exclude files from the linting process 
     temp.js
     **/vendor/*.js
 
-A more detailed breakdown of supported patterns and directories ESLint ignores by default can be found in [Ignoring Code](configuring/ignoring-code).
+A more detailed breakdown of supported patterns and directories ESLint ignores by default can be found in [Ignoring Code](/docs/user-guide/configuring/ignoring-code/).
 
 ## Exit codes
 
