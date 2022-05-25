@@ -22,6 +22,11 @@ jobs:
       run: node Makefile checkRuleFiles
     - name: Check Licenses
       run: node Makefile checkLicenses
+    - name: Install Docs Packages
+      working-directory: docs
+      run: npm install
+    - name: Lint Docs JS Files
+      run: node Makefile lintDocsJS
 
   test_on_node:
     name: Test

@@ -1,6 +1,7 @@
 /build/**
 /coverage/**
 /docs/**
+!/docs/.eleventy.js
 /jsdoc/**
 /templates/**
 /tests/bench/**
