@@ -82,17 +82,19 @@ function displaySearchResults(results) {
 
 
 // listen for input changes
-searchInput.addEventListener('keyup', function (event) {
-    const query = searchInput.value;
+if (searchInput != null) {
+    searchInput.addEventListener('keyup', function (event) {
+        const query = searchInput.value;
 
-    if (query.length > 2) {
-        fetchSearchResults(query)
-            .then(displaySearchResults)
-            .catch(clearSearchResults);
-    } else {
-        clearSearchResults();
-    }
-});
+        if (query.length > 2) {
+            fetchSearchResults(query)
+                .then(displaySearchResults)
+                .catch(clearSearchResults);
+        } else {
+            clearSearchResults();
+        }
+    });
+}
 
     // add an event listenrer for a click on the search link
     //   btnHandler('#search-link', function(){
