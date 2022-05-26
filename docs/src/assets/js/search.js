@@ -83,10 +83,9 @@ function displaySearchResults(results,resultsElement) {
 
 // listen for input changes
 searchInputs.forEach((searchInput) => {
+    const resultsElement = document.querySelector(`#${searchInput.id}-results`);
     searchInput.addEventListener('keyup', function (event) {
-        const resultsElement = document.querySelector(`#${searchInput.id}-results`);
         const query = searchInput.value;
-
         if (query.length > 2) {
             fetchSearchResults(query)
                 .then(function (results) { displaySearchResults(results, resultsElement) })
