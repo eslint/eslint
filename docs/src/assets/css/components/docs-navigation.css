@@ -43,6 +43,11 @@
   text-decoration: none;
   font-weight: 500;
 }
+.docs-site-nav a.switcher-fallback {
+  color: var(--link-color);
+  transition: color 0.1s linear;
+  text-decoration: underline;
+}
 
 @media all and (min-width: 1023px) {
   .docs-nav-panel {
