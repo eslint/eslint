@@ -19,7 +19,33 @@
             <path id="ham-bottom" d="M30,63 L70,63 Z" stroke="currentColor"></path>
         </svg>
     </button>
-    <ul class="docs-index__list" id="js-docs-index-list" data-open="false">
+    <noscript>
+        <style>
+            #js-docs-index-toggle{
+                display: none;
+            }
+        </style>
+        <button class="docs-index-toggle" aria-label="Index"  hidden>
+            Index
+            <svg width="20" height="20" viewBox="20 20 60 60">
+                <path id="ham-top" d="M30,37 L70,37 Z" stroke="currentColor"></path>
+                <path id="ham-middle" d="M30,50 L70,50 Z" stroke="currentColor"></path>
+                <path id="ham-bottom" d="M30,63 L70,63 Z" stroke="currentColor"></path>
+            </svg>
+        </button>
+    </noscript>
+
+    <ul class="docs-index__list" id="js-docs-index-list">
         {%- for entry in navPages %}{{ renderNavListItem(entry) }}{%- endfor -%}
     </ul>
+    <noscript>
+        <style>
+            #js-docs-index-list{
+                display: none;
+            }
+        </style>
+    <ul class="docs-index__list" >
+        {%- for entry in navPages %}{{ renderNavListItem(entry) }}{%- endfor -%}
+    </ul>
+</noscript>
 </nav>

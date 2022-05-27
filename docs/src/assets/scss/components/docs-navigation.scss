@@ -70,6 +70,38 @@
     }
 }
 
+#nav-panel{
+    @media all and (max-width: 1023px) {
+        display: none;
+    }
+}
+
+#nav-panel[data-open="true"]{
+    @media all and (max-width: 1023px) {
+    display: block;
+    }
+}
+
+#js-docs-index-list {
+    @media all and (max-width: 1023px) {
+        display: none;
+    }
+}
+
+#js-docs-index-list[data-open="true"]{
+    @media all and (max-width: 1023px) {
+    display: block;
+    }
+}
+
+
+
+#nav-toggle{
+    @media all and (min-width: 1024px) {
+        display: none;
+    }
+}
+
 .docs-nav-panel .mobile-only {
     @media all and (min-width: 1023px) {
         display: none;
