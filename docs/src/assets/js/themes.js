@@ -8,11 +8,6 @@
         btn.setAttribute("aria-pressed", "false");
     }
 
-
-    let theme = window.localStorage.getItem("theme");
-    document.documentElement.setAttribute('data-theme', theme);
-    if (!theme) document.documentElement.setAttribute('data-theme', 'light');
-
     document.addEventListener('DOMContentLoaded', function() {
         var switcher = document.getElementById('js-theme-switcher');
         switcher.removeAttribute('hidden');
