@@ -34,22 +34,23 @@
     <meta name="twitter:image" content="{{ cover }}">
     <meta name="twitter:creator" content="@geteslint">
 
-    <noscript>
-        <style>
-            #js-docs-index-toggle, #nav-toggle, #nav-panel, #version-switcher {
-                display: none;
-            }
-           #js-docs-index-list {
-             display: block !important
-            }
-        </style>
-    </noscript>
-
-    <script type="module">
+    <script>
         // This is a capable browser, let's improve the UI further!
         document.documentElement.classList.add("enhanced");
         document.documentElement.classList.remove('no-js');
     </script>
+
+    <style>
+        .no-js #js-docs-index-toggle, .no-js #nav-toggle, .no-js #version-switcher, .no-js #nav-version-switcher {
+            display: none;
+        }
+        .no-js #js-docs-index-list {
+            display: block !important
+        }
+        .no-js #nav-panel{
+            display:grid !important;
+            }
+    </style>
 
     <link rel="preload" href="{{ '/assets/fonts/SpaceGrotesk-Medium-subset.woff2' | url }}" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="{{ '/assets/fonts/Inter-Regular-subset.woff2' | url }}" as="font" type="font/woff2" crossorigin>
