@@ -41,15 +41,18 @@
     </script>
 
     <style>
+        .enhanced .switcher-fallback {
+            display: none !important 
+        }
         .no-js #js-docs-index-toggle, .no-js #nav-toggle, .no-js #version-switcher, .no-js #nav-version-switcher {
             display: none;
         }
         .no-js #js-docs-index-list {
             display: block !important
         }
-        .no-js #nav-panel{
+        .no-js #nav-panel {
             display:grid !important;
-            }
+        }
     </style>
 
     <link rel="preload" href="{{ '/assets/fonts/SpaceGrotesk-Medium-subset.woff2' | url }}" as="font" type="font/woff2" crossorigin>
