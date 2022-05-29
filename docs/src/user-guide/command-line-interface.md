@@ -144,7 +144,7 @@ Examples:
 #### `--ext`
 
 This option allows you to specify which file extensions ESLint will use when searching for target files in the directories you specify.
-By default, ESLint lints `*.js` files and the files that match the `overrides` entries of your configuration.
+By default, ESLint lints `*.js`, `*.cjs` and `*.mjs` files and also the files that match the `overrides` entries of your configuration.
 
 Examples:
 
