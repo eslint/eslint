@@ -28,7 +28,7 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint eol-last: ["error", "always"]*/
 
-function doSmth() {
+function doSomething() {
   var foo = 2;
 }
 ```
@@ -38,7 +38,7 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint eol-last: ["error", "always"]*/
 
-function doSmth() {
+function doSomething() {
   var foo = 2;
 }\n
 ```

@@ -305,7 +305,7 @@ var obj = {
     "myObjectFunction": function() {
         // Do something
         //
-    }, // These are two separate groups, so no alignment between `myObjectFuction` and `one`
+    }, // These are two separate groups, so no alignment between `myObjectFunction` and `one`
     "one"   : 1,
     "seven" : 7 // `one` and `seven` are in their own group, and therefore aligned
 }
