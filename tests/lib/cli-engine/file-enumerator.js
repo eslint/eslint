@@ -182,6 +182,52 @@ describe("FileEnumerator", () => {
             });
         });
 
+        describe("with a directory 'lib' that contains 'common.cjs' and 'module.mjs'", () => {
+            const root = path.join(os.tmpdir(), "eslint/file-enumerator");
+            const files = {
+                "lib/common.cjs": "",
+                "lib/module.mjs": "",
+                "lib/other.txt": "",
+                ".eslintrc.json": JSON.stringify({
+                })
+            };
+            const { prepare, cleanup, getPath } = createCustomTeardown({ cwd: root, files });
+
+            /** @type {FileEnumerator} */
+            let enumerator;
+
+            beforeEach(async () => {
+                await prepare();
+                enumerator = new FileEnumerator({ cwd: getPath() });
+            });
+
+            afterEach(cleanup);
+
+            describe("if 'lib' were ", () => {
+
+                /** @type {Array<{config:(typeof import('../../../lib/cli-engine')).ConfigArray, filePath:string, ignored:boolean}>} */
+                let list;
+
+                beforeEach(() => {
+                    list = [...enumerator.iterateFiles(["lib"])];
+                });
+
+                it("should list two files.", () => {
+                    assert.strictEqual(list.length, 2);
+                });
+
+                it("should list 'lib/common.cjs' and 'lib/module.mjs'.", () => {
+                    assert.deepStrictEqual(
+                        list.map(entry => entry.filePath),
+                        [
+                            path.join(root, "lib/common.cjs"),
+                            path.join(root, "lib/module.mjs")
+                        ]
+                    );
+                });
+            });
+        });
+
         // This group moved from 'tests/lib/util/glob-utils.js' when refactoring to keep the cumulated test cases.
         describe("with 'tests/fixtures/glob-utils' files", () => {
             let fixtureDir;
