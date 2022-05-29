@@ -289,7 +289,7 @@ This method loads a formatter. Formatters convert lint results to a human- or ma
   The path to the file you want to check. The following values are allowed:
     * `undefined`. In this case, loads the `"stylish"` built-in formatter.
     * A name of [built-in formatters][builtin-formatters].
-    * A name of [third-party formatters][thirdparty-formatters]. For examples:
+    * A name of [third-party formatters][third-party-formatters]. For examples:
         * `"foo"` will load `eslint-formatter-foo`.
         * `"@foo"` will load `@foo/eslint-formatter`.
         * `"@foo/bar"` will load `@foo/eslint-formatter-bar`.
@@ -954,7 +954,7 @@ ruleTester.run("my-rule", myRule, {
 
 [configuration object]: ../user-guide/configuring
 [builtin-formatters]: https://eslint.org/docs/user-guide/formatters/
-[thirdparty-formatters]: https://www.npmjs.com/search?q=eslintformatter
+[third-party-formatters]: https://www.npmjs.com/search?q=eslintformatter
 [eslint]: #eslint-class
 [eslint-constructor]: #-new-eslintoptions
 [eslint-lintfiles]: #-eslintlintfilespatterns
