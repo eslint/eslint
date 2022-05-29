@@ -1325,12 +1325,6 @@ a.c-btn {
   }
 }
 
-@media all and (min-width: 1023px) {
-  .docs-nav-panel .mobile-only {
-    display: none;
-  }
-}
-
 .docs-site-nav-toggle {
   cursor: pointer;
   display: inline-flex;

@@ -50,8 +50,10 @@
         .no-js #js-docs-index-list {
             display: block !important
         }
-        .no-js #nav-panel {
-            display:grid !important;
+        @media all and (max-width: 1023px) {
+            .no-js #nav-panel {
+                display: block !important;
+            } 
         }
     </style>
 

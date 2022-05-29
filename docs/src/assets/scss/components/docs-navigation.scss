@@ -101,16 +101,8 @@
     }
 }
 
-
-
 #nav-toggle{
     @media all and (min-width: 1024px) {
-        display: none;
-    }
-}
-
-.docs-nav-panel .mobile-only {
-    @media all and (min-width: 1023px) {
         display: none;
     }
 }
