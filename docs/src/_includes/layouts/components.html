@@ -27,7 +27,7 @@ hook: "component-library"
             <ul class="index__list" id="js-index-list">
                 {% for item in collections.library %}
                 <li class="index__item">
-                    <a href="{{ item.url }}" {{ helpers.getLinkActiveState(item.url,
+                    <a href="{{ item.url | url }}" {{ helpers.getLinkActiveState(item.url,
                     page.url) | safe }}>{{ item.data.title }}</a>
                 </li>
                 {% endfor %}

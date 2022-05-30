@@ -28,5 +28,6 @@ yarn.lock
 package-lock.json
 pnpm-lock.yaml
 
-# Docs site output
+# Docs site
 _site
+/docs/src/assets/css

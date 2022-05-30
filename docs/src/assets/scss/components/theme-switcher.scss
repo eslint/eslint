@@ -27,8 +27,8 @@
     display: inline-flex;
     align-items: center;
     margin: 0;
-    width: 40px;
-    height: 40px;
+    gap: .25rem;
+    color: inherit;
 
     &:first-of-type {
         border-right: .5px solid var(--border-color);
@@ -52,6 +52,8 @@
 }
 
 .theme-switcher__button[aria-pressed="true"] {
+    color: var(--link-color);
+
     .theme-switcher__icon {
         color: var(--link-color);
     }

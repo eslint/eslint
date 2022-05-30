@@ -1,75 +1,93 @@
+/* docs layout styles */
+
 .docs {
     max-width: 1700px;
     margin: 0 auto;
 }
 
-.docs-ad {
+.docs-aside__content {
     flex: 1;
 }
 
 .docs-wrapper {
-    padding: 0 calc(1rem + 1vw);
+    padding: 0 var(--space-s-l);
     flex: 1;
+    display: flex;
+    flex-direction: column;
 
     @media all and (min-width: 1023px) {
         display: grid;
         grid-template-columns: minmax(250px, 1fr) minmax(0, 3.5fr);
-        grid-gap: 0rem;
         align-items: stretch;
     }
 }
 
-.docs-left-sidebar {
+.docs-nav {
     grid-column: 1 / 2;
     grid-row: 1 / 2;
-    padding: calc(1rem + 1vw) 0;
+    padding-top: var(--space-l-xl);
+    padding-block-start: var(--space-l-xl);
     font-size: .875rem;
-
-    @media all and (min-width: 1023px) {
-        border-right: 1px solid var(--divider-color);
-        border-right: 1px solid var(--divider-color);
-        padding-right: calc(1rem + 1vw);
-        padding-inline-end: calc(1rem + 1vw);
-    }
-
-
 
     display: grid;
     grid-auto-rows: max-content;
     align-items: start;
+
+    @media all and (min-width: 1023px) {
+        padding: var(--space-l-xl) 0;
+        padding-right: var(--space-s-l);
+        padding-inline-end: var(--space-s-l);
+
+        border-right: 1px solid var(--divider-color);
+        border-inline-end: 1px solid var(--divider-color);
+    }
 }
 
 .docs-content {
     grid-column: 2 / 3;
+    padding: var(--space-l-xl) 0;
+    flex: 1;
 
     @media all and (min-width: 800px) {
         display: grid;
-        grid-template-columns: minmax(0, 3fr) minmax(230px, 1fr);
-        grid-gap: 2rem;
+        grid-template-columns: minmax(0, 4fr) minmax(160px, 1fr);
+        grid-gap: 1rem;
     }
 
     @media all and (min-width: 1023px) {
-        padding: calc(2rem + 1vw) 0;
+        padding: 0;
     }
 
+    @media all and (min-width: 1300px) {
+        grid-gap: 2rem;
+    }
 }
 
 .docs-main {
-    flex: 1 1 65ch;
+    flex: 1 1 68ch;
+
+    @media all and (min-width: 800px) {
+        padding-right: var(--space-s-l);
+        padding-inline-end: var(--space-s-l);
+
+        border-right: 1px solid var(--divider-color);
+        border-inline-end: 1px solid var(--divider-color);
+    }
 
     @media all and (min-width: 1023px) {
-        padding: 0 2rem;
+        padding: var(--space-l-xl) var(--space-l-2xl);
     }
 }
 
 
-.docs-right-sidebar {
+.docs-aside {
     grid-column: 2 / 3;
-
     display: flex;
     flex-direction: column;
 
-    flex: 1 1 200px;
+    @media all and (min-width: 800px) {
+        padding: var(--space-l-xl) 0;
+    }
 }
 
 .docs-toc {

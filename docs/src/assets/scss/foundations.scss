@@ -36,6 +36,17 @@ h6:target {
     box-shadow: none;
 }
 
+input:focus-visible {
+    outline: 2px solid var(--link-color);
+    border-color: var(--border-color);
+}
+
+input:focus {
+    outline: 2px solid transparent;
+    box-shadow: 0 0 0 2px var(--link-color);
+}
+
+
 *,
 *::before,
 *::after {
@@ -333,4 +344,95 @@ nav {
         transition: outline-offset .15s linear;
         outline-offset: 3px;
     }
+}
+
+
+/* typography */
+body {
+    font-size: var(--step-0);
+    line-height: 1.5;
+}
+
+.eyebrow {
+    color: var(--link-color);
+    font-size: 1rem;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 1.5rem;
+    margin-block-end: 1.5rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--display-font);
+    color: var(--headings-color);
+    font-weight: 500;
+    margin-top: 0;
+    margin-block-start: 0;
+
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+
+    .docs-main &,
+    .components-main & {
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+        margin-block-start: 3rem;
+        margin-block-end: 1.5rem;
+
+        &:first-child {
+            margin-top: 0;
+            margin-block-start: 0;
+        }
+    }
+}
+
+
+small,
+caption,
+cite,
+figcaption {
+    font-size: var(--step--1);
+}
+
+h6,
+.h6 {
+    font-size: var(--step-0);
+}
+
+h5,
+.h5 {
+    font-size: var(--step-0); // 20
+}
+
+h4,
+.h4 {
+    font-size: var(--step-1); // 24
+}
+
+h3,
+.h3 {
+    font-size: var(--step-2);
+    line-height: 1.2;
+}
+
+h2,
+.h2 {
+    font-size: var(--step-3);
+    line-height: 1.2;
+}
+
+h1,
+.h1 {
+    font-size: var(--step-4);
+    line-height: 1.2;
 }
