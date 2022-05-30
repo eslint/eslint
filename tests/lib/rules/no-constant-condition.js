@@ -410,7 +410,7 @@ ruleTester.run("no-constant-condition", rule, {
 
         /*
          * undefined is always falsy (except in old browsers that let you
-         * re-assign, but that's an abscure enough edge case to not worry about)
+         * re-assign, but that's an obscure enough edge case to not worry about)
          */
         { code: "if (undefined) {}", errors: [{ messageId: "unexpected" }] },
 

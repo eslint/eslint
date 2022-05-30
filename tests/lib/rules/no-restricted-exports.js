@@ -401,7 +401,7 @@ ruleTester.run("no-restricted-exports", rule, {
 
         // Note: duplicate identifiers in the same export declaration are a 'duplicate export' syntax error. Example: export var a, a;
 
-        // invalid and valid or multiple ivalid in the same declaration
+        // invalid and valid or multiple invalid in the same declaration
         {
             code: "export var a, b;",
             options: [{ restrictedNamedExports: ["a"] }],

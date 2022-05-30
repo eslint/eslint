@@ -409,7 +409,7 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 2022 }
         },
 
-        // Combinations of `properties` and `ignoreDestructring`
+        // Combinations of `properties` and `ignoreDestructuring`
         {
             code: `
             const { some_property } = obj;
@@ -1447,7 +1447,7 @@ ruleTester.run("camelcase", rule, {
             errors: [{ messageId: "notCamelCasePrivate", data: { name: "snake_case" } }]
         },
 
-        // Combinations of `properties` and `ignoreDestructring`
+        // Combinations of `properties` and `ignoreDestructuring`
         {
             code: `
             const { some_property } = obj;

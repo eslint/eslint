@@ -105,8 +105,8 @@ ruleTester.run("no-redeclare", rule, {
             options: [{ builtinGlobals: true }],
             env: { browser: false }
         },
-        { code: "var glovalThis = foo", options: [{ builtinGlobals: true }], env: { es6: true } },
-        { code: "var glovalThis = foo", options: [{ builtinGlobals: true }], env: { es2017: true } },
+        { code: "var globalThis = foo", options: [{ builtinGlobals: true }], env: { es6: true } },
+        { code: "var globalThis = foo", options: [{ builtinGlobals: true }], env: { es2017: true } },
 
         // Comments and built-ins.
         {
