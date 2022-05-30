@@ -202,9 +202,12 @@ function generateRuleIndexPage() {
              * which can cause an error if there's syntax it doesn't expect.
              * Because we don't use this info in the website anyway, it's safer
              * to just remove it.
+             *
+             * Also removing the schema because we don't need it.
              */
             meta[basename] = {
                 ...rule.meta,
+                schema: void 0,
                 messages: void 0
             };
 
