@@ -39,7 +39,7 @@ function errorAt(line, column, type) {
 
 const ruleTester = new RuleTester();
 
-ruleTester.run("no-mutli-assign", rule, {
+ruleTester.run("no-multi-assign", rule, {
     valid: [
         "var a, b, c,\nd = 0;",
         "var a = 1; var b = 2; var c = 3;\nvar d = 0;",

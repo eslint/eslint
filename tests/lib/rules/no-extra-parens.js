@@ -1,5 +1,5 @@
 /**
- * @fileoverview Disallow parenthesesisng higher precedence subexpressions.
+ * @fileoverview Disallow parenthesising higher precedence subexpressions.
  * @author Michael Ficarra
  */
 

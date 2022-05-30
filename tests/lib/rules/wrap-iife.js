@@ -434,7 +434,7 @@ ruleTester.run("wrap-iife", rule, {
         },
         {
             code: "if ((function (){}())) {}",
-            output: "if ((function (){})()) {}", // wrap function expression and remove unnecessary grouping parens aroung the call expression
+            output: "if ((function (){})()) {}", // wrap function expression and remove unnecessary grouping parens around the call expression
             options: ["inside"],
             errors: [wrapExpressionError]
         },
@@ -557,7 +557,7 @@ ruleTester.run("wrap-iife", rule, {
         },
         {
             code: "if ((function (){}.call())) {}",
-            output: "if ((function (){}).call()) {}", // wrap function expression and remove unnecessary grouping parens aroung the call expression
+            output: "if ((function (){}).call()) {}", // wrap function expression and remove unnecessary grouping parens around the call expression
             options: ["inside", { functionPrototypeMethods: true }],
             errors: [wrapExpressionError]
         },

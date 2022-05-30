@@ -129,7 +129,7 @@ describe("FixTracker", () => {
         });
     });
 
-    describe("retainSurroungingTokens", () => {
+    describe("retainSurroundingTokens", () => {
         it("handles a change to a binary operator", () => {
             const sourceCode = createSourceCode("const i = j + k;");
             const plusToken = sourceCode.ast.tokens[4];

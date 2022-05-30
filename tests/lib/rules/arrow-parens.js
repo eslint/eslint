@@ -46,7 +46,7 @@ const valid = [
     { code: "a.then((foo) => {});", options: ["always"] },
     { code: "a.then((foo) => { if (true) {}; });", options: ["always"] },
     { code: "a.then(async (foo) => { if (true) {}; });", options: ["always"], parserOptions: { ecmaVersion: 8 } },
-    { code: "(a: T) => a", options: ["always"], parser: parser("identifer-type") },
+    { code: "(a: T) => a", options: ["always"], parser: parser("identifier-type") },
     { code: "(a): T => a", options: ["always"], parser: parser("return-type") },
 
     // "as-needed"
@@ -64,7 +64,7 @@ const valid = [
     { code: "async a => a", options: ["as-needed"], parserOptions: { ecmaVersion: 8 } },
     { code: "async ([a, b]) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 8 } },
     { code: "async (a, b) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 8 } },
-    { code: "(a: T) => a", options: ["as-needed"], parser: parser("identifer-type") },
+    { code: "(a: T) => a", options: ["as-needed"], parser: parser("identifier-type") },
     { code: "(a): T => a", options: ["as-needed"], parser: parser("return-type") },
 
     // "as-needed", { "requireForBlockBody": true }
@@ -83,7 +83,7 @@ const valid = [
     { code: "a => ({})", options: ["as-needed", { requireForBlockBody: true }] },
     { code: "async a => ({})", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
     { code: "async a => a", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
-    { code: "(a: T) => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("identifer-type") },
+    { code: "(a: T) => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("identifier-type") },
     { code: "(a): T => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("return-type") },
     {
         code: "const f = (/** @type {number} */a/**hello*/) => a + a;",

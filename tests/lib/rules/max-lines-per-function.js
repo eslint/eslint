@@ -143,7 +143,7 @@ if ( x === y ) {
             options: [{ max: 5, skipComments: true, skipBlankLines: false }]
         },
 
-        // IIFEs should be recognised if IIFEs: true
+        // IIFEs should be recognized if IIFEs: true
         {
             code: `(function(){
     let x = 0;
@@ -155,7 +155,7 @@ if ( x === y ) {
             options: [{ max: 7, skipComments: true, skipBlankLines: false, IIFEs: true }]
         },
 
-        // IIFEs should not be recognised if IIFEs: false
+        // IIFEs should not be recognized if IIFEs: false
         {
             code: `(function(){
     let x = 0;
@@ -167,7 +167,7 @@ if ( x === y ) {
             options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: false }]
         },
 
-        // Arrow IIFEs should be recognised if IIFEs: true
+        // Arrow IIFEs should be recognized if IIFEs: true
         {
             code: `(() => {
     let x = 0;
@@ -179,7 +179,7 @@ if ( x === y ) {
             options: [{ max: 7, skipComments: true, skipBlankLines: false, IIFEs: true }]
         },
 
-        // Arrow IIFEs should not be recognised if IIFEs: false
+        // Arrow IIFEs should not be recognized if IIFEs: false
         {
             code: `(() => {
     let x = 0;
@@ -194,7 +194,7 @@ if ( x === y ) {
 
     invalid: [
 
-        // Test simple standalone function is recognised
+        // Test simple standalone function is recognized
         {
             code: "function name() {\n}",
             options: [1],
@@ -203,7 +203,7 @@ if ( x === y ) {
             ]
         },
 
-        // Test anonymous function assigned to variable is recognised
+        // Test anonymous function assigned to variable is recognized
         {
             code: "var func = function() {\n}",
             options: [1],
@@ -212,7 +212,7 @@ if ( x === y ) {
             ]
         },
 
-        // Test arrow functions are recognised
+        // Test arrow functions are recognized
         {
             code: "const bar = () => {\nconst x = 2 + 1;\nreturn x;\n}",
             options: [3],
@@ -221,7 +221,7 @@ if ( x === y ) {
             ]
         },
 
-        // Test inline arrow functions are recognised
+        // Test inline arrow functions are recognized
         {
             code: "const bar = () =>\n 2",
             options: [1],
@@ -369,7 +369,7 @@ if ( x === y ) {
             ]
         },
 
-        // Test regular methods are recognised
+        // Test regular methods are recognized
         {
             code: `class foo {
     method() {
@@ -384,7 +384,7 @@ if ( x === y ) {
             ]
         },
 
-        // Test static methods are recognised
+        // Test static methods are recognized
         {
             code: `class A {
     static
@@ -399,7 +399,7 @@ if ( x === y ) {
             ]
         },
 
-        // Test getters are recognised as properties
+        // Test getters are recognized as properties
         {
             code: `var obj = {
     get
@@ -414,7 +414,7 @@ if ( x === y ) {
             ]
         },
 
-        // Test setters are recognised as properties
+        // Test setters are recognized as properties
         {
             code: `var obj = {
     set

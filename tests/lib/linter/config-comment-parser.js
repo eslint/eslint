@@ -215,7 +215,7 @@ describe("ConfigCommentParser", () => {
             });
         });
 
-        it("should parse list config with two items and exta whitespace", () => {
+        it("should parse list config with two items and extra whitespace", () => {
             const code = "  a , b  ";
             const result = commentParser.parseListConfig(code);
 

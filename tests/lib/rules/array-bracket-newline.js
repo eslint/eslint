@@ -440,7 +440,7 @@ ruleTester.run("array-bracket-newline", rule, {
 
     invalid: [
 
-        // default : { mutliline : true}
+        // default : { multiline : true}
         {
             code: `var foo = [
                 [1,2]

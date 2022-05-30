@@ -69,7 +69,7 @@ describe("CodePathAnalyzer", () => {
 
     /*
      * If you need to output the code paths and DOT graph information for a
-     * particular piece of code, udpate and uncomment the following test and
+     * particular piece of code, update and uncomment the following test and
      * then run:
      * DEBUG=eslint:code-path npx mocha tests/lib/linter/code-path-analysis/
      *

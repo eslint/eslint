@@ -2625,7 +2625,7 @@ describe("Linter", () => {
                 assert.strictEqual(suppressedMessages[1].ruleId, "quotes");
             });
 
-            it("should ignore violations of multiple rules when specified in mixed sinlge line and multi line comments", () => {
+            it("should ignore violations of multiple rules when specified in mixed single line and multi line comments", () => {
                 const code = [
                     "/* eslint-disable-next-line",
                     "no-alert",
@@ -3915,7 +3915,7 @@ var a = "test2";
             assert.strictEqual(suppressedMessages[0].suppressions.length, 2);
         });
 
-        it("reports problems for multiple unused eslint-disable comments with mutliple ruleIds", () => {
+        it("reports problems for multiple unused eslint-disable comments with multiple ruleIds", () => {
             const code = [
                 "/* eslint no-undef: 2, no-void: 2 */",
                 "/* eslint-disable no-undef -- j1 */",
@@ -12562,7 +12562,7 @@ var a = "test2";
                     const code = `
                     /* eslint-disable-next-line no-alert --
                         description on why this exception is seen as appropriate but past a
-                        comfortable reading line length 
+                        comfortable reading line length
                     */
                     alert("buzz");
                     `;
@@ -12689,7 +12689,7 @@ var a = "test2";
                     assert.strictEqual(suppressedMessages[1].ruleId, "quotes");
                 });
 
-                it("should ignore violations of multiple rules when specified in mixed sinlge line and multi line comments", () => {
+                it("should ignore violations of multiple rules when specified in mixed single line and multi line comments", () => {
                     const code = [
                         "/* eslint-disable-next-line",
                         "no-alert",
