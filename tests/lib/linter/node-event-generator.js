@@ -60,7 +60,7 @@ describe("NodeEventGenerator", () => {
             assert(emitter.emit.calledWith("Foo", dummyNode));
         });
 
-        it("should generate events for exitting AST node.", () => {
+        it("should generate events for exiting AST node.", () => {
             const dummyNode = { type: "Foo", value: 1 };
 
             generator.leaveNode(dummyNode);

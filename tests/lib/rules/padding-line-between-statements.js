@@ -2729,7 +2729,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             parserOptions: { ecmaVersion: 2022 }
         },
         {
-            code: "class C { static { 'use strict'; let x; } }", // 'use strict'; is "espression", because class static blocks don't have directives
+            code: "class C { static { 'use strict'; let x; } }", // 'use strict'; is "expression", because class static blocks don't have directives
             options: [
                 { blankLine: "always", prev: "directive", next: "let" }
             ],
@@ -5188,7 +5188,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             errors: [{ messageId: "expectedBlankLine" }]
         },
         {
-            code: "class C { static { 'use strict'; let x; } }", // 'use strict'; is "espression", because class static blocks don't have directives
+            code: "class C { static { 'use strict'; let x; } }", // 'use strict'; is "expression", because class static blocks don't have directives
             output: "class C { static { 'use strict';\n\n let x; } }",
             options: [
                 { blankLine: "always", prev: "expression", next: "let" }

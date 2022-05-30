@@ -5212,7 +5212,7 @@ describe("ESLint", () => {
         });
     });
 
-    describe("when retreiving version number", () => {
+    describe("when retrieving version number", () => {
         it("should return current version number", () => {
             const eslintCLI = require("../../../lib/eslint").ESLint;
             const version = eslintCLI.version;
