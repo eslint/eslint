@@ -17,10 +17,6 @@
 
         // get any previously-chosen themes
         var theme = window.localStorage.getItem("theme");
-        if (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.setAttribute('data-theme', 'dark');
-        }
-        else if (theme) document.documentElement.setAttribute('data-theme', theme);
 
         if (theme == "light") {
             enableToggle(light_theme_toggle);
