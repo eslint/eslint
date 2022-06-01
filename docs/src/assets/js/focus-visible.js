@@ -224,7 +224,7 @@ function applyFocusVisiblePolyfill(scope) {
   }
 
   /**
-   * When the polfyill first loads, assume the user is in keyboard modality.
+   * When the polyfill first loads, assume the user is in keyboard modality.
    * If any event is received from a pointing device (e.g. mouse, pointer,
    * touch), turn off keyboard modality.
    * This accounts for situations where focus enters the page from the URL bar.
