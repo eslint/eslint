@@ -6171,6 +6171,16 @@ ruleTester.run("indent", rule, {
         {
             code: unIndent`
                 if (foo)
+                    bar()
+                else if (baz)
+                    qux()
+                ;quux()
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                if (foo)
                     if (bar)
                         baz()
                     else
@@ -13020,6 +13030,24 @@ ruleTester.run("indent", rule, {
             `,
             options: [4],
             errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    bar()
+                else if (baz)
+                    qux()
+                    ;quux()
+            `,
+            output: unIndent`
+                if (foo)
+                    bar()
+                else if (baz)
+                    qux()
+                ;quux()
+            `,
+            options: [4],
+            errors: expectedErrors([5, 0, 4, "Punctuator"])
         },
         {
             code: unIndent`
