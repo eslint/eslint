@@ -100,10 +100,10 @@ module.exports = function(context) {
         },
 
         /**
-         * This is called when a code path segment was leaved.
+         * This is called when a code path segment was left.
          * In this time, the segment does not have the next segments yet.
          *
-         * @param {CodePathSegment} segment - The leaved code path segment.
+         * @param {CodePathSegment} segment - The left code path segment.
          * @param {ASTNode} node - The current node.
          * @returns {void}
          */
