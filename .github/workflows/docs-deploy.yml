@@ -18,7 +18,7 @@ jobs:
         run: |
           npm install
           npm run build
-          npx netlify deploy --dir=_site --message='Docs deploy ${{ github.event.release.tag_name }}' 
+          npx netlify deploy --dir=_site --message='Docs deploy ${{ github.event.release.tag_name }}' --prod
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
