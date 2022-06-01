@@ -93,7 +93,7 @@
 
     if (matchMedia) {
         const mq = window.matchMedia("(max-width: 1023px)");
-        mq.addListener(WidthChange);
+        mq.addEventListener('change', WidthChange);
         WidthChange(mq);
     }
 
