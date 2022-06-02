@@ -10,12 +10,12 @@
     "files": [],
     "scripts": {
         "images": "imagemin '_site/assets/images' --out-dir='_site/assets/images'",
-        "watch:sass": "sass --watch src/assets/scss:src/assets/css",
+        "watch:sass": "sass --watch --poll src/assets/scss:src/assets/css",
         "watch:eleventy": "eleventy --serve --port=2023",
         "build:sass": "sass --style=compressed src/assets/scss:src/assets/css --no-source-map",
         "build:eleventy": "npx @11ty/eleventy",
-        "start": "npm-run-all --parallel watch:* images",
-        "build": "npm-run-all --parallel build:* images"
+        "start": "npm-run-all build:sass --parallel watch:*  --parallel images",
+        "build": "npm-run-all build:sass --parallel build:*   --parallel images"
     },
     "devDependencies": {
         "@11ty/eleventy": "^1.0.1",
