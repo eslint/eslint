@@ -209,6 +209,38 @@ ruleTester.run("no-use-before-define", rule, {
         {
             code: "const C = class C { static { C.x; } }",
             parserOptions: { ecmaVersion: 2022 }
+        },
+
+        // "allowNamedExports" option
+        {
+            code: "export { a }; const a = 1;",
+            options: [{ allowNamedExports: true }],
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" }
+        },
+        {
+            code: "export { a as b }; const a = 1;",
+            options: [{ allowNamedExports: true }],
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" }
+        },
+        {
+            code: "export { a, b }; let a, b;",
+            options: [{ allowNamedExports: true }],
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" }
+        },
+        {
+            code: "export { a }; var a;",
+            options: [{ allowNamedExports: true }],
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" }
+        },
+        {
+            code: "export { f }; function f() {}",
+            options: [{ allowNamedExports: true }],
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" }
+        },
+        {
+            code: "export { C }; class C {}",
+            options: [{ allowNamedExports: true }],
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" }
         }
     ],
     invalid: [
@@ -1091,7 +1123,7 @@ ruleTester.run("no-use-before-define", rule, {
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
             }]
-        }
+        },
 
         /*
          * TODO(mdjermanovic): Add the following test cases once https://github.com/eslint/eslint-scope/issues/59 gets fixed:
@@ -1123,5 +1155,124 @@ ruleTester.run("no-use-before-define", rule, {
          *  }]
          * }
          */
+
+        // "allowNamedExports" option
+        {
+            code: "export { a }; const a = 1;",
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" }
+            }]
+        },
+        {
+            code: "export { a }; const a = 1;",
+            options: [{}],
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" }
+            }]
+        },
+        {
+            code: "export { a }; const a = 1;",
+            options: [{ allowNamedExports: false }],
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" }
+            }]
+        },
+        {
+            code: "export { a }; const a = 1;",
+            options: ["nofunc"],
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" }
+            }]
+        },
+        {
+            code: "export { a as b }; const a = 1;",
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" }
+            }]
+        },
+        {
+            code: "export { a, b }; let a, b;",
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "usedBeforeDefined",
+                    data: { name: "a" }
+                },
+                {
+                    messageId: "usedBeforeDefined",
+                    data: { name: "b" }
+                }
+            ]
+        },
+        {
+            code: "export { a }; var a;",
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" }
+            }]
+        },
+        {
+            code: "export { f }; function f() {}",
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "f" }
+            }]
+        },
+        {
+            code: "export { C }; class C {}",
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "C" }
+            }]
+        },
+        {
+            code: "export const foo = a; const a = 1;",
+            options: [{ allowNamedExports: true }],
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" }
+            }]
+        },
+        {
+            code: "export default a; const a = 1;",
+            options: [{ allowNamedExports: true }],
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" }
+            }]
+        },
+        {
+            code: "export function foo() { return a; }; const a = 1;",
+            options: [{ allowNamedExports: true }],
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" }
+            }]
+        },
+        {
+            code: "export class C { foo() { return a; } }; const a = 1;",
+            options: [{ allowNamedExports: true }],
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" }
+            }]
+        }
     ]
 });
