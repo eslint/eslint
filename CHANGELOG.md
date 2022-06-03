@@ -1,3 +1,26 @@
+v8.17.0 - June 3, 2022
+
+* [`b915018`](https://github.com/eslint/eslint/commit/b9150186bcc0f2732a69ab0ebd83a9b2fb2e6552) docs: Update website UI to latest (#15944) (Nicholas C. Zakas)
+* [`55319e1`](https://github.com/eslint/eslint/commit/55319e133f0862a008db3557d7350f154f2c784f) feat: fix indent bug with semicolon-first style (#15951) (Milos Djermanovic)
+* [`f6d7920`](https://github.com/eslint/eslint/commit/f6d79209821241c8e03c183b5844a024da0efe8a) feat: add `allowNamedExports` option to no-use-before-define (#15953) (Milos Djermanovic)
+* [`f0bb609`](https://github.com/eslint/eslint/commit/f0bb6099668f54ae6f444126b90dbb1146248146) docs: Update Exponentiation operator MDN link (#15960) (Pranjal Jain)
+* [`da694b9`](https://github.com/eslint/eslint/commit/da694b9d7cb0247541bcabbf943d1289e0e30167) chore: avoid theme flashes (#15927) (Strek)
+* [`baa0153`](https://github.com/eslint/eslint/commit/baa01530469ec233fb60380a0960c1550f9d9a45) docs: Use correct past tense "left" instead of "leaved" (#15950) (Frederik Braun)
+* [`f836743`](https://github.com/eslint/eslint/commit/f836743e95cb8ad3bdd4e88687dbe2f16bfade62) chore: Use build hook for docs deploy (#15945) (Nicholas C. Zakas)
+* [`ce035e5`](https://github.com/eslint/eslint/commit/ce035e5fac632ba8d4f1860f92465f22d6b44d42) test: cleanup typos (#15937) (Nick Schonning)
+* [`1351a9b`](https://github.com/eslint/eslint/commit/1351a9b875aa32a8961a68457dde03ede9ef7c78) docs: Add Resources section to rule pages (#15901) (Nicholas C. Zakas)
+* [`68cf0fb`](https://github.com/eslint/eslint/commit/68cf0fb7f645da5d992a5e749fc6c1311d30e75a) docs: cleanup typos (#15936) (Nick Schonning)
+* [`54c0953`](https://github.com/eslint/eslint/commit/54c09530c778eb4076d89777165d59db96c9acb5) fix: cleanup typos (#15939) (Nick Schonning)
+* [`845a7af`](https://github.com/eslint/eslint/commit/845a7af90ce03b383c8f09654ac049fc161dbb9f) fix: typo ocatal -> octal (#15940) (Nick Schonning)
+* [`10249ad`](https://github.com/eslint/eslint/commit/10249ad1a961463b6b347be71c074951ab8e2652) chore: use addEventListener instead of addListener (#15923) (Amaresh  S M)
+* [`5f5c1fb`](https://github.com/eslint/eslint/commit/5f5c1fb1083573ea511d0dae7913651db0dca772) chore: lint eleventy config file (#15904) (Milos Djermanovic)
+* [`8513d37`](https://github.com/eslint/eslint/commit/8513d37c725509c9e9ec1dbbc431f20d32632cf3) chore: update Rule typedefs (#15915) (Milos Djermanovic)
+* [`13b62ae`](https://github.com/eslint/eslint/commit/13b62aeb710a68e5d838a4d3847c487af1ba9520) docs: use-dart-sass instead of node-sass (#15912) (Deepshika S)
+* [`c81c5d6`](https://github.com/eslint/eslint/commit/c81c5d6ef1ba5808cca95ab965a162802af9b7cc) docs: add social media links (#15920) (Deepshika S)
+* [`0d6a50b`](https://github.com/eslint/eslint/commit/0d6a50b41f2fe444fd222463adad48473eaf9b7d) docs: fix openjs link (#15917) (Amaresh  S M)
+* [`54910f5`](https://github.com/eslint/eslint/commit/54910f5a3bf6615f8ac03d33fd26fc1fa6dea21f) docs: display version in mobile view (#15909) (Amaresh  S M)
+* [`55534f1`](https://github.com/eslint/eslint/commit/55534f1a7040fad94bb5726759fbb9acb60d1c24) test: ensure no-restricted-imports works with NodeJS imports (#15907) (Nick Mazuk)
+
 v8.16.0 - May 20, 2022
 
 * [`1768d0d`](https://github.com/eslint/eslint/commit/1768d0de58e10046ed3e54f0fa52be48ba41f12b) chore: upgrade @eslint/eslintrc@1.3.0 (#15903) (Milos Djermanovic)
