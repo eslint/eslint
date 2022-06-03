@@ -4,9 +4,11 @@
     gap: 2rem;
     justify-content: space-between;
     align-items: baseline;
+    font-size: .875rem;
 
     @media all and (max-width: 800px) {
         padding: 1.5rem 0 4rem;
+        align-items: center;
     }
 }
 

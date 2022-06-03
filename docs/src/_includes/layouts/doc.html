@@ -5,10 +5,9 @@ layout: base.njk
 {% include "partials/docs-header.html" %}
 
 <div class="docs-wrapper">
-    <div class="docs-left-sidebar">
+    <div class="docs-nav">
         <div class="desktop-only">
             {% include 'components/version-switcher.html' %}
-            {% include 'components/search.html' %}
         </div>
             {% include 'components/docs-index.html' %}
     </div>
@@ -48,20 +47,24 @@ layout: base.njk
 
     <div class="docs-content">
         <main id="main" tabindex="-1" class="docs-main">
-            <h1>{{ title }}</h1>
-            {% include 'components/docs-toc.html' %}
-
-            {{ all_content | safe }}
+            <div class="docs-main__content">
+                <h1>{{ title }}</h1>
+                {% include 'components/docs-toc.html' %}
+                {{ all_content | safe }}
+            </div>
 
             <div class="docs-edit-link">
                 <a href="{{ edit_link }}" class="c-btn c-btn--secondary">Edit this page</a>
             </div>
         </main>
 
-        <div class="docs-right-sidebar">
-            <aside class="docs-ad">
-                {%- include 'partials/carbon-ad.html' -%}
-            </aside>
+        <div class="docs-aside">
+            <div class="docs-aside__content">
+                <aside class="docs-ad">
+                    {%- include 'partials/carbon-ad.html' -%}
+                </aside>
+                {% include 'components/docs-toc.html' %}
+            </div>
             {% include "partials/docs-footer.html" %}
         </div>
     </div>

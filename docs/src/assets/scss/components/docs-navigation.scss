@@ -35,6 +35,7 @@
         text-decoration: none;
         color: inherit;
         transition: color .2s linear;
+        display: block;
 
         &:hover {
             color: var(--link-color);

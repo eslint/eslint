@@ -1,11 +1,17 @@
 .switcher--language {
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
     gap: .25rem .5rem;
     position: relative;
-    min-width: 15rem;
+    width: 100%;
     padding: 0;
+    font-size: inherit;
+
+    @media all and (min-width: 800px) {
+        justify-content: flex-start;
+    }
 }
 
 .switcher--language .label__text {
@@ -14,8 +20,11 @@
 
 
 .switcher--language  .switcher__select {
-    min-width: 15rem;
-    flex: 1 0 15rem;
+    flex: 1 0 12rem;
+
+    @media all and (max-width: 800px) {
+        max-width: 250px;
+    }
 }
 
 .language-switcher {

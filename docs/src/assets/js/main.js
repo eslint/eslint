@@ -2,7 +2,7 @@
     var toc_trigger = document.getElementById("js-toc-label"),
         toc = document.getElementById("js-toc-panel"),
         body = document.getElementsByTagName("body")[0],
-        open = true;
+        open = false;
 
     if (toc && matchMedia) {
         const mq = window.matchMedia("(max-width: 1023px)");
@@ -24,7 +24,7 @@
 
             toc.setAttribute("data-open", "false");
             toc_trigger.setAttribute("aria-expanded", "false");
-            headingButton.addEventListener("click", toggleTOC, false);
+            headingButton.addEventListener("click", toggleTOC, true);
         } else {
             toc_trigger.innerHTML = 'Table of Contents';
             toc.setAttribute("data-open", "true");
@@ -87,7 +87,7 @@
 
 (function() {
     var index_trigger = document.getElementById("js-docs-index-toggle"),
-        index = document.getElementById("js-docs-index-list"),
+        index = document.getElementById("js-docs-index-panel"),
         body = document.getElementsByTagName("body")[0],
         open = false;
 
@@ -154,20 +154,20 @@
 })();
 
 // add "Open in Playground" button to code blocks
-(function() {
-    let blocks = document.querySelectorAll('pre[class*="language-"]');
-    if (blocks) {
-        blocks.forEach(function(block) {
-            let button = document.createElement("a");
-            button.classList.add('c-btn--playground');
-            button.classList.add('c-btn');
-            button.classList.add('c-btn--secondary');
-            button.setAttribute("href", "#");
-            button.innerText = "Open in Playground";
-            block.appendChild(button);
-        });
-    }
-})();
+// (function() {
+//     let blocks = document.querySelectorAll('pre[class*="language-"]');
+//     if (blocks) {
+//         blocks.forEach(function(block) {
+//             let button = document.createElement("a");
+//             button.classList.add('c-btn--playground');
+//             button.classList.add('c-btn');
+//             button.classList.add('c-btn--secondary');
+//             button.setAttribute("href", "#");
+//             button.innerText = "Open in Playground";
+//             block.appendChild(button);
+//         });
+//     }
+// })();
 
 
 
@@ -205,8 +205,8 @@ var util = {
     var CollapsibleIndex = function(inst, options) {
         var _options = Object.assign(CollapsibleIndexOptions, options);
         var el = inst;
-        var indexToggles = el.querySelectorAll(".docs-index > ul > .docs-index__item[data-has-children] > a"); // only top-most level
-        var indexPanels = el.querySelectorAll(".docs-index > ul > .docs-index__item>[data-child-list]"); // the list
+        var indexToggles = el.querySelectorAll(".docs-index .docs__index__panel > ul > .docs-index__item[data-has-children] > a"); // only top-most level
+        var indexPanels = el.querySelectorAll(".docs-index .docs__index__panel > ul > .docs-index__item>[data-child-list]"); // the list
         var accID = util.generateID("c-index-");
 
         var init = function() {
