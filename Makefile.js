@@ -293,7 +293,7 @@ function generateRelease() {
     generateBlogPost(releaseInfo);
     commitSiteToGit(`v${releaseInfo.version}`);
 
-    echo("Updating commit with rules meta data");
+    echo("Updating commit with docs data");
     exec("git add docs/src/_data && git commit --amend --no-edit");
 }
 
