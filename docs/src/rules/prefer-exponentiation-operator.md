@@ -4,7 +4,7 @@ layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-exponentiation-operator.md
 rule_type: suggestion
 further_reading:
-- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Exponentiation
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Exponentiation
 - https://bugs.chromium.org/p/v8/issues/detail?id=5848
 ---
 

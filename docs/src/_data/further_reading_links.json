@@ -684,5 +684,12 @@
         "logo": "//thomas.tuerke.net/images/tmtlogo.ico",
         "title": "Coding in Style",
         "description": "Thomas M. Tuerke topical weblog"
+    },
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Exponentiation": {
+        "domain": "developer.mozilla.org",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Exponentiation",
+        "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
+        "title": "Exponentiation (**) - JavaScript | MDN",
+        "description": "The exponentiation operator (**) returns the result of raising the first operand to the power of the second operand. It is equivalent to Math.pow, except it also accepts BigInts as operands."
     }
 }
