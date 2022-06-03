@@ -292,6 +292,9 @@ function generateRelease() {
     target.gensite();
     generateBlogPost(releaseInfo);
     commitSiteToGit(`v${releaseInfo.version}`);
+
+    echo("Updating commit with rules meta data");
+    exec("git add docs/src/_data && git commit --amend --no-edit");
 }
 
 /**
