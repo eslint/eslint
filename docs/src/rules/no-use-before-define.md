@@ -60,6 +60,9 @@ var b = 1;
         }
     }
 }
+
+export { foo };
+const foo = 1;
 ```
 
 Examples of **correct** code for this rule:
@@ -109,13 +112,21 @@ function g() {
         }
     }
 }
+
+const foo = 1;
+export { foo };
 ```
 
 ## Options
 
 ```json
 {
-    "no-use-before-define": ["error", { "functions": true, "classes": true, "variables": true }]
+    "no-use-before-define": ["error", {
+        "functions": true,
+        "classes": true,
+        "variables": true,
+        "allowNamedExports": false
+    }]
 }
 ```
 
@@ -136,9 +147,13 @@ function g() {
   If this is `true`, the rule warns every reference to a variable before the variable declaration.
   Otherwise, the rule ignores a reference if the declaration is in an upper scope, while still reporting the reference if it's in the same scope as the declaration.
   Default is `true`.
+* `allowNamedExports` (`boolean`) -
+  If this flag is set to `true`, the rule always allows references in `export {};` declarations.
+  These references are safe even if the variables are declared later in the code.
+  Default is `false`.
 
 This rule accepts `"nofunc"` string as an option.
-`"nofunc"` is the same as `{ "functions": false, "classes": true, "variables": true }`.
+`"nofunc"` is the same as `{ "functions": false, "classes": true, "variables": true, "allowNamedExports": false }`.
 
 ### functions
 
@@ -266,4 +281,39 @@ const g = function() {}
     }
     const foo = 1;
 }
+```
+
+### allowNamedExports
+
+Examples of **correct** code for the `{ "allowNamedExports": true }` option:
+
+```js
+/*eslint no-use-before-define: ["error", { "allowNamedExports": true }]*/
+
+export { a, b, f, C };
+
+const a = 1;
+
+let b;
+
+function f () {}
+
+class C {}
+```
+
+Examples of **incorrect** code for the `{ "allowNamedExports": true }` option:
+
+```js
+/*eslint no-use-before-define: ["error", { "allowNamedExports": true }]*/
+
+export default a;
+const a = 1;
+
+const b = c;
+export const c = 1;
+
+export function foo() {
+    return d;
+}
+const d = 1;
 ```
