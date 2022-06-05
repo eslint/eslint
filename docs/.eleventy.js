@@ -91,21 +91,17 @@ module.exports = function(eleventyConfig) {
         return markdown.render(value);
     });
 
+    /*
+     * Removes `.html` suffix from the given url.
+     * `page.url` will include the `.html` suffix for all documents
+     * except for those written as `index.html` (their `page.url` ends with a `/`).
+     */
     eleventyConfig.addFilter("prettyURL", url => {
         if (url.endsWith(".html")) {
             return url.slice(0, -".html".length);
         }
 
         return url;
-    });
-
-    eleventyConfig.setBrowserSyncConfig({
-        server: {
-            baseDir: "_site",
-            serveStaticOptions: {
-                extensions: ["html"]
-            }
-        }
     });
 
     //------------------------------------------------------------------------------
@@ -361,6 +357,30 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addShortcode("image", imageShortcode);
 
     // END, eleventy-img
+
+    //------------------------------------------------------------------------------
+    // Settings
+    //------------------------------------------------------------------------------
+
+    /*
+     * When we run `eleventy --serve`, Eleventy 1.x uses browser-sync to serve the content.
+     * By default, browser-sync will not serve `foo/bar.html` when we request `foo/bar`.
+     * Thus, we need to specify "html" in `server.serveStaticOptions.extensions` so that
+     * pretty links without `.html` can work in a local development environment.
+     *
+     * Note that eleventy is doing a shallow merge into its own browser-sync config,
+     * so this will unfortunately completely overwrite `server` settings.
+     * https://github.com/11ty/eleventy/blob/v1.0.1/src/EleventyServe.js#L78-L91
+     * Therefore, we also have to specify `baseDir` here.
+     */
+    eleventyConfig.setBrowserSyncConfig({
+        server: {
+            baseDir: "_site",
+            serveStaticOptions: {
+                extensions: ["html"]
+            }
+        }
+    });
 
 
     return {
