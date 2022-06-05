@@ -19,10 +19,10 @@ module.exports = function(eleventyConfig) {
      * The site is loaded from /docs on eslint.org and so we need to adjust
      * the path prefix so URLs are evaluated correctly.
      *
-     * The path prefix is turned off for deploy previews so we can properly
+     * The path prefix is turned off for `npm start` and deploy previews so we can properly
      * see changes before deployed.
      */
-    const pathPrefix = process.env.CONTEXT === "production" ? "/docs" : "";
+    const pathPrefix = ["local-serve", "deploy-preview"].includes(process.env.CONTEXT) ? "" : "/docs";
 
     //------------------------------------------------------------------------------
     // Filters
