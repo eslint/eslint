@@ -9,7 +9,7 @@
     <!-- SEO -->
     <title>{{ title }}</title>
     <meta name="description" content="{{ desc }}">
-    <!--<link rel="canonical" href="https://docs.eslint.org{{ page.url | url }}">-->
+    <!--<link rel="canonical" href="https://docs.eslint.org{{ page.url | url | prettyURL }}">-->
 
     <!-- favicon -->
     <link rel="icon" href="/favicon.ico" sizes="any"><!-- 32×32 -->
@@ -25,7 +25,7 @@
     <meta property="og:image:alt" content="{{ coverAlt }}">
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ metadata.url }}{{ page.url }}">
+    <meta property="og:url" content="{{ metadata.url }}{{ page.url | url | prettyURL }}">
     <!-- Twitter -->
     <meta name="twitter:title" content="{{ title }}">
     <meta name="twitter:card" content="summary_large_image">

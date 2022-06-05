@@ -22,7 +22,7 @@ module.exports = function(eleventyConfig) {
      * The path prefix is turned off for deploy previews so we can properly
      * see changes before deployed.
      */
-    const pathPrefix = process.env.CONTEXT === "deploy-preview" ? "" : "/docs";
+    const pathPrefix = process.env.CONTEXT === "production" ? "/docs" : "";
 
     //------------------------------------------------------------------------------
     // Filters
@@ -89,6 +89,23 @@ module.exports = function(eleventyConfig) {
         });
 
         return markdown.render(value);
+    });
+
+    eleventyConfig.addFilter("prettyURL", url => {
+        if (url.endsWith(".html")) {
+            return url.slice(0, -".html".length);
+        }
+
+        return url;
+    });
+
+    eleventyConfig.setBrowserSyncConfig({
+        server: {
+            baseDir: "_site",
+            serveStaticOptions: {
+                extensions: ["html"]
+            }
+        }
     });
 
     //------------------------------------------------------------------------------
