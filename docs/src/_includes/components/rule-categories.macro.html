@@ -1,6 +1,6 @@
 
 {%- macro ruleCategories(params) -%}
-<div class="rule-categories" aria-label="Rule Categories">
+<div class="{% if params.index %}rule-categories{% endif %}" aria-label="Rule Categories">
     {%- if params.recommended == true -%}
     <div class="rule-category">
         <span class="rule-category__icon">✅ <span class="visually-hidden">Recommended</span></span>

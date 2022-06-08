@@ -15,6 +15,7 @@ layout: base.njk
 
     {# Add in various sections to content so TOC is accurate #}
     {% set all_content = content %}
+    {% set rule_meta = rules_meta[title] %}
 
     {% if related_rules %}
         {% set related_rules_content %}
@@ -36,7 +37,7 @@ layout: base.njk
         {% set all_content = [all_content, further_reading_content] | join %}
     {% endif %}
         
-    {% if rule_type %}
+    {% if rule_meta %}
         {% set resources_content %}
             <h2 id="resources">Resources</h2>
             <ul>
@@ -46,8 +47,6 @@ layout: base.njk
         {% endset %}
         {% set all_content = [all_content, resources_content] | join %}
     {% endif %}
-
-    {% set rule_meta = rules_meta[title] %}
 
     <div class="docs-content">
         <main id="main" tabindex="-1" class="docs-main">
