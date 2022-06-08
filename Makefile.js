@@ -318,6 +318,10 @@ function generatePrerelease(prereleaseId) {
  */
 function publishRelease() {
     ReleaseOps.publishRelease();
+
+    // push to latest branch to trigger docs deploy
+    exec("git push origin HEAD:latest -f");
+
     publishSite();
 }
 
