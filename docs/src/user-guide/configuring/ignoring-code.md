@@ -141,12 +141,12 @@ You'll see this warning:
 
 ```text
 foo.js
-  0:0  warning  File ignored because of a matching ignore pattern. Use "--no-ignore" to override.
+  0:0  warning  File ignored because of a matching ignore pattern. Use "--no-ignore" to override. Use \"--no-warning-on-ignored-files\" to suppress this warning.
 
 ✖ 1 problem (0 errors, 1 warning)
 ```
 
-This message occurs because ESLint is unsure if you wanted to actually lint the file or not. As the message indicates, you can use `--no-ignore` to omit using the ignore rules.
+This message occurs because ESLint is unsure if you wanted to actually lint the file or not. As the message indicates, you can use `--no-ignore` to omit using the ignore rules. If you want to suppress this warning (for example, if you're using `--max-warnings 0`), you can use `--no-warning-on-ignored-files`.
 
 Consider another scenario where you may want to run ESLint on a specific dot-file or dot-folder, but have forgotten to specifically allow those files in your `.eslintignore` file. You would run something like this:
 
@@ -156,9 +156,9 @@ You would see this warning:
 
 ```text
 .config/foo.js
-  0:0  warning  File ignored by default.  Use a negated ignore pattern (like "--ignore-pattern '!<relative/path/to/filename>'") to override
+  0:0  warning  File ignored by default.  Use a negated ignore pattern (like "--ignore-pattern '!<relative/path/to/filename>'") to override. Use \"--no-warning-on-ignored-files\" to suppress this warning.
 
 ✖ 1 problem (0 errors, 1 warning)
 ```
 
-This message occurs because, normally, this file would be ignored by ESLint's implicit ignore rules (as mentioned above). A negated ignore rule in your `.eslintignore` file would override the implicit rule and reinclude this file for linting. Additionally, in this specific case, `--no-ignore` could be used to lint the file as well.
+This message occurs because, normally, this file would be ignored by ESLint's implicit ignore rules (as mentioned above). A negated ignore rule in your `.eslintignore` file would override the implicit rule and reinclude this file for linting. Additionally, in this specific case, `--no-ignore` could be used to lint the file as well. If you _don't_ want to lint the ignored file and want to suppress the warning, you can use `--no-warning-on-ignored-files`.

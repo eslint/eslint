@@ -472,7 +472,17 @@ describe("cli", () => {
             const filePath = getFixturePath("passing.js");
             const exit = await cli.execute(`--ignore-path ${ignorePath} --no-ignore ${filePath}`);
 
-            // no warnings
+            // the file is linted, and no warnings are shown
+            assert.isFalse(log.info.called);
+            assert.strictEqual(exit, 0);
+        });
+
+        it("should suppress the warning when no-warning-on-ignored-files flag is passed", async () => {
+            const ignorePath = getFixturePath(".eslintignore");
+            const filePath = getFixturePath("passing.js");
+            const exit = await cli.execute(`--ignore-path ${ignorePath} --no-warning-on-ignored-files ${filePath}`);
+
+            // the file is ignored, and the warning is suppressed
             assert.isFalse(log.info.called);
             assert.strictEqual(exit, 0);
         });

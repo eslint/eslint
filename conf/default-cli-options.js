@@ -28,5 +28,6 @@ module.exports = {
     fix: false,
     allowInlineConfig: true,
     reportUnusedDisableDirectives: void 0,
-    globInputPaths: true
+    globInputPaths: true,
+    warnIgnored: true
 };

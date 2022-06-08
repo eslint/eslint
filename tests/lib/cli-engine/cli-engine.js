@@ -244,7 +244,7 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.fixableWarningCount, 0);
             assert.strictEqual(report.results[0].filePath, getFixturePath("passing.js"));
             assert.strictEqual(report.results[0].messages[0].severity, 1);
-            assert.strictEqual(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override.");
+            assert.strictEqual(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override. Use \"--no-warning-on-ignored-files\" to suppress this warning.");
             assert.isUndefined(report.results[0].messages[0].output);
             assert.strictEqual(report.results[0].errorCount, 0);
             assert.strictEqual(report.results[0].warningCount, 1);
@@ -267,15 +267,42 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results.length, 0);
         });
 
-        it("should suppress excluded file warnings by default", () => {
+        it("should return a warning when given a filename by --stdin-filename in excluded files list if warnIgnored in CLIEngine options is true", () => {
             engine = new CLIEngine({
                 ignorePath: getFixturePath(".eslintignore"),
-                cwd: getFixturePath("..")
+                cwd: getFixturePath(".."),
+                warnIgnored: true
             });
 
             const report = engine.executeOnText("var bar = foo;", "fixtures/passing.js");
 
-            // should not report anything because there are no errors
+            assert.strictEqual(report.results.length, 1);
+            assert.strictEqual(report.errorCount, 0);
+            assert.strictEqual(report.warningCount, 1);
+            assert.strictEqual(report.fatalErrorCount, 0);
+            assert.strictEqual(report.fixableErrorCount, 0);
+            assert.strictEqual(report.fixableWarningCount, 0);
+            assert.strictEqual(report.results[0].filePath, getFixturePath("passing.js"));
+            assert.strictEqual(report.results[0].messages[0].severity, 1);
+            assert.strictEqual(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override. Use \"--no-warning-on-ignored-files\" to suppress this warning.");
+            assert.isUndefined(report.results[0].messages[0].output);
+            assert.strictEqual(report.results[0].errorCount, 0);
+            assert.strictEqual(report.results[0].warningCount, 1);
+            assert.strictEqual(report.results[0].fatalErrorCount, 0);
+            assert.strictEqual(report.results[0].fixableErrorCount, 0);
+            assert.strictEqual(report.results[0].fixableWarningCount, 0);
+            assert.strictEqual(report.results[0].suppressedMessages.length, 0);
+        });
+
+        it("should suppress the warning when given a filename by --stdin-filename in excluded files list if warnIgnored in CLIEngine options is false", () => {
+            engine = new CLIEngine({
+                ignorePath: getFixturePath(".eslintignore"),
+                cwd: getFixturePath(".."),
+                warnIgnored: false
+            });
+
+            const report = engine.executeOnText("var bar = foo;", "fixtures/passing.js");
+
             assert.strictEqual(report.results.length, 0);
         });
 
@@ -743,7 +770,7 @@ describe("CLIEngine", () => {
             });
 
             const report = engine.executeOnText("var bar = foo;", "node_modules/passing.js", true);
-            const expectedMsg = "File ignored by default. Use \"--ignore-pattern '!node_modules/*'\" to override.";
+            const expectedMsg = "File ignored by default. Use \"--ignore-pattern '!node_modules/*'\" to override. Use \"--no-warning-on-ignored-files\" to suppress this warning.";
 
             assert.strictEqual(report.results.length, 1);
             assert.strictEqual(report.results[0].filePath, getFixturePath("node_modules/passing.js"));
@@ -1006,7 +1033,7 @@ describe("CLIEngine", () => {
             });
 
             const report = engine.executeOnFiles(["node_modules/foo.js"]);
-            const expectedMsg = "File ignored by default. Use \"--ignore-pattern '!node_modules/*'\" to override.";
+            const expectedMsg = "File ignored by default. Use \"--ignore-pattern '!node_modules/*'\" to override. Use \"--no-warning-on-ignored-files\" to suppress this warning.";
 
             assert.strictEqual(report.results.length, 1);
             assert.strictEqual(report.results[0].errorCount, 0);
@@ -1016,6 +1043,18 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].fixableWarningCount, 0);
             assert.strictEqual(report.results[0].messages[0].message, expectedMsg);
             assert.strictEqual(report.results[0].suppressedMessages.length, 0);
+        });
+
+        it("should suppress the warning on explicitly passed file, when file is ignored by default and warnIgnored is false", () => {
+
+            engine = new CLIEngine({
+                cwd: getFixturePath("cli-engine"),
+                warnIgnored: false
+            });
+
+            const report = engine.executeOnFiles(["node_modules/foo.js"]);
+
+            assert.strictEqual(report.results.length, 0);
         });
 
         it("should report on globs with explicit inclusion of dotfiles, even though ignored by default", () => {
@@ -1072,7 +1111,8 @@ describe("CLIEngine", () => {
             });
 
             const report = engine.executeOnFiles(["fixtures/files/.bar.js"]);
-            const expectedMsg = "File ignored by default.  Use a negated ignore pattern (like \"--ignore-pattern '!<relative/path/to/filename>'\") to override.";
+
+            const expectedMsg = "File ignored by default.  Use a negated ignore pattern (like \"--ignore-pattern '!<relative/path/to/filename>'\") to override. Use \"--no-warning-on-ignored-files\" to suppress this warning.";
 
             assert.strictEqual(report.results.length, 1);
             assert.strictEqual(report.results[0].errorCount, 0);
@@ -1082,6 +1122,22 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].fixableWarningCount, 0);
             assert.strictEqual(report.results[0].messages[0].message, expectedMsg);
             assert.strictEqual(report.results[0].suppressedMessages.length, 0);
+        });
+
+        it("should suppress the warning when .hidden files are passed explicitly without --no-ignore flag and warnIgnored is false", () => {
+
+            engine = new CLIEngine({
+                cwd: getFixturePath(".."),
+                useEslintrc: false,
+                rules: {
+                    quotes: [2, "single"]
+                },
+                warnIgnored: false
+            });
+
+            const report = engine.executeOnFiles(["fixtures/files/.bar.js"]);
+
+            assert.strictEqual(report.results.length, 0);
         });
 
         // https://github.com/eslint/eslint/issues/12873
@@ -1095,7 +1151,7 @@ describe("CLIEngine", () => {
             });
 
             const report = engine.executeOnFiles(["hidden/.hiddenfolder/double-quotes.js"]);
-            const expectedMsg = "File ignored by default.  Use a negated ignore pattern (like \"--ignore-pattern '!<relative/path/to/filename>'\") to override.";
+            const expectedMsg = "File ignored by default.  Use a negated ignore pattern (like \"--ignore-pattern '!<relative/path/to/filename>'\") to override. Use \"--no-warning-on-ignored-files\" to suppress this warning.";
 
             assert.strictEqual(report.results.length, 1);
             assert.strictEqual(report.results[0].errorCount, 0);
@@ -1105,6 +1161,21 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].fixableWarningCount, 0);
             assert.strictEqual(report.results[0].messages[0].message, expectedMsg);
             assert.strictEqual(report.results[0].suppressedMessages.length, 0);
+        });
+
+        it("should suppress the warning when files within a .hidden folder are passed explicitly without the --no-ignore flag and warnIgnored is set to false", () => {
+            engine = new CLIEngine({
+                cwd: getFixturePath("cli-engine"),
+                useEslintrc: false,
+                rules: {
+                    quotes: [2, "single"]
+                },
+                warnIgnored: false
+            });
+
+            const report = engine.executeOnFiles(["hidden/.hiddenfolder/double-quotes.js"]);
+
+            assert.strictEqual(report.results.length, 0);
         });
 
         it("should check .hidden files if they are passed explicitly with --no-ignore flag", () => {
@@ -1473,13 +1544,27 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.fixableWarningCount, 0);
             assert.strictEqual(report.results[0].filePath, filePath);
             assert.strictEqual(report.results[0].messages[0].severity, 1);
-            assert.strictEqual(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override.");
+            assert.strictEqual(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override. Use \"--no-warning-on-ignored-files\" to suppress this warning.");
             assert.strictEqual(report.results[0].errorCount, 0);
             assert.strictEqual(report.results[0].warningCount, 1);
             assert.strictEqual(report.results[0].fatalErrorCount, 0);
             assert.strictEqual(report.results[0].fixableErrorCount, 0);
             assert.strictEqual(report.results[0].fixableWarningCount, 0);
             assert.strictEqual(report.results[0].suppressedMessages.length, 0);
+        });
+
+        it("should suppress a warning when an explicitly given file is ignored and warnIgnored is false", () => {
+            engine = new CLIEngine({
+                ignorePath: getFixturePath(".eslintignore"),
+                cwd: getFixturePath(),
+                warnIgnored: false
+            });
+
+            const filePath = getFixturePath("passing.js");
+
+            const report = engine.executeOnFiles([filePath]);
+
+            assert.strictEqual(report.results.length, 0);
         });
 
         it("should return two messages when given a file in excluded files list while ignore is off", () => {
