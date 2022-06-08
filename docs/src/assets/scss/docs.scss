@@ -15,7 +15,7 @@
     display: flex;
     flex-direction: column;
 
-    @media all and (min-width: 1023px) {
+    @media all and (min-width: 1024px) {
         display: grid;
         grid-template-columns: minmax(250px, 1fr) minmax(0, 3.5fr);
         align-items: stretch;
@@ -33,7 +33,7 @@
     grid-auto-rows: max-content;
     align-items: start;
 
-    @media all and (min-width: 1023px) {
+    @media all and (min-width: 1024px) {
         padding: var(--space-l-xl) 0;
         padding-right: var(--space-s-l);
         padding-inline-end: var(--space-s-l);
@@ -54,7 +54,7 @@
         grid-gap: 1rem;
     }
 
-    @media all and (min-width: 1023px) {
+    @media all and (min-width: 1024px) {
         padding: 0;
     }
 
@@ -74,7 +74,7 @@
         border-inline-end: 1px solid var(--divider-color);
     }
 
-    @media all and (min-width: 1023px) {
+    @media all and (min-width: 1024px) {
         padding: var(--space-l-xl) var(--space-l-2xl);
     }
 }

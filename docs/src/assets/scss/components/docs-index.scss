@@ -76,7 +76,7 @@
     &[data-open="false"] {
         display: none;
 
-        @media all and (min-width: 1023px) {
+        @media all and (min-width: 1024px) {
             display: block;
         }
     }
@@ -84,7 +84,7 @@
     &[data-open="true"] {
         display: block;
 
-        @media all and (min-width: 1023px) {
+        @media all and (min-width: 1024px) {
             display: block;
         }
     }
@@ -109,7 +109,7 @@
         background-color: var(--secondary-button-hover-color);
     }
 
-    @media all and (min-width: 1023px) {
+    @media all and (min-width: 1024px) {
         display: none;
     }
 

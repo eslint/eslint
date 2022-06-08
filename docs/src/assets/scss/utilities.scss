@@ -1,5 +1,5 @@
 .grid {
-    @media all and (min-width: 1023px) {
+    @media all and (min-width: 1024px) {
         display: grid;
         grid-template-columns: repeat(12, 1fr);
         grid-gap: 2rem;
@@ -23,7 +23,7 @@
 }
 
 .mobile-only {
-    @media all and (min-width: 1023px) {
+    @media all and (min-width: 1024px) {
         display: none;
     }
 }
