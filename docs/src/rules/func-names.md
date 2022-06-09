@@ -76,7 +76,7 @@ const cat = {
     // ...
 }())
 
-export default function foo() {}
+export default function bar() {}
 ```
 
 ### as-needed
