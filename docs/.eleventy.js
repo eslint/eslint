@@ -19,10 +19,10 @@ module.exports = function(eleventyConfig) {
      * The site is loaded from /docs on eslint.org and so we need to adjust
      * the path prefix so URLs are evaluated correctly.
      *
-     * The path prefix is turned off for `npm start` and deploy previews so we can properly
+     * The path prefix is turned off for deploy previews so we can properly
      * see changes before deployed.
      */
-    const pathPrefix = ["local-serve", "deploy-preview"].includes(process.env.CONTEXT) ? "" : "/docs";
+    const pathPrefix = process.env.CONTEXT === "deploy-preview" ? "" : "/docs";
 
     //------------------------------------------------------------------------------
     // Filters
@@ -364,24 +364,22 @@ module.exports = function(eleventyConfig) {
 
     /*
      * When we run `eleventy --serve`, Eleventy 1.x uses browser-sync to serve the content.
-     * By default, browser-sync will not serve `foo/bar.html` when we request `foo/bar`.
-     * Thus, we need to specify "html" in `server.serveStaticOptions.extensions` so that
-     * pretty links without `.html` can work in a local development environment.
+     * By default, browser-sync (more precisely, underlying serve-static) will not serve
+     * `foo/bar.html` when we request `foo/bar`. Thus, we need to rewrite URLs to append `.html`
+     * so that pretty links without `.html` can work in a local development environment.
      *
-     * Note that eleventy is doing a shallow merge into its own browser-sync config,
-     * so this will unfortunately completely overwrite `server` settings.
-     * https://github.com/11ty/eleventy/blob/v1.0.1/src/EleventyServe.js#L78-L91
-     * Therefore, we also have to specify `baseDir` here.
+     * There's no need to rewrite URLs that end with `/`, because that already works well
+     * (server will return the content of `index.html` in the directory).
+     * URLs with a file extension, like main.css, main.js, sitemap.xml, etc. should not be rewritten
      */
     eleventyConfig.setBrowserSyncConfig({
-        server: {
-            baseDir: "_site",
-            serveStaticOptions: {
-                extensions: ["html"]
+        middleware: (req, res, next) => {
+            if (!/(?:\.[^/]+|\/)$/u.test(req.url)) {
+                req.url += ".html";
             }
+            return next();
         }
     });
-
 
     return {
         passthroughFileCopy: true,
