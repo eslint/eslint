@@ -91,6 +91,19 @@ module.exports = function(eleventyConfig) {
         return markdown.render(value);
     });
 
+    /*
+     * Removes `.html` suffix from the given url.
+     * `page.url` will include the `.html` suffix for all documents
+     * except for those written as `index.html` (their `page.url` ends with a `/`).
+     */
+    eleventyConfig.addFilter("prettyURL", url => {
+        if (url.endsWith(".html")) {
+            return url.slice(0, -".html".length);
+        }
+
+        return url;
+    });
+
     //------------------------------------------------------------------------------
     // Plugins
     //------------------------------------------------------------------------------
@@ -345,6 +358,28 @@ module.exports = function(eleventyConfig) {
 
     // END, eleventy-img
 
+    //------------------------------------------------------------------------------
+    // Settings
+    //------------------------------------------------------------------------------
+
+    /*
+     * When we run `eleventy --serve`, Eleventy 1.x uses browser-sync to serve the content.
+     * By default, browser-sync (more precisely, underlying serve-static) will not serve
+     * `foo/bar.html` when we request `foo/bar`. Thus, we need to rewrite URLs to append `.html`
+     * so that pretty links without `.html` can work in a local development environment.
+     *
+     * There's no need to rewrite URLs that end with `/`, because that already works well
+     * (server will return the content of `index.html` in the directory).
+     * URLs with a file extension, like main.css, main.js, sitemap.xml, etc. should not be rewritten
+     */
+    eleventyConfig.setBrowserSyncConfig({
+        middleware: (req, res, next) => {
+            if (!/(?:\.[^/]+|\/)$/u.test(req.url)) {
+                req.url += ".html";
+            }
+            return next();
+        }
+    });
 
     return {
         passthroughFileCopy: true,
