@@ -16,13 +16,29 @@ const {
 module.exports = function(eleventyConfig) {
 
     /*
-     * The site is loaded from /docs on eslint.org and so we need to adjust
-     * the path prefix so URLs are evaluated correctly.
+     * The docs stored in the eslint repo are loaded through eslint.org at
+     * at /docs/head to show the most recent version of the documentation
+     * based on the HEAD commit. This gives users a preview of what's coming
+     * in the next release. This is the way that the site works locally so
+     * it's easier to see if URLs are broken.
+     *
+     * When a release is published, HEAD is pushed to the "latest" branch.
+     * Netlify deploys that branch as well, and in that case, we want the
+     * docs to be loaded from /docs/latest on eslint.org.
      *
      * The path prefix is turned off for deploy previews so we can properly
      * see changes before deployed.
      */
-    const pathPrefix = process.env.CONTEXT === "deploy-preview" ? "" : "/docs";
+
+    let pathPrefix = "/docs/head";
+
+    if (process.env.CONTEXT === "deploy-preview") {
+        pathPrefix = "";
+    } else if (process.env.BRANCH === "latest") {
+        pathPrefix = "/docs/latest";
+    }
+
+    eleventyConfig.addGlobalData("GIT_BRANCH", process.env.BRANCH);
 
     //------------------------------------------------------------------------------
     // Filters
