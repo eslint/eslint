@@ -295,7 +295,7 @@ function generateRelease() {
 
     echo("Updating commit with docs data");
     exec("git add docs/src/_data && git commit --amend --no-edit");
-    exec(`git tag -f v${releaseInfo.version}`);
+    exec(`git tag -a -f v${releaseInfo.version} -m ${releaseInfo.version}`);
 }
 
 /**
