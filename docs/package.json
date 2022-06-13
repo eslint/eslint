@@ -33,6 +33,7 @@
         "luxon": "^2.4.0",
         "markdown-it": "^12.2.0",
         "markdown-it-anchor": "^8.1.2",
+        "markdown-it-container": "^3.0.0",
         "netlify-cli": "^10.3.1",
         "npm-run-all": "^4.1.5",
         "rimraf": "^3.0.2",

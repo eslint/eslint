@@ -6,6 +6,7 @@ const pluginRss = require("@11ty/eleventy-plugin-rss");
 const pluginTOC = require("eleventy-plugin-nesting-toc");
 const slugify = require("slugify");
 const markdownItAnchor = require("markdown-it-anchor");
+const markdownItContainer = require("markdown-it-container");
 const Image = require("@11ty/eleventy-img");
 const path = require("path");
 
@@ -141,12 +142,11 @@ module.exports = function(eleventyConfig) {
     const markdownIt = require("markdown-it");
 
     eleventyConfig.setLibrary("md",
-        markdownIt({
-            html: true,
-            linkify: true,
-            typographer: true
-
-        }).use(markdownItAnchor, {}).disable("code"));
+        markdownIt({ html: true, linkify: true, typographer: true })
+            .use(markdownItAnchor, {})
+            .use(markdownItContainer, "correct", {})
+            .use(markdownItContainer, "incorrect", {})
+            .disable("code"));
 
     //------------------------------------------------------------------------------
     // Shortcodes
