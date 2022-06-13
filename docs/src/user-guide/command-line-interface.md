@@ -122,7 +122,7 @@ Example:
 
 #### `-c`, `--config`
 
-This option allows you to specify an additional configuration file for ESLint (see [Configuring ESLint](configuring) for more).
+This option allows you to specify an additional configuration file for ESLint (see [Configuring ESLint](configuring/) for more).
 
 Example:
 
