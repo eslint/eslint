@@ -30,12 +30,12 @@ module.exports = function(eleventyConfig) {
      * see changes before deployed.
      */
 
-    let pathPrefix = "/docs/head";
+    let pathPrefix = "/docs/head/";
 
     if (process.env.CONTEXT === "deploy-preview") {
-        pathPrefix = "";
+        pathPrefix = "/";
     } else if (process.env.BRANCH === "latest") {
-        pathPrefix = "/docs/latest";
+        pathPrefix = "/docs/latest/";
     }
 
     eleventyConfig.addGlobalData("GIT_BRANCH", process.env.BRANCH);
@@ -212,7 +212,7 @@ module.exports = function(eleventyConfig) {
 
         rules.forEach(rule => {
             const listItem = `<li class="related-rules__list__item">
-                <a href="${pathPrefix}/rules/${rule}">
+                <a href="${pathPrefix}rules/${rule}">
                     <span>${rule}</span>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
