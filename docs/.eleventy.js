@@ -390,7 +390,7 @@ module.exports = function(eleventyConfig) {
      */
     eleventyConfig.setBrowserSyncConfig({
         middleware: (req, res, next) => {
-            if (!/(?:\.[^/]+|\/)$/u.test(req.url)) {
+            if (!/(?:\.[a-zA-Z][^/]*|\/)$/u.test(req.url)) {
                 req.url += ".html";
             }
             return next();
