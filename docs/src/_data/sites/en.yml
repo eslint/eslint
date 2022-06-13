@@ -1,0 +1,109 @@
+#------------------------------------------------------------------------------
+# English Site Details
+# The documentation site that is hosted at eslint.org/docs
+# Author: Nicholas C. Zakas
+#------------------------------------------------------------------------------
+
+#------------------------------------------------------------------------------
+# Global Settings
+#------------------------------------------------------------------------------
+
+language:
+  code: en
+  flag: 🇺🇸
+  name: English (US)
+locale: en-US
+hostname: eslint.org
+
+#------------------------------------------------------------------------------
+# Analytics
+#------------------------------------------------------------------------------
+
+google_analytics:
+  code: "G-7DGPHY308T"
+
+#------------------------------------------------------------------------------
+# Ads
+#------------------------------------------------------------------------------
+
+carbon_ads:
+  serve: CESDV2QM
+  placement: eslintorg
+
+#------------------------------------------------------------------------------
+# Shared
+#------------------------------------------------------------------------------
+
+shared:
+  get_started: Get Started
+  become_a_sponsor: Become a Sponsor
+  eslint_logo_alt: ESLint logo
+  description: >
+    A pluggable and configurable linter tool for identifying and reporting on
+    patterns in JavaScript. Maintain your code quality with ease.
+  title_format: PAGE_TITLE - ESLint - Pluggable JavaScript Linter
+  skip_to_content: Skip to main content
+  donate: Donate
+
+#------------------------------------------------------------------------------
+# Navigation
+#------------------------------------------------------------------------------
+
+navigation:
+- text: Team
+  link: team
+- text: Blog
+  link: blog
+- text: Docs
+  link: docs
+- text: Store
+  link: store
+  target: _blank
+- text: Playground
+  link: playground
+
+#------------------------------------------------------------------------------
+# Footer
+#------------------------------------------------------------------------------
+
+footer:
+  title: Ready to fix your JavaScript code?
+  description: Install from npm or start donating today.
+  secondary: Secondary
+  social_icons:
+    title: Social Media
+    twitter: Twitter
+    chat: Discord
+    mailing_list: Google Group
+    github: GitHub
+  theme_switcher:
+    title: Theme Switcher
+    light: Light
+    dark: Dark
+  language_switcher:
+    title: Language Switcher
+    description: Selecting a language will take you to the ESLint website in that language.
+    change_language: Change Language
+    language: Language
+  copyright: >
+    &copy; OpenJS Foundation and ESLint contributors, <a href="https://www.openjsf.org">www.openjsf.org</a>
+  links:
+    open_jsf: The OpenJS Foundation
+    terms: Terms of Use
+    privacy: Privacy Policy
+    bylaws: OpenJS Foundation Bylaws
+    trademark: Trademark Policy
+    trademark_list: Trademark List
+    cookies: Cookie Policy
+
+#------------------------------------------------------------------------------
+# 404 Page
+#------------------------------------------------------------------------------
+
+404_page:
+  title: 404 error
+  subtitle: Page not found
+  description: Sorry, the page you are looking for doesn't exist or has been moved.
+  actions:
+    back_to_home: Back to homepage
+    browse_docs: Browse the docs
