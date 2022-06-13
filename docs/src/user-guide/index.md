@@ -3,18 +3,18 @@ title: User Guide
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/index.md
 eleventyNavigation:
-    key: user guide 
-    title: User Guide 
+    key: user guide
+    title: User Guide
     order: 1
 ---
 
-This guide is intended for those who wish to use ESLint as an end-user. If you're looking for how to extend ESLint or work with the ESLint source code, please see the [Developer Guide](../developer-guide).
+This guide is intended for those who wish to use ESLint as an end-user. If you're looking for how to extend ESLint or work with the ESLint source code, please see the [Developer Guide](../developer-guide/).
 
 ## [Getting Started](getting-started)
 
 Want to skip ahead and just start using ESLint? This section gives a high-level overview of installation, setup, and configuration options.
 
-## [Rules](../rules)
+## [Rules](../rules/)
 
 ESLint has a lot of rules that you can configure to fine-tune it to your project. This section is an exhaustive list of every rule and link to each rule's documentation.
 

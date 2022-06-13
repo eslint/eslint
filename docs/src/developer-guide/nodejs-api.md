@@ -952,7 +952,7 @@ ruleTester.run("my-rule", myRule, {
 
 ---
 
-[configuration object]: ../user-guide/configuring
+[configuration object]: ../user-guide/configuring/
 [builtin-formatters]: https://eslint.org/docs/user-guide/formatters/
 [third-party-formatters]: https://www.npmjs.com/search?q=eslintformatter
 [eslint]: #eslint-class
