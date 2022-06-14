@@ -181,9 +181,13 @@ function generateFormatterExamples(formatterInfo, prereleaseVersion) {
  * @returns {void}
  */
 function generateRuleIndexPage() {
-    const outputFile = "../website/_data/rules.yml",
+    const legacyWebsiteOutputFile = "../website/_data/rules.yml",
+        docsSiteOutputFile = "docs/src/_data/rules.json",
+        docsSiteMetaOutputFile = "docs/src/_data/rules_meta.json",
         ruleTypes = "conf/rule-type-list.json",
         ruleTypesData = JSON.parse(cat(path.resolve(ruleTypes)));
+
+    const meta = {};
 
     RULE_FILES
         .map(filename => [filename, path.basename(filename, ".js")])
@@ -192,6 +196,20 @@ function generateRuleIndexPage() {
             const filename = pair[0];
             const basename = pair[1];
             const rule = require(path.resolve(filename));
+
+            /*
+             * Eleventy interprets the {{ }} in messages as being variables,
+             * which can cause an error if there's syntax it doesn't expect.
+             * Because we don't use this info in the website anyway, it's safer
+             * to just remove it.
+             *
+             * Also removing the schema because we don't need it.
+             */
+            meta[basename] = {
+                ...rule.meta,
+                schema: void 0,
+                messages: void 0
+            };
 
             if (rule.meta.deprecated) {
                 ruleTypesData.deprecated.rules.push({
@@ -219,9 +237,12 @@ function generateRuleIndexPage() {
     // `.rules` will be `undefined` if all rules in category are deprecated.
     ruleTypesData.types = ruleTypesData.types.filter(ruleType => !!ruleType.rules);
 
-    const output = yaml.dump(ruleTypesData, { sortKeys: true });
+    JSON.stringify(ruleTypesData, null, 4).to(docsSiteOutputFile);
+    JSON.stringify(meta, null, 4).to(docsSiteMetaOutputFile);
 
-    output.to(outputFile);
+    const legacyOutput = yaml.dump(ruleTypesData, { sortKeys: true });
+
+    legacyOutput.to(legacyWebsiteOutputFile);
 }
 
 /**
@@ -271,6 +292,10 @@ function generateRelease() {
     target.gensite();
     generateBlogPost(releaseInfo);
     commitSiteToGit(`v${releaseInfo.version}`);
+
+    echo("Updating commit with docs data");
+    exec("git add docs/src/_data && git commit --amend --no-edit");
+    exec(`git tag -a -f v${releaseInfo.version} -m ${releaseInfo.version}`);
 }
 
 /**
@@ -785,6 +810,8 @@ target.gensite = function(prereleaseVersion) {
 
     echo("Done generating eslint.org");
 };
+
+target.generateRuleIndexPage = generateRuleIndexPage;
 
 target.webpack = function(mode = "none") {
     exec(`${getBinFile("webpack")} --mode=${mode} --output-path=${BUILD_DIR}`);

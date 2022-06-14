@@ -3,6 +3,7 @@ layout: base.njk
 ---
 
 {% include "partials/docs-header.html" %}
+{% from 'components/rule-categories.macro.html' import ruleCategories %}
 
 <div class="docs-wrapper">
     <div class="docs-nav">
@@ -12,8 +13,10 @@ layout: base.njk
             {% include 'components/docs-index.html' %}
     </div>
 
-    {# Add in related rules and further reading sections to content so TOC is accurate #}
+    {# Add in various sections to content so TOC is accurate #}
     {% set all_content = content %}
+    {% set rule_meta = rules_meta[title] %}
+
     {% if related_rules %}
         {% set related_rules_content %}
             <h2 id="related-rules">Related Rules</h2>
@@ -34,7 +37,7 @@ layout: base.njk
         {% set all_content = [all_content, further_reading_content] | join %}
     {% endif %}
         
-    {% if rule_type %}
+    {% if rule_meta %}
         {% set resources_content %}
             <h2 id="resources">Resources</h2>
             <ul>
@@ -49,7 +52,17 @@ layout: base.njk
         <main id="main" tabindex="-1" class="docs-main">
             <div class="docs-main__content">
                 <h1>{{ title }}</h1>
+                {% if rule_meta %}
+                    <p>{{ rule_meta.docs.description | markdown | safe }}</p>
+                    {{ ruleCategories({
+                    recommended: rule_meta.docs.recommended,
+                    fixable: rule_meta.fixable,
+                    hasSuggestions: rule_meta.hasSuggestions
+                    }) }}
+                {% endif %}
+
                 {% include 'components/docs-toc.html' %}
+                
                 {{ all_content | safe }}
             </div>
 
