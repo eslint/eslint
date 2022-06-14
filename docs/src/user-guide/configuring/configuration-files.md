@@ -10,14 +10,6 @@ eleventyNavigation:
 
 ---
 
-* [Configuration File Formats](#configuration-file-formats)
-* [Using Configuration Files](#using-configuration-files)
-* [Adding Shared Settings](#adding-shared-settings)
-* [Cascading and Hierarchy](#cascading-and-hierarchy)
-* [Extending Configuration Files](#extending-configuration-files)
-* [Configuration Based on Glob Patterns](#configuration-based-on-glob-patterns)
-* [Personal Configuration Files](#personal-configuration-files-deprecated)
-
 ## Configuration File Formats
 
 ESLint supports configuration files in several formats:

@@ -10,10 +10,6 @@ eleventyNavigation:
 
 ---
 
-* [Specifying Parser](#specifying-parser)
-* [Specifying Processor](#specifying-processor)
-* [Configuring Plugins](#configuring-plugins)
-
 ## Specifying Parser
 
 By default, ESLint uses [Espree](https://github.com/eslint/espree) as its parser. You can optionally specify that a different parser should be used in your configuration file so long as the parser meets the following requirements:

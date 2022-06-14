@@ -10,12 +10,6 @@ eleventyNavigation:
 
 ---
 
-* [`ignorePatterns` in Config Files](#ignorepatterns-in-config-files)
-* [The `.eslintignore` File](#the-eslintignore-file)
-* [Using an Alternate File](#using-an-alternate-file)
-* [Using eslintIgnore in package.json](#using-eslintignore-in-packagejson)
-* [Ignored File Warnings](#ignored-file-warnings)
-
 ## `ignorePatterns` in Config Files
 
 You can tell ESLint to ignore specific files and directories using `ignorePatterns` in your config files. `ignorePatterns` patterns follow the same rules as `.eslintignore`. Please see the [the `.eslintignore` file documentation](./ignoring-code#the-eslintignore-file) to learn more.
