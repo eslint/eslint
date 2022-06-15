@@ -5,7 +5,7 @@
     "group": "https://groups.google.com/group/eslint",
 
     "blog": "/blog",
-    "docs": "/docs/latest",
+    "docs": "/docs/latest/",
     "playground": "/play",
     "getStarted": "/docs/latest/user-guide/getting-started",
     "sponsors": "/sponsors",
