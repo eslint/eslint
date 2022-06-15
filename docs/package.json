@@ -30,6 +30,7 @@
         "eleventy-plugin-reading-time": "^0.0.1",
         "imagemin": "^8.0.1",
         "imagemin-cli": "^7.0.0",
+        "js-yaml": "^3.14.1",
         "luxon": "^2.4.0",
         "markdown-it": "^12.2.0",
         "markdown-it-anchor": "^8.1.2",

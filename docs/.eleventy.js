@@ -9,6 +9,7 @@ const markdownItAnchor = require("markdown-it-anchor");
 const markdownItContainer = require("markdown-it-container");
 const Image = require("@11ty/eleventy-img");
 const path = require("path");
+const yaml = require("js-yaml");
 
 const {
     DateTime
@@ -39,7 +40,16 @@ module.exports = function(eleventyConfig) {
         pathPrefix = "/docs/latest/";
     }
 
+    //------------------------------------------------------------------------------
+    // Data
+    //------------------------------------------------------------------------------
+
+    // Load site-specific data
+    const siteName = process.env.ESLINT_SITE_NAME || "en";
+
+    eleventyConfig.addGlobalData("site_name", siteName);
     eleventyConfig.addGlobalData("GIT_BRANCH", process.env.BRANCH);
+    eleventyConfig.addDataExtension("yml", contents => yaml.load(contents));
 
     //------------------------------------------------------------------------------
     // Filters
