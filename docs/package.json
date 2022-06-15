@@ -14,7 +14,7 @@
         "watch:eleventy": "eleventy --serve --port=2023",
         "build:sass": "sass --style=compressed src/assets/scss:src/assets/css --no-source-map",
         "build:eleventy": "npx @11ty/eleventy",
-        "start": "npm-run-all build:sass images --parallel watch:*",
+        "start": "npm-run-all build:sass --parallel watch:*",
         "build": "npm-run-all build:sass build:eleventy images"
     },
     "devDependencies": {
