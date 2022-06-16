@@ -67,6 +67,14 @@
     font-size: .875rem;
     margin-bottom: .25rem;
     margin-block-end: .25rem;
+}
+
+a.rule__name {
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
 
     &::after {
         position: absolute;
@@ -77,14 +85,6 @@
         offset-block-start: 0;
         left: 0;
         offset-inline-start: 0;
-    }
-}
-
-a.rule__name {
-    text-decoration: none;
-
-    &:hover {
-        text-decoration: underline;
     }
 }
 
@@ -165,4 +165,11 @@ a.rule__name {
             background-color: var(--lighter-background-color);
         }
     }
+}
+
+a.rule-list-item+a.rule-list-item::before {
+    content: ",";
+    display: inline-block;
+    margin-left: 5px;
+    margin-right: 5px;
 }
