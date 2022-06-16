@@ -29,6 +29,7 @@ ruleTester.run("no-underscore-dangle", rule, {
         "function foo(_bar) {}",
         "function foo(bar_) {}",
         "(function _foo() {})",
+        "var [foo, [bar, baz]] = [1, ['a', 'b']]",
         { code: "function foo(_bar) {}", options: [{}] },
         { code: "function foo( _bar = 0) {}", parserOptions: { ecmaVersion: 6 } },
         { code: "const foo = { onClick(_bar) { } }", parserOptions: { ecmaVersion: 6 } },
@@ -103,6 +104,21 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "const foo = { onClick(..._bar) { } }", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "RestElement" }] },
         { code: "const foo = (..._bar) => {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "RestElement" }] },
         {
+            code: "const [foo, _bar] = [1, 2]",
+            options: [{ allowDestructured: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" } }]
+        }, {
+            code: "const [foo, ..._rest] = [1, 2, 3]",
+            options: [{ allowDestructured: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_rest" } }]
+        }, {
+            code: "const [foo, [bar_, baz]] = [1, [2, 3]]",
+            options: [{ allowDestructured: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "bar_" } }]
+        }, {
             code: "class foo { #_bar() {} }",
             options: [{ enforceInMethodNames: true }],
             parserOptions: { ecmaVersion: 2022 },
