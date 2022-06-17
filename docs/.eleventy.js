@@ -316,6 +316,10 @@ module.exports = function(eleventyConfig) {
         "./node_modules/algoliasearch/dist/algoliasearch-lite.esm.browser.js": "/assets/js/algoliasearch.js"
     });
 
+    eleventyConfig.addPassthroughCopy({
+        "./src/developer-guide/**/*.svg": "/assets/images"
+    });
+
     //------------------------------------------------------------------------------
     // Collections
     //------------------------------------------------------------------------------

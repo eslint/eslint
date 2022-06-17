@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/a
 
 ---
 
-<center><img alt="dependency graph" src="dependency.svg"></center>
+<center><img alt="dependency graph" src="./../../assets/images/dependency.svg"></center>
 
 At a high level, there are a few key parts to ESLint:
 
