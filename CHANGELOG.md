@@ -1,3 +1,25 @@
+v8.18.0 - June 17, 2022
+
+* [`f6e2e63`](https://github.com/eslint/eslint/commit/f6e2e632fa3710cfa467b15350b08dea6e0e3dfc) chore: fix 'replaced by' rule list (#16007) (Milos Djermanovic)
+* [`ed49f15`](https://github.com/eslint/eslint/commit/ed49f15fad96060501927ca27ebda1a4c736ed04) build: remove unwanted parallel and image-min for dev server (#15986) (Strek)
+* [`4871047`](https://github.com/eslint/eslint/commit/4871047dbd0c5ef5e4089425a85ac85dcd9cf263) docs: Update analytics, canonical URL, ads (#15996) (Nicholas C. Zakas)
+* [`d94dc84`](https://github.com/eslint/eslint/commit/d94dc84ae76a36b4ee9268c40d8536d2f5b1c63c) chore: remove unused deprecation warnings (#15994) (Francesco Trotta)
+* [`a6273b8`](https://github.com/eslint/eslint/commit/a6273b83b103c463937936ef2404575758a7baa4) feat: account for rule creation time in performance reports (#15982) (Nitin Kumar)
+* [`cddad14`](https://github.com/eslint/eslint/commit/cddad1495fbc1750c26330f7aadc6647e2eebac3) docs: Add correct/incorrect containers (#15998) (Nicholas C. Zakas)
+* [`b04bc6f`](https://github.com/eslint/eslint/commit/b04bc6f1d558d9ad5eb57383a779fec5a170b3d3) docs: Add rules meta info to rule pages (#15902) (Nicholas C. Zakas)
+* [`f364d47`](https://github.com/eslint/eslint/commit/f364d47013d146cdea42b27a7b24d105223f5ffe) fix: Make no-unused-vars treat for..of loops same as for..in loops (#15868) (Alex Bass)
+* [`1324f10`](https://github.com/eslint/eslint/commit/1324f10ac58d3685fdb656a4fc9d1e5c9d035e42) docs: unify the wording referring to optional exception (#15893) (Abdelrahman Elkady)
+* [`cdcf11e`](https://github.com/eslint/eslint/commit/cdcf11e457a2455bd8875d78651fec55dd148139) chore: fix versions link (#15995) (Milos Djermanovic)
+* [`d2a8715`](https://github.com/eslint/eslint/commit/d2a871543a12143fa0ecea13d7508021fd019031) chore: add trailing slash to `pathPrefix` (#15993) (Milos Djermanovic)
+* [`58a1bf0`](https://github.com/eslint/eslint/commit/58a1bf0de33adb1d54c8051090f01984daa08c86) chore: tweak URL rewriting for local previews (#15992) (Milos Djermanovic)
+* [`ad54d02`](https://github.com/eslint/eslint/commit/ad54d0246797cdd849948e7a5d31571c498af7aa) docs: add missing trailing slash to some internal links (#15991) (Milos Djermanovic)
+* [`80404d2`](https://github.com/eslint/eslint/commit/80404d28f040df49706ba2c1e954aee945711aa9) chore: remove docs deploy workflow (#15984) (Nicholas C. Zakas)
+* [`df7768e`](https://github.com/eslint/eslint/commit/df7768e16a5ab55da97749bb89ff19f98ce0cc6c) docs: Switch to version-relative URLs (#15978) (Nicholas C. Zakas)
+* [`71bc750`](https://github.com/eslint/eslint/commit/71bc75012b1377d3c7e57deea0ad06f99c4c65bf) chore: Set permissions for GitHub actions (#15971) (Naveen)
+* [`90ff647`](https://github.com/eslint/eslint/commit/90ff64742ede6ef29018cb967fc4f20d7b85b592) chore: avoid generating subdirectories for each page on new docs site (#15967) (Milos Djermanovic)
+* [`21d6479`](https://github.com/eslint/eslint/commit/21d647904dc30f9484b22acdd9243a6d0ecfba38) docs: change some absolute links to relative (#15970) (Milos Djermanovic)
+* [`f31216a`](https://github.com/eslint/eslint/commit/f31216a90a6204ed1fd56547772376a10f5d3ebb) docs: Update README team and sponsors (ESLint Jenkins)
+
 v8.17.0 - June 3, 2022
 
 * [`b915018`](https://github.com/eslint/eslint/commit/b9150186bcc0f2732a69ab0ebd83a9b2fb2e6552) docs: Update website UI to latest (#15944) (Nicholas C. Zakas)
