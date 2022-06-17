@@ -1,3 +1,5 @@
+{% from 'components/rule-list.macro.html' import ruleList %}
+
 {%- macro rule(params) -%}
 <article class="rule {% if params.deprecated == true %}rule--deprecated{% endif %} {% if params.removed == true %}rule--removed{% endif %}">
     <div class="rule__content">
@@ -7,7 +9,7 @@
             <span class="rule__status">deprecated</span>
         </p>
         {%- if params.replacedBy|length -%}
-        <p class="rule__description">Replaced by <a href="{{ ['/rules/', params.replacedBy] | join | url }}"><code>{{ params.replacedBy }}</code></a></p>
+        <p class="rule__description">Replaced by {{ ruleList({ rules: params.replacedBy }) }}</p>
         {%- else -%}<p class="rule__description">{{ params.description }}</p>
         {%- endif -%}
         {%- elseif params.removed == true -%}
@@ -16,7 +18,7 @@
             <span class="rule__status">removed</span>
         </p>
         {%- if params.replacedBy -%}
-        <p class="rule__description">Replaced by <a href="{{ ['/rules/', params.replacedBy] | join | url }}"><code>{{ params.replacedBy }}</code></a></p>
+        <p class="rule__description">Replaced by {{ ruleList({ rules: params.replacedBy }) }}</p>
         {%- else -%}<p class="rule__description">{{ params.description }}</p>
         {%- endif -%}
         {%- else -%}

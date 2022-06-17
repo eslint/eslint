@@ -1,0 +1,3 @@
+{%- macro ruleList(params) -%}
+    {% for rule in params.rules %}<a href="{{ ['/rules/', rule] | join | url }}" class="rule-list-item"><code>{{ rule }}</code></a>{% endfor %}
+{%- endmacro -%}
