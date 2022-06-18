@@ -51,3 +51,7 @@ let quux = (-1) ** n;
 ## When Not To Use It
 
 This rule should not be used unless ES2016 is supported in your codebase.
+
+## Version
+
+This rule was introduced in ESLint 6.7.0.

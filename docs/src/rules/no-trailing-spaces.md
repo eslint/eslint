@@ -70,3 +70,7 @@ Examples of **correct** code for this rule with the `{ "ignoreComments": true }`
  *•bar
  */
 ```
+
+## Version
+
+This rule was introduced in ESLint 0.7.1.

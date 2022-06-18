@@ -183,3 +183,7 @@ var foo = (a + b) - c;
 ## When Not To Use It
 
 If you don't want to be notified about mixed operators, then it's safe to disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 2.12.0.

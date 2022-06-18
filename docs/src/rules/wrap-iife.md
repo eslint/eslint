@@ -115,3 +115,7 @@ Examples of **correct** code for this rule with the `"inside", { "functionProtot
 var x = (function(){ foo(); })()
 var x = (function(){ foo(); }).call(bar)
 ```
+
+## Version
+
+This rule was introduced in ESLint 0.0.9.

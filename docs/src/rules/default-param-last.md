@@ -40,3 +40,7 @@ Examples of **correct** code for this rule:
 
 function f(a, b = 0) {}
 ```
+
+## Version
+
+This rule was introduced in ESLint 6.4.0.

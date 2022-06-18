@@ -78,3 +78,7 @@ try {
 ## When Not To Use It
 
 If you do not need to support IE 8 and earlier, you should turn this rule off.
+
+## Version
+
+This rule was introduced in ESLint 0.0.9.

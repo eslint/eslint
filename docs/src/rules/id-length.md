@@ -258,3 +258,7 @@ var [E] = arr;
 const { y } = foo;
 const { a: z } = foo;
 ```
+
+## Version
+
+This rule was introduced in ESLint 1.0.0.

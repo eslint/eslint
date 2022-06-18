@@ -190,3 +190,7 @@ var $ = require('jquery');
 var foo = $('body')[0];
 var [bar] = $('body'); // fails with a TypeError
 ```
+
+## Version
+
+This rule was introduced in ESLint 3.13.0.

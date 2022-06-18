@@ -90,3 +90,7 @@ function foo() {
 ## When Not To Use It
 
 If you don't care about disallowing redundant return statements, you can turn off this rule.
+
+## Version
+
+This rule was introduced in ESLint 3.9.0.

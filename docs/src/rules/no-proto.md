@@ -45,3 +45,7 @@ var c = { __proto__: a };
 
 You might want to turn this rule off if you need to support legacy browsers which implement the
 `__proto__` property but not `Object.getPrototypeOf` or `Object.setPrototypeOf`.
+
+## Version
+
+This rule was introduced in ESLint 0.0.9.

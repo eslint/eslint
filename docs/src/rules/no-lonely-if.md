@@ -91,3 +91,7 @@ if (condition) {
 ## When Not To Use It
 
 Disable this rule if the code is clearer without requiring the `else if` form.
+
+## Version
+
+This rule was introduced in ESLint 0.6.0.

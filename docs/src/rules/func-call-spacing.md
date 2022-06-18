@@ -110,3 +110,7 @@ This rule can safely be turned off if your project does not care about enforcing
 
 * **JSCS**: [disallowSpacesInCallExpression](https://jscs-dev.github.io/rule/disallowSpacesInCallExpression)
 * **JSCS**: [requireSpacesInCallExpression](https://jscs-dev.github.io/rule/requireSpacesInCallExpression)
+
+## Version
+
+This rule was introduced in ESLint 3.3.0.

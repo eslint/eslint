@@ -91,3 +91,7 @@ Examples of **correct** code for this rule with the `{ "int32Hint": true }` opti
 
 var b = a|0;
 ```
+
+## Version
+
+This rule was introduced in ESLint 0.0.2.

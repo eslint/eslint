@@ -373,3 +373,7 @@ var foo = {
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the consistency of spacing before function parenthesis.
+
+## Version
+
+This rule was introduced in ESLint 0.18.0.

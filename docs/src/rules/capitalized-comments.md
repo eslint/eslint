@@ -256,3 +256,7 @@ This rule can be disabled if you do not care about the grammatical style of comm
 
 * **JSCS**: [requireCapitalizedComments](https://jscs-dev.github.io/rule/requireCapitalizedComments)
 * **JSCS**: [disallowCapitalizedComments](https://jscs-dev.github.io/rule/disallowCapitalizedComments)
+
+## Version
+
+This rule was introduced in ESLint 3.11.0.

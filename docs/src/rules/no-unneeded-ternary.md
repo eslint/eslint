@@ -96,3 +96,7 @@ Note that `defaultAssignment: false` still allows expressions of the form `x ? e
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with unnecessary complexity in conditional expressions.
+
+## Version
+
+This rule was introduced in ESLint 0.21.0.

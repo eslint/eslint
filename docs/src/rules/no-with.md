@@ -41,3 +41,7 @@ const r = ({x, y}) => Math.sqrt(x * x + y * y);
 ## When Not To Use It
 
 If you intentionally use `with` statements then you can disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 0.0.2.

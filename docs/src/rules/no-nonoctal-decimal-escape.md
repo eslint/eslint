@@ -67,3 +67,7 @@ var baz = "Don't use \\8 and \\9 escapes.";
 
 var quux = "\0\u0038";
 ```
+
+## Version
+
+This rule was introduced in ESLint 7.14.0.

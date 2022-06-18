@@ -209,3 +209,7 @@ var friend = new person.acquaintance();
 ## When Not To Use It
 
 If you have conventions that don't require an uppercase letter for constructors, or don't require capitalized functions be only used as constructors, turn this rule off.
+
+## Version
+
+This rule was introduced in ESLint 0.0.3-0.

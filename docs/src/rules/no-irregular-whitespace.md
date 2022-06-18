@@ -177,3 +177,7 @@ function thing() {
 ## When Not To Use It
 
 If you decide that you wish to use whitespace other than tabs and spaces outside of strings in your application.
+
+## Version
+
+This rule was introduced in ESLint 0.9.0.

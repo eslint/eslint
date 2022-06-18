@@ -82,3 +82,7 @@ Examples of **correct** code for this rule:
 ## When Not To Use It
 
 You can turn this rule off if you don't want to check RegExp character class syntax for multiple code point characters.
+
+## Version
+
+This rule was introduced in ESLint 5.3.0.

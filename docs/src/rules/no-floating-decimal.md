@@ -50,3 +50,7 @@ If you aren't concerned about misinterpreting floating decimal point values, the
 ## Compatibility
 
 * **JSHint**: W008, W047
+
+## Version
+
+This rule was introduced in ESLint 0.0.6.

@@ -26,3 +26,7 @@ location.href = `javascript:void(0)`;
 ## Compatibility
 
 * **JSHint**: This rule corresponds to `scripturl` rule of JSHint.
+
+## Version
+
+This rule was introduced in ESLint 0.0.9.

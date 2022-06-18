@@ -158,3 +158,7 @@ You can safely disable this rule if you do not have any strict conventions about
 ## Compatibility
 
 * **JSCS**: [requireMultiLineTernary](https://jscs-dev.github.io/rule/requireMultiLineTernary)
+
+## Version
+
+This rule was introduced in ESLint 3.1.0.

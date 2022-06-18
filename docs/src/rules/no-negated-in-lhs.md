@@ -44,3 +44,7 @@ if(('' + !key) in object) {
 ## When Not To Use It
 
 Never.
+
+## Version
+
+This rule was introduced in ESLint 0.1.2.

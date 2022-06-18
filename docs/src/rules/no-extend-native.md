@@ -78,3 +78,7 @@ window.Function.prototype.bind = 'tight';
 ## When Not To Use It
 
 You may want to disable this rule when working with polyfills that try to patch older versions of JavaScript with the latest spec, such as those that might `Function.prototype.bind` or `Array.prototype.forEach` in a future-friendly way.
+
+## Version
+
+This rule was introduced in ESLint 0.1.4.

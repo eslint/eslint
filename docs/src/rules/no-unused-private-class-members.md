@@ -83,3 +83,7 @@ class Foo {
 ## When Not To Use It
 
 If you don't want to be notified about unused private class members, you can safely turn this rule off.
+
+## Version
+
+This rule was introduced in ESLint 8.1.0.

@@ -80,3 +80,7 @@ switch (foo) {
 ## When Not To Use It
 
 If you depend on fall through behavior and want access to bindings introduced in the case block.
+
+## Version
+
+This rule was introduced in ESLint 1.9.0.

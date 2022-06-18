@@ -187,3 +187,7 @@ async function foo(obj) {
 ## When Not To Use It
 
 If you don't use async or generator functions, you don't need to enable this rule.
+
+## Version
+
+This rule was introduced in ESLint 5.3.0.

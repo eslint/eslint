@@ -39,3 +39,7 @@ var x = "some very long text";
 var x = "some very " +
         "long text";
 ```
+
+## Version
+
+This rule was introduced in ESLint 0.0.9.

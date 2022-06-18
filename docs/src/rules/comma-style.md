@@ -169,3 +169,7 @@ var o = {fst:1,
 ## When Not To Use It
 
 This rule can safely be turned off if your project does not care about enforcing a consistent comma style.
+
+## Version
+
+This rule was introduced in ESLint 0.9.0.

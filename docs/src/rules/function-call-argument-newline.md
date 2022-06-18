@@ -204,3 +204,7 @@ baz(
 ## When Not To Use It
 
 If you don't want to enforce line breaks between arguments, don't enable this rule.
+
+## Version
+
+This rule was introduced in ESLint 6.2.0.

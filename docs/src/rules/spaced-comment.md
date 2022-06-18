@@ -291,3 +291,7 @@ subsequent lines are ignored
 
 /*global ABC*/
 ```
+
+## Version
+
+This rule was introduced in ESLint 0.23.0.

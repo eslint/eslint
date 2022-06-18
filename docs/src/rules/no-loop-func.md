@@ -102,3 +102,7 @@ for (let i=10; i; i--) {
 }
 //... no modifications of foo after this loop ...
 ```
+
+## Version
+
+This rule was introduced in ESLint 0.0.9.

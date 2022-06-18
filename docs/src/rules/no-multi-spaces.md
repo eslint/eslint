@@ -176,3 +176,7 @@ import someOtherMod from 'some-other-mod';
 ## When Not To Use It
 
 If you don't want to check and disallow multiple spaces, then you should turn this rule off.
+
+## Version
+
+This rule was introduced in ESLint 0.9.0.

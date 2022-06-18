@@ -121,3 +121,7 @@ var bar = 3;
 ## When Not To Use It
 
 If you do not care about extra blank lines, turn this off.
+
+## Version
+
+This rule was introduced in ESLint 0.9.0.

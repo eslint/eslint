@@ -79,3 +79,7 @@ tag `hello`
 You can turn this rule off if you are confident that you will not accidentally introduce code like this.
 
 Note that the patterns considered problems are **not** flagged by the [semi](semi) rule.
+
+## Version
+
+This rule was introduced in ESLint 0.24.0.

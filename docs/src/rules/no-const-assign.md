@@ -75,3 +75,7 @@ for (const a of [1, 2, 3]) { // `a` is re-defined (not modified) on each loop st
 ## When Not To Use It
 
 If you don't want to be notified about modifying variables that are declared using `const` keyword, you can safely disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 1.0.0-rc-1.

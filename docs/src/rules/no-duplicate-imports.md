@@ -89,3 +89,7 @@ export * as something from 'module';
 // cannot be written differently
 export * from 'module';
 ```
+
+## Version
+
+This rule was introduced in ESLint 2.5.0.

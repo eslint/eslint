@@ -158,3 +158,7 @@ This rule checks callback functions of methods with the given names, *even if* t
 ## When Not To Use It
 
 If you don't want to warn about usage of `return` statement in callbacks of array's methods, then it's safe to disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 2.0.0-alpha-1.

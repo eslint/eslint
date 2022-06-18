@@ -76,3 +76,7 @@ for(i = 0; i < 10; i++) {
 ## Compatibility
 
 * **JSLint**: `continue`
+
+## Version
+
+This rule was introduced in ESLint 0.19.0.

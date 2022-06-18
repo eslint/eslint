@@ -253,3 +253,7 @@ import a from "a"
 ## When Not To Use It
 
 If you do not want to enforce semicolon usage (or omission) in any particular way, then you can turn this rule off.
+
+## Version
+
+This rule was introduced in ESLint 0.0.6.

@@ -227,3 +227,7 @@ In the case of a CommonJS module, if your code is in strict mode or you don't wa
 and you also don't want this rule to warn you about the read-only globals, you can disable this rule.
 
 In the case of an ES module, if you don't want this rule to warn you about the read-only globals you can disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 2.0.0-alpha-1.

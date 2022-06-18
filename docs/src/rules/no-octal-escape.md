@@ -36,3 +36,7 @@ var foo = "Copyright \u00A9";   // unicode
 
 var foo = "Copyright \xA9";     // hexadecimal
 ```
+
+## Version
+
+This rule was introduced in ESLint 0.0.9.

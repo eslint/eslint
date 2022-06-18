@@ -86,3 +86,7 @@ If the configured name of the error variable begins with a `^` it is considered 
 
 There are cases where it may be safe for your application to ignore errors, however only ignore errors if you are
 confident that some other form of monitoring will help you catch the problem.
+
+## Version
+
+This rule was introduced in ESLint 0.4.5.

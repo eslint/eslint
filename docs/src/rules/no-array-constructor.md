@@ -46,3 +46,7 @@ new Array(someOtherArray.length)
 
 This rule enforces a nearly universal stylistic concern. That being said, this
 rule may be disabled if the constructor style is preferred.
+
+## Version
+
+This rule was introduced in ESLint 0.4.0.

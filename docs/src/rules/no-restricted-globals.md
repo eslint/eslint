@@ -93,3 +93,7 @@ function onClick() {
     console.log(event);    // Unexpected global variable 'event'. Use local parameter instead.
 }
 ```
+
+## Version
+
+This rule was introduced in ESLint 2.3.0.

@@ -172,3 +172,7 @@ function foo() {
   var foo11 = 11;
 }
 ```
+
+## Version
+
+This rule was introduced in ESLint 0.0.9.

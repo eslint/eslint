@@ -232,3 +232,7 @@ a((foo) => { if (true) {} });
 ([a, b]) => a;
 ({a, b}) => a;
 ```
+
+## Version
+
+This rule was introduced in ESLint 1.0.0-rc-1.

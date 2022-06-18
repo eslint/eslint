@@ -43,3 +43,7 @@ if(config.env === "development") {
 ## When Not To Use It
 
 If you prefer to use `process.env` throughout your project to retrieve values from environment variables, then you can safely disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 0.9.0.

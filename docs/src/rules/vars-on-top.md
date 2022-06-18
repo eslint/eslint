@@ -133,3 +133,7 @@ function doSomething() {
     var second
 }
 ```
+
+## Version
+
+This rule was introduced in ESLint 0.8.0.
