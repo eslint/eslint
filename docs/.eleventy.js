@@ -407,6 +407,20 @@ module.exports = function(eleventyConfig) {
         }
     });
 
+    /*
+     * Generate the sitemap only in certain contexts to prevent unwanted discovery of sitemaps that
+     * contain URLs we'd prefer not to appear in search results (URLs in sitemaps are considered important).
+     * In particular, we don't want to deploy https://eslint.org/docs/head/sitemap.xml
+     */
+    if (!(
+        process.env.BRANCH === "latest" || // https://eslint.org/docs/latest/sitemap.xml
+        process.env.CONTEXT === "deploy-preview" || // deploy previews
+        !process.env.CONTEXT // local previews
+    )) {
+        eleventyConfig.ignores.add("src/static/sitemap.njk");
+    }
+
+
     return {
         passthroughFileCopy: true,
 
