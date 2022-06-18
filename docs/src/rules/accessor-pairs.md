@@ -294,3 +294,7 @@ See [no-dupe-class-members](no-dupe-class-members) if you also want to disallow 
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the simultaneous presence of setters and getters on objects.
+
+## Version
+
+This rule was introduced in ESLint 0.22.0.

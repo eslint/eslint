@@ -228,3 +228,7 @@ var arr = [[ 1, 2 ], 2, [ 3, 4 ]];
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the consistency of spacing between array brackets.
+
+## Version
+
+This rule was introduced in ESLint 0.24.0.

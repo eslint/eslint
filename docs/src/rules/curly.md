@@ -308,3 +308,7 @@ if (foo)
 ## When Not To Use It
 
 If you have no strict conventions about when to use block statements and when not to, you can safely disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 0.0.2.

@@ -130,3 +130,7 @@ var arr = [,2 ,3]
 ## When Not To Use It
 
 If your project will not be following a consistent comma-spacing pattern, turn this rule off.
+
+## Version
+
+This rule was introduced in ESLint 0.9.0.

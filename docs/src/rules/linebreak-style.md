@@ -92,3 +92,7 @@ If you aren't concerned about having different line endings within your code, th
 ## Compatibility
 
 * **JSCS**: [validateLineBreaks](https://jscs-dev.github.io/rule/validateLineBreaks)
+
+## Version
+
+This rule was introduced in ESLint 0.21.0.

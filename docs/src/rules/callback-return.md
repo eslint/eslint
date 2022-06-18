@@ -176,3 +176,7 @@ function foo(err, callback) {
 There are some cases where you might want to call a callback function more than once. In those cases this rule
  may lead to incorrect behavior. In those cases you may want to reserve a special name for those callbacks and
  not include that in the list of callbacks that trigger warnings.
+
+## Version
+
+This rule was introduced in ESLint 1.0.0-rc-1.

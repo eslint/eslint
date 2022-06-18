@@ -335,3 +335,7 @@ foo(
 ## When Not To Use It
 
 If don't want to enforce consistent linebreaks inside function parentheses, do not turn on this rule.
+
+## Version
+
+This rule was introduced in ESLint 4.6.0.

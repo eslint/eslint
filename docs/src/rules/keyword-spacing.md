@@ -289,3 +289,7 @@ export { C as"my class" };
 ## When Not To Use It
 
 If you don't want to enforce consistency on keyword spacing, then it's safe to disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 2.0.0-beta.1.

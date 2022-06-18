@@ -580,3 +580,7 @@ foo();
 ## When Not To Use It
 
 Many people enjoy a terser code style and don't mind comments bumping up against code. If you fall into that category this rule is not for you.
+
+## Version
+
+This rule was introduced in ESLint 0.22.0.

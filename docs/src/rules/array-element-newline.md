@@ -395,3 +395,7 @@ If you don't want to enforce linebreaks between array elements, don't enable thi
 ## Compatibility
 
 * **JSCS:** [validateNewlineAfterArrayElements](https://jscs-dev.github.io/rule/validateNewlineAfterArrayElements)
+
+## Version
+
+This rule was introduced in ESLint 4.0.0-rc.0.

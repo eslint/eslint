@@ -128,3 +128,7 @@ The shortened object literal syntax for generators is not affected by this rule.
 ## When Not To Use It
 
 If your project will not be using generators you do not need this rule.
+
+## Version
+
+This rule was introduced in ESLint 0.12.0 and removed in 1.0.0-rc-1.

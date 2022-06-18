@@ -853,3 +853,7 @@ if (foo) {
 
 * **JSHint**: `indent`
 * **JSCS**: [validateIndentation](https://jscs-dev.github.io/rule/validateIndentation)
+
+## Version
+
+This rule was introduced in ESLint 0.14.0.

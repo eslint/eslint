@@ -144,3 +144,7 @@ is equivalent to
 ## When Not To Use It
 
 If you can't determine an appropriate complexity limit for your code, then it's best to disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 0.0.9.

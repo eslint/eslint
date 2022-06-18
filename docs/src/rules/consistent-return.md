@@ -150,3 +150,7 @@ function bar(condition) {
 ## When Not To Use It
 
 If you want to allow functions to have different `return` behavior depending on code branching, then it is safe to disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 0.4.0.

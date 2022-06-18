@@ -102,3 +102,7 @@ p = {
 ## When Not To Use It
 
 If your project will not be using ES5 property getters you do not need this rule.
+
+## Version
+
+This rule was introduced in ESLint 4.2.0.

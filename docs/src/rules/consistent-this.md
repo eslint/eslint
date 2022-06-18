@@ -89,3 +89,7 @@ that = this;
 ## When Not To Use It
 
 If you need to capture nested context, `consistent-this` is going to be problematic. Code of that nature is usually difficult to read and maintain and you should consider refactoring it.
+
+## Version
+
+This rule was introduced in ESLint 0.0.9.

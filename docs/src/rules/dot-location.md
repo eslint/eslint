@@ -90,3 +90,7 @@ var bar = object.property;
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the consistency of newlines before or after dots in member expressions.
+
+## Version
+
+This rule was introduced in ESLint 0.21.0.
