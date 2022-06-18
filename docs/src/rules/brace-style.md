@@ -401,3 +401,7 @@ If you don't want to enforce a particular brace style, don't enable this rule.
 ## Version
 
 This rule was introduced in ESLint 0.0.7.
+
+## Version
+
+This rule was introduced in ESLint 0.0.7.

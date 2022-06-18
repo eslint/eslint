@@ -38,3 +38,7 @@ for (var i = 0; i < 10; i++) {
 ## Version
 
 This rule was introduced in ESLint 4.0.0-beta.0.
+
+## Version
+
+This rule was introduced in ESLint 4.0.0-beta.0.

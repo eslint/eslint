@@ -66,3 +66,7 @@ If you have established a standard where having tabs is fine, then you can disab
 ## Compatibility
 
 * **JSCS**: [disallowTabs](https://jscs-dev.github.io/rule/disallowTabs)
+
+## Version
+
+This rule was introduced in ESLint 3.2.0.

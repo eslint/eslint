@@ -173,3 +173,7 @@ This rule can safely be turned off if your project does not care about enforcing
 ## Version
 
 This rule was introduced in ESLint 0.9.0.
+
+## Version
+
+This rule was introduced in ESLint 0.9.0.

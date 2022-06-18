@@ -151,3 +151,7 @@ let foo = () => ({ foo: 0 });
 ## Version
 
 This rule was introduced in ESLint 1.8.0.
+
+## Version
+
+This rule was introduced in ESLint 1.8.0.

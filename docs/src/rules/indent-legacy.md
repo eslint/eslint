@@ -543,3 +543,7 @@ var foo = { bar: 1,
 ## Version
 
 This rule was introduced in ESLint 4.0.0-alpha.0.
+
+## Version
+
+This rule was introduced in ESLint 4.0.0-alpha.0.

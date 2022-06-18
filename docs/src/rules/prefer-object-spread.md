@@ -58,3 +58,7 @@ Object.assign(foo, { ...baz });
 ## When Not To Use It
 
 This rule should not be used unless ES2018 is supported in your codebase.
+
+## Version
+
+This rule was introduced in ESLint 5.0.0-alpha.3.

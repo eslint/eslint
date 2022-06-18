@@ -134,3 +134,7 @@ If your project will not be following a consistent comma-spacing pattern, turn t
 ## Version
 
 This rule was introduced in ESLint 0.9.0.
+
+## Version
+
+This rule was introduced in ESLint 0.9.0.

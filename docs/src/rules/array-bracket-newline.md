@@ -289,3 +289,7 @@ If you don't want to enforce line breaks after opening and before closing array 
 ## Version
 
 This rule was introduced in ESLint 4.0.0-alpha.1.
+
+## Version
+
+This rule was introduced in ESLint 4.0.0-alpha.1.

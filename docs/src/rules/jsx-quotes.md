@@ -82,3 +82,7 @@ You can turn this rule off if you don’t use JSX or if you aren’t concerned w
 ## Version
 
 This rule was introduced in ESLint 1.4.0.
+
+## Version
+
+This rule was introduced in ESLint 1.4.0.

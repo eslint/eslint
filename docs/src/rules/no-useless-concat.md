@@ -56,3 +56,7 @@ var c = "foo" +
 ## When Not To Use It
 
 If you don't want to be notified about unnecessary string concatenation, you can safely disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 1.3.0.

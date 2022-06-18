@@ -49,3 +49,7 @@ var x = function (a, b) {
 ## When Not To Use It
 
 In more advanced cases where you really need to use the `Function` constructor.
+
+## Version
+
+This rule was introduced in ESLint 0.0.7.

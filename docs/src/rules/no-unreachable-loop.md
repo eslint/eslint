@@ -193,3 +193,7 @@ for (let i = 0; i < 10; i++) {
     }
 }
 ```
+
+## Version
+
+This rule was introduced in ESLint 7.3.0.

@@ -279,3 +279,7 @@ If you have established coding standards using a different naming convention (se
 ## Version
 
 This rule was introduced in ESLint 0.0.2.
+
+## Version
+
+This rule was introduced in ESLint 0.0.2.

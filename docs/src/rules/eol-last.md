@@ -57,3 +57,7 @@ This rule has a string option:
 ## Version
 
 This rule was introduced in ESLint 0.7.1.
+
+## Version
+
+This rule was introduced in ESLint 0.7.1.

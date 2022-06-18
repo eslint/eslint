@@ -552,3 +552,7 @@ If you don't want to enforce consistent line breaks after opening and before clo
 
 * **JSCS**: [requirePaddingNewLinesInObjects](https://jscs-dev.github.io/rule/requirePaddingNewLinesInObjects)
 * **JSCS**: [disallowPaddingNewLinesInObjects](https://jscs-dev.github.io/rule/disallowPaddingNewLinesInObjects)
+
+## Version
+
+This rule was introduced in ESLint 2.12.0.

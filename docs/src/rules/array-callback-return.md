@@ -162,3 +162,7 @@ If you don't want to warn about usage of `return` statement in callbacks of arra
 ## Version
 
 This rule was introduced in ESLint 2.0.0-alpha-1.
+
+## Version
+
+This rule was introduced in ESLint 2.0.0-alpha-1.

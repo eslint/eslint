@@ -224,3 +224,7 @@ var foo = bar(function *baz() {});
 ## Version
 
 This rule was introduced in ESLint 0.4.0.
+
+## Version
+
+This rule was introduced in ESLint 0.4.0.

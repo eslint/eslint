@@ -396,3 +396,7 @@ function add(num1, num2) {
 ## When Not To Use It
 
 If you aren't using JSDoc, then you can safely turn this rule off.
+
+## Version
+
+This rule was introduced in ESLint 0.4.0.

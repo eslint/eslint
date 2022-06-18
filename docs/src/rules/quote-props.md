@@ -273,3 +273,7 @@ var x = {
 ## When Not To Use It
 
 If you don't care if property names are consistently wrapped in quotes or not, and you don't target legacy ES3 environments, turn this rule off.
+
+## Version
+
+This rule was introduced in ESLint 0.0.6.

@@ -119,3 +119,7 @@ export function foo() {}
 
 export * from "some_module"; // allowed, although this declaration exports "foo" from my_module
 ```
+
+## Version
+
+This rule was introduced in ESLint 7.0.0-alpha.0.

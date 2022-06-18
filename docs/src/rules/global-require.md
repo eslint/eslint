@@ -107,3 +107,7 @@ If you have a module that must be initialized with information that comes from t
 ## Version
 
 This rule was introduced in ESLint 1.4.0.
+
+## Version
+
+This rule was introduced in ESLint 1.4.0.

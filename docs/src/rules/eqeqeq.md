@@ -136,3 +136,7 @@ If you don't want to enforce a style for using equality operators, then it's saf
 ## Version
 
 This rule was introduced in ESLint 0.0.2.
+
+## Version
+
+This rule was introduced in ESLint 0.0.2.

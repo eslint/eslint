@@ -168,3 +168,7 @@ var b = ~foo.indexOf(".");
 ## When Not To Use It
 
 If you don't want to be notified about shorter notations for the type conversion, you can safely disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 1.0.0-rc-2.

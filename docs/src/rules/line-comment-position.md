@@ -112,3 +112,7 @@ If you aren't concerned about having different line comment styles, then you can
 ## Version
 
 This rule was introduced in ESLint 3.5.0.
+
+## Version
+
+This rule was introduced in ESLint 3.5.0.

@@ -132,3 +132,7 @@ for (i = 0; i < 10; i++) {
     x = i;
 }
 ```
+
+## Version
+
+This rule was introduced in ESLint 0.0.6.

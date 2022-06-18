@@ -71,3 +71,7 @@ If you don't want to be notified about invalid/missing `super()` callings in con
 ## Version
 
 This rule was introduced in ESLint 0.24.0.
+
+## Version
+
+This rule was introduced in ESLint 0.24.0.

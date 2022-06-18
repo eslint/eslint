@@ -129,3 +129,7 @@ class C {
 ## When Not To Use It
 
 If you don't want to notify the location of semicolons, then it's safe to disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 4.0.0-beta.0.

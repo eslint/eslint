@@ -202,3 +202,7 @@ var y = (y => y)()
 ```
 
 The rationale for callback functions is the assumption that they will be called during the initialization, so that at the time when the shadowing variable will be used, the shadowed variable has not yet been initialized.
+
+## Version
+
+This rule was introduced in ESLint 0.0.9.

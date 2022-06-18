@@ -51,3 +51,7 @@ Example of a *false negative* when this rule reports correct code:
 
 var abcNeverMatches = new RegExp("^abc[]");
 ```
+
+## Version
+
+This rule was introduced in ESLint 0.22.0.

@@ -154,3 +154,7 @@ If you want to allow functions to have different `return` behavior depending on 
 ## Version
 
 This rule was introduced in ESLint 0.4.0.
+
+## Version
+
+This rule was introduced in ESLint 0.4.0.

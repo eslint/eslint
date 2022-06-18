@@ -114,3 +114,7 @@ var crypto = require('crypto');
 var crypto = require('crypto');
 var pick = require('lodash/pick');
 ```
+
+## Version
+
+This rule was introduced in ESLint 0.6.0.

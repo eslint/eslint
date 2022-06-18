@@ -133,3 +133,7 @@ class Foo {
 ## When Not To Use It
 
 If you don't want to be notified about unnecessary computed property keys, you can safely disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 2.9.0.

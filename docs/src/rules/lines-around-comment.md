@@ -584,3 +584,7 @@ Many people enjoy a terser code style and don't mind comments bumping up against
 ## Version
 
 This rule was introduced in ESLint 0.22.0.
+
+## Version
+
+This rule was introduced in ESLint 0.22.0.

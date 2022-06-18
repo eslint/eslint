@@ -187,3 +187,7 @@ Do not use this rule if you want to allow named functions to have different name
 ## Version
 
 This rule was introduced in ESLint 3.8.0.
+
+## Version
+
+This rule was introduced in ESLint 3.8.0.

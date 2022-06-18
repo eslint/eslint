@@ -43,3 +43,7 @@ var num  = "071";
 ## Compatibility
 
 * **JSHint**: W115
+
+## Version
+
+This rule was introduced in ESLint 0.0.6.

@@ -132,3 +132,7 @@ If you don't want to enforce a `default` case for `switch` statements, you can s
 ## Version
 
 This rule was introduced in ESLint 0.6.0.
+
+## Version
+
+This rule was introduced in ESLint 0.6.0.

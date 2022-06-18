@@ -55,3 +55,7 @@ var colors = [ "red", "blue", ];
 ## When Not To Use It
 
 If you want to use sparse arrays, then it is safe to disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 0.4.0.

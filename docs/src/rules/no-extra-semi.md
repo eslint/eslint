@@ -75,3 +75,7 @@ class C {
 ## When Not To Use It
 
 If you intentionally use extra semicolons then you can disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 0.0.9.

@@ -148,3 +148,7 @@ If you can't determine an appropriate complexity limit for your code, then it's 
 ## Version
 
 This rule was introduced in ESLint 0.0.9.
+
+## Version
+
+This rule was introduced in ESLint 0.0.9.

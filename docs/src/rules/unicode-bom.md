@@ -70,3 +70,7 @@ var abc;
 
 If you use some UTF-16 or UTF-32 files and you want to allow a file to
 optionally begin with a Unicode BOM, you should turn this rule off.
+
+## Version
+
+This rule was introduced in ESLint 2.11.0.

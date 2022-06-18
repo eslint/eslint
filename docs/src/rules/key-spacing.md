@@ -341,3 +341,7 @@ If you have another convention for property spacing that might not be consistent
 ## Version
 
 This rule was introduced in ESLint 0.9.0.
+
+## Version
+
+This rule was introduced in ESLint 0.9.0.

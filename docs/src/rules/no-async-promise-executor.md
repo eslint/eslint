@@ -69,3 +69,7 @@ const result = Promise.resolve(foo);
 ## When Not To Use It
 
 If your codebase doesn't support async function syntax, there's no need to enable this rule.
+
+## Version
+
+This rule was introduced in ESLint 5.3.0.

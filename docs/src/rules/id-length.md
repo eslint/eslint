@@ -262,3 +262,7 @@ const { a: z } = foo;
 ## Version
 
 This rule was introduced in ESLint 1.0.0.
+
+## Version
+
+This rule was introduced in ESLint 1.0.0.

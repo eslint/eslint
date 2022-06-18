@@ -105,3 +105,7 @@ someArray.map(function(item) { return this.doSomething(item); }, someObject);
 * In environments that have not yet adopted ES6 language features (ES3/5).
 
 * In ES6+ environments that allow the use of function expressions when describing callbacks or function arguments.
+
+## Version
+
+This rule was introduced in ESLint 1.2.0.

@@ -89,3 +89,7 @@ If you don't want to be notified about spacing style inside of blocks, you can s
 ## Version
 
 This rule was introduced in ESLint 1.2.0.
+
+## Version
+
+This rule was introduced in ESLint 1.2.0.

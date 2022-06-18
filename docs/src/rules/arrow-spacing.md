@@ -104,3 +104,7 @@ Examples of **correct** code for this rule with the `{ "before": false, "after":
 ## Version
 
 This rule was introduced in ESLint 1.0.0-rc-1.
+
+## Version
+
+This rule was introduced in ESLint 1.0.0-rc-1.

@@ -136,3 +136,7 @@ If you don't want to enforce empty lines between class members, you can disable 
 
 * [requirePaddingNewLinesAfterBlocks](https://jscs-dev.github.io/rule/requirePaddingNewLinesAfterBlocks)
 * [disallowPaddingNewLinesAfterBlocks](https://jscs-dev.github.io/rule/disallowPaddingNewLinesAfterBlocks)
+
+## Version
+
+This rule was introduced in ESLint 4.9.0.

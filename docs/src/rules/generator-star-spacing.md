@@ -216,3 +216,7 @@ If your project will not be using generators or you are not concerned with spaci
 ## Version
 
 This rule was introduced in ESLint 0.17.0.
+
+## Version
+
+This rule was introduced in ESLint 0.17.0.

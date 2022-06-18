@@ -260,3 +260,7 @@ This rule can be disabled if you do not care about the grammatical style of comm
 ## Version
 
 This rule was introduced in ESLint 3.11.0.
+
+## Version
+
+This rule was introduced in ESLint 3.11.0.

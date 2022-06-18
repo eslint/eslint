@@ -297,3 +297,7 @@ foo({bar: 'baz'}, [1, 2]);
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the consistency of spacing between parentheses.
+
+## Version
+
+This rule was introduced in ESLint 0.8.0.

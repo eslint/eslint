@@ -312,3 +312,7 @@ If you have no strict conventions about when to use block statements and when no
 ## Version
 
 This rule was introduced in ESLint 0.0.2.
+
+## Version
+
+This rule was introduced in ESLint 0.0.2.

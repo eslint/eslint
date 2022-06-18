@@ -857,3 +857,7 @@ if (foo) {
 ## Version
 
 This rule was introduced in ESLint 0.14.0.
+
+## Version
+
+This rule was introduced in ESLint 0.14.0.

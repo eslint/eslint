@@ -126,3 +126,7 @@ label:
 ## When Not To Use It
 
 If you need to use labeled statements everywhere, then you can safely disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 0.4.0.

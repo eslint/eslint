@@ -57,3 +57,7 @@ for (key in foo) {
 ## Version
 
 This rule was introduced in ESLint 0.0.6.
+
+## Version
+
+This rule was introduced in ESLint 0.0.6.

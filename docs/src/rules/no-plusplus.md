@@ -105,3 +105,7 @@ for (i = l; i--;) {
 
 for (i = 0; i < l;) i++;
 ```
+
+## Version
+
+This rule was introduced in ESLint 0.0.9.

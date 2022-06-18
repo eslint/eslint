@@ -64,3 +64,7 @@ If you want to allow use of `parseInt()` or `Number.parseInt()` for binary, octa
 ## Compatibility
 
 * **JSCS**: [requireNumericLiterals](https://jscs-dev.github.io/rule/requireNumericLiterals)
+
+## Version
+
+This rule was introduced in ESLint 3.5.0.

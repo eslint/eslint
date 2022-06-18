@@ -232,3 +232,7 @@ You can turn this rule off if you are not concerned with the consistency of spac
 ## Version
 
 This rule was introduced in ESLint 0.24.0.
+
+## Version
+
+This rule was introduced in ESLint 0.24.0.

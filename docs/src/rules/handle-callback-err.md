@@ -90,3 +90,7 @@ confident that some other form of monitoring will help you catch the problem.
 ## Version
 
 This rule was introduced in ESLint 0.4.5.
+
+## Version
+
+This rule was introduced in ESLint 0.4.5.

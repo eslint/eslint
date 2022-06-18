@@ -44,3 +44,7 @@ var bar = function (a, b, c) {
     console.log(a, b, c);
 };
 ```
+
+## Version
+
+This rule was introduced in ESLint 0.16.0.

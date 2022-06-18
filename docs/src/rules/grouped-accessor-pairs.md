@@ -331,3 +331,7 @@ See [no-dupe-class-members](no-dupe-class-members) if you also want to disallow 
 ## Version
 
 This rule was introduced in ESLint 6.7.0.
+
+## Version
+
+This rule was introduced in ESLint 6.7.0.

@@ -138,3 +138,7 @@ If you want to allow developers to each decide how they want to write functions 
 ## Version
 
 This rule was introduced in ESLint 0.2.0.
+
+## Version
+
+This rule was introduced in ESLint 0.2.0.

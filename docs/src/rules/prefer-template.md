@@ -58,3 +58,7 @@ var str = "Hello, " + "World!";
 This rule should not be used in ES3/5 environments.
 
 In ES2015 (ES6) or later, if you don't want to be notified about string concatenation, you can safely disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 1.2.0.

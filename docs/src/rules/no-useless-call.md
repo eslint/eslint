@@ -76,3 +76,7 @@ a[++i].foo.call(a[i], 1, 2, 3);
 ## When Not To Use It
 
 If you don't want to be notified about unnecessary `.call()` and `.apply()`, you can safely disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 1.0.0-rc-1.

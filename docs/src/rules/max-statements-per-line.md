@@ -90,3 +90,7 @@ var foo = function foo() { bar = 1; };
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the number of statements on each line.
+
+## Version
+
+This rule was introduced in ESLint 2.5.0.

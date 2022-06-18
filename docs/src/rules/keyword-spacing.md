@@ -293,3 +293,7 @@ If you don't want to enforce consistency on keyword spacing, then it's safe to d
 ## Version
 
 This rule was introduced in ESLint 2.0.0-beta.1.
+
+## Version
+
+This rule was introduced in ESLint 2.0.0-beta.1.

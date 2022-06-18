@@ -109,3 +109,7 @@ You can also disable this rule if you are using the `"always"` option for the [`
 ## Version
 
 This rule was introduced in ESLint 4.12.0.
+
+## Version
+
+This rule was introduced in ESLint 4.12.0.

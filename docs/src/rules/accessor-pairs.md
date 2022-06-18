@@ -298,3 +298,7 @@ You can turn this rule off if you are not concerned with the simultaneous presen
 ## Version
 
 This rule was introduced in ESLint 0.22.0.
+
+## Version
+
+This rule was introduced in ESLint 0.22.0.

@@ -94,3 +94,7 @@ You can turn this rule off if you are not concerned with the consistency of newl
 ## Version
 
 This rule was introduced in ESLint 0.21.0.
+
+## Version
+
+This rule was introduced in ESLint 0.21.0.

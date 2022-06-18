@@ -180,3 +180,7 @@ If you don't want to enforce any particular naming convention for all identifier
 ## Version
 
 This rule was introduced in ESLint 1.0.0.
+
+## Version
+
+This rule was introduced in ESLint 1.0.0.

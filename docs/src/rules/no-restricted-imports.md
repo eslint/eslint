@@ -257,3 +257,7 @@ import pick from 'food';
 ## When Not To Use It
 
 Don't use this rule or don't include a module in the list for this rule if you want to be able to import a module in your project without an ESLint error or warning.
+
+## Version
+
+This rule was introduced in ESLint 2.0.0-alpha-1.

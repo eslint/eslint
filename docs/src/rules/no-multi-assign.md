@@ -102,3 +102,7 @@ class Foo {
     a = b = 10;
 }
 ```
+
+## Version
+
+This rule was introduced in ESLint 3.14.0.

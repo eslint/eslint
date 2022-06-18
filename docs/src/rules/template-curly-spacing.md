@@ -89,3 +89,7 @@ Examples of **correct** code for this rule with the `"always"` option:
 ## When Not To Use It
 
 If you don't want to be notified about usage of spacing inside of template strings, then it's safe to disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 2.0.0-rc.0.

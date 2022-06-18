@@ -66,3 +66,7 @@ var person = new Person;
 var person = (new Person);
 var person = new Person("Name");
 ```
+
+## Version
+
+This rule was introduced in ESLint 0.0.6.

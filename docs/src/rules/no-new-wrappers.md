@@ -79,3 +79,7 @@ var object = new MyString();
 ## When Not To Use It
 
 If you want to allow the use of primitive wrapper objects, then you can safely disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 0.0.6.

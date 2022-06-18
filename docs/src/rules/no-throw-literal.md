@@ -82,3 +82,7 @@ var foo = {
 };
 throw foo.bar;
 ```
+
+## Version
+
+This rule was introduced in ESLint 0.15.0.

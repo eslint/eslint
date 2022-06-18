@@ -399,3 +399,7 @@ If you don't want to enforce linebreaks between array elements, don't enable thi
 ## Version
 
 This rule was introduced in ESLint 4.0.0-rc.0.
+
+## Version
+
+This rule was introduced in ESLint 4.0.0-rc.0.

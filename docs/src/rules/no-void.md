@@ -108,3 +108,7 @@ void someFunction();
 ## When Not To Use It
 
 If you intentionally use the `void` operator then you can disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 0.8.0.

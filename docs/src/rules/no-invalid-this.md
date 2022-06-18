@@ -274,3 +274,7 @@ obj.Foo = function Foo() {
 ## When Not To Use It
 
 If you don't want to be notified about usage of `this` keyword outside of classes or class-like objects, you can safely disable this rule.
+
+## Version
+
+This rule was introduced in ESLint 1.0.0-rc-2.

@@ -130,3 +130,7 @@ doSomethingAnyway();
 ## Version
 
 This rule was introduced in ESLint 7.0.0-alpha.0.
+
+## Version
+
+This rule was introduced in ESLint 7.0.0-alpha.0.

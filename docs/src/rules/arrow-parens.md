@@ -236,3 +236,7 @@ a((foo) => { if (true) {} });
 ## Version
 
 This rule was introduced in ESLint 1.0.0-rc-1.
+
+## Version
+
+This rule was introduced in ESLint 1.0.0-rc-1.
