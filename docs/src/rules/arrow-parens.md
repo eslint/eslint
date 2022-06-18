@@ -72,6 +72,8 @@ Object properties for variants of the `"as-needed"` option:
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
+:::incorrect
+
 ```js
 /*eslint arrow-parens: ["error", "always"]*/
 /*eslint-env es6*/
@@ -84,7 +86,11 @@ a.then(foo => a);
 a(foo => { if (true) {} });
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"always"` option:
+
+:::correct
 
 ```js
 /*eslint arrow-parens: ["error", "always"]*/
@@ -97,6 +103,8 @@ Examples of **correct** code for this rule with the default `"always"` option:
 a.then((foo) => {});
 a.then((foo) => { if (true) {} });
 ```
+
+:::
 
 #### If Statements
 
@@ -159,6 +167,8 @@ var f = (a) => b ? c: d;
 
 Examples of **incorrect** code for this rule with the `"as-needed"` option:
 
+:::incorrect
+
 ```js
 /*eslint arrow-parens: ["error", "as-needed"]*/
 /*eslint-env es6*/
@@ -174,7 +184,11 @@ const g = /* comment */ (a) => a + a;
 const h = (a) /* comment */ => a + a;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"as-needed"` option:
+
+:::correct
 
 ```js
 /*eslint arrow-parens: ["error", "as-needed"]*/
@@ -195,9 +209,13 @@ const g = (/* comment */ a) => a + a;
 const h = (a /* comment */) => a + a;
 ```
 
+:::
+
 ### requireForBlockBody
 
 Examples of **incorrect** code for the `{ "requireForBlockBody": true }` option:
+
+:::incorrect
 
 ```js
 /*eslint arrow-parens: [2, "as-needed", { "requireForBlockBody": true }]*/
@@ -213,7 +231,11 @@ a.map(x => {
 a.then(foo => {});
 ```
 
+:::
+
 Examples of **correct** code for the `{ "requireForBlockBody": true }` option:
+
+:::correct
 
 ```js
 /*eslint arrow-parens: [2, "as-needed", { "requireForBlockBody": true }]*/
@@ -232,3 +254,5 @@ a((foo) => { if (true) {} });
 ([a, b]) => a;
 ({a, b}) => a;
 ```
+
+:::

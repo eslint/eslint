@@ -29,6 +29,8 @@ This rule does not enforce the existence of `default` clauses. See [default-case
 
 Examples of **incorrect** code for this rule:
 
+:::incorrect
+
 ```js
 /*eslint default-case-last: "error"*/
 
@@ -79,7 +81,11 @@ switch (foo) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+:::correct
 
 ```js
 /*eslint default-case-last: "error"*/
@@ -126,3 +132,5 @@ if (foo !== 0) {
 }
 doSomethingAnyway();
 ```
+
+:::

@@ -31,6 +31,8 @@ The default configuration is `{ "before": true, "after": true }`.
 
 Examples of **incorrect** code for this rule with the default `{ "before": true, "after": true }` option:
 
+:::incorrect
+
 ```js
 /*eslint arrow-spacing: "error"*/
 /*eslint-env es6*/
@@ -45,7 +47,11 @@ a=> a;
 () =>{'\n'};
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `{ "before": true, "after": true }` option:
+
+:::correct
 
 ```js
 /*eslint arrow-spacing: "error"*/
@@ -57,7 +63,11 @@ a => a;
 () => {'\n'};
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `{ "before": false, "after": false }` option:
+
+:::incorrect
 
 ```js
 /*eslint arrow-spacing: ["error", { "before": false, "after": false }]*/
@@ -68,7 +78,11 @@ Examples of **incorrect** code for this rule with the `{ "before": false, "after
 ()=> {'\n'};
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "before": false, "after": false }` option:
+
+:::correct
 
 ```js
 /*eslint arrow-spacing: ["error", { "before": false, "after": false }]*/
@@ -79,7 +93,11 @@ Examples of **correct** code for this rule with the `{ "before": false, "after":
 ()=>{'\n'};
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `{ "before": false, "after": true }` option:
+
+:::incorrect
 
 ```js
 /*eslint arrow-spacing: ["error", { "before": false, "after": true }]*/
@@ -90,7 +108,11 @@ Examples of **incorrect** code for this rule with the `{ "before": false, "after
 ()=>{'\n'};
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "before": false, "after": true }` option:
+
+:::correct
 
 ```js
 /*eslint arrow-spacing: ["error", { "before": false, "after": true }]*/
@@ -100,3 +122,5 @@ Examples of **correct** code for this rule with the `{ "before": false, "after":
 (a)=> {};
 ()=> {'\n'};
 ```
+
+:::

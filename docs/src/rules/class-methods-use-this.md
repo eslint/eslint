@@ -61,6 +61,8 @@ This rule is aimed to flag class methods that do not use `this`.
 
 Examples of **incorrect** code for this rule:
 
+:::incorrect
+
 ```js
 /*eslint class-methods-use-this: "error"*/
 /*eslint-env es6*/
@@ -72,7 +74,11 @@ class A {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+:::correct
 
 ```js
 /*eslint class-methods-use-this: "error"*/
@@ -100,6 +106,8 @@ class A {
 }
 ```
 
+:::
+
 ## Options
 
 This rule has two options:
@@ -117,6 +125,8 @@ The `exceptMethods` option allows you to pass an array of method names for which
 
 Examples of **incorrect** code for this rule when used without exceptMethods:
 
+:::incorrect
+
 ```js
 /*eslint class-methods-use-this: "error"*/
 
@@ -126,7 +136,11 @@ class A {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule when used with exceptMethods:
+
+:::correct
 
 ```js
 /*eslint class-methods-use-this: ["error", { "exceptMethods": ["foo", "#bar"] }] */
@@ -138,6 +152,8 @@ class A {
     }
 }
 ```
+
+:::
 
 ### enforceForClassFields
 
@@ -159,6 +175,8 @@ class A {
 
 Examples of **correct** code for this rule with the `{ "enforceForClassFields": true }` option (default):
 
+:::correct
+
 ```js
 /*eslint class-methods-use-this: ["error", { "enforceForClassFields": true }] */
 
@@ -167,7 +185,11 @@ class A {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "enforceForClassFields": false }` option:
+
+:::correct
 
 ```js
 /*eslint class-methods-use-this: ["error", { "enforceForClassFields": false }] */
@@ -176,3 +198,5 @@ class A {
     foo = () => {}
 }
 ```
+
+:::
