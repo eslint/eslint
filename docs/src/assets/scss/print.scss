@@ -196,6 +196,10 @@ ul {
     page-break-inside: avoid;
 }
 
+.docs-index, .docs-aside, #skip-link{
+    display: none;
+}
+
 
 @media print {
     @page {
