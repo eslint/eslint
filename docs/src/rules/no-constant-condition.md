@@ -134,7 +134,3 @@ do {
     }
 } while (true)
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.4.1.

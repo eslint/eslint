@@ -125,7 +125,3 @@ obj
 ## When Not To Use It
 
 If you have conflicting rules or when you are fine with chained calls on one line, you can safely turn this rule off.
-
-## Version
-
-This rule was introduced in ESLint 2.0.0-rc.0.

@@ -164,7 +164,3 @@ Examples of **correct** code for this rule with the `ignorePattern` option:
 
 var dep = require('really/really/really/really/really/really/really/really/long/module');
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.0.9.

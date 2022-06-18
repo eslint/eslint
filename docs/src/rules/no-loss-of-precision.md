@@ -41,7 +41,3 @@ const x = 0x1FFFFFFFFFFFFF
 const x = 9007199254740991
 const x = 9007_1992547409_91
 ```
-
-## Version
-
-This rule was introduced in ESLint 7.1.0.

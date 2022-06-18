@@ -133,7 +133,3 @@ Examples of additional **correct** code for this rule:
 /^\1$/.test("\x01"); // true. Since the group 1 doesn't exist, \1 is treated as an octal escape sequence.
 /^(a)\1\2$/.test("aa\x02"); // true. In this case, \1 is a backreference, \2 is an octal escape sequence.
 ```
-
-## Version
-
-This rule was introduced in ESLint 7.0.0-alpha.0.

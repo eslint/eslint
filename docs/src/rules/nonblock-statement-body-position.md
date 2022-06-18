@@ -163,7 +163,3 @@ while (foo)
 ## When Not To Use It
 
 If you're not concerned about consistent locations of single-line statements, you should not turn on this rule. You can also disable this rule if you're using the `"all"` option for the [`curly`](/docs/rules/curly) rule, because this will disallow single-line statements entirely.
-
-## Version
-
-This rule was introduced in ESLint 3.17.0.

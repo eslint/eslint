@@ -85,11 +85,3 @@ class C {
 ## When Not To Use It
 
 If you don't want to be notified about spacing style inside of blocks, you can safely disable this rule.
-
-## Version
-
-This rule was introduced in ESLint 1.2.0.
-
-## Version
-
-This rule was introduced in ESLint 1.2.0.

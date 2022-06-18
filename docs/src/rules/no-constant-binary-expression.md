@@ -71,7 +71,3 @@ const objIsEmpty = Object.keys(someObj).length === 0;
 
 const arrIsEmpty = someArr.length === 0;
 ```
-
-## Version
-
-This rule was introduced in ESLint 8.14.0.

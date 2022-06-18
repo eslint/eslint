@@ -148,7 +148,3 @@ Another case is where you might want to report all usages of the comma operator,
     }
 }
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.5.1.

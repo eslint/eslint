@@ -151,7 +151,3 @@ let foo = function(a) {
 ## When Not To Use It
 
 If you want to allow control flow operations in `finally` blocks, you can turn this rule off.
-
-## Version
-
-This rule was introduced in ESLint 2.9.0.

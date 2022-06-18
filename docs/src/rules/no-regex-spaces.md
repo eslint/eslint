@@ -53,7 +53,3 @@ var re = new RegExp("foo {3}bar");
 ## When Not To Use It
 
 If you want to allow multiple spaces in a regular expression, then you can safely turn this rule off.
-
-## Version
-
-This rule was introduced in ESLint 0.4.0.

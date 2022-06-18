@@ -60,7 +60,3 @@ function f(flags) {
 ## When Not To Use It
 
 If you don't want to notify regular expressions with no `u` flag, then it's safe to disable this rule.
-
-## Version
-
-This rule was introduced in ESLint 5.3.0.

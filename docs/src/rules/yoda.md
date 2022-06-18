@@ -192,7 +192,3 @@ if (-1 < str.indexOf(substr)) {
     // ...
 }
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.7.1.

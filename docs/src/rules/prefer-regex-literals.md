@@ -131,7 +131,3 @@ Examples of `correct` code for `{ "disallowRedundantWrapping": true }`
 
 new RegExp(/abc/, flags);
 ```
-
-## Version
-
-This rule was introduced in ESLint 6.4.0.

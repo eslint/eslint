@@ -78,11 +78,3 @@ Examples of **correct** code for this rule with the `"prefer-single"` option:
 ## When Not To Use It
 
 You can turn this rule off if you don’t use JSX or if you aren’t concerned with a consistent usage of quotes within JSX attributes.
-
-## Version
-
-This rule was introduced in ESLint 1.4.0.
-
-## Version
-
-This rule was introduced in ESLint 1.4.0.

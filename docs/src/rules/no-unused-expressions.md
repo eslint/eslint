@@ -227,7 +227,3 @@ var myComponentPartial = <MyComponent />;
 
 var myFragment = <></>;
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.1.0.

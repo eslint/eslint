@@ -301,7 +301,3 @@ If you don't want to notify warnings about linebreaks, then it's safe to disable
 * **JSCS:** [disallowPaddingNewLinesBeforeExport](https://jscs-dev.github.io/rule/disallowPaddingNewLinesBeforeExport)
 * **JSCS:** [requirePaddingNewlinesBeforeKeywords](https://jscs-dev.github.io/rule/requirePaddingNewlinesBeforeKeywords)
 * **JSCS:** [disallowPaddingNewlinesBeforeKeywords](https://jscs-dev.github.io/rule/disallowPaddingNewlinesBeforeKeywords)
-
-## Version
-
-This rule was introduced in ESLint 4.0.0-beta.0.

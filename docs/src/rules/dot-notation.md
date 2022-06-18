@@ -87,11 +87,3 @@ data["fooBar"] = 42;
 var data = {};
 data["foo_bar"] = 42; // no warning
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.0.7.
-
-## Version
-
-This rule was introduced in ESLint 0.0.7.

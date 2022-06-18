@@ -119,7 +119,3 @@ Examples of **correct** code for this rule with ES6 environment and strict mode 
     function foo() {}
 }
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.4.0.

@@ -63,7 +63,3 @@ if (a != b) {
 
 a ? b : c
 ```
-
-## Version
-
-This rule was introduced in ESLint 1.6.0.

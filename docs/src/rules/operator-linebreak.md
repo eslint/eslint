@@ -341,7 +341,3 @@ answer = everything
 ## When Not To Use It
 
 If your project will not be using a common operator line break style, turn this rule off.
-
-## Version
-
-This rule was introduced in ESLint 0.19.0.

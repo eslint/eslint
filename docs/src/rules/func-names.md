@@ -220,11 +220,3 @@ var foo = bar(function *baz() {});
 
 * **JSCS**: [requireAnonymousFunctions](https://jscs-dev.github.io/rule/requireAnonymousFunctions)
 * **JSCS**: [disallowAnonymousFunctions](https://jscs-dev.github.io/rule/disallowAnonymousFunctions)
-
-## Version
-
-This rule was introduced in ESLint 0.4.0.
-
-## Version
-
-This rule was introduced in ESLint 0.4.0.

@@ -231,7 +231,3 @@ If you don't want to notify about properties' order, then it's safe to disable t
 ## Compatibility
 
 * **JSCS:** [validateOrderInObjectKeys](https://jscs-dev.github.io/rule/validateOrderInObjectKeys)
-
-## Version
-
-This rule was introduced in ESLint 3.3.0.

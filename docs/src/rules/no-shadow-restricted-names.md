@@ -50,7 +50,3 @@ function f(a, b){}
 // Exception: `undefined` may be shadowed if the variable is never assigned a value.
 var undefined;
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.1.4.

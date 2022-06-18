@@ -74,7 +74,3 @@ foo.
 ## When Not To Use It
 
 Turn this rule off if you do not care about allowing whitespace around the dot or before the opening bracket before properties of objects if they are on the same line.
-
-## Version
-
-This rule was introduced in ESLint 2.0.0-beta.1.

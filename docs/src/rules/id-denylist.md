@@ -121,11 +121,3 @@ class Foo {
 ## When Not To Use It
 
 You can turn this rule off if you do not want to restrict the use of certain identifiers.
-
-## Version
-
-This rule was introduced in ESLint 7.4.0.
-
-## Version
-
-This rule was introduced in ESLint 7.4.0.

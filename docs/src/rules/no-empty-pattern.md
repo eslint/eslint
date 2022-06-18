@@ -61,7 +61,3 @@ var {a = []} = foo;
 function foo({a = {}}) {}
 function foo({a = []}) {}
 ```
-
-## Version
-
-This rule was introduced in ESLint 1.7.0.

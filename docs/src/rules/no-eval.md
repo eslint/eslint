@@ -156,7 +156,3 @@ global.eval("var a = 0");
   var foo = window;
   foo.eval("var a = 0");
   ```
-
-## Version
-
-This rule was introduced in ESLint 0.0.2.

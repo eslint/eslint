@@ -108,11 +108,3 @@ If you aren't concerned about having different line comment styles, then you can
 ## Compatibility
 
 **JSCS**: [validateCommentPosition](https://jscs-dev.github.io/rule/validateCommentPosition)
-
-## Version
-
-This rule was introduced in ESLint 3.5.0.
-
-## Version
-
-This rule was introduced in ESLint 3.5.0.

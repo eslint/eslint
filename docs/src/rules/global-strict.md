@@ -66,7 +66,3 @@ Warns whenever `"use strict"` is used in the global scope such that it could con
 ## When Not To Use It
 
 When a project may use non-strict-mode code side by side with strict-mode code and the files are not concatenated, the decision to use global strict mode can be made on an individual basis, rendering this rule unnecessary.
-
-## Version
-
-This rule was introduced in ESLint 0.8.0 and removed in 1.0.0-rc-1.

@@ -176,11 +176,3 @@ class A {
     foo = () => {}
 }
 ```
-
-## Version
-
-This rule was introduced in ESLint 3.4.0.
-
-## Version
-
-This rule was introduced in ESLint 3.4.0.

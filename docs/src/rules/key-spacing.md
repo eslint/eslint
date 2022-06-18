@@ -337,11 +337,3 @@ var obj2 = {
 ## When Not To Use It
 
 If you have another convention for property spacing that might not be consistent with the available options, or if you want to permit multiple styles concurrently you can safely disable this rule.
-
-## Version
-
-This rule was introduced in ESLint 0.9.0.
-
-## Version
-
-This rule was introduced in ESLint 0.9.0.

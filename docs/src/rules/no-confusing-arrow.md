@@ -98,7 +98,3 @@ Examples of **correct** code for this rule with the `{"onlyOneSimpleParam": true
 ([a]) => 1 ? 2 : 3;
 (...a) => 1 ? 2 : 3;
 ```
-
-## Version
-
-This rule was introduced in ESLint 2.0.0-alpha-2.

@@ -127,7 +127,3 @@ require('foo');
 ## When Not To Use It
 
 If you don't have any object/property combinations to restrict, you should not use this rule.
-
-## Version
-
-This rule was introduced in ESLint 3.5.0.

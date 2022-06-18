@@ -324,7 +324,3 @@ You can safely disable this rule if you do not have any strict conventions about
 
 * **JSCS**: [requirePaddingNewLinesAfterUseStrict](https://jscs-dev.github.io/rule/requirePaddingNewLinesAfterUseStrict)
 * **JSCS**: [disallowPaddingNewLinesAfterUseStrict](https://jscs-dev.github.io/rule/disallowPaddingNewLinesAfterUseStrict)
-
-## Version
-
-This rule was introduced in ESLint 3.5.0.

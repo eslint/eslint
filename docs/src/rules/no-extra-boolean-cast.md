@@ -133,7 +133,3 @@ var foo = new Boolean(bar || baz)
 
 var foo = !!bar || baz;
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.4.0.

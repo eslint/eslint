@@ -202,7 +202,3 @@ var magic = {
 var dutyFreePrice = 100,
     finalPrice = dutyFreePrice + (dutyFreePrice * magic.tax);
 ```
-
-## Version
-
-This rule was introduced in ESLint 1.7.0.

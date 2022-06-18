@@ -116,7 +116,3 @@ If explicit declaration of global variables is not to your taste.
 ## Compatibility
 
 This rule provides compatibility with treatment of global variables in [JSHint](http://jshint.com/) and [JSLint](http://www.jslint.com).
-
-## Version
-
-This rule was introduced in ESLint 0.0.9.

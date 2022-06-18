@@ -47,7 +47,3 @@ Examples of **correct** code for this rule:
 
 var __iterator__ = foo; // Not using the `__iterator__` property.
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.0.9.

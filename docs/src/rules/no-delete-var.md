@@ -25,7 +25,3 @@ Examples of **incorrect** code for this rule:
 var x;
 delete x;
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.0.9.

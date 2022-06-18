@@ -66,7 +66,3 @@ fs.readFileSync(somePath).toString();
 ## When Not To Use It
 
 If you want to allow synchronous operations in your script, do not enable this rule.
-
-## Version
-
-This rule was introduced in ESLint 0.0.9.

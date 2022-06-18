@@ -105,11 +105,3 @@ Examples of **correct** code for this rule with the `"below"` option:
 If you're not concerned about consistent locations of implicitly returned arrow function expressions, you should not turn on this rule.
 
 You can also disable this rule if you are using the `"always"` option for the [`arrow-body-style`](arrow-body-style), since this will disable the use of implicit returns in arrow functions.
-
-## Version
-
-This rule was introduced in ESLint 4.12.0.
-
-## Version
-
-This rule was introduced in ESLint 4.12.0.

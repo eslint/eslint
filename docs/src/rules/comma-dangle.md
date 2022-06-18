@@ -322,11 +322,3 @@ new foo(a, b,);
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with dangling commas.
-
-## Version
-
-This rule was introduced in ESLint 0.16.0.
-
-## Version
-
-This rule was introduced in ESLint 0.16.0.

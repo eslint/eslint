@@ -73,7 +73,3 @@ There is no difference in behavior between `new RegExp("\t")` and `new RegExp("\
 ## When Not To Use It
 
 If you need to use control character pattern matching, then you should turn this rule off.
-
-## Version
-
-This rule was introduced in ESLint 0.1.0.

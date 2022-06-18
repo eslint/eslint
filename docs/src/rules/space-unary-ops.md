@@ -155,7 +155,3 @@ async function foo() {
     await (bar);
 }
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.10.0.

@@ -176,7 +176,3 @@ const foo = (..._bar) => {};
 ## When Not To Use It
 
 If you want to allow dangling underscores in identifiers, then you can safely turn this rule off.
-
-## Version
-
-This rule was introduced in ESLint 0.0.9.

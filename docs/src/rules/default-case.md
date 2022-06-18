@@ -128,11 +128,3 @@ switch(a) {
 ## When Not To Use It
 
 If you don't want to enforce a `default` case for `switch` statements, you can safely disable this rule.
-
-## Version
-
-This rule was introduced in ESLint 0.6.0.
-
-## Version
-
-This rule was introduced in ESLint 0.6.0.

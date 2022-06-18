@@ -95,7 +95,3 @@ while (check(obj)) {
 ## When Not To Use It
 
 If you don't want to notified about references inside of loop conditions, then it's safe to disable this rule.
-
-## Version
-
-This rule was introduced in ESLint 2.0.0-alpha-2.

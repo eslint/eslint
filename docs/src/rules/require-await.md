@@ -89,7 +89,3 @@ fail().catch(error => {
 In this case, the `fail()` function throws an error that is intended to be caught by the `catch()` handler assigned later. Converting the `fail()` function into a synchronous function would require the call to `fail()` to be refactored to use a `try-catch` statement instead of a promise.
 
 If you are throwing an error inside of an asynchronous function for this purpose, then you may want to disable this rule.
-
-## Version
-
-This rule was introduced in ESLint 3.11.0.

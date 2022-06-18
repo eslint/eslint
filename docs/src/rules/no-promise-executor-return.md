@@ -97,7 +97,3 @@ new Promise((resolve, reject) => {
 
 Promise.resolve(1);
 ```
-
-## Version
-
-This rule was introduced in ESLint 7.3.0.

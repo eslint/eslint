@@ -40,7 +40,3 @@ if (Object.is(x, -0)) {
     // doSomething()...
 }
 ```
-
-## Version
-
-This rule was introduced in ESLint 3.17.0.

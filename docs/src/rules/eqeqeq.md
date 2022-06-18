@@ -132,11 +132,3 @@ foo == null
 ## When Not To Use It
 
 If you don't want to enforce a style for using equality operators, then it's safe to disable this rule.
-
-## Version
-
-This rule was introduced in ESLint 0.0.2.
-
-## Version
-
-This rule was introduced in ESLint 0.0.2.

@@ -183,11 +183,3 @@ Do not use this rule if you want to allow named functions to have different name
 ## Compatibility
 
 * **JSCS**: [requireMatchingFunctionName](https://jscs-dev.github.io/rule/requireMatchingFunctionName)
-
-## Version
-
-This rule was introduced in ESLint 3.8.0.
-
-## Version
-
-This rule was introduced in ESLint 3.8.0.

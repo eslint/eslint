@@ -131,7 +131,3 @@ If you use a pattern such as [UMD][4] where the `require`d modules are not loade
 [2]: https://nodejs.org/api/modules.html#modules_file_modules
 [3]: https://nodejs.org/api/modules.html#modules_loading_from_node_modules_folders
 [4]: https://github.com/umdjs/umd
-
-## Version
-
-This rule was introduced in ESLint 0.0.9.

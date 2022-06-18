@@ -63,7 +63,3 @@ There are a few reasons you might want to turn this rule off:
 * If you want to use `await` to denote a value that is a thenable
 * If you do not want the performance benefit of avoiding `return await`
 * If you want the functions to show up in stack traces (useful for debugging purposes)
-
-## Version
-
-This rule was introduced in ESLint 3.10.0.

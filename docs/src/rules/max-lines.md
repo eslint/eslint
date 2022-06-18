@@ -128,7 +128,3 @@ You can turn this rule off if you are not concerned with the number of lines in 
 ## Compatibility
 
 * **JSCS**: [maximumNumberOfLines](https://jscs-dev.github.io/rule/maximumNumberOfLines)
-
-## Version
-
-This rule was introduced in ESLint 2.12.0.

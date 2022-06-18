@@ -256,7 +256,3 @@ var hasNaN = myArray.includes(NaN);
 #### Known Limitations
 
 This option checks methods with the given names, *even if* the object which has the method is *not* an array.
-
-## Version
-
-This rule was introduced in ESLint 0.0.6.

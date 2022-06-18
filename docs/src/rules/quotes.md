@@ -161,7 +161,3 @@ var single = `single`;
 ## When Not To Use It
 
 If you do not need consistency in your string styles, you can safely disable this rule.
-
-## Version
-
-This rule was introduced in ESLint 0.0.7.

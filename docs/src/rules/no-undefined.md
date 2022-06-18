@@ -79,7 +79,3 @@ global.undefined = "foo";
 ## When Not To Use It
 
 If you want to allow the use of `undefined` in your code, then you can safely turn this rule off.
-
-## Version
-
-This rule was introduced in ESLint 0.7.1.

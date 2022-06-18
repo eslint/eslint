@@ -67,11 +67,3 @@ class A extends B {
 ## When Not To Use It
 
 If you don't want to be notified about invalid/missing `super()` callings in constructors, you can safely disable this rule.
-
-## Version
-
-This rule was introduced in ESLint 0.24.0.
-
-## Version
-
-This rule was introduced in ESLint 0.24.0.

@@ -162,7 +162,3 @@ async function foo () {
   baz += await obj?.foo;
 }
 ```
-
-## Version
-
-This rule was introduced in ESLint 7.15.0.

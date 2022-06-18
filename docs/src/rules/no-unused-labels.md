@@ -75,7 +75,3 @@ for (let i = 0; i < 10; ++i) {
 ## When Not To Use It
 
 If you don't want to be notified about unused labels, then it's safe to disable this rule.
-
-## Version
-
-This rule was introduced in ESLint 2.0.0-rc.0.

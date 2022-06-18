@@ -86,7 +86,3 @@ function handleFoo4() {
     foo5();
 }
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.2.0.

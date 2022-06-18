@@ -99,7 +99,3 @@ var num = parseFloat(someValue);
 ## When Not To Use It
 
 If you don't want to enforce either presence or omission of the `10` radix value you can turn this rule off.
-
-## Version
-
-This rule was introduced in ESLint 0.0.7.

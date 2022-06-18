@@ -145,7 +145,3 @@ let n = { x, y, ... z };
 ## When Not To Use It
 
 You can safely disable this rule if you do not care about enforcing consistent spacing between spread operators and their expressions.
-
-## Version
-
-This rule was introduced in ESLint 2.12.0.

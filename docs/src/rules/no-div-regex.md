@@ -37,7 +37,3 @@ Examples of **correct** code for this rule:
 
 function bar() { return /[=]foo/; }
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.1.0.

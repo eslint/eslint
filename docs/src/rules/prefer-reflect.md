@@ -342,7 +342,3 @@ Reflect.deleteProperty(foo, 'bar');
 This rule should not be used in ES3/5 environments.
 
 In ES2015 (ES6) or later, if you don't want to be notified about places where Reflect could be used, you can safely disable this rule.
-
-## Version
-
-This rule was introduced in ESLint 1.0.0-rc-2.

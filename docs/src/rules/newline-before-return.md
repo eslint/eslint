@@ -121,7 +121,3 @@ function foo() {
 ## When Not To Use It
 
 You can safely disable this rule if you do not have any strict conventions about whitespace before `return` statements.
-
-## Version
-
-This rule was introduced in ESLint 2.3.0.

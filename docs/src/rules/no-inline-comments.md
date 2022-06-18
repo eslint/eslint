@@ -116,7 +116,3 @@ Examples of **incorrect** code for the `ignorePattern` option:
 
 var foo = 4; // other thing
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.10.0.

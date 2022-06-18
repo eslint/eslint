@@ -94,7 +94,3 @@ This rule accepts an `exceptions` option, which can be used to specify a list of
 ## When Not To Use It
 
 If you are trying to override one of the native objects.
-
-## Version
-
-This rule was introduced in ESLint 3.3.0.

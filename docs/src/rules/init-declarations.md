@@ -136,11 +136,3 @@ for (var i = 0; i < 1; i++) {}
 ## When Not To Use It
 
 When you are indifferent as to how your variables are initialized.
-
-## Version
-
-This rule was introduced in ESLint 1.0.0-rc-1.
-
-## Version
-
-This rule was introduced in ESLint 1.0.0-rc-1.

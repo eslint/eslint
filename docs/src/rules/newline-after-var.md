@@ -149,7 +149,3 @@ var name = "world";
 // var name = require("world");
 console.log(greet, name);
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.18.0.

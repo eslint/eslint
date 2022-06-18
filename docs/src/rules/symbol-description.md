@@ -60,7 +60,3 @@ var bar = Symbol(someString);
 
 This rule should not be used in ES3/5 environments.
 In addition, this rule can be safely turned off if you don't want to enforce presence of `description` when creating Symbols.
-
-## Version
-
-This rule was introduced in ESLint 3.4.0.

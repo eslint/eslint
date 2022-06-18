@@ -86,7 +86,3 @@ switch (a) {
 ## When Not To Use It
 
 If you don't want to notify spacing around colons of switch statements, then it's safe to disable this rule.
-
-## Version
-
-This rule was introduced in ESLint 4.0.0-beta.0.

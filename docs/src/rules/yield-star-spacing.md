@@ -99,7 +99,3 @@ function*generator() {
 ## When Not To Use It
 
 If your project will not be using generators or you are not concerned with spacing consistency, you do not need this rule.
-
-## Version
-
-This rule was introduced in ESLint 2.0.0-alpha-1.

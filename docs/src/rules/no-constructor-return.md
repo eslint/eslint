@@ -55,7 +55,3 @@ class D {
     }
 }
 ```
-
-## Version
-
-This rule was introduced in ESLint 6.7.0.

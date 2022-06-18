@@ -94,7 +94,3 @@ var a,
 let a,
     b = 0;
 ```
-
-## Version
-
-This rule was introduced in ESLint 2.0.0-beta.3.

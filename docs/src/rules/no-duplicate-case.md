@@ -113,7 +113,3 @@ switch (a) {
         break;
 }
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.17.0.

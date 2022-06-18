@@ -147,11 +147,3 @@ Examples of **correct** code for this rule with the `"never"` option:
 let foo = () => 0;
 let foo = () => ({ foo: 0 });
 ```
-
-## Version
-
-This rule was introduced in ESLint 1.8.0.
-
-## Version
-
-This rule was introduced in ESLint 1.8.0.

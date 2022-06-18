@@ -295,7 +295,3 @@ Default is `false`.
 ## When Not To Use It
 
 This rule is a formatting preference and not following it won't negatively affect the quality of your code. If alphabetizing imports isn't a part of your coding standards, then you can leave this rule disabled.
-
-## Version
-
-This rule was introduced in ESLint 2.0.0-beta.1.

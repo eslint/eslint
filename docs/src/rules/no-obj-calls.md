@@ -70,7 +70,3 @@ var value = Reflect.get({ x: 1, y: 2 }, "x");
 
 var first = Atomics.load(foo, 0);
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.0.9.

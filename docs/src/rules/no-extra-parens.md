@@ -303,7 +303,3 @@ a = (b * c);
 
 typeof (a);
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.1.4.

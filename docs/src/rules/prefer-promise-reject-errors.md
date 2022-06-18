@@ -82,7 +82,3 @@ To avoid conflicts between rules, this rule does not report non-error values use
 ## When Not To Use It
 
 If you're using custom non-error values as Promise rejection reasons, you can turn off this rule.
-
-## Version
-
-This rule was introduced in ESLint 3.14.0.

@@ -47,7 +47,3 @@ if (foo) {
   thing = foobar;
 }
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.2.0.

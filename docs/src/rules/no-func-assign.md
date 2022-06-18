@@ -62,7 +62,3 @@ function foo() {
     var foo = bar;  // `foo` is shadowed.
 }
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.0.9.

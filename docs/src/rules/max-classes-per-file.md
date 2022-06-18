@@ -83,7 +83,3 @@ class VisitorFactory {
     }
 }
 ```
-
-## Version
-
-This rule was introduced in ESLint 5.0.0-alpha.3.

@@ -55,7 +55,3 @@ const CONFIG = {};
 
 In addition to non-ES6 environments, existing JavaScript projects that are beginning to introduce ES6 into their
 codebase may not want to apply this rule if the cost of migrating from `var` to `let` is too costly.
-
-## Version
-
-This rule was introduced in ESLint 0.12.0.

@@ -69,7 +69,3 @@ function main() {
         y = 7;
 }
 ```
-
-## Version
-
-This rule was introduced in ESLint 0.7.1.

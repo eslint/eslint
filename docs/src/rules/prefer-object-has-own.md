@@ -58,7 +58,3 @@ const hasProperty = Object.hasOwn(object, property);
 ## When Not To Use It
 
 This rule should not be used unless ES2022 is supported in your codebase.
-
-## Version
-
-This rule was introduced in ESLint 8.5.0.
