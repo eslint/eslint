@@ -196,6 +196,9 @@ ul {
     page-break-inside: avoid;
 }
 
+.docs-toc {
+    display: none;
+}
 
 @media print {
     @page {
