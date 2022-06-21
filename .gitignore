@@ -11,7 +11,7 @@ tmp/
 debug/
 .idea
 jsdoc/
-versions.json
+/versions.json
 *.iml
 .eslintcache
 .cache

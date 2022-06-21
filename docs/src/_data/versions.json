@@ -1,0 +1,16 @@
+{
+    "items": [
+        {
+            "number": "7.32.0",
+            "url": "https://archive.eslint.org/docs/7.0.0/"
+        },
+        {
+            "number": "6.8.0",
+            "url": "https://archive.eslint.org/docs/6.0.0/"
+        },
+        {
+            "number": "5.16.0",
+            "url": "https://archive.eslint.org/docs/5.0.0/"
+        }
+    ]
+}
