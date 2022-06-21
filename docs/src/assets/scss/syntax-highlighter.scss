@@ -109,6 +109,10 @@ pre {
     counter-reset: lineNumber;
 }
 
+code .highlight-line { 
+    font-variant-ligatures: none;
+} 
+
 code .highlight-line:before {
     -webkit-user-select: none;
     color: var(--icon-color);
