@@ -10,10 +10,6 @@ eleventyNavigation:
 
 ---
 
-* [Specifying Environments](#specifying-environments)
-* [Specifying Globals](#specifying-globals)
-* [Specifying Parser Options](#specifying-parser-options)
-
 ## Specifying Environments
 
 An environment provides predefined global variables. The available environments are:
