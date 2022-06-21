@@ -81,6 +81,8 @@ Object.defineProperty(o, 'c', {
 
 Examples of **correct** code for the default `{ "setWithoutGet": true }` option:
 
+::: correct
+
 ```js
 /*eslint accessor-pairs: "error"*/
 
@@ -104,6 +106,8 @@ Object.defineProperty(o, 'c', {
 });
 
 ```
+
+:::
 
 ### getWithoutSet
 
@@ -145,6 +149,8 @@ Object.defineProperty(o, 'c', {
 
 Examples of **correct** code for the `{ "getWithoutSet": true }` option:
 
+::: correct
+
 ```js
 /*eslint accessor-pairs: ["error", { "getWithoutSet": true }]*/
 var o = {
@@ -167,6 +173,8 @@ Object.defineProperty(o, 'c', {
 });
 
 ```
+
+:::
 
 ### enforceForClassMembers
 
@@ -232,6 +240,8 @@ When `enforceForClassMembers` is set to `false`, this rule ignores classes.
 
 Examples of **correct** code for `{ "getWithoutSet": true, "setWithoutGet": true, "enforceForClassMembers": false }`:
 
+::: correct
+
 ```js
 /*eslint accessor-pairs: ["error", {
     "getWithoutSet": true, "setWithoutGet": true, "enforceForClassMembers": false
@@ -261,6 +271,8 @@ const Quux = class {
     }
 }
 ```
+
+:::
 
 ## Known Limitations
 
