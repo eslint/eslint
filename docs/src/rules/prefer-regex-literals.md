@@ -56,6 +56,8 @@ dynamically generated regular expressions.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint prefer-regex-literals: "error"*/
 
@@ -74,7 +76,11 @@ RegExp(`^\\d\\.$`);
 new RegExp(String.raw`^\d\.$`);
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint prefer-regex-literals: "error"*/
@@ -99,6 +105,8 @@ RegExp(`${prefix}abc`);
 
 new RegExp(String.raw`^\d\. ${suffix}`);
 ```
+
+:::
 
 ## Options
 

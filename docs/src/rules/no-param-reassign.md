@@ -19,6 +19,8 @@ This rule aims to prevent unintended behavior caused by modification or reassign
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-param-reassign: "error"*/
 
@@ -39,7 +41,11 @@ function foo(bar) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-param-reassign: "error"*/
@@ -49,6 +55,8 @@ function foo(bar) {
 }
 ```
 
+:::
+
 ## Options
 
 This rule takes one option, an object, with a boolean property `"props"`, and  arrays `"ignorePropertyModificationsFor"` and `"ignorePropertyModificationsForRegex"`. `"props"` is `false` by default. If `"props"` is set to `true`, this rule warns against the modification of parameter properties unless they're included in `"ignorePropertyModificationsFor"` or `"ignorePropertyModificationsForRegex"`, which is an empty array by default.
@@ -56,6 +64,8 @@ This rule takes one option, an object, with a boolean property `"props"`, and  a
 ### props
 
 Examples of **correct** code for the default `{ "props": false }` option:
+
+::: correct
 
 ```js
 /*eslint no-param-reassign: ["error", { "props": false }]*/
@@ -81,7 +91,11 @@ function foo(bar) {
 }
 ```
 
+:::
+
 Examples of **incorrect** code for the `{ "props": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint no-param-reassign: ["error", { "props": true }]*/
@@ -107,7 +121,11 @@ function foo(bar) {
 }
 ```
 
+:::
+
 Examples of **correct** code for the `{ "props": true }` option with `"ignorePropertyModificationsFor"` set:
+
+::: correct
 
 ```js
 /*eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["bar"] }]*/
@@ -133,7 +151,11 @@ function foo(bar) {
 }
 ```
 
+:::
+
 Examples of **correct** code for the `{ "props": true }` option with `"ignorePropertyModificationsForRegex"` set:
+
+::: correct
 
 ```js
 /*eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsForRegex": ["^bar"] }]*/
@@ -158,6 +180,8 @@ function foo(barBaz) {
     for (barBaz.aaa of baz) {}
 }
 ```
+
+:::
 
 ## When Not To Use It
 

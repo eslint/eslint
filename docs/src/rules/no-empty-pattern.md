@@ -38,6 +38,8 @@ This rule aims to flag any empty patterns in destructured objects and arrays, an
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-empty-pattern: "error"*/
 
@@ -51,7 +53,11 @@ function foo({a: {}}) {}
 function foo({a: []}) {}
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-empty-pattern: "error"*/
@@ -61,3 +67,5 @@ var {a = []} = foo;
 function foo({a = {}}) {}
 function foo({a = []}) {}
 ```
+
+:::

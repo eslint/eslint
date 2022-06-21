@@ -15,6 +15,8 @@ Using `javascript:` URLs is considered by some as a form of `eval`. Code passed 
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-script-url: "error"*/
 
@@ -22,6 +24,8 @@ location.href = "javascript:void(0)";
 
 location.href = `javascript:void(0)`;
 ```
+
+:::
 
 ## Compatibility
 

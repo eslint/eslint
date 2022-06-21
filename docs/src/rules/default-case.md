@@ -52,6 +52,8 @@ This rule aims to require `default` case in `switch` statements. You may optiona
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint default-case: "error"*/
 
@@ -63,7 +65,11 @@ switch (a) {
 
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint default-case: "error"*/
@@ -95,6 +101,8 @@ switch (a) {
 }
 ```
 
+:::
+
 ## Options
 
 This rule accepts a single options argument:
@@ -104,6 +112,8 @@ This rule accepts a single options argument:
 ### commentPattern
 
 Examples of **correct** code for the `{ "commentPattern": "^skip\\sdefault" }` option:
+
+::: correct
 
 ```js
 /*eslint default-case: ["error", { "commentPattern": "^skip\\sdefault" }]*/
@@ -124,6 +134,8 @@ switch(a) {
     // skip default case
 }
 ```
+
+:::
 
 ## When Not To Use It
 

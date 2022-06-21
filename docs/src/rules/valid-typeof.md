@@ -27,6 +27,8 @@ This rule has an object option:
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint valid-typeof: "error"*/
 
@@ -36,7 +38,11 @@ typeof bar != "nunber"
 typeof bar !== "fucntion"
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint valid-typeof: "error"*/
@@ -47,7 +53,11 @@ typeof foo === baz
 typeof bar === typeof qux
 ```
 
+:::
+
 Examples of **incorrect** code with the `{ "requireStringLiterals": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint valid-typeof: ["error", { "requireStringLiterals": true }]*/
@@ -60,7 +70,11 @@ typeof baz === anotherVariable
 typeof foo == 5
 ```
 
+:::
+
 Examples of **correct** code with the `{ "requireStringLiterals": true }` option:
+
+::: correct
 
 ```js
 /*eslint valid-typeof: ["error", { "requireStringLiterals": true }]*/
@@ -70,6 +84,8 @@ typeof bar == "object"
 typeof baz === "string"
 typeof bar === typeof qux
 ```
+
+:::
 
 ## When Not To Use It
 

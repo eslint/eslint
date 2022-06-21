@@ -17,6 +17,8 @@ This rule aims to warn when a regular string contains what looks like a template
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-template-curly-in-string: "error"*/
 "Hello ${name}!";
@@ -24,7 +26,11 @@ Examples of **incorrect** code for this rule:
 "Time: ${12 * 60 * 60 * 1000}";
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-template-curly-in-string: "error"*/
@@ -33,6 +39,8 @@ Examples of **correct** code for this rule:
 
 templateFunction`Hello ${name}`;
 ```
+
+:::
 
 ## When Not To Use It
 

@@ -32,12 +32,16 @@ ESLint has the capability to configure global variables as read-only.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-global-assign: "error"*/
 
 Object = null
 undefined = 1
 ```
+
+:::
 
 ```js
 /*eslint no-global-assign: "error"*/
@@ -57,6 +61,8 @@ a = 1
 
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```js
 /*eslint no-global-assign: "error"*/
 
@@ -64,6 +70,8 @@ a = 1
 var b = 1
 b = 2
 ```
+
+:::
 
 ```js
 /*eslint no-global-assign: "error"*/

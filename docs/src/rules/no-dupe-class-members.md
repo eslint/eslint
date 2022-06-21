@@ -32,6 +32,8 @@ This rule is aimed to flag the use of duplicate names in class members.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-dupe-class-members: "error"*/
 
@@ -61,7 +63,11 @@ class Foo {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-dupe-class-members: "error"*/
@@ -91,6 +97,8 @@ class Foo {
   bar() { }
 }
 ```
+
+:::
 
 ## When Not To Use It
 

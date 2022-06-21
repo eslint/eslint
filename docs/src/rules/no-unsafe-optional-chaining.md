@@ -36,6 +36,8 @@ This rule aims to detect some cases where the use of optional chaining doesn't p
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-unsafe-optional-chaining: "error"*/
 
@@ -88,7 +90,11 @@ async function foo () {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-unsafe-optional-chaining: "error"*/
@@ -120,6 +126,8 @@ async function foo () {
 }
 ```
 
+:::
+
 ## Options
 
 This rule has an object option:
@@ -135,6 +143,8 @@ With this option set to `true` the rule is enforced for:
 * Assignment operators: `+=`, `-=`, `/=`, `*=`, `%=`, `**=`
 
 Examples of additional **incorrect** code for this rule with the `{ "disallowArithmeticOperators": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint no-unsafe-optional-chaining: ["error", { "disallowArithmeticOperators": true }]*/
@@ -162,3 +172,5 @@ async function foo () {
   baz += await obj?.foo;
 }
 ```
+
+:::

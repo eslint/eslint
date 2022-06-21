@@ -23,6 +23,8 @@ Allowing multiple declarations helps promote maintainability and is thus allowed
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint vars-on-top: "error"*/
 
@@ -39,6 +41,8 @@ function doSomething() {
     for (var i=0; i<10; i++) {}
 }
 ```
+
+:::
 
 ```js
 /*eslint vars-on-top: "error"*/
@@ -73,6 +77,8 @@ class C {
 
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```js
 /*eslint vars-on-top: "error"*/
 
@@ -89,6 +95,8 @@ function doSomething() {
     for (i=0; i<10; i++) {}
 }
 ```
+
+:::
 
 ```js
 /*eslint vars-on-top: "error"*/

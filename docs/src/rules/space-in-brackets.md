@@ -47,6 +47,8 @@ Depending on your coding conventions, you can choose either option by specifying
 
 Examples of **incorrect** code for this rule with the default `"never"` option:
 
+::: incorrect
+
 ```js
 /*eslint-env es6*/
 
@@ -67,7 +69,11 @@ var obj = { baz: {'foo': 'qux'}, bar};
 var obj = {baz: { 'foo': 'qux' }, bar};
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"never"` option:
+
+::: correct
 
 ```js
 // When options are ["error", "never"]
@@ -107,9 +113,13 @@ var obj = {
 var obj = {};
 ```
 
+:::
+
 ### "always"
 
 Examples of **incorrect** code for this rule with the `"always"` option:
+
+::: incorrect
 
 ```js
 /*eslint-env es6*/
@@ -140,7 +150,11 @@ var obj = {
   'foo':'bar'};
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"always"` option:
+
+::: correct
 
 ```js
 foo[ 'bar' ];
@@ -165,6 +179,8 @@ var obj = {
   'foo': 'bar'
 };
 ```
+
+:::
 
 Note that `"always"` has a special case where `{}` and `[]` are not considered problems.
 
@@ -213,6 +229,8 @@ In each of the following examples, the `"always"` option is assumed.
 
 Examples of **incorrect** code for this rule when `"singleValue"` is set to `false`:
 
+::: incorrect
+
 ```js
 var foo = [ 'foo' ];
 var foo = [ 'foo'];
@@ -224,7 +242,11 @@ var foo = [ [ 1, 2 ] ];
 var foo = [ { 'foo': 'bar' } ];
 ```
 
+:::
+
 Examples of **correct** code for this rule when `"singleValue"` is set to `false`:
+
+::: correct
 
 ```js
 var foo = ['foo'];
@@ -233,7 +255,11 @@ var foo = [[ 1, 1 ]];
 var foo = [{ 'foo': 'bar' }];
 ```
 
+:::
+
 Examples of **incorrect** code when `"objectsInArrays"` is set to `false`:
+
+::: incorrect
 
 ```js
 var arr = [ { 'foo': 'bar' } ];
@@ -242,7 +268,11 @@ var arr = [ {
 } ]
 ```
 
+:::
+
 Examples of **correct** code when `"objectsInArrays"` is set to `false`:
+
+::: correct
 
 ```js
 var arr = [{ 'foo': 'bar' }];
@@ -251,61 +281,95 @@ var arr = [{
 }];
 ```
 
+:::
+
 Examples of **incorrect** code when `"arraysInArrays"` is set to `false`:
+
+::: incorrect
 
 ```js
 var arr = [ [ 1, 2 ], 2, 3, 4 ];
 var arr = [ [ 1, 2 ], 2, [ 3, 4 ] ];
 ```
 
+:::
+
 Examples of **correct** code when `"arraysInArrays"` is set to `false`:
+
+::: correct
 
 ```js
 var arr = [[ 1, 2 ], 2, 3, 4 ];
 var arr = [[ 1, 2 ], 2, [ 3, 4 ]];
 ```
 
+:::
+
 Examples of **incorrect** code when `"arraysInObjects"` is set to `false`:
+
+::: incorrect
 
 ```js
 var obj = { "foo": [ 1, 2 ] };
 var obj = { "foo": [ "baz", "bar" ] };
 ```
 
+:::
+
 Examples of **correct** code when `"arraysInObjects"` is set to `false`:
+
+::: correct
 
 ```js
 var obj = { "foo": [ 1, 2 ]};
 var obj = { "foo": [ "baz", "bar" ]};
 ```
 
+:::
+
 Examples of **incorrect** code when `"objectsInObjects"` is set to `false`:
+
+::: incorrect
 
 ```js
 var obj = { "foo": { "baz": 1, "bar": 2 } };
 var obj = { "foo": [ "baz", "bar" ], "qux": { "baz": 1, "bar": 2 } };
 ```
 
+:::
+
 Examples of **correct** code when `"objectsInObjects"` is set to `false`:
+
+::: correct
 
 ```js
 var obj = { "foo": { "baz": 1, "bar": 2 }};
 var obj = { "foo": [ "baz", "bar" ], "qux": { "baz": 1, "bar": 2 }};
 ```
 
+:::
+
 Examples of **incorrect** code when `"propertyName"` is set to `false`:
+
+::: incorrect
 
 ```js
 var foo = obj[ 1 ];
 var foo = obj[ bar ];
 ```
 
+:::
+
 Examples of **correct** code when `"propertyName"` is set to `false`:
+
+::: correct
 
 ```js
 var foo = obj[bar];
 var foo = obj[0, 1];
 ```
+
+:::
 
 ## When Not To Use It
 

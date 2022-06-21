@@ -71,6 +71,8 @@ This rule has an object option:
 
 Examples of **incorrect** code for this rule with the default `{ "ignoreChainWithDepth": 2 }` option:
 
+::: incorrect
+
 ```js
 /*eslint newline-per-chained-call: ["error", { "ignoreChainWithDepth": 2 }]*/
 
@@ -88,7 +90,11 @@ _
 obj.method().method2().method3();
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `{ "ignoreChainWithDepth": 2 }` option:
+
+::: correct
 
 ```js
 /*eslint newline-per-chained-call: ["error", { "ignoreChainWithDepth": 2 }]*/
@@ -121,6 +127,8 @@ obj
   .method2()
   .method3().prop;
 ```
+
+:::
 
 ## When Not To Use It
 

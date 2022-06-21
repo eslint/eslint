@@ -45,6 +45,8 @@ this behavior, consider using the [block-spacing](block-spacing) rule.
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
+::: incorrect
+
 ```js
 /*eslint space-before-keywords: ["error", "always"]*/
 /*eslint-env es6*/
@@ -62,7 +64,11 @@ function bar() {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"always"` option:
+
+::: correct
 
 ```js
 /*eslint space-before-keywords: ["error", "always"]*/
@@ -79,7 +85,11 @@ if (foo) {
 for (let foo of ['bar', 'baz', 'qux']) {}
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `"never"` option:
+
+::: incorrect
 
 ```js
 /*eslint space-before-keywords: ["error", "never"]*/
@@ -98,7 +108,11 @@ try {} finally {}
 try {} catch(e) {}
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"never"` option:
+
+::: correct
 
 ```js
 /*eslint space-before-keywords: ["error", "never"]*/
@@ -113,6 +127,8 @@ try {}finally {}
 
 try{}catch(e) {}
 ```
+
+:::
 
 ## When Not To Use It
 

@@ -22,6 +22,8 @@ This rule is aimed at preventing the use of multiline strings.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-multi-str: "error"*/
 
@@ -29,7 +31,11 @@ var x = "some very \
 long text";
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-multi-str: "error"*/
@@ -39,3 +45,5 @@ var x = "some very long text";
 var x = "some very " +
         "long text";
 ```
+
+:::

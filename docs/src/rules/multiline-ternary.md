@@ -46,6 +46,8 @@ This is the default option.
 
 Examples of **incorrect** code for this rule with the `"always"` option:
 
+::: incorrect
+
 ```js
 /*eslint multiline-ternary: ["error", "always"]*/
 
@@ -58,7 +60,11 @@ foo > bar ?
     value : value2;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"always"` option:
+
+::: correct
 
 ```js
 /*eslint multiline-ternary: ["error", "always"]*/
@@ -74,9 +80,13 @@ foo > bar ?
     value3;
 ```
 
+:::
+
 ### always-multiline
 
 Examples of **incorrect** code for this rule with the `"always-multiline"` option:
+
+::: incorrect
 
 ```js
 /*eslint multiline-ternary: ["error", "always-multiline"]*/
@@ -91,7 +101,11 @@ foo > bar &&
     bar > baz ? value1 : value2;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"always-multiline"` option:
+
+::: correct
 
 ```js
 /*eslint multiline-ternary: ["error", "always-multiline"]*/
@@ -118,9 +132,13 @@ foo > bar &&
         value2;
 ```
 
+:::
+
 ### never
 
 Examples of **incorrect** code for this rule with the `"never"` option:
+
+::: incorrect
 
 ```js
 /*eslint multiline-ternary: ["error", "never"]*/
@@ -137,7 +155,11 @@ foo >
     value2;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"never"` option:
+
+::: correct
 
 ```js
 /*eslint multiline-ternary: ["error", "never"]*/
@@ -150,6 +172,8 @@ foo > bar ? (
     baz > qux ? value1 : value2
 ) : value3;
 ```
+
+:::
 
 ## When Not To Use It
 

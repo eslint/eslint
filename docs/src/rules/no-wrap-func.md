@@ -27,14 +27,22 @@ This rule will raise a warning when it encounters a function expression wrapped 
 
 Example of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 var a = (function() {/*...*/});
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 var a = function() {/*...*/};
 
 (function() {/*...*/})();
 ```
+
+:::

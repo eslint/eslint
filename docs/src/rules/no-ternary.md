@@ -22,6 +22,8 @@ This rule disallows ternary operators.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-ternary: "error"*/
 
@@ -32,7 +34,11 @@ function quux() {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-ternary: "error"*/
@@ -53,3 +59,5 @@ function quux() {
     }
 }
 ```
+
+:::

@@ -70,6 +70,8 @@ This rule has an object option for exceptions:
 
 Examples of **incorrect** code for this rule with the default `{ "skipStrings": true }` option:
 
+::: incorrect
+
 ```js
 /*eslint no-irregular-whitespace: "error"*/
 
@@ -115,7 +117,11 @@ function thing() {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `{ "skipStrings": true }` option:
+
+::: correct
 
 ```js
 /*eslint no-irregular-whitespace: "error"*/
@@ -133,9 +139,13 @@ function thing() {
 }
 ```
 
+:::
+
 ### skipComments
 
 Examples of additional **correct** code for this rule with the `{ "skipComments": true }` option:
+
+::: correct
 
 ```js
 /*eslint no-irregular-whitespace: ["error", { "skipComments": true }]*/
@@ -149,9 +159,13 @@ Description <NBSP>: some descriptive text
 */
 ```
 
+:::
+
 ### skipRegExps
 
 Examples of additional **correct** code for this rule with the `{ "skipRegExps": true }` option:
+
+::: correct
 
 ```js
 /*eslint no-irregular-whitespace: ["error", { "skipRegExps": true }]*/
@@ -161,9 +175,13 @@ function thing() {
 }
 ```
 
+:::
+
 ### skipTemplates
 
 Examples of additional **correct** code for this rule with the `{ "skipTemplates": true }` option:
+
+::: correct
 
 ```js
 /*eslint no-irregular-whitespace: ["error", { "skipTemplates": true }]*/
@@ -173,6 +191,8 @@ function thing() {
     return `template <NBSP>string`;
 }
 ```
+
+:::
 
 ## When Not To Use It
 

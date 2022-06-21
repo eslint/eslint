@@ -22,6 +22,8 @@ This rule disallows calls to `Math.pow` and suggests using the `**` operator ins
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint prefer-exponentiation-operator: "error"*/
 
@@ -34,7 +36,11 @@ let baz = Math.pow(a + b, c + d);
 let quux = Math.pow(-1, n);
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint prefer-exponentiation-operator: "error"*/
@@ -47,6 +53,8 @@ let baz = (a + b) ** (c + d);
 
 let quux = (-1) ** n;
 ```
+
+:::
 
 ## When Not To Use It
 

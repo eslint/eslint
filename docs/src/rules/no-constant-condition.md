@@ -28,6 +28,8 @@ This rule disallows constant expressions in the test condition of:
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-constant-condition: "error"*/
 
@@ -78,7 +80,11 @@ do {
 var result = 0 ? a : b;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-constant-condition: "error"*/
@@ -102,6 +108,8 @@ do {
 var result = x !== 0 ? a : b;
 ```
 
+:::
+
 ## Options
 
 ### checkLoops
@@ -109,6 +117,8 @@ var result = x !== 0 ? a : b;
 Set to `true` by default. Setting this option to `false` allows constant expressions in loops.
 
 Examples of **correct** code for when `checkLoops` is `false`:
+
+::: correct
 
 ```js
 /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
@@ -134,3 +144,5 @@ do {
     }
 } while (true)
 ```
+
+:::

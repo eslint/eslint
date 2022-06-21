@@ -19,6 +19,8 @@ This rule disallows spacing between function identifiers and their applications.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-spaced-func: "error"*/
 
@@ -28,10 +30,16 @@ fn
 ()
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-spaced-func: "error"*/
 
 fn()
 ```
+
+:::

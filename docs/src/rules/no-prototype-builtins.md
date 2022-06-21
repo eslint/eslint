@@ -21,6 +21,8 @@ This rule disallows calling some `Object.prototype` methods directly on object i
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-prototype-builtins: "error"*/
 
@@ -31,7 +33,11 @@ var isPrototypeOfBar = foo.isPrototypeOf(bar);
 var barIsEnumerable = foo.propertyIsEnumerable("bar");
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-prototype-builtins: "error"*/
@@ -42,6 +48,8 @@ var isPrototypeOfBar = Object.prototype.isPrototypeOf.call(foo, bar);
 
 var barIsEnumerable = {}.propertyIsEnumerable.call(foo, "bar");
 ```
+
+:::
 
 ## When Not To Use It
 

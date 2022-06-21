@@ -30,6 +30,8 @@ This rule is aimed at eliminating unnecessary labels.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-extra-label: "error"*/
 
@@ -47,7 +49,11 @@ C: switch (a) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-extra-label: "error"*/
@@ -83,6 +89,8 @@ C: switch (a) {
         break;
 }
 ```
+
+:::
 
 ## When Not To Use It
 

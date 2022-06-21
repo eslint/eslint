@@ -37,6 +37,8 @@ The `--fix` option on the command line fixes only problems reported in variable 
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```javascript
 // With `array` enabled
 var foo = array[0];
@@ -46,7 +48,11 @@ var foo = object.foo;
 var foo = object['foo'];
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```javascript
 // With `array` enabled
@@ -62,19 +68,31 @@ let foo;
 ({ foo } = object);
 ```
 
+:::
+
 Examples of **incorrect** code when `enforceForRenamedProperties` is enabled:
+
+::: incorrect
 
 ```javascript
 var foo = object.bar;
 ```
 
+:::
+
 Examples of **correct** code when `enforceForRenamedProperties` is enabled:
+
+::: correct
 
 ```javascript
 var { bar: foo } = object;
 ```
 
+:::
+
 Examples of additional **correct** code when `enforceForRenamedProperties` is enabled:
+
+::: correct
 
 ```javascript
 class C {
@@ -84,6 +102,8 @@ class C {
     }
 }
 ```
+
+:::
 
 An example configuration, with the defaults `array` and `object` filled in, looks like this:
 
@@ -159,17 +179,25 @@ For example, the following configuration enforces object destructuring in variab
 
 Examples of **correct** code when object destructuring in `VariableDeclarator` is enforced:
 
+::: correct
+
 ```javascript
 /* eslint prefer-destructuring: ["error", {VariableDeclarator: {object: true}}] */
 var {bar: foo} = object;
 ```
 
+:::
+
 Examples of **correct** code when array destructuring in `AssignmentExpression` is enforced:
+
+::: correct
 
 ```javascript
 /* eslint prefer-destructuring: ["error", {AssignmentExpression: {array: true}}] */
 [bar] = array;
 ```
+
+:::
 
 ## When Not To Use It
 

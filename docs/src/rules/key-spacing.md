@@ -41,21 +41,31 @@ Please note that you can either use the top-level options or the grouped options
 
 Examples of **incorrect** code for this rule with the default `{ "beforeColon": false }` option:
 
+::: incorrect
+
 ```js
 /*eslint key-spacing: ["error", { "beforeColon": false }]*/
 
 var obj = { "foo" : 42 };
 ```
+
+:::
 
 Examples of **correct** code for this rule with the default `{ "beforeColon": false }` option:
 
+::: correct
+
 ```js
 /*eslint key-spacing: ["error", { "beforeColon": false }]*/
 
 var obj = { "foo": 42 };
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `{ "beforeColon": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint key-spacing: ["error", { "beforeColon": true }]*/
@@ -63,33 +73,49 @@ Examples of **incorrect** code for this rule with the `{ "beforeColon": true }` 
 var obj = { "foo": 42 };
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "beforeColon": true }` option:
+
+::: correct
 
 ```js
 /*eslint key-spacing: ["error", { "beforeColon": true }]*/
 
 var obj = { "foo" : 42 };
 ```
+
+:::
 
 ### afterColon
 
 Examples of **incorrect** code for this rule with the default `{ "afterColon": true }` option:
 
+::: incorrect
+
 ```js
 /*eslint key-spacing: ["error", { "afterColon": true }]*/
 
 var obj = { "foo":42 };
 ```
+
+:::
 
 Examples of **correct** code for this rule with the default `{ "afterColon": true }` option:
 
+::: correct
+
 ```js
 /*eslint key-spacing: ["error", { "afterColon": true }]*/
 
 var obj = { "foo": 42 };
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `{ "afterColon": false }` option:
+
+::: incorrect
 
 ```js
 /*eslint key-spacing: ["error", { "afterColon": false }]*/
@@ -97,17 +123,25 @@ Examples of **incorrect** code for this rule with the `{ "afterColon": false }` 
 var obj = { "foo": 42 };
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "afterColon": false }` option:
+
+::: correct
 
 ```js
 /*eslint key-spacing: ["error", { "afterColon": false }]*/
 
 var obj = { "foo":42 };
 ```
+
+:::
 
 ### mode
 
 Examples of **incorrect** code for this rule with the default `{ "mode": "strict" }` option:
+
+::: incorrect
 
 ```js
 /*eslint key-spacing: ["error", { "mode": "strict" }]*/
@@ -118,7 +152,11 @@ call({
 });
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `{ "mode": "strict" }` option:
+
+::: correct
 
 ```js
 /*eslint key-spacing: ["error", { "mode": "strict" }]*/
@@ -129,7 +167,11 @@ call({
 });
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "mode": "minimum" }` option:
+
+::: correct
 
 ```js
 /*eslint key-spacing: ["error", { "mode": "minimum" }]*/
@@ -140,9 +182,13 @@ call({
 });
 ```
 
+:::
+
 ### align
 
 Examples of **incorrect** code for this rule with the `{ "align": "value" }` option:
+
+::: incorrect
 
 ```js
 /*eslint key-spacing: ["error", { "align": "value" }]*/
@@ -154,7 +200,11 @@ var obj = {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "align": "value" }` option:
+
+::: correct
 
 ```js
 /*eslint key-spacing: ["error", { "align": "value" }]*/
@@ -173,7 +223,11 @@ var obj = {
 var obj = { a: "foo", longPropertyName: "bar" };
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `{ "align": "colon" }` option:
+
+::: incorrect
 
 ```js
 /*eslint key-spacing: ["error", { "align": "colon" }]*/
@@ -184,7 +238,11 @@ call({
 });
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "align": "colon" }` option:
+
+::: correct
 
 ```js
 /*eslint key-spacing: ["error", { "align": "colon" }]*/
@@ -194,6 +252,8 @@ call({
     bat   : 2 * 2
 });
 ```
+
+:::
 
 ### align
 
@@ -213,6 +273,8 @@ align: {
 
 Examples of **correct** code for this rule with sample `{ "align": { } }` options:
 
+::: correct
+
 ```js
 /*eslint key-spacing: ["error", {
     "align": {
@@ -227,6 +289,8 @@ var obj = {
     "seven" : 7
 }
 ```
+
+:::
 
 ```js
 /*eslint key-spacing: ["error", {
@@ -263,6 +327,8 @@ var myObj = {
 
 Examples of **incorrect** code for this rule with sample `{ "align": { }, "multiLine": { } }` options:
 
+::: incorrect
+
 ```js
 /*eslint key-spacing: ["error", {
     "multiLine": {
@@ -285,7 +351,11 @@ var obj = {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with sample `{ "align": { }, "multiLine": { } }` options:
+
+::: correct
 
 ```js
 /*eslint key-spacing: ["error", {
@@ -311,9 +381,13 @@ var obj = {
 }
 ```
 
+:::
+
 ### singleLine and multiLine
 
 Examples of **correct** code for this rule with sample `{ "singleLine": { }, "multiLine": { } }` options:
+
+::: correct
 
 ```js
 /*eslint "key-spacing": [2, {
@@ -333,6 +407,8 @@ var obj2 = {
     three : 3
 };
 ```
+
+:::
 
 ## When Not To Use It
 

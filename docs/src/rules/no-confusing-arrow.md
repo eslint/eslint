@@ -31,6 +31,8 @@ var x = a <= 1 ? 2 : 3;
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-confusing-arrow: "error"*/
 /*eslint-env es6*/
@@ -39,7 +41,11 @@ var x = a => 1 ? 2 : 3;
 var x = (a) => 1 ? 2 : 3;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-confusing-arrow: "error"*/
@@ -51,6 +57,8 @@ var x = (a) => {
 };
 var x = a => { return 1 ? 2 : 3; };
 ```
+
+:::
 
 ## Options
 
@@ -74,6 +82,8 @@ This rule accepts two options argument with the following defaults:
 
 Examples of **incorrect** code for this rule with the `{"allowParens": false}` option:
 
+::: incorrect
+
 ```js
 /*eslint no-confusing-arrow: ["error", {"allowParens": false}]*/
 /*eslint-env es6*/
@@ -81,12 +91,16 @@ var x = a => (1 ? 2 : 3);
 var x = (a) => (1 ? 2 : 3);
 ```
 
+:::
+
 `onlyOneSimpleParam` is a boolean setting that can be `true` or `false`(default):
 
 1. `true` relaxes the rule and doesn't report errors if the arrow function has 0 or more than 1 parameters, or the parameter is not an identifier.
 2. `false` warns regardless of parameters.
 
 Examples of **correct** code for this rule with the `{"onlyOneSimpleParam": true}` option:
+
+::: correct
 
 ```js
 /*eslint no-confusing-arrow: ["error", {"onlyOneSimpleParam": true}]*/
@@ -98,3 +112,5 @@ Examples of **correct** code for this rule with the `{"onlyOneSimpleParam": true
 ([a]) => 1 ? 2 : 3;
 (...a) => 1 ? 2 : 3;
 ```
+
+:::

@@ -29,6 +29,8 @@ Control escapes such as `\t` and `\n` are allowed by this rule.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-control-regex: "error"*/
 
@@ -41,7 +43,11 @@ var pattern6 = new RegExp("\x0C"); // raw U+000C character in the pattern
 var pattern7 = new RegExp("\\x0C"); // \x0C pattern
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-control-regex: "error"*/
@@ -55,6 +61,8 @@ var pattern6 = new RegExp("\x20");
 var pattern7 = new RegExp("\\t");
 var pattern8 = new RegExp("\\n");
 ```
+
+:::
 
 ## Known Limitations
 

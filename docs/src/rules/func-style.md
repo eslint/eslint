@@ -70,6 +70,8 @@ This rule has an object option for an exception:
 
 Examples of **incorrect** code for this rule with the default `"expression"` option:
 
+::: incorrect
+
 ```js
 /*eslint func-style: ["error", "expression"]*/
 
@@ -78,7 +80,11 @@ function foo() {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"expression"` option:
+
+::: correct
 
 ```js
 /*eslint func-style: ["error", "expression"]*/
@@ -92,9 +98,13 @@ var foo = () => {};
 // allowed as allowArrowFunctions : false is applied only for declaration
 ```
 
+:::
+
 ### declaration
 
 Examples of **incorrect** code for this rule with the `"declaration"` option:
+
+::: incorrect
 
 ```js
 /*eslint func-style: ["error", "declaration"]*/
@@ -106,7 +116,11 @@ var foo = function() {
 var foo = () => {};
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"declaration"` option:
+
+::: correct
 
 ```js
 /*eslint func-style: ["error", "declaration"]*/
@@ -121,15 +135,21 @@ SomeObject.foo = function() {
 };
 ```
 
+:::
+
 ### allowArrowFunctions
 
 Examples of additional **correct** code for this rule with the `"declaration", { "allowArrowFunctions": true }` options:
+
+::: correct
 
 ```js
 /*eslint func-style: ["error", "declaration", { "allowArrowFunctions": true }]*/
 
 var foo = () => {};
 ```
+
+:::
 
 ## When Not To Use It
 

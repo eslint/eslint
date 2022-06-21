@@ -34,6 +34,8 @@ This rule aims to eliminate implied `eval()` through the use of `setTimeout()`, 
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-implied-eval: "error"*/
 
@@ -48,7 +50,11 @@ window.setTimeout("count = 5", 10);
 window.setInterval("foo = bar", 10);
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-implied-eval: "error"*/
@@ -61,6 +67,8 @@ setInterval(function() {
     alert("Hi!");
 }, 100);
 ```
+
+:::
 
 ## When Not To Use It
 

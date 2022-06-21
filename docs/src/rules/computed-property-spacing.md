@@ -57,6 +57,8 @@ Object option:
 
 Examples of **incorrect** code for this rule with the default `"never"` option:
 
+::: incorrect
+
 ```js
 /*eslint computed-property-spacing: ["error", "never"]*/
 /*eslint-env es6*/
@@ -70,7 +72,11 @@ const { [ a ]: someProp } = obj;
 ({ [ b ]: anotherProp } = anotherObj);
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"never"` option:
+
+::: correct
 
 ```js
 /*eslint computed-property-spacing: ["error", "never"]*/
@@ -85,9 +91,13 @@ const { [a]: someProp } = obj;
 ({ [b]: anotherProp } = anotherObj);
 ```
 
+:::
+
 ### always
 
 Examples of **incorrect** code for this rule with the `"always"` option:
+
+::: incorrect
 
 ```js
 /*eslint computed-property-spacing: ["error", "always"]*/
@@ -103,7 +113,11 @@ const { [a]: someProp } = obj;
 ({ [b ]: anotherProp } = anotherObj);
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"always"` option:
+
+::: correct
 
 ```js
 /*eslint computed-property-spacing: ["error", "always"]*/
@@ -117,11 +131,15 @@ const { [ a ]: someProp } = obj;
 ({ [ b ]: anotherProp } = anotherObj);
 ```
 
+:::
+
 #### enforceForClassMembers
 
 With `enforceForClassMembers` set to `true` (default), the rule also disallows/enforces spaces inside of computed keys of class methods, getters and setters.
 
 Examples of **incorrect** code for this rule with `"never"` and `{ "enforceForClassMembers": true }` (default):
+
+::: incorrect
 
 ```js
 /*eslint computed-property-spacing: ["error", "never", { "enforceForClassMembers": true }]*/
@@ -141,7 +159,11 @@ const Bar = class {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with `"never"` and `{ "enforceForClassMembers": true }` (default):
+
+::: correct
 
 ```js
 /*eslint computed-property-spacing: ["error", "never", { "enforceForClassMembers": true }]*/
@@ -161,7 +183,11 @@ const Bar = class {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with `"never"` and `{ "enforceForClassMembers": false }`:
+
+::: correct
 
 ```js
 /*eslint computed-property-spacing: ["error", "never", { "enforceForClassMembers": false }]*/
@@ -180,6 +206,8 @@ const Bar = class {
   static set [ c ](value) {}
 }
 ```
+
+:::
 
 ## When Not To Use It
 

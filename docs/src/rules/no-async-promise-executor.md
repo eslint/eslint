@@ -34,6 +34,8 @@ This rule aims to disallow async Promise executor functions.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 const foo = new Promise(async (resolve, reject) => {
   readFile('foo.txt', function(err, result) {
@@ -50,7 +52,11 @@ const result = new Promise(async (resolve, reject) => {
 });
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 const foo = new Promise((resolve, reject) => {
@@ -65,6 +71,8 @@ const foo = new Promise((resolve, reject) => {
 
 const result = Promise.resolve(foo);
 ```
+
+:::
 
 ## When Not To Use It
 

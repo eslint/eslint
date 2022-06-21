@@ -28,6 +28,8 @@ This rule disallows `continue` statements.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-continue: "error"*/
 
@@ -42,6 +44,8 @@ for(i = 0; i < 10; i++) {
     a += i;
 }
 ```
+
+:::
 
 ```js
 /*eslint no-continue: "error"*/
@@ -60,6 +64,8 @@ labeledLoop: for(i = 0; i < 10; i++) {
 
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```js
 /*eslint no-continue: "error"*/
 
@@ -72,6 +78,8 @@ for(i = 0; i < 10; i++) {
     }
 }
 ```
+
+:::
 
 ## Compatibility
 

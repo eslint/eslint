@@ -25,6 +25,8 @@ This rule flags escapes that can be safely removed without changing behavior.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-useless-escape: "error"*/
 
@@ -41,7 +43,11 @@ Examples of **incorrect** code for this rule:
 /[a-z\-]/;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-useless-escape: "error"*/
@@ -62,6 +68,8 @@ Examples of **correct** code for this rule:
 /[\]]/;
 /[a-z-]/;
 ```
+
+:::
 
 ## When Not To Use It
 

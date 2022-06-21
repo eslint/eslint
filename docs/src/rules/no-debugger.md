@@ -22,6 +22,8 @@ This rule disallows `debugger` statements.
 
 Example of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-debugger: "error"*/
 
@@ -31,7 +33,11 @@ function isTruthy(x) {
 }
 ```
 
+:::
+
 Example of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-debugger: "error"*/
@@ -40,6 +46,8 @@ function isTruthy(x) {
     return Boolean(x); // set a breakpoint at this line
 }
 ```
+
+:::
 
 ## When Not To Use It
 

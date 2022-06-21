@@ -32,6 +32,8 @@ This rule has an option.
 
 Examples of **incorrect** code for this rule with `"last"` option:
 
+::: incorrect
+
 ```js
 /*eslint semi-style: ["error", "last"]*/
 
@@ -53,9 +55,13 @@ class C {
     }
 }
 ```
+
+:::
 
 Examples of **correct** code for this rule with `"last"` option:
 
+::: correct
+
 ```js
 /*eslint semi-style: ["error", "last"]*/
 
@@ -78,7 +84,11 @@ class C {
 }
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with `"first"` option:
+
+::: incorrect
 
 ```js
 /*eslint semi-style: ["error", "first"]*/
@@ -102,7 +112,11 @@ class C {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with `"first"` option:
+
+::: correct
 
 ```js
 /*eslint semi-style: ["error", "first"]*/
@@ -125,6 +139,8 @@ class C {
     }
 }
 ```
+
+:::
 
 ## When Not To Use It
 

@@ -33,6 +33,8 @@ This rule aims to eliminate the use of labeled statements in JavaScript. It will
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-labels: "error"*/
 
@@ -68,7 +70,11 @@ label:
     }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-labels: "error"*/
@@ -86,6 +92,8 @@ while (true) {
 }
 ```
 
+:::
+
 ## Options
 
 The options allow labels with loop or switch statements:
@@ -100,6 +108,8 @@ However, this way is ultra rare, not well-known, so this would be confusing deve
 
 Examples of **correct** code for the `{ "allowLoop": true }` option:
 
+::: correct
+
 ```js
 /*eslint no-labels: ["error", { "allowLoop": true }]*/
 
@@ -109,9 +119,13 @@ label:
     }
 ```
 
+:::
+
 ### allowSwitch
 
 Examples of **correct** code for the `{ "allowSwitch": true }` option:
+
+::: correct
 
 ```js
 /*eslint no-labels: ["error", { "allowSwitch": true }]*/
@@ -122,6 +136,8 @@ label:
             break label;
     }
 ```
+
+:::
 
 ## When Not To Use It
 

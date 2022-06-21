@@ -22,6 +22,8 @@ This rule disallows negating the left operand of the following relational operat
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-unsafe-negation: "error"*/
 
@@ -36,7 +38,11 @@ if (!obj instanceof Ctor) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-unsafe-negation: "error"*/
@@ -50,12 +56,16 @@ if (!(obj instanceof Ctor)) {
 }
 ```
 
+:::
+
 ### Exception
 
 For rare situations when negating the left operand is intended, this rule allows an exception.
 If the whole negation is explicitly wrapped in parentheses, the rule will not report a problem.
 
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-unsafe-negation: "error"*/
@@ -71,7 +81,11 @@ if(("" + !foo) in object) {
 }
 ```
 
+:::
+
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint no-unsafe-negation: "error"*/
@@ -80,6 +94,8 @@ if (!(foo) in object) {
     // this is not an allowed exception
 }
 ```
+
+:::
 
 ## Options
 
@@ -101,6 +117,8 @@ The purpose is to avoid expressions such as `! a < b` (which is equivalent to `(
 
 Examples of additional **incorrect** code for this rule with the `{ "enforceForOrderingRelations": true }` option:
 
+::: incorrect
+
 ```js
 /*eslint no-unsafe-negation: ["error", { "enforceForOrderingRelations": true }]*/
 
@@ -112,6 +130,8 @@ foo = ! a <= b;
 
 foo = ! a >= b;
 ```
+
+:::
 
 ## When Not To Use It
 

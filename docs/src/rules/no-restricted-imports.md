@@ -121,11 +121,15 @@ To restrict the use of all Node.js core imports (via <https://github.com/nodejs/
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
 
 import fs from 'fs';
 ```
+
+:::
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
@@ -205,12 +209,16 @@ import pick from 'fooBar';
 
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
 
 import crypto from 'crypto';
 export { foo } from "bar";
 ```
+
+:::
 
 ```js
 /*eslint no-restricted-imports: ["error", { "paths": ["fs"], "patterns": ["eslint/*"] }]*/

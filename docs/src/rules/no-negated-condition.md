@@ -18,6 +18,8 @@ This rule disallows negated conditions in either of the following:
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-negated-condition: "error"*/
 
@@ -42,7 +44,11 @@ if (a !== b) {
 !a ? c : b
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-negated-condition: "error"*/
@@ -63,3 +69,5 @@ if (a != b) {
 
 a ? b : c
 ```
+
+:::

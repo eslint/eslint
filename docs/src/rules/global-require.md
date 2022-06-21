@@ -35,6 +35,8 @@ This rule requires all calls to `require()` to be at the top level of the module
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint global-require: "error"*/
 /*eslint-env es6*/
@@ -73,7 +75,11 @@ try {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint global-require: "error"*/
@@ -99,6 +105,8 @@ function doSomethingB() {}
 var x = require("x"),
     z = require("z");
 ```
+
+:::
 
 ## When Not To Use It
 

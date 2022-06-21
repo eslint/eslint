@@ -78,6 +78,8 @@ This rule has a string option:
 
 Examples of **incorrect** code for this rule with the default `"functions"` option:
 
+::: incorrect
+
 ```js
 /*eslint no-inner-declarations: "error"*/
 
@@ -102,7 +104,11 @@ class C {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"functions"` option:
+
+::: correct
 
 ```js
 /*eslint no-inner-declarations: "error"*/
@@ -131,9 +137,13 @@ if (test) {
 if (foo) var a;
 ```
 
+:::
+
 ### both
 
 Examples of **incorrect** code for this rule with the `"both"` option:
+
+::: incorrect
 
 ```js
 /*eslint no-inner-declarations: ["error", "both"]*/
@@ -161,7 +171,11 @@ class C {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"both"` option:
+
+::: correct
 
 ```js
 /*eslint no-inner-declarations: ["error", "both"]*/
@@ -182,6 +196,8 @@ class C {
     }
 }
 ```
+
+:::
 
 ## When Not To Use It
 

@@ -44,37 +44,53 @@ This rule has one option whose value can be set to `"never"` or `"always"`
 
 Examples of **incorrect** code for this rule with the default `"never"` option:
 
+::: incorrect
+
 ```js
 /*eslint template-tag-spacing: "error"*/
 
 func `Hello world`;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"never"` option:
+
+::: correct
 
 ```js
 /*eslint template-tag-spacing: "error"*/
 
 func`Hello world`;
 ```
+
+:::
 
 ### always
 
 Examples of **incorrect** code for this rule with the `"always"` option:
 
+::: incorrect
+
 ```js
 /*eslint template-tag-spacing: ["error", "always"]*/
 
 func`Hello world`;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"always"` option:
+
+::: correct
 
 ```js
 /*eslint template-tag-spacing: ["error", "always"]*/
 
 func `Hello world`;
 ```
+
+:::
 
 ## When Not To Use It
 

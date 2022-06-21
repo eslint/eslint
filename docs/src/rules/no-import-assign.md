@@ -17,6 +17,8 @@ This rule warns the assignments, increments, and decrements of imported bindings
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-import-assign: "error"*/
 
@@ -31,7 +33,11 @@ mod_ns = {}      // ERROR: 'mod_ns' is readonly.
 Object.assign(mod_ns, { foo: "foo" }) // ERROR: The members of 'mod_ns' are readonly.
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-import-assign: "error"*/
@@ -49,6 +55,8 @@ function test(obj) {
 }
 test(mod_ns) // Not errored because it doesn't know that 'test' updates the member of the argument.
 ```
+
+:::
 
 ## When Not To Use It
 

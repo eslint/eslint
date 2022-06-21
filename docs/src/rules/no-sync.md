@@ -21,6 +21,8 @@ This rule has an optional object option `{ allowAtRootLevel: <boolean> }`, which
 
 Examples of **incorrect** code for this rule with the default `{ allowAtRootLevel: false }` option:
 
+::: incorrect
+
 ```js
 /*eslint no-sync: "error"*/
 
@@ -31,7 +33,11 @@ function foo() {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `{ allowAtRootLevel: false }` option:
+
+::: correct
 
 ```js
 /*eslint no-sync: "error"*/
@@ -43,7 +49,11 @@ async(function() {
 });
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `{ allowAtRootLevel: true }` option
+
+::: incorrect
 
 ```js
 /*eslint no-sync: ["error", { allowAtRootLevel: true }]*/
@@ -55,13 +65,19 @@ function foo() {
 var bar = baz => fs.readFileSync(qux);
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ allowAtRootLevel: true }` option
+
+::: correct
 
 ```js
 /*eslint no-sync: ["error", { allowAtRootLevel: true }]*/
 
 fs.readFileSync(somePath).toString();
 ```
+
+:::
 
 ## When Not To Use It
 

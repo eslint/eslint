@@ -17,6 +17,8 @@ This rule aims to report redundant `return` statements.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /* eslint no-useless-return: "error" */
 
@@ -48,7 +50,11 @@ function foo() {
 
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /* eslint no-useless-return: "error" */
@@ -86,6 +92,8 @@ function foo() {
 }
 
 ```
+
+:::
 
 ## When Not To Use It
 

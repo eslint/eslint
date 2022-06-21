@@ -40,6 +40,8 @@ This rule has one option which has either `"never"` or `"always"` as value.
 
 Examples of **incorrect** code for this rule with the default `"never"` option:
 
+::: incorrect
+
 ```js
 /*eslint template-curly-spacing: "error"*/
 
@@ -49,7 +51,11 @@ Examples of **incorrect** code for this rule with the default `"never"` option:
 `hello, ${ people.name }!`;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"never"` option:
+
+::: correct
 
 ```js
 /*eslint template-curly-spacing: "error"*/
@@ -60,11 +66,15 @@ Examples of **correct** code for this rule with the default `"never"` option:
     people.name
 }!`;
 ```
+
+:::
 
 ### always
 
 Examples of **incorrect** code for this rule with the `"always"` option:
 
+::: incorrect
+
 ```js
 /*eslint template-curly-spacing: ["error", "always"]*/
 
@@ -74,7 +84,11 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 `hello, ${people.name}!`;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"always"` option:
+
+::: correct
 
 ```js
 /*eslint template-curly-spacing: ["error", "always"]*/
@@ -85,6 +99,8 @@ Examples of **correct** code for this rule with the `"always"` option:
     people.name
 }!`;
 ```
+
+:::
 
 ## When Not To Use It
 

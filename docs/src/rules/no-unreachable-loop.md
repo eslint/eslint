@@ -36,6 +36,8 @@ This rule checks `while`, `do-while`, `for`, `for-in` and `for-of` loops. You ca
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-unreachable-loop: "error"*/
 
@@ -83,7 +85,11 @@ for (foo of bar) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-unreachable-loop: "error"*/
@@ -132,9 +138,13 @@ for (foo of bar) {
 }
 ```
 
+:::
+
 Please note that this rule is not designed to check loop conditions, and will not warn in cases such as the following examples.
 
 Examples of additional **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-unreachable-loop: "error"*/
@@ -151,6 +161,8 @@ for (const a of [1]) {
     doSomething(a);
 }
 ```
+
+:::
 
 ## Options
 
@@ -170,6 +182,8 @@ You can specify up to 5 different elements in the `"ignore"` array:
 
 Examples of **correct** code for this rule with the `"ignore"` option:
 
+::: correct
+
 ```js
 /*eslint no-unreachable-loop: ["error", { "ignore": ["ForInStatement", "ForOfStatement"] }]*/
 
@@ -180,6 +194,8 @@ for (var key in obj) {
 
 for (const a of b) break;
 ```
+
+:::
 
 ## Known Limitations
 

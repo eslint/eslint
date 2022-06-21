@@ -17,6 +17,8 @@ In JS, `Number`s are stored as double-precision floating-point numbers according
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-loss-of-precision: "error"*/
 
@@ -28,7 +30,11 @@ const x = 0X20000000000001
 const x = 0X2_000000000_0001;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-loss-of-precision: "error"*/
@@ -41,3 +47,5 @@ const x = 0x1FFFFFFFFFFFFF
 const x = 9007199254740991
 const x = 9007_1992547409_91
 ```
+
+:::

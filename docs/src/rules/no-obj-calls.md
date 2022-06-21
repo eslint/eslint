@@ -33,6 +33,8 @@ This rule also disallows using these objects as constructors with the `new` oper
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-obj-calls: "error"*/
 /*eslint-env es2017*/
@@ -54,7 +56,11 @@ var atomics = Atomics();
 var newAtomics = new Atomics();
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-obj-calls: "error"*/
@@ -70,3 +76,5 @@ var value = Reflect.get({ x: 1, y: 2 }, "x");
 
 var first = Atomics.load(foo, 0);
 ```
+
+:::
