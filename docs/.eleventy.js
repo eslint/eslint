@@ -407,6 +407,26 @@ module.exports = function(eleventyConfig) {
         }
     });
 
+    /*
+     * Generate the sitemap only in certain contexts to prevent unwanted discovery of sitemaps that
+     * contain URLs we'd prefer not to appear in search results (URLs in sitemaps are considered important).
+     * In particular, we don't want to deploy https://eslint.org/docs/head/sitemap.xml
+     * We want to generate the sitemap for:
+     *   - Local previews
+     *   - Netlify deploy previews
+     *   - Netlify production deploy of the `latest` branch (https://eslint.org/docs/latest/sitemap.xml)
+     *
+     * Netlify always sets `CONTEXT` environment variable. If it isn't set, we assume this is a local build.
+     */
+    if (
+        process.env.CONTEXT && // if this is a build on Netlify ...
+        process.env.CONTEXT !== "deploy-preview" && // ... and not for a deploy preview ...
+        process.env.BRANCH !== "latest" // .. and not of the `latest` branch ...
+    ) {
+        eleventyConfig.ignores.add("src/static/sitemap.njk"); // ... then don't generate the sitemap.
+    }
+
+
     return {
         passthroughFileCopy: true,
 
