@@ -56,6 +56,8 @@ Object option:
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
+::: incorrect
+
 ```js
 /*eslint padded-blocks: ["error", "always"]*/
 
@@ -88,7 +90,11 @@ class C {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"always"` option:
+
+::: correct
 
 ```js
 /*eslint padded-blocks: ["error", "always"]*/
@@ -123,11 +129,15 @@ class C {
 
 }
 ```
+
+:::
 
 ### never
 
 Examples of **incorrect** code for this rule with the `"never"` option:
 
+::: incorrect
+
 ```js
 /*eslint padded-blocks: ["error", "never"]*/
 
@@ -164,9 +174,13 @@ class C {
 
 }
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `"never"` option:
 
+::: correct
+
 ```js
 /*eslint padded-blocks: ["error", "never"]*/
 
@@ -185,11 +199,15 @@ class C {
     }
 }
 ```
+
+:::
 
 ### blocks
 
 Examples of **incorrect** code for this rule with the `{ "blocks": "always" }` option:
 
+::: incorrect
+
 ```js
 /*eslint padded-blocks: ["error", { "blocks": "always" }]*/
 
@@ -229,7 +247,11 @@ class C {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "blocks": "always" }` option:
+
+::: correct
 
 ```js
 /*eslint padded-blocks: ["error", { "blocks": "always" }]*/
@@ -274,7 +296,11 @@ class D {
 }
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `{ "blocks": "never" }` option:
+
+::: incorrect
 
 ```js
 /*eslint padded-blocks: ["error", { "blocks": "never" }]*/
@@ -311,7 +337,11 @@ class C {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "blocks": "never" }` option:
+
+::: correct
 
 ```js
 /*eslint padded-blocks: ["error", { "blocks": "never" }]*/
@@ -339,11 +369,15 @@ class D {
 
 }
 ```
+
+:::
 
 ### classes
 
 Examples of **incorrect** code for this rule with the `{ "classes": "always" }` option:
 
+::: incorrect
+
 ```js
 /*eslint padded-blocks: ["error", { "classes": "always" }]*/
 
@@ -352,9 +386,13 @@ class  A {
     }
 }
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `{ "classes": "always" }` option:
 
+::: correct
+
 ```js
 /*eslint padded-blocks: ["error", { "classes": "always" }]*/
 
@@ -366,7 +404,11 @@ class  A {
 }
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `{ "classes": "never" }` option:
+
+::: incorrect
 
 ```js
 /*eslint padded-blocks: ["error", { "classes": "never" }]*/
@@ -378,9 +420,13 @@ class  A {
 
 }
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `{ "classes": "never" }` option:
 
+::: correct
+
 ```js
 /*eslint padded-blocks: ["error", { "classes": "never" }]*/
 
@@ -389,11 +435,15 @@ class  A {
     }
 }
 ```
+
+:::
 
 ### switches
 
 Examples of **incorrect** code for this rule with the `{ "switches": "always" }` option:
 
+::: incorrect
+
 ```js
 /*eslint padded-blocks: ["error", { "switches": "always" }]*/
 
@@ -401,9 +451,13 @@ switch (a) {
     case 0: foo();
 }
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `{ "switches": "always" }` option:
 
+::: correct
+
 ```js
 /*eslint padded-blocks: ["error", { "switches": "always" }]*/
 
@@ -418,7 +472,11 @@ if (a) {
 }
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `{ "switches": "never" }` option:
+
+::: incorrect
 
 ```js
 /*eslint padded-blocks: ["error", { "switches": "never" }]*/
@@ -430,7 +488,11 @@ switch (a) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "switches": "never" }` option:
+
+::: correct
 
 ```js
 /*eslint padded-blocks: ["error", { "switches": "never" }]*/
@@ -445,10 +507,14 @@ if (a) {
 
 }
 ```
+
+:::
 
 ### always + allowSingleLineBlocks
 
 Examples of **incorrect** code for this rule with the `"always", {"allowSingleLineBlocks": true}` options:
+
+::: incorrect
 
 ```js
 /*eslint padded-blocks: ["error", "always", { allowSingleLineBlocks: true }]*/
@@ -468,7 +534,11 @@ if (a) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"always", {"allowSingleLineBlocks": true}` options:
+
+::: correct
 
 ```js
 /*eslint padded-blocks: ["error", "always", { allowSingleLineBlocks: true }]*/
@@ -481,6 +551,8 @@ if (a) {
 
 }
 ```
+
+:::
 
 ## When Not To Use It
 

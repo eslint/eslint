@@ -37,6 +37,8 @@ This rule disallows unreachable code after `return`, `throw`, `continue`, and `b
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-unreachable: "error"*/
 
@@ -71,7 +73,11 @@ for (;;) {}
 console.log("done");
 ```
 
+:::
+
 Examples of **correct** code for this rule, because of JavaScript function and variable hoisting:
+
+::: correct
 
 ```js
 /*eslint no-unreachable: "error"*/
@@ -95,7 +101,11 @@ switch (foo) {
 }
 ```
 
+:::
+
 Examples of additional **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint no-unreachable: "error"*/
@@ -112,7 +122,11 @@ class C extends B {
 }
 ```
 
+:::
+
 Examples of additional **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-unreachable: "error"*/
@@ -148,3 +162,5 @@ class F extends B {
     }
 }
 ```
+
+:::

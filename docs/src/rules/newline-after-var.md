@@ -46,6 +46,8 @@ This rule has a string option:
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
+::: incorrect
+
 ```js
 /*eslint newline-after-var: ["error", "always"]*/
 /*eslint-env es6*/
@@ -67,9 +69,13 @@ var name = "world";
 // var name = require("world");
 console.log(greet, name);
 ```
+
+:::
 
 Examples of **correct** code for this rule with the default `"always"` option:
 
+::: correct
+
 ```js
 /*eslint newline-after-var: ["error", "always"]*/
 /*eslint-env es6*/
@@ -95,11 +101,15 @@ var name = "world";
 
 console.log(greet, name);
 ```
+
+:::
 
 ### never
 
 Examples of **incorrect** code for this rule with the `"never"` option:
 
+::: incorrect
+
 ```js
 /*eslint newline-after-var: ["error", "never"]*/
 /*eslint-env es6*/
@@ -125,9 +135,13 @@ var name = "world";
 
 console.log(greet, name);
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `"never"` option:
 
+::: correct
+
 ```js
 /*eslint newline-after-var: ["error", "never"]*/
 /*eslint-env es6*/
@@ -149,3 +163,5 @@ var name = "world";
 // var name = require("world");
 console.log(greet, name);
 ```
+
+:::

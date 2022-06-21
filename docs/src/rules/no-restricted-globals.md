@@ -55,6 +55,8 @@ Alternatively, the rule also accepts objects, where the global name and an optio
 
 Examples of **incorrect** code for sample `"event", "fdescribe"` global variable names:
 
+::: incorrect
+
 ```js
 /*global event, fdescribe*/
 /*eslint no-restricted-globals: ["error", "event", "fdescribe"]*/
@@ -67,7 +69,11 @@ fdescribe("foo", function() {
 });
 ```
 
+:::
+
 Examples of **correct** code for a sample `"event"` global variable name:
+
+::: correct
 
 ```js
 /*global event*/
@@ -75,6 +81,8 @@ Examples of **correct** code for a sample `"event"` global variable name:
 
 import event from "event-module";
 ```
+
+:::
 
 ```js
 /*global event*/
@@ -85,6 +93,8 @@ var event = 1;
 
 Examples of **incorrect** code for a sample `"event"` global variable name, along with a custom error message:
 
+::: incorrect
+
 ```js
 /*global event*/
 /* eslint no-restricted-globals: ["error", { name: "event", message: "Use local parameter instead." }] */
@@ -93,3 +103,5 @@ function onClick() {
     console.log(event);    // Unexpected global variable 'event'. Use local parameter instead.
 }
 ```
+
+:::

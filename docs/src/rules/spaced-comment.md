@@ -76,6 +76,8 @@ You can also define separate exceptions and markers for block and line comments.
 
 Examples of **incorrect** code for this rule with the `"always"` option:
 
+::: incorrect
+
 ```js
 /*eslint spaced-comment: ["error", "always"]*/
 
@@ -84,12 +86,16 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 /*This is a comment with no whitespace at the beginning */
 ```
 
+:::
+
 ```js
 /* eslint spaced-comment: ["error", "always", { "block": { "balanced": true } }] */
 /* This is a comment with whitespace at the beginning but not the end*/
 ```
 
 Examples of **correct** code for this rule with the `"always"` option:
+
+::: correct
 
 ```js
 /* eslint spaced-comment: ["error", "always"] */
@@ -107,6 +113,8 @@ This comment has a newline
 */
 ```
 
+:::
+
 ```js
 /* eslint spaced-comment: ["error", "always"] */
 
@@ -119,6 +127,8 @@ This comment has a newline
 
 Examples of **incorrect** code for this rule with the `"never"` option:
 
+::: incorrect
+
 ```js
 /*eslint spaced-comment: ["error", "never"]*/
 
@@ -129,6 +139,8 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 /* \nThis is a comment with a whitespace at the beginning */
 ```
 
+:::
+
 ```js
 /*eslint spaced-comment: ["error", "never", { "block": { "balanced": true } }]*/
 /*This is a comment with whitespace at the end */
@@ -136,11 +148,15 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 
 Examples of **correct** code for this rule with the `"never"` option:
 
+::: correct
+
 ```js
 /*eslint spaced-comment: ["error", "never"]*/
 
 /*This is a comment with no whitespace at the beginning */
 ```
+
+:::
 
 ```js
 /*eslint spaced-comment: ["error", "never"]*/
@@ -154,6 +170,8 @@ Examples of **correct** code for this rule with the `"never"` option:
 
 Examples of **incorrect** code for this rule with the `"always"` option combined with `"exceptions"`:
 
+::: incorrect
+
 ```js
 /* eslint spaced-comment: ["error", "always", { "block": { "exceptions": ["-"] } }] */
 
@@ -161,6 +179,8 @@ Examples of **incorrect** code for this rule with the `"always"` option combined
 // Comment block
 //--------------
 ```
+
+:::
 
 ```js
 /* eslint spaced-comment: ["error", "always", { "exceptions": ["-", "+"] }] */
@@ -194,6 +214,8 @@ Examples of **incorrect** code for this rule with the `"always"` option combined
 
 Examples of **correct** code for this rule with the `"always"` option combined with `"exceptions"`:
 
+::: correct
+
 ```js
 /* eslint spaced-comment: ["error", "always", { "exceptions": ["-"] }] */
 
@@ -201,6 +223,8 @@ Examples of **correct** code for this rule with the `"always"` option combined w
 // Comment block
 //--------------
 ```
+
+:::
 
 ```js
 /* eslint spaced-comment: ["error", "always", { "line": { "exceptions": ["-"] } }] */
@@ -252,11 +276,15 @@ COMMENT
 
 Examples of **incorrect** code for this rule with the `"always"` option combined with `"markers"`:
 
+::: incorrect
+
 ```js
 /* eslint spaced-comment: ["error", "always", { "markers": ["/"] }] */
 
 ///This is a comment with a marker but without whitespace
 ```
+
+:::
 
 ```js
 /*eslint spaced-comment: ["error", "always", { "block": { "markers": ["!"], "balanced": true } }]*/
@@ -270,11 +298,15 @@ Examples of **incorrect** code for this rule with the `"always"` option combined
 
 Examples of **correct** code for this rule with the `"always"` option combined with `"markers"`:
 
+::: correct
+
 ```js
 /* eslint spaced-comment: ["error", "always", { "markers": ["/"] }] */
 
 /// This is a comment with a marker
 ```
+
+:::
 
 ```js
 /*eslint spaced-comment: ["error", "never", { "markers": ["!<"] }]*/

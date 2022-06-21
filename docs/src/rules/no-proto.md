@@ -17,6 +17,8 @@ When an object is created with the `new` operator, `__proto__` is set to the ori
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-proto: "error"*/
 
@@ -29,7 +31,11 @@ obj.__proto__ = b;
 obj["__proto__"] = b;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-proto: "error"*/
@@ -40,6 +46,8 @@ Object.setPrototypeOf(obj, b);
 
 var c = { __proto__: a };
 ```
+
+:::
 
 ## When Not To Use It
 

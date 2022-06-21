@@ -20,6 +20,8 @@ This rule disallows reassigning exceptions in `catch` clauses.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-ex-assign: "error"*/
 
@@ -30,7 +32,11 @@ try {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-ex-assign: "error"*/
@@ -41,3 +47,5 @@ try {
     var foo = 10;
 }
 ```
+
+:::

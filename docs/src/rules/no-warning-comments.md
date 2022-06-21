@@ -27,6 +27,8 @@ This rule has an options object literal:
 
 Example of **incorrect** code for the default `{ "terms": ["todo", "fixme", "xxx"], "location": "start" }` options:
 
+::: incorrect
+
 ```js
 /*eslint no-warning-comments: "error"*/
 
@@ -39,7 +41,11 @@ function callback(err, results) {
 }
 ```
 
+:::
+
 Example of **correct** code for the default `{ "terms": ["todo", "fixme", "xxx"], "location": "start" }` options:
+
+::: correct
 
 ```js
 /*eslint no-warning-comments: "error"*/
@@ -54,9 +60,13 @@ function callback(err, results) {
 }
 ```
 
+:::
+
 ### terms and location
 
 Examples of **incorrect** code for the `{ "terms": ["todo", "fixme", "any other term"], "location": "anywhere" }` options:
+
+::: incorrect
 
 ```js
 /*eslint no-warning-comments: ["error", { "terms": ["todo", "fixme", "any other term"], "location": "anywhere" }]*/
@@ -71,7 +81,11 @@ Examples of **incorrect** code for the `{ "terms": ["todo", "fixme", "any other 
  */
 ```
 
+:::
+
 Examples of **correct** code for the `{ "terms": ["todo", "fixme", "any other term"], "location": "anywhere" }` options:
+
+::: correct
 
 ```js
 /*eslint no-warning-comments: ["error", { "terms": ["todo", "fixme", "any other term"], "location": "anywhere" }]*/
@@ -85,6 +99,8 @@ Examples of **correct** code for the `{ "terms": ["todo", "fixme", "any other te
  * or fix me this
  */
 ```
+
+:::
 
 ## When Not To Use It
 

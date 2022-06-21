@@ -53,6 +53,8 @@ This rule aims to eliminate the use of `String`, `Number`, and `Boolean` with th
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-new-wrappers: "error"*/
 
@@ -65,7 +67,11 @@ var numberObject = new Number;
 var booleanObject = new Boolean;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-new-wrappers: "error"*/
@@ -75,6 +81,8 @@ var num = Number(someValue);
 
 var object = new MyString();
 ```
+
+:::
 
 ## When Not To Use It
 

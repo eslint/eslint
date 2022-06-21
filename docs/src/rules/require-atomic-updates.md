@@ -64,6 +64,8 @@ Note that the rule does not report the assignment in step 3 in any of the follow
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /* eslint require-atomic-updates: error */
 
@@ -92,7 +94,11 @@ function* generator() {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /* eslint require-atomic-updates: error */
@@ -127,6 +133,8 @@ function* generator() {
 }
 ```
 
+:::
+
 ### Properties
 
 This rule reports an assignment to a property through a variable when it detects the following execution flow in a generator or async function:
@@ -139,6 +147,8 @@ This logic is similar to the logic for variables, but stricter because the prope
 
 Example of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /* eslint require-atomic-updates: error */
 
@@ -149,7 +159,11 @@ async function foo(obj) {
 }
 ```
 
+:::
+
 Example of **correct** code for this rule:
+
+::: correct
 
 ```js
 /* eslint require-atomic-updates: error */
@@ -164,6 +178,8 @@ async function foo(obj) {
 }
 ```
 
+:::
+
 ## Options
 
 This rule has an object option:
@@ -174,6 +190,8 @@ This rule has an object option:
 
 Example of **correct** code for this rule with the `{ "allowProperties": true }` option:
 
+::: correct
+
 ```js
 /* eslint require-atomic-updates: ["error", { "allowProperties": true }] */
 
@@ -183,6 +201,8 @@ async function foo(obj) {
     }
 }
 ```
+
+:::
 
 ## When Not To Use It
 

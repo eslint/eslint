@@ -23,6 +23,8 @@ This rule aims to eliminate unnecessary and potentially confusing blocks at the 
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-lone-blocks: "error"*/
 
@@ -59,7 +61,11 @@ class C {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with ES6 environment:
+
+::: correct
 
 ```js
 /*eslint no-lone-blocks: "error"*/
@@ -107,7 +113,11 @@ class C {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with ES6 environment and strict mode via `"parserOptions": { "sourceType": "module" }` in the ESLint configuration or `"use strict"` directive in the code:
+
+::: correct
 
 ```js
 /*eslint no-lone-blocks: "error"*/
@@ -119,3 +129,5 @@ Examples of **correct** code for this rule with ES6 environment and strict mode 
     function foo() {}
 }
 ```
+
+:::

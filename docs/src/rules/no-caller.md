@@ -21,6 +21,8 @@ This rule is aimed at discouraging the use of deprecated and sub-optimal code by
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-caller: "error"*/
 
@@ -37,7 +39,11 @@ function foo(n) {
 });
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-caller: "error"*/
@@ -54,3 +60,5 @@ function foo(n) {
     return !(n > 1) ? 1 : factorial(n - 1) * n;
 });
 ```
+
+:::

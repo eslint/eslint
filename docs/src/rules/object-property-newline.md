@@ -188,6 +188,8 @@ As illustrated above, the `--fix` option, applied to this rule, does not comply 
 
 Examples of **incorrect** code for this rule, with no object option or with `allowAllPropertiesOnSameLine` set to `false`:
 
+::: incorrect
+
 ```js
 /*eslint object-property-newline: "error"*/
 
@@ -222,7 +224,11 @@ const obj5 = {
 ]: true};
 ```
 
+:::
+
 Examples of **correct** code for this rule, with no object option or with `allowAllPropertiesOnSameLine` set to `false`:
+
+::: correct
 
 ```js
 /*eslint object-property-newline: "error"*/
@@ -252,7 +258,11 @@ const obj3 = {
 };
 ```
 
+:::
+
 Examples of additional **correct** code for this rule with the `{ "allowAllPropertiesOnSameLine": true }` option:
+
+::: correct
 
 ```js
 /*eslint object-property-newline: ["error", { "allowAllPropertiesOnSameLine": true }]*/
@@ -267,6 +277,8 @@ const obj3 = {
     user, [process.argv[3] ? "foo" : "bar"]: 0, baz: [1, 2, 4, 8]
 };
 ```
+
+:::
 
 ## When Not To Use It
 

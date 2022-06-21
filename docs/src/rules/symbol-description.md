@@ -37,6 +37,8 @@ This rules requires a description when creating symbols.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint symbol-description: "error"*/
 /*eslint-env es6*/
@@ -44,7 +46,11 @@ Examples of **incorrect** code for this rule:
 var foo = Symbol();
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint symbol-description: "error"*/
@@ -55,6 +61,8 @@ var foo = Symbol("some description");
 var someString = "some description";
 var bar = Symbol(someString);
 ```
+
+:::
 
 ## When Not To Use It
 

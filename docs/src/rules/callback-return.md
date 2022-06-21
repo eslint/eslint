@@ -44,6 +44,8 @@ The rule takes a single option - an array of possible callback names - which may
 
 Examples of **incorrect** code for this rule with the default `["callback", "cb", "next"]` option:
 
+::: incorrect
+
 ```js
 /*eslint callback-return: "error"*/
 
@@ -55,7 +57,11 @@ function foo(err, callback) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `["callback", "cb", "next"]` option:
+
+::: correct
 
 ```js
 /*eslint callback-return: "error"*/
@@ -68,9 +74,13 @@ function foo(err, callback) {
 }
 ```
 
+:::
+
 ### Supplied callback names
 
 Examples of **incorrect** code for this rule with the option `["done", "send.error", "send.success"]`:
+
+::: incorrect
 
 ```js
 /*eslint callback-return: ["error", ["done", "send.error", "send.success"]]*/
@@ -90,7 +100,11 @@ function bar(err, send) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the option `["done", "send.error", "send.success"]`:
+
+::: correct
 
 ```js
 /*eslint callback-return: ["error", ["done", "send.error", "send.success"]]*/
@@ -109,6 +123,8 @@ function bar(err, send) {
     send.success();
 }
 ```
+
+:::
 
 ## Known Limitations
 

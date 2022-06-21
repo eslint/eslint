@@ -25,6 +25,8 @@ This rule is aimed at eliminating floating decimal points and will warn whenever
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-floating-decimal: "error"*/
 
@@ -33,7 +35,11 @@ var num = 2.;
 var num = -.7;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-floating-decimal: "error"*/
@@ -42,6 +48,8 @@ var num = 0.5;
 var num = 2.0;
 var num = -0.7;
 ```
+
+:::
 
 ## When Not To Use It
 

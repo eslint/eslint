@@ -23,6 +23,8 @@ This rule disallows calls or assignments to methods of the `console` object.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /* eslint no-console: "error" */
 
@@ -32,7 +34,11 @@ console.error("Log an error level message.");
 console.log = foo();
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /* eslint no-console: "error" */
@@ -40,6 +46,8 @@ Examples of **correct** code for this rule:
 // custom console
 Console.log("Hello world!");
 ```
+
+:::
 
 ## Options
 
@@ -49,12 +57,16 @@ This rule has an object option for exceptions:
 
 Examples of additional **correct** code for this rule with a sample `{ "allow": ["warn", "error"] }` option:
 
+::: correct
+
 ```js
 /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 
 console.warn("Log a warn level message.");
 console.error("Log an error level message.");
 ```
+
+:::
 
 ## When Not To Use It
 

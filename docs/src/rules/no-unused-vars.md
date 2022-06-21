@@ -26,6 +26,8 @@ A variable is *not* considered to be used if it is only ever declared (`var foo 
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-unused-vars: "error"*/
 /*global some_unused_var*/
@@ -60,7 +62,11 @@ function getY([x, y]) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-unused-vars: "error"*/
@@ -89,6 +95,8 @@ function getY([, y]) {
 }
 ```
 
+:::
+
 ### exported
 
 In environments outside of CommonJS or ECMAScript modules, you may use `var` to create a global variable that may be used by other scripts. You can use the `/* exported variableName */` comment block to indicate that this variable is being exported and therefore should not be considered unused.
@@ -103,11 +111,15 @@ The line comment `// exported variableName` will not work as `exported` is not l
 
 Examples of **correct** code for `/* exported variableName */` operation:
 
+::: correct
+
 ```js
 /* exported global_var */
 
 var global_var = 42;
 ```
+
+:::
 
 ## Options
 
@@ -134,6 +146,8 @@ The `vars` option has two settings:
 
 Examples of **correct** code for the `{ "vars": "local" }` option:
 
+::: correct
+
 ```js
 /*eslint no-unused-vars: ["error", { "vars": "local" }]*/
 /*global some_unused_var */
@@ -141,11 +155,15 @@ Examples of **correct** code for the `{ "vars": "local" }` option:
 some_unused_var = 42;
 ```
 
+:::
+
 ### varsIgnorePattern
 
 The `varsIgnorePattern` option specifies exceptions not to check for usage: variables whose names match a regexp pattern. For example, variables whose names contain `ignored` or `Ignored`.
 
 Examples of **correct** code for the `{ "varsIgnorePattern": "[iI]gnored" }` option:
+
+::: correct
 
 ```js
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "[iI]gnored" }]*/
@@ -154,6 +172,8 @@ var firstVarIgnored = 1;
 var secondVar = 2;
 console.log(secondVar);
 ```
+
+:::
 
 ### args
 
@@ -167,6 +187,8 @@ The `args` option has three settings:
 
 Examples of **incorrect** code for the default `{ "args": "after-used" }` option:
 
+::: incorrect
+
 ```js
 /*eslint no-unused-vars: ["error", { "args": "after-used" }]*/
 
@@ -178,7 +200,11 @@ Examples of **incorrect** code for the default `{ "args": "after-used" }` option
 })();
 ```
 
+:::
+
 Examples of **correct** code for the default `{ "args": "after-used" }` option:
+
+::: correct
 
 ```js
 /*eslint no-unused-vars: ["error", {"args": "after-used"}]*/
@@ -188,9 +214,13 @@ Examples of **correct** code for the default `{ "args": "after-used" }` option:
 })();
 ```
 
+:::
+
 #### args: all
 
 Examples of **incorrect** code for the `{ "args": "all" }` option:
+
+::: incorrect
 
 ```js
 /*eslint no-unused-vars: ["error", { "args": "all" }]*/
@@ -203,9 +233,13 @@ Examples of **incorrect** code for the `{ "args": "all" }` option:
 })();
 ```
 
+:::
+
 #### args: none
 
 Examples of **correct** code for the `{ "args": "none" }` option:
+
+::: correct
 
 ```js
 /*eslint no-unused-vars: ["error", { "args": "none" }]*/
@@ -215,11 +249,15 @@ Examples of **correct** code for the `{ "args": "none" }` option:
 })();
 ```
 
+:::
+
 ### ignoreRestSiblings
 
 The `ignoreRestSiblings` option is a boolean (default: `false`). Using a [Rest Property](https://github.com/tc39/proposal-object-rest-spread) it is possible to "omit" properties from an object, but by default the sibling properties are marked as "unused". With this option enabled the rest property's siblings are ignored.
 
 Examples of **correct** code for the `{ "ignoreRestSiblings": true }` option:
+
+::: correct
 
 ```js
 /*eslint no-unused-vars: ["error", { "ignoreRestSiblings": true }]*/
@@ -230,11 +268,15 @@ var bar;
 ({ bar, ...coords } = data);
 ```
 
+:::
+
 ### argsIgnorePattern
 
 The `argsIgnorePattern` option specifies exceptions not to check for usage: arguments whose names match a regexp pattern. For example, variables whose names begin with an underscore.
 
 Examples of **correct** code for the `{ "argsIgnorePattern": "^_" }` option:
+
+::: correct
 
 ```js
 /*eslint no-unused-vars: ["error", { "argsIgnorePattern": "^_" }]*/
@@ -245,11 +287,15 @@ function foo(x, _y) {
 foo();
 ```
 
+:::
+
 ### destructuredArrayIgnorePattern
 
 The `destructuredArrayIgnorePattern` option specifies exceptions not to check for usage: elements of array destructuring patterns whose names match a regexp pattern. For example, variables whose names begin with an underscore.
 
 Examples of **correct** code for the `{ "destructuredArrayIgnorePattern": "^_" }` option:
+
+::: correct
 
 ```js
 /*eslint no-unused-vars: ["error", { "destructuredArrayIgnorePattern": "^_" }]*/
@@ -282,6 +328,8 @@ _o = 1;
 p;
 ```
 
+:::
+
 ### caughtErrors
 
 The `caughtErrors` option is used for `catch` block arguments validation.
@@ -297,6 +345,8 @@ Not specifying this rule is equivalent of assigning it to `none`.
 
 Examples of **correct** code for the `{ "caughtErrors": "none" }` option:
 
+::: correct
+
 ```js
 /*eslint no-unused-vars: ["error", { "caughtErrors": "none" }]*/
 
@@ -307,9 +357,13 @@ try {
 }
 ```
 
+:::
+
 #### caughtErrors: all
 
 Examples of **incorrect** code for the `{ "caughtErrors": "all" }` option:
+
+::: incorrect
 
 ```js
 /*eslint no-unused-vars: ["error", { "caughtErrors": "all" }]*/
@@ -323,11 +377,15 @@ try {
 }
 ```
 
+:::
+
 ### caughtErrorsIgnorePattern
 
 The `caughtErrorsIgnorePattern` option specifies exceptions not to check for usage: catch arguments whose names match a regexp pattern. For example, variables whose names begin with a string 'ignore'.
 
 Examples of **correct** code for the `{ "caughtErrorsIgnorePattern": "^ignore" }` option:
+
+::: correct
 
 ```js
 /*eslint no-unused-vars: ["error", { "caughtErrorsIgnorePattern": "^ignore" }]*/
@@ -338,6 +396,8 @@ try {
     console.error("errors");
 }
 ```
+
+:::
 
 ## When Not To Use It
 

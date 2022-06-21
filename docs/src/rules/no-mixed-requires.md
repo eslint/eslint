@@ -46,6 +46,8 @@ Configuring this rule with one boolean option `true` is deprecated.
 
 Examples of **incorrect** code for this rule with the default `{ "grouping": false, "allowCall": false }` options:
 
+::: incorrect
+
 ```js
 /*eslint no-mixed-requires: "error"*/
 
@@ -57,7 +59,11 @@ var async = require('async'),
     eslint = require('eslint');
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `{ "grouping": false, "allowCall": false }` options:
+
+::: correct
 
 ```js
 /*eslint no-mixed-requires: "error"*/
@@ -78,9 +84,13 @@ var foo = require('foo' + VERSION),
     baz = require();
 ```
 
+:::
+
 ### grouping
 
 Examples of **incorrect** code for this rule with the `{ "grouping": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint no-mixed-requires: ["error", { "grouping": true }]*/
@@ -94,9 +104,13 @@ var foo = require('foo'),
     bar = require(getBarModuleName());
 ```
 
+:::
+
 ### allowCall
 
 Examples of **incorrect** code for this rule with the `{ "allowCall": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint no-mixed-requires: ["error", { "allowCall": true }]*/
@@ -106,7 +120,11 @@ var async = require('async'),
     eslint = require('eslint');
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "allowCall": true }` option:
+
+::: correct
 
 ```js
 /*eslint no-mixed-requires: ["error", { "allowCall": true }]*/
@@ -115,6 +133,8 @@ var async = require('async'),
     debug = require('diagnostics')('my-module'),
     eslint = require('eslint');
 ```
+
+:::
 
 ## Known Limitations
 

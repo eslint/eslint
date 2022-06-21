@@ -59,6 +59,8 @@ This rule reports the regular expressions which include multiple code point char
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-misleading-character-class: error */
 
@@ -70,7 +72,11 @@ Examples of **incorrect** code for this rule:
 /^[👍]$/
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-misleading-character-class: error */
@@ -78,6 +84,8 @@ Examples of **correct** code for this rule:
 /^[abc]$/
 /^[👍]$/u
 ```
+
+:::
 
 ## When Not To Use It
 

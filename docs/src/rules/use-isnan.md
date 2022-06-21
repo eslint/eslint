@@ -24,6 +24,8 @@ This rule disallows comparisons to 'NaN'.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint use-isnan: "error"*/
 
@@ -44,7 +46,11 @@ if (foo != Number.NaN) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint use-isnan: "error"*/
@@ -57,6 +63,8 @@ if (!isNaN(foo)) {
     // ...
 }
 ```
+
+:::
 
 ## Options
 
@@ -71,6 +79,8 @@ The `switch` statement internally uses the `===` comparison to match the express
 Therefore, it can never match `case NaN`. Also, `switch(NaN)` can never match a case clause.
 
 Examples of **incorrect** code for this rule with `"enforceForSwitchCase"` option set to `true` (default):
+
+::: incorrect
 
 ```js
 /*eslint use-isnan: ["error", {"enforceForSwitchCase": true}]*/
@@ -116,7 +126,11 @@ switch (Number.NaN) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with `"enforceForSwitchCase"` option set to `true` (default):
+
+::: correct
 
 ```js
 /*eslint use-isnan: ["error", {"enforceForSwitchCase": true}]*/
@@ -139,7 +153,11 @@ if (Number.isNaN(a)) {
 } // ...
 ```
 
+:::
+
 Examples of **correct** code for this rule with `"enforceForSwitchCase"` option set to `false`:
+
+::: correct
 
 ```js
 /*eslint use-isnan: ["error", {"enforceForSwitchCase": false}]*/
@@ -185,6 +203,8 @@ switch (Number.NaN) {
 }
 ```
 
+:::
+
 ### enforceForIndexOf
 
 The following methods internally use the `===` comparison to match the given value with an array element:
@@ -198,6 +218,8 @@ Set `"enforceForIndexOf"` to `true` if you want this rule to report `indexOf(NaN
 
 Examples of **incorrect** code for this rule with `"enforceForIndexOf"` option set to `true`:
 
+::: incorrect
+
 ```js
 /*eslint use-isnan: ["error", {"enforceForIndexOf": true}]*/
 
@@ -208,7 +230,11 @@ var firstIndex = myArray.indexOf(NaN);
 var lastIndex = myArray.lastIndexOf(NaN);
 ```
 
+:::
+
 Examples of **correct** code for this rule with `"enforceForIndexOf"` option set to `true`:
+
+::: correct
 
 ```js
 /*eslint use-isnan: ["error", {"enforceForIndexOf": true}]*/
@@ -252,6 +278,8 @@ var firstIndex = myArray.findIndex(Number.isNaN);
 // ES2016
 var hasNaN = myArray.includes(NaN);
 ```
+
+:::
 
 #### Known Limitations
 

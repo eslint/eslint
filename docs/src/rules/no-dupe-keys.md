@@ -24,6 +24,8 @@ This rule disallows duplicate keys in object literals.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-dupe-keys: "error"*/
 
@@ -43,7 +45,11 @@ var foo = {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-dupe-keys: "error"*/
@@ -53,3 +59,5 @@ var foo = {
     quxx: "qux"
 };
 ```
+
+:::

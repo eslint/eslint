@@ -51,6 +51,8 @@ The default configuration is `"after", { "overrides": { "?": "before", ":": "bef
 
 Examples of **incorrect** code for this rule with the `"after"` option:
 
+::: incorrect
+
 ```js
 /*eslint operator-linebreak: ["error", "after"]*/
 
@@ -83,7 +85,11 @@ class Foo {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"after"` option:
+
+::: correct
 
 ```js
 /*eslint operator-linebreak: ["error", "after"]*/
@@ -116,9 +122,13 @@ class Foo {
 }
 ```
 
+:::
+
 ### before
 
 Examples of **incorrect** code for this rule with the `"before"` option:
+
+::: incorrect
 
 ```js
 /*eslint operator-linebreak: ["error", "before"]*/
@@ -148,7 +158,11 @@ class Foo {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"before"` option:
+
+::: correct
 
 ```js
 /*eslint operator-linebreak: ["error", "before"]*/
@@ -181,9 +195,13 @@ class Foo {
 }
 ```
 
+:::
+
 ### none
 
 Examples of **incorrect** code for this rule with the `"none"` option:
+
+::: incorrect
 
 ```js
 /*eslint operator-linebreak: ["error", "none"]*/
@@ -228,7 +246,11 @@ class Foo {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"none"` option:
+
+::: correct
 
 ```js
 /*eslint operator-linebreak: ["error", "none"]*/
@@ -254,9 +276,13 @@ class Foo {
 }
 ```
 
+:::
+
 ### overrides
 
 Examples of additional **incorrect** code for this rule with the `{ "overrides": { "+=": "before" } }` option:
+
+::: incorrect
 
 ```js
 /*eslint operator-linebreak: ["error", "after", { "overrides": { "+=": "before" } }]*/
@@ -266,7 +292,11 @@ thing +=
   's';
 ```
 
+:::
+
 Examples of additional **correct** code for this rule with the `{ "overrides": { "+=": "before" } }` option:
+
+::: correct
 
 ```js
 /*eslint operator-linebreak: ["error", "after", { "overrides": { "+=": "before" } }]*/
@@ -276,7 +306,11 @@ thing
   += 's';
 ```
 
+:::
+
 Examples of additional **correct** code for this rule with the `{ "overrides": { "?": "ignore", ":": "ignore" } }` option:
+
+::: correct
 
 ```js
 /*eslint operator-linebreak: ["error", "after", { "overrides": { "?": "ignore", ":": "ignore" } }]*/
@@ -292,7 +326,11 @@ answer = everything
   foo;
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the default `"after", { "overrides": { "?": "before", ":": "before" } }` option:
+
+::: incorrect
 
 ```js
 /*eslint operator-linebreak: ["error", "after", { "overrides": { "?": "before", ":": "before" } }]*/
@@ -316,7 +354,11 @@ answer = everything ?
   foo;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"after", { "overrides": { "?": "before", ":": "before" } }` option:
+
+::: correct
 
 ```js
 /*eslint operator-linebreak: ["error", "after", { "overrides": { "?": "before", ":": "before" } }]*/
@@ -337,6 +379,8 @@ answer = everything
   ? 42
   : foo;
 ```
+
+:::
 
 ## When Not To Use It
 

@@ -21,6 +21,8 @@ If ESLint parses code in strict mode, the parser (instead of this rule) reports 
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-with: "error"*/
 
@@ -29,7 +31,11 @@ with (point) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-with: "error"*/
@@ -37,6 +43,8 @@ Examples of **correct** code for this rule:
 
 const r = ({x, y}) => Math.sqrt(x * x + y * y);
 ```
+
+:::
 
 ## When Not To Use It
 

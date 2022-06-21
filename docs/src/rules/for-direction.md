@@ -15,6 +15,8 @@ A `for` loop with a stop condition that can never be reached, such as one with a
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint for-direction: "error"*/
 for (var i = 0; i < 10; i--) {
@@ -27,10 +29,16 @@ for (var i = 0; i > 10; i++) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint for-direction: "error"*/
 for (var i = 0; i < 10; i++) {
 }
 ```
+
+:::

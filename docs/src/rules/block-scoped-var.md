@@ -18,6 +18,8 @@ This rule aims to reduce the usage of variables outside of their binding context
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint block-scoped-var: "error"*/
 
@@ -62,7 +64,11 @@ class C {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint block-scoped-var: "error"*/
@@ -114,3 +120,5 @@ class C {
     }
 }
 ```
+
+:::

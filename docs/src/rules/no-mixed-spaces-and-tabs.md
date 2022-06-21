@@ -19,6 +19,8 @@ This rule disallows mixed spaces and tabs for indentation.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-mixed-spaces-and-tabs: "error"*/
 
@@ -37,7 +39,11 @@ function main() {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-mixed-spaces-and-tabs: "error"*/
@@ -48,6 +54,8 @@ function add(x, y) {
 }
 ```
 
+:::
+
 ## Options
 
 This rule has a string option.
@@ -57,6 +65,8 @@ This rule has a string option.
 ### smart-tabs
 
 Examples of **correct** code for this rule with the `"smart-tabs"` option:
+
+::: correct
 
 ```js
 /*eslint no-mixed-spaces-and-tabs: ["error", "smart-tabs"]*/
@@ -69,3 +79,5 @@ function main() {
         y = 7;
 }
 ```
+
+:::

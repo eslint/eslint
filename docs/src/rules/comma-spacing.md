@@ -50,6 +50,8 @@ This rule has an object option:
 
 Examples of **incorrect** code for this rule with the default `{ "before": false, "after": true }` options:
 
+::: incorrect
+
 ```js
 /*eslint comma-spacing: ["error", { "before": false, "after": true }]*/
 
@@ -62,7 +64,11 @@ function foo(a ,b){}
 a ,b
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `{ "before": false, "after": true }` options:
+
+::: correct
 
 ```js
 /*eslint comma-spacing: ["error", { "before": false, "after": true }]*/
@@ -78,7 +84,11 @@ function foo(a, b){}
 a, b
 ```
 
+:::
+
 Example of **correct** code for this rule with initial null element for the default `{ "before": false, "after": true }` options:
+
+::: correct
 
 ```js
 /*eslint comma-spacing: ["error", { "before": false, "after": true }]*/
@@ -87,9 +97,13 @@ Example of **correct** code for this rule with initial null element for the defa
 var arr = [ , 2, 3 ]
 ```
 
+:::
+
 ### before
 
 Examples of **incorrect** code for this rule with the `{ "before": true, "after": false }` options:
+
+::: incorrect
 
 ```js
 /*eslint comma-spacing: ["error", { "before": true, "after": false }]*/
@@ -102,7 +116,11 @@ function foo(a,b){}
 a, b
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "before": true, "after": false }` options:
+
+::: correct
 
 ```js
 /*eslint comma-spacing: ["error", { "before": true, "after": false }]*/
@@ -118,7 +136,11 @@ function foo(a ,b){}
 a ,b
 ```
 
+:::
+
 Examples of **correct** code for this rule with initial null element for the `{ "before": true, "after": false }` options:
+
+::: correct
 
 ```js
 /*eslint comma-spacing: ["error", { "before": true, "after": false }]*/
@@ -126,6 +148,8 @@ Examples of **correct** code for this rule with initial null element for the `{ 
 
 var arr = [,2 ,3]
 ```
+
+:::
 
 ## When Not To Use It
 

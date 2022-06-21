@@ -28,6 +28,8 @@ foo
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-whitespace-before-property: "error"*/
 
@@ -46,7 +48,11 @@ foo
   .bar(). baz()
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-whitespace-before-property: "error"*/
@@ -70,6 +76,8 @@ foo.
   bar().
   baz()
 ```
+
+:::
 
 ## When Not To Use It
 

@@ -63,6 +63,8 @@ This rule aims to eliminate use of void operator.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-void: "error"*/
 
@@ -74,6 +76,8 @@ function baz() {
     return void 0;
 }
 ```
+
+:::
 
 ## Options
 
@@ -87,6 +91,8 @@ When `allowAsStatement` is set to true, the rule will not error on cases that th
 
 Examples of **incorrect** code for `{ "allowAsStatement": true }`:
 
+::: incorrect
+
 ```js
 /*eslint no-void: ["error", { "allowAsStatement": true }]*/
 
@@ -96,7 +102,11 @@ function baz() {
 }
 ```
 
+:::
+
 Examples of **correct** code for `{ "allowAsStatement": true }`:
+
+::: correct
 
 ```js
 /*eslint no-void: ["error", { "allowAsStatement": true }]*/
@@ -104,6 +114,8 @@ Examples of **correct** code for `{ "allowAsStatement": true }`:
 void foo;
 void someFunction();
 ```
+
+:::
 
 ## When Not To Use It
 

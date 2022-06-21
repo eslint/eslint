@@ -44,6 +44,8 @@ There are two options for this rule:
 
 Examples of **incorrect** code for the default `"always"` option:
 
+::: incorrect
+
 ```js
 /*eslint radix: "error"*/
 
@@ -58,7 +60,11 @@ var num = parseInt("071", 37);
 var num = parseInt();
 ```
 
+:::
+
 Examples of **correct** code for the default `"always"` option:
+
+::: correct
 
 ```js
 /*eslint radix: "error"*/
@@ -70,9 +76,13 @@ var num = parseInt("071", 8);
 var num = parseFloat(someValue);
 ```
 
+:::
+
 ### as-needed
 
 Examples of **incorrect** code for the `"as-needed"` option:
+
+::: incorrect
 
 ```js
 /*eslint radix: ["error", "as-needed"]*/
@@ -84,7 +94,11 @@ var num = parseInt("071", "abc");
 var num = parseInt();
 ```
 
+:::
+
 Examples of **correct** code for the `"as-needed"` option:
+
+::: correct
 
 ```js
 /*eslint radix: ["error", "as-needed"]*/
@@ -95,6 +109,8 @@ var num = parseInt("071", 8);
 
 var num = parseFloat(someValue);
 ```
+
+:::
 
 ## When Not To Use It
 

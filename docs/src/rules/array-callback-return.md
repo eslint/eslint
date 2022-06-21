@@ -40,6 +40,8 @@ This rule finds callback functions of the following methods, then checks usage o
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint array-callback-return: "error"*/
 
@@ -62,7 +64,11 @@ var bar = foo.filter(function(x) {
 });
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint array-callback-return: "error"*/
@@ -82,6 +88,8 @@ var foo = Array.from(nodes, function(node) {
 var bar = foo.map(node => node.getAttribute("id"));
 ```
 
+:::
+
 ## Options
 
 This rule accepts a configuration object with two options:
@@ -93,6 +101,8 @@ This rule accepts a configuration object with two options:
 
 Examples of **correct** code for the `{ "allowImplicit": true }` option:
 
+::: correct
+
 ```js
 /*eslint array-callback-return: ["error", { allowImplicit: true }]*/
 var undefAllTheThings = myArray.map(function(item) {
@@ -100,9 +110,13 @@ var undefAllTheThings = myArray.map(function(item) {
 });
 ```
 
+:::
+
 ### checkForEach
 
 Examples of **incorrect** code for the `{ "checkForEach": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint array-callback-return: ["error", { checkForEach: true }]*/
@@ -125,7 +139,11 @@ myArray.forEach(item => {
 });
 ```
 
+:::
+
 Examples of **correct** code for the `{ "checkForEach": true }` option:
+
+::: correct
 
 ```js
 /*eslint array-callback-return: ["error", { checkForEach: true }]*/
@@ -150,6 +168,8 @@ myArray.forEach(item => {
     handleItem(item);
 });
 ```
+
+:::
 
 ## Known Limitations
 

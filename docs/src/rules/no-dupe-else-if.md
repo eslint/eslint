@@ -44,6 +44,8 @@ This rule disallows duplicate conditions in the same `if-else-if` chain.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-dupe-else-if: "error"*/
 
@@ -78,7 +80,11 @@ if (n === 1) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-dupe-else-if: "error"*/
@@ -114,9 +120,13 @@ if (n === 1) {
 }
 ```
 
+:::
+
 This rule can also detect some cases where the conditions are not identical, but the branch can never execute due to the logic of `||` and `&&` operators.
 
 Examples of additional **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint no-dupe-else-if: "error"*/
@@ -161,6 +171,8 @@ if (a) {
     baz();
 }
 ```
+
+:::
 
 Please note that this rule does not compare conditions from the chain with conditions inside statements, and will not warn in the cases such as follows:
 

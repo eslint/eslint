@@ -33,13 +33,19 @@ The second one is an object for more fine-grained configuration when the first o
 
 Examples of **incorrect** code for this rule with the `"always"` option:
 
+::: incorrect
+
 ```js
 /*eslint arrow-body-style: ["error", "always"]*/
 /*eslint-env es6*/
 let foo = () => 0;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"always"` option:
+
+::: correct
 
 ```js
 let foo = () => {
@@ -51,9 +57,13 @@ let foo = (retv, name) => {
 };
 ```
 
+:::
+
 ### as-needed
 
 Examples of **incorrect** code for this rule with the default `"as-needed"` option:
+
+::: incorrect
 
 ```js
 /*eslint arrow-body-style: ["error", "as-needed"]*/
@@ -72,7 +82,11 @@ let foo = () => {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"as-needed"` option:
+
+::: correct
 
 ```js
 /*eslint arrow-body-style: ["error", "as-needed"]*/
@@ -98,11 +112,15 @@ let foo = () => {
 let foo = () => ({ bar: 0 });
 ```
 
+:::
+
 #### requireReturnForObjectLiteral
 
 > This option is only applicable when used in conjunction with the `"as-needed"` option.
 
 Examples of **incorrect** code for this rule with the `{ "requireReturnForObjectLiteral": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint arrow-body-style: ["error", "as-needed", { "requireReturnForObjectLiteral": true }]*/
@@ -111,7 +129,11 @@ let foo = () => ({});
 let foo = () => ({ bar: 0 });
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "requireReturnForObjectLiteral": true }` option:
+
+::: correct
 
 ```js
 /*eslint arrow-body-style: ["error", "as-needed", { "requireReturnForObjectLiteral": true }]*/
@@ -121,9 +143,13 @@ let foo = () => {};
 let foo = () => { return { bar: 0 }; };
 ```
 
+:::
+
 ### never
 
 Examples of **incorrect** code for this rule with the `"never"` option:
+
+::: incorrect
 
 ```js
 /*eslint arrow-body-style: ["error", "never"]*/
@@ -138,7 +164,11 @@ let foo = (retv, name) => {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"never"` option:
+
+::: correct
 
 ```js
 /*eslint arrow-body-style: ["error", "never"]*/
@@ -147,3 +177,5 @@ Examples of **correct** code for this rule with the `"never"` option:
 let foo = () => 0;
 let foo = () => ({ foo: 0 });
 ```
+
+:::

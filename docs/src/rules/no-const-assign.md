@@ -20,6 +20,8 @@ This rule is aimed to flag modifying variables that are declared using `const` k
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-const-assign: "error"*/
 /*eslint-env es6*/
@@ -27,6 +29,8 @@ Examples of **incorrect** code for this rule:
 const a = 0;
 a = 1;
 ```
+
+:::
 
 ```js
 /*eslint no-const-assign: "error"*/
@@ -46,6 +50,8 @@ const a = 0;
 
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```js
 /*eslint no-const-assign: "error"*/
 /*eslint-env es6*/
@@ -53,6 +59,8 @@ Examples of **correct** code for this rule:
 const a = 0;
 console.log(a);
 ```
+
+:::
 
 ```js
 /*eslint no-const-assign: "error"*/

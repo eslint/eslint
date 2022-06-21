@@ -24,16 +24,24 @@ This is used to disambiguate the division operator to not confuse users.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-div-regex: "error"*/
 
 function bar() { return /=foo/; }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-div-regex: "error"*/
 
 function bar() { return /[=]foo/; }
 ```
+
+:::

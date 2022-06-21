@@ -30,6 +30,8 @@ This rule takes one option.
 
 Examples of **incorrect** code for this rule with the `"always"` option:
 
+::: incorrect
+
 ```js
 /*eslint new-parens: "error"*/
 
@@ -37,7 +39,11 @@ var person = new Person;
 var person = new (Person);
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"always"` option:
+
+::: correct
 
 ```js
 /*eslint new-parens: "error"*/
@@ -46,9 +52,13 @@ var person = new Person();
 var person = new (Person)();
 ```
 
+:::
+
 ### never
 
 Examples of **incorrect** code for this rule with the `"never"` option:
+
+::: incorrect
 
 ```js
 /*eslint new-parens: ["error", "never"]*/
@@ -57,7 +67,11 @@ var person = new Person();
 var person = new (Person)();
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"never"` option:
+
+::: correct
 
 ```js
 /*eslint new-parens: ["error", "never"]*/
@@ -66,3 +80,5 @@ var person = new Person;
 var person = (new Person);
 var person = new Person("Name");
 ```
+
+:::

@@ -22,6 +22,8 @@ This rule is aimed at catching debugging code that should be removed and popup U
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-alert: "error"*/
 
@@ -32,7 +34,11 @@ confirm("Are you sure?");
 prompt("What's your name?", "John Doe");
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-alert: "error"*/
@@ -48,3 +54,5 @@ function foo() {
     alert();
 }
 ```
+
+:::

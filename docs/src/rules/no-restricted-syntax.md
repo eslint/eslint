@@ -60,6 +60,8 @@ The string and object formats can be freely mixed in the configuration as needed
 
 Examples of **incorrect** code for this rule with the `"FunctionExpression", "WithStatement", BinaryExpression[operator='in']` options:
 
+::: incorrect
+
 ```js
 /* eslint no-restricted-syntax: ["error", "FunctionExpression", "WithStatement", "BinaryExpression[operator='in']"] */
 
@@ -72,7 +74,11 @@ var doSomething = function () {};
 foo in bar;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"FunctionExpression", "WithStatement", BinaryExpression[operator='in']` options:
+
+::: correct
 
 ```js
 /* eslint no-restricted-syntax: ["error", "FunctionExpression", "WithStatement", "BinaryExpression[operator='in']"] */
@@ -83,6 +89,8 @@ function doSomething() {};
 
 foo instanceof bar;
 ```
+
+:::
 
 ## When Not To Use It
 

@@ -21,6 +21,8 @@ This rule is aimed to flag `this`/`super` keywords before `super()` callings.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-this-before-super: "error"*/
 /*eslint-env es6*/
@@ -53,7 +55,11 @@ class A extends B {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-this-before-super: "error"*/
@@ -78,6 +84,8 @@ class A extends B {
     }
 }
 ```
+
+:::
 
 ## When Not To Use It
 

@@ -18,6 +18,8 @@ of classes and no more.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint max-classes-per-file: "error"*/
 
@@ -25,13 +27,19 @@ class Foo {}
 class Bar {}
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint max-classes-per-file: "error"*/
 
 class Foo {}
 ```
+
+:::
 
 ## Options
 
@@ -61,6 +69,8 @@ For example:
 
 Examples of **correct** code for this rule with the `max` option set to `2`:
 
+::: correct
+
 ```js
 /* eslint max-classes-per-file: ["error", 2] */
 
@@ -68,7 +78,11 @@ class Foo {}
 class Bar {}
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `ignoreExpressions` option set to `true`:
+
+::: correct
 
 ```js
 /* eslint max-classes-per-file: ["error", { ignoreExpressions: true }] */
@@ -83,3 +97,5 @@ class VisitorFactory {
     }
 }
 ```
+
+:::

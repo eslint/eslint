@@ -27,6 +27,8 @@ The rule always ignores directive comments such as `/* eslint-disable */`. Addit
 
 Examples of **incorrect** code for this rule with the default `"starred-block"` option:
 
+::: incorrect
+
 ```js
 
 /* eslint multiline-comment-style: ["error", "starred-block"] */
@@ -57,7 +59,11 @@ foo();
 
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"starred-block"` option:
+
+::: correct
 
 ```js
 /* eslint multiline-comment-style: ["error", "starred-block"] */
@@ -71,7 +77,11 @@ foo();
 // single-line comment
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `"bare-block"` option:
+
+::: incorrect
 
 ```js
 /* eslint multiline-comment-style: ["error", "bare-block"] */
@@ -87,7 +97,11 @@ foo();
 foo();
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"bare-block"` option:
+
+::: correct
 
 ```js
 /* eslint multiline-comment-style: ["error", "bare-block"] */
@@ -97,7 +111,11 @@ Examples of **correct** code for this rule with the `"bare-block"` option:
 foo();
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `"separate-lines"` option:
+
+::: incorrect
 
 ```js
 
@@ -115,7 +133,11 @@ foo();
 
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"separate-lines"` option:
+
+::: correct
 
 ```js
 /* eslint multiline-comment-style: ["error", "separate-lines"] */
@@ -125,6 +147,8 @@ Examples of **correct** code for this rule with the `"separate-lines"` option:
 foo();
 
 ```
+
+:::
 
 ## When Not To Use It
 

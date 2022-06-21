@@ -21,13 +21,19 @@ If ESLint parses code in strict mode, the parser (instead of this rule) reports 
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-octal-escape: "error"*/
 
 var foo = "Copyright \251";
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-octal-escape: "error"*/
@@ -36,3 +42,5 @@ var foo = "Copyright \u00A9";   // unicode
 
 var foo = "Copyright \xA9";     // hexadecimal
 ```
+
+:::

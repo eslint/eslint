@@ -33,6 +33,8 @@ if (Object.hasOwn(object, "foo")) {
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint prefer-object-has-own: "error"*/
 
@@ -45,7 +47,11 @@ Object.hasOwnProperty.call(obj, "a");
 const hasProperty = Object.prototype.hasOwnProperty.call(object, property);
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint prefer-object-has-own: "error"*/
@@ -54,6 +60,8 @@ Object.hasOwn(obj, "a");
 
 const hasProperty = Object.hasOwn(object, property);
 ```
+
+:::
 
 ## When Not To Use It
 

@@ -25,6 +25,8 @@ This rule aims to prevent access to uninitialized lexical bindings as well as ac
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-case-declarations: "error"*/
 /*eslint-env es6*/
@@ -44,7 +46,11 @@ switch (foo) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-case-declarations: "error"*/
@@ -76,6 +82,8 @@ switch (foo) {
     }
 }
 ```
+
+:::
 
 ## When Not To Use It
 

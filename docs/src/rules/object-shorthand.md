@@ -129,6 +129,8 @@ Additionally, the rule takes an optional object configuration:
 
 Example of **incorrect** code for this rule with the `"always", { "avoidQuotes": true }` option:
 
+::: incorrect
+
 ```js
 /*eslint object-shorthand: ["error", "always", { "avoidQuotes": true }]*/
 /*eslint-env es6*/
@@ -138,7 +140,11 @@ var foo = {
 };
 ```
 
+:::
+
 Example of **correct** code for this rule with the `"always", { "avoidQuotes": true }` option:
+
+::: correct
 
 ```js
 /*eslint object-shorthand: ["error", "always", { "avoidQuotes": true }]*/
@@ -150,6 +156,8 @@ var foo = {
 };
 ```
 
+:::
+
 ### `ignoreConstructors`
 
 ```json
@@ -160,6 +168,8 @@ var foo = {
 
 Example of **correct** code for this rule with the `"always", { "ignoreConstructors": true }` option:
 
+::: correct
+
 ```js
 /*eslint object-shorthand: ["error", "always", { "ignoreConstructors": true }]*/
 /*eslint-env es6*/
@@ -168,6 +178,8 @@ var foo = {
     ConstructorFunction: function() {}
 };
 ```
+
+:::
 
 ### `avoidExplicitReturnArrows`
 
@@ -178,6 +190,8 @@ var foo = {
 ```
 
 Example of **incorrect** code for this rule with the `"always", { "avoidExplicitReturnArrows": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint object-shorthand: ["error", "always", { "avoidExplicitReturnArrows": true }]*/
@@ -194,7 +208,11 @@ var foo = {
 };
 ```
 
+:::
+
 Example of **correct** code for this rule with the `"always", { "avoidExplicitReturnArrows": true }` option:
+
+::: correct
 
 ```js
 /*eslint object-shorthand: ["error", "always", { "avoidExplicitReturnArrows": true }]*/
@@ -209,7 +227,11 @@ var foo = {
 };
 ```
 
+:::
+
 Example of **incorrect** code for this rule with the `"consistent"` option:
+
+::: incorrect
 
 ```js
 /*eslint object-shorthand: [2, "consistent"]*/
@@ -221,7 +243,11 @@ var foo = {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"consistent"` option:
+
+::: correct
 
 ```js
 /*eslint object-shorthand: [2, "consistent"]*/
@@ -238,7 +264,11 @@ var bar = {
 };
 ```
 
+:::
+
 Example of **incorrect** code with the `"consistent-as-needed"` option, which is very similar to `"consistent"`:
+
+::: incorrect
 
 ```js
 /*eslint object-shorthand: [2, "consistent-as-needed"]*/
@@ -249,6 +279,8 @@ var foo = {
     b: b,
 };
 ```
+
+:::
 
 ## When Not To Use It
 

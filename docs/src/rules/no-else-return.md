@@ -36,6 +36,8 @@ This rule has an object option:
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-else-return: "error"*/
 
@@ -91,7 +93,11 @@ function foo() {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-else-return: "error"*/
@@ -133,9 +139,13 @@ function foo() {
 }
 ```
 
+:::
+
 ### `allowElseIf: false`
 
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint no-else-return: ["error", {allowElseIf: false}]*/
@@ -149,7 +159,11 @@ function foo() {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-else-return: ["error", {allowElseIf: false}]*/
@@ -164,3 +178,5 @@ function foo() {
     }
 }
 ```
+
+:::

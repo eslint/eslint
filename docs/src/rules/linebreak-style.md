@@ -32,6 +32,8 @@ This rule has a string option:
 
 Examples of **incorrect** code for this rule with the default `"unix"` option:
 
+::: incorrect
+
 ```js
 /*eslint linebreak-style: ["error", "unix"]*/
 
@@ -39,7 +41,11 @@ var a = 'a'; // \r\n
 
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"unix"` option:
+
+::: correct
 
 ```js
 /*eslint linebreak-style: ["error", "unix"]*/
@@ -52,9 +58,13 @@ function foo(params) { // \n
 }// \n
 ```
 
+:::
+
 ### windows
 
 Examples of **incorrect** code for this rule with the `"windows"` option:
+
+::: incorrect
 
 ```js
 /*eslint linebreak-style: ["error", "windows"]*/
@@ -62,7 +72,11 @@ Examples of **incorrect** code for this rule with the `"windows"` option:
 var a = 'a'; // \n
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"windows"` option:
+
+::: correct
 
 ```js
 /*eslint linebreak-style: ["error", "windows"]*/
@@ -74,6 +88,8 @@ function foo(params) { // \r\n
     // do stuff \r\n
 } // \r\n
 ```
+
+:::
 
 ### Using this rule with version control systems
 

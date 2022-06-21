@@ -15,6 +15,8 @@ The rule should warn against code that tries to compare against `-0`, since that
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /* eslint no-compare-neg-zero: "error" */
 
@@ -23,7 +25,11 @@ if (x === -0) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /* eslint no-compare-neg-zero: "error" */
@@ -32,6 +38,8 @@ if (x === 0) {
     // doSomething()...
 }
 ```
+
+:::
 
 ```js
 /* eslint no-compare-neg-zero: "error" */

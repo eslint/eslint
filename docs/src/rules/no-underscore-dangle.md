@@ -23,6 +23,8 @@ This rule disallows dangling underscores in identifiers.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-underscore-dangle: "error"*/
 
@@ -31,7 +33,11 @@ var __proto__ = {};
 foo._bar();
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-underscore-dangle: "error"*/
@@ -44,6 +50,8 @@ function foo(_bar) {};
 const foo = { onClick(_bar) {} };
 const foo = (_bar) => {};
 ```
+
+:::
 
 ## Options
 
@@ -61,6 +69,8 @@ This rule has an object option:
 
 Examples of additional **correct** code for this rule with the `{ "allow": ["foo_", "_bar"] }` option:
 
+::: correct
+
 ```js
 /*eslint no-underscore-dangle: ["error", { "allow": ["foo_", "_bar"] }]*/
 
@@ -68,9 +78,13 @@ var foo_;
 foo._bar();
 ```
 
+:::
+
 ### allowAfterThis
 
 Examples of **correct** code for this rule with the `{ "allowAfterThis": true }` option:
+
+::: correct
 
 ```js
 /*eslint no-underscore-dangle: ["error", { "allowAfterThis": true }]*/
@@ -79,9 +93,13 @@ var a = this.foo_;
 this._bar();
 ```
 
+:::
+
 ### allowAfterSuper
 
 Examples of **correct** code for this rule with the `{ "allowAfterSuper": true }` option:
+
+::: correct
 
 ```js
 /*eslint no-underscore-dangle: ["error", { "allowAfterSuper": true }]*/
@@ -90,9 +108,13 @@ var a = super.foo_;
 super._bar();
 ```
 
+:::
+
 ### allowAfterThisConstructor
 
 Examples of **correct** code for this rule with the `{ "allowAfterThisConstructor": true }` option:
+
+::: correct
 
 ```js
 /*eslint no-underscore-dangle: ["error", { "allowAfterThisConstructor": true }]*/
@@ -101,9 +123,13 @@ var a = this.constructor.foo_;
 this.constructor._bar();
 ```
 
+:::
+
 ### enforceInMethodNames
 
 Examples of **incorrect** code for this rule with the `{ "enforceInMethodNames": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint no-underscore-dangle: ["error", { "enforceInMethodNames": true }]*/
@@ -125,9 +151,13 @@ const o = {
 };
 ```
 
+:::
+
 ### enforceInClassFields
 
 Examples of **incorrect** code for this rule with the `{ "enforceInClassFields": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint no-underscore-dangle: ["error", { "enforceInClassFields": true }]*/
@@ -153,9 +183,13 @@ class Foo {
 }
 ```
 
+:::
+
 ### allowFunctionParams
 
 Examples of **incorrect** code for this rule with the `{ "allowFunctionParams": false }` option:
+
+::: incorrect
 
 ```js
 /*eslint no-underscore-dangle: ["error", { "allowFunctionParams": false }]*/
@@ -172,6 +206,8 @@ const foo = (_bar) => {};
 const foo = (_bar = 0) => {};
 const foo = (..._bar) => {};
 ```
+
+:::
 
 ## When Not To Use It
 

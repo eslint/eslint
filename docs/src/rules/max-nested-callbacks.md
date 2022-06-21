@@ -49,6 +49,8 @@ This rule has a number or object option:
 
 Examples of **incorrect** code for this rule with the `{ "max": 3 }` option:
 
+::: incorrect
+
 ```js
 /*eslint max-nested-callbacks: ["error", 3]*/
 
@@ -63,7 +65,11 @@ foo1(function() {
 });
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "max": 3 }` option:
+
+::: correct
 
 ```js
 /*eslint max-nested-callbacks: ["error", 3]*/
@@ -86,3 +92,5 @@ function handleFoo4() {
     foo5();
 }
 ```
+
+:::

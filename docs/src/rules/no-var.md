@@ -34,6 +34,8 @@ This rule is aimed at discouraging the use of `var` and encouraging the use of `
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-var: "error"*/
 
@@ -41,7 +43,11 @@ var x = "y";
 var CONFIG = {};
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-var: "error"*/
@@ -50,6 +56,8 @@ Examples of **correct** code for this rule:
 let x = "y";
 const CONFIG = {};
 ```
+
+:::
 
 ## When Not To Use It
 

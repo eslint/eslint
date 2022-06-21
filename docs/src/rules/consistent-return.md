@@ -38,6 +38,8 @@ This rule requires `return` statements to either always or never specify values.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint consistent-return: "error"*/
 
@@ -56,7 +58,11 @@ function doSomething(condition) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint consistent-return: "error"*/
@@ -78,6 +84,8 @@ function Foo() {
 }
 ```
 
+:::
+
 ## Options
 
 This rule has an object option:
@@ -88,6 +96,8 @@ This rule has an object option:
 ### treatUndefinedAsUnspecified
 
 Examples of **incorrect** code for this rule with the default `{ "treatUndefinedAsUnspecified": false }` option:
+
+::: incorrect
 
 ```js
 /*eslint consistent-return: ["error", { "treatUndefinedAsUnspecified": false }]*/
@@ -107,7 +117,11 @@ function bar(condition) {
 }
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `{ "treatUndefinedAsUnspecified": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint consistent-return: ["error", { "treatUndefinedAsUnspecified": true }]*/
@@ -126,9 +140,13 @@ function bar(condition) {
     return true;
 }
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `{ "treatUndefinedAsUnspecified": true }` option:
 
+::: correct
+
 ```js
 /*eslint consistent-return: ["error", { "treatUndefinedAsUnspecified": true }]*/
 
@@ -146,6 +164,8 @@ function bar(condition) {
     // no return statement
 }
 ```
+
+:::
 
 ## When Not To Use It
 

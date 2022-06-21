@@ -74,6 +74,8 @@ This rule disallows `return`, `throw`, `break`, and `continue` statements inside
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-unsafe-finally: "error"*/
 let foo = function() {
@@ -86,6 +88,8 @@ let foo = function() {
     }
 };
 ```
+
+:::
 
 ```js
 /*eslint no-unsafe-finally: "error"*/
@@ -102,6 +106,8 @@ let foo = function() {
 
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```js
 /*eslint no-unsafe-finally: "error"*/
 let foo = function() {
@@ -114,6 +120,8 @@ let foo = function() {
     }
 };
 ```
+
+:::
 
 ```js
 /*eslint no-unsafe-finally: "error"*/

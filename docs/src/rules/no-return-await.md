@@ -20,6 +20,8 @@ This rule aims to prevent a likely common performance hazard due to a lack of un
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-return-await: "error"*/
 
@@ -28,7 +30,11 @@ async function foo() {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-return-await: "error"*/
@@ -55,6 +61,8 @@ async function foo() {
     } catch (error) {}
 }
 ```
+
+:::
 
 ## When Not To Use It
 
