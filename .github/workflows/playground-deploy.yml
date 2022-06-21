@@ -1,0 +1,13 @@
+name: 'Playground Deploy'
+
+on:
+  release:
+    types: ['published']
+
+jobs:
+  deploy:
+    name: 'Deploy'
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: curl -X POST -d {} ${{ secrets.NETLIFY_PLAYGROUND_BUILD_HOOK }}
