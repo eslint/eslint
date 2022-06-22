@@ -32,7 +32,7 @@ require("shelljs/make");
  * @see https://github.com/shelljs/shelljs/blob/124d3349af42cb794ae8f78fc9b0b538109f7ca7/make.js#L4
  * @see https://github.com/DefinitelyTyped/DefinitelyTyped/blob/3aa2d09b6408380598cfb802743b07e1edb725f3/types/shelljs/make.d.ts#L8-L11
  */
-const { cat, echo, exec, exit, find, ls, mkdir, test } = require("shelljs");
+const { cat, cd, echo, exec, exit, find, ls, mkdir, pwd, test } = require("shelljs");
 
 //------------------------------------------------------------------------------
 // Settings
@@ -59,6 +59,7 @@ const NODE = "node ", // intentional extra space
     TEMP_DIR = "./tmp/",
     DEBUG_DIR = "./debug/",
     BUILD_DIR = "build",
+    SITE_DIR = "../eslint.org",
     DOCS_DIR = "./docs",
     DOCS_SRC_DIR = path.join(DOCS_DIR, "src"),
     DOCS_DATA_DIR = path.join(DOCS_SRC_DIR, "_data"),
@@ -144,10 +145,10 @@ function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
         now = new Date(),
         month = now.getMonth() + 1,
         day = now.getDate(),
-        filename = `../eslint.org/src/content/blog/${now.getFullYear()}-${
+        filename = path.join(SITE_DIR, `src/content/blog/${now.getFullYear()}-${
             month < 10 ? `0${month}` : month}-${
             day < 10 ? `0${day}` : day}-eslint-v${
-            releaseInfo.version}-released.md`;
+            releaseInfo.version}-released.md`);
 
     output.to(filename);
 }
@@ -236,6 +237,35 @@ function generateRuleIndexPage() {
 
 }
 
+/**
+ * Creates a git commit and tag in an adjacent `website` repository, without pushing it to
+ * the remote. This assumes that the repository has already been modified somehow (e.g. by adding a blogpost).
+ * @param {string} [tag] The string to tag the commit with
+ * @returns {void}
+ */
+function commitSiteToGit(tag) {
+    const currentDir = pwd();
+
+    cd(SITE_DIR);
+    exec("git add -A .");
+    exec(`git commit -m "Added release blog post for ${tag}"`);
+    exec(`git tag ${tag}`);
+    exec("git fetch origin && git rebase origin/main");
+    cd(currentDir);
+}
+
+/**
+ * Publishes the changes in an adjacent `eslint.org` repository to the remote. The
+ * site should already have local commits (e.g. from running `commitSiteToGit`).
+ * @returns {void}
+ */
+function publishSite() {
+    const currentDir = pwd();
+
+    cd(SITE_DIR);
+    exec("git push origin HEAD --tags");
+    cd(currentDir);
+}
 
 /**
  * Updates the changelog, bumps the version number in package.json, creates a local git commit and tag,
@@ -249,6 +279,7 @@ function generateRelease() {
     echo("Generating site");
     target.gensite();
     generateBlogPost(releaseInfo);
+    commitSiteToGit(`v${releaseInfo.version}`);
 
     echo("Updating commit with docs data");
     exec("git add docs/ && git commit --amend --no-edit");
@@ -290,6 +321,7 @@ function generatePrerelease(prereleaseId) {
         generateBlogPost(releaseInfo);
     }
 
+    commitSiteToGit(`v${releaseInfo.version}`);
 }
 
 /**
@@ -303,6 +335,7 @@ function publishRelease() {
     // push to latest branch to trigger docs deploy
     exec("git push origin HEAD:latest -f");
 
+    publishSite();
 }
 
 /**
