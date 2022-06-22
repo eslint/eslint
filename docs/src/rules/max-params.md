@@ -39,6 +39,8 @@ This rule has a number or object option:
 
 Examples of **incorrect** code for this rule with the default `{ "max": 3 }` option:
 
+:::incorrect
+
 ```js
 /*eslint max-params: ["error", 3]*/
 /*eslint-env es6*/
@@ -52,7 +54,11 @@ let foo = (bar, baz, qux, qxx) => {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `{ "max": 3 }` option:
+
+:::correct
 
 ```js
 /*eslint max-params: ["error", 3]*/
@@ -66,3 +72,5 @@ let foo = (bar, baz, qux) => {
     doSomething();
 };
 ```
+
+:::

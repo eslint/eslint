@@ -28,6 +28,8 @@ This rule is aimed at preventing unnecessary `"use strict";` directives. As such
 
 Example of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 "use strict";
 
@@ -37,7 +39,11 @@ Example of **incorrect** code for this rule:
 }());
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 "use strict";
@@ -46,6 +52,8 @@ Examples of **correct** code for this rule:
     var foo = true;
 }());
 ```
+
+:::
 
 ```js
 (function () {

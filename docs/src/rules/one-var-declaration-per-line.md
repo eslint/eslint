@@ -42,6 +42,8 @@ This rule has a single string option:
 
 Examples of **incorrect** code for this rule with the default `"initializations"` option:
 
+::: incorrect
+
 ```js
 /*eslint one-var-declaration-per-line: ["error", "initializations"]*/
 /*eslint-env es6*/
@@ -52,7 +54,11 @@ let a,
     b = 0, c;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"initializations"` option:
+
+::: correct
 
 ```js
 /*eslint one-var-declaration-per-line: ["error", "initializations"]*/
@@ -67,9 +73,13 @@ let a,
     b = 0;
 ```
 
+:::
+
 ### always
 
 Examples of **incorrect** code for this rule with the `"always"` option:
+
+::: incorrect
 
 ```js
 /*eslint one-var-declaration-per-line: ["error", "always"]*/
@@ -82,7 +92,11 @@ let a, b = 0;
 const a = 0, b = 0;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"always"` option:
+
+::: correct
 
 ```js
 /*eslint one-var-declaration-per-line: ["error", "always"]*/
@@ -94,3 +108,5 @@ var a,
 let a,
     b = 0;
 ```
+
+:::

@@ -22,6 +22,8 @@ This rule disallows unnecessary semicolons.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-extra-semi: "error"*/
 
@@ -44,7 +46,11 @@ class C {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-extra-semi: "error"*/
@@ -71,6 +77,8 @@ class C {
     }
 }
 ```
+
+:::
 
 ## When Not To Use It
 

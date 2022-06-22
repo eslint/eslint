@@ -19,9 +19,13 @@ If ESLint parses code in strict mode, the parser (instead of this rule) reports 
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-delete-var: "error"*/
 
 var x;
 delete x;
 ```
+
+:::

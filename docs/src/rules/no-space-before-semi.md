@@ -28,6 +28,8 @@ This rule prevents the use of spaces before a semicolon in expressions.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 var foo = "bar" ;
 
@@ -39,10 +41,16 @@ var foo = function() {
 var foo = 1 + 2 ;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 ;(function(){}());
 
 var foo = "bar";
 ```
+
+:::

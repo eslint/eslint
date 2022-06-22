@@ -18,6 +18,8 @@ This rule is aimed at maintaining consistency when throwing exception by disallo
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-throw-literal: "error"*/
 /*eslint-env es6*/
@@ -39,7 +41,11 @@ throw `${err}`
 
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-throw-literal: "error"*/
@@ -58,11 +64,15 @@ try {
 }
 ```
 
+:::
+
 ## Known Limitations
 
 Due to the limits of static analysis, this rule cannot guarantee that you will only throw `Error` objects.
 
 Examples of **correct** code for this rule, but which do not throw an `Error` object:
+
+::: correct
 
 ```js
 /*eslint no-throw-literal: "error"*/
@@ -82,3 +92,5 @@ var foo = {
 };
 throw foo.bar;
 ```
+
+:::

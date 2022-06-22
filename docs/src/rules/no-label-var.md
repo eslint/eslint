@@ -17,6 +17,8 @@ This rule aims to create clearer code by disallowing the bad practice of creatin
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-label-var: "error"*/
 
@@ -29,7 +31,11 @@ x:
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-label-var: "error"*/
@@ -47,6 +53,8 @@ q:
   }
 }
 ```
+
+:::
 
 ## When Not To Use It
 

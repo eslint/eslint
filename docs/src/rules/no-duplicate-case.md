@@ -17,6 +17,8 @@ This rule disallows duplicate test expressions in `case` clauses of `switch` sta
 
 Examples of **incorrect** code for this rule:
 
+:::incorrect
+
 ```js
 /*eslint no-duplicate-case: "error"*/
 
@@ -57,7 +59,11 @@ switch (a) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+:::correct
 
 ```js
 /*eslint no-duplicate-case: "error"*/
@@ -98,6 +104,8 @@ switch (a) {
         break;
 }
 ```
+
+:::
 
 ## When Not To Use It
 

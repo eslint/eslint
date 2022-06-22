@@ -29,6 +29,8 @@ This rule is aimed at eliminating the use of ECMAScript 3 keywords and reserved 
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 var superman = {
     class: "Superhero",
@@ -40,7 +42,11 @@ var values = {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 var superman = {
@@ -52,6 +58,8 @@ var values = {
     "enum": ["red", "blue", "green"]
 };
 ```
+
+:::
 
 ## When Not To Use It
 

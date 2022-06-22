@@ -113,6 +113,8 @@ Overrides can be either an object with "before" and "after", or a shorthand stri
 
 Examples of **correct** code for this rule with the `"before"` option:
 
+::: correct
+
 ```js
 /*eslint generator-star-spacing: ["error", {"before": true, "after": false}]*/
 /*eslint-env es6*/
@@ -124,9 +126,13 @@ var anonymous = function *() {};
 var shorthand = { *generator() {} };
 ```
 
+:::
+
 ### after
 
 Examples of **correct** code for this rule with the `"after"` option:
+
+::: correct
 
 ```js
 /*eslint generator-star-spacing: ["error", {"before": false, "after": true}]*/
@@ -139,9 +145,13 @@ var anonymous = function* () {};
 var shorthand = { * generator() {} };
 ```
 
+:::
+
 ### both
 
 Examples of **correct** code for this rule with the `"both"` option:
+
+::: correct
 
 ```js
 /*eslint generator-star-spacing: ["error", {"before": true, "after": true}]*/
@@ -154,9 +164,13 @@ var anonymous = function * () {};
 var shorthand = { * generator() {} };
 ```
 
+:::
+
 ### neither
 
 Examples of **correct** code for this rule with the `"neither"` option:
+
+::: correct
 
 ```js
 /*eslint generator-star-spacing: ["error", {"before": false, "after": false}]*/
@@ -169,7 +183,11 @@ var anonymous = function*() {};
 var shorthand = { *generator() {} };
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with overrides present:
+
+::: incorrect
 
 ```js
 /*eslint generator-star-spacing: ["error", {
@@ -189,7 +207,11 @@ var shorthand = { *generator() {} };
 class Class { static* method() {} }
 ```
 
+:::
+
 Examples of **correct** code for this rule with overrides present:
+
+::: correct
 
 ```js
 /*eslint generator-star-spacing: ["error", {
@@ -208,6 +230,8 @@ var shorthand = { * generator() {} };
 
 class Class { static * method() {} }
 ```
+
+:::
 
 ## When Not To Use It
 

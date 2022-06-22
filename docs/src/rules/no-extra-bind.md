@@ -45,6 +45,8 @@ This rule is aimed at avoiding the unnecessary use of `bind()` and as such will 
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-extra-bind: "error"*/
 /*eslint-env es6*/
@@ -74,7 +76,11 @@ var x = function () {
 }.bind(baz);
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-extra-bind: "error"*/
@@ -87,6 +93,8 @@ var x = function (a) {
     return a + 1;
 }.bind(foo, bar);
 ```
+
+:::
 
 ## When Not To Use It
 

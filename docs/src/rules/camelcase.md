@@ -31,6 +31,8 @@ This rule has an object option:
 
 Examples of **incorrect** code for this rule with the default `{ "properties": "always" }` option:
 
+:::incorrect
+
 ```js
 /*eslint camelcase: "error"*/
 
@@ -69,7 +71,11 @@ var { foo: no_camelcased } = bar;
 var { foo: bar_baz = 1 } = quz;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `{ "properties": "always" }` option:
+
+:::correct
 
 ```js
 /*eslint camelcase: "error"*/
@@ -109,9 +115,13 @@ var { foo: isCamelCased = 1 } = quz;
 
 ```
 
+:::
+
 ### properties: "never"
 
 Examples of **correct** code for this rule with the `{ "properties": "never" }` option:
+
+:::correct
 
 ```js
 /*eslint camelcase: ["error", {properties: "never"}]*/
@@ -121,9 +131,13 @@ var obj = {
 };
 ```
 
+:::
+
 ### ignoreDestructuring: false
 
 Examples of **incorrect** code for this rule with the default `{ "ignoreDestructuring": false }` option:
+
+:::incorrect
 
 ```js
 /*eslint camelcase: "error"*/
@@ -139,9 +153,13 @@ var { category_id: category_alias } = query;
 var { category_id: categoryId, ...other_props } = query;
 ```
 
+:::
+
 ### ignoreDestructuring: true
 
 Examples of **incorrect** code for this rule with the `{ "ignoreDestructuring": true }` option:
+
+:::incorrect
 
 ```js
 /*eslint camelcase: ["error", {ignoreDestructuring: true}]*/
@@ -151,7 +169,11 @@ var { category_id: category_alias } = query;
 var { category_id, ...other_props } = query;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "ignoreDestructuring": true }` option:
+
+:::correct
 
 ```js
 /*eslint camelcase: ["error", {ignoreDestructuring: true}]*/
@@ -163,9 +185,13 @@ var { category_id = 1 } = query;
 var { category_id: category_id } = query;
 ```
 
+:::
+
 Please note that this option applies only to identifiers inside destructuring patterns. It doesn't additionally allow any particular use of the created variables later in the code apart from the use that is already allowed by default or by other options.
 
 Examples of additional **incorrect** code for this rule with the `{ "ignoreDestructuring": true }` option:
+
+:::incorrect
 
 ```js
 /*eslint camelcase: ["error", {ignoreDestructuring: true}]*/
@@ -174,9 +200,13 @@ var { some_property } = obj; // allowed by {ignoreDestructuring: true}
 var foo = some_property + 1; // error, ignoreDestructuring does not apply to this statement
 ```
 
+:::
+
 A common use case for this option is to avoid useless renaming when the identifier is not intended to be used later in the code.
 
 Examples of additional **correct** code for this rule with the `{ "ignoreDestructuring": true }` option:
+
+:::correct
 
 ```js
 /*eslint camelcase: ["error", {ignoreDestructuring: true}]*/
@@ -185,9 +215,13 @@ var { some_property, ...rest } = obj;
 // do something with 'rest', nothing with 'some_property'
 ```
 
+:::
+
 Another common use case for this option is in combination with `{ "properties": "never" }`, when the identifier is intended to be used only as a property shorthand.
 
 Examples of additional **correct** code for this rule with the `{ "properties": "never", "ignoreDestructuring": true }` options:
+
+:::correct
 
 ```js
 /*eslint camelcase: ["error", {"properties": "never", ignoreDestructuring: true}]*/
@@ -196,9 +230,13 @@ var { some_property } = obj;
 doSomething({ some_property });
 ```
 
+:::
+
 ### ignoreImports: false
 
 Examples of **incorrect** code for this rule with the default `{ "ignoreImports": false }` option:
+
+:::incorrect
 
 ```js
 /*eslint camelcase: "error"*/
@@ -206,9 +244,13 @@ Examples of **incorrect** code for this rule with the default `{ "ignoreImports"
 import { snake_cased } from 'mod';
 ```
 
+:::
+
 ### ignoreImports: true
 
 Examples of **incorrect** code for this rule with the `{ "ignoreImports": true }` option:
+
+:::incorrect
 
 ```js
 /*eslint camelcase: ["error", {ignoreImports: true}]*/
@@ -218,7 +260,11 @@ import default_import from 'mod';
 import * as namespaced_import from 'mod';
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "ignoreImports": true }` option:
+
+:::correct
 
 ```js
 /*eslint camelcase: ["error", {ignoreImports: true}]*/
@@ -226,9 +272,13 @@ Examples of **correct** code for this rule with the `{ "ignoreImports": true }` 
 import { snake_cased } from 'mod';
 ```
 
+:::
+
 ### ignoreGlobals: false
 
 Examples of **incorrect** code for this rule with the default `{ "ignoreGlobals": false }` option:
+
+:::incorrect
 
 ```js
 /*eslint camelcase: ["error", {ignoreGlobals: false}]*/
@@ -237,9 +287,13 @@ Examples of **incorrect** code for this rule with the default `{ "ignoreGlobals"
 const foo = no_camelcased;
 ```
 
+:::
+
 ### ignoreGlobals: true
 
 Examples of **correct** code for this rule with the `{ "ignoreGlobals": true }` option:
+
+:::correct
 
 ```js
 /*eslint camelcase: ["error", {ignoreGlobals: true}]*/
@@ -248,9 +302,13 @@ Examples of **correct** code for this rule with the `{ "ignoreGlobals": true }` 
 const foo = no_camelcased;
 ```
 
+:::
+
 ### allow
 
 Examples of **correct** code for this rule with the `allow` option:
+
+:::correct
 
 ```js
 /*eslint camelcase: ["error", {allow: ["UNSAFE_componentWillMount"]}]*/
@@ -259,6 +317,8 @@ function UNSAFE_componentWillMount() {
     // ...
 }
 ```
+
+:::
 
 ```js
 /*eslint camelcase: ["error", {allow: ["^UNSAFE_"]}]*/

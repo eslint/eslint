@@ -15,6 +15,8 @@ This rule disallows return statements in the constructor of a class. Note that r
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-constructor-return: "error"*/
 
@@ -34,7 +36,11 @@ class B {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-constructor-return: "error"*/
@@ -55,3 +61,5 @@ class D {
     }
 }
 ```
+
+:::

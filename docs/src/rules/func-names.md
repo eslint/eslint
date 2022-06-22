@@ -45,6 +45,8 @@ Please note that `"always"` and `"as-needed"` require function expressions and f
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
+::: incorrect
+
 ```js
 /*eslint func-names: ["error", "always"]*/
 
@@ -61,7 +63,11 @@ const cat = {
 export default function() {}
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"always"` option:
+
+::: correct
 
 ```js
 /*eslint func-names: ["error", "always"]*/
@@ -79,11 +85,15 @@ const cat = {
 export default function foo() {}
 ```
 
+:::
+
 ### as-needed
 
 ECMAScript 6 introduced a `name` property on all functions. The value of `name` is determined by evaluating the code around the function to see if a name can be inferred. For example, a function assigned to a variable will automatically have a `name` property equal to the name of the variable. The value of `name` is then used in stack traces for easier debugging.
 
 Examples of **incorrect** code for this rule with the `"as-needed"` option:
+
+::: incorrect
 
 ```js
 /*eslint func-names: ["error", "as-needed"]*/
@@ -97,7 +107,11 @@ Foo.prototype.bar = function() {};
 export default function() {}
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"as-needed"` option:
+
+::: correct
 
 ```js
 /*eslint func-names: ["error", "as-needed"]*/
@@ -122,9 +136,13 @@ quux ??= function() {};
 export default function foo() {}
 ```
 
+:::
+
 ### never
 
 Examples of **incorrect** code for this rule with the `"never"` option:
+
+::: incorrect
 
 ```js
 /*eslint func-names: ["error", "never"]*/
@@ -136,7 +154,11 @@ Foo.prototype.bar = function bar() {};
 }())
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"never"` option:
+
+::: correct
 
 ```js
 /*eslint func-names: ["error", "never"]*/
@@ -148,9 +170,13 @@ Foo.prototype.bar = function() {};
 }())
 ```
 
+:::
+
 ### generators
 
 Examples of **incorrect** code for this rule with the `"always", { "generators": "as-needed" }` options:
+
+::: incorrect
 
 ```js
 /*eslint func-names: ["error", "always", { "generators": "as-needed" }]*/
@@ -160,7 +186,11 @@ Examples of **incorrect** code for this rule with the `"always", { "generators":
 }())
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"always", { "generators": "as-needed" }` options:
+
+::: correct
 
 ```js
 /*eslint func-names: ["error", "always", { "generators": "as-needed" }]*/
@@ -168,39 +198,59 @@ Examples of **correct** code for this rule with the `"always", { "generators": "
 var foo = function*() {};
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `"always", { "generators": "never" }` options:
+
+::: incorrect
 
 ```js
 /*eslint func-names: ["error", "always", { "generators": "never" }]*/
 
 var foo = bar(function *baz() {});
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `"always", { "generators": "never" }` options:
 
+::: correct
+
 ```js
 /*eslint func-names: ["error", "always", { "generators": "never" }]*/
 
 var foo = bar(function *() {});
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `"as-needed", { "generators": "never" }` options:
+
+::: incorrect
 
 ```js
 /*eslint func-names: ["error", "as-needed", { "generators": "never" }]*/
 
 var foo = bar(function *baz() {});
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `"as-needed", { "generators": "never" }` options:
 
+::: correct
+
 ```js
 /*eslint func-names: ["error", "as-needed", { "generators": "never" }]*/
 
 var foo = bar(function *() {});
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `"never", { "generators": "always" }` options:
+
+::: incorrect
 
 ```js
 /*eslint func-names: ["error", "never", { "generators": "always" }]*/
@@ -208,13 +258,19 @@ Examples of **incorrect** code for this rule with the `"never", { "generators": 
 var foo = bar(function *() {});
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"never", { "generators": "always" }` options:
+
+::: correct
 
 ```js
 /*eslint func-names: ["error", "never", { "generators": "always" }]*/
 
 var foo = bar(function *baz() {});
 ```
+
+:::
 
 ## Compatibility
 

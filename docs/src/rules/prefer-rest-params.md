@@ -22,6 +22,8 @@ This rule is aimed to flag usage of `arguments` variables.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint prefer-rest-params: "error"*/
 
@@ -40,7 +42,11 @@ function foo(action) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint prefer-rest-params: "error"*/
@@ -62,6 +68,8 @@ function foo() {
     console.log(arguments); // This is a local variable.
 }
 ```
+
+:::
 
 ## When Not To Use It
 

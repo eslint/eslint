@@ -26,6 +26,8 @@ This rule accepts a string option:
 
 Examples of **incorrect** code for this rule with the default `"beside"` option:
 
+::: incorrect
+
 ```js
 /* eslint implicit-arrow-linebreak: ["error", "beside"] */
 
@@ -45,7 +47,11 @@ Examples of **incorrect** code for this rule with the default `"beside"` option:
 );
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"beside"` option:
+
+::: correct
 
 ```js
 /* eslint implicit-arrow-linebreak: ["error", "beside"] */
@@ -72,7 +78,11 @@ Examples of **correct** code for this rule with the default `"beside"` option:
 }
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `"below"` option:
+
+::: incorrect
 
 ```js
 /* eslint implicit-arrow-linebreak: ["error", "below"] */
@@ -84,7 +94,11 @@ Examples of **incorrect** code for this rule with the `"below"` option:
 (foo) => bar => baz;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"below"` option:
+
+::: correct
 
 ```js
 /* eslint implicit-arrow-linebreak: ["error", "below"] */
@@ -99,6 +113,8 @@ Examples of **correct** code for this rule with the `"below"` option:
   bar =>
     baz;
 ```
+
+:::
 
 ## When Not To Use It
 

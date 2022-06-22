@@ -21,6 +21,8 @@ This rule disallows calling and constructing the `Buffer()` constructor.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 new Buffer(5);
 new Buffer([1, 2, 3]);
@@ -32,7 +34,11 @@ new Buffer(res.body.amount);
 new Buffer(res.body.values);
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 Buffer.alloc(5);
@@ -42,6 +48,8 @@ Buffer.from([1, 2, 3]);
 Buffer.alloc(res.body.amount);
 Buffer.from(res.body.values);
 ```
+
+:::
 
 ## When Not To Use It
 

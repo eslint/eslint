@@ -23,6 +23,8 @@ This rule has an object option:
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-restricted-exports: ["error", {
     "restrictedNamedExports": ["foo", "bar", "Baz", "a", "b", "c", "d", "e", "👍"]
@@ -49,7 +51,11 @@ export { something as e } from "some_module";
 export { "👍" } from "some_module";
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-restricted-exports: ["error", {
@@ -77,11 +83,15 @@ export { something } from "some_module";
 export { "👍" as thumbsUp } from "some_module";
 ```
 
+:::
+
 ### Default exports
 
 By design, this rule doesn't disallow `export default` declarations. If you configure `"default"` as a restricted name, that restriction will apply only to named export declarations.
 
 Examples of additional **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint no-restricted-exports: ["error", { "restrictedNamedExports": ["default"] }]*/
@@ -91,6 +101,8 @@ function foo() {}
 export { foo as default };
 ```
 
+:::
+
 ```js
 /*eslint no-restricted-exports: ["error", { "restrictedNamedExports": ["default"] }]*/
 
@@ -99,11 +111,15 @@ export { default } from "some_module";
 
 Examples of additional **correct** code for this rule:
 
+::: correct
+
 ```js
 /*eslint no-restricted-exports: ["error", { "restrictedNamedExports": ["default", "foo"] }]*/
 
 export default function foo() {}
 ```
+
+:::
 
 ## Known Limitations
 

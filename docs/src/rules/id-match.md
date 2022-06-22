@@ -32,6 +32,8 @@ For example, to enforce a camelcase naming convention:
 
 Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$"` option:
 
+::: incorrect
+
 ```js
 /*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$"]*/
 
@@ -58,7 +60,11 @@ class myClass {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$"` option:
+
+::: correct
 
 ```js
 /*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$"]*/
@@ -82,6 +88,8 @@ class myClass {
 }
 ```
 
+:::
+
 This rule has an object option:
 
 * `"properties": false` (default) does not check object properties
@@ -97,6 +105,8 @@ This rule has an object option:
 
 Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$", { "properties": true }` options:
 
+::: incorrect
+
 ```js
 /*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$", { "properties": true }]*/
 
@@ -105,9 +115,13 @@ var obj = {
 };
 ```
 
+:::
+
 ### classFields
 
 Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$", { "classFields": true }` options:
+
+::: incorrect
 
 ```js
 /*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$", { "properties": true }]*/
@@ -121,9 +135,13 @@ class myClass {
 }
 ```
 
+:::
+
 ### onlyDeclarations
 
 Examples of **correct** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$", { "onlyDeclarations": true }` options:
+
+::: correct
 
 ```js
 /*eslint id-match: [2, "^[a-z]+([A-Z][a-z]+)*$", { "onlyDeclarations": true }]*/
@@ -131,9 +149,13 @@ Examples of **correct** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$", {
 do_something(__dirname);
 ```
 
+:::
+
 ### ignoreDestructuring: false
 
 Examples of **incorrect** code for this rule with the default `"^[^_]+$", { "ignoreDestructuring": false }` option:
+
+::: incorrect
 
 ```js
 /*eslint id-match: [2, "^[^_]+$", { "ignoreDestructuring": false }]*/
@@ -149,9 +171,13 @@ var { category_id: category_alias } = query;
 var { category_id: categoryId, ...other_props } = query;
 ```
 
+:::
+
 ### ignoreDestructuring: true
 
 Examples of **incorrect** code for this rule with the `"^[^_]+$", { "ignoreDestructuring": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint id-match: [2, "^[^_]+$", { "ignoreDestructuring": true }]*/
@@ -161,7 +187,11 @@ var { category_id: category_alias } = query;
 var { category_id, ...other_props } = query;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"^[^_]+$", { "ignoreDestructuring": true }` option:
+
+::: correct
 
 ```js
 /*eslint id-match: [2, "^[^_]+$", { "ignoreDestructuring": true }]*/
@@ -172,6 +202,8 @@ var { category_id = 1 } = query;
 
 var { category_id: category_id } = query;
 ```
+
+:::
 
 ## When Not To Use It
 

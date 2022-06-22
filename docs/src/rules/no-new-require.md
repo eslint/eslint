@@ -35,13 +35,19 @@ This rule aims to eliminate use of the `new require` expression.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-new-require: "error"*/
 
 var appHeader = new require('app-header');
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-new-require: "error"*/
@@ -49,6 +55,8 @@ Examples of **correct** code for this rule:
 var AppHeader = require('app-header');
 var appHeader = new AppHeader();
 ```
+
+:::
 
 ## When Not To Use It
 

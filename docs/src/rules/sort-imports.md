@@ -75,6 +75,8 @@ Default option settings are:
 
 Examples of **correct** code for this rule when using default options:
 
+::: correct
+
 ```js
 /*eslint sort-imports: "error"*/
 import 'module-without-export.js';
@@ -101,7 +103,11 @@ import {d} from 'quux.js';
 import {a, b, c} from 'foo.js'
 ```
 
+:::
+
 Examples of **incorrect** code for this rule when using default options:
+
+::: incorrect
 
 ```js
 /*eslint sort-imports: "error"*/
@@ -132,11 +138,15 @@ import * as b from 'bar.js';
 import {b, a, c} from 'foo.js'
 ```
 
+:::
+
 ### `ignoreCase`
 
 When `true` the rule ignores the case-sensitivity of the imports local name.
 
 Examples of **incorrect** code for this rule with the `{ "ignoreCase": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint sort-imports: ["error", { "ignoreCase": true }]*/
@@ -145,7 +155,11 @@ import B from 'foo.js';
 import a from 'bar.js';
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "ignoreCase": true }` option:
+
+::: correct
 
 ```js
 /*eslint sort-imports: ["error", { "ignoreCase": true }]*/
@@ -155,6 +169,8 @@ import B from 'bar.js';
 import c from 'baz.js';
 ```
 
+:::
+
 Default is `false`.
 
 ### `ignoreDeclarationSort`
@@ -163,19 +179,27 @@ Ignores the sorting of import declaration statements.
 
 Examples of **incorrect** code for this rule with the default `{ "ignoreDeclarationSort": false }` option:
 
+::: incorrect
+
 ```js
 /*eslint sort-imports: ["error", { "ignoreDeclarationSort": false }]*/
 import b from 'foo.js'
 import a from 'bar.js'
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "ignoreDeclarationSort": true }` option:
+
+::: correct
 
 ```js
 /*eslint sort-imports: ["error", { "ignoreDeclarationSort": true }]*/
 import a from 'foo.js'
 import b from 'bar.js'
 ```
+
+:::
 
 ```js
 /*eslint sort-imports: ["error", { "ignoreDeclarationSort": true }]*/
@@ -191,17 +215,25 @@ Ignores the member sorting within a `multiple` member import declaration.
 
 Examples of **incorrect** code for this rule with the default `{ "ignoreMemberSort": false }` option:
 
+::: incorrect
+
 ```js
 /*eslint sort-imports: ["error", { "ignoreMemberSort": false }]*/
 import {b, a, c} from 'foo.js'
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "ignoreMemberSort": true }` option:
+
+::: correct
 
 ```js
 /*eslint sort-imports: ["error", { "ignoreMemberSort": true }]*/
 import {b, a, c} from 'foo.js'
 ```
+
+:::
 
 Default is `false`.
 
@@ -218,13 +250,19 @@ All four options must be specified in the array, but you can customize their ord
 
 Examples of **incorrect** code for this rule with the default `{ "memberSyntaxSortOrder": ["none", "all", "multiple", "single"] }` option:
 
+::: incorrect
+
 ```js
 /*eslint sort-imports: "error"*/
 import a from 'foo.js';
 import * as b from 'bar.js';
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "memberSyntaxSortOrder": ['single', 'all', 'multiple', 'none'] }` option:
+
+::: correct
 
 ```js
 /*eslint sort-imports: ["error", { "memberSyntaxSortOrder": ['single', 'all', 'multiple', 'none'] }]*/
@@ -233,7 +271,11 @@ import a from 'foo.js';
 import * as b from 'bar.js';
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "memberSyntaxSortOrder": ['all', 'single', 'multiple', 'none'] }` option:
+
+::: correct
 
 ```js
 /*eslint sort-imports: ["error", { "memberSyntaxSortOrder": ['all', 'single', 'multiple', 'none'] }]*/
@@ -242,6 +284,8 @@ import * as foo from 'foo.js';
 import z from 'zoo.js';
 import {a, b} from 'foo.js';
 ```
+
+:::
 
 Default is `["none", "all", "multiple", "single"]`.
 
@@ -253,6 +297,8 @@ In other words, a blank line or a comment line or line with any other statement 
 
 Examples of **incorrect** code for this rule with the `{ "allowSeparatedGroups": true }` option:
 
+::: incorrect
+
 ```js
 /*eslint sort-imports: ["error", { "allowSeparatedGroups": true }]*/
 
@@ -260,9 +306,13 @@ import b from 'foo.js';
 import c from 'bar.js';
 import a from 'baz.js';
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `{ "allowSeparatedGroups": true }` option:
 
+::: correct
+
 ```js
 /*eslint sort-imports: ["error", { "allowSeparatedGroups": true }]*/
 
@@ -271,6 +321,8 @@ import c from 'bar.js';
 
 import a from 'baz.js';
 ```
+
+:::
 
 ```js
 /*eslint sort-imports: ["error", { "allowSeparatedGroups": true }]*/

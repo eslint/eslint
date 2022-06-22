@@ -37,6 +37,8 @@ This rule disallows `if` statements as the only statement in `else` blocks.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-lonely-if: "error"*/
 
@@ -59,7 +61,11 @@ if (condition) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-lonely-if: "error"*/
@@ -87,6 +93,8 @@ if (condition) {
     doSomething();
 }
 ```
+
+:::
 
 ## When Not To Use It
 

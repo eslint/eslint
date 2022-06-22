@@ -18,6 +18,8 @@ This rule reports unused private class members.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-unused-private-class-members: "error"*/
 
@@ -49,7 +51,11 @@ class Foo {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-unused-private-class-members: "error"*/
@@ -79,6 +85,8 @@ class Foo {
     }
 }
 ```
+
+:::
 
 ## When Not To Use It
 

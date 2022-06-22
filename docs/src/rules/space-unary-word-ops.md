@@ -15,9 +15,13 @@ Require spaces following unary word operators.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 typeof!a
 ```
+
+:::
 
 ```js
 void{a:0}
@@ -33,9 +37,13 @@ delete(a.b)
 
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```js
 delete a.b
 ```
+
+:::
 
 ```js
 new C

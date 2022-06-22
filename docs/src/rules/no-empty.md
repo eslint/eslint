@@ -19,6 +19,8 @@ This rule disallows empty block statements. This rule ignores block statements w
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-empty: "error"*/
 
@@ -40,7 +42,11 @@ try {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-empty: "error"*/
@@ -66,6 +72,8 @@ try {
 }
 ```
 
+:::
+
 ## Options
 
 This rule has an object option for exceptions:
@@ -75,6 +83,8 @@ This rule has an object option for exceptions:
 ### allowEmptyCatch
 
 Examples of additional **correct** code for this rule with the `{ "allowEmptyCatch": true }` option:
+
+::: correct
 
 ```js
 /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
@@ -90,6 +100,8 @@ finally {
     /* continue regardless of error */
 }
 ```
+
+:::
 
 ## When Not To Use It
 

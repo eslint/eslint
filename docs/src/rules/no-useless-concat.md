@@ -25,6 +25,8 @@ This rule aims to flag the concatenation of 2 literals when they could be combin
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-useless-concat: "error"*/
 /*eslint-env es6*/
@@ -38,7 +40,11 @@ var a = `1` + '0';
 var a = `1` + `0`;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-useless-concat: "error"*/
@@ -52,6 +58,8 @@ var c = 1 - 2;
 var c = "foo" +
     "bar";
 ```
+
+:::
 
 ## When Not To Use It
 

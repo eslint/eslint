@@ -31,6 +31,8 @@ This rule checks setters in:
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-setter-return: "error"*/
 
@@ -68,7 +70,11 @@ Object.defineProperty(foo, "bar", {
 });
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-setter-return: "error"*/
@@ -104,3 +110,5 @@ Object.defineProperty(foo, "bar", {
     }
 });
 ```
+
+:::

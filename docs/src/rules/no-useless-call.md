@@ -18,6 +18,8 @@ This rule is aimed to flag usage of `Function.prototype.call()` and `Function.pr
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-useless-call: "error"*/
 
@@ -32,7 +34,11 @@ obj.foo.call(obj, 1, 2, 3);
 obj.foo.apply(obj, [1, 2, 3]);
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-useless-call: "error"*/
@@ -52,6 +58,8 @@ foo.apply(null, args);
 obj.foo.apply(obj, args);
 ```
 
+:::
+
 ## Known Limitations
 
 This rule compares code statically to check whether or not `thisArg` is changed.
@@ -59,19 +67,27 @@ So if the code about `thisArg` is a dynamic expression, this rule cannot judge c
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-useless-call: "error"*/
 
 a[i++].foo.call(a[i++], 1, 2, 3);
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-useless-call: "error"*/
 
 a[++i].foo.call(a[i], 1, 2, 3);
 ```
+
+:::
 
 ## When Not To Use It
 

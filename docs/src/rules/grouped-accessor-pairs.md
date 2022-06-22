@@ -55,6 +55,8 @@ This rule does not enforce the existence of the pair for a getter or a setter. S
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint grouped-accessor-pairs: "error"*/
 
@@ -99,7 +101,11 @@ const Bar = class {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint grouped-accessor-pairs: "error"*/
@@ -145,6 +151,8 @@ const Bar = class {
 }
 ```
 
+:::
+
 ## Options
 
 This rule has a string option:
@@ -157,6 +165,8 @@ This rule has a string option:
 
 Examples of **incorrect** code for this rule with the `"getBeforeSet"` option:
 
+::: incorrect
+
 ```js
 /*eslint grouped-accessor-pairs: ["error", "getBeforeSet"]*/
 
@@ -187,9 +197,13 @@ const Bar = class {
     }
 }
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `"getBeforeSet"` option:
 
+::: correct
+
 ```js
 /*eslint grouped-accessor-pairs: ["error", "getBeforeSet"]*/
 
@@ -220,11 +234,15 @@ const Bar = class {
     }
 }
 ```
+
+:::
 
 ### setBeforeGet
 
 Examples of **incorrect** code for this rule with the `"setBeforeGet"` option:
 
+::: incorrect
+
 ```js
 /*eslint grouped-accessor-pairs: ["error", "setBeforeGet"]*/
 
@@ -255,9 +273,13 @@ const Bar = class {
     }
 }
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `"setBeforeGet"` option:
 
+::: correct
+
 ```js
 /*eslint grouped-accessor-pairs: ["error", "setBeforeGet"]*/
 
@@ -288,6 +310,8 @@ const Bar = class {
     }
 }
 ```
+
+:::
 
 ## Known Limitations
 

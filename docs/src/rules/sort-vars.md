@@ -21,6 +21,8 @@ The default configuration of the rule is case-sensitive.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint sort-vars: "error"*/
 
@@ -31,7 +33,11 @@ var a, B, c;
 var a, A;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint sort-vars: "error"*/
@@ -45,6 +51,8 @@ var A, a;
 
 var B, a, c;
 ```
+
+:::
 
 Alphabetical list is maintained starting from the first variable and excluding any that are considered problems. So the following code will produce two problems:
 
@@ -72,6 +80,8 @@ This rule has an object option:
 
 Examples of **correct** code for this rule with the `{ "ignoreCase": true }` option:
 
+::: correct
+
 ```js
 /*eslint sort-vars: ["error", { "ignoreCase": true }]*/
 
@@ -79,6 +89,8 @@ var a, A;
 
 var a, B, c;
 ```
+
+:::
 
 ## When Not To Use It
 

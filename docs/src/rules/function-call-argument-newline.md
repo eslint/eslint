@@ -32,6 +32,8 @@ This rule has a string option:
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
+::: incorrect
+
 ```js
 /*eslint function-call-argument-newline: ["error", "always"]*/
 
@@ -47,7 +49,11 @@ baz("one", "two", (x) => {
 });
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"always"` option:
+
+::: correct
 
 ```js
 /*eslint function-call-argument-newline: ["error", "always"]*/
@@ -82,9 +88,13 @@ baz(
 );
 ```
 
+:::
+
 ### never
 
 Examples of **incorrect** code for this rule with the `"never"` option:
+
+::: incorrect
 
 ```js
 /*eslint function-call-argument-newline: ["error", "never"]*/
@@ -110,7 +120,11 @@ baz(
 );
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"never"` option:
+
+::: correct
 
 ```js
 /*eslint function-call-argument-newline: ["error", "never"]*/
@@ -133,9 +147,13 @@ baz("one", "two", (x) => {
 });
 ```
 
+:::
+
 ### consistent
 
 Examples of **incorrect** code for this rule with the `"consistent"` option:
+
+::: incorrect
 
 ```js
 /*eslint function-call-argument-newline: ["error", "consistent"]*/
@@ -155,7 +173,11 @@ baz("one", "two",
 );
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"consistent"` option:
+
+::: correct
 
 ```js
 /*eslint function-call-argument-newline: ["error", "consistent"]*/
@@ -200,6 +222,8 @@ baz(
     }
 );
 ```
+
+:::
 
 ## When Not To Use It
 

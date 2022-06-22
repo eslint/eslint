@@ -27,13 +27,19 @@ This rule is aimed at maintaining consistency and convention by disallowing cons
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-new: "error"*/
 
 new Thing();
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-new: "error"*/
@@ -42,3 +48,5 @@ var thing = new Thing();
 
 Thing();
 ```
+
+:::

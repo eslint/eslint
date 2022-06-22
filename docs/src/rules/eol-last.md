@@ -25,6 +25,8 @@ the end of the file. If you still want this behavior, consider enabling
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint eol-last: ["error", "always"]*/
 
@@ -33,7 +35,11 @@ function doSomething() {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint eol-last: ["error", "always"]*/
@@ -42,6 +48,8 @@ function doSomething() {
   var foo = 2;
 }\n
 ```
+
+:::
 
 ## Options
 

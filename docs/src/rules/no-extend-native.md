@@ -37,12 +37,16 @@ Disallows directly modifying the prototype of builtin objects.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-extend-native: "error"*/
 
 Object.prototype.a = "a";
 Object.defineProperty(Array.prototype, "times", { value: 999 });
 ```
+
+:::
 
 ## Options
 
@@ -52,11 +56,15 @@ This rule accepts an `exceptions` option, which can be used to specify a list of
 
 Examples of **correct** code for the sample `{ "exceptions": ["Object"] }` option:
 
+::: correct
+
 ```js
 /*eslint no-extend-native: ["error", { "exceptions": ["Object"] }]*/
 
 Object.prototype.a = "a";
 ```
+
+:::
 
 ## Known Limitations
 

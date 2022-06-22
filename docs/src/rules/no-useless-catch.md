@@ -17,6 +17,8 @@ This rule reports `catch` clauses that only `throw` the caught error.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-useless-catch: "error"*/
 
@@ -35,7 +37,11 @@ try {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-useless-catch: "error"*/
@@ -59,6 +65,8 @@ try {
   cleanUp();
 }
 ```
+
+:::
 
 ## When Not To Use It
 

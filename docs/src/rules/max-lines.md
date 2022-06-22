@@ -38,12 +38,16 @@ This rule has a number or object option:
 
 Examples of **incorrect** code for this rule with a max value of `2`:
 
+::: incorrect
+
 ```js
 /*eslint max-lines: ["error", 2]*/
 var a,
     b,
     c;
 ```
+
+:::
 
 ```js
 /*eslint max-lines: ["error", 2]*/
@@ -61,11 +65,15 @@ var a,
 
 Examples of **correct** code for this rule with a max value of `2`:
 
+::: correct
+
 ```js
 /*eslint max-lines: ["error", 2]*/
 var a,
     b, c;
 ```
+
+:::
 
 ```js
 /*eslint max-lines: ["error", 2]*/
@@ -83,6 +91,8 @@ var a, b, c;
 
 Examples of **incorrect** code for this rule with the `{ "skipBlankLines": true }` option:
 
+::: incorrect
+
 ```js
 /*eslint max-lines: ["error", {"max": 2, "skipBlankLines": true}]*/
 
@@ -91,7 +101,11 @@ var a,
     c;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "skipBlankLines": true }` option:
+
+::: correct
 
 ```js
 /*eslint max-lines: ["error", {"max": 2, "skipBlankLines": true}]*/
@@ -99,11 +113,15 @@ Examples of **correct** code for this rule with the `{ "skipBlankLines": true }`
 var a,
     b, c;
 ```
+
+:::
 
 ### skipComments
 
 Examples of **incorrect** code for this rule with the `{ "skipComments": true }` option:
 
+::: incorrect
+
 ```js
 /*eslint max-lines: ["error", {"max": 2, "skipComments": true}]*/
 // a comment
@@ -112,7 +130,11 @@ var a,
     c;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "skipComments": true }` option:
+
+::: correct
 
 ```js
 /*eslint max-lines: ["error", {"max": 2, "skipComments": true}]*/
@@ -120,6 +142,8 @@ Examples of **correct** code for this rule with the `{ "skipComments": true }` o
 var a,
     b, c;
 ```
+
+:::
 
 ## When Not To Use It
 

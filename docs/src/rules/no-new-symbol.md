@@ -27,6 +27,8 @@ This rule is aimed at preventing the accidental calling of `Symbol` with the `ne
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-new-symbol: "error"*/
 /*eslint-env es6*/
@@ -34,7 +36,11 @@ Examples of **incorrect** code for this rule:
 var foo = new Symbol('foo');
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-new-symbol: "error"*/
@@ -48,6 +54,8 @@ function bar(Symbol) {
 }
 
 ```
+
+:::
 
 ## When Not To Use It
 

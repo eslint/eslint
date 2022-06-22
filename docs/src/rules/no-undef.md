@@ -20,6 +20,8 @@ Any reference to an undeclared variable causes a warning, unless the variable is
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-undef: "error"*/
 
@@ -27,7 +29,11 @@ var foo = someFunction();
 var bar = a + 1;
 ```
 
+:::
+
 Examples of **correct** code for this rule with `global` declaration:
+
+::: correct
 
 ```js
 /*global someFunction, a*/
@@ -36,6 +42,8 @@ Examples of **correct** code for this rule with `global` declaration:
 var foo = someFunction();
 var bar = a + 1;
 ```
+
+:::
 
 Note that this rule does not disallow assignments to read-only global variables.
 See [no-global-assign](no-global-assign) if you also want to disallow those assignments.
@@ -51,6 +59,8 @@ See [no-redeclare](no-redeclare) if you also want to disallow those redeclaratio
 
 Examples of **correct** code for the default `{ "typeof": false }` option:
 
+::: correct
+
 ```js
 /*eslint no-undef: "error"*/
 
@@ -59,9 +69,13 @@ if (typeof UndefinedIdentifier === "undefined") {
 }
 ```
 
+:::
+
 You can use this option if you want to prevent `typeof` check on a variable which has not been declared.
 
 Examples of **incorrect** code for the `{ "typeof": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint no-undef: ["error", { "typeof": true }] */
@@ -69,7 +83,11 @@ Examples of **incorrect** code for the `{ "typeof": true }` option:
 if(typeof a === "string"){}
 ```
 
+:::
+
 Examples of **correct** code for the `{ "typeof": true }` option with `global` declaration:
+
+::: correct
 
 ```js
 /*global a*/
@@ -78,6 +96,8 @@ Examples of **correct** code for the `{ "typeof": true }` option with `global` d
 if(typeof a === "string"){}
 ```
 
+:::
+
 ## Environments
 
 For convenience, ESLint provides shortcuts that pre-define global variables exposed by popular libraries and runtime environments. This rule supports these environments, as listed in [Specifying Environments](../user-guide/configuring/language-options#specifying-environments).  A few examples are given below.
@@ -85,6 +105,8 @@ For convenience, ESLint provides shortcuts that pre-define global variables expo
 ### browser
 
 Examples of **correct** code for this rule with `browser` environment:
+
+::: correct
 
 ```js
 /*eslint no-undef: "error"*/
@@ -95,9 +117,13 @@ setTimeout(function() {
 });
 ```
 
+:::
+
 ### Node.js
 
 Examples of **correct** code for this rule with `node` environment:
+
+::: correct
 
 ```js
 /*eslint no-undef: "error"*/
@@ -108,6 +134,8 @@ module.exports = function() {
     console.log(fs);
 };
 ```
+
+:::
 
 ## When Not To Use It
 

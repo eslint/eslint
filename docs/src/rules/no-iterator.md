@@ -27,6 +27,8 @@ This rule is aimed at preventing errors that may arise from using the `__iterato
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-iterator: "error"*/
 
@@ -40,10 +42,16 @@ foo["__iterator__"] = function () {};
 
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-iterator: "error"*/
 
 var __iterator__ = foo; // Not using the `__iterator__` property.
 ```
+
+:::

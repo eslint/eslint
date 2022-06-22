@@ -37,6 +37,8 @@ This rule has a string option:
 
 Examples of **incorrect** code for this rule with the default `"except-parens"` option:
 
+::: incorrect
+
 ```js
 /*eslint no-cond-assign: "error"*/
 
@@ -55,7 +57,11 @@ function setHeight(someNode) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"except-parens"` option:
+
+::: correct
 
 ```js
 /*eslint no-cond-assign: "error"*/
@@ -82,11 +88,15 @@ function setHeight(someNode) {
     } while ((someNode = someNode.parentNode) !== null);
 }
 ```
+
+:::
 
 ### always
 
 Examples of **incorrect** code for this rule with the `"always"` option:
 
+::: incorrect
+
 ```js
 /*eslint no-cond-assign: ["error", "always"]*/
 
@@ -121,7 +131,11 @@ function setHeight(someNode) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"always"` option:
+
+::: correct
 
 ```js
 /*eslint no-cond-assign: ["error", "always"]*/
@@ -132,3 +146,5 @@ if (x === 0) {
     var b = 1;
 }
 ```
+
+:::

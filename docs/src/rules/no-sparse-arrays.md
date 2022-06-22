@@ -33,6 +33,8 @@ This rule disallows sparse array literals which have "holes" where commas are no
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-sparse-arrays: "error"*/
 
@@ -40,7 +42,11 @@ var items = [,];
 var colors = [ "red",, "blue" ];
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-sparse-arrays: "error"*/
@@ -51,6 +57,8 @@ var items = new Array(23);
 // trailing comma (after the last element) is not a problem
 var colors = [ "red", "blue", ];
 ```
+
+:::
 
 ## When Not To Use It
 

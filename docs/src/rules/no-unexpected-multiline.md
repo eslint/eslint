@@ -30,6 +30,8 @@ This rule disallows confusing multiline expressions where a newline looks like i
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-unexpected-multiline: "error"*/
 
@@ -50,7 +52,11 @@ let x = foo
 /regex/g.test(bar)
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-unexpected-multiline: "error"*/
@@ -73,6 +79,8 @@ let x = function() {};
 let tag = function() {}
 tag `hello`
 ```
+
+:::
 
 ## When Not To Use It
 

@@ -36,6 +36,8 @@ This rule enforces that a return statement is present in property getters.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint getter-return: "error"*/
 
@@ -58,7 +60,11 @@ class P{
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint getter-return: "error"*/
@@ -82,6 +88,8 @@ class P{
 }
 ```
 
+:::
+
 ## Options
 
 This rule has an object option:
@@ -89,6 +97,8 @@ This rule has an object option:
 * `"allowImplicit": false` (default) disallows implicitly returning `undefined` with a `return` statement.
 
 Examples of **correct** code for the `{ "allowImplicit": true }` option:
+
+::: correct
 
 ```js
 /*eslint getter-return: ["error", { allowImplicit: true }]*/
@@ -98,6 +108,8 @@ p = {
     }
 };
 ```
+
+:::
 
 ## When Not To Use It
 

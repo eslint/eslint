@@ -20,6 +20,8 @@ This rule is aimed at discouraging use of `process.env` to avoid global dependen
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-process-env: "error"*/
 
@@ -28,7 +30,11 @@ if(process.env.NODE_ENV === "development") {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-process-env: "error"*/
@@ -39,6 +45,8 @@ if(config.env === "development") {
     //...
 }
 ```
+
+:::
 
 ## When Not To Use It
 

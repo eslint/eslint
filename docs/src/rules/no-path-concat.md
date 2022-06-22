@@ -37,6 +37,8 @@ This rule aims to prevent string concatenation of directory paths in Node.js
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-path-concat: "error"*/
 
@@ -46,13 +48,19 @@ var fullPath = __filename + "/foo.js";
 
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-path-concat: "error"*/
 
 var fullPath = dirname + "/foo.js";
 ```
+
+:::
 
 ## When Not To Use It
 

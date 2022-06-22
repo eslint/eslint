@@ -25,6 +25,8 @@ This rule takes one optional object argument:
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint prefer-promise-reject-errors: "error"*/
 
@@ -44,7 +46,11 @@ new Promise(function(resolve, reject) {
 
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint prefer-promise-reject-errors: "error"*/
@@ -61,7 +67,11 @@ var foo = getUnknownValue();
 Promise.reject(foo);
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `allowEmptyReject: true` option:
+
+::: correct
 
 ```js
 /*eslint prefer-promise-reject-errors: ["error", {"allowEmptyReject": true}]*/
@@ -72,6 +82,8 @@ new Promise(function(resolve, reject) {
   reject();
 });
 ```
+
+:::
 
 ## Known Limitations
 

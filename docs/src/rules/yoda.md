@@ -56,6 +56,8 @@ The `onlyEquality` option allows a superset of the exceptions which `exceptRange
 
 Examples of **incorrect** code for the default `"never"` option:
 
+::: incorrect
+
 ```js
 /*eslint yoda: "error"*/
 
@@ -88,7 +90,11 @@ if (0 <= x && x < 1) {
 }
 ```
 
+:::
+
 Examples of **correct** code for the default `"never"` option:
+
+::: correct
 
 ```js
 /*eslint yoda: "error"*/
@@ -110,9 +116,13 @@ if (`${value}` === `red`) {
 }
 ```
 
+:::
+
 ### exceptRange
 
 Examples of **correct** code for the `"never", { "exceptRange": true }` options:
+
+::: correct
 
 ```js
 /*eslint yoda: ["error", "never", { "exceptRange": true }]*/
@@ -138,9 +148,13 @@ function howLong(arr) {
 }
 ```
 
+:::
+
 ### onlyEquality
 
 Examples of **correct** code for the `"never", { "onlyEquality": true }` options:
+
+::: correct
 
 ```js
 /*eslint yoda: ["error", "never", { "onlyEquality": true }]*/
@@ -155,9 +169,13 @@ if (x !== `foo` && `bar` != x) {
 }
 ```
 
+:::
+
 ### always
 
 Examples of **incorrect** code for the `"always"` option:
+
+::: incorrect
 
 ```js
 /*eslint yoda: ["error", "always"]*/
@@ -171,7 +189,11 @@ if (color == `blue`) {
 }
 ```
 
+:::
+
 Examples of **correct** code for the `"always"` option:
+
+::: correct
 
 ```js
 /*eslint yoda: ["error", "always"]*/
@@ -192,3 +214,5 @@ if (-1 < str.indexOf(substr)) {
     // ...
 }
 ```
+
+:::

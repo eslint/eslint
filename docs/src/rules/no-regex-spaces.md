@@ -34,6 +34,8 @@ This rule disallows multiple spaces in regular expression literals.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-regex-spaces: "error"*/
 
@@ -41,7 +43,11 @@ var re = /foo   bar/;
 var re = new RegExp("foo   bar");
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-regex-spaces: "error"*/
@@ -49,6 +55,8 @@ Examples of **correct** code for this rule:
 var re = /foo {3}bar/;
 var re = new RegExp("foo {3}bar");
 ```
+
+:::
 
 ## When Not To Use It
 
