@@ -3,10 +3,13 @@
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 2rem 1rem;
     margin-bottom: 3rem;
+    background-color: var(--lightest-background-color);
+    border: 1px solid var(--divider-color);
+    border-radius: var(--border-radius);
 
     .rule-category {
         margin: 0;
-        padding: 0;
+        padding: 18px;
         background: none;
         border: none;
     }
@@ -19,6 +22,7 @@
 .rule-category {
     font-size: var(--step--1);
     display: flex;
+    position: relative;
     flex-wrap: wrap;
     align-items: flex-start;
     gap: 1rem;
@@ -36,6 +40,16 @@
         flex: 1 1 30ch;
     }
 }
+
+.rule-category:not(:first-child)::after {
+    content: "";
+    display: block;
+    height: 100px;
+    position: absolute;
+    left: 0px;
+    border-left: 1px solid var(--divider-color);
+}
+
 
 .rule {
     border-radius: var(--border-radius);
