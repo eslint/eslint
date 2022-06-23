@@ -108,6 +108,10 @@
 
 
 .c-toc__panel {
+    @media all and (max-width: 1023px){
+        display: none;
+    }
+
     &[data-open="false"] {
         display: none;
     }

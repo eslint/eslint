@@ -73,6 +73,11 @@
 }
 
 .docs__index__panel {
+
+    @media all and (max-width: 1023px){
+        display: none;
+    }
+
     &[data-open="false"] {
         display: none;
 
@@ -151,4 +156,34 @@
             transform: rotate(-41deg);
         }
     }
+}
+
+.enhanced .switcher-fallback {
+    display: none !important 
+}
+
+.no-js #js-docs-index-toggle, .no-js #nav-toggle, .no-js #version-switcher, .no-js #nav-version-switcher {
+    display: none;
+}
+
+.no-js #js-docs-index-list {
+    display: block !important
+}
+
+.no-js #nav-panel {
+    @media all and (max-width: 1023px) {
+        display: block !important;
+    } 
+}
+
+.no-js #js-docs-index-panel {
+    @media all and (max-width: 1023px) {
+        display: block !important;
+    } 
+}
+
+.no-js #js-toc-panel {
+    @media all and (max-width: 1023px) {
+        display: block !important;
+    } 
 }
