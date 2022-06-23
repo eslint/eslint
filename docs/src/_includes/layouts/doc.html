@@ -16,6 +16,8 @@ layout: base.html
     {# Add in various sections to content so TOC is accurate #}
     {% set all_content = content %}
     {% set rule_meta = rules_meta[title] %}
+    {% set added_version = rule_versions.added[title] %}
+    {% set removed_version = rule_versions.removed[title] %}
 
     {% if related_rules %}
         {% set related_rules_content %}
@@ -24,6 +26,16 @@ layout: base.html
         {% endset %}
 
         {% set all_content = [all_content, related_rules_content] | join %}
+    {% endif %}
+
+    {% if added_version %}
+        {% set version_content %}
+            <h2 id="version">Version</h2>
+            <p>This rule was introduced in ESLint v{{added_version}}{% if removed_version%}
+                 and removed in v{{removed_version}}{% endif %}.</p>
+        {% endset %}
+
+        {% set all_content = [all_content, version_content] | join %}
     {% endif %}
 
     {% if further_reading %}

@@ -1,6 +1,11 @@
 ---
-title: ESLint Formatters
+title: Formatters
 layout: doc
+eleventyNavigation:
+    key: formatters
+    parent: user guide
+    title: Formatters
+    order: 5
 ---
 
 ESLint comes with several built-in formatters to control the appearance of the linting results, and supports third-party formatters as well.
@@ -49,8 +54,9 @@ function addOne(i) {
 
 ### <%= formatterName %>
 <% if (formatterName !== "html") { -%>
-```
-<%- formatterResults[formatterName].result %>
+
+```text
+<%= formatterResults[formatterName].result %>
 ```
 <% } else {-%>
 <iframe src="html-formatter-example.html" width="100%" height="460px"></iframe>
