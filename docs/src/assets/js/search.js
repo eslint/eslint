@@ -92,7 +92,7 @@ function displaySearchResults(results) {
 //-----------------------------------------------------------------------------
 
 // listen for input changes
-searchInput.addEventListener('keyup', function (e) {
+searchInput && searchInput.addEventListener('keyup', function (e) {
     const query = searchInput.value;
 
     if(query.length) searchClearBtn.removeAttribute('hidden');
@@ -111,13 +111,13 @@ searchInput.addEventListener('keyup', function (e) {
     }
 });
 
-resultsElement.addEventListener('keydown', function(e) {
+resultsElement && resultsElement.addEventListener('keydown', function(e) {
     if(e.key === "Escape") {
         clearSearchResults();
     }
 }, true);
 
-searchClearBtn.addEventListener('click', function(e) {
+searchClearBtn && searchClearBtn.addEventListener('click', function(e) {
     searchInput.value = '';
     searchInput.focus();
     clearSearchResults();
