@@ -47,11 +47,15 @@ Now, the remote `upstream` points to the upstream source.
 
 [Yeoman](http://yeoman.io) is a scaffold generator that ESLint uses to help streamline development of new rules. If you don't already have Yeoman installed, you can install it via npm:
 
-    npm install -g yo
+```shell
+npm install -g yo
+```
 
 Then, you can install the ESLint Yeoman generator:
 
-    npm install -g generator-eslint
+```shell
+npm install -g generator-eslint
+```
 
 Please see the [generator documentation](https://github.com/eslint/generator-eslint) for instructions on how to use it.
 

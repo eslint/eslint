@@ -37,7 +37,9 @@ The first way to use configuration files is via `.eslintrc.*` and `package.json`
 
 The second way to use configuration files is to save the file wherever you would like and pass its location to the CLI using the `--config` option, such as:
 
-    eslint -c myconfig.json myfiletotest.js
+```shell
+eslint -c myconfig.json myfiletotest.js
+```
 
 If you are using one configuration file and want ESLint to ignore any `.eslintrc.*` files, make sure to use [`--no-eslintrc`](https://eslint.org/docs/user-guide/command-line-interface#--no-eslintrc) along with the [`-c`](https://eslint.org/docs/user-guide/command-line-interface#-c---config) flag.
 
