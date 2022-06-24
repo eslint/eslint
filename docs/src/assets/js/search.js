@@ -92,33 +92,36 @@ function displaySearchResults(results) {
 //-----------------------------------------------------------------------------
 
 // listen for input changes
-searchInput.addEventListener('keyup', function (e) {
-    const query = searchInput.value;
+if(searchInput)
+    searchInput.addEventListener('keyup', function (e) {
+        const query = searchInput.value;
 
-    if(query.length) searchClearBtn.removeAttribute('hidden');
-    else searchClearBtn.setAttribute('hidden', '');
+        if(query.length) searchClearBtn.removeAttribute('hidden');
+        else searchClearBtn.setAttribute('hidden', '');
 
-    if (query.length > 2) {
-        fetchSearchResults(query)
-            .then(displaySearchResults)
-            .catch(clearSearchResults);
+        if (query.length > 2) {
+            fetchSearchResults(query)
+                .then(displaySearchResults)
+                .catch(clearSearchResults);
 
-        document.addEventListener('click', function(e) {
-            if(e.target !== resultsElement) clearSearchResults();
-        });
-    } else {
+            document.addEventListener('click', function(e) {
+                if(e.target !== resultsElement) clearSearchResults();
+            });
+        } else {
+            clearSearchResults();
+        }
+    });
+
+if(resultsElement)
+    resultsElement.addEventListener('keydown', function(e) {
+        if(e.key === "Escape") {
+            clearSearchResults();
+        }
+    }, true);
+
+if(searchClearBtn)
+    searchClearBtn.addEventListener('click', function(e) {
+        searchInput.value = '';
+        searchInput.focus();
         clearSearchResults();
-    }
-});
-
-resultsElement.addEventListener('keydown', function(e) {
-    if(e.key === "Escape") {
-        clearSearchResults();
-    }
-}, true);
-
-searchClearBtn.addEventListener('click', function(e) {
-    searchInput.value = '';
-    searchInput.focus();
-    clearSearchResults();
-});
+    });
