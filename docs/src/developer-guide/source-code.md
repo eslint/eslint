@@ -14,7 +14,9 @@ ESLint is hosted at [GitHub](https://github.com/eslint/eslint) and uses [Git](ht
 
 If you simply want to create a local copy of the source to play with, you can clone the main repository using this command:
 
-    git clone git://github.com/eslint/eslint.git
+```shell
+git clone git://github.com/eslint/eslint.git
+```
 
 If you're planning on contributing to ESLint, then it's a good idea to fork the repository. You can find instructions for forking a repository at [https://help.github.com/articles/fork-a-repo/](https://help.github.com/articles/fork-a-repo/). After forking the ESLint repository, you'll want to create a local copy of your fork.
 
@@ -27,8 +29,10 @@ Before you can get started developing, you'll need to have a couple of things in
 
 Once you have a local copy and have Node.JS and npm installed, you'll need to install the ESLint dependencies:
 
-    cd eslint
-    npm install
+```shell
+cd eslint
+npm install
+```
 
 Now when you run `eslint`, it will be running your local copy and showing your changes.
 

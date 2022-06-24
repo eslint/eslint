@@ -14,7 +14,9 @@ Most parts of ESLint have unit tests associated with them. Unit tests are writte
 
 When you first get the source code, you need to run `npm install` once initially to set ESLint for development. Once you've done that, you can run the tests via:
 
-    npm test
+```shell
+npm test
+```
 
 This automatically starts Mocha and runs all tests in the `tests` directory. You need only add yours and it will automatically be picked up when running tests.
 
@@ -22,7 +24,9 @@ This automatically starts Mocha and runs all tests in the `tests` directory. You
 
 If you want to quickly run just one test file, you can do so by running Mocha directly and passing in the filename. For example:
 
-    npm run test:cli tests/lib/rules/no-undef.js
+```shell
+npm run test:cli tests/lib/rules/no-undef.js
+```
 
 If you want to run just one or a subset of `RuleTester` test cases, add `only: true` to each test case or wrap the test case in `RuleTester.only(...)` to add it automatically:
 
@@ -50,4 +54,6 @@ Running individual tests is useful when you're working on a specific bug and ite
 
 The default timeout for tests in `npm test` is 10000ms. You may change the timeout by providing `ESLINT_MOCHA_TIMEOUT` environment variable, for example:
 
-    ESLINT_MOCHA_TIMEOUT=20000 npm test
+```shell
+ESLINT_MOCHA_TIMEOUT=20000 npm test
+```
