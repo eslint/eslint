@@ -10,8 +10,6 @@ related_rules:
 
 <!--FIXABLE-->
 
-Requires or disallows padding within blocks.
-
 Some style guides require block statements to start and end with blank lines. The goal is
 to improve readability by visually separating the block content and the surrounding code.
 

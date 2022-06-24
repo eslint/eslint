@@ -7,8 +7,6 @@ rule_type: problem
 
 <!--RECOMMENDED-->
 
-Disallows empty character classes in regular expressions.
-
 Because empty character classes in regular expressions do not match anything, they might be typing mistakes.
 
 ```js

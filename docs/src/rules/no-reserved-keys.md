@@ -7,7 +7,6 @@ further_reading:
 - https://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names
 ---
 
-Disallows unquoted reserved words as property names in object literals.
 
 (removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [quote-props](quote-props) rule.
 

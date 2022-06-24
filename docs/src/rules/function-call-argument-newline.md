@@ -12,8 +12,6 @@ related_rules:
 
 <!--FIXABLE-->
 
-Enforces line breaks between arguments of a function call.
-
 A number of style guides require or disallow line breaks between arguments of a function call.
 
 ## Rule Details

@@ -9,8 +9,6 @@ related_rules:
 
 <!--FIXABLE-->
 
-Enforces or disallows newlines between operands of ternary expressions.
-
 JavaScript allows operands of ternary expressions to be separated by newlines, which can improve the readability of your program.
 
 For example:

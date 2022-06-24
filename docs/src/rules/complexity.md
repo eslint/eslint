@@ -19,7 +19,6 @@ further_reading:
 - https://github.com/eslint/eslint/issues/4808#issuecomment-167795140
 ---
 
-Enforces a maximum cyclomatic complexity.
 
 Cyclomatic complexity measures the number of linearly independent paths through a program's source code. This rule allows setting a cyclomatic complexity threshold.
 

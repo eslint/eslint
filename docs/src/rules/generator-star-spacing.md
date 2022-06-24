@@ -9,8 +9,6 @@ further_reading:
 
 <!--FIXABLE-->
 
-Enforces spacing around the `*` in generator functions.
-
 Generators are a new type of function in ECMAScript 6 that can return multiple values over time.
 These special functions are indicated by placing an `*` after the `function` keyword.
 

@@ -9,8 +9,6 @@ rule_type: suggestion
 
 <!--SUGGESTIONS-->
 
-Disallows unnecessary escape characters.
-
 Escaping non-special characters in strings, template literals, and regular expressions doesn't have any effect, as demonstrated in the following example:
 
 ```js

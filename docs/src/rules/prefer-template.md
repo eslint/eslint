@@ -10,8 +10,6 @@ related_rules:
 
 <!--FIXABLE-->
 
-Suggests using template literals instead of string concatenation.
-
 In ES2015 (ES6), we can use template literals instead of string concatenation.
 
 ```js

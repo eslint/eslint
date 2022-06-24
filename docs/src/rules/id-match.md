@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/id-match.md
 rule_type: suggestion
 ---
 
-Requires identifiers to match a specified regular expression.
 
 > "There are only two hard things in Computer Science: cache invalidation and naming things." — Phil Karlton
 

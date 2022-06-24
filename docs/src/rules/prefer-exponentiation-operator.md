@@ -10,8 +10,6 @@ further_reading:
 
 <!--FIXABLE-->
 
-Disallows the use of `Math.pow` in favor of the `**` operator.
-
 Introduced in ES2016, the infix exponentiation operator `**` is an alternative for the standard `Math.pow` function.
 
 Infix notation is considered to be more readable and thus more preferable than the function notation.

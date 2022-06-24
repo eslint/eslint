@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-negated-
 rule_type: problem
 ---
 
-Disallows negating the left operand in `in` expressions.
 
 This rule was **deprecated** in ESLint v3.3.0 and replaced by the [no-unsafe-negation](no-unsafe-negation) rule.
 

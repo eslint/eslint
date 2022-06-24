@@ -7,8 +7,6 @@ rule_type: problem
 
 <!--RECOMMENDED-->
 
-Verifies calls of `super()` in constructors.
-
 Constructors of derived classes must call `super()`.
 Constructors of non derived classes must not call `super()`.
 If this is not observed, the JavaScript engine will raise a runtime error.

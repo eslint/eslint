@@ -7,8 +7,6 @@ rule_type: layout
 
 <!--FIXABLE-->
 
-Requires or disallows newline at the end of files.
-
 Trailing newlines in non-empty files are a common UNIX idiom. Benefits of
 trailing newlines include the ability to concatenate or append to files as well
 as output files to the terminal without interfering with shell prompts.

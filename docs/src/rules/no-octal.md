@@ -7,8 +7,6 @@ rule_type: suggestion
 
 <!--RECOMMENDED-->
 
-Disallows octal literals.
-
 Octal literals are numerals that begin with a leading zero, such as:
 
 ```js

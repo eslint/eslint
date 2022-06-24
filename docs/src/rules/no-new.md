@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-new.md
 rule_type: suggestion
 ---
 
-Disallows `new` operators outside of assignments or comparisons.
 
 The goal of using `new` with a constructor is typically to create an object of a particular type and store that object in a variable, such as:
 

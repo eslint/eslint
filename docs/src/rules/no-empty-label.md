@@ -9,7 +9,6 @@ related_rules:
 - no-unused-labels
 ---
 
-Disallows labels for anything other than loops and switches.
 
 (removed) This rule was **removed** in ESLint v2.0 and **replaced** by the [no-labels](no-labels) rule.
 

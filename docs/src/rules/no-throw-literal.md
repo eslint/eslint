@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-throw-li
 rule_type: suggestion
 ---
 
-Restricts what can be thrown as an exception.
 
 It is considered good practice to only `throw` the `Error` object itself or an object using the `Error` object as base objects for user-defined exceptions.
 The fundamental benefit of `Error` objects is that they automatically keep track of where they were built and originated.

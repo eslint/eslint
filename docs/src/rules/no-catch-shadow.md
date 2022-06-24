@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-catch-sh
 rule_type: suggestion
 ---
 
-Disallows shadowing of variables inside of catch.
 
 This rule was **deprecated** in ESLint v5.1.0.
 

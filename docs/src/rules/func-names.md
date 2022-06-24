@@ -8,7 +8,6 @@ further_reading:
 - https://2ality.com/2015/09/function-names-es6.html
 ---
 
-Requires or disallows named `function` expressions.
 
 A pattern that's becoming more common is to give function expressions names to aid in debugging. For example:
 

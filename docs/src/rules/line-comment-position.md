@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/line-commen
 rule_type: layout
 ---
 
-Enforces position of line comments.
 
 Line comments can be positioned above or beside code. This rule helps teams maintain a consistent style.
 

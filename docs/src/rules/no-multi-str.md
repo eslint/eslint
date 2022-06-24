@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-multi-st
 rule_type: suggestion
 ---
 
-Disallows multiline strings.
 
 It's possible to create multiline strings in JavaScript by using a slash before a newline, such as:
 

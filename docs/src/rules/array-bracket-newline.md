@@ -9,8 +9,6 @@ related_rules:
 
 <!--FIXABLE-->
 
-Enforces line breaks after opening and before closing array brackets.
-
 A number of style guides require or disallow line breaks inside of array brackets.
 
 ## Rule Details

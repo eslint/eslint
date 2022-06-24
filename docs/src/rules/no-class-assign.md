@@ -7,8 +7,6 @@ rule_type: problem
 
 <!--RECOMMENDED-->
 
-Disallows modifying variables of class declarations.
-
 `ClassDeclaration` creates a variable, and we can modify the variable.
 
 ```js

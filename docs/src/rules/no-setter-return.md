@@ -11,8 +11,6 @@ further_reading:
 
 <!--RECOMMENDED-->
 
-Disallows returning values from setters.
-
 Setters cannot return values.
 
 While returning a value from a setter does not produce an error, the returned value is being ignored. Therefore, returning a value from a setter is either unnecessary or a possible error, since the returned value cannot be used.

@@ -9,8 +9,6 @@ further_reading:
 
 <!--FIXABLE-->
 
-Requires parens in arrow function arguments.
-
 Arrow functions can omit parentheses when they have exactly one parameter. In all other cases the parameter(s) must
 be wrapped in parentheses. This rule enforces the consistent use of parentheses in arrow functions.
 

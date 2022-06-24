@@ -11,8 +11,6 @@ further_reading:
 
 <!--FIXABLE-->
 
-Enforces consistent comma styles.
-
 The Comma Style rule enforces styles for comma-separated lists. There are two comma styles primarily used in JavaScript:
 
 * The standard style, in which commas are placed at the end of the current line

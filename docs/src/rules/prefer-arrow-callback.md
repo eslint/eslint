@@ -9,8 +9,6 @@ further_reading:
 
 <!--FIXABLE-->
 
-Requires using arrow functions for callbacks.
-
 Arrow functions can be an attractive alternative to function expressions for callbacks or function arguments.
 
 For example, arrow functions are automatically bound to their surrounding scope/context. This provides an alternative to the pre-ES6 standard of explicitly binding function expressions to achieve similar behavior.

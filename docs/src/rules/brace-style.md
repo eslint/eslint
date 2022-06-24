@@ -12,8 +12,6 @@ further_reading:
 
 <!--FIXABLE-->
 
-Enforces consistent brace style for blocks.
-
 Brace style is closely related to [indent style](https://en.wikipedia.org/wiki/Indent_style) in programming and describes the placement of braces relative to their control statement and body. There are probably a dozen, if not more, brace styles in the world.
 
 The *one true brace style* is one of the most common brace styles in JavaScript, in which the opening brace of a block is placed on the same line as its corresponding statement or declaration. For example:

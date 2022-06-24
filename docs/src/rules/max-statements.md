@@ -13,7 +13,6 @@ related_rules:
 - max-params
 ---
 
-Enforces a maximum number of statements allowed in function blocks.
 
 The `max-statements` rule allows you to specify the maximum number of statements allowed in a function.
 

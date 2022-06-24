@@ -16,8 +16,6 @@ related_rules:
 
 <!--FIXABLE-->
 
-Enforces line breaks between array elements.
-
 A number of style guides require or disallow line breaks between array elements.
 
 ## Rule Details

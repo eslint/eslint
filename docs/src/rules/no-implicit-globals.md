@@ -12,7 +12,6 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_dead_zone
 ---
 
-Disallows declarations in the global scope.
 
 It is the best practice to avoid 'polluting' the global scope with variables that are intended to be local to the script.
 

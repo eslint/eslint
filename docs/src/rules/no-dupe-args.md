@@ -7,8 +7,6 @@ rule_type: problem
 
 <!--RECOMMENDED-->
 
-Disallows duplicate arguments in `function` definitions.
-
 If more than one parameter has the same name in a function definition, the last occurrence "shadows" the preceding occurrences. A duplicated name might be a typing error.
 
 ## Rule Details

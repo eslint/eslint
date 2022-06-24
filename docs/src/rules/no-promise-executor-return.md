@@ -9,7 +9,6 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 ---
 
-Disallows returning values from Promise executor functions.
 
 The `new Promise` constructor accepts a single argument, called an *executor*.
 

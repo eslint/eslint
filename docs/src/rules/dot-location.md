@@ -10,8 +10,6 @@ related_rules:
 
 <!--FIXABLE-->
 
-Enforces newline before and after dots.
-
 JavaScript allows you to place newlines before or after a dot in a member expression.
 
 Consistency in placing a newline before or after the dot can greatly increase readability.

@@ -7,8 +7,6 @@ rule_type: suggestion
 
 <!--FIXABLE-->
 
-Requires `let` or `const` instead of `var`.
-
 ECMAScript 6 allows programmers to create variables with block scope instead of function scope using the `let`
 and `const` keywords. Block scope is common in many other programming languages and helps programmers avoid mistakes
 such as:

@@ -7,8 +7,6 @@ rule_type: problem
 
 <!--RECOMMENDED-->
 
-Disallows modifying variables that are declared using `const`.
-
 We cannot modify variables that are declared using `const` keyword.
 It will raise a runtime error.
 

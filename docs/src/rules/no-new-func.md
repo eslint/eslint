@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-new-func
 rule_type: suggestion
 ---
 
-Disallows `new` operators with the `Function` object.
 
 It's possible to create functions in JavaScript from strings at runtime using the `Function` constructor, such as:
 

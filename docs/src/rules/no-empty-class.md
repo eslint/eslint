@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-empty-cl
 
 ---
 
-Disallows empty character classes in regular expressions.
 
 (removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [no-empty-character-class](no-empty-character-class) rule.
 

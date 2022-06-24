@@ -7,7 +7,6 @@ related_rules:
 - prefer-spread
 ---
 
-Suggests using rest parameters instead of `arguments`.
 
 There are rest parameters in ES2015.
 We can use that feature for variadic functions instead of the `arguments` variable.

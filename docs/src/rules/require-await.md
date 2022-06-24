@@ -7,7 +7,6 @@ related_rules:
 - require-yield
 ---
 
-Disallows async functions which have no `await` expression.
 
 Asynchronous functions in JavaScript behave differently than other functions in two important ways:
 

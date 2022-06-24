@@ -10,8 +10,6 @@ related_rules:
 
 <!--FIXABLE-->
 
-Requires `const` declarations for variables that are never reassigned after declared.
-
 If a variable is never reassigned, using the `const` declaration is better.
 
 `const` declaration tells readers, "this variable is never reassigned," reducing cognitive load and improving maintainability.

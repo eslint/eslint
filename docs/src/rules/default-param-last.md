@@ -5,8 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/default-par
 rule_type: suggestion
 ---
 
-Enforces default parameters to be last.
-
 Putting default parameter at last allows function calls to omit optional tail arguments.
 
 ```js

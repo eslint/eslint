@@ -7,7 +7,6 @@ further_reading:
 - https://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html
 ---
 
-Enforces the consistent use of either `function` declarations or expressions.
 
 There are two ways of defining functions in JavaScript: `function` declarations and `function` expressions. Declarations contain the `function` keyword first, followed by a name and then its arguments and the function body, for example:
 

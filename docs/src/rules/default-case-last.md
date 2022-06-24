@@ -9,7 +9,6 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch
 ---
 
-Enforces default clauses in switch statements to be last.
 
 A `switch` statement can optionally have a `default` clause.
 

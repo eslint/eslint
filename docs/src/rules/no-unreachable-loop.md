@@ -10,7 +10,6 @@ related_rules:
 - for-direction
 ---
 
-Disallows loops with a body that allows only one iteration.
 
 A loop that can never reach the second iteration is a possible error in the code.
 

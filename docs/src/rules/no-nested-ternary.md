@@ -8,7 +8,6 @@ related_rules:
 - no-unneeded-ternary
 ---
 
-Disallows nested ternary expressions.
 
 Nesting ternary expressions can make code more difficult to understand.
 

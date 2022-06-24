@@ -7,8 +7,6 @@ rule_type: layout
 
 <!--FIXABLE-->
 
-Enforces consistent line breaks inside function parentheses.
-
 Many style guides require or disallow newlines inside of function parentheses.
 
 ## Rule Details

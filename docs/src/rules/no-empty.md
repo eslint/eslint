@@ -9,8 +9,6 @@ related_rules:
 
 <!--RECOMMENDED-->
 
-Disallows empty block statements.
-
 Empty block statements, while not technically errors, usually occur due to refactoring that wasn't completed. They can cause confusion when reading code.
 
 ## Rule Details

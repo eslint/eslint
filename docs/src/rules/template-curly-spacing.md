@@ -7,8 +7,6 @@ rule_type: layout
 
 <!--FIXABLE-->
 
-Enforces usage of spacing in template strings.
-
 We can embed expressions in template strings with using a pair of `${` and `}`.
 
 This rule can force usage of spacing _within_ the curly brace pair according to style guides.

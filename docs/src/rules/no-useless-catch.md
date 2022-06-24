@@ -7,8 +7,6 @@ rule_type: suggestion
 
 <!--RECOMMENDED-->
 
-Disallows unnecessary catch clauses.
-
 A `catch` clause that only rethrows the original error is redundant, and has no effect on the runtime behavior of the program. These redundant clauses can be a source of confusion and code bloat, so it's better to disallow these unnecessary `catch` clauses.
 
 ## Rule Details

@@ -11,8 +11,6 @@ related_rules:
 
 <!--FIXABLE-->
 
-Disallows or enforces spaces inside of computed properties.
-
 While formatting preferences are very personal, a number of style guides require
 or disallow spaces between computed properties in the following situations:
 

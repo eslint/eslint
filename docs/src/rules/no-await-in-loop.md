@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-await-in
 rule_type: problem
 ---
 
-Disallows `await` inside of loops.
 
 Performing an operation on each element of an iterable is a common task. However, performing an
 `await` as part of each operation is an indication that the program is not taking full advantage of

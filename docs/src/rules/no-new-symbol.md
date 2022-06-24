@@ -9,8 +9,6 @@ further_reading:
 
 <!--RECOMMENDED-->
 
-Disallows `new` operators with the `Symbol` object.
-
 `Symbol` is not intended to be used with the `new` operator, but to be called as a function.
 
 ```js

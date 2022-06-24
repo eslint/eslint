@@ -7,8 +7,6 @@ rule_type: problem
 
 <!--RECOMMENDED-->
 
-Disallows use of `this`/`super` before calling `super()` in constructors.
-
 In the constructor of derived classes, if `this`/`super` are used before `super()` calls, it raises a reference error.
 
 This rule checks `this`/`super` keywords in constructors, then reports those that are before `super()`.

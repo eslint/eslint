@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/func-name-m
 rule_type: suggestion
 ---
 
-Requires function names to match the name of the variable or property to which they are assigned.
 
 ## Rule Details
 

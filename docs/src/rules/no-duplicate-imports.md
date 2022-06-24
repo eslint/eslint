@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-duplicat
 rule_type: problem
 ---
 
-Disallows duplicate imports.
 
 Using a single `import` statement per module will make the code clearer because you can see everything being imported from that module on one line.
 

@@ -11,8 +11,6 @@ related_rules:
 
 <!--RECOMMENDED-->
 
-Disallows assignment to native objects or read-only global variables.
-
 JavaScript environments contain a number of built-in global variables, such as `window` in browsers and `process` in Node.js. In almost all cases, you don't want to assign a value to these global variables as doing so could result in losing access to important functionality. For example, you probably don't want to do this in browser code:
 
 ```js

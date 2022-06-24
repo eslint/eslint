@@ -7,7 +7,6 @@ related_rules:
 - no-invalid-regexp
 ---
 
-Suggest using named capture group in regular expression.
 
 ## Rule Details
 
