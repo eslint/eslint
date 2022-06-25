@@ -1,5 +1,9 @@
 /* docs layout styles */
 
+html, body {
+    scroll-behavior: smooth;
+}
+
 .docs {
     max-width: 1700px;
     margin: 0 auto;
