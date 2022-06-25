@@ -5,9 +5,9 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-misleadi
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
 
-<!--SUGGESTIONS-->
+
+
 
 Disallows characters which are made with multiple code points in character class syntax.
 

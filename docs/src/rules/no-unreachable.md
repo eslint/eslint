@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-unreacha
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows unreachable code after `return`, `throw`, `continue`, and `break` statements.
 

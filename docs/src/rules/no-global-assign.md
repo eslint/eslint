@@ -9,7 +9,7 @@ related_rules:
 - no-shadow
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows assignment to native objects or read-only global variables.
 

@@ -9,7 +9,7 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows returning values from setters.
 

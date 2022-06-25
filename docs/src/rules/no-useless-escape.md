@@ -5,9 +5,9 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-useless-
 rule_type: suggestion
 ---
 
-<!--RECOMMENDED-->
 
-<!--SUGGESTIONS-->
+
+
 
 Disallows unnecessary escape characters.
 

@@ -8,7 +8,7 @@ related_rules:
 - no-control-regex
 ---
 
-<!--RECOMMENDED-->
+
 
 
 

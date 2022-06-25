@@ -7,7 +7,7 @@ related_rules:
 - no-empty-function
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows empty block statements.
 

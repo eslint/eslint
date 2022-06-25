@@ -5,9 +5,9 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-unsafe-n
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
 
-<!--SUGGESTIONS-->
+
+
 
 Disallows negating the left operand of relational operators.
 

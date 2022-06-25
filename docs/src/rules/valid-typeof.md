@@ -7,9 +7,9 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof
 ---
 
-<!--RECOMMENDED-->
 
-<!--SUGGESTIONS-->
+
+
 
 Enforces comparing `typeof` expressions against valid strings.
 

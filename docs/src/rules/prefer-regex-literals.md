@@ -8,7 +8,7 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 ---
 
-<!--SUGGESTIONS-->
+
 
 Disallows use of the `RegExp` constructor in favor of regular expression literals.
 

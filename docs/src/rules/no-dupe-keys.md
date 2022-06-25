@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-dupe-key
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows duplicate keys in object literals.
 

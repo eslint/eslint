@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-delete-v
 rule_type: suggestion
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows deleting variables.
 

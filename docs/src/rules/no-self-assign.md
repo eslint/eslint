@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-self-ass
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows assignments where both sides are exactly the same.
 

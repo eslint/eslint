@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-unsafe-f
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows control flow statements in `finally` blocks.
 
