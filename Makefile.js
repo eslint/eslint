@@ -101,7 +101,6 @@ function getIgnoredFiles(markdownlintIgnored) {
 
                 ignoredFiles.push(...files);
             } else {
-                console.log(file);
                 ignoredFiles.push(file);
             }
         }
