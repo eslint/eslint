@@ -7,7 +7,7 @@ related_rules:
 - comma-style
 ---
 
-<!--FIXABLE-->
+
 
 Enforces consistent linebreak style for operators.
 

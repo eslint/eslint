@@ -12,7 +12,7 @@ further_reading:
 - https://web.archive.org/web/20200420230322/http://inimino.org/~inimino/blog/javascript_semicolons
 ---
 
-<!--FIXABLE-->
+
 
 Requires or disallows semicolons instead of ASI.
 

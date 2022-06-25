@@ -7,7 +7,7 @@ related_rules:
 - one-var
 ---
 
-<!--FIXABLE-->
+
 
 Requires or disallows newlines around variable declarations.
 

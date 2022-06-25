@@ -7,7 +7,7 @@ further_reading:
 - https://leanpub.com/understandinges6/read/#leanpub-auto-generators
 ---
 
-<!--FIXABLE-->
+
 
 Enforces spacing around the `*` in `yield*` expressions.
 

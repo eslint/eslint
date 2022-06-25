@@ -10,7 +10,7 @@ related_rules:
 - object-curly-spacing
 ---
 
-<!--FIXABLE-->
+
 
 Enforces placing object properties on separate lines.
 

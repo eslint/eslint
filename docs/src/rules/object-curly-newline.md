@@ -10,7 +10,7 @@ related_rules:
 - object-property-newline
 ---
 
-<!--FIXABLE-->
+
 
 Enforces consistent line breaks after opening and before closing braces.
 

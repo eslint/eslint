@@ -10,7 +10,7 @@ related_rules:
 
 <!--RECOMMENDED-->
 
-<!--FIXABLE-->
+
 
 Disallows unnecessary semicolons.
 

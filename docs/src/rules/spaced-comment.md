@@ -7,7 +7,7 @@ related_rules:
 - spaced-line-comment
 ---
 
-<!--FIXABLE-->
+
 
 Enforces consistent spacing after the `//` or `/*` in a comment.
 

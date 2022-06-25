@@ -8,7 +8,7 @@ related_rules:
 - space-return-throw-case
 ---
 
-<!--FIXABLE-->
+
 
 Requires or disallows a space before function parenthesis.
 

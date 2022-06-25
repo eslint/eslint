@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/indent.md
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 Enforces consistent indentation.
 

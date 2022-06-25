@@ -8,7 +8,7 @@ further_reading:
 - https://2ality.com/2015/01/es6-destructuring.html
 ---
 
-<!--FIXABLE-->
+
 
 Requires destructuring from arrays and/or objects.
 

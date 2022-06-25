@@ -11,7 +11,7 @@ related_rules:
 
 <!--RECOMMENDED-->
 
-<!--FIXABLE-->
+
 
 Disallows unused labels.
 

@@ -7,7 +7,7 @@ related_rules:
 - operator-linebreak
 ---
 
-<!--FIXABLE-->
+
 
 Enforces or disallows newlines between operands of ternary expressions.
 

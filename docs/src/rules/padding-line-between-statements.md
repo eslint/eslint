@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/padding-lin
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 Requires or disallows padding lines between statements.
 

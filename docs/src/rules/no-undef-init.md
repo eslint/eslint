@@ -8,7 +8,7 @@ related_rules:
 - no-void
 ---
 
-<!--FIXABLE-->
+
 
 Disallows initializing variables to `undefined`.
 

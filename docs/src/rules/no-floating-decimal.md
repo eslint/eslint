@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-floating
 rule_type: suggestion
 ---
 
-<!--FIXABLE-->
+
 
 Disallows leading or trailing decimal points in numeric literals.
 

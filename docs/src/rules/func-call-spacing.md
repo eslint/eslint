@@ -7,7 +7,7 @@ related_rules:
 - no-spaced-func
 ---
 
-<!--FIXABLE-->
+
 
 Requires or disallows spacing between function identifiers and their invocations.
 

@@ -8,7 +8,7 @@ related_rules:
 - padding-line-between-statements
 ---
 
-<!--FIXABLE-->
+
 
 Requires or disallows padding within blocks.
 

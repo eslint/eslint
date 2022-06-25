@@ -9,7 +9,7 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer
 ---
 
-<!--FIXABLE-->
+
 
 Requires or disallows method and property shorthand syntax for object literals.
 

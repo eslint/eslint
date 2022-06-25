@@ -8,7 +8,7 @@ related_rules:
 - padding-line-between-statements
 ---
 
-<!--FIXABLE-->
+
 
 Requires or disallows an empty line between class members.
 

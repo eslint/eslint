@@ -8,7 +8,7 @@ further_reading:
 - https://bugs.chromium.org/p/v8/issues/detail?id=5848
 ---
 
-<!--FIXABLE-->
+
 
 Disallows the use of `Math.pow` in favor of the `**` operator.
 

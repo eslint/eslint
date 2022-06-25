@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-obje
 rule_type: suggestion
 ---
 
-<!--FIXABLE-->
+
 
 Prefer use of an object spread over `Object.assign`.
 

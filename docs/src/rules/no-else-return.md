@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-else-ret
 rule_type: suggestion
 ---
 
-<!--FIXABLE-->
+
 
 Disallows `return` before `else`.
 

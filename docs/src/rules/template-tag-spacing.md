@@ -8,7 +8,7 @@ further_reading:
 - https://exploringjs.com/es6/ch_template-literals.html#_examples-of-using-tagged-template-literals
 ---
 
-<!--FIXABLE-->
+
 
 Requires or disallow spacing between template tags and their literals.
 

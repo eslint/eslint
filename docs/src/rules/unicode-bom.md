@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/unicode-bom
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 Requires or disallows the Unicode Byte Order Mark (BOM).
 

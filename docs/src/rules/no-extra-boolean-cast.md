@@ -7,7 +7,7 @@ rule_type: suggestion
 
 <!--RECOMMENDED-->
 
-<!--FIXABLE-->
+
 
 Disallows unnecessary boolean casts.
 

@@ -10,7 +10,7 @@ related_rules:
 
 <!--RECOMMENDED-->
 
-<!--FIXABLE-->
+
 
 Disallows multiple spaces in regular expression literals.
 

@@ -8,7 +8,7 @@ further_reading:
 - https://www.smashingmagazine.com/2014/01/understanding-javascript-function-prototype-bind/
 ---
 
-<!--FIXABLE-->
+
 
 Disallows unnecessary function binding.
 

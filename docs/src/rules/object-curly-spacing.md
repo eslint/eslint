@@ -10,7 +10,7 @@ related_rules:
 - space-in-parens
 ---
 
-<!--FIXABLE-->
+
 
 Enforces consistent spacing inside braces.
 
