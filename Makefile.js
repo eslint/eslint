@@ -71,8 +71,7 @@ const NODE = "node ", // intentional extra space
     // Files
     RULE_FILES = glob.sync("lib/rules/*.js").filter(filePath => path.basename(filePath) !== "index.js"),
     JSON_FILES = find("conf/").filter(fileType("json")),
-    MARKDOWNLINT_IGNORED_FILES = fs.readFileSync(path.join(__dirname, ".markdownlintignore"), "utf-8").split("\n"),
-    MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")).filter(file => !MARKDOWNLINT_IGNORED_FILES.includes(file)),
+    MARKDOWNLINT_IGNORED = fs.readFileSync(path.join(__dirname, ".markdownlintignore"), "utf-8").split("\n"),
     TEST_FILES = "\"tests/{bin,conf,lib,tools}/**/*.js\"",
     PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslintrc.yml"),
     PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
@@ -84,6 +83,31 @@ const NODE = "node ", // intentional extra space
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
+
+/**
+ * Generate all files needs to be ignored.
+ * @param {Array} markdownlintIgnored ignored files name.
+ * @throws Error If file is not found.
+ * @returns {Array} all ignored files.
+ */
+function getIgnoredFiles(markdownlintIgnored) {
+    const ignoredFiles = [];
+
+    markdownlintIgnored.filter(file => file.trim()).forEach(file => {
+        if (fs.existsSync(`docs/${file}`)) {
+            if (fs.lstatSync(`docs/${file}`).isDirectory()) {
+
+                const files = find(`docs/${file}`).concat(ls(".")).filter(fileType("md"));
+
+                ignoredFiles.push(...files);
+            } else {
+                console.log(file);
+                ignoredFiles.push(file);
+            }
+        }
+    });
+    return ignoredFiles;
+}
 
 /**
  * Simple JSON file validation that relies on ES JSON parser.
@@ -530,7 +554,10 @@ target.lint = function([fix = false] = []) {
     JSON_FILES.forEach(validateJsonFile);
 
     echo("Validating Markdown Files");
-    lastReturn = lintMarkdown(MARKDOWN_FILES_ARRAY);
+    const ignoredFiles = getIgnoredFiles(MARKDOWNLINT_IGNORED),
+        markdownFilesArray = find("docs/").concat(ls(".")).filter(fileType("md")).filter(file => !ignoredFiles.includes(file));
+
+    lastReturn = lintMarkdown(markdownFilesArray);
     if (lastReturn.code !== 0) {
         errors++;
     }
