@@ -262,6 +262,37 @@ ruleTester.run("no-restricted-imports", rule, {
                     importNames: ["DisallowedObject"]
                 }]
             }]
+        },
+        {
+            code: "import { Bar } from '../../my/relative-module';",
+            options: [{
+                patterns: [{
+                    group: ["**/my/relative-module"],
+                    importNames: ["Foo"]
+                }]
+            }]
+        },
+        {
+
+            // Default import should not be reported - just drop the importNames option for this behavior
+            code: "import Foo from '../../my/relative-module';",
+            options: [{
+                patterns: [{
+                    group: ["**/my/relative-module"],
+                    importNames: ["Foo"]
+                }]
+            }]
+        },
+        {
+
+            // Star import should not be reported - just drop the importNames option for this behavior
+            code: "import * as Foo from '../../my/relative-module';",
+            options: [{
+                patterns: [{
+                    group: ["**/my/relative-module"],
+                    importNames: ["Foo"]
+                }]
+            }]
         }
     ],
     invalid: [{
@@ -1093,6 +1124,41 @@ ruleTester.run("no-restricted-imports", rule, {
             line: 1,
             column: 1,
             endColumn: 45
+        }]
+    },
+    {
+        code: "import { Foo } from '../../my/relative-module';",
+        options: [{
+            patterns: [{
+                group: ["**/my/relative-module"],
+                importNames: ["Foo"]
+            }]
+        }],
+        errors: [{
+            type: "ImportDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 13
+        }]
+    },
+    {
+        code: "import { Foo, Bar } from '../../my/relative-module';",
+        options: [{
+            patterns: [{
+                group: ["**/my/relative-module"],
+                importNames: ["Foo", "Bar"]
+            }]
+        }],
+        errors: [{
+            type: "ImportDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 13
+        }, {
+            type: "ImportDeclaration",
+            line: 1,
+            column: 15,
+            endColumn: 18
         }]
     }
     ]
