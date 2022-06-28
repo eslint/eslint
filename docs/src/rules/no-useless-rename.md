@@ -7,7 +7,7 @@ related_rules:
 - object-shorthand
 ---
 
-<!--FIXABLE-->
+
 
 Disallows renaming import, export, and destructured assignments to the same name.
 

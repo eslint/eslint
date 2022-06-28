@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/key-spacing
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 Enforces consistent spacing between keys and values in object literal properties.
 

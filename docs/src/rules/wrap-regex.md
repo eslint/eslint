@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/wrap-regex.
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 Requires regex literals to be wrapped.
 

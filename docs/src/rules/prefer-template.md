@@ -8,7 +8,7 @@ related_rules:
 - quotes
 ---
 
-<!--FIXABLE-->
+
 
 Suggests using template literals instead of string concatenation.
 

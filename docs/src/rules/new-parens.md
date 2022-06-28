@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/new-parens.
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 Requires parentheses when invoking a constructor with no arguments.
 

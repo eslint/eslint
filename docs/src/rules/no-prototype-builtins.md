@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-prototyp
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows calling some `Object.prototype` methods directly on objects.
 

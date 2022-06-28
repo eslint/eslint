@@ -8,9 +8,9 @@ related_rules:
 - semi-spacing
 ---
 
-<!--RECOMMENDED-->
 
-<!--FIXABLE-->
+
+
 
 Disallows unnecessary semicolons.
 

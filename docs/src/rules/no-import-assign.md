@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-import-a
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows assigning to imported bindings.
 

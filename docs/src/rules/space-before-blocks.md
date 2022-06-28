@@ -11,7 +11,7 @@ related_rules:
 - brace-style
 ---
 
-<!--FIXABLE-->
+
 
 Requires Or disallows space before blocks.
 

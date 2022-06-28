@@ -8,7 +8,7 @@ related_rules:
 - no-regex-spaces
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows control characters in regular expressions.
 

@@ -10,7 +10,7 @@ further_reading:
 - https://es5.github.io/#C
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows identifiers from shadowing restricted names.
 

@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/newline-aft
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 Requires or disallows an empty line after variable declarations.
 

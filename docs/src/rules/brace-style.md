@@ -10,7 +10,7 @@ further_reading:
 - https://en.wikipedia.org/wiki/Indent_style
 ---
 
-<!--FIXABLE-->
+
 
 Enforces consistent brace style for blocks.
 

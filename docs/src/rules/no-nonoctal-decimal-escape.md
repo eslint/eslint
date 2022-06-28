@@ -9,9 +9,9 @@ further_reading:
 - https://tc39.es/ecma262/#prod-annexB-NonOctalDecimalEscapeSequence
 ---
 
-<!--RECOMMENDED-->
 
-<!--SUGGESTIONS-->
+
+
 
 Disallows `\8` and `\9` escape sequences in string literals.
 

@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/wrap-iife.m
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 Requires IIFEs to be wrapped.
 

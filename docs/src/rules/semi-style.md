@@ -9,7 +9,7 @@ related_rules:
 - semi-spacing
 ---
 
-<!--FIXABLE-->
+
 
 Enforces location of semicolons.
 

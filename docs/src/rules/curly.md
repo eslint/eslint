@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/curly.md
 rule_type: suggestion
 ---
 
-<!--FIXABLE-->
+
 
 Requires following curly brace conventions.
 

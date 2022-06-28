@@ -8,9 +8,9 @@ related_rules:
 - no-control-regex
 ---
 
-<!--RECOMMENDED-->
 
-<!--FIXABLE-->
+
+
 
 Disallows multiple spaces in regular expression literals.
 

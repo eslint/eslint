@@ -8,7 +8,7 @@ related_rules:
 - sort-imports
 ---
 
-<!--FIXABLE-->
+
 
 Requires variables within the same declaration block to be sorted.
 

@@ -7,7 +7,7 @@ further_reading:
 - https://www.nczonline.net/blog/2007/09/09/inconsistent-array-literals/
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows sparse arrays.
 

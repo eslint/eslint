@@ -7,7 +7,7 @@ further_reading:
 - https://www.emacswiki.org/emacs/SmartTabs
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows mixed spaces and tabs for indentation.
 

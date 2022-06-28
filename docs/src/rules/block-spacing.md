@@ -8,7 +8,7 @@ related_rules:
 - brace-style
 ---
 
-<!--FIXABLE-->
+
 
 Disallows or enforces spaces inside of blocks after opening blocks and before closing blocks.
 

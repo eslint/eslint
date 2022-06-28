@@ -8,7 +8,7 @@ further_reading:
 - https://leanpub.com/understandinges6/read/#leanpub-auto-accessor-properties
 ---
 
-<!--RECOMMENDED-->
+
 
 Enforces that a `return` statement is present in property getters.
 

@@ -14,7 +14,7 @@ related_rules:
 - brace-style
 ---
 
-<!--FIXABLE-->
+
 
 Enforces line breaks between array elements.
 

@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/comma-dangl
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 Requires or disallows trailing commas.
 

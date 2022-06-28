@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/function-pa
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 Enforces consistent line breaks inside function parentheses.
 

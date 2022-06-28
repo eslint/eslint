@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-const-as
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows modifying variables that are declared using `const`.
 

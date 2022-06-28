@@ -10,7 +10,7 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows the use of `debugger`.
 

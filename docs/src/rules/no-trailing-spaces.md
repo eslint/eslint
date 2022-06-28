@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-trailing
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 Disallows trailing whitespace at the end of lines.
 

@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-this-bef
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows use of `this`/`super` before calling `super()` in constructors.
 

@@ -8,7 +8,7 @@ related_rules:
 - no-use-before-define
 ---
 
-<!--FIXABLE-->
+
 
 Requires `const` declarations for variables that are never reassigned after declared.
 

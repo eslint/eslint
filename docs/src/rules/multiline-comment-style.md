@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/multiline-c
 rule_type: suggestion
 ---
 
-<!--FIXABLE-->
+
 
 Enforces a particular style for multiline comments.
 

@@ -7,7 +7,7 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
 ---
 
-<!--FIXABLE-->
+
 
 Requires using arrow functions for callbacks.
 

@@ -7,7 +7,7 @@ related_rules:
 - array-bracket-spacing
 ---
 
-<!--FIXABLE-->
+
 
 Enforces line breaks after opening and before closing array brackets.
 

@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-dupe-arg
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows duplicate arguments in `function` definitions.
 

@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/for-directi
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
+
 
 Enforces `for` loop update clause moving the counter in the right direction.
 

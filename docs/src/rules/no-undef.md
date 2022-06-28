@@ -8,7 +8,7 @@ related_rules:
 - no-redeclare
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows the use of undeclared variables unless mentioned in `/*global */` comments.
 

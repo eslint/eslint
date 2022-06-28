@@ -8,7 +8,7 @@ related_rules:
 - no-regex-spaces
 ---
 
-<!--FIXABLE-->
+
 
 Disallows regular expressions that look like division.
 

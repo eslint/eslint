@@ -8,7 +8,7 @@ further_reading:
 - https://mathiasbynens.be/notes/javascript-properties
 ---
 
-<!--FIXABLE-->
+
 
 Requires quotes around object literal property names.
 

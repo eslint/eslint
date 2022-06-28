@@ -9,9 +9,9 @@ related_rules:
 - no-label-var
 ---
 
-<!--RECOMMENDED-->
 
-<!--FIXABLE-->
+
+
 
 Disallows unused labels.
 

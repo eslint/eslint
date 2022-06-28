@@ -7,7 +7,7 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn
 ---
 
-<!--FIXABLE-->
+
 
 Prefer `Object.hasOwn()` over `Object.prototype.hasOwnProperty.call()`.
 

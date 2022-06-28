@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-duplicat
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows duplicate `case` labels.
 

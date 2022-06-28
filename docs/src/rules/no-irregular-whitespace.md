@@ -8,7 +8,7 @@ further_reading:
 - https://web.archive.org/web/20200414142829/http://timelessrepo.com/json-isnt-a-javascript-subset
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows irregular whitespace characters.
 

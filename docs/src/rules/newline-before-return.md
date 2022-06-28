@@ -7,7 +7,7 @@ related_rules:
 - newline-after-var
 ---
 
-<!--FIXABLE-->
+
 
 Requires an empty line before `return` statements.
 

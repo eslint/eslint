@@ -8,7 +8,7 @@ related_rules:
 - no-nested-ternary
 ---
 
-<!--FIXABLE-->
+
 
 Disallows ternary operators when simpler alternatives exist.
 

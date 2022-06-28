@@ -7,7 +7,7 @@ further_reading:
 - https://davidwalsh.name/parseint-radix
 ---
 
-<!--SUGGESTIONS-->
+
 
 Enforces the consistent use of the radix argument when using `parseInt()`.
 

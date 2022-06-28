@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-nume
 rule_type: suggestion
 ---
 
-<!--FIXABLE-->
+
 
 Disallows `parseInt()` and `Number.parseInt()` in favor of binary, octal, and hexadecimal literals.
 

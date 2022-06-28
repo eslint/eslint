@@ -7,7 +7,7 @@ related_rules:
 - no-constant-binary-expression
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows constant expressions in conditions.
 

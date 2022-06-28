@@ -7,7 +7,7 @@ further_reading:
 - https://github.com/airbnb/javascript#arrows--one-arg-parens
 ---
 
-<!--FIXABLE-->
+
 
 Requires parens in arrow function arguments.
 
