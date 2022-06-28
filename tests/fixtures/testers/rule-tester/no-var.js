@@ -12,7 +12,8 @@
 module.exports = {
 
     meta: {
-        fixable: "code"
+        fixable: "code",
+        shema: []
     },
 
     create(context) {
