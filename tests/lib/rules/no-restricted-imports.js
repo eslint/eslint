@@ -282,17 +282,6 @@ ruleTester.run("no-restricted-imports", rule, {
                     importNames: ["Foo"]
                 }]
             }]
-        },
-        {
-
-            // Star import should not be reported - just drop the importNames option for this behavior
-            code: "import * as Foo from '../../my/relative-module';",
-            options: [{
-                patterns: [{
-                    group: ["**/my/relative-module"],
-                    importNames: ["Foo"]
-                }]
-            }]
         }
     ],
     invalid: [{
@@ -1146,19 +1135,39 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             patterns: [{
                 group: ["**/my/relative-module"],
-                importNames: ["Foo", "Bar"]
+                importNames: ["Foo", "Bar"],
+                message: "Import from @/utils instead."
             }]
         }],
         errors: [{
             type: "ImportDeclaration",
             line: 1,
             column: 10,
-            endColumn: 13
+            endColumn: 13,
+            message: "'Foo' import from '../../my/relative-module' is restricted from being used by a pattern. Import from @/utils instead."
         }, {
             type: "ImportDeclaration",
             line: 1,
             column: 15,
-            endColumn: 18
+            endColumn: 18,
+            message: "'Bar' import from '../../my/relative-module' is restricted from being used by a pattern. Import from @/utils instead."
+        }]
+    },
+    {
+
+        // Star import should be reported for consistency with `paths` option (see: https://github.com/eslint/eslint/pull/16059#discussion_r908749964)
+        code: "import * as Foo from '../../my/relative-module';",
+        options: [{
+            patterns: [{
+                group: ["**/my/relative-module"],
+                importNames: ["Foo"]
+            }]
+        }],
+        errors: [{
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 49
         }]
     }
     ]
