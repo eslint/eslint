@@ -1155,8 +1155,11 @@ ruleTester.run("no-restricted-imports", rule, {
     },
     {
 
-        // Star import should be reported for consistency with `paths` option (see: https://github.com/eslint/eslint/pull/16059#discussion_r908749964)
-        code: "import * as Foo from '../../my/relative-module';",
+        /*
+         * Star import should be reported for consistency with `paths` option (see: https://github.com/eslint/eslint/pull/16059#discussion_r908749964)
+         * For example, import * as All allows for calling/referencing the restricted import All.Foo
+         */
+        code: "import * as All from '../../my/relative-module';",
         options: [{
             patterns: [{
                 group: ["**/my/relative-module"],
@@ -1164,10 +1167,11 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         }],
         errors: [{
+            message: "* import is invalid because 'Foo' from '../../my/relative-module' is restricted from being used by a pattern.",
             type: "ImportDeclaration",
             line: 1,
-            column: 1,
-            endColumn: 49
+            column: 8,
+            endColumn: 16
         }]
     }
     ]
