@@ -7,7 +7,7 @@ related_rules:
 - quotes
 ---
 
-<!--FIXABLE-->
+
 
 Enforces the consistent use of either double or single quotes in JSX attributes.
 

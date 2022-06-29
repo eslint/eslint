@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-lonely-i
 rule_type: suggestion
 ---
 
-<!--FIXABLE-->
+
 
 Disallows `if` statements as the only statement in `else` blocks.
 

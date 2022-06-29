@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/dot-notatio
 rule_type: suggestion
 ---
 
-<!--FIXABLE-->
+
 
 Enforces dot notation whenever possible.
 

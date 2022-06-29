@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-unsafe-o
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows use of optional chaining in contexts where the `undefined` value is not allowed.
 

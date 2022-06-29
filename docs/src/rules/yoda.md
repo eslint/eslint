@@ -8,7 +8,7 @@ further_reading:
 - http://thomas.tuerke.net/on/design/?with=1249091668#msg1146181680
 ---
 
-<!--FIXABLE-->
+
 
 Requires or disallows "Yoda" conditions.
 

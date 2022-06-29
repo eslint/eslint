@@ -8,7 +8,7 @@ related_rules:
 - dot-notation
 ---
 
-<!--FIXABLE-->
+
 
 Enforces newline before and after dots.
 

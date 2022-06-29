@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-inner-de
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows variable or `function` declarations in nested blocks.
 

@@ -7,7 +7,7 @@ further_reading:
 - https://github.com/tc39/proposal-object-rest-spread
 ---
 
-<!--FIXABLE-->
+
 
 Enforces spacing between rest and spread operators and their expressions.
 

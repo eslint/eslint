@@ -7,7 +7,7 @@ related_rules:
 - no-shadow
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows variable redeclarations.
 

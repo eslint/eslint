@@ -7,7 +7,7 @@ further_reading:
 - https://bocoup.com/blog/the-catch-with-try-catch
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows reassigning exceptions in `catch` clauses.
 

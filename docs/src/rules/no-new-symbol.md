@@ -7,7 +7,7 @@ further_reading:
 - https://www.ecma-international.org/ecma-262/6.0/#sec-symbol-objects
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows `new` operators with the `Symbol` object.
 

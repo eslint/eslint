@@ -7,7 +7,7 @@ further_reading:
 - https://jscs-dev.github.io/rule/requireNewlineBeforeSingleStatementsInIf
 ---
 
-<!--FIXABLE-->
+
 
 Enforces the location of single-line statements.
 

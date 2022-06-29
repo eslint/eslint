@@ -8,7 +8,7 @@ related_rules:
 - no-lonely-if
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows duplicate conditions in `if-else-if` chains.
 

@@ -8,7 +8,7 @@ related_rules:
 - arrow-parens
 ---
 
-<!--FIXABLE-->
+
 
 Disallows arrow functions where they could be confused with comparisons.
 

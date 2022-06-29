@@ -9,7 +9,7 @@ related_rules:
 - computed-property-spacing
 ---
 
-<!--FIXABLE-->
+
 
 Disallows or enforce spaces inside of brackets.
 

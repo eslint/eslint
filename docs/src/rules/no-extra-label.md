@@ -9,7 +9,7 @@ related_rules:
 - no-unused-labels
 ---
 
-<!--FIXABLE-->
+
 
 Disallows unnecessary labels.
 

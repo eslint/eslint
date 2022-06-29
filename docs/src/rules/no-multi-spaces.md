@@ -13,7 +13,7 @@ related_rules:
 - space-return-throw-case
 ---
 
-<!--FIXABLE-->
+
 
 Disallows multiple consecutive spaces.
 

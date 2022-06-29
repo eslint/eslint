@@ -9,7 +9,7 @@ further_reading:
 - https://gist.github.com/isaacs/357981
 ---
 
-<!--FIXABLE-->
+
 
 Enforces consistent comma styles.
 

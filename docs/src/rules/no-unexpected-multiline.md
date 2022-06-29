@@ -9,7 +9,7 @@ related_rules:
 - space-unary-ops
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows confusing multiline expressions.
 

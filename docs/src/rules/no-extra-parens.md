@@ -11,7 +11,7 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
 ---
 
-<!--FIXABLE-->
+
 
 Disallows unnecessary parentheses.
 

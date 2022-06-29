@@ -8,7 +8,7 @@ related_rules:
 - padded-blocks
 ---
 
-<!--FIXABLE-->
+
 
 Requires or disallow newlines around directives.
 

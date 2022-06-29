@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-async-pr
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows using an async function as a Promise executor.
 

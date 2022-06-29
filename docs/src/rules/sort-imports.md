@@ -8,7 +8,7 @@ related_rules:
 - sort-vars
 ---
 
-<!--FIXABLE-->
+
 
 Enforces sorted import declarations within modules.
 

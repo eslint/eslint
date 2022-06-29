@@ -9,7 +9,7 @@ related_rules:
 - space-in-parens
 ---
 
-<!--FIXABLE-->
+
 
 Disallows or enforces spaces inside of computed properties.
 

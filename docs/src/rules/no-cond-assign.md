@@ -7,7 +7,7 @@ related_rules:
 - no-extra-parens
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows assignment operators in conditional statements.
 

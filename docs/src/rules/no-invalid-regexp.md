@@ -7,7 +7,7 @@ further_reading:
 - https://es5.github.io/#x7.8.5
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows invalid regular expression strings in `RegExp` constructors.
 

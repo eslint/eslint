@@ -11,7 +11,7 @@ related_rules:
 - space-in-parens
 ---
 
-<!--FIXABLE-->
+
 
 Enforces spacing before and after semicolons.
 

@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-spaced-f
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 Disallows spacing between function identifiers and their applications.
 

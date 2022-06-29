@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/one-var.md
 rule_type: suggestion
 ---
 
-<!--FIXABLE-->
+
 
 Enforces variables to be declared either together or separately in functions.
 

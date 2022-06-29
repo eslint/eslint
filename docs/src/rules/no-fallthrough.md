@@ -7,7 +7,7 @@ related_rules:
 - default-case
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows case statement fallthroughs.
 

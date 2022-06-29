@@ -7,7 +7,7 @@ further_reading:
 - https://es5.github.io/#x15.8
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows calling global object properties as functions.
 

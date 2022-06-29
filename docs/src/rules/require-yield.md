@@ -7,7 +7,7 @@ related_rules:
 - require-await
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows generator functions that do not have `yield`.
 

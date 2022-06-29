@@ -10,7 +10,7 @@ related_rules:
 - array-element-newline
 ---
 
-<!--FIXABLE-->
+
 
 Enforces line breaks between arguments of a function call.
 

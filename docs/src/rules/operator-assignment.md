@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/operator-as
 rule_type: suggestion
 ---
 
-<!--FIXABLE-->
+
 
 Requires or disallows assignment operator shorthand where possible.
 

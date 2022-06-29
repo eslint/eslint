@@ -8,7 +8,7 @@ related_rules:
 - spaced-comment
 ---
 
-<!--FIXABLE-->
+
 
 Requires empty lines around comments.
 

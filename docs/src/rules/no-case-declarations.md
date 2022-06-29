@@ -7,7 +7,7 @@ related_rules:
 - no-fallthrough
 ---
 
-<!--RECOMMENDED-->
+
 
 Disallows lexical declarations in case/default clauses.
 

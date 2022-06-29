@@ -7,7 +7,7 @@ related_rules:
 - brace-style
 ---
 
-<!--FIXABLE-->
+
 
 Enforces the location of arrow function bodies with implicit returns.
 

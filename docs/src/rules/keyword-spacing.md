@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/keyword-spa
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 Enforces consistent spacing before and after keywords.
 
