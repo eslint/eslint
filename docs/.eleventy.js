@@ -9,6 +9,7 @@ const markdownItAnchor = require("markdown-it-anchor");
 const markdownItContainer = require("markdown-it-container");
 const Image = require("@11ty/eleventy-img");
 const path = require("path");
+const { slug } = require("github-slugger");
 const yaml = require("js-yaml");
 
 const {
@@ -154,7 +155,17 @@ module.exports = function(eleventyConfig) {
 
     eleventyConfig.setLibrary("md",
         markdownIt({ html: true, linkify: true, typographer: true })
-            .use(markdownItAnchor, {})
+            .use(markdownItAnchor, {
+                slugify(text) {
+
+                    // need to replace all the characters GitHub replaces
+                    return slug(text.replace(/[<>()[\]{}]/gu, ""))
+
+                        // remove non-ASCII characters
+                        // eslint-disable-next-line no-control-regex -- used regex from https://github.com/eslint/archive-website/blob/master/_11ty/plugins/markdown-plugins.js#L37
+                        .replace(/[^\u{00}-\u{FF}]/gu, "");
+                }
+            })
             .use(markdownItContainer, "correct", {})
             .use(markdownItContainer, "incorrect", {})
             .disable("code"));
