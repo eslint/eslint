@@ -2314,7 +2314,7 @@ describe("RuleTester", () => {
 
             const spy = sinon.spy(util, "deprecate");
 
-            ruleTester.run("functionStyleRule", functionStyleRule, {
+            ruleTester.run("function-style-rule", functionStyleRule, {
                 valid: [],
                 invalid: [
                     { code: "var foo = bar;", errors: 1 }
@@ -2324,9 +2324,9 @@ describe("RuleTester", () => {
             assert.strictEqual(spy.callCount, 1, "calls `util.deprecate()` once");
             assert.strictEqual(
                 spy.getCall(0).args[1],
-                "\"functionStyleRule\" rule is using the deprecated function-style format and will stop working in ESLint v9. Please use object-style format: https://eslint.org/docs/developer-guide/working-with-rules"
+                "\"function-style-rule\" rule is using the deprecated function-style format and will stop working in ESLint v9. Please use object-style format: https://eslint.org/docs/developer-guide/working-with-rules"
             );
-            assert.strictEqual(spy.getCall(0).args[2], "DEP_ESLINT_LEGACY_RULE_API");
+            assert.strictEqual(spy.getCall(0).args[2], "DEP_ESLINT_LEGACY_RULE_API_FUNCTION_STYLE_RULE");
 
             spy.restore();
         });
@@ -2347,7 +2347,7 @@ describe("RuleTester", () => {
 
             const spy = sinon.spy(util, "deprecate");
 
-            ruleTester.run("ruleWithNoOptions", ruleWithNoSchema, {
+            ruleTester.run("rule-with-no-options", ruleWithNoSchema, {
                 valid: [],
                 invalid: [
                     { code: "var foo = bar;", options: [{ foo: true }], errors: 1 }
@@ -2357,9 +2357,9 @@ describe("RuleTester", () => {
             assert.strictEqual(spy.callCount, 1, "calls `console.warn` once");
             assert.strictEqual(
                 spy.getCall(0).args[1],
-                "\"ruleWithNoOptions\" rule is using the object-style format but is missing the \"meta.schema\" property. Please add a schema: https://eslint.org/docs/developer-guide/working-with-rules#options-schemas"
+                "\"rule-with-no-options\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/developer-guide/working-with-rules#options-schemas"
             );
-            assert.strictEqual(spy.getCall(0).args[2], "DEP_ESLINT_MISSING_RULE_SCHEMA");
+            assert.strictEqual(spy.getCall(0).args[2], "DEP_ESLINT_MISSING_SCHEMA_RULE_WITH_NO_OPTIONS");
 
             spy.restore();
         });
@@ -2381,7 +2381,7 @@ describe("RuleTester", () => {
 
             const spy = sinon.spy(util, "deprecate");
 
-            ruleTester.run("ruleWithNoOptions", ruleWithEmptySchema, {
+            ruleTester.run("rule-with-no-options", ruleWithEmptySchema, {
                 valid: [],
                 invalid: [{ code: "var foo = bar;", errors: 1 }]
             });
