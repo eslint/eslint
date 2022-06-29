@@ -778,6 +778,21 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                with (a)
+                    b();
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                with (a)
+                    b();
+                c();
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
                 if(true)
                   if (true)
                     if (true)
@@ -6324,6 +6339,14 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                with (a)
+                    console.log(b)
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
                 label: for (a of b)
                     console.log('a')
                 ;[1, 2, 3].forEach(x=>console.log(x))
@@ -6949,6 +6972,20 @@ ruleTester.run("indent", rule, {
                 do
                     b();
                 while(true)
+            `,
+            options: [4],
+            errors: expectedErrors([
+                [2, 4, 0, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                with(a)
+                b();
+            `,
+            output: unIndent`
+                with(a)
+                    b();
             `,
             options: [4],
             errors: expectedErrors([
@@ -13296,6 +13333,20 @@ ruleTester.run("indent", rule, {
             output: unIndent`
                 for (a of b)
                     console.log('a')
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: [4],
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                with (a)
+                    console.log(b)
+                    ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            output: unIndent`
+                with (a)
+                    console.log(b)
                 ;[1, 2, 3].forEach(x=>console.log(x))
             `,
             options: [4],
