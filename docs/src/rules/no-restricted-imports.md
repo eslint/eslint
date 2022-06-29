@@ -219,6 +219,16 @@ import pick from 'lodash/pick';
 import pick from 'fooBar';
 ```
 
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["utils/*"],
+    importNames: ['isEmpty'],
+    message: "Use 'isEmpty' from lodash instead."
+}]}]*/
+
+import { isEmpty } from 'utils/collection-utils';
+```
+
 Examples of **correct** code for this rule:
 
 ::: correct
@@ -272,6 +282,16 @@ import lodash from 'lodash';
 }]}]*/
 
 import pick from 'food';
+```
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["utils/*"],
+    importNames: ['isEmpty'],
+    message: "Use 'isEmpty' from lodash instead."
+}]}]*/
+
+import { hasValues } from 'utils/collection-utils';
 ```
 
 ## When Not To Use It
