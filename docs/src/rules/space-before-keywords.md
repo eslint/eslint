@@ -11,6 +11,7 @@ related_rules:
 - space-infix-ops
 ---
 
+Enforces consistent spacing before keywords.
 
 (removed) This rule was **removed** in ESLint v2.0 and **replaced** by the [keyword-spacing](keyword-spacing) rule.
 

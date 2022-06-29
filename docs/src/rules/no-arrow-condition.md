@@ -9,6 +9,7 @@ related_rules:
 - no-constant-condition
 ---
 
+Disallows arrow functions where test conditions are expected.
 
 (removed) This rule was **removed** in ESLint v2.0 and **replaced** by a combination of the [no-confusing-arrow](no-confusing-arrow) and [no-constant-condition](no-constant-condition) rules.
 

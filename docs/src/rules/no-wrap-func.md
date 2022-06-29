@@ -5,6 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-wrap-fun
 
 ---
 
+Disallows unnecessary parentheses around function expressions.
 
 (removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [no-extra-parens](no-extra-parens) rule. The `"functions"` option in the new rule is equivalent to the removed rule.
 

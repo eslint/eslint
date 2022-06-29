@@ -7,6 +7,7 @@ further_reading:
 - https://es5.github.io/#C
 ---
 
+Disallows strict mode directives when already in strict mode.
 
 (removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [strict](strict) rule. The `"global"` or `"function"` options in the new rule are similar to the removed rule.
 

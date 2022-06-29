@@ -5,6 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-comma-da
 
 ---
 
+Disallows trailing commas in object and array literals.
 
 (removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [comma-dangle](comma-dangle) rule.
 

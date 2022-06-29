@@ -5,6 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/space-unary
 
 ---
 
+Requires spaces after unary word operators.
 
 (removed) This rule was **removed** in ESLint v0.10.0 and **replaced** by the [space-unary-ops](space-unary-ops) rule.
 
