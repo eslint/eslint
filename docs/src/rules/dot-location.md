@@ -8,7 +8,7 @@ related_rules:
 - dot-notation
 ---
 
-<!--FIXABLE-->
+
 
 JavaScript allows you to place newlines before or after a dot in a member expression.
 

@@ -7,7 +7,7 @@ related_rules:
 - one-var
 ---
 
-<!--FIXABLE-->
+
 
 Some developers declare multiple var statements on the same line:
 

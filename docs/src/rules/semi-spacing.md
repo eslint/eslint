@@ -11,7 +11,7 @@ related_rules:
 - space-in-parens
 ---
 
-<!--FIXABLE-->
+
 
 JavaScript allows you to place unnecessary spaces before or after a semicolon.
 

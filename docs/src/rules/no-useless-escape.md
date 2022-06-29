@@ -5,9 +5,9 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-useless-
 rule_type: suggestion
 ---
 
-<!--RECOMMENDED-->
 
-<!--SUGGESTIONS-->
+
+
 
 Escaping non-special characters in strings, template literals, and regular expressions doesn't have any effect, as demonstrated in the following example:
 

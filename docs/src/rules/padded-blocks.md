@@ -8,7 +8,7 @@ related_rules:
 - padding-line-between-statements
 ---
 
-<!--FIXABLE-->
+
 
 Some style guides require block statements to start and end with blank lines. The goal is
 to improve readability by visually separating the block content and the surrounding code.

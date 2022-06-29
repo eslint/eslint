@@ -7,7 +7,7 @@ related_rules:
 - operator-linebreak
 ---
 
-<!--FIXABLE-->
+
 
 JavaScript allows operands of ternary expressions to be separated by newlines, which can improve the readability of your program.
 

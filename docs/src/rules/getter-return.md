@@ -8,7 +8,7 @@ further_reading:
 - https://leanpub.com/understandinges6/read/#leanpub-auto-accessor-properties
 ---
 
-<!--RECOMMENDED-->
+
 
 The get syntax binds an object property to a function that will be called when that property is looked up. It was first introduced in ECMAScript 5:
 

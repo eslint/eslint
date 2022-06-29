@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-lonely-i
 rule_type: suggestion
 ---
 
-<!--FIXABLE-->
+
 
 If an `if` statement is the only statement in the `else` block, it is often clearer to use an `else if` form.
 

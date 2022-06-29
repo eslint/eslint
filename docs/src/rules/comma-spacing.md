@@ -17,7 +17,7 @@ further_reading:
 - https://dojotoolkit.org/reference-guide/1.9/developer/styleguide.html
 ---
 
-<!--FIXABLE-->
+
 
 Spacing around commas improves readability of a list of items. Although most of the style guidelines for languages prescribe adding a space after a comma and not before it, it is subjective to the preferences of a project.
 

@@ -8,7 +8,7 @@ further_reading:
 - http://thomas.tuerke.net/on/design/?with=1249091668#msg1146181680
 ---
 
-<!--FIXABLE-->
+
 
 Yoda conditions are so named because the literal value of the condition comes first while the variable comes second. For example, the following is a Yoda condition:
 

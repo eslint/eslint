@@ -7,7 +7,7 @@ related_rules:
 - spaced-line-comment
 ---
 
-<!--FIXABLE-->
+
 
 Some style guides require or disallow a whitespace immediately after the initial `//` or `/*` of a comment.
 Whitespace after the `//` or `/*` makes it easier to read text in comments.

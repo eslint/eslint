@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/constructor
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
+Verifies calls of `super()` in constructors.
 
 Constructors of derived classes must call `super()`.
 Constructors of non derived classes must not call `super()`.

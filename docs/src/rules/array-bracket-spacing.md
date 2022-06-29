@@ -9,7 +9,7 @@ related_rules:
 - computed-property-spacing
 ---
 
-<!--FIXABLE-->
+
 
 A number of style guides require or disallow spaces between array brackets and other tokens. This rule
 applies to both array literals and destructuring assignments (ECMAScript 6).

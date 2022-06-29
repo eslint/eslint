@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-this-bef
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
+
 
 In the constructor of derived classes, if `this`/`super` are used before `super()` calls, it raises a reference error.
 

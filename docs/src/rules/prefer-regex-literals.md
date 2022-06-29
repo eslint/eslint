@@ -8,7 +8,7 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 ---
 
-<!--SUGGESTIONS-->
+
 
 There are two ways to create a regular expression:
 

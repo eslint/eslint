@@ -7,7 +7,7 @@ further_reading:
 - https://github.com/tc39/proposal-object-rest-spread
 ---
 
-<!--FIXABLE-->
+
 
 ES2015 introduced the rest and spread operators, which expand an iterable structure into its individual parts. Some examples of their usage are as follows:
 

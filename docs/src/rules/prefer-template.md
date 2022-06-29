@@ -8,7 +8,7 @@ related_rules:
 - quotes
 ---
 
-<!--FIXABLE-->
+
 
 In ES2015 (ES6), we can use template literals instead of string concatenation.
 

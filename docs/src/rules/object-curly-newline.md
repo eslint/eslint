@@ -10,7 +10,7 @@ related_rules:
 - object-property-newline
 ---
 
-<!--FIXABLE-->
+
 
 A number of style guides require or disallow line breaks inside of object braces and other tokens.
 

@@ -8,7 +8,7 @@ related_rules:
 - no-void
 ---
 
-<!--FIXABLE-->
+
 
 In JavaScript, a variable that is declared and not initialized to any value automatically gets the value of `undefined`. For example:
 

@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-loss-of-
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
+
 
 This rule would disallow the use of number literals that immediately lose precision at runtime when converted to a JS `Number` due to 64-bit floating-point rounding.
 

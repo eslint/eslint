@@ -8,7 +8,7 @@ further_reading:
 - https://mathiasbynens.be/notes/javascript-properties
 ---
 
-<!--FIXABLE-->
+
 
 Object literal property names can be defined in two ways: using literals or using strings. For example, these two objects are equivalent:
 

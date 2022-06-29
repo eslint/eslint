@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-octal.md
 rule_type: suggestion
 ---
 
-<!--RECOMMENDED-->
+
 
 Octal literals are numerals that begin with a leading zero, such as:
 

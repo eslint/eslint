@@ -8,7 +8,7 @@ related_rules:
 - brace-style
 ---
 
-<!--FIXABLE-->
+
 
 ## Rule Details
 

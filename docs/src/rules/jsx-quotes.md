@@ -7,7 +7,7 @@ related_rules:
 - quotes
 ---
 
-<!--FIXABLE-->
+
 
 JSX attribute values can contain string literals, which are delimited with single or double quotes.
 

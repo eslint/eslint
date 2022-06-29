@@ -8,7 +8,7 @@ further_reading:
 - https://bugs.chromium.org/p/v8/issues/detail?id=5848
 ---
 
-<!--FIXABLE-->
+
 
 Introduced in ES2016, the infix exponentiation operator `**` is an alternative for the standard `Math.pow` function.
 

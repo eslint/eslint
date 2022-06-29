@@ -7,7 +7,7 @@ related_rules:
 - object-shorthand
 ---
 
-<!--FIXABLE-->
+
 
 ES2015 allows for the renaming of references in import and export statements as well as destructuring assignments. This gives programmers a concise syntax for performing these operations while renaming these references:
 

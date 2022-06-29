@@ -8,7 +8,7 @@ related_rules:
 - padding-line-between-statements
 ---
 
-<!--FIXABLE-->
+
 
 This rule improves readability by enforcing lines between class members. It will not check empty lines before the first member and after the last member, since that is already taken care of by padded-blocks.
 

@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/indent-lega
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 This rule was **deprecated** in ESLint v4.0.0.
 

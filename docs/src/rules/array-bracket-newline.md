@@ -7,7 +7,7 @@ related_rules:
 - array-bracket-spacing
 ---
 
-<!--FIXABLE-->
+
 
 A number of style guides require or disallow line breaks inside of array brackets.
 

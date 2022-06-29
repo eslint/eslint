@@ -8,7 +8,7 @@ further_reading:
 - https://exploringjs.com/es6/ch_template-literals.html#_examples-of-using-tagged-template-literals
 ---
 
-<!--FIXABLE-->
+
 
 With ES6, it's possible to create functions called [tagged template literals](#further-reading) where the function parameters consist of a template literal's strings and expressions.
 

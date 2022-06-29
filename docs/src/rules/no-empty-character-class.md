@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-empty-ch
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
+
 
 Because empty character classes in regular expressions do not match anything, they might be typing mistakes.
 

@@ -9,7 +9,7 @@ related_rules:
 - computed-property-spacing
 ---
 
-<!--FIXABLE-->
+
 
 Some style guides require or disallow spaces inside of parentheses:
 

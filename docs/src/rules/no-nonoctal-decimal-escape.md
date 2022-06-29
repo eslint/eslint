@@ -9,9 +9,9 @@ further_reading:
 - https://tc39.es/ecma262/#prod-annexB-NonOctalDecimalEscapeSequence
 ---
 
-<!--RECOMMENDED-->
 
-<!--SUGGESTIONS-->
+
+
 
 Although not being specified in the language until ECMAScript 2021, `\8` and `\9` escape sequences in string literals were allowed in most JavaScript engines, and treated as "useless" escapes:
 

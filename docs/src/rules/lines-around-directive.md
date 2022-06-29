@@ -8,7 +8,7 @@ related_rules:
 - padded-blocks
 ---
 
-<!--FIXABLE-->
+
 
 This rule was **deprecated** in ESLint v4.0.0 and replaced by the [padding-line-between-statements](padding-line-between-statements) rule.
 

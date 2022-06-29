@@ -8,7 +8,7 @@ related_rules:
 - no-regex-spaces
 ---
 
-<!--FIXABLE-->
+
 
 Require regex literals to escape division operators.
 

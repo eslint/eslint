@@ -7,7 +7,7 @@ further_reading:
 - https://es5.github.io/#x7.8.5
 ---
 
-<!--RECOMMENDED-->
+
 
 An invalid pattern in a regular expression literal is a `SyntaxError` when the code is parsed, but an invalid string in `RegExp` constructors throws a `SyntaxError` only when the code is executed.
 

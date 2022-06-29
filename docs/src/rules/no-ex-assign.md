@@ -7,7 +7,7 @@ further_reading:
 - https://bocoup.com/blog/the-catch-with-try-catch
 ---
 
-<!--RECOMMENDED-->
+
 
 If a `catch` clause in a `try` statement accidentally (or purposely) assigns another value to the exception parameter, it is impossible to refer to the error from that point on.
 Since there is no `arguments` object to offer alternative access to this data, assignment of the parameter is absolutely destructive.

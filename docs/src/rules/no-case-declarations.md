@@ -7,7 +7,7 @@ related_rules:
 - no-fallthrough
 ---
 
-<!--RECOMMENDED-->
+
 
 This rule disallows lexical declarations (`let`, `const`, `function` and `class`)
 in `case`/`default` clauses. The reason is that the lexical declaration is visible

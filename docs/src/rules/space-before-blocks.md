@@ -11,7 +11,7 @@ related_rules:
 - brace-style
 ---
 
-<!--FIXABLE-->
+
 
 Consistency is an important part of any style guide.
 While it is a personal preference where to put the opening brace of blocks,

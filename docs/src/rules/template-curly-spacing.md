@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/template-cu
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 We can embed expressions in template strings with using a pair of `${` and `}`.
 

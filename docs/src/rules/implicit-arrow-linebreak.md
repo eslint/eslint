@@ -7,7 +7,7 @@ related_rules:
 - brace-style
 ---
 
-<!--FIXABLE-->
+
 
 An arrow function body can contain an implicit return as an expression instead of a block body. It can be useful to enforce a consistent location for the implicitly returned expression.
 

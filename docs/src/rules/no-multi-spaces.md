@@ -13,7 +13,7 @@ related_rules:
 - space-return-throw-case
 ---
 
-<!--FIXABLE-->
+
 
 Multiple spaces in a row that are not used for indentation are typically mistakes. For example:
 

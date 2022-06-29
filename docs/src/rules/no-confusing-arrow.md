@@ -8,7 +8,7 @@ related_rules:
 - arrow-parens
 ---
 
-<!--FIXABLE-->
+
 
 Arrow functions (`=>`) are similar in syntax to some comparison operators (`>`, `<`, `<=`, and `>=`). This rule warns against using the arrow function syntax in places where it could be confused with a comparison operator.
 

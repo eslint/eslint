@@ -8,7 +8,7 @@ related_rules:
 - no-redeclare
 ---
 
-<!--RECOMMENDED-->
+
 
 This rule can help you locate potential ReferenceErrors resulting from misspellings of variable and parameter names, or accidental implicit globals (for example, from forgetting the `var` keyword in a `for` loop initializer).
 

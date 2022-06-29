@@ -7,7 +7,7 @@ related_rules:
 - require-await
 ---
 
-<!--RECOMMENDED-->
+
 
 ## Rule Details
 

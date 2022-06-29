@@ -8,7 +8,7 @@ related_rules:
 - spaced-comment
 ---
 
-<!--FIXABLE-->
+
 
 Many style guides require empty lines before or after comments. The primary goal
 of these rules is to make the comments easier to read and improve readability of the code.

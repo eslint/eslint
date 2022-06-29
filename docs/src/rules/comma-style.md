@@ -9,7 +9,7 @@ further_reading:
 - https://gist.github.com/isaacs/357981
 ---
 
-<!--FIXABLE-->
+
 
 The Comma Style rule enforces styles for comma-separated lists. There are two comma styles primarily used in JavaScript:
 

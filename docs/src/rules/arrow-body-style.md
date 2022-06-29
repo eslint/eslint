@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/arrow-body-
 rule_type: suggestion
 ---
 
-<!--FIXABLE-->
+Requires braces in arrow function bodies.
 
 Arrow functions have two syntactic forms for their function bodies.  They may be defined with a *block* body (denoted by curly braces) `() => { ... }` or with a single expression `() => ...`, whose value is implicitly returned.
 

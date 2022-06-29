@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/function-pa
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 Many style guides require or disallow newlines inside of function parentheses.
 

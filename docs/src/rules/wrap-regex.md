@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/wrap-regex.
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 When a regular expression is used in certain situations, it can end up looking like a division operator. For example:
 

@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/space-infix
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 While formatting preferences are very personal, a number of style guides require spaces around operators, such as:
 

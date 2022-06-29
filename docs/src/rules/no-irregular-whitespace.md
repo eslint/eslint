@@ -8,7 +8,7 @@ further_reading:
 - https://web.archive.org/web/20200414142829/http://timelessrepo.com/json-isnt-a-javascript-subset
 ---
 
-<!--RECOMMENDED-->
+
 
 Invalid or irregular whitespace causes issues with ECMAScript 5 parsers and also makes code harder to debug in a similar nature to mixed tabs and spaces.
 

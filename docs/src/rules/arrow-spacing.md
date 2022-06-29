@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/arrow-spaci
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 This rule normalize style of spacing before/after an arrow function's arrow(`=>`).
 

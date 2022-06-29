@@ -7,7 +7,7 @@ related_rules:
 - no-extra-parens
 ---
 
-<!--RECOMMENDED-->
+
 
 In conditional statements, it is very easy to mistype a comparison operator (such as `==`) as an assignment operator (such as `=`). For example:
 

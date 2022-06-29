@@ -7,7 +7,7 @@ further_reading:
 - https://github.com/airbnb/javascript#arrows--one-arg-parens
 ---
 
-<!--FIXABLE-->
+
 
 Arrow functions can omit parentheses when they have exactly one parameter. In all other cases the parameter(s) must
 be wrapped in parentheses. This rule enforces the consistent use of parentheses in arrow functions.

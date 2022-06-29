@@ -7,7 +7,7 @@ related_rules:
 - no-empty-function
 ---
 
-<!--RECOMMENDED-->
+
 
 Empty block statements, while not technically errors, usually occur due to refactoring that wasn't completed. They can cause confusion when reading code.
 

@@ -5,9 +5,9 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-extra-bo
 rule_type: suggestion
 ---
 
-<!--RECOMMENDED-->
 
-<!--FIXABLE-->
+
+
 
 In contexts such as an `if` statement's test where the result of the expression will already be coerced to a Boolean, casting to a Boolean via double negation (`!!`) or a `Boolean` call is unnecessary. For example, these `if` statements are equivalent:
 

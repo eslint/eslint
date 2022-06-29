@@ -5,7 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/switch-colo
 rule_type: layout
 ---
 
-<!--FIXABLE-->
+
 
 Spacing around colons improves readability of `case`/`default` clauses.
 

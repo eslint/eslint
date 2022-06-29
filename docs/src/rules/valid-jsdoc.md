@@ -9,7 +9,7 @@ further_reading:
 - https://jsdoc.app
 ---
 
-<!--FIXABLE-->
+
 
 This rule was [**deprecated**](https://eslint.org/blog/2018/11/jsdoc-end-of-life) in ESLint v5.10.0.
 
