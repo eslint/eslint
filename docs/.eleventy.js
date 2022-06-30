@@ -162,11 +162,7 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.setLibrary("md",
         markdownIt({ html: true, linkify: true, typographer: true })
             .use(markdownItAnchor, {
-                slugify(text) {
-
-                    // need to replace all the characters GitHub replaces
-                    return slugify(text);
-                }
+                slugify
             })
             .use(markdownItContainer, "correct", {})
             .use(markdownItContainer, "incorrect", {})
