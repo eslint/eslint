@@ -9,7 +9,6 @@ related_rules:
 - no-unused-labels
 ---
 
-Disallows labels that are variable names.
 
 ## Rule Details
 

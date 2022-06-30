@@ -7,8 +7,6 @@ rule_type: layout
 
 
 
-Enforces consistent spacing between keys and values in object literal properties.
-
 This rule enforces spacing around the colon in object literal properties. It can verify each property individually, or it can ensure horizontal alignment of adjacent properties in an object literal.
 
 ## Rule Details

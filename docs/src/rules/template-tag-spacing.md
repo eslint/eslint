@@ -10,8 +10,6 @@ further_reading:
 
 
 
-Requires or disallow spacing between template tags and their literals.
-
 With ES6, it's possible to create functions called [tagged template literals](#further-reading) where the function parameters consist of a template literal's strings and expressions.
 
 When using tagged template literals, it's possible to insert whitespace between the tag function and the template literal. Since this whitespace is optional, the following lines are equivalent:

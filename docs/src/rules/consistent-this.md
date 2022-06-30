@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/consistent-
 rule_type: suggestion
 ---
 
-Enforces consistent naming when capturing the current execution context.
 
 It is often necessary to capture the current execution context in order to make it available subsequently. A prominent example of this are jQuery callbacks:
 

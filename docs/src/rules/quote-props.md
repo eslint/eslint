@@ -10,8 +10,6 @@ further_reading:
 
 
 
-Requires quotes around object literal property names.
-
 Object literal property names can be defined in two ways: using literals or using strings. For example, these two objects are equivalent:
 
 ```js

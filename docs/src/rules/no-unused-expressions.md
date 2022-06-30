@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-unused-e
 rule_type: suggestion
 ---
 
-Disallows unused expressions.
 
 An unused expression which has no effect on the state of the program indicates a logic error.
 

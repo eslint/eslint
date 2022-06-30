@@ -7,8 +7,6 @@ rule_type: suggestion
 
 
 
-Disallows leading or trailing decimal points in numeric literals.
-
 Float values in JavaScript contain a decimal point, and there is no requirement that the decimal point be preceded or followed by a number. For example, the following are all valid JavaScript numbers:
 
 ```js

@@ -12,8 +12,6 @@ related_rules:
 
 
 
-Enforces consistent line breaks after opening and before closing braces.
-
 A number of style guides require or disallow line breaks inside of object braces and other tokens.
 
 ## Rule Details

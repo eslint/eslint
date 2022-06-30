@@ -7,8 +7,6 @@ rule_type: problem
 
 
 
-Disallows assigning to imported bindings.
-
 The updates of imported bindings by ES Modules cause runtime errors.
 
 ## Rule Details

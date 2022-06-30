@@ -11,8 +11,6 @@ related_rules:
 
 
 
-Disallows or enforce spaces inside of parentheses.
-
 Some style guides require or disallow spaces inside of parentheses:
 
 ```js

@@ -9,8 +9,6 @@ further_reading:
 
 
 
-Disallows sparse arrays.
-
 Sparse arrays contain empty slots, most frequently due to multiple commas being used in an array literal, such as:
 
 ```js

@@ -10,8 +10,6 @@ related_rules:
 
 
 
-Requires or disallows an empty line between class members.
-
 This rule improves readability by enforcing lines between class members. It will not check empty lines before the first member and after the last member, since that is already taken care of by padded-blocks.
 
 ## Rule Details

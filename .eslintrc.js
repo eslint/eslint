@@ -82,7 +82,7 @@ module.exports = {
                 "eslint-plugin/prefer-placeholders": "error",
                 "eslint-plugin/prefer-replace-text": "error",
                 "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
-                "eslint-plugin/require-meta-docs-description": "error",
+                "eslint-plugin/require-meta-docs-description": ["error", { pattern: "^(Enforce|Require|Disallow)" }],
                 "internal-rules/no-invalid-meta": "error"
             }
         },

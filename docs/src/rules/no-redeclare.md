@@ -9,8 +9,6 @@ related_rules:
 
 
 
-Disallows variable redeclarations.
-
 In JavaScript, it's possible to redeclare the same variable name using `var`. This can lead to confusion as to where the variable is actually declared and initialized.
 
 ## Rule Details

@@ -10,8 +10,6 @@ related_rules:
 
 
 
-Disallows or enforces spaces inside of blocks after opening blocks and before closing blocks.
-
 ## Rule Details
 
 This rule enforces consistent spacing inside an open block token and the next token on the same line. This rule also enforces consistent spacing inside a close block token and previous token on the same line.

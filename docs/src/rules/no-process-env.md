@@ -8,7 +8,6 @@ further_reading:
 - https://blog.benhall.me.uk/2012/02/storing-application-config-data-in/
 ---
 
-Disallows the use of `process.env`.
 
 This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-node`](https://github.com/mysticatea/eslint-plugin-node).
 

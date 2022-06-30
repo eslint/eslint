@@ -10,8 +10,6 @@ related_rules:
 
 
 
-Disallows arrow functions where they could be confused with comparisons.
-
 Arrow functions (`=>`) are similar in syntax to some comparison operators (`>`, `<`, `<=`, and `>=`). This rule warns against using the arrow function syntax in places where it could be confused with a comparison operator.
 
 Here's an example where the usage of `=>` could be confusing:

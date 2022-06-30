@@ -10,8 +10,6 @@ related_rules:
 
 
 
-Disallows regular expressions that look like division.
-
 Require regex literals to escape division operators.
 
 ```js

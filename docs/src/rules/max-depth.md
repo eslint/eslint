@@ -13,7 +13,6 @@ related_rules:
 - max-statements
 ---
 
-Enforces a maximum depth that blocks can be nested.
 
 Many developers consider code difficult to read if blocks are nested beyond a certain depth.
 

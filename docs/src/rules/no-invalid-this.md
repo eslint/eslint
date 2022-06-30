@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-invalid-
 rule_type: suggestion
 ---
 
-Disallows use of `this` in contexts where the value of `this` is `undefined`.
 
 Under the strict mode, `this` keywords outside of classes or class-like objects might be `undefined` and raise a `TypeError`.
 

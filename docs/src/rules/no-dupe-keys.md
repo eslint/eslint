@@ -7,8 +7,6 @@ rule_type: problem
 
 
 
-Disallows duplicate keys in object literals.
-
 Multiple properties with the same key in object literals can cause unexpected behavior in your application.
 
 ```js

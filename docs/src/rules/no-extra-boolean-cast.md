@@ -9,8 +9,6 @@ rule_type: suggestion
 
 
 
-Disallows unnecessary boolean casts.
-
 In contexts such as an `if` statement's test where the result of the expression will already be coerced to a Boolean, casting to a Boolean via double negation (`!!`) or a `Boolean` call is unnecessary. For example, these `if` statements are equivalent:
 
 ```js

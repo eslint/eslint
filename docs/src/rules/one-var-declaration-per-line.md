@@ -9,8 +9,6 @@ related_rules:
 
 
 
-Requires or disallows newlines around variable declarations.
-
 Some developers declare multiple var statements on the same line:
 
 ```js

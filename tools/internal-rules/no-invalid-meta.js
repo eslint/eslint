@@ -92,7 +92,7 @@ function checkMetaValidity(context, exportsNode) {
 module.exports = {
     meta: {
         docs: {
-            description: "enforce correct use of `meta` property in core rules",
+            description: "Enforce correct use of `meta` property in core rules",
             recommended: false
         },
         type: "problem",

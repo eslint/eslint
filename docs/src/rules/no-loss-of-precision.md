@@ -7,8 +7,6 @@ rule_type: problem
 
 
 
-Disallows number literals that lose precision.
-
 This rule would disallow the use of number literals that immediately lose precision at runtime when converted to a JS `Number` due to 64-bit floating-point rounding.
 
 ## Rule Details

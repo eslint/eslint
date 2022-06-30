@@ -7,8 +7,6 @@ rule_type: suggestion
 
 
 
-Disallows shorthand type conversions.
-
 In JavaScript, there are a lot of different ways to convert value types.
 Some of them might be hard to read and understand.
 

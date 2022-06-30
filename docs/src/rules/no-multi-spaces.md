@@ -15,8 +15,6 @@ related_rules:
 
 
 
-Disallows multiple consecutive spaces.
-
 Multiple spaces in a row that are not used for indentation are typically mistakes. For example:
 
 ```js

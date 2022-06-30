@@ -7,8 +7,6 @@ rule_type: suggestion
 
 
 
-Disallows unnecessary computed property keys in objects and classes.
-
 It's unnecessary to use computed properties with literals such as:
 
 ```js

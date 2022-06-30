@@ -9,8 +9,6 @@ further_reading:
 
 
 
-Disallows `with` statements.
-
 The `with` statement is potentially problematic because it adds members of an object to the current scope, making it impossible to tell what a variable inside the block actually refers to.
 
 ## Rule Details

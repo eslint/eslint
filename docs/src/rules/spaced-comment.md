@@ -9,8 +9,6 @@ related_rules:
 
 
 
-Enforces consistent spacing after the `//` or `/*` in a comment.
-
 Some style guides require or disallow a whitespace immediately after the initial `//` or `/*` of a comment.
 Whitespace after the `//` or `/*` makes it easier to read text in comments.
 On the other hand, commenting out code is easier without having to put a whitespace right after the `//` or `/*`.

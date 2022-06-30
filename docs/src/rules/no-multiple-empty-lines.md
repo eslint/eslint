@@ -7,8 +7,6 @@ rule_type: layout
 
 
 
-Disallows multiple empty lines.
-
 Some developers prefer to have multiple blank lines removed, while others feel that it helps improve readability. Whitespace is useful for separating logical sections of code, but excess whitespace takes up more of the screen.
 
 ## Rule Details

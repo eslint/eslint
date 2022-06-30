@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/require-ato
 rule_type: problem
 ---
 
-Disallows assignments that can lead to race conditions due to usage of `await` or `yield`.
 
 When writing asynchronous code, it is possible to create subtle race condition bugs. Consider the following example:
 

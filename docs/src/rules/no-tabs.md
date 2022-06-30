@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-tabs.md
 rule_type: layout
 ---
 
-Disallows all tabs.
 
 Some style guides don't allow the use of tab characters at all, including within comments.
 

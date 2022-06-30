@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-unmodifi
 rule_type: problem
 ---
 
-Disallows unmodified conditions of loops.
 
 Variables in a loop condition often are modified in the loop.
 If not, it's possibly a mistake.

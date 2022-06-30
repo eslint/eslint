@@ -7,8 +7,6 @@ rule_type: layout
 
 
 
-Requires space before/after arrow function's arrow.
-
 This rule normalize style of spacing before/after an arrow function's arrow(`=>`).
 
 ```js

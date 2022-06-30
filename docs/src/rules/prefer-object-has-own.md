@@ -9,8 +9,6 @@ further_reading:
 
 
 
-Prefer `Object.hasOwn()` over `Object.prototype.hasOwnProperty.call()`.
-
 It is very common to write code like:
 
 ```js

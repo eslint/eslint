@@ -7,7 +7,6 @@ related_rules:
 - no-extra-parens
 ---
 
-Disallows mixes of different operators.
 
 Enclosing complex expressions by parentheses clarifies the developer's intention, which makes the code more readable.
 This rule warns when different operators are used consecutively without parentheses in an expression.

@@ -13,8 +13,6 @@ further_reading:
 
 
 
-Disallows unnecessary parentheses.
-
 This rule restricts the use of parentheses to only where they are necessary.
 
 ## Rule Details

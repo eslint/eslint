@@ -8,7 +8,6 @@ related_rules:
 - no-restricted-syntax
 ---
 
-Disallows specific global variables.
 
 Disallowing usage of specific global variables can be useful if you want to allow a set of global
 variables by enabling an environment, but still want to disallow some of those.

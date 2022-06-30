@@ -13,8 +13,6 @@ related_rules:
 
 
 
-Enforces spacing before and after semicolons.
-
 JavaScript allows you to place unnecessary spaces before or after a semicolon.
 
 Disallowing or enforcing space around a semicolon can improve the readability of your program.

@@ -9,8 +9,6 @@ further_reading:
 
 
 
-Enforces spacing around the `*` in `yield*` expressions.
-
 ## Rule Details
 
 This rule enforces spacing around the `*` in `yield*` expressions.

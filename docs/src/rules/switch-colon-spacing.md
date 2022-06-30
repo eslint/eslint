@@ -7,8 +7,6 @@ rule_type: layout
 
 
 
-Enforces spacing around colons of switch statements.
-
 Spacing around colons improves readability of `case`/`default` clauses.
 
 ## Rule Details

@@ -11,8 +11,6 @@ related_rules:
 
 
 
-Enforces location of semicolons.
-
 Generally, semicolons are at the end of lines. However, in semicolon-less style, semicolons are at the beginning of lines. This rule enforces that semicolons are at the configured location.
 
 ## Rule Details

@@ -10,8 +10,6 @@ related_rules:
 
 
 
-Disallows the use of undeclared variables unless mentioned in `/*global */` comments.
-
 This rule can help you locate potential ReferenceErrors resulting from misspellings of variable and parameter names, or accidental implicit globals (for example, from forgetting the `var` keyword in a `for` loop initializer).
 
 ## Rule Details

@@ -7,7 +7,6 @@ related_rules:
 - no-useless-call
 ---
 
-Suggests using spread syntax instead of `.apply()`.
 
 Before ES2015, one must use `Function.prototype.apply()` to call variadic functions.
 

@@ -11,8 +11,6 @@ related_rules:
 
 
 
-Disallows unnecessary labels.
-
 If a loop contains no nested loops or switches, labeling the loop is unnecessary.
 
 ```js

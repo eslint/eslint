@@ -9,7 +9,6 @@ related_rules:
 - no-shadow
 ---
 
-Disallows reassignment of native objects.
 
 This rule was **deprecated** in ESLint v3.3.0 and replaced by the [no-global-assign](no-global-assign) rule.
 

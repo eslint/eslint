@@ -7,8 +7,6 @@ rule_type: suggestion
 
 
 
-Disallows `parseInt()` and `Number.parseInt()` in favor of binary, octal, and hexadecimal literals.
-
 The `parseInt()` and `Number.parseInt()` functions can be used to turn binary, octal, and hexadecimal strings into integers. As binary, octal, and hexadecimal literals are supported in ES6, this rule encourages use of those numeric literals instead of `parseInt()` or `Number.parseInt()`.
 
 ```js

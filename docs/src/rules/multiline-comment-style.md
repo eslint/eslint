@@ -7,8 +7,6 @@ rule_type: suggestion
 
 
 
-Enforces a particular style for multiline comments.
-
 Many style guides require a particular style for comments that span multiple lines. For example, some style guides prefer the use of a single block comment for multiline comments, whereas other style guides prefer consecutive line comments.
 
 ## Rule Details

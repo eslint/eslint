@@ -9,7 +9,6 @@ further_reading:
 - https://github.com/nodejs/node/issues/4660
 ---
 
-Disallows use of the `Buffer()` constructor.
 
 This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-node`](https://github.com/mysticatea/eslint-plugin-node).
 

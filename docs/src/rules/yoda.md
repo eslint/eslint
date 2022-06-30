@@ -10,8 +10,6 @@ further_reading:
 
 
 
-Requires or disallows "Yoda" conditions.
-
 Yoda conditions are so named because the literal value of the condition comes first while the variable comes second. For example, the following is a Yoda condition:
 
 ```js

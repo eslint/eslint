@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/require-uni
 rule_type: suggestion
 ---
 
-Enforces the use of `u` flag on RegExp.
 
 RegExp `u` flag has two effects:
 

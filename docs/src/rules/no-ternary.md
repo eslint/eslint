@@ -8,7 +8,6 @@ related_rules:
 - no-unneeded-ternary
 ---
 
-Disallows ternary operators.
 
 The ternary operator is used to conditionally assign a value to a variable. Some believe that the use of ternary operators leads to unclear code.
 

@@ -10,8 +10,6 @@ related_rules:
 
 
 
-Disallows initializing variables to `undefined`.
-
 In JavaScript, a variable that is declared and not initialized to any value automatically gets the value of `undefined`. For example:
 
 ```js

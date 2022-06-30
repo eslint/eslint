@@ -7,8 +7,6 @@ rule_type: suggestion
 
 
 
-Requires or disallows assignment operator shorthand where possible.
-
 JavaScript provides shorthand operators that combine variable assignment and some simple mathematical operations. For example, `x = x + 4` can be shortened to `x += 4`. The supported shorthand forms are as follows:
 
 ```text

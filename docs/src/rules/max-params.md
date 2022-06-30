@@ -13,7 +13,6 @@ related_rules:
 - max-statements
 ---
 
-Enforces a maximum number of parameters in function definitions.
 
 Functions that take numerous parameters can be difficult to read and write because it requires the memorization of what each parameter is, its type, and the order they should appear in. As a result, many coders adhere to a convention that caps the number of parameters a function can take.
 

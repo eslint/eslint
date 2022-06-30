@@ -7,8 +7,6 @@ rule_type: layout
 
 
 
-Requires regex literals to be wrapped.
-
 When a regular expression is used in certain situations, it can end up looking like a division operator. For example:
 
 ```js

@@ -10,8 +10,6 @@ further_reading:
 
 
 
-Disallows use of the `RegExp` constructor in favor of regular expression literals.
-
 There are two ways to create a regular expression:
 
 * Regular expression literals, e.g., `/abc/u`.
