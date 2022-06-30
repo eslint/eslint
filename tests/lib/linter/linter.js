@@ -7000,6 +7000,28 @@ var a = "test2";
 
             assert(ok);
         });
+
+        it("should throw when rule's create() function does not return an object", () => {
+            const config = { rules: { checker: "error" } };
+
+            linter.defineRule("checker", () => null); // returns null
+
+            assert.throws(() => {
+                linter.verify("abc", config, filename);
+            }, "The create() function for rule checker did not return an object.");
+
+            linter.defineRule("checker", () => {}); // returns undefined
+
+            assert.throws(() => {
+                linter.verify("abc", config, filename);
+            }, "The create() function for rule checker did not return an object.");
+
+            linter.defineRule("checker", () => []); // returns an array
+
+            assert.throws(() => {
+                linter.verify("abc", config, filename);
+            }, "The create() function for rule checker did not return an object.");
+        });
     });
 
     describe("Custom parser", () => {
