@@ -12,6 +12,44 @@
         padding: 18px;
         background: none;
         border: none;
+
+        
+        @media screen and (min-width:768px) and (max-width:1023px){
+            &:not(:first-child)::after {
+                content: "";
+                display: block;
+                height: 70%;
+                position: absolute;
+                padding:1px ;
+                left: 0px;
+                border-left: 1px solid var(--divider-color);
+            }
+        }
+
+        
+        @media screen and (min-width:1024px) and (max-width:1439px){
+            &:nth-child(2)::after {
+                content: "";
+                display: block;
+                height: 70%;
+                position: absolute;
+                padding:1px ;
+                left: 0px;
+                border-left: 1px solid var(--divider-color);
+            }
+        }
+
+        @media screen and (min-width:1440px){
+            &:not(:first-child)::after {
+                content: "";
+                display: block;
+                height: 70%;
+                position: absolute;
+                padding:1px ;
+                left: 0px;
+                border-left: 1px solid var(--divider-color);
+            }
+        }
     }
 
     .rule-category__description {
@@ -41,14 +79,6 @@
     }
 }
 
-.rule-category:not(:first-child)::after {
-    content: "";
-    display: block;
-    height: 100px;
-    position: absolute;
-    left: 0px;
-    border-left: 1px solid var(--divider-color);
-}
 
 
 .rule {
@@ -187,3 +217,5 @@ a.rule-list-item+a.rule-list-item::before {
     margin-left: 5px;
     margin-right: 5px;
 }
+
+
