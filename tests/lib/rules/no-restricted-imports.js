@@ -274,7 +274,7 @@ ruleTester.run("no-restricted-imports", rule, {
         },
         {
 
-            // Default import should not be reported - just drop the importNames option for this behavior
+            // Default import should not be reported unless importNames includes 'default'
             code: "import Foo from '../../my/relative-module';",
             options: [{
                 patterns: [{
@@ -1127,7 +1127,8 @@ ruleTester.run("no-restricted-imports", rule, {
             type: "ImportDeclaration",
             line: 1,
             column: 10,
-            endColumn: 13
+            endColumn: 13,
+            message: "'Foo' import from '../../my/relative-module' is restricted from being used by a pattern."
         }]
     },
     {
@@ -1172,6 +1173,67 @@ ruleTester.run("no-restricted-imports", rule, {
             line: 1,
             column: 8,
             endColumn: 16
+        }]
+    },
+    {
+
+        /*
+         * Star import should be reported for consistency with `paths` option (see: https://github.com/eslint/eslint/pull/16059#discussion_r908749964)
+         * For example, import * as All allows for calling/referencing the restricted import All.Foo
+         */
+        code: "import * as AllWithCustomMessage from '../../my/relative-module';",
+        options: [{
+            patterns: [{
+                group: ["**/my/relative-module"],
+                importNames: ["Foo"],
+                message: "Import from @/utils instead."
+            }]
+        }],
+        errors: [{
+            message: "* import is invalid because 'Foo' from '../../my/relative-module' is restricted from being used by a pattern. Import from @/utils instead.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 8,
+            endColumn: 33
+        }]
+    },
+    {
+        code: "import def, * as ns from 'mod';",
+        options: [{
+            patterns: [{
+                group: ["mod"],
+                importNames: ["default"]
+            }]
+        }],
+        errors: [{
+            type: "ImportDeclaration",
+            line: 1,
+            column: 8,
+            endColumn: 11,
+            message: "'default' import from 'mod' is restricted from being used by a pattern."
+        },
+        {
+            type: "ImportDeclaration",
+            line: 1,
+            column: 13,
+            endColumn: 20,
+            message: "* import is invalid because 'default' from 'mod' is restricted from being used by a pattern."
+        }]
+    },
+    {
+        code: "import Foo from 'mod';",
+        options: [{
+            patterns: [{
+                group: ["mod"],
+                importNames: ["default"]
+            }]
+        }],
+        errors: [{
+            type: "ImportDeclaration",
+            line: 1,
+            column: 8,
+            endColumn: 11,
+            message: "'default' import from 'mod' is restricted from being used by a pattern."
         }]
     }
     ]
