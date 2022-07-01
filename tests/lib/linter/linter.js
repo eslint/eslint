@@ -7008,18 +7008,13 @@ var a = "test2";
 
             assert.throws(() => {
                 linter.verify("abc", config, filename);
-            }, "The create() function for rule checker did not return an object.");
+            }, "The create() function for rule 'checker' did not return an object.");
 
             linter.defineRule("checker", () => {}); // returns undefined
 
             assert.throws(() => {
                 linter.verify("abc", config, filename);
-            }, "The create() function for rule checker did not return an object.");
-
-            linter.defineRule("checker", () => []); // returns an array
-
-            // array should not throw
-            linter.verify("abc", config, filename);
+            }, "The create() function for rule 'checker' did not return an object.");
         });
     });
 
