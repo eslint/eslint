@@ -459,7 +459,7 @@
     "jsx-quotes": {
         "type": "layout",
         "docs": {
-            "description": "enforce the consistent use of either double or single quotes in JSX attributes",
+            "description": "Enforce the consistent use of either double or single quotes in JSX attributes",
             "recommended": false,
             "url": "https://eslint.org/docs/rules/jsx-quotes"
         },
@@ -2103,7 +2103,7 @@
     "prefer-object-has-own": {
         "type": "suggestion",
         "docs": {
-            "description": "disallow use of `Object.prototype.hasOwnProperty.call()` and prefer use of `Object.hasOwn()`",
+            "description": "Disallow use of `Object.prototype.hasOwnProperty.call()` and prefer use of `Object.hasOwn()`",
             "recommended": false,
             "url": "https://eslint.org/docs/rules/prefer-object-has-own"
         },
@@ -2112,7 +2112,7 @@
     "prefer-object-spread": {
         "type": "suggestion",
         "docs": {
-            "description": "disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead.",
+            "description": "Disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead.",
             "recommended": false,
             "url": "https://eslint.org/docs/rules/prefer-object-spread"
         },
@@ -2184,7 +2184,7 @@
     "quotes": {
         "type": "layout",
         "docs": {
-            "description": "enforce the consistent use of either backticks, double, or single quotes",
+            "description": "Enforce the consistent use of either backticks, double, or single quotes",
             "recommended": false,
             "url": "https://eslint.org/docs/rules/quotes"
         },

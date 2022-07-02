@@ -1288,14 +1288,14 @@
                 },
                 {
                     "name": "prefer-object-has-own",
-                    "description": "disallow use of `Object.prototype.hasOwnProperty.call()` and prefer use of `Object.hasOwn()`",
+                    "description": "Disallow use of `Object.prototype.hasOwnProperty.call()` and prefer use of `Object.hasOwn()`",
                     "recommended": false,
                     "fixable": true,
                     "hasSuggestions": false
                 },
                 {
                     "name": "prefer-object-spread",
-                    "description": "disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead.",
+                    "description": "Disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead.",
                     "recommended": false,
                     "fixable": true,
                     "hasSuggestions": false
@@ -1568,7 +1568,7 @@
                 },
                 {
                     "name": "jsx-quotes",
-                    "description": "enforce the consistent use of either double or single quotes in JSX attributes",
+                    "description": "Enforce the consistent use of either double or single quotes in JSX attributes",
                     "recommended": false,
                     "fixable": true,
                     "hasSuggestions": false
@@ -1750,7 +1750,7 @@
                 },
                 {
                     "name": "quotes",
-                    "description": "enforce the consistent use of either backticks, double, or single quotes",
+                    "description": "Enforce the consistent use of either backticks, double, or single quotes",
                     "recommended": false,
                     "fixable": true,
                     "hasSuggestions": false
