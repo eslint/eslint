@@ -108,6 +108,18 @@ Pattern matches can also be configured to be case-sensitive:
 }]
 ```
 
+Pattern matches can restrict specific import names only, similar to the `paths` option:
+
+```json
+"no-restricted-imports": ["error", {
+    "patterns": [{
+      "group": ["utils/*"],
+      "importNames": ["isEmpty"],
+      "message": "Use 'isEmpty' from lodash instead."
+    }]
+}]
+```
+
 To restrict the use of all Node.js core imports (via <https://github.com/nodejs/node/tree/master/lib>):
 
 ```json
@@ -206,6 +218,16 @@ import pick from 'lodash/pick';
 import pick from 'fooBar';
 ```
 
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["utils/*"],
+    importNames: ['isEmpty'],
+    message: "Use 'isEmpty' from lodash instead."
+}]}]*/
+
+import { isEmpty } from 'utils/collection-utils';
+```
+
 Examples of **correct** code for this rule:
 
 ::: correct
@@ -259,6 +281,16 @@ import lodash from 'lodash';
 }]}]*/
 
 import pick from 'food';
+```
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["utils/*"],
+    importNames: ['isEmpty'],
+    message: "Use 'isEmpty' from lodash instead."
+}]}]*/
+
+import { hasValues } from 'utils/collection-utils';
 ```
 
 ## When Not To Use It
