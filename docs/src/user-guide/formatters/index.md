@@ -6,6 +6,7 @@ eleventyNavigation:
     parent: user guide
     title: Formatters
     order: 5
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/formatters/index.md
 ---
 
 ESLint comes with several built-in formatters to control the appearance of the linting results, and supports third-party formatters as well.
