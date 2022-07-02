@@ -1,3 +1,32 @@
+v8.19.0 - July 1, 2022
+
+* [`7023628`](https://github.com/eslint/eslint/commit/7023628eb3af1bcc0151afab2bf617217fae51b1) feat: add importNames support for patterns in no-restricted-imports (#16059) (Brandon Scott)
+* [`472c368`](https://github.com/eslint/eslint/commit/472c3681364833f697d726abc3c33fbe2663eeb7) feat: fix handling of blockless `with` statements in indent rule (#16068) (Milos Djermanovic)
+* [`fc81848`](https://github.com/eslint/eslint/commit/fc81848238ee0f6ff93615875ea4b8e95dc09249) fix: throw helpful exception when rule has wrong return type (#16075) (Bryan Mishkin)
+* [`e884933`](https://github.com/eslint/eslint/commit/e88493395b3be2b08e14e9b84d20d2733f78582c) chore: use `github-slugger` for markdown anchors (#16067) (Strek)
+* [`02e9cb0`](https://github.com/eslint/eslint/commit/02e9cb01e7663af3a3fd16725afc7d71e73b9eed) chore: revamp carbon ad style (#16078) (Amaresh  S M)
+* [`3ae0574`](https://github.com/eslint/eslint/commit/3ae0574fc78c4a2b406625e4792cb2859cb9bcb1) docs: Remove duplicate rule descriptions (#16052) (Amaresh  S M)
+* [`b6aee95`](https://github.com/eslint/eslint/commit/b6aee9591ecc2e2f5738ab8bef20faac1e05b5c3) chore: remove unwanted comments from rules markdown (#16054) (Strek)
+* [`f50cf43`](https://github.com/eslint/eslint/commit/f50cf436aaa5dff1273f4753dd3fc6782f95a045) docs: Add base href to each page to fix relative URLs (#16046) (Nicholas C. Zakas)
+* [`6840940`](https://github.com/eslint/eslint/commit/6840940a766d671831d5cee0e3c0e2f4e642632a) chore: correctly use .markdownlintignore in Makefile (#16060) (Bryan Mishkin)
+* [`ae4b449`](https://github.com/eslint/eslint/commit/ae4b449719d496fd611903d596341ec4c1d81c16) docs: make logo link clickable on small width screens (#16058) (Milos Djermanovic)
+* [`280f898`](https://github.com/eslint/eslint/commit/280f898bff9b809327e4c94cea3632ba95af4485) docs: use only fenced code blocks (#16044) (Milos Djermanovic)
+* [`f5d63b9`](https://github.com/eslint/eslint/commit/f5d63b9e15d9f325ef4953b683cb67133b05e9ea) docs: add listener only if element exists (#16045) (Amaresh  S M)
+* [`8b639cc`](https://github.com/eslint/eslint/commit/8b639ccb2fb0f0a7d7aaee1f1fc2881a237de95d) docs: add missing migrating-to-8.0.0 in the user guide (#16048) (唯然)
+* [`b8e68c1`](https://github.com/eslint/eslint/commit/b8e68c1f7e2b8fa5c108216f74dcd3100aa33b0f) docs: Update release process (#16036) (Nicholas C. Zakas)
+* [`48904fb`](https://github.com/eslint/eslint/commit/48904fb00fc5001e534034e2e513ca99f3ada35e) chore: add missing images (#16017) (Amaresh  S M)
+* [`910f741`](https://github.com/eslint/eslint/commit/910f741885a18b7744d4125e98e554312bc873eb) chore: add architecture to nav (#16039) (Strek)
+* [`9bb24c1`](https://github.com/eslint/eslint/commit/9bb24c1deb7ab6743080520d11aefe9c6b8b8f2d) chore: add correct incorrect in all rules doc (#16021) (Deepshika S)
+* [`5a96af8`](https://github.com/eslint/eslint/commit/5a96af853dcbe29c9f125a63528f3fec9fc0aae8) chore: prepare versions data file (#16035) (Nicholas C. Zakas)
+* [`50afe6f`](https://github.com/eslint/eslint/commit/50afe6fe8c92a1d5d52415e149d52e1e129c3cc7) chore: Included githubactions in the dependabot config (#15985) (Naveen)
+* [`6d0cb11`](https://github.com/eslint/eslint/commit/6d0cb11c6d134896d8920c9bf3cc3e492f0eb8e2) docs: remove table of contents from markdown text (#15999) (Nitin Kumar)
+* [`473411e`](https://github.com/eslint/eslint/commit/473411e61d46c2bbac70e9a66d434d477851d98a) chore: add deploy workflow for playground (#16034) (Milos Djermanovic)
+* [`a30b66c`](https://github.com/eslint/eslint/commit/a30b66c030bf45864784c0550276267e5a146697) chore: fix print style (#16025) (Amaresh  S M)
+* [`f4dad59`](https://github.com/eslint/eslint/commit/f4dad59e5c7e966291d6f8c1456a465ae5629061) chore: add noindex meta tag (#16016) (Milos Djermanovic)
+* [`db387a8`](https://github.com/eslint/eslint/commit/db387a87b23c398ed691ba35bdf3b6aa7dcfe750) chore: fix sitemap (#16026) (Milos Djermanovic)
+* [`285fbc5`](https://github.com/eslint/eslint/commit/285fbc5e6a92c50e1195f252675b599ecd929b9d) chore: remove TOC from printable (#16020) (Strek)
+* [`8e84c21`](https://github.com/eslint/eslint/commit/8e84c2148cc2d25a7076e73233ae41bc1a000a53) chore: remove ligatures from fonts (#16019) (Strek)
+
 v8.18.0 - June 17, 2022
 
 * [`f6e2e63`](https://github.com/eslint/eslint/commit/f6e2e632fa3710cfa467b15350b08dea6e0e3dfc) chore: fix 'replaced by' rule list (#16007) (Milos Djermanovic)
