@@ -1,7 +1,7 @@
 .rule-categories {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem 1rem;
+    gap: 0;
     margin-bottom: 3rem;
     background-color: var(--lightest-background-color);
     border: 1px solid var(--divider-color);
@@ -9,7 +9,7 @@
 
     .rule-category {
         margin: 0;
-        padding: 18px;
+        padding: 1rem;
         background: none;
         border: none;
 
