@@ -4,11 +4,11 @@ const eleventyNavigationPlugin = require("@11ty/eleventy-navigation");
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const pluginRss = require("@11ty/eleventy-plugin-rss");
 const pluginTOC = require("eleventy-plugin-nesting-toc");
-const slugify = require("slugify");
 const markdownItAnchor = require("markdown-it-anchor");
 const markdownItContainer = require("markdown-it-container");
 const Image = require("@11ty/eleventy-img");
 const path = require("path");
+const { slug } = require("github-slugger");
 const yaml = require("js-yaml");
 
 const {
@@ -60,16 +60,23 @@ module.exports = function(eleventyConfig) {
 
     eleventyConfig.addFilter("jsonify", variable => JSON.stringify(variable));
 
+    /**
+     * Takes in a string and converts to a slug
+     * @param {string} text text to be converted into slug
+     * @returns {string} slug to be used as anchors
+     */
+    function slugify(text) {
+        return slug(text.replace(/[<>()[\]{}]/gu, ""))
+        // eslint-disable-next-line no-control-regex -- used regex from https://github.com/eslint/archive-website/blob/master/_11ty/plugins/markdown-plugins.js#L37
+            .replace(/[^\u{00}-\u{FF}]/gu, "");
+    }
+
     eleventyConfig.addFilter("slugify", str => {
         if (!str) {
             return "";
         }
 
-        return slugify(str, {
-            lower: true,
-            strict: true,
-            remove: /["]/gu
-        });
+        return slugify(str);
     });
 
     eleventyConfig.addFilter("URIencode", str => {
@@ -154,7 +161,9 @@ module.exports = function(eleventyConfig) {
 
     eleventyConfig.setLibrary("md",
         markdownIt({ html: true, linkify: true, typographer: true })
-            .use(markdownItAnchor, {})
+            .use(markdownItAnchor, {
+                slugify
+            })
             .use(markdownItContainer, "correct", {})
             .use(markdownItContainer, "incorrect", {})
             .disable("code"));
