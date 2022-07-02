@@ -2297,6 +2297,16 @@ describe("RuleTester", () => {
     });
 
     describe("deprecations", () => {
+        let spy;
+
+        beforeEach(() => {
+            spy = sinon.spy(util, "deprecate");
+        });
+
+        afterEach(() => {
+            spy.restore();
+        });
+
         it("should log a deprecation warning when using the legacy function-style API for rule", () => {
 
             /**
@@ -2312,8 +2322,6 @@ describe("RuleTester", () => {
                 };
             }
 
-            const spy = sinon.spy(util, "deprecate");
-
             ruleTester.run("function-style-rule", functionStyleRule, {
                 valid: [],
                 invalid: [
@@ -2326,9 +2334,31 @@ describe("RuleTester", () => {
                 spy.getCall(0).args[1],
                 "\"function-style-rule\" rule is using the deprecated function-style format and will stop working in ESLint v9. Please use object-style format: https://eslint.org/docs/developer-guide/working-with-rules"
             );
-            assert.strictEqual(spy.getCall(0).args[2], "DEP_ESLINT_LEGACY_RULE_API_FUNCTION_STYLE_RULE");
+        });
 
-            spy.restore();
+        it("should log a deprecation warning when meta is not defined for the rule", () => {
+            const ruleWithNoMeta = {
+                create(context) {
+                    return {
+                        Program(node) {
+                            context.report({ node, message: "bad" });
+                        }
+                    };
+                }
+            };
+
+            ruleTester.run("rule-with-no-meta", ruleWithNoMeta, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", options: [{ foo: true }], errors: 1 }
+                ]
+            });
+
+            assert.strictEqual(spy.callCount, 1, "calls `util.deprecate` once");
+            assert.strictEqual(
+                spy.getCall(0).args[1],
+                "\"rule-with-no-meta\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/developer-guide/working-with-rules#options-schemas"
+            );
         });
 
         it("should log a deprecation warning when schema is not defined for the rule", () => {
@@ -2345,23 +2375,18 @@ describe("RuleTester", () => {
                 }
             };
 
-            const spy = sinon.spy(util, "deprecate");
-
-            ruleTester.run("rule-with-no-options", ruleWithNoSchema, {
+            ruleTester.run("rule-with-no-schema", ruleWithNoSchema, {
                 valid: [],
                 invalid: [
                     { code: "var foo = bar;", options: [{ foo: true }], errors: 1 }
                 ]
             });
 
-            assert.strictEqual(spy.callCount, 1, "calls `console.warn` once");
+            assert.strictEqual(spy.callCount, 1, "calls `util.deprecate` once");
             assert.strictEqual(
                 spy.getCall(0).args[1],
-                "\"rule-with-no-options\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/developer-guide/working-with-rules#options-schemas"
+                "\"rule-with-no-schema\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/developer-guide/working-with-rules#options-schemas"
             );
-            assert.strictEqual(spy.getCall(0).args[2], "DEP_ESLINT_MISSING_SCHEMA_RULE_WITH_NO_OPTIONS");
-
-            spy.restore();
         });
 
         it("should not log a deprecation warning when schema is an empty array", () => {
@@ -2379,16 +2404,12 @@ describe("RuleTester", () => {
                 }
             };
 
-            const spy = sinon.spy(util, "deprecate");
-
             ruleTester.run("rule-with-no-options", ruleWithEmptySchema, {
                 valid: [],
                 invalid: [{ code: "var foo = bar;", errors: 1 }]
             });
 
             assert.strictEqual(spy.callCount, 0, "never calls `util.deprecate`");
-
-            spy.restore();
         });
     });
 
