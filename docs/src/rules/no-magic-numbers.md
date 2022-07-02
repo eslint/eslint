@@ -32,6 +32,8 @@ var dutyFreePrice = 100,
 
 :::
 
+::: incorrect
+
 ```js
 /*eslint no-magic-numbers: "error"*/
 
@@ -40,6 +42,10 @@ var data = ['foo', 'bar', 'baz'];
 var dataLast = data[2];
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /*eslint no-magic-numbers: "error"*/
 
@@ -47,6 +53,8 @@ var SECONDS;
 
 SECONDS = 60;
 ```
+
+:::
 
 Examples of **correct** code for this rule:
 
@@ -176,12 +184,16 @@ function mapParallel(concurrency = 3) { /***/ }
 
 :::
 
+::: correct
+
 ```js
 /*eslint no-magic-numbers: ["error", { "ignoreDefaultValues": true }]*/
 
 let head;
 [head = 100] = []
 ```
+
+:::
 
 ### enforceConst
 

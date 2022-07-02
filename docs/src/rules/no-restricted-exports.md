@@ -102,11 +102,15 @@ export { foo as default };
 
 :::
 
+::: incorrect
+
 ```js
 /*eslint no-restricted-exports: ["error", { "restrictedNamedExports": ["default"] }]*/
 
 export { default } from "some_module";
 ```
+
+:::
 
 Examples of additional **correct** code for this rule:
 

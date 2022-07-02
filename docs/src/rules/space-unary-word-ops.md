@@ -23,17 +23,29 @@ typeof!a
 
 :::
 
+::: incorrect
+
 ```js
 void{a:0}
 ```
+
+:::
+
+::: incorrect
 
 ```js
 new[a][0]
 ```
 
+:::
+
+::: incorrect
+
 ```js
 delete(a.b)
 ```
+
+:::
 
 Examples of **correct** code for this rule:
 
@@ -45,10 +57,18 @@ delete a.b
 
 :::
 
+::: correct
+
 ```js
 new C
 ```
 
+:::
+
+::: correct
+
 ```js
 void 0
 ```
+
+:::

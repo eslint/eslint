@@ -43,6 +43,8 @@ function doSomething() {
 
 :::
 
+::: incorrect
+
 ```js
 /*eslint vars-on-top: "error"*/
 
@@ -50,6 +52,10 @@ function doSomething() {
 f();
 var a;
 ```
+
+:::
+
+::: incorrect
 
 ```js
 /*eslint vars-on-top: "error"*/
@@ -74,6 +80,8 @@ class C {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
 
 ::: correct
@@ -97,12 +105,18 @@ function doSomething() {
 
 :::
 
+::: correct
+
 ```js
 /*eslint vars-on-top: "error"*/
 
 var a;
 f();
 ```
+
+:::
+
+::: correct
 
 ```js
 /*eslint vars-on-top: "error"*/
@@ -124,6 +138,10 @@ class C {
 }
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint vars-on-top: "error"*/
 
@@ -140,3 +158,5 @@ function doSomething() {
     var second
 }
 ```
+
+:::

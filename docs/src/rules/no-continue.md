@@ -46,6 +46,8 @@ for(i = 0; i < 10; i++) {
 
 :::
 
+::: incorrect
+
 ```js
 /*eslint no-continue: "error"*/
 
@@ -60,6 +62,8 @@ labeledLoop: for(i = 0; i < 10; i++) {
     a += i;
 }
 ```
+
+:::
 
 Examples of **correct** code for this rule:
 

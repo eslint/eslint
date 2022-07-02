@@ -457,10 +457,14 @@ var bar = "bar";
 
 :::
 
+::: correct
+
 ```js
 var foo = require("foo"),
     bar = require("bar");
 ```
+
+:::
 
 Examples of **incorrect** code for this rule with the `{ var: "never", let: "consecutive", const: "consecutive" }` option:
 

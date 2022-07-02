@@ -31,6 +31,8 @@ class C {
 
 :::
 
+::: incorrect
+
 ```js
 /*eslint func-name-matching: ["error", "never"] */
 
@@ -45,6 +47,8 @@ class C {
     foo = function foo() {};
 }
 ```
+
+:::
 
 Examples of **correct** code for this rule:
 
@@ -95,6 +99,8 @@ module['exports'] = function foo(name) {};
 
 :::
 
+::: correct
+
 ```js
 /*eslint func-name-matching: ["error", "never"] */
 /*eslint-env es6*/
@@ -136,6 +142,8 @@ class D {
 module.exports = function foo(name) {};
 module['exports'] = function foo(name) {};
 ```
+
+:::
 
 ## Options
 

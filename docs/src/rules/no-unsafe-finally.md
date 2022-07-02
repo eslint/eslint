@@ -89,6 +89,8 @@ let foo = function() {
 
 :::
 
+::: incorrect
+
 ```js
 /*eslint no-unsafe-finally: "error"*/
 let foo = function() {
@@ -101,6 +103,8 @@ let foo = function() {
     }
 };
 ```
+
+:::
 
 Examples of **correct** code for this rule:
 
@@ -121,6 +125,8 @@ let foo = function() {
 
 :::
 
+::: correct
+
 ```js
 /*eslint no-unsafe-finally: "error"*/
 let foo = function() {
@@ -135,6 +141,10 @@ let foo = function() {
     }
 };
 ```
+
+:::
+
+::: correct
 
 ```js
 /*eslint no-unsafe-finally: "error"*/
@@ -153,6 +163,8 @@ let foo = function(a) {
     }
 };
 ```
+
+:::
 
 ## When Not To Use It
 

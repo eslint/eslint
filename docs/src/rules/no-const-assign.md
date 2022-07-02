@@ -30,6 +30,8 @@ a = 1;
 
 :::
 
+::: incorrect
+
 ```js
 /*eslint no-const-assign: "error"*/
 /*eslint-env es6*/
@@ -38,6 +40,10 @@ const a = 0;
 a += 1;
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /*eslint no-const-assign: "error"*/
 /*eslint-env es6*/
@@ -45,6 +51,8 @@ a += 1;
 const a = 0;
 ++a;
 ```
+
+:::
 
 Examples of **correct** code for this rule:
 
@@ -60,6 +68,8 @@ console.log(a);
 
 :::
 
+::: correct
+
 ```js
 /*eslint no-const-assign: "error"*/
 /*eslint-env es6*/
@@ -69,6 +79,10 @@ for (const a in [1, 2, 3]) { // `a` is re-defined (not modified) on each loop st
 }
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint no-const-assign: "error"*/
 /*eslint-env es6*/
@@ -77,6 +91,8 @@ for (const a of [1, 2, 3]) { // `a` is re-defined (not modified) on each loop st
     console.log(a);
 }
 ```
+
+:::
 
 ## When Not To Use It
 

@@ -319,6 +319,8 @@ function UNSAFE_componentWillMount() {
 
 :::
 
+::: correct
+
 ```js
 /*eslint camelcase: ["error", {allow: ["^UNSAFE_"]}]*/
 
@@ -330,6 +332,8 @@ function UNSAFE_componentWillMount() {
     // ...
 }
 ```
+
+:::
 
 ## When Not To Use It
 

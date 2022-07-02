@@ -48,12 +48,18 @@ var a,
 
 :::
 
+::: incorrect
+
 ```js
 /*eslint max-lines: ["error", 2]*/
 
 var a,
     b,c;
 ```
+
+:::
+
+::: incorrect
 
 ```js
 /*eslint max-lines: ["error", 2]*/
@@ -61,6 +67,8 @@ var a,
 var a,
     b,c;
 ```
+
+:::
 
 Examples of **correct** code for this rule with a max value of `2`:
 
@@ -74,17 +82,25 @@ var a,
 
 :::
 
+::: correct
+
 ```js
 /*eslint max-lines: ["error", 2]*/
 
 var a, b, c;
 ```
+
+:::
+
+::: correct
 
 ```js
 /*eslint max-lines: ["error", 2]*/
 // a comment
 var a, b, c;
 ```
+
+:::
 
 ### skipBlankLines
 
