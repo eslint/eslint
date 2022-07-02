@@ -10,11 +10,15 @@ Contains the ESLint configuration used for projects maintained by the ESLint tea
 
 You can install ESLint using npm:
 
-    npm install eslint --save-dev
+```shell
+npm install eslint --save-dev
+```
 
 Then install this configuration:
 
-    npm install eslint-config-eslint --save-dev
+```shell
+npm install eslint-config-eslint --save-dev
+```
 
 ## Usage
 

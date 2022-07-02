@@ -78,6 +78,8 @@ module.exports = {
                 "plugin:eslint-plugin/rules-recommended"
             ],
             rules: {
+                "eslint-plugin/no-missing-message-ids": "error",
+                "eslint-plugin/no-unused-message-ids": "error",
                 "eslint-plugin/prefer-message-ids": "error",
                 "eslint-plugin/prefer-placeholders": "error",
                 "eslint-plugin/prefer-replace-text": "error",
