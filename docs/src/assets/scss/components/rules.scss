@@ -17,7 +17,7 @@
             &:not(:first-child)::after {
                 content: "";
                 display: block;
-                padding: 1px ;
+                padding: 1px;
                 border-left: 1px solid var(--divider-color);
                 left: 0px;
             }
