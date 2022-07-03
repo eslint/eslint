@@ -927,6 +927,7 @@
         "fixable": "code"
     },
     "no-empty": {
+        "hasSuggestions": true,
         "type": "suggestion",
         "docs": {
             "description": "Disallow empty block statements",
