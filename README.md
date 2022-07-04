@@ -57,7 +57,7 @@ yarn create @eslint/config
 
 After that, you can run ESLint on any file or directory like this:
 
-```sh
+```shell
 ./node_modules/.bin/eslint yourfile.js
 ```
 
