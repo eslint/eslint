@@ -16,8 +16,7 @@
             dark_theme_toggle = document.getElementById('dark-theme-toggle');
 
         // get any previously-chosen themes
-        var localStorageTheme = window.localStorage.getItem("theme") 
-        var theme = localStorageTheme ? localStorageTheme : window.matchMedia('(prefers-color-scheme: dark)').matches? 'dark' : 'light';
+        var theme = document.documentElement.getAttribute('data-theme');
 
         if (theme == "light") {
             enableToggle(light_theme_toggle);
