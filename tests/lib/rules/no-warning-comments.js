@@ -298,14 +298,14 @@ ruleTester.run("no-warning-comments", rule, {
             ]
         },
         {
-            code: "// !TODO comment starting with term",
+            code: "// !TODO comment starting with term preceded by punctuation",
             options: [{ terms: ["todo"], location: "anywhere" }],
             errors: [
                 {
                     messageId: "unexpectedComment",
                     data: {
                         matchedTerm: "todo",
-                        comment: "!TODO comment starting with term"
+                        comment: "!TODO comment starting with term..."
                     }
                 }
             ]
