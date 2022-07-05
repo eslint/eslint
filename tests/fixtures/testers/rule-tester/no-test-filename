@@ -3,18 +3,24 @@
  * @author Stefan Lau
  */
 
+"use strict";
+
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = function(context) {
-    "use strict";
-
-    return {
-        "Program": function(node) {
-            if (context.getFilename() === '<input>') {
-                context.report(node, "Filename test was not defined.");
+module.exports = {
+    meta: {
+        fixable: "code",
+        schema: []
+    },
+    create(context) {
+        return {
+            "Program": function(node) {
+                if (context.getFilename() === '<input>') {
+                    context.report(node, "Filename test was not defined.");
+                }
             }
-        }
-    };
+        };
+    }
 };
