@@ -9,7 +9,6 @@
 //------------------------------------------------------------------------------
 const sinon = require("sinon"),
     EventEmitter = require("events"),
-    util = require("util"),
     { RuleTester } = require("../../../lib/rule-tester"),
     assert = require("chai").assert,
     nodeAssert = require("assert"),
@@ -2233,7 +2232,7 @@ describe("RuleTester", () => {
         let spy;
 
         beforeEach(() => {
-            spy = sinon.spy(util, "deprecate");
+            spy = sinon.spy(process, "emitWarning");
         });
 
         afterEach(() => {
@@ -2262,9 +2261,9 @@ describe("RuleTester", () => {
                 ]
             });
 
-            assert.strictEqual(spy.callCount, 1, "calls `util.deprecate()` once");
+            assert.strictEqual(spy.callCount, 1, "calls `process.emitWarning()` once");
             assert.strictEqual(
-                spy.getCall(0).args[1],
+                spy.getCall(0).args[0],
                 "\"function-style-rule\" rule is using the deprecated function-style format and will stop working in ESLint v9. Please use object-style format: https://eslint.org/docs/developer-guide/working-with-rules"
             );
         });
@@ -2287,9 +2286,9 @@ describe("RuleTester", () => {
                 ]
             });
 
-            assert.strictEqual(spy.callCount, 1, "calls `util.deprecate` once");
+            assert.strictEqual(spy.callCount, 1, "calls `process.emitWarning()` once");
             assert.strictEqual(
-                spy.getCall(0).args[1],
+                spy.getCall(0).args[0],
                 "\"rule-with-no-meta\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/developer-guide/working-with-rules#options-schemas"
             );
         });
@@ -2315,9 +2314,9 @@ describe("RuleTester", () => {
                 ]
             });
 
-            assert.strictEqual(spy.callCount, 1, "calls `util.deprecate` once");
+            assert.strictEqual(spy.callCount, 1, "calls `process.emitWarning()` once");
             assert.strictEqual(
-                spy.getCall(0).args[1],
+                spy.getCall(0).args[0],
                 "\"rule-with-no-schema\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/developer-guide/working-with-rules#options-schemas"
             );
         });
@@ -2342,7 +2341,7 @@ describe("RuleTester", () => {
                 invalid: [{ code: "var foo = bar;", errors: 1 }]
             });
 
-            assert.strictEqual(spy.callCount, 0, "never calls `util.deprecate`");
+            assert.strictEqual(spy.callCount, 0, "never calls `process.emitWarning()`");
         });
     });
 
