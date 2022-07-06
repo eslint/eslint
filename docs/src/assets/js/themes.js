@@ -16,7 +16,7 @@
             dark_theme_toggle = document.getElementById('dark-theme-toggle');
 
         // get any previously-chosen themes
-        var theme = window.localStorage.getItem("theme");
+        var theme = document.documentElement.getAttribute('data-theme');
 
         if (theme == "light") {
             enableToggle(light_theme_toggle);
