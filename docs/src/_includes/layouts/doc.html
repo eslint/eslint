@@ -65,8 +65,10 @@ layout: base.html
             <div class="docs-main__content">
                 <h1>{{ title }}</h1>
                 {% if rule_meta %}
+                    {%set id = true if (rule_meta.docs.recommended or rule_meta.fixable or rule_meta.hasSuggestions) else false %}
                     <p>{{ rule_meta.docs.description | markdown | safe }}</p>
                     {{ ruleCategories({
+                    index: id,
                     recommended: rule_meta.docs.recommended,
                     fixable: rule_meta.fixable,
                     hasSuggestions: rule_meta.hasSuggestions
