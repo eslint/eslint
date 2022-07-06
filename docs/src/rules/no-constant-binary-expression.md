@@ -5,6 +5,8 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-constant
 rule_type: problem
 related_rules:
 - no-constant-condition
+further_reading:
+- https://eslint.org/blog/2022/07/interesting-bugs-caught-by-no-constant-binary-expression/
 ---
 
 
