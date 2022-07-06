@@ -6660,6 +6660,23 @@ var a = "test2";
                 assert.strictEqual(preprocess.calledOnce, true);
                 assert.deepStrictEqual(preprocess.args[0], [code, filename]);
             });
+
+            it("should catch preprocess error.", () => {
+                const code = "foo";
+                const preprocess = sinon.spy(() => {
+                    throw Object.assign(new SyntaxError("Invalid syntax"), {
+                        lineNumber: 1,
+                        column: 1
+                    });
+                });
+
+                linter.verify(code, {});
+                const sourceCode = linter.getSourceCode();
+
+                assert.throw(() => linter.verify(sourceCode, {}, { filename, preprocess }), "Invalid syntax");
+                assert.strictEqual(preprocess.calledOnce, true);
+                assert.deepStrictEqual(preprocess.args[0], [code, filename]);
+            });
         });
 
         describe("postprocessors", () => {
