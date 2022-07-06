@@ -290,6 +290,8 @@ var obj = {
 
 :::
 
+::: correct
+
 ```js
 /*eslint key-spacing: ["error", {
     "align": {
@@ -304,6 +306,8 @@ var obj = {
     "seven":7
 }
 ```
+
+:::
 
 ### align and multiLine
 

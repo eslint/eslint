@@ -94,6 +94,8 @@ foo --;
 
 :::
 
+::: incorrect
+
 ```js
 /*eslint space-unary-ops: "error"*/
 /*eslint-env es6*/
@@ -103,6 +105,10 @@ function *foo() {
 }
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /*eslint space-unary-ops: "error"*/
 
@@ -110,6 +116,8 @@ async function foo() {
     await(bar);
 }
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `{"words": true, "nonwords": false}` option:
 
@@ -145,6 +153,8 @@ foo--;
 
 :::
 
+::: correct
+
 ```js
 /*eslint space-unary-ops: "error"*/
 /*eslint-env es6*/
@@ -154,6 +164,10 @@ function *foo() {
 }
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint space-unary-ops: "error"*/
 
@@ -161,3 +175,5 @@ async function foo() {
     await (bar);
 }
 ```
+
+:::

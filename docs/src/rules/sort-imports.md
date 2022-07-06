@@ -199,11 +199,15 @@ import b from 'bar.js'
 
 :::
 
+::: correct
+
 ```js
 /*eslint sort-imports: ["error", { "ignoreDeclarationSort": true }]*/
 import b from 'foo.js'
 import a from 'bar.js'
 ```
+
+:::
 
 Default is `false`.
 
@@ -322,6 +326,8 @@ import a from 'baz.js';
 
 :::
 
+::: correct
+
 ```js
 /*eslint sort-imports: ["error", { "allowSeparatedGroups": true }]*/
 
@@ -331,6 +337,10 @@ import c from 'bar.js';
 import a from 'baz.js';
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint sort-imports: ["error", { "allowSeparatedGroups": true }]*/
 
@@ -339,6 +349,8 @@ import c from 'bar.js';
 quux();
 import a from 'baz.js';
 ```
+
+:::
 
 Default is `false`.
 

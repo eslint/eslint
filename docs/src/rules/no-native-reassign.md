@@ -42,6 +42,8 @@ undefined = 1
 
 :::
 
+::: incorrect
+
 ```js
 /*eslint no-native-reassign: "error"*/
 /*eslint-env browser*/
@@ -51,12 +53,18 @@ length = 1
 top = 1
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /*eslint no-native-reassign: "error"*/
 /*global a:readonly*/
 
 a = 1
 ```
+
+:::
 
 Examples of **correct** code for this rule:
 
@@ -72,6 +80,8 @@ b = 2
 
 :::
 
+::: correct
+
 ```js
 /*eslint no-native-reassign: "error"*/
 /*eslint-env browser*/
@@ -79,12 +89,18 @@ b = 2
 onload = function() {}
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint no-native-reassign: "error"*/
 /*global a:writable*/
 
 a = 1
 ```
+
+:::
 
 ## Options
 

@@ -124,6 +124,8 @@ var foo = a & b | c;
 
 :::
 
+::: incorrect
+
 ```js
 /*eslint no-mixed-operators: ["error", {"groups": [["&&", "||", "?:"]]}]*/
 
@@ -133,6 +135,8 @@ var bar = a ? b || c : d;
 
 var baz = a ? b : c || d;
 ```
+
+:::
 
 Examples of **correct** code for this rule with `{"groups": [["&", "|", "^", "~", "<<", ">>", ">>>"], ["&&", "||"]]}` option:
 
@@ -154,6 +158,8 @@ var foo = (a + b) * c;
 
 :::
 
+::: correct
+
 ```js
 /*eslint no-mixed-operators: ["error", {"groups": [["&&", "||", "?:"]]}]*/
 
@@ -165,6 +171,8 @@ var bar = a ? (b || c) : d;
 var baz = a ? b : (c || d);
 var baz = (a ? b : c) || d;
 ```
+
+:::
 
 ### allowSamePrecedence
 

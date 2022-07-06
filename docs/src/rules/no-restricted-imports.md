@@ -142,11 +142,17 @@ import fs from 'fs';
 
 :::
 
+::: incorrect
+
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
 
 export { fs } from 'fs';
 ```
+
+:::
+
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
@@ -154,17 +160,29 @@ export { fs } from 'fs';
 export * from 'fs';
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /*eslint no-restricted-imports: ["error", { "paths": ["cluster"] }]*/
 
 import cluster from 'cluster';
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /*eslint no-restricted-imports: ["error", { "patterns": ["lodash/*"] }]*/
 
 import pick from 'lodash/pick';
 ```
+
+:::
+
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -175,6 +193,10 @@ import pick from 'lodash/pick';
 
 import DisallowedObject from "foo";
 ```
+
+:::
+
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -190,6 +212,10 @@ import { DisallowedObject as AllowedObject } from "foo";
 import { "DisallowedObject" as AllowedObject } from "foo";
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
     name: "foo",
@@ -200,6 +226,10 @@ import { "DisallowedObject" as AllowedObject } from "foo";
 import * as Foo from "foo";
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["lodash/*"],
@@ -208,6 +238,10 @@ import * as Foo from "foo";
 
 import pick from 'lodash/pick';
 ```
+
+:::
+
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -218,6 +252,10 @@ import pick from 'lodash/pick';
 import pick from 'fooBar';
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["utils/*"],
@@ -227,6 +265,8 @@ import pick from 'fooBar';
 
 import { isEmpty } from 'utils/collection-utils';
 ```
+
+:::
 
 Examples of **correct** code for this rule:
 
@@ -241,6 +281,8 @@ export { foo } from "bar";
 
 :::
 
+::: correct
+
 ```js
 /*eslint no-restricted-imports: ["error", { "paths": ["fs"], "patterns": ["eslint/*"] }]*/
 
@@ -249,11 +291,19 @@ import eslint from 'eslint';
 export * from "path";
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{ name: "foo", importNames: ["DisallowedObject"] }] }]*/
 
 import DisallowedObject from "foo"
 ```
+
+:::
+
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -265,6 +315,10 @@ import DisallowedObject from "foo"
 import { AllowedObject as DisallowedObject } from "foo";
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["lodash/*"],
@@ -273,6 +327,10 @@ import { AllowedObject as DisallowedObject } from "foo";
 
 import lodash from 'lodash';
 ```
+
+:::
+
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -283,6 +341,10 @@ import lodash from 'lodash';
 import pick from 'food';
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["utils/*"],
@@ -292,6 +354,8 @@ import pick from 'food';
 
 import { hasValues } from 'utils/collection-utils';
 ```
+
+:::
 
 ## When Not To Use It
 

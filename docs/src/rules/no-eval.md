@@ -146,6 +146,8 @@ this.eval("var a = 0");
 
 :::
 
+::: correct
+
 ```js
 /*eslint no-eval: "error"*/
 /*eslint-env browser*/
@@ -153,12 +155,18 @@ this.eval("var a = 0");
 window.eval("var a = 0");
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint no-eval: "error"*/
 /*eslint-env node*/
 
 global.eval("var a = 0");
 ```
+
+:::
 
 ## Known Limitations
 

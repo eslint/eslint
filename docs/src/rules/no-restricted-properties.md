@@ -90,6 +90,8 @@ disallowedObjectName.disallowedPropertyName(); /*error Disallowed object propert
 
 :::
 
+::: incorrect
+
 ```js
 /* eslint no-restricted-properties: [2, {
     "property": "__defineGetter__"
@@ -98,6 +100,10 @@ disallowedObjectName.disallowedPropertyName(); /*error Disallowed object propert
 foo.__defineGetter__(bar, baz);
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /* eslint no-restricted-properties: [2, {
     "object": "require"
@@ -105,6 +111,8 @@ foo.__defineGetter__(bar, baz);
 
 require.resolve('foo');
 ```
+
+:::
 
 Examples of **correct** code for this rule:
 
@@ -123,6 +131,8 @@ allowedObjectName.disallowedPropertyName();
 
 :::
 
+::: correct
+
 ```js
 /* eslint no-restricted-properties: [2, {
     "object": "require"
@@ -130,6 +140,8 @@ allowedObjectName.disallowedPropertyName();
 
 require('foo');
 ```
+
+:::
 
 ## When Not To Use It
 

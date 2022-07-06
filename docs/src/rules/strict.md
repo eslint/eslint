@@ -95,6 +95,8 @@ function foo() {
 
 :::
 
+::: incorrect
+
 ```js
 /*eslint strict: ["error", "global"]*/
 
@@ -102,6 +104,10 @@ function foo() {
     "use strict";
 }
 ```
+
+:::
+
+::: incorrect
 
 ```js
 /*eslint strict: ["error", "global"]*/
@@ -112,6 +118,8 @@ function foo() {
     "use strict";
 }
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `"global"` option:
 
@@ -147,6 +155,8 @@ function foo() {
 
 :::
 
+::: incorrect
+
 ```js
 /*eslint strict: ["error", "function"]*/
 
@@ -159,6 +169,10 @@ function foo() {
     }
 }());
 ```
+
+:::
+
+::: incorrect
 
 ```js
 /*eslint strict: ["error", "function"]*/
@@ -175,6 +189,8 @@ function foo(a = 1) {
 function foo(a = 1) {
 }
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `"function"` option:
 
@@ -224,6 +240,8 @@ function foo() {
 
 :::
 
+::: incorrect
+
 ```js
 /*eslint strict: ["error", "never"]*/
 
@@ -231,6 +249,8 @@ function foo() {
     "use strict";
 }
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `"never"` option:
 
@@ -264,6 +284,8 @@ function foo() {
 
 :::
 
+::: incorrect
+
 ```js
 // "strict": "error"
 
@@ -273,6 +295,8 @@ function foo() {
     }
 }());
 ```
+
+:::
 
 Examples of **correct** code for this rule with the earlier default option which has been removed:
 
@@ -289,6 +313,8 @@ function foo() {
 
 :::
 
+::: correct
+
 ```js
 // "strict": "error"
 
@@ -296,6 +322,10 @@ function foo() {
     "use strict";
 }
 ```
+
+:::
+
+::: correct
 
 ```js
 // "strict": "error"
@@ -307,6 +337,8 @@ function foo() {
     }
 }());
 ```
+
+:::
 
 ## When Not To Use It
 

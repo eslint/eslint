@@ -83,12 +83,16 @@ import event from "event-module";
 
 :::
 
+::: correct
+
 ```js
 /*global event*/
 /*eslint no-restricted-globals: ["error", "event"]*/
 
 var event = 1;
 ```
+
+:::
 
 Examples of **incorrect** code for a sample `"event"` global variable name, along with a custom error message:
 

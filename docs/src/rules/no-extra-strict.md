@@ -55,9 +55,13 @@ Examples of **correct** code for this rule:
 
 :::
 
+::: correct
+
 ```js
 (function () {
     "use strict";
     var foo = true;
 }());
 ```
+
+:::

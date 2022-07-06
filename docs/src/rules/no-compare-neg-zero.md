@@ -39,6 +39,8 @@ if (x === 0) {
 
 :::
 
+::: correct
+
 ```js
 /* eslint no-compare-neg-zero: "error" */
 
@@ -46,3 +48,5 @@ if (Object.is(x, -0)) {
     // doSomething()...
 }
 ```
+
+:::

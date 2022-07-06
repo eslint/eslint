@@ -88,17 +88,25 @@ var cluster = require('cluster');
 
 :::
 
+::: incorrect
+
 ```js
 /*eslint no-restricted-modules: ["error", {"paths": ["cluster"] }]*/
 
 var cluster = require('cluster');
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /*eslint no-restricted-modules: ["error", { "patterns": ["lodash/*"] }]*/
 
 var pick = require('lodash/pick');
 ```
+
+:::
 
 Examples of **correct** code for this rule with sample `"fs", "cluster", "lodash"` restricted modules:
 
@@ -112,6 +120,8 @@ var crypto = require('crypto');
 
 :::
 
+::: correct
+
 ```js
 /*eslint no-restricted-modules: ["error", {
     "paths": ["fs", "cluster"],
@@ -121,3 +131,5 @@ var crypto = require('crypto');
 var crypto = require('crypto');
 var pick = require('lodash/pick');
 ```
+
+:::

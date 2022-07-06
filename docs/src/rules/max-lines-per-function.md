@@ -87,6 +87,8 @@ function foo() {
 
 :::
 
+::: incorrect
+
 ```js
 /*eslint max-lines-per-function: ["error", 2]*/
 function foo() {
@@ -94,6 +96,10 @@ function foo() {
     var x = 0;
 }
 ```
+
+:::
+
+::: incorrect
 
 ```js
 /*eslint max-lines-per-function: ["error", 2]*/
@@ -103,6 +109,8 @@ function foo() {
     var x = 0;
 }
 ```
+
+:::
 
 Examples of **correct** code for this rule with a max value of `3`:
 
@@ -117,6 +125,8 @@ function foo() {
 
 :::
 
+::: correct
+
 ```js
 /*eslint max-lines-per-function: ["error", 3]*/
 function foo() {
@@ -124,6 +134,10 @@ function foo() {
     var x = 0;
 }
 ```
+
+:::
+
+::: correct
 
 ```js
 /*eslint max-lines-per-function: ["error", 3]*/
@@ -133,6 +147,8 @@ function foo() {
     var x = 0;
 }
 ```
+
+:::
 
 ### skipBlankLines
 

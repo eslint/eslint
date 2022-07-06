@@ -36,6 +36,8 @@ A = 0;
 
 :::
 
+::: incorrect
+
 ```js
 /*eslint no-class-assign: "error"*/
 /*eslint-env es6*/
@@ -43,6 +45,10 @@ A = 0;
 A = 0;
 class A { }
 ```
+
+:::
+
+::: incorrect
 
 ```js
 /*eslint no-class-assign: "error"*/
@@ -55,6 +61,10 @@ class A {
 }
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /*eslint no-class-assign: "error"*/
 /*eslint-env es6*/
@@ -66,6 +76,8 @@ let A = class A {
     }
 }
 ```
+
+:::
 
 Examples of **correct** code for this rule:
 
@@ -81,6 +93,8 @@ A = 0; // A is a variable.
 
 :::
 
+::: correct
+
 ```js
 /*eslint no-class-assign: "error"*/
 /*eslint-env es6*/
@@ -92,6 +106,10 @@ let A = class {
 }
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint no-class-assign: 2*/
 /*eslint-env es6*/
@@ -102,6 +120,8 @@ class A {
     }
 }
 ```
+
+:::
 
 ## When Not To Use It
 
