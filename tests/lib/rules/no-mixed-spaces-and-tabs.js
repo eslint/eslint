@@ -8,32 +8,36 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-mixed-spaces-and-tabs"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+const rule = require("../../../lib/rules/no-mixed-spaces-and-tabs"),
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 
     valid: [
-        {
-            code: "\tvar x = 5;"
-        },
-        {
-            code: "    var x = 5;"
-        },
-        {
-            code: "\t/*\n\t * Hello\n\t */"
-        },
-        {
-            code: "// foo\n\t/**\n\t * Hello\n\t */"
-        },
-        {
-            code: "/*\n\n \t \n*/"
-        },
+        "foo",
+        "foo \t",
+        "foo\t ",
+        "\tvar x = 5;",
+        "\t\tvar x = 5;",
+        " var x = 5;",
+        "    var x = 5;",
+        " foo\t",
+        "\tfoo ",
+        "\t/*\n\t * Hello\n\t */",
+        "// foo\n\t/**\n\t * Hello\n\t */",
+        "/*\n\n \t \n*/",
+        "/*\t */ //",
+        "/*\n \t*/ //",
+        "/*\n\t *//*\n \t*/",
+        "// \t",
+        "/*\n*/\t ",
+        "/* \t\n\t \n \t\n\t */ \t",
         {
             code: "\tvar x = 5,\n\t    y = 2;",
             options: [true]
@@ -78,8 +82,54 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
             code: "`foo${ 5 }\t    `;",
             env: { es6: true }
         },
+        "' \t\\\n\t multiline string';",
+        "'\t \\\n \tmultiline string';",
         {
             code: "\tvar x = 5,\n\t    y = 2;",
+            options: ["smart-tabs"]
+        },
+        {
+            code: "\t\t\t   foo",
+            options: ["smart-tabs"]
+        },
+        {
+            code: "foo",
+            options: ["smart-tabs"]
+        },
+        {
+            code: "foo \t",
+            options: ["smart-tabs"]
+        },
+        {
+            code: "foo\t ",
+            options: ["smart-tabs"]
+        },
+        {
+            code: "\tfoo \t",
+            options: ["smart-tabs"]
+        },
+        {
+            code: "\tvar x = 5;",
+            options: ["smart-tabs"]
+        },
+        {
+            code: "\t\tvar x = 5;",
+            options: ["smart-tabs"]
+        },
+        {
+            code: " var x = 5;",
+            options: ["smart-tabs"]
+        },
+        {
+            code: "    var x = 5;",
+            options: ["smart-tabs"]
+        },
+        {
+            code: " foo\t",
+            options: ["smart-tabs"]
+        },
+        {
+            code: "\tfoo ",
             options: ["smart-tabs"]
         }
     ],
@@ -89,9 +139,12 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
             code: "function add(x, y) {\n\t return x + y;\n}",
             errors: [
                 {
-                    message: "Mixed spaces and tabs.",
+                    messageId: "mixedSpacesAndTabs",
                     type: "Program",
-                    line: 2
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 3
                 }
             ]
         },
@@ -99,9 +152,77 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
             code: "\t ;\n/*\n\t * Hello\n\t */",
             errors: [
                 {
-                    message: "Mixed spaces and tabs.",
+                    messageId: "mixedSpacesAndTabs",
                     type: "Program",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 3
+                }
+            ]
+        },
+        {
+            code: " \t/* comment */",
+            errors: [
+                {
+                    messageId: "mixedSpacesAndTabs",
+                    type: "Program",
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 3
+                }
+            ]
+        },
+        {
+            code: "\t // comment",
+            errors: [
+                {
+                    messageId: "mixedSpacesAndTabs",
+                    type: "Program",
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 3
+                }
+            ]
+        },
+        {
+            code: "\t var a /* comment */ = 1;",
+            errors: [
+                {
+                    messageId: "mixedSpacesAndTabs",
+                    type: "Program",
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 3
+                }
+            ]
+        },
+        {
+            code: " \tvar b = 1; // comment",
+            errors: [
+                {
+                    messageId: "mixedSpacesAndTabs",
+                    type: "Program",
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 3
+                }
+            ]
+        },
+        {
+            code: "/**/\n \t/*\n \t*/",
+            errors: [
+                {
+                    messageId: "mixedSpacesAndTabs",
+                    type: "Program",
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 3
                 }
             ]
         },
@@ -109,14 +230,20 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
             code: "\t var x = 5, y = 2, z = 5;\n\n\t \tvar j =\t x + y;\nz *= j;",
             errors: [
                 {
-                    message: "Mixed spaces and tabs.",
+                    messageId: "mixedSpacesAndTabs",
                     type: "Program",
-                    line: 1
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 3
                 },
                 {
-                    message: "Mixed spaces and tabs.",
+                    messageId: "mixedSpacesAndTabs",
                     type: "Program",
-                    line: 3
+                    line: 3,
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 3
                 }
             ]
         },
@@ -125,9 +252,12 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
             options: [true],
             errors: [
                 {
-                    message: "Mixed spaces and tabs.",
+                    messageId: "mixedSpacesAndTabs",
                     type: "Program",
-                    line: 2
+                    line: 2,
+                    column: 2,
+                    endLine: 2,
+                    endColumn: 4
                 }
             ]
         },
@@ -136,22 +266,27 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
             options: ["smart-tabs"],
             errors: [
                 {
-                    message: "Mixed spaces and tabs.",
+                    messageId: "mixedSpacesAndTabs",
                     type: "Program",
-                    line: 2
+                    line: 2,
+                    column: 2,
+                    endLine: 2,
+                    endColumn: 4
                 }
             ]
         },
         {
             code: "`foo${\n \t  5 }bar`;",
-            env: { es6: true },
             options: ["smart-tabs"],
+            env: { es6: true },
             errors: [
                 {
-                    message: "Mixed spaces and tabs.",
+                    messageId: "mixedSpacesAndTabs",
                     type: "Program",
                     line: 2,
-                    column: 2
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 3
                 }
             ]
         },
@@ -160,10 +295,92 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
             env: { es6: true },
             errors: [
                 {
-                    message: "Mixed spaces and tabs.",
+                    messageId: "mixedSpacesAndTabs",
                     type: "Program",
                     line: 2,
-                    column: 2
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 3
+                }
+            ]
+        },
+        {
+            code: "  \t'';",
+            errors: [
+                {
+                    messageId: "mixedSpacesAndTabs",
+                    type: "Program",
+                    line: 1,
+                    column: 2,
+                    endLine: 1,
+                    endColumn: 4
+                }
+            ]
+        },
+        {
+            code: "''\n\t ",
+            errors: [
+                {
+                    messageId: "mixedSpacesAndTabs",
+                    type: "Program",
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 3
+                }
+            ]
+        },
+        {
+            code: "   \tfoo",
+            errors: [
+                {
+                    messageId: "mixedSpacesAndTabs",
+                    type: "Program",
+                    line: 1,
+                    column: 3,
+                    endLine: 1,
+                    endColumn: 5
+                }
+            ]
+        },
+        {
+            code: "\t\t\t foo",
+            errors: [
+                {
+                    messageId: "mixedSpacesAndTabs",
+                    type: "Program",
+                    line: 1,
+                    column: 3,
+                    endLine: 1,
+                    endColumn: 5
+                }
+            ]
+        },
+        {
+            code: "\t \tfoo",
+            options: ["smart-tabs"],
+            errors: [
+                {
+                    messageId: "mixedSpacesAndTabs",
+                    type: "Program",
+                    line: 1,
+                    column: 2,
+                    endLine: 1,
+                    endColumn: 4
+                }
+            ]
+        },
+        {
+            code: "\t\t\t   \tfoo",
+            options: ["smart-tabs"],
+            errors: [
+                {
+                    messageId: "mixedSpacesAndTabs",
+                    type: "Program",
+                    line: 1,
+                    column: 6,
+                    endLine: 1,
+                    endColumn: 8
                 }
             ]
         }

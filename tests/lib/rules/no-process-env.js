@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for no-process-env rule.
  * @author Vignesh Anand
- * @copyright 2014 Vignesh Anand. All rights reserved.
  */
 "use strict";
 
@@ -9,14 +8,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-process-env"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+const rule = require("../../../lib/rules/no-process-env"),
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("no-process-env", rule, {
 
     valid: [
@@ -30,21 +30,21 @@ ruleTester.run("no-process-env", rule, {
         {
             code: "process.env",
             errors: [{
-                message: "Unexpected use of process.env.",
+                messageId: "unexpectedProcessEnv",
                 type: "MemberExpression"
             }]
         },
         {
             code: "process.env.ENV",
             errors: [{
-                message: "Unexpected use of process.env.",
+                messageId: "unexpectedProcessEnv",
                 type: "MemberExpression"
             }]
         },
         {
             code: "f(process.env)",
             errors: [{
-                message: "Unexpected use of process.env.",
+                messageId: "unexpectedProcessEnv",
                 type: "MemberExpression"
             }]
         }

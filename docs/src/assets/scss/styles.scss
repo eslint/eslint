@@ -1,0 +1,37 @@
+
+@import "tokens/themes.scss";
+@import "tokens/spacing.scss";
+@import "tokens/typography.scss";
+@import "tokens/ui.scss";
+
+@import "foundations.scss";
+@import "syntax-highlighter.scss";
+@import "docs-header.scss";
+@import "docs-footer.scss";
+@import "eslint-site-footer.scss";
+@import "eslint-site-header.scss";
+@import "forms.scss";
+@import "docs.scss";
+@import "versions.scss";
+@import "languages.scss";
+
+@import "components/buttons.scss";
+@import "components/docs-navigation.scss";
+@import "components/toc.scss";
+@import "components/search.scss";
+@import "components/alert.scss";
+@import "components/rules.scss";
+@import "components/social-icons.scss";
+@import "components/hero.scss";
+@import "components/theme-switcher.scss";
+@import "components/version-switcher.scss";
+@import "components/language-switcher.scss";
+@import "components/docs-index.scss"; // docs index on the main docs pages
+@import "components/index.scss"; // used in component library
+@import "components/tabs.scss";
+@import "components/index.scss";
+@import "components/resources.scss";
+
+@import "carbon-ads.scss";
+
+@import "utilities.scss";

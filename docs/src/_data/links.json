@@ -1,0 +1,22 @@
+{
+    "github": "https://github.com/eslint/eslint",
+    "twitter": "https://twitter.com/geteslint",
+    "chat": "https://eslint.org/chat",
+    "group": "https://groups.google.com/group/eslint",
+
+    "blog": "/blog",
+    "docs": "/docs/latest/",
+    "playground": "/play",
+    "getStarted": "/docs/latest/user-guide/getting-started",
+    "sponsors": "/sponsors",
+    "branding": "/branding",
+    "store": "https://eslint.threadless.com",
+    "team": "/team",
+
+    "configuring": "https://eslint.org/docs/user-guide/configuring/",
+    "fixProblems": "https://eslint.org/docs/user-guide/command-line-interface#fixing-problems",
+
+    "donate": "/donate",
+    "openCollective": "https://opencollective.com/eslint",
+    "githubSponsors": "https://github.com/sponsors/eslint"
+}

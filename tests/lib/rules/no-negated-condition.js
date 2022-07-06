@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for no-negated-condition rule.
  * @author Alberto Rodríguez
- * @copyright 2015 Alberto Rodríguez. All rights reserved.
- * See LICENSE file in root directory for full license.
  */
 "use strict";
 
@@ -10,14 +8,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-negated-condition"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+const rule = require("../../../lib/rules/no-negated-condition"),
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("no-negated-condition", rule, {
 
     // Examples of code that should not trigger the rule
@@ -42,42 +41,42 @@ ruleTester.run("no-negated-condition", rule, {
         {
             code: "if (!a) {;} else {;}",
             errors: [{
-                message: "Unexpected negated condition.",
+                messageId: "unexpectedNegated",
                 type: "IfStatement"
             }]
         },
         {
             code: "if (a != b) {;} else {;}",
             errors: [{
-                message: "Unexpected negated condition.",
+                messageId: "unexpectedNegated",
                 type: "IfStatement"
             }]
         },
         {
             code: "if (a !== b) {;} else {;}",
             errors: [{
-                message: "Unexpected negated condition.",
+                messageId: "unexpectedNegated",
                 type: "IfStatement"
             }]
         },
         {
             code: "!a ? b : c",
             errors: [{
-                message: "Unexpected negated condition.",
+                messageId: "unexpectedNegated",
                 type: "ConditionalExpression"
             }]
         },
         {
             code: "a != b ? c : d",
             errors: [{
-                message: "Unexpected negated condition.",
+                messageId: "unexpectedNegated",
                 type: "ConditionalExpression"
             }]
         },
         {
             code: "a !== b ? c : d",
             errors: [{
-                message: "Unexpected negated condition.",
+                messageId: "unexpectedNegated",
                 type: "ConditionalExpression"
             }]
         }

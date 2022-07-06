@@ -1,18 +1,22 @@
 /**
  * @fileoverview Test file for require-jsdoc rule
  * @author Gyandeep Singh
- * @copyright 2015 Gyandeep Singh. All rights reserved.
  */
 "use strict";
 
-var rule = require("../../../lib/rules/require-jsdoc"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
+
+const rule = require("../../../lib/rules/require-jsdoc"),
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("require-jsdoc", rule, {
     valid: [
         "var array = [1,2,3];\narray.forEach(function() {});",
@@ -39,17 +43,26 @@ ruleTester.run("require-jsdoc", rule, {
         "var object = {\n/**\n @method myFunction - Some function \n*/\nmyFunction: function() {} }",
         "var object = {\n/**\n @function myFunction - Some function \n*/\nmyFunction: function() {} }",
 
-        "var array = [1,2,3];\narray.forEach(function() {});",
         "var array = [1,2,3];\narray.filter(function() {});",
         "Object.keys(this.options.rules || {}).forEach(function(name) {}.bind(this));",
         "var object = { name: 'key'};\nObject.keys(object).forEach(function() {})",
         {
             code: "function myFunction() {}",
             options: [{
-                "require": {
-                    "FunctionDeclaration": false,
-                    "MethodDefinition": true,
-                    "ClassDeclaration": true
+                require: {
+                    FunctionDeclaration: false,
+                    MethodDefinition: true,
+                    ClassDeclaration: true
+                }
+            }]
+        },
+        {
+            code: "var myFunction = function() {}",
+            options: [{
+                require: {
+                    FunctionDeclaration: false,
+                    MethodDefinition: true,
+                    ClassDeclaration: true
                 }
             }]
         },
@@ -67,15 +80,13 @@ ruleTester.run("require-jsdoc", rule, {
                 "        this.a = xs;" +
                 "    }\n" +
                 "}",
-            ecmaFeatures: {
-                classes: true
-            },
             options: [{
-                "require": {
-                    "MethodDefinition": true,
-                    "ClassDeclaration": true
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
                 }
-            }]
+            }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -91,15 +102,133 @@ ruleTester.run("require-jsdoc", rule, {
             "        this.a = xs;" +
             "    }\n" +
             "}",
-            ecmaFeatures: {
-                classes: true
-            },
             options: [{
-                "require": {
-                    "MethodDefinition": true,
-                    "ClassDeclaration": true
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code:
+            "/**\n" +
+            " * Description for A.\n" +
+            " */\n" +
+            "export default class App extends Component {\n" +
+            "    /**\n" +
+            "     * Description for constructor.\n" +
+            "     * @param {object[]} xs - xs\n" +
+            "     */\n" +
+            "    constructor(xs) {\n" +
+            "        this.a = xs;" +
+            "    }\n" +
+            "}",
+            options: [{
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code:
+            "/**\n" +
+            " * Description for A.\n" +
+            " */\n" +
+            "export class App extends Component {\n" +
+            "    /**\n" +
+            "     * Description for constructor.\n" +
+            "     * @param {object[]} xs - xs\n" +
+            "     */\n" +
+            "    constructor(xs) {\n" +
+            "        this.a = xs;" +
+            "    }\n" +
+            "}",
+            options: [{
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code:
+            "class A {\n" +
+            "    constructor(xs) {\n" +
+            "        this.a = xs;" +
+            "    }\n" +
+            "}",
+            options: [{
+                require: {
+                    MethodDefinition: false,
+                    ClassDeclaration: false
+                }
+            }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "/**\n Function doing something\n*/\nvar myFunction = () => {}",
+            options: [{
+                require: {
+                    ArrowFunctionExpression: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "/**\n Function doing something\n*/\nvar myFunction = () => () => {}",
+            options: [{
+                require: {
+                    ArrowFunctionExpression: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "setTimeout(() => {}, 10);",
+            options: [{
+                require: {
+                    ArrowFunctionExpression: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "/**\nJSDoc Block\n*/\nvar foo = function() {}",
+            options: [{
+                require: {
+                    FunctionExpression: true
                 }
             }]
+        },
+        {
+            code: "const foo = {/**\nJSDoc Block\n*/\nbar() {}}",
+            options: [{
+                require: {
+                    FunctionExpression: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = {/**\nJSDoc Block\n*/\nbar: function() {}}",
+            options: [{
+                require: {
+                    FunctionExpression: true
+                }
+            }]
+        },
+        {
+            code: " var foo = { [function() {}]: 1 };",
+            options: [{
+                require: {
+                    FunctionExpression: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
@@ -107,7 +236,7 @@ ruleTester.run("require-jsdoc", rule, {
         {
             code: "function myFunction() {}",
             errors: [{
-                message: "Missing JSDoc comment.",
+                messageId: "missingJSDocComment",
                 type: "FunctionDeclaration"
             }]
         },
@@ -121,17 +250,15 @@ ruleTester.run("require-jsdoc", rule, {
                 "        this.a = xs;" +
                 "    }\n" +
                 "}",
-            ecmaFeatures: {
-                classes: true
-            },
             options: [{
-                "require": {
-                    "MethodDefinition": true,
-                    "ClassDeclaration": true
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
                 }
             }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Missing JSDoc comment.",
+                messageId: "missingJSDocComment",
                 type: "FunctionExpression"
             }]
         },
@@ -146,17 +273,15 @@ ruleTester.run("require-jsdoc", rule, {
                 "        this.a = xs;" +
                 "    }\n" +
                 "}",
-            ecmaFeatures: {
-                classes: true
-            },
             options: [{
-                "require": {
-                    "MethodDefinition": true,
-                    "ClassDeclaration": true
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
                 }
             }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Missing JSDoc comment.",
+                messageId: "missingJSDocComment",
                 type: "ClassDeclaration"
             }]
         },
@@ -171,17 +296,15 @@ ruleTester.run("require-jsdoc", rule, {
             "        this.a = xs;" +
             "    }\n" +
             "}",
-            ecmaFeatures: {
-                classes: true
-            },
             options: [{
-                "require": {
-                    "MethodDefinition": true,
-                    "ClassDeclaration": true
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
                 }
             }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Missing JSDoc comment.",
+                messageId: "missingJSDocComment",
                 type: "ClassDeclaration"
             }]
         },
@@ -196,19 +319,102 @@ ruleTester.run("require-jsdoc", rule, {
             "        this.a = xs;" +
             "    }\n" +
             "}",
-            ecmaFeatures: {
-                classes: true,
-                modules: true
-            },
             options: [{
-                "require": {
-                    "MethodDefinition": true,
-                    "ClassDeclaration": true
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "missingJSDocComment",
+                type: "ClassDeclaration"
+            }]
+        },
+        {
+            code:
+            "export default class A extends B {\n" +
+            "    /**\n" +
+            "     * Description for constructor.\n" +
+            "     * @param {object[]} xs - xs\n" +
+            "     */\n" +
+            "    constructor(xs) {\n" +
+            "        this.a = xs;" +
+            "    }\n" +
+            "}",
+            options: [{
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "missingJSDocComment",
+                type: "ClassDeclaration"
+            }]
+        },
+        {
+            code: "var myFunction = () => {}",
+            options: [{
+                require: {
+                    ArrowFunctionExpression: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "missingJSDocComment",
+                type: "ArrowFunctionExpression"
+            }]
+        },
+        {
+            code: "var myFunction = () => () => {}",
+            options: [{
+                require: {
+                    ArrowFunctionExpression: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "missingJSDocComment",
+                type: "ArrowFunctionExpression"
+            }]
+        },
+        {
+            code: "var foo = function() {}",
+            options: [{
+                require: {
+                    FunctionExpression: true
                 }
             }],
             errors: [{
-                message: "Missing JSDoc comment.",
-                type: "ClassDeclaration"
+                messageId: "missingJSDocComment",
+                type: "FunctionExpression"
+            }]
+        },
+        {
+            code: "const foo = {bar() {}}",
+            options: [{
+                require: {
+                    FunctionExpression: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "missingJSDocComment",
+                type: "FunctionExpression"
+            }]
+        },
+        {
+            code: "var foo = {bar: function() {}}",
+            options: [{
+                require: {
+                    FunctionExpression: true
+                }
+            }],
+            errors: [{
+                messageId: "missingJSDocComment",
+                type: "FunctionExpression"
             }]
         }
     ]

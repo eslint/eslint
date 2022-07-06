@@ -1,0 +1,100 @@
+---
+layout: base.html
+---
+
+{% include "partials/docs-header.html" %}
+{% from 'components/rule-categories.macro.html' import ruleCategories %}
+
+<div class="docs-wrapper">
+    <div class="docs-nav">
+        <div class="desktop-only">
+            {% include 'components/version-switcher.html' %}
+        </div>
+            {% include 'components/docs-index.html' %}
+    </div>
+
+    {# Add in various sections to content so TOC is accurate #}
+    {% set all_content = content %}
+    {% set rule_meta = rules_meta[title] %}
+    {% set added_version = rule_versions.added[title] %}
+    {% set removed_version = rule_versions.removed[title] %}
+
+    {% if related_rules %}
+        {% set related_rules_content %}
+            <h2 id="related-rules">Related Rules</h2>
+            {% related_rules related_rules %}
+        {% endset %}
+
+        {% set all_content = [all_content, related_rules_content] | join %}
+    {% endif %}
+
+    {% if added_version %}
+        {% set version_content %}
+            <h2 id="version">Version</h2>
+            <p>This rule was introduced in ESLint v{{added_version}}{% if removed_version%}
+                 and removed in v{{removed_version}}{% endif %}.</p>
+        {% endset %}
+
+        {% set all_content = [all_content, version_content] | join %}
+    {% endif %}
+
+    {% if further_reading %}
+        {% set further_reading_content %}
+            <h2 id="further-reading">Further Reading</h2>
+            {% for url in further_reading %}
+                {% link url %}
+            {% endfor %}
+        {% endset %}
+
+        {% set all_content = [all_content, further_reading_content] | join %}
+    {% endif %}
+        
+    {% if rule_meta %}
+        {% set resources_content %}
+            <h2 id="resources">Resources</h2>
+            <ul>
+                <li><a href="https://github.com/eslint/eslint/blob/main/lib/rules/{{ title }}.js">Rule source</a></li>
+                <li><a href="https://github.com/eslint/eslint/blob/main/tests/lib/rules/{{ title }}.js">Tests source</a></li>
+            </ul>
+        {% endset %}
+        {% set all_content = [all_content, resources_content] | join %}
+    {% endif %}
+
+    <div class="docs-content">
+        <main id="main" tabindex="-1" class="docs-main">
+            <div class="docs-main__content">
+                <h1>{{ title }}</h1>
+                {% if rule_meta %}
+                    {%set id = true if (rule_meta.docs.recommended or rule_meta.fixable or rule_meta.hasSuggestions) else false %}
+                    <p>{{ rule_meta.docs.description | markdown | safe }}</p>
+                    {{ ruleCategories({
+                    index: id,
+                    recommended: rule_meta.docs.recommended,
+                    fixable: rule_meta.fixable,
+                    hasSuggestions: rule_meta.hasSuggestions
+                    }) }}
+                {% endif %}
+
+                {% include 'components/docs-toc.html' %}
+                
+                {{ all_content | safe }}
+            </div>
+
+            <div class="docs-edit-link">
+                <a href="{{ edit_link }}" class="c-btn c-btn--secondary">Edit this page</a>
+            </div>
+        </main>
+
+        <div class="docs-aside">
+            <div class="docs-aside__content">
+                <aside class="docs-ad">
+                    {%- include 'partials/carbon-ad.html' -%}
+                </aside>
+                {% include 'components/docs-toc.html' %}
+            </div>
+            {% include "partials/docs-footer.html" %}
+        </div>
+    </div>
+</div>
+
+<script src="{{ '/assets/js/tabs.js' | url }}"></script>

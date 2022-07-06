@@ -1,0 +1,19 @@
+default: true
+
+# Exclusions for deliberate/widespread violations
+MD002: false     # First header should be a h1 header
+MD004:           # Unordered list style
+    style: asterisk
+MD007:           # Unordered list indentation
+    indent: 4
+MD013: false     # Line length
+MD019: false     # Multiple spaces after hash on atx style header
+MD021: false     # Multiple spaces inside hashes on closed atx style header
+MD024: false     # Multiple headers with the same content
+MD026: false     # Trailing punctuation in header
+MD029: false     # Ordered list item prefix
+MD030: false     # Spaces after list markers
+MD033: false     # Allow inline HTML
+MD041: false     # First line in file should be a top level header
+MD046:           # Code block style
+    style: fenced

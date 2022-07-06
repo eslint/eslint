@@ -9,14 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-octal"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+const rule = require("../../../lib/rules/no-octal"),
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("no-octal", rule, {
     valid: [
         "var a = 'hello world';",
@@ -27,8 +28,82 @@ ruleTester.run("no-octal", rule, {
         "0.5e1"
     ],
     invalid: [
-        { code: "var a = 01234;", errors: [{ message: "Octal literals should not be used.", type: "Literal"}] },
-        { code: "a = 1 + 01234;", errors: [{ message: "Octal literals should not be used.", type: "Literal"}] },
-        { code: "00", errors: [{ message: "Octal literals should not be used.", type: "Literal"}] }
+        {
+            code: "var a = 01234;",
+            errors: [{
+                messageId: "noOctal",
+                type: "Literal"
+            }]
+        },
+        {
+            code: "a = 1 + 01234;",
+            errors: [{
+                messageId: "noOctal",
+                type: "Literal"
+            }]
+        },
+        {
+            code: "00",
+            errors: [{
+                messageId: "noOctal",
+                type: "Literal"
+            }]
+        },
+        {
+            code: "08",
+            errors: [{
+                messageId: "noOctal",
+                type: "Literal"
+            }]
+        },
+        {
+            code: "09.1",
+            errors: [{
+                messageId: "noOctal",
+                type: "Literal"
+            }]
+        },
+        {
+            code: "09e1",
+            errors: [{
+                messageId: "noOctal",
+                type: "Literal"
+            }]
+        },
+        {
+            code: "09.1e1",
+            errors: [{
+                messageId: "noOctal",
+                type: "Literal"
+            }]
+        },
+        {
+            code: "018",
+            errors: [{
+                messageId: "noOctal",
+                type: "Literal"
+            }]
+        },
+        {
+            code: "019.1",
+            errors: [{
+                messageId: "noOctal",
+                type: "Literal"
+            }]
+        },
+        {
+            code: "019e1",
+            errors: [{
+                messageId: "noOctal",
+                type: "Literal"
+            }]
+        },
+        {
+            code: "019.1e1",
+            errors: [{
+                messageId: "noOctal",
+                type: "Literal"
+            }]
+        }
     ]
 });

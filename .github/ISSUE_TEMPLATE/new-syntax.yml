@@ -1,0 +1,60 @@
+name: "\U0001F4DD Request for new syntax support"
+description: "Request new stage 4 syntax be supported."
+labels:
+  - core
+  - new syntax
+body:
+- type: markdown
+  attributes:
+    value: By opening an issue, you agree to abide by the [Open JS Foundation Code of Conduct](https://eslint.org/conduct).
+- type: input
+  attributes:
+    label: Syntax name
+    description: What is the name of the syntax to implement?
+    placeholder: e.g. "class fields"
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Syntax proposal URL
+    description: Please provide the TC39 URL for the syntax proposal.
+    placeholder: e.g. https://github.com/tc39/proposal-top-level-await
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Example code
+    description: Please provide some example code for the new syntax.
+    render: js
+  validations:
+    required: true
+- type: checkboxes
+  attributes:
+    label: Implementation Checklist
+    description: |
+      Please check off all items that have already been completed. Be sure to paste the pull request URLs next to each item so we can verify the work as done.
+    options:
+      - label: "Ecma262 update: <!-- paste PR URL for this syntax here -->"
+        required: false
+      - label: "ESTree update: <!-- paste PR URL for this ESTree update here -->"
+        required: false
+      - label: "Acorn update: <!-- paste PR URL for this syntax here -->"
+        required: false
+      - label: "`eslint-visitor-keys` update: <!-- paste PR URL for this syntax here -->"
+        required: false
+      - label: "`espree` update: <!-- paste PR URL for this syntax here -->"
+        required: false
+      - label: "`eslint-scope` update: <!-- paste PR URL for this syntax here -->"
+        required: false
+      - label: "`eslint` update: <!-- paste PR URL for this syntax here -->"
+        required: false
+- type: checkboxes
+  attributes:
+    label: Participation
+    options:
+      - label: I am willing to submit a pull request for this change.
+        required: false
+- type: textarea
+  attributes:
+    label: Additional comments
+    description: Is there anything else that's important for the team to know?

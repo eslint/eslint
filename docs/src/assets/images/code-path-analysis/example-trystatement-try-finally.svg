@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<svg width="294pt" height="490pt" viewBox="0.00 0.00 294.00 490.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 486)">
+<title>_anonymous_0</title>
+
+<g id="node1" class="node"><title>initial</title>
+<ellipse fill="black" stroke="black" cx="171" cy="-473" rx="9" ry="9"></ellipse>
+</g>
+
+<g id="node4" class="node"><title>s1_1</title>
+<polygon fill="white" stroke="white" points="226.147,-427.3 115.853,-427.3 103.853,-415.3 103.853,-330.7 115.853,-318.7 226.147,-318.7 238.147,-330.7 238.147,-415.3 226.147,-427.3"></polygon>
+<path fill="white" stroke="white" d="M115.853,-427.3C109.853,-427.3 103.853,-421.3 103.853,-415.3"></path>
+<path fill="white" stroke="white" d="M103.853,-330.7C103.853,-324.7 109.853,-318.7 115.853,-318.7"></path>
+<path fill="white" stroke="white" d="M226.147,-318.7C232.147,-318.7 238.147,-324.7 238.147,-330.7"></path>
+<path fill="white" stroke="white" d="M238.147,-415.3C238.147,-421.3 232.147,-427.3 226.147,-427.3"></path>
+<polyline fill="none" stroke="black" points="226.147,-427.3 115.853,-427.3 "></polyline>
+<path fill="none" stroke="black" d="M115.853,-427.3C109.853,-427.3 103.853,-421.3 103.853,-415.3"></path>
+<polyline fill="none" stroke="black" points="103.853,-415.3 103.853,-330.7 "></polyline>
+<path fill="none" stroke="black" d="M103.853,-330.7C103.853,-324.7 109.853,-318.7 115.853,-318.7"></path>
+<polyline fill="none" stroke="black" points="115.853,-318.7 226.147,-318.7 "></polyline>
+<path fill="none" stroke="black" d="M226.147,-318.7C232.147,-318.7 238.147,-324.7 238.147,-330.7"></path>
+<polyline fill="none" stroke="black" points="238.147,-330.7 238.147,-415.3 "></polyline>
+<path fill="none" stroke="black" d="M238.147,-415.3C238.147,-421.3 232.147,-427.3 226.147,-427.3"></path>
+<text text-anchor="middle" x="171" y="-410.8" font-family="Times,serif" font-size="14.00">Program</text>
+<text text-anchor="middle" x="171" y="-394" font-family="Times,serif" font-size="14.00">TryStatement</text>
+<text text-anchor="middle" x="171" y="-377.2" font-family="Times,serif" font-size="14.00">BlockStatement</text>
+<text text-anchor="middle" x="171" y="-360.4" font-family="Times,serif" font-size="14.00">ExpressionStatement</text>
+<text text-anchor="middle" x="171" y="-343.6" font-family="Times,serif" font-size="14.00">CallExpression</text>
+<text text-anchor="middle" x="171" y="-326.8" font-family="Times,serif" font-size="14.00">Identifier (foo)</text>
+</g>
+
+<g id="edge2" class="edge"><title>initial-&gt;s1_1</title>
+<path fill="none" stroke="black" d="M171,-463.98C171,-457.675 171,-448.238 171,-437.813"></path>
+<polygon fill="black" stroke="black" points="174.5,-437.586 171,-427.586 167.5,-437.586 174.5,-437.586"></polygon>
+</g>
+
+<g id="node2" class="node"><title>final</title>
+<ellipse fill="black" stroke="black" cx="67" cy="-13" rx="9" ry="9"></ellipse>
+<ellipse fill="none" stroke="black" cx="67" cy="-13" rx="13" ry="13"></ellipse>
+</g>
+
+<g id="node3" class="node"><title>thrown</title>
+<ellipse fill="white" stroke="black" cx="219" cy="-13" rx="11" ry="11"></ellipse>
+<text text-anchor="middle" x="219" y="-8.8" font-family="Times,serif" font-size="14.00">✘</text>
+</g>
+
+<g id="node5" class="node"><title>s1_2</title>
+<polygon fill="white" stroke="white" points="179.147,-282.401 68.8526,-282.401 56.8526,-270.401 56.8526,-235.599 68.8526,-223.599 179.147,-223.599 191.147,-235.599 191.147,-270.401 179.147,-282.401"></polygon>
+<path fill="white" stroke="white" d="M68.8526,-282.401C62.8526,-282.401 56.8526,-276.401 56.8526,-270.401"></path>
+<path fill="white" stroke="white" d="M56.8526,-235.599C56.8526,-229.599 62.8526,-223.599 68.8526,-223.599"></path>
+<path fill="white" stroke="white" d="M179.147,-223.599C185.147,-223.599 191.147,-229.599 191.147,-235.599"></path>
+<path fill="white" stroke="white" d="M191.147,-270.401C191.147,-276.401 185.147,-282.401 179.147,-282.401"></path>
+<polyline fill="none" stroke="black" points="179.147,-282.401 68.8526,-282.401 "></polyline>
+<path fill="none" stroke="black" d="M68.8526,-282.401C62.8526,-282.401 56.8526,-276.401 56.8526,-270.401"></path>
+<polyline fill="none" stroke="black" points="56.8526,-270.401 56.8526,-235.599 "></polyline>
+<path fill="none" stroke="black" d="M56.8526,-235.599C56.8526,-229.599 62.8526,-223.599 68.8526,-223.599"></path>
+<polyline fill="none" stroke="black" points="68.8526,-223.599 179.147,-223.599 "></polyline>
+<path fill="none" stroke="black" d="M179.147,-223.599C185.147,-223.599 191.147,-229.599 191.147,-235.599"></path>
+<polyline fill="none" stroke="black" points="191.147,-235.599 191.147,-270.401 "></polyline>
+<path fill="none" stroke="black" d="M191.147,-270.401C191.147,-276.401 185.147,-282.401 179.147,-282.401"></path>
+<text text-anchor="middle" x="124" y="-265.6" font-family="Times,serif" font-size="14.00">ExpressionStatement</text>
+<text text-anchor="middle" x="124" y="-248.8" font-family="Times,serif" font-size="14.00">CallExpression</text>
+<text text-anchor="middle" x="124" y="-232" font-family="Times,serif" font-size="14.00">Identifier (bar)</text>
+</g>
+
+<g id="edge3" class="edge"><title>s1_1-&gt;s1_2</title>
+<path fill="none" stroke="black" d="M149.7,-318.524C146.1,-309.486 142.431,-300.273 139.034,-291.744"></path>
+<polygon fill="black" stroke="black" points="142.284,-290.447 135.332,-282.452 135.781,-293.037 142.284,-290.447"></polygon>
+</g>
+
+<g id="node7" class="node"><title>s1_4</title>
+<polygon fill="white" stroke="white" points="274.147,-162.7 163.853,-162.7 151.853,-150.7 151.853,-99.2997 163.853,-87.2997 274.147,-87.2997 286.147,-99.2997 286.147,-150.7 274.147,-162.7"></polygon>
+<path fill="white" stroke="white" d="M163.853,-162.7C157.853,-162.7 151.853,-156.7 151.853,-150.7"></path>
+<path fill="white" stroke="white" d="M151.853,-99.2997C151.853,-93.2997 157.853,-87.2997 163.853,-87.2997"></path>
+<path fill="white" stroke="white" d="M274.147,-87.2997C280.147,-87.2997 286.147,-93.2997 286.147,-99.2997"></path>
+<path fill="white" stroke="white" d="M286.147,-150.7C286.147,-156.7 280.147,-162.7 274.147,-162.7"></path>
+<polyline fill="none" stroke="black" points="274.147,-162.7 163.853,-162.7 "></polyline>
+<path fill="none" stroke="black" d="M163.853,-162.7C157.853,-162.7 151.853,-156.7 151.853,-150.7"></path>
+<polyline fill="none" stroke="black" points="151.853,-150.7 151.853,-99.2997 "></polyline>
+<path fill="none" stroke="black" d="M151.853,-99.2997C151.853,-93.2997 157.853,-87.2997 163.853,-87.2997"></path>
+<polyline fill="none" stroke="black" points="163.853,-87.2997 274.147,-87.2997 "></polyline>
+<path fill="none" stroke="black" d="M274.147,-87.2997C280.147,-87.2997 286.147,-93.2997 286.147,-99.2997"></path>
+<polyline fill="none" stroke="black" points="286.147,-99.2997 286.147,-150.7 "></polyline>
+<path fill="none" stroke="black" d="M286.147,-150.7C286.147,-156.7 280.147,-162.7 274.147,-162.7"></path>
+<text text-anchor="middle" x="219" y="-146" font-family="Times,serif" font-size="14.00">BlockStatement</text>
+<text text-anchor="middle" x="219" y="-129.2" font-family="Times,serif" font-size="14.00">ExpressionStatement</text>
+<text text-anchor="middle" x="219" y="-112.4" font-family="Times,serif" font-size="14.00">CallExpression</text>
+<text text-anchor="middle" x="219" y="-95.6" font-family="Times,serif" font-size="14.00">Identifier (fuga)</text>
+</g>
+
+<g id="edge6" class="edge"><title>s1_1-&gt;s1_4</title>
+<path fill="none" stroke="black" d="M190.026,-318.681C193.772,-306.729 197.356,-294.025 200,-282 207.95,-245.85 212.809,-204.204 215.622,-173.04"></path>
+<polygon fill="black" stroke="black" points="219.124,-173.16 216.499,-162.896 212.15,-172.557 219.124,-173.16"></polygon>
+</g>
+
+<g id="node6" class="node"><title>s1_3</title>
+<polygon fill="white" stroke="white" points="122.147,-187.601 11.8526,-187.601 -0.147372,-175.601 -0.147372,-74.3994 11.8526,-62.3994 122.147,-62.3994 134.147,-74.3994 134.147,-175.601 122.147,-187.601"></polygon>
+<path fill="white" stroke="white" d="M11.8526,-187.601C5.85263,-187.601 -0.147372,-181.601 -0.147372,-175.601"></path>
+<path fill="white" stroke="white" d="M-0.147372,-74.3994C-0.147372,-68.3994 5.85263,-62.3994 11.8526,-62.3994"></path>
+<path fill="white" stroke="white" d="M122.147,-62.3994C128.147,-62.3994 134.147,-68.3994 134.147,-74.3994"></path>
+<path fill="white" stroke="white" d="M134.147,-175.601C134.147,-181.601 128.147,-187.601 122.147,-187.601"></path>
+<polyline fill="none" stroke="black" points="122.147,-187.601 11.8526,-187.601 "></polyline>
+<path fill="none" stroke="black" d="M11.8526,-187.601C5.85263,-187.601 -0.147372,-181.601 -0.147372,-175.601"></path>
+<polyline fill="none" stroke="black" points="-0.147372,-175.601 -0.147372,-74.3994 "></polyline>
+<path fill="none" stroke="black" d="M-0.147372,-74.3994C-0.147372,-68.3994 5.85263,-62.3994 11.8526,-62.3994"></path>
+<polyline fill="none" stroke="black" points="11.8526,-62.3994 122.147,-62.3994 "></polyline>
+<path fill="none" stroke="black" d="M122.147,-62.3994C128.147,-62.3994 134.147,-68.3994 134.147,-74.3994"></path>
+<polyline fill="none" stroke="black" points="134.147,-74.3994 134.147,-175.601 "></polyline>
+<path fill="none" stroke="black" d="M134.147,-175.601C134.147,-181.601 128.147,-187.601 122.147,-187.601"></path>
+<text text-anchor="middle" x="67" y="-171.2" font-family="Times,serif" font-size="14.00">BlockStatement</text>
+<text text-anchor="middle" x="67" y="-154.4" font-family="Times,serif" font-size="14.00">ExpressionStatement</text>
+<text text-anchor="middle" x="67" y="-137.6" font-family="Times,serif" font-size="14.00">CallExpression</text>
+<text text-anchor="middle" x="67" y="-120.8" font-family="Times,serif" font-size="14.00">Identifier (fuga)</text>
+<text text-anchor="middle" x="67" y="-104" font-family="Times,serif" font-size="14.00">ExpressionStatement</text>
+<text text-anchor="middle" x="67" y="-87.2" font-family="Times,serif" font-size="14.00">CallExpression</text>
+<text text-anchor="middle" x="67" y="-70.4" font-family="Times,serif" font-size="14.00">Identifier (last)</text>
+</g>
+
+<g id="edge4" class="edge"><title>s1_2-&gt;s1_3</title>
+<path fill="none" stroke="black" d="M111.208,-223.723C107.527,-215.585 103.337,-206.324 99.038,-196.821"></path>
+<polygon fill="black" stroke="black" points="102.207,-195.333 94.896,-187.665 95.8289,-198.219 102.207,-195.333"></polygon>
+</g>
+
+<g id="edge8" class="edge"><title>s1_2-&gt;s1_4</title>
+<path fill="none" stroke="black" d="M145.32,-223.723C156.979,-208.26 171.698,-188.737 184.91,-171.214"></path>
+<polygon fill="black" stroke="black" points="188.029,-172.891 191.255,-162.799 182.44,-168.677 188.029,-172.891"></polygon>
+</g>
+
+<g id="edge10" class="edge"><title>s1_3-&gt;final</title>
+<path fill="none" stroke="black" d="M67,-62.2476C67,-53.0345 67,-44.0781 67,-36.4335"></path>
+<polygon fill="black" stroke="black" points="70.5001,-36.2949 67,-26.2949 63.5001,-36.2949 70.5001,-36.2949"></polygon>
+</g>
+
+<g id="edge12" class="edge"><title>s1_4-&gt;thrown</title>
+<path fill="none" stroke="black" d="M219,-87.3716C219,-69.6416 219,-49.034 219,-34.1808"></path>
+<polygon fill="black" stroke="black" points="222.5,-34.087 219,-24.087 215.5,-34.087 222.5,-34.087"></polygon>
+</g>
+</g>
+</svg>

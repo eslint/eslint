@@ -1,0 +1,32 @@
+.switcher--language {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: .25rem .5rem;
+    position: relative;
+    width: 100%;
+    padding: 0;
+    font-size: inherit;
+
+    @media all and (min-width: 800px) {
+        justify-content: flex-start;
+    }
+}
+
+.switcher--language .label__text {
+    flex: 1 0 10ch;
+}
+
+
+.switcher--language  .switcher__select {
+    flex: 1 0 12rem;
+
+    @media all and (max-width: 800px) {
+        max-width: 250px;
+    }
+}
+
+.language-switcher {
+    display: inline-flex;
+}

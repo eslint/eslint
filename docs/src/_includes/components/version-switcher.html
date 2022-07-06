@@ -1,0 +1,25 @@
+<!-- only displayed on desktop; be sure to update nav-version-switcher.html too -->
+<div class="version-switcher">
+    <a href="{{ '/versions/' | url }}" class="switcher-fallback">Versions</a>
+
+    <div hidden role="region" class="switcher switcher--version" aria-labelledby="version-switcher-label" id="version-switcher">
+        <span id="version-switcher-label" hidden>Version Switcher</span>
+        <div class="infobox visually-hidden" id="version-infobox">
+            Selecting a version will take you to the chosen version of the ESLint docs.
+        </div>
+
+        <label class="switcher__label label--block" for="version-select">
+            <span class="label__text">Version</span>
+        </label>
+        <select name="version selector" id="version-select" aria-describedby="version-infobox" class="c-custom-select switcher__select auto-switcher">
+            <option value="HEAD" data-url="/docs/head/"  {% if GIT_BRANCH != "latest" %}selected{% endif %}>HEAD</option>
+            <option value="{{ eslintVersion }}" data-url="/docs/latest/"  {% if GIT_BRANCH == "latest" %}selected{% endif %}>v{{ eslintVersion }}</option>
+            {% for version in versions.items %}
+            <option value="{{ version.number }}"
+                    data-url="{{ version.url }}">
+                v{{ version.number }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+</div>

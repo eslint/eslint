@@ -1,7 +1,7 @@
 /**
- ** @fileoverview Test rule to flag if the global var `test` is missing;
- ** @author Mathias Schreck
- **/
+ * @fileoverview Test rule to flag if the global var `test` is missing;
+ * @author Mathias Schreck
+ */
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -25,4 +25,3 @@ module.exports = function(context) {
         }
     };
 };
-

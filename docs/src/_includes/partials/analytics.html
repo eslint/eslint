@@ -1,0 +1,24 @@
+<!--<br>-->
+{% if site.google_analytics.code %}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7DGPHY308T"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', '{{ site.google_analytics.code }}');
+
+    // track clicks to "Donate"
+    document.querySelectorAll("a.donate-link").forEach(
+        el => el.addEventListener("click",
+            () => gtag("event", "donate_click"))
+    );
+
+    // track clicks on sponsor logos
+    document.querySelectorAll("a.sponsor-link").forEach(
+        el => el.addEventListener("click",
+            () => gtag("event", "sponsor_click", el.href || ""))
+    );
+</script>
+{% endif %}

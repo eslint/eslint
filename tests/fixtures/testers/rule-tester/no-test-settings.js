@@ -1,7 +1,7 @@
 /**
- ** @fileoverview Test rule to flag if the settings var `test` is missing;
- ** @author Ilya Volodin
- **/
+ * @fileoverview Test rule to flag if the settings var `test` is missing;
+ * @author Ilya Volodin
+ */
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -18,4 +18,3 @@ module.exports = function(context) {
         }
     };
 };
-

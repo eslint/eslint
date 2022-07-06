@@ -1,30 +1,40 @@
 /**
  * @fileoverview Tests for api.
  * @author Gyandeep Singh
- * @copyright 2015 Gyandeep Singh. All rights reserved.
- * See LICENSE file in root directory for full license.
  */
 
 "use strict";
 
-var assert = require("chai").assert,
+//-----------------------------------------------------------------------------
+// Requirements
+//-----------------------------------------------------------------------------
+
+const assert = require("chai").assert,
     api = require("../../lib/api");
 
-describe("api", function() {
+//-----------------------------------------------------------------------------
+// Tests
+//-----------------------------------------------------------------------------
 
-    it("should have RuleTester exposed", function() {
+describe("api", () => {
+
+    it("should have RuleTester exposed", () => {
         assert.isFunction(api.RuleTester);
     });
 
-    it("should have CLIEngine exposed", function() {
-        assert.isFunction(api.CLIEngine);
+    it("should not have CLIEngine exposed", () => {
+        assert.isUndefined(api.CLIEngine);
     });
 
-    it("should have linter exposed", function() {
-        assert.isObject(api.linter);
+    it("should not have linter exposed", () => {
+        assert.isUndefined(api.linter);
     });
 
-    it("should have SourceCode exposed", function() {
+    it("should have Linter exposed", () => {
+        assert.isFunction(api.Linter);
+    });
+
+    it("should have SourceCode exposed", () => {
         assert.isFunction(api.SourceCode);
     });
 });

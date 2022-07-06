@@ -1,0 +1,51 @@
+{% from 'components/rule-list.macro.html' import ruleList %}
+
+{%- macro rule(params) -%}
+<article class="rule {% if params.deprecated == true %}rule--deprecated{% endif %} {% if params.removed == true %}rule--removed{% endif %}">
+    <div class="rule__content">
+        {%- if params.deprecated == true -%}
+        <p class="rule__name">
+            {{ params.name }}
+            <span class="rule__status">deprecated</span>
+        </p>
+        {%- if params.replacedBy|length -%}
+        <p class="rule__description">Replaced by {{ ruleList({ rules: params.replacedBy }) }}</p>
+        {%- else -%}<p class="rule__description">{{ params.description }}</p>
+        {%- endif -%}
+        {%- elseif params.removed == true -%}
+        <p class="rule__name">
+            {{ params.name }}
+            <span class="rule__status">removed</span>
+        </p>
+        {%- if params.replacedBy -%}
+        <p class="rule__description">Replaced by {{ ruleList({ rules: params.replacedBy }) }}</p>
+        {%- else -%}<p class="rule__description">{{ params.description }}</p>
+        {%- endif -%}
+        {%- else -%}
+        <a href="{{ ['/rules/', params.name] | join | url }}" class="rule__name">{{ params.name }}</a>
+        <p class="rule__description">{{ params.description }}</p>
+        {%- endif -%}
+    </div>
+    <div class="rule__categories">
+        <span class="visually-hidden">Categories:</span>
+        {%- if (params.deprecated) or (params.removed) -%}
+            <p class="rule__categories__type">
+                <svg width="24" height="24" viewBox="12 12 20 20" fill="none" aria-hidden="true" focusable="false" style="position: relative; right: -1px;">
+                    <path d="M28.5 16L16.5 28M16.5 16L28.5 28" stroke="#F63D68" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </p>
+            {%- else -%}
+            <p class="rule__categories__type" {% if params.categories.recommended == false %}aria-hidden="true" {%- endif -%}>
+            ✅ <span class="visually-hidden">Extends</span>
+        </p>
+        {%- endif -%}
+
+        <p class="rule__categories__type" {% if params.categories.fixable == false %}aria-hidden="true" {%- endif -%}>
+            🛠 <span class="visually-hidden">Fix</span>
+        </p>
+        <p class="rule__categories__type" {% if params.categories.hasSuggestions == false %}aria-hidden="true" {%- endif -%}>
+            💡 <span class="visually-hidden">Suggestions</span>
+        </p>
+    </div>
+</article>
+{%- endmacro -%}

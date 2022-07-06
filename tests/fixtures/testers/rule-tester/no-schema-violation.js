@@ -1,7 +1,7 @@
 /**
- ** @fileoverview Test rule to flag schema violations
- ** @author Brandon Mills
- **/
+ * @fileoverview Test rule to flag schema violations
+ * @author Brandon Mills
+ */
 
 //------------------------------------------------------------------------------
 // Rule Definition

@@ -8,14 +8,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-process-exit"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+const rule = require("../../../lib/rules/no-process-exit"),
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("no-process-exit", rule, {
 
     valid: [
@@ -28,21 +29,21 @@ ruleTester.run("no-process-exit", rule, {
         {
             code: "process.exit(0);",
             errors: [{
-                message: "Don't use process.exit(); throw an error instead.",
+                messageId: "noProcessExit",
                 type: "CallExpression"
             }]
         },
         {
             code: "process.exit(1);",
             errors: [{
-                message: "Don't use process.exit(); throw an error instead.",
+                messageId: "noProcessExit",
                 type: "CallExpression"
             }]
         },
         {
             code: "f(process.exit(1));",
             errors: [{
-                message: "Don't use process.exit(); throw an error instead.",
+                messageId: "noProcessExit",
                 type: "CallExpression"
             }]
         }

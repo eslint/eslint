@@ -2,8 +2,6 @@
  * @fileoverview Tests for vars-on-top rule.
  * @author Danny Fritz
  * @author Gyandeep Singh
- * @copyright 2014 Danny Fritz. All rights reserved.
- * @copyright 2014 Gyandeep Singh. All rights reserved.
  */
 "use strict";
 
@@ -11,14 +9,16 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/vars-on-top"),
-    EslintTester = require("../../../lib/testers/rule-tester");
+const rule = require("../../../lib/rules/vars-on-top"),
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new EslintTester();
+const ruleTester = new RuleTester();
+const error = { messageId: "top", type: "VariableDeclaration" };
+
 ruleTester.run("vars-on-top", rule, {
 
     valid: [
@@ -143,22 +143,133 @@ ruleTester.run("vars-on-top", rule, {
                 "   i = i + 1;",
                 "}"
             ].join("\n"),
-            ecmaFeatures: {
-                blockBindings: true
+            parserOptions: {
+                ecmaVersion: 6
             }
         },
         "'use strict'; var x; f();",
         "'use strict'; 'directive'; var x; var y; f();",
         "function f() { 'use strict'; var x; f(); }",
         "function f() { 'use strict'; 'directive'; var x; var y; f(); }",
-        {code: "import React from 'react'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
-        {code: "'use strict'; import React from 'react'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
-        {code: "import React from 'react'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
-        {code: "import * as foo from 'mod.js'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
-        {code: "import { square, diag } from 'lib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
-        {code: "import { default as foo } from 'lib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
-        {code: "import 'src/mylib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
-        {code: "import theDefault, { named1, named2 } from 'src/mylib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }}
+        { code: "import React from 'react'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "'use strict'; import React from 'react'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import React from 'react'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import * as foo from 'mod.js'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import { square, diag } from 'lib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import { default as foo } from 'lib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import 'src/mylib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import theDefault, { named1, named2 } from 'src/mylib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        {
+            code: [
+                "export var x;",
+                "var y;",
+                "var z;"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 6,
+                sourceType: "module"
+            }
+        },
+        {
+            code: [
+                "var x;",
+                "export var y;",
+                "var z;"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 6,
+                sourceType: "module"
+            }
+        },
+        {
+            code: [
+                "var x;",
+                "var y;",
+                "export var z;"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 6,
+                sourceType: "module"
+            }
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        var x;",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        var x;",
+                "        foo();",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        var x;",
+                "        var y;",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        var x;",
+                "        var y;",
+                "        foo();",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        let x;",
+                "        var y;",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        foo();",
+                "        let x;",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        }
     ],
 
     invalid: [
@@ -171,12 +282,7 @@ ruleTester.run("vars-on-top", rule, {
                 "}",
                 "var second = 0;"
             ].join("\n"),
-            errors: [
-                {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
-                    type: "VariableDeclaration"
-                }
-            ]
+            errors: [error]
         },
         {
             code: [
@@ -191,12 +297,7 @@ ruleTester.run("vars-on-top", rule, {
                 "   first = second;",
                 "}"
             ].join("\n"),
-            errors: [
-                {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
-                    type: "VariableDeclaration"
-                }
-            ]
+            errors: [error]
         },
         {
             code: [
@@ -208,12 +309,7 @@ ruleTester.run("vars-on-top", rule, {
                 "   first = second;",
                 "}"
             ].join("\n"),
-            errors: [
-                {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
-                    type: "VariableDeclaration"
-                }
-            ]
+            errors: [error]
         },
         {
             code: [
@@ -223,12 +319,7 @@ ruleTester.run("vars-on-top", rule, {
                 "   }",
                 "}"
             ].join("\n"),
-            errors: [
-                {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
-                    type: "VariableDeclaration"
-                }
-            ]
+            errors: [error]
         },
         {
             code: [
@@ -240,12 +331,7 @@ ruleTester.run("vars-on-top", rule, {
                 "   }",
                 "}"
             ].join("\n"),
-            errors: [
-                {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
-                    type: "VariableDeclaration"
-                }
-            ]
+            errors: [error]
         },
         {
             code: [
@@ -259,12 +345,7 @@ ruleTester.run("vars-on-top", rule, {
                 "   }",
                 "}"
             ].join("\n"),
-            errors: [
-                {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
-                    type: "VariableDeclaration"
-                }
-            ]
+            errors: [error]
         },
         {
             code: [
@@ -278,12 +359,7 @@ ruleTester.run("vars-on-top", rule, {
                 "   }",
                 "}"
             ].join("\n"),
-            errors: [
-                {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
-                    type: "VariableDeclaration"
-                }
-            ]
+            errors: [error]
         },
         {
             code: [
@@ -297,12 +373,7 @@ ruleTester.run("vars-on-top", rule, {
                 "   }",
                 "}"
             ].join("\n"),
-            errors: [
-                {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
-                    type: "VariableDeclaration"
-                }
-            ]
+            errors: [error]
         },
         {
             code: [
@@ -313,12 +384,7 @@ ruleTester.run("vars-on-top", rule, {
                 "   }",
                 "}"
             ].join("\n"),
-            errors: [
-                {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
-                    type: "VariableDeclaration"
-                }
-            ]
+            errors: [error]
         },
         {
             code: [
@@ -329,12 +395,7 @@ ruleTester.run("vars-on-top", rule, {
                 "   } while (first == 10);",
                 "}"
             ].join("\n"),
-            errors: [
-                {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
-                    type: "VariableDeclaration"
-                }
-            ]
+            errors: [error]
         },
         {
             code: [
@@ -345,12 +406,7 @@ ruleTester.run("vars-on-top", rule, {
                 "   }",
                 "}"
             ].join("\n"),
-            errors: [
-                {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
-                    type: "VariableDeclaration"
-                }
-            ]
+            errors: [error]
         },
         {
             code: [
@@ -362,12 +418,7 @@ ruleTester.run("vars-on-top", rule, {
                 "   }",
                 "}"
             ].join("\n"),
-            errors: [
-                {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
-                    type: "VariableDeclaration"
-                }
-            ]
+            errors: [error]
         },
         {
             code: [
@@ -379,29 +430,153 @@ ruleTester.run("vars-on-top", rule, {
                 "   }",
                 "}"
             ].join("\n"),
-            ecmaFeatures: { arrowFunctions: true },
-            errors: [
-                {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
-                    type: "VariableDeclaration"
-                }
-            ]
+            parserOptions: { ecmaVersion: 6 },
+            errors: [error]
         },
         {
             code: "'use strict'; 0; var x; f();",
-            errors: [{message: "All \"var\" declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
+            errors: [error]
         },
         {
             code: "'use strict'; var x; 'directive'; var y; f();",
-            errors: [{message: "All \"var\" declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
+            errors: [error]
         },
         {
             code: "function f() { 'use strict'; 0; var x; f(); }",
-            errors: [{message: "All \"var\" declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
+            errors: [error]
         },
         {
             code: "function f() { 'use strict'; var x; 'directive';  var y; f(); }",
-            errors: [{message: "All \"var\" declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
+            errors: [error]
+        },
+        {
+            code: [
+                "export function f() {}",
+                "var x;"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 6,
+                sourceType: "module"
+            },
+            errors: [error]
+        },
+        {
+            code: [
+                "var x;",
+                "export function f() {}",
+                "var y;"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 6,
+                sourceType: "module"
+            },
+            errors: [error]
+        },
+        {
+            code: [
+                "import {foo} from 'foo';",
+                "export {foo};",
+                "var test = 1;"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 6,
+                sourceType: "module"
+            },
+            errors: [error]
+        },
+        {
+            code: [
+                "export {foo} from 'foo';",
+                "var test = 1;"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 6,
+                sourceType: "module"
+            },
+            errors: [error]
+        },
+        {
+            code: [
+                "export * from 'foo';",
+                "var test = 1;"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 6,
+                sourceType: "module"
+            },
+            errors: [error]
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        foo();",
+                "        var x;",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [error]
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        'use strict';", // static blocks do not have directives
+                "        var x;",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [error]
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        var x;",
+                "        foo();",
+                "        var y;",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [{ ...error, line: 5 }]
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        if (foo) {",
+                "            var x;",
+                "        }",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [error]
+        },
+        {
+            code: [
+                "class C {",
+                "    static {",
+                "        if (foo)",
+                "            var x;",
+                "    }",
+                "}"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [error]
         }
     ]
 });

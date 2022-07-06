@@ -1,0 +1,29 @@
+---
+layout: main.html
+permalink: /404.html
+eleventyExcludeFromCollections: true
+hook: "404_page"
+---
+
+<section class="404 section">
+    <div class="content-container grid">
+        <div class="span-1-5">
+            <h1 class="section-title h0">
+                <span class="eyebrow">{{ site.404_page.title }}</span>
+                {{ site.404_page.subtitle }}
+            </h1>
+            <p class="section-supporting-text">
+                {{ site.404_page.description }}
+            </p>
+            <div class="eslint-actions">
+                <a href="/" class="c-btn c-btn--primary c-btn--large">{{ site.404_page.actions.back_to_home }}</a>
+                <a href="{{ links.docs }}" class="c-btn c-btn--secondary c-btn--large">{{
+                    site.404_page.actions.browse_docs }}</a>
+            </div>
+        </div>
+
+        <div class="content-container span-7-12">
+            <img width="480" height="366" src="{{ '/assets/images/404.png' | url }}" alt="">
+        </div>
+    </div>
+</section>

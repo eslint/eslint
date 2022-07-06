@@ -1,0 +1,7 @@
+<ul class="versions-list">
+    <li><a href="/docs/head/" {% if GIT_BRANCH != "latest" %} data-current="true" {% endif %}>HEAD</a></li>
+    <li><a href="/docs/latest/" {% if GIT_BRANCH == "latest" %} data-current="true" {% endif %}>v{{ eslintVersion }}</a></li>
+    {%- for version in versions.items -%}
+    <li><a href="{{ version.url }}">v{{ version.number }}</a></li>
+    {%- endfor -%}
+</ul>

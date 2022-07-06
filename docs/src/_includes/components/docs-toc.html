@@ -1,0 +1,8 @@
+<nav class="docs-toc c-toc" aria-labelledby="js-toc-label">
+    {%- if all_content | toc | safe -%}
+    <h2 class="c-toc__label" id="js-toc-label">Table of Contents</h2>
+    <div class="c-toc__panel" id="js-toc-panel">
+        {{ all_content | toc | safe }}
+    </div>
+    {%- endif -%}
+</nav>

@@ -1,7 +1,7 @@
 /**
- ** @fileoverview Test rule to flag if the filename is missing;
- ** @author Stefan Lau
- **/
+ * @fileoverview Test rule to flag if the filename is missing;
+ * @author Stefan Lau
+ */
 
 //------------------------------------------------------------------------------
 // Rule Definition
