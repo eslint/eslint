@@ -157,13 +157,14 @@ class Foo {
 
 ### allowInArrayDestructuring
 
-Examples of **correct** code for this rule with the `{ "allowInArrayDestructuring": true }` option:
+Examples of **incorrect** code for this rule with the `{ "allowInArrayDestructuring": false }` option:
 
 ```js
-/*eslint no-underscore-dangle: ["error", { "allowInArrayDestructuring": true }]*/
+/*eslint no-underscore-dangle: ["error", { "allowInArrayDestructuring": false }]*/
 
 const [_foo, _bar] = list;
-const [foo_, bar_] = [1, 2];
+const [foo_, ..._bar] = list;
+const [foo, [bar, _baz]] = list;
 ```
 
 ### allowFunctionParams
