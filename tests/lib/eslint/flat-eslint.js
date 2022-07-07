@@ -120,13 +120,6 @@ describe("FlatESLint", () => {
             }
         });
 
-        it("should report one fatal message when given a path by --ignore-path that is not a file when ignore is true.", () => {
-            assert.throws(() => {
-                // eslint-disable-next-line no-new -- Check for throwing
-                new FlatESLint({ ignorePath: fixtureDir });
-            }, new RegExp(escapeStringRegExp(`Cannot read .eslintignore file: ${fixtureDir}\nError: EISDIR: illegal operation on a directory, read`), "u"));
-        });
-
         // https://github.com/eslint/eslint/issues/2380
         it("should not modify baseConfig when format is specified", () => {
             const customBaseConfig = { root: true };
@@ -151,16 +144,7 @@ describe("FlatESLint", () => {
                 }),
                 new RegExp(escapeStringRegExp([
                     "Invalid Options:",
-                    "- Unknown options: cacheFile, configFile, envs, globals, ignorePattern, parser, parserOptions, rules",
-                    "- 'cacheFile' has been removed. Please use the 'cacheLocation' option instead.",
-                    "- 'configFile' has been removed. Please use the 'overrideConfigFile' option instead.",
-                    "- 'envs' has been removed. Please use the 'overrideConfig.env' option instead.",
-                    "- 'globals' has been removed. Please use the 'overrideConfig.globals' option instead.",
-                    "- 'ignorePattern' has been removed. Please use the 'overrideConfig.ignorePatterns' option instead.",
-                    "- 'parser' has been removed. Please use the 'overrideConfig.parser' option instead.",
-                    "- 'parserOptions' has been removed. Please use the 'overrideConfig.parserOptions' option instead.",
-                    "- 'rules' has been removed. Please use the 'overrideConfig.rules' option instead.",
-                    "- 'plugins' doesn't add plugins to configuration to load. Please use the 'overrideConfig.plugins' option instead."
+                    "- Unknown options: cacheFile, configFile, envs, globals, ignorePattern, parser, parserOptions, rules"
                 ].join("\n")), "u")
             );
         });
@@ -181,12 +165,9 @@ describe("FlatESLint", () => {
                     ignore: "",
                     ignorePath: "",
                     overrideConfig: "",
-                    configFile: "",
+                    overrideConfigFile: "",
                     plugins: "",
-                    reportUnusedDisableDirectives: "",
-                    resolvePluginsRelativeTo: "",
-                    rulePaths: "",
-                    useEslintrc: ""
+                    reportUnusedDisableDirectives: ""
                 }),
                 new RegExp(escapeStringRegExp([
                     "Invalid Options:",
@@ -205,10 +186,7 @@ describe("FlatESLint", () => {
                     "- 'overrideConfig' must be an object or null.",
                     "- 'overrideConfigFile' must be a non-empty string or null.",
                     "- 'plugins' must be an object or null.",
-                    "- 'reportUnusedDisableDirectives' must be any of \"error\", \"warn\", \"off\", and null.",
-                    "- 'resolvePluginsRelativeTo' must be a non-empty string or null.",
-                    "- 'rulePaths' must be an array of non-empty strings.",
-                    "- 'useEslintrc' must be a boolean."
+                    "- 'reportUnusedDisableDirectives' must be any of \"error\", \"warn\", \"off\", and null."
                 ].join("\n")), "u")
             );
         });
@@ -277,7 +255,7 @@ describe("FlatESLint", () => {
 
         it("should report one message when using specific config file", async () => {
             eslint = new FlatESLint({
-                configFile: "tests/fixtures/configurations/quotes-error.js",
+                overrideoverrideConfigFile: "tests/fixtures/configurations/quotes-error.js",
                 cwd: getFixturePath("..")
             });
             const results = await eslint.lintText("var foo = 'bar';");
@@ -307,7 +285,7 @@ describe("FlatESLint", () => {
             eslint = new FlatESLint({
                 ignorePath: getFixturePath(".eslintignore"),
                 cwd: getFixturePath(".."),
-                configFile: "eslint.config.js"
+                overrideoverrideConfigFile: "eslint.config.js"
             });
 
             const options = { filePath: "fixtures/passing.js", warnIgnored: true };
@@ -329,7 +307,7 @@ describe("FlatESLint", () => {
             eslint = new FlatESLint({
                 ignorePath: getFixturePath(".eslintignore"),
                 cwd: getFixturePath(".."),
-                configFile: "eslint.config.js"
+                overrideConfigFile: "eslint.config.js"
             });
             const options = {
                 filePath: "fixtures/passing.js",
@@ -347,7 +325,7 @@ describe("FlatESLint", () => {
             eslint = new FlatESLint({
                 ignorePath: getFixturePath(".eslintignore"),
                 cwd: getFixturePath(".."),
-                configFile: "eslint.config.js"
+                overrideConfigFile: "eslint.config.js"
             });
             const options = { filePath: "fixtures/passing.js" };
             const results = await eslint.lintText("var bar = foo;", options);
@@ -633,7 +611,7 @@ describe("FlatESLint", () => {
         it("should warn when deprecated rules are found in a config", async () => {
             eslint = new FlatESLint({
                 cwd: originalDir,
-                configFile: "tests/fixtures/cli-engine/deprecated-rule-config/eslint.config.js"
+                overrideConfigFile: "tests/fixtures/cli-engine/deprecated-rule-config/eslint.config.js"
             });
             const [result] = await eslint.lintText("foo");
 
@@ -698,7 +676,7 @@ describe("FlatESLint", () => {
         it("should report zero messages when given a config file and a valid file", async () => {
             eslint = new FlatESLint({
                 cwd: originalDir,
-                configFile: "eslint.config.js"
+                overrideConfigFile: "eslint.config.js"
             });
             const results = await eslint.lintFiles(["lib/**/cli*.js"]);
 
@@ -710,7 +688,7 @@ describe("FlatESLint", () => {
         it("should handle multiple patterns with overlapping files", async () => {
             eslint = new FlatESLint({
                 cwd: originalDir,
-                configFile: "eslint.config.js"
+                overrideConfigFile: "eslint.config.js"
             });
             const results = await eslint.lintFiles(["lib/**/cli*.js", "lib/cli.?s", "lib/{cli,cli-engine/cli-engine}.js"]);
 
@@ -1267,7 +1245,7 @@ describe("FlatESLint", () => {
             it("should warn when deprecated rules are found in a config", async () => {
                 eslint = new FlatESLint({
                     cwd: originalDir,
-                    configFile: "tests/fixtures/cli-engine/deprecated-rule-config/eslint.config.js"
+                    overrideConfigFile: "tests/fixtures/cli-engine/deprecated-rule-config/eslint.config.js"
                 });
                 const results = await eslint.lintFiles(["lib/cli*.js"]);
 
@@ -4534,7 +4512,7 @@ describe("FlatESLint", () => {
 
             it("'lintFiles()' with 'foo/test.js' should use the files entry.", async () => {
                 const engine = new FlatESLint({
-                    configFile: "node_modules/myconf/eslint.config.js",
+                    overrideConfigFile: "node_modules/myconf/eslint.config.js",
                     cwd: getPath(),
                     ignore: false
                 });
@@ -4570,7 +4548,7 @@ describe("FlatESLint", () => {
 
             it("'lintFiles()' with 'node_modules/myconf/foo/test.js' should NOT use the files entry.", async () => {
                 const engine = new FlatESLint({
-                    configFile: "node_modules/myconf/eslint.config.js",
+                    overrideConfigFile: "node_modules/myconf/eslint.config.js",
                     cwd: getPath(),
                     ignore: false
                 });
@@ -4615,7 +4593,7 @@ describe("FlatESLint", () => {
 
             it("'lintFiles()' with 'foo/test.js' should have no errors because no rules are enabled.", async () => {
                 const engine = new FlatESLint({
-                    configFile: "bar/myconf/eslint.config.js",
+                    overrideConfigFile: "bar/myconf/eslint.config.js",
                     cwd: getPath(),
                     ignore: false
                 });
@@ -4638,7 +4616,7 @@ describe("FlatESLint", () => {
 
             it("'lintFiles()' with 'bar/myconf/foo/test.js' should have an error because eqeqeq is enabled.", async () => {
                 const engine = new FlatESLint({
-                    configFile: "bar/myconf/eslint.config.js",
+                    overrideConfigFile: "bar/myconf/eslint.config.js",
                     cwd: getPath(),
                     ignore: false
                 });
@@ -4694,7 +4672,7 @@ describe("FlatESLint", () => {
 
             it("'lintFiles()' with '**/*.js' should iterate 'node_modules/myconf/foo/test.js' but not 'foo/test.js'.", async () => {
                 const engine = new FlatESLint({
-                    configFile: "node_modules/myconf/eslint.config.js",
+                    overrideConfigFile: "node_modules/myconf/eslint.config.js",
                     cwd: getPath()
                 });
                 const files = (await engine.lintFiles("**/*.js"))
@@ -4890,7 +4868,7 @@ describe("FlatESLint", () => {
             it("'lintFiles()' should NOT throw plugin-conflict error. (Load the plugin from the base directory of the entry config file, but there are two entry config files, but node_modules directory is unique.)", async () => {
                 const engine = new FlatESLint({
                     cwd: getPath(),
-                    configFile: "node_modules/mine/.eslintrc.json"
+                    overrideConfigFile: "node_modules/mine/.eslintrc.json"
                 });
 
                 await engine.lintFiles("test.js");
@@ -4920,7 +4898,7 @@ describe("FlatESLint", () => {
             it("'lintFiles()' should throw plugin-conflict error. (Load the plugin from the base directory of the entry config file, but there are two entry config files.)", async () => {
                 const engine = new FlatESLint({
                     cwd: getPath(),
-                    configFile: "node_modules/mine/.eslintrc.json"
+                    overrideConfigFile: "node_modules/mine/.eslintrc.json"
                 });
 
                 await assertThrows(
