@@ -54,7 +54,7 @@ function getOrderOfTraversing(codePath, options, callback) {
     codePath.traverseSegments(options, (segment, controller) => {
         retv.push(segment.id);
         if (callback) {
-            callback(segment, controller); // eslint-disable-line node/callback-return -- At end of inner function
+            callback(segment, controller); // eslint-disable-line n/callback-return -- At end of inner function
         }
     });
 
