@@ -105,17 +105,17 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "const foo = (..._bar) => {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "RestElement" }] },
         {
             code: "const [foo, _bar] = [1, 2]",
-            options: [{ allowDestructured: false }],
+            options: [{ allowInArrayDestructuring: false }],
             parserOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" } }]
         }, {
             code: "const [foo, ..._rest] = [1, 2, 3]",
-            options: [{ allowDestructured: false }],
+            options: [{ allowInArrayDestructuring: false }],
             parserOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_rest" } }]
         }, {
             code: "const [foo, [bar_, baz]] = [1, [2, 3]]",
-            options: [{ allowDestructured: false }],
+            options: [{ allowInArrayDestructuring: false }],
             parserOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "bar_" } }]
         }, {

@@ -56,7 +56,7 @@ This rule has an object option:
 * `"allowAfterThisConstructor": false` (default) disallows dangling underscores in members of the `this.constructor` object
 * `"enforceInMethodNames": false` (default) allows dangling underscores in method names
 * `"enforceInClassFields": false` (default) allows dangling underscores in es2022 class fields names
-* `"allowDestructured": false` (default) disallows dangling underscores in variable names assigned by array destructuring
+* `"allowInArrayDestructuring": false` (default) disallows dangling underscores in variable names assigned by array destructuring
 * `"allowFunctionParams": true` (default) allows dangling underscores in function parameter names
 
 ### allow
@@ -155,12 +155,12 @@ class Foo {
 }
 ```
 
-### allowDestructured
+### allowInArrayDestructuring
 
-Examples of **correct** code for this rule with the `{ "allowDestructured": true }` option:
+Examples of **correct** code for this rule with the `{ "allowInArrayDestructuring": true }` option:
 
 ```js
-/*eslint no-underscore-dangle: ["error", { "allowDestructured": true }]*/
+/*eslint no-underscore-dangle: ["error", { "allowInArrayDestructuring": true }]*/
 
 const [_foo, _bar] = list;
 const [foo_, bar_] = [1, 2];
