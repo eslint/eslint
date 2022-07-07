@@ -119,6 +119,26 @@ ruleTester.run("no-underscore-dangle", rule, {
             parserOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "bar_" } }]
         }, {
+            code: "const { _foo, bar } = { _foo: 1, bar: 2 }",
+            options: [{ allowInObjectDestructuring: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_foo" } }]
+        }, {
+            code: "const { foo: _foo, bar } = { foo: 1, bar: 2 }",
+            options: [{ allowInObjectDestructuring: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_foo" } }]
+        }, {
+            code: "const { foo, ..._rest} = { foo: 1, bar: 2, baz: 3 }",
+            options: [{ allowInObjectDestructuring: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_rest" } }]
+        }, {
+            code: "const { foo, bar: { baz, _qux } } = { foo: 1, bar: { baz: 3, _qux: 4 } }",
+            options: [{ allowInObjectDestructuring: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_qux" } }]
+        }, {
             code: "class foo { #_bar() {} }",
             options: [{ enforceInMethodNames: true }],
             parserOptions: { ecmaVersion: 2022 },
