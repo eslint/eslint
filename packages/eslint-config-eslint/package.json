@@ -22,7 +22,7 @@
   "peerDependencies": {
     "eslint-plugin-eslint-comments": ">=3.2.0",
     "eslint-plugin-jsdoc": ">=38.1.6",
-    "eslint-plugin-node": ">=11.1.0",
+    "eslint-plugin-n": ">=15.2.4",
     "eslint-plugin-unicorn": ">=42.0.0"
   },
   "keywords": [
