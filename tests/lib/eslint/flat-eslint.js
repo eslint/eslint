@@ -211,17 +211,19 @@ describe("FlatESLint", () => {
     describe("lintText()", () => {
         let eslint;
 
-        it("should report the total and per file errors when using local cwd .eslintrc", async () => {
-            eslint = new FlatESLint();
+        it("should report the total and per file errors when using local cwd eslint.config.js", async () => {
+            eslint = new FlatESLint({
+                cwd: __dirname
+            });
+
             const results = await eslint.lintText("var foo = 'bar';");
 
             assert.strictEqual(results.length, 1);
-            assert.strictEqual(results[0].messages.length, 5);
-            assert.strictEqual(results[0].messages[0].ruleId, "strict");
-            assert.strictEqual(results[0].messages[1].ruleId, "no-var");
-            assert.strictEqual(results[0].messages[2].ruleId, "no-unused-vars");
-            assert.strictEqual(results[0].messages[3].ruleId, "quotes");
-            assert.strictEqual(results[0].messages[4].ruleId, "eol-last");
+            assert.strictEqual(results[0].messages.length, 4);
+            assert.strictEqual(results[0].messages[0].ruleId, "no-var");
+            assert.strictEqual(results[0].messages[1].ruleId, "no-unused-vars");
+            assert.strictEqual(results[0].messages[2].ruleId, "quotes");
+            assert.strictEqual(results[0].messages[3].ruleId, "eol-last");
             assert.strictEqual(results[0].fixableErrorCount, 3);
             assert.strictEqual(results[0].fixableWarningCount, 0);
             assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
@@ -234,20 +236,19 @@ describe("FlatESLint", () => {
                         quotes: 1,
                         "no-var": 1,
                         "eol-last": 1,
-                        strict: 1,
                         "no-unused-vars": 1
                     }
-                }
+                },
+                overrideConfigFile: true
             });
             const results = await eslint.lintText("var foo = 'bar';");
 
             assert.strictEqual(results.length, 1);
-            assert.strictEqual(results[0].messages.length, 5);
-            assert.strictEqual(results[0].messages[0].ruleId, "strict");
-            assert.strictEqual(results[0].messages[1].ruleId, "no-var");
-            assert.strictEqual(results[0].messages[2].ruleId, "no-unused-vars");
-            assert.strictEqual(results[0].messages[3].ruleId, "quotes");
-            assert.strictEqual(results[0].messages[4].ruleId, "eol-last");
+            assert.strictEqual(results[0].messages.length, 4);
+            assert.strictEqual(results[0].messages[0].ruleId, "no-var");
+            assert.strictEqual(results[0].messages[1].ruleId, "no-unused-vars");
+            assert.strictEqual(results[0].messages[2].ruleId, "quotes");
+            assert.strictEqual(results[0].messages[3].ruleId, "eol-last");
             assert.strictEqual(results[0].fixableErrorCount, 0);
             assert.strictEqual(results[0].fixableWarningCount, 3);
             assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
@@ -255,7 +256,7 @@ describe("FlatESLint", () => {
 
         it("should report one message when using specific config file", async () => {
             eslint = new FlatESLint({
-                overrideoverrideConfigFile: "tests/fixtures/configurations/quotes-error.js",
+                overrideConfigFile: "fixtures/configurations/quotes-error.js",
                 cwd: getFixturePath("..")
             });
             const results = await eslint.lintText("var foo = 'bar';");
@@ -285,7 +286,7 @@ describe("FlatESLint", () => {
             eslint = new FlatESLint({
                 ignorePath: getFixturePath(".eslintignore"),
                 cwd: getFixturePath(".."),
-                overrideoverrideConfigFile: "eslint.config.js"
+                overrideConfigFile: "fixtures/eslint.config.js"
             });
 
             const options = { filePath: "fixtures/passing.js", warnIgnored: true };
@@ -307,7 +308,7 @@ describe("FlatESLint", () => {
             eslint = new FlatESLint({
                 ignorePath: getFixturePath(".eslintignore"),
                 cwd: getFixturePath(".."),
-                overrideConfigFile: "eslint.config.js"
+                overrideConfigFile: "fixtures/eslint.config.js"
             });
             const options = {
                 filePath: "fixtures/passing.js",
@@ -325,7 +326,7 @@ describe("FlatESLint", () => {
             eslint = new FlatESLint({
                 ignorePath: getFixturePath(".eslintignore"),
                 cwd: getFixturePath(".."),
-                overrideConfigFile: "eslint.config.js"
+                overrideConfigFile: "fixtures/eslint.config.js"
             });
             const options = { filePath: "fixtures/passing.js" };
             const results = await eslint.lintText("var bar = foo;", options);
@@ -339,7 +340,7 @@ describe("FlatESLint", () => {
                 ignorePath: "fixtures/.eslintignore",
                 cwd: getFixturePath(".."),
                 ignore: false,
-                configFile: false,
+                overrideConfigFile: true,
                 overrideConfig: {
                     rules: {
                         "no-undef": 2
@@ -358,7 +359,7 @@ describe("FlatESLint", () => {
 
         it("should return a message and fixed text when in fix mode", async () => {
             eslint = new FlatESLint({
-                configFile: false,
+                overrideConfigFile: true,
                 fix: true,
                 overrideConfig: {
                     rules: {
@@ -388,7 +389,7 @@ describe("FlatESLint", () => {
 
         it("should return a message and omit fixed text when in fix mode and fixes aren't done", async () => {
             eslint = new FlatESLint({
-                configFile: false,
+                overrideConfigFile: true,
                 fix: true,
                 overrideConfig: {
                     rules: {
@@ -430,7 +431,7 @@ describe("FlatESLint", () => {
 
         it("should not delete code if there is a syntax error after trying to autofix.", async () => {
             eslint = eslintWithPlugins({
-                configFile: false,
+                overrideConfigFile: true,
                 fix: true,
                 overrideConfig: {
                     rules: {
@@ -469,7 +470,7 @@ describe("FlatESLint", () => {
 
         it("should not crash even if there are any syntax error since the first time.", async () => {
             eslint = eslintWithPlugins({
-                configFile: false,
+                overrideConfigFile: true,
                 fix: true,
                 overrideConfig: {
                     rules: {
@@ -508,7 +509,7 @@ describe("FlatESLint", () => {
 
         it("should return source code of file in `source` property when errors are present", async () => {
             eslint = new FlatESLint({
-                configFile: false,
+                overrideConfigFile: true,
                 overrideConfig: {
                     rules: { semi: 2 }
                 }
@@ -520,7 +521,7 @@ describe("FlatESLint", () => {
 
         it("should return source code of file in `source` property when warnings are present", async () => {
             eslint = new FlatESLint({
-                configFile: false,
+                overrideConfigFile: true,
                 overrideConfig: {
                     rules: { semi: 1 }
                 }
@@ -533,7 +534,7 @@ describe("FlatESLint", () => {
 
         it("should not return a `source` property when no errors or warnings are present", async () => {
             eslint = new FlatESLint({
-                configFile: false,
+                overrideConfigFile: true,
                 overrideConfig: {
                     rules: { semi: 2 }
                 }
@@ -546,7 +547,7 @@ describe("FlatESLint", () => {
 
         it("should not return a `source` property when fixes are applied", async () => {
             eslint = new FlatESLint({
-                configFile: false,
+                overrideConfigFile: true,
                 fix: true,
                 overrideConfig: {
                     rules: {
@@ -563,7 +564,7 @@ describe("FlatESLint", () => {
 
         it("should return a `source` property when a parsing error has occurred", async () => {
             eslint = new FlatESLint({
-                configFile: false,
+                overrideConfigFile: true,
                 overrideConfig: {
                     rules: { semi: 2 }
                 }
@@ -595,7 +596,7 @@ describe("FlatESLint", () => {
         });
 
         // https://github.com/eslint/eslint/issues/5547
-        it("should respect default ignore rules, even with --no-ignore", async () => {
+        it("should respect default ignore rules (ignoring node_modules), even with --no-ignore", async () => {
             eslint = new FlatESLint({
                 cwd: getFixturePath(),
                 ignore: false
@@ -658,7 +659,7 @@ describe("FlatESLint", () => {
             eslint = new FlatESLint({
                 cwd: originalDir,
                 ignore: false,
-                configFile: false,
+                overrideConfigFile: true,
                 overrideConfig: {
                     languageOptions: {
                         parser: require(filePath)
@@ -707,7 +708,7 @@ describe("FlatESLint", () => {
                         }
                     }
                 },
-                configFile: false
+                overrideConfigFile: true
             });
             const results = await eslint.lintFiles(["lib/cli.js"]);
 
@@ -722,7 +723,7 @@ describe("FlatESLint", () => {
                         parser: require("esprima")
                     }
                 },
-                configFile: false,
+                overrideConfigFile: true,
                 ignore: false
             });
             const results = await eslint.lintFiles(["tests/fixtures/passing.js"]);
@@ -738,7 +739,7 @@ describe("FlatESLint", () => {
                         parser: "test11"
                     }
                 },
-                configFile: false
+                overrideConfigFile: true
             });
 
             await assert.rejects(async () => await eslint.lintFiles(["lib/cli.js"]), /Expected string in the form "pluginName\/objectName" but found "test11"/u);
@@ -759,7 +760,7 @@ describe("FlatESLint", () => {
         it("should fall back to defaults when extensions is set to an empty array", async () => {
             eslint = new FlatESLint({
                 cwd: getFixturePath(),
-                configFile: false,
+                overrideConfigFile: true,
                 ignore: false,
                 overrideConfig: {
                     rules: {
@@ -830,7 +831,7 @@ describe("FlatESLint", () => {
                 extensions: [".js", ".js2"],
                 ignore: false,
                 cwd: getFixturePath(".."),
-                configFile: false,
+                overrideConfigFile: true,
                 globInputPaths: false
             });
 
@@ -859,7 +860,7 @@ describe("FlatESLint", () => {
             it("should report on globs with explicit inclusion of dotfiles", async () => {
                 eslint = new FlatESLint({
                     cwd: getFixturePath("cli-engine"),
-                    configFile: false,
+                    overrideConfigFile: true,
                     overrideConfig: {
                         rules: {
                             quotes: [2, "single"]
@@ -878,7 +879,7 @@ describe("FlatESLint", () => {
             it("should not check default ignored files without --no-ignore flag", async () => {
                 eslint = new FlatESLint({
                     cwd: getFixturePath("cli-engine"),
-                    configFile: false
+                    overrideConfigFile: true
                 });
 
                 await assert.rejects(async () => {
@@ -932,7 +933,7 @@ describe("FlatESLint", () => {
             it("should ignore one-level down node_modules when ignore file has 'node_modules/' in it", async () => {
                 eslint = new FlatESLint({
                     ignorePath: getFixturePath("cli-engine", "nested_node_modules", ".eslintignore"),
-                    configFile: false,
+                    overrideConfigFile: true,
                     overrideConfig: {
                         rules: {
                             quotes: [2, "double"]
@@ -953,7 +954,7 @@ describe("FlatESLint", () => {
             it("should ignore all files and throw an error when fixtures/ is in ignore file", async () => {
                 eslint = new FlatESLint({
                     ignorePath: getFixturePath("cli-engine/.eslintignore2"),
-                    configFile: false,
+                    overrideConfigFile: true,
                     overrideConfig: {
                         rules: {
                             quotes: [2, "double"]
@@ -1001,7 +1002,7 @@ describe("FlatESLint", () => {
                     cwd: getFixturePath(),
                     ignorePath: getFixturePath(".eslintignore"),
                     ignore: false,
-                    configFile: false,
+                    overrideConfigFile: true,
                     overrideConfig: {
                         rules: {
                             "no-undef": 2
@@ -1026,7 +1027,7 @@ describe("FlatESLint", () => {
                 extensions: [".js", ".js2"],
                 ignore: false,
                 cwd: path.join(fixtureDir, ".."),
-                configFile: false
+                overrideConfigFile: true
             });
             const results = await eslint.lintFiles(["fixtures/files/*.?s*"]);
 
@@ -1038,7 +1039,7 @@ describe("FlatESLint", () => {
         it("should return one error message when given a config with rules with options and severity level set to error", async () => {
             eslint = new FlatESLint({
                 cwd: getFixturePath(),
-                configFile: false,
+                overrideConfigFile: true,
                 overrideConfig: {
                     rules: {
                         quotes: ["error", "double"]
@@ -1061,7 +1062,7 @@ describe("FlatESLint", () => {
         it("should return 5 results when given a config and a directory of 5 valid files", async () => {
             eslint = new FlatESLint({
                 cwd: path.join(fixtureDir, ".."),
-                configFile: false,
+                overrideConfigFile: true,
                 overrideConfig: {
                     rules: {
                         semi: 1,
@@ -1120,7 +1121,7 @@ describe("FlatESLint", () => {
         it("should return zero messages when given an option to add browser globals", async () => {
             eslint = new FlatESLint({
                 cwd: path.join(fixtureDir, ".."),
-                configFile: false,
+                overrideConfigFile: true,
                 overrideConfig: {
                     languageOptions: {
                         globals: {
@@ -1194,7 +1195,7 @@ describe("FlatESLint", () => {
             eslint = new FlatESLint({
                 cwd: getFixturePath(),
                 ignore: false,
-                configFile: false
+                overrideConfigFile: true
             });
             const filePath = fs.realpathSync(getFixturePath("missing-semicolon.js"));
             const results = await eslint.lintFiles([filePath]);
@@ -1262,7 +1263,7 @@ describe("FlatESLint", () => {
             it("correctly autofixes semicolon-conflicting-fixes", async () => {
                 eslint = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
-                    configFile: false,
+                    overrideConfigFile: true,
                     fix: true
                 });
                 const inputPath = getFixturePath("autofix/semicolon-conflicting-fixes.js");
@@ -1276,7 +1277,7 @@ describe("FlatESLint", () => {
             it("correctly autofixes return-conflicting-fixes", async () => {
                 eslint = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
-                    configFile: false,
+                    overrideConfigFile: true,
                     fix: true
                 });
                 const inputPath = getFixturePath("autofix/return-conflicting-fixes.js");
@@ -1303,7 +1304,7 @@ describe("FlatESLint", () => {
 
                 eslint = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
-                    configFile: false,
+                    overrideConfigFile: true,
                     fix: true,
                     overrideConfig: {
                         rules: {
@@ -1392,7 +1393,7 @@ describe("FlatESLint", () => {
             it("should run autofix even if files are cached without autofix results", async () => {
                 const baseOptions = {
                     cwd: path.join(fixtureDir, ".."),
-                    configFile: false,
+                    overrideConfigFile: true,
                     overrideConfig: {
                         rules: {
                             semi: 2,
@@ -1432,7 +1433,7 @@ describe("FlatESLint", () => {
             it("should return two messages when executing with cli option that specifies a plugin", async () => {
                 eslint = eslintWithPlugins({
                     cwd: path.resolve(fixtureDir, ".."),
-                    configFile: false,
+                    overrideConfigFile: true,
                     overrideConfig: {
                         rules: { "example/example-rule": 1 }
                     }
@@ -1447,7 +1448,7 @@ describe("FlatESLint", () => {
             it("should return two messages when executing with cli option that specifies preloaded plugin", async () => {
                 eslint = new FlatESLint({
                     cwd: path.resolve(fixtureDir, ".."),
-                    configFile: false,
+                    overrideConfigFile: true,
                     overrideConfig: {
                         rules: { "test/example-rule": 1 }
                     },
@@ -1529,7 +1530,7 @@ describe("FlatESLint", () => {
                     assert(!shell.test("-d", path.resolve("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory")), "the cache for eslint does not exist");
 
                     eslint = new FlatESLint({
-                        configFile: false,
+                        overrideConfigFile: true,
 
                         // specifying cache true the cache will be created
                         cache: true,
@@ -1557,7 +1558,7 @@ describe("FlatESLint", () => {
                 assert(!shell.test("-d", path.resolve("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory")), "the cache for eslint does not exist");
 
                 eslint = new FlatESLint({
-                    configFile: false,
+                    overrideConfigFile: true,
 
                     // specifying cache true the cache will be created
                     cache: true,
@@ -1584,7 +1585,7 @@ describe("FlatESLint", () => {
                 const cwd = path.resolve(getFixturePath("cli-engine"));
 
                 eslint = new FlatESLint({
-                    configFile: false,
+                    overrideConfigFile: true,
                     cache: true,
                     cwd,
                     overrideConfig: {
@@ -1606,7 +1607,7 @@ describe("FlatESLint", () => {
                 assert(!shell.test("-f", path.resolve(".eslintcache")), "the cache for eslint does not exist");
 
                 eslint = new FlatESLint({
-                    configFile: false,
+                    overrideConfigFile: true,
 
                     // specifying cache true the cache will be created
                     cache: true,
@@ -1637,7 +1638,7 @@ describe("FlatESLint", () => {
                 sinon.restore();
 
                 eslint = new FlatESLint({
-                    configFile: false,
+                    overrideConfigFile: true,
 
                     // specifying cache true the cache will be created
                     cache: true,
@@ -1665,7 +1666,7 @@ describe("FlatESLint", () => {
                 assert(!shell.test("-f", path.resolve(".eslintcache")), "the cache for eslint does not exist");
 
                 eslint = new FlatESLint({
-                    configFile: false,
+                    overrideConfigFile: true,
 
                     // specifying cache true the cache will be created
                     cache: true,
@@ -1694,7 +1695,7 @@ describe("FlatESLint", () => {
                 sinon.restore();
 
                 eslint = new FlatESLint({
-                    configFile: false,
+                    overrideConfigFile: true,
 
                     // specifying cache true the cache will be created
                     cache: true,
@@ -1722,7 +1723,7 @@ describe("FlatESLint", () => {
             it("should remember the files from a previous run and do not operate on then if not changed", async () => {
                 const cacheLocation = getFixturePath(".eslintcache");
                 const eslintOptions = {
-                    configFile: false,
+                    overrideConfigFile: true,
 
                     // specifying cache true the cache will be created
                     cache: true,
@@ -1764,7 +1765,7 @@ describe("FlatESLint", () => {
 
                 eslint = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
-                    configFile: false,
+                    overrideConfigFile: true,
 
                     // specifying cache true the cache will be created
                     cache: true,
@@ -1799,7 +1800,7 @@ describe("FlatESLint", () => {
 
                 eslint = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
-                    configFile: false,
+                    overrideConfigFile: true,
 
                     // specifying cache true the cache will be created
                     cache: true,
@@ -1843,7 +1844,7 @@ describe("FlatESLint", () => {
 
                 eslint = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
-                    configFile: false,
+                    overrideConfigFile: true,
 
                     // specifying cache true the cache will be created
                     cache: true,
@@ -1885,7 +1886,7 @@ describe("FlatESLint", () => {
 
                 eslint = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
-                    configFile: false,
+                    overrideConfigFile: true,
                     cacheLocation,
                     overrideConfig: {
                         rules: {
@@ -1908,7 +1909,7 @@ describe("FlatESLint", () => {
 
                 eslint = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
-                    configFile: false,
+                    overrideConfigFile: true,
                     cacheLocation,
                     overrideConfig: {
                         rules: {
@@ -1931,7 +1932,7 @@ describe("FlatESLint", () => {
 
                 eslint = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
-                    configFile: false,
+                    overrideConfigFile: true,
                     cache: true,
                     cacheLocation,
                     overrideConfig: {
@@ -1956,7 +1957,7 @@ describe("FlatESLint", () => {
 
                 eslint = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
-                    configFile: false,
+                    overrideConfigFile: true,
                     cacheLocation,
                     overrideConfig: {
                         rules: {
@@ -1982,7 +1983,7 @@ describe("FlatESLint", () => {
                     assert(!shell.test("-f", customCacheFile), "the cache for eslint does not exist");
 
                     eslint = new FlatESLint({
-                        configFile: false,
+                        overrideConfigFile: true,
 
                         // specify a custom cache file
                         cacheLocation: customCacheFile,
@@ -2023,7 +2024,7 @@ describe("FlatESLint", () => {
 
                     eslint = new FlatESLint({
                         cwd: path.join(fixtureDir, ".."),
-                        configFile: false,
+                        overrideConfigFile: true,
 
                         // specifying cache true the cache will be created
                         cache: true,
@@ -2062,7 +2063,7 @@ describe("FlatESLint", () => {
 
                     eslint = new FlatESLint({
                         cwd: path.join(fixtureDir, ".."),
-                        configFile: false,
+                        overrideConfigFile: true,
 
                         // specifying cache true the cache will be created
                         cache: true,
@@ -2103,7 +2104,7 @@ describe("FlatESLint", () => {
 
                     eslint = new FlatESLint({
                         cwd: path.join(fixtureDir, ".."),
-                        configFile: false,
+                        overrideConfigFile: true,
 
                         // specifying cache true the cache will be created
                         cache: true,
@@ -2144,7 +2145,7 @@ describe("FlatESLint", () => {
 
             it("should return two messages when executing with config file that specifies preloaded processor", async () => {
                 eslint = new FlatESLint({
-                    configFile: false,
+                    overrideConfigFile: true,
                     overrideConfig: [
                         {
                             plugins: {
@@ -2183,7 +2184,7 @@ describe("FlatESLint", () => {
 
             it("should run processors when calling lintFiles with config file that specifies preloaded processor", async () => {
                 eslint = new FlatESLint({
-                    configFile: false,
+                    overrideConfigFile: true,
                     overrideConfig: [
                         {
                             plugins: {
@@ -2222,7 +2223,7 @@ describe("FlatESLint", () => {
 
             it("should run processors when calling lintText with config file that specifies preloaded processor", async () => {
                 eslint = new FlatESLint({
-                    configFile: false,
+                    overrideConfigFile: true,
                     overrideConfig: [
                         {
                             plugins: {
@@ -2263,7 +2264,7 @@ describe("FlatESLint", () => {
                 let count = 0;
 
                 eslint = new FlatESLint({
-                    configFile: false,
+                    overrideConfigFile: true,
                     overrideConfig: [
                         {
                             plugins: {
@@ -2331,7 +2332,7 @@ describe("FlatESLint", () => {
 
                 it("should run in autofix mode when using a processor that supports autofixing", async () => {
                     eslint = new FlatESLint({
-                        configFile: false,
+                        overrideConfigFile: true,
                         overrideConfig: {
                             files: ["**/*.html"],
                             plugins: {
@@ -2354,7 +2355,7 @@ describe("FlatESLint", () => {
 
                 it("should not run in autofix mode when using a processor that does not support autofixing", async () => {
                     eslint = new FlatESLint({
-                        configFile: false,
+                        overrideConfigFile: true,
                         overrideConfig: {
                             files: ["**/*.html"],
                             plugins: {
@@ -2376,7 +2377,7 @@ describe("FlatESLint", () => {
 
                 it("should not run in autofix mode when `fix: true` is not provided, even if the processor supports autofixing", async () => {
                     eslint = new FlatESLint({
-                        configFile: false,
+                        overrideConfigFile: true,
                         overrideConfig: {
                             files: ["**/*.html"],
                             plugins: {
@@ -2402,7 +2403,7 @@ describe("FlatESLint", () => {
             beforeEach(() => {
                 eslint = new FlatESLint({
                     cwd: getFixturePath("cli-engine"),
-                    configFile: false
+                    overrideConfigFile: true
                 });
             });
 
@@ -2972,7 +2973,7 @@ describe("FlatESLint", () => {
             assert.throws(() => {
                 eslint = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
-                    configFile: false,
+                    overrideConfigFile: true,
                     fix: true,
                     fixTypes: ["layou"]
                 });
@@ -2982,7 +2983,7 @@ describe("FlatESLint", () => {
         it("should not fix any rules when fixTypes is used without fix", async () => {
             eslint = new FlatESLint({
                 cwd: path.join(fixtureDir, ".."),
-                configFile: false,
+                overrideConfigFile: true,
                 fix: false,
                 fixTypes: ["layout"]
             });
@@ -2995,7 +2996,7 @@ describe("FlatESLint", () => {
         it("should not fix non-style rules when fixTypes has only 'layout'", async () => {
             eslint = new FlatESLint({
                 cwd: path.join(fixtureDir, ".."),
-                configFile: false,
+                overrideConfigFile: true,
                 fix: true,
                 fixTypes: ["layout"]
             });
@@ -3010,7 +3011,7 @@ describe("FlatESLint", () => {
         it("should not fix style or problem rules when fixTypes has only 'suggestion'", async () => {
             eslint = new FlatESLint({
                 cwd: path.join(fixtureDir, ".."),
-                configFile: false,
+                overrideConfigFile: true,
                 fix: true,
                 fixTypes: ["suggestion"]
             });
@@ -3025,7 +3026,7 @@ describe("FlatESLint", () => {
         it("should fix both style and problem rules when fixTypes has 'suggestion' and 'layout'", async () => {
             eslint = new FlatESLint({
                 cwd: path.join(fixtureDir, ".."),
-                configFile: false,
+                overrideConfigFile: true,
                 fix: true,
                 fixTypes: ["suggestion", "layout"]
             });
@@ -3040,7 +3041,7 @@ describe("FlatESLint", () => {
         it("should not throw an error when a rule doesn't have a 'meta' property", async () => {
             eslint = new FlatESLint({
                 cwd: path.join(fixtureDir, ".."),
-                configFile: false,
+                overrideConfigFile: true,
                 fix: true,
                 fixTypes: ["layout"],
                 rulePaths: [getFixturePath("rules", "fix-types-test")]
@@ -3056,7 +3057,7 @@ describe("FlatESLint", () => {
         it("should not throw an error when a rule is loaded after initialization with lintFiles()", async () => {
             eslint = new FlatESLint({
                 cwd: path.join(fixtureDir, ".."),
-                configFile: false,
+                overrideConfigFile: true,
                 fix: true,
                 fixTypes: ["layout"],
                 plugins: {
@@ -3078,7 +3079,7 @@ describe("FlatESLint", () => {
         it("should not throw an error when a rule is loaded after initialization with lintText()", async () => {
             eslint = new FlatESLint({
                 cwd: path.join(fixtureDir, ".."),
-                configFile: false,
+                overrideConfigFile: true,
                 fix: true,
                 fixTypes: ["layout"],
                 plugins: {
@@ -3150,7 +3151,7 @@ describe("FlatESLint", () => {
                 const cwd = getFixturePath("ignored-paths");
                 const engine = new FlatESLint({
                     cwd,
-                    configFile: false,
+                    overrideConfigFile: true,
                     ignorePatterns: "!/node_modules/package"
                 });
 
@@ -3163,7 +3164,7 @@ describe("FlatESLint", () => {
                 const cwd = getFixturePath("ignored-paths");
                 const engine = new FlatESLint({
                     cwd,
-                    configFile: false,
+                    overrideConfigFile: true,
                     ignorePath: getFixturePath("ignored-paths", ".eslintignoreWithUnignoredDefaults")
                 });
 
@@ -3252,7 +3253,7 @@ describe("FlatESLint", () => {
             it("should accept an array for options.ignorePattern", async () => {
                 const engine = new FlatESLint({
                     ignorePatterns: ["a.js", "b.js"],
-                    configFile: false
+                    overrideConfigFile: true
                 });
 
                 assert(await engine.isPathIgnored("a.js"), "a.js should be ignored");
@@ -3282,7 +3283,7 @@ describe("FlatESLint", () => {
                 const filePath = getFixturePath("ignored-paths", "subdir", "undef.js");
                 const engine = new FlatESLint({
                     ignorePatterns: ["/undef.js"],
-                    configFile: false,
+                    overrideConfigFile: true,
                     cwd
                 });
 
@@ -3313,7 +3314,7 @@ describe("FlatESLint", () => {
             it("two globstar '**' ignore pattern should ignore files in nested directories", async () => {
                 const cwd = getFixturePath("ignored-paths");
                 const engine = new FlatESLint({
-                    configFile: false,
+                    overrideConfigFile: true,
                     ignorePatterns: ["**/*.js"],
                     cwd
                 });
@@ -3378,7 +3379,7 @@ describe("FlatESLint", () => {
 
                 // /undef.js in ignore file
                 const ignorePath = getFixturePath("ignored-paths", ".eslintignoreForDifferentCwd");
-                const engine = new FlatESLint({ ignorePath, cwd, configFile: false });
+                const engine = new FlatESLint({ ignorePath, cwd, overrideConfigFile: true });
 
                 assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/undef.js")), "subdir/undef.js should be ignored");
                 assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/subdir/undef.js")), "subdir/subdir/undef.js should not be ignored");
@@ -3601,7 +3602,7 @@ describe("FlatESLint", () => {
         it("should report 5 error messages when looking for errors only", async () => {
             process.chdir(originalDir);
             const engine = new FlatESLint({
-                configFile: false,
+                overrideConfigFile: true,
                 overrideConfig: {
                     rules: {
                         quotes: "error",
@@ -3631,7 +3632,7 @@ describe("FlatESLint", () => {
         it("should not mutate passed report parameter", async () => {
             process.chdir(originalDir);
             const engine = new FlatESLint({
-                configFile: false,
+                overrideConfigFile: true,
                 overrideConfig: {
                     rules: { quotes: [1, "double"] }
                 }
@@ -3646,7 +3647,7 @@ describe("FlatESLint", () => {
 
         it("should report a warningCount of 0 when looking for errors only", async () => {
             const engine = new FlatESLint({
-                configFile: false,
+                overrideConfigFile: true,
                 overrideConfig: {
                     rules: {
                         strict: ["error", "global"],
@@ -3666,7 +3667,7 @@ describe("FlatESLint", () => {
 
         it("should return 0 error or warning messages even when the file has warnings", async () => {
             const engine = new FlatESLint({
-                configFile: false,
+                overrideConfigFile: true,
                 ignorePath: path.join(fixtureDir, ".eslintignore"),
                 cwd: path.join(fixtureDir, "..")
             });
@@ -3686,7 +3687,7 @@ describe("FlatESLint", () => {
         it("should return source code of file in the `source` property", async () => {
             process.chdir(originalDir);
             const engine = new FlatESLint({
-                configFile: false,
+                overrideConfigFile: true,
                 overrideConfig: {
                     rules: { quotes: [2, "double"] }
                 }
@@ -3701,7 +3702,7 @@ describe("FlatESLint", () => {
         it("should contain `output` property after fixes", async () => {
             process.chdir(originalDir);
             const engine = new FlatESLint({
-                configFile: false,
+                overrideConfigFile: true,
                 fix: true,
                 overrideConfig: {
                     rules: {
@@ -3722,7 +3723,7 @@ describe("FlatESLint", () => {
 
         it("should throw an error when results were not created from this instance", async () => {
             const engine = new FlatESLint({
-                configFile: false
+                overrideConfigFile: true
             });
 
             assert.throws(() => {
@@ -3760,7 +3761,7 @@ describe("FlatESLint", () => {
 
         it("should return empty object when there are no linting errors", async () => {
             const engine = new FlatESLint({
-                configFile: false
+                overrideConfigFile: true
             });
 
             const rulesMeta = engine.getRulesMetaForResults([]);
@@ -3770,7 +3771,7 @@ describe("FlatESLint", () => {
 
         it("should return one rule meta when there is a linting error", async () => {
             const engine = new FlatESLint({
-                configFile: false,
+                overrideConfigFile: true,
                 overrideConfig: {
                     rules: {
                         semi: 2
@@ -3786,7 +3787,7 @@ describe("FlatESLint", () => {
 
         it("should return multiple rule meta when there are multiple linting errors", async () => {
             const engine = new FlatESLint({
-                configFile: false,
+                overrideConfigFile: true,
                 overrideConfig: {
                     rules: {
                         semi: 2,
@@ -3805,7 +3806,7 @@ describe("FlatESLint", () => {
         it("should return multiple rule meta when there are multiple linting errors from a plugin", async () => {
             const nodePlugin = require("eslint-plugin-node");
             const engine = new FlatESLint({
-                configFile: false,
+                overrideConfigFile: true,
                 overrideConfig: {
                     plugins: {
                         node: nodePlugin
@@ -3904,7 +3905,7 @@ describe("FlatESLint", () => {
             ].join("\n");
             const config = {
                 ignore: true,
-                configFile: false,
+                overrideConfigFile: true,
                 allowInlineConfig: false,
                 overrideConfig: {
                     rules: {
@@ -3930,7 +3931,7 @@ describe("FlatESLint", () => {
             ].join("\n");
             const config = {
                 ignore: true,
-                configFile: false,
+                overrideConfigFile: true,
                 allowInlineConfig: true,
                 overrideConfig: {
                     rules: {
@@ -3952,7 +3953,7 @@ describe("FlatESLint", () => {
 
     describe("when evaluating code when reportUnusedDisableDirectives is enabled", () => {
         it("should report problems for unused eslint-disable directives", async () => {
-            const eslint = new FlatESLint({ configFile: false, reportUnusedDisableDirectives: "error" });
+            const eslint = new FlatESLint({ overrideConfigFile: true, reportUnusedDisableDirectives: "error" });
 
             assert.deepStrictEqual(
                 await eslint.lintText("/* eslint-disable */"),
@@ -4003,7 +4004,7 @@ describe("FlatESLint", () => {
                 const filePath = getFixturePath("single-quoted.js");
                 const engine1 = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
-                    configFile: false,
+                    overrideConfigFile: true,
                     overrideConfig: {
                         plugins: {
                             example: {
@@ -4019,7 +4020,7 @@ describe("FlatESLint", () => {
                 });
                 const engine2 = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
-                    configFile: false
+                    overrideConfigFile: true
                 });
                 const fileConfig1 = await engine1.calculateConfigForFile(filePath);
                 const fileConfig2 = await engine2.calculateConfigForFile(filePath);
