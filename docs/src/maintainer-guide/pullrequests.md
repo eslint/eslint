@@ -41,7 +41,13 @@ Once the bot checks have been satisfied, you check the following:
 
 ## Who Can Merge a Pull Request
 
-TSC members and committers may merge pull requests, depending on the contents of the pull request.
+TSC members, Reviewers, Committers, and Website Team Members may merge pull requests, depending on the contents of the pull request.
+
+Website Team Members may merge a pull request in the `eslint.org` repository or the `docs` directory in the `eslint` directory if it is:
+
+1. A documentation change
+1. A dependency upgrade
+1. A chore
 
 Committers may merge a pull request if it is a non-breaking change and is:
 
