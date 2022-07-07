@@ -56,7 +56,7 @@ This rule has an object option:
 * `"allowAfterThisConstructor": false` (default) disallows dangling underscores in members of the `this.constructor` object
 * `"enforceInMethodNames": false` (default) allows dangling underscores in method names
 * `"enforceInClassFields": false` (default) allows dangling underscores in es2022 class fields names
-* `"allowInArrayDestructuring": false` (default) disallows dangling underscores in variable names assigned by array destructuring
+* `"allowInArrayDestructuring": true` (default) disallows dangling underscores in variable names assigned by array destructuring
 * `"allowFunctionParams": true` (default) allows dangling underscores in function parameter names
 
 ### allow
