@@ -6,6 +6,7 @@ rule_type: layout
 related_rules:
 - array-bracket-spacing
 - comma-style
+- object-curly-spacing
 - space-in-brackets
 - space-in-parens
 - space-infix-ops
@@ -30,10 +31,13 @@ var foo = 1 ,bar = 2;
 
 This rule enforces consistent spacing before and after commas in variable declarations, array literals, object literals, function parameters, and sequences.
 
-This rule does not apply in an `ArrayExpression` or `ArrayPattern` in either of the following cases:
+This rule does not apply in either of the following cases:
 
-* adjacent null elements
-* an initial null element, to avoid conflicts with the [`array-bracket-spacing`](array-bracket-spacing) rule
+* between two commas
+* between opening bracket `[` and comma, to avoid conflicts with the [`array-bracket-spacing`](array-bracket-spacing) rule
+* between comma and closing bracket `]`, to avoid conflicts with the [`array-bracket-spacing`](array-bracket-spacing) rule
+* between comma and closing brace `}`, to avoid conflicts with the [`object-curly-spacing`](object-curly-spacing) rule
+* between comma and closing parentheses `)`, to avoid conflicts with the [`space-in-parens`](space-in-parens) rule
 
 ## Options
 
@@ -84,15 +88,34 @@ a, b
 
 :::
 
-Example of **correct** code for this rule with initial null element for the default `{ "before": false, "after": true }` options:
+Additional examples of **correct** code for this rule with the default `{ "before": false, "after": true }` options:
 
 :::correct
 
 ```js
 /*eslint comma-spacing: ["error", { "before": false, "after": true }]*/
-/*eslint array-bracket-spacing: ["error", "always"]*/
 
-var arr = [ , 2, 3 ]
+// this rule does not enforce spacing between two commas
+var arr = [
+    ,,
+    , ,
+];
+
+// this rule does not enforce spacing after `[` and before `]`
+var arr = [,];
+var arr = [ , ];
+var arr = [a, b,];
+[,] = arr;
+[ , ] = arr;
+[a, b,] = arr;
+
+// this rule does not enforce spacing before `}`
+var obj = {x, y,};
+var {z, q,} = obj;
+import {foo, bar,} from "mod";
+
+// this rule does not enforce spacing before `)`
+foo(a, b,)
 ```
 
 :::
@@ -132,19 +155,6 @@ foo(a ,b);
 new Foo(a ,b);
 function foo(a ,b){}
 a ,b
-```
-
-:::
-
-Examples of **correct** code for this rule with initial null element for the `{ "before": true, "after": false }` options:
-
-:::correct
-
-```js
-/*eslint comma-spacing: ["error", { "before": true, "after": false }]*/
-/*eslint array-bracket-spacing: ["error", "never"]*/
-
-var arr = [,2 ,3]
 ```
 
 :::
