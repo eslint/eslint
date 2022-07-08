@@ -6660,6 +6660,31 @@ var a = "test2";
                 assert.strictEqual(preprocess.calledOnce, true);
                 assert.deepStrictEqual(preprocess.args[0], [code, filename]);
             });
+
+            it("should catch preprocess error.", () => {
+                const code = "foo";
+                const preprocess = sinon.spy(() => {
+                    throw Object.assign(new SyntaxError("Invalid syntax"), {
+                        lineNumber: 1,
+                        column: 1
+                    });
+                });
+
+                const messages = linter.verify(code, {}, { filename, preprocess });
+
+                assert.strictEqual(preprocess.calledOnce, true);
+                assert.deepStrictEqual(preprocess.args[0], [code, filename]);
+                assert.deepStrictEqual(messages, [
+                    {
+                        ruleId: null,
+                        fatal: true,
+                        severity: 2,
+                        message: "Preprocessing error: Invalid syntax",
+                        line: 1,
+                        column: 1
+                    }
+                ]);
+            });
         });
 
         describe("postprocessors", () => {
@@ -15157,6 +15182,37 @@ var a = "test2";
 
                 assert.strictEqual(preprocess.calledOnce, true);
                 assert.deepStrictEqual(preprocess.args[0], [code, filename]);
+            });
+
+            it("should catch preprocess error.", () => {
+                const code = "foo";
+                const preprocess = sinon.spy(() => {
+                    throw Object.assign(new SyntaxError("Invalid syntax"), {
+                        lineNumber: 1,
+                        column: 1
+                    });
+                });
+
+                const configs = createFlatConfigArray([
+                    extraConfig
+                ]);
+
+                configs.normalizeSync();
+
+                const messages = linter.verify(code, configs, { filename, preprocess });
+
+                assert.strictEqual(preprocess.calledOnce, true);
+                assert.deepStrictEqual(preprocess.args[0], [code, filename]);
+                assert.deepStrictEqual(messages, [
+                    {
+                        ruleId: null,
+                        fatal: true,
+                        severity: 2,
+                        message: "Preprocessing error: Invalid syntax",
+                        line: 1,
+                        column: 1
+                    }
+                ]);
             });
         });
 
