@@ -45,14 +45,10 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 
 Prerequisites: [Node.js](https://nodejs.org/) (`^12.22.0`, `^14.17.0`, or `>=16.0.0`) built with SSL support. (If you are using an official Node.js distribution, SSL is always built in.)
 
-The easiest way to initialize ESLint is:
+You can install and configure ESLint using this command:
 
 ```shell
 npm init @eslint/config
-
-# or
-
-yarn create @eslint/config
 ```
 
 After that, you can run ESLint on any file or directory like this:
