@@ -32,7 +32,7 @@ As Contributors gain experience and familiarity with the project, their profile 
 
 Website Team Members are community members who have shown that they are committed to the continued maintenance of [eslint.org](https://eslint.org/) through ongoing engagement with the community. Website Team Members are given push access to the `eslint.org` GitHub repository and must abide by the project's [Contribution Guidelines](../developer-guide/contributing/).
 
- Website Team Member:
+ Website Team Members:
 
 * Are expected to work on public branches of the source repository and submit pull requests from that branch to the master branch.
 * Are expected to delete their public branches when they are no longer necessary.
