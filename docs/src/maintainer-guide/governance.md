@@ -43,7 +43,7 @@ Website Team Members are community members who have shown that they are committe
 
 To become a  Website Team Member:
 
-* One must have shown a willingness and ability to participate in the maintenance of eslint.org as a team player. Typically, a potential  Website Team Member will need to show that they have an understanding of the structure of the website and how it fits into the larger ESLint project's objectives and strategy.
+* One must have shown a willingness and ability to participate in the maintenance of [eslint.org](https://eslint.org/) as a team player. Typically, a potential  Website Team Member will need to show that they have an understanding of the structure of the website and how it fits into the larger ESLint project's objectives and strategy.
 * Website Team Member are expected to be respectful of every community member and to work collaboratively in the spirit of inclusion.
 * Have submitted a minimum of 10 website-related pull requests. What's a website-related pull request? One that is made to the `eslint.org` repository or the `docs` directory in the `eslint` repository and requires little effort to accept because it's well documented and tested.
 
