@@ -7,9 +7,7 @@ related_rules:
 - no-fallthrough
 ---
 
-<!--RECOMMENDED-->
 
-Disallows lexical declarations in case/default clauses.
 
 This rule disallows lexical declarations (`let`, `const`, `function` and `class`)
 in `case`/`default` clauses. The reason is that the lexical declaration is visible
@@ -24,6 +22,8 @@ wrap your clauses in blocks.
 This rule aims to prevent access to uninitialized lexical bindings as well as accessing hoisted functions across case clauses.
 
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint no-case-declarations: "error"*/
@@ -44,7 +44,11 @@ switch (foo) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-case-declarations: "error"*/
@@ -76,6 +80,8 @@ switch (foo) {
     }
 }
 ```
+
+:::
 
 ## When Not To Use It
 

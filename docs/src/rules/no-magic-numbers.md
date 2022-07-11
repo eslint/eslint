@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-magic-nu
 rule_type: suggestion
 ---
 
-Disallows magic numbers.
 
 'Magic numbers' are numbers that occur multiple times in code without an explicit meaning.
 They should preferably be replaced by named constants.
@@ -22,12 +21,18 @@ are declared as constants to make their meaning explicit.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-magic-numbers: "error"*/
 
 var dutyFreePrice = 100,
     finalPrice = dutyFreePrice + (dutyFreePrice * 0.25);
 ```
+
+:::
+
+::: incorrect
 
 ```js
 /*eslint no-magic-numbers: "error"*/
@@ -37,6 +42,10 @@ var data = ['foo', 'bar', 'baz'];
 var dataLast = data[2];
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /*eslint no-magic-numbers: "error"*/
 
@@ -45,7 +54,11 @@ var SECONDS;
 SECONDS = 60;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-magic-numbers: "error"*/
@@ -55,6 +68,8 @@ var TAX = 0.25;
 var dutyFreePrice = 100,
     finalPrice = dutyFreePrice + (dutyFreePrice * TAX);
 ```
+
+:::
 
 ## Options
 
@@ -68,6 +83,8 @@ If it's a string, the text must be parsed as `bigint` literal (e.g., `"100n"`).
 
 Examples of **correct** code for the sample `{ "ignore": [1] }` option:
 
+::: correct
+
 ```js
 /*eslint no-magic-numbers: ["error", { "ignore": [1] }]*/
 
@@ -75,13 +92,19 @@ var data = ['foo', 'bar', 'baz'];
 var dataLast = data.length && data[data.length - 1];
 ```
 
+:::
+
 Examples of **correct** code for the sample `{ "ignore": ["1n"] }` option:
+
+::: correct
 
 ```js
 /*eslint no-magic-numbers: ["error", { "ignore": ["1n"] }]*/
 
 foo(1n);
 ```
+
+:::
 
 ### ignoreArrayIndexes
 
@@ -94,6 +117,8 @@ Arrays are objects, so they can have property names such as `"-1"` or `"2.5"`. H
 Additionally, since the maximum [array length](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length) is 2<sup>32</sup> - 1, all values above 2<sup>32</sup> - 2 also represent just normal property names and are thus not considered to be array indexes.
 
 Examples of **correct** code for the `{ "ignoreArrayIndexes": true }` option:
+
+::: correct
 
 ```js
 /*eslint no-magic-numbers: ["error", { "ignoreArrayIndexes": true }]*/
@@ -115,7 +140,11 @@ a = data[10n]; // same as data[10], 10n will be coerced to "10"
 a = data[4294967294]; // max array index
 ```
 
+:::
+
 Examples of **incorrect** code for the `{ "ignoreArrayIndexes": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint no-magic-numbers: ["error", { "ignoreArrayIndexes": true }]*/
@@ -135,11 +164,15 @@ a = data[4294967295]; // above the max array index
 a = data[1e500]; // same as data["Infinity"]
 ```
 
+:::
+
 ### ignoreDefaultValues
 
 A boolean to specify if numbers used in default value assignments are considered okay. `false` by default.
 
 Examples of **correct** code for the `{ "ignoreDefaultValues": true }` option:
+
+::: correct
 
 ```js
 /*eslint no-magic-numbers: ["error", { "ignoreDefaultValues": true }]*/
@@ -149,6 +182,10 @@ const { tax = 0.25 } = accountancy;
 function mapParallel(concurrency = 3) { /***/ }
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint no-magic-numbers: ["error", { "ignoreDefaultValues": true }]*/
 
@@ -156,11 +193,15 @@ let head;
 [head = 100] = []
 ```
 
+:::
+
 ### enforceConst
 
 A boolean to specify if we should check for the const keyword in variable declaration of numbers. `false` by default.
 
 Examples of **incorrect** code for the `{ "enforceConst": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint no-magic-numbers: ["error", { "enforceConst": true }]*/
@@ -171,11 +212,15 @@ var dutyFreePrice = 100,
     finalPrice = dutyFreePrice + (dutyFreePrice * TAX);
 ```
 
+:::
+
 ### detectObjects
 
 A boolean to specify if we should detect numbers when setting object properties for example. `false` by default.
 
 Examples of **incorrect** code for the `{ "detectObjects": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint no-magic-numbers: ["error", { "detectObjects": true }]*/
@@ -188,7 +233,11 @@ var dutyFreePrice = 100,
     finalPrice = dutyFreePrice + (dutyFreePrice * magic.tax);
 ```
 
+:::
+
 Examples of **correct** code for the `{ "detectObjects": true }` option:
+
+::: correct
 
 ```js
 /*eslint no-magic-numbers: ["error", { "detectObjects": true }]*/
@@ -202,3 +251,5 @@ var magic = {
 var dutyFreePrice = 100,
     finalPrice = dutyFreePrice + (dutyFreePrice * magic.tax);
 ```
+
+:::

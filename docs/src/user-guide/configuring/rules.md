@@ -10,9 +10,6 @@ eleventyNavigation:
 
 ---
 
-* [Configuring Rules](#configuring-rules)
-* [Disabling Rules](#disabling-rules)
-
 ## Configuring Rules
 
 ESLint comes with a large number of built-in rules and you can add more rules through plugins. You can modify which rules your project uses either using configuration comments or configuration files. To change a rule setting, you must set the rule ID equal to one of these values:

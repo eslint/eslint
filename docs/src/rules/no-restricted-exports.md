@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-restrict
 rule_type: suggestion
 ---
 
-Disallows specified names in exports.
 
 In a project, certain names may be disallowed from being used as exported names for various reasons.
 
@@ -22,6 +21,8 @@ This rule has an object option:
 * `"restrictedNamedExports"` is an array of strings, where each string is a name to be restricted.
 
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint no-restricted-exports: ["error", {
@@ -49,7 +50,11 @@ export { something as e } from "some_module";
 export { "👍" } from "some_module";
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-restricted-exports: ["error", {
@@ -77,11 +82,15 @@ export { something } from "some_module";
 export { "👍" as thumbsUp } from "some_module";
 ```
 
+:::
+
 ### Default exports
 
 By design, this rule doesn't disallow `export default` declarations. If you configure `"default"` as a restricted name, that restriction will apply only to named export declarations.
 
 Examples of additional **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint no-restricted-exports: ["error", { "restrictedNamedExports": ["default"] }]*/
@@ -91,19 +100,29 @@ function foo() {}
 export { foo as default };
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /*eslint no-restricted-exports: ["error", { "restrictedNamedExports": ["default"] }]*/
 
 export { default } from "some_module";
 ```
 
+:::
+
 Examples of additional **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-restricted-exports: ["error", { "restrictedNamedExports": ["default", "foo"] }]*/
 
 export default function foo() {}
 ```
+
+:::
 
 ## Known Limitations
 

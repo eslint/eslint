@@ -8,7 +8,6 @@ related_rules:
 - no-unneeded-ternary
 ---
 
-Disallows ternary operators.
 
 The ternary operator is used to conditionally assign a value to a variable. Some believe that the use of ternary operators leads to unclear code.
 
@@ -22,6 +21,8 @@ This rule disallows ternary operators.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-ternary: "error"*/
 
@@ -32,7 +33,11 @@ function quux() {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-ternary: "error"*/
@@ -53,3 +58,5 @@ function quux() {
     }
 }
 ```
+
+:::

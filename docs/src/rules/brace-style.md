@@ -10,9 +10,7 @@ further_reading:
 - https://en.wikipedia.org/wiki/Indent_style
 ---
 
-<!--FIXABLE-->
 
-Enforces consistent brace style for blocks.
 
 Brace style is closely related to [indent style](https://en.wikipedia.org/wiki/Indent_style) in programming and describes the placement of braces relative to their control statement and body. There are probably a dozen, if not more, brace styles in the world.
 
@@ -72,6 +70,8 @@ This rule has an object option for an exception:
 
 Examples of **incorrect** code for this rule with the default `"1tbs"` option:
 
+:::incorrect
+
 ```js
 /*eslint brace-style: "error"*/
 
@@ -109,7 +109,11 @@ class C
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"1tbs"` option:
+
+:::correct
 
 ```js
 /*eslint brace-style: "error"*/
@@ -145,7 +149,11 @@ if (foo) bar();
 else if (baz) boom();
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"1tbs", { "allowSingleLine": true }` options:
+
+:::correct
 
 ```js
 /*eslint brace-style: ["error", "1tbs", { "allowSingleLine": true }]*/
@@ -186,9 +194,13 @@ class C {
 class D { static { foo(); } }
 ```
 
+:::
+
 ### stroustrup
 
 Examples of **incorrect** code for this rule with the `"stroustrup"` option:
+
+:::incorrect
 
 ```js
 /*eslint brace-style: ["error", "stroustrup"]*/
@@ -226,7 +238,11 @@ if (foo) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"stroustrup"` option:
+
+:::correct
 
 ```js
 /*eslint brace-style: ["error", "stroustrup"]*/
@@ -264,7 +280,11 @@ if (foo) bar();
 else if (baz) boom();
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"stroustrup", { "allowSingleLine": true }` options:
+
+:::correct
 
 ```js
 /*eslint brace-style: ["error", "stroustrup", { "allowSingleLine": true }]*/
@@ -286,9 +306,13 @@ class C {
 class D { static { foo(); } }
 ```
 
+:::
+
 ### allman
 
 Examples of **incorrect** code for this rule with the `"allman"` option:
+
+:::incorrect
 
 ```js
 /*eslint brace-style: ["error", "allman"]*/
@@ -322,7 +346,11 @@ if (foo) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"allman"` option:
+
+:::correct
 
 ```js
 /*eslint brace-style: ["error", "allman"]*/
@@ -368,7 +396,11 @@ if (foo) bar();
 else if (baz) boom();
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"allman", { "allowSingleLine": true }` options:
+
+:::correct
 
 ```js
 /*eslint brace-style: ["error", "allman", { "allowSingleLine": true }]*/
@@ -393,6 +425,8 @@ class C
 
 class D { static { foo(); } }
 ```
+
+:::
 
 ## When Not To Use It
 

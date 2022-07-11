@@ -5,11 +5,9 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-unsafe-n
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
 
-<!--SUGGESTIONS-->
 
-Disallows negating the left operand of relational operators.
+
 
 Just as developers might type `-a + b` when they mean `-(a + b)` for the negative of a sum, they might type `!key in object` by mistake when they almost certainly mean `!(key in object)` to test that a key is not in an object. `!obj instanceof Ctor` is similar.
 
@@ -21,6 +19,8 @@ This rule disallows negating the left operand of the following relational operat
 * [`instanceof` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof).
 
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint no-unsafe-negation: "error"*/
@@ -36,7 +36,11 @@ if (!obj instanceof Ctor) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-unsafe-negation: "error"*/
@@ -50,12 +54,16 @@ if (!(obj instanceof Ctor)) {
 }
 ```
 
+:::
+
 ### Exception
 
 For rare situations when negating the left operand is intended, this rule allows an exception.
 If the whole negation is explicitly wrapped in parentheses, the rule will not report a problem.
 
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-unsafe-negation: "error"*/
@@ -71,7 +79,11 @@ if(("" + !foo) in object) {
 }
 ```
 
+:::
+
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint no-unsafe-negation: "error"*/
@@ -80,6 +92,8 @@ if (!(foo) in object) {
     // this is not an allowed exception
 }
 ```
+
+:::
 
 ## Options
 
@@ -101,6 +115,8 @@ The purpose is to avoid expressions such as `! a < b` (which is equivalent to `(
 
 Examples of additional **incorrect** code for this rule with the `{ "enforceForOrderingRelations": true }` option:
 
+::: incorrect
+
 ```js
 /*eslint no-unsafe-negation: ["error", { "enforceForOrderingRelations": true }]*/
 
@@ -112,6 +128,8 @@ foo = ! a <= b;
 
 foo = ! a >= b;
 ```
+
+:::
 
 ## When Not To Use It
 

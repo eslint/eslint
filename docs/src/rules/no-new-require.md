@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-new-requ
 rule_type: suggestion
 ---
 
-Disallows `new` operators with calls to `require`.
 
 This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-node`](https://github.com/mysticatea/eslint-plugin-node).
 
@@ -35,13 +34,19 @@ This rule aims to eliminate use of the `new require` expression.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-new-require: "error"*/
 
 var appHeader = new require('app-header');
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-new-require: "error"*/
@@ -49,6 +54,8 @@ Examples of **correct** code for this rule:
 var AppHeader = require('app-header');
 var appHeader = new AppHeader();
 ```
+
+:::
 
 ## When Not To Use It
 

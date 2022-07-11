@@ -5,8 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/default-par
 rule_type: suggestion
 ---
 
-Enforces default parameters to be last.
-
 Putting default parameter at last allows function calls to omit optional tail arguments.
 
 ```js
@@ -25,6 +23,8 @@ This rule enforces default parameters to be the last of parameters.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /* eslint default-param-last: ["error"] */
 
@@ -33,10 +33,16 @@ function f(a = 0, b) {}
 function f(a, b = 0, c) {}
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /* eslint default-param-last: ["error"] */
 
 function f(a, b = 0) {}
 ```
+
+:::

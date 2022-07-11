@@ -8,11 +8,9 @@ related_rules:
 - semi-spacing
 ---
 
-<!--RECOMMENDED-->
 
-<!--FIXABLE-->
 
-Disallows unnecessary semicolons.
+
 
 Typing mistakes and misunderstandings about where semicolons are required can lead to semicolons that are unnecessary. While not technically an error, extra semicolons can cause confusion when reading code.
 
@@ -21,6 +19,8 @@ Typing mistakes and misunderstandings about where semicolons are required can le
 This rule disallows unnecessary semicolons.
 
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint no-extra-semi: "error"*/
@@ -44,7 +44,11 @@ class C {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-extra-semi: "error"*/
@@ -71,6 +75,8 @@ class C {
     }
 }
 ```
+
+:::
 
 ## When Not To Use It
 

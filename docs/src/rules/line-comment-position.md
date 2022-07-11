@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/line-commen
 rule_type: layout
 ---
 
-Enforces position of line comments.
 
 Line comments can be positioned above or beside code. This rule helps teams maintain a consistent style.
 
@@ -33,29 +32,43 @@ The `position` option has two settings:
 
 Examples of **correct** code for the `{ "position": "above" }` option:
 
+::: correct
+
 ```js
 /*eslint line-comment-position: ["error", { "position": "above" }]*/
 // valid comment
 1 + 1;
 ```
 
+:::
+
 Examples of **incorrect** code for the `{ "position": "above" }` option:
+
+::: incorrect
 
 ```js
 /*eslint line-comment-position: ["error", { "position": "above" }]*/
 1 + 1; // invalid comment
 ```
 
+:::
+
 #### position: beside
 
 Examples of **correct** code for the `{ "position": "beside" }` option:
+
+::: correct
 
 ```js
 /*eslint line-comment-position: ["error", { "position": "beside" }]*/
 1 + 1; // valid comment
 ```
 
+:::
+
 Examples of **incorrect** code for the `{ "position": "beside" }` option:
+
+::: incorrect
 
 ```js
 /*eslint line-comment-position: ["error", { "position": "beside" }]*/
@@ -63,23 +76,33 @@ Examples of **incorrect** code for the `{ "position": "beside" }` option:
 1 + 1;
 ```
 
+:::
+
 ### ignorePattern
 
 By default this rule ignores comments starting with the following words: `eslint`, `jshint`, `jslint`, `istanbul`, `global`, `exported`, `jscs`, `falls through`. An alternative regular expression can be provided.
 
 Examples of **correct** code for the `ignorePattern` option:
 
+::: correct
+
 ```js
 /*eslint line-comment-position: ["error", { "ignorePattern": "pragma" }]*/
 1 + 1; // pragma valid comment
 ```
 
+:::
+
 Examples of **incorrect** code for the `ignorePattern` option:
+
+::: incorrect
 
 ```js
 /*eslint line-comment-position: ["error", { "ignorePattern": "pragma" }]*/
 1 + 1; // invalid comment
 ```
+
+:::
 
 ### applyDefaultIgnorePatterns
 
@@ -87,17 +110,25 @@ Default ignore patterns are applied even when `ignorePattern` is provided. If yo
 
 Examples of **correct** code for the `{ "applyDefaultIgnorePatterns": false }` option:
 
+::: correct
+
 ```js
 /*eslint line-comment-position: ["error", { "ignorePattern": "pragma", "applyDefaultIgnorePatterns": false }]*/
 1 + 1; // pragma valid comment
 ```
 
+:::
+
 Examples of **incorrect** code for the `{ "applyDefaultIgnorePatterns": false }` option:
+
+::: incorrect
 
 ```js
 /*eslint line-comment-position: ["error", { "ignorePattern": "pragma", "applyDefaultIgnorePatterns": false }]*/
 1 + 1; // falls through
 ```
+
+:::
 
 **Deprecated:** the object property `applyDefaultPatterns` is deprecated. Please use the property `applyDefaultIgnorePatterns` instead.
 

@@ -8,9 +8,7 @@ related_rules:
 - no-void
 ---
 
-<!--FIXABLE-->
 
-Disallows initializing variables to `undefined`.
 
 In JavaScript, a variable that is declared and not initialized to any value automatically gets the value of `undefined`. For example:
 
@@ -34,6 +32,8 @@ This rule aims to eliminate `var` and `let` variable declarations that initializ
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-undef-init: "error"*/
 
@@ -41,7 +41,11 @@ var foo = undefined;
 let bar = undefined;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-undef-init: "error"*/
@@ -50,9 +54,13 @@ var foo;
 let bar;
 ```
 
+:::
+
 Please note that this rule does not check `const` declarations, destructuring patterns, function parameters, and class fields.
 
 Examples of additional **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-undef-init: "error"*/
@@ -70,11 +78,15 @@ class Foo {
 }
 ```
 
+:::
+
 ## When Not To Use It
 
 There is one situation where initializing to `undefined` behaves differently than omitting the initialization, and that's when a `var` declaration occurs inside of a loop. For example:
 
 Example of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 for (i = 0; i < 10; i++) {
@@ -83,6 +95,8 @@ for (i = 0; i < 10; i++) {
     x = i;
 }
 ```
+
+:::
 
 In this case, the `var x` is hoisted out of the loop, effectively creating:
 
@@ -123,6 +137,8 @@ If you're using such an initialization inside of a loop, then you should disable
 
 Example of **correct** code for this rule, because it is disabled on a specific line:
 
+::: correct
+
 ```js
 /*eslint no-undef-init: "error"*/
 
@@ -132,3 +148,5 @@ for (i = 0; i < 10; i++) {
     x = i;
 }
 ```
+
+:::

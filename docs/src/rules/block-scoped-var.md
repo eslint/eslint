@@ -8,7 +8,6 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var#var_hoisting
 ---
 
-Enforces treating `var` as block scoped.
 
 The `block-scoped-var` rule generates warnings when variables are used outside of the block in which they were defined. This emulates C-style block scope.
 
@@ -17,6 +16,8 @@ The `block-scoped-var` rule generates warnings when variables are used outside o
 This rule aims to reduce the usage of variables outside of their binding context and emulate traditional block scope from other languages. This is to help newcomers to the language avoid difficult bugs with variable hoisting.
 
 Examples of **incorrect** code for this rule:
+
+:::incorrect
 
 ```js
 /*eslint block-scoped-var: "error"*/
@@ -62,7 +63,11 @@ class C {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+:::correct
 
 ```js
 /*eslint block-scoped-var: "error"*/
@@ -114,3 +119,5 @@ class C {
     }
 }
 ```
+
+:::

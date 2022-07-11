@@ -13,7 +13,6 @@ related_rules:
 - max-params
 ---
 
-Enforces a maximum number of statements allowed in function blocks.
 
 The `max-statements` rule allows you to specify the maximum number of statements allowed in a function.
 
@@ -44,6 +43,8 @@ This rule has an object option:
 ### max
 
 Examples of **incorrect** code for this rule with the default `{ "max": 10 }` option:
+
+::: incorrect
 
 ```js
 /*eslint max-statements: ["error", 10]*/
@@ -80,7 +81,11 @@ let foo = () => {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `{ "max": 10 }` option:
+
+::: correct
 
 ```js
 /*eslint max-statements: ["error", 10]*/
@@ -127,9 +132,13 @@ let foo = () => {
 }
 ```
 
+:::
+
 Note that this rule does not apply to class static blocks, and that statements in class static blocks do not count as statements in the enclosing function.
 
 Examples of **correct** code for this rule with `{ "max": 2 }` option:
+
+::: correct
 
 ```js
 /*eslint max-statements: ["error", 2]*/
@@ -151,9 +160,13 @@ function foo() {
 }
 ```
 
+:::
+
 ### ignoreTopLevelFunctions
 
 Examples of additional **correct** code for this rule with the `{ "max": 10 }, { "ignoreTopLevelFunctions": true }` options:
+
+::: correct
 
 ```js
 /*eslint max-statements: ["error", 10, { "ignoreTopLevelFunctions": true }]*/
@@ -172,3 +185,5 @@ function foo() {
   var foo11 = 11;
 }
 ```
+
+:::

@@ -8,9 +8,7 @@ related_rules:
 - spaced-comment
 ---
 
-<!--FIXABLE-->
 
-Requires empty lines around comments.
 
 Many style guides require empty lines before or after comments. The primary goal
 of these rules is to make the comments easier to read and improve readability of the code.
@@ -42,6 +40,8 @@ This rule has an object option:
 
 Examples of **incorrect** code for this rule with the default `{ "beforeBlockComment": true }` option:
 
+::: incorrect
+
 ```js
 /*eslint lines-around-comment: ["error", { "beforeBlockComment": true }]*/
 
@@ -49,9 +49,13 @@ var night = "long";
 /* what a great and wonderful day */
 var day = "great"
 ```
+
+:::
 
 Examples of **correct** code for this rule with the default `{ "beforeBlockComment": true }` option:
 
+::: correct
+
 ```js
 /*eslint lines-around-comment: ["error", { "beforeBlockComment": true }]*/
 
@@ -60,11 +64,15 @@ var night = "long";
 /* what a great and wonderful day */
 var day = "great"
 ```
+
+:::
 
 ### afterBlockComment
 
 Examples of **incorrect** code for this rule with the `{ "afterBlockComment": true }` option:
 
+::: incorrect
+
 ```js
 /*eslint lines-around-comment: ["error", { "afterBlockComment": true }]*/
 
@@ -73,9 +81,13 @@ var night = "long";
 /* what a great and wonderful day */
 var day = "great"
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `{ "afterBlockComment": true }` option:
 
+::: correct
+
 ```js
 /*eslint lines-around-comment: ["error", { "afterBlockComment": true }]*/
 
@@ -85,11 +97,15 @@ var night = "long";
 
 var day = "great"
 ```
+
+:::
 
 ### beforeLineComment
 
 Examples of **incorrect** code for this rule with the `{ "beforeLineComment": true }` option:
 
+::: incorrect
+
 ```js
 /*eslint lines-around-comment: ["error", { "beforeLineComment": true }]*/
 
@@ -97,9 +113,13 @@ var night = "long";
 // what a great and wonderful day
 var day = "great"
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `{ "beforeLineComment": true }` option:
 
+::: correct
+
 ```js
 /*eslint lines-around-comment: ["error", { "beforeLineComment": true }]*/
 
@@ -108,11 +128,15 @@ var night = "long";
 // what a great and wonderful day
 var day = "great"
 ```
+
+:::
 
 ### afterLineComment
 
 Examples of **incorrect** code for this rule with the `{ "afterLineComment": true }` option:
 
+::: incorrect
+
 ```js
 /*eslint lines-around-comment: ["error", { "afterLineComment": true }]*/
 
@@ -120,9 +144,13 @@ var night = "long";
 // what a great and wonderful day
 var day = "great"
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `{ "afterLineComment": true }` option:
 
+::: correct
+
 ```js
 /*eslint lines-around-comment: ["error", { "afterLineComment": true }]*/
 
@@ -131,10 +159,14 @@ var night = "long";
 
 var day = "great"
 ```
+
+:::
 
 ### allowBlockStart
 
 Examples of **correct** code for this rule with the `{ "beforeLineComment": true, "allowBlockStart": true }` options:
+
+::: correct
 
 ```js
 /*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowBlockStart": true }]*/
@@ -165,7 +197,11 @@ class C {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "beforeBlockComment": true, "allowBlockStart": true }` options:
+
+::: correct
 
 ```js
 /*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowBlockStart": true }]*/
@@ -196,9 +232,13 @@ class C {
 }
 ```
 
+:::
+
 ### allowBlockEnd
 
 Examples of **correct** code for this rule with the `{ "afterLineComment": true, "allowBlockEnd": true }` option:
+
+::: correct
 
 ```js
 /*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowBlockEnd": true }]*/
@@ -230,7 +270,11 @@ class C {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "afterBlockComment": true, "allowBlockEnd": true }` option:
+
+::: correct
 
 ```js
 /*eslint lines-around-comment: ["error", { "afterBlockComment": true, "allowBlockEnd": true }]*/
@@ -266,10 +310,14 @@ class C {
 }
 ```
 
+:::
+
 ### allowClassStart
 
 Examples of **incorrect** code for this rule with the `{ "beforeLineComment": true, "allowClassStart": false }` option:
 
+::: incorrect
+
 ```js
 /*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowClassStart": false }]*/
 
@@ -278,9 +326,13 @@ class foo {
     day() {}
 };
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `{ "beforeLineComment": true, "allowClassStart": false }` option:
 
+::: correct
+
 ```js
 /*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowClassStart": false }]*/
 
@@ -291,7 +343,11 @@ class foo {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "beforeLineComment": true, "allowClassStart": true }` option:
+
+::: correct
 
 ```js
 /*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowClassStart": true }]*/
@@ -302,7 +358,11 @@ class foo {
 };
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `{ "beforeBlockComment": true, "allowClassStart": false }` option:
+
+::: incorrect
 
 ```js
 /*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowClassStart": false }]*/
@@ -312,9 +372,13 @@ class foo {
     day() {}
 };
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `{ "beforeBlockComment": true, "allowClassStart": false }` option:
 
+::: correct
+
 ```js
 /*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowClassStart": false }]*/
 
@@ -325,7 +389,11 @@ class foo {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "beforeBlockComment": true, "allowClassStart": true }` option:
+
+::: correct
 
 ```js
 /*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowClassStart": true }]*/
@@ -336,9 +404,13 @@ class foo {
 };
 ```
 
+:::
+
 ### allowClassEnd
 
 Examples of **correct** code for this rule with the `{ "afterLineComment": true, "allowClassEnd": true }` option:
+
+::: correct
 
 ```js
 /*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowClassEnd": true }]*/
@@ -349,7 +421,11 @@ class foo {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "afterBlockComment": true, "allowClassEnd": true }` option:
+
+::: correct
 
 ```js
 /*eslint lines-around-comment: ["error", { "afterBlockComment": true, "allowClassEnd": true }]*/
@@ -361,9 +437,13 @@ class foo {
 };
 ```
 
+:::
+
 ### allowObjectStart
 
 Examples of **correct** code for this rule with the `{ "beforeLineComment": true, "allowObjectStart": true }` option:
+
+::: correct
 
 ```js
 /*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowObjectStart": true }]*/
@@ -384,7 +464,11 @@ const {
 } = {day: "great"};
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "beforeBlockComment": true, "allowObjectStart": true }` option:
+
+::: correct
 
 ```js
 /*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowObjectStart": true }]*/
@@ -405,9 +489,13 @@ const {
 } = {day: "great"};
 ```
 
+:::
+
 ### allowObjectEnd
 
 Examples of **correct** code for this rule with the `{ "afterLineComment": true, "allowObjectEnd": true }` option:
+
+::: correct
 
 ```js
 /*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowObjectEnd": true }]*/
@@ -428,7 +516,11 @@ const {
 } = {day: "great"};
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "afterBlockComment": true, "allowObjectEnd": true }` option:
+
+::: correct
 
 ```js
 /*eslint lines-around-comment: ["error", { "afterBlockComment": true, "allowObjectEnd": true }]*/
@@ -452,9 +544,13 @@ const {
 } = {day: "great"};
 ```
 
+:::
+
 ### allowArrayStart
 
 Examples of **correct** code for this rule with the `{ "beforeLineComment": true, "allowArrayStart": true }` option:
+
+::: correct
 
 ```js
 /*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowArrayStart": true }]*/
@@ -471,7 +567,11 @@ const [
 ] = ["great", "not great"];
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "beforeBlockComment": true, "allowArrayStart": true }` option:
+
+::: correct
 
 ```js
 /*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowArrayStart": true }]*/
@@ -488,9 +588,13 @@ const [
 ] = ["great", "not great"];
 ```
 
+:::
+
 ### allowArrayEnd
 
 Examples of **correct** code for this rule with the `{ "afterLineComment": true, "allowArrayEnd": true }` option:
+
+::: correct
 
 ```js
 /*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowArrayEnd": true }]*/
@@ -507,7 +611,11 @@ const [
 ] = ["great", "not great"];
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "afterBlockComment": true, "allowArrayEnd": true }` option:
+
+::: correct
 
 ```js
 /*eslint lines-around-comment: ["error", { "afterBlockComment": true, "allowArrayEnd": true }]*/
@@ -526,11 +634,15 @@ const [
 ] = ["great", "not great"];
 ```
 
+:::
+
 ### ignorePattern
 
 By default this rule ignores comments starting with the following words: `eslint`, `jshint`, `jslint`, `istanbul`, `global`, `exported`, `jscs`. To ignore more comments in addition to the defaults, set the `ignorePattern` option to a string pattern that will be passed to the [`RegExp` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp).
 
 Examples of **correct** code for the `ignorePattern` option:
+
+::: correct
 
 ```js
 /*eslint lines-around-comment: ["error"]*/
@@ -545,7 +657,11 @@ foo();
 /* a valid comment using pragma in it */
 ```
 
+:::
+
 Examples of **incorrect** code for the `ignorePattern` option:
+
+::: incorrect
 
 ```js
 /*eslint lines-around-comment: ["error", { "ignorePattern": "pragma" }] */
@@ -554,11 +670,15 @@ Examples of **incorrect** code for the `ignorePattern` option:
 /* something else */
 ```
 
+:::
+
 ### applyDefaultIgnorePatterns
 
 Default ignore patterns are applied even when `ignorePattern` is provided. If you want to omit default patterns, set this option to `false`.
 
 Examples of **correct** code for the `{ "applyDefaultIgnorePatterns": false }` option:
+
+::: correct
 
 ```js
 /*eslint lines-around-comment: ["error", { "ignorePattern": "pragma", applyDefaultIgnorePatterns: false }] */
@@ -567,7 +687,11 @@ foo();
 /* a valid comment using pragma in it */
 ```
 
+:::
+
 Examples of **incorrect** code for the `{ "applyDefaultIgnorePatterns": false }` option:
+
+::: incorrect
 
 ```js
 /*eslint lines-around-comment: ["error", { "applyDefaultIgnorePatterns": false }] */
@@ -576,6 +700,8 @@ foo();
 /* eslint mentioned in comment */
 
 ```
+
+:::
 
 ## When Not To Use It
 

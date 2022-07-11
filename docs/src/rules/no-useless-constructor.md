@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-useless-
 rule_type: suggestion
 ---
 
-Disallows unnecessary constructors.
 
 ES2015 provides a default class constructor if one is not specified. As such, it is unnecessary to provide an empty constructor or one that simply delegates into its parent class, as in the following examples:
 
@@ -30,6 +29,8 @@ This rule flags class constructors that can be safely removed without changing h
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-useless-constructor: "error"*/
 /*eslint-env es6*/
@@ -46,7 +47,11 @@ class B extends A {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-useless-constructor: "error"*/
@@ -72,6 +77,8 @@ class B extends A {
     }
 }
 ```
+
+:::
 
 ## When Not To Use It
 

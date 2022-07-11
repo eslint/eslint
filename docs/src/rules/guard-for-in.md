@@ -10,7 +10,6 @@ further_reading:
 - https://2ality.com/2012/01/objects-as-maps.html
 ---
 
-Requires `for in` loops to include an `if` statement.
 
 Looping over objects with a `for in` loop will include properties that are inherited through the prototype chain. This behavior can lead to unexpected items in your for loop.
 
@@ -28,6 +27,8 @@ This rule is aimed at preventing unexpected behavior that could arise from using
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint guard-for-in: "error"*/
 
@@ -36,7 +37,11 @@ for (key in foo) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint guard-for-in: "error"*/
@@ -53,3 +58,5 @@ for (key in foo) {
     }
 }
 ```
+
+:::

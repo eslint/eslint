@@ -9,7 +9,6 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 ---
 
-Disallows returning values from Promise executor functions.
 
 The `new Promise` constructor accepts a single argument, called an *executor*.
 
@@ -36,6 +35,8 @@ This rule disallows returning values from Promise executor functions.
 Only `return` without a value is allowed, as it's a control flow statement.
 
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint no-promise-executor-return: "error"*/
@@ -66,7 +67,11 @@ new Promise(() => {
 });
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-promise-executor-return: "error"*/
@@ -97,3 +102,5 @@ new Promise((resolve, reject) => {
 
 Promise.resolve(1);
 ```
+
+:::

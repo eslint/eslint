@@ -11,11 +11,9 @@
 
 #carbonads {
     display: inline-block;
-    margin: 2rem 0;;
+    margin: 2rem 0;
     padding: .6em;
-
-    font-size: 16px;
-    line-height: 1.35;
+    font-size: 1rem;
     overflow: hidden;
     border-radius: 4px;
     background-color: var(--body-background-color);
@@ -40,11 +38,12 @@
 #carbonads a {
     font-weight: 500;
     color: inherit;
+    text-decoration: none;
 }
 
 #carbonads a:hover {
     text-decoration: none;
-    color: inherit;
+    color: var(--link-color);
 }
 
 .jumbotron #carbonads a {
@@ -58,13 +57,11 @@
 #carbonads span {
     display: block;
     position: relative;
-
     overflow: hidden;
 }
 
 #carbonads .carbon-wrap {
     display: flex;
-
     flex-direction: column;
     max-width: 130px;
 }
@@ -75,37 +72,36 @@
 
 #carbonads .carbon-text {
     margin-top: 10px;
-
-    font-size: 14px;
+    line-height: 1rem;
+    font-size: .7em;
+    font-weight: 500;
     text-align: left;
 }
 
 #carbonads .carbon-poweredby {
     display: block;
     margin-top: 10px;
-    font-size: 10px;
+    font-size: 0.5rem;
+    font-weight: 500;
     line-height: 1;
-    letter-spacing: 1px;
+    letter-spacing: .1ch;
     text-transform: uppercase;
 }
 
 @media only screen and (min-width: 320px) and (max-width: 759px) {
     #carbonads {
         margin-top: 0;
-
         font-size: 12px;
     }
 
     #carbonads .carbon-wrap {
         display: flex;
-
         flex-direction: row;
         max-width: 330px;
     }
 
     #carbonads .carbon-text {
         margin: 0 0 14px 10px;
-
         font-size: 14px;
         text-align: left;
     }
@@ -114,7 +110,6 @@
         position: absolute;
         bottom: 0;
         left: 142px;
-
         font-size: 8px;
     }
 }

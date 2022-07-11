@@ -7,7 +7,6 @@ related_rules:
 - no-constant-condition
 ---
 
-Disallows expressions where the operation doesn't affect the value.
 
 Comparisons which will always evaluate to true or false and logical expressions (`||`, `&&`, `??`) which either always short-circuit or never short-circuit are both likely indications of programmer error.
 
@@ -38,6 +37,8 @@ It also identifies `||`, `&&` and `??` logical expressions which will either alw
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-constant-binary-expression: "error"*/
 
@@ -54,7 +55,11 @@ const objIsEmpty = someObj === {};
 const arrIsEmpty = someArr === [];
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-constant-binary-expression: "error"*/
@@ -71,3 +76,5 @@ const objIsEmpty = Object.keys(someObj).length === 0;
 
 const arrIsEmpty = someArr.length === 0;
 ```
+
+:::

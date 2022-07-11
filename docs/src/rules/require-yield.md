@@ -7,9 +7,7 @@ related_rules:
 - require-await
 ---
 
-<!--RECOMMENDED-->
 
-Disallows generator functions that do not have `yield`.
 
 ## Rule Details
 
@@ -18,6 +16,8 @@ This rule generates warnings for generator functions that do not have the `yield
 ## Examples
 
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint require-yield: "error"*/
@@ -28,7 +28,11 @@ function* foo() {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint require-yield: "error"*/
@@ -46,6 +50,8 @@ function foo() {
 // This rule does not warn on empty generator functions.
 function* foo() { }
 ```
+
+:::
 
 ## When Not To Use It
 

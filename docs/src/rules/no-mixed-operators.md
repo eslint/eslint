@@ -7,7 +7,6 @@ related_rules:
 - no-extra-parens
 ---
 
-Disallows mixes of different operators.
 
 Enclosing complex expressions by parentheses clarifies the developer's intention, which makes the code more readable.
 This rule warns when different operators are used consecutively without parentheses in an expression.
@@ -41,6 +40,8 @@ If you use both this and [no-extra-parens](no-extra-parens) rule together, you n
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-mixed-operators: "error"*/
 
@@ -48,7 +49,11 @@ var foo = a && b < 0 || c > 0 || d + 1 === 0;
 var foo = a + b * c;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-mixed-operators: "error"*/
@@ -60,6 +65,8 @@ var foo = a && (b < 0 || c > 0 || d + 1 === 0);
 var foo = a + (b * c);
 var foo = (a + b) * c;
 ```
+
+:::
 
 ## Options
 
@@ -106,12 +113,18 @@ In this case, this rule checks if bitwise operators and logical operators are mi
 
 Examples of **incorrect** code for this rule with `{"groups": [["&", "|", "^", "~", "<<", ">>", ">>>"], ["&&", "||"]]}` option:
 
+::: incorrect
+
 ```js
 /*eslint no-mixed-operators: ["error", {"groups": [["&", "|", "^", "~", "<<", ">>", ">>>"], ["&&", "||"]]}]*/
 
 var foo = a && b < 0 || c > 0 || d + 1 === 0;
 var foo = a & b | c;
 ```
+
+:::
+
+::: incorrect
 
 ```js
 /*eslint no-mixed-operators: ["error", {"groups": [["&&", "||", "?:"]]}]*/
@@ -123,7 +136,11 @@ var bar = a ? b || c : d;
 var baz = a ? b : c || d;
 ```
 
+:::
+
 Examples of **correct** code for this rule with `{"groups": [["&", "|", "^", "~", "<<", ">>", ">>>"], ["&&", "||"]]}` option:
+
+::: correct
 
 ```js
 /*eslint no-mixed-operators: ["error", {"groups": [["&", "|", "^", "~", "<<", ">>", ">>>"], ["&&", "||"]]}]*/
@@ -139,6 +156,10 @@ var foo = a + (b * c);
 var foo = (a + b) * c;
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint no-mixed-operators: ["error", {"groups": [["&&", "||", "?:"]]}]*/
 
@@ -151,9 +172,13 @@ var baz = a ? b : (c || d);
 var baz = (a ? b : c) || d;
 ```
 
+:::
+
 ### allowSamePrecedence
 
 Examples of **correct** code for this rule with `{"allowSamePrecedence": true}` option:
+
+::: correct
 
 ```js
 /*eslint no-mixed-operators: ["error", {"allowSamePrecedence": true}]*/
@@ -162,7 +187,11 @@ Examples of **correct** code for this rule with `{"allowSamePrecedence": true}` 
 var foo = a + b - c;
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with `{"allowSamePrecedence": false}` option:
+
+::: incorrect
 
 ```js
 /*eslint no-mixed-operators: ["error", {"allowSamePrecedence": false}]*/
@@ -171,7 +200,11 @@ Examples of **incorrect** code for this rule with `{"allowSamePrecedence": false
 var foo = a + b - c;
 ```
 
+:::
+
 Examples of **correct** code for this rule with `{"allowSamePrecedence": false}` option:
+
+::: correct
 
 ```js
 /*eslint no-mixed-operators: ["error", {"allowSamePrecedence": false}]*/
@@ -179,6 +212,8 @@ Examples of **correct** code for this rule with `{"allowSamePrecedence": false}`
 // + and - have the same precedence.
 var foo = (a + b) - c;
 ```
+
+:::
 
 ## When Not To Use It
 

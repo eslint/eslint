@@ -7,9 +7,7 @@ related_rules:
 - default-case
 ---
 
-<!--RECOMMENDED-->
 
-Disallows case statement fallthroughs.
 
 The `switch` statement in JavaScript is one of the more error-prone constructs of the language thanks in part to the ability to "fall through" from one `case` to the next. For example:
 
@@ -86,6 +84,8 @@ This rule is aimed at eliminating unintentional fallthrough of one case to the o
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-fallthrough: "error"*/
 
@@ -98,7 +98,11 @@ switch(foo) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-fallthrough: "error"*/
@@ -159,6 +163,8 @@ switch(foo) {
 }
 ```
 
+:::
+
 Note that the last `case` statement in these examples does not cause a warning because there is nothing to fall through into.
 
 ## Options
@@ -170,6 +176,8 @@ This rule accepts a single options argument:
 ### commentPattern
 
 Examples of **correct** code for the `{ "commentPattern": "break[\\s\\w]*omitted" }` option:
+
+::: correct
 
 ```js
 /*eslint no-fallthrough: ["error", { "commentPattern": "break[\\s\\w]*omitted" }]*/
@@ -192,6 +200,8 @@ switch(foo) {
         doSomething();
 }
 ```
+
+:::
 
 ## When Not To Use It
 

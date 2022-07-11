@@ -30,16 +30,26 @@ Exceptions cannot be mixed.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 // When ["never"]
 // This is a comment with a whitespace at the beginning
 ```
+
+:::
+
+::: incorrect
 
 ```js
 //When ["always"]
 //This is a comment with no whitespace at the beginning
 var foo = 5;
 ```
+
+:::
+
+::: incorrect
 
 ```js
 // When ["always",{"exceptions":["-","+"]}]
@@ -48,7 +58,11 @@ var foo = 5;
 //------++++++++
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 // When ["always"]
@@ -56,11 +70,19 @@ Examples of **correct** code for this rule:
 var foo = 5;
 ```
 
+:::
+
+::: correct
+
 ```js
 //When ["never"]
 //This is a comment with no whitespace at the beginning
 var foo = 5;
 ```
+
+:::
+
+::: correct
 
 ```js
 // When ["always",{"exceptions":["-"]}]
@@ -69,9 +91,15 @@ var foo = 5;
 //--------------
 ```
 
+:::
+
+::: correct
+
 ```js
 // When ["always",{"exceptions":["-+"]}]
 //-+-+-+-+-+-+-+
 // Comment block
 //-+-+-+-+-+-+-+
 ```
+
+:::

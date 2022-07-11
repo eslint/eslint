@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-path-con
 rule_type: suggestion
 ---
 
-Disallows string concatenation when using `__dirname` and `__filename`.
 
 This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-node`](https://github.com/mysticatea/eslint-plugin-node).
 
@@ -37,6 +36,8 @@ This rule aims to prevent string concatenation of directory paths in Node.js
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-path-concat: "error"*/
 
@@ -46,13 +47,19 @@ var fullPath = __filename + "/foo.js";
 
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-path-concat: "error"*/
 
 var fullPath = dirname + "/foo.js";
 ```
+
+:::
 
 ## When Not To Use It
 

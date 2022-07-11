@@ -8,9 +8,7 @@ further_reading:
 - https://www.smashingmagazine.com/2014/01/understanding-javascript-function-prototype-bind/
 ---
 
-<!--FIXABLE-->
 
-Disallows unnecessary function binding.
 
 The `bind()` method is used to create functions with specific `this` values and, optionally, binds arguments to specific values. When used to specify the value of `this`, it's important that the function actually uses `this` in its function body. For example:
 
@@ -45,6 +43,8 @@ This rule is aimed at avoiding the unnecessary use of `bind()` and as such will 
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-extra-bind: "error"*/
 /*eslint-env es6*/
@@ -74,7 +74,11 @@ var x = function () {
 }.bind(baz);
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-extra-bind: "error"*/
@@ -87,6 +91,8 @@ var x = function (a) {
     return a + 1;
 }.bind(foo, bar);
 ```
+
+:::
 
 ## When Not To Use It
 

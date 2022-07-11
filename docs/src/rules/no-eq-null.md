@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-eq-null.
 rule_type: suggestion
 ---
 
-Disallows `null` comparisons without type-checking operators,
 
 Comparing to `null` without a type-checking operator (`==` or `!=`), can have unintended results as the comparison will evaluate to true when comparing to not just a `null`, but also an `undefined` value.
 
@@ -21,6 +20,8 @@ The `no-eq-null` rule aims reduce potential bug and unwanted behavior by ensurin
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-eq-null: "error"*/
 
@@ -33,7 +34,11 @@ while (qux != null) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-eq-null: "error"*/
@@ -46,6 +51,8 @@ while (qux !== null) {
   baz();
 }
 ```
+
+:::
 
 ## When Not To Use It
 

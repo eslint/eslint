@@ -2,10 +2,14 @@
 title: Architecture
 layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/architecture/index.md
-
+eleventyNavigation:
+    key: architecture
+    parent: developer guide
+    title: Architecture
+    order: 1
 ---
 
-<center><img alt="dependency graph" src="dependency.svg"></center>
+<center><img alt="dependency graph" src="../../assets/images/architecture/dependency.svg"></center>
 
 At a high level, there are a few key parts to ESLint:
 

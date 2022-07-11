@@ -5,9 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-spaced-f
 rule_type: layout
 ---
 
-<!--FIXABLE-->
 
-Disallows spacing between function identifiers and their applications.
 
 This rule was **deprecated** in ESLint v3.3.0 and replaced by the [func-call-spacing](func-call-spacing) rule.
 
@@ -19,6 +17,8 @@ This rule disallows spacing between function identifiers and their applications.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-spaced-func: "error"*/
 
@@ -28,10 +28,16 @@ fn
 ()
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-spaced-func: "error"*/
 
 fn()
 ```
+
+:::

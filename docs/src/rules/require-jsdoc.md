@@ -7,7 +7,6 @@ related_rules:
 - valid-jsdoc
 ---
 
-Requires JSDoc comments.
 
 This rule was [**deprecated**](https://eslint.org/blog/2018/11/jsdoc-end-of-life) in ESLint v5.10.0.
 
@@ -63,6 +62,8 @@ Default option settings are:
 
 Examples of **incorrect** code for this rule with the `{ "require": { "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true } }` option:
 
+::: incorrect
+
 ```js
 /*eslint "require-jsdoc": ["error", {
     "require": {
@@ -103,7 +104,11 @@ var foo = {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "require": { "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true } }` option:
+
+::: correct
 
 ```js
 /*eslint "require-jsdoc": ["error", {
@@ -188,6 +193,8 @@ var foo = {
 
 setTimeout(() => {}, 10); // since it's an anonymous arrow function
 ```
+
+:::
 
 ## When Not To Use It
 

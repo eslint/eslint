@@ -78,11 +78,13 @@ module.exports = {
                 "plugin:eslint-plugin/rules-recommended"
             ],
             rules: {
+                "eslint-plugin/no-missing-message-ids": "error",
+                "eslint-plugin/no-unused-message-ids": "error",
                 "eslint-plugin/prefer-message-ids": "error",
                 "eslint-plugin/prefer-placeholders": "error",
                 "eslint-plugin/prefer-replace-text": "error",
                 "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
-                "eslint-plugin/require-meta-docs-description": "error",
+                "eslint-plugin/require-meta-docs-description": ["error", { pattern: "^(Enforce|Require|Disallow)" }],
                 "internal-rules/no-invalid-meta": "error"
             }
         },

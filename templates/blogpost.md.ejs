@@ -3,6 +3,8 @@ layout: post
 title: ESLint v<%- version %> released
 teaser: "We just pushed ESLint v<%- version %>, which is a <%- type %> release upgrade of ESLint. This release <% if (type !== "patch") { %>adds some new features and <% } %>fixes several bugs found in the previous release.<% if (type === "major") { %> This release also has some breaking changes, so please read the following closely.<% } %>"
 image: release-notes-<%- type %>.png
+authors:
+  - eslintbot
 categories:
   - Release Notes
 tags:

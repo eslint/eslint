@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="{{ config.lang }}" class="no-js">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if NOINDEX %}
+    <meta name="robots" content="noindex">
+    {% endif %}
     {% if title %}
         {% set page_title = title %}
     {% else %}
@@ -21,7 +23,10 @@
     <!-- SEO -->
     <title>{{ page_title }}</title>
     <meta name="description" content="{{ page_desc }}">
-    <link rel="canonical" href="{{page_url}}">
+    <link rel="canonical" href="{{ page_url }}">
+    
+    <!-- https://github.com/eslint/eslint/issues/15844 -->
+    <base href="{{ relative_page_url }}">
 
     <!-- favicon -->
     <link rel="icon" href="/favicon.ico" sizes="any"><!-- 32×32 -->

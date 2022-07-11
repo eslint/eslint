@@ -5,9 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/eol-last.md
 rule_type: layout
 ---
 
-<!--FIXABLE-->
 
-Requires or disallows newline at the end of files.
 
 Trailing newlines in non-empty files are a common UNIX idiom. Benefits of
 trailing newlines include the ability to concatenate or append to files as well
@@ -25,6 +23,8 @@ the end of the file. If you still want this behavior, consider enabling
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint eol-last: ["error", "always"]*/
 
@@ -33,7 +33,11 @@ function doSomething() {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint eol-last: ["error", "always"]*/
@@ -42,6 +46,8 @@ function doSomething() {
   var foo = 2;
 }\n
 ```
+
+:::
 
 ## Options
 

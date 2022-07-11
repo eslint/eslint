@@ -10,7 +10,6 @@ further_reading:
 - https://benalman.com/news/2012/05/multiple-var-statements-javascript/
 ---
 
-Requires variable declarations to be at the top of their scope.
 
 The `vars-on-top` rule generates warnings when variable declarations are not used serially at the top of a function scope or the top of a program.
 By default variable declarations are always moved (“hoisted”) invisibly to the top of their containing scope by the JavaScript interpreter.
@@ -22,6 +21,8 @@ This rule aims to keep all variable declarations in the leading series of statem
 Allowing multiple declarations helps promote maintainability and is thus allowed.
 
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint vars-on-top: "error"*/
@@ -40,6 +41,10 @@ function doSomething() {
 }
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /*eslint vars-on-top: "error"*/
 
@@ -47,6 +52,10 @@ function doSomething() {
 f();
 var a;
 ```
+
+:::
+
+::: incorrect
 
 ```js
 /*eslint vars-on-top: "error"*/
@@ -71,7 +80,11 @@ class C {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint vars-on-top: "error"*/
@@ -90,12 +103,20 @@ function doSomething() {
 }
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint vars-on-top: "error"*/
 
 var a;
 f();
 ```
+
+:::
+
+::: correct
 
 ```js
 /*eslint vars-on-top: "error"*/
@@ -117,6 +138,10 @@ class C {
 }
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint vars-on-top: "error"*/
 
@@ -133,3 +158,5 @@ function doSomething() {
     var second
 }
 ```
+
+:::

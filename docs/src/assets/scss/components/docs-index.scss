@@ -152,3 +152,15 @@
         }
     }
 }
+
+.eslint-actions {
+    display: inline-flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+
+    @media all and (min-width: 640px) {
+        flex-direction: row;
+    }
+}

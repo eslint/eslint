@@ -5,9 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-empty-ch
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
 
-Disallows empty character classes in regular expressions.
 
 Because empty character classes in regular expressions do not match anything, they might be typing mistakes.
 
@@ -21,6 +19,8 @@ This rule disallows empty character classes in regular expressions.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-empty-character-class: "error"*/
 
@@ -28,7 +28,11 @@ Examples of **incorrect** code for this rule:
 "abcdefg".match(/^abc[]/); // null
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-empty-character-class: "error"*/
@@ -39,6 +43,8 @@ Examples of **correct** code for this rule:
 /^abc[a-z]/.test("abcdefg"); // true
 "abcdefg".match(/^abc[a-z]/); // ["abcd"]
 ```
+
+:::
 
 ## Known Limitations
 

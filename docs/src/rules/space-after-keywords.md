@@ -36,6 +36,8 @@ then there should be no spaces following. The default is `"always"`.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint space-after-keywords: "error"*/
 
@@ -46,13 +48,21 @@ if (a) {} else{}
 do{} while (a);
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /*eslint space-after-keywords: ["error", "never"]*/
 
 if (a) {}
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint space-after-keywords: "error"*/
@@ -62,8 +72,14 @@ if (a) {}
 if (a) {} else {}
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint space-after-keywords: ["error", "never"]*/
 
 if(a) {}
 ```
+
+:::

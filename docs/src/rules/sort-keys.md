@@ -8,7 +8,6 @@ related_rules:
 - sort-vars
 ---
 
-Requires object keys to be sorted.
 
 When declaring multiple properties, some developers prefer to sort property names alphabetically to more easily find and/or diff necessary properties at a later time. Others feel that it adds complexity and becomes burden to maintain.
 
@@ -17,6 +16,8 @@ When declaring multiple properties, some developers prefer to sort property name
 This rule checks all property definitions of object expressions and verifies that all variables are sorted alphabetically.
 
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint sort-keys: "error"*/
@@ -38,7 +39,11 @@ let obj = {a: 1, ["c"]: 3, b: 2};
 let obj = {a: 1, [S]: 3, b: 2};
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint sort-keys: "error"*/
@@ -66,6 +71,8 @@ let obj = {a: 1, [tag`c`]: 3, b: 2};
 // This rule does not report unsorted properties that are separated by a spread property.
 let obj = {b: 1, ...c, a: 2};
 ```
+
+:::
 
 ## Options
 
@@ -106,6 +113,8 @@ With `natural` as false, the ordering would be
 
 Examples of **incorrect** code for the `"desc"` option:
 
+::: incorrect
+
 ```js
 /*eslint sort-keys: ["error", "desc"]*/
 /*eslint-env es6*/
@@ -120,7 +129,11 @@ let obj = {C: 1, b: 3, a: 2};
 let obj = {10: b, 2: c, 1: a};
 ```
 
+:::
+
 Examples of **correct** code for the `"desc"` option:
+
+::: correct
 
 ```js
 /*eslint sort-keys: ["error", "desc"]*/
@@ -136,9 +149,13 @@ let obj = {b: 3, a: 2, C: 1};
 let obj = {2: c, 10: b, 1: a};
 ```
 
+:::
+
 ### insensitive
 
 Examples of **incorrect** code for the `{caseSensitive: false}` option:
+
+::: incorrect
 
 ```js
 /*eslint sort-keys: ["error", "asc", {caseSensitive: false}]*/
@@ -148,7 +165,11 @@ let obj = {a: 1, c: 3, C: 4, b: 2};
 let obj = {a: 1, C: 3, c: 4, b: 2};
 ```
 
+:::
+
 Examples of **correct** code for the `{caseSensitive: false}` option:
+
+::: correct
 
 ```js
 /*eslint sort-keys: ["error", "asc", {caseSensitive: false}]*/
@@ -158,9 +179,13 @@ let obj = {a: 1, b: 2, c: 3, C: 4};
 let obj = {a: 1, b: 2, C: 3, c: 4};
 ```
 
+:::
+
 ### natural
 
 Examples of **incorrect** code for the `{natural: true}` option:
+
+::: incorrect
 
 ```js
 /*eslint sort-keys: ["error", "asc", {natural: true}]*/
@@ -169,7 +194,11 @@ Examples of **incorrect** code for the `{natural: true}` option:
 let obj = {1: a, 10: c, 2: b};
 ```
 
+:::
+
 Examples of **correct** code for the `{natural: true}` option:
+
+::: correct
 
 ```js
 /*eslint sort-keys: ["error", "asc", {natural: true}]*/
@@ -178,9 +207,13 @@ Examples of **correct** code for the `{natural: true}` option:
 let obj = {1: a, 2: b, 10: c};
 ```
 
+:::
+
 ### minKeys
 
 Examples of **incorrect** code for the `{minKeys: 4}` option:
+
+::: incorrect
 
 ```js
 /*eslint sort-keys: ["error", "asc", {minKeys: 4}]*/
@@ -204,7 +237,11 @@ let obj = {
 };
 ```
 
+:::
+
 Examples of **correct** code for the `{minKeys: 4}` option:
+
+::: correct
 
 ```js
 /*eslint sort-keys: ["error", "asc", {minKeys: 4}]*/
@@ -223,6 +260,8 @@ let obj = {
     1: 'a',
 };
 ```
+
+:::
 
 ## When Not To Use It
 

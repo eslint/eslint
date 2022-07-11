@@ -12,7 +12,6 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects
 ---
 
-Enforces getter/setter pairs in objects and classes.
 
 It's a common mistake in JavaScript to create an object with just a setter for a property but never have a corresponding getter defined for it. Without a getter, you cannot read the property, so it ends up not being used.
 
@@ -25,6 +24,7 @@ var o = {
         this.val = value;
     }
 };
+
 
 // Good
 var o = {
@@ -58,6 +58,8 @@ This rule always checks object literals and property descriptors. By default, it
 
 Examples of **incorrect** code for the default `{ "setWithoutGet": true }` option:
 
+:::incorrect
+
 ```js
 /*eslint accessor-pairs: "error"*/
 
@@ -67,6 +69,7 @@ var o = {
     }
 };
 
+
 var o = {d: 1};
 Object.defineProperty(o, 'c', {
     set: function(value) {
@@ -75,7 +78,11 @@ Object.defineProperty(o, 'c', {
 });
 ```
 
+:::
+
 Examples of **correct** code for the default `{ "setWithoutGet": true }` option:
+
+:::correct
 
 ```js
 /*eslint accessor-pairs: "error"*/
@@ -100,11 +107,15 @@ Object.defineProperty(o, 'c', {
 });
 
 ```
+
+:::
 
 ### getWithoutSet
 
 Examples of **incorrect** code for the `{ "getWithoutSet": true }` option:
 
+:::incorrect
+
 ```js
 /*eslint accessor-pairs: ["error", { "getWithoutSet": true }]*/
 
@@ -134,9 +145,13 @@ Object.defineProperty(o, 'c', {
     }
 });
 ```
+
+:::
 
 Examples of **correct** code for the `{ "getWithoutSet": true }` option:
 
+:::correct
+
 ```js
 /*eslint accessor-pairs: ["error", { "getWithoutSet": true }]*/
 var o = {
@@ -159,6 +174,8 @@ Object.defineProperty(o, 'c', {
 });
 
 ```
+
+:::
 
 ### enforceForClassMembers
 
@@ -168,6 +185,8 @@ When `enforceForClassMembers` is set to `true` (default):
 * `"setWithoutGet": true` will also warn for setters without getters in classes.
 
 Examples of **incorrect** code for `{ "getWithoutSet": true, "enforceForClassMembers": true }`:
+
+:::incorrect
 
 ```js
 /*eslint accessor-pairs: ["error", { "getWithoutSet": true, "enforceForClassMembers": true }]*/
@@ -194,7 +213,11 @@ const Baz = class {
 }
 ```
 
+:::
+
 Examples of **incorrect** code for `{ "setWithoutGet": true, "enforceForClassMembers": true }`:
+
+:::incorrect
 
 ```js
 /*eslint accessor-pairs: ["error", { "setWithoutGet": true, "enforceForClassMembers": true }]*/
@@ -212,9 +235,13 @@ const Bar = class {
 }
 ```
 
+:::
+
 When `enforceForClassMembers` is set to `false`, this rule ignores classes.
 
 Examples of **correct** code for `{ "getWithoutSet": true, "setWithoutGet": true, "enforceForClassMembers": false }`:
+
+:::correct
 
 ```js
 /*eslint accessor-pairs: ["error", {
@@ -245,6 +272,8 @@ const Quux = class {
     }
 }
 ```
+
+:::
 
 ## Known Limitations
 

@@ -8,7 +8,6 @@ further_reading:
 - https://jakearchibald.com/2017/await-vs-return-vs-return-await/
 ---
 
-Disallows unnecessary `return await`.
 
 Using `return await` inside an `async function` keeps the current function in the call stack until the Promise that is being awaited has resolved, at the cost of an extra microtask before resolving the outer Promise. `return await` can also be used in a try/catch statement to catch errors from another function that returns a Promise.
 
@@ -20,6 +19,8 @@ This rule aims to prevent a likely common performance hazard due to a lack of un
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-return-await: "error"*/
 
@@ -28,7 +29,11 @@ async function foo() {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-return-await: "error"*/
@@ -55,6 +60,8 @@ async function foo() {
     } catch (error) {}
 }
 ```
+
+:::
 
 ## When Not To Use It
 

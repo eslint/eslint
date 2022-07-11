@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-use-befo
 rule_type: problem
 ---
 
-Disallows the use of variables before they are defined.
 
 In JavaScript, prior to ES6, variable and function declarations are hoisted to the top of a scope, so it's possible to use identifiers before their formal declarations in code. This can be confusing and some believe it is best to always declare variables and functions before using them.
 
@@ -16,6 +15,8 @@ In ES6, block-level bindings (`let` and `const`) introduce a "temporal dead zone
 This rule will warn when it encounters a reference to an identifier that has not yet been declared.
 
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint no-use-before-define: "error"*/
@@ -65,7 +66,11 @@ export { foo };
 const foo = 1;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-use-before-define: "error"*/
@@ -117,6 +122,8 @@ const foo = 1;
 export { foo };
 ```
 
+:::
+
 ## Options
 
 ```json
@@ -159,6 +166,8 @@ This rule accepts `"nofunc"` string as an option.
 
 Examples of **correct** code for the `{ "functions": false }` option:
 
+::: correct
+
 ```js
 /*eslint no-use-before-define: ["error", { "functions": false }]*/
 
@@ -166,11 +175,15 @@ f();
 function f() {}
 ```
 
+:::
+
 This option allows references to function declarations. For function expressions and arrow functions, please see the [`variables`](#variables) option.
 
 ### classes
 
 Examples of **incorrect** code for the `{ "classes": false }` option:
+
+::: incorrect
 
 ```js
 /*eslint no-use-before-define: ["error", { "classes": false }]*/
@@ -205,7 +218,11 @@ class A {
 }
 ```
 
+:::
+
 Examples of **correct** code for the `{ "classes": false }` option:
+
+::: correct
 
 ```js
 /*eslint no-use-before-define: ["error", { "classes": false }]*/
@@ -218,9 +235,13 @@ class A {
 }
 ```
 
+:::
+
 ### variables
 
 Examples of **incorrect** code for the `{ "variables": false }` option:
+
+::: incorrect
 
 ```js
 /*eslint no-use-before-define: ["error", { "variables": false }]*/
@@ -257,7 +278,11 @@ const g = function() {};
 }
 ```
 
+:::
+
 Examples of **correct** code for the `{ "variables": false }` option:
+
+::: correct
 
 ```js
 /*eslint no-use-before-define: ["error", { "variables": false }]*/
@@ -283,9 +308,13 @@ const g = function() {}
 }
 ```
 
+:::
+
 ### allowNamedExports
 
 Examples of **correct** code for the `{ "allowNamedExports": true }` option:
+
+::: correct
 
 ```js
 /*eslint no-use-before-define: ["error", { "allowNamedExports": true }]*/
@@ -301,7 +330,11 @@ function f () {}
 class C {}
 ```
 
+:::
+
 Examples of **incorrect** code for the `{ "allowNamedExports": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint no-use-before-define: ["error", { "allowNamedExports": true }]*/
@@ -317,3 +350,5 @@ export function foo() {
 }
 const d = 1;
 ```
+
+:::

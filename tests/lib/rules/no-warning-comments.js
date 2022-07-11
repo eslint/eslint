@@ -34,10 +34,10 @@ ruleTester.run("no-warning-comments", rule, {
         "/* any block comment with TODO, FIXME or XXX */",
         "/* any block comment with (TODO, FIXME's or XXX!) */",
         { code: "// comments containing terms as substrings like TodoMVC", options: [{ terms: ["todo"], location: "anywhere" }] },
-        { code: "// special regex characters don't cause problems", options: [{ terms: ["[aeiou]"], location: "anywhere" }] },
+        { code: "// special regex characters don't cause a problem", options: [{ terms: ["[aeiou]"], location: "anywhere" }] },
         "/*eslint no-warning-comments: [2, { \"terms\": [\"todo\", \"fixme\", \"any other term\"], \"location\": \"anywhere\" }]*/\n\nvar x = 10;\n",
         { code: "/*eslint no-warning-comments: [2, { \"terms\": [\"todo\", \"fixme\", \"any other term\"], \"location\": \"anywhere\" }]*/\n\nvar x = 10;\n", options: [{ location: "anywhere" }] },
-        { code: "foo", options: [{ terms: ["foo-bar"] }] }
+        { code: "// foo", options: [{ terms: ["foo-bar"] }] }
     ],
     invalid: [
         {
@@ -254,6 +254,136 @@ ruleTester.run("no-warning-comments", rule, {
                     data: {
                         matchedTerm: "todo",
                         comment: "..."
+                    }
+                }
+            ]
+        },
+        {
+            code: "// Comment ending with term followed by punctuation TODO!",
+            options: [{ terms: ["todo"], location: "anywhere" }],
+            errors: [
+                {
+                    messageId: "unexpectedComment",
+                    data: {
+                        matchedTerm: "todo",
+                        comment: "Comment ending with term followed by..."
+                    }
+                }
+            ]
+        },
+        {
+            code: "// Comment ending with term including punctuation TODO!",
+            options: [{ terms: ["todo!"], location: "anywhere" }],
+            errors: [
+                {
+                    messageId: "unexpectedComment",
+                    data: {
+                        matchedTerm: "todo!",
+                        comment: "Comment ending with term including..."
+                    }
+                }
+            ]
+        },
+        {
+            code: "// Comment ending with term including punctuation followed by more TODO!!!",
+            options: [{ terms: ["todo!"], location: "anywhere" }],
+            errors: [
+                {
+                    messageId: "unexpectedComment",
+                    data: {
+                        matchedTerm: "todo!",
+                        comment: "Comment ending with term including..."
+                    }
+                }
+            ]
+        },
+        {
+            code: "// !TODO comment starting with term preceded by punctuation",
+            options: [{ terms: ["todo"], location: "anywhere" }],
+            errors: [
+                {
+                    messageId: "unexpectedComment",
+                    data: {
+                        matchedTerm: "todo",
+                        comment: "!TODO comment starting with term..."
+                    }
+                }
+            ]
+        },
+        {
+            code: "// !TODO comment starting with term including punctuation",
+            options: [{ terms: ["!todo"], location: "anywhere" }],
+            errors: [
+                {
+                    messageId: "unexpectedComment",
+                    data: {
+                        matchedTerm: "!todo",
+                        comment: "!TODO comment starting with term..."
+                    }
+                }
+            ]
+        },
+        {
+            code: "// !!!TODO comment starting with term including punctuation preceded by more",
+            options: [{ terms: ["!todo"], location: "anywhere" }],
+            errors: [
+                {
+                    messageId: "unexpectedComment",
+                    data: {
+                        matchedTerm: "!todo",
+                        comment: "!!!TODO comment starting with term..."
+                    }
+                }
+            ]
+        },
+        {
+            code: "// FIX!term ending with punctuation followed word character",
+            options: [{ terms: ["FIX!"], location: "anywhere" }],
+            errors: [
+                {
+                    messageId: "unexpectedComment",
+                    data: {
+                        matchedTerm: "FIX!",
+                        comment: "FIX!term ending with punctuation..."
+                    }
+                }
+            ]
+        },
+        {
+            code: "// Term starting with punctuation preceded word character!FIX",
+            options: [{ terms: ["!FIX"], location: "anywhere" }],
+            errors: [
+                {
+                    messageId: "unexpectedComment",
+                    data: {
+                        matchedTerm: "!FIX",
+                        comment: "Term starting with punctuation preceded..."
+                    }
+                }
+            ]
+        },
+        {
+            code: "//!XXX comment starting with no spaces (anywhere)",
+            options: [{ terms: ["!xxx"], location: "anywhere" }],
+            errors: [
+                {
+                    messageId: "unexpectedComment",
+                    data: {
+                        matchedTerm: "!xxx",
+                        comment: "!XXX comment starting with no spaces..."
+                    }
+                }
+            ]
+        },
+        {
+            code: "//!XXX comment starting with no spaces (start)",
+            options: [{ terms: ["!xxx"], location: "start" }],
+            errors: [
+                {
+                    messageId: "unexpectedComment",
+                    data: {
+                        matchedTerm: "!xxx",
+                        comment: "!XXX comment starting with no spaces..."
                     }
                 }
             ]

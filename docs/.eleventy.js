@@ -4,11 +4,11 @@ const eleventyNavigationPlugin = require("@11ty/eleventy-navigation");
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const pluginRss = require("@11ty/eleventy-plugin-rss");
 const pluginTOC = require("eleventy-plugin-nesting-toc");
-const slugify = require("slugify");
 const markdownItAnchor = require("markdown-it-anchor");
 const markdownItContainer = require("markdown-it-container");
 const Image = require("@11ty/eleventy-img");
 const path = require("path");
+const { slug } = require("github-slugger");
 const yaml = require("js-yaml");
 
 const {
@@ -49,6 +49,7 @@ module.exports = function(eleventyConfig) {
 
     eleventyConfig.addGlobalData("site_name", siteName);
     eleventyConfig.addGlobalData("GIT_BRANCH", process.env.BRANCH);
+    eleventyConfig.addGlobalData("NOINDEX", process.env.BRANCH !== "latest");
     eleventyConfig.addDataExtension("yml", contents => yaml.load(contents));
 
     //------------------------------------------------------------------------------
@@ -59,16 +60,23 @@ module.exports = function(eleventyConfig) {
 
     eleventyConfig.addFilter("jsonify", variable => JSON.stringify(variable));
 
+    /**
+     * Takes in a string and converts to a slug
+     * @param {string} text text to be converted into slug
+     * @returns {string} slug to be used as anchors
+     */
+    function slugify(text) {
+        return slug(text.replace(/[<>()[\]{}]/gu, ""))
+        // eslint-disable-next-line no-control-regex -- used regex from https://github.com/eslint/archive-website/blob/master/_11ty/plugins/markdown-plugins.js#L37
+            .replace(/[^\u{00}-\u{FF}]/gu, "");
+    }
+
     eleventyConfig.addFilter("slugify", str => {
         if (!str) {
             return "";
         }
 
-        return slugify(str, {
-            lower: true,
-            strict: true,
-            remove: /["]/gu
-        });
+        return slugify(str);
     });
 
     eleventyConfig.addFilter("URIencode", str => {
@@ -153,7 +161,9 @@ module.exports = function(eleventyConfig) {
 
     eleventyConfig.setLibrary("md",
         markdownIt({ html: true, linkify: true, typographer: true })
-            .use(markdownItAnchor, {})
+            .use(markdownItAnchor, {
+                slugify
+            })
             .use(markdownItContainer, "correct", {})
             .use(markdownItContainer, "incorrect", {})
             .disable("code"));
@@ -406,6 +416,26 @@ module.exports = function(eleventyConfig) {
             return next();
         }
     });
+
+    /*
+     * Generate the sitemap only in certain contexts to prevent unwanted discovery of sitemaps that
+     * contain URLs we'd prefer not to appear in search results (URLs in sitemaps are considered important).
+     * In particular, we don't want to deploy https://eslint.org/docs/head/sitemap.xml
+     * We want to generate the sitemap for:
+     *   - Local previews
+     *   - Netlify deploy previews
+     *   - Netlify production deploy of the `latest` branch (https://eslint.org/docs/latest/sitemap.xml)
+     *
+     * Netlify always sets `CONTEXT` environment variable. If it isn't set, we assume this is a local build.
+     */
+    if (
+        process.env.CONTEXT && // if this is a build on Netlify ...
+        process.env.CONTEXT !== "deploy-preview" && // ... and not for a deploy preview ...
+        process.env.BRANCH !== "latest" // .. and not of the `latest` branch ...
+    ) {
+        eleventyConfig.ignores.add("src/static/sitemap.njk"); // ... then don't generate the sitemap.
+    }
+
 
     return {
         passthroughFileCopy: true,

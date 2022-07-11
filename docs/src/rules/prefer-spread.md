@@ -7,7 +7,6 @@ related_rules:
 - no-useless-call
 ---
 
-Suggests using spread syntax instead of `.apply()`.
 
 Before ES2015, one must use `Function.prototype.apply()` to call variadic functions.
 
@@ -33,6 +32,8 @@ This rule is aimed to flag usage of `Function.prototype.apply()` in situations w
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint prefer-spread: "error"*/
 
@@ -41,7 +42,11 @@ foo.apply(null, args);
 obj.foo.apply(obj, args);
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint prefer-spread: "error"*/
@@ -61,6 +66,8 @@ foo.apply(undefined, [1, 2, 3]);
 foo.apply(null, [1, 2, 3]);
 obj.foo.apply(obj, [1, 2, 3]);
 ```
+
+:::
 
 Known limitations:
 

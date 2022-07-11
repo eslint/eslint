@@ -1,14 +1,41 @@
 .rule-categories {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem 1rem;
+    gap: 0;
     margin-bottom: 3rem;
+    background-color: var(--lightest-background-color);
+    border: 1px solid var(--divider-color);
+    border-radius: var(--border-radius);
 
     .rule-category {
         margin: 0;
-        padding: 0;
+        padding: 1rem;
         background: none;
         border: none;
+
+        @media screen and (min-width:768px){
+            &:not(:first-child)::after {
+                content: "";
+                display: block;
+                padding: 1px;
+                border-left: 1px solid var(--divider-color);
+                left: 0px;
+            }
+        }
+
+        @media screen and (min-width:768px) and (max-width:1023px), screen and (min-width:1440px){
+            &:not(:first-child)::after {
+                height: 70%;
+                position: absolute;
+            }
+        }
+
+        @media screen and (min-width:1024px) and (max-width:1439px){
+            &:nth-child(2)::after {
+                height: 70%;
+                position: absolute;
+            }
+        }
     }
 
     .rule-category__description {
@@ -19,6 +46,7 @@
 .rule-category {
     font-size: var(--step--1);
     display: flex;
+    position: relative;
     flex-wrap: wrap;
     align-items: flex-start;
     gap: 1rem;
@@ -67,6 +95,14 @@
     font-size: .875rem;
     margin-bottom: .25rem;
     margin-block-end: .25rem;
+}
+
+a.rule__name {
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
 
     &::after {
         position: absolute;
@@ -77,14 +113,6 @@
         offset-block-start: 0;
         left: 0;
         offset-inline-start: 0;
-    }
-}
-
-a.rule__name {
-    text-decoration: none;
-
-    &:hover {
-        text-decoration: underline;
     }
 }
 
@@ -133,7 +161,6 @@ a.rule__name {
     }
 }
 
-
 /* related rules */
 
 .related-rules__list {
@@ -165,4 +192,11 @@ a.rule__name {
             background-color: var(--lighter-background-color);
         }
     }
+}
+
+a.rule-list-item+a.rule-list-item::before {
+    content: ",";
+    display: inline-block;
+    margin-left: 5px;
+    margin-right: 5px;
 }

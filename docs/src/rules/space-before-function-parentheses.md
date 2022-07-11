@@ -38,6 +38,8 @@ This rule takes one argument. If it is `"always"`, which is the default option, 
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
+::: incorrect
+
 ```js
 /*eslint-env es6*/
 
@@ -65,9 +67,13 @@ var foo = {
     }
 };
 ```
+
+:::
 
 Examples of **correct** code for this rule with the default `"always"` option:
 
+::: correct
+
 ```js
 /*eslint-env es6*/
 
@@ -95,9 +101,13 @@ var foo = {
     }
 };
 ```
+
+:::
 
 Examples of **incorrect** code for this rule with the `"never"` option:
 
+::: incorrect
+
 ```js
 /*eslint-env es6*/
 
@@ -126,7 +136,11 @@ var foo = {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"never"` option:
+
+::: correct
 
 ```js
 /*eslint-env es6*/
@@ -156,7 +170,11 @@ var foo = {
 };
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `{"anonymous": "always", "named": "never"}` option:
+
+::: incorrect
 
 ```js
 /*eslint-env es6*/
@@ -181,9 +199,13 @@ var foo = {
     }
 };
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `{"anonymous": "always", "named": "never"}` option:
 
+::: correct
+
 ```js
 /*eslint-env es6*/
 
@@ -207,9 +229,13 @@ var foo = {
     }
 };
 ```
+
+:::
 
 Examples of **incorrect** code for this rule with the `{"anonymous": "never", "named": "always"}` option:
 
+::: incorrect
+
 ```js
 /*eslint-env es6*/
 
@@ -234,7 +260,11 @@ var foo = {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{"anonymous": "never", "named": "always"}` option:
+
+::: correct
 
 ```js
 /*eslint-env es6*/
@@ -259,6 +289,8 @@ var foo = {
     }
 };
 ```
+
+:::
 
 ## When Not To Use It
 
