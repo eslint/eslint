@@ -12,11 +12,12 @@ Require or disallow assignment logical operator shorthand
 ## Rule Details
 
 This rule requires or disallows logical assignment operator shorthand.  
-On the one hand the shorthand makes it clear that the variable reference is the same.
-On the other hand the combined operator may be seen as "magic".
-This is a feature introduced in ES2021.
+ES2021 introduces the assignment operator shorthand for the logical operators `||`, `&&` and `??`.
+Before this was only allowed for mathematical operations such as `+` or `*` (see the rule [operator-assignment](./operator-assignment)).
+The shorthand can be used if the assignment target and the left expression of a logical expression are the same.
+For example `a = a || b` can be shortened to `a ||= b`.
 
-## Options
+### Options
 
 This rule has a string and an object option.
 String option:
@@ -30,7 +31,7 @@ Object option (only available if string option is set to `"always"`):
 
 * `"enforceForIfStatements": true` Check for equivalent if statements
 
-### always
+#### always
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
@@ -60,7 +61,7 @@ a += b
 
 :::
 
-### never
+#### never
 
 Examples of **incorrect** code for this rule with the `"never"` option:
 
@@ -88,7 +89,7 @@ a = a ?? b
 
 :::
 
-### enforceForIfStatements
+#### enforceForIfStatements
 
 This option checks for additional patterns with if statements which could be expressed with the logical assignment operator.
 ::: correct
