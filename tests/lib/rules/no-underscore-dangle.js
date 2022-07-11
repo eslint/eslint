@@ -29,7 +29,6 @@ ruleTester.run("no-underscore-dangle", rule, {
         "function foo(_bar) {}",
         "function foo(bar_) {}",
         "(function _foo() {})",
-        "var [foo, [bar, baz]] = [1, ['a', 'b']]",
         { code: "function foo(_bar) {}", options: [{}] },
         { code: "function foo( _bar = 0) {}", parserOptions: { ecmaVersion: 6 } },
         { code: "const foo = { onClick(_bar) { } }", parserOptions: { ecmaVersion: 6 } },
@@ -71,6 +70,11 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "function foo( { _bar }) {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 } },
         { code: "function foo( { _bar = 0 } = {}) {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 6 } },
         { code: "function foo(...[_bar]) {}", options: [{ allowFunctionParams: false }], parserOptions: { ecmaVersion: 2016 } },
+        { code: "const [foo, ...rest] = [1, 2, 3]", options: [{ allowInArrayDestructuring: false }], parserOptions: { ecmaVersion: 2022 } },
+        { code: "const [foo, _bar] = [1, 2, 3]", options: [{ allowInArrayDestructuring: false, allow: ["_bar"] }], parserOptions: { ecmaVersion: 2022 } },
+        { code: "const { foo, bar: _bar } = { foo: 1, bar: 2 }", options: [{ allowInObjectDestructuring: false, allow: ["_bar"] }], parserOptions: { ecmaVersion: 2022 } },
+        { code: "const { foo, _bar } = { foo: 1, _bar: 2 }", options: [{ allowInObjectDestructuring: false, allow: ["_bar"] }], parserOptions: { ecmaVersion: 2022 } },
+        { code: "const { foo, _bar: bar } = { foo: 1, _bar: 2 }", options: [{ allowInObjectDestructuring: false }], parserOptions: { ecmaVersion: 2022 } },
         { code: "class foo { _field; }", parserOptions: { ecmaVersion: 2022 } },
         { code: "class foo { _field; }", options: [{ enforceInClassFields: false }], parserOptions: { ecmaVersion: 2022 } },
         { code: "class foo { #_field; }", parserOptions: { ecmaVersion: 2022 } },
@@ -133,6 +137,27 @@ ruleTester.run("no-underscore-dangle", rule, {
             options: [{ allowInObjectDestructuring: false }],
             parserOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_rest" } }]
+        }, {
+            code: "const { foo: [_bar, { a: _a, b } ] } = { foo: [1, { a: 'a', b: 'b' }] }",
+            options: [{ allowInArrayDestructuring: false, allowInObjectDestructuring: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "unexpectedUnderscore", data: { identifier: "_bar" } },
+                { messageId: "unexpectedUnderscore", data: { identifier: "_a" } }
+            ]
+        }, {
+            code: "const { foo: [_bar, { a: _a, b } ] } = { foo: [1, { a: 'a', b: 'b' }] }",
+            options: [{ allowInArrayDestructuring: true, allowInObjectDestructuring: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_a" } }]
+        }, {
+            code: "const [{ foo: [_bar, _, { bar: _baz }] }] = [{ foo: [1, 2, { bar: 'a' }] }]",
+            options: [{ allowInArrayDestructuring: false, allowInObjectDestructuring: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "unexpectedUnderscore", data: { identifier: "_bar" } },
+                { messageId: "unexpectedUnderscore", data: { identifier: "_baz" } }
+            ]
         }, {
             code: "const { foo, bar: { baz, _qux } } = { foo: 1, bar: { baz: 3, _qux: 4 } }",
             options: [{ allowInObjectDestructuring: false }],
