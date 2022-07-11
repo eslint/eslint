@@ -168,6 +168,15 @@ ruleTester.run("logical-assignment-operators", rule, {
         }, {
             code: "if (a === undefined || a === void 0) a = b",
             options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (a === null || a === void void 0) a = b",
+            output: "a ??= b"
+        }, {
+            code: "if (a === null || a === void 'string') a = b",
+            output: "a ??= b"
+        }, {
+            code: "if (a === null || a === void fn()) a = b",
+            output: "a ??= b"
         },
 
         // > Reference
@@ -560,11 +569,6 @@ ruleTester.run("logical-assignment-operators", rule, {
             errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
             code: "if (a === null || a === void 0) a = b",
-            output: "a ??= b",
-            options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
-        }, {
-            code: "if (a === null || a === void fn()) a = b",
             output: "a ??= b",
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
