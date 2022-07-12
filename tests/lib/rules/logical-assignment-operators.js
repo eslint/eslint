@@ -518,6 +518,25 @@ ruleTester.run("logical-assignment-operators", rule, {
             errors: [{ messageId: "assignment", type: "AssignmentExpression", data: { operator: "||" }, suggestions: [] }]
         },
 
+        // > Context
+        {
+            code: "fn(a = a || b)",
+            output: "fn(a ||= b)",
+            errors: [{ messageId: "assignment", type: "AssignmentExpression", data: { operator: "||" }, suggestions: [] }]
+        }, {
+            code: "fn((a = a || b))",
+            output: "fn((a ||= b))",
+            errors: [{ messageId: "assignment", type: "AssignmentExpression", data: { operator: "||" }, suggestions: [] }]
+        }, {
+            code: "(a = a || b) ? c : d",
+            output: "(a ||= b) ? c : d",
+            errors: [{ messageId: "assignment", type: "AssignmentExpression", data: { operator: "||" }, suggestions: [] }]
+        }, {
+            code: "a = b = b || c",
+            output: "a = b ||= c",
+            errors: [{ messageId: "assignment", type: "AssignmentExpression", data: { operator: "||" }, suggestions: [] }]
+        },
+
         // Logical
         {
             code: "a || (a = b)",
@@ -598,6 +617,33 @@ ruleTester.run("logical-assignment-operators", rule, {
         }, {
             code: "with (object) a.b || (a.b = c)",
             output: "with (object) a.b ||= c",
+            errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||" } }]
+        },
+
+        // > Context
+        {
+            code: "a || (a = 0) || b",
+            output: "(a ||= 0) || b",
+            errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||" } }]
+        }, {
+            code: "(a || (a = 0)) || b",
+            output: "(a ||= 0) || b",
+            errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||" } }]
+        }, {
+            code: "a || (b || (b = 0))",
+            output: "a || (b ||= 0)",
+            errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||" } }]
+        }, {
+            code: "a = b || (b = c)",
+            output: "a = b ||= c",
+            errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||" } }]
+        }, {
+            code: "a || (a = 0) ? b : c",
+            output: "(a ||= 0) ? b : c",
+            errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||" } }]
+        }, {
+            code: "fn(a || (a = 0))",
+            output: "fn(a ||= 0)",
             errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||" } }]
         },
 
