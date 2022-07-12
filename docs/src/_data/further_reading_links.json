@@ -691,5 +691,12 @@
         "logo": "https://developer.mozilla.org/favicon-48x48.cbbd161b.png",
         "title": "Exponentiation (**) - JavaScript | MDN",
         "description": "The exponentiation operator (**) returns the result of raising the first operand to the power of the second operand. It is equivalent to Math.pow, except it also accepts BigInts as operands."
+    },
+    "https://eslint.org/blog/2022/07/interesting-bugs-caught-by-no-constant-binary-expression/": {
+        "domain": "eslint.org",
+        "url": "https://eslint.org/blog/2022/07/interesting-bugs-caught-by-no-constant-binary-expression/",
+        "logo": "https://eslint.org/apple-touch-icon.png",
+        "title": "Interesting bugs caught by no-constant-binary-expression - ESLint - Pluggable JavaScript Linter",
+        "description": "A pluggable and configurable linter tool for identifying and reporting on patterns in JavaScript. Maintain your code quality with ease."
     }
 }
