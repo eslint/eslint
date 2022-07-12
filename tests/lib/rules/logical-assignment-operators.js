@@ -142,9 +142,6 @@ ruleTester.run("logical-assignment-operators", rule, {
             code: "if (a != null) a = b",
             options: ["always", { enforceForIfStatements: true }]
         }, {
-            code: "if (null == a) a = b",
-            options: ["always", { enforceForIfStatements: true }]
-        }, {
             code: "if (a === null && a === undefined) a = b",
             options: ["always", { enforceForIfStatements: true }]
         }, {
@@ -177,6 +174,113 @@ ruleTester.run("logical-assignment-operators", rule, {
         }, {
             code: "if (a === null || a === void fn()) a = b",
             output: "a ??= b"
+        },
+
+        // > Test > Yoda
+        {
+            code: "if (a == a) a = b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (a == b) a = b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (null == null) a = b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (undefined == undefined) undefined = b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (null == x) a = b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (null == fn()) a = b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (null === a || a === 0) a = b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (0 === a || null === a) a = b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (1 === a || a === undefined) a = b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (undefined === a || 1 === a) a = b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (a === null || a === b) a = b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (b === undefined || a === null) a = b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (null === a || b === a) a = b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (null === null || undefined === undefined) a = b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (null === null || a === a) a = b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (undefined === undefined || a === a) a = b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (null === undefined || a === a) a = b",
+            options: ["always", { enforceForIfStatements: true }]
+        },
+
+        // > Test > Undefined
+        {
+            code: [
+                "{",
+                "   const undefined = 0;",
+                "   if (a == undefined) a = b",
+                "}"
+            ].join("\n"),
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: [
+                "(() => {",
+                "   const undefined = 0;",
+                "   if (condition) {",
+                "       if (a == undefined) a = b",
+                "   }",
+                "})()"
+            ].join("\n"),
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: [
+                "{",
+                "   if (a == undefined) a = b",
+                "}",
+                "var undefined = 0;"
+            ].join("\n"),
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: [
+                "{",
+                "   const undefined = 0;",
+                "   if (undefined == null) undefined = b",
+                "}"
+            ].join("\n"),
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: [
+                "{",
+                "   const undefined = 0;",
+                "   if (a === undefined || a === null) a = b",
+                "}"
+            ].join("\n"),
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: [
+                "{",
+                "   const undefined = 0;",
+                "   if (undefined === a || null === a) a = b",
+                "}"
+            ].join("\n"),
+            options: ["always", { enforceForIfStatements: true }]
         },
 
         // > Reference
@@ -556,6 +660,71 @@ ruleTester.run("logical-assignment-operators", rule, {
         }, {
             code: "if (a) { a = b }",
             output: "a &&= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: [
+                "{ const undefined = 0; }",
+                "if (a == undefined) a = b"
+            ].join("\n"),
+            output: [
+                "{ const undefined = 0; }",
+                "a ??= b"
+            ].join("\n"),
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: [
+                "if (a == undefined) a = b",
+                "{ const undefined = 0; }"
+            ].join("\n"),
+            output: [
+                "a ??= b",
+                "{ const undefined = 0; }"
+            ].join("\n"),
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        },
+
+        // > Yoda
+        {
+            code: "if (null == a) a = b",
+            output: "a ??= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (undefined == a) a = b",
+            output: "a ??= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (undefined === a || a === null) a = b",
+            output: "a ??= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (a === undefined || null === a) a = b",
+            output: "a ??= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (undefined === a || null === a) a = b",
+            output: "a ??= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (null === a || a === undefined) a = b",
+            output: "a ??= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (a === null || undefined === a) a = b",
+            output: "a ??= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (null === a || undefined === a) a = b",
+            output: "a ??= b",
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
         },
