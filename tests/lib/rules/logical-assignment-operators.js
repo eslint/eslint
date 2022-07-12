@@ -482,43 +482,19 @@ ruleTester.run("logical-assignment-operators", rule, {
             errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||" } }]
         },
 
-        // > Suggestions
+        // > Possible Getter
         {
             code: "a.b || (a.b = c)",
-            output: null,
-            errors: [{
-                messageId: "logical",
-                type: "LogicalExpression",
-                data: { operator: "||" },
-                suggestions: [{
-                    messageId: "convertLogical",
-                    output: "a.b ||= c"
-                }]
-            }]
+            output: "a.b ||= c",
+            errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||" } }]
         }, {
             code: "foo.bar || (foo.bar = baz)",
-            output: null,
-            errors: [{
-                messageId: "logical",
-                type: "LogicalExpression",
-                data: { operator: "||" },
-                suggestions: [{
-                    messageId: "convertLogical",
-                    output: "foo.bar ||= baz"
-                }]
-            }]
+            output: "foo.bar ||= baz",
+            errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||" } }]
         }, {
             code: "with (object) a.b || (a.b = c)",
-            output: null,
-            errors: [{
-                messageId: "logical",
-                type: "LogicalExpression",
-                data: { operator: "||" },
-                suggestions: [{
-                    messageId: "convertLogical",
-                    output: "with (object) a.b ||= c"
-                }]
-            }]
+            output: "with (object) a.b ||= c",
+            errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||" } }]
         },
 
         // If
