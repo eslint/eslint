@@ -752,6 +752,49 @@ ruleTester.run("logical-assignment-operators", rule, {
             errors: [{ messageId: "if", type: "IfStatement" }]
         },
 
+        // > Removing Parenthesis
+        {
+            code: ";if (a) (a) = b",
+            output: ";(a) &&= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "fn();if (a) (a) = b",
+            output: "fn();(a) &&= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "id\nif (a) (a) = b",
+            output: "id\na &&= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "fn()\nif (a) (a) = b",
+            output: "fn()\na &&= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "fn()\nif (a) ((a)) = b",
+            output: "fn()\na &&= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "fn()\nif (a) ( a ) = b",
+            output: "fn()\n a  &&= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "fn()\nif (a) (a)= b",
+            output: "fn()\na&&= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "fn()\nif (a) (a)\n= b",
+            output: "fn()\na\n&&= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        },
+
         // > Spacing
         {
             code: "if (a) a  =  b",
