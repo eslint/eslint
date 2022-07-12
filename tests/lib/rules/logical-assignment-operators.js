@@ -704,8 +704,8 @@ ruleTester.run("logical-assignment-operators", rule, {
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
-            code: "if (a) { a = b }",
-            output: "a &&= b",
+            code: "if (a) { a = b; }",
+            output: "a &&= b;",
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
@@ -841,6 +841,39 @@ ruleTester.run("logical-assignment-operators", rule, {
             errors: [{ messageId: "if", type: "IfStatement" }]
         },
 
+        // > Adding semicolon
+        {
+            code: "if (a) a = b; fn();",
+            output: "a &&= b; fn();",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (a) { a = b }",
+            output: "a &&= b;",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (a) { a = b; }\nfn();",
+            output: "a &&= b;\nfn();",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (a) { a = b }\nfn();",
+            output: "a &&= b;\nfn();",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (a) { a = b } fn();",
+            output: "a &&= b; fn();",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (a) { a = b\n} fn();",
+            output: "a &&= b; fn();",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        },
+
         // > Spacing
         {
             code: "if (a) a  =  b",
@@ -853,8 +886,8 @@ ruleTester.run("logical-assignment-operators", rule, {
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
-            code: "if (a) {\n a = b \n}",
-            output: "a &&= b",
+            code: "if (a) {\n a = b; \n}",
+            output: "a &&= b;",
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
         },
