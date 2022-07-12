@@ -43,7 +43,7 @@ Once the bot checks have been satisfied, you check the following:
 
 TSC members, Reviewers, Committers, and Website Team Members may merge pull requests, depending on the contents of the pull request.
 
-Website Team Members may merge a pull request in the `eslint.org` repository or the `docs` directory in the `eslint` directory if it is:
+Website Team Members may merge a pull request in the `eslint.org` repository if it is:
 
 1. A documentation change
 1. A dependency upgrade
