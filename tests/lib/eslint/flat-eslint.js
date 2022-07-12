@@ -4082,7 +4082,7 @@ describe("FlatESLint", () => {
 
         describe("ignores can add ignore patterns ('**/foo.js', '/bar.js').", () => {
             const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
+                cwd: root + Date.now(),
                 files: {
                     "eslint.config.js": `module.exports = {
                         ignores: ["**/foo.js", "bar.js"]
@@ -4120,10 +4120,10 @@ describe("FlatESLint", () => {
                     .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, "baz.js"),
-                    path.join(root, "eslint.config.js"),
-                    path.join(root, "subdir/bar.js"),
-                    path.join(root, "subdir/baz.js")
+                    path.join(getPath(), "baz.js"),
+                    path.join(getPath(), "eslint.config.js"),
+                    path.join(getPath(), "subdir/bar.js"),
+                    path.join(getPath(), "subdir/baz.js")
                 ]);
             });
         });
@@ -4302,7 +4302,7 @@ describe("FlatESLint", () => {
 
     });
 
-    describe("config.files' adds lint targets", () => {
+    describe("config.files adds lint targets", () => {
         const root = getFixturePath("cli-engine/additional-lint-targets");
 
 
@@ -4562,10 +4562,15 @@ describe("FlatESLint", () => {
                         filePath: path.join(getPath(), "node_modules/myconf/foo/test.js"),
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
-                        messages: [],
+                        messages: [
+                            {
+                                fatal: false,
+                                message: "File ignored by default. Use \"--ignore-pattern '!node_modules/*'\" to override.",
+                                severity: 1
+                            }
+                        ],
                         usedDeprecatedRules: [],
-                        warningCount: 0,
-                        fatalErrorCount: 0
+                        warningCount: 1
                     }
                 ]);
             });
@@ -4671,7 +4676,7 @@ describe("FlatESLint", () => {
             beforeEach(prepare);
             afterEach(cleanup);
 
-            it("'lintFiles()' with '**/*.js' should iterate 'node_modules/myconf/foo/test.js' but not 'foo/test.js'.", async () => {
+            it.only("'lintFiles()' with '**/*.js' should iterate 'node_modules/myconf/foo/test.js' but not 'foo/test.js'.", async () => {
                 const engine = new FlatESLint({
                     overrideConfigFile: "node_modules/myconf/eslint.config.js",
                     cwd: getPath()
