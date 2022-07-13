@@ -1116,5 +1116,33 @@ ruleTester.run("logical-assignment-operators", rule, {
             output: "a = a && (b && c)",
             options: ["never"],
             errors: [{ messageId: "unexpected", type: "AssignmentExpression", data: { operator: "&&=" } }]
+        },
+
+        // > Mixed
+        {
+            code: "a ??= b || c",
+            output: "a = a ?? (b || c)",
+            options: ["never"],
+            errors: [{ messageId: "unexpected", type: "AssignmentExpression", data: { operator: "??=" } }]
+        }, {
+            code: "a ??= b && c",
+            output: "a = a ?? (b && c)",
+            options: ["never"],
+            errors: [{ messageId: "unexpected", type: "AssignmentExpression", data: { operator: "??=" } }]
+        }, {
+            code: "a ??= b ?? c",
+            output: "a = a ?? (b ?? c)",
+            options: ["never"],
+            errors: [{ messageId: "unexpected", type: "AssignmentExpression", data: { operator: "??=" } }]
+        }, {
+            code: "a ??= (b || c)",
+            output: "a = a ?? (b || c)",
+            options: ["never"],
+            errors: [{ messageId: "unexpected", type: "AssignmentExpression", data: { operator: "??=" } }]
+        }, {
+            code: "a ??= b + c",
+            output: "a = a ?? b + c",
+            options: ["never"],
+            errors: [{ messageId: "unexpected", type: "AssignmentExpression", data: { operator: "??=" } }]
         }]
 });
