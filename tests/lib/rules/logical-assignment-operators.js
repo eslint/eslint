@@ -516,6 +516,28 @@ ruleTester.run("logical-assignment-operators", rule, {
             code: "if (condition) a = a || b",
             output: "if (condition) a ||= b",
             errors: [{ messageId: "assignment", type: "AssignmentExpression", data: { operator: "||" }, suggestions: [] }]
+        }, {
+            code: [
+                "with (object) {",
+                '  "use strict";',
+                "   a = a || b",
+                "}"
+            ].join("\n"),
+            output: null,
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "||" },
+                suggestions: [{
+                    messageId: "useLogicalOperator",
+                    output: [
+                        "with (object) {",
+                        '  "use strict";',
+                        "   a ||= b",
+                        "}"
+                    ].join("\n")
+                }]
+            }]
         },
 
         // > Context
