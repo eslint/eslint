@@ -820,10 +820,15 @@ ruleTester.run("logical-assignment-operators", rule, {
             errors: [{ messageId: "if", type: "IfStatement" }]
         },
 
-        // > Removing Parenthesis
+        // > Previous statement
         {
             code: ";if (a) (a) = b",
             output: ";(a) &&= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "{ if (a) (a) = b }",
+            output: "{ (a) &&= b }",
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
@@ -832,33 +837,28 @@ ruleTester.run("logical-assignment-operators", rule, {
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
+            code: "fn()\nif (a) a = b",
+            output: "fn()\na &&= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
             code: "id\nif (a) (a) = b",
-            output: "id\na &&= b",
+            output: null,
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "object.prop\nif (a) (a) = b",
+            output: null,
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "object[computed]\nif (a) (a) = b",
+            output: null,
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
             code: "fn()\nif (a) (a) = b",
-            output: "fn()\na &&= b",
-            options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
-        }, {
-            code: "fn()\nif (a) ((a)) = b",
-            output: "fn()\na &&= b",
-            options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
-        }, {
-            code: "fn()\nif (a) ( a ) = b",
-            output: "fn()\n a  &&= b",
-            options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
-        }, {
-            code: "fn()\nif (a) (a)= b",
-            output: "fn()\na&&= b",
-            options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
-        }, {
-            code: "fn()\nif (a) (a)\n= b",
-            output: "fn()\na\n&&= b",
+            output: null,
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
         },
