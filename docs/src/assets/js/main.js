@@ -278,5 +278,5 @@ if (index) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    anchors.add(".docs-content h2, .docs-content h3, .docs-content h4, .blog h2, .blog h3, .blog h4");
+    anchors.add(".docs-content h2, .docs-content h3, .docs-content h4");
 });
