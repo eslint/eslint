@@ -264,7 +264,7 @@ let obj = {
 
 :::
 
-### minKeys
+### allowLineSeparatedGroups
 
 Examples of **incorrect** code for the `{allowLineSeparatedGroups: true}` option:
 
@@ -311,7 +311,7 @@ let obj4 = {
 
 :::
 
-Examples of **correct** code for the `{minKeys: 4}` option:
+Examples of **correct** code for the `{allowLineSeparatedGroups: true}` option:
 
 ::: correct
 
