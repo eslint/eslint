@@ -333,6 +333,20 @@ ruleTester.run("sort-keys", rule, {
             `,
             options: ["asc", { allowLineSeparatedGroups: true }],
             parserOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: `
+                var obj = {
+                  b,
+
+                  [foo()]: [
+
+                  ],
+                  a
+                }
+            `,
+            options: ["asc", { allowLineSeparatedGroups: true }],
+            parserOptions: { ecmaVersion: 2018 }
         }
     ],
     invalid: [
@@ -2160,6 +2174,32 @@ ruleTester.run("sort-keys", rule, {
             `,
             options: ["asc", { allowLineSeparatedGroups: true }],
             parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "a",
+                        prevName: "b"
+                    }
+                }
+            ]
+        },
+        {
+            code: `
+                let obj = {
+                  b,
+                  [foo()]: [
+                  // ↓ this blank is inside a property and therefore should not count
+
+                  ],
+                  a
+                }
+            `,
+            options: ["asc", { allowLineSeparatedGroups: true }],
+            parserOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "sortKeys",
