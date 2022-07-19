@@ -76,15 +76,6 @@ describe("FlatESLint", () => {
         });
     }
 
-    /**
-     * Call the last argument.
-     * @param {any[]} args Arguments
-     * @returns {void}
-     */
-    function callLastArgument(...args) {
-        process.nextTick(args[args.length - 1], null);
-    }
-
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(function() {
 
@@ -3792,7 +3783,7 @@ describe("FlatESLint", () => {
 
         it("should call fs.writeFile() for each result with output", async () => {
             const fakeFS = {
-                writeFile: sinon.spy(callLastArgument)
+                writeFile: sinon.spy(() => Promise.resolve())
             };
             const spy = fakeFS.writeFile;
             const { FlatESLint: localESLint } = proxyquire("../../../lib/eslint/flat-eslint", {
@@ -3813,13 +3804,13 @@ describe("FlatESLint", () => {
             await localESLint.outputFixes(results);
 
             assert.strictEqual(spy.callCount, 2);
-            assert(spy.firstCall.calledWithExactly(path.resolve("foo.js"), "bar", sinon.match.func), "First call was incorrect.");
-            assert(spy.secondCall.calledWithExactly(path.resolve("bar.js"), "baz", sinon.match.func), "Second call was incorrect.");
+            assert(spy.firstCall.calledWithExactly(path.resolve("foo.js"), "bar"), "First call was incorrect.");
+            assert(spy.secondCall.calledWithExactly(path.resolve("bar.js"), "baz"), "Second call was incorrect.");
         });
 
         it("should call fs.writeFile() for each result with output and not at all for a result without output", async () => {
             const fakeFS = {
-                writeFile: sinon.spy(callLastArgument)
+                writeFile: sinon.spy(() => Promise.resolve())
             };
             const spy = fakeFS.writeFile;
             const { FlatESLint: localESLint } = proxyquire("../../../lib/eslint/flat-eslint", {
@@ -3842,8 +3833,8 @@ describe("FlatESLint", () => {
             await localESLint.outputFixes(results);
 
             assert.strictEqual(spy.callCount, 2, "Call count was wrong");
-            assert(spy.firstCall.calledWithExactly(path.resolve("foo.js"), "bar", sinon.match.func), "First call was incorrect.");
-            assert(spy.secondCall.calledWithExactly(path.resolve("bar.js"), "baz", sinon.match.func), "Second call was incorrect.");
+            assert(spy.firstCall.calledWithExactly(path.resolve("foo.js"), "bar"), "First call was incorrect.");
+            assert(spy.secondCall.calledWithExactly(path.resolve("bar.js"), "baz"), "Second call was incorrect.");
         });
 
         it("should throw if non object array is given to 'results' parameter", async () => {
