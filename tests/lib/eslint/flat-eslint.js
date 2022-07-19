@@ -2964,8 +2964,7 @@ describe("FlatESLint", () => {
         });
     });
 
-
-    xdescribe("Fix Types", () => {
+    describe("Fix Types", () => {
 
         let eslint;
 
@@ -3037,66 +3036,7 @@ describe("FlatESLint", () => {
 
             assert.strictEqual(results[0].output, expectedOutput);
         });
-
-        it("should not throw an error when a rule doesn't have a 'meta' property", async () => {
-            eslint = new FlatESLint({
-                cwd: path.join(fixtureDir, ".."),
-                overrideConfigFile: true,
-                fix: true,
-                fixTypes: ["layout"],
-                rulePaths: [getFixturePath("rules", "fix-types-test")]
-            });
-            const inputPath = getFixturePath("fix-types/ignore-missing-meta.js");
-            const outputPath = getFixturePath("fix-types/ignore-missing-meta.expected.js");
-            const results = await eslint.lintFiles([inputPath]);
-            const expectedOutput = fs.readFileSync(outputPath, "utf8");
-
-            assert.strictEqual(results[0].output, expectedOutput);
-        });
-
-        it("should not throw an error when a rule is loaded after initialization with lintFiles()", async () => {
-            eslint = new FlatESLint({
-                cwd: path.join(fixtureDir, ".."),
-                overrideConfigFile: true,
-                fix: true,
-                fixTypes: ["layout"],
-                plugins: {
-                    test: {
-                        rules: {
-                            "no-program": require(getFixturePath("rules", "fix-types-test", "no-program.js"))
-                        }
-                    }
-                }
-            });
-            const inputPath = getFixturePath("fix-types/ignore-missing-meta.js");
-            const outputPath = getFixturePath("fix-types/ignore-missing-meta.expected.js");
-            const results = await eslint.lintFiles([inputPath]);
-            const expectedOutput = fs.readFileSync(outputPath, "utf8");
-
-            assert.strictEqual(results[0].output, expectedOutput);
-        });
-
-        it("should not throw an error when a rule is loaded after initialization with lintText()", async () => {
-            eslint = new FlatESLint({
-                cwd: path.join(fixtureDir, ".."),
-                overrideConfigFile: true,
-                fix: true,
-                fixTypes: ["layout"],
-                plugins: {
-                    test: {
-                        rules: {
-                            "no-program": require(getFixturePath("rules", "fix-types-test", "no-program.js"))
-                        }
-                    }
-                }
-            });
-            const inputPath = getFixturePath("fix-types/ignore-missing-meta.js");
-            const outputPath = getFixturePath("fix-types/ignore-missing-meta.expected.js");
-            const results = await eslint.lintText(fs.readFileSync(inputPath, { encoding: "utf8" }), { filePath: inputPath });
-            const expectedOutput = fs.readFileSync(outputPath, "utf8");
-
-            assert.strictEqual(results[0].output, expectedOutput);
-        });
+    
     });
 
     describe("isPathIgnored", () => {
@@ -4657,13 +4597,13 @@ describe("FlatESLint", () => {
             });
         });
 
-        describe("if { ignores: 'foo/*.js', ... } is present by '--config node_modules/myconf/eslint.config.js',", () => {
+        // dependent on https://github.com/mrmlnc/fast-glob/issues/86
+        xdescribe("if { ignores: 'foo/*.js', ... } is present by '--config node_modules/myconf/eslint.config.js',", () => {
             const { prepare, cleanup, getPath } = createCustomTeardown({
                 cwd: `${root}a3`,
                 files: {
                     "node_modules/myconf/eslint.config.js": `module.exports = {
-                        //files: ["**/*"],
-                        ignores: ["**/eslint.config.js", "!/node_modules/myconf", "foo/*.js"],
+                        ignores: ["**/eslint.config.js", "!node_modules/myconf", "foo/*.js"],
                         rules: {
                             eqeqeq: "error"
                         }
@@ -4676,7 +4616,7 @@ describe("FlatESLint", () => {
             beforeEach(prepare);
             afterEach(cleanup);
 
-            it.only("'lintFiles()' with '**/*.js' should iterate 'node_modules/myconf/foo/test.js' but not 'foo/test.js'.", async () => {
+            it("'lintFiles()' with '**/*.js' should iterate 'node_modules/myconf/foo/test.js' but not 'foo/test.js'.", async () => {
                 const engine = new FlatESLint({
                     overrideConfigFile: "node_modules/myconf/eslint.config.js",
                     cwd: getPath()
