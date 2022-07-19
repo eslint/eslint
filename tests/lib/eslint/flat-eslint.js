@@ -268,6 +268,7 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[0].errorCount, 1);
             assert.strictEqual(results[0].fixableErrorCount, 1);
             assert.strictEqual(results[0].warningCount, 0);
+            assert.strictEqual(results[0].fatalErrorCount, 0);
             assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
         });
 
@@ -299,6 +300,7 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[0].messages[0].output, void 0);
             assert.strictEqual(results[0].errorCount, 0);
             assert.strictEqual(results[0].warningCount, 1);
+            assert.strictEqual(results[0].fatalErrorCount, 0);
             assert.strictEqual(results[0].fixableErrorCount, 0);
             assert.strictEqual(results[0].fixableWarningCount, 0);
             assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
@@ -778,6 +780,7 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[0].messages[0].severity, 2);
             assert.strictEqual(results[0].errorCount, 1);
             assert.strictEqual(results[0].warningCount, 0);
+            assert.strictEqual(results[0].fatalErrorCount, 0);
             assert.strictEqual(results[0].fixableErrorCount, 1);
             assert.strictEqual(results[0].fixableWarningCount, 0);
         });
@@ -852,6 +855,7 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].errorCount, 0);
                 assert.strictEqual(results[0].warningCount, 1);
+                assert.strictEqual(results[0].fatalErrorCount, 0);
                 assert.strictEqual(results[0].fixableErrorCount, 0);
                 assert.strictEqual(results[0].fixableWarningCount, 0);
                 assert.strictEqual(results[0].messages[0].message, expectedMsg);
@@ -872,6 +876,7 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].errorCount, 1);
                 assert.strictEqual(results[0].warningCount, 0);
+                assert.strictEqual(results[0].fatalErrorCount, 0);
                 assert.strictEqual(results[0].fixableErrorCount, 1);
                 assert.strictEqual(results[0].fixableWarningCount, 0);
             });
@@ -946,6 +951,7 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].errorCount, 0);
                 assert.strictEqual(results[0].warningCount, 0);
+                assert.strictEqual(results[0].fatalErrorCount, 0);
                 assert.strictEqual(results[0].fixableErrorCount, 0);
                 assert.strictEqual(results[0].fixableWarningCount, 0);
             });
@@ -993,6 +999,7 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override.");
                 assert.strictEqual(results[0].errorCount, 0);
                 assert.strictEqual(results[0].warningCount, 1);
+                assert.strictEqual(results[0].fatalErrorCount, 0);
                 assert.strictEqual(results[0].fixableErrorCount, 0);
                 assert.strictEqual(results[0].fixableWarningCount, 0);
             });
@@ -1055,6 +1062,7 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[0].messages[0].severity, 2);
             assert.strictEqual(results[0].errorCount, 1);
             assert.strictEqual(results[0].warningCount, 0);
+            assert.strictEqual(results[0].fatalErrorCount, 0);
             assert.strictEqual(results[0].fixableErrorCount, 1);
             assert.strictEqual(results[0].fixableWarningCount, 0);
         });
@@ -1078,30 +1086,35 @@ describe("FlatESLint", () => {
             assert.strictEqual(path.relative(formattersDir, results[0].filePath), "async.js");
             assert.strictEqual(results[0].errorCount, 0);
             assert.strictEqual(results[0].warningCount, 0);
+            assert.strictEqual(results[0].fatalErrorCount, 0);
             assert.strictEqual(results[0].fixableErrorCount, 0);
             assert.strictEqual(results[0].fixableWarningCount, 0);
             assert.strictEqual(results[0].messages.length, 0);
             assert.strictEqual(path.relative(formattersDir, results[1].filePath), "broken.js");
             assert.strictEqual(results[1].errorCount, 0);
             assert.strictEqual(results[1].warningCount, 0);
+            assert.strictEqual(results[1].fatalErrorCount, 0);
             assert.strictEqual(results[1].fixableErrorCount, 0);
             assert.strictEqual(results[1].fixableWarningCount, 0);
             assert.strictEqual(results[1].messages.length, 0);
             assert.strictEqual(path.relative(formattersDir, results[2].filePath), "cwd.js");
             assert.strictEqual(results[2].errorCount, 0);
             assert.strictEqual(results[2].warningCount, 0);
+            assert.strictEqual(results[2].fatalErrorCount, 0);
             assert.strictEqual(results[2].fixableErrorCount, 0);
             assert.strictEqual(results[2].fixableWarningCount, 0);
             assert.strictEqual(results[2].messages.length, 0);
             assert.strictEqual(path.relative(formattersDir, results[3].filePath), "simple.js");
             assert.strictEqual(results[3].errorCount, 0);
             assert.strictEqual(results[3].warningCount, 0);
+            assert.strictEqual(results[3].fatalErrorCount, 0);
             assert.strictEqual(results[3].fixableErrorCount, 0);
             assert.strictEqual(results[3].fixableWarningCount, 0);
             assert.strictEqual(results[3].messages.length, 0);
             assert.strictEqual(path.relative(formattersDir, results[4].filePath), path.join("test", "simple.js"));
             assert.strictEqual(results[4].errorCount, 0);
             assert.strictEqual(results[4].warningCount, 0);
+            assert.strictEqual(results[4].fatalErrorCount, 0);
             assert.strictEqual(results[4].fixableErrorCount, 0);
             assert.strictEqual(results[4].fixableWarningCount, 0);
             assert.strictEqual(results[4].messages.length, 0);
@@ -3690,6 +3703,7 @@ describe("FlatESLint", () => {
                         ],
                         errorCount: 2,
                         warningCount: 0,
+                        fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         source:
@@ -3771,7 +3785,7 @@ describe("FlatESLint", () => {
         });
     });
 
-    xdescribe("outputFixes()", () => {
+    describe("outputFixes()", () => {
         afterEach(() => {
             sinon.verifyAndRestore();
         });
@@ -3782,7 +3796,7 @@ describe("FlatESLint", () => {
             };
             const spy = fakeFS.writeFile;
             const { FlatESLint: localESLint } = proxyquire("../../../lib/eslint/flat-eslint", {
-                fs: fakeFS
+                "fs/promises": fakeFS
             });
 
             const results = [
@@ -3809,7 +3823,7 @@ describe("FlatESLint", () => {
             };
             const spy = fakeFS.writeFile;
             const { FlatESLint: localESLint } = proxyquire("../../../lib/eslint/flat-eslint", {
-                fs: fakeFS
+                "fs/promises": fakeFS
             });
             const results = [
                 {
@@ -3927,7 +3941,7 @@ describe("FlatESLint", () => {
         });
     });
 
-    describe("when retreiving version number", () => {
+    describe("when retrieving version number", () => {
         it("should return current version number", () => {
             const eslintCLI = require("../../../lib/eslint/flat-eslint").FlatESLint;
             const version = eslintCLI.version;
@@ -4510,7 +4524,8 @@ describe("FlatESLint", () => {
                             }
                         ],
                         usedDeprecatedRules: [],
-                        warningCount: 1
+                        warningCount: 1,
+                        fatalErrorCount: 0
                     }
                 ]);
             });
@@ -4632,374 +4647,4 @@ describe("FlatESLint", () => {
         });
     });
 
-    xdescribe("plugin conflicts", () => {
-        let uid = 0;
-        const root = getFixturePath("cli-engine/plugin-conflicts-");
-
-        /**
-         * Verify thrown errors.
-         * @param {() => Promise<any>} f The function to run and throw.
-         * @param {Record<string, any>} props The properties to verify.
-         * @returns {Promise<void>} void
-         */
-        async function assertThrows(f, props) {
-            try {
-                await f();
-            } catch (error) {
-                for (const [key, value] of Object.entries(props)) {
-                    assert.deepStrictEqual(error[key], value, key);
-                }
-                return;
-            }
-
-            assert.fail("Function should throw an error, but not.");
-        }
-
-        describe("between a config file and linear extendees.", () => {
-
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: `${root}${++uid}`,
-                files: {
-                    "node_modules/eslint-plugin-foo/index.js": "",
-                    "node_modules/eslint-config-one/node_modules/eslint-plugin-foo/index.js": "",
-                    "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
-                        extends: ["two"],
-                        plugins: ["foo"]
-                    })}`,
-                    "node_modules/eslint-config-two/node_modules/eslint-plugin-foo/index.js": "",
-                    "node_modules/eslint-config-two/index.js": `module.exports = ${JSON.stringify({
-                        plugins: ["foo"]
-                    })}`,
-                    ".eslintrc.json": JSON.stringify({
-                        extends: ["one"],
-                        plugins: ["foo"]
-                    }),
-                    "test.js": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'lintFiles()' should NOT throw plugin-conflict error. (Load the plugin from the base directory of the entry config file.)", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                await engine.lintFiles("test.js");
-            });
-        });
-
-        describe("between a config file and same-depth extendees.", () => {
-
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: `${root}${++uid}`,
-                files: {
-                    "node_modules/eslint-plugin-foo/index.js": "",
-                    "node_modules/eslint-config-one/node_modules/eslint-plugin-foo/index.js": "",
-                    "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
-                        plugins: ["foo"]
-                    })}`,
-                    "node_modules/eslint-config-two/node_modules/eslint-plugin-foo/index.js": "",
-                    "node_modules/eslint-config-two/index.js": `module.exports = ${JSON.stringify({
-                        plugins: ["foo"]
-                    })}`,
-                    ".eslintrc.json": JSON.stringify({
-                        extends: ["one", "two"],
-                        plugins: ["foo"]
-                    }),
-                    "test.js": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'lintFiles()' should NOT throw plugin-conflict error. (Load the plugin from the base directory of the entry config file.)", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                await engine.lintFiles("test.js");
-            });
-        });
-
-        describe("between two config files in different directories, with single node_modules.", () => {
-
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: `${root}${++uid}`,
-                files: {
-                    "node_modules/eslint-plugin-foo/index.js": "",
-                    ".eslintrc.json": JSON.stringify({
-                        plugins: ["foo"]
-                    }),
-                    "subdir/.eslintrc.json": JSON.stringify({
-                        plugins: ["foo"]
-                    }),
-                    "subdir/test.js": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'lintFiles()' should NOT throw plugin-conflict error. (Load the plugin from the base directory of the entry config file, but there are two entry config files, but node_modules directory is unique.)", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                await engine.lintFiles("subdir/test.js");
-            });
-        });
-
-        describe("between two config files in different directories, with multiple node_modules.", () => {
-
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: `${root}${++uid}`,
-                files: {
-                    "node_modules/eslint-plugin-foo/index.js": "",
-                    ".eslintrc.json": JSON.stringify({
-                        plugins: ["foo"]
-                    }),
-                    "subdir/node_modules/eslint-plugin-foo/index.js": "",
-                    "subdir/.eslintrc.json": JSON.stringify({
-                        plugins: ["foo"]
-                    }),
-                    "subdir/test.js": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'lintFiles()' should throw plugin-conflict error. (Load the plugin from the base directory of the entry config file, but there are two entry config files.)", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-
-                await assertThrows(
-                    () => engine.lintFiles("subdir/test.js"),
-                    {
-                        message: `Plugin "foo" was conflicted between "subdir${path.sep}.eslintrc.json" and ".eslintrc.json".`,
-                        messageTemplate: "plugin-conflict",
-                        messageData: {
-                            pluginId: "foo",
-                            plugins: [
-                                {
-                                    filePath: path.join(getPath(), "subdir/node_modules/eslint-plugin-foo/index.js"),
-                                    importerName: `subdir${path.sep}.eslintrc.json`
-                                },
-                                {
-                                    filePath: path.join(getPath(), "node_modules/eslint-plugin-foo/index.js"),
-                                    importerName: ".eslintrc.json"
-                                }
-                            ]
-                        }
-                    }
-                );
-            });
-        });
-
-        describe("between '--config' option and a regular config file, with single node_modules.", () => {
-
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: `${root}${++uid}`,
-                files: {
-                    "node_modules/eslint-plugin-foo/index.js": "",
-                    "node_modules/mine/.eslintrc.json": JSON.stringify({
-                        plugins: ["foo"]
-                    }),
-                    ".eslintrc.json": JSON.stringify({
-                        plugins: ["foo"]
-                    }),
-                    "test.js": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'lintFiles()' should NOT throw plugin-conflict error. (Load the plugin from the base directory of the entry config file, but there are two entry config files, but node_modules directory is unique.)", async () => {
-                const engine = new FlatESLint({
-                    cwd: getPath(),
-                    overrideConfigFile: "node_modules/mine/.eslintrc.json"
-                });
-
-                await engine.lintFiles("test.js");
-            });
-        });
-
-        describe("between '--config' option and a regular config file, with multiple node_modules.", () => {
-
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: `${root}${++uid}`,
-                files: {
-                    "node_modules/eslint-plugin-foo/index.js": "",
-                    "node_modules/mine/node_modules/eslint-plugin-foo/index.js": "",
-                    "node_modules/mine/.eslintrc.json": JSON.stringify({
-                        plugins: ["foo"]
-                    }),
-                    ".eslintrc.json": JSON.stringify({
-                        plugins: ["foo"]
-                    }),
-                    "test.js": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'lintFiles()' should throw plugin-conflict error. (Load the plugin from the base directory of the entry config file, but there are two entry config files.)", async () => {
-                const engine = new FlatESLint({
-                    cwd: getPath(),
-                    overrideConfigFile: "node_modules/mine/.eslintrc.json"
-                });
-
-                await assertThrows(
-                    () => engine.lintFiles("test.js"),
-                    {
-                        message: "Plugin \"foo\" was conflicted between \"--config\" and \".eslintrc.json\".",
-                        messageTemplate: "plugin-conflict",
-                        messageData: {
-                            pluginId: "foo",
-                            plugins: [
-                                {
-                                    filePath: path.join(getPath(), "node_modules/mine/node_modules/eslint-plugin-foo/index.js"),
-                                    importerName: "--config"
-                                },
-                                {
-                                    filePath: path.join(getPath(), "node_modules/eslint-plugin-foo/index.js"),
-                                    importerName: ".eslintrc.json"
-                                }
-                            ]
-                        }
-                    }
-                );
-            });
-        });
-
-        describe("between '--plugin' option and a regular config file, with single node_modules.", () => {
-
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: `${root}${++uid}`,
-                files: {
-                    "node_modules/eslint-plugin-foo/index.js": "",
-                    "subdir/.eslintrc.json": JSON.stringify({
-                        plugins: ["foo"]
-                    }),
-                    "subdir/test.js": ""
-                }
-            });
-
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'lintFiles()' should NOT throw plugin-conflict error. (Load the plugin from both CWD and the base directory of the entry config file, but node_modules directory is unique.)", async () => {
-                const engine = new FlatESLint({
-                    cwd: getPath(),
-                    overrideConfig: { plugins: ["foo"] }
-                });
-
-                await engine.lintFiles("subdir/test.js");
-            });
-        });
-
-        describe("between '--plugin' option and a regular config file, with multiple node_modules.", () => {
-
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: `${root}${++uid}`,
-                files: {
-                    "node_modules/eslint-plugin-foo/index.js": "",
-                    "subdir/node_modules/eslint-plugin-foo/index.js": "",
-                    "subdir/.eslintrc.json": JSON.stringify({
-                        plugins: ["foo"]
-                    }),
-                    "subdir/test.js": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'lintFiles()' should throw plugin-conflict error. (Load the plugin from both CWD and the base directory of the entry config file.)", async () => {
-                const engine = new FlatESLint({
-                    cwd: getPath(),
-                    overrideConfig: { plugins: ["foo"] }
-                });
-
-                await assertThrows(
-                    () => engine.lintFiles("subdir/test.js"),
-                    {
-                        message: `Plugin "foo" was conflicted between "CLIOptions" and "subdir${path.sep}.eslintrc.json".`,
-                        messageTemplate: "plugin-conflict",
-                        messageData: {
-                            pluginId: "foo",
-                            plugins: [
-                                {
-                                    filePath: path.join(getPath(), "node_modules/eslint-plugin-foo/index.js"),
-                                    importerName: "CLIOptions"
-                                },
-                                {
-                                    filePath: path.join(getPath(), "subdir/node_modules/eslint-plugin-foo/index.js"),
-                                    importerName: `subdir${path.sep}.eslintrc.json`
-                                }
-                            ]
-                        }
-                    }
-                );
-            });
-        });
-
-        describe("'--resolve-plugins-relative-to' option overrides the location that ESLint load plugins from.", () => {
-
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: `${root}${++uid}`,
-                files: {
-                    "node_modules/eslint-plugin-foo/index.js": "",
-                    ".eslintrc.json": JSON.stringify({
-                        plugins: ["foo"]
-                    }),
-                    "subdir/node_modules/eslint-plugin-foo/index.js": "",
-                    "subdir/.eslintrc.json": JSON.stringify({
-                        plugins: ["foo"]
-                    }),
-                    "subdir/test.js": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'lintFiles()' should NOT throw plugin-conflict error. (Load the plugin from '--resolve-plugins-relative-to'.)", async () => {
-                const engine = new FlatESLint({
-                    cwd: getPath(),
-                    resolvePluginsRelativeTo: getPath()
-                });
-
-                await engine.lintFiles("subdir/test.js");
-            });
-        });
-
-        describe("between two config files with different target files.", () => {
-
-            const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: `${root}${++uid}`,
-                files: {
-                    "one/node_modules/eslint-plugin-foo/index.js": "",
-                    "one/.eslintrc.json": JSON.stringify({
-                        plugins: ["foo"]
-                    }),
-                    "one/test.js": "",
-                    "two/node_modules/eslint-plugin-foo/index.js": "",
-                    "two/.eslintrc.json": JSON.stringify({
-                        plugins: ["foo"]
-                    }),
-                    "two/test.js": ""
-                }
-            });
-
-            beforeEach(prepare);
-            afterEach(cleanup);
-
-            it("'lintFiles()' should NOT throw plugin-conflict error. (Load the plugin from the base directory of the entry config file for each target file. Not related to each other.)", async () => {
-                const engine = new FlatESLint({ cwd: getPath() });
-                const results = await engine.lintFiles("*/test.js");
-
-                assert.strictEqual(results.length, 2);
-            });
-        });
-    });
 });
