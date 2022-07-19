@@ -312,6 +312,17 @@ ruleTester.run("sort-keys", rule, {
             code: `
                 var obj = {
                     b: 1
+
+                    ,a: 2
+                };
+            `,
+            options: ["asc", { allowLineSeparatedGroups: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: `
+                var obj = {
+                    b: 1
                 // comment before comma
 
                 ,
@@ -1966,6 +1977,29 @@ ruleTester.run("sort-keys", rule, {
                         order: "asc",
                         thisName: "a",
                         prevName: "c"
+                    }
+                }
+            ]
+        },
+        {
+            code: `
+                let obj = {
+                    b
+
+                    ,a
+                }
+            `,
+            options: ["asc", { allowLineSeparatedGroups: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "a",
+                        prevName: "b"
                     }
                 }
             ]
