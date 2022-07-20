@@ -3788,7 +3788,9 @@ describe("FlatESLint", () => {
             };
             const spy = fakeFS.writeFile;
             const { FlatESLint: localESLint } = proxyquire("../../../lib/eslint/flat-eslint", {
-                "fs/promises": fakeFS
+                fs: {
+                    promises: fakeFS
+                }
             });
 
             const results = [
@@ -3815,7 +3817,9 @@ describe("FlatESLint", () => {
             };
             const spy = fakeFS.writeFile;
             const { FlatESLint: localESLint } = proxyquire("../../../lib/eslint/flat-eslint", {
-                "fs/promises": fakeFS
+                fs: {
+                    promises: fakeFS
+                }
             });
             const results = [
                 {
