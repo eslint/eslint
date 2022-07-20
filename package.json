@@ -141,7 +141,7 @@
     "pirates": "^4.0.5",
     "progress": "^2.0.3",
     "proxyquire": "^2.0.1",
-    "puppeteer": "^9.1.1",
+    "puppeteer": "^13.7.0",
     "recast": "^0.20.4",
     "regenerator-runtime": "^0.13.2",
     "semver": "^7.3.5",
