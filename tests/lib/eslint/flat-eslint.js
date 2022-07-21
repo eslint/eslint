@@ -12,6 +12,7 @@
 
 const assert = require("assert");
 const fs = require("fs");
+const fsp = fs.promises;
 const os = require("os");
 const path = require("path");
 const escapeStringRegExp = require("escape-string-regexp");
@@ -2488,7 +2489,7 @@ describe("FlatESLint", () => {
             let id;
 
             beforeEach(() => (id = Date.now().toString()));
-            afterEach(() => fs.rmSync(root, { recursive: true, force: true }));
+            afterEach(async () => fsp.rm(root, { recursive: true, force: true }));
 
             it("should lint only JavaScript blocks if '--ext' was not given.", async () => {
                 const teardown = createCustomTeardown({
@@ -3750,7 +3751,7 @@ describe("FlatESLint", () => {
         });
 
         it("should return multiple rule meta when there are multiple linting errors from a plugin", async () => {
-            const nodePlugin = require("eslint-plugin-node");
+            const nodePlugin = require("eslint-plugin-n");
             const engine = new FlatESLint({
                 overrideConfigFile: true,
                 overrideConfig: {
@@ -3758,7 +3759,7 @@ describe("FlatESLint", () => {
                         node: nodePlugin
                     },
                     rules: {
-                        "node/no-new-require": 2,
+                        "n/no-new-require": 2,
                         semi: 2,
                         quotes: [2, "double"]
                     }
@@ -3771,7 +3772,7 @@ describe("FlatESLint", () => {
             assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
             assert.strictEqual(rulesMeta.quotes, coreRules.get("quotes").meta);
             assert.strictEqual(
-                rulesMeta["node/no-new-require"],
+                rulesMeta["n/no-new-require"],
                 nodePlugin.rules["no-new-require"].meta
             );
         });
