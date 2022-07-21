@@ -27,6 +27,10 @@ describe("unsupported-api", () => {
         assert.isFunction(api.FlatESLint);
     });
 
+    it("should have FlatRuleTester exposed", () => {
+        assert.isFunction(api.FlatRuleTester);
+    });
+
     it("should have builtinRules exposed", () => {
         assert.instanceOf(api.builtinRules, LazyLoadingRuleMap);
     });
