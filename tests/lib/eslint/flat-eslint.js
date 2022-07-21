@@ -3756,7 +3756,7 @@ describe("FlatESLint", () => {
                 overrideConfigFile: true,
                 overrideConfig: {
                     plugins: {
-                        node: nodePlugin
+                        n: nodePlugin
                     },
                     rules: {
                         "n/no-new-require": 2,
