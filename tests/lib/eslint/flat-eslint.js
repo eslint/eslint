@@ -2489,7 +2489,7 @@ describe("FlatESLint", () => {
             let id;
 
             beforeEach(() => (id = Date.now().toString()));
-            afterEach(async () => fsp.rm(root, { recursive: true, force: true }));
+            afterEach(async () => fsp.rmdir(root, { recursive: true, force: true }));
 
             it("should lint only JavaScript blocks if '--ext' was not given.", async () => {
                 const teardown = createCustomTeardown({
