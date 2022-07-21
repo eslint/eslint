@@ -138,7 +138,7 @@ module.exports = [
         files: ["lib/*"],
         ignores: ["lib/unsupported-api.js"],
         rules: {
-            "node/no-restricted-require": ["error", [
+            "n/no-restricted-require": ["error", [
                 ...createInternalFilesPatterns()
             ]]
         }
@@ -146,7 +146,7 @@ module.exports = [
     {
         files: [INTERNAL_FILES.CLI_ENGINE_PATTERN],
         rules: {
-            "node/no-restricted-require": ["error", [
+            "n/no-restricted-require": ["error", [
                 ...createInternalFilesPatterns(INTERNAL_FILES.CLI_ENGINE_PATTERN),
                 resolveAbsolutePath("lib/init/index.js")
             ]]
@@ -155,7 +155,7 @@ module.exports = [
     {
         files: [INTERNAL_FILES.INIT_PATTERN],
         rules: {
-            "node/no-restricted-require": ["error", [
+            "n/no-restricted-require": ["error", [
                 ...createInternalFilesPatterns(INTERNAL_FILES.INIT_PATTERN),
                 resolveAbsolutePath("lib/rule-tester/index.js")
             ]]
@@ -164,7 +164,7 @@ module.exports = [
     {
         files: [INTERNAL_FILES.LINTER_PATTERN],
         rules: {
-            "node/no-restricted-require": ["error", [
+            "n/no-restricted-require": ["error", [
                 ...createInternalFilesPatterns(INTERNAL_FILES.LINTER_PATTERN),
                 "fs",
                 resolveAbsolutePath("lib/cli-engine/index.js"),
@@ -176,7 +176,7 @@ module.exports = [
     {
         files: [INTERNAL_FILES.RULES_PATTERN],
         rules: {
-            "node/no-restricted-require": ["error", [
+            "n/no-restricted-require": ["error", [
                 ...createInternalFilesPatterns(INTERNAL_FILES.RULES_PATTERN),
                 "fs",
                 resolveAbsolutePath("lib/cli-engine/index.js"),
@@ -190,7 +190,7 @@ module.exports = [
     {
         files: ["lib/shared/**/*"],
         rules: {
-            "node/no-restricted-require": ["error", [
+            "n/no-restricted-require": ["error", [
                 ...createInternalFilesPatterns(),
                 resolveAbsolutePath("lib/cli-engine/index.js"),
                 resolveAbsolutePath("lib/init/index.js"),
@@ -203,7 +203,7 @@ module.exports = [
     {
         files: [INTERNAL_FILES.SOURCE_CODE_PATTERN],
         rules: {
-            "node/no-restricted-require": ["error", [
+            "n/no-restricted-require": ["error", [
                 ...createInternalFilesPatterns(INTERNAL_FILES.SOURCE_CODE_PATTERN),
                 "fs",
                 resolveAbsolutePath("lib/cli-engine/index.js"),
@@ -217,7 +217,7 @@ module.exports = [
     {
         files: [INTERNAL_FILES.RULE_TESTER_PATTERN],
         rules: {
-            "node/no-restricted-require": ["error", [
+            "n/no-restricted-require": ["error", [
                 ...createInternalFilesPatterns(INTERNAL_FILES.RULE_TESTER_PATTERN),
                 resolveAbsolutePath("lib/cli-engine/index.js"),
                 resolveAbsolutePath("lib/init/index.js")
