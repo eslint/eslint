@@ -364,6 +364,27 @@ ruleTester.run("lines-around-comment", rule, {
             parserOptions: { ecmaVersion: 2022 }
         },
 
+        // https://github.com/eslint/eslint/issues/16131
+        {
+            code: `
+            switch (foo) {
+            // this comment is allowed by allowBlockStart: true 
+                
+            case 1:    
+                bar();
+                break;
+                
+            // this comment is allowed by allowBlockEnd: true
+            }
+            `,
+            options: [{
+                allowBlockStart: true,
+                beforeLineComment: true,
+                afterLineComment: true,
+                allowBlockEnd: true
+            }]
+        },
+
         // check for block end comments
         {
             code: "var a,\n// line\n\nb;",
