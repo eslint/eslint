@@ -66,6 +66,9 @@
     offset-block-start: 2px;
 }
 
+.alert__text > p {
+    margin: 0;
+}
 
 .alert__type {
     display: block;
