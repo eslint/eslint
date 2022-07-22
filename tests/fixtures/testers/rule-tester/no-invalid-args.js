@@ -11,7 +11,7 @@
 
 module.exports = {
     meta: {
-        fixable: "code",
+        type: "problem",
         schema: [{
             type: "boolean"
         }]
