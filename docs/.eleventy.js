@@ -156,7 +156,27 @@ module.exports = function(eleventyConfig) {
         headingTag: "h2" // Heading tag when showing heading above the wrapper element
     });
 
-    // add IDs to the headers
+
+    function generateAlertMarkup(type, tokens, idx) {
+        if (tokens[idx].nesting === 1) {
+            return `
+                <aside role="note" class="alert alert--${type}">
+                    <svg class="alert__icon" aria-hidden="true" focusable="false" width="19" height="20" viewBox="0 0 19 20" fill="none">
+                        <path d="M9.49999 6.66667V10M9.49999 13.3333H9.50832M17.8333 10C17.8333 14.6024 14.1024 18.3333 9.49999 18.3333C4.89762 18.3333 1.16666 14.6024 1.16666 10C1.16666 5.39763 4.89762 1.66667 9.49999 1.66667C14.1024 1.66667 17.8333 5.39763 17.8333 10Z" stroke="currentColor" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <div class="alert__content">
+                        <span class="alert__type">${type[0].toUpperCase()}${type.slice(1)}</span>
+                        <div class="alert__text">
+            `.trim();
+        }
+
+        return `
+                        </div>
+                    </div>
+                </aside>
+        `.trim();
+    }
+
     const markdownIt = require("markdown-it");
 
     eleventyConfig.setLibrary("md",
@@ -166,6 +186,21 @@ module.exports = function(eleventyConfig) {
             })
             .use(markdownItContainer, "correct", {})
             .use(markdownItContainer, "incorrect", {})
+            .use(markdownItContainer, "warning", {
+                render(tokens, idx) {
+                    return generateAlertMarkup("warning", tokens, idx);
+                }
+            })
+            .use(markdownItContainer, "tip", {
+                render(tokens, idx) {
+                    return generateAlertMarkup("tip", tokens, idx);
+                }
+            })
+            .use(markdownItContainer, "important", {
+                render(tokens, idx) {
+                    return generateAlertMarkup("important", tokens, idx);
+                }
+            })
             .disable("code"));
 
     //------------------------------------------------------------------------------
