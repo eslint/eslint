@@ -896,6 +896,35 @@ ruleTester.run("key-spacing", rule, {
                 on: "value"
             }
         }]
+    },
+
+    // https://github.com/eslint/eslint/issues/15914
+    {
+        code: `
+            var foo = {
+                "a": "bar",
+                "𐌘": "baz"
+            };
+        `,
+        options: [{
+            align: {
+                on: "value"
+            }
+        }]
+    },
+    {
+        code: `
+            const foo = {
+                "a": "bar",
+                [𐌘]: "baz"
+            };
+        `,
+        options: [{
+            align: {
+                on: "value"
+            }
+        }],
+        parserOptions: { ecmaVersion: 6 }
     }
     ],
     invalid: [{
