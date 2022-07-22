@@ -230,6 +230,14 @@ class C {
         foo();
     }
 }
+
+switch (foo) {
+  /* what a great and wonderful day */
+
+  case 1:    
+    bar();
+    break;
+}
 ```
 
 :::
@@ -307,6 +315,14 @@ class C {
     }
 
     /* what a great and wonderful day */
+}
+
+switch (foo) {
+  case 1:    
+    bar();
+    break;
+
+  /* what a great and wonderful day */
 }
 ```
 
