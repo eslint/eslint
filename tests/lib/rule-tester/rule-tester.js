@@ -2328,6 +2328,70 @@ describe("RuleTester", () => {
             );
         });
 
+        it("should log a deprecation warning when schema is `undefined`", () => {
+            const ruleWithUndefinedSchema = {
+                meta: {
+                    type: "problem",
+                    schema: undefined
+                },
+                create(context) {
+                    return {
+                        Program(node) {
+                            context.report({ node, message: "bad" });
+                        }
+                    };
+                }
+            };
+
+            ruleTester.run("rule-with-undefined-schema", ruleWithUndefinedSchema, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", options: [{ foo: true }], errors: 1 }
+                ]
+            });
+
+            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+            assert.deepStrictEqual(
+                processStub.getCall(0).args,
+                [
+                    "\"rule-with-undefined-schema\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/developer-guide/working-with-rules#options-schemas",
+                    "DeprecationWarning"
+                ]
+            );
+        });
+
+        it("should log a deprecation warning when schema is `null`", () => {
+            const ruleWithNullSchema = {
+                meta: {
+                    type: "problem",
+                    schema: null
+                },
+                create(context) {
+                    return {
+                        Program(node) {
+                            context.report({ node, message: "bad" });
+                        }
+                    };
+                }
+            };
+
+            ruleTester.run("rule-with-null-schema", ruleWithNullSchema, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", options: [{ foo: true }], errors: 1 }
+                ]
+            });
+
+            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+            assert.deepStrictEqual(
+                processStub.getCall(0).args,
+                [
+                    "\"rule-with-null-schema\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/developer-guide/working-with-rules#options-schemas",
+                    "DeprecationWarning"
+                ]
+            );
+        });
+
         it("should not log a deprecation warning when schema is an empty array", () => {
             const ruleWithEmptySchema = {
                 meta: {
