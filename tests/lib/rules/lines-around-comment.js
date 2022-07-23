@@ -384,6 +384,23 @@ ruleTester.run("lines-around-comment", rule, {
                 allowBlockEnd: true
             }]
         },
+        {
+            code: `
+            switch (foo)
+            {
+            // this comment is allowed by allowBlockStart: true 
+                
+            case 1:    
+                bar();
+                break;
+            }
+            `,
+            options: [{
+                allowBlockStart: true,
+                beforeLineComment: true,
+                afterLineComment: true
+            }]
+        },
 
         // check for block end comments
         {
@@ -2127,6 +2144,39 @@ ruleTester.run("lines-around-comment", rule, {
             output: "foo;\n\n/* fallthrough */",
             options: [],
             errors: [{ messageId: "before", type: "Block" }]
+        },
+        {
+            code: `
+            switch (
+            // this comment is not allowed by allowBlockStart: true
+
+                foo
+            )
+            {   
+            case 1:    
+                bar();
+                break;
+            }
+            `,
+            output: `
+            switch (
+
+            // this comment is not allowed by allowBlockStart: true
+
+                foo
+            )
+            {   
+            case 1:    
+                bar();
+                break;
+            }
+            `,
+            options: [{
+                allowBlockStart: true,
+                beforeLineComment: true,
+                afterLineComment: true
+            }],
+            errors: [{ messageId: "before", type: "Line" }]
         }
     ]
 
