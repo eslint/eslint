@@ -925,8 +925,21 @@ ruleTester.run("key-spacing", rule, {
             }
         }],
         parserOptions: { ecmaVersion: 6 }
-    }
-    ],
+    },
+    {
+        code: `
+            const foo = {
+                "abc": "bar",
+                [ 𐌘 ]: "baz"
+            };
+        `,
+        options: [{
+            align: {
+                on: "value"
+            }
+        }],
+        parserOptions: { ecmaVersion: 6 }
+    }],
     invalid: [{
         code: "var a ={'key' : value };",
         output: "var a ={'key':value };",
@@ -2231,6 +2244,75 @@ ruleTester.run("key-spacing", rule, {
             { messageId: "missingValue", data: { computed: "", key: "foo" }, line: 2, column: 10, type: "Literal" },
             { messageId: "missingValue", data: { computed: "", key: "bar" }, line: 3, column: 12, type: "Literal" },
             { messageId: "missingValue", data: { computed: "", key: "baz" }, line: 3, column: 20, type: "Literal" }
+        ]
+    },
+    {
+        code: `
+            const foo = {
+                "a": "bar",
+                [ 𐌘 ]: "baz"
+            };
+        `,
+        output: `
+            const foo = {
+                "a":   "bar",
+                [ 𐌘 ]: "baz"
+            };
+        `,
+        options: [{
+            align: {
+                on: "value"
+            }
+        }],
+        parserOptions: { ecmaVersion: 6 },
+        errors: [
+            { messageId: "missingValue", data: { computed: "", key: "a" }, line: 3, column: 22, type: "Literal" }
+        ]
+    },
+    {
+        code: `
+            const foo = {
+                "a": "bar",
+                [ 𐌘 ]: "baz"
+            };
+        `,
+        output: `
+            const foo = {
+                "a"  : "bar",
+                [ 𐌘 ]: "baz"
+            };
+        `,
+        options: [{
+            align: {
+                on: "colon"
+            }
+        }],
+        parserOptions: { ecmaVersion: 6 },
+        errors: [
+            { messageId: "missingKey", data: { computed: "", key: "a" }, line: 3, column: 17, type: "Literal" }
+        ]
+    },
+    {
+        code: `
+            const foo = {
+                "a":  "bar",
+                "𐌘": "baz"
+            };
+        `,
+        output: `
+            const foo = {
+                "a": "bar",
+                "𐌘": "baz"
+            };
+        `,
+        options: [{
+            align: {
+                on: "value"
+            }
+        }],
+        parserOptions: { ecmaVersion: 6 },
+        errors: [
+            { messageId: "extraValue", data: { computed: "", key: "a" }, line: 3, column: 20, type: "Literal" }
         ]
     }]
 });
