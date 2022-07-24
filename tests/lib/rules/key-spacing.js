@@ -914,6 +914,38 @@ ruleTester.run("key-spacing", rule, {
     },
     {
         code: `
+            var foo = {
+                "a": "bar",
+                "Á": "baz",
+                "o͂": "qux",
+                "m̅": "xyz",
+                "ř": "abc"
+
+            };
+        `,
+        options: [{
+            align: {
+                on: "value"
+            }
+        }]
+    },
+    {
+        code: `
+            var foo = {
+                "🌷": "bar", // 2 code points
+                "🎁": "baz", // 2 code points
+                "🇮🇳": "qux", // 4 code points
+                "🏳️‍🌈": "xyz", // 6 code points
+            };
+        `,
+        options: [{
+            align: {
+                on: "value"
+            }
+        }]
+    },
+    {
+        code: `
             const foo = {
                 "a": "bar",
                 [𐌘]: "baz"
