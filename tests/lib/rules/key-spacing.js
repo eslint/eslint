@@ -2346,5 +2346,34 @@ ruleTester.run("key-spacing", rule, {
         errors: [
             { messageId: "extraValue", data: { computed: "", key: "a" }, line: 3, column: 20, type: "Literal" }
         ]
-    }]
+    },
+    {
+        code: `
+            var foo = {
+                "🌷":     "bar", // 2 code points
+                "🎁":     "baz", // 2 code points
+                "🇮🇳":   "qux", // 4 code points
+                "🏳️‍🌈": "xyz", // 6 code points
+            };
+        `,
+        output: `
+            var foo = {
+                "🌷": "bar", // 2 code points
+                "🎁": "baz", // 2 code points
+                "🇮🇳": "qux", // 4 code points
+                "🏳️‍🌈": "xyz", // 6 code points
+            };
+        `,
+        options: [{
+            align: {
+                on: "value"
+            }
+        }],
+        errors: [
+            { messageId: "extraValue", data: { computed: "", key: "🌷" }, line: 3, column: 21, type: "Literal" },
+            { messageId: "extraValue", data: { computed: "", key: "🎁" }, line: 4, column: 21, type: "Literal" },
+            { messageId: "extraValue", data: { computed: "", key: "🇮🇳" }, line: 5, column: 23, type: "Literal" }
+        ]
+    }
+    ]
 });
