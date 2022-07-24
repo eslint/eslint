@@ -401,6 +401,22 @@ ruleTester.run("lines-around-comment", rule, {
                 afterLineComment: true
             }]
         },
+        {
+            code: `
+            switch (
+                function(){}()
+            )
+            {
+                // this comment is allowed by allowBlockStart: true
+                case foo:
+                    break;
+            }
+            `,
+            options: [{
+                allowBlockStart: true,
+                beforeLineComment: true
+            }]
+        },
 
         // check for block end comments
         {
