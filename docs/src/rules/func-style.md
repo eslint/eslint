@@ -61,9 +61,10 @@ This rule has a string option:
 * `"expression"` (default) requires the use of function expressions instead of function declarations
 * `"declaration"` requires the use of function declarations instead of function expressions
 
-This rule has an object option for an exception:
+This rule has two object options for exceptions:
 
 * `"allowArrowFunctions"`: `true` (default `false`) allows the use of arrow functions. This option applies only when the string option is set to `"declaration"` (arrow functions are always allowed when the string option is set to `"expression"`, regardless of this option)
+* `"allowLetArrowFunctions"`: `true` (default `false`) allows the use of arrow functions in `let` expressions. This option applies only when the string option is set to `"declaration"` (arrow functions are always allowed when the string option is set to `"expression"`, regardless of this option)
 
 ### expression
 
@@ -146,6 +147,32 @@ Examples of additional **correct** code for this rule with the `"declaration", {
 /*eslint func-style: ["error", "declaration", { "allowArrowFunctions": true }]*/
 
 var foo = () => {};
+```
+
+:::
+
+### allowLetArrowFunctions
+
+Examples of additional **correct** code for this rule with the `"declaration", { "allowLetArrowFunctions": true }` options:
+
+::: correct
+
+```js
+/*eslint func-style: ["error", "declaration", { "allowLetArrowFunctions": true }]*/
+
+let foo = () => {};
+```
+
+:::
+
+Examples of **incorrect** code for this rule with the `"declaration", { "allowLetArrowFunctions": true }` options:
+
+::: incorrect
+
+```js
+/*eslint func-style: ["error", "declaration", { "allowLetArrowFunctions": true }]*/
+
+const foo = () => {};
 ```
 
 :::

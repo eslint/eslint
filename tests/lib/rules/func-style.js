@@ -81,6 +81,11 @@ ruleTester.run("func-style", rule, {
             code: "var foo = () => { function foo() { this; } };",
             options: ["declaration", { allowArrowFunctions: true }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "let foo = () => {};",
+            options: ["declaration", { allowLetArrowFunctions: true }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
@@ -109,6 +114,17 @@ ruleTester.run("func-style", rule, {
         {
             code: "var foo = () => { function foo() { this; } };",
             options: ["declaration"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "declaration",
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "const foo = () => {};",
+            options: ["declaration", { allowLetArrowFunctions: true }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
