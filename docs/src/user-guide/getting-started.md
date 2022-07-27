@@ -24,6 +24,10 @@ You can install and configure ESLint using this command:
 
 ```shell
 npm init @eslint/config
+
+# or
+
+yarn dlx @eslint/create-config
 ```
 
 **Note:** `npm init @eslint/config` assumes you have a `package.json` file already. If you don't, make sure to run `npm init` or `yarn init` beforehand.
