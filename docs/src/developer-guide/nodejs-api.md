@@ -101,7 +101,7 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 ##### Linting
 
 * `options.allowInlineConfig` (`boolean`)<br>
-  Default is `true`. If `false` is present, ESLint suppresses directive comments in source code. If this option is `false`, it overrides the `noInlineConfig` setting in your configurations.
+  Default is `true`. If `false` is present, ESLint suppresses directive comments in source code. If this option is `true`, it overrides the `noInlineConfig` setting in your configurations.
 * `options.baseConfig` (`ConfigData | null`)<br>
   Default is `null`. [Configuration object], extended by all configurations used with this instance. You can use this option to define the default settings that will be used if your configuration files don't configure it.
 * `options.overrideConfig` (`ConfigData | null`)<br>
