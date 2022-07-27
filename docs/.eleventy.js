@@ -156,9 +156,17 @@ module.exports = function(eleventyConfig) {
         headingTag: "h2" // Heading tag when showing heading above the wrapper element
     });
 
+    /** @typedef {import("markdown-it/lib/token")} MarkdownItToken A MarkdownIt token. */
 
-    function generateAlertMarkup(type, tokens, idx) {
-        if (tokens[idx].nesting === 1) {
+    /**
+     * Generates HTML markup for an inline alert.
+     * @param {"warning"|"tip"|"important"} type The type of alert to create.
+     * @param {Array<MarkdownItToken>} tokens Array of MarkdownIt tokens to use.
+     * @param {number} index The index of the current token in the tokens array.
+     * @returns {string} The markup for the alert.
+     */
+    function generateAlertMarkup(type, tokens, index) {
+        if (tokens[index].nesting === 1) {
             return `
                 <aside role="note" class="alert alert--${type}">
                     <svg class="alert__icon" aria-hidden="true" focusable="false" width="19" height="20" viewBox="0 0 19 20" fill="none">
