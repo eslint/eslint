@@ -55,7 +55,7 @@
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
     "@eslint/eslintrc": "^1.3.0",
-    "@humanwhocodes/config-array": "^0.10.2",
+    "@humanwhocodes/config-array": "^0.10.4",
     "@humanwhocodes/gitignore-to-minimatch": "^1.0.2",
     "ajv": "^6.10.0",
     "chalk": "^4.0.0",
