@@ -812,6 +812,11 @@ ruleTester.run("no-magic-numbers", rule, {
                 { messageId: "noMagic", data: { raw: "1" }, line: 1 },
                 { messageId: "noMagic", data: { raw: "2" }, line: 1 }
             ]
+        },
+        {
+            code: "const color = [0, 155, 255]",
+            options: [{ allowRGBa: true }],
+            env: { es6: true }
         }
     ]
 });
