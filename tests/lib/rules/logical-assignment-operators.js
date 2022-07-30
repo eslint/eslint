@@ -84,6 +84,12 @@ ruleTester.run("logical-assignment-operators", rule, {
         }, {
             code: "if (a) { a = b } else if (a) {}",
             options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (unrelated) {} else if (a) a = b; else {}",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (unrelated) {} else if (a) a = b; else if (unrelated) {}",
+            options: ["always", { enforceForIfStatements: true }]
         },
 
         // > Body
@@ -388,6 +394,10 @@ ruleTester.run("logical-assignment-operators", rule, {
             output: null,
             errors: [{ messageId: "assignment", type: "AssignmentExpression", data: { operator: "||" }, suggestions: [] }]
         }, {
+            code: "a = /** @type */ a || b",
+            output: null,
+            errors: [{ messageId: "assignment", type: "AssignmentExpression", data: { operator: "||" }, suggestions: [] }]
+        }, {
             code: "a = a || /* between */ b",
             output: null,
             errors: [{ messageId: "assignment", type: "AssignmentExpression", data: { operator: "||" }, suggestions: [] }]
@@ -644,6 +654,11 @@ ruleTester.run("logical-assignment-operators", rule, {
 
         // > Context
         {
+            code: "a = a.b || (a.b = {})",
+            output: "a = a.b ||= {}",
+            errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||" }, suggestions: [] }]
+        },
+        {
             code: "a || (a = 0) || b",
             output: "(a ||= 0) || b",
             errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||" } }]
@@ -707,24 +722,40 @@ ruleTester.run("logical-assignment-operators", rule, {
             errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
             code: "if (a === null || a === undefined) a = b",
-            output: "a ??= b",
+            output: null,
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
+            errors: [{
+                messageId: "if",
+                type: "IfStatement",
+                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
+            }]
         }, {
             code: "if (a === undefined || a === null) a = b",
-            output: "a ??= b",
+            output: null,
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
+            errors: [{
+                messageId: "if",
+                type: "IfStatement",
+                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
+            }]
         }, {
             code: "if (a === null || a === void 0) a = b",
-            output: "a ??= b",
+            output: null,
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
+            errors: [{
+                messageId: "if",
+                type: "IfStatement",
+                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
+            }]
         }, {
             code: "if (a === void 0 || a === null) a = b",
-            output: "a ??= b",
+            output: null,
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
+            errors: [{
+                messageId: "if",
+                type: "IfStatement",
+                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
+            }]
         }, {
             code: "if (a) { a = b; }",
             output: "a &&= b;",
@@ -759,42 +790,66 @@ ruleTester.run("logical-assignment-operators", rule, {
             code: "if (null == a) a = b",
             output: "a ??= b",
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
+            errors: [{ messageId: "if", type: "IfStatement", suggestions: [] }]
         }, {
             code: "if (undefined == a) a = b",
             output: "a ??= b",
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
+            errors: [{ messageId: "if", type: "IfStatement", suggestions: [] }]
         }, {
             code: "if (undefined === a || a === null) a = b",
-            output: "a ??= b",
+            output: null,
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
+            errors: [{
+                messageId: "if",
+                type: "IfStatement",
+                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
+            }]
         }, {
             code: "if (a === undefined || null === a) a = b",
-            output: "a ??= b",
+            output: null,
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
+            errors: [{
+                messageId: "if",
+                type: "IfStatement",
+                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
+            }]
         }, {
             code: "if (undefined === a || null === a) a = b",
-            output: "a ??= b",
+            output: null,
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
+            errors: [{
+                messageId: "if",
+                type: "IfStatement",
+                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
+            }]
         }, {
             code: "if (null === a || a === undefined) a = b",
-            output: "a ??= b",
+            output: null,
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
+            errors: [{
+                messageId: "if",
+                type: "IfStatement",
+                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
+            }]
         }, {
             code: "if (a === null || undefined === a) a = b",
-            output: "a ??= b",
+            output: null,
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
+            errors: [{
+                messageId: "if",
+                type: "IfStatement",
+                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
+            }]
         }, {
             code: "if (null === a || undefined === a) a = b",
-            output: "a ??= b",
+            output: null,
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
+            errors: [{
+                messageId: "if",
+                type: "IfStatement",
+                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
+            }]
         },
 
         // > Parenthesis
@@ -937,43 +992,86 @@ ruleTester.run("logical-assignment-operators", rule, {
             errors: [{ messageId: "if", type: "IfStatement" }]
         },
 
-        // > Suggestions
+        // > Members
         {
             code: "if (a.b) a.b = b",
-            output: null,
+            output: "a.b &&= b",
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{
-                messageId: "if",
-                type: "IfStatement",
-                suggestions: [{
-                    messageId: "convertIf",
-                    output: "a.b &&= b"
-                }]
-            }]
+            errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
             code: "if (a[b].c) a[b].c = d",
-            output: null,
+            output: "a[b].c &&= d",
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{
-                messageId: "if",
-                type: "IfStatement",
-                suggestions: [{
-                    messageId: "convertIf",
-                    output: "a[b].c &&= d"
-                }]
-            }]
+            errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
             code: "with (object) if (a.b) a.b = b",
+            output: "with (object) a.b &&= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        },
+
+        // > Else if
+        {
+            code: "if (unrelated) {} else if (a) a = b;",
+            output: "if (unrelated) {} a &&= b;",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (a) {} else if (b) {} else if (a) a = b;",
+            output: "if (a) {} else if (b) {} a &&= b;",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (unrelated) {} else\nif (a) a = b;",
+            output: "if (unrelated) {} a &&= b;",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (unrelated) {\n}\nelse if (a) {\na = b;\n}",
+            output: "if (unrelated) {\n}\na &&= b;",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (unrelated) statement; else if (a) a = b;",
+            output: "if (unrelated) statement; a &&= b;",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (unrelated) id\nelse if (a) (a) = b",
             output: null,
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{
-                messageId: "if",
-                type: "IfStatement",
-                suggestions: [{
-                    messageId: "convertIf",
-                    output: "with (object) a.b &&= b"
-                }]
-            }]
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        },
+
+        // > Else if > Comments
+        {
+            code: "if (unrelated) { /* body */ } else if (a) a = b;",
+            output: "if (unrelated) { /* body */ } a &&= b;",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (unrelated) {} /* before else */ else if (a) a = b;",
+            output: "if (unrelated) {} /* before else */ a &&= b;",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (unrelated) {} else // Line\nif (a) a = b;",
+            output: null,
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (unrelated) {} else /* Block */ if (a) a = b;",
+            output: null,
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
+        },
+
+        // > Patterns
+        {
+            code: "if (a.b) a.b = a.b.filter(predicate)",
+            output: "a.b &&= a.b.filter(predicate)",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
         },
 
         // Never
