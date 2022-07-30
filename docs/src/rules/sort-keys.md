@@ -92,6 +92,7 @@ The 2nd option is an object which has 3 properties.
 * `caseSensitive` - if `true`, enforce properties to be in case-sensitive order. Default is `true`.
 * `minKeys` - Specifies the minimum number of keys that an object should have in order for the object's unsorted keys to produce an error. Default is `2`, which means by default all objects with unsorted keys will result in lint errors.
 * `natural` - if `true`, enforce properties to be in natural order. Default is `false`. Natural Order compares strings containing combination of letters and numbers in the way a human being would sort. It basically sorts numerically, instead of sorting alphabetically. So the number 10 comes after the number 3 in Natural Sorting.
+* `allowLineSeparatedGroups` - if `true`, the rule allows to group object keys through line breaks. In other words, a blank line after a property will reset the sorting of keys. Default is `false`.
 
 Example for a list:
 
@@ -259,6 +260,128 @@ let obj = {
     2: 'b',
     1: 'a',
 };
+```
+
+:::
+
+### allowLineSeparatedGroups
+
+Examples of **incorrect** code for the `{allowLineSeparatedGroups: true}` option:
+
+::: incorrect
+
+```js
+/*eslint sort-keys: ["error", "asc", {allowLineSeparatedGroups: true}]*/
+/*eslint-env es6*/
+
+let obj1 = {
+    b: 1,
+    c () {
+
+    },
+    a: 3
+}
+
+let obj2 = {
+    b: 1,
+    c: 2,
+
+    z () {
+
+    },
+    y: 3
+}
+
+let obj3 = {
+    b: 1,
+    c: 2,
+
+    z () {
+
+    },
+    // comment
+    y: 3,
+}
+
+let obj4 = {
+    b: 1
+    // comment before comma
+    , a: 2
+};
+```
+
+:::
+
+Examples of **correct** code for the `{allowLineSeparatedGroups: true}` option:
+
+::: correct
+
+```js
+/*eslint sort-keys: ["error", "asc", {allowLineSeparatedGroups: true}]*/
+/*eslint-env es6*/
+
+let obj = {
+    e: 1,
+    f: 2,
+    g: 3,
+
+    a: 4,
+    b: 5,
+    c: 6
+}
+
+let obj = {
+    b: 1,
+
+    // comment
+    a: 4,
+    c: 5,
+}
+
+let obj = {
+    c: 1,
+    d: 2,
+
+    b () {
+
+    }, 
+    e: 3,
+}
+
+let obj = {
+    c: 1,
+    d: 2,
+    // comment
+
+    // comment
+    b() {
+
+    },
+    e: 4
+}
+
+let obj = {
+    b,
+
+    [foo + bar]: 1,
+    a
+}
+
+let obj = {
+    b: 1
+    // comment before comma
+
+    ,
+    a: 2
+};
+
+var obj = {
+    b: 1,
+
+    a: 2,
+    ...z,
+    c: 3
+}
 ```
 
 :::
