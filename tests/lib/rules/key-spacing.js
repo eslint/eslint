@@ -896,8 +896,82 @@ ruleTester.run("key-spacing", rule, {
                 on: "value"
             }
         }]
-    }
-    ],
+    },
+
+    // https://github.com/eslint/eslint/issues/15914
+    {
+        code: `
+            var foo = {
+                "a": "bar",
+                "𐌘": "baz"
+            };
+        `,
+        options: [{
+            align: {
+                on: "value"
+            }
+        }]
+    },
+    {
+        code: `
+            var foo = {
+                "a": "bar",
+                "Á": "baz",
+                "o͂": "qux",
+                "m̅": "xyz",
+                "ř": "abc"
+
+            };
+        `,
+        options: [{
+            align: {
+                on: "value"
+            }
+        }]
+    },
+    {
+        code: `
+            var foo = {
+                "🌷": "bar", // 2 code points
+                "🎁": "baz", // 2 code points
+                "🇮🇳": "qux", // 4 code points
+                "🏳️‍🌈": "xyz", // 6 code points
+            };
+        `,
+        options: [{
+            align: {
+                on: "value"
+            }
+        }]
+    },
+    {
+        code: `
+            const foo = {
+                "a": "bar",
+                [𐌘]: "baz"
+            };
+        `,
+        options: [{
+            align: {
+                on: "value"
+            }
+        }],
+        parserOptions: { ecmaVersion: 6 }
+    },
+    {
+        code: `
+            const foo = {
+                "abc": "bar",
+                [ 𐌘 ]: "baz"
+            };
+        `,
+        options: [{
+            align: {
+                on: "value"
+            }
+        }],
+        parserOptions: { ecmaVersion: 6 }
+    }],
     invalid: [{
         code: "var a ={'key' : value };",
         output: "var a ={'key':value };",
@@ -2203,5 +2277,103 @@ ruleTester.run("key-spacing", rule, {
             { messageId: "missingValue", data: { computed: "", key: "bar" }, line: 3, column: 12, type: "Literal" },
             { messageId: "missingValue", data: { computed: "", key: "baz" }, line: 3, column: 20, type: "Literal" }
         ]
-    }]
+    },
+    {
+        code: `
+            const foo = {
+                "a": "bar",
+                [ 𐌘 ]: "baz"
+            };
+        `,
+        output: `
+            const foo = {
+                "a":   "bar",
+                [ 𐌘 ]: "baz"
+            };
+        `,
+        options: [{
+            align: {
+                on: "value"
+            }
+        }],
+        parserOptions: { ecmaVersion: 6 },
+        errors: [
+            { messageId: "missingValue", data: { computed: "", key: "a" }, line: 3, column: 22, type: "Literal" }
+        ]
+    },
+    {
+        code: `
+            const foo = {
+                "a": "bar",
+                [ 𐌘 ]: "baz"
+            };
+        `,
+        output: `
+            const foo = {
+                "a"  : "bar",
+                [ 𐌘 ]: "baz"
+            };
+        `,
+        options: [{
+            align: {
+                on: "colon"
+            }
+        }],
+        parserOptions: { ecmaVersion: 6 },
+        errors: [
+            { messageId: "missingKey", data: { computed: "", key: "a" }, line: 3, column: 17, type: "Literal" }
+        ]
+    },
+    {
+        code: `
+            const foo = {
+                "a":  "bar",
+                "𐌘": "baz"
+            };
+        `,
+        output: `
+            const foo = {
+                "a": "bar",
+                "𐌘": "baz"
+            };
+        `,
+        options: [{
+            align: {
+                on: "value"
+            }
+        }],
+        parserOptions: { ecmaVersion: 6 },
+        errors: [
+            { messageId: "extraValue", data: { computed: "", key: "a" }, line: 3, column: 20, type: "Literal" }
+        ]
+    },
+    {
+        code: `
+            var foo = {
+                "🌷":     "bar", // 2 code points
+                "🎁":     "baz", // 2 code points
+                "🇮🇳":   "qux", // 4 code points
+                "🏳️‍🌈": "xyz", // 6 code points
+            };
+        `,
+        output: `
+            var foo = {
+                "🌷": "bar", // 2 code points
+                "🎁": "baz", // 2 code points
+                "🇮🇳": "qux", // 4 code points
+                "🏳️‍🌈": "xyz", // 6 code points
+            };
+        `,
+        options: [{
+            align: {
+                on: "value"
+            }
+        }],
+        errors: [
+            { messageId: "extraValue", data: { computed: "", key: "🌷" }, line: 3, column: 21, type: "Literal" },
+            { messageId: "extraValue", data: { computed: "", key: "🎁" }, line: 4, column: 21, type: "Literal" },
+            { messageId: "extraValue", data: { computed: "", key: "🇮🇳" }, line: 5, column: 23, type: "Literal" }
+        ]
+    }
+    ]
 });
