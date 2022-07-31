@@ -65,7 +65,7 @@
     "eslint-scope": "^7.1.1",
     "eslint-utils": "^3.0.0",
     "eslint-visitor-keys": "^3.3.0",
-    "espree": "^9.3.2",
+    "espree": "^9.3.3",
     "esquery": "^1.4.0",
     "esutils": "^2.0.2",
     "fast-deep-equal": "^3.1.3",
