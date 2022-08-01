@@ -257,6 +257,40 @@ ruleTester.run("no-magic-numbers", rule, {
             code: "foo?.[777]",
             options: [{ ignoreArrayIndexes: true }],
             parserOptions: { ecmaVersion: 2020 }
+        },
+
+        // RGBa arrays
+        {
+            code: "var x = [0, 23, 125, 0.5];",
+            options: [{ allowRGBa: true }]
+        },
+        {
+            code: "var x = [14, 0, 255];",
+            options: [{ allowRGBa: true }]
+        },
+        {
+            code: "var x = [0, 0, 0, 1.0];",
+            options: [{ allowRGBa: true }]
+        },
+        {
+            code: "var x = [0, 0, 0, 1];",
+            options: [{ allowRGBa: true }]
+        },
+        {
+            code: "var x = [0, 0, 0, 0];",
+            options: [{ allowRGBa: true }]
+        },
+        {
+            code: "var x = [255, 255, 255, 1.0];",
+            options: [{ allowRGBa: true }]
+        },
+        {
+            code: "var foo = { color: [123, 134, 255, 0.4] }",
+            options: [{ allowRGBa: true }]
+        },
+        {
+            code: "var foo = { color: [123, 134, 255] }",
+            options: [{ allowRGBa: true }]
         }
     ],
     invalid: [
@@ -814,9 +848,71 @@ ruleTester.run("no-magic-numbers", rule, {
             ]
         },
         {
-            code: "const color = [0, 155, 255]",
+            code: "var x = [2, 123, 256];",
             options: [{ allowRGBa: true }],
-            env: { es6: true }
+            env: { es6: true },
+            errors: [
+                { messageId: "noMagic", data: { raw: "2" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "123" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "256" }, line: 1 }
+            ]
+        },
+        {
+            code: "var x = [0, 0, 0, 1.2];",
+            options: [{ allowRGBa: true }],
+            env: { es6: true },
+            errors: [
+                { messageId: "noMagic", data: { raw: "0" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "0" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "0" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "1.2" }, line: 1 }
+            ]
+        },
+        {
+            code: "var x = [255, 255, 255, 1.2];",
+            options: [{ allowRGBa: true }],
+            env: { es6: true },
+            errors: [
+                { messageId: "noMagic", data: { raw: "255" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "255" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "255" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "1.2" }, line: 1 }
+            ]
+        },
+        {
+            code: "var x = [255, 255, 255, -0.1];",
+            options: [{ allowRGBa: true }],
+            env: { es6: true },
+            errors: [
+                { messageId: "noMagic", data: { raw: "255" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "255" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "255" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "-0.1" }, line: 1 }
+            ]
+        },
+        {
+            code: "var x = [-5, 255, 255, 1.2];",
+            options: [{ allowRGBa: true }],
+            env: { es6: true },
+            errors: [
+                { messageId: "noMagic", data: { raw: "-5" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "255" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "255" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "1.2" }, line: 1 }
+            ]
+        },
+        {
+
+            // @TODO invalid array
+            code: "var x = [255, 255, 1.2];",
+            options: [{ allowRGBa: true }],
+            env: { es6: true },
+            errors: [
+                { messageId: "noMagic", data: { raw: "-5" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "255" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "255" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "1.2" }, line: 1 }
+            ]
         }
     ]
 });
