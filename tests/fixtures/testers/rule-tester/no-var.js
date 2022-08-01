@@ -10,13 +10,11 @@
 "use strict";
 
 module.exports = {
-
     meta: {
-        fixable: "code"
+        fixable: "code",
+        schema: []
     },
-
     create(context) {
-
         var sourceCode = context.getSourceCode();
 
         return {

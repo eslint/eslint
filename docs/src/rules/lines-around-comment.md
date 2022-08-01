@@ -25,8 +25,8 @@ This rule has an object option:
 * `"afterBlockComment": true` requires an empty line after block comments
 * `"beforeLineComment": true` requires an empty line before line comments
 * `"afterLineComment": true` requires an empty line after line comments
-* `"allowBlockStart": true` allows comments to appear at the start of block statements, function bodies, classes, and class static blocks
-* `"allowBlockEnd": true` allows comments to appear at the end of block statements, function bodies, classes, and class static blocks
+* `"allowBlockStart": true` allows comments to appear at the start of block statements, function bodies, classes, switch statements, and class static blocks
+* `"allowBlockEnd": true` allows comments to appear at the end of block statements, function bodies, classes, switch statements, and class static blocks
 * `"allowObjectStart": true` allows comments to appear at the start of object literals
 * `"allowObjectEnd": true` allows comments to appear at the end of object literals
 * `"allowArrayStart": true` allows comments to appear at the start of array literals
@@ -230,6 +230,14 @@ class C {
         foo();
     }
 }
+
+switch (foo) {
+  /* what a great and wonderful day */
+
+  case 1:    
+    bar();
+    break;
+}
 ```
 
 :::
@@ -307,6 +315,14 @@ class C {
     }
 
     /* what a great and wonderful day */
+}
+
+switch (foo) {
+  case 1:    
+    bar();
+    break;
+
+  /* what a great and wonderful day */
 }
 ```
 

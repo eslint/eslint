@@ -364,6 +364,60 @@ ruleTester.run("lines-around-comment", rule, {
             parserOptions: { ecmaVersion: 2022 }
         },
 
+        // https://github.com/eslint/eslint/issues/16131
+        {
+            code: `
+            switch (foo) {
+            // this comment is allowed by allowBlockStart: true 
+                
+            case 1:    
+                bar();
+                break;
+                
+            // this comment is allowed by allowBlockEnd: true
+            }
+            `,
+            options: [{
+                allowBlockStart: true,
+                beforeLineComment: true,
+                afterLineComment: true,
+                allowBlockEnd: true
+            }]
+        },
+        {
+            code: `
+            switch (foo)
+            {
+            // this comment is allowed by allowBlockStart: true 
+                
+            case 1:    
+                bar();
+                break;
+            }
+            `,
+            options: [{
+                allowBlockStart: true,
+                beforeLineComment: true,
+                afterLineComment: true
+            }]
+        },
+        {
+            code: `
+            switch (
+                function(){}()
+            )
+            {
+                // this comment is allowed by allowBlockStart: true
+                case foo:
+                    break;
+            }
+            `,
+            options: [{
+                allowBlockStart: true,
+                beforeLineComment: true
+            }]
+        },
+
         // check for block end comments
         {
             code: "var a,\n// line\n\nb;",
@@ -2106,6 +2160,39 @@ ruleTester.run("lines-around-comment", rule, {
             output: "foo;\n\n/* fallthrough */",
             options: [],
             errors: [{ messageId: "before", type: "Block" }]
+        },
+        {
+            code: `
+            switch (
+            // this comment is not allowed by allowBlockStart: true
+
+                foo
+            )
+            {   
+            case 1:    
+                bar();
+                break;
+            }
+            `,
+            output: `
+            switch (
+
+            // this comment is not allowed by allowBlockStart: true
+
+                foo
+            )
+            {   
+            case 1:    
+                bar();
+                break;
+            }
+            `,
+            options: [{
+                allowBlockStart: true,
+                beforeLineComment: true,
+                afterLineComment: true
+            }],
+            errors: [{ messageId: "before", type: "Line" }]
         }
     ]
 
