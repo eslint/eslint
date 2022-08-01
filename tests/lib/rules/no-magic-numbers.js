@@ -902,13 +902,10 @@ ruleTester.run("no-magic-numbers", rule, {
             ]
         },
         {
-
-            // @TODO invalid array
             code: "var x = [255, 255, 1.2];",
             options: [{ allowRGBa: true }],
             env: { es6: true },
             errors: [
-                { messageId: "noMagic", data: { raw: "-5" }, line: 1 },
                 { messageId: "noMagic", data: { raw: "255" }, line: 1 },
                 { messageId: "noMagic", data: { raw: "255" }, line: 1 },
                 { messageId: "noMagic", data: { raw: "1.2" }, line: 1 }
