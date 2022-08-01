@@ -253,3 +253,25 @@ var dutyFreePrice = 100,
 ```
 
 :::
+
+### allowRGBa
+
+A boolean to specify if we should detect numbers in arrays representing rgba colors. `false` by default.
+
+Examples of **incorrect** code for the `{ "allowRGBa": true }` option:
+
+```js
+/*eslint no-magic-numbers: ["error", { "allowRGBa": true }]*/
+
+const rgbaColor = [255, 255, 300, 1.8] // each channel cannot be more than 255, alpha cannot be more than 1;
+const rgbColor = [-5, 255, 300] // channels cannot be negative
+```
+
+Examples of **correct** code for the `{ "allowRGBa": true }` option:
+
+```js
+/*eslint no-magic-numbers: ["error", { "allowRGBa": true }]*/
+
+const rgbaColor = [255, 255, 255, 0.6]
+const rgbColr = [0, 0, 125]
+```
