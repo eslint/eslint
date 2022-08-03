@@ -40,10 +40,7 @@
       "node tools/fetch-docs-links.js",
       "git add docs/src/_data/further_reading_links.json"
     ],
-    "**/*.svg": [
-      "npx svgo -r",
-      "git add"
-    ]
+    "docs/**/*.svg": "npx svgo -r --multipass"
   },
   "files": [
     "LICENSE",
