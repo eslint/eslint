@@ -1168,6 +1168,43 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
 
         //----------------------------------------------------------------------
+        // multiline-import
+        //----------------------------------------------------------------------
+
+        {
+            code: "import {\na,\nb\n} from 'c'\n\nimport d from 'e'",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "multiline-import", next: "*" }
+            ],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import a from 'b'\n\nimport{\nc,\nd\n} from 'e'",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "*", next: "multiline-import" }
+            ],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import a from 'b'\nimport c from 'd'",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "multiline-import", next: "*" }
+            ],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import a from 'b'\nimport c from 'd'",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "*", next: "multiline-import" }
+            ],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+
+        //----------------------------------------------------------------------
         // singleline-const
         //----------------------------------------------------------------------
 
@@ -1264,6 +1301,43 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: "*", next: "*" },
                 { blankLine: "always", prev: "*", next: "singleline-var" }
             ]
+        },
+
+        //----------------------------------------------------------------------
+        // singleline-import
+        //----------------------------------------------------------------------
+
+        {
+            code: "import a from 'b'\n\nimport b from 'c'",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "singleline-import", next: "*" }
+            ],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import a from 'b'\n\nimport b from 'c'",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "*", next: "singleline-import" }
+            ],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import {\na,\nb\n} from 'c'\nimport {\nd,\ne\n} from 'f'",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "singleline-import", next: "*" }
+            ],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import {\na,\nb\n} from 'c'\nimport {\nd,\ne\n} from 'f'",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "*", next: "singleline-import" }
+            ],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
 
         //----------------------------------------------------------------------
