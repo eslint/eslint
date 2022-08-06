@@ -185,6 +185,52 @@ ruleTester.run("object-shorthand", rule, {
             options: ["never"]
         },
 
+        // methodsIgnorePattern
+        {
+            code: "var x = { foo: function() {}  }",
+            options: ["always", { methodsIgnorePattern: "^foo$" }]
+        },
+        {
+            code: "var x = { foo: function() {}  }",
+            options: ["methods", { methodsIgnorePattern: "^foo$" }]
+        },
+        {
+            code: "var x = { foo: function*() {}  }",
+            options: ["always", { methodsIgnorePattern: "^foo$" }]
+        },
+        {
+            code: "var x = { foo: async function() {}  }",
+            options: ["always", { methodsIgnorePattern: "^foo$" }]
+        },
+        {
+            code: "var x = { foo: () => { return 5; }  }",
+            options: ["always", { methodsIgnorePattern: "^foo$", avoidExplicitReturnArrows: true }]
+        },
+        {
+            code: "var x = { 'foo': function() {}  }",
+            options: ["always", { methodsIgnorePattern: "^foo$" }]
+        },
+        {
+            code: "var x = { ['foo']: function() {}  }",
+            options: ["always", { methodsIgnorePattern: "^foo$" }]
+        },
+        {
+            code: "var x = { 123: function() {}  }",
+            options: ["always", { methodsIgnorePattern: "^123$" }]
+        },
+        {
+            code: "var x = { afoob: function() {}  }",
+            options: ["always", { methodsIgnorePattern: "foo" }]
+        },
+        {
+            code: "var x = { afoob: function() {}  }",
+            options: ["always", { methodsIgnorePattern: "^.foo.$" }]
+        },
+        {
+            code: "var x = { '👍foo👍': function() {}  }", // this wouldn't pass without the "u" flag
+            options: ["always", { methodsIgnorePattern: "^.foo.$" }]
+        },
+
         // avoidQuotes
         {
             code: "var x = {'a': function(){}}",
@@ -779,6 +825,50 @@ ruleTester.run("object-shorthand", rule, {
             output: "var x = {_0y() {}}",
             options: ["methods", { ignoreConstructors: true }],
             errors: [METHOD_ERROR]
+        },
+
+        // methodsIgnorePattern
+        {
+            code: "var x = { afoob: function() {} }",
+            output: "var x = { afoob() {} }",
+            options: ["always", { methodsIgnorePattern: "^foo$" }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "var x = { afoob: function() {} }",
+            output: "var x = { afoob() {} }",
+            options: ["methods", { methodsIgnorePattern: "^foo$" }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "var x = { 'afoob': function() {} }",
+            output: "var x = { 'afoob'() {} }",
+            options: ["always", { methodsIgnorePattern: "^foo$" }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "var x = { 1234: function() {} }",
+            output: "var x = { 1234() {} }",
+            options: ["always", { methodsIgnorePattern: "^123$" }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "var x = { bar: function() {} }",
+            output: "var x = { bar() {} }",
+            options: ["always", { methodsIgnorePattern: "foo" }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "var x = { [foo]: function() {} }",
+            output: "var x = { [foo]() {} }",
+            options: ["always", { methodsIgnorePattern: "foo" }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "var x = { foo: foo }", // does not apply to properties
+            output: "var x = { foo }",
+            options: ["always", { methodsIgnorePattern: "^foo$" }],
+            errors: [PROPERTY_ERROR]
         },
 
         // avoidQuotes
