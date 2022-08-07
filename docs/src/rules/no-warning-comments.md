@@ -21,8 +21,9 @@ This rule reports comments that include any of the predefined terms specified in
 
 This rule has an options object literal:
 
-* `"terms"`: optional array of terms to match. Defaults to `["todo", "fixme", "xxx"]`. Terms are matched case-insensitive and as whole words: `fix` would match `FIX` but not `fixing`. Terms can consist of multiple words: `really bad idea`.
-* `"location"`: optional string that configures where in your comments to check for matches. Defaults to `"start"`. The other value is match `anywhere` in comments.
+* `"terms"`: optional array of terms to match. Defaults to `["todo", "fixme", "xxx"]`. Terms are matched case-insensitively and as whole words: `fix` would match `FIX` but not `fixing`. Terms can consist of multiple words: `really bad idea`.
+* `"location"`: optional string that configures where in your comments to check for matches. Defaults to `"start"`. For multi-line comments, the start is from the first non-decorative character, ignoring whitespace, new lines or characters specified in `decoration`. The other value is match `anywhere` in comments.
+* `"decoration"`: optional string that specifies decorative characters that are ignored at the start of a comment, when location is `"start"`. Defaults to `""`. Any sequence of whitespace or the characters from this string are ignored. This option is ignored when location is `"anywhere"`.
 
 Example of **incorrect** code for the default `{ "terms": ["todo", "fixme", "xxx"], "location": "start" }` options:
 
@@ -31,6 +32,9 @@ Example of **incorrect** code for the default `{ "terms": ["todo", "fixme", "xxx
 ```js
 /*eslint no-warning-comments: "error"*/
 
+/*
+FIXME
+*/
 function callback(err, results) {
   if (err) {
     console.error(err);
@@ -73,7 +77,7 @@ Examples of **incorrect** code for the `{ "terms": ["todo", "fixme", "any other 
 // TODO: this
 // todo: this too
 // Even this: TODO
-/* /*
+/*
  * The same goes for this TODO comment
  * Or a fixme
  * as well as any other term
@@ -93,6 +97,43 @@ Examples of **correct** code for the `{ "terms": ["todo", "fixme", "any other te
 // even not any other    term
 // any other terminal
 /*
+ * The same goes for block comments
+ * with any other interesting term
+ * or fix me this
+ */
+```
+
+:::
+
+### Decoration Characters
+
+Examples of **incorrect** code for the `{ "terms": ["todo"], "location": "start", "decoration": "/*" }` options:
+
+::: incorrect
+
+```js
+/*eslint no-warning-comments: ["error", { "terms": ["todo"], "location": "start", "decoration": "/*" }]*/
+
+////// TODO decorative slashes and whitespace are ignored //////
+//***** todo decorative asterisks are also ignored *****//
+/**
+ * TODO new lines are also ignored in block comments.
+ */
+```
+
+:::
+
+Examples of **correct** code for the `{ "terms": ["todo"], "location": "start", "decoration": "/*" }` options:
+
+::: correct
+
+```js
+/*eslint no-warning-comments: ["error", { "terms": ["todo"], "location": "start", "decoration": "/*" }]*/
+
+// This is to do
+// even not any other    term
+// any other terminal
+/**
  * The same goes for block comments
  * with any other interesting term
  * or fix me this
