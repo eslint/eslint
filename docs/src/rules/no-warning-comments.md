@@ -23,7 +23,7 @@ This rule has an options object literal:
 
 * `"terms"`: optional array of terms to match. Defaults to `["todo", "fixme", "xxx"]`. Terms are matched case-insensitively and as whole words: `fix` would match `FIX` but not `fixing`. Terms can consist of multiple words: `really bad idea`.
 * `"location"`: optional string that configures where in your comments to check for matches. Defaults to `"start"`. For multi-line comments, the start is from the first non-decorative character, ignoring whitespace, new lines or characters specified in `decoration`. The other value is match `anywhere` in comments.
-* `"decoration"`: optional string or array of strings that specifies decorative characters that are ignored at the start of a comment, when location is `"start"`. Defaults to `""`. Any sequence of whitespace or the characters from this string are ignored. Note that the string `"/-*"` is equivalent to the array of strings `["/", "-", "*"]`. This option is ignored when location is `"anywhere"`.
+* `"decoration"`: optional character, or array of characters that specify decorative characters that are ignored at the start of a comment, when location is `"start"`. Defaults to `""`. Any sequence of whitespace or the characters from this property are ignored. This option is ignored when location is `"anywhere"`.
 
 Example of **incorrect** code for the default `{ "terms": ["todo", "fixme", "xxx"], "location": "start" }` options:
 
@@ -106,6 +106,21 @@ Examples of **correct** code for the `{ "terms": ["todo", "fixme", "any other te
 :::
 
 ### Decoration Characters
+
+Examples of **incorrect** code for the `{ "decoration": "*" }` options:
+
+::: incorrect
+
+```js
+/*eslint no-warning-comments: ["error", { "decoration": "*" }]*/
+
+//***** todo decorative asterisks are ignored *****//
+/**
+ * TODO new lines and asterisks are also ignored in block comments.
+ */
+```
+
+:::
 
 Examples of **incorrect** code for the `{ "decoration": ["/", "*"] }` options:
 
