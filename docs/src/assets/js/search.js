@@ -70,9 +70,10 @@ function displaySearchResults(results) {
         for (const result of results) {
             const listItem = document.createElement('li');
             listItem.classList.add('search-results__item');
+            const maxLvl = Math.max(...Object.keys(result._highlightResult.hierarchy).map(k => Number(k.substring(3))));
             listItem.innerHTML = `
                 <h2 class="search-results__item__title"><a href="${result.url}">${result.hierarchy.lvl0}</a></h2>
-                <p class="search-results__item__context">${result._highlightResult.hierarchy.lvl0.value}</p>
+                <p class="search-results__item__context">${typeof result._highlightResult.content !== 'undefined' ? result._highlightResult.content.value : result._highlightResult.hierarchy[`lvl${maxLvl}`].value}</p>
             `.trim();
             list.append(listItem);
         }
