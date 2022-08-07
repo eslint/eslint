@@ -23,7 +23,7 @@ This rule has an options object literal:
 
 * `"terms"`: optional array of terms to match. Defaults to `["todo", "fixme", "xxx"]`. Terms are matched case-insensitively and as whole words: `fix` would match `FIX` but not `fixing`. Terms can consist of multiple words: `really bad idea`.
 * `"location"`: optional string that configures where in your comments to check for matches. Defaults to `"start"`. For multi-line comments, the start is from the first non-decorative character, ignoring whitespace, new lines or characters specified in `decoration`. The other value is match `anywhere` in comments.
-* `"decoration"`: optional string that specifies decorative characters that are ignored at the start of a comment, when location is `"start"`. Defaults to `""`. Any sequence of whitespace or the characters from this string are ignored. This option is ignored when location is `"anywhere"`.
+* `"decoration"`: optional string or array of strings that specifies decorative characters that are ignored at the start of a comment, when location is `"start"`. Defaults to `""`. Any sequence of whitespace or the characters from this string are ignored. Note that the string `"/-*"` is equivalent to the array of strings `["/", "-", "*"]`. This option is ignored when location is `"anywhere"`.
 
 Example of **incorrect** code for the default `{ "terms": ["todo", "fixme", "xxx"], "location": "start" }` options:
 
@@ -107,12 +107,12 @@ Examples of **correct** code for the `{ "terms": ["todo", "fixme", "any other te
 
 ### Decoration Characters
 
-Examples of **incorrect** code for the `{ "terms": ["todo"], "location": "start", "decoration": "/*" }` options:
+Examples of **incorrect** code for the `{ "decoration": ["/", "*"] }` options:
 
 ::: incorrect
 
 ```js
-/*eslint no-warning-comments: ["error", { "terms": ["todo"], "location": "start", "decoration": "/*" }]*/
+/*eslint no-warning-comments: ["error", { "decoration": ["/", "*"] }]*/
 
 ////// TODO decorative slashes and whitespace are ignored //////
 //***** todo decorative asterisks are also ignored *****//
@@ -123,16 +123,14 @@ Examples of **incorrect** code for the `{ "terms": ["todo"], "location": "start"
 
 :::
 
-Examples of **correct** code for the `{ "terms": ["todo"], "location": "start", "decoration": "/*" }` options:
+Examples of **correct** code for the `{ "decoration": ["/", "*"] }` options:
 
 ::: correct
 
 ```js
-/*eslint no-warning-comments: ["error", { "terms": ["todo"], "location": "start", "decoration": "/*" }]*/
+/*eslint no-warning-comments: ["error", { "decoration": ["/", "*"] }]*/
 
 // This is to do
-// even not any other    term
-// any other terminal
 /**
  * The same goes for block comments
  * with any other interesting term

@@ -429,8 +429,21 @@ ruleTester.run("no-warning-comments", rule, {
             ]
         },
         {
-            code: "///// TODO decorated single-line comment (start) \n /////",
+            code: "///// TODO decorated single-line comment with decoration string \n /////",
             options: [{ terms: ["todo"], location: "start", decoration: "*/" }],
+            errors: [
+                {
+                    messageId: "unexpectedComment",
+                    data: {
+                        matchedTerm: "todo",
+                        comment: "/// TODO decorated single-line comment..."
+                    }
+                }
+            ]
+        },
+        {
+            code: "///// TODO decorated single-line comment with decoration array \n /////",
+            options: [{ terms: ["todo"], location: "start", decoration: ["*", "/"] }],
             errors: [
                 {
                     messageId: "unexpectedComment",
