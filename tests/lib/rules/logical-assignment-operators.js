@@ -1013,27 +1013,27 @@ ruleTester.run("logical-assignment-operators", rule, {
         // > Else if
         {
             code: "if (unrelated) {} else if (a) a = b;",
-            output: "if (unrelated) {} a &&= b;",
+            output: "if (unrelated) {} else a &&= b;",
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
             code: "if (a) {} else if (b) {} else if (a) a = b;",
-            output: "if (a) {} else if (b) {} a &&= b;",
+            output: "if (a) {} else if (b) {} else a &&= b;",
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
             code: "if (unrelated) {} else\nif (a) a = b;",
-            output: "if (unrelated) {} a &&= b;",
+            output: "if (unrelated) {} else\na &&= b;",
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
             code: "if (unrelated) {\n}\nelse if (a) {\na = b;\n}",
-            output: "if (unrelated) {\n}\na &&= b;",
+            output: "if (unrelated) {\n}\nelse a &&= b;",
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
             code: "if (unrelated) statement; else if (a) a = b;",
-            output: "if (unrelated) statement; a &&= b;",
+            output: "if (unrelated) statement; else a &&= b;",
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
@@ -1041,27 +1041,32 @@ ruleTester.run("logical-assignment-operators", rule, {
             output: null,
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
+        }, {
+            code: "if (unrelated) {} else if (a) a = b; else if (c) c = d",
+            output: "if (unrelated) {} else if (a) a = b; else c &&= d",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement" }]
         },
 
         // > Else if > Comments
         {
             code: "if (unrelated) { /* body */ } else if (a) a = b;",
-            output: "if (unrelated) { /* body */ } a &&= b;",
+            output: "if (unrelated) { /* body */ } else a &&= b;",
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
             code: "if (unrelated) {} /* before else */ else if (a) a = b;",
-            output: "if (unrelated) {} /* before else */ a &&= b;",
+            output: "if (unrelated) {} /* before else */ else a &&= b;",
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
             code: "if (unrelated) {} else // Line\nif (a) a = b;",
-            output: null,
+            output: "if (unrelated) {} else // Line\na &&= b;",
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
             code: "if (unrelated) {} else /* Block */ if (a) a = b;",
-            output: null,
+            output: "if (unrelated) {} else /* Block */ a &&= b;",
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
         },
