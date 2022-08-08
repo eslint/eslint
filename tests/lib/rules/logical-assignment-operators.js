@@ -722,40 +722,24 @@ ruleTester.run("logical-assignment-operators", rule, {
             errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
             code: "if (a === null || a === undefined) a = b",
-            output: null,
+            output: "a ??= b",
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{
-                messageId: "if",
-                type: "IfStatement",
-                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
-            }]
+            errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
             code: "if (a === undefined || a === null) a = b",
-            output: null,
+            output: "a ??= b",
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{
-                messageId: "if",
-                type: "IfStatement",
-                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
-            }]
+            errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
             code: "if (a === null || a === void 0) a = b",
-            output: null,
+            output: "a ??= b",
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{
-                messageId: "if",
-                type: "IfStatement",
-                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
-            }]
+            errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
             code: "if (a === void 0 || a === null) a = b",
-            output: null,
+            output: "a ??= b",
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{
-                messageId: "if",
-                type: "IfStatement",
-                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
-            }]
+            errors: [{ messageId: "if", type: "IfStatement" }]
         }, {
             code: "if (a) { a = b; }",
             output: "a &&= b;",
@@ -798,58 +782,34 @@ ruleTester.run("logical-assignment-operators", rule, {
             errors: [{ messageId: "if", type: "IfStatement", suggestions: [] }]
         }, {
             code: "if (undefined === a || a === null) a = b",
-            output: null,
+            output: "a ??= b",
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{
-                messageId: "if",
-                type: "IfStatement",
-                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
-            }]
+            errors: [{ messageId: "if", type: "IfStatement", suggestions: [] }]
         }, {
             code: "if (a === undefined || null === a) a = b",
-            output: null,
+            output: "a ??= b",
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{
-                messageId: "if",
-                type: "IfStatement",
-                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
-            }]
+            errors: [{ messageId: "if", type: "IfStatement", suggestions: [] }]
         }, {
             code: "if (undefined === a || null === a) a = b",
-            output: null,
+            output: "a ??= b",
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{
-                messageId: "if",
-                type: "IfStatement",
-                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
-            }]
+            errors: [{ messageId: "if", type: "IfStatement", suggestions: [] }]
         }, {
             code: "if (null === a || a === undefined) a = b",
-            output: null,
+            output: "a ??= b",
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{
-                messageId: "if",
-                type: "IfStatement",
-                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
-            }]
+            errors: [{ messageId: "if", type: "IfStatement", suggestions: [] }]
         }, {
             code: "if (a === null || undefined === a) a = b",
-            output: null,
+            output: "a ??= b",
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{
-                messageId: "if",
-                type: "IfStatement",
-                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
-            }]
+            errors: [{ messageId: "if", type: "IfStatement", suggestions: [] }]
         }, {
             code: "if (null === a || undefined === a) a = b",
-            output: null,
+            output: "a ??= b",
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{
-                messageId: "if",
-                type: "IfStatement",
-                suggestions: [{ messageId: "convertIf", output: "a ??= b" }]
-            }]
+            errors: [{ messageId: "if", type: "IfStatement", suggestions: [] }]
         },
 
         // > Parenthesis
@@ -994,20 +954,41 @@ ruleTester.run("logical-assignment-operators", rule, {
 
         // > Members
         {
-            code: "if (a.b) a.b = b",
-            output: "a.b &&= b",
+            code: "if (a.b) a.b = c",
+            output: null,
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
+            errors: [{
+                messageId: "if",
+                type: "IfStatement",
+                suggestions: [{
+                    messageId: "convertIf",
+                    output: "a.b &&= c"
+                }]
+            }]
         }, {
             code: "if (a[b].c) a[b].c = d",
-            output: "a[b].c &&= d",
+            output: null,
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
+            errors: [{
+                messageId: "if",
+                type: "IfStatement",
+                suggestions: [{
+                    messageId: "convertIf",
+                    output: "a[b].c &&= d"
+                }]
+            }]
         }, {
-            code: "with (object) if (a.b) a.b = b",
-            output: "with (object) a.b &&= b",
+            code: "with (object) if (a) a = b",
+            output: null,
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
+            errors: [{
+                messageId: "if",
+                type: "IfStatement",
+                suggestions: [{
+                    messageId: "convertIf",
+                    output: "with (object) a &&= b"
+                }]
+            }]
         },
 
         // > Else if
@@ -1073,8 +1054,8 @@ ruleTester.run("logical-assignment-operators", rule, {
 
         // > Patterns
         {
-            code: "if (a.b) a.b = a.b.filter(predicate)",
-            output: "a.b &&= a.b.filter(predicate)",
+            code: "if (array) array = array.filter(predicate)",
+            output: "array &&= array.filter(predicate)",
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement" }]
         },
