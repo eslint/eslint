@@ -360,7 +360,7 @@ export default [
     {
         files: ["**/*.js"],
         plugins: {
-            jsdoc: jsdoc
+            jsdoc
         }
         rules: {
             "jsdoc/require-description": "error",
