@@ -13,6 +13,7 @@ const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
 const assert = require("chai").assert;
 const allConfig = require("../../../conf/eslint-all");
 const recommendedConfig = require("../../../conf/eslint-recommended");
+const stringify = require("json-stable-stringify-without-jsonify");
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -180,6 +181,78 @@ describe("FlatConfigArray", () => {
 
         assert.notStrictEqual(base[0].languageOptions, config.languageOptions);
         assert.notStrictEqual(base[0].languageOptions.parserOptions, config.languageOptions.parserOptions, "parserOptions should be new object");
+    });
+
+    describe("Serialization of configs", () => {
+        it("should convert config into normalized JSON object", () => {
+
+            const configs = new FlatConfigArray([{
+                plugins: {
+                    a: {},
+                    b: {}
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+            const expected = {
+                plugins: ["@", "a", "b"],
+                languageOptions: {
+                    ecmaVersion: "latest",
+                    sourceType: "module",
+                    parser: "@/espree",
+                    parserOptions: {}
+                },
+                processor: void 0
+            };
+            const actual = config.toJSON();
+
+            assert.deepStrictEqual(actual, expected);
+
+            assert.strictEqual(stringify(actual), stringify(expected));
+        });
+
+        it("should throw an error when config with parser object is normalized", () => {
+
+            const configs = new FlatConfigArray([{
+                languageOptions: {
+                    parser: {
+                        parse() { /* empty */ }
+                    }
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.throws(() => {
+                config.toJSON();
+            }, /Caching is not supported/u);
+
+        });
+
+        it("should throw an error when config with processor object is normalized", () => {
+
+            const configs = new FlatConfigArray([{
+                processor: {
+                    preprocess() { /* empty */ },
+                    postprocess() { /* empty */ }
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.throws(() => {
+                config.toJSON();
+            }, /Caching is not supported/u);
+
+        });
+
+
     });
 
     describe("Special configs", () => {

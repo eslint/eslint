@@ -1396,7 +1396,7 @@ describe("FlatESLint", () => {
             });
 
             // Cannot be run properly until cache is implemented
-            xit("should run autofix even if files are cached without autofix results", async () => {
+            it("should run autofix even if files are cached without autofix results", async () => {
                 const baseOptions = {
                     cwd: path.join(fixtureDir, ".."),
                     overrideConfigFile: true,
@@ -1470,7 +1470,7 @@ describe("FlatESLint", () => {
             });
         });
 
-        xdescribe("cache", () => {
+        describe("cache", () => {
 
             /**
              * helper method to delete a file without caring about exceptions
@@ -1609,11 +1609,15 @@ describe("FlatESLint", () => {
                 assert(shell.test("-f", path.resolve(cwd, ".eslintcache")), "the cache for eslint was created at provided cwd");
             });
 
-            it("should invalidate the cache if the configuration changed between executions", async () => {
-                assert(!shell.test("-f", path.resolve(".eslintcache")), "the cache for eslint does not exist");
+            it("should invalidate the cache if the overrideConfig changed between executions", async () => {
+                const cwd = getFixturePath("cache/src");
+                const cacheLocation = path.resolve(cwd, ".eslintcache");
+
+                assert(!shell.test("-f", cacheLocation), "the cache for eslint does not exist");
 
                 eslint = new FlatESLint({
                     overrideConfigFile: true,
+                    cwd,
 
                     // specifying cache true the cache will be created
                     cache: true,
@@ -1627,9 +1631,9 @@ describe("FlatESLint", () => {
                     ignore: false
                 });
 
-                let spy = sinon.spy(fs, "readFileSync");
+                let spy = sinon.spy(fs.promises, "readFile");
 
-                let file = getFixturePath("cache/src", "test-file.js");
+                let file = path.join(cwd, "test-file.js");
 
                 file = fs.realpathSync(file);
                 const results = await eslint.lintFiles([file]);
@@ -1637,14 +1641,16 @@ describe("FlatESLint", () => {
                 for (const { errorCount, warningCount } of results) {
                     assert.strictEqual(errorCount + warningCount, 0, "the file passed without errors or warnings");
                 }
-                assert.strictEqual(spy.getCall(0).args[0], file, "the module read the file because is considered changed");
-                assert(shell.test("-f", path.resolve(".eslintcache")), "the cache for eslint was created");
+
+                assert(spy.calledWith(file), "ESLint should have read the file because it's considered changed");
+                assert(shell.test("-f", cacheLocation), "the cache for eslint should still exist");
 
                 // destroy the spy
                 sinon.restore();
 
                 eslint = new FlatESLint({
                     overrideConfigFile: true,
+                    cwd,
 
                     // specifying cache true the cache will be created
                     cache: true,
@@ -1659,20 +1665,23 @@ describe("FlatESLint", () => {
                 });
 
                 // create a new spy
-                spy = sinon.spy(fs, "readFileSync");
+                spy = sinon.spy(fs.promises, "readFile");
 
                 const [cachedResult] = await eslint.lintFiles([file]);
 
-                assert.strictEqual(spy.getCall(0).args[0], file, "the module read the file because is considered changed because the config changed");
-                assert.strictEqual(cachedResult.errorCount, 1, "since configuration changed the cache was not used an one error was reported");
-                assert(shell.test("-f", path.resolve(".eslintcache")), "the cache for eslint was created");
+                assert(spy.calledWith(file), "ESLint should have read the file again because is considered changed because the config changed");
+                assert.strictEqual(cachedResult.errorCount, 1, "since configuration changed the cache was not used and one error was reported");
+                assert(shell.test("-f", cacheLocation), "The cache for ESLint should still exist (2)");
             });
 
             it("should remember the files from a previous run and do not operate on them if not changed", async () => {
-                assert(!shell.test("-f", path.resolve(".eslintcache")), "the cache for eslint does not exist");
+
+                const cwd = getFixturePath("cache/src");
+                const cacheLocation = path.resolve(cwd, ".eslintcache");
 
                 eslint = new FlatESLint({
                     overrideConfigFile: true,
+                    cwd,
 
                     // specifying cache true the cache will be created
                     cache: true,
@@ -1686,7 +1695,7 @@ describe("FlatESLint", () => {
                     ignore: false
                 });
 
-                let spy = sinon.spy(fs, "readFileSync");
+                let spy = sinon.spy(fs.promises, "readFile");
 
                 let file = getFixturePath("cache/src", "test-file.js");
 
@@ -1694,14 +1703,15 @@ describe("FlatESLint", () => {
 
                 const result = await eslint.lintFiles([file]);
 
-                assert.strictEqual(spy.getCall(0).args[0], file, "the module read the file because is considered changed");
-                assert(shell.test("-f", path.resolve(".eslintcache")), "the cache for eslint was created");
+                assert(spy.calledWith(file), "the module read the file because is considered changed");
+                assert(shell.test("-f", cacheLocation), "the cache for eslint was created");
 
                 // destroy the spy
                 sinon.restore();
 
                 eslint = new FlatESLint({
                     overrideConfigFile: true,
+                    cwd,
 
                     // specifying cache true the cache will be created
                     cache: true,
@@ -1716,7 +1726,7 @@ describe("FlatESLint", () => {
                 });
 
                 // create a new spy
-                spy = sinon.spy(fs, "readFileSync");
+                spy = sinon.spy(fs.promises, "readFile");
 
                 const cachedResult = await eslint.lintFiles([file]);
 
