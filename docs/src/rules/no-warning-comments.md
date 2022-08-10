@@ -22,7 +22,7 @@ This rule reports comments that include any of the predefined terms specified in
 This rule has an options object literal:
 
 * `"terms"`: optional array of terms to match. Defaults to `["todo", "fixme", "xxx"]`. Terms are matched case-insensitively and as whole words: `fix` would match `FIX` but not `fixing`. Terms can consist of multiple words: `really bad idea`.
-* `"location"`: optional string that configures where in your comments to check for matches. Defaults to `"start"`. For multi-line comments, the start is from the first non-decorative character, ignoring whitespace, new lines or characters specified in `decoration`. The other value is match `anywhere` in comments.
+* `"location"`: optional string that configures where in your comments to check for matches. Defaults to `"start"`. The start is from the first non-decorative character, ignoring whitespace, new lines and characters specified in `decoration`. The other value is match `anywhere` in comments.
 * `"decoration"`: optional character, or array of characters that specify decorative characters that are ignored at the start of a comment, when location is `"start"`. Defaults to `""`. Any sequence of whitespace or the characters from this property are ignored. This option is ignored when location is `"anywhere"`.
 
 Example of **incorrect** code for the default `{ "terms": ["todo", "fixme", "xxx"], "location": "start" }` options:
