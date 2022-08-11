@@ -952,9 +952,37 @@ ruleTester.run("logical-assignment-operators", rule, {
             errors: [{ messageId: "if", type: "IfStatement" }]
         },
 
-        // > Members
+        // > Members > Single Property Access
         {
             code: "if (a.b) a.b = c",
+            output: "a.b &&= c",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement", suggestions: [] }]
+        }, {
+            code: "if (a[b]) a[b] = c",
+            output: "a[b] &&= c",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement", suggestions: [] }]
+        }, {
+            code: "if (this.prop) this.prop = value",
+            output: "this.prop &&= value",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement", suggestions: [] }]
+        }, {
+            code: "(class extends SuperClass { method() { if (super.prop) super.prop = value } })",
+            output: "(class extends SuperClass { method() { super.prop &&= value } })",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement", suggestions: [] }]
+        }, {
+            code: "with (object) if (a) a = b",
+            output: "with (object) a &&= b",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement", suggestions: [] }]
+        },
+
+        // > Members > Possible Multiple Property Accesses
+        {
+            code: "if (a.b === undefined || a.b === null) a.b = c",
             output: null,
             options: ["always", { enforceForIfStatements: true }],
             errors: [{
@@ -962,7 +990,31 @@ ruleTester.run("logical-assignment-operators", rule, {
                 type: "IfStatement",
                 suggestions: [{
                     messageId: "convertIf",
-                    output: "a.b &&= c"
+                    output: "a.b ??= c"
+                }]
+            }]
+        }, {
+            code: "if (a.b.c) a.b.c = d",
+            output: null,
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{
+                messageId: "if",
+                type: "IfStatement",
+                suggestions: [{
+                    messageId: "convertIf",
+                    output: "a.b.c &&= d"
+                }]
+            }]
+        }, {
+            code: "if (a.b.c.d) a.b.c.d = e",
+            output: null,
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{
+                messageId: "if",
+                type: "IfStatement",
+                suggestions: [{
+                    messageId: "convertIf",
+                    output: "a.b.c.d &&= e"
                 }]
             }]
         }, {
@@ -978,7 +1030,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 }]
             }]
         }, {
-            code: "with (object) if (a) a = b",
+            code: "with (object) if (a.b) a.b = c",
             output: null,
             options: ["always", { enforceForIfStatements: true }],
             errors: [{
@@ -986,7 +1038,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 type: "IfStatement",
                 suggestions: [{
                     messageId: "convertIf",
-                    output: "with (object) a &&= b"
+                    output: "with (object) a.b &&= c"
                 }]
             }]
         },
