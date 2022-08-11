@@ -23,7 +23,7 @@ This rule has an options object literal:
 
 * `"terms"`: optional array of terms to match. Defaults to `["todo", "fixme", "xxx"]`. Terms are matched case-insensitively and as whole words: `fix` would match `FIX` but not `fixing`. Terms can consist of multiple words: `really bad idea`.
 * `"location"`: optional string that configures where in your comments to check for matches. Defaults to `"start"`. The start is from the first non-decorative character, ignoring whitespace, new lines and characters specified in `decoration`. The other value is match `anywhere` in comments.
-* `"decoration"`: optional character, or array of characters that specify decorative characters that are ignored at the start of a comment, when location is `"start"`. Defaults to `""`. Any sequence of whitespace or the characters from this property are ignored. This option is ignored when location is `"anywhere"`.
+* `"decoration"`: optional array of characters that are ignored at the start of a comment, when location is `"start"`. Defaults to `[]`. Any sequence of whitespace or the characters from this property are ignored. This option is ignored when location is `"anywhere"`.
 
 Example of **incorrect** code for the default `{ "terms": ["todo", "fixme", "xxx"], "location": "start" }` options:
 
@@ -145,11 +145,9 @@ Examples of **correct** code for the `{ "decoration": ["/", "*"] }` options:
 ```js
 /*eslint no-warning-comments: ["error", { "decoration": ["/", "*"] }]*/
 
-// This is to do
+//!TODO preceded by non-decoration character
 /**
- * The same goes for block comments
- * with any other interesting term
- * or fix me this
+ *!TODO preceded by non-decoration character in a block comment
  */
 ```
 

@@ -38,7 +38,8 @@ ruleTester.run("no-warning-comments", rule, {
         "/*eslint no-warning-comments: [2, { \"terms\": [\"todo\", \"fixme\", \"any other term\"], \"location\": \"anywhere\" }]*/\n\nvar x = 10;\n",
         { code: "/*eslint no-warning-comments: [2, { \"terms\": [\"todo\", \"fixme\", \"any other term\"], \"location\": \"anywhere\" }]*/\n\nvar x = 10;\n", options: [{ location: "anywhere" }] },
         { code: "// foo", options: [{ terms: ["foo-bar"] }] },
-        "/** multi-line block comment with lines starting with\nTODO\nFIXME or\nXXX\n*/"
+        "/** multi-line block comment with lines starting with\nTODO\nFIXME or\nXXX\n*/",
+        { code: "//!TODO ", options: [{ decoration: ["*"] }] }
     ],
     invalid: [
         {
@@ -398,32 +399,6 @@ ruleTester.run("no-warning-comments", rule, {
                     data: {
                         matchedTerm: "todo",
                         comment: "TODO undecorated multi-line block..."
-                    }
-                }
-            ]
-        },
-        {
-            code: "/** TODO decorated single line block comment (start) */",
-            options: [{ terms: ["todo"], location: "start", decoration: "*" }],
-            errors: [
-                {
-                    messageId: "unexpectedComment",
-                    data: {
-                        matchedTerm: "todo",
-                        comment: "* TODO decorated single line block..."
-                    }
-                }
-            ]
-        },
-        {
-            code: "/**\n * TODO decorated multi-line block comment (start) \n */",
-            options: [{ terms: ["todo"], location: "start", decoration: "*" }],
-            errors: [
-                {
-                    messageId: "unexpectedComment",
-                    data: {
-                        matchedTerm: "todo",
-                        comment: "* * TODO decorated multi-line block..."
                     }
                 }
             ]
