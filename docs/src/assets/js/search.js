@@ -19,7 +19,9 @@ const index = client.initIndex('eslint');
 
 // page
 const resultsElement = document.querySelector('#search-results');
+const resultsLiveRegion = document.querySelector('#search-results-announcement');
 const searchInput = document.querySelector('#search');
+const searchClearBtn = document.querySelector('#search__clear-btn');
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -27,12 +29,12 @@ const searchInput = document.querySelector('#search');
 
 /**
  * Executes a search against the Algolia index.
- * @param {string} query The search query to execute. 
+ * @param {string} query The search query to execute.
  * @returns {Promise<Array<object>>} The search results.
  */
 function fetchSearchResults(query) {
     return index.search(query, {
-        facetFilters: ["tags:docs"]
+        // facetFilters: ["tags:docs"]
     }).then(({ hits }) => hits);
 }
 
@@ -44,6 +46,8 @@ function clearSearchResults() {
     while (resultsElement.firstChild) {
         resultsElement.removeChild(resultsElement.firstChild);
     }
+    resultsElement.innerHTML = "";
+    searchClearBtn.setAttribute('hidden', '');
 }
 
 /**
@@ -58,18 +62,28 @@ function displaySearchResults(results) {
     if (results.length) {
 
         const list = document.createElement("ul");
+        list.setAttribute('role', 'list');
+        list.classList.add('search-results__list');
         resultsElement.append(list);
-    
+        resultsElement.setAttribute('data-results', 'true');
+
         for (const result of results) {
             const listItem = document.createElement('li');
+            listItem.classList.add('search-results__item');
+            const maxLvl = Math.max(...Object.keys(result._highlightResult.hierarchy).map(k => Number(k.substring(3))));
             listItem.innerHTML = `
-                <a href="${result.url}">${result.hierarchy.lvl0}</a><br>
-                ${result._highlightResult.hierarchy.lvl0.value}
+                <h2 class="search-results__item__title"><a href="${result.url}">${result.hierarchy.lvl0}</a></h2>
+                <p class="search-results__item__context">${typeof result._highlightResult.content !== 'undefined' ? result._highlightResult.content.value : result._highlightResult.hierarchy[`lvl${maxLvl}`].value}</p>
             `.trim();
             list.append(listItem);
         }
+        searchClearBtn.removeAttribute('hidden');
+
     } else {
+        resultsLiveRegion.innerHTML = "No results found.";
         resultsElement.innerHTML = "No results found.";
+        resultsElement.setAttribute('data-results', 'false');
+        searchClearBtn.setAttribute('hidden', '');
     }
 
 }
@@ -78,45 +92,37 @@ function displaySearchResults(results) {
 // Event Handlers
 //-----------------------------------------------------------------------------
 
-
-
-
 // listen for input changes
-searchInput.addEventListener('keyup', function (event) {
-    const query = searchInput.value;
+if(searchInput)
+    searchInput.addEventListener('keyup', function (e) {
+        const query = searchInput.value;
 
-    if (query.length > 2) {
-        fetchSearchResults(query)
-            .then(displaySearchResults)
-            .catch(clearSearchResults);
-    } else {
+        if(query.length) searchClearBtn.removeAttribute('hidden');
+        else searchClearBtn.setAttribute('hidden', '');
+
+        if (query.length > 2) {
+            fetchSearchResults(query)
+                .then(displaySearchResults)
+                .catch(clearSearchResults);
+
+            document.addEventListener('click', function(e) {
+                if(e.target !== resultsElement) clearSearchResults();
+            });
+        } else {
+            clearSearchResults();
+        }
+    });
+
+if(resultsElement)
+    resultsElement.addEventListener('keydown', function(e) {
+        if(e.key === "Escape") {
+            clearSearchResults();
+        }
+    }, true);
+
+if(searchClearBtn)
+    searchClearBtn.addEventListener('click', function(e) {
+        searchInput.value = '';
+        searchInput.focus();
         clearSearchResults();
-    }
-});
-
-    // add an event listenrer for a click on the search link
-    //   btnHandler('#search-link', function(){
-
-    //     // get the data
-    //     fetch('/search.json').then(function(response) {
-    //       return response.json();
-    //     }).then(function(response) {
-
-    //       searchIndex = response.search;
-
-    //     });
-
-    //     searchUI.toggleAttribute('hidden');
-    //     searchInput.focus();
-
-    //     // listen for input changes
-    //     searchInput.addEventListener('keyup', function(event) {
-    //       const str = searchInput.value;
-    //       if(str.length > 2) {
-    //         find(str);
-    //       } else {
-    //         clearResults();
-    //       }
-    //     });
-
-    //   });
+    });

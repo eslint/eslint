@@ -5,9 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-octal.md
 rule_type: suggestion
 ---
 
-<!--RECOMMENDED-->
 
-Disallows octal literals.
 
 Octal literals are numerals that begin with a leading zero, such as:
 
@@ -25,6 +23,8 @@ If ESLint parses code in strict mode, the parser (instead of this rule) reports 
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-octal: "error"*/
 
@@ -32,13 +32,19 @@ var num = 071;
 var result = 5 + 07;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-octal: "error"*/
 
 var num  = "071";
 ```
+
+:::
 
 ## Compatibility
 

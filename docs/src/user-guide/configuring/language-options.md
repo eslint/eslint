@@ -10,10 +10,6 @@ eleventyNavigation:
 
 ---
 
-* [Specifying Environments](#specifying-environments)
-* [Specifying Globals](#specifying-globals)
-* [Specifying Parser Options](#specifying-parser-options)
-
 ## Specifying Environments
 
 An environment provides predefined global variables. The available environments are:
@@ -53,7 +49,7 @@ An environment provides predefined global variables. The available environments 
 
 These environments are not mutually exclusive, so you can define more than one at a time.
 
-Environments can be specified inside of a file, in configuration files or using the `--env` [command line](https://eslint.org/docs/user-guide/command-line-interface) flag.
+Environments can be specified inside of a file, in configuration files or using the `--env` [command line](../command-line-interface) flag.
 
 ### Using configuration comments
 

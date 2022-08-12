@@ -5,9 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-unsafe-f
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
 
-Disallows control flow statements in `finally` blocks.
 
 JavaScript suspends the control flow statements of `try` and `catch` blocks until the execution of `finally` block finishes. So, when `return`, `throw`, `break`, or `continue` is used in `finally`, control flow statements inside `try` and `catch` are overwritten, which is considered as unexpected behavior. Such as:
 
@@ -74,6 +72,8 @@ This rule disallows `return`, `throw`, `break`, and `continue` statements inside
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-unsafe-finally: "error"*/
 let foo = function() {
@@ -86,6 +86,10 @@ let foo = function() {
     }
 };
 ```
+
+:::
+
+::: incorrect
 
 ```js
 /*eslint no-unsafe-finally: "error"*/
@@ -100,7 +104,11 @@ let foo = function() {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-unsafe-finally: "error"*/
@@ -114,6 +122,10 @@ let foo = function() {
     }
 };
 ```
+
+:::
+
+::: correct
 
 ```js
 /*eslint no-unsafe-finally: "error"*/
@@ -129,6 +141,10 @@ let foo = function() {
     }
 };
 ```
+
+:::
+
+::: correct
 
 ```js
 /*eslint no-unsafe-finally: "error"*/
@@ -147,6 +163,8 @@ let foo = function(a) {
     }
 };
 ```
+
+:::
 
 ## When Not To Use It
 

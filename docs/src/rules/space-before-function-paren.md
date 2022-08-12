@@ -8,9 +8,7 @@ related_rules:
 - space-return-throw-case
 ---
 
-<!--FIXABLE-->
 
-Requires or disallows a space before function parenthesis.
 
 When formatting a function, whitespace is allowed between the function name or `function` keyword and the opening paren. Named functions also require a space between the `function` keyword and the function name, but anonymous functions require no whitespace. For example:
 
@@ -66,6 +64,8 @@ Each of the following options can be set to `"always"`, `"never"`, or `"ignore"`
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
+::: incorrect
+
 ```js
 /*eslint space-before-function-paren: "error"*/
 /*eslint-env es6*/
@@ -97,7 +97,11 @@ var foo = {
 var foo = async() => 1
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"always"` option:
+
+::: correct
 
 ```js
 /*eslint space-before-function-paren: "error"*/
@@ -129,11 +133,15 @@ var foo = {
 
 var foo = async () => 1
 ```
+
+:::
 
 ### "never"
 
 Examples of **incorrect** code for this rule with the `"never"` option:
 
+::: incorrect
+
 ```js
 /*eslint space-before-function-paren: ["error", "never"]*/
 /*eslint-env es6*/
@@ -165,7 +173,11 @@ var foo = {
 var foo = async () => 1
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"never"` option:
+
+::: correct
 
 ```js
 /*eslint space-before-function-paren: ["error", "never"]*/
@@ -198,9 +210,13 @@ var foo = {
 var foo = async() => 1
 ```
 
+:::
+
 ### `{"anonymous": "always", "named": "never", "asyncArrow": "always"}`
 
 Examples of **incorrect** code for this rule with the `{"anonymous": "always", "named": "never", "asyncArrow": "always"}` option:
+
+::: incorrect
 
 ```js
 /*eslint space-before-function-paren: ["error", {"anonymous": "always", "named": "never", "asyncArrow": "always"}]*/
@@ -229,7 +245,11 @@ var foo = {
 var foo = async(a) => await a
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{"anonymous": "always", "named": "never", "asyncArrow": "always"}` option:
+
+::: correct
 
 ```js
 /*eslint space-before-function-paren: ["error", {"anonymous": "always", "named": "never", "asyncArrow": "always"}]*/
@@ -258,9 +278,13 @@ var foo = {
 var foo = async (a) => await a
 ```
 
+:::
+
 ### `{"anonymous": "never", "named": "always"}`
 
 Examples of **incorrect** code for this rule with the `{"anonymous": "never", "named": "always"}` option:
+
+::: incorrect
 
 ```js
 /*eslint space-before-function-paren: ["error", { "anonymous": "never", "named": "always" }]*/
@@ -287,7 +311,11 @@ var foo = {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{"anonymous": "never", "named": "always"}` option:
+
+::: correct
 
 ```js
 /*eslint space-before-function-paren: ["error", { "anonymous": "never", "named": "always" }]*/
@@ -313,11 +341,15 @@ var foo = {
     }
 };
 ```
+
+:::
 
 ### `{"anonymous": "ignore", "named": "always"}`
 
 Examples of **incorrect** code for this rule with the `{"anonymous": "ignore", "named": "always"}` option:
 
+::: incorrect
+
 ```js
 /*eslint space-before-function-paren: ["error", { "anonymous": "ignore", "named": "always" }]*/
 /*eslint-env es6*/
@@ -339,7 +371,11 @@ var foo = {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{"anonymous": "ignore", "named": "always"}` option:
+
+::: correct
 
 ```js
 /*eslint space-before-function-paren: ["error", { "anonymous": "ignore", "named": "always" }]*/
@@ -369,6 +405,8 @@ var foo = {
     }
 };
 ```
+
+:::
 
 ## When Not To Use It
 

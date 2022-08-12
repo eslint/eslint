@@ -5,9 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/newline-aft
 rule_type: layout
 ---
 
-<!--FIXABLE-->
 
-Requires or disallows an empty line after variable declarations.
 
 This rule was **deprecated** in ESLint v4.0.0 and replaced by the [padding-line-between-statements](padding-line-between-statements) rule.
 
@@ -46,6 +44,8 @@ This rule has a string option:
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
+::: incorrect
+
 ```js
 /*eslint newline-after-var: ["error", "always"]*/
 /*eslint-env es6*/
@@ -67,9 +67,13 @@ var name = "world";
 // var name = require("world");
 console.log(greet, name);
 ```
+
+:::
 
 Examples of **correct** code for this rule with the default `"always"` option:
 
+::: correct
+
 ```js
 /*eslint newline-after-var: ["error", "always"]*/
 /*eslint-env es6*/
@@ -95,11 +99,15 @@ var name = "world";
 
 console.log(greet, name);
 ```
+
+:::
 
 ### never
 
 Examples of **incorrect** code for this rule with the `"never"` option:
 
+::: incorrect
+
 ```js
 /*eslint newline-after-var: ["error", "never"]*/
 /*eslint-env es6*/
@@ -125,9 +133,13 @@ var name = "world";
 
 console.log(greet, name);
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `"never"` option:
 
+::: correct
+
 ```js
 /*eslint newline-after-var: ["error", "never"]*/
 /*eslint-env es6*/
@@ -149,3 +161,5 @@ var name = "world";
 // var name = require("world");
 console.log(greet, name);
 ```
+
+:::

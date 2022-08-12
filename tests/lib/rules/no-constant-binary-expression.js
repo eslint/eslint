@@ -21,7 +21,7 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2021, ecmaFeat
 ruleTester.run("no-constant-binary-expression", rule, {
     valid: [
 
-        // While this _would_ be a constant condition in React, ESLint has a polciy of not attributing any specific behavior to JSX.
+        // While this _would_ be a constant condition in React, ESLint has a policy of not attributing any specific behavior to JSX.
         "<p /> && foo",
         "<></> && foo",
         "<p /> ?? foo",

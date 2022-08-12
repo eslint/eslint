@@ -4,7 +4,7 @@ layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/maintainer-guide/governance.md
 eleventyNavigation:
     key: governance
-    parent: maintainer guide 
+    parent: maintainer guide
     title: Governance
     order: 4
 
@@ -26,11 +26,34 @@ Contributors are community members who contribute in concrete ways to the projec
 
 Contributors have read-only access to source code and so submit changes via pull requests. Contributor pull requests have their contribution reviewed and merged by a TSC member. TSC members and Committers work with Contributors to review their code and prepare it for merging.
 
-As Contributors gain experience and familiarity with the project, their profile within, and commitment to, the community will increase. At some stage, they may find themselves being nominated for committership by an existing Committer.
+As Contributors gain experience and familiarity with the project, their profile within, and commitment to, the community will increase. At some stage, they may find themselves being nominated as either a Website Team Member or Committer by an existing Website Team Member or Committer.
+
+### Website Team Member
+
+Website Team Members are community members who have shown that they are committed to the continued maintenance of [eslint.org](https://eslint.org/) through ongoing engagement with the community. Website Team Members are given push access to the `eslint.org` GitHub repository and must abide by the project's [Contribution Guidelines](../developer-guide/contributing/).
+
+ Website Team Members:
+
+* Are expected to work on public branches of the source repository and submit pull requests from that branch to the master branch.
+* Are expected to delete their public branches when they are no longer necessary.
+* Must submit pull requests for all changes.
+* Have their work reviewed by Reviewers and TSC members before acceptance into the repository.
+* May label and close website-related issues (see [Managing Issues](issues.html))
+* May merge some pull requests (see [Managing Pull Requests](pullrequests.html))
+
+To become a  Website Team Member:
+
+* One must have shown a willingness and ability to participate in the maintenance of [eslint.org](https://eslint.org/) as a team player. Typically, a potential  Website Team Member will need to show that they have an understanding of the structure of the website and how it fits into the larger ESLint project's objectives and strategy.
+* Website Team Members are expected to be respectful of every community member and to work collaboratively in the spirit of inclusion.
+* Have submitted a minimum of 10 website-related pull requests. What's a website-related pull request? One that is made to the `eslint.org` repository or the `docs` directory in the `eslint` repository and requires little effort to accept because it's well documented and tested.
+
+New Website Team Members can be nominated by any existing Website Team Member or Committer. Once they have been nominated, there will be a vote by the TSC members.
+
+It is important to recognize that membership on the website team is a privilege, not a right. That privilege must be earned and once earned it can be removed by the TSC members by a standard TSC motion. However, under normal circumstances Website Team Members remain for as long as they wish to continue engaging with the project.
 
 ### Committers
 
-Committers are community members who have shown that they are committed to the continued development of the project through ongoing engagement with the community. Committers are given push access to the project's GitHub repos and must abide by the project's [Contribution Guidelines](../developer-guide/contributing).
+Committers are community members who have shown that they are committed to the continued development of the project through ongoing engagement with the community. Committers are given push access to the project's GitHub repos and must abide by the project's [Contribution Guidelines](../developer-guide/contributing/).
 
 Committers:
 

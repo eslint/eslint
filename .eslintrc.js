@@ -46,8 +46,7 @@ module.exports = {
         "internal-rules"
     ],
     extends: [
-        "eslint",
-        "plugin:eslint-plugin/recommended"
+        "eslint"
     ],
     parserOptions: {
         ecmaVersion: 2021
@@ -63,21 +62,29 @@ module.exports = {
         }
     },
     rules: {
-        "eslint-plugin/prefer-message-ids": "error",
-        "eslint-plugin/prefer-output-null": "error",
-        "eslint-plugin/prefer-placeholders": "error",
-        "eslint-plugin/prefer-replace-text": "error",
-        "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
-        "eslint-plugin/require-meta-docs-description": "error",
-        "eslint-plugin/test-case-property-ordering": "error",
-        "eslint-plugin/test-case-shorthand-strings": "error",
         "internal-rules/multiline-comment-style": "error"
     },
     overrides: [
         {
+            files: ["tools/*.js"],
+            rules: {
+                "no-console": "off"
+            }
+        },
+        {
             files: ["lib/rules/*", "tools/internal-rules/*"],
             excludedFiles: ["index.js"],
+            extends: [
+                "plugin:eslint-plugin/rules-recommended"
+            ],
             rules: {
+                "eslint-plugin/no-missing-message-ids": "error",
+                "eslint-plugin/no-unused-message-ids": "error",
+                "eslint-plugin/prefer-message-ids": "error",
+                "eslint-plugin/prefer-placeholders": "error",
+                "eslint-plugin/prefer-replace-text": "error",
+                "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
+                "eslint-plugin/require-meta-docs-description": ["error", { pattern: "^(Enforce|Require|Disallow)" }],
                 "internal-rules/no-invalid-meta": "error"
             }
         },
@@ -86,6 +93,17 @@ module.exports = {
             excludedFiles: ["index.js"],
             rules: {
                 "eslint-plugin/require-meta-docs-url": ["error", { pattern: "https://eslint.org/docs/rules/{{name}}" }]
+            }
+        },
+        {
+            files: ["tests/lib/rules/*", "tests/tools/internal-rules/*"],
+            extends: [
+                "plugin:eslint-plugin/tests-recommended"
+            ],
+            rules: {
+                "eslint-plugin/prefer-output-null": "error",
+                "eslint-plugin/test-case-property-ordering": "error",
+                "eslint-plugin/test-case-shorthand-strings": "error"
             }
         },
         {
@@ -104,7 +122,7 @@ module.exports = {
             files: ["lib/*"],
             excludedFiles: ["lib/unsupported-api.js"],
             rules: {
-                "node/no-restricted-require": ["error", [
+                "n/no-restricted-require": ["error", [
                     ...createInternalFilesPatterns()
                 ]]
             }
@@ -112,7 +130,7 @@ module.exports = {
         {
             files: [INTERNAL_FILES.CLI_ENGINE_PATTERN],
             rules: {
-                "node/no-restricted-require": ["error", [
+                "n/no-restricted-require": ["error", [
                     ...createInternalFilesPatterns(INTERNAL_FILES.CLI_ENGINE_PATTERN)
                 ]]
             }
@@ -120,7 +138,7 @@ module.exports = {
         {
             files: [INTERNAL_FILES.LINTER_PATTERN],
             rules: {
-                "node/no-restricted-require": ["error", [
+                "n/no-restricted-require": ["error", [
                     ...createInternalFilesPatterns(INTERNAL_FILES.LINTER_PATTERN),
                     "fs",
                     resolveAbsolutePath("lib/cli-engine/index.js"),
@@ -131,7 +149,7 @@ module.exports = {
         {
             files: [INTERNAL_FILES.RULES_PATTERN],
             rules: {
-                "node/no-restricted-require": ["error", [
+                "n/no-restricted-require": ["error", [
                     ...createInternalFilesPatterns(INTERNAL_FILES.RULES_PATTERN),
                     "fs",
                     resolveAbsolutePath("lib/cli-engine/index.js"),
@@ -144,7 +162,7 @@ module.exports = {
         {
             files: ["lib/shared/**/*"],
             rules: {
-                "node/no-restricted-require": ["error", [
+                "n/no-restricted-require": ["error", [
                     ...createInternalFilesPatterns(),
                     resolveAbsolutePath("lib/cli-engine/index.js"),
                     resolveAbsolutePath("lib/linter/index.js"),
@@ -156,7 +174,7 @@ module.exports = {
         {
             files: [INTERNAL_FILES.SOURCE_CODE_PATTERN],
             rules: {
-                "node/no-restricted-require": ["error", [
+                "n/no-restricted-require": ["error", [
                     ...createInternalFilesPatterns(INTERNAL_FILES.SOURCE_CODE_PATTERN),
                     "fs",
                     resolveAbsolutePath("lib/cli-engine/index.js"),
@@ -169,7 +187,7 @@ module.exports = {
         {
             files: [INTERNAL_FILES.RULE_TESTER_PATTERN],
             rules: {
-                "node/no-restricted-require": ["error", [
+                "n/no-restricted-require": ["error", [
                     ...createInternalFilesPatterns(INTERNAL_FILES.RULE_TESTER_PATTERN),
                     resolveAbsolutePath("lib/cli-engine/index.js")
                 ]]

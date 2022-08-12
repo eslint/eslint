@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-construc
 rule_type: problem
 ---
 
-Disallows returning values in constructor.
 
 In JavaScript, returning a value in the constructor of a class may be a mistake. Forbidding this pattern prevents mistakes resulting from unfamiliarity with the language or a copy-paste error.
 
@@ -14,6 +13,8 @@ In JavaScript, returning a value in the constructor of a class may be a mistake.
 This rule disallows return statements in the constructor of a class. Note that returning nothing with flow control is allowed.
 
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint no-constructor-return: "error"*/
@@ -34,7 +35,11 @@ class B {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-constructor-return: "error"*/
@@ -55,3 +60,5 @@ class D {
     }
 }
 ```
+
+:::

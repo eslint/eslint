@@ -6,35 +6,35 @@ To indicate correct and incorrect code usage, some code blocks can have correct 
 
 ## Usage
 
-To indicate that a code block is correct or incorrect, wrap the code block in a `div` and provide the `data-correct-code` and `data-incorrect-code` attributes, repsectively.
+To indicate that a code block is correct or incorrect, wrap the code block in a container labeled either `correct` or `incorrect`.
 
 Make sure to leave space above and below the markdown code block to ensure it is rendered correctly.
 
-```html
-<div data-correct-code>
+```text
+::: correct
 
 `` `js
 function() {
     const another = [];
 }
 `` `
-</div>
+:::
 
-<div data-incorrect-code>
+::: incorrect
 
 `` `js
 function() {
     const another = [];
 }
 `` `
-</div>
+:::
 ```
 
 ## Examples
 
 Correct usage:
 
-<div data-correct-code>
+::: correct
 
 ```js
 const { ESLint } = require("eslint");
@@ -61,11 +61,11 @@ const { ESLint } = require("eslint");
 });
 ```
 
-</div>
+:::
 
 Incorrect usage:
 
-<div data-incorrect-code>
+::: incorrect
 
 ```js
 const { ESLint } = require("eslint");
@@ -92,4 +92,4 @@ const { ESLint } = require("eslint");
 });
 ```
 
-</div>
+:::

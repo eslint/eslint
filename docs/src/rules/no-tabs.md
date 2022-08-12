@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-tabs.md
 rule_type: layout
 ---
 
-Disallows all tabs.
 
 Some style guides don't allow the use of tab characters at all, including within comments.
 
@@ -14,6 +13,8 @@ Some style guides don't allow the use of tab characters at all, including within
 This rule looks for tabs anywhere inside a file: code, comments or anything else.
 
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 var a \t= 2;
@@ -26,7 +27,11 @@ function test(){}
 var x = 1; // \t test
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 var a = 2;
@@ -39,6 +44,8 @@ function test(){}
 var x = 1; // test
 ```
 
+:::
+
 ### Options
 
 This rule has an optional object option with the following properties:
@@ -49,6 +56,8 @@ This rule has an optional object option with the following properties:
 
 Examples of **correct** code for this rule with the `allowIndentationTabs: true` option:
 
+::: correct
+
 ```js
 /* eslint no-tabs: ["error", { allowIndentationTabs: true }] */
 
@@ -58,6 +67,8 @@ function test() {
 
 \t// comment with leading indentation tab
 ```
+
+:::
 
 ## When Not To Use It
 

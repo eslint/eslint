@@ -5,9 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/wrap-iife.m
 rule_type: layout
 ---
 
-<!--FIXABLE-->
 
-Requires IIFEs to be wrapped.
 
 You can immediately invoke function expressions, but not function declarations. A common technique to create an immediately-invoked function expression (IIFE) is to wrap a function declaration in parentheses. The opening parentheses causes the contained function to be parsed as an expression, rather than a declaration.
 
@@ -41,6 +39,8 @@ Object option:
 
 Examples of **incorrect** code for the default `"outside"` option:
 
+::: incorrect
+
 ```js
 /*eslint wrap-iife: ["error", "outside"]*/
 
@@ -48,18 +48,26 @@ var x = function () { return { y: 1 };}(); // unwrapped
 var x = (function () { return { y: 1 };})(); // wrapped function expression
 ```
 
+:::
+
 Examples of **correct** code for the default `"outside"` option:
+
+::: correct
 
 ```js
 /*eslint wrap-iife: ["error", "outside"]*/
 
 var x = (function () { return { y: 1 };}()); // wrapped call expression
 ```
+
+:::
 
 ### inside
 
 Examples of **incorrect** code for the `"inside"` option:
 
+::: incorrect
+
 ```js
 /*eslint wrap-iife: ["error", "inside"]*/
 
@@ -67,25 +75,37 @@ var x = function () { return { y: 1 };}(); // unwrapped
 var x = (function () { return { y: 1 };}()); // wrapped call expression
 ```
 
+:::
+
 Examples of **correct** code for the `"inside"` option:
+
+::: correct
 
 ```js
 /*eslint wrap-iife: ["error", "inside"]*/
 
 var x = (function () { return { y: 1 };})(); // wrapped function expression
 ```
+
+:::
 
 ### any
 
 Examples of **incorrect** code for the `"any"` option:
 
+::: incorrect
+
 ```js
 /*eslint wrap-iife: ["error", "any"]*/
 
 var x = function () { return { y: 1 };}(); // unwrapped
 ```
 
+:::
+
 Examples of **correct** code for the `"any"` option:
+
+::: correct
 
 ```js
 /*eslint wrap-iife: ["error", "any"]*/
@@ -94,9 +114,13 @@ var x = (function () { return { y: 1 };}()); // wrapped call expression
 var x = (function () { return { y: 1 };})(); // wrapped function expression
 ```
 
+:::
+
 ### functionPrototypeMethods
 
 Examples of **incorrect** code for this rule with the `"inside", { "functionPrototypeMethods": true }` options:
+
+::: incorrect
 
 ```js
 /* eslint wrap-iife: [2, "inside", { functionPrototypeMethods: true }] */
@@ -107,7 +131,11 @@ var x = function(){ foo(); }.call(bar)
 var x = (function(){ foo(); }.call(bar))
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"inside", { "functionPrototypeMethods": true }` options:
+
+::: correct
 
 ```js
 /* eslint wrap-iife: [2, "inside", { functionPrototypeMethods: true }] */
@@ -115,3 +143,5 @@ Examples of **correct** code for this rule with the `"inside", { "functionProtot
 var x = (function(){ foo(); })()
 var x = (function(){ foo(); }).call(bar)
 ```
+
+:::

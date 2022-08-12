@@ -5,9 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-empty-pa
 rule_type: problem
 ---
 
-<!--RECOMMENDED-->
 
-Disallows empty destructuring patterns.
 
 When using destructuring, it's possible to create a pattern that has no effect. This happens when empty curly braces are used to the right of an embedded object destructuring pattern, such as:
 
@@ -38,6 +36,8 @@ This rule aims to flag any empty patterns in destructured objects and arrays, an
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-empty-pattern: "error"*/
 
@@ -51,7 +51,11 @@ function foo({a: {}}) {}
 function foo({a: []}) {}
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-empty-pattern: "error"*/
@@ -61,3 +65,5 @@ var {a = []} = foo;
 function foo({a = {}}) {}
 function foo({a = []}) {}
 ```
+
+:::

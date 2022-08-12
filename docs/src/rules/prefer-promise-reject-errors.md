@@ -9,7 +9,6 @@ further_reading:
 - http://bluebirdjs.com/docs/warning-explanations.html#warning-a-promise-was-rejected-with-a-non-error
 ---
 
-Requires using Error objects as Promise rejection reasons.
 
 It is considered good practice to only pass instances of the built-in `Error` object to the `reject()` function for user-defined errors in Promises. `Error` objects automatically store a stack trace, which can be used to debug an error by determining where it came from. If a Promise is rejected with a non-`Error` value, it can be difficult to determine where the rejection occurred.
 
@@ -24,6 +23,8 @@ This rule takes one optional object argument:
 * `allowEmptyReject: true` (`false` by default) allows calls to `Promise.reject()` with no arguments.
 
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint prefer-promise-reject-errors: "error"*/
@@ -44,7 +45,11 @@ new Promise(function(resolve, reject) {
 
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint prefer-promise-reject-errors: "error"*/
@@ -61,7 +66,11 @@ var foo = getUnknownValue();
 Promise.reject(foo);
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `allowEmptyReject: true` option:
+
+::: correct
 
 ```js
 /*eslint prefer-promise-reject-errors: ["error", {"allowEmptyReject": true}]*/
@@ -72,6 +81,8 @@ new Promise(function(resolve, reject) {
   reject();
 });
 ```
+
+:::
 
 ## Known Limitations
 

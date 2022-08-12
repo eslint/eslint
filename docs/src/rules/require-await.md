@@ -7,7 +7,6 @@ related_rules:
 - require-yield
 ---
 
-Disallows async functions which have no `await` expression.
 
 Asynchronous functions in JavaScript behave differently than other functions in two important ways:
 
@@ -35,6 +34,8 @@ This rule warns async functions which have no `await` expression.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint require-await: "error"*/
 
@@ -47,7 +48,11 @@ bar(async () => {
 });
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint require-await: "error"*/
@@ -71,6 +76,8 @@ bar(() => {
 // Allow empty functions.
 async function noop() {}
 ```
+
+:::
 
 ## When Not To Use It
 

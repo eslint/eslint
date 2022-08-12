@@ -667,7 +667,7 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 1,
                         ruleId: null,
-                        justification: "justificatiion"
+                        justification: "justification"
                     }],
                     problems: [{ line: 3, column: 3, ruleId: "foo" }]
                 }),

@@ -9,9 +9,7 @@ related_rules:
 - space-unary-ops
 ---
 
-<!--RECOMMENDED-->
 
-Disallows confusing multiline expressions.
 
 Semicolons are usually optional in JavaScript, because of automatic semicolon insertion (ASI). You can require or disallow semicolons with the [semi](./semi) rule.
 
@@ -29,6 +27,8 @@ In the exceptions where a newline does **not** end a statement, a typing mistake
 This rule disallows confusing multiline expressions where a newline looks like it is ending a statement, but is not.
 
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint no-unexpected-multiline: "error"*/
@@ -50,7 +50,11 @@ let x = foo
 /regex/g.test(bar)
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-unexpected-multiline: "error"*/
@@ -73,6 +77,8 @@ let x = function() {};
 let tag = function() {}
 tag `hello`
 ```
+
+:::
 
 ## When Not To Use It
 

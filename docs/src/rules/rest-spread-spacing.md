@@ -7,9 +7,7 @@ further_reading:
 - https://github.com/tc39/proposal-object-rest-spread
 ---
 
-<!--FIXABLE-->
 
-Enforces spacing between rest and spread operators and their expressions.
 
 ES2015 introduced the rest and spread operators, which expand an iterable structure into its individual parts. Some examples of their usage are as follows:
 
@@ -84,6 +82,8 @@ rest-spread-spacing: ["error", "never"]
 
 Examples of **incorrect** code for this rule with `"never"`:
 
+::: incorrect
+
 ```js
 /*eslint rest-spread-spacing: ["error", "never"]*/
 
@@ -95,7 +95,11 @@ let { x, y, ... z } = { x: 1, y: 2, a: 3, b: 4 };
 let n = { x, y, ... z };
 ```
 
+:::
+
 Examples of **correct** code for this rule with `"never"`:
+
+::: correct
 
 ```js
 /*eslint rest-spread-spacing: ["error", "never"]*/
@@ -108,6 +112,8 @@ let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };
 let n = { x, y, ...z };
 ```
 
+:::
+
 ### "always"
 
 When using the `"always"` option, whitespace is required between spread operators and their expressions.
@@ -117,6 +123,8 @@ rest-spread-spacing: ["error", "always"]
 ```
 
 Examples of **incorrect** code for this rule with `"always"`:
+
+::: incorrect
 
 ```js
 /*eslint rest-spread-spacing:["error", "always"]*/
@@ -129,7 +137,11 @@ let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };
 let n = { x, y, ...z };
 ```
 
+:::
+
 Examples of **correct** code for this rule with `"always"`:
+
+::: correct
 
 ```js
 /*eslint rest-spread-spacing: ["error", "always"]*/
@@ -141,6 +153,8 @@ function fn(... args) { console.log(args); }
 let { x, y, ... z } = { x: 1, y: 2, a: 3, b: 4 };
 let n = { x, y, ... z };
 ```
+
+:::
 
 ## When Not To Use It
 

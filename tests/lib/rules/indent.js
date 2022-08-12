@@ -778,6 +778,21 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                with (a)
+                    b();
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                with (a)
+                    b();
+                c();
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
                 if(true)
                   if (true)
                     if (true)
@@ -6082,6 +6097,270 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { FunctionExpression: { body: 2 }, StaticBlock: { body: 2 } }],
             parserOptions: { ecmaVersion: 2022 }
+        },
+
+        // https://github.com/eslint/eslint/issues/15930
+        {
+            code: unIndent`
+                if (2 > 1)
+                \tconsole.log('a')
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: ["tab"]
+        },
+        {
+            code: unIndent`
+                if (2 > 1)
+                    console.log('a')
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                if (foo) bar();
+                baz()
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                if (foo) bar()
+                ;baz()
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    bar();
+                baz();
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    bar()
+                ; baz()
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    bar()
+                ;baz()
+                qux()
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    bar()
+                ;else
+                    baz()
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    bar()
+                else
+                    baz()
+                ;qux()
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    if (bar)
+                        baz()
+                ;qux()
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    bar()
+                else if (baz)
+                    qux()
+                ;quux()
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    if (bar)
+                        baz()
+                    else
+                        qux()
+                ;quux()
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    bar()
+                    ;
+                baz()
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    ;
+                baz()
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                if (foo)
+                ;baz()
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                if (foo);
+                else
+                    baz()
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    ;
+                else
+                    baz()
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                if (foo)
+                ;else
+                    baz()
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                do foo();
+                while (bar)
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                do foo()
+                ;while (bar)
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                do
+                    foo();
+                while (bar)
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                do
+                    foo()
+                ;while (bar)
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                do;
+                while (foo)
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                do
+                    ;
+                while (foo)
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                do
+                ;while (foo)
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                while (2 > 1)
+                    console.log('a')
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                for (;;)
+                    console.log('a')
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                for (a in b)
+                    console.log('a')
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                for (a of b)
+                    console.log('a')
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                with (a)
+                    console.log(b)
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                label: for (a of b)
+                    console.log('a')
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: [4]
+        },
+        {
+            code: unIndent`
+                label:
+                for (a of b)
+                    console.log('a')
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: [4]
         }
     ],
 
@@ -6693,6 +6972,20 @@ ruleTester.run("indent", rule, {
                 do
                     b();
                 while(true)
+            `,
+            options: [4],
+            errors: expectedErrors([
+                [2, 4, 0, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                with(a)
+                b();
+            `,
+            output: unIndent`
+                with(a)
+                    b();
             `,
             options: [4],
             errors: expectedErrors([
@@ -12623,6 +12916,471 @@ ruleTester.run("indent", rule, {
                 [6, 12, 0, "Identifier"],
                 [7, 4, 0, "Punctuator"]
             ])
+        },
+
+        // https://github.com/eslint/eslint/issues/15930
+        {
+            code: unIndent`
+                if (2 > 1)
+                \tconsole.log('a')
+                \t;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            output: unIndent`
+                if (2 > 1)
+                \tconsole.log('a')
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: ["tab"],
+            errors: expectedErrors("tab", [3, 0, 1, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                if (2 > 1)
+                    console.log('a')
+                    ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            output: unIndent`
+                if (2 > 1)
+                    console.log('a')
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: [4],
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                if (foo) bar();
+                    baz()
+            `,
+            output: unIndent`
+                if (foo) bar();
+                baz()
+            `,
+            options: [4],
+            errors: expectedErrors([2, 0, 4, "Identifier"])
+        },
+        {
+            code: unIndent`
+                if (foo) bar()
+                    ;baz()
+            `,
+            output: unIndent`
+                if (foo) bar()
+                ;baz()
+            `,
+            options: [4],
+            errors: expectedErrors([2, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    bar();
+                    baz();
+            `,
+            output: unIndent`
+                if (foo)
+                    bar();
+                baz();
+            `,
+            options: [4],
+            errors: expectedErrors([3, 0, 4, "Identifier"])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    bar()
+                    ; baz()
+            `,
+            output: unIndent`
+                if (foo)
+                    bar()
+                ; baz()
+            `,
+            options: [4],
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    bar()
+                    ;baz()
+                    qux()
+            `,
+            output: unIndent`
+            if (foo)
+                bar()
+            ;baz()
+            qux()
+        `,
+            options: [4],
+            errors: expectedErrors([
+                [3, 0, 4, "Punctuator"],
+                [4, 0, 4, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    bar()
+                    ;else
+                    baz()
+            `,
+            output: unIndent`
+                if (foo)
+                    bar()
+                ;else
+                    baz()
+            `,
+            options: [4],
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    bar()
+                else
+                    baz()
+                    ;qux()
+            `,
+            output: unIndent`
+                if (foo)
+                    bar()
+                else
+                    baz()
+                ;qux()
+            `,
+            options: [4],
+            errors: expectedErrors([5, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    if (bar)
+                        baz()
+                    ;qux()
+            `,
+            output: unIndent`
+                if (foo)
+                    if (bar)
+                        baz()
+                ;qux()
+            `,
+            options: [4],
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    bar()
+                else if (baz)
+                    qux()
+                    ;quux()
+            `,
+            output: unIndent`
+                if (foo)
+                    bar()
+                else if (baz)
+                    qux()
+                ;quux()
+            `,
+            options: [4],
+            errors: expectedErrors([5, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    if (bar)
+                        baz()
+                    else
+                        qux()
+                    ;quux()
+            `,
+            output: unIndent`
+                if (foo)
+                    if (bar)
+                        baz()
+                    else
+                        qux()
+                ;quux()
+            `,
+            options: [4],
+            errors: expectedErrors([6, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    bar()
+                ;
+                baz()
+            `,
+            output: unIndent`
+                if (foo)
+                    bar()
+                    ;
+                baz()
+            `,
+            options: [4],
+            errors: expectedErrors([3, 4, 0, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                ;
+                baz()
+            `,
+            output: unIndent`
+                if (foo)
+                    ;
+                baz()
+            `,
+            options: [4],
+            errors: expectedErrors([2, 4, 0, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    ;baz()
+            `,
+            output: unIndent`
+                if (foo)
+                ;baz()
+            `,
+            options: [4],
+            errors: expectedErrors([2, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                if (foo);
+                    else
+                    baz()
+            `,
+            output: unIndent`
+                if (foo);
+                else
+                    baz()
+            `,
+            options: [4],
+            errors: expectedErrors([2, 0, 4, "Keyword"])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                ;
+                else
+                    baz()
+            `,
+            output: unIndent`
+                if (foo)
+                    ;
+                else
+                    baz()
+            `,
+            options: [4],
+            errors: expectedErrors([2, 4, 0, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    ;else
+                    baz()
+            `,
+            output: unIndent`
+                if (foo)
+                ;else
+                    baz()
+            `,
+            options: [4],
+            errors: expectedErrors([2, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                do foo();
+                    while (bar)
+            `,
+            output: unIndent`
+                do foo();
+                while (bar)
+            `,
+            options: [4],
+            errors: expectedErrors([2, 0, 4, "Keyword"])
+        },
+        {
+            code: unIndent`
+                do foo()
+                    ;while (bar)
+            `,
+            output: unIndent`
+                do foo()
+                ;while (bar)
+            `,
+            options: [4],
+            errors: expectedErrors([2, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                do
+                    foo();
+                    while (bar)
+            `,
+            output: unIndent`
+                do
+                    foo();
+                while (bar)
+            `,
+            options: [4],
+            errors: expectedErrors([3, 0, 4, "Keyword"])
+        },
+        {
+            code: unIndent`
+                do
+                    foo()
+                    ;while (bar)
+            `,
+            output: unIndent`
+            do
+                foo()
+            ;while (bar)
+        `,
+            options: [4],
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                do;
+                    while (foo)
+            `,
+            output: unIndent`
+                do;
+                while (foo)
+            `,
+            options: [4],
+            errors: expectedErrors([2, 0, 4, "Keyword"])
+        },
+        {
+            code: unIndent`
+                do
+                ;
+                while (foo)
+            `,
+            output: unIndent`
+                do
+                    ;
+                while (foo)
+            `,
+            options: [4],
+            errors: expectedErrors([2, 4, 0, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                do
+                    ;while (foo)
+            `,
+            output: unIndent`
+                do
+                ;while (foo)
+            `,
+            options: [4],
+            errors: expectedErrors([2, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                while (2 > 1)
+                    console.log('a')
+                    ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            output: unIndent`
+                while (2 > 1)
+                    console.log('a')
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: [4],
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                for (;;)
+                    console.log('a')
+                    ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            output: unIndent`
+                for (;;)
+                    console.log('a')
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: [4],
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                for (a in b)
+                    console.log('a')
+                    ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            output: unIndent`
+                for (a in b)
+                    console.log('a')
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: [4],
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                for (a of b)
+                    console.log('a')
+                    ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            output: unIndent`
+                for (a of b)
+                    console.log('a')
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: [4],
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                with (a)
+                    console.log(b)
+                    ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            output: unIndent`
+                with (a)
+                    console.log(b)
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: [4],
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                label: for (a of b)
+                    console.log('a')
+                    ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            output: unIndent`
+                label: for (a of b)
+                    console.log('a')
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: [4],
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                label:
+                for (a of b)
+                    console.log('a')
+                    ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            output: unIndent`
+                label:
+                for (a of b)
+                    console.log('a')
+                ;[1, 2, 3].forEach(x=>console.log(x))
+            `,
+            options: [4],
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
         }
     ]
 });

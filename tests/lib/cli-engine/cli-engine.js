@@ -5089,9 +5089,9 @@ describe("CLIEngine", () => {
         });
 
         it("should expose the list of plugin rules", () => {
-            const engine = new CLIEngine({ plugins: ["node"] });
+            const engine = new CLIEngine({ plugins: ["n"] });
 
-            assert(engine.getRules().has("node/no-deprecated-api"), "node/no-deprecated-api is present");
+            assert(engine.getRules().has("n/no-deprecated-api"), "n/no-deprecated-api is present");
         });
 
         it("should expose the list of rules from a preloaded plugin", () => {
@@ -5099,7 +5099,7 @@ describe("CLIEngine", () => {
                 plugins: ["foo"]
             }, {
                 preloadedPlugins: {
-                    foo: require("eslint-plugin-node")
+                    foo: require("eslint-plugin-n")
                 }
             });
 
@@ -5336,7 +5336,7 @@ describe("CLIEngine", () => {
         });
     });
 
-    describe("when retreiving version number", () => {
+    describe("when retrieving version number", () => {
         it("should return current version number", () => {
             const eslintCLI = require("../../../lib/cli-engine").CLIEngine;
             const version = eslintCLI.version;

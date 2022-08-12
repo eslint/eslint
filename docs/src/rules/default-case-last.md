@@ -9,7 +9,6 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch
 ---
 
-Enforces default clauses in switch statements to be last.
 
 A `switch` statement can optionally have a `default` clause.
 
@@ -28,6 +27,8 @@ It applies only to `switch` statements that already have a `default` clause.
 This rule does not enforce the existence of `default` clauses. See [default-case](default-case) if you also want to enforce the existence of `default` clauses in `switch` statements.
 
 Examples of **incorrect** code for this rule:
+
+:::incorrect
 
 ```js
 /*eslint default-case-last: "error"*/
@@ -79,7 +80,11 @@ switch (foo) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+:::correct
 
 ```js
 /*eslint default-case-last: "error"*/
@@ -126,3 +131,5 @@ if (foo !== 0) {
 }
 doSomethingAnyway();
 ```
+
+:::

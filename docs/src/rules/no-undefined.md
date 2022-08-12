@@ -14,7 +14,6 @@ further_reading:
 - https://es5.github.io/#x15.1.1.3
 ---
 
-Disallows the use of `undefined` as an identifier.
 
 The `undefined` variable in JavaScript is actually a property of the global object. As such, in ECMAScript 3 it was possible to overwrite the value of `undefined`. While ECMAScript 5 disallows overwriting `undefined`, it's still possible to shadow `undefined`, such as:
 
@@ -44,6 +43,8 @@ This rule aims to eliminate the use of `undefined`, and as such, generates a war
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-undefined: "error"*/
 
@@ -60,7 +61,11 @@ function foo(undefined) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-undefined: "error"*/
@@ -75,6 +80,8 @@ if (typeof foo === "undefined") {
 
 global.undefined = "foo";
 ```
+
+:::
 
 ## When Not To Use It
 

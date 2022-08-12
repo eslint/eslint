@@ -5,9 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-whitespa
 rule_type: layout
 ---
 
-<!--FIXABLE-->
 
-Disallows whitespace before properties.
 
 JavaScript allows whitespace between objects and their properties. However, inconsistent spacing can make code harder to read and can lead to errors.
 
@@ -28,6 +26,8 @@ foo
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-whitespace-before-property: "error"*/
 
@@ -46,7 +46,11 @@ foo
   .bar(). baz()
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-whitespace-before-property: "error"*/
@@ -70,6 +74,8 @@ foo.
   bar().
   baz()
 ```
+
+:::
 
 ## When Not To Use It
 

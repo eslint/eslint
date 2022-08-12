@@ -7,7 +7,6 @@ related_rules:
 - no-eval
 ---
 
-Disallows the use of `eval()`-like methods.
 
 It's considered a good practice to avoid using `eval()` in JavaScript. There are security and performance implications involved with doing so, which is why many linters (including ESLint) recommend disallowing `eval()`. However, there are some other ways to pass a string and have it interpreted as JavaScript code that have similar concerns.
 
@@ -34,6 +33,8 @@ This rule aims to eliminate implied `eval()` through the use of `setTimeout()`, 
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-implied-eval: "error"*/
 
@@ -48,7 +49,11 @@ window.setTimeout("count = 5", 10);
 window.setInterval("foo = bar", 10);
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-implied-eval: "error"*/
@@ -61,6 +66,8 @@ setInterval(function() {
     alert("Hi!");
 }, 100);
 ```
+
+:::
 
 ## When Not To Use It
 

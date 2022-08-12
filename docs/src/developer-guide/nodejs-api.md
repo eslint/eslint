@@ -14,39 +14,6 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
 
 **Note:** Use undocumented parts of the API at your own risk. Only those parts that are specifically mentioned in this document are approved for use and will remain stable and reliable. Anything left undocumented is unstable and may change or be removed at any point.
 
-## Table of Contents
-
-* [ESLint]
-    * [constructor()][eslint-constructor]
-    * [lintFiles()][eslint-lintfiles]
-    * [lintText()][eslint-linttext]
-    * [getRulesMetaForResults()][eslint-getrulesmetaforresults]
-    * [calculateConfigForFile()][eslint-calculateconfigforfile]
-    * [isPathIgnored()][eslint-ispathignored]
-    * [loadFormatter()][eslint-loadformatter]
-    * [static version][eslint-version]
-    * [static outputFixes()][eslint-outputfixes]
-    * [static getErrorResults()][eslint-geterrorresults]
-    * [LintResult type][lintresult]
-    * [LintMessage type][lintmessage]
-    * [SuppressedLintMessage type][suppressedlintmessage]
-    * [EditInfo type][editinfo]
-    * [LoadedFormatter type][loadedformatter]
-* [SourceCode](#sourcecode)
-    * [splitLines()](#sourcecodesplitlines)
-* [Linter](#linter)
-    * [verify()](#linterverify)
-    * [verifyAndFix()](#linterverifyandfix)
-    * [defineRule()](#linterdefinerule)
-    * [defineRules()](#linterdefinerules)
-    * [getRules()](#lintergetrules)
-    * [defineParser()](#linterdefineparser)
-    * [version](#linterversionlinterversion)
-* [RuleTester](#ruletester)
-    * [Customizing RuleTester](#customizing-ruletester)
-
----
-
 ## ESLint class
 
 The `ESLint` class is the primary class to use in Node.js applications.
@@ -289,7 +256,7 @@ This method loads a formatter. Formatters convert lint results to a human- or ma
   The path to the file you want to check. The following values are allowed:
     * `undefined`. In this case, loads the `"stylish"` built-in formatter.
     * A name of [built-in formatters][builtin-formatters].
-    * A name of [third-party formatters][thirdparty-formatters]. For examples:
+    * A name of [third-party formatters][third-party-formatters]. For examples:
         * `"foo"` will load `eslint-formatter-foo`.
         * `"@foo"` will load `@foo/eslint-formatter`.
         * `"@foo/bar"` will load `@foo/eslint-formatter-bar`.
@@ -952,9 +919,9 @@ ruleTester.run("my-rule", myRule, {
 
 ---
 
-[configuration object]: ../user-guide/configuring
+[configuration object]: ../user-guide/configuring/
 [builtin-formatters]: https://eslint.org/docs/user-guide/formatters/
-[thirdparty-formatters]: https://www.npmjs.com/search?q=eslintformatter
+[third-party-formatters]: https://www.npmjs.com/search?q=eslintformatter
 [eslint]: #eslint-class
 [eslint-constructor]: #-new-eslintoptions
 [eslint-lintfiles]: #-eslintlintfilespatterns

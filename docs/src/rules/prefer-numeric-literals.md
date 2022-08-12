@@ -5,9 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-nume
 rule_type: suggestion
 ---
 
-<!--FIXABLE-->
 
-Disallows `parseInt()` and `Number.parseInt()` in favor of binary, octal, and hexadecimal literals.
 
 The `parseInt()` and `Number.parseInt()` functions can be used to turn binary, octal, and hexadecimal strings into integers. As binary, octal, and hexadecimal literals are supported in ES6, this rule encourages use of those numeric literals instead of `parseInt()` or `Number.parseInt()`.
 
@@ -22,6 +20,8 @@ This rule disallows calls to `parseInt()` or `Number.parseInt()` if called with 
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint prefer-numeric-literals: "error"*/
 
@@ -34,7 +34,11 @@ Number.parseInt("767", 8) === 503;
 Number.parseInt("1F7", 16) === 503;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint prefer-numeric-literals: "error"*/
@@ -56,6 +60,8 @@ parseInt(foo, 2);
 Number.parseInt(foo);
 Number.parseInt(foo, 2);
 ```
+
+:::
 
 ## When Not To Use It
 

@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-warning-
 rule_type: suggestion
 ---
 
-Disallows specified warning terms in comments.
 
 Developers often add comments to code which is not complete or needs review. Most likely you want to fix or review the code, and then remove the comment, before you consider the code to be production ready.
 
@@ -27,6 +26,8 @@ This rule has an options object literal:
 
 Example of **incorrect** code for the default `{ "terms": ["todo", "fixme", "xxx"], "location": "start" }` options:
 
+::: incorrect
+
 ```js
 /*eslint no-warning-comments: "error"*/
 
@@ -39,7 +40,11 @@ function callback(err, results) {
 }
 ```
 
+:::
+
 Example of **correct** code for the default `{ "terms": ["todo", "fixme", "xxx"], "location": "start" }` options:
+
+::: correct
 
 ```js
 /*eslint no-warning-comments: "error"*/
@@ -54,9 +59,13 @@ function callback(err, results) {
 }
 ```
 
+:::
+
 ### terms and location
 
 Examples of **incorrect** code for the `{ "terms": ["todo", "fixme", "any other term"], "location": "anywhere" }` options:
+
+::: incorrect
 
 ```js
 /*eslint no-warning-comments: ["error", { "terms": ["todo", "fixme", "any other term"], "location": "anywhere" }]*/
@@ -71,7 +80,11 @@ Examples of **incorrect** code for the `{ "terms": ["todo", "fixme", "any other 
  */
 ```
 
+:::
+
 Examples of **correct** code for the `{ "terms": ["todo", "fixme", "any other term"], "location": "anywhere" }` options:
+
+::: correct
 
 ```js
 /*eslint no-warning-comments: ["error", { "terms": ["todo", "fixme", "any other term"], "location": "anywhere" }]*/
@@ -85,6 +98,8 @@ Examples of **correct** code for the `{ "terms": ["todo", "fixme", "any other te
  * or fix me this
  */
 ```
+
+:::
 
 ## When Not To Use It
 

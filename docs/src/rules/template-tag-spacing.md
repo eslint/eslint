@@ -8,9 +8,7 @@ further_reading:
 - https://exploringjs.com/es6/ch_template-literals.html#_examples-of-using-tagged-template-literals
 ---
 
-<!--FIXABLE-->
 
-Requires or disallow spacing between template tags and their literals.
 
 With ES6, it's possible to create functions called [tagged template literals](#further-reading) where the function parameters consist of a template literal's strings and expressions.
 
@@ -44,37 +42,53 @@ This rule has one option whose value can be set to `"never"` or `"always"`
 
 Examples of **incorrect** code for this rule with the default `"never"` option:
 
+::: incorrect
+
 ```js
 /*eslint template-tag-spacing: "error"*/
 
 func `Hello world`;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"never"` option:
+
+::: correct
 
 ```js
 /*eslint template-tag-spacing: "error"*/
 
 func`Hello world`;
 ```
+
+:::
 
 ### always
 
 Examples of **incorrect** code for this rule with the `"always"` option:
 
+::: incorrect
+
 ```js
 /*eslint template-tag-spacing: ["error", "always"]*/
 
 func`Hello world`;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"always"` option:
+
+::: correct
 
 ```js
 /*eslint template-tag-spacing: ["error", "always"]*/
 
 func `Hello world`;
 ```
+
+:::
 
 ## When Not To Use It
 

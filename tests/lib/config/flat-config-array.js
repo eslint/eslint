@@ -19,6 +19,7 @@ const recommendedConfig = require("../../../conf/eslint-recommended");
 //-----------------------------------------------------------------------------
 
 const baseConfig = {
+    files: ["**/*.js"],
     plugins: {
         "@": {
             rules: {
@@ -77,7 +78,6 @@ const baseConfig = {
  */
 function createFlatConfigArray(configs) {
     return new FlatConfigArray(configs, {
-        basePath: __dirname,
         baseConfig: [baseConfig]
     });
 }
@@ -153,7 +153,6 @@ describe("FlatConfigArray", () => {
         };
 
         const configs = new FlatConfigArray([], {
-            basePath: __dirname,
             baseConfig: base
         });
 
@@ -163,6 +162,7 @@ describe("FlatConfigArray", () => {
 
     it("should not reuse languageOptions.parserOptions across configs", () => {
         const base = [{
+            files: ["**/*.js"],
             languageOptions: {
                 parserOptions: {
                     foo: true
@@ -171,7 +171,6 @@ describe("FlatConfigArray", () => {
         }];
 
         const configs = new FlatConfigArray([], {
-            basePath: __dirname,
             baseConfig: base
         });
 
@@ -185,7 +184,7 @@ describe("FlatConfigArray", () => {
 
     describe("Special configs", () => {
         it("eslint:recommended is replaced with an actual config", async () => {
-            const configs = new FlatConfigArray(["eslint:recommended"], { basePath: __dirname });
+            const configs = new FlatConfigArray(["eslint:recommended"]);
 
             await configs.normalize();
             const config = configs.getConfig("foo.js");
@@ -194,7 +193,7 @@ describe("FlatConfigArray", () => {
         });
 
         it("eslint:all is replaced with an actual config", async () => {
-            const configs = new FlatConfigArray(["eslint:all"], { basePath: __dirname });
+            const configs = new FlatConfigArray(["eslint:all"]);
 
             await configs.normalize();
             const config = configs.getConfig("foo.js");
@@ -1459,7 +1458,7 @@ describe("FlatConfigArray", () => {
                 },
                 {
                     plugins: {
-                        "foo/baz/boom": {
+                        "@foo/baz/boom": {
                             rules: {
                                 bang: {}
                             }
@@ -1468,13 +1467,13 @@ describe("FlatConfigArray", () => {
                     rules: {
                         foo: ["error"],
                         bar: 0,
-                        "foo/baz/boom/bang": "error"
+                        "@foo/baz/boom/bang": "error"
                     }
                 }
             ], {
                 plugins: {
                     ...baseConfig.plugins,
-                    "foo/baz/boom": {
+                    "@foo/baz/boom": {
                         rules: {
                             bang: {}
                         }
@@ -1483,7 +1482,7 @@ describe("FlatConfigArray", () => {
                 rules: {
                     foo: [2, "always"],
                     bar: [0],
-                    "foo/baz/boom/bang": [2]
+                    "@foo/baz/boom/bang": [2]
                 }
             }));
 

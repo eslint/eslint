@@ -10,7 +10,6 @@ further_reading:
 - https://javascriptweblog.wordpress.com/2010/04/19/how-evil-is-eval/
 ---
 
-Disallows eval().
 
 JavaScript's `eval()` function is potentially dangerous and is often misused. Using `eval()` on untrusted code can open a program up to several different injection attacks. The use of `eval()` in most contexts can be substituted for a better, alternative approach to a problem.
 
@@ -25,6 +24,8 @@ var obj = { x: "foo" },
 This rule is aimed at preventing potentially dangerous, unnecessary, and slow code by disallowing the use of the `eval()` function. As such, it will warn whenever the `eval()` function is used.
 
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint no-eval: "error"*/
@@ -42,7 +43,11 @@ foo("var a = 0");
 this.eval("var a = 0");
 ```
 
+:::
+
 Example of additional **incorrect** code for this rule when `browser` environment is set to `true`:
+
+::: incorrect
 
 ```js
 /*eslint no-eval: "error"*/
@@ -51,7 +56,11 @@ Example of additional **incorrect** code for this rule when `browser` environmen
 window.eval("var a = 0");
 ```
 
+:::
+
 Example of additional **incorrect** code for this rule when `node` environment is set to `true`:
+
+::: incorrect
 
 ```js
 /*eslint no-eval: "error"*/
@@ -60,7 +69,11 @@ Example of additional **incorrect** code for this rule when `node` environment i
 global.eval("var a = 0");
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-eval: "error"*/
@@ -89,6 +102,8 @@ class A {
 }
 ```
 
+:::
+
 ## Options
 
 This rule has an option to allow indirect calls to `eval`.
@@ -102,6 +117,8 @@ Indirect calls to `eval` are less dangerous than direct calls to `eval` because 
 
 Example of **incorrect** code for this rule with the `{"allowIndirect": true}` option:
 
+::: incorrect
+
 ```js
 /*eslint no-eval: "error"*/
 
@@ -110,7 +127,11 @@ var obj = { x: "foo" },
     value = eval("obj." + key);
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{"allowIndirect": true}` option:
+
+::: correct
 
 ```js
 /*eslint no-eval: "error"*/
@@ -123,6 +144,10 @@ foo("var a = 0");
 this.eval("var a = 0");
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint no-eval: "error"*/
 /*eslint-env browser*/
@@ -130,12 +155,18 @@ this.eval("var a = 0");
 window.eval("var a = 0");
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint no-eval: "error"*/
 /*eslint-env node*/
 
 global.eval("var a = 0");
 ```
+
+:::
 
 ## Known Limitations
 

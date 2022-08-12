@@ -62,5 +62,5 @@ addHook(
     await eslint.lintFiles([pattern]);
 })().catch(({ message, stack }) => {
     process.send({ message, stack });
-    process.exit(1);
+    process.exit(1); // eslint-disable-line n/no-process-exit -- this is a child process
 });

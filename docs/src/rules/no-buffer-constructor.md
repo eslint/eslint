@@ -9,7 +9,6 @@ further_reading:
 - https://github.com/nodejs/node/issues/4660
 ---
 
-Disallows use of the `Buffer()` constructor.
 
 This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-node`](https://github.com/mysticatea/eslint-plugin-node).
 
@@ -20,6 +19,8 @@ In Node.js, the behavior of the `Buffer` constructor is different depending on t
 This rule disallows calling and constructing the `Buffer()` constructor.
 
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 new Buffer(5);
@@ -32,7 +33,11 @@ new Buffer(res.body.amount);
 new Buffer(res.body.values);
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 Buffer.alloc(5);
@@ -42,6 +47,8 @@ Buffer.from([1, 2, 3]);
 Buffer.alloc(res.body.amount);
 Buffer.from(res.body.values);
 ```
+
+:::
 
 ## When Not To Use It
 

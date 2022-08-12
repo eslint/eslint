@@ -14,9 +14,7 @@ related_rules:
 - brace-style
 ---
 
-<!--FIXABLE-->
 
-Enforces line breaks between array elements.
 
 A number of style guides require or disallow line breaks between array elements.
 
@@ -55,6 +53,8 @@ Alternatively, different configurations can be specified for array expressions a
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
+:::incorrect
+
 ```js
 /*eslint array-element-newline: ["error", "always"]*/
 
@@ -74,7 +74,11 @@ var g = [
 ];
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"always"` option:
+
+:::correct
 
 ```js
 /*eslint array-element-newline: ["error", "always"]*/
@@ -101,9 +105,13 @@ var e = [
 ];
 ```
 
+:::
+
 ### never
 
 Examples of **incorrect** code for this rule with the `"never"` option:
+
+:::incorrect
 
 ```js
 /*eslint array-element-newline: ["error", "never"]*/
@@ -127,7 +135,11 @@ var e = [
 ];
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"never"` option:
+
+:::correct
 
 ```js
 /*eslint array-element-newline: ["error", "never"]*/
@@ -150,9 +162,13 @@ var g = [
 ];
 ```
 
+:::
+
 ### consistent
 
 Examples of **incorrect** code for this rule with the `"consistent"` option:
+
+:::incorrect
 
 ```js
 /*eslint array-element-newline: ["error", "consistent"]*/
@@ -173,7 +189,11 @@ var b = [
 ];
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"consistent"` option:
+
+:::correct
 
 ```js
 /*eslint array-element-newline: ["error", "consistent"]*/
@@ -213,9 +233,13 @@ var h = [
 ];
 ```
 
+:::
+
 ### multiline
 
 Examples of **incorrect** code for this rule with the `{ "multiline": true }` option:
+
+:::incorrect
 
 ```js
 /*eslint array-element-newline: ["error", { "multiline": true }]*/
@@ -231,7 +255,11 @@ var e = [
 ];
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "multiline": true }` option:
+
+:::correct
 
 ```js
 /*eslint array-element-newline: ["error", { "multiline": true }]*/
@@ -250,9 +278,13 @@ var e = [
 ];
 ```
 
+:::
+
 ### minItems
 
 Examples of **incorrect** code for this rule with the `{ "minItems": 3 }` option:
+
+:::incorrect
 
 ```js
 /*eslint array-element-newline: ["error", { "minItems": 3 }]*/
@@ -270,7 +302,11 @@ var e = [
 ];
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "minItems": 3 }` option:
+
+:::correct
 
 ```js
 /*eslint array-element-newline: ["error", { "minItems": 3 }]*/
@@ -290,9 +326,13 @@ var e = [
 ];
 ```
 
+:::
+
 ### multiline and minItems
 
 Examples of **incorrect** code for this rule with the `{ "multiline": true, "minItems": 3 }` options:
+
+:::incorrect
 
 ```js
 /*eslint array-element-newline: ["error", { "multiline": true, "minItems": 3 }]*/
@@ -309,7 +349,11 @@ var e = [
 ];
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "multiline": true, "minItems": 3 }` options:
+
+:::correct
 
 ```js
 /*eslint array-element-newline: ["error", { "multiline": true, "minItems": 3 }]*/
@@ -330,9 +374,13 @@ var e = [
 ];
 ```
 
+:::
+
 ### ArrayExpression and ArrayPattern
 
 Examples of **incorrect** code for this rule with the `{ "ArrayExpression": "always", "ArrayPattern": "never" }` options:
+
+:::incorrect
 
 ```js
 /*eslint array-element-newline: ["error", { "ArrayExpression": "always", "ArrayPattern": "never" }]*/
@@ -360,7 +408,11 @@ j = function bar() {
 }] = arr
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "ArrayExpression": "always", "ArrayPattern": "never" }` options:
+
+:::correct
 
 ```js
 /*eslint array-element-newline: ["error", { "ArrayExpression": "always", "ArrayPattern": "never" }]*/
@@ -387,6 +439,8 @@ var [i = function foo() {
     dosomething()
 }] = arr
 ```
+
+:::
 
 ## When Not To Use It
 

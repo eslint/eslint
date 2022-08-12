@@ -21,6 +21,8 @@ This error occurs when a label is used to mark a statement that is not an iterat
 
 Example of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-empty-label: "error"*/
 
@@ -28,7 +30,11 @@ labeled:
 var x = 10;
 ```
 
+:::
+
 Example of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-empty-label: "error"*/
@@ -38,6 +44,8 @@ for (var i=10; i; i--) {
     // ...
 }
 ```
+
+:::
 
 ## When Not To Use It
 

@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/require-uni
 rule_type: suggestion
 ---
 
-Enforces the use of `u` flag on RegExp.
 
 RegExp `u` flag has two effects:
 
@@ -32,6 +31,8 @@ This rule aims to enforce the use of `u` flag on regular expressions.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint require-unicode-regexp: error */
 
@@ -41,7 +42,11 @@ const c = new RegExp("ccc")
 const d = new RegExp("ddd", "gi")
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint require-unicode-regexp: error */
@@ -56,6 +61,8 @@ function f(flags) {
     return new RegExp("eee", flags)
 }
 ```
+
+:::
 
 ## When Not To Use It
 

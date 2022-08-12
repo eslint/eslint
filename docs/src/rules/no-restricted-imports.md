@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-restrict
 rule_type: suggestion
 ---
 
-Disallows specific imports.
 
 Imports are an ES6/ES2015 standard for making the functionality of other modules available in your current module. In CommonJS this is implemented through the `require()` call which makes this ESLint rule roughly equivalent to its CommonJS counterpart `no-restricted-modules`.
 
@@ -109,6 +108,18 @@ Pattern matches can also be configured to be case-sensitive:
 }]
 ```
 
+Pattern matches can restrict specific import names only, similar to the `paths` option:
+
+```json
+"no-restricted-imports": ["error", {
+    "patterns": [{
+      "group": ["utils/*"],
+      "importNames": ["isEmpty"],
+      "message": "Use 'isEmpty' from lodash instead."
+    }]
+}]
+```
+
 To restrict the use of all Node.js core imports (via <https://github.com/nodejs/node/tree/master/lib>):
 
 ```json
@@ -121,11 +132,17 @@ To restrict the use of all Node.js core imports (via <https://github.com/nodejs/
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
 
 import fs from 'fs';
 ```
+
+:::
+
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
@@ -133,11 +150,19 @@ import fs from 'fs';
 export { fs } from 'fs';
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
 
 export * from 'fs';
 ```
+
+:::
+
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { "paths": ["cluster"] }]*/
@@ -145,11 +170,19 @@ export * from 'fs';
 import cluster from 'cluster';
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /*eslint no-restricted-imports: ["error", { "patterns": ["lodash/*"] }]*/
 
 import pick from 'lodash/pick';
 ```
+
+:::
+
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -160,6 +193,10 @@ import pick from 'lodash/pick';
 
 import DisallowedObject from "foo";
 ```
+
+:::
+
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -175,6 +212,10 @@ import { DisallowedObject as AllowedObject } from "foo";
 import { "DisallowedObject" as AllowedObject } from "foo";
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
     name: "foo",
@@ -185,6 +226,10 @@ import { "DisallowedObject" as AllowedObject } from "foo";
 import * as Foo from "foo";
 ```
 
+:::
+
+::: incorrect
+
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["lodash/*"],
@@ -193,6 +238,10 @@ import * as Foo from "foo";
 
 import pick from 'lodash/pick';
 ```
+
+:::
+
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -203,7 +252,25 @@ import pick from 'lodash/pick';
 import pick from 'fooBar';
 ```
 
+:::
+
+::: incorrect
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["utils/*"],
+    importNames: ['isEmpty'],
+    message: "Use 'isEmpty' from lodash instead."
+}]}]*/
+
+import { isEmpty } from 'utils/collection-utils';
+```
+
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
@@ -211,6 +278,10 @@ Examples of **correct** code for this rule:
 import crypto from 'crypto';
 export { foo } from "bar";
 ```
+
+:::
+
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", { "paths": ["fs"], "patterns": ["eslint/*"] }]*/
@@ -220,11 +291,19 @@ import eslint from 'eslint';
 export * from "path";
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{ name: "foo", importNames: ["DisallowedObject"] }] }]*/
 
 import DisallowedObject from "foo"
 ```
+
+:::
+
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -236,6 +315,10 @@ import DisallowedObject from "foo"
 import { AllowedObject as DisallowedObject } from "foo";
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["lodash/*"],
@@ -245,6 +328,10 @@ import { AllowedObject as DisallowedObject } from "foo";
 import lodash from 'lodash';
 ```
 
+:::
+
+::: correct
+
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["foo[A-Z]*"],
@@ -253,6 +340,22 @@ import lodash from 'lodash';
 
 import pick from 'food';
 ```
+
+:::
+
+::: correct
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["utils/*"],
+    importNames: ['isEmpty'],
+    message: "Use 'isEmpty' from lodash instead."
+}]}]*/
+
+import { hasValues } from 'utils/collection-utils';
+```
+
+:::
 
 ## When Not To Use It
 

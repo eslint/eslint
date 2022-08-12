@@ -5,9 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/linebreak-s
 rule_type: layout
 ---
 
-<!--FIXABLE-->
 
-Enforces consistent linebreak style.
 
 When developing with a lot of people all having different editors, VCS applications and operating systems it may occur that
 different line endings are written by either of the mentioned (might especially happen when using the windows and mac versions of SourceTree together).
@@ -32,6 +30,8 @@ This rule has a string option:
 
 Examples of **incorrect** code for this rule with the default `"unix"` option:
 
+::: incorrect
+
 ```js
 /*eslint linebreak-style: ["error", "unix"]*/
 
@@ -39,7 +39,11 @@ var a = 'a'; // \r\n
 
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"unix"` option:
+
+::: correct
 
 ```js
 /*eslint linebreak-style: ["error", "unix"]*/
@@ -52,9 +56,13 @@ function foo(params) { // \n
 }// \n
 ```
 
+:::
+
 ### windows
 
 Examples of **incorrect** code for this rule with the `"windows"` option:
+
+::: incorrect
 
 ```js
 /*eslint linebreak-style: ["error", "windows"]*/
@@ -62,7 +70,11 @@ Examples of **incorrect** code for this rule with the `"windows"` option:
 var a = 'a'; // \n
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"windows"` option:
+
+::: correct
 
 ```js
 /*eslint linebreak-style: ["error", "windows"]*/
@@ -74,6 +86,8 @@ function foo(params) { // \r\n
     // do stuff \r\n
 } // \r\n
 ```
+
+:::
 
 ### Using this rule with version control systems
 

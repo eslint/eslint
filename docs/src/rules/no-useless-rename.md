@@ -7,9 +7,7 @@ related_rules:
 - object-shorthand
 ---
 
-<!--FIXABLE-->
 
-Disallows renaming import, export, and destructured assignments to the same name.
 
 ES2015 allows for the renaming of references in import and export statements as well as destructuring assignments. This gives programmers a concise syntax for performing these operations while renaming these references:
 
@@ -59,6 +57,8 @@ By default, all options are set to `false`:
 
 Examples of **incorrect** code for this rule by default:
 
+::: incorrect
+
 ```js
 /*eslint no-useless-rename: "error"*/
 
@@ -74,7 +74,11 @@ function foo({ bar: bar }) {}
 ({ foo: foo }) => {}
 ```
 
+:::
+
 Examples of **correct** code for this rule by default:
+
+::: correct
 
 ```js
 /*eslint no-useless-rename: "error"*/
@@ -101,7 +105,11 @@ function foo({ bar: baz }) {}
 ({ foo: bar }) => {}
 ```
 
+:::
+
 Examples of **correct** code for this rule with `{ ignoreImport: true }`:
+
+::: correct
 
 ```js
 /*eslint no-useless-rename: ["error", { ignoreImport: true }]*/
@@ -109,7 +117,11 @@ Examples of **correct** code for this rule with `{ ignoreImport: true }`:
 import { foo as foo } from "bar";
 ```
 
+:::
+
 Examples of **correct** code for this rule with `{ ignoreExport: true }`:
+
+::: correct
 
 ```js
 /*eslint no-useless-rename: ["error", { ignoreExport: true }]*/
@@ -118,7 +130,11 @@ export { foo as foo };
 export { foo as foo } from "bar";
 ```
 
+:::
+
 Examples of **correct** code for this rule with `{ ignoreDestructuring: true }`:
+
+::: correct
 
 ```js
 /*eslint no-useless-rename: ["error", { ignoreDestructuring: true }]*/
@@ -127,6 +143,8 @@ let { foo: foo } = bar;
 function foo({ bar: bar }) {}
 ({ foo: foo }) => {}
 ```
+
+:::
 
 ## When Not To Use It
 

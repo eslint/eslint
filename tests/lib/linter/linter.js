@@ -2625,7 +2625,7 @@ describe("Linter", () => {
                 assert.strictEqual(suppressedMessages[1].ruleId, "quotes");
             });
 
-            it("should ignore violations of multiple rules when specified in mixed sinlge line and multi line comments", () => {
+            it("should ignore violations of multiple rules when specified in mixed single line and multi line comments", () => {
                 const code = [
                     "/* eslint-disable-next-line",
                     "no-alert",
@@ -3915,7 +3915,7 @@ var a = "test2";
             assert.strictEqual(suppressedMessages[0].suppressions.length, 2);
         });
 
-        it("reports problems for multiple unused eslint-disable comments with mutliple ruleIds", () => {
+        it("reports problems for multiple unused eslint-disable comments with multiple ruleIds", () => {
             const code = [
                 "/* eslint no-undef: 2, no-void: 2 */",
                 "/* eslint-disable no-undef -- j1 */",
@@ -6660,6 +6660,31 @@ var a = "test2";
                 assert.strictEqual(preprocess.calledOnce, true);
                 assert.deepStrictEqual(preprocess.args[0], [code, filename]);
             });
+
+            it("should catch preprocess error.", () => {
+                const code = "foo";
+                const preprocess = sinon.spy(() => {
+                    throw Object.assign(new SyntaxError("Invalid syntax"), {
+                        lineNumber: 1,
+                        column: 1
+                    });
+                });
+
+                const messages = linter.verify(code, {}, { filename, preprocess });
+
+                assert.strictEqual(preprocess.calledOnce, true);
+                assert.deepStrictEqual(preprocess.args[0], [code, filename]);
+                assert.deepStrictEqual(messages, [
+                    {
+                        ruleId: null,
+                        fatal: true,
+                        severity: 2,
+                        message: "Preprocessing error: Invalid syntax",
+                        line: 1,
+                        column: 1
+                    }
+                ]);
+            });
         });
 
         describe("postprocessors", () => {
@@ -7000,6 +7025,22 @@ var a = "test2";
 
             assert(ok);
         });
+
+        it("should throw when rule's create() function does not return an object", () => {
+            const config = { rules: { checker: "error" } };
+
+            linter.defineRule("checker", () => null); // returns null
+
+            assert.throws(() => {
+                linter.verify("abc", config, filename);
+            }, "The create() function for rule 'checker' did not return an object.");
+
+            linter.defineRule("checker", () => {}); // returns undefined
+
+            assert.throws(() => {
+                linter.verify("abc", config, filename);
+            }, "The create() function for rule 'checker' did not return an object.");
+        });
     });
 
     describe("Custom parser", () => {
@@ -7106,7 +7147,7 @@ var a = "test2";
 
         it("should not modify a parser error message without a leading line: prefix", () => {
             linter.defineParser("no-line-error", testParsers.noLineError);
-            const messages = linter.verify(";", { parser: "no-line-error" }, "filename");
+            const messages = linter.verify(";", { parser: "no-line-error" }, filename);
             const suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 1);
@@ -7909,7 +7950,7 @@ describe("Linter with FlatConfigArray", () => {
                             languageOptions: {
                                 parser: testParsers.lineError
                             }
-                        }, "filename");
+                        }, filename);
                         const suppressedMessages = linter.getSuppressedMessages();
 
                         assert.strictEqual(messages.length, 1);
@@ -7924,7 +7965,7 @@ describe("Linter with FlatConfigArray", () => {
                             languageOptions: {
                                 parser: testParsers.noLineError
                             }
-                        }, "filename");
+                        }, filename);
                         const suppressedMessages = linter.getSuppressedMessages();
 
                         assert.strictEqual(messages.length, 1);
@@ -8237,7 +8278,7 @@ describe("Linter with FlatConfigArray", () => {
 
                 it("should report an error when JSX code is encountered and JSX is not enabled", () => {
                     const code = "var myDivElement = <div className=\"foo\" />;";
-                    const messages = linter.verify(code, {}, "filename");
+                    const messages = linter.verify(code, {}, filename);
                     const suppressedMessages = linter.getSuppressedMessages();
 
                     assert.strictEqual(messages.length, 1);
@@ -8258,7 +8299,7 @@ describe("Linter with FlatConfigArray", () => {
                                 }
                             }
                         }
-                    }, "filename");
+                    }, filename);
                     const suppressedMessages = linter.getSuppressedMessages();
 
                     assert.strictEqual(messages.length, 0);
@@ -8277,7 +8318,7 @@ describe("Linter with FlatConfigArray", () => {
                             }
                         }
 
-                    }, "filename");
+                    }, "filename.js");
                     const suppressedMessages = linter.getSuppressedMessages();
 
                     assert.strictEqual(messages.length, 0);
@@ -8575,6 +8616,23 @@ describe("Linter with FlatConfigArray", () => {
             assert.strictEqual(messages[2].column, 18);
 
             assert.strictEqual(suppressedMessages.length, 0);
+        });
+
+        it("should report ignored file when filename isn't matched in the config array", () => {
+
+            const code = "foo()\n    alert('test')";
+            const config = { rules: { "no-mixed-spaces-and-tabs": 1, "eol-last": 1, semi: [1, "always"] } };
+
+            const messages = linter.verify(code, config, "filename.ts");
+
+            assert.strictEqual(messages.length, 1);
+            assert.deepStrictEqual(messages[0], {
+                ruleId: null,
+                severity: 1,
+                message: "No matching configuration found for filename.ts.",
+                line: 0,
+                column: 0
+            });
         });
 
         describe("Plugins", () => {
@@ -12562,7 +12620,7 @@ var a = "test2";
                     const code = `
                     /* eslint-disable-next-line no-alert --
                         description on why this exception is seen as appropriate but past a
-                        comfortable reading line length 
+                        comfortable reading line length
                     */
                     alert("buzz");
                     `;
@@ -12689,7 +12747,7 @@ var a = "test2";
                     assert.strictEqual(suppressedMessages[1].ruleId, "quotes");
                 });
 
-                it("should ignore violations of multiple rules when specified in mixed sinlge line and multi line comments", () => {
+                it("should ignore violations of multiple rules when specified in mixed single line and multi line comments", () => {
                     const code = [
                         "/* eslint-disable-next-line",
                         "no-alert",
@@ -15141,6 +15199,37 @@ var a = "test2";
 
                 assert.strictEqual(preprocess.calledOnce, true);
                 assert.deepStrictEqual(preprocess.args[0], [code, filename]);
+            });
+
+            it("should catch preprocess error.", () => {
+                const code = "foo";
+                const preprocess = sinon.spy(() => {
+                    throw Object.assign(new SyntaxError("Invalid syntax"), {
+                        lineNumber: 1,
+                        column: 1
+                    });
+                });
+
+                const configs = createFlatConfigArray([
+                    extraConfig
+                ]);
+
+                configs.normalizeSync();
+
+                const messages = linter.verify(code, configs, { filename, preprocess });
+
+                assert.strictEqual(preprocess.calledOnce, true);
+                assert.deepStrictEqual(preprocess.args[0], [code, filename]);
+                assert.deepStrictEqual(messages, [
+                    {
+                        ruleId: null,
+                        fatal: true,
+                        severity: 2,
+                        message: "Preprocessing error: Invalid syntax",
+                        line: 1,
+                        column: 1
+                    }
+                ]);
             });
         });
 

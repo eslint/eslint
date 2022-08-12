@@ -10,9 +10,7 @@ related_rules:
 - object-property-newline
 ---
 
-<!--FIXABLE-->
 
-Enforces consistent line breaks after opening and before closing braces.
 
 A number of style guides require or disallow line breaks inside of object braces and other tokens.
 
@@ -55,6 +53,8 @@ You can specify different options for object literals, destructuring assignments
 
 Examples of **incorrect** code for this rule with the `"always"` option:
 
+::: incorrect
+
 ```js
 /*eslint object-curly-newline: ["error", "always"]*/
 /*eslint-env es6*/
@@ -78,7 +78,11 @@ let {k = function() {
 }} = obj;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"always"` option:
+
+::: correct
 
 ```js
 /*eslint object-curly-newline: ["error", "always"]*/
@@ -121,9 +125,13 @@ let {
 } = obj;
 ```
 
+:::
+
 ### never
 
 Examples of **incorrect** code for this rule with the `"never"` option:
+
+::: incorrect
 
 ```js
 /*eslint object-curly-newline: ["error", "never"]*/
@@ -166,7 +174,11 @@ let {
 } = obj;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"never"` option:
+
+::: correct
 
 ```js
 /*eslint object-curly-newline: ["error", "never"]*/
@@ -190,11 +202,15 @@ let {k = function() {
     dosomething();
 }} = obj;
 ```
+
+:::
 
 ### multiline
 
 Examples of **incorrect** code for this rule with the `{ "multiline": true }` option:
 
+::: incorrect
+
 ```js
 /*eslint object-curly-newline: ["error", { "multiline": true }]*/
 /*eslint-env es6*/
@@ -228,7 +244,11 @@ let {k = function() {
 }} = obj;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "multiline": true }` option:
+
+::: correct
 
 ```js
 /*eslint object-curly-newline: ["error", { "multiline": true }]*/
@@ -260,11 +280,15 @@ let {
     }
 } = obj;
 ```
+
+:::
 
 ### minProperties
 
 Examples of **incorrect** code for this rule with the `{ "minProperties": 2 }` option:
 
+::: incorrect
+
 ```js
 /*eslint object-curly-newline: ["error", { "minProperties": 2 }]*/
 /*eslint-env es6*/
@@ -298,7 +322,11 @@ let {
 } = obj;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "minProperties": 2 }` option:
+
+::: correct
 
 ```js
 /*eslint object-curly-newline: ["error", { "minProperties": 2 }]*/
@@ -331,9 +359,13 @@ let {k = function() {
 }} = obj;
 ```
 
+:::
+
 ### consistent
 
 Examples of **incorrect** code for this rule with the default `{ "consistent": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint object-curly-newline: ["error", { "consistent": true }]*/
@@ -377,7 +409,11 @@ let {
     }} = obj;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `{ "consistent": true }` option:
+
+::: correct
 
 ```js
 /*eslint object-curly-newline: ["error", { "consistent": true }]*/
@@ -429,9 +465,13 @@ let {
 } = obj;
 ```
 
+:::
+
 ### ObjectExpression and ObjectPattern
 
 Examples of **incorrect** code for this rule with the `{ "ObjectExpression": "always", "ObjectPattern": "never" }` options:
+
+::: incorrect
 
 ```js
 /*eslint object-curly-newline: ["error", { "ObjectExpression": "always", "ObjectPattern": "never" }]*/
@@ -465,7 +505,11 @@ let {
 } = obj;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "ObjectExpression": "always", "ObjectPattern": "never" }` options:
+
+::: correct
 
 ```js
 /*eslint object-curly-newline: ["error", { "ObjectExpression": "always", "ObjectPattern": "never" }]*/
@@ -499,9 +543,13 @@ let {k = function() {
 }} = obj;
 ```
 
+:::
+
 ### ImportDeclaration and ExportDeclaration
 
 Examples of **incorrect** code for this rule with the `{ "ImportDeclaration": "always", "ExportDeclaration": "never" }` options:
+
+::: incorrect
 
 ```js
 /*eslint object-curly-newline: ["error", { "ImportDeclaration": "always", "ExportDeclaration": "never" }]*/
@@ -522,7 +570,11 @@ export {
 } from 'foo-bar';
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "ImportDeclaration": "always", "ExportDeclaration": "never" }` options:
+
+::: correct
 
 ```js
 /*eslint object-curly-newline: ["error", { "ImportDeclaration": "always", "ExportDeclaration": "never" }]*/
@@ -543,6 +595,8 @@ import {
 export { foo, bar } from 'foo-bar';
 export { foo as f, bar } from 'foo-bar';
 ```
+
+:::
 
 ## When Not To Use It
 

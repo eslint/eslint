@@ -9,11 +9,9 @@ related_rules:
 - no-label-var
 ---
 
-<!--RECOMMENDED-->
 
-<!--FIXABLE-->
 
-Disallows unused labels.
+
 
 Labels that are declared and not used anywhere in the code are most likely an error due to incomplete refactoring.
 
@@ -36,6 +34,8 @@ This rule is aimed at eliminating unused labels.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-unused-labels: "error"*/
 
@@ -51,7 +51,11 @@ for (let i = 0; i < 10; ++i) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-unused-labels: "error"*/
@@ -71,6 +75,8 @@ for (let i = 0; i < 10; ++i) {
     bar();
 }
 ```
+
+:::
 
 ## When Not To Use It
 

@@ -1,7 +1,7 @@
 {% set navPages = collections.docs | eleventyNavigation %}
 {% macro renderNavListItem(entry) -%}
 <li class="docs-index__item" {% if entry.children.length %}data-has-children {% endif %}>
-    <a href="{{ entry.url | url }}" {% if entry.url == page.url %} aria-current="true" {% endif %}>{{ entry.title }}</a>
+    <a href="{{ entry.url | url | prettyURL }}" {% if entry.url == page.url %} aria-current="true" {% endif %}>{{ entry.title }}</a>
     {%- if entry.children.length -%}
     <ul data-child-list>
         {%- for child in entry.children %}{{ renderNavListItem(child) }}{% endfor -%}
@@ -11,15 +11,19 @@
 {%- endmacro %}
 
 <nav class="docs-index" id="docs-index">
-    <button class="docs-index-toggle" aria-label="Index" id="js-docs-index-toggle" hidden>
+    <button class="docs-index-toggle" id="js-docs-index-toggle" hidden>
         Index
-        <svg width="20" height="20" viewBox="20 20 60 60">
+        <svg width="20" height="20" viewBox="20 20 60 60" aria-hidden="true" focusable="false">
             <path id="ham-top" d="M30,37 L70,37 Z" stroke="currentColor"></path>
             <path id="ham-middle" d="M30,50 L70,50 Z" stroke="currentColor"></path>
             <path id="ham-bottom" d="M30,63 L70,63 Z" stroke="currentColor"></path>
         </svg>
     </button>
-    <ul class="docs-index__list" id="js-docs-index-list">
-        {%- for entry in navPages %}{{ renderNavListItem(entry) }}{%- endfor -%}
-    </ul>
+    <div class="docs__index__panel" id="js-docs-index-panel">
+        {% include 'components/search.html' %}
+
+        <ul class="docs-index__list" id="js-docs-list">
+            {%- for entry in navPages %}{{ renderNavListItem(entry) }}{%- endfor -%}
+        </ul>
+    </div>
 </nav>

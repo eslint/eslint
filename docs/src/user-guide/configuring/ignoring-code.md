@@ -10,12 +10,6 @@ eleventyNavigation:
 
 ---
 
-* [`ignorePatterns` in Config Files](#ignorepatterns-in-config-files)
-* [The `.eslintignore` File](#the-eslintignore-file)
-* [Using an Alternate File](#using-an-alternate-file)
-* [Using eslintIgnore in package.json](#using-eslintignore-in-packagejson)
-* [Ignored File Warnings](#ignored-file-warnings)
-
 ## `ignorePatterns` in Config Files
 
 You can tell ESLint to ignore specific files and directories using `ignorePatterns` in your config files. `ignorePatterns` patterns follow the same rules as `.eslintignore`. Please see the [the `.eslintignore` file documentation](./ignoring-code#the-eslintignore-file) to learn more.
@@ -50,7 +44,7 @@ When ESLint is run, it looks in the current working directory to find an `.eslin
 Globs are matched using [node-ignore](https://github.com/kaelzhang/node-ignore), so a number of features are available:
 
 * Lines beginning with `#` are treated as comments and do not affect the ignore patterns.
-* Paths are relative to the current working directory. This is also true of paths passed in via the `--ignore-pattern` [command](https://eslint.org/docs/user-guide/command-line-interface#--ignore-pattern).
+* Paths are relative to the current working directory. This is also true of paths passed in via the `--ignore-pattern` [command](../command-line-interface#--ignore-pattern).
 * Lines preceded by `!` are negated patterns that re-include a pattern that was ignored by an earlier pattern.
 * Ignore patterns behave according to the `.gitignore` [specification](https://git-scm.com/docs/gitignore).
 
@@ -95,17 +89,23 @@ There are also some exceptions to these rules:
 
   The following `--ignore-pattern` is also equivalent:
 
-      eslint --ignore-pattern '!.build' --ignore-pattern '.build/*' --ignore-pattern '!.build/test.js' parent-folder/
+  ```shell
+  eslint --ignore-pattern '!.build' --ignore-pattern '.build/*' --ignore-pattern '!.build/test.js' parent-folder/
+  ```
 
 ## Using an Alternate File
 
 If you'd prefer to use a different file than the `.eslintignore` in the current working directory, you can specify it on the command line using the `--ignore-path` option. For example, you can use `.jshintignore` file because it has the same format:
 
-    eslint --ignore-path .jshintignore file.js
+```shell
+eslint --ignore-path .jshintignore file.js
+```
 
 You can also use your `.gitignore` file:
 
-    eslint --ignore-path .gitignore file.js
+```shell
+eslint --ignore-path .gitignore file.js
+```
 
 Any file that follows the standard ignore file format can be used. Keep in mind that specifying `--ignore-path` means that any existing `.eslintignore` file will not be used. Note that globbing rules in `.eslintignore` follow those of `.gitignore`.
 
@@ -113,17 +113,19 @@ Any file that follows the standard ignore file format can be used. Keep in mind 
 
 If an `.eslintignore` file is not found and an alternate file is not specified, ESLint will look in package.json for an `eslintIgnore` key to check for files to ignore.
 
-    {
-      "name": "mypackage",
-      "version": "0.0.1",
-      "eslintConfig": {
-          "env": {
-              "browser": true,
-              "node": true
-          }
-      },
-      "eslintIgnore": ["hello.js", "world.js"]
-    }
+```json
+{
+    "name": "mypackage",
+    "version": "0.0.1",
+    "eslintConfig": {
+        "env": {
+            "browser": true,
+            "node": true
+        }
+    },
+    "eslintIgnore": ["hello.js", "world.js"]
+}
+```
 
 ## Ignored File Warnings
 
@@ -135,7 +137,9 @@ foo.js
 
 And then you run:
 
-    eslint foo.js
+```shell
+eslint foo.js
+```
 
 You'll see this warning:
 
@@ -150,7 +154,9 @@ This message occurs because ESLint is unsure if you wanted to actually lint the 
 
 Consider another scenario where you may want to run ESLint on a specific dot-file or dot-folder, but have forgotten to specifically allow those files in your `.eslintignore` file. You would run something like this:
 
-    eslint .config/foo.js
+```shell
+eslint .config/foo.js
+```
 
 You would see this warning:
 

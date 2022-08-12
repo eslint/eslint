@@ -54,7 +54,7 @@ function getOrderOfTraversing(codePath, options, callback) {
     codePath.traverseSegments(options, (segment, controller) => {
         retv.push(segment.id);
         if (callback) {
-            callback(segment, controller); // eslint-disable-line node/callback-return -- At end of inner function
+            callback(segment, controller); // eslint-disable-line n/callback-return -- At end of inner function
         }
     });
 
@@ -69,7 +69,7 @@ describe("CodePathAnalyzer", () => {
 
     /*
      * If you need to output the code paths and DOT graph information for a
-     * particular piece of code, udpate and uncomment the following test and
+     * particular piece of code, update and uncomment the following test and
      * then run:
      * DEBUG=eslint:code-path npx mocha tests/lib/linter/code-path-analysis/
      *

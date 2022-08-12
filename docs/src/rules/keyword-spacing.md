@@ -5,9 +5,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/keyword-spa
 rule_type: layout
 ---
 
-<!--FIXABLE-->
 
-Enforces consistent spacing before and after keywords.
 
 Keywords are syntax elements of JavaScript, such as `try` and `if`.
 These keywords have special meaning to the language and so often appear in a different color in code editors.
@@ -44,6 +42,8 @@ This rule has an object option:
 
 Examples of **incorrect** code for this rule with the default `{ "before": true }` option:
 
+::: incorrect
+
 ```js
 /*eslint keyword-spacing: ["error", { "before": true }]*/
 
@@ -56,7 +56,11 @@ if (foo) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `{ "before": true }` option:
+
+::: correct
 
 ```js
 /*eslint keyword-spacing: ["error", { "before": true }]*/
@@ -111,7 +115,11 @@ if (10+this.foo<= this.bar) {}
 let a = <A foo={this.foo} bar={function(){}} />
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `{ "before": false }` option:
+
+::: incorrect
 
 ```js
 /*eslint keyword-spacing: ["error", { "before": false }]*/
@@ -125,7 +133,11 @@ if (foo) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "before": false }` option:
+
+::: correct
 
 ```js
 /*eslint keyword-spacing: ["error", { "before": false }]*/
@@ -139,9 +151,13 @@ if (foo) {
 }
 ```
 
+:::
+
 ### after
 
 Examples of **incorrect** code for this rule with the default `{ "after": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint keyword-spacing: ["error", { "after": true }]*/
@@ -155,7 +171,11 @@ if(foo) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `{ "after": true }` option:
+
+::: correct
 
 ```js
 /*eslint keyword-spacing: ["error", { "after": true }]*/
@@ -222,7 +242,11 @@ function* foo(a) {
 let a = <A foo={this.foo} bar={function(){}} />
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `{ "after": false }` option:
+
+::: incorrect
 
 ```js
 /*eslint keyword-spacing: ["error", { "after": false }]*/
@@ -236,7 +260,11 @@ if (foo) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `{ "after": false }` option:
+
+::: correct
 
 ```js
 /*eslint keyword-spacing: ["error", { "after": false }]*/
@@ -250,9 +278,13 @@ if(foo) {
 }
 ```
 
+:::
+
 ### overrides
 
 Examples of **correct** code for this rule with the `{ "overrides": { "if": { "after": false }, "for": { "after": false }, "while": { "after": false }, "static": { "after": false }, "as": { "after": false } } }` option:
+
+::: correct
 
 ```js
 /*eslint keyword-spacing: ["error", { "overrides": {
@@ -285,6 +317,8 @@ class C {
 
 export { C as"my class" };
 ```
+
+:::
 
 ## When Not To Use It
 

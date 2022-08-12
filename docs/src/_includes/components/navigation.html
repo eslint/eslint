@@ -1,6 +1,6 @@
 <nav class="docs-site-nav" aria-label="Main">
     <div class="flexer">
-        <a href="https://eslint.org/donate" class="c-btn c-btn--primary donate-link">Donate</a>
+        <a href="{{ links.donate }}" class="c-btn c-btn--primary donate-link">{{ site.shared.donate}}</a>
         <button class="docs-site-nav-toggle" aria-label="Menu" id="nav-toggle" hidden>
             <svg width="20" height="20" viewBox="20 20 60 60">
                 <path id="ham-top"    d="M30,37 L70,37 Z" stroke="currentColor"></path>
@@ -11,15 +11,16 @@
     </div>
     <div class="docs-nav-panel" id="nav-panel">
         <ul id="nav-list">
-            {% for item in navigation.items %}
+            {% for item in site.navigation %}
             <li>
-                <a href="{{ item.url }}" {% if item.text == 'Docs' %} aria-current="true"{% endif %}>{{ item.text }}</a>
+                {% set itemLink = links[item.link] %}
+                <a href="{{ itemLink }}" {% if "/docs" in itemLink %}aria-current="true"{% endif %} {% if item.target
+                    %}target="_blank" {% endif %}>{{ item.text }}</a>
             </li>
             {% endfor %}
         </ul>
         <div class="mobile-only">
             {% include 'components/nav-version-switcher.html' %}
-            {% include 'components/nav-search.html' %}
         </div>
     </div>
 </nav>

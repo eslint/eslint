@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-plusplus
 rule_type: suggestion
 ---
 
-Disallows the unary operators `++` and `--`.
 
 Because the unary `++` and `--` operators are subject to automatic semicolon insertion, differences in whitespace can change semantics of source code.
 
@@ -34,6 +33,8 @@ This rule disallows the unary operators `++` and `--`.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-plusplus: "error"*/
 
@@ -48,7 +49,11 @@ for (i = 0; i < l; i++) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-plusplus: "error"*/
@@ -64,6 +69,8 @@ for (i = 0; i < l; i += 1) {
 }
 ```
 
+:::
+
 ## Options
 
 This rule has an object option.
@@ -73,6 +80,8 @@ This rule has an object option.
 ### allowForLoopAfterthoughts
 
 Examples of **correct** code for this rule with the `{ "allowForLoopAfterthoughts": true }` option:
+
+::: correct
 
 ```js
 /*eslint no-plusplus: ["error", { "allowForLoopAfterthoughts": true }]*/
@@ -90,7 +99,11 @@ for (i = 0, j = l; i < l; i++, j--) {
 }
 ```
 
+:::
+
 Examples of **incorrect** code for this rule with the `{ "allowForLoopAfterthoughts": true }` option:
+
+::: incorrect
 
 ```js
 /*eslint no-plusplus: ["error", { "allowForLoopAfterthoughts": true }]*/
@@ -105,3 +118,5 @@ for (i = l; i--;) {
 
 for (i = 0; i < l;) i++;
 ```
+
+:::

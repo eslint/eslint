@@ -8,9 +8,7 @@ related_rules:
 - no-use-before-define
 ---
 
-<!--FIXABLE-->
 
-Requires `const` declarations for variables that are never reassigned after declared.
 
 If a variable is never reassigned, using the `const` declaration is better.
 
@@ -21,6 +19,8 @@ If a variable is never reassigned, using the `const` declaration is better.
 This rule is aimed at flagging variables that are declared using `let` keyword, but never reassigned after the initial assignment.
 
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint prefer-const: "error"*/
@@ -52,7 +52,11 @@ for (let a of [1, 2, 3]) {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint prefer-const: "error"*/
@@ -120,6 +124,8 @@ var b = 3;
 console.log(b);
 ```
 
+:::
+
 ## Options
 
 ```json
@@ -141,6 +147,8 @@ There are 2 values:
 
 Examples of **incorrect** code for the default `{"destructuring": "any"}` option:
 
+::: incorrect
+
 ```js
 /*eslint prefer-const: "error"*/
 /*eslint-env es6*/
@@ -149,7 +157,11 @@ let {a, b} = obj;    /*error 'b' is never reassigned, use 'const' instead.*/
 a = a + 1;
 ```
 
+:::
+
 Examples of **correct** code for the default `{"destructuring": "any"}` option:
+
+::: correct
 
 ```js
 /*eslint prefer-const: "error"*/
@@ -165,7 +177,11 @@ a = a + 1;
 b = b + 1;
 ```
 
+:::
+
 Examples of **incorrect** code for the `{"destructuring": "all"}` option:
+
+::: incorrect
 
 ```js
 /*eslint prefer-const: ["error", {"destructuring": "all"}]*/
@@ -176,7 +192,11 @@ let {a, b} = obj;    /*error 'a' is never reassigned, use 'const' instead.
                              'b' is never reassigned, use 'const' instead.*/
 ```
 
+:::
+
 Examples of **correct** code for the `{"destructuring": "all"}` option:
+
+::: correct
 
 ```js
 /*eslint prefer-const: ["error", {"destructuring": "all"}]*/
@@ -187,6 +207,8 @@ let {a, b} = obj;
 a = a + 1;
 ```
 
+:::
+
 ### ignoreReadBeforeAssign
 
 This is an option to avoid conflicting with `no-use-before-define` rule (without `"nofunc"` option).
@@ -194,6 +216,8 @@ If `true` is specified, this rule will ignore variables that are read between th
 Default is `false`.
 
 Examples of **correct** code for the `{"ignoreReadBeforeAssign": true}` option:
+
+::: correct
 
 ```js
 /*eslint prefer-const: ["error", {"ignoreReadBeforeAssign": true}]*/
@@ -208,7 +232,11 @@ function initialize() {
 timer = setInterval(initialize, 100);
 ```
 
+:::
+
 Examples of **correct** code for the default `{"ignoreReadBeforeAssign": false}` option:
+
+::: correct
 
 ```js
 /*eslint prefer-const: ["error", {"ignoreReadBeforeAssign": false}]*/
@@ -221,6 +249,8 @@ function initialize() {
     }
 }
 ```
+
+:::
 
 ## When Not To Use It
 

@@ -7,7 +7,6 @@ related_rules:
 - no-invalid-regexp
 ---
 
-Suggest using named capture group in regular expression.
 
 ## Rule Details
 
@@ -26,6 +25,8 @@ const regex = /(?:cauli|sun)flower/;
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint prefer-named-capture-group: "error"*/
 
@@ -36,7 +37,11 @@ const baz = RegExp('(ba[rz])');
 foo.exec('bar')[1]; // Retrieve the group result.
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint prefer-named-capture-group: "error"*/
@@ -48,6 +53,8 @@ const xyz = /xyz(?:zy|abc)/;
 
 foo.exec('bar').groups.id; // Retrieve the group result.
 ```
+
+:::
 
 ## When Not To Use It
 

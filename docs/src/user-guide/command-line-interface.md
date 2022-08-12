@@ -10,7 +10,7 @@ eleventyNavigation:
 
 ---
 
-ESLint requires Node.js for installation. Follow the instructions in the [Getting Started Guide](https://eslint.org/docs/user-guide/getting-started) to install ESLint.
+ESLint requires Node.js for installation. Follow the instructions in the [Getting Started Guide](getting-started) to install ESLint.
 
 Most users use [`npx`](https://docs.npmjs.com/cli/v8/commands/npx) to run ESLint on the command line like this:
 
@@ -106,9 +106,11 @@ Options that accept array values can be specified by repeating the option or wit
 
 Example:
 
-    npx eslint --ext .jsx --ext .js lib/
+```shell
+npx eslint --ext .jsx --ext .js lib/
 
-    npx eslint --ext .jsx,.js lib/
+npx eslint --ext .jsx,.js lib/
+```
 
 ### Basic configuration
 
@@ -118,15 +120,19 @@ Disables use of configuration from `.eslintrc.*` and `package.json` files.
 
 Example:
 
-    npx eslint --no-eslintrc file.js
+```shell
+npx eslint --no-eslintrc file.js
+```
 
 #### `-c`, `--config`
 
-This option allows you to specify an additional configuration file for ESLint (see [Configuring ESLint](configuring) for more).
+This option allows you to specify an additional configuration file for ESLint (see [Configuring ESLint](configuring/) for more).
 
 Example:
 
-    npx eslint -c ~/my-eslint.json file.js
+```shell
+npx eslint -c ~/my-eslint.json file.js
+```
 
 This example uses the configuration file at `~/my-eslint.json`.
 
@@ -138,8 +144,10 @@ This option enables specific environments. Details about the global variables de
 
 Examples:
 
-    npx eslint --env browser,node file.js
-    npx eslint --env browser --env node file.js
+```shell
+npx eslint --env browser,node file.js
+npx eslint --env browser --env node file.js
+```
 
 #### `--ext`
 
@@ -148,14 +156,16 @@ By default, ESLint lints `*.js` files and the files that match the `overrides` e
 
 Examples:
 
-    # Use only .ts extension
-    npx eslint . --ext .ts
+```shell
+# Use only .ts extension
+npx eslint . --ext .ts
 
-    # Use both .js and .ts
-    npx eslint . --ext .js --ext .ts
+# Use both .js and .ts
+npx eslint . --ext .js --ext .ts
 
-    # Also use both .js and .ts
-    npx eslint . --ext .js,.ts
+# Also use both .js and .ts
+npx eslint . --ext .js,.ts
+```
 
 **Note:** `--ext` is only used when the arguments are directories. If you use glob patterns or file names, then `--ext` is ignored.
 
@@ -167,8 +177,10 @@ This option defines global variables so that they will not be flagged as undefin
 
 Examples:
 
-    npx eslint --global require,exports:true file.js
-    npx eslint --global require --global exports:true
+```shell
+npx eslint --global require,exports:true file.js
+npx eslint --global require --global exports:true
+```
 
 #### `--parser`
 
@@ -180,8 +192,10 @@ This option allows you to specify parser options to be used by ESLint. Note that
 
 Examples:
 
-    echo '3 ** 4' | npx eslint --stdin --parser-options=ecmaVersion:6 # will fail with a parsing error
-    echo '3 ** 4' | npx eslint --stdin --parser-options=ecmaVersion:7 # succeeds, yay!
+```shell
+echo '3 ** 4' | npx eslint --stdin --parser-options=ecmaVersion:6 # will fail with a parsing error
+echo '3 ** 4' | npx eslint --stdin --parser-options=ecmaVersion:7 # succeeds, yay!
+```
 
 #### `--resolve-plugins-relative-to`
 
@@ -200,8 +214,10 @@ Before using the plugin, you have to install it using npm.
 
 Examples:
 
-    npx eslint --plugin jquery file.js
-    npx eslint --plugin eslint-plugin-mocha file.js
+```shell
+npx eslint --plugin jquery file.js
+npx eslint --plugin eslint-plugin-mocha file.js
+```
 
 #### `--rule`
 
@@ -211,9 +227,11 @@ If the rule is defined within a plugin, you have to prefix the rule ID with the 
 
 Examples:
 
-    npx eslint --rule 'quotes: [error, double]'
-    npx eslint --rule 'guard-for-in: error' --rule 'brace-style: [error, 1tbs]'
-    npx eslint --rule 'jquery/dollar-sign: error'
+```shell
+npx eslint --rule 'quotes: [error, double]'
+npx eslint --rule 'guard-for-in: error' --rule 'brace-style: [error, 1tbs]'
+npx eslint --rule 'jquery/dollar-sign: error'
+```
 
 #### `--rulesdir`
 
@@ -223,11 +241,15 @@ This option allows you to specify another directory from which to load rules fil
 
 Example:
 
-    npx eslint --rulesdir my-rules/ file.js
+```shell
+npx eslint --rulesdir my-rules/ file.js
+```
 
 The rules in your custom rules directory must follow the same format as bundled rules to work properly. You can also specify multiple locations for custom rules by including multiple `--rulesdir` options:
 
-    npx eslint --rulesdir my-rules/ --rulesdir my-other-rules/ file.js
+```shell
+npx eslint --rulesdir my-rules/ --rulesdir my-other-rules/ file.js
+```
 
 Note that, as with core rules and plugin rules, you still need to enable the rules in configuration or via the `--rule` CLI option in order to actually run those rules during linting. Specifying a rules directory with `--rulesdir` does not automatically enable the rules within that directory.
 
@@ -281,8 +303,10 @@ This option allows you to specify the file to use as your `.eslintignore`. By de
 
 Example:
 
-    npx eslint --ignore-path tmp/.eslintignore file.js
-    npx eslint --ignore-path .gitignore file.js
+```shell
+npx eslint --ignore-path tmp/.eslintignore file.js
+npx eslint --ignore-path .gitignore file.js
+```
 
 #### `--no-ignore`
 
@@ -290,7 +314,9 @@ Disables excluding of files from `.eslintignore`, `--ignore-path`, `--ignore-pat
 
 Example:
 
-    npx eslint --no-ignore file.js
+```shell
+npx eslint --no-ignore file.js
+```
 
 #### `--ignore-pattern`
 
@@ -298,7 +324,9 @@ This option allows you to specify patterns of files to ignore (in addition to th
 
 Example:
 
-    npx eslint --ignore-pattern '/lib/' --ignore-pattern '/src/vendor/*' .
+```shell
+npx eslint --ignore-pattern '/lib/' --ignore-pattern '/src/vendor/*' .
+```
 
 ### Using stdin
 
@@ -308,7 +336,9 @@ This option tells ESLint to read and lint source code from STDIN instead of from
 
 Example:
 
-    cat myfile.js | npx eslint --stdin
+```shell
+cat myfile.js | npx eslint --stdin
+```
 
 #### `--stdin-filename`
 
@@ -316,7 +346,9 @@ This option allows you to specify a filename to process STDIN as. This is useful
 
 Example
 
-    cat myfile.js | npx eslint --stdin --stdin-filename=myfile.js
+```shell
+cat myfile.js | npx eslint --stdin --stdin-filename=myfile.js
+```
 
 ### Handling warnings
 
@@ -326,7 +358,9 @@ This option allows you to disable reporting on warnings. If you enable this opti
 
 Example:
 
-    npx eslint --quiet file.js
+```shell
+npx eslint --quiet file.js
+```
 
 #### `--max-warnings`
 
@@ -336,7 +370,9 @@ Normally, if ESLint runs and finds no errors (only warnings), it will exit with 
 
 Example:
 
-    npx eslint --max-warnings 10 file.js
+```shell
+npx eslint --max-warnings 10 file.js
+```
 
 ### Output
 
@@ -346,7 +382,9 @@ Enable report to be written to a file.
 
 Example:
 
-    npx eslint -o ./test/test.html
+```shell
+npx eslint -o ./test/test.html
+```
 
 When specified, the given format is output into the provided file name.
 
@@ -367,28 +405,36 @@ This option specifies the output format for the console. Possible formats are:
 
 Example:
 
-    npx eslint -f compact file.js
+```shell
+npx eslint -f compact file.js
+```
 
 You can also use a custom formatter from the command line by specifying a path to the custom formatter file.
 
 Example:
 
-    npx eslint -f ./customformat.js file.js
+```shell
+npx eslint -f ./customformat.js file.js
+```
 
 An npm-installed formatter is resolved with or without `eslint-formatter-` prefix.
 
 Example:
 
-    npm install eslint-formatter-pretty
+```shell
+npm install eslint-formatter-pretty
 
-    npx eslint -f pretty file.js
+npx eslint -f pretty file.js
 
-    // equivalent:
-    npx eslint -f eslint-formatter-pretty file.js
+// equivalent:
+npx eslint -f eslint-formatter-pretty file.js
+```
 
 When specified, the given format is output to the console. If you'd like to save that output into a file, you can do so on the command line like so:
 
-    npx eslint -f compact file.js > results.txt
+```shell
+npx eslint -f compact file.js > results.txt
+```
 
 This saves the output into the `results.txt` file.
 
@@ -398,8 +444,10 @@ This option forces the enabling/disabling of colorized output. You can use this 
 
 Examples:
 
-    npx eslint --color file.js | cat
-    npx eslint --no-color file.js
+```shell
+npx eslint --color file.js | cat
+npx eslint --no-color file.js
+```
 
 ### Inline configuration comments
 
@@ -419,7 +467,9 @@ config without files modifying it. All inline config comments are ignored, e.g.:
 
 Example:
 
-    npx eslint --no-inline-config file.js
+```shell
+npx eslint --no-inline-config file.js
+```
 
 #### `--report-unused-disable-directives`
 
@@ -429,7 +479,9 @@ This option causes ESLint to report directive comments like `// eslint-disable-l
 
 Example:
 
-    npx eslint --report-unused-disable-directives file.js
+```shell
+npx eslint --report-unused-disable-directives file.js
+```
 
 ### Caching
 
@@ -455,7 +507,9 @@ If a directory is specified, a cache file will be created inside the specified f
 
 Example:
 
-    npx eslint "src/**/*.js" --cache --cache-location "/Users/user/.eslintcache/"
+```shell
+npx eslint "src/**/*.js" --cache --cache-location "/Users/user/.eslintcache/"
+```
 
 #### `--cache-strategy`
 
@@ -465,7 +519,9 @@ The `content` strategy can be useful in cases where the modification time of you
 
 Example:
 
-    npx eslint "src/**/*.js" --cache --cache-strategy content
+```shell
+npx eslint "src/**/*.js" --cache --cache-strategy content
+```
 
 ### Miscellaneous
 
@@ -506,14 +562,18 @@ This option outputs the configuration to be used for the file passed. When prese
 
 Example:
 
-    npx eslint --print-config file.js
+```shell
+npx eslint --print-config file.js
+```
 
 ## Ignoring files from linting
 
 ESLint supports `.eslintignore` files to exclude files from the linting process when ESLint operates on a directory. Files given as individual CLI arguments will be exempt from exclusion. The `.eslintignore` file is a plain text file containing one pattern per line. It can be located in any of the target directory's ancestors; it will affect files in its containing directory as well as all sub-directories. Here's a simple example of a `.eslintignore` file:
 
-    temp.js
-    **/vendor/*.js
+```text
+temp.js
+**/vendor/*.js
+```
 
 A more detailed breakdown of supported patterns and directories ESLint ignores by default can be found in [Ignoring Code](configuring/ignoring-code).
 

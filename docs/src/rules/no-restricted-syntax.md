@@ -10,7 +10,6 @@ related_rules:
 - no-restricted-properties
 ---
 
-Disallows specified syntax.
 
 JavaScript has a lot of language features, and not everyone likes all of them. As a result, some projects choose to disallow the use of certain language features altogether. For instance, you might decide to disallow the use of `try-catch` or `class`, or you might decide to disallow the use of the `in` operator.
 
@@ -60,6 +59,8 @@ The string and object formats can be freely mixed in the configuration as needed
 
 Examples of **incorrect** code for this rule with the `"FunctionExpression", "WithStatement", BinaryExpression[operator='in']` options:
 
+::: incorrect
+
 ```js
 /* eslint no-restricted-syntax: ["error", "FunctionExpression", "WithStatement", "BinaryExpression[operator='in']"] */
 
@@ -72,7 +73,11 @@ var doSomething = function () {};
 foo in bar;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"FunctionExpression", "WithStatement", BinaryExpression[operator='in']` options:
+
+::: correct
 
 ```js
 /* eslint no-restricted-syntax: ["error", "FunctionExpression", "WithStatement", "BinaryExpression[operator='in']"] */
@@ -83,6 +88,8 @@ function doSomething() {};
 
 foo instanceof bar;
 ```
+
+:::
 
 ## When Not To Use It
 

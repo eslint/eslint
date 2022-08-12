@@ -4,13 +4,11 @@ layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-exponentiation-operator.md
 rule_type: suggestion
 further_reading:
-- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Exponentiation
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Exponentiation
 - https://bugs.chromium.org/p/v8/issues/detail?id=5848
 ---
 
-<!--FIXABLE-->
 
-Disallows the use of `Math.pow` in favor of the `**` operator.
 
 Introduced in ES2016, the infix exponentiation operator `**` is an alternative for the standard `Math.pow` function.
 
@@ -21,6 +19,8 @@ Infix notation is considered to be more readable and thus more preferable than t
 This rule disallows calls to `Math.pow` and suggests using the `**` operator instead.
 
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint prefer-exponentiation-operator: "error"*/
@@ -34,7 +34,11 @@ let baz = Math.pow(a + b, c + d);
 let quux = Math.pow(-1, n);
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint prefer-exponentiation-operator: "error"*/
@@ -47,6 +51,8 @@ let baz = (a + b) ** (c + d);
 
 let quux = (-1) ** n;
 ```
+
+:::
 
 ## When Not To Use It
 

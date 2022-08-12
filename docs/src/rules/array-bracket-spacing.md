@@ -9,9 +9,7 @@ related_rules:
 - computed-property-spacing
 ---
 
-<!--FIXABLE-->
 
-Disallows or enforce spaces inside of brackets.
 
 A number of style guides require or disallow spaces between array brackets and other tokens. This rule
 applies to both array literals and destructuring assignments (ECMAScript 6).
@@ -58,6 +56,8 @@ This rule has built-in exceptions:
 
 Examples of **incorrect** code for this rule with the default `"never"` option:
 
+:::incorrect
+
 ```js
 /*eslint array-bracket-spacing: ["error", "never"]*/
 /*eslint-env es6*/
@@ -75,7 +75,11 @@ var [ x, ...y ] = z;
 var [ ,,x, ] = z;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"never"` option:
+
+:::correct
 
 ```js
 /*eslint array-bracket-spacing: ["error", "never"]*/
@@ -102,9 +106,13 @@ var [x, ...y] = z;
 var [,,x,] = z;
 ```
 
+:::
+
 ### always
 
 Examples of **incorrect** code for this rule with the `"always"` option:
+
+:::incorrect
 
 ```js
 /*eslint array-bracket-spacing: ["error", "always"]*/
@@ -126,7 +134,11 @@ var [x, ...y] = z;
 var [,,x,] = z;
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"always"` option:
+
+:::correct
 
 ```js
 /*eslint array-bracket-spacing: ["error", "always"]*/
@@ -153,9 +165,13 @@ var [ x, ...y ] = z;
 var [ ,,x, ] = z;
 ```
 
+:::
+
 ### singleValue
 
 Examples of **incorrect** code for this rule with the `"always", { "singleValue": false }` options:
+
+:::incorrect
 
 ```js
 /*eslint array-bracket-spacing: ["error", "always", { "singleValue": false }]*/
@@ -170,7 +186,11 @@ var foo = [ [ 1, 2 ] ];
 var foo = [ { 'foo': 'bar' } ];
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"always", { "singleValue": false }` options:
+
+:::correct
 
 ```js
 /*eslint array-bracket-spacing: ["error", "always", { "singleValue": false }]*/
@@ -181,9 +201,13 @@ var foo = [[ 1, 1 ]];
 var foo = [{ 'foo': 'bar' }];
 ```
 
+:::
+
 ### objectsInArrays
 
 Examples of **incorrect** code for this rule with the `"always", { "objectsInArrays": false }` options:
+
+:::incorrect
 
 ```js
 /*eslint array-bracket-spacing: ["error", "always", { "objectsInArrays": false }]*/
@@ -194,7 +218,11 @@ var arr = [ {
 } ]
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"always", { "objectsInArrays": false }` options:
+
+:::correct
 
 ```js
 /*eslint array-bracket-spacing: ["error", "always", { "objectsInArrays": false }]*/
@@ -205,9 +233,13 @@ var arr = [{
 }];
 ```
 
+:::
+
 ### arraysInArrays
 
 Examples of **incorrect** code for this rule with the `"always", { "arraysInArrays": false }` options:
+
+:::incorrect
 
 ```js
 /*eslint array-bracket-spacing: ["error", "always", { "arraysInArrays": false }]*/
@@ -216,7 +248,11 @@ var arr = [ [ 1, 2 ], 2, 3, 4 ];
 var arr = [ [ 1, 2 ], 2, [ 3, 4 ] ];
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"always", { "arraysInArrays": false }` options:
+
+:::correct
 
 ```js
 /*eslint array-bracket-spacing: ["error", "always", { "arraysInArrays": false }]*/
@@ -224,6 +260,8 @@ Examples of **correct** code for this rule with the `"always", { "arraysInArrays
 var arr = [[ 1, 2 ], 2, 3, 4 ];
 var arr = [[ 1, 2 ], 2, [ 3, 4 ]];
 ```
+
+:::
 
 ## When Not To Use It
 

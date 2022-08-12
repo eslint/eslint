@@ -5025,16 +5025,16 @@ describe("ESLint", () => {
         });
 
         it("should return multiple rule meta when there are multiple linting errors from a plugin", async () => {
-            const nodePlugin = require("eslint-plugin-node");
+            const nodePlugin = require("eslint-plugin-n");
             const engine = new ESLint({
                 useEslintrc: false,
                 plugins: {
                     node: nodePlugin
                 },
                 overrideConfig: {
-                    plugins: ["node"],
+                    plugins: ["n"],
                     rules: {
-                        "node/no-new-require": 2,
+                        "n/no-new-require": 2,
                         semi: 2,
                         quotes: [2, "double"]
                     }
@@ -5047,7 +5047,7 @@ describe("ESLint", () => {
             assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
             assert.strictEqual(rulesMeta.quotes, coreRules.get("quotes").meta);
             assert.strictEqual(
-                rulesMeta["node/no-new-require"],
+                rulesMeta["n/no-new-require"],
                 nodePlugin.rules["no-new-require"].meta
             );
         });
@@ -5212,7 +5212,7 @@ describe("ESLint", () => {
         });
     });
 
-    describe("when retreiving version number", () => {
+    describe("when retrieving version number", () => {
         it("should return current version number", () => {
             const eslintCLI = require("../../../lib/eslint").ESLint;
             const version = eslintCLI.version;

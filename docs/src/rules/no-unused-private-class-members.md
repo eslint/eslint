@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-unused-p
 rule_type: problem
 ---
 
-Disallows unused private class members.
 
 Private class members that are declared and not used anywhere in the code are most likely an error due to incomplete refactoring. Such class members take up space in the code and can lead to confusion by readers.
 
@@ -17,6 +16,8 @@ This rule reports unused private class members.
 * A private accessor is considered to be unused if it is never accessed (read or write).
 
 Examples of **incorrect** code for this rule:
+
+::: incorrect
 
 ```js
 /*eslint no-unused-private-class-members: "error"*/
@@ -49,7 +50,11 @@ class Foo {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-unused-private-class-members: "error"*/
@@ -79,6 +84,8 @@ class Foo {
     }
 }
 ```
+
+:::
 
 ## When Not To Use It
 

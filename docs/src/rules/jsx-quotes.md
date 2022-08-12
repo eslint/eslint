@@ -7,9 +7,7 @@ related_rules:
 - quotes
 ---
 
-<!--FIXABLE-->
 
-Enforces the consistent use of either double or single quotes in JSX attributes.
 
 JSX attribute values can contain string literals, which are delimited with single or double quotes.
 
@@ -41,13 +39,19 @@ This rule has a string option:
 
 Examples of **incorrect** code for this rule with the default `"prefer-double"` option:
 
+:::incorrect
+
 ```xml
 /*eslint jsx-quotes: ["error", "prefer-double"]*/
 
 <a b='c' />
 ```
 
+:::
+
 Examples of **correct** code for this rule with the default `"prefer-double"` option:
+
+:::correct
 
 ```xml
 /*eslint jsx-quotes: ["error", "prefer-double"]*/
@@ -56,9 +60,13 @@ Examples of **correct** code for this rule with the default `"prefer-double"` op
 <a b='"' />
 ```
 
+:::
+
 ### prefer-single
 
 Examples of **incorrect** code for this rule with the `"prefer-single"` option:
+
+:::incorrect
 
 ```xml
 /*eslint jsx-quotes: ["error", "prefer-single"]*/
@@ -66,7 +74,11 @@ Examples of **incorrect** code for this rule with the `"prefer-single"` option:
 <a b="c" />
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"prefer-single"` option:
+
+:::correct
 
 ```xml
 /*eslint jsx-quotes: ["error", "prefer-single"]*/
@@ -74,6 +86,8 @@ Examples of **correct** code for this rule with the `"prefer-single"` option:
 <a b='c' />
 <a b="'" />
 ```
+
+:::
 
 ## When Not To Use It
 

@@ -5,7 +5,6 @@ edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-process-
 rule_type: suggestion
 ---
 
-Disallows the use of `process.exit()`.
 
 This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-node`](https://github.com/mysticatea/eslint-plugin-node).
 
@@ -36,6 +35,8 @@ This rule aims to prevent the use of `process.exit()` in Node.js JavaScript. As 
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /*eslint no-process-exit: "error"*/
 
@@ -43,7 +44,11 @@ process.exit(1);
 process.exit(0);
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /*eslint no-process-exit: "error"*/
@@ -51,6 +56,8 @@ Examples of **correct** code for this rule:
 Process.exit();
 var exit = process.exit;
 ```
+
+:::
 
 ## When Not To Use It
 
