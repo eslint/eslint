@@ -225,6 +225,7 @@ switch(foo){
 }
 
 ```
+
 :::
 
 ## When Not To Use It
