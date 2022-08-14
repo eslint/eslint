@@ -1,3 +1,13 @@
+v8.22.0 - August 13, 2022
+
+* [`2b97607`](https://github.com/eslint/eslint/commit/2b97607675e1d0920a3abedd736e2ae00ed26d52) feat: Implement caching for FlatESLint (#16190) (Nicholas C. Zakas)
+* [`fd5d3d3`](https://github.com/eslint/eslint/commit/fd5d3d37c97001fad1d9ae4386f76b3587cceba9) feat: add `methodsIgnorePattern` option to object-shorthand rule (#16185) (Milos Djermanovic)
+* [`9f5a752`](https://github.com/eslint/eslint/commit/9f5a75206675f2404ad6733640cf05ab44b02274) docs: optimize image assets (#16170) (Sam Chen)
+* [`61b2948`](https://github.com/eslint/eslint/commit/61b2948cb71ec505d2f7e904c7ad77ee1da64db2) docs: add svgo command to pre commit hook (#16178) (Amaresh  S M)
+* [`784096d`](https://github.com/eslint/eslint/commit/784096d37808e59ce8cc07c3c18018b31a31c3f8) docs: improve search result UI (#16187) (Sam Chen)
+* [`d0f4cb4`](https://github.com/eslint/eslint/commit/d0f4cb42e86b4b9c7bdf91e88a4ec0d36074f36b) docs: use shorthand property name in example (#16180) (Kevin Elliott)
+* [`10a6e0e`](https://github.com/eslint/eslint/commit/10a6e0e14488e4ae9ab267fb5db2ec0c5bb85d59) chore: remove deploy workflow for playground (#16186) (Milos Djermanovic)
+
 v8.21.0 - August 1, 2022
 
 * [`7b43ea1`](https://github.com/eslint/eslint/commit/7b43ea14a8af5fc3dbac38fa9d5bc71741328c16) feat: Implement FlatESLint (#16149) (Nicholas C. Zakas)
