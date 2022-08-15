@@ -81,6 +81,18 @@ or like this if you need to restrict only certain imports from a module:
 }]
 ```
 
+or like this if you need to restrict all imports from a module, except specified allowed ones:
+
+```json
+"no-restricted-imports": ["error", {
+  "paths": [{
+    "name": "import-foo",
+    "allowImportNames": ["Bar"],
+    "message": "Please use Bar from /import-bar/baz/ instead."
+  }]
+}]
+```
+
 or like this if you want to apply a custom message to pattern matches:
 
 ```json
@@ -231,6 +243,20 @@ import * as Foo from "foo";
 ::: incorrect
 
 ```js
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "foo",
+    allowImportNames: ["AllowedObject"],
+    message: "Only 'AllowedObject' is allowed to be imported from 'foo'."
+}]}]*/
+
+import { DisallowedObject } from "foo";
+```
+
+:::
+
+::: incorrect
+
+```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["lodash/*"],
     message: "Please use the default import from 'lodash' instead."
@@ -313,6 +339,20 @@ import DisallowedObject from "foo"
 }]}]*/
 
 import { AllowedObject as DisallowedObject } from "foo";
+```
+
+:::
+
+::: correct
+
+```js
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "foo",
+    allowImportNames: ["AllowedObject"],
+    message: "Only 'AllowedObject' is allowed to be imported from 'foo'."
+}]}]*/
+
+import { AllowedObject } from "foo";
 ```
 
 :::
