@@ -10,7 +10,7 @@ eleventyNavigation:
 ---
 
 ::: warning
-This is an experimental feature that is not enabled by default. You can use the configuration system described on this page by using the `FlatESLint` class, the `FlatRuleTester` class, or by setting `configType: "flat"` in the `Linter` class.
+This is an experimental feature. To opt-in, place a `eslint.config.js` file in the root of your project. If you are using the API, you can use the configuration system described on this page by using the `FlatESLint` class, the `FlatRuleTester` class, or by setting `configType: "flat"` in the `Linter` class.
 :::
 
 ## Configuration File

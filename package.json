@@ -58,6 +58,7 @@
     "@eslint/eslintrc": "^1.3.0",
     "@humanwhocodes/config-array": "^0.10.4",
     "@humanwhocodes/gitignore-to-minimatch": "^1.0.2",
+    "@humanwhocodes/module-importer": "^1.0.1",
     "ajv": "^6.10.0",
     "chalk": "^4.0.0",
     "cross-spawn": "^7.0.2",
