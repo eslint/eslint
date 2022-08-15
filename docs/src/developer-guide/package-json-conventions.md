@@ -4,8 +4,6 @@ layout: doc
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/package-json-conventions.md
 ---
 
-# Package.json Script Naming Conventions
-
 The following applies to the "scripts" section of `package.json` files.
 
 ## Names
