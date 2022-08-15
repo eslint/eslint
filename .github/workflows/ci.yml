@@ -17,6 +17,7 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: '16.x'
+        cache: npm
     - name: Install Packages
       run: npm install
     - name: Lint Files
@@ -48,6 +49,7 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node }}
+        cache: npm
     - name: Install Packages
       run: npm install
     - name: Test
@@ -63,6 +65,7 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: '16'
+        cache: npm
     - name: Install Packages
       run: npm install
     - name: Test
