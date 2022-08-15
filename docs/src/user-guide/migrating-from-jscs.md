@@ -12,7 +12,7 @@ In April 2016, we [announced](https://eslint.org/blog/2016/04/welcoming-jscs-to-
 Before beginning the process of migrating to ESLint, it's helpful to understand some of the terminology that ESLint uses and how it relates to terminology that JSCS uses.
 
 * **Configuration File** - In JSCS, the configuration file is `.jscsrc`, `.jscsrc.json`, `.jscsrc.yaml`, or `.jscsrs.js`. In ESLint, the configuration file can be `.eslintrc.json`, `.eslintrc.yml`, `.eslintrc.yaml`, or `.eslintrc.js` (there is also a deprecated `.eslintrc` file format).
-* **Presets** - In JSCS, there were numerous predefined configurations shipped directly within JSCS. ESLint ships with just one predefined configuration (`eslint:recommended`) that has no style rules enabled. However, ESLint does support [shareable configs](https://eslint.org/docs/developer-guide/shareable-configs). Shareable configs are configurations that are published on their own to npm and there are shareable configs available for almost all of the JSCS presets (see the "Converting Presets" section below). Additionally, the "preset" option in a configuration file is the equivalent of the ESLint "extends" option.
+* **Presets** - In JSCS, there were numerous predefined configurations shipped directly within JSCS. ESLint ships with just one predefined configuration (`eslint:recommended`) that has no style rules enabled. However, ESLint does support [shareable configs](https://eslint.org/docs/developer-guide/shareable-configs). Shareable configs are configurations that are published on their own to npm and there are shareable configs available for almost all of the JSCS presets (see [the "Converting Presets" section](#converting-presets) below). Additionally, the `preset` option in a configuration file is the equivalent of the ESLint `extends` option.
 
 ## Convert Configuration Files Using Polyjuice
 
@@ -40,7 +40,7 @@ If you have multiple `.jscsrc.json` files, you can pass them all and Polyjuice w
 polyjuice --jscs .jscsrc.json ./foo/.jscsrc.json > .eslintrc.json
 ```
 
-**Note:** Polyjuice does a good job of creating a reasonable ESLint configuration from your JSCS configuration, but it may not be 100%. You may still see different warnings than you saw with JSCS, and so you may need to further modify your configuration after using Polyjuice. This is especially true if you're using inline comments to enable/disable certain rules in JSCS (you'll need to manually convert those to use ESLint-style comments instead, see "Disabling Rules Inline" later in this page).
+**Note:** Polyjuice does a good job of creating a reasonable ESLint configuration from your JSCS configuration, but it may not be 100%. You may still see different warnings than you saw with JSCS, and so you may need to further modify your configuration after using Polyjuice. This is especially true if you're using inline comments to enable/disable certain rules in JSCS (you'll need to manually convert those to use ESLint-style comments instead, [see "Disabling Rules Inline"](#disabling-rules-inline) later in this page).
 
 ### Creating a New Configuration From Scratch
 
