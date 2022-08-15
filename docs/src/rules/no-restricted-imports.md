@@ -81,13 +81,13 @@ or like this if you need to restrict only certain imports from a module:
 }]
 ```
 
-or like this if you need to restrict all imports from a module, except specified ones:
+or like this if you need to restrict all imports from a module, except specified allowed ones:
 
 ```json
 "no-restricted-imports": ["error", {
   "paths": [{
     "name": "import-foo",
-    "excludeImportNames": ["Bar"],
+    "allowImportNames": ["Bar"],
     "message": "Please use Bar from /import-bar/baz/ instead."
   }]
 }]
@@ -245,7 +245,7 @@ import * as Foo from "foo";
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
     name: "foo",
-    excludeImportNames: ["AllowedObject"],
+    allowImportNames: ["AllowedObject"],
     message: "Only 'AllowedObject' is allowed to be imported from 'foo'."
 }]}]*/
 
@@ -348,7 +348,7 @@ import { AllowedObject as DisallowedObject } from "foo";
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
     name: "foo",
-    excludeImportNames: ["AllowedObject"],
+    allowImportNames: ["AllowedObject"],
     message: "Only 'AllowedObject' is allowed to be imported from 'foo'."
 }]}]*/
 
