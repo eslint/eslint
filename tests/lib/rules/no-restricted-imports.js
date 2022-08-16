@@ -231,6 +231,27 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         },
         {
+            code: "import { AllowedObject } from \"foo\";",
+            options: [{
+                paths: [{
+                    name: "foo",
+                    allowImportNames: ["AllowedObject"],
+                    message: "Please import anything except 'AllowedObject' from /bar/ instead."
+                }]
+            }]
+        },
+        {
+            code: "import { AllowedObject } from \"foo\";",
+            options: [{
+                paths: [{
+                    name: "foo",
+                    importNames: ["DisallowedObject"],
+                    allowImportNames: ["AllowedObject"],
+                    message: "Please import 'DisallowedObject' from /bar/ instead."
+                }]
+            }]
+        },
+        {
             code: "import {\nAllowedObject,\nDisallowedObject, // eslint-disable-line\n} from \"foo\";",
             options: [{ paths: [{ name: "foo", importNames: ["DisallowedObject"] }] }]
         },
@@ -581,6 +602,58 @@ ruleTester.run("no-restricted-imports", rule, {
             line: 1,
             column: 8,
             endColumn: 24
+        }]
+    },
+    {
+        code: "import { DisallowedObject } from \"foo\";",
+        options: [{
+            paths: [{
+                name: "foo",
+                allowImportNames: ["AllowedObject"],
+                message: "Only 'AllowedObject' is allowed to be imported from /foo/."
+            }]
+        }],
+        errors: [{
+            message: "'DisallowedObject' import from 'foo' is restricted. Only 'AllowedObject' is allowed to be imported from /foo/.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 26
+        }]
+    },
+    {
+        code: "import * as All from \"foo\";",
+        options: [{
+            paths: [{
+                name: "foo",
+                allowImportNames: ["AllowedObject"],
+                message: "Only 'AllowedObject' is allowed to be imported from /foo/."
+            }]
+        }],
+        errors: [{
+            message: "* import is invalid because '*' from 'foo' is restricted. Only 'AllowedObject' is allowed to be imported from /foo/.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 8,
+            endColumn: 16
+        }]
+    },
+    {
+        code: "import { DisallowedObject } from \"foo\";",
+        options: [{
+            paths: [{
+                name: "foo",
+                importNames: ["DisallowedObject"],
+                allowImportNames: ["DisallowedObject"],
+                message: "Please import from /bar/ instead."
+            }]
+        }],
+        errors: [{
+            message: "'DisallowedObject' import from 'foo' is restricted. Please import from /bar/ instead.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 26
         }]
     },
     {
