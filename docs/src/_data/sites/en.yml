@@ -113,5 +113,5 @@ footer:
 #------------------------------------------------------------------------------
 
 edit_link:
-  start_with: https://github.com/eslint/eslint/blob/main/docs/
+  start_with: https://github.com/eslint/eslint/edit/main/docs/
   text: Edit this page
