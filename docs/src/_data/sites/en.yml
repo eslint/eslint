@@ -107,3 +107,11 @@ footer:
   actions:
     back_to_home: Back to homepage
     browse_docs: Browse the docs
+
+#------------------------------------------------------------------------------
+# Edit link
+#------------------------------------------------------------------------------
+
+edit_link:
+  start_with: https://github.com/eslint/eslint/blob/main/docs/
+  text: Edit this page
