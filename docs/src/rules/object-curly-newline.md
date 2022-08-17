@@ -1,7 +1,6 @@
 ---
 title: object-curly-newline
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/object-curly-newline.md
 rule_type: layout
 related_rules:
 - comma-spacing

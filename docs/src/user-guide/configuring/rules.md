@@ -1,7 +1,6 @@
 ---
 title: Rules
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/configuring/rules.md
 eleventyNavigation:
     key: configuring rules
     parent: configuring

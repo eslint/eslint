@@ -1,7 +1,6 @@
 ---
 title: no-negated-condition
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-negated-condition.md
 rule_type: suggestion
 ---
 

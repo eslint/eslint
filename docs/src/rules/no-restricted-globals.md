@@ -1,7 +1,6 @@
 ---
 title: no-restricted-globals
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-restricted-globals.md
 rule_type: suggestion
 related_rules:
 - no-restricted-properties

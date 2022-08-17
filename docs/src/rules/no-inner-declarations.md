@@ -1,7 +1,6 @@
 ---
 title: no-inner-declarations
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-inner-declarations.md
 rule_type: problem
 ---
 

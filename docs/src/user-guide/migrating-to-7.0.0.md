@@ -1,7 +1,6 @@
 ---
 title: Migrating to v7.0.0
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/migrating-to-7.0.0.md
 
 ---
 

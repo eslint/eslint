@@ -1,7 +1,6 @@
 ---
 title: Managing Releases
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/maintainer-guide/releases.md
 eleventyNavigation:
     key: managing releases
     parent: maintainer guide 

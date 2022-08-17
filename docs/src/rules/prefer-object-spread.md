@@ -1,7 +1,6 @@
 ---
 title: prefer-object-spread
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-object-spread.md
 rule_type: suggestion
 ---
 

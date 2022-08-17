@@ -1,7 +1,6 @@
 ---
 title: no-sequences
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-sequences.md
 rule_type: suggestion
 ---
 

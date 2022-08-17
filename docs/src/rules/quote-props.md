@@ -1,7 +1,6 @@
 ---
 title: quote-props
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/quote-props.md
 rule_type: suggestion
 further_reading:
 - https://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names

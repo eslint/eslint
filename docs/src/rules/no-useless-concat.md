@@ -1,7 +1,6 @@
 ---
 title: no-useless-concat
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-useless-concat.md
 rule_type: suggestion
 ---
 

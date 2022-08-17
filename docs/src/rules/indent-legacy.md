@@ -1,7 +1,6 @@
 ---
 title: indent-legacy
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/indent-legacy.md
 rule_type: layout
 ---
 

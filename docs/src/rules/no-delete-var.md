@@ -1,7 +1,6 @@
 ---
 title: no-delete-var
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-delete-var.md
 rule_type: suggestion
 ---
 

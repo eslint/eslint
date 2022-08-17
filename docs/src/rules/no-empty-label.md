@@ -1,7 +1,6 @@
 ---
 title: no-empty-label
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-empty-label.md
 
 related_rules:
 - no-labels

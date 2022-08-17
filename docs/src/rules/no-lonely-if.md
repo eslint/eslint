@@ -1,7 +1,6 @@
 ---
 title: no-lonely-if
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-lonely-if.md
 rule_type: suggestion
 ---
 

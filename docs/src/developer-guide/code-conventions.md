@@ -1,7 +1,6 @@
 ---
 title: Code Conventions
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/code-conventions.md
 
 ---
 

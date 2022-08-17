@@ -1,7 +1,6 @@
 ---
 title: Development Environment
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/development-environment.md
 eleventyNavigation:
     key: set up a development environment
     parent: developer guide

@@ -1,7 +1,6 @@
 ---
 title: no-iterator
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-iterator.md
 rule_type: suggestion
 further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators

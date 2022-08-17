@@ -1,7 +1,6 @@
 ---
 title: rest-spread-spacing
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/rest-spread-spacing.md
 rule_type: layout
 further_reading:
 - https://github.com/tc39/proposal-object-rest-spread

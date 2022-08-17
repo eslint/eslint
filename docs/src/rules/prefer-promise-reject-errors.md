@@ -1,7 +1,6 @@
 ---
 title: prefer-promise-reject-errors
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-promise-reject-errors.md
 rule_type: suggestion
 related_rules:
 - no-throw-literal

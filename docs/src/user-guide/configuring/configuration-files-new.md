@@ -1,7 +1,6 @@
 ---
 title: Configuration Files (New)
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/configuring/configuration-files-new.md
 eleventyNavigation:
     key: configuration files
     parent: configuring

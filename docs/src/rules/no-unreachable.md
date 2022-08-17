@@ -1,7 +1,6 @@
 ---
 title: no-unreachable
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-unreachable.md
 rule_type: problem
 ---
 

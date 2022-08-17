@@ -1,7 +1,6 @@
 ---
 title: no-unused-private-class-members
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-unused-private-class-members.md
 rule_type: problem
 ---
 
