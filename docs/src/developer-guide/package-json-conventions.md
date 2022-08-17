@@ -8,7 +8,7 @@ The following applies to the "scripts" section of `package.json` files.
 
 ## Names
 
-npm script names MUST contain only lower case letters, `:` to separates parts, `-` to separate words, and `+` to separate file extensions. Each part name SHOULD be either a full English word (e.g. `coverage` not `cov`) or a well-known initialism in all lowercase (e.g. `wasm`).
+npm script names MUST contain only lower case letters, `:` to separate parts, `-` to separate words, and `+` to separate file extensions. Each part name SHOULD be either a full English word (e.g. `coverage` not `cov`) or a well-known initialism in all lowercase (e.g. `wasm`).
 
 Here is a summary of the proposal in EBNF.
 
