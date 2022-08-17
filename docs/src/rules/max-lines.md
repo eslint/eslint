@@ -1,7 +1,6 @@
 ---
 title: max-lines
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/max-lines.md
 rule_type: suggestion
 related_rules:
 - complexity

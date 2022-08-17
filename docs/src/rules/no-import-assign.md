@@ -1,7 +1,6 @@
 ---
 title: no-import-assign
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-import-assign.md
 rule_type: problem
 ---
 

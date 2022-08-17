@@ -1,7 +1,6 @@
 ---
 title: no-undefined
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-undefined.md
 rule_type: suggestion
 related_rules:
 - no-undef-init

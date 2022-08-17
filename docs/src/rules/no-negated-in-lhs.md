@@ -1,7 +1,6 @@
 ---
 title: no-negated-in-lhs
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-negated-in-lhs.md
 rule_type: problem
 ---
 

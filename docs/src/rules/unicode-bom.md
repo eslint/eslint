@@ -1,7 +1,6 @@
 ---
 title: unicode-bom
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/unicode-bom.md
 rule_type: layout
 ---
 

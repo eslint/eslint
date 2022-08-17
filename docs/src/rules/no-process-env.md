@@ -1,7 +1,6 @@
 ---
 title: no-process-env
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-process-env.md
 rule_type: suggestion
 further_reading:
 - https://stackoverflow.com/questions/5869216/how-to-store-node-js-deployment-settings-configuration-files

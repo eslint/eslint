@@ -1,7 +1,6 @@
 ---
 title: handle-callback-err
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/handle-callback-err.md
 rule_type: suggestion
 further_reading:
 - https://github.com/maxogden/art-of-node#callbacks

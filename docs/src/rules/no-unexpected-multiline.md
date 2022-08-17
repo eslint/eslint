@@ -1,7 +1,6 @@
 ---
 title: no-unexpected-multiline
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-unexpected-multiline.md
 rule_type: problem
 related_rules:
 - func-call-spacing

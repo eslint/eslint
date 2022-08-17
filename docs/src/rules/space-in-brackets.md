@@ -1,7 +1,6 @@
 ---
 title: space-in-brackets
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/space-in-brackets.md
 
 related_rules:
 - array-bracket-spacing

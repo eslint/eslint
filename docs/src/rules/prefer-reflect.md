@@ -1,7 +1,6 @@
 ---
 title: prefer-reflect
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/prefer-reflect.md
 rule_type: suggestion
 related_rules:
 - no-useless-call

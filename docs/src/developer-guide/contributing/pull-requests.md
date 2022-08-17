@@ -1,7 +1,6 @@
 ---
 title: Pull Requests
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/contributing/pull-requests.md
 
 ---
 

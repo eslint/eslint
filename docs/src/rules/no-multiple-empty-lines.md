@@ -1,7 +1,6 @@
 ---
 title: no-multiple-empty-lines
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-multiple-empty-lines.md
 rule_type: layout
 ---
 

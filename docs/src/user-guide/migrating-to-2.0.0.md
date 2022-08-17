@@ -1,7 +1,6 @@
 ---
 title: Migrating to v2.0.0
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/migrating-to-2.0.0.md
 
 ---
 

@@ -1,7 +1,6 @@
 ---
 title: Rule Changes
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/contributing/rule-changes.md
 
 ---
 

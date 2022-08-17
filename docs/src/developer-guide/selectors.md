@@ -1,15 +1,14 @@
 ---
 title: Selectors
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/selectors.md
 
 ---
 
 Some rules and APIs allow the use of selectors to query an AST. This page is intended to:
 
 1. Explain what selectors are
-1. Describe the syntax for creating selectors
-1. Describe what selectors can be used for
+2. Describe the syntax for creating selectors
+3. Describe what selectors can be used for
 
 ## What is a selector?
 

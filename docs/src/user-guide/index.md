@@ -1,7 +1,6 @@
 ---
 title: User Guide
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/index.md
 eleventyNavigation:
     key: user guide
     title: User Guide

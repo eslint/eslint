@@ -1,7 +1,6 @@
 ---
 title: func-name-matching
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/func-name-matching.md
 rule_type: suggestion
 ---
 
