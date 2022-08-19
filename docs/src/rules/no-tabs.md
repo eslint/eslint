@@ -1,7 +1,6 @@
 ---
 title: no-tabs
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-tabs.md
 rule_type: layout
 ---
 

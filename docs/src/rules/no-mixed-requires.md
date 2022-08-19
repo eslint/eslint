@@ -1,7 +1,6 @@
 ---
 title: no-mixed-requires
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-mixed-requires.md
 rule_type: suggestion
 ---
 

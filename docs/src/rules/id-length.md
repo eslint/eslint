@@ -1,7 +1,6 @@
 ---
 title: id-length
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/id-length.md
 rule_type: suggestion
 related_rules:
 - max-len

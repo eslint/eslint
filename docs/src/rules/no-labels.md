@@ -1,7 +1,6 @@
 ---
 title: no-labels
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-labels.md
 rule_type: suggestion
 related_rules:
 - no-extra-label

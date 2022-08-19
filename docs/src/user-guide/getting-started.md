@@ -1,7 +1,6 @@
 ---
 title: Getting Started with ESLint
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/getting-started.md
 eleventyNavigation:
     key: getting started 
     parent: user guide

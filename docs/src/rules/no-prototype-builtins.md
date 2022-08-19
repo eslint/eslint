@@ -1,7 +1,6 @@
 ---
 title: no-prototype-builtins
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-prototype-builtins.md
 rule_type: problem
 ---
 

@@ -1,7 +1,6 @@
 ---
 title: no-multi-spaces
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-multi-spaces.md
 rule_type: layout
 related_rules:
 - key-spacing

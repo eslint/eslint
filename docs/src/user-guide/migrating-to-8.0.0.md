@@ -1,7 +1,6 @@
 ---
 title: Migrating to v8.0.0
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/migrating-to-8.0.0.md
 eleventyNavigation:
     key: migrating to v8
     parent: user guide

@@ -1,7 +1,6 @@
 ---
 title: no-irregular-whitespace
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-irregular-whitespace.md
 rule_type: problem
 further_reading:
 - https://es5.github.io/#x7.2

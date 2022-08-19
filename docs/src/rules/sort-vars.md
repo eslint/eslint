@@ -1,7 +1,6 @@
 ---
 title: sort-vars
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/sort-vars.md
 rule_type: suggestion
 related_rules:
 - sort-keys

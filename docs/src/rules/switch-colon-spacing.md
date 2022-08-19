@@ -1,7 +1,6 @@
 ---
 title: switch-colon-spacing
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/switch-colon-spacing.md
 rule_type: layout
 ---
 

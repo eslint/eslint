@@ -1,7 +1,6 @@
 ---
 title: no-new-symbol
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-new-symbol.md
 rule_type: problem
 further_reading:
 - https://www.ecma-international.org/ecma-262/6.0/#sec-symbol-objects

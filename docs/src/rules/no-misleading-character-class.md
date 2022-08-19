@@ -1,7 +1,6 @@
 ---
 title: no-misleading-character-class
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-misleading-character-class.md
 rule_type: problem
 ---
 
