@@ -38,6 +38,8 @@ For example, to restrict the use of common generic identifiers:
 }
 ```
 
+**Note:** First element of the array specifies the severity of the rule and it should be one of the following: 0 = "off", 1 = "warn", 2 = "error". Rest are the disallowed identifiers you want to add.
+
 Examples of **incorrect** code for this rule with sample `"data", "callback"` restricted identifiers:
 
 ::: incorrect
