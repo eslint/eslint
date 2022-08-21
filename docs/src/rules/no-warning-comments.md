@@ -107,12 +107,12 @@ Examples of **correct** code for the `{ "terms": ["todo", "fixme", "any other te
 
 ### Decoration Characters
 
-Examples of **incorrect** code for the `{ "decoration": "*" }` options:
+Examples of **incorrect** code for the `{ "decoration": ["*"] }` options:
 
 ::: incorrect
 
 ```js
-/*eslint no-warning-comments: ["error", { "decoration": "*" }]*/
+/*eslint no-warning-comments: ["error", { "decoration": ["*"] }]*/
 
 //***** todo decorative asterisks are ignored *****//
 /**
