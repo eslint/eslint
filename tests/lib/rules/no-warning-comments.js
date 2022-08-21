@@ -428,6 +428,19 @@ ruleTester.run("no-warning-comments", rule, {
                     }
                 }
             ]
+        },
+        {
+            code: "//**TODO term starts with a decoration character",
+            options: [{ terms: ["*todo"], location: "start", decoration: ["*"] }],
+            errors: [
+                {
+                    messageId: "unexpectedComment",
+                    data: {
+                        matchedTerm: "*todo",
+                        comment: "**TODO term starts with a decoration..."
+                    }
+                }
+            ]
         }
     ]
 });
