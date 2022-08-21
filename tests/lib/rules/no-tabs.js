@@ -31,6 +31,27 @@ ruleTester.run("no-tabs", rule, {
         {
             code: "\t// comment",
             options: [{ allowIndentationTabs: true }]
+        },
+        {
+            code: "//\t\tcomment\t\t",
+            options: [{ allowInComments: true }]
+        },
+        {
+            code: "doSomething(); /* \tcomment\t */",
+            options: [{ allowInComments: true }]
+        },
+        {
+            code: "doSomething('a\t\tb');",
+            options: [{ allowInStrings: true }]
+        },
+        {
+            code: "`\tabc\t`",
+            options: [{ allowInTemplates: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var r = /^\t$/",
+            options: [{ allowInRegExps: true }]
         }
     ],
     invalid: [
@@ -150,6 +171,93 @@ ruleTester.run("no-tabs", rule, {
                     column: 17,
                     endLine: 1,
                     endColumn: 19
+                }
+            ]
+        },
+        {
+            code: "//\t\tcomment\t\t",
+            options: [{ allowInComments: false }],
+            errors: [
+                {
+                    messageId: "unexpectedTab",
+                    line: 1,
+                    column: 3,
+                    endLine: 1,
+                    endColumn: 5
+                },
+                {
+                    messageId: "unexpectedTab",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 14
+                }
+            ]
+        },
+        {
+            code: "doSomething(); /* \tcomment\t */",
+            options: [{ allowInComments: false }],
+            errors: [
+                {
+                    messageId: "unexpectedTab",
+                    line: 1,
+                    column: 19,
+                    endLine: 1,
+                    endColumn: 20
+                },
+                {
+                    messageId: "unexpectedTab",
+                    line: 1,
+                    column: 27,
+                    endLine: 1,
+                    endColumn: 28
+                }
+            ]
+        },
+        {
+            code: "doSomething('a\t\tb');",
+            options: [{ allowInStrings: false }],
+            errors: [
+                {
+                    messageId: "unexpectedTab",
+                    line: 1,
+                    column: 15,
+                    endLine: 1,
+                    endColumn: 17
+                }
+            ]
+        },
+        {
+            code: "`\tabc\t`",
+            options: [{ allowInTemplates: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "unexpectedTab",
+                    line: 1,
+                    column: 2,
+                    endLine: 1,
+                    endColumn: 3
+                },
+                {
+                    messageId: "unexpectedTab",
+                    line: 1,
+                    column: 6,
+                    endLine: 1,
+                    endColumn: 7
+                }
+            ]
+        },
+        {
+            code: "var r = /^\t$/",
+            options: [{ allowInRegExps: false }],
+            errors: [
+                {
+                    messageId: "unexpectedTab",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
                 }
             ]
         }
