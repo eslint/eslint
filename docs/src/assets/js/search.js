@@ -22,6 +22,8 @@ const resultsElement = document.querySelector('#search-results');
 const resultsLiveRegion = document.querySelector('#search-results-announcement');
 const searchInput = document.querySelector('#search');
 const searchClearBtn = document.querySelector('#search__clear-btn');
+let activeIndex = -1;
+let searchQuery;
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -66,6 +68,7 @@ function displaySearchResults(results) {
         list.classList.add('search-results__list');
         resultsElement.append(list);
         resultsElement.setAttribute('data-results', 'true');
+        activeIndex = -1;
 
         for (const result of results) {
             const listItem = document.createElement('li');
@@ -88,6 +91,30 @@ function displaySearchResults(results) {
 
 }
 
+
+// Check if an element is currently scrollable
+function isScrollable(element) {
+    return element && element.clientHeight < element.scrollHeight;
+}
+
+// Ensure given child element is within the parent's visible scroll area
+function maintainScrollVisibility(activeElement, scrollParent) {
+    const { offsetHeight, offsetTop } = activeElement;
+    const { offsetHeight: parentOffsetHeight, scrollTop } = scrollParent;
+
+    const isAbove = offsetTop < scrollTop;
+    const isBelow = (offsetTop + offsetHeight) > (scrollTop + parentOffsetHeight);
+
+    if (isAbove) {
+        scrollParent.scrollTo(0, offsetTop);
+    }
+    else if (isBelow) {
+        scrollParent.scrollTo(0, offsetTop - parentOffsetHeight + offsetHeight);
+    }
+    
+}
+
+
 //-----------------------------------------------------------------------------
 // Event Handlers
 //-----------------------------------------------------------------------------
@@ -96,6 +123,8 @@ function displaySearchResults(results) {
 if(searchInput)
     searchInput.addEventListener('keyup', function (e) {
         const query = searchInput.value;
+
+        if(query === searchQuery) return;
 
         if(query.length) searchClearBtn.removeAttribute('hidden');
         else searchClearBtn.setAttribute('hidden', '');
@@ -111,14 +140,11 @@ if(searchInput)
         } else {
             clearSearchResults();
         }
+
+    searchQuery = query
+
     });
 
-if(resultsElement)
-    resultsElement.addEventListener('keydown', function(e) {
-        if(e.key === "Escape") {
-            clearSearchResults();
-        }
-    }, true);
 
 if(searchClearBtn)
     searchClearBtn.addEventListener('click', function(e) {
@@ -126,3 +152,40 @@ if(searchClearBtn)
         searchInput.focus();
         clearSearchResults();
     });
+
+document.addEventListener('keydown', function (e) {
+
+    if (e.key === 'Escape') {
+        e.preventDefault();
+        clearSearchResults();
+        searchInput.focus();
+    }
+
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInput.focus();
+        document.querySelector('.search').scrollIntoView({ behaviour: "smooth", block: "start" });
+    }
+
+    const searchResults = Array.from(document.querySelectorAll('.search-results__item'));
+    if (!searchResults.length) return;
+
+    switch (e.key) {
+        case "ArrowUp":
+            e.preventDefault();
+            activeIndex = activeIndex - 1 < 0 ? searchResults.length - 1 : activeIndex - 1;
+            break;
+        case "ArrowDown":
+            e.preventDefault();
+            activeIndex = activeIndex + 1 < searchResults.length ? activeIndex + 1 : 0;
+            break;
+    }
+
+    if (activeIndex === -1) return;
+    const activeSearchResult = searchResults[activeIndex];
+    activeSearchResult.querySelector('a').focus();
+    if (isScrollable(resultsElement)) {
+        maintainScrollVisibility(activeSearchResult, resultsElement);
+    }
+});
+    
