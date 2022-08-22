@@ -173,7 +173,7 @@ This rule has an object option:
 
 * Set the `commentPattern` option to a regular expression string to change the test for intentional fallthrough comment.
 
-* Set the `allowEmptyCase` option to `true` to allow empty cases regardless of the layout.By default, this rule does not require a fallthrough comment after an empty `case` only if the empty `case` and the next `case` are on the same line or on consecutive lines.
+* Set the `allowEmptyCase` option to `true` to allow empty cases regardless of the layout. By default, this rule does not require a fallthrough comment after an empty `case` only if the empty `case` and the next `case` are on the same line or on consecutive lines.
 
 ### commentPattern
 
@@ -203,9 +203,13 @@ switch(foo) {
 }
 ```
 
+:::
+
 ### allowEmptyCase
 
-Examples for **correct** code for the `{ "allowEmptyCase": true }` option:
+Examples of **correct** code for the `{ "allowEmptyCase": true }` option:
+
+::: correct
 
 ```js
 /* eslint no-fallthrough: ["error", { "allowEmptyCase": true }] */
