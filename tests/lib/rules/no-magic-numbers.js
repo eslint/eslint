@@ -257,6 +257,12 @@ ruleTester.run("no-magic-numbers", rule, {
             code: "foo?.[777]",
             options: [{ ignoreArrayIndexes: true }],
             parserOptions: { ecmaVersion: 2020 }
+        },
+
+        // Class / instance fields
+        {
+            code: "class Foo { static bar = 1; baz = 2; }",
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
