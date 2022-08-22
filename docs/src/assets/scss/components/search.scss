@@ -65,12 +65,11 @@
 .search .search-results {
     font-size: .875rem;
     background-color: var(--body-background-color);
-    position: relative;
     z-index: 10;
     width: 100%;
     border-radius: 0 0 var(--border-radius) var(--border-radius);
     border: 1px solid var(--divider-color);
-    position: rekative;
+    position: relative;
     top: .25rem;
     max-height: 400px;
     overflow-y: auto;
@@ -112,7 +111,6 @@
 }
 
 .search .search-results__item__title {
-    font-size: var(--step-0);
     font-size: .875rem;
     margin-bottom: 0;
     font-family: var(--text-font);

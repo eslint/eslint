@@ -6,15 +6,7 @@
 
     --fluid-screen: 100vw;
     --fluid-bp: calc((var(--fluid-screen) - var(--fluid-min-width) / 16 * 1rem) / (var(--fluid-max-width) - var(--fluid-min-width)));
-}
 
-@media screen and (min-width: 1023px) {
-    :root {
-        --fluid-screen: calc(var(--fluid-max-width) * 1px);
-    }
-}
-
-:root {
     --fc-3xs-min: (var(--fc-s-min) * 0.25);
     --fc-3xs-max: (var(--fc-s-max) * 0.25);
 
@@ -74,4 +66,10 @@
     --space-xl-4xl: calc(((var(--fc-xl-min) / 16) * 1rem) + (var(--fc-4xl-max) - var(--fc-xl-min)) * var(--fluid-bp));
     --space-l-3xl: calc(((var(--fc-l-min) / 16) * 1rem) + (var(--fc-3xl-max) - var(--fc-l-min)) * var(--fluid-bp));
     --space-s-l: calc(((var(--fc-s-min) / 16) * 1rem) + (var(--fc-l-max) - var(--fc-s-min)) * var(--fluid-bp));
+}
+
+@media screen and (min-width: 1023px) {
+    :root {
+        --fluid-screen: calc(var(--fluid-max-width) * 1px);
+    }
 }
