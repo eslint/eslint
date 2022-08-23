@@ -105,7 +105,7 @@ module.exports = [
     },
     {
         files: ["lib/rules/*", "tools/internal-rules/*"],
-        ignores: ["lib/rules/index.js"],
+        ignores: ["**/index.js"],
         rules: {
             ...eslintPlugin.configs["rules-recommended"].rules,
             "eslint-plugin/no-missing-message-ids": "error",
