@@ -11,6 +11,7 @@
 
 const path = require("path");
 const internalPlugin = require("eslint-plugin-internal-rules");
+const eslintPlugin = require("eslint-plugin-eslint-plugin");
 const { FlatCompat } = require("@eslint/eslintrc");
 const globals = require("globals");
 
@@ -24,7 +25,6 @@ const compat = new FlatCompat({
 
 const INTERNAL_FILES = {
     CLI_ENGINE_PATTERN: "lib/cli-engine/**/*",
-    INIT_PATTERN: "lib/init/**/*",
     LINTER_PATTERN: "lib/linter/**/*",
     RULE_TESTER_PATTERN: "lib/rule-tester/**/*",
     RULES_PATTERN: "lib/rules/**/*",
@@ -59,11 +59,6 @@ function createInternalFilesPatterns(pattern = null) {
             ]
         }));
 }
-
-
-//-----------------------------------------------------------------------------
-// Config
-//-----------------------------------------------------------------------------
 
 module.exports = [
     ...compat.extends("eslint", "plugin:eslint-plugin/recommended"),
@@ -101,13 +96,25 @@ module.exports = [
             "eslint-plugin/test-case-shorthand-strings": "error",
             "internal-rules/multiline-comment-style": "error"
         }
-
+    },
+    {
+        files: ["tools/*.js"],
+        rules: {
+            "no-console": "off"
+        }
     },
     {
         files: ["lib/rules/*", "tools/internal-rules/*"],
-        ignores: ["index.js"],
+        ignores: ["lib/rules/index.js"],
         rules: {
-            "eslint-plugin/prefer-object-rule": "error",
+            ...eslintPlugin.configs["rules-recommended"].rules,
+            "eslint-plugin/no-missing-message-ids": "error",
+            "eslint-plugin/no-unused-message-ids": "error",
+            "eslint-plugin/prefer-message-ids": "error",
+            "eslint-plugin/prefer-placeholders": "error",
+            "eslint-plugin/prefer-replace-text": "error",
+            "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
+            "eslint-plugin/require-meta-docs-description": ["error", { pattern: "^(Enforce|Require|Disallow)" }],
             "internal-rules/no-invalid-meta": "error"
         }
     },
@@ -119,7 +126,16 @@ module.exports = [
         }
     },
     {
-        files: ["tests/**/*"],
+        files: ["tests/lib/rules/*", "tests/tools/internal-rules/*"],
+        rules: {
+            ...eslintPlugin.configs["tests-recommended"].rules,
+            "eslint-plugin/prefer-output-null": "error",
+            "eslint-plugin/test-case-property-ordering": "error",
+            "eslint-plugin/test-case-shorthand-strings": "error"
+        }
+    },
+    {
+        files: ["tests/**/*.js"],
         languageOptions: {
             globals: {
                 ...globals.mocha
@@ -147,17 +163,7 @@ module.exports = [
         files: [INTERNAL_FILES.CLI_ENGINE_PATTERN],
         rules: {
             "n/no-restricted-require": ["error", [
-                ...createInternalFilesPatterns(INTERNAL_FILES.CLI_ENGINE_PATTERN),
-                resolveAbsolutePath("lib/init/index.js")
-            ]]
-        }
-    },
-    {
-        files: [INTERNAL_FILES.INIT_PATTERN],
-        rules: {
-            "n/no-restricted-require": ["error", [
-                ...createInternalFilesPatterns(INTERNAL_FILES.INIT_PATTERN),
-                resolveAbsolutePath("lib/rule-tester/index.js")
+                ...createInternalFilesPatterns(INTERNAL_FILES.CLI_ENGINE_PATTERN)
             ]]
         }
     },
@@ -168,7 +174,6 @@ module.exports = [
                 ...createInternalFilesPatterns(INTERNAL_FILES.LINTER_PATTERN),
                 "fs",
                 resolveAbsolutePath("lib/cli-engine/index.js"),
-                resolveAbsolutePath("lib/init/index.js"),
                 resolveAbsolutePath("lib/rule-tester/index.js")
             ]]
         }
@@ -180,7 +185,6 @@ module.exports = [
                 ...createInternalFilesPatterns(INTERNAL_FILES.RULES_PATTERN),
                 "fs",
                 resolveAbsolutePath("lib/cli-engine/index.js"),
-                resolveAbsolutePath("lib/init/index.js"),
                 resolveAbsolutePath("lib/linter/index.js"),
                 resolveAbsolutePath("lib/rule-tester/index.js"),
                 resolveAbsolutePath("lib/source-code/index.js")
@@ -193,7 +197,6 @@ module.exports = [
             "n/no-restricted-require": ["error", [
                 ...createInternalFilesPatterns(),
                 resolveAbsolutePath("lib/cli-engine/index.js"),
-                resolveAbsolutePath("lib/init/index.js"),
                 resolveAbsolutePath("lib/linter/index.js"),
                 resolveAbsolutePath("lib/rule-tester/index.js"),
                 resolveAbsolutePath("lib/source-code/index.js")
@@ -207,7 +210,6 @@ module.exports = [
                 ...createInternalFilesPatterns(INTERNAL_FILES.SOURCE_CODE_PATTERN),
                 "fs",
                 resolveAbsolutePath("lib/cli-engine/index.js"),
-                resolveAbsolutePath("lib/init/index.js"),
                 resolveAbsolutePath("lib/linter/index.js"),
                 resolveAbsolutePath("lib/rule-tester/index.js"),
                 resolveAbsolutePath("lib/rules/index.js")
@@ -219,8 +221,7 @@ module.exports = [
         rules: {
             "n/no-restricted-require": ["error", [
                 ...createInternalFilesPatterns(INTERNAL_FILES.RULE_TESTER_PATTERN),
-                resolveAbsolutePath("lib/cli-engine/index.js"),
-                resolveAbsolutePath("lib/init/index.js")
+                resolveAbsolutePath("lib/cli-engine/index.js")
             ]]
         }
     }
