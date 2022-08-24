@@ -130,7 +130,8 @@ describe("cli", () => {
 
             it(`should return no error when --ext .js2 is specified with configType:${configType}`, async () => {
                 const filePath = getFixturePath("files");
-                const result = await cli.execute(`--ext .js2 ${filePath}`, null, useFlatConfig);
+                const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
+                const result = await cli.execute(`--ext .js2 ${filePath} ${flag}`, null, useFlatConfig);
 
                 assert.strictEqual(result, 0);
             });
