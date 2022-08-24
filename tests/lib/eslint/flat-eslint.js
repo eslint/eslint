@@ -370,6 +370,7 @@ describe("FlatESLint", () => {
                 {
                     filePath: getFixturePath("passing.js"),
                     messages: [],
+                    suppressedMessages: [],
                     errorCount: 0,
                     warningCount: 0,
                     fatalErrorCount: 0,
@@ -412,6 +413,7 @@ describe("FlatESLint", () => {
                             nodeType: "Identifier"
                         }
                     ],
+                    suppressedMessages: [],
                     errorCount: 1,
                     warningCount: 0,
                     fatalErrorCount: 0,
@@ -451,6 +453,7 @@ describe("FlatESLint", () => {
                             column: 19
                         }
                     ],
+                    suppressedMessages: [],
                     errorCount: 1,
                     warningCount: 0,
                     fatalErrorCount: 1,
@@ -490,6 +493,7 @@ describe("FlatESLint", () => {
                             column: 10
                         }
                     ],
+                    suppressedMessages: [],
                     errorCount: 1,
                     warningCount: 0,
                     fatalErrorCount: 1,
@@ -578,6 +582,7 @@ describe("FlatESLint", () => {
                             column: 19
                         }
                     ],
+                    suppressedMessages: [],
                     errorCount: 1,
                     warningCount: 0,
                     fatalErrorCount: 1,
@@ -1328,6 +1333,7 @@ describe("FlatESLint", () => {
                     {
                         filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/multipass.js")),
                         messages: [],
+                        suppressedMessages: [],
                         errorCount: 0,
                         warningCount: 0,
                         fatalErrorCount: 0,
@@ -1339,6 +1345,7 @@ describe("FlatESLint", () => {
                     {
                         filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/ok.js")),
                         messages: [],
+                        suppressedMessages: [],
                         errorCount: 0,
                         warningCount: 0,
                         fatalErrorCount: 0,
@@ -1361,6 +1368,7 @@ describe("FlatESLint", () => {
                                 severity: 2
                             }
                         ],
+                        suppressedMessages: [],
                         errorCount: 1,
                         warningCount: 0,
                         fatalErrorCount: 0,
@@ -1384,6 +1392,7 @@ describe("FlatESLint", () => {
                                 severity: 2
                             }
                         ],
+                        suppressedMessages: [],
                         errorCount: 1,
                         warningCount: 0,
                         fatalErrorCount: 0,
@@ -3704,6 +3713,7 @@ describe("FlatESLint", () => {
                                 nodeType: "CallExpression"
                             }
                         ],
+                        suppressedMessages: [],
                         errorCount: 2,
                         warningCount: 0,
                         fatalErrorCount: 0,
@@ -3935,6 +3945,7 @@ describe("FlatESLint", () => {
                                 nodeType: null
                             }
                         ],
+                        suppressedMessages: [],
                         errorCount: 1,
                         warningCount: 0,
                         fatalErrorCount: 0,
@@ -4483,6 +4494,7 @@ describe("FlatESLint", () => {
                 // Expected to be an 'eqeqeq' error because the file matches to `$CWD/foo/*.js`.
                 assert.deepStrictEqual(results, [
                     {
+                        suppressedMessages: [],
                         errorCount: 1,
                         filePath: path.join(getPath(), "foo/test.js"),
                         fixableErrorCount: 0,
@@ -4519,6 +4531,7 @@ describe("FlatESLint", () => {
                 // Expected to be no errors because the file doesn't match to `$CWD/foo/*.js`.
                 assert.deepStrictEqual(results, [
                     {
+                        suppressedMessages: [],
                         errorCount: 0,
                         filePath: path.join(getPath(), "node_modules/myconf/foo/test.js"),
                         fixableErrorCount: 0,
@@ -4570,6 +4583,7 @@ describe("FlatESLint", () => {
                 // Expected to be no errors because the file matches to `$CWD/foo/*.js`.
                 assert.deepStrictEqual(results, [
                     {
+                        suppressedMessages: [],
                         errorCount: 0,
                         filePath: path.join(getPath(), "foo/test.js"),
                         fixableErrorCount: 0,
@@ -4593,6 +4607,7 @@ describe("FlatESLint", () => {
                 // Expected to be an 'eqeqeq' error because the file doesn't match to `$CWD/foo/*.js`.
                 assert.deepStrictEqual(results, [
                     {
+                        suppressedMessages: [],
                         errorCount: 1,
                         filePath: path.join(getPath(), "bar/myconf/foo/test.js"),
                         fixableErrorCount: 0,
