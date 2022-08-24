@@ -12,4 +12,4 @@ our own [rule documentation](https://eslint.org/docs/rules/) and otherwise, see
 the documentation of the plugin in which the rule can be found.
 
 If you need to make changes to a `package.json` file, please see the
-[package.json conventions](./package-json-conventions.md).
+[package.json conventions](./package-json-conventions).
