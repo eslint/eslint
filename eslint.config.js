@@ -5,6 +5,22 @@
 
 "use strict";
 
+/*
+ * IMPORTANT!
+ *
+ * Any changes made to this file must also be made to .eslintrc.js.
+ *
+ * Internally, ESLint is using the eslint.config.js file to lint itself.
+ * The .eslintrc.js file is needed too, because:
+ *
+ * 1. There are tests that expect .eslintrc.js to be present to actually run.
+ * 2. ESLint VS Code extension expects eslintrc config files to be
+ *    present to work correctly.
+ *
+ * Once we no longer need to support both eslintrc and flat config, we will
+ * remove .eslintrc.js.
+ */
+
 //-----------------------------------------------------------------------------
 // Requirements
 //-----------------------------------------------------------------------------
