@@ -184,7 +184,8 @@ describe("cli", () => {
             describe("when given a valid built-in formatter name", () => {
                 it(`should execute without any errors with configType:${configType}`, async () => {
                     const filePath = getFixturePath("passing.js");
-                    const exit = await cli.execute(`--no-config-lookup -f checkstyle ${filePath}`, null, useFlatConfig);
+                    const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
+                    const exit = await cli.execute(`${flag} -f checkstyle ${filePath}`, null, useFlatConfig);
 
                     assert.strictEqual(exit, 0);
                 });
@@ -389,7 +390,8 @@ describe("cli", () => {
         describe("when executing a file with a shebang", () => {
             it(`should execute without error with configType:${configType}`, async () => {
                 const filePath = getFixturePath("shebang.js");
-                const exit = await cli.execute(`--no-config-lookup --no-ignore ${filePath}`, null, useFlatConfig);
+                const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
+                const exit = await cli.execute(`${flag} --no-ignore ${filePath}`, null, useFlatConfig);
 
                 assert.strictEqual(exit, 0);
             });
