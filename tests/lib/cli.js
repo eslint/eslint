@@ -703,7 +703,8 @@ describe("cli", () => {
 
             it(`should exit with no error if parser is valid with configType:${configType}`, async () => {
                 const filePath = getFixturePath("passing.js");
-                const exit = await cli.execute(`--no-ignore --parser espree ${filePath}`, null, useFlatConfig);
+                const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
+                const exit = await cli.execute(`${flag} --no-ignore --parser espree ${filePath}`, null, useFlatConfig);
 
                 assert.strictEqual(exit, 0);
             });
