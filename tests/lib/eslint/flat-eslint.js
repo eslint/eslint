@@ -150,7 +150,6 @@ describe("FlatESLint", () => {
                     cacheLocation: "",
                     cwd: "foo",
                     errorOnUnmatchedPattern: "",
-                    extensions: "",
                     fix: "",
                     fixTypes: ["xyz"],
                     globInputPaths: "",
@@ -169,7 +168,6 @@ describe("FlatESLint", () => {
                     "- 'cacheLocation' must be a non-empty string.",
                     "- 'cwd' must be an absolute path.",
                     "- 'errorOnUnmatchedPattern' must be a boolean.",
-                    "- 'extensions' must be an array of non-empty strings or null.",
                     "- 'fix' must be a boolean or a function.",
                     "- 'fixTypes' must be an array of any of \"directive\", \"problem\", \"suggestion\", and \"layout\".",
                     "- 'globInputPaths' must be a boolean.",
@@ -759,8 +757,10 @@ describe("FlatESLint", () => {
         it("should report zero messages when given a directory with a .js2 file", async () => {
             eslint = new FlatESLint({
                 cwd: path.join(fixtureDir, ".."),
-                extensions: [".js2"],
-                overrideConfigFile: getFixturePath("eslint.config.js")
+                overrideConfigFile: getFixturePath("eslint.config.js"),
+                overrideConfig: {
+                    files: ["**/*.js2"]
+                }
             });
             const results = await eslint.lintFiles([getFixturePath("files/foo.js2")]);
 
@@ -769,38 +769,11 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[0].suppressedMessages.length, 0);
         });
 
-        it("should fall back to defaults when extensions is set to an empty array", async () => {
-            eslint = new FlatESLint({
-                cwd: getFixturePath(),
-                overrideConfigFile: true,
-                ignore: false,
-                overrideConfig: {
-                    rules: {
-                        quotes: ["error", "double"]
-                    }
-                },
-                extensions: []
-            });
-
-            const results = await eslint.lintFiles([getFixturePath("single-quoted.js")]);
-
-            assert.strictEqual(results.length, 1);
-            assert.strictEqual(results[0].messages.length, 1);
-            assert.strictEqual(results[0].messages[0].ruleId, "quotes");
-            assert.strictEqual(results[0].messages[0].severity, 2);
-            assert.strictEqual(results[0].errorCount, 1);
-            assert.strictEqual(results[0].warningCount, 0);
-            assert.strictEqual(results[0].fatalErrorCount, 0);
-            assert.strictEqual(results[0].fixableErrorCount, 1);
-            assert.strictEqual(results[0].fixableWarningCount, 0);
-            assert.strictEqual(results[0].suppressedMessages.length, 0);
-        });
-
         it("should report zero messages when given a directory with a .js and a .js2 file", async () => {
             eslint = new FlatESLint({
-                extensions: [".js", ".js2"],
                 ignore: false,
                 cwd: getFixturePath(".."),
+                overrideConfig: { files: ["**/*.js", "**/*.js2"] },
                 overrideConfigFile: getFixturePath("eslint.config.js")
             });
             const results = await eslint.lintFiles(["fixtures/files/"]);
@@ -813,9 +786,9 @@ describe("FlatESLint", () => {
 
         it("should report zero messages when given a '**' pattern with a .js and a .js2 file", async () => {
             eslint = new FlatESLint({
-                extensions: [".js", ".js2"],
                 ignore: false,
                 cwd: path.join(fixtureDir, ".."),
+                overrideConfig: { files: ["**/*.js", "**/*.js2"] },
                 overrideConfigFile: getFixturePath("eslint.config.js")
 
             });
@@ -830,9 +803,9 @@ describe("FlatESLint", () => {
 
         it("should resolve globs when 'globInputPaths' option is true", async () => {
             eslint = new FlatESLint({
-                extensions: [".js", ".js2"],
                 ignore: false,
                 cwd: getFixturePath(".."),
+                overrideConfig: { files: ["**/*.js", "**/*.js2"] },
                 overrideConfigFile: getFixturePath("eslint.config.js")
 
             });
@@ -847,9 +820,9 @@ describe("FlatESLint", () => {
 
         it("should not resolve globs when 'globInputPaths' option is false", async () => {
             eslint = new FlatESLint({
-                extensions: [".js", ".js2"],
                 ignore: false,
                 cwd: getFixturePath(".."),
+                overrideConfig: { files: ["**/*.js", "**/*.js2"] },
                 overrideConfigFile: true,
                 globInputPaths: false
             });
@@ -1050,7 +1023,7 @@ describe("FlatESLint", () => {
 
         it("should report zero messages when given a pattern with a .js and a .js2 file", async () => {
             eslint = new FlatESLint({
-                extensions: [".js", ".js2"],
+                overrideConfig: { files: ["**/*.js", "**/*.js2"] },
                 ignore: false,
                 cwd: path.join(fixtureDir, ".."),
                 overrideConfigFile: true
@@ -1599,7 +1572,6 @@ describe("FlatESLint", () => {
                                 "no-unused-vars": 2
                             }
                         },
-                        extensions: ["js"],
                         ignore: false
                     });
                     const file = getFixturePath("cache/src", "test-file.js");
@@ -1627,7 +1599,6 @@ describe("FlatESLint", () => {
                             "no-unused-vars": 2
                         }
                     },
-                    extensions: ["js"],
                     ignore: false
                 });
                 const file = getFixturePath("cache/src", "test-file.js");
@@ -1651,7 +1622,6 @@ describe("FlatESLint", () => {
                             "no-console": 0
                         }
                     },
-                    extensions: ["js"],
                     ignore: false
                 });
                 const file = getFixturePath("cli-engine", "console.js");
@@ -1679,7 +1649,6 @@ describe("FlatESLint", () => {
                             "no-unused-vars": 2
                         }
                     },
-                    extensions: ["js"],
                     ignore: false
                 });
 
@@ -1712,7 +1681,6 @@ describe("FlatESLint", () => {
                             "no-unused-vars": 2
                         }
                     },
-                    extensions: ["js"],
                     ignore: false
                 });
 
@@ -1743,7 +1711,6 @@ describe("FlatESLint", () => {
                             "no-unused-vars": 2
                         }
                     },
-                    extensions: ["js"],
                     ignore: false
                 });
 
@@ -1773,7 +1740,6 @@ describe("FlatESLint", () => {
                             "no-unused-vars": 2
                         }
                     },
-                    extensions: ["js"],
                     ignore: false
                 });
 
@@ -1802,7 +1768,6 @@ describe("FlatESLint", () => {
                             "no-unused-vars": 2
                         }
                     },
-                    extensions: ["js"],
                     cwd: path.join(fixtureDir, "..")
                 };
 
@@ -1843,8 +1808,7 @@ describe("FlatESLint", () => {
                             "no-console": 0,
                             "no-unused-vars": 2
                         }
-                    },
-                    extensions: ["js"]
+                    }
                 });
                 const badFile = fs.realpathSync(getFixturePath("cache/src", "fail-file.js"));
                 const goodFile = fs.realpathSync(getFixturePath("cache/src", "test-file.js"));
@@ -1878,8 +1842,7 @@ describe("FlatESLint", () => {
                             "no-console": 0,
                             "no-unused-vars": 2
                         }
-                    },
-                    extensions: ["js"]
+                    }
                 });
                 const badFile = fs.realpathSync(getFixturePath("cache/src", "fail-file.js"));
                 const goodFile = fs.realpathSync(getFixturePath("cache/src", "test-file.js"));
@@ -1922,8 +1885,7 @@ describe("FlatESLint", () => {
                             "no-console": 0,
                             "no-unused-vars": 2
                         }
-                    },
-                    extensions: ["js"]
+                    }
                 });
                 const badFile = fs.realpathSync(getFixturePath("cache/src", "fail-file.js"));
                 const goodFile = fs.realpathSync(getFixturePath("cache/src", "test-file.js"));
@@ -1961,8 +1923,7 @@ describe("FlatESLint", () => {
                             "no-console": 0,
                             "no-unused-vars": 2
                         }
-                    },
-                    extensions: ["js"]
+                    }
                 });
 
                 assert(shell.test("-f", cacheLocation), "the cache for eslint exists");
@@ -1984,8 +1945,7 @@ describe("FlatESLint", () => {
                             "no-console": 0,
                             "no-unused-vars": 2
                         }
-                    },
-                    extensions: ["js"]
+                    }
                 });
 
                 assert(shell.test("-f", cacheLocation), "the cache for eslint exists");
@@ -2008,8 +1968,7 @@ describe("FlatESLint", () => {
                             "no-console": 0,
                             "no-unused-vars": 2
                         }
-                    },
-                    extensions: ["js"]
+                    }
                 });
                 const file = getFixturePath("cli-engine", "console.js");
 
@@ -2032,8 +1991,8 @@ describe("FlatESLint", () => {
                             "no-console": 0,
                             "no-unused-vars": 2
                         }
-                    },
-                    extensions: ["js"]
+                    }
+
                 });
                 const file = getFixturePath("cli-engine", "console.js");
 
@@ -2064,7 +2023,7 @@ describe("FlatESLint", () => {
                                 "no-unused-vars": 2
                             }
                         },
-                        extensions: ["js"],
+
                         cwd: path.join(fixtureDir, "..")
                     });
                     const badFile = fs.realpathSync(getFixturePath("cache/src", "fail-file.js"));
@@ -2103,8 +2062,8 @@ describe("FlatESLint", () => {
                                 "no-console": 0,
                                 "no-unused-vars": 2
                             }
-                        },
-                        extensions: ["js"]
+                        }
+
                     });
                     const badFile = fs.realpathSync(getFixturePath("cache/src", "fail-file.js"));
                     const goodFile = fs.realpathSync(getFixturePath("cache/src", "test-file.js"));
@@ -2142,8 +2101,8 @@ describe("FlatESLint", () => {
                                 "no-console": 0,
                                 "no-unused-vars": 2
                             }
-                        },
-                        extensions: ["js"]
+                        }
+
                     });
                     const badFile = fs.realpathSync(getFixturePath("cache/src", "fail-file.js"));
                     const goodFile = fs.realpathSync(getFixturePath("cache/src", "test-file.js"));
@@ -2183,8 +2142,8 @@ describe("FlatESLint", () => {
                                 "no-console": 0,
                                 "no-unused-vars": 2
                             }
-                        },
-                        extensions: ["js"]
+                        }
+
                     });
                     const badFile = fs.realpathSync(getFixturePath("cache/src", "fail-file.js"));
                     const goodFile = fs.realpathSync(getFixturePath("cache/src", "test-file.js"));
@@ -2237,11 +2196,9 @@ describe("FlatESLint", () => {
                             }
                         },
                         {
-                            files: ["**/*.txt/*.txt"]
+                            files: ["**/*.txt", "**/*.txt/*.txt"]
                         }
                     ],
-
-                    extensions: ["js", "txt"],
                     cwd: path.join(fixtureDir, "..")
                 });
                 const results = await eslint.lintFiles([fs.realpathSync(getFixturePath("processors", "test", "test-processor.txt"))]);
@@ -2279,10 +2236,9 @@ describe("FlatESLint", () => {
                             }
                         },
                         {
-                            files: ["**/*.txt/*.txt"]
+                            files: ["**/*.txt", "**/*.txt/*.txt"]
                         }
                     ],
-                    extensions: ["js", "txt"],
                     cwd: path.join(fixtureDir, "..")
                 });
                 const results = await eslint.lintFiles([getFixturePath("processors", "test", "test-processor.txt")]);
@@ -2320,10 +2276,9 @@ describe("FlatESLint", () => {
                             }
                         },
                         {
-                            files: ["**/*.txt/*.txt"]
+                            files: ["**/*.txt", "**/*.txt/*.txt"]
                         }
                     ],
-                    extensions: ["js", "txt"],
                     ignore: false
                 });
                 const results = await eslint.lintText("function a() {console.log(\"Test\");}", { filePath: "tests/fixtures/processors/test/test-processor.txt" });
@@ -2371,9 +2326,11 @@ describe("FlatESLint", () => {
                                 "no-console": 2,
                                 "no-unused-vars": 2
                             }
+                        },
+                        {
+                            files: ["**/*.txt"]
                         }
                     ],
-                    extensions: ["txt"],
                     ignore: false
                 });
                 const results = await eslint.lintText("function a() {console.log(\"Test\");}", { filePath: "tests/fixtures/processors/test/test-processor.txt" });
@@ -2408,17 +2365,21 @@ describe("FlatESLint", () => {
                 it("should run in autofix mode when using a processor that supports autofixing", async () => {
                     eslint = new FlatESLint({
                         overrideConfigFile: true,
-                        overrideConfig: {
-                            files: ["**/*.html"],
-                            plugins: {
-                                test: { processors: { html: Object.assign({ supportsAutofix: true }, HTML_PROCESSOR) } }
+                        overrideConfig: [
+                            {
+                                files: ["**/*.html"],
+                                plugins: {
+                                    test: { processors: { html: Object.assign({ supportsAutofix: true }, HTML_PROCESSOR) } }
+                                },
+                                processor: "test/html",
+                                rules: {
+                                    semi: 2
+                                }
                             },
-                            processor: "test/html",
-                            rules: {
-                                semi: 2
+                            {
+                                files: ["**/*.txt"]
                             }
-                        },
-                        extensions: ["js", "txt"],
+                        ],
                         ignore: false,
                         fix: true
                     });
@@ -2455,17 +2416,21 @@ describe("FlatESLint", () => {
                 it("should not run in autofix mode when `fix: true` is not provided, even if the processor supports autofixing", async () => {
                     eslint = new FlatESLint({
                         overrideConfigFile: true,
-                        overrideConfig: {
-                            files: ["**/*.html"],
-                            plugins: {
-                                test: { processors: { html: Object.assign({ supportsAutofix: true }, HTML_PROCESSOR) } }
+                        overrideConfig: [
+                            {
+                                files: ["**/*.html"],
+                                plugins: {
+                                    test: { processors: { html: Object.assign({ supportsAutofix: true }, HTML_PROCESSOR) } }
+                                },
+                                processor: "test/html",
+                                rules: {
+                                    semi: 2
+                                }
                             },
-                            processor: "test/html",
-                            rules: {
-                                semi: 2
+                            {
+                                files: ["**/*.txt"]
                             }
-                        },
-                        extensions: ["js", "txt"],
+                        ],
                         ignore: false
                     });
                     const results = await eslint.lintText("<script>foo</script>", { filePath: "foo.html" });
@@ -2563,7 +2528,7 @@ describe("FlatESLint", () => {
             beforeEach(() => (id = Date.now().toString()));
             afterEach(async () => fsp.rmdir(root, { recursive: true, force: true }));
 
-            it("should lint only JavaScript blocks if '--ext' was not given.", async () => {
+            it("should lint only JavaScript blocks.", async () => {
                 const teardown = createCustomTeardown({
                     cwd: path.join(root, id),
                     files: {
@@ -2599,52 +2564,6 @@ describe("FlatESLint", () => {
 
             });
 
-            it("should fix only JavaScript blocks if '--ext' was not given.", async () => {
-                const teardown = createCustomTeardown({
-                    cwd: path.join(root, id),
-                    files: {
-                        ...commonFiles,
-                        "eslint.config.js": `module.exports = [
-                            {
-                                plugins: {
-                                    markdown: require("eslint-plugin-markdown")
-                                }
-                            },
-                            {
-                                files: ["**/*.js"],
-                                rules: { semi: "error" }
-                            },
-                            {
-                                files: ["**/*.md"],
-                                processor: "markdown/markdown"
-                            }
-                        ];`
-                    }
-                });
-
-                await teardown.prepare();
-                eslint = new FlatESLint({ cwd: teardown.getPath(), fix: true });
-                const results = await eslint.lintFiles(["test.md"]);
-
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 0);
-                assert.strictEqual(results[0].suppressedMessages.length, 0);
-                assert.strictEqual(results[0].output, unIndent`
-                    \`\`\`js
-                    console.log("hello");${/* ← fixed */""}
-                    \`\`\`
-                    \`\`\`html
-                    <div>Hello</div>
-                    <script lang="js">
-                        console.log("hello")${/* ← ignored */""}
-                    </script>
-                    <script lang="ts">
-                        console.log("hello")${/* ← ignored */""}
-                    </script>
-                    \`\`\`
-                `);
-            });
-
             it("should lint HTML blocks as well with multiple processors if represented in config.", async () => {
                 const teardown = createCustomTeardown({
                     cwd: path.join(root, id),
@@ -2674,7 +2593,7 @@ describe("FlatESLint", () => {
                 });
 
                 await teardown.prepare();
-                eslint = new FlatESLint({ cwd: teardown.getPath(), extensions: ["js", "html"] });
+                eslint = new FlatESLint({ cwd: teardown.getPath(), overrideConfig: { files: ["**/*.html"] } });
                 const results = await eslint.lintFiles(["test.md"]);
 
                 assert.strictEqual(results.length, 1, "Should have one result.");
@@ -2715,7 +2634,7 @@ describe("FlatESLint", () => {
                 });
 
                 await teardown.prepare();
-                eslint = new FlatESLint({ cwd: teardown.getPath(), extensions: ["js", "html"], fix: true });
+                eslint = new FlatESLint({ cwd: teardown.getPath(), overrideConfig: { files: ["**/*.html"] }, fix: true });
                 const results = await eslint.lintFiles(["test.md"]);
 
                 assert.strictEqual(results.length, 1);
@@ -2775,7 +2694,7 @@ describe("FlatESLint", () => {
                 });
 
                 await teardown.prepare();
-                eslint = new FlatESLint({ cwd: teardown.getPath(), extensions: ["js", "html"] });
+                eslint = new FlatESLint({ cwd: teardown.getPath(), overrideConfig: { files: ["**/*.html"] } });
                 const results = await eslint.lintFiles(["test.md"]);
 
                 assert.strictEqual(results.length, 1);
@@ -2826,7 +2745,7 @@ describe("FlatESLint", () => {
                 });
 
                 await teardown.prepare();
-                eslint = new FlatESLint({ cwd: teardown.getPath(), extensions: ["js", "html"] });
+                eslint = new FlatESLint({ cwd: teardown.getPath(), overrideConfig: { files: ["**/*.html"] } });
                 const results = await eslint.lintFiles(["test.md"]);
 
                 assert.strictEqual(results.length, 1);

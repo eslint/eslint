@@ -128,14 +128,6 @@ describe("cli", () => {
                 assert.isTrue(log.info.notCalled);
             });
 
-            it(`should return no error when --ext .js2 is specified with configType:${configType}`, async () => {
-                const filePath = getFixturePath("files");
-                const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
-                const result = await cli.execute(`--ext .js2 ${filePath} ${flag}`, null, useFlatConfig);
-
-                assert.strictEqual(result, 0);
-            });
-
             it(`should exit with console error when passed unsupported arguments with configType:${configType}`, async () => {
                 const filePath = getFixturePath("files");
                 const result = await cli.execute(`--blah --another ${filePath}`, null, useFlatConfig);
@@ -494,27 +486,12 @@ describe("cli", () => {
                         }, new Error(`No files matching '${filePath}/${globPattern}' were found.`));
                     });
 
-                    it(`should throw an error on unmatched --ext with configType:${configType}`, async () => {
-                        const filePath = getFixturePath("unmatched-patterns");
-                        const extension = ".js3";
-
-                        await stdAssert.rejects(async () => {
-                            await cli.execute(`--ext ${extension} ${filePath}`, null, useFlatConfig);
-                        }, `No files matching '${filePath}' were found`);
-                    });
                 });
 
                 describe("when executing with no-error-on-unmatched-pattern flag", () => {
                     it(`should not throw an error on unmatched node glob syntax patterns with configType:${configType}`, async () => {
                         const filePath = getFixturePath("unmatched-patterns");
                         const exit = await cli.execute(`--no-error-on-unmatched-pattern "${filePath}/unmatched*.js"`, null, useFlatConfig);
-
-                        assert.strictEqual(exit, 0);
-                    });
-
-                    it(`should not throw an error on unmatched --ext with configType:${configType}`, async () => {
-                        const filePath = getFixturePath("unmatched-patterns/js3");
-                        const exit = await cli.execute(`--no-ignore --no-error-on-unmatched-pattern --ext .js3 ${filePath}`, null, useFlatConfig);
 
                         assert.strictEqual(exit, 0);
                     });
@@ -531,22 +508,6 @@ describe("cli", () => {
                     it(`should still throw an error on when a matched pattern has lint errors with configType:${configType}`, async () => {
                         const filePath = getFixturePath("unmatched-patterns");
                         const exit = await cli.execute(`--no-ignore --no-error-on-unmatched-pattern ${filePath}/unmatched1*.js ${filePath}/failing.js`, null, useFlatConfig);
-
-                        assert.strictEqual(exit, 1);
-                    });
-                });
-
-                describe("when executing with no-error-on-unmatched-pattern flag and multiple --ext arguments", () => {
-                    it(`should not throw an error on multiple unmatched --ext arguments with configType:${configType}`, async () => {
-                        const filePath = getFixturePath("unmatched-patterns/other");
-                        const exit = await cli.execute(`--no-ignore --no-error-on-unmatched-pattern --ext .js3 --ext .js4 ${filePath}`, null, useFlatConfig);
-
-                        assert.strictEqual(exit, 0);
-                    });
-
-                    it(`should still throw an error on when a matched pattern has lint errors with configType:${configType}`, async () => {
-                        const filePath = getFixturePath("unmatched-patterns");
-                        const exit = await cli.execute(`--no-ignore --no-error-on-unmatched-pattern --ext .js3 --ext .js ${filePath}`, null, useFlatConfig);
 
                         assert.strictEqual(exit, 1);
                     });
