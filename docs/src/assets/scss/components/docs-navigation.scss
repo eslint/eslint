@@ -14,7 +14,7 @@
         margin-block-end: 2rem;
 
 
-        @media all and (min-width: 1023px) {
+        @media all and (min-width: 1024px) {
             font-size: var(--step-0);
             margin-top: 0;
             margin-block-start: 0;
@@ -52,7 +52,7 @@
 
 
 .docs-nav-panel {
-    @media all and (min-width: 1023px) {
+    @media all and (min-width: 1024px) {
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -63,7 +63,7 @@
     }
 
     &[data-open="true"] {
-        @media all and (min-width: 1023px) {
+        @media all and (min-width: 1024px) {
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -72,7 +72,7 @@
 }
 
 .docs-nav-panel .mobile-only {
-    @media all and (min-width: 1023px) {
+    @media all and (min-width: 1024px) {
         display: none;
     }
 }
@@ -130,7 +130,7 @@
 
 
 
-@media all and (min-width: 1023px) {
+@media all and (min-width: 1024px) {
     .docs-site-nav {
         flex-direction: row;
         grid-column: auto;
