@@ -1,3 +1,18 @@
+v8.23.0 - August 26, 2022
+
+* [`2e004ab`](https://github.com/eslint/eslint/commit/2e004ab990a4a5a4efc44974da005d2161490256) chore: upgrade @eslint/eslintrc@1.3.1 (#16249) (Milos Djermanovic)
+* [`d35fbbe`](https://github.com/eslint/eslint/commit/d35fbbef895e8f4ac6eaf1756349230769a02b4d) chore: Upgrade to espree@9.4.0 (#16243) (Milos Djermanovic)
+* [`3e5839e`](https://github.com/eslint/eslint/commit/3e5839ecae96aecfbc1ac9526e88e0105e671032) feat: Enable eslint.config.js lookup from CLI (#16235) (Nicholas C. Zakas)
+* [`30b1a2d`](https://github.com/eslint/eslint/commit/30b1a2dac9060673101485841c4c7521675bf917) feat: add `allowEmptyCase` option to no-fallthrough rule (#15887) (Amaresh  S M)
+* [`ed26229`](https://github.com/eslint/eslint/commit/ed26229a19359b356f3a401698488c1707d4c029) test: add no-extra-parens tests with rest properties (#16236) (Milos Djermanovic)
+* [`deaf69f`](https://github.com/eslint/eslint/commit/deaf69ffd8f9b97b4b8c29a244a79969ff14c80a) chore: fix off-by-one `min-width: 1023px` media queries (#15974) (Milos Djermanovic)
+* [`63dec9f`](https://github.com/eslint/eslint/commit/63dec9fdee793be9bf2939e1bda0717b9cc6dcf8) refactor: simplify `parseListConfig` (#16241) (Milos Djermanovic)
+* [`43f03aa`](https://github.com/eslint/eslint/commit/43f03aa96b632039b1d9cad097a70b227bb7d348) feat: no-warning-comments support comments with decoration (#16120) (Lachlan Hunt)
+* [`b1918da`](https://github.com/eslint/eslint/commit/b1918da0f6cb8fe690c7377667616ec7cb57111e) docs: package.json conventions (#16206) (Patrick McElhaney)
+* [`0e03c33`](https://github.com/eslint/eslint/commit/0e03c333a70bebd00307deead0befa519f983f44) docs: remove word immediately (#16217) (Strek)
+* [`c6790db`](https://github.com/eslint/eslint/commit/c6790db6494e64a5261d74c0f3c4dc6139c59435) docs: add anchor link for "migrating from jscs" (#16207) (Percy Ma)
+* [`7137344`](https://github.com/eslint/eslint/commit/71373442c42b356f34179dba18f860e1d79a780d) docs: auto-generation edit link (#16213) (Percy Ma)
+
 v8.22.0 - August 13, 2022
 
 * [`2b97607`](https://github.com/eslint/eslint/commit/2b97607675e1d0920a3abedd736e2ae00ed26d52) feat: Implement caching for FlatESLint (#16190) (Nicholas C. Zakas)
