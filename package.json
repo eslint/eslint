@@ -10,7 +10,10 @@
   "exports": {
     "./package.json": "./package.json",
     ".": "./lib/api.js",
-    "./use-at-your-own-risk": "./lib/unsupported-api.js"
+    "./use-at-your-own-risk": {
+        "require": "./lib/unsupported-api.js",
+        "import": "./lib/unsupported-api.mjs"
+    }
   },
   "scripts": {
     "test": "node Makefile.js test",
