@@ -76,7 +76,7 @@ const NODE = "node ", // intentional extra space
     MARKDOWNLINT_IGNORE_INSTANCE = ignore().add(fs.readFileSync(path.join(__dirname, ".markdownlintignore"), "utf-8")),
     MARKDOWN_FILES_ARRAY = MARKDOWNLINT_IGNORE_INSTANCE.filter(find("docs/").concat(ls(".")).filter(fileType("md"))),
     TEST_FILES = "\"tests/{bin,conf,lib,tools}/**/*.js\"",
-    PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslintrc.yml"),
+    PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslint.config.js"),
     PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
     PERF_MULTIFILES_TARGETS = `"${PERF_MULTIFILES_TARGET_DIR + path.sep}{lib,tests${path.sep}lib}${path.sep}**${path.sep}*.js"`,
 
@@ -911,19 +911,21 @@ function downloadMultifilesTestTarget(cb) {
  * @returns {void}
  */
 function createConfigForPerformanceTest() {
-    const content = [
-        "root: true",
-        "env:",
-        "    node: true",
-        "    es6: true",
-        "rules:"
-    ];
+    let rules = "";
 
     for (const [ruleId] of builtinRules) {
-        content.push(`    ${ruleId}: 1`);
+        rules += (`    "${ruleId}": 1,\n`);
     }
 
-    content.join("\n").to(PERF_ESLINTRC);
+    const content = `
+module.exports = [{
+    "languageOptions": {sourceType: "commonjs"},
+    "rules": {
+    ${rules}
+    }
+}];`;
+
+    content.to(PERF_ESLINTRC);
 }
 
 /**
@@ -983,7 +985,7 @@ function time(cmd, runs, runNumber, results, cb) {
 function runPerformanceTest(title, targets, multiplier, cb) {
     const cpuSpeed = os.cpus()[0].speed,
         max = multiplier / cpuSpeed,
-        cmd = `${ESLINT}--config "${PERF_ESLINTRC}" --no-eslintrc --no-ignore ${targets}`;
+        cmd = `${ESLINT}--config "${PERF_ESLINTRC}" --no-config-lookup --no-ignore ${targets}`;
 
     echo("");
     echo(title);
