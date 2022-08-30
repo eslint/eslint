@@ -38,7 +38,7 @@ For example, to restrict the use of common generic identifiers:
 }
 ```
 
-**Note:** First element of the array is for [rules configuration](https://eslint.org/docs/latest/user-guide/configuring/rules). Rest are the disallowed identifiers you want to add.
+**Note:** The first element of the array is for the rule severity (see [configuring rules](/docs/latest/user-guide/configuring/rules). The other elements in the array are the identifiers that you want to disallow.
 
 Examples of **incorrect** code for this rule with sample `"data", "callback"` restricted identifiers:
 
