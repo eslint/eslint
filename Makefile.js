@@ -83,7 +83,7 @@ const NODE = "node ", // intentional extra space
      * glob arguments with Windows separator `\` don't work:
      * https://github.com/eslint/eslint/issues/16259
      */
-    PERF_MULTIFILES_TARGETS = `"${TEMP_DIR}/eslint/performance/eslint/{lib,tests/lib}/**/*.js"`,
+    PERF_MULTIFILES_TARGETS = `"${TEMP_DIR}eslint/performance/eslint/{lib,tests/lib}/**/*.js"`,
 
     // Settings
     MOCHA_TIMEOUT = parseInt(process.env.ESLINT_MOCHA_TIMEOUT, 10) || 10000;
