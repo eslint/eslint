@@ -637,7 +637,7 @@ ruleTester.run("logical-assignment-operators", rule, {
             errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||" } }]
         },
 
-        // > Possible Getter
+        // > Fix Condition
         {
             code: "a.b || (a.b = c)",
             output: "a.b ||= c",
@@ -647,9 +647,29 @@ ruleTester.run("logical-assignment-operators", rule, {
             output: "foo.bar ||= baz",
             errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||" } }]
         }, {
+            code: "a.b.c || (a.b.c = d)",
+            output: null,
+            errors: [{
+                messageId: "logical",
+                type: "LogicalExpression",
+                data: { operator: "||" },
+                suggestions: [{
+                    messageId: "convertLogical",
+                    output: "a.b.c ||= d"
+                }]
+            }]
+        }, {
             code: "with (object) a.b || (a.b = c)",
-            output: "with (object) a.b ||= c",
-            errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||" } }]
+            output: null,
+            errors: [{
+                messageId: "logical",
+                type: "LogicalExpression",
+                data: { operator: "||" },
+                suggestions: [{
+                    messageId: "convertLogical",
+                    output: "with (object) a.b ||= c"
+                }]
+            }]
         },
 
         // > Context
