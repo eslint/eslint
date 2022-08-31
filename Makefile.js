@@ -282,6 +282,13 @@ function generateRelease() {
     generateBlogPost(releaseInfo);
     commitSiteToGit(`v${releaseInfo.version}`);
 
+    echo("Updating version in docs package");
+    const docsPackagePath = path.join(__dirname, "docs", "package.json");
+    const docsPackage = require(docsPackagePath);
+
+    docsPackage.version = releaseInfo.version;
+    fs.writeFileSync(docsPackagePath, JSON.stringify(docsPackage, null, 4));
+
     echo("Updating commit with docs data");
     exec("git add docs/ && git commit --amend --no-edit");
     exec(`git tag -a -f v${releaseInfo.version} -m ${releaseInfo.version}`);
