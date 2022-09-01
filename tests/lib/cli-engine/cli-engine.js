@@ -1129,7 +1129,7 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].suppressedMessages.length, 0);
         });
 
-        it("should check .hidden files if they are unignored with an --ignore-pattern", () => {
+        it("should check .hidden files and files in .hidden folders if they are unignored with an --ignore-pattern", () => {
 
             engine = new CLIEngine({
                 cwd: getFixturePath("cli-engine"),
@@ -1137,19 +1137,26 @@ describe("CLIEngine", () => {
                 useEslintrc: false,
                 ignorePattern: "!.hidden*",
                 rules: {
-                    quotes: [2, "single"]
+                    quotes: [2, "single"],
+                    semi: 2
                 }
             });
 
             const report = engine.executeOnFiles(["hidden/"]);
 
-            assert.strictEqual(report.results.length, 1);
+            assert.strictEqual(report.results.length, 2);
             assert.strictEqual(report.results[0].warningCount, 0);
             assert.strictEqual(report.results[0].errorCount, 1);
             assert.strictEqual(report.results[0].fixableErrorCount, 1);
             assert.strictEqual(report.results[0].fixableWarningCount, 0);
-            assert.strictEqual(report.results[0].messages[0].ruleId, "quotes");
+            assert.strictEqual(report.results[0].messages[0].ruleId, "semi");
             assert.strictEqual(report.results[0].suppressedMessages.length, 0);
+            assert.strictEqual(report.results[1].warningCount, 0);
+            assert.strictEqual(report.results[1].errorCount, 1);
+            assert.strictEqual(report.results[1].fixableErrorCount, 1);
+            assert.strictEqual(report.results[1].fixableWarningCount, 0);
+            assert.strictEqual(report.results[1].messages[0].ruleId, "quotes");
+            assert.strictEqual(report.results[1].suppressedMessages.length, 0);
         });
 
         it("should report zero messages when given a pattern with a .js and a .js2 file", () => {

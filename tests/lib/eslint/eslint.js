@@ -1212,7 +1212,7 @@ describe("ESLint", () => {
             assert.strictEqual(results[0].messages[0].ruleId, "quotes");
         });
 
-        it("should check .hidden files if they are unignored with an --ignore-pattern", async () => {
+        it("should check .hidden files and files in .hidden folders if they are unignored with an --ignore-pattern", async () => {
             eslint = new ESLint({
                 cwd: getFixturePath("cli-engine"),
                 ignore: true,
@@ -1220,18 +1220,24 @@ describe("ESLint", () => {
                 overrideConfig: {
                     ignorePatterns: "!.hidden*",
                     rules: {
-                        quotes: [2, "single"]
+                        quotes: [2, "single"],
+                        semi: 2
                     }
                 }
             });
             const results = await eslint.lintFiles(["hidden/"]);
 
-            assert.strictEqual(results.length, 1);
+            assert.strictEqual(results.length, 2);
             assert.strictEqual(results[0].warningCount, 0);
             assert.strictEqual(results[0].errorCount, 1);
             assert.strictEqual(results[0].fixableErrorCount, 1);
             assert.strictEqual(results[0].fixableWarningCount, 0);
-            assert.strictEqual(results[0].messages[0].ruleId, "quotes");
+            assert.strictEqual(results[0].messages[0].ruleId, "semi");
+            assert.strictEqual(results[1].warningCount, 0);
+            assert.strictEqual(results[1].errorCount, 1);
+            assert.strictEqual(results[1].fixableErrorCount, 1);
+            assert.strictEqual(results[1].fixableWarningCount, 0);
+            assert.strictEqual(results[1].messages[0].ruleId, "quotes");
         });
 
         it("should report zero messages when given a pattern with a .js and a .js2 file", async () => {

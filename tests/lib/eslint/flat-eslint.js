@@ -776,7 +776,7 @@ describe("FlatESLint", () => {
                 overrideConfig: { files: ["**/*.js", "**/*.js2"] },
                 overrideConfigFile: getFixturePath("eslint.config.js")
             });
-            const results = await eslint.lintFiles(["fixtures/files/"]);
+            const results = await eslint.lintFiles(["fixtures/files-flat/"]);
 
             assert.strictEqual(results.length, 2);
             assert.strictEqual(results[0].messages.length, 0);
@@ -792,7 +792,7 @@ describe("FlatESLint", () => {
                 overrideConfigFile: getFixturePath("eslint.config.js")
 
             });
-            const results = await eslint.lintFiles(["fixtures/files/*"]);
+            const results = await eslint.lintFiles(["fixtures/files-flat/*"]);
 
             assert.strictEqual(results.length, 2);
             assert.strictEqual(results[0].messages.length, 0);
@@ -809,7 +809,7 @@ describe("FlatESLint", () => {
                 overrideConfigFile: getFixturePath("eslint.config.js")
 
             });
-            const results = await eslint.lintFiles(["fixtures/files/*"]);
+            const results = await eslint.lintFiles(["fixtures/files-flat/*"]);
 
             assert.strictEqual(results.length, 2);
             assert.strictEqual(results[0].messages.length, 0);
@@ -830,6 +830,46 @@ describe("FlatESLint", () => {
             await assert.rejects(async () => {
                 await eslint.lintFiles(["fixtures/files/*"]);
             }, /No files matching 'fixtures\/files\/\*' were found \(glob was disabled\)\./u);
+        });
+
+        it("should lint dotfiles and files in dotfolders when given a glob", async () => {
+            eslint = new FlatESLint({
+                cwd: getFixturePath("cli-engine"),
+                overrideConfigFile: true,
+                overrideConfig: {
+                    rules: {
+                        quotes: [2, "single"],
+                        semi: 2
+                    }
+                }
+            });
+            const results = await eslint.lintFiles(["hidden/**/*.js"]);
+
+            assert.strictEqual(results.length, 2);
+            assert.strictEqual(results[0].messages.length, 1);
+            assert.strictEqual(results[0].messages[0].ruleId, "semi");
+            assert.strictEqual(results[1].messages.length, 1);
+            assert.strictEqual(results[1].messages[0].ruleId, "quotes");
+        });
+
+        it("should lint dotfiles and files in dotfolders when given a directory path", async () => {
+            eslint = new FlatESLint({
+                cwd: getFixturePath("cli-engine"),
+                overrideConfigFile: true,
+                overrideConfig: {
+                    rules: {
+                        quotes: [2, "single"],
+                        semi: 2
+                    }
+                }
+            });
+            const results = await eslint.lintFiles(["hidden"]);
+
+            assert.strictEqual(results.length, 2);
+            assert.strictEqual(results[0].messages.length, 1);
+            assert.strictEqual(results[0].messages[0].ruleId, "semi");
+            assert.strictEqual(results[1].messages.length, 1);
+            assert.strictEqual(results[1].messages[0].ruleId, "quotes");
         });
 
         describe("Ignoring Files", () => {
@@ -1028,7 +1068,7 @@ describe("FlatESLint", () => {
                 cwd: path.join(fixtureDir, ".."),
                 overrideConfigFile: true
             });
-            const results = await eslint.lintFiles(["fixtures/files/*.?s*"]);
+            const results = await eslint.lintFiles(["fixtures/files-flat/*.?s*"]);
 
             assert.strictEqual(results.length, 2);
             assert.strictEqual(results[0].messages.length, 0);
