@@ -784,6 +784,19 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[0].suppressedMessages.length, 0);
         });
 
+        // https://github.com/eslint/eslint/issues/16260
+        it("should report zero messages when given a directory with a .js and config file specifying a subdirectory", async () => {
+            eslint = new FlatESLint({
+                ignore: false,
+                cwd: getFixturePath("shallow-glob")
+            });
+            const results = await eslint.lintFiles(["target-dir"]);
+
+            assert.strictEqual(results.length, 1);
+            assert.strictEqual(results[0].messages.length, 0);
+            assert.strictEqual(results[0].suppressedMessages.length, 0);
+        });
+
         it("should report zero messages when given a '**' pattern with a .js and a .js2 file", async () => {
             eslint = new FlatESLint({
                 ignore: false,
