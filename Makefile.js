@@ -287,7 +287,7 @@ function generateRelease() {
     const docsPackage = require(docsPackagePath);
 
     docsPackage.version = releaseInfo.version;
-    fs.writeFileSync(docsPackagePath, JSON.stringify(docsPackage, null, 4));
+    fs.writeFileSync(docsPackagePath, `${JSON.stringify(docsPackage, null, 4)}\n`);
 
     echo("Updating commit with docs data");
     exec("git add docs/ && git commit --amend --no-edit");
