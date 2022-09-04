@@ -538,7 +538,7 @@ target.lintDocsJS = function([fix = false] = []) {
     let errors = 0;
 
     echo("Validating JavaScript files in the docs directory");
-    const lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} docs`);
+    const lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} docs/.eleventy.js`);
 
     if (lastReturn.code !== 0) {
         errors++;
