@@ -68,7 +68,7 @@
     --space-s-l: calc(((var(--fc-s-min) / 16) * 1rem) + (var(--fc-l-max) - var(--fc-s-min)) * var(--fluid-bp));
 }
 
-@media screen and (min-width: 1023px) {
+@media screen and (min-width: 1024px) {
     :root {
         --fluid-screen: calc(var(--fluid-max-width) * 1px);
     }
