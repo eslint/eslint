@@ -14,7 +14,7 @@ const path = require("path");
 // Initialization
 //-----------------------------------------------------------------------------
 
-const pkgPath = path.resolve(__dirname, "../../../package.json");
+const pkgPath = path.resolve(__dirname, "../../package.json");
 const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf8"));
 const { ESLINT_VERSION } = process.env;
 
@@ -23,7 +23,7 @@ const { ESLINT_VERSION } = process.env;
 //-----------------------------------------------------------------------------
 
 /*
- * Because we want to differentiate between the development branch and the 
+ * Because we want to differentiate between the development branch and the
  * most recent release, we need a way to override the version. The
  * ESLINT_VERSION environment variable allows us to set this to override
  * the value displayed on the website. The most common case is we will set
