@@ -785,16 +785,42 @@ describe("FlatESLint", () => {
         });
 
         // https://github.com/eslint/eslint/issues/16260
-        it("should report zero messages when given a directory with a .js and config file specifying a subdirectory", async () => {
-            eslint = new FlatESLint({
-                ignore: false,
-                cwd: getFixturePath("shallow-glob")
-            });
-            const results = await eslint.lintFiles(["target-dir"]);
+        describe("Globbing based on configs", () => {
+            it("should report zero messages when given a directory with a .js and config file specifying a subdirectory", async () => {
+                eslint = new FlatESLint({
+                    ignore: false,
+                    cwd: getFixturePath("shallow-glob")
+                });
+                const results = await eslint.lintFiles(["target-dir"]);
 
-            assert.strictEqual(results.length, 1);
-            assert.strictEqual(results[0].messages.length, 0);
-            assert.strictEqual(results[0].suppressedMessages.length, 0);
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 0);
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should glob for .jsx file in a subdirectory of the passed-in directory and not glob for any other patterns", async () => {
+                eslint = new FlatESLint({
+                    ignore: false,
+                    overrideConfigFile: true,
+                    overrideConfig: {
+                        files: ["subdir/**/*.jsx", "target-dir/*.js"],
+                        languageOptions: {
+                            parserOptions: {
+                                jsx: true
+                            }
+                        }
+                    },
+                    cwd: getFixturePath("shallow-glob")
+                });
+                const results = await eslint.lintFiles(["subdir/subsubdir"]);
+
+                assert.strictEqual(results.length, 2);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert(results[0].messages[0].fatal, "Fatal error expected.");
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+                assert.strictEqual(results[1].messages.length, 0);
+                assert.strictEqual(results[1].suppressedMessages.length, 0);
+            });
         });
 
         it("should report zero messages when given a '**' pattern with a .js and a .js2 file", async () => {
