@@ -77,10 +77,11 @@ function createInternalFilesPatterns(pattern = null) {
 }
 
 module.exports = [
-    ...compat.extends("eslint", "plugin:eslint-plugin/recommended"),
+    ...compat.extends("eslint"),
     {
         plugins: {
-            "internal-rules": internalPlugin
+            "internal-rules": internalPlugin,
+            "eslint-plugin": eslintPlugin
         },
         languageOptions: {
             ecmaVersion: "latest"
@@ -96,20 +97,6 @@ module.exports = [
             }
         },
         rules: {
-            "eslint-plugin/consistent-output": "error",
-            "eslint-plugin/no-deprecated-context-methods": "error",
-            "eslint-plugin/no-only-tests": "error",
-            "eslint-plugin/prefer-message-ids": "error",
-            "eslint-plugin/prefer-output-null": "error",
-            "eslint-plugin/prefer-placeholders": "error",
-            "eslint-plugin/prefer-replace-text": "error",
-            "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
-            "eslint-plugin/require-meta-docs-description": "error",
-            "eslint-plugin/require-meta-has-suggestions": "error",
-            "eslint-plugin/require-meta-schema": "error",
-            "eslint-plugin/require-meta-type": "error",
-            "eslint-plugin/test-case-property-ordering": "error",
-            "eslint-plugin/test-case-shorthand-strings": "error",
             "internal-rules/multiline-comment-style": "error"
         }
     },
