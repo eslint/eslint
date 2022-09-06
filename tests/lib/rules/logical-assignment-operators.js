@@ -72,6 +72,7 @@ ruleTester.run("logical-assignment-operators", rule, {
         "a || (a ||= b)",
         "fn() || (a = b)",
         "a.b || (a = b)",
+        "a?.b || (a.b = b)",
 
         // If
         "if (a) a = b",
