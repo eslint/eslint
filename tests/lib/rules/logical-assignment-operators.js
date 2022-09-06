@@ -448,6 +448,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "??=" },
                 suggestions: [{
                     messageId: "useLogicalOperator",
+                    data: { operator: "??=" },
                     output: "a.b ??= c"
                 }]
             }]
@@ -460,6 +461,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "??=" },
                 suggestions: [{
                     messageId: "useLogicalOperator",
+                    data: { operator: "??=" },
                     output: "a.b.c ??= d"
                 }]
             }]
@@ -472,6 +474,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "??=" },
                 suggestions: [{
                     messageId: "useLogicalOperator",
+                    data: { operator: "??=" },
                     output: "a[b] ??= c"
                 }]
             }]
@@ -484,6 +487,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "??=" },
                 suggestions: [{
                     messageId: "useLogicalOperator",
+                    data: { operator: "??=" },
                     output: "a['b'] ??= c"
                 }]
             }]
@@ -496,6 +500,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "??=" },
                 suggestions: [{
                     messageId: "useLogicalOperator",
+                    data: { operator: "??=" },
                     output: "a.b ??= c"
                 }]
             }]
@@ -508,6 +513,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "??=" },
                 suggestions: [{
                     messageId: "useLogicalOperator",
+                    data: { operator: "??=" },
                     output: "a['b'] ??= c"
                 }]
             }]
@@ -520,6 +526,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "??=" },
                 suggestions: [{
                     messageId: "useLogicalOperator",
+                    data: { operator: "??=" },
                     output: "this.prop ??= {}"
                 }]
             }]
@@ -535,6 +542,8 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "||=" },
                 suggestions: [{
                     messageId: "useLogicalOperator",
+                    data: { operator: "||=" },
+
                     output: "with (object) a ||= b"
                 }]
             }]
@@ -547,6 +556,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "||=" },
                 suggestions: [{
                     messageId: "useLogicalOperator",
+                    data: { operator: "||=" },
                     output: "with (object) { a ||= b }"
                 }]
             }]
@@ -559,6 +569,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "||=" },
                 suggestions: [{
                     messageId: "useLogicalOperator",
+                    data: { operator: "||=" },
                     output: "with (object) { if (condition) a ||= b }"
                 }]
             }]
@@ -592,6 +603,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "||=" },
                 suggestions: [{
                     messageId: "useLogicalOperator",
+                    data: { operator: "||=" },
                     output: [
                         "with (object) {",
                         '  "use strict";',
@@ -723,6 +735,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "||=" },
                 suggestions: [{
                     messageId: "convertLogical",
+                    data: { operator: "||=" },
                     output: "a.b.c ||= d"
                 }]
             }]
@@ -735,6 +748,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "||=" },
                 suggestions: [{
                     messageId: "convertLogical",
+                    data: { operator: "||=" },
                     output: "with (object) a.b ||= c"
                 }]
             }]
@@ -1084,6 +1098,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "??=" },
                 suggestions: [{
                     messageId: "convertIf",
+                    data: { operator: "??=" },
                     output: "a.b ??= c"
                 }]
             }]
@@ -1097,6 +1112,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "&&=" },
                 suggestions: [{
                     messageId: "convertIf",
+                    data: { operator: "&&=" },
                     output: "a.b.c &&= d"
                 }]
             }]
@@ -1110,6 +1126,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "&&=" },
                 suggestions: [{
                     messageId: "convertIf",
+                    data: { operator: "&&=" },
                     output: "a.b.c.d &&= e"
                 }]
             }]
@@ -1123,6 +1140,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "&&=" },
                 suggestions: [{
                     messageId: "convertIf",
+                    data: { operator: "&&=" },
                     output: "a[b].c &&= d"
                 }]
             }]
@@ -1136,6 +1154,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "&&=" },
                 suggestions: [{
                     messageId: "convertIf",
+                    data: { operator: "&&=" },
                     output: "with (object) a.b &&= c"
                 }]
             }]
@@ -1244,6 +1263,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "||=" },
                 suggestions: [{
                     messageId: "separate",
+                    data: { operator: "||=" },
                     output: "a.b = a.b || c"
                 }]
             }]
@@ -1257,6 +1277,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "||=" },
                 suggestions: [{
                     messageId: "separate",
+                    data: { operator: "||=" },
                     output: "a[b] = a[b] || c"
                 }]
             }]
@@ -1270,6 +1291,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "||=" },
                 suggestions: [{
                     messageId: "separate",
+                    data: { operator: "||=" },
                     output: "a['b'] = a['b'] || c"
                 }]
             }]
@@ -1283,6 +1305,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "||=" },
                 suggestions: [{
                     messageId: "separate",
+                    data: { operator: "||=" },
                     output: "this.prop = this.prop || 0"
                 }]
             }]
@@ -1296,6 +1319,7 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "||=" },
                 suggestions: [{
                     messageId: "separate",
+                    data: { operator: "||=" },
                     output: "with (object) a = a || b"
                 }]
             }]
