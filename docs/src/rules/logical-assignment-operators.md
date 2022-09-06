@@ -67,6 +67,7 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 
 a ||= b
 a &&= b
+a ??= b
 ```
 
 :::
@@ -79,6 +80,7 @@ Examples of **correct** code for this rule with the `"never"` option:
 /*eslint logical-assignment-operators: ["error", "never"]*/
 
 a = a || b
+a = a && b
 a = a ?? b
 ```
 
