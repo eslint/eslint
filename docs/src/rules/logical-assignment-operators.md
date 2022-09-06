@@ -38,6 +38,9 @@ Examples of **incorrect** code for this rule with the default `"always"` option:
 a = a || b
 a = a && b
 a = a ?? b
+a || (a = b)
+a && (a = b)
+a ?? (a = b)
 ```
 
 :::
@@ -50,8 +53,12 @@ Examples of **correct** code for this rule with the default `"always"` option:
 /*eslint logical-assignment-operators: ["error", "always"]*/
 
 a = b
-a ||= b
 a += b
+a ||= b
+a = b || c
+a || (b = c)
+
+if (a) a = b
 ```
 
 :::
