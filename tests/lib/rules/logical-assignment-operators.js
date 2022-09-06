@@ -668,6 +668,18 @@ ruleTester.run("logical-assignment-operators", rule, {
             code: "a || (a = (b))",
             output: "a ||= (b)",
             errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||=" } }]
+        }, {
+            code: "a || ((a = b))",
+            output: "a ||= b",
+            errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||=" } }]
+        }, {
+            code: "a || (((a = b)))",
+            output: "a ||= b",
+            errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||=" } }]
+        }, {
+            code: "a || ( ( a = b ) )",
+            output: "a ||= b",
+            errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||=" } }]
         },
 
         // > Comments
