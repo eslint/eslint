@@ -6,7 +6,6 @@ rule_type: suggestion
 
 
 
-Require or disallow assignment logical operator shorthand
 
 ## Rule Details
 
