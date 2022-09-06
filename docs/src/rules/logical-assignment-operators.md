@@ -5,7 +5,7 @@ rule_type: suggestion
 ---
 
 ES2021 introduces the assignment operator shorthand for the logical operators `||`, `&&` and `??`.
-Before this was only allowed for mathematical operations such as `+` or `*` (see the rule [operator-assignment](./operator-assignment)).
+Before, this was only allowed for mathematical operations such as `+` or `*` (see the rule [operator-assignment](./operator-assignment)).
 The shorthand can be used if the assignment target and the left expression of a logical expression are the same.
 For example `a = a || b` can be shortened to `a ||= b`.
 
