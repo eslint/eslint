@@ -96,18 +96,10 @@ a = a ?? b
 #### enforceForIfStatements
 
 This option checks for additional patterns with if statements which could be expressed with the logical assignment operator.
-::: correct
-
-```js
-/*eslint logical-assignment-operators: ["error", "always", { enforceForIfStatements: true }]*/
-
-if (a) b = c
-if (a === 0) a = b
-```
-
-:::
 
 ::: incorrect
+
+Examples of **incorrect** code for this rule with the `["always", { enforceIfStatements: true }]` option:
 
 ```js
 /*eslint logical-assignment-operators: ["error", "always", { enforceForIfStatements: true }]*/
@@ -117,6 +109,19 @@ if (!a) a = b // <=> a ||= b
 
 if (a == null) a = b // <=> a ??= b
 if (a === null || a === undefined) a = b // <=> a ??= b
+```
+
+:::
+
+Examples of **correct** code for this rule with the `["always", { enforceIfStatements: true }]` option:
+
+::: correct
+
+```js
+/*eslint logical-assignment-operators: ["error", "always", { enforceForIfStatements: true }]*/
+
+if (a) b = c
+if (a === 0) a = b
 ```
 
 :::
