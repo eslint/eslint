@@ -467,6 +467,42 @@ ruleTester.run("logical-assignment-operators", rule, {
                 }]
             }]
         }, {
+            code: "a['b'] = a['b'] ?? c",
+            output: null,
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "??" },
+                suggestions: [{
+                    messageId: "useLogicalOperator",
+                    output: "a['b'] ??= c"
+                }]
+            }]
+        }, {
+            code: "a.b = a['b'] ?? c",
+            output: null,
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "??" },
+                suggestions: [{
+                    messageId: "useLogicalOperator",
+                    output: "a.b ??= c"
+                }]
+            }]
+        }, {
+            code: "a['b'] = a.b ?? c",
+            output: null,
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "??" },
+                suggestions: [{
+                    messageId: "useLogicalOperator",
+                    output: "a['b'] ??= c"
+                }]
+            }]
+        }, {
             code: "this.prop = this.prop ?? {}",
             output: null,
             errors: [{
@@ -648,6 +684,10 @@ ruleTester.run("logical-assignment-operators", rule, {
         {
             code: "a.b || (a.b = c)",
             output: "a.b ||= c",
+            errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||" } }]
+        }, {
+            code: "a['b'] || (a['b'] = c)",
+            output: "a['b'] ||= c",
             errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||" } }]
         }, {
             code: "foo.bar || (foo.bar = baz)",
@@ -991,6 +1031,11 @@ ruleTester.run("logical-assignment-operators", rule, {
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement", suggestions: [] }]
         }, {
+            code: "if (a['b']) a['b'] = c",
+            output: "a['b'] &&= c",
+            options: ["always", { enforceForIfStatements: true }],
+            errors: [{ messageId: "if", type: "IfStatement", suggestions: [] }]
+        }, {
             code: "if (this.prop) this.prop = value",
             output: "this.prop &&= value",
             options: ["always", { enforceForIfStatements: true }],
@@ -1187,6 +1232,19 @@ ruleTester.run("logical-assignment-operators", rule, {
                 suggestions: [{
                     messageId: "separate",
                     output: "a[b] = a[b] || c"
+                }]
+            }]
+        }, {
+            code: "a['b'] ||= c",
+            output: null,
+            options: ["never"],
+            errors: [{
+                messageId: "unexpected",
+                type: "AssignmentExpression",
+                data: { operator: "||=" },
+                suggestions: [{
+                    messageId: "separate",
+                    output: "a['b'] = a['b'] || c"
                 }]
             }]
         }, {
