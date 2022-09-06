@@ -314,6 +314,13 @@ ruleTester.run("logical-assignment-operators", rule, {
         }, {
             code: "if (Boolean(a)) b = c",
             options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: [
+                "function fn(Boolean) {",
+                "   if (Boolean(a)) a = b",
+                "}"
+            ].join("\n"),
+            options: ["always", { enforceForIfStatements: true }]
         },
 
         // Never
