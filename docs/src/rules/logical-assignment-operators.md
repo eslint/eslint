@@ -23,9 +23,8 @@ String option:
 
 Object option (only available if string option is set to `"always"`):
 
-* `"enforceForIfStatements": false`(default) Do *not* check for equivalent if statements
-
-* `"enforceForIfStatements": true` Check for equivalent if statements
+* `"enforceForIfStatements": false`(default) Do *not* check for equivalent `if` statements
+* `"enforceForIfStatements": true` Check for equivalent `if` statements
 
 #### always
 
