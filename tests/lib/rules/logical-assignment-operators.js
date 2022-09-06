@@ -380,11 +380,11 @@ ruleTester.run("logical-assignment-operators", rule, {
             errors: [{ messageId: "assignment", type: "AssignmentExpression", data: { operator: "||=" }, suggestions: [] }]
         }, {
             code: "a = a || (b || c)",
-            output: "a ||= b || c",
+            output: "a ||= (b || c)",
             errors: [{ messageId: "assignment", type: "AssignmentExpression", data: { operator: "||=" }, suggestions: [] }]
         }, {
             code: "a = a || (b ? c : d)",
-            output: "a ||= b ? c : d",
+            output: "a ||= (b ? c : d)",
             errors: [{ messageId: "assignment", type: "AssignmentExpression", data: { operator: "||=" }, suggestions: [] }]
         },
 
@@ -422,11 +422,19 @@ ruleTester.run("logical-assignment-operators", rule, {
             errors: [{ messageId: "assignment", type: "AssignmentExpression", data: { operator: "||=" }, suggestions: [] }]
         }, {
             code: "a = a || (b)",
-            output: "a ||= b",
+            output: "a ||= (b)",
+            errors: [{ messageId: "assignment", type: "AssignmentExpression", data: { operator: "||=" }, suggestions: [] }]
+        }, {
+            code: "a = a || ((b))",
+            output: "a ||= ((b))",
             errors: [{ messageId: "assignment", type: "AssignmentExpression", data: { operator: "||=" }, suggestions: [] }]
         }, {
             code: "(a = a || b)",
             output: "(a ||= b)",
+            errors: [{ messageId: "assignment", type: "AssignmentExpression", data: { operator: "||=" }, suggestions: [] }]
+        }, {
+            code: "a = a || (f(), b)",
+            output: "a ||= (f(), b)",
             errors: [{ messageId: "assignment", type: "AssignmentExpression", data: { operator: "||=" }, suggestions: [] }]
         },
 
