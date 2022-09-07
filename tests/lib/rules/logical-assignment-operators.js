@@ -723,6 +723,14 @@ ruleTester.run("logical-assignment-operators", rule, {
             output: "a['b'] ||= c",
             errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||=" } }]
         }, {
+            code: "a[0] || (a[0] = b)",
+            output: "a[0] ||= b",
+            errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||=" } }]
+        }, {
+            code: "a[this] || (a[this] = b)",
+            output: "a[this] ||= b",
+            errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||=" } }]
+        }, {
             code: "foo.bar || (foo.bar = baz)",
             output: "foo.bar ||= baz",
             errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||=" } }]
@@ -737,6 +745,32 @@ ruleTester.run("logical-assignment-operators", rule, {
                     messageId: "convertLogical",
                     data: { operator: "||=" },
                     output: "a.b.c ||= d"
+                }]
+            }]
+        }, {
+            code: "a[b.c] || (a[b.c] = d)",
+            output: null,
+            errors: [{
+                messageId: "logical",
+                type: "LogicalExpression",
+                data: { operator: "||=" },
+                suggestions: [{
+                    messageId: "convertLogical",
+                    data: { operator: "||=" },
+                    output: "a[b.c] ||= d"
+                }]
+            }]
+        }, {
+            code: "a[b?.c] || (a[b?.c] = d)",
+            output: null,
+            errors: [{
+                messageId: "logical",
+                type: "LogicalExpression",
+                data: { operator: "||=" },
+                suggestions: [{
+                    messageId: "convertLogical",
+                    data: { operator: "||=" },
+                    output: "a[b?.c] ||= d"
                 }]
             }]
         }, {
