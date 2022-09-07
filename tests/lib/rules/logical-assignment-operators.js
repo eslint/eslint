@@ -174,13 +174,13 @@ ruleTester.run("logical-assignment-operators", rule, {
             options: ["always", { enforceForIfStatements: true }]
         }, {
             code: "if (a === null || a === void void 0) a = b",
-            output: "a ??= b"
+            options: ["always", { enforceForIfStatements: true }]
         }, {
             code: "if (a === null || a === void 'string') a = b",
-            output: "a ??= b"
+            options: ["always", { enforceForIfStatements: true }]
         }, {
             code: "if (a === null || a === void fn()) a = b",
-            output: "a ??= b"
+            options: ["always", { enforceForIfStatements: true }]
         },
 
         // > Test > Yoda
@@ -1018,17 +1018,17 @@ ruleTester.run("logical-assignment-operators", rule, {
             code: "if (a) a  =  b",
             output: "a  &&=  b",
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
+            errors: [{ messageId: "if", type: "IfStatement", data: { operator: "&&=" } }]
         }, {
             code: "if (a)\n a = b",
             output: "a &&= b",
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
+            errors: [{ messageId: "if", type: "IfStatement", data: { operator: "&&=" } }]
         }, {
             code: "if (a) {\n a = b; \n}",
             output: "a &&= b;",
             options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement" }]
+            errors: [{ messageId: "if", type: "IfStatement", data: { operator: "&&=" } }]
         },
 
         // > Comments
@@ -1263,7 +1263,6 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "||=" },
                 suggestions: [{
                     messageId: "separate",
-                    data: { operator: "||=" },
                     output: "a.b = a.b || c"
                 }]
             }]
@@ -1277,7 +1276,6 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "||=" },
                 suggestions: [{
                     messageId: "separate",
-                    data: { operator: "||=" },
                     output: "a[b] = a[b] || c"
                 }]
             }]
@@ -1291,7 +1289,6 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "||=" },
                 suggestions: [{
                     messageId: "separate",
-                    data: { operator: "||=" },
                     output: "a['b'] = a['b'] || c"
                 }]
             }]
@@ -1305,7 +1302,6 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "||=" },
                 suggestions: [{
                     messageId: "separate",
-                    data: { operator: "||=" },
                     output: "this.prop = this.prop || 0"
                 }]
             }]
@@ -1319,7 +1315,6 @@ ruleTester.run("logical-assignment-operators", rule, {
                 data: { operator: "||=" },
                 suggestions: [{
                     messageId: "separate",
-                    data: { operator: "||=" },
                     output: "with (object) a = a || b"
                 }]
             }]
