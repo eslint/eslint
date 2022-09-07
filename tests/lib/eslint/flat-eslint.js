@@ -821,6 +821,33 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results[1].messages.length, 0);
                 assert.strictEqual(results[1].suppressedMessages.length, 0);
             });
+
+            it("should glob for all files in subdir when passed-in on the command line with a partial matching glob", async () => {
+                eslint = new FlatESLint({
+                    ignore: false,
+                    overrideConfigFile: true,
+                    overrideConfig: {
+                        files: ["s*/subsubdir/*.jsx", "target-dir/*.js"],
+                        languageOptions: {
+                            parserOptions: {
+                                jsx: true
+                            }
+                        }
+                    },
+                    cwd: getFixturePath("shallow-glob")
+                });
+                const results = await eslint.lintFiles(["subdir"]);
+
+                assert.strictEqual(results.length, 3);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert(results[0].messages[0].fatal, "Fatal error expected.");
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+                assert.strictEqual(results[1].messages.length, 1);
+                assert(results[0].messages[0].fatal, "Fatal error expected.");
+                assert.strictEqual(results[1].suppressedMessages.length, 0);
+                assert.strictEqual(results[2].messages.length, 0);
+                assert.strictEqual(results[2].suppressedMessages.length, 0);
+            });
         });
 
         it("should report zero messages when given a '**' pattern with a .js and a .js2 file", async () => {
