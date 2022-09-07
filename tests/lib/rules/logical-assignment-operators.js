@@ -73,6 +73,13 @@ ruleTester.run("logical-assignment-operators", rule, {
         "fn() || (a = b)",
         "a.b || (a = b)",
         "a?.b || (a.b = b)",
+        {
+            code: "class Class { #prop; constructor() { this.#prop || (this.prop = value) } }",
+            parserOptions: { ecmaVersion: 2022 }
+        }, {
+            code: "class Class { #prop; constructor() { this.prop || (this.#prop = value) } }",
+            parserOptions: { ecmaVersion: 2022 }
+        },
 
         // If
         "if (a) a = b",
@@ -717,6 +724,11 @@ ruleTester.run("logical-assignment-operators", rule, {
         {
             code: "a.b || (a.b = c)",
             output: "a.b ||= c",
+            errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||=" } }]
+        }, {
+            code: "class Class { #prop; constructor() { this.#prop || (this.#prop = value) } }",
+            output: "class Class { #prop; constructor() { this.#prop ||= value } }",
+            parserOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||=" } }]
         }, {
             code: "a['b'] || (a['b'] = c)",
