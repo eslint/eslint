@@ -171,11 +171,18 @@ describe("cli", () => {
             });
         });
 
-        describe("when there is a local config file", () => {
-            const code = "lib/cli.js";
+        describe.only("when there is a local config file", () => {
 
             it(`should load the local config file with configType:${configType}`, async () => {
-                await cli.execute(code, null, useFlatConfig);
+                await cli.execute("lib/cli.js", null, useFlatConfig);
+            });
+
+            it(`should load the local config file with glob pattern and configType:${configType}`, async () => {
+                await cli.execute("lib/cli*.js", null, useFlatConfig);
+            });
+
+            it(`should load the local config file with Windows slashes glob pattern and configType:${configType}`, async () => {
+                await cli.execute("lib\\cli*.js", null, useFlatConfig);
             });
         });
 
