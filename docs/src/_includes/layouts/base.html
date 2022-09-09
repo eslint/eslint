@@ -61,6 +61,8 @@
     <link rel="preload" href="{{ '/assets/fonts/SpaceGrotesk-Medium-subset.woff2' | url }}" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="{{ '/assets/fonts/Inter-Regular-subset.woff2' | url }}" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="{{ '/assets/fonts/SpaceMono-Regular-subset.woff2' | url }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ '/assets/fonts/Consolas.woff' | url }}" as="font" type="font/woff" crossorigin>
+    <link rel="preconnect" href="https://www.googletagmanager.com/">
 
     <script>
          (function () {
@@ -74,6 +76,16 @@
 
 
     <style>
+    
+        /* Overrides for funky punctuators */
+        @font-face {
+            font-family: "Mono Punctuators";
+            src: url("{{ '/assets/fonts/Consolas.woff' | url }}") format("woff");
+            font-weight: 400;
+            unicode-range: U+40, U+7B, U+7D, U+28, U+29;
+            font-display: swap;
+        }
+        
         /* Space Grotesk for headings */
         @font-face {
             font-family: "Space Grotesk";
