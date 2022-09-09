@@ -37,7 +37,9 @@ ruleTester.run("no-warning-comments", rule, {
         { code: "// special regex characters don't cause a problem", options: [{ terms: ["[aeiou]"], location: "anywhere" }] },
         "/*eslint no-warning-comments: [2, { \"terms\": [\"todo\", \"fixme\", \"any other term\"], \"location\": \"anywhere\" }]*/\n\nvar x = 10;\n",
         { code: "/*eslint no-warning-comments: [2, { \"terms\": [\"todo\", \"fixme\", \"any other term\"], \"location\": \"anywhere\" }]*/\n\nvar x = 10;\n", options: [{ location: "anywhere" }] },
-        { code: "// foo", options: [{ terms: ["foo-bar"] }] }
+        { code: "// foo", options: [{ terms: ["foo-bar"] }] },
+        "/** multi-line block comment with lines starting with\nTODO\nFIXME or\nXXX\n*/",
+        { code: "//!TODO ", options: [{ decoration: ["*"] }] }
     ],
     invalid: [
         {
@@ -384,6 +386,58 @@ ruleTester.run("no-warning-comments", rule, {
                     data: {
                         matchedTerm: "!xxx",
                         comment: "!XXX comment starting with no spaces..."
+                    }
+                }
+            ]
+        },
+        {
+            code: "/*\nTODO undecorated multi-line block comment (start)\n*/",
+            options: [{ terms: ["todo"], location: "start" }],
+            errors: [
+                {
+                    messageId: "unexpectedComment",
+                    data: {
+                        matchedTerm: "todo",
+                        comment: "TODO undecorated multi-line block..."
+                    }
+                }
+            ]
+        },
+        {
+            code: "///// TODO decorated single-line comment with decoration array \n /////",
+            options: [{ terms: ["todo"], location: "start", decoration: ["*", "/"] }],
+            errors: [
+                {
+                    messageId: "unexpectedComment",
+                    data: {
+                        matchedTerm: "todo",
+                        comment: "/// TODO decorated single-line comment..."
+                    }
+                }
+            ]
+        },
+        {
+            code: "///*/*/ TODO decorated single-line comment with multiple decoration characters (start) \n /////",
+            options: [{ terms: ["todo"], location: "start", decoration: ["*", "/"] }],
+            errors: [
+                {
+                    messageId: "unexpectedComment",
+                    data: {
+                        matchedTerm: "todo",
+                        comment: "/*/*/ TODO decorated single-line comment..."
+                    }
+                }
+            ]
+        },
+        {
+            code: "//**TODO term starts with a decoration character",
+            options: [{ terms: ["*todo"], location: "start", decoration: ["*"] }],
+            errors: [
+                {
+                    messageId: "unexpectedComment",
+                    data: {
+                        matchedTerm: "*todo",
+                        comment: "**TODO term starts with a decoration..."
                     }
                 }
             ]
