@@ -561,5 +561,3 @@ npx eslint -c some-other-file.js **/*.js
 ```
 
 In this case, ESLint will not search for `eslint.config.js` and will instead use `some-other-file.js`.
-
-Each configuration file exports one or more configuration object. A configuration object
