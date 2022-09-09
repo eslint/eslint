@@ -177,13 +177,18 @@ describe("cli", () => {
                 await cli.execute("lib/cli.js", null, useFlatConfig);
             });
 
-            it(`should load the local config file with glob pattern and configType:${configType}`, async () => {
-                await cli.execute("lib/cli*.js", null, useFlatConfig);
-            });
+            if (useFlatConfig) {
+                it(`should load the local config file with glob pattern and configType:${configType}`, async () => {
+                    await cli.execute("lib/cli*.js", null, useFlatConfig);
+                });
+            }
 
-            it(`should load the local config file with Windows slashes glob pattern and configType:${configType}`, async () => {
-                await cli.execute("lib\\cli*.js", null, useFlatConfig);
-            });
+            // only works on Windows
+            if (os.platform() === "win32") {
+                it(`should load the local config file with Windows slashes glob pattern and configType:${configType}`, async () => {
+                    await cli.execute("lib\\cli*.js", null, useFlatConfig);
+                });
+            }
         });
 
         describe("Formatters", () => {
