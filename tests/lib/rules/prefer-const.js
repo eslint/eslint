@@ -706,6 +706,25 @@ ruleTester.run("prefer-const", rule, {
         },
         {
             code: `
+            let { itemId, list } = {},
+            obj = [];
+            console.log(itemId, list, obj);
+            `,
+            output: `
+            const { itemId, list } = {},
+            obj = [];
+            console.log(itemId, list, obj);
+            `,
+            options: [{ destructuring: "any", ignoreReadBeforeAssign: true }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "useConst", data: { name: "itemId" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "list" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "obj" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: `
             let [ itemId, list ] = [],
             total = 0;
             total = 9;
@@ -717,6 +736,25 @@ ruleTester.run("prefer-const", rule, {
             errors: [
                 { messageId: "useConst", data: { name: "itemId" }, type: "Identifier" },
                 { messageId: "useConst", data: { name: "list" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: `
+            let [ itemId, list ] = [],
+            obj = [];
+            console.log(itemId, list, obj);
+            `,
+            output: `
+            const [ itemId, list ] = [],
+            obj = [];
+            console.log(itemId, list, obj);
+            `,
+            options: [{ destructuring: "any", ignoreReadBeforeAssign: true }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "useConst", data: { name: "itemId" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "list" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "obj" }, type: "Identifier" }
             ]
         }
     ]
