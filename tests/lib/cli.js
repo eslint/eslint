@@ -172,11 +172,23 @@ describe("cli", () => {
         });
 
         describe("when there is a local config file", () => {
-            const code = "lib/cli.js";
 
             it(`should load the local config file with configType:${configType}`, async () => {
-                await cli.execute(code, null, useFlatConfig);
+                await cli.execute("lib/cli.js", null, useFlatConfig);
             });
+
+            if (useFlatConfig) {
+                it(`should load the local config file with glob pattern and configType:${configType}`, async () => {
+                    await cli.execute("lib/cli*.js", null, useFlatConfig);
+                });
+            }
+
+            // only works on Windows
+            if (os.platform() === "win32") {
+                it(`should load the local config file with Windows slashes glob pattern and configType:${configType}`, async () => {
+                    await cli.execute("lib\\cli*.js", null, useFlatConfig);
+                });
+            }
         });
 
         describe("Formatters", () => {
@@ -480,8 +492,12 @@ describe("cli", () => {
 
                 describe("when executing without no-error-on-unmatched-pattern flag", () => {
                     it(`should throw an error on unmatched glob pattern with configType:${configType}`, async () => {
-                        const filePath = getFixturePath("unmatched-patterns");
+                        let filePath = getFixturePath("unmatched-patterns");
                         const globPattern = "unmatched*.js";
+
+                        if (useFlatConfig) {
+                            filePath = filePath.replace(/\\/gu, "/");
+                        }
 
                         await stdAssert.rejects(async () => {
                             await cli.execute(`"${filePath}/${globPattern}"`, null, useFlatConfig);

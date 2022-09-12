@@ -884,6 +884,29 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[1].suppressedMessages.length, 0);
         });
 
+        // only works on a Windows machine
+        if (os.platform() === "win32") {
+
+            it("should resolve globs with Windows slashes when 'globInputPaths' option is true", async () => {
+                eslint = new FlatESLint({
+                    ignore: false,
+                    cwd: getFixturePath(".."),
+                    overrideConfig: { files: ["**/*.js", "**/*.js2"] },
+                    overrideConfigFile: getFixturePath("eslint.config.js")
+
+                });
+                const results = await eslint.lintFiles(["fixtures\\files\\*"]);
+
+                assert.strictEqual(results.length, 2);
+                assert.strictEqual(results[0].messages.length, 0);
+                assert.strictEqual(results[1].messages.length, 0);
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+                assert.strictEqual(results[1].suppressedMessages.length, 0);
+            });
+
+        }
+
+
         it("should not resolve globs when 'globInputPaths' option is false", async () => {
             eslint = new FlatESLint({
                 ignore: false,
