@@ -147,3 +147,9 @@ pre[class*="language-"] {
         display: none;
     }
 }
+
+@media (hover: none) {
+    .anchorjs-link {
+        opacity: 1;
+    }
+}
