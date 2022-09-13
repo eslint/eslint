@@ -1,19 +1,3 @@
-v8.23.1 - September 12, 2022
-
-* [`b719893`](https://github.com/eslint/eslint/commit/b71989388a921886caa4c6cb48729bbf60c46100) fix: Upgrade eslintrc to stop redefining plugins (#16297) (Brandon Mills)
-* [`734b54e`](https://github.com/eslint/eslint/commit/734b54eb9c6c4839c0f99ebe18dc5695754aac1d) fix: improve autofix for the `prefer-const` rule (#16292) (Nitin Kumar)
-* [`6a923ff`](https://github.com/eslint/eslint/commit/6a923ff9257a4f009cefed049ebb59a4b5acdab5) fix: Ensure that glob patterns are normalized (#16287) (Nicholas C. Zakas)
-* [`38e8171`](https://github.com/eslint/eslint/commit/38e8171d9b170f400ac340368d044b2093114e94) perf: migrate rbTree to js-sdsl (#16267) (Zilong Yao)
-* [`16cba3f`](https://github.com/eslint/eslint/commit/16cba3f31294a673721864267aa13ea35233326b) docs: fix mobile double tap issue (#16293) (Sam Chen)
-* [`c6900f8`](https://github.com/eslint/eslint/commit/c6900f89a89f3de5d3c50c69a1bc62eac6eb76d7) fix: Ensure globbing doesn't include subdirectories (#16272) (Nicholas C. Zakas)
-* [`e098b5f`](https://github.com/eslint/eslint/commit/e098b5f80472e80c70603306e77e14ea15f1a93b) docs: keyboard control to search results (#16222) (Shanmughapriyan S)
-* [`1b5b2a7`](https://github.com/eslint/eslint/commit/1b5b2a7de504f2971a6a488d8a57442e73b56a51) docs: add Consolas font and prioritize resource loading (#16225) (Amaresh  S M)
-* [`1c388fb`](https://github.com/eslint/eslint/commit/1c388fb37739cc09dbd0b4aa59e9d45674280ad5) chore: switch nyc to c8 (#16263) (唯然)
-* [`67db10c`](https://github.com/eslint/eslint/commit/67db10c51dbb871a201eab444f6a73fbc1e4fc75) chore: enable linting `.eleventy.js` again (#16274) (Milos Djermanovic)
-* [`1ae8236`](https://github.com/eslint/eslint/commit/1ae8236a2e71c9dead20ba9da60d8cc9e317859a) docs: copy & use main package version in docs on release (#16252) (Jugal Thakkar)
-* [`42bfbd7`](https://github.com/eslint/eslint/commit/42bfbd7b7b91106e5f279a05f40c20769e3cd29f) chore: fix `npm run perf` crashes (#16258) (唯然)
-* [`279f0af`](https://github.com/eslint/eslint/commit/279f0afc14617c037da482919942beef87f56e45) docs: Improve id-denylist documentation (#16223) (Mert Ciflikli)
-
 v8.23.0 - August 26, 2022
 
 * [`2e004ab`](https://github.com/eslint/eslint/commit/2e004ab990a4a5a4efc44974da005d2161490256) chore: upgrade @eslint/eslintrc@1.3.1 (#16249) (Milos Djermanovic)
