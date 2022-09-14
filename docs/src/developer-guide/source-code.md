@@ -9,7 +9,7 @@ eleventyNavigation:
 
 ---
 
-ESLint is hosted at [GitHub](https://github.com/eslint/eslint) and uses [Git](https://git-scm.com/) for source control. In order to obtain the source code, you must first install Git on your system. Instructions for installing and setting up Git can be found at [https://help.github.com/articles/set-up-git/](https://help.github.com/articles/set-up-git/).
+ESLint is hosted at [GitHub](https://github.com/eslint/eslint) and uses [Git](https://git-scm.com/) for source control. In order to obtain the source code, you must first install Git on your system. Instructions for installing and setting up Git can be found at <https://help.github.com/articles/set-up-git/>.
 
 If you simply want to create a local copy of the source to play with, you can clone the main repository using this command:
 
@@ -17,7 +17,7 @@ If you simply want to create a local copy of the source to play with, you can cl
 git clone git://github.com/eslint/eslint.git
 ```
 
-If you're planning on contributing to ESLint, then it's a good idea to fork the repository. You can find instructions for forking a repository at [https://help.github.com/articles/fork-a-repo/](https://help.github.com/articles/fork-a-repo/). After forking the ESLint repository, you'll want to create a local copy of your fork.
+If you're planning on contributing to ESLint, then it's a good idea to fork the repository. You can find instructions for forking a repository at <https://help.github.com/articles/fork-a-repo/>. After forking the ESLint repository, you'll want to create a local copy of your fork.
 
 ## Start Developing
 
