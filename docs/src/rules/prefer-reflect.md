@@ -8,10 +8,11 @@ related_rules:
 - no-delete-var
 ---
 
+----
 
 This rule was **deprecated** in ESLint v3.9.0 and will not be replaced. The original intent of this rule now seems misguided as we have come to understand that `Reflect` methods are not actually intended to replace the `Object` counterparts the rule suggests, but rather exist as low-level primitives to be used with proxies in order to replicate the default behavior of various previously existing functionality.
 
-**Please note**: This rule contains an inappropriate behavior - it will suggest you to use `Reflect.getOwnPropertyNames` rather than `Object.getOwnPropertyNames`, but the former doesn't exist in the [spec](https://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflection). We suggest using `exceptions` option with `getOwnPropertyNames` to avoid this falsely suggestion.
+**Please note**: This rule contains an inappropriate behavior - it will suggest you to use `Reflect.getOwnPropertyNames` rather than `Object.getOwnPropertyNames`, but the former one doesn't exist in the [spec](https://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflection). We suggest using `exceptions` option with `getOwnPropertyNames` to avoid this falsely suggestion.
 
 ----
 
@@ -320,47 +321,6 @@ Examples of **correct** code for this rule with the `{ "exceptions": ["isExtensi
 
 Object.isExtensible({})
 Reflect.isExtensible({})
-```
-
-:::
-
-### Reflect.getOwnPropertyNames
-
-Deprecates `Object.getOwnPropertyNames()`
-
-Examples of **incorrect** code for this rule when used without exceptions:
-
-::: incorrect
-
-```js
-/*eslint prefer-reflect: "error"*/
-
-Object.getOwnPropertyNames({})
-```
-
-:::
-
-Examples of **correct** code for this rule when used without exceptions:
-
-::: correct
-
-```js
-/*eslint prefer-reflect: "error"*/
-
-Reflect.getOwnPropertyNames({})
-```
-
-:::
-
-Examples of **correct** code for this rule with the `{ "exceptions": ["getOwnPropertyNames"] }` option:
-
-::: correct
-
-```js
-/*eslint prefer-reflect: ["error", { "exceptions": ["getOwnPropertyNames"] }]*/
-
-Object.getOwnPropertyNames({})
-Reflect.getOwnPropertyNames({})
 ```
 
 :::
