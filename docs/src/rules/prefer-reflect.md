@@ -8,13 +8,11 @@ related_rules:
 - no-delete-var
 ---
 
-----
 
 This rule was **deprecated** in ESLint v3.9.0 and will not be replaced. The original intent of this rule now seems misguided as we have come to understand that `Reflect` methods are not actually intended to replace the `Object` counterparts the rule suggests, but rather exist as low-level primitives to be used with proxies in order to replicate the default behavior of various previously existing functionality.
 
-**Please note**: This rule contains an inappropriate behavior - it will suggest you to use `Reflect.getOwnPropertyNames` rather than `Object.getOwnPropertyNames`, but the former one doesn't exist in the [spec](https://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflection). We suggest using `exceptions` option with `getOwnPropertyNames` to avoid this falsely suggestion.
+**Please note**: This rule contains an incorrect behavior - it will suggest you to use `Reflect.getOwnPropertyNames` rather than `Object.getOwnPropertyNames`, but the former one doesn't exist in the [specification](https://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflection). We suggest using `exceptions` option with `getOwnPropertyNames` to avoid this false suggestion.
 
-----
 
 The ES6 Reflect API comes with a handful of methods which somewhat deprecate methods on old constructors:
 
