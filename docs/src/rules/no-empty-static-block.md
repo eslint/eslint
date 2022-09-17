@@ -5,6 +5,7 @@ rule_type: suggestion
 related_rules:
 - no-empty
 - no-empty-function
+further_reading:
 - https://github.com/tc39/proposal-class-static-block
 ---
 
