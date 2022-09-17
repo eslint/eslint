@@ -473,7 +473,7 @@ Each rule specifies its own options and can be any valid JSON data type. Please 
 There are three possible severities you can specify for a rule
 
 * `"error"` (or `2`) - the reported problem should be treated as an error. When using the ESLint CLI, errors cause the CLI to exit with a nonzero code.
-* `"warn"` (or `1`) - the reported problem should be treated as a warning. When using the ESLint CLI, warnings are reported but do not change the exit code. If only errors are reported, the exit code will be 0.
+* `"warn"` (or `1`) - the reported problem should be treated as a warning. When using the ESLint CLI, warnings are reported but do not change the exit code. If only warnings are reported, the exit code will be 0.
 * `"off"` (or `0`) - the rule should be turned off completely.
 
 #### Rule configuration cascade
