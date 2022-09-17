@@ -113,6 +113,13 @@ ruleTester.run("id-length", rule, {
             code: "class Foo { #abc = 1 }",
             options: [{ max: 3 }],
             parserOptions: { ecmaVersion: 2022 }
+        },
+
+        // Identifier consisting of two code units
+        {
+            code: "var 𠮟 = 2",
+            options: [{ min: 1 }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -563,6 +570,13 @@ ruleTester.run("id-length", rule, {
             parserOptions: { ecmaVersion: 2022 },
             errors: [
                 tooLongErrorPrivate
+            ]
+        },
+        {
+            code: "var 𠮟 = 2",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                tooShortError
             ]
         }
     ]
