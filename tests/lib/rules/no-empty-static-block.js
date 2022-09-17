@@ -30,6 +30,10 @@ ruleTester.run("no-empty-static-block", rule, {
         {
             code: "class Foo { static {\n// comment\n} }",
             parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class Foo { static { bar(); } static { bar(); } }",
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -45,6 +49,11 @@ ruleTester.run("no-empty-static-block", rule, {
         },
         {
             code: "class Foo { static { \n\n } }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "class Foo { static { bar(); } static {} }",
             parserOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpected" }]
         }
