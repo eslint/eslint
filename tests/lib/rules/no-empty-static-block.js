@@ -15,46 +15,32 @@ const rule = require("../../../lib/rules/no-empty-static-block"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    parserOptions: { ecmaVersion: 2022 }
+});
 
 ruleTester.run("no-empty-static-block", rule, {
     valid: [
-        {
-            code: "class Foo { static { bar(); } }",
-            parserOptions: { ecmaVersion: 2022 }
-        },
-        {
-            code: "class Foo { static { /* comments */ } }",
-            parserOptions: { ecmaVersion: 2022 }
-        },
-        {
-            code: "class Foo { static {\n// comment\n} }",
-            parserOptions: { ecmaVersion: 2022 }
-        },
-        {
-            code: "class Foo { static { bar(); } static { bar(); } }",
-            parserOptions: { ecmaVersion: 2022 }
-        }
+        "class Foo { static { bar(); } }",
+        "class Foo { static { /* comments */ } }",
+        "class Foo { static {\n// comment\n} }",
+        "class Foo { static { bar(); } static { bar(); } }"
     ],
     invalid: [
         {
             code: "class Foo { static {} }",
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "class Foo { static { } }",
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "class Foo { static { \n\n } }",
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "class Foo { static { bar(); } static {} }",
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpected" }]
         }
     ]
