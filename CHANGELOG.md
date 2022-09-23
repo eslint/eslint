@@ -1,3 +1,15 @@
+v8.24.0 - September 23, 2022
+
+* [`131e646`](https://github.com/eslint/eslint/commit/131e646e227b9aca3937fe287343bf2c3df408af) chore: Upgrade @humanwhocodes/config-array for perf (#16339) (Nicholas C. Zakas)
+* [`2c152ff`](https://github.com/eslint/eslint/commit/2c152ff0fb709b99e62c19ecd2c95689efacbe4c) docs: note false positive `Object.getOwnPropertyNames` in prefer-reflect (#16317) (AnnAngela)
+* [`bf7bd88`](https://github.com/eslint/eslint/commit/bf7bd885a92046a6b6bcbcaaa1e78e9f2c4b482f) docs: fix warn severity description for new config files (#16324) (Nitin Kumar)
+* [`504fe59`](https://github.com/eslint/eslint/commit/504fe59b0e0f4f5a2afb6a69aaed5cb4ca631012) perf: switch from object spread to `Object.assign` when merging globals (#16311) (Milos Djermanovic)
+* [`1729f9e`](https://github.com/eslint/eslint/commit/1729f9ea4d7b2945b2b701d72027fd4aace954cf) feat: account for `sourceType: "commonjs"` in the strict rule (#16308) (Milos Djermanovic)
+* [`b0d72c9`](https://github.com/eslint/eslint/commit/b0d72c96b2a9cde7a5798c2b08ec4e70683c6aca) feat: add rule logical-assignment-operators (#16102) (fnx)
+* [`f02bcd9`](https://github.com/eslint/eslint/commit/f02bcd91bf89b6c167d5346a36677fdb854f0c05) feat: `array-callback-return` support `findLast` and `findLastIndex` (#16314) (Sosuke Suzuki)
+* [`8cc0bbe`](https://github.com/eslint/eslint/commit/8cc0bbe440dc5e6af6ef02f00d0514a40ca07c24) docs: use more clean link syntax (#16309) (Percy Ma)
+* [`6ba269e`](https://github.com/eslint/eslint/commit/6ba269ed673f965d081287b769c12beeb5f98887) docs: fix typo (#16288) (jjangga0214)
+
 v8.23.1 - September 12, 2022
 
 * [`b719893`](https://github.com/eslint/eslint/commit/b71989388a921886caa4c6cb48729bbf60c46100) fix: Upgrade eslintrc to stop redefining plugins (#16297) (Brandon Mills)
