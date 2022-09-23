@@ -5,6 +5,7 @@ rule_type: suggestion
 related_rules:
 - no-undef
 - no-global-assign
+- no-unused-vars
 further_reading:
 - https://benalman.com/news/2010/11/immediately-invoked-function-expression/
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Undeclared_var
@@ -254,6 +255,20 @@ window.MyGlobalFunction = (function() {
 ```
 
 :::
+
+### exported
+
+You can use `/* exported variableName */` block comments in the same way as in [`no-unused-vars`](./no-unused-vars). See the [`no-unused-vars` exported section](./no-unused-vars#exported) for details.
+
+Examples of **correct** code for `/* exported variableName */` operation:
+
+::: correct
+
+```js
+/* exported global_var */
+
+var global_var = 42;
+```
 
 ## When Not To Use It
 
