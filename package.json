@@ -121,7 +121,6 @@
     "glob": "^7.1.6",
     "got": "^11.8.3",
     "gray-matter": "^4.0.3",
-    "jsdoc": "^3.5.5",
     "karma": "^6.1.1",
     "karma-chrome-launcher": "^3.1.0",
     "karma-mocha": "^2.0.1",
