@@ -412,7 +412,92 @@ ruleTester.run("no-implicit-globals", rule, {
         // This rule doesn't disallow assignments to properties of readonly globals
         "Array.from = 1;",
         "Object['assign'] = 1;",
-        "/*global foo:readonly*/ foo.bar = 1;"
+        "/*global foo:readonly*/ foo.bar = 1;",
+
+
+        //------------------------------------------------------------------------------
+        // exported
+        //------------------------------------------------------------------------------
+
+        // `var` and functions
+        "/* exported foo */ var foo = 'foo';",
+        "/* exported foo */ function foo() {}",
+        {
+            code: "/* exported foo */ function *foo() {}",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "/* exported foo */ async function foo() {}",
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "/* exported foo */ async function *foo() {}",
+            parserOptions: { ecmaVersion: 2018 }
+        },
+        "/* exported foo */ var foo = function() {};",
+        "/* exported foo */ var foo = function foo() {};",
+        {
+            code: "/* exported foo */ var foo = function*() {};",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "/* exported foo */ var foo = function *foo() {};",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        "/* exported foo \n* exported bar */ var foo = 1, bar = 2;",
+
+
+        // `const`, `let` and `class`
+        {
+            code: "/* exported a */ const a = 1;",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "/* exported a */ let a;",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "/* exported a */ let a = 1;",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "/* exported A */ class A {}",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "/* exported a\n* exported b */ const a = 1; const b = 2;",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "/* exported a\n* exported b */ const a = 1, b = 2;",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "/* exported a\n* exported b */ let a, b = 1;",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "/* exported a\n* exported b\n* exported C */ const a = 1; let b; class C {}",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "/* exported a\n* exported b\n* exported c */ const [a, b, ...c] = [];",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "/* exported a\n* exported b\n* exported c */ let { a, foo: b, bar: { c } } = {};",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 }
+        }
     ],
 
     invalid: [
@@ -1238,6 +1323,231 @@ ruleTester.run("no-implicit-globals", rule, {
                 },
                 {
                     message: readonlyRedeclarationMessage,
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+
+        //------------------------------------------------------------------------------
+        // exported
+        //------------------------------------------------------------------------------
+
+        // `var` and `function`
+        {
+            code: "/* exported bar */ var foo = 'text';",
+            errors: [
+                {
+                    message: varMessage,
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "/* exported bar */ function foo() {}",
+            errors: [
+                {
+                    message: functionMessage,
+                    type: "FunctionDeclaration"
+                }
+            ]
+        },
+        {
+            code: "/* exported bar */ function *foo() {}",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    message: functionMessage,
+                    type: "FunctionDeclaration"
+                }
+            ]
+        },
+        {
+            code: "/* exported bar */ async function foo() {}",
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [
+                {
+                    message: functionMessage,
+                    type: "FunctionDeclaration"
+                }
+            ]
+        },
+        {
+            code: "/* exported bar */ async function *foo() {}",
+            parserOptions: { ecmaVersion: 2018 },
+            errors: [
+                {
+                    message: functionMessage,
+                    type: "FunctionDeclaration"
+                }
+            ]
+        },
+        {
+            code: "/* exported bar */ var foo = function() {};",
+            errors: [
+                {
+                    message: varMessage,
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "/* exported bar */ var foo = function foo() {};",
+            errors: [
+                {
+                    message: varMessage,
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "/* exported bar */ var foo = function*() {};",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    message: varMessage,
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "/* exported bar */ var foo = function *foo() {};",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    message: varMessage,
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "/* exported bar */ var foo = 1, bar = 2;",
+            errors: [
+                {
+                    message: varMessage,
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+
+        // `let`, `const` and `class`
+        {
+            code: "/* exported b */ const a = 1;",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    message: constMessage,
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "/* exported b */ let a;",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    message: letMessage,
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "/* exported b */ let a = 1;",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    message: letMessage,
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "/* exported B */ class A {}",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    message: classMessage,
+                    type: "ClassDeclaration"
+                }
+            ]
+        },
+        {
+            code: "/* exported a */ const a = 1; const b = 2;",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    message: constMessage,
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "/* exported a */ const a = 1, b = 2;",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    message: constMessage,
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "/* exported a */ let a, b = 1;",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    message: letMessage,
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "/* exported a */ const a = 1; let b; class C {}",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    message: letMessage,
+                    type: "VariableDeclarator"
+                },
+                {
+                    message: classMessage,
+                    type: "ClassDeclaration"
+                }
+            ]
+        },
+        {
+            code: "/* exported a */ const [a, b, ...c] = [];",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    message: constMessage,
+                    type: "VariableDeclarator"
+                },
+                {
+                    message: constMessage,
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "/* exported a */ let { a, foo: b, bar: { c } } = {};",
+            options: [{ lexicalBindings: true }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    message: letMessage,
+                    type: "VariableDeclarator"
+                },
+                {
+                    message: letMessage,
                     type: "VariableDeclarator"
                 }
             ]
