@@ -20,6 +20,8 @@ var x = 5; // too short; difficult to understand its purpose without context
 
 This rule enforces a minimum and/or maximum identifier length convention.
 
+This rule counts [graphemes](http://unicode.org/reports/tr29/#Default_Grapheme_Cluster_Table) instead of using [`String length`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length).
+
 ## Options
 
 Examples of **incorrect** code for this rule with the default options:
