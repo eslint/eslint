@@ -99,7 +99,7 @@ This option checks for additional patterns with if statements which could be exp
 
 ::: incorrect
 
-Examples of **incorrect** code for this rule with the `["always", { enforceIfStatements: true }]` option:
+Examples of **incorrect** code for this rule with the `["always", { enforceForIfStatements: true }]` option:
 
 ```js
 /*eslint logical-assignment-operators: ["error", "always", { enforceForIfStatements: true }]*/
@@ -113,7 +113,7 @@ if (a === null || a === undefined) a = b // <=> a ??= b
 
 :::
 
-Examples of **correct** code for this rule with the `["always", { enforceIfStatements: true }]` option:
+Examples of **correct** code for this rule with the `["always", { enforceForIfStatements: true }]` option:
 
 ::: correct
 
