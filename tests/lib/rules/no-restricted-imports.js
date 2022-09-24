@@ -817,6 +817,29 @@ ruleTester.run("no-restricted-imports", rule, {
         }]
     },
     {
+        code: "import { DisallowedObject1 } from \"foo\";",
+        options: [{
+            paths: [{
+                name: "foo",
+                importNames: ["DisallowedObject1"],
+                message: "Please import DisallowedObject1 of 'foo' from /bar/DisallowedObject1 instead."
+            },
+            {
+                name: "foo",
+                importNames: ["DisallowedObject2"],
+                message: "Please import DisallowedObject2 of 'foo' from /bar/DisallowedObject2 instead."
+            }
+            ]
+        }],
+        errors: [{
+            message: "'DisallowedObject1' import from 'foo' is restricted. Please import DisallowedObject1 of 'foo' from /bar/DisallowedObject1 instead.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 27
+        }]
+    },
+    {
         code: "import AllowedObject, * as AllowedObjectTwo from \"foo\";",
         options: [{
             paths: [{
