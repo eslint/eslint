@@ -696,12 +696,35 @@ describe("cli", () => {
                     it(`should not process any files with configType:${configType}`, async () => {
                         const ignoredFile = getFixturePath("cli/syntax-error.js");
                         const filePath = getFixturePath("cli/passing.js");
-                        const exit = await cli.execute(`--ignore-pattern cli/ ${ignoredFile} ${filePath}`, null, useFlatConfig);
+                        const ignorePattern = useFlatConfig ? "cli/**" : "cli/";
+                        const exit = await cli.execute(
+                            `--ignore-pattern ${ignorePattern} --ignore-path .eslintignore_empty ${ignoredFile} ${filePath}`, null, useFlatConfig
+                        );
 
                         // warnings about the ignored files
                         assert.isTrue(log.info.called);
                         assert.strictEqual(exit, 0);
                     });
+
+                    if (useFlatConfig) {
+                        it("should not ignore files if the pattern is a path to a directory (with trailing slash)", async () => {
+                            const filePath = getFixturePath("cli/syntax-error.js");
+                            const exit = await cli.execute(`--ignore-pattern cli/ --ignore-path .eslintignore_empty ${filePath}`, null, true);
+
+                            // parsing error causes exit code 1
+                            assert.isTrue(log.info.called);
+                            assert.strictEqual(exit, 1);
+                        });
+
+                        it("should not ignore files if the pattern is a path to a directory (without trailing slash)", async () => {
+                            const filePath = getFixturePath("cli/syntax-error.js");
+                            const exit = await cli.execute(`--ignore-pattern cli --ignore-path .eslintignore_empty ${filePath}`, null, true);
+
+                            // parsing error causes exit code 1
+                            assert.isTrue(log.info.called);
+                            assert.strictEqual(exit, 1);
+                        });
+                    }
                 });
 
             });
