@@ -692,7 +692,7 @@ ruleTester.run("id-length", rule, {
             ]
         },
         {
-            code: "var 葛󠄀 = 2",
+            code: "var 葛󠄀 = 2", // 2 code points but only 1 grapheme
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
