@@ -76,7 +76,7 @@ You can limit which files a configuration object applies to by specifying a comb
 
 ```js
 export default [
-    {   
+    {
         files: ["src/**/*.js"],
         rules: {
             semi: "error"
@@ -89,7 +89,7 @@ Here, only the JavaScript files in the `src` directory will have the `semi` rule
 
 ```js
 export default [
-    {   
+    {
         files: ["src/**/*.js"],
         ignores: ["**/*.config.js"],
         rules: {
@@ -103,7 +103,7 @@ This configuration object matches all JavaScript files in the `src` directory ex
 
 ```js
 export default [
-    {   
+    {
         files: ["src/**/*.js"],
         ignores: ["**/*.config.js", "!**/eslint.config.js"],
         rules: {
@@ -119,7 +119,7 @@ If `ignores` is used without `files` and any other setting, then the configurati
 
 ```js
 export default [
-    {   
+    {
         ignores: ["**/*.config.js"],
         rules: {
             semi: "error"
@@ -132,17 +132,17 @@ This configuration object applies to all files except those ending with `.config
 
 #### Globally ignoring files with `ignores`
 
-If `ignores` is used without any other keys in the configuration object, then the patterns act as additional global ignores, similar to those found in `.eslintignore`. Here's an example:
+If `ignores` is used without any other keys in the configuration object, then the patterns act as global ignores. Here's an example:
 
 ```js
 export default [
-    {   
+    {
         ignores: [".config/*"]
     }
 ];
 ```
 
-This configuration specifies that all of the files in the `.config` directory should be ignored. This pattern is added after the patterns found in `.eslintignore`.
+This configuration specifies that all of the files in the `.config` directory should be ignored. This pattern is added after the default patterns, which are `["**/node_modules/**", ".git/**"]`.
 
 #### Cascading configuration objects
 
@@ -156,16 +156,16 @@ export default [
             globals: {
                 MY_CUSTOM_GLOBAL: "readonly"
             }
-        }   
+        }
     },
-    {   
+    {
         files: ["tests/**/*.js"],
         languageOptions: {
             globals: {
                 it: "readonly",
                 describe: "readonly"
             }
-        }   
+        }
     }
 ];
 ```
@@ -343,7 +343,7 @@ export default [
         rules: {
             "jsdoc/require-description": "error",
             "jsdoc/check-values": "error"
-        }  
+        }
     }
 ];
 ```
@@ -364,7 +364,7 @@ export default [
         rules: {
             "jsdoc/require-description": "error",
             "jsdoc/check-values": "error"
-        }  
+        }
     }
 ];
 ```
@@ -383,7 +383,7 @@ export default [
         rules: {
             "jsd/require-description": "error",
             "jsd/check-values": "error"
-        }  
+        }
     }
 ];
 ```
