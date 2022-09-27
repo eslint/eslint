@@ -118,110 +118,110 @@ ruleTester.run("id-length", rule, {
         // Identifier consisting of two code units
         {
             code: "var 𠮟 = 2",
-            options: [{ min: 1 }],
+            options: [{ min: 1, max: 1 }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
-            code: "var myObj = { 𐌘: 1 };",
-            options: [{ min: 1 }],
+            code: "var a = { 𐌘: 1 };",
+            options: [{ min: 1, max: 1 }],
             parserOptions: {
                 ecmaVersion: 6
             }
         },
         {
             code: "(𐌘) => { 𐌘 * 𐌘 };",
-            options: [{ min: 1 }],
+            options: [{ min: 1, max: 1 }],
             parserOptions: {
                 ecmaVersion: 6
             }
         },
         {
             code: "class 𠮟 { }",
-            options: [{ min: 1 }],
+            options: [{ min: 1, max: 1 }],
             parserOptions: {
                 ecmaVersion: 6
             }
         },
         {
-            code: "class Foo { 𐌘() {} }",
-            options: [{ min: 1 }],
+            code: "class F { 𐌘() {} }",
+            options: [{ min: 1, max: 1 }],
             parserOptions: {
                 ecmaVersion: 6
             }
         },
         {
-            code: "class Foo1 { #𐌘() {} }",
-            options: [{ min: 1 }],
+            code: "class F { #𐌘() {} }",
+            options: [{ min: 1, max: 1 }],
             parserOptions: {
                 ecmaVersion: 2022
             }
         },
         {
-            code: "class Foo2 { 𐌘 = 1 }",
-            options: [{ min: 1 }],
+            code: "class F { 𐌘 = 1 }",
+            options: [{ min: 1, max: 1 }],
             parserOptions: {
                 ecmaVersion: 2022
             }
         },
         {
-            code: "class Foo3 { #𐌘 = 1 }",
-            options: [{ min: 1 }],
+            code: "class F { #𐌘 = 1 }",
+            options: [{ min: 1, max: 1 }],
             parserOptions: {
                 ecmaVersion: 2022
             }
         },
         {
-            code: "function foo1(...𐌘) { }",
-            options: [{ min: 1 }],
+            code: "function f(...𐌘) { }",
+            options: [{ min: 1, max: 1 }],
             parserOptions: {
                 ecmaVersion: 6
             }
         },
         {
-            code: "function foo([𐌘]) { }",
-            options: [{ min: 1 }],
+            code: "function f([𐌘]) { }",
+            options: [{ min: 1, max: 1 }],
             parserOptions: {
                 ecmaVersion: 6
             }
         },
         {
-            code: "var [ 𐌘 ] = arr;",
-            options: [{ min: 1 }],
+            code: "var [ 𐌘 ] = a;",
+            options: [{ min: 1, max: 1 }],
             parserOptions: {
                 ecmaVersion: 6
             }
         },
         {
-            code: "var { prop: [𐌘]} = {};",
-            options: [{ min: 1 }],
+            code: "var { p: [𐌘]} = {};",
+            options: [{ min: 1, max: 1 }],
             parserOptions: {
                 ecmaVersion: 6
             }
         },
         {
-            code: "function foo({𐌘}) { }",
-            options: [{ min: 1 }],
+            code: "function f({𐌘}) { }",
+            options: [{ min: 1, max: 1 }],
             parserOptions: {
                 ecmaVersion: 6
             }
         },
         {
             code: "var { 𐌘 } = {};",
-            options: [{ min: 1 }],
+            options: [{ min: 1, max: 1 }],
             parserOptions: {
                 ecmaVersion: 6
             }
         },
         {
-            code: "var { prop: 𐌘} = {};",
-            options: [{ min: 1 }],
+            code: "var { p: 𐌘} = {};",
+            options: [{ min: 1, max: 1 }],
             parserOptions: {
                 ecmaVersion: 6
             }
         },
         {
-            code: "({ prop: obj.𐌘 } = {});",
-            options: [{ min: 1 }],
+            code: "({ prop: o.𐌘 } = {});",
+            options: [{ min: 1, max: 1 }],
             parserOptions: {
                 ecmaVersion: 6
             }
