@@ -122,7 +122,7 @@ ruleTester.run("id-length", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
-            code: "var 葛󠄀 = 2",
+            code: "var 葛󠄀 = 2", // 2 code points but only 1 grapheme
             options: [{ min: 1, max: 1 }],
             parserOptions: { ecmaVersion: 6 }
         },
