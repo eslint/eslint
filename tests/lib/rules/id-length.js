@@ -122,6 +122,11 @@ ruleTester.run("id-length", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
+            code: "var 葛󠄀 = 2",
+            options: [{ min: 1, max: 1 }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
             code: "var a = { 𐌘: 1 };",
             options: [{ min: 1, max: 1 }],
             parserOptions: {
@@ -681,6 +686,13 @@ ruleTester.run("id-length", rule, {
         // Identifier consisting of two code units
         {
             code: "var 𠮟 = 2",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "var 葛󠄀 = 2",
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
