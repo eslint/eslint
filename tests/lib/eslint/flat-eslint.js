@@ -3180,7 +3180,7 @@ describe("FlatESLint", () => {
                 const engine = new FlatESLint({
                     cwd,
                     overrideConfigFile: true,
-                    ignorePatterns: "!/node_modules/package"
+                    ignorePatterns: "!node_modules/package/**"
                 });
 
                 const result = await engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules", "package", "file.js"));
@@ -3271,16 +3271,20 @@ describe("FlatESLint", () => {
 
             it("should return true for file matching an ignore pattern exactly", async () => {
                 const cwd = getFixturePath("ignored-paths");
-                const engine = new FlatESLint({ ignorePatterns: ["undef.js"], cwd });
+                const engine = new FlatESLint({
+                    ignorePatterns: ["undef.js"],
+                    cwd,
+                    overrideConfigFile: true
+                });
 
                 assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
             });
 
-            it("should return false for file in subfolder of cwd matching an ignore pattern with leading '/'", async () => {
+            it("should return false for file in subfolder of cwd matching an ignore pattern with a base filename", async () => {
                 const cwd = getFixturePath("ignored-paths");
                 const filePath = getFixturePath("ignored-paths", "subdir", "undef.js");
                 const engine = new FlatESLint({
-                    ignorePatterns: ["/undef.js"],
+                    ignorePatterns: ["undef.js"],
                     overrideConfigFile: true,
                     cwd
                 });
@@ -3295,11 +3299,11 @@ describe("FlatESLint", () => {
                 assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "ignore-pattern", "ignore-me.txt")));
             });
 
-            it("should return true for file matching a grandchild of an ignore pattern", async () => {
+            it("should return true for file matching a grandchild of a directory when the pattern is directory/**", async () => {
                 const cwd = getFixturePath("ignored-paths");
-                const engine = new FlatESLint({ ignorePatterns: ["ignore-pattern"], cwd });
+                const engine = new FlatESLint({ ignorePatterns: ["ignore-pattern/**"], cwd });
 
-                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "ignore-pattern", "subdir", "ignore-me.txt")));
+                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "ignore-pattern", "subdir", "ignore-me.js")));
             });
 
             it("should return false for file not matching any ignore pattern", async () => {
