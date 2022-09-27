@@ -113,6 +113,123 @@ ruleTester.run("id-length", rule, {
             code: "class Foo { #abc = 1 }",
             options: [{ max: 3 }],
             parserOptions: { ecmaVersion: 2022 }
+        },
+
+        // Identifier consisting of two code units
+        {
+            code: "var 𠮟 = 2",
+            options: [{ min: 1, max: 1 }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var 葛󠄀 = 2", // 2 code points but only 1 grapheme
+            options: [{ min: 1, max: 1 }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var a = { 𐌘: 1 };",
+            options: [{ min: 1, max: 1 }],
+            parserOptions: {
+                ecmaVersion: 6
+            }
+        },
+        {
+            code: "(𐌘) => { 𐌘 * 𐌘 };",
+            options: [{ min: 1, max: 1 }],
+            parserOptions: {
+                ecmaVersion: 6
+            }
+        },
+        {
+            code: "class 𠮟 { }",
+            options: [{ min: 1, max: 1 }],
+            parserOptions: {
+                ecmaVersion: 6
+            }
+        },
+        {
+            code: "class F { 𐌘() {} }",
+            options: [{ min: 1, max: 1 }],
+            parserOptions: {
+                ecmaVersion: 6
+            }
+        },
+        {
+            code: "class F { #𐌘() {} }",
+            options: [{ min: 1, max: 1 }],
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "class F { 𐌘 = 1 }",
+            options: [{ min: 1, max: 1 }],
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "class F { #𐌘 = 1 }",
+            options: [{ min: 1, max: 1 }],
+            parserOptions: {
+                ecmaVersion: 2022
+            }
+        },
+        {
+            code: "function f(...𐌘) { }",
+            options: [{ min: 1, max: 1 }],
+            parserOptions: {
+                ecmaVersion: 6
+            }
+        },
+        {
+            code: "function f([𐌘]) { }",
+            options: [{ min: 1, max: 1 }],
+            parserOptions: {
+                ecmaVersion: 6
+            }
+        },
+        {
+            code: "var [ 𐌘 ] = a;",
+            options: [{ min: 1, max: 1 }],
+            parserOptions: {
+                ecmaVersion: 6
+            }
+        },
+        {
+            code: "var { p: [𐌘]} = {};",
+            options: [{ min: 1, max: 1 }],
+            parserOptions: {
+                ecmaVersion: 6
+            }
+        },
+        {
+            code: "function f({𐌘}) { }",
+            options: [{ min: 1, max: 1 }],
+            parserOptions: {
+                ecmaVersion: 6
+            }
+        },
+        {
+            code: "var { 𐌘 } = {};",
+            options: [{ min: 1, max: 1 }],
+            parserOptions: {
+                ecmaVersion: 6
+            }
+        },
+        {
+            code: "var { p: 𐌘} = {};",
+            options: [{ min: 1, max: 1 }],
+            parserOptions: {
+                ecmaVersion: 6
+            }
+        },
+        {
+            code: "({ prop: o.𐌘 } = {});",
+            options: [{ min: 1, max: 1 }],
+            parserOptions: {
+                ecmaVersion: 6
+            }
         }
     ],
     invalid: [
@@ -563,6 +680,157 @@ ruleTester.run("id-length", rule, {
             parserOptions: { ecmaVersion: 2022 },
             errors: [
                 tooLongErrorPrivate
+            ]
+        },
+
+        // Identifier consisting of two code units
+        {
+            code: "var 𠮟 = 2",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "var 葛󠄀 = 2", // 2 code points but only 1 grapheme
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "var myObj = { 𐌘: 1 };",
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "(𐌘) => { 𐌘 * 𐌘 };",
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "class 𠮟 { }",
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "class Foo { 𐌘() {} }",
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "class Foo1 { #𐌘() {} }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [
+                tooShortErrorPrivate
+            ]
+        },
+        {
+            code: "class Foo2 { 𐌘 = 1 }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "class Foo3 { #𐌘 = 1 }",
+            parserOptions: {
+                ecmaVersion: 2022
+            },
+            errors: [
+                tooShortErrorPrivate
+            ]
+        },
+        {
+            code: "function foo1(...𐌘) { }",
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "function foo([𐌘]) { }",
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "var [ 𐌘 ] = arr;",
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "var { prop: [𐌘]} = {};",
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "function foo({𐌘}) { }",
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "var { 𐌘 } = {};",
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "var { prop: 𐌘} = {};",
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "({ prop: obj.𐌘 } = {});",
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [
+                tooShortError
             ]
         }
     ]
