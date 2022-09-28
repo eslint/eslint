@@ -25,6 +25,7 @@ This rule requires constructor names to begin with a capital letter. Certain bui
 * `RegExp`
 * `String`
 * `Symbol`
+* `BigInt`
 
 Examples of **correct** code for this rule:
 
