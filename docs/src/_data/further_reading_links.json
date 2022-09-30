@@ -698,5 +698,19 @@
         "logo": "https://eslint.org/apple-touch-icon.png",
         "title": "Interesting bugs caught by no-constant-binary-expression - ESLint - Pluggable JavaScript Linter",
         "description": "A pluggable and configurable linter tool for identifying and reporting on patterns in JavaScript. Maintain your code quality with ease."
+    },
+    "https://tc39.es/ecma262/#sec-symbol-object": {
+        "domain": "tc39.es",
+        "url": "https://tc39.es/ecma262/#sec-symbol-object",
+        "logo": "https://tc39.es/ecma262/img/favicon.ico",
+        "title": "ECMAScript® 2023 Language Specification",
+        "description": null
+    },
+    "https://tc39.es/ecma262/#sec-bigint-object": {
+        "domain": "tc39.es",
+        "url": "https://tc39.es/ecma262/#sec-bigint-object",
+        "logo": "https://tc39.es/ecma262/img/favicon.ico",
+        "title": "ECMAScript® 2023 Language Specification",
+        "description": null
     }
 }
