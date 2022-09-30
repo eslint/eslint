@@ -2,6 +2,8 @@
 title: no-new-noconstructor
 layout: doc
 rule_type: problem
+related_rules:
+- no-new-symbol
 further_reading:
 - https://tc39.es/ecma262/#sec-symbol-object
 - https://tc39.es/ecma262/#sec-bigint-object
