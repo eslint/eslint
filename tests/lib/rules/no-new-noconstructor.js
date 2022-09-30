@@ -40,21 +40,29 @@ ruleTester.run("no-new-noconstructor", rule, {
         // Symbol
         {
             code: "var foo = new Symbol('foo');",
-            errors: [{ messageId: "noNewNoconstructor" }]
+            errors: [{
+                message: "`Symbol` cannot be called as a constructor."
+            }]
         },
         {
             code: "function bar() { return function Symbol() {}; } var baz = new Symbol('baz');",
-            errors: [{ messageId: "noNewNoconstructor" }]
+            errors: [{
+                message: "`Symbol` cannot be called as a constructor."
+            }]
         },
 
         // BigInt
         {
             code: "var foo = new BigInt(9007199254740991);",
-            errors: [{ messageId: "noNewNoconstructor" }]
+            errors: [{
+                message: "`BigInt` cannot be called as a constructor."
+            }]
         },
         {
             code: "function bar() { return function BigInt() {}; } var baz = new BigInt(9007199254740991);",
-            errors: [{ messageId: "noNewNoconstructor" }]
+            errors: [{
+                message: "`BigInt` cannot be called as a constructor."
+            }]
         }
     ]
 });
