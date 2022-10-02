@@ -137,6 +137,45 @@ describe("cli", () => {
 
         });
 
+        describe("flat config", () => {
+            const originalCwd = process.cwd;
+            const originalEnv = { ...process.env };
+
+            afterEach(() => {
+                process.cwd = originalCwd;
+                process.env = { ...originalEnv };
+            });
+
+            it(`should use it when an eslint.config.js is present and useFlatConfig is true:${configType}`, async () => {
+                process.cwd = getFixturePath;
+
+                const exitCode = await cli.execute(`--no-ignore --ext .js ${getFixturePath("files")}`, null, useFlatConfig);
+
+                /*
+                 * When flat config is used, we get an exit code of 2 because
+                 * the --ext option is unrecognized.
+                 */
+                assert.strictEqual(exitCode, useFlatConfig ? 2 : 0);
+            });
+
+            it(`should not use it when ESLINT_USE_FLAT_CONFIG=false even if an eslint.config.js is present:${configType}`, async () => {
+                process.cwd = getFixturePath;
+                process.env.ESLINT_USE_FLAT_CONFIG = "false";
+
+                const exitCode = await cli.execute(`--no-ignore --ext .js ${getFixturePath("files")}`, null, useFlatConfig);
+
+                assert.strictEqual(exitCode, 0);
+            });
+
+            it(`should use it when ESLINT_USE_FLAT_CONFIG=true and useFlatConfig is true even if an eslint.config.js is not present:${configType}`, async () => {
+                process.env.ESLINT_USE_FLAT_CONFIG = "true";
+
+                const exitCode = await cli.execute(`--no-ignore --ext .js ${getFixturePath("files")}`, null, useFlatConfig);
+
+                assert.strictEqual(exitCode, useFlatConfig ? 2 : 0);
+            });
+        });
+
         describe("when given a config with rules with options and severity level set to error", () => {
 
             const originalCwd = process.cwd;
