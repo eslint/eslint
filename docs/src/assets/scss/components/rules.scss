@@ -193,7 +193,7 @@ a.rule__name {
     }
 }
 
-a.rule-list-item+ a.rule-list-item::before {
+a.rule-list-item + a.rule-list-item::before {
     content: ",";
     display: inline-block;
     margin-left: 5px;
