@@ -111,7 +111,7 @@ function maintainScrollVisibility(activeElement, scrollParent) {
     else if (isBelow) {
         scrollParent.scrollTo(0, offsetTop - parentOffsetHeight + offsetHeight);
     }
-    
+
 }
 
 
@@ -164,7 +164,7 @@ document.addEventListener('keydown', function (e) {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
         searchInput.focus();
-        document.querySelector('.search').scrollIntoView({ behaviour: "smooth", block: "start" });
+        document.querySelector('.search').scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     const searchResults = Array.from(document.querySelectorAll('.search-results__item'));
@@ -188,4 +188,3 @@ document.addEventListener('keydown', function (e) {
         maintainScrollVisibility(activeSearchResult, resultsElement);
     }
 });
-    
