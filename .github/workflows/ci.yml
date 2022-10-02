@@ -28,6 +28,9 @@ jobs:
     - name: Install Docs Packages
       working-directory: docs
       run: npm install
+    - name: Stylelint Docs
+      working-directory: docs
+      run: npm test
     - name: Lint Docs JS Files
       run: node Makefile lintDocsJS
 
