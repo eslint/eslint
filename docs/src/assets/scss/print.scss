@@ -183,8 +183,8 @@ button,
     display: none;
 }
 
-a[href^='http']:not([href*='mywebsite.com'])::after {
-    content: ' ('attr(href) ')';
+a[href^="http"]:not([href*="mywebsite.com"])::after {
+    content: " ("attr(href) ")";
 }
 
 .resource a::after {
