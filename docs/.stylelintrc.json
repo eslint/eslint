@@ -21,5 +21,8 @@
         "property-no-vendor-prefix": null,
         "selector-class-pattern": null,
         "value-keyword-case": null
-    }
+    },
+    "ignoreFiles": [
+        "_site/"
+    ]
   }
