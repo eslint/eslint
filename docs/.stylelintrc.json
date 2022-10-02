@@ -11,7 +11,7 @@
         "declaration-block-no-redundant-longhand-properties": null,
         "declaration-block-no-shorthand-property-overrides": null,
         "hue-degree-notation": null,
-        "indentation": null,
+        "indentation": 4,
         "max-line-length": null,
         "media-feature-colon-space-after": null,
         "no-descending-specificity": null,
