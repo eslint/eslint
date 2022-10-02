@@ -27,7 +27,6 @@
         "no-duplicate-at-import-rules": null,
         "no-duplicate-selectors": null,
         "no-empty-first-line": null,
-        "no-eol-whitespace": null,
         "number-leading-zero": null,
         "number-no-trailing-zeros": null,
         "property-no-unknown": null,

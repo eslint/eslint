@@ -110,9 +110,9 @@ pre {
     counter-reset: lineNumber;
 }
 
-code .highlight-line { 
+code .highlight-line {
     font-variant-ligatures: none;
-} 
+}
 
 code .highlight-line:before {
     -webkit-user-select: none;
