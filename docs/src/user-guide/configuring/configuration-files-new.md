@@ -76,7 +76,7 @@ You can limit which files a configuration object applies to by specifying a comb
 
 ```js
 export default [
-    {   
+    {
         files: ["src/**/*.js"],
         rules: {
             semi: "error"
@@ -89,7 +89,7 @@ Here, only the JavaScript files in the `src` directory will have the `semi` rule
 
 ```js
 export default [
-    {   
+    {
         files: ["src/**/*.js"],
         ignores: ["**/*.config.js"],
         rules: {
@@ -103,7 +103,7 @@ This configuration object matches all JavaScript files in the `src` directory ex
 
 ```js
 export default [
-    {   
+    {
         files: ["src/**/*.js"],
         ignores: ["**/*.config.js", "!**/eslint.config.js"],
         rules: {
@@ -119,7 +119,7 @@ If `ignores` is used without `files` and any other setting, then the configurati
 
 ```js
 export default [
-    {   
+    {
         ignores: ["**/*.config.js"],
         rules: {
             semi: "error"
@@ -136,7 +136,7 @@ If `ignores` is used without any other keys in the configuration object, then th
 
 ```js
 export default [
-    {   
+    {
         ignores: [".config/*"]
     }
 ];
@@ -156,16 +156,16 @@ export default [
             globals: {
                 MY_CUSTOM_GLOBAL: "readonly"
             }
-        }   
+        }
     },
-    {   
+    {
         files: ["tests/**/*.js"],
         languageOptions: {
             globals: {
                 it: "readonly",
                 describe: "readonly"
             }
-        }   
+        }
     }
 ];
 ```
@@ -232,8 +232,8 @@ export default [
 ESLint can evaluate your code in one of three ways:
 
 1. ECMAScript module (ESM) - Your code has a module scope and is run in strict mode.
-1. CommonJS - Your code has a top-level function scope and runs in nonstrict mode.
-1. Script - Your code has a shared global scope and runs in nonstrict mode.
+1. CommonJS - Your code has a top-level function scope and runs in non-strict mode.
+1. Script - Your code has a shared global scope and runs in non-strict mode.
 
 You can specify which of these modes your code is intended to run in by specifying the `sourceType` property. This property can be set to `"module"`, `"commonjs"`, or `"script"`. By default, `sourceType` is set to `"module"` for `.js` and `.mjs` files and is set to `"commonjs"` for `.cjs` files. Here's an example:
 
@@ -343,7 +343,7 @@ export default [
         rules: {
             "jsdoc/require-description": "error",
             "jsdoc/check-values": "error"
-        }  
+        }
     }
 ];
 ```
@@ -364,7 +364,7 @@ export default [
         rules: {
             "jsdoc/require-description": "error",
             "jsdoc/check-values": "error"
-        }  
+        }
     }
 ];
 ```
@@ -383,7 +383,7 @@ export default [
         rules: {
             "jsd/require-description": "error",
             "jsd/check-values": "error"
-        }  
+        }
     }
 ];
 ```
