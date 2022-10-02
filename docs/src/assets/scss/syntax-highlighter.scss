@@ -46,13 +46,13 @@ pre[class*="language-"] {
     }
 }
 
-:not(pre)>code[class*="language-"],
+:not(pre)> code[class*="language-"],
 pre[class*="language-"] {
     background-color: var(--lightest-background-color);
 }
 
 /* Inline code */
-:not(pre)>code[class*="language-"] {
+:not(pre)> code[class*="language-"] {
     padding: .1em;
     border-radius: .3em;
     white-space: normal;
