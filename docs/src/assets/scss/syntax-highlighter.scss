@@ -109,7 +109,7 @@ code .highlight-line {
     font-variant-ligatures: none;
 }
 
-code .highlight-line:before {
+code .highlight-line::before {
     -webkit-user-select: none;
     color: var(--icon-color);
     content: counter(lineNumber);
