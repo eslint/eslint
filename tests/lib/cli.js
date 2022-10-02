@@ -151,10 +151,7 @@ describe("cli", () => {
 
                 const exitCode = await cli.execute(`--no-ignore --ext .js ${getFixturePath("files")}`, null, useFlatConfig);
 
-                /*
-                 * When flat config is used, we get an exit code of 2 because
-                 * the --ext option is unrecognized.
-                 */
+                // When flat config is used, we get an exit code of 2 because the --ext option is unrecognized.
                 assert.strictEqual(exitCode, useFlatConfig ? 2 : 0);
             });
 
@@ -172,6 +169,7 @@ describe("cli", () => {
 
                 const exitCode = await cli.execute(`--no-ignore --ext .js ${getFixturePath("files")}`, null, useFlatConfig);
 
+                // When flat config is used, we get an exit code of 2 because the --ext option is unrecognized.
                 assert.strictEqual(exitCode, useFlatConfig ? 2 : 0);
             });
         });
