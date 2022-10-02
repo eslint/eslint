@@ -32,7 +32,6 @@ html {
     padding-top: var(--space-l-xl);
     padding-block-start: var(--space-l-xl);
     font-size: .875rem;
-
     display: grid;
     grid-auto-rows: max-content;
     align-items: start;
@@ -41,7 +40,6 @@ html {
         padding: var(--space-l-xl) 0;
         padding-right: var(--space-s-l);
         padding-inline-end: var(--space-s-l);
-
         border-right: 1px solid var(--divider-color);
         border-inline-end: 1px solid var(--divider-color);
     }
@@ -73,7 +71,6 @@ html {
     @media all and (min-width: 800px) {
         padding-right: var(--space-s-l);
         padding-inline-end: var(--space-s-l);
-
         border-right: 1px solid var(--divider-color);
         border-inline-end: 1px solid var(--divider-color);
     }
