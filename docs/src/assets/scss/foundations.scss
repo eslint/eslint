@@ -46,7 +46,6 @@ input:focus {
     box-shadow: 0 0 0 2px var(--link-color);
 }
 
-
 *,
 *::before,
 *::after {
@@ -125,7 +124,6 @@ hr {
     padding: var(--space-xl-3xl) calc(1rem + 1vw);
 }
 
-
 .section-head {
     .section-supporting-text {
         text-align: center;
@@ -154,7 +152,6 @@ hr {
 .section-supporting-text {
     font-size: var(--step-1);
 }
-
 
 code,
 pre {
@@ -214,7 +211,6 @@ a {
     }
 }
 
-
 a {
     color: var(--link-color);
     transition: color .1s linear;
@@ -248,7 +244,6 @@ h5,
 h6 {
     overflow-wrap: break-word;
 }
-
 
 ul,
 ol {
@@ -326,7 +321,6 @@ nav {
     }
 }
 
-
 .video {
     width: 90%;
     max-width: 1400px;
@@ -346,7 +340,6 @@ nav {
         outline-offset: 3px;
     }
 }
-
 
 /* typography */
 body {
@@ -396,7 +389,6 @@ h6 {
         }
     }
 }
-
 
 small,
 caption,

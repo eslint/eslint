@@ -71,11 +71,9 @@ pre[class*="language-"] {
     }
 }
 
-
 .token.namespace {
     opacity: .7;
 }
-
 
 .token.selector,
 .token.attr-name,
@@ -85,7 +83,6 @@ pre[class*="language-"] {
 .token.inserted {
     color: var(--link-color);
 }
-
 
 .token.atrule,
 .token.attr-value,
