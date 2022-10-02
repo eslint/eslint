@@ -29,7 +29,6 @@
         "number-no-trailing-zeros": null,
         "property-no-unknown": null,
         "property-no-vendor-prefix": null,
-        "rule-empty-line-before": null,
         "scss/at-import-partial-extension": null,
         "scss/double-slash-comment-empty-line-before": null,
         "selector-attribute-quotes": null,
