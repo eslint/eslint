@@ -4176,7 +4176,7 @@ describe("FlatESLint", () => {
 
 
         /*
-         * These tests fail due to a bug in fast-flob that doesn't allow
+         * These tests fail due to a bug in fast-glob that doesn't allow
          * negated patterns inside of ignores. These tests won't work until
          * this bug is fixed:
          * https://github.com/mrmlnc/fast-glob/issues/356
