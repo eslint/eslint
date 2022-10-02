@@ -20,7 +20,6 @@
         "property-no-unknown": null,
         "property-no-vendor-prefix": null,
         "selector-class-pattern": null,
-        "selector-descendant-combinator-no-non-space": null,
         "selector-list-comma-newline-after": null,
         "selector-pseudo-element-colon-notation": null,
         "string-quotes": null,
