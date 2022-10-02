@@ -19,7 +19,6 @@
         "number-no-trailing-zeros": null,
         "property-no-unknown": null,
         "property-no-vendor-prefix": null,
-        "selector-attribute-quotes": null,
         "selector-class-pattern": null,
         "selector-combinator-space-after": null,
         "selector-combinator-space-before": null,

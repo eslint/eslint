@@ -4,8 +4,8 @@
     appearance: none;
 }
 
-[type=search]::-ms-clear,
-[type=search]::-ms-reveal {
+[type="search"]::-ms-clear,
+[type="search"]::-ms-reveal {
     display: none;
     width: 0;
     height: 0;
