@@ -10,7 +10,6 @@
         "declaration-block-no-duplicate-properties": null,
         "declaration-block-no-redundant-longhand-properties": null,
         "declaration-block-no-shorthand-property-overrides": null,
-        "declaration-colon-newline-after": null,
         "declaration-colon-space-after": null,
         "declaration-empty-line-before": null,
         "hue-degree-notation": null,
