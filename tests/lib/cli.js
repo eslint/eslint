@@ -160,17 +160,6 @@ describe("cli", () => {
             });
         });
 
-        describe("when given a config file and a directory of files", () => {
-            it(`should load and execute without error with configType:${configType}`, async () => {
-                const configPath = getFixturePath("configurations", "semi-error.js");
-                const filePath = getFixturePath("formatters");
-                const code = `--config ${configPath} ${filePath}`;
-                const exitStatus = await cli.execute(code, null, useFlatConfig);
-
-                assert.strictEqual(exitStatus, 0);
-            });
-        });
-
         describe("when there is a local config file", () => {
 
             it(`should load the local config file with configType:${configType}`, async () => {
@@ -458,6 +447,17 @@ describe("cli", () => {
 
             afterEach(() => {
                 process.cwd = originalCwd;
+            });
+
+            describe("when given a config file and a directory of files", () => {
+                it(`should load and execute without error with configType:${configType}`, async () => {
+                    const configPath = getFixturePath("configurations", "semi-error.js");
+                    const filePath = getFixturePath("formatters");
+                    const code = `--no-ignore --config ${configPath} ${filePath}`;
+                    const exitStatus = await cli.execute(code, null, useFlatConfig);
+
+                    assert.strictEqual(exitStatus, 0);
+                });
             });
 
             describe("when executing with global flag", () => {
