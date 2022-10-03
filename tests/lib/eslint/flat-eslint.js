@@ -1100,6 +1100,19 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results[0].messages[1].severity, 2);
                 assert.strictEqual(results[0].suppressedMessages.length, 0);
             });
+
+            // https://github.com/eslint/eslint/issues/16300
+            it("should process ignore patterns relative to basePath not cwd", async () => {
+                eslint = new FlatESLint({
+                    cwd: getFixturePath("ignores-relative/subdir")
+                });
+                const results = await eslint.lintFiles(["**/*.js"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].filePath, getFixturePath("ignores-relative/subdir/a.js"));
+            });
+
+
         });
 
 
