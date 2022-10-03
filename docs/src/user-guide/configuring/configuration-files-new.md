@@ -132,7 +132,7 @@ This configuration object applies to all files except those ending with `.config
 
 #### Globally ignoring files with `ignores`
 
-If `ignores` is used without any other keys in the configuration object, then the patterns act as additional global ignores, similar to those found in `.eslintignore`. Here's an example:
+If `ignores` is used without any other keys in the configuration object, then the patterns act as global ignores. Here's an example:
 
 ```js
 export default [
@@ -142,7 +142,7 @@ export default [
 ];
 ```
 
-This configuration specifies that all of the files in the `.config` directory should be ignored. This pattern is added after the patterns found in `.eslintignore`.
+This configuration specifies that all of the files in the `.config` directory should be ignored. This pattern is added after the default patterns, which are `["**/node_modules/**", ".git/**"]`.
 
 #### Cascading configuration objects
 

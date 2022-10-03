@@ -658,23 +658,27 @@ describe("cli", () => {
 
                 describe("when given a directory with eslint excluded files in the directory", () => {
                     it(`should throw an error and not process any files with configType:${configType}`, async () => {
-                        const ignorePath = getFixturePath(".eslintignore");
+                        const options = useFlatConfig
+                            ? `--config ${getFixturePath("eslint.config_with_ignores.js")}`
+                            : `--ignore-path ${getFixturePath(".eslintignore")}`;
                         const filePath = getFixturePath("cli");
                         const expectedMessage = useFlatConfig
                             ? `All files matched by '${filePath.replace(/\\/gu, "/")}/**/*.js' are ignored.`
                             : `All files matched by '${filePath}' are ignored.`;
 
                         await stdAssert.rejects(async () => {
-                            await cli.execute(`--ignore-path ${ignorePath} ${filePath}`, null, useFlatConfig);
+                            await cli.execute(`${options} ${filePath}`, null, useFlatConfig);
                         }, new Error(expectedMessage));
                     });
                 });
 
                 describe("when given a file in excluded files list", () => {
                     it(`should not process the file with configType:${configType}`, async () => {
-                        const ignorePath = getFixturePath(".eslintignore");
+                        const options = useFlatConfig
+                            ? `--config ${getFixturePath("eslint.config_with_ignores.js")}`
+                            : `--ignore-path ${getFixturePath(".eslintignore")}`;
                         const filePath = getFixturePath("passing.js");
-                        const exit = await cli.execute(`--ignore-path ${ignorePath} ${filePath}`, null, useFlatConfig);
+                        const exit = await cli.execute(`${options} ${filePath}`, null, useFlatConfig);
 
                         // a warning about the ignored file
                         assert.isTrue(log.info.called);
@@ -682,9 +686,11 @@ describe("cli", () => {
                     });
 
                     it(`should process the file when forced with configType:${configType}`, async () => {
-                        const ignorePath = getFixturePath(".eslintignore");
+                        const options = useFlatConfig
+                            ? `--config ${getFixturePath("eslint.config_with_ignores.js")}`
+                            : `--ignore-path ${getFixturePath(".eslintignore")}`;
                         const filePath = getFixturePath("passing.js");
-                        const exit = await cli.execute(`--ignore-path ${ignorePath} --no-ignore ${filePath}`, null, useFlatConfig);
+                        const exit = await cli.execute(`${options} --no-ignore ${filePath}`, null, useFlatConfig);
 
                         // no warnings
                         assert.isFalse(log.info.called);
@@ -695,13 +701,39 @@ describe("cli", () => {
                 describe("when given a pattern to ignore", () => {
                     it(`should not process any files with configType:${configType}`, async () => {
                         const ignoredFile = getFixturePath("cli/syntax-error.js");
+                        const ignorePathOption = useFlatConfig
+                            ? ""
+                            : "--ignore-path .eslintignore_empty";
                         const filePath = getFixturePath("cli/passing.js");
-                        const exit = await cli.execute(`--ignore-pattern cli/ ${ignoredFile} ${filePath}`, null, useFlatConfig);
+                        const ignorePattern = useFlatConfig ? "cli/**" : "cli/";
+                        const exit = await cli.execute(
+                            `--ignore-pattern ${ignorePattern} ${ignorePathOption} ${ignoredFile} ${filePath}`, null, useFlatConfig
+                        );
 
                         // warnings about the ignored files
                         assert.isTrue(log.info.called);
                         assert.strictEqual(exit, 0);
                     });
+
+                    if (useFlatConfig) {
+                        it("should not ignore files if the pattern is a path to a directory (with trailing slash)", async () => {
+                            const filePath = getFixturePath("cli/syntax-error.js");
+                            const exit = await cli.execute(`--ignore-pattern cli/ ${filePath}`, null, true);
+
+                            // parsing error causes exit code 1
+                            assert.isTrue(log.info.called);
+                            assert.strictEqual(exit, 1);
+                        });
+
+                        it("should not ignore files if the pattern is a path to a directory (without trailing slash)", async () => {
+                            const filePath = getFixturePath("cli/syntax-error.js");
+                            const exit = await cli.execute(`--ignore-pattern cli ${filePath}`, null, true);
+
+                            // parsing error causes exit code 1
+                            assert.isTrue(log.info.called);
+                            assert.strictEqual(exit, 1);
+                        });
+                    }
                 });
 
             });

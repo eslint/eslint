@@ -128,6 +128,7 @@ describe("FlatESLint", () => {
                     configFile: "",
                     envs: [],
                     globals: [],
+                    ignorePath: ".gitignore",
                     ignorePattern: [],
                     parser: "",
                     parserOptions: {},
@@ -136,7 +137,7 @@ describe("FlatESLint", () => {
                 }),
                 new RegExp(escapeStringRegExp([
                     "Invalid Options:",
-                    "- Unknown options: cacheFile, configFile, envs, globals, ignorePattern, parser, parserOptions, rules"
+                    "- Unknown options: cacheFile, configFile, envs, globals, ignorePath, ignorePattern, parser, parserOptions, rules"
                 ].join("\n")), "u")
             );
         });
@@ -154,7 +155,6 @@ describe("FlatESLint", () => {
                     fixTypes: ["xyz"],
                     globInputPaths: "",
                     ignore: "",
-                    ignorePath: "",
                     overrideConfig: "",
                     overrideConfigFile: "",
                     plugins: "",
@@ -172,7 +172,6 @@ describe("FlatESLint", () => {
                     "- 'fixTypes' must be an array of any of \"directive\", \"problem\", \"suggestion\", and \"layout\".",
                     "- 'globInputPaths' must be a boolean.",
                     "- 'ignore' must be a boolean.",
-                    "- 'ignorePath' must be a non-empty string or null.",
                     "- 'overrideConfig' must be an object or null.",
                     "- 'overrideConfigFile' must be a non-empty string, null, or true.",
                     "- 'plugins' must be an object or null.",
@@ -278,9 +277,8 @@ describe("FlatESLint", () => {
 
         it("should return a warning when given a filename by --stdin-filename in excluded files list if warnIgnored is true", async () => {
             eslint = new FlatESLint({
-                ignorePath: getFixturePath(".eslintignore"),
                 cwd: getFixturePath(".."),
-                overrideConfigFile: "fixtures/eslint.config.js"
+                overrideConfigFile: "fixtures/eslint.config_with_ignores.js"
             });
 
             const options = { filePath: "fixtures/passing.js", warnIgnored: true };
@@ -302,9 +300,8 @@ describe("FlatESLint", () => {
 
         it("should not return a warning when given a filename by --stdin-filename in excluded files list if warnIgnored is false", async () => {
             eslint = new FlatESLint({
-                ignorePath: getFixturePath(".eslintignore"),
                 cwd: getFixturePath(".."),
-                overrideConfigFile: "fixtures/eslint.config.js"
+                overrideConfigFile: "fixtures/eslint.config_with_ignores.js"
             });
             const options = {
                 filePath: "fixtures/passing.js",
@@ -320,9 +317,8 @@ describe("FlatESLint", () => {
 
         it("should suppress excluded file warnings by default", async () => {
             eslint = new FlatESLint({
-                ignorePath: getFixturePath(".eslintignore"),
                 cwd: getFixturePath(".."),
-                overrideConfigFile: "fixtures/eslint.config.js"
+                overrideConfigFile: "fixtures/eslint.config_with_ignores.js"
             });
             const options = { filePath: "fixtures/passing.js" };
             const results = await eslint.lintText("var bar = foo;", options);
@@ -333,10 +329,9 @@ describe("FlatESLint", () => {
 
         it("should return a message when given a filename by --stdin-filename in excluded files list and ignore is off", async () => {
             eslint = new FlatESLint({
-                ignorePath: "fixtures/.eslintignore",
                 cwd: getFixturePath(".."),
                 ignore: false,
-                overrideConfigFile: true,
+                overrideConfigFile: "fixtures/eslint.config_with_ignores.js",
                 overrideConfig: {
                     rules: {
                         "no-undef": 2
@@ -985,7 +980,7 @@ describe("FlatESLint", () => {
 
             it("should throw an error when given a directory with all eslint excluded files in the directory", async () => {
                 eslint = new FlatESLint({
-                    ignorePath: getFixturePath(".eslintignore")
+                    overrideConfigFile: getFixturePath("eslint.config_with_ignores.js")
                 });
 
                 await assert.rejects(async () => {
@@ -995,7 +990,7 @@ describe("FlatESLint", () => {
 
             it("should throw an error when all given files are ignored", async () => {
                 eslint = new FlatESLint({
-                    ignorePath: getFixturePath(".eslintignore")
+                    overrideConfigFile: getFixturePath("eslint.config_with_ignores.js")
                 });
 
                 await assert.rejects(async () => {
@@ -1005,7 +1000,7 @@ describe("FlatESLint", () => {
 
             it("should throw an error when all given files are ignored even with a `./` prefix", async () => {
                 eslint = new FlatESLint({
-                    ignorePath: getFixturePath(".eslintignore")
+                    overrideConfigFile: getFixturePath("eslint.config_with_ignores.js")
                 });
 
                 await assert.rejects(async () => {
@@ -1014,9 +1009,8 @@ describe("FlatESLint", () => {
             });
 
             // https://github.com/eslint/eslint/issues/3788
-            it("should ignore one-level down node_modules when ignore file has 'node_modules/' in it", async () => {
+            it("should ignore one-level down node_modules by default", async () => {
                 eslint = new FlatESLint({
-                    ignorePath: getFixturePath("cli-engine", "nested_node_modules", ".eslintignore"),
                     overrideConfigFile: true,
                     overrideConfig: {
                         rules: {
@@ -1036,10 +1030,9 @@ describe("FlatESLint", () => {
             });
 
             // https://github.com/eslint/eslint/issues/3812
-            it("should ignore all files and throw an error when fixtures/ is in ignore file", async () => {
+            it("should ignore all files and throw an error when **/fixtures/** is in `ignores` in the config file", async () => {
                 eslint = new FlatESLint({
-                    ignorePath: getFixturePath("cli-engine/.eslintignore2"),
-                    overrideConfigFile: true,
+                    overrideConfigFile: getFixturePath("cli-engine/eslint.config_with_ignores2.js"),
                     overrideConfig: {
                         rules: {
                             quotes: [2, "double"]
@@ -1066,7 +1059,7 @@ describe("FlatESLint", () => {
 
             it("should return a warning when an explicitly given file is ignored", async () => {
                 eslint = new FlatESLint({
-                    ignorePath: getFixturePath(".eslintignore"),
+                    overrideConfigFile: "eslint.config_with_ignores.js",
                     cwd: getFixturePath()
                 });
                 const filePath = getFixturePath("passing.js");
@@ -1087,9 +1080,8 @@ describe("FlatESLint", () => {
             it("should return two messages when given a file in excluded files list while ignore is off", async () => {
                 eslint = new FlatESLint({
                     cwd: getFixturePath(),
-                    ignorePath: getFixturePath(".eslintignore"),
                     ignore: false,
-                    overrideConfigFile: true,
+                    overrideConfigFile: getFixturePath("eslint.config_with_ignores.js"),
                     overrideConfig: {
                         rules: {
                             "no-undef": 2
@@ -3138,7 +3130,7 @@ describe("FlatESLint", () => {
     describe("isPathIgnored", () => {
         it("should check if the given path is ignored", async () => {
             const engine = new FlatESLint({
-                ignorePath: getFixturePath(".eslintignore2"),
+                overrideConfigFile: getFixturePath("eslint.config_with_ignores2.js"),
                 cwd: getFixturePath()
             });
 
@@ -3149,7 +3141,7 @@ describe("FlatESLint", () => {
         it("should return false if ignoring is disabled", async () => {
             const engine = new FlatESLint({
                 ignore: false,
-                ignorePath: getFixturePath(".eslintignore2"),
+                overrideConfigFile: getFixturePath("eslint.config_with_ignores2.js"),
                 cwd: getFixturePath()
             });
 
@@ -3188,7 +3180,7 @@ describe("FlatESLint", () => {
                 const engine = new FlatESLint({
                     cwd,
                     overrideConfigFile: true,
-                    ignorePatterns: "!/node_modules/package"
+                    ignorePatterns: "!node_modules/package/**"
                 });
 
                 const result = await engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules", "package", "file.js"));
@@ -3201,7 +3193,9 @@ describe("FlatESLint", () => {
                 const engine = new FlatESLint({
                     cwd,
                     overrideConfigFile: true,
-                    ignorePath: getFixturePath("ignored-paths", ".eslintignoreWithUnignoredDefaults")
+                    overrideConfig: {
+                        ignores: ["!node_modules/package/**"]
+                    }
                 });
 
                 assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules", "package", "file.js")));
@@ -3228,51 +3222,19 @@ describe("FlatESLint", () => {
                 assert(!await engine.isPathIgnored(`${getFixturePath("ignored-paths", "foo")}/../unignored.js`));
             });
 
-            it("should ignore /node_modules/ relative to .eslintignore when loaded", async () => {
-                const cwd = getFixturePath("ignored-paths");
-                const engine = new FlatESLint({ ignorePath: getFixturePath("ignored-paths", ".eslintignore"), cwd });
-
-                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules", "existing.js")));
-                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "foo", "node_modules", "existing.js")));
-            });
-
-            it("should ignore /node_modules/ relative to cwd without an .eslintignore", async () => {
+            it("should ignore /node_modules/ relative to cwd without any configured ignore patterns", async () => {
                 const cwd = getFixturePath("ignored-paths", "no-ignore-file");
                 const engine = new FlatESLint({ cwd });
 
                 assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "no-ignore-file", "node_modules", "existing.js")));
                 assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "no-ignore-file", "foo", "node_modules", "existing.js")));
             });
-        });
 
-        describe("with no .eslintignore file", () => {
-            it("should not travel to parent directories to find .eslintignore when it's missing and cwd is provided", async () => {
-                const cwd = getFixturePath("ignored-paths", "configurations");
-                const engine = new FlatESLint({ cwd });
-
-                // a .eslintignore in parent directories includes `*.js`, but don't load it.
-                assert(!await engine.isPathIgnored("foo.js"));
-                assert(await engine.isPathIgnored("node_modules/foo.js"));
-            });
-
-            it("should return false for files outside of the cwd (with no ignore file provided)", async () => {
-
-                // Default ignore patterns should not inadvertently ignore files in parent directories
+            it("should not inadvertently ignore all files in parent directories", async () => {
                 const engine = new FlatESLint({ cwd: getFixturePath("ignored-paths", "no-ignore-file") });
 
                 assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
             });
-        });
-
-        describe("with .eslintignore file or package.json file", () => {
-            it("should load .eslintignore from cwd when explicitly passed", async () => {
-                const cwd = getFixturePath("ignored-paths");
-                const engine = new FlatESLint({ cwd });
-
-                // `${cwd}/.eslintignore` includes `sampleignorepattern`.
-                assert(await engine.isPathIgnored("sampleignorepattern"));
-            });
-
         });
 
         describe("with ignorePatterns option", () => {
@@ -3309,16 +3271,20 @@ describe("FlatESLint", () => {
 
             it("should return true for file matching an ignore pattern exactly", async () => {
                 const cwd = getFixturePath("ignored-paths");
-                const engine = new FlatESLint({ ignorePatterns: ["undef.js"], cwd });
+                const engine = new FlatESLint({
+                    ignorePatterns: ["undef.js"],
+                    cwd,
+                    overrideConfigFile: true
+                });
 
                 assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
             });
 
-            it("should return false for file in subfolder of cwd matching an ignore pattern with leading '/'", async () => {
+            it("should return false for file in subfolder of cwd matching an ignore pattern with a base filename", async () => {
                 const cwd = getFixturePath("ignored-paths");
                 const filePath = getFixturePath("ignored-paths", "subdir", "undef.js");
                 const engine = new FlatESLint({
-                    ignorePatterns: ["/undef.js"],
+                    ignorePatterns: ["undef.js"],
                     overrideConfigFile: true,
                     cwd
                 });
@@ -3333,11 +3299,11 @@ describe("FlatESLint", () => {
                 assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "ignore-pattern", "ignore-me.txt")));
             });
 
-            it("should return true for file matching a grandchild of an ignore pattern", async () => {
+            it("should return true for file matching a grandchild of a directory when the pattern is directory/**", async () => {
                 const cwd = getFixturePath("ignored-paths");
-                const engine = new FlatESLint({ ignorePatterns: ["ignore-pattern"], cwd });
+                const engine = new FlatESLint({ ignorePatterns: ["ignore-pattern/**"], cwd });
 
-                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "ignore-pattern", "subdir", "ignore-me.txt")));
+                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "ignore-pattern", "subdir", "ignore-me.js")));
             });
 
             it("should return false for file not matching any ignore pattern", async () => {
@@ -3364,146 +3330,11 @@ describe("FlatESLint", () => {
             });
         });
 
-        describe("with ignorePath option", () => {
-            it("initialization with ignorePath should work when cwd is a parent directory", async () => {
-                const cwd = getFixturePath("ignored-paths");
-                const ignorePath = getFixturePath("ignored-paths", "custom-name", "ignore-file");
-                const engine = new FlatESLint({ ignorePath, cwd });
-
-                assert(await engine.isPathIgnored("custom-name/foo.js"));
-            });
-
-            it("initialization with ignorePath should work when the file is in the cwd", async () => {
-                const cwd = getFixturePath("ignored-paths", "custom-name");
-                const ignorePath = getFixturePath("ignored-paths", "custom-name", "ignore-file");
-                const engine = new FlatESLint({ ignorePath, cwd });
-
-                assert(await engine.isPathIgnored("foo.js"));
-            });
-
-            it("initialization with ignorePath should work when cwd is a subdirectory", async () => {
-                const cwd = getFixturePath("ignored-paths", "custom-name", "subdirectory");
-                const ignorePath = getFixturePath("ignored-paths", "custom-name", "ignore-file");
-                const engine = new FlatESLint({ ignorePath, cwd });
-
-                assert(await engine.isPathIgnored("../custom-name/foo.js"));
-            });
-
-            it("missing ignore file should throw error", done => {
-                const cwd = getFixturePath("ignored-paths");
-                const ignorePath = getFixturePath("ignored-paths", "not-a-directory", ".foobaz");
-                const engine = new FlatESLint({ ignorePath, cwd });
-
-                engine.isPathIgnored("foo.js").then(() => {
-                    assert.fail("missing file should not succeed");
-                }).catch(error => {
-                    assert(/Cannot read ignore file/u.test(error));
-                    done();
-                });
-            });
-
-            it("should return false for files outside of ignorePath's directory", async () => {
-                const cwd = getFixturePath("ignored-paths");
-                const ignorePath = getFixturePath("ignored-paths", "custom-name", "ignore-file");
-                const engine = new FlatESLint({ ignorePath, cwd });
-
-                assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
-            });
-
-            it("should resolve relative paths from CWD", async () => {
-                const cwd = getFixturePath("ignored-paths", "subdir");
-
-                // /undef.js in ignore file
-                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreForDifferentCwd");
-                const engine = new FlatESLint({ ignorePath, cwd, overrideConfigFile: true });
-
-                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/undef.js")), "subdir/undef.js should be ignored");
-                assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/subdir/undef.js")), "subdir/subdir/undef.js should not be ignored");
-            });
-
-            it("should resolve relative paths from CWD when it's in a child directory", async () => {
-                const cwd = getFixturePath("ignored-paths");
-                const ignorePath = getFixturePath("ignored-paths", "subdir/.eslintignoreInChildDir");
-                const engine = new FlatESLint({ ignorePath, cwd });
-
-                assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/undef.js")));
-                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
-                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "foo.js")));
-                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/foo.js")));
-
-                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules/bar.js")));
-            });
-
-            it("should resolve relative paths from CWD when it contains negated globs", async () => {
-                const cwd = getFixturePath("ignored-paths");
-                const ignorePath = getFixturePath("ignored-paths", "subdir/.eslintignoreInChildDir");
-                const engine = new FlatESLint({
-                    ignorePath,
-                    cwd,
-                    overrideConfig: {
-                        files: ["**/*.txt"]
-                    }
-                });
-
-                assert(await engine.isPathIgnored("subdir/blah.txt"), "subdir/blah.txt should be ignore");
-                assert(await engine.isPathIgnored("blah.txt"), "blah.txt should be ignored");
-                assert(await engine.isPathIgnored("subdir/bar.txt"), "subdir/bar.txt should be ignored");
-                assert(!await engine.isPathIgnored("bar.txt"), "bar.txt should not be ignored");
-                assert(!await engine.isPathIgnored("baz.txt"), "baz.txt should not be ignored");
-                assert(!await engine.isPathIgnored("subdir/baz.txt"), "subdir/baz.txt should not be ignored");
-            });
-
-            it("should resolve default ignore patterns from the CWD even when the ignorePath is in a subdirectory", async () => {
-                const cwd = getFixturePath("ignored-paths");
-                const ignorePath = getFixturePath("ignored-paths", "subdir/.eslintignoreInChildDir");
-                const engine = new FlatESLint({ ignorePath, cwd });
-
-                assert(await engine.isPathIgnored("node_modules/blah.js"));
-            });
-
-            it("should resolve default ignore patterns from the CWD even when the ignorePath is in a parent directory", async () => {
-                const cwd = getFixturePath("ignored-paths", "subdir");
-                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreForDifferentCwd");
-                const engine = new FlatESLint({ ignorePath, cwd });
-
-                assert(await engine.isPathIgnored("node_modules/blah.js"));
-            });
-
-            it("should handle .eslintignore which contains CRLF correctly.", async () => {
-                const ignoreFileContent = fs.readFileSync(getFixturePath("ignored-paths", "crlf/.eslintignore"), "utf8");
-
-                assert(ignoreFileContent.includes("\r"), "crlf/.eslintignore should contains CR.", "Ignore file must have CRLF for test to pass.");
-                const cwd = getFixturePath("ignored-paths");
-                const ignorePath = getFixturePath("ignored-paths", "crlf/.eslintignore");
-                const engine = new FlatESLint({ ignorePath, cwd });
-
-                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "crlf/hide1/a.js")));
-                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "crlf/hide2/a.js")));
-                assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "crlf/hide3/a.js")));
-            });
-
-            it("should ignore a non-negated pattern", async () => {
-                const cwd = getFixturePath("ignored-paths");
-                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreWithNegation");
-                const engine = new FlatESLint({ ignorePath, cwd });
-
-                assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "negation", "ignore.js")));
-            });
-
-            it("should not ignore a negated pattern", async () => {
-                const cwd = getFixturePath("ignored-paths");
-                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreWithNegation");
-                const engine = new FlatESLint({ ignorePath, cwd });
-
-                assert(!await engine.isPathIgnored(getFixturePath("ignored-paths", "negation", "unignore.js")));
-            });
-        });
-
-        describe("with ignorePath option and ignorePatterns option", () => {
+        describe("with config ignores ignorePatterns option", () => {
             it("should return false for ignored file when unignored with ignore pattern", async () => {
                 const cwd = getFixturePath("ignored-paths");
                 const engine = new FlatESLint({
-                    ignorePath: getFixturePath("ignored-paths", ".eslintignoreForNegationTest"),
+                    overrideConfigFile: getFixturePath("eslint.config_with_ignores2.js"),
                     ignorePatterns: ["!undef.js"],
                     cwd
                 });
@@ -3703,8 +3534,7 @@ describe("FlatESLint", () => {
 
         it("should return 0 error or warning messages even when the file has warnings", async () => {
             const engine = new FlatESLint({
-                overrideConfigFile: true,
-                ignorePath: path.join(fixtureDir, ".eslintignore"),
+                overrideConfigFile: getFixturePath("eslint.config_with_ignores.js"),
                 cwd: path.join(fixtureDir, "..")
             });
             const options = {
@@ -4231,14 +4061,13 @@ describe("FlatESLint", () => {
             });
         });
 
-        xdescribe(".eslintignore can re-ignore files that are unignored by ignorePatterns.", () => {
+        xdescribe("ignore pattern can re-ignore files that are unignored by a previous pattern.", () => {
             const { prepare, cleanup, getPath } = createCustomTeardown({
                 cwd: root,
                 files: {
                     "eslint.config.js": `module.exports = ${JSON.stringify({
-                        ignores: ["!.*"]
+                        ignores: ["!.*", ".foo*"]
                     })}`,
-                    ".eslintignore": ".foo*",
                     ".foo.js": "",
                     ".bar.js": ""
                 }
@@ -4272,14 +4101,13 @@ describe("FlatESLint", () => {
             });
         });
 
-        xdescribe(".eslintignore can unignore files that are ignored by ignorePatterns.", () => {
+        xdescribe("ignore pattern can unignore files that are ignored by a previous pattern.", () => {
             const { prepare, cleanup, getPath } = createCustomTeardown({
                 cwd: root,
                 files: {
                     "eslint.config.js": `module.exports = ${JSON.stringify({
-                        ignores: ["**/*.js"]
+                        ignores: ["**/*.js", "!foo.js"]
                     })}`,
-                    ".eslintignore": "!foo.js",
                     "foo.js": "",
                     "bar.js": ""
                 }

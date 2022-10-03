@@ -79,6 +79,23 @@ function createInternalFilesPatterns(pattern = null) {
 module.exports = [
     ...compat.extends("eslint"),
     {
+        ignores: [
+            "build/**",
+            "coverage/**",
+            "docs/**",
+            "!docs/.eleventy.js",
+            "jsdoc/**",
+            "templates/**",
+            "tests/bench/**",
+            "tests/fixtures/**",
+            "tests/performance/**",
+            "tmp/**",
+            "tools/internal-rules/node_modules/**",
+            "**/test.js",
+            "!**/.eslintrc.js"
+        ]
+    },
+    {
         plugins: {
             "internal-rules": internalPlugin,
             "eslint-plugin": eslintPlugin
