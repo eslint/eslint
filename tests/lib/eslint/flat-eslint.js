@@ -1113,6 +1113,26 @@ describe("FlatESLint", () => {
             });
 
 
+            // https://github.com/eslint/eslint/issues/16354
+            it.only("should skip subdirectory files when ignore pattern matches subdirectory", async () => {
+                eslint = new FlatESLint({
+                    cwd: getFixturePath("ignores-directory")
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles(["subdir/**"]);
+                }, /All files matched by 'subdir\/\*\*' are ignored\./u);
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles(["subdir/subsubdir/**"]);
+                }, /All files matched by 'subdir\/subsubdir\/\*\*' are ignored\./u);
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles(["subdir/subsubdir/a.js"]);
+                }, /All files matched by 'subdir\/subsubdir\/a.js' are ignored\./u);
+            });
+
+
         });
 
 

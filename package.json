@@ -56,7 +56,7 @@
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
     "@eslint/eslintrc": "^1.3.3",
-    "@humanwhocodes/config-array": "^0.11.1",
+    "@humanwhocodes/config-array": "^0.11.2",
     "@humanwhocodes/module-importer": "^1.0.1",
     "@nodelib/fs.walk": "^1.2.8",
     "ajv": "^6.10.0",
