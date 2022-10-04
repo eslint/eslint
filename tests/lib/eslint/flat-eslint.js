@@ -1136,6 +1136,21 @@ describe("FlatESLint", () => {
 
             });
 
+            // https://github.com/eslint/eslint/issues/16340
+            it("should lint files even when cwd directory name matches ignores pattern", async () => {
+                eslint = new FlatESLint({
+                    cwd: getFixturePath("ignores-self")
+                });
+
+                const results = await eslint.lintFiles(["*.js"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].filePath, getFixturePath("ignores-self/eslint.config.js"));
+                assert.strictEqual(results[0].errorCount, 0);
+                assert.strictEqual(results[0].warningCount, 0);
+
+            });
+
 
         });
 
