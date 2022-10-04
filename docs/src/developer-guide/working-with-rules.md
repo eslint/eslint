@@ -379,7 +379,7 @@ context.report({
 
 #### Conflicting Fixes
 
-Conflicting fixes are fixes that apply different changes to the same part of a string.
+Conflicting fixes are fixes that apply different changes to the same part of the source code.
 There is no way to specify which of the conflicting fixes is applied.
 
 For example, if two fixes want to modify characters 0 through 5, only one is applied.
