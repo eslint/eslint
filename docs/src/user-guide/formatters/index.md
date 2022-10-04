@@ -5,7 +5,7 @@ eleventyNavigation:
     key: formatters
     parent: user guide
     title: Formatters
-    order: 5
+    order: 6
 edit_link: https://github.com/eslint/eslint/edit/main/templates/formatter-examples.md.ejs
 ---
 
@@ -15,17 +15,21 @@ You can specify a formatter using the `--format` or `-f` flag on the command lin
 
 The built-in formatter options are:
 
-* [checkstyle](#checkstyle)
-* [compact](#compact)
-* [html](#html)
-* [jslint-xml](#jslint-xml)
-* [json-with-metadata](#json-with-metadata)
-* [json](#json)
-* [junit](#junit)
-* [stylish](#stylish)
-* [tap](#tap)
-* [unix](#unix)
-* [visualstudio](#visualstudio)
+* [Example Source](#example-source)
+    * [`fullOfProblems.js`](#fullofproblemsjs)
+    * [`.eslintrc`:](#eslintrc)
+* [Output Examples](#output-examples)
+    * [checkstyle](#checkstyle)
+    * [compact](#compact)
+    * [html](#html)
+    * [jslint-xml](#jslint-xml)
+    * [json-with-metadata](#json-with-metadata)
+    * [json](#json)
+    * [junit](#junit)
+    * [stylish](#stylish)
+    * [tap](#tap)
+    * [unix](#unix)
+    * [visualstudio](#visualstudio)
 
 ## Example Source
 

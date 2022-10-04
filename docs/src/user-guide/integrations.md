@@ -5,7 +5,7 @@ eleventyNavigation:
     key: integrations
     parent: user guide
     title: Integrations
-    order: 6
+    order: 7
 
 ---
 
