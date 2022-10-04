@@ -30,11 +30,11 @@ npm init @eslint/config
 After that, you can run ESLint on any file or directory like this:
 
 ```shell
-npx eslint yourfile.js
+npx eslint yourCodeFile.js
 
 # or
 
-yarn run eslint yourfile.js
+yarn run eslint yourCodeFile.js
 ```
 
 It is also possible to install ESLint globally rather than locally (using `npm install eslint --global`). However, this is not recommended, and any plugins or shareable configs that you use must be installed locally in either case.
