@@ -978,17 +978,6 @@ describe("FlatESLint", () => {
                 }, /All files matched by 'node_modules\/\*\*\/\*\.js' are ignored\./u);
             });
 
-            it("should throw an error when given a directory with all eslint excluded files in the directory", async () => {
-                eslint = new FlatESLint({
-                    cwd: getFixturePath(),
-                    ignorePath: getFixturePath(".eslintignore")
-                });
-
-                await assert.rejects(async () => {
-                    await eslint.lintFiles([getFixturePath("./cli-engine/")]);
-                }, /All files matched by '.*?cli-engine[\\/]\*\*[\\/]\*\.js' are ignored/u);
-            });
-
             it("should throw an error when all given files are ignored", async () => {
                 eslint = new FlatESLint({
                     overrideConfigFile: getFixturePath("eslint.config_with_ignores.js")
