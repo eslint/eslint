@@ -755,22 +755,22 @@ describe("cli", () => {
                     });
 
                     if (useFlatConfig) {
-                        it("should not ignore files if the pattern is a path to a directory (with trailing slash)", async () => {
+                        it("should ignore files if the pattern is a path to a directory (with trailing slash)", async () => {
                             const filePath = getFixturePath("cli/syntax-error.js");
                             const exit = await cli.execute(`--ignore-pattern cli/ ${filePath}`, null, true);
 
                             // parsing error causes exit code 1
                             assert.isTrue(log.info.called);
-                            assert.strictEqual(exit, 1);
+                            assert.strictEqual(exit, 0);
                         });
 
-                        it("should not ignore files if the pattern is a path to a directory (without trailing slash)", async () => {
+                        it("should ignore files if the pattern is a path to a directory (without trailing slash)", async () => {
                             const filePath = getFixturePath("cli/syntax-error.js");
                             const exit = await cli.execute(`--ignore-pattern cli ${filePath}`, null, true);
 
                             // parsing error causes exit code 1
                             assert.isTrue(log.info.called);
-                            assert.strictEqual(exit, 1);
+                            assert.strictEqual(exit, 0);
                         });
                     }
                 });
