@@ -329,7 +329,36 @@ For historical reasons, the boolean value `false` and the string value `"readabl
 
 ### Using plugins in your configuration
 
-Plugins are used to share rules, processors, configurations, parsers, and more across ESLint projects. Plugins are specified in a configuration object using the `plugins` key, which is an object where the name of the plugin is the property name and the value is the plugin object itself. Here's an example:
+Plugins are used to share rules, processors, configurations, parsers, and more across ESLint projects.
+
+#### Using configurations included in plugins
+
+You can use a configuration included in a plugin by adding that configuration
+directly to the `eslint.config.js` configurations array.
+Often, you do this for a plugin's recommended configuration. Here's an example:
+
+```js
+import jsdoc from "eslint-plugin-jsdoc";
+
+export default [
+    jsdoc.configs.recommended,
+    // ... other configuration objects
+];
+/*
+The above code is equivalent to the following configuration using the legacy .eslintrc
+configuration system:
+
+{
+  "extends": ["plugin:jsdoc/recommended"]
+}
+*/
+```
+
+#### Using plugin rules
+
+You can use specific rules included in a plugin. To do this, specify the plugin
+in a configuration object using the `plugins` key. The value for the `plugin` key
+is an object where the name of the plugin is the property name and the value is the plugin object itself. Here's an example:
 
 ```js
 import jsdoc from "eslint-plugin-jsdoc";
