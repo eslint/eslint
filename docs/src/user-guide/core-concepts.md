@@ -16,18 +16,31 @@ ESLint is a configurable JavaScript linter. It's like spell check and autocorrec
 for your JavaScript code. It helps you write JavaScript in a consistent style
 and fix bugs.
 
+## Rules
+
+Rules are the core building block of ESLint. A rule validates if your code meets a
+certain expectation and what to do if it does not.
+Rules can also contain additional configuration options specific to that rule.
+
+For example, the [`semi` rule](../rules/semi.md`) lets you specify whether or not
+JavaScript statements should end with a semicolon (`;`).
+You can set the rule to either always require semicolons or require that a statement
+never ends with a semicolon.
+
+TODO: figure out how to do the link
+ESLint contains hundreds of built-in rules that you can use.
+You can also create custom rules for your project or use rules that others have
+created with [plugins](#plugins).
+
+For more information, refer to [Rules](../pages/rules.md).
+
 ## Configuration Files
 
 An ESLint configuration file is a single place where you put all the configuration
-for ESLint your project.
+for ESLint your project. You can include built-in rules, how you want them enforced,
+plugins with custom rules, which files you want rules to apply to, and more.
 
 For more information, refer to [Configuration Files](./configuring/configuration-files.md).
-
-## Rules
-
-TODO
-
-For more information, refer to [Rules](../index).
 
 ## Plugins
 
