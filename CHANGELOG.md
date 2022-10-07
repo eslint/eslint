@@ -1,3 +1,22 @@
+v8.25.0 - October 7, 2022
+
+* [`1f78594`](https://github.com/eslint/eslint/commit/1f785944f61c97996445e48cb74fc300142e7310) chore: upgrade @eslint/eslintrc@1.3.3 (#16397) (Milos Djermanovic)
+* [`173e820`](https://github.com/eslint/eslint/commit/173e82040895ad53b2d9940bfb3fb67a0478f00b) feat: Pass --max-warnings value to formatters (#16348) (Brandon Mills)
+* [`8476a9b`](https://github.com/eslint/eslint/commit/8476a9b8b81164887cdf38a21d431b75ff2956b1) chore: Remove CODEOWNERS (#16375) (Nick Schonning)
+* [`720ff75`](https://github.com/eslint/eslint/commit/720ff75beb9f4fdcf2a185fcb8020cf78483fdeb) chore: use "ci" for Dependabot commit message (#16377) (Nick Schonning)
+* [`90c6028`](https://github.com/eslint/eslint/commit/90c602802b6e330b79c42f282e9a615c583e32d7) docs: Conflicting fixes (#16366) (Ben Perlmutter)
+* [`5a3fe70`](https://github.com/eslint/eslint/commit/5a3fe70c5261acbf115fa5f47231cbc4ac62c1bc) docs: Add VS to integrations page (#16381) (Maria José Solano)
+* [`6964cb1`](https://github.com/eslint/eslint/commit/6964cb1e0f073b236cb3288b9d8be495336bbf29) feat: remove support for ignore files in FlatESLint (#16355) (Milos Djermanovic)
+* [`49bd1e5`](https://github.com/eslint/eslint/commit/49bd1e5669b34fd7e0f4a3cf42009866980d7e15) docs: remove unused link definitions (#16376) (Nick Schonning)
+* [`42f5479`](https://github.com/eslint/eslint/commit/42f547948f284f1c67799f237dfeb86fc400c7c7) chore: bump actions/stale from 5 to 6 (#16350) (dependabot[bot])
+* [`3bd380d`](https://github.com/eslint/eslint/commit/3bd380d3ea7e88ade4905ec0b240c866ab79a69d) docs: typo cleanups for docs (#16374) (Nick Schonning)
+* [`b3a0837`](https://github.com/eslint/eslint/commit/b3a08376cfb61275a7557d6d166b6116f36e5ac2) docs: remove duplicate words (#16378) (Nick Schonning)
+* [`a682562`](https://github.com/eslint/eslint/commit/a682562458948f74a227be60a80e10e7a3753124) docs: add `BigInt` to `new-cap` docs (#16362) (Sosuke Suzuki)
+* [`1cc4b3a`](https://github.com/eslint/eslint/commit/1cc4b3a8f82a7945dcd8c59550b6a906a0fabbb4) feat: `id-length` counts graphemes instead of code units (#16321) (Sosuke Suzuki)
+* [`f6d57fb`](https://github.com/eslint/eslint/commit/f6d57fb657c2f4e8e0140ad057da34c935482972) docs: Update docs README (#16352) (Ben Perlmutter)
+* [`e5e9e27`](https://github.com/eslint/eslint/commit/e5e9e271da58361bda16f7abc8f367ccc6f91510) chore: remove `jsdoc` dev dependency (#16344) (Milos Djermanovic)
+* [`7214347`](https://github.com/eslint/eslint/commit/721434705bd569e33911e25d2688e33f10898d52) docs: fix logical-assignment-operators option typo (#16346) (Jonathan Wilsson)
+
 v8.24.0 - September 23, 2022
 
 * [`131e646`](https://github.com/eslint/eslint/commit/131e646e227b9aca3937fe287343bf2c3df408af) chore: Upgrade @humanwhocodes/config-array for perf (#16339) (Nicholas C. Zakas)
