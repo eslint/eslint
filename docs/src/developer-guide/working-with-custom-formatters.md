@@ -129,7 +129,7 @@ Each `message` object contains information about the ESLint rule that was trigge
 
 ## The `context` Argument
 
-The formatter function receives an object as the second argument. The object has two properties:
+The formatter function receives an object as the second argument. The object has the following properties:
 
 * `cwd` ... The current working directory. This value comes from the `cwd` constructor option of the [ESLint](nodejs-api#-new-eslintoptions) class.
 * `maxWarningsExceeded` (optional): If `--max-warnings` was set and the number of warnings exceeded the limit, this property's value will be an object containing two properties: `maxWarnings`, the value of the `--max-warnings` option, and `foundWarnings`, the number of lint warnings.
