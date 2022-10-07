@@ -244,6 +244,45 @@ describe("cli", () => {
                 });
             });
 
+            describe("when the --max-warnings option is passed", () => {
+                const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
+
+                describe("and there are too many warnings", () => {
+                    it(`should provide \`maxWarningsExceeded\` metadata to the formatter with configType:${configType}`, async () => {
+                        const exit = await cli.execute(
+                            `--no-ignore -f json-with-metadata --max-warnings 1 --rule 'quotes: warn' ${flag}`,
+                            "'hello' + 'world';",
+                            useFlatConfig
+                        );
+
+                        assert.strictEqual(exit, 1);
+
+                        const { metadata } = JSON.parse(log.info.args[0][0]);
+
+                        assert.deepStrictEqual(
+                            metadata.maxWarningsExceeded,
+                            { maxWarnings: 1, foundWarnings: 2 }
+                        );
+                    });
+                });
+
+                describe("and warnings do not exceed the limit", () => {
+                    it(`should omit \`maxWarningsExceeded\` metadata from the formatter with configType:${configType}`, async () => {
+                        const exit = await cli.execute(
+                            `--no-ignore -f json-with-metadata --max-warnings 1 --rule 'quotes: warn' ${flag}`,
+                            "'hello world';",
+                            useFlatConfig
+                        );
+
+                        assert.strictEqual(exit, 0);
+
+                        const { metadata } = JSON.parse(log.info.args[0][0]);
+
+                        assert.notProperty(metadata, "maxWarningsExceeded");
+                    });
+                });
+            });
+
             describe("when given an invalid built-in formatter name", () => {
                 it(`should execute with error: with configType:${configType}`, async () => {
                     const filePath = getFixturePath("passing.js");

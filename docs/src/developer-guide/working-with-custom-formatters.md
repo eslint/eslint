@@ -129,9 +129,10 @@ Each `message` object contains information about the ESLint rule that was trigge
 
 ## The `context` Argument
 
-The formatter function receives an object as the second argument. The object has two properties:
+The formatter function receives an object as the second argument. The object has the following properties:
 
 * `cwd` ... The current working directory. This value comes from the `cwd` constructor option of the [ESLint](nodejs-api#-new-eslintoptions) class.
+* `maxWarningsExceeded` (optional): If `--max-warnings` was set and the number of warnings exceeded the limit, this property's value will be an object containing two properties: `maxWarnings`, the value of the `--max-warnings` option, and `foundWarnings`, the number of lint warnings.
 * `rulesMeta` ... The `meta` property values of rules. See the [Working with Rules](working-with-rules) page for more information about rules.
 
 For example, here's what the object would look like if one rule, `no-extra-semi`, had been run:
@@ -139,6 +140,10 @@ For example, here's what the object would look like if one rule, `no-extra-semi`
 ```js
 {
     cwd: "/path/to/cwd",
+    maxWarningsExceeded: {
+        maxWarnings: 5,
+        foundWarnings: 6
+    },
     rulesMeta: {
         "no-extra-semi": {
             type: "suggestion",
@@ -153,7 +158,7 @@ For example, here's what the object would look like if one rule, `no-extra-semi`
                 unexpected: "Unnecessary semicolon."
             }
         }
-    }
+    },
 }
 ```
 
