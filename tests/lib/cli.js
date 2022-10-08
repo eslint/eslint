@@ -138,16 +138,16 @@ describe("cli", () => {
         });
 
         describe("flat config", () => {
-            const originalCwd = process.cwd;
             const originalEnv = process.env;
+            const originalCwd = process.cwd;
 
             beforeEach(() => {
                 process.env = { ...originalEnv };
             });
 
             afterEach(() => {
-                process.cwd = originalCwd;
                 process.env = originalEnv;
+                process.cwd = originalCwd;
             });
 
             it(`should use it when an eslint.config.js is present and useFlatConfig is true:${configType}`, async () => {
@@ -160,8 +160,8 @@ describe("cli", () => {
             });
 
             it(`should not use it when ESLINT_USE_FLAT_CONFIG=false even if an eslint.config.js is present:${configType}`, async () => {
-                process.cwd = getFixturePath;
                 process.env.ESLINT_USE_FLAT_CONFIG = "false";
+                process.cwd = getFixturePath;
 
                 const exitCode = await cli.execute(`--no-ignore --ext .js ${getFixturePath("files")}`, null, useFlatConfig);
 
@@ -170,6 +170,9 @@ describe("cli", () => {
 
             it(`should use it when ESLINT_USE_FLAT_CONFIG=true and useFlatConfig is true even if an eslint.config.js is not present:${configType}`, async () => {
                 process.env.ESLINT_USE_FLAT_CONFIG = "true";
+
+                // Set the CWD to outside the fixtures/ directory so that no eslint.config.js is found
+                process.cwd = () => getFixturePath("..");
 
                 const exitCode = await cli.execute(`--no-ignore --ext .js ${getFixturePath("files")}`, null, useFlatConfig);
 
