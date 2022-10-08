@@ -15,21 +15,17 @@ You can specify a formatter using the `--format` or `-f` flag on the command lin
 
 The built-in formatter options are:
 
-* [Example Source](#example-source)
-    * [`fullOfProblems.js`](#fullofproblemsjs)
-    * [`.eslintrc`:](#eslintrc)
-* [Output Examples](#output-examples)
-    * [checkstyle](#checkstyle)
-    * [compact](#compact)
-    * [html](#html)
-    * [jslint-xml](#jslint-xml)
-    * [json-with-metadata](#json-with-metadata)
-    * [json](#json)
-    * [junit](#junit)
-    * [stylish](#stylish)
-    * [tap](#tap)
-    * [unix](#unix)
-    * [visualstudio](#visualstudio)
+* [checkstyle](#checkstyle)
+* [compact](#compact)
+* [html](#html)
+* [jslint-xml](#jslint-xml)
+* [json-with-metadata](#json-with-metadata)
+* [json](#json)
+* [junit](#junit)
+* [stylish](#stylish)
+* [tap](#tap)
+* [unix](#unix)
+* [visualstudio](#visualstudio)
 
 ## Example Source
 
@@ -47,7 +43,7 @@ function addOne(i) {
 };
 ```
 
-### `.eslintrc`:
+### `.eslintrc`
 
 ```json
 {
