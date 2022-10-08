@@ -19,16 +19,16 @@ and fix bugs in your code.
 ## Rules
 
 Rules are the core building block of ESLint. A rule validates if your code meets a
-certain expectation and what to do if it does not.
+certain expectation, and what to do if it does not meet that expectation.
 Rules can also contain additional configuration options specific to that rule.
 
 For example, the [`semi` rule](../rules/semi.md`) lets you specify whether or not
 JavaScript statements should end with a semicolon (`;`).
-You can set the rule to either always require semicolons or require that a statement
-never ends with a semicolon.
+You can set the rule to either always require semicolons or require that
+a statement never ends with a semicolon.
 
 ESLint contains hundreds of built-in rules that you can use.
-You can also create custom rules for your project or use rules that others have
+You can also create custom rules or use rules that others have
 created with [plugins](#plugins).
 
 For more information, refer to [Rules](../rules/).
@@ -45,7 +45,7 @@ For more information, refer to [Configuration Files](./configuring/configuration
 
 An ESLint plugin is an npm module that contains a set of ESLint rules.
 Plugins can be used to enforce a style guide and support JavaScript extensions
-(like TypeScript) or frameworks (like Jest).
+(like TypeScript) or frameworks (like React).
 You can add single rules or sets of rules from a plugin.
 Often plugins come with recommended sets of rules that you can include in your project.
 
@@ -64,8 +64,8 @@ For more information, refer to [Formatters](./formatters/index.md).
 One of the things that makes ESLint such a useful tool is the ecosystem of integrations
 that surrounds. These integrations extend the core functionality of ESLint.
 For example, many code editors have ESLint extensions that show you the ESLint results
-of your code in file so that you don't need to use the ESLint CLI to see linting
-results.
+of your code in the file as you work so that you don't need to use the ESLint CLI
+to see linting results.
 
 For more information, refer to [Integrations](./integrations.md).
 For a curated collection of popular ESLint integrations,
