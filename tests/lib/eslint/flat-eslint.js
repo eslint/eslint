@@ -2607,7 +2607,17 @@ describe("FlatESLint", () => {
             let id;
 
             beforeEach(() => (id = Date.now().toString()));
-            afterEach(async () => fsp.rmdir(root, { recursive: true, force: true }));
+
+            /*
+             * `fs.rmdir(path, { recursive: true })` is deprecated and will be removed.
+             * Use `fs.rm(path, { recursive: true })` instead.
+             * When supporting Node.js 14.14.0+, the compatibility condition can be removed for `fs.rmdir`.
+             */
+            if (typeof fsp.rm === "function") {
+                afterEach(async () => fsp.rm(root, { recursive: true, force: true }));
+            } else {
+                afterEach(async () => fsp.rmdir(root, { recursive: true, force: true }));
+            }
 
             it("should lint only JavaScript blocks.", async () => {
                 const teardown = createCustomTeardown({
