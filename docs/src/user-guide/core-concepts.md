@@ -5,7 +5,7 @@ eleventyNavigation:
     key: core concepts
     title: Core Concepts
     parent: user guide
-    order: 2 
+    order: 2
 ---
 
 This page contains a high-level overview of some of the core concepts of ESLint.
@@ -14,7 +14,7 @@ This page contains a high-level overview of some of the core concepts of ESLint.
 
 ESLint is a configurable JavaScript linter. It's like spell check and autocorrect
 for your JavaScript code. It helps you write JavaScript in a consistent style
-and fix bugs.
+and fix bugs in your code.
 
 ## Rules
 
@@ -27,12 +27,11 @@ JavaScript statements should end with a semicolon (`;`).
 You can set the rule to either always require semicolons or require that a statement
 never ends with a semicolon.
 
-TODO: figure out how to do the link
 ESLint contains hundreds of built-in rules that you can use.
 You can also create custom rules for your project or use rules that others have
 created with [plugins](#plugins).
 
-For more information, refer to [Rules](../pages/rules.md).
+For more information, refer to [Rules](../rules/).
 
 ## Configuration Files
 
@@ -44,7 +43,21 @@ For more information, refer to [Configuration Files](./configuring/configuration
 
 ## Plugins
 
+An ESLint plugin is an npm module that contains a set of ESLint rules.
+Plugins can be used to enforce a style guide and support JavaScript extensions
+(like TypeScript) or frameworks (like Jest).
+You can add single rules or sets of rules from a plugin.
+Often plugins come with recommended sets of rules that you can include in your project.
+
+For more information, refer to [Configuring Plugins](./configuring/plugins.md).
+
 ## Formatters
+
+An ESLint formatter controls the appearance of the linting results.
+If you're using a code editor with an ESLint integration to see linting results
+in line, the editor is using an ESLint formatter to display those results.
+
+For more information, refer to [Formatters](./formatters/index.md).
 
 ## Integrations
 
@@ -58,4 +71,16 @@ For more information, refer to [Integrations](./integrations.md).
 For a curated collection of popular ESLint integrations,
 see the [awesome-eslint Github repository](https://github.com/dustinspecker/awesome-eslint).
 
-## CLI
+## CLI & Node.js API
+
+The ESLint CLI is a command line interface that lets you execute linting
+from the terminal. The CLI has a variety of options that you can pass to its commands.
+
+The ESLint Node.js API lets you use ESLint programmatically from Node.js code.
+The API is useful when developing plugins, integrations, and other tools related
+to ESLint.
+
+Unless you are extending ESLint in some way, you should use the CLI.
+
+For more information, refer to [Command Line Interface](./command-line-interface.md)
+and [Node.js API](../developer-guide/nodejs-api.md).
