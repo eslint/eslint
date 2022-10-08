@@ -139,11 +139,15 @@ describe("cli", () => {
 
         describe("flat config", () => {
             const originalCwd = process.cwd;
-            const originalEnv = { ...process.env };
+            const originalEnv = process.env;
+
+            beforeEach(() => {
+                process.env = { ...originalEnv };
+            });
 
             afterEach(() => {
                 process.cwd = originalCwd;
-                process.env = { ...originalEnv };
+                process.env = originalEnv;
             });
 
             it(`should use it when an eslint.config.js is present and useFlatConfig is true:${configType}`, async () => {
