@@ -160,17 +160,6 @@ describe("cli", () => {
             });
         });
 
-        describe("when given a config file and a directory of files", () => {
-            it(`should load and execute without error with configType:${configType}`, async () => {
-                const configPath = getFixturePath("configurations", "semi-error.js");
-                const filePath = getFixturePath("formatters");
-                const code = `--config ${configPath} ${filePath}`;
-                const exitStatus = await cli.execute(code, null, useFlatConfig);
-
-                assert.strictEqual(exitStatus, 0);
-            });
-        });
-
         describe("when there is a local config file", () => {
 
             it(`should load the local config file with configType:${configType}`, async () => {
@@ -458,6 +447,17 @@ describe("cli", () => {
 
             afterEach(() => {
                 process.cwd = originalCwd;
+            });
+
+            describe("when given a config file and a directory of files", () => {
+                it(`should load and execute without error with configType:${configType}`, async () => {
+                    const configPath = getFixturePath("configurations", "semi-error.js");
+                    const filePath = getFixturePath("formatters");
+                    const code = `--no-ignore --config ${configPath} ${filePath}`;
+                    const exitStatus = await cli.execute(code, null, useFlatConfig);
+
+                    assert.strictEqual(exitStatus, 0);
+                });
             });
 
             describe("when executing with global flag", () => {
@@ -755,22 +755,22 @@ describe("cli", () => {
                     });
 
                     if (useFlatConfig) {
-                        it("should not ignore files if the pattern is a path to a directory (with trailing slash)", async () => {
+                        it("should ignore files if the pattern is a path to a directory (with trailing slash)", async () => {
                             const filePath = getFixturePath("cli/syntax-error.js");
                             const exit = await cli.execute(`--ignore-pattern cli/ ${filePath}`, null, true);
 
                             // parsing error causes exit code 1
                             assert.isTrue(log.info.called);
-                            assert.strictEqual(exit, 1);
+                            assert.strictEqual(exit, 0);
                         });
 
-                        it("should not ignore files if the pattern is a path to a directory (without trailing slash)", async () => {
+                        it("should ignore files if the pattern is a path to a directory (without trailing slash)", async () => {
                             const filePath = getFixturePath("cli/syntax-error.js");
                             const exit = await cli.execute(`--ignore-pattern cli ${filePath}`, null, true);
 
                             // parsing error causes exit code 1
                             assert.isTrue(log.info.called);
-                            assert.strictEqual(exit, 1);
+                            assert.strictEqual(exit, 0);
                         });
                     }
                 });
