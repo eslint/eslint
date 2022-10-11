@@ -5051,6 +5051,36 @@ describe("ESLint", () => {
                 nodePlugin.rules["no-new-require"].meta
             );
         });
+
+        it("should ignore messages not related to a rule", async () => {
+            const engine = new ESLint({
+                useEslintrc: false,
+                overrideConfig: { rules: { "no-var": "warn" } },
+                reportUnusedDisableDirectives: "warn"
+            });
+
+            const results = [
+                ...await engine.lintText("syntax error"),
+                ...await engine.lintText("// eslint-disable-line no-var"),
+                ...await engine.lintText("", { filePath: "/.ignored.js", warnIgnored: true })
+            ];
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.deepStrictEqual(rulesMeta, {});
+        });
+
+        it("should return a non-empty value if some of the messages are related to a rule", async () => {
+            const engine = new ESLint({
+                useEslintrc: false,
+                overrideConfig: { rules: { "no-var": "warn" } },
+                reportUnusedDisableDirectives: "warn"
+            });
+
+            const results = await engine.lintText("// eslint-disable-line no-var\nvar foo;");
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.deepStrictEqual(rulesMeta, { "no-var": coreRules.get("no-var").meta });
+        });
     });
 
     describe("outputFixes()", () => {

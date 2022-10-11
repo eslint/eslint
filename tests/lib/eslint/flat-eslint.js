@@ -3663,6 +3663,22 @@ describe("FlatESLint", () => {
             assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
         });
 
+        it("should return one rule meta when there is a suppressed linting error", async () => {
+            const engine = new FlatESLint({
+                overrideConfigFile: true,
+                overrideConfig: {
+                    rules: {
+                        semi: 2
+                    }
+                }
+            });
+
+            const results = await engine.lintText("a // eslint-disable-line semi");
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
+        });
+
         it("should return multiple rule meta when there are multiple linting errors", async () => {
             const engine = new FlatESLint({
                 overrideConfigFile: true,
@@ -3706,6 +3722,36 @@ describe("FlatESLint", () => {
                 rulesMeta["n/no-new-require"],
                 nodePlugin.rules["no-new-require"].meta
             );
+        });
+
+        it("should ignore messages not related to a rule", async () => {
+            const engine = new FlatESLint({
+                overrideConfigFile: true,
+                overrideConfig: { rules: { "no-var": "warn" } },
+                reportUnusedDisableDirectives: "warn"
+            });
+
+            const results = [
+                ...await engine.lintText("syntax error"),
+                ...await engine.lintText("// eslint-disable-line no-var"),
+                ...await engine.lintText("", { filePath: "/.ignored.js", warnIgnored: true })
+            ];
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.deepStrictEqual(rulesMeta, {});
+        });
+
+        it("should return a non-empty value if some of the messages are related to a rule", async () => {
+            const engine = new FlatESLint({
+                overrideConfigFile: true,
+                overrideConfig: { rules: { "no-var": "warn" } },
+                reportUnusedDisableDirectives: "warn"
+            });
+
+            const results = await engine.lintText("// eslint-disable-line no-var\nvar foo;");
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.deepStrictEqual(rulesMeta, { "no-var": coreRules.get("no-var").meta });
         });
     });
 
