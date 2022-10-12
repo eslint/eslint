@@ -30,7 +30,7 @@ jobs:
       run: npm install
     - name: Stylelint Docs
       working-directory: docs
-      run: npm test
+      run: npm run lint:scss
     - name: Lint Docs JS Files
       run: node Makefile lintDocsJS
 
