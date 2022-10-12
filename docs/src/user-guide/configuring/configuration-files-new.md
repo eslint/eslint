@@ -10,7 +10,7 @@ eleventyNavigation:
 ---
 
 ::: warning
-This is an experimental feature. To opt-in, place a `eslint.config.js` file in the root of your project or set the `ESLINT_USE_FLAT_CONFIG` environemnt variable to `true`. To opt-out, even in the presence of a `eslint.config.js` file, set the environment variable to `false`. If you are using the API, you can use the configuration system described on this page by using the `FlatESLint` class, the `FlatRuleTester` class, or by setting `configType: "flat"` in the `Linter` class.
+This is an experimental feature. To opt-in, place a `eslint.config.js` file in the root of your project or set the `ESLINT_USE_FLAT_CONFIG` environment variable to `true`. To opt-out, even in the presence of a `eslint.config.js` file, set the environment variable to `false`. If you are using the API, you can use the configuration system described on this page by using the `FlatESLint` class, the `FlatRuleTester` class, or by setting `configType: "flat"` in the `Linter` class.
 :::
 
 ## Configuration File
