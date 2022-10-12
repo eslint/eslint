@@ -183,7 +183,7 @@ button,
     display: none;
 }
 
-a[href^="http"]:not([href*="mywebsite.com"])::after {
+a[href^="http"]:not([href*="eslint.org"])::after {
     content: " ("attr(href) ")";
 }
 
