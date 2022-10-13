@@ -100,12 +100,12 @@ for (i = 0, j = l; i < l; i++, j--) {
 
 :::
 
-Examples of **incorrect** code for this rule with the `{ "allowForLoopAfterthoughts": true }` option:
+Examples of **incorrect** code for this rule with the `{ "allowForLoopAfterthoughts": false }` option:
 
 ::: incorrect
 
 ```js
-/*eslint no-plusplus: ["error", { "allowForLoopAfterthoughts": true }]*/
+/*eslint no-plusplus: ["error", { "allowForLoopAfterthoughts": false }]*/
 
 for (i = 0; i < l; j = i++) {
     doSomething(i, j);
