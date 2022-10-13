@@ -1101,7 +1101,6 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results[0].filePath, getFixturePath("ignores-relative/subdir/a.js"));
             });
 
-
             // https://github.com/eslint/eslint/issues/16354
             it("should skip subdirectory files when ignore pattern matches subdirectory", async () => {
                 eslint = new FlatESLint({
@@ -1138,6 +1137,47 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results[0].errorCount, 0);
                 assert.strictEqual(results[0].warningCount, 0);
 
+            });
+
+            // https://github.com/eslint/eslint/issues/16416
+            it("should allow reignoring of previously ignored files", async () => {
+                eslint = new FlatESLint({
+                    cwd: getFixturePath("ignores-relative"),
+                    overrideConfigFile: true,
+                    overrideConfig: {
+                        ignores: [
+                            "*.js",
+                            "!a*.js",
+                            "a.js"
+                        ]
+                    }
+                });
+                const results = await eslint.lintFiles(["a.js"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].errorCount, 0);
+                assert.strictEqual(results[0].warningCount, 1);
+                assert.strictEqual(results[0].filePath, getFixturePath("ignores-relative/a.js"));
+            });
+
+            // https://github.com/eslint/eslint/issues/16415
+            it("should allow directories to be unignored", async () => {
+                eslint = new FlatESLint({
+                    cwd: getFixturePath("ignores-directory"),
+                    overrideConfigFile: true,
+                    overrideConfig: {
+                        ignores: [
+                            "subdir/*",
+                            "!subdir/subsubdir"
+                        ]
+                    }
+                });
+                const results = await eslint.lintFiles(["subdir/**/*.js"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].errorCount, 0);
+                assert.strictEqual(results[0].warningCount, 0);
+                assert.strictEqual(results[0].filePath, getFixturePath("ignores-directory/subdir/subsubdir/a.js"));
             });
 
 
