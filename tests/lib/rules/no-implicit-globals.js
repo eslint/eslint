@@ -1551,6 +1551,73 @@ ruleTester.run("no-implicit-globals", rule, {
                     type: "VariableDeclarator"
                 }
             ]
+        },
+
+        // Global variable leaks
+        {
+            code: "/* exported foo */ foo = 1",
+            errors: [
+                {
+                    message: leakMessage,
+                    type: "AssignmentExpression"
+                }
+            ]
+        },
+        {
+            code: "/* exported foo */ foo = function() {};",
+            errors: [
+                {
+                    message: leakMessage,
+                    type: "AssignmentExpression"
+                }
+            ]
+        },
+        {
+            code: "/* exported foo */ foo = function*() {};",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    message: leakMessage,
+                    type: "AssignmentExpression"
+                }
+            ]
+        },
+        {
+            code: "/* exported foo */ window.foo = function() { bar = 1; }",
+            errors: [
+                {
+                    message: leakMessage,
+                    type: "AssignmentExpression"
+                }
+            ]
+        },
+        {
+            code: "/* exported foo */ (function() {}(foo = 1));",
+            errors: [
+                {
+                    message: leakMessage,
+                    type: "AssignmentExpression"
+                }
+            ]
+        },
+        {
+            code: "/* exported foo */ for (foo in {});",
+            errors: [
+                {
+                    message: leakMessage,
+                    type: "ForInStatement"
+                }
+            ]
+        },
+        {
+            code: "/* exported foo */ for (foo of []);",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    message: leakMessage,
+                    type: "ForOfStatement"
+                }
+            ]
         }
     ]
 });
