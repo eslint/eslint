@@ -270,6 +270,8 @@ Examples of **correct** code for `/* exported variableName */` operation:
 var global_var = 42;
 ```
 
+:::
+
 ## When Not To Use It
 
 In the case of a browser script, if you want to be able to explicitly declare variables and functions in the global scope,
