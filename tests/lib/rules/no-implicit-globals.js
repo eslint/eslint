@@ -444,7 +444,7 @@ ruleTester.run("no-implicit-globals", rule, {
             code: "/* exported foo */ var foo = function *foo() {};",
             parserOptions: { ecmaVersion: 2015 }
         },
-        "/* exported foo \n* exported bar */ var foo = 1, bar = 2;",
+        "/* exported foo, bar */ var foo = 1, bar = 2;",
 
 
         // `const`, `let` and `class`
@@ -469,32 +469,32 @@ ruleTester.run("no-implicit-globals", rule, {
             parserOptions: { ecmaVersion: 2015 }
         },
         {
-            code: "/* exported a\n* exported b */ const a = 1; const b = 2;",
+            code: "/* exported a, b */ const a = 1; const b = 2;",
             options: [{ lexicalBindings: true }],
             parserOptions: { ecmaVersion: 2015 }
         },
         {
-            code: "/* exported a\n* exported b */ const a = 1, b = 2;",
+            code: "/* exported a, b */ const a = 1, b = 2;",
             options: [{ lexicalBindings: true }],
             parserOptions: { ecmaVersion: 2015 }
         },
         {
-            code: "/* exported a\n* exported b */ let a, b = 1;",
+            code: "/* exported a, b */ let a, b = 1;",
             options: [{ lexicalBindings: true }],
             parserOptions: { ecmaVersion: 2015 }
         },
         {
-            code: "/* exported a\n* exported b\n* exported C */ const a = 1; let b; class C {}",
+            code: "/* exported a, b, C */ const a = 1; let b; class C {}",
             options: [{ lexicalBindings: true }],
             parserOptions: { ecmaVersion: 2015 }
         },
         {
-            code: "/* exported a\n* exported b\n* exported c */ const [a, b, ...c] = [];",
+            code: "/* exported a, b, c */ const [a, b, ...c] = [];",
             options: [{ lexicalBindings: true }],
             parserOptions: { ecmaVersion: 2015 }
         },
         {
-            code: "/* exported a\n* exported b\n* exported c */ let { a, foo: b, bar: { c } } = {};",
+            code: "/* exported a, b, c */ let { a, foo: b, bar: { c } } = {};",
             options: [{ lexicalBindings: true }],
             parserOptions: { ecmaVersion: 2015 }
         }
