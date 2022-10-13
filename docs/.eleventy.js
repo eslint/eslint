@@ -34,7 +34,9 @@ module.exports = function(eleventyConfig) {
 
     let pathPrefix = "/docs/head/";
 
-    if (process.env.CONTEXT === "deploy-preview" || process.env.BRANCH === "main") {
+    if (process.env.PREFIX) {
+        pathPrefix = process.env.PREFIX;
+    } else if (process.env.CONTEXT === "deploy-preview") {
         pathPrefix = "/";
     } else if (process.env.BRANCH === "latest") {
         pathPrefix = "/docs/latest/";
