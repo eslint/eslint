@@ -137,6 +137,50 @@ describe("cli", () => {
 
         });
 
+        describe("flat config", () => {
+            const originalEnv = process.env;
+            const originalCwd = process.cwd;
+
+            beforeEach(() => {
+                process.env = { ...originalEnv };
+            });
+
+            afterEach(() => {
+                process.env = originalEnv;
+                process.cwd = originalCwd;
+            });
+
+            it(`should use it when an eslint.config.js is present and useFlatConfig is true:${configType}`, async () => {
+                process.cwd = getFixturePath;
+
+                const exitCode = await cli.execute(`--no-ignore --ext .js ${getFixturePath("files")}`, null, useFlatConfig);
+
+                // When flat config is used, we get an exit code of 2 because the --ext option is unrecognized.
+                assert.strictEqual(exitCode, useFlatConfig ? 2 : 0);
+            });
+
+            it(`should not use it when ESLINT_USE_FLAT_CONFIG=false even if an eslint.config.js is present:${configType}`, async () => {
+                process.env.ESLINT_USE_FLAT_CONFIG = "false";
+                process.cwd = getFixturePath;
+
+                const exitCode = await cli.execute(`--no-ignore --ext .js ${getFixturePath("files")}`, null, useFlatConfig);
+
+                assert.strictEqual(exitCode, 0);
+            });
+
+            it(`should use it when ESLINT_USE_FLAT_CONFIG=true and useFlatConfig is true even if an eslint.config.js is not present:${configType}`, async () => {
+                process.env.ESLINT_USE_FLAT_CONFIG = "true";
+
+                // Set the CWD to outside the fixtures/ directory so that no eslint.config.js is found
+                process.cwd = () => getFixturePath("..");
+
+                const exitCode = await cli.execute(`--no-ignore --ext .js ${getFixturePath("files")}`, null, useFlatConfig);
+
+                // When flat config is used, we get an exit code of 2 because the --ext option is unrecognized.
+                assert.strictEqual(exitCode, useFlatConfig ? 2 : 0);
+            });
+        });
+
         describe("when given a config with rules with options and severity level set to error", () => {
 
             const originalCwd = process.cwd;

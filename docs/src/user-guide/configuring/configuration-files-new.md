@@ -10,7 +10,7 @@ eleventyNavigation:
 ---
 
 ::: warning
-This is an experimental feature. To opt-in, place a `eslint.config.js` file in the root of your project. If you are using the API, you can use the configuration system described on this page by using the `FlatESLint` class, the `FlatRuleTester` class, or by setting `configType: "flat"` in the `Linter` class.
+This is an experimental feature. To opt-in, place a `eslint.config.js` file in the root of your project or set the `ESLINT_USE_FLAT_CONFIG` environment variable to `true`. To opt-out, even in the presence of a `eslint.config.js` file, set the environment variable to `false`. If you are using the API, you can use the configuration system described on this page by using the `FlatESLint` class, the `FlatRuleTester` class, or by setting `configType: "flat"` in the `Linter` class.
 :::
 
 ## Configuration File
@@ -585,10 +585,10 @@ Here, the `eslint:recommended` predefined configuration is applied first and the
 
 When ESLint is run on the command line, it first checks the current working directory for `eslint.config.js`, and if not found, will look to the next parent directory for the file. This search continues until either the file is found or the root directory is reached.
 
-You can prevent this search for `eslint.config.js` by using the `-c` or `--config--file` option on the command line to specify an alternate configuration file, such as:
+You can prevent this search for `eslint.config.js` by setting the `ESLINT_USE_FLAT_CONFIG` environment variable to `true` and using the `-c` or `--config` option on the command line to specify an alternate configuration file, such as:
 
 ```shell
-npx eslint -c some-other-file.js **/*.js
+ESLINT_USE_FLAT_CONFIG=true npx eslint -c some-other-file.js **/*.js
 ```
 
 In this case, ESLint will not search for `eslint.config.js` and will instead use `some-other-file.js`.
