@@ -345,7 +345,7 @@ export default [
         files: ["**/*.js"],
         plugins: {
             jsdoc: jsdoc
-        }
+        },
         rules: {
             "jsdoc/require-description": "error",
             "jsdoc/check-values": "error"
@@ -366,7 +366,7 @@ export default [
         files: ["**/*.js"],
         plugins: {
             jsdoc
-        }
+        },
         rules: {
             "jsdoc/require-description": "error",
             "jsdoc/check-values": "error"
@@ -385,7 +385,7 @@ export default [
         files: ["**/*.js"],
         plugins: {
             jsd: jsdoc
-        }
+        },
         rules: {
             "jsd/require-description": "error",
             "jsd/check-values": "error"
@@ -413,7 +413,7 @@ export default [
         files: ["**/*.js"],
         plugins: {
             jsdoc: jsdoc
-        }
+        },
         rules: {
             "jsdoc/require-description": "warn",
         }
@@ -434,7 +434,7 @@ export default [
         plugins: {
             markdown
         },
-        processor: "markdown/markdown"
+        processor: "markdown/markdown",
         settings: {
             sharedData: "Hello"
         }
@@ -455,7 +455,7 @@ export default [
         plugins: {
             markdown
         },
-        processor: "markdown/markdown"
+        processor: "markdown/markdown",
         settings: {
             sharedData: "Hello"
         }
