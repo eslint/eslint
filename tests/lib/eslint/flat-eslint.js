@@ -3660,6 +3660,7 @@ describe("FlatESLint", () => {
             const results = await engine.lintText("a", { filePath: "foo.js" });
             const rulesMeta = engine.getRulesMetaForResults(results);
 
+            assert.strictEqual(Object.keys(rulesMeta).length, 1);
             assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
         });
 
@@ -3676,6 +3677,7 @@ describe("FlatESLint", () => {
             const results = await engine.lintText("a // eslint-disable-line semi");
             const rulesMeta = engine.getRulesMetaForResults(results);
 
+            assert.strictEqual(Object.keys(rulesMeta).length, 1);
             assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
         });
 
@@ -3731,14 +3733,24 @@ describe("FlatESLint", () => {
                 reportUnusedDisableDirectives: "warn"
             });
 
-            const results = [
-                ...await engine.lintText("syntax error"),
-                ...await engine.lintText("// eslint-disable-line no-var"),
-                ...await engine.lintText("", { filePath: "/.ignored.js", warnIgnored: true })
-            ];
-            const rulesMeta = engine.getRulesMetaForResults(results);
+            {
+                const results = await engine.lintText("syntax error");
+                const rulesMeta = engine.getRulesMetaForResults(results);
 
-            assert.deepStrictEqual(rulesMeta, {});
+                assert.deepStrictEqual(rulesMeta, {});
+            }
+            {
+                const results = await engine.lintText("// eslint-disable-line no-var");
+                const rulesMeta = engine.getRulesMetaForResults(results);
+
+                assert.deepStrictEqual(rulesMeta, {});
+            }
+            {
+                const results = await engine.lintText("", { filePath: "/.ignored.js", warnIgnored: true });
+                const rulesMeta = engine.getRulesMetaForResults(results);
+
+                assert.deepStrictEqual(rulesMeta, {});
+            }
         });
 
         it("should return a non-empty value if some of the messages are related to a rule", async () => {
