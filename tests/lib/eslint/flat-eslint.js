@@ -3729,7 +3729,12 @@ describe("FlatESLint", () => {
         it("should ignore messages not related to a rule", async () => {
             const engine = new FlatESLint({
                 overrideConfigFile: true,
-                overrideConfig: { rules: { "no-var": "warn" } },
+                ignorePatterns: "ignored.js",
+                overrideConfig: {
+                    rules: {
+                        "no-var": "warn"
+                    }
+                },
                 reportUnusedDisableDirectives: "warn"
             });
 
@@ -3746,7 +3751,7 @@ describe("FlatESLint", () => {
                 assert.deepStrictEqual(rulesMeta, {});
             }
             {
-                const results = await engine.lintText("", { filePath: "/.ignored.js", warnIgnored: true });
+                const results = await engine.lintText("", { filePath: "ignored.js", warnIgnored: true });
                 const rulesMeta = engine.getRulesMetaForResults(results);
 
                 assert.deepStrictEqual(rulesMeta, {});

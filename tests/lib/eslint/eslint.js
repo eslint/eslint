@@ -5057,7 +5057,12 @@ describe("ESLint", () => {
         it("should ignore messages not related to a rule", async () => {
             const engine = new ESLint({
                 useEslintrc: false,
-                overrideConfig: { rules: { "no-var": "warn" } },
+                overrideConfig: {
+                    ignorePatterns: "ignored.js",
+                    rules: {
+                        "no-var": "warn"
+                    }
+                },
                 reportUnusedDisableDirectives: "warn"
             });
 
@@ -5074,7 +5079,7 @@ describe("ESLint", () => {
                 assert.deepStrictEqual(rulesMeta, {});
             }
             {
-                const results = await engine.lintText("", { filePath: "/.ignored.js", warnIgnored: true });
+                const results = await engine.lintText("", { filePath: "ignored.js", warnIgnored: true });
                 const rulesMeta = engine.getRulesMetaForResults(results);
 
                 assert.deepStrictEqual(rulesMeta, {});
