@@ -4663,4 +4663,137 @@ describe("FlatESLint", () => {
         });
     });
 
+    describe("baseConfig", () => {
+        it("can be an object", async () => {
+            const eslint = new FlatESLint({
+                overrideConfigFile: true,
+                baseConfig: {
+                    rules: {
+                        semi: 2
+                    }
+                }
+            });
+
+            const [{ messages }] = await eslint.lintText("foo");
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "semi");
+        });
+
+        it("can be an array", async () => {
+            const eslint = new FlatESLint({
+                overrideConfigFile: true,
+                baseConfig: [
+                    {
+                        rules: {
+                            "no-var": 2
+                        }
+                    },
+                    {
+                        rules: {
+                            semi: 2
+                        }
+                    }
+                ]
+            });
+
+            const [{ messages }] = await eslint.lintText("var foo");
+
+            assert.strictEqual(messages.length, 2);
+            assert.strictEqual(messages[0].ruleId, "no-var");
+            assert.strictEqual(messages[1].ruleId, "semi");
+        });
+
+        it("should be inserted after default configs", async () => {
+            const eslint = new FlatESLint({
+                overrideConfigFile: true,
+                baseConfig: {
+                    languageOptions: {
+                        ecmaVersion: 5,
+                        sourceType: "script"
+                    }
+                }
+            });
+
+            const [{ messages }] = await eslint.lintText("let x");
+
+            /*
+             * if baseConfig was inserted before default configs,
+             * `ecmaVersion: "latest"` from default configs would overwrite
+             * `ecmaVersion: 5` from baseConfig, so this wouldn't be a parsing error.
+             */
+
+            assert.strictEqual(messages.length, 1);
+            assert(messages[0].fatal, "Fatal error expected.");
+        });
+
+        it("should be inserted before configs from the config file", async () => {
+            const eslint = new FlatESLint({
+                cwd: getFixturePath(),
+                baseConfig: {
+                    rules: {
+                        strict: ["error", "global"]
+                    },
+                    languageOptions: {
+                        sourceType: "script"
+                    }
+                }
+            });
+
+            const [{ messages }] = await eslint.lintText("foo");
+
+            /*
+             * if baseConfig was inserted after configs from the config file,
+             * `strict: 0` from eslint.config.js wouldn't overwrite `strict: ["error", "global"]`
+             * from baseConfig, so there would be an error message from the `strict` rule.
+             */
+
+            assert.strictEqual(messages.length, 0);
+        });
+
+        it("when it has 'files' they should be intepreted as relative to the config file", async () => {
+
+            /*
+             * `fixtures/plugins` directory does not have a config file.
+             * It's parent directory `fixtures` does have a config file, so
+             * the base path will be `fixtures`, cwd will be `fixtures/plugins`
+             */
+            const eslint = new FlatESLint({
+                cwd: getFixturePath("plugins"),
+                baseConfig: {
+                    files: ["plugins/a.js"],
+                    rules: {
+                        semi: 2
+                    }
+                }
+            });
+
+            const [{ messages }] = await eslint.lintText("foo", { filePath: getFixturePath("plugins/a.js") });
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "semi");
+        });
+
+        it("when it has 'ignores' they should be intepreted as relative to the config file", async () => {
+
+            /*
+             * `fixtures/plugins` directory does not have a config file.
+             * It's parent directory `fixtures` does have a config file, so
+             * the base path will be `fixtures`, cwd will be `fixtures/plugins`
+             */
+            const eslint = new FlatESLint({
+                cwd: getFixturePath("plugins"),
+                baseConfig: {
+                    ignores: ["plugins/a.js"]
+                }
+            });
+
+            const [{ messages }] = await eslint.lintText("foo", { filePath: getFixturePath("plugins/a.js"), warnIgnored: true });
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].severity, 1);
+            assert.match(messages[0].message, /ignored/u);
+        });
+    });
+
 });
