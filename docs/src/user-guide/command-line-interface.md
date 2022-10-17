@@ -298,6 +298,8 @@ This option is helpful if you are using another program to format your code but 
 
 #### `--ignore-path`
 
+**Note:** `--ignore-path` is not supported when using flat config (`eslint.config.js`).
+
 This option allows you to specify the file to use as your `.eslintignore`. By default, ESLint looks in the current working directory for `.eslintignore`. You can override this behavior by providing a path to a different file.
 
 Example:
