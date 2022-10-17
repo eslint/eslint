@@ -50,7 +50,7 @@ git add -A
 git commit
 ```
 
-All ESLint projects follow [Conventional Commits](https://www.conventionalcommits.org/) for our commit messages. Here's an example commit message:
+All ESLint projects follow [Conventional Commits](https://www.conventionalcommits.org/) (**except**: the optional scope is not supported) for our commit messages. Here's an example commit message:
 
 ```txt
 tag: Short description of what you did
