@@ -1102,7 +1102,7 @@ describe("FlatESLint", () => {
             });
 
             // https://github.com/eslint/eslint/issues/16354
-            it("should skip subdirectory files when ignore pattern matches subdirectory", async () => {
+            it("should skip subdirectory files when ignore pattern matches deep subdirectory", async () => {
                 eslint = new FlatESLint({
                     cwd: getFixturePath("ignores-directory")
                 });
@@ -1121,6 +1121,34 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results[0].filePath, getFixturePath("ignores-directory/subdir/subsubdir/a.js"));
                 assert.strictEqual(results[0].warningCount, 1);
                 assert(results[0].messages[0].message.startsWith("File ignored"), "Should contain file ignored warning");
+
+            });
+
+            // https://github.com/eslint/eslint/issues/16414
+            it("should skip subdirectory files when ignore pattern matches subdirectory", async () => {
+                eslint = new FlatESLint({
+                    cwd: getFixturePath("ignores-subdirectory")
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles(["subdir/**/*.js"]);
+                }, /All files matched by 'subdir\/\*\*\/\*\.js' are ignored\./u);
+
+                const results = await eslint.lintFiles(["subdir/subsubdir/a.js"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].filePath, getFixturePath("ignores-subdirectory/subdir/subsubdir/a.js"));
+                assert.strictEqual(results[0].warningCount, 1);
+                assert(results[0].messages[0].message.startsWith("File ignored"), "Should contain file ignored warning");
+
+                eslint = new FlatESLint({
+                    cwd: getFixturePath("ignores-subdirectory/subdir")
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles(["subsubdir/**/*.js"]);
+                }, /All files matched by 'subsubdir\/\*\*\/\*\.js' are ignored\./u);
+
 
             });
 
