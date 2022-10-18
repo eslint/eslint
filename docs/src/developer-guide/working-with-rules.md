@@ -160,10 +160,12 @@ Additionally, the `context` object has the following methods:
 
 ### context.getScope()
 
-This method returns the scope of the current node.
-The following table contains a list of AST node types and the scope type that they
-correspond to. For more information about the scope types, refer to the
-[`Scope` object documentation](./scope-manager-interface.md#scope-interface).
+This method returns the scope of the current node. It is a useful method for finding
+information about the variables in a given scope, and how they are used in other scopes.
+
+#### Scope Types
+
+The following table contains a list of AST node types and the scope type that they correspond to. For more information about the scope types, refer to the [`Scope` object documentation](./scope-manager-interface.md#scope-interface).
 
 | AST Node Type             | Scope Type |
 |:--------------------------|:-----------|
@@ -182,22 +184,24 @@ correspond to. For more information about the scope types, refer to the
 | `CatchClause`             | `catch`    |
 | others                    | ※3        |
 
-**※1** Only if the configured parser provided the block-scope feature.
-The default parser provides the block-scope feature if `parserOptions.ecmaVersion`
-is not less than `6`.<br>
-**※2** Only if the `for` statement defines the iteration variable as
-a block-scoped variable (E.g., `for (let i = 0;;) {}`).<br>
-**※3** The scope of the closest ancestor node which has own scope.
-If the closest ancestor node has multiple scopes then it chooses the innermost scope
-(E.g., the `Program` node has a `global` scope and a `module` scope
-if `Program#sourceType` is `"module"`. The innermost scope is the `module` scope.).
+**※1** Only if the configured parser provided the block-scope feature. The default parser provides the block-scope feature if `parserOptions.ecmaVersion` is not less than `6`.<br>
+**※2** Only if the `for` statement defines the iteration variable as a block-scoped variable (E.g., `for (let i = 0;;) {}`).<br>
+**※3** The scope of the closest ancestor node which has own scope. If the closest ancestor node has multiple scopes then it chooses the innermost scope (E.g., the `Program` node has a `global` scope and a `module` scope if `Program#sourceType` is `"module"`. The innermost scope is the `module` scope.).
 
-The `Variable` objects of global variables have the following additional properties:
+#### Scope Variables
 
-* `variable.writeable` (`boolean | undefined`) ... If `true`, this global variable can be assigned arbitrary value. If `false`, this global variable is read-only.
-* `variable.eslintExplicitGlobal` (`boolean | undefined`) ... If `true`, this global variable was defined by a `/* globals */` directive comment in the source code file.
-* `variable.eslintExplicitGlobalComments` (`Comment[] | undefined`) ... The array of `/* globals */` directive comments which defined this global variable in the source code file. This property is `undefined` if there are no `/* globals */` directive comments.
-* `variable.eslintImplicitGlobalSetting` (`"readonly" | "writable" | undefined`) ... The configured value in config files. This can be different from `variable.writeable` if there are `/* globals */` directive comments.
+The `Scope.variables` property contains an array of [`Variable` objects](./scope-manager-interface#variable-interface). These are the variables declared in current scope. You can use these `Variable` objects to track references to a variable throughout the entire module.
+
+Inside of each `Variable`, the `Variable.references` property contains an array of [`Reference` objects](./scope-manager-interface#reference-interface). The `Reference` array contains all the locations where the variable is referenced in the module's source code.
+
+Also inside of each `Variable`, the `Variable.defs` property contains an array of [`Definition` objects](./scope-manager-interface#definition-interface). You can use the `Definitions to find where the variable was defined.
+
+Global variables have the following additional properties:
+
+* `Variable.writeable` (`boolean | undefined`) ... If `true`, this global variable can be assigned arbitrary value. If `false`, this global variable is read-only.
+* `Variable.eslintExplicitGlobal` (`boolean | undefined`) ... If `true`, this global variable was defined by a `/* globals */` directive comment in the source code file.
+* `Variable.eslintExplicitGlobalComments` (`Comment[] | undefined`) ... The array of `/* globals */` directive comments which defined this global variable in the source code file. This property is `undefined` if there are no `/* globals */` directive comments.
+* `Variable.eslintImplicitGlobalSetting` (`"readonly" | "writable" | undefined`) ... The configured value in config files. This can be different from `variable.writeable` if there are `/* globals */` directive comments.
 
 ### context.report()
 
