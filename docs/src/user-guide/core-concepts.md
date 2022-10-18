@@ -12,7 +12,7 @@ This page contains a high-level overview of some of the core concepts of ESLint.
 
 ## What is ESLint?
 
-ESLint is a configurable JavaScript linter. It helps you find and fix problems in your JavaScript code. Problems can be anything from potential runtime bugs, to not following best practices, to styling issues. It helps you write JavaScript in a consistent style and fix bugs in your code.
+ESLint is a configurable JavaScript linter. It helps you find and fix problems in your JavaScript code. Problems can be anything from potential runtime bugs, to not following best practices, to styling issues.
 
 ## Rules
 
@@ -26,13 +26,15 @@ For more information, refer to [Rules](../rules/).
 
 ## Configuration Files
 
-An ESLint configuration file is a place where you put the configuration for ESLint in your project. You can include built-in rules, how you want them enforced, plugins with custom rules, which files you want rules to apply to, and more.
+An ESLint configuration file is a place where you put the configuration for ESLint in your project. You can include built-in rules, how you want them enforced, plugins with custom rules, shareable configurations, which files you want rules to apply to, and more.
 
 For more information, refer to [Configuration Files](./configuring/configuration-files).
 
 ## Shareable Configurations
 
-Shareable configurations are ESLint configurations that are shared via npm. Often they're used to enforce style guides using ESLint's built-in rules. For example the sharable configuration [eslint-config-airbnb-base](https://www.npmjs.com/package/eslint-config-airbnb-base) implements the popular Airbnb JavaScript style guide.
+Shareable configurations are ESLint configurations that are shared via npm.
+
+Often shareable configurations are used to enforce style guides using ESLint's built-in rules. For example the sharable configuration [eslint-config-airbnb-base](https://www.npmjs.com/package/eslint-config-airbnb-base) implements the popular Airbnb JavaScript style guide.
 
 For more information, refer to [Using a shareable configuration package](./configuring/configuration-files#using-a-shareable-configuration-package).
 
@@ -54,7 +56,7 @@ For example, [@typescript-eslint/parser](npmjs.com/package/@typescript-eslint/pa
 
 ## Custom Processors
 
-An ESLint Processor extracts JavaScript code from other kinds of files, then let ESLint lint the JavaScript code. Alternatively, you can use a processor to manipulate JavaScript code before parsing it with ESLint.
+An ESLint Processor extracts JavaScript code from other kinds of files, then lets ESLint lint the JavaScript code. Alternatively, you can use a processor to manipulate JavaScript code before parsing it with ESLint.
 
 For example, [eslint-plugin-markdown](https://github.com/eslint/eslint-plugin-markdown) contains a custom processor that lets you lint JavaScript code inside of Markdown code blocks.
 
