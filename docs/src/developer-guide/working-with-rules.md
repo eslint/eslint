@@ -160,10 +160,9 @@ Additionally, the `context` object has the following methods:
 
 ### context.getScope()
 
-This method returns the scope of the current node. It is a useful method for finding
-information about the variables in a given scope, and how they are used in other scopes.
+This method returns the scope of the current node. It is a useful method for finding information about the variables in a given scope, and how they are used in other scopes.
 
-#### Scope Types
+#### Scope types
 
 The following table contains a list of AST node types and the scope type that they correspond to. For more information about the scope types, refer to the [`Scope` object documentation](./scope-manager-interface.md#scope-interface).
 
@@ -194,7 +193,7 @@ The `Scope.variables` property contains an array of [`Variable` objects](./scope
 
 Inside of each `Variable`, the `Variable.references` property contains an array of [`Reference` objects](./scope-manager-interface#reference-interface). The `Reference` array contains all the locations where the variable is referenced in the module's source code.
 
-Also inside of each `Variable`, the `Variable.defs` property contains an array of [`Definition` objects](./scope-manager-interface#definition-interface). You can use the `Definitions to find where the variable was defined.
+Also inside of each `Variable`, the `Variable.defs` property contains an array of [`Definition` objects](./scope-manager-interface#definition-interface). You can use the `Definitions` to find where the variable was defined.
 
 Global variables have the following additional properties:
 
@@ -202,6 +201,12 @@ Global variables have the following additional properties:
 * `Variable.eslintExplicitGlobal` (`boolean | undefined`) ... If `true`, this global variable was defined by a `/* globals */` directive comment in the source code file.
 * `Variable.eslintExplicitGlobalComments` (`Comment[] | undefined`) ... The array of `/* globals */` directive comments which defined this global variable in the source code file. This property is `undefined` if there are no `/* globals */` directive comments.
 * `Variable.eslintImplicitGlobalSetting` (`"readonly" | "writable" | undefined`) ... The configured value in config files. This can be different from `variable.writeable` if there are `/* globals */` directive comments.
+
+For examples of using `context.getScope()` to track variables, refer to the source code for the following built-in rules:
+
+* [camelcase](https://github.com/eslint/eslint/blob/main/lib/rules/camelcase.js)
+* [no-alert](https://github.com/eslint/eslint/blob/main/lib/rules/no-alert.js)
+* [no-console](https://github.com/eslint/eslint/blob/main/lib/rules/no-console.js)
 
 ### context.report()
 
