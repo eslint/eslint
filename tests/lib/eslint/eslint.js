@@ -4971,7 +4971,7 @@ describe("ESLint", () => {
 
             const rulesMeta = engine.getRulesMetaForResults([]);
 
-            assert.strictEqual(Object.keys(rulesMeta).length, 0);
+            assert.deepStrictEqual(rulesMeta, {});
         });
 
         it("should return one rule meta when there is a linting error", async () => {
