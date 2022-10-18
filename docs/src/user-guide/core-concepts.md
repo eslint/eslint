@@ -22,7 +22,7 @@ Rules are the core building block of ESLint. A rule validates if your code meets
 certain expectation, and what to do if it does not meet that expectation.
 Rules can also contain additional configuration options specific to that rule.
 
-For example, the [`semi` rule](../rules/semi.md`) lets you specify whether or not
+For example, the [`semi`](../rules/semi`) rule lets you specify whether or not
 JavaScript statements should end with a semicolon (`;`).
 You can set the rule to either always require semicolons or require that
 a statement never ends with a semicolon.
@@ -39,7 +39,7 @@ An ESLint configuration file is a single place where you put all the configurati
 for ESLint your project. You can include built-in rules, how you want them enforced,
 plugins with custom rules, which files you want rules to apply to, and more.
 
-For more information, refer to [Configuration Files](./configuring/configuration-files.md).
+For more information, refer to [Configuration Files](./configuring/configuration-files).
 
 ## Plugins
 
@@ -67,7 +67,7 @@ For example, many code editors have ESLint extensions that show you the ESLint r
 of your code in the file as you work so that you don't need to use the ESLint CLI
 to see linting results.
 
-For more information, refer to [Integrations](./integrations.md).
+For more information, refer to [Integrations](./integrations).
 For a curated collection of popular ESLint integrations,
 see the [awesome-eslint Github repository](https://github.com/dustinspecker/awesome-eslint).
 
@@ -82,5 +82,5 @@ to ESLint.
 
 Unless you are extending ESLint in some way, you should use the CLI.
 
-For more information, refer to [Command Line Interface](./command-line-interface.md)
-and [Node.js API](../developer-guide/nodejs-api.md).
+For more information, refer to [Command Line Interface](./command-line-interface)
+and [Node.js API](../developer-guide/nodejs-api).
