@@ -92,7 +92,7 @@ module.exports = [
             "tmp/**",
             "tools/internal-rules/node_modules/**",
             "**/test.js",
-            "!**/.eslintrc.js"
+            "!.eslintrc.js"
         ]
     },
     {

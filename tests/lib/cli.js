@@ -798,6 +798,32 @@ describe("cli", () => {
                         assert.strictEqual(exit, 0);
                     });
 
+                    it(`should interpret pattern that contains a slash as relative to cwd with configType:${configType}`, async () => {
+                        process.cwd = () => getFixturePath("cli/ignore-pattern-relative/subdir");
+
+                        /*
+                         * The config file is in `cli/ignore-pattern-relative`, so this would fail
+                         * if `subdir/**` ignore pattern is interpreted as relative to the config base path.
+                         */
+                        const exit = await cli.execute("**/*.js --ignore-pattern subdir/**", null, useFlatConfig);
+
+                        assert.strictEqual(exit, 0);
+
+                        await stdAssert.rejects(
+                            async () => await cli.execute("**/*.js --ignore-pattern subsubdir/*.js", null, useFlatConfig),
+                            /All files matched by '\*\*\/\*\.js' are ignored/u
+                        );
+                    });
+
+                    it(`should interpret pattern that doesn't contain a slash as relative to cwd with configType:${configType}`, async () => {
+                        process.cwd = () => getFixturePath("cli/ignore-pattern-relative/subdir/subsubdir");
+
+                        await stdAssert.rejects(
+                            async () => await cli.execute("**/*.js --ignore-pattern *.js", null, useFlatConfig),
+                            /All files matched by '\*\*\/\*\.js' are ignored/u
+                        );
+                    });
+
                     if (useFlatConfig) {
                         it("should ignore files if the pattern is a path to a directory (with trailing slash)", async () => {
                             const filePath = getFixturePath("cli/syntax-error.js");
