@@ -204,9 +204,8 @@ Global variables have the following additional properties:
 
 For examples of using `context.getScope()` to track variables, refer to the source code for the following built-in rules:
 
-* [camelcase](https://github.com/eslint/eslint/blob/main/lib/rules/camelcase.js)
-* [no-alert](https://github.com/eslint/eslint/blob/main/lib/rules/no-alert.js)
-* [no-console](https://github.com/eslint/eslint/blob/main/lib/rules/no-console.js)
+* [no-shadow](https://github.com/eslint/eslint/blob/main/lib/rules/no-shadow.js)
+* [no-redeclare](https://github.com/eslint/eslint/blob/main/lib/rules/no-redeclare.js)
 
 ### context.report()
 
