@@ -48,7 +48,7 @@ For more information, refer to [Configuring Plugins](./configuring/plugins.md).
 
 ## Parsers
 
-An ESLint parser converts code into an abstract syntax tree that ESLint can evaluate. By default, ESLint uses a built-in parser that is compatible with standard JavaScript runtimes and versions.
+An ESLint parser converts code into an abstract syntax tree that ESLint can evaluate. By default, ESLint uses the built-in [Espree](https://github.com/eslint/espree) parser, which is compatible with standard JavaScript runtimes and versions.
 
 Custom parsers let ESLint parse non-standard JavaScript syntax. Often custom parsers are included as part of shareable configurations or plugins, so you don't have to use them directly.
 
