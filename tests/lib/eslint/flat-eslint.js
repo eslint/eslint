@@ -779,6 +779,35 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[0].suppressedMessages.length, 0);
         });
 
+        // https://github.com/eslint/eslint/issues/16413
+        it("should find files and report zero messages when given a parent directory with a .js", async () => {
+            eslint = new FlatESLint({
+                ignore: false,
+                cwd: getFixturePath("example-app/subdir")
+            });
+            const results = await eslint.lintFiles(["../*.js"]);
+
+            assert.strictEqual(results.length, 2);
+            assert.strictEqual(results[0].messages.length, 0);
+            assert.strictEqual(results[0].suppressedMessages.length, 0);
+            assert.strictEqual(results[1].messages.length, 0);
+            assert.strictEqual(results[1].suppressedMessages.length, 0);
+        });
+
+        // https://github.com/eslint/eslint/issues/16299
+        it("should only find files in the subdir1 directory when given a directory name", async () => {
+            eslint = new FlatESLint({
+                ignore: false,
+                cwd: getFixturePath("example-app2")
+            });
+            const results = await eslint.lintFiles(["subdir1"]);
+
+            assert.strictEqual(results.length, 1);
+            assert.strictEqual(results[0].messages.length, 0);
+            assert.strictEqual(results[0].filePath, getFixturePath("example-app2/subdir1/a.js"));
+            assert.strictEqual(results[0].suppressedMessages.length, 0);
+        });
+
         // https://github.com/eslint/eslint/issues/16260
         describe("Globbing based on configs", () => {
             it("should report zero messages when given a directory with a .js and config file specifying a subdirectory", async () => {
@@ -811,8 +840,10 @@ describe("FlatESLint", () => {
 
                 assert.strictEqual(results.length, 2);
                 assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].filePath, getFixturePath("shallow-glob/subdir/subsubdir/broken.js"));
                 assert(results[0].messages[0].fatal, "Fatal error expected.");
                 assert.strictEqual(results[0].suppressedMessages.length, 0);
+                assert.strictEqual(results[1].filePath, getFixturePath("shallow-glob/subdir/subsubdir/plain.jsx"));
                 assert.strictEqual(results[1].messages.length, 0);
                 assert.strictEqual(results[1].suppressedMessages.length, 0);
             });
@@ -963,7 +994,7 @@ describe("FlatESLint", () => {
 
                 await assert.rejects(async () => {
                     await eslint.lintFiles(["node_modules"]);
-                }, /All files matched by 'node_modules\/\*\*\/\*.js' are ignored\./u);
+                }, /All files matched by 'node_modules' are ignored\./u);
             });
 
             // https://github.com/eslint/eslint/issues/5547
@@ -975,7 +1006,7 @@ describe("FlatESLint", () => {
 
                 await assert.rejects(async () => {
                     await eslint.lintFiles(["node_modules"]);
-                }, /All files matched by 'node_modules\/\*\*\/\*\.js' are ignored\./u);
+                }, /All files matched by 'node_modules' are ignored\./u);
             });
 
             it("should throw an error when all given files are ignored", async () => {
@@ -985,7 +1016,7 @@ describe("FlatESLint", () => {
 
                 await assert.rejects(async () => {
                     await eslint.lintFiles(["tests/fixtures/cli-engine/"]);
-                }, /All files matched by 'tests\/fixtures\/cli-engine\/\*\*\/\*\.js' are ignored\./u);
+                }, /All files matched by 'tests\/fixtures\/cli-engine\/' are ignored\./u);
             });
 
             it("should throw an error when all given files are ignored even with a `./` prefix", async () => {
@@ -995,7 +1026,7 @@ describe("FlatESLint", () => {
 
                 await assert.rejects(async () => {
                     await eslint.lintFiles(["./tests/fixtures/cli-engine/"]);
-                }, /All files matched by 'tests\/fixtures\/cli-engine\/\*\*\/\*\.js' are ignored\./u);
+                }, /All files matched by '\.\/tests\/fixtures\/cli-engine\/' are ignored\./u);
             });
 
             // https://github.com/eslint/eslint/issues/3788
@@ -1032,7 +1063,7 @@ describe("FlatESLint", () => {
 
                 await assert.rejects(async () => {
                     await eslint.lintFiles(["./tests/fixtures/cli-engine/"]);
-                }, /All files matched by 'tests\/fixtures\/cli-engine\/\*\*\/\*\.js' are ignored\./u);
+                }, /All files matched by '\.\/tests\/fixtures\/cli-engine\/' are ignored\./u);
             });
 
             it("should throw an error when all given files are ignored via ignore-pattern", async () => {
@@ -2650,7 +2681,7 @@ describe("FlatESLint", () => {
             it("should throw if the directory exists and is empty", async () => {
                 await assert.rejects(async () => {
                     await eslint.lintFiles(["empty"]);
-                }, /No files matching 'empty\/\*\*\/\*\.js' were found\./u);
+                }, /No files matching 'empty' were found\./u);
             });
 
             it("one glob pattern", async () => {
@@ -4528,7 +4559,7 @@ describe("FlatESLint", () => {
             beforeEach(prepare);
             afterEach(cleanup);
 
-            it("'lintFiles()' with a directory path should NOT contain 'foo/test.txt' and 'foo/nested/test.txt'.", async () => {
+            it("'lintFiles()' with a directory path should contain 'foo/test.txt' and 'foo/nested/test.txt'.", async () => {
                 const engine = new FlatESLint({ cwd: getPath() });
                 const filePaths = (await engine.lintFiles("."))
                     .map(r => r.filePath)
@@ -4537,7 +4568,9 @@ describe("FlatESLint", () => {
                 assert.deepStrictEqual(filePaths, [
                     path.join(getPath(), "bar/test.js"),
                     path.join(getPath(), "eslint.config.js"),
+                    path.join(getPath(), "foo/nested/test.txt"),
                     path.join(getPath(), "foo/test.js"),
+                    path.join(getPath(), "foo/test.txt"),
                     path.join(getPath(), "test.js")
                 ]);
             });
