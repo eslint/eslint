@@ -4751,6 +4751,61 @@ describe("FlatESLint", () => {
             assert.strictEqual(messages.length, 0);
         });
 
+        it("should be inserted before overrideConfig", async () => {
+            const eslint = new FlatESLint({
+                overrideConfigFile: true,
+                baseConfig: {
+                    rules: {
+                        semi: 2
+                    }
+                },
+                overrideConfig: {
+                    rules: {
+                        semi: 1
+                    }
+                }
+            });
+
+            const [{ messages }] = await eslint.lintText("foo");
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "semi");
+            assert.strictEqual(messages[0].severity, 1);
+        });
+
+        it("should be inserted before configs from the config file and overrideConfig", async () => {
+            const eslint = new FlatESLint({
+                overrideConfigFile: getFixturePath("eslint.config_with_rules.js"),
+                baseConfig: {
+                    rules: {
+                        quotes: ["error", "double"],
+                        semi: "error"
+                    }
+                },
+                overrideConfig: {
+                    rules: {
+                        quotes: "warn"
+                    }
+                }
+            });
+
+            const [{ messages }] = await eslint.lintText('const foo = "bar"');
+
+            /*
+             * baseConfig: { quotes: ["error", "double"], semi: "error" }
+             * eslint.config_with_rules.js: { quotes: ["error", "single"] }
+             * overrideConfig: { quotes: "warn" }
+             *
+             * Merged config: { quotes: ["warn", "single"], semi: "error" }
+             */
+
+            assert.strictEqual(messages.length, 2);
+            assert.strictEqual(messages[0].ruleId, "quotes");
+            assert.strictEqual(messages[0].severity, 1);
+            assert.strictEqual(messages[1].ruleId, "semi");
+            assert.strictEqual(messages[1].severity, 2);
+        });
+
         it("when it has 'files' they should be intepreted as relative to the config file", async () => {
 
             /*
