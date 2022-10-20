@@ -3782,6 +3782,37 @@ describe("FlatESLint", () => {
             });
         });
 
+        it("should treat a result without `filePath` as if the file was located in `cwd`", async () => {
+            const engine = new FlatESLint({
+                overrideConfigFile: true,
+                cwd: path.join(fixtureDir, "foo", "bar"),
+                ignorePatterns: "*/**", // ignore all subdirectories of `cwd`
+                overrideConfig: {
+                    rules: {
+                        eqeqeq: "warn"
+                    }
+                }
+            });
+
+            const results = await engine.lintText("a==b");
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.deepStrictEqual(rulesMeta.eqeqeq, coreRules.get("eqeqeq").meta);
+        });
+
+        it("should not throw an error if a result without `filePath` contains an ignored file warning", async () => {
+            const engine = new FlatESLint({
+                overrideConfigFile: true,
+                cwd: path.join(fixtureDir, "foo", "bar"),
+                ignorePatterns: "**"
+            });
+
+            const results = await engine.lintText("", { warnIgnored: true });
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.deepStrictEqual(rulesMeta, {});
+        });
+
         it("should return empty object when there are no linting errors", async () => {
             const engine = new FlatESLint({
                 overrideConfigFile: true
@@ -3914,24 +3945,6 @@ describe("FlatESLint", () => {
             const rulesMeta = engine.getRulesMetaForResults(results);
 
             assert.deepStrictEqual(rulesMeta, { "no-var": coreRules.get("no-var").meta });
-        });
-
-        it("should treat a result without `filePath` as if the file was located in `cwd`", async () => {
-            const engine = new FlatESLint({
-                overrideConfigFile: true,
-                cwd: path.join(fixtureDir, "foo", "bar"),
-                ignorePatterns: "*/**", // ignore all subdirectories of `cwd`
-                overrideConfig: {
-                    rules: {
-                        eqeqeq: "warn"
-                    }
-                }
-            });
-
-            const results = await engine.lintText("a==b");
-            const rulesMeta = engine.getRulesMetaForResults(results);
-
-            assert.deepStrictEqual(rulesMeta.eqeqeq, coreRules.get("eqeqeq").meta);
         });
     });
 
