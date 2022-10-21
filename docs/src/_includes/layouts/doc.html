@@ -5,7 +5,7 @@ layout: base.html
 {% include "partials/docs-header.html" %}
 {% from 'components/rule-categories.macro.html' import ruleCategories %}
 
-<div class="docs-wrapper docs">
+<div class="docs-wrapper">
     <div class="docs-nav">
         <div class="desktop-only">
             {% include 'components/version-switcher.html' %}
@@ -48,7 +48,7 @@ layout: base.html
 
         {% set all_content = [all_content, further_reading_content] | join %}
     {% endif %}
-
+        
     {% if rule_meta %}
         {% set resources_content %}
             <h2 id="resources">Resources</h2>
@@ -76,7 +76,7 @@ layout: base.html
                 {% endif %}
 
                 {% include 'components/docs-toc.html' %}
-
+                
                 {{ all_content | safe }}
             </div>
 

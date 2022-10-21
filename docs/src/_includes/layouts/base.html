@@ -24,7 +24,7 @@
     <title>{{ page_title }}</title>
     <meta name="description" content="{{ page_desc }}">
     <link rel="canonical" href="{{ page_url }}">
-
+    
     <!-- https://github.com/eslint/eslint/issues/15844 -->
     <base href="{{ relative_page_url }}">
 
@@ -76,7 +76,7 @@
 
 
     <style>
-
+    
         /* Overrides for funky punctuators */
         @font-face {
             font-family: "Mono Punctuators";
@@ -85,7 +85,7 @@
             unicode-range: U+40, U+7B, U+7D, U+28, U+29;
             font-display: swap;
         }
-
+        
         /* Space Grotesk for headings */
         @font-face {
             font-family: "Space Grotesk";
@@ -136,7 +136,7 @@
     <script src="https://unpkg.com/anchor-js@4.3.1/anchor.min.js"></script>
 </head>
 
-<body class="{{ hook }}">
+<body class="{{ hook }} docs">
     <a href="#main" class="c-btn c-btn--primary" id="skip-link">Skip to main content</a>
 
     {{ content | safe }}
