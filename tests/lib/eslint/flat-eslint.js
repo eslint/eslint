@@ -808,6 +808,20 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[0].suppressedMessages.length, 0);
         });
 
+        // https://github.com/eslint/eslint/issues/16275
+        it("should throw an error for a missing pattern when combined with a found pattern", async () => {
+            eslint = new FlatESLint({
+                ignore: false,
+                cwd: getFixturePath("example-app2")
+            });
+            const results = await eslint.lintFiles(["subdir1", "doesnotexist/*.js"]);
+
+            assert.strictEqual(results.length, 1);
+            assert.strictEqual(results[0].messages.length, 0);
+            assert.strictEqual(results[0].filePath, getFixturePath("example-app2/subdir1/a.js"));
+            assert.strictEqual(results[0].suppressedMessages.length, 0);
+        });
+
         // https://github.com/eslint/eslint/issues/16260
         describe("Globbing based on configs", () => {
             it("should report zero messages when given a directory with a .js and config file specifying a subdirectory", async () => {
@@ -4559,7 +4573,7 @@ describe("FlatESLint", () => {
             beforeEach(prepare);
             afterEach(cleanup);
 
-            it("'lintFiles()' with a directory path should contain 'foo/test.txt' and 'foo/nested/test.txt'.", async () => {
+            it("'lintFiles()' with a directory path should NOT contain 'foo/test.txt' and 'foo/nested/test.txt'.", async () => {
                 const engine = new FlatESLint({ cwd: getPath() });
                 const filePaths = (await engine.lintFiles("."))
                     .map(r => r.filePath)
@@ -4568,9 +4582,7 @@ describe("FlatESLint", () => {
                 assert.deepStrictEqual(filePaths, [
                     path.join(getPath(), "bar/test.js"),
                     path.join(getPath(), "eslint.config.js"),
-                    path.join(getPath(), "foo/nested/test.txt"),
                     path.join(getPath(), "foo/test.js"),
-                    path.join(getPath(), "foo/test.txt"),
                     path.join(getPath(), "test.js")
                 ]);
             });
