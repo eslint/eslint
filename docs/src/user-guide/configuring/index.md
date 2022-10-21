@@ -5,7 +5,7 @@ eleventyNavigation:
     key: configuring
     parent: user guide
     title: Configuring
-    order: 2
+    order: 3
 
 ---
 

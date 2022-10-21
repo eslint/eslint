@@ -5,7 +5,7 @@ eleventyNavigation:
     key: migrating to v8
     parent: user guide
     title: Migrating to v8.x
-    order: 6
+    order: 7
 
 ---
 

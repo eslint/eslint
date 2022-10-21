@@ -5,7 +5,7 @@ eleventyNavigation:
     key: command line interface
     parent: user guide
     title: Command Line Interface
-    order: 3
+    order: 4
 
 ---
 
