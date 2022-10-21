@@ -746,7 +746,7 @@ describe("cli", () => {
                             : `--ignore-path ${getFixturePath(".eslintignore")}`;
                         const filePath = getFixturePath("cli");
                         const expectedMessage = useFlatConfig
-                            ? `All files matched by '${filePath.replace(/\\/gu, "/")}/**/*.js' are ignored.`
+                            ? `All files matched by '${filePath.replace(/\\/gu, "/")}' are ignored.`
                             : `All files matched by '${filePath}' are ignored.`;
 
                         await stdAssert.rejects(async () => {
