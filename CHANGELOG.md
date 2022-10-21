@@ -1,3 +1,24 @@
+v8.26.0 - October 21, 2022
+
+* [`df77409`](https://github.com/eslint/eslint/commit/df7740967ffab2915974c7b310ac76ea2915ac2d) fix: use `baseConfig` constructor option in FlatESLint (#16432) (Milos Djermanovic)
+* [`33668ee`](https://github.com/eslint/eslint/commit/33668ee9d22e1988ba03e07fb547738bdb21dc0e) fix: Ensure that glob patterns are matched correctly. (#16449) (Nicholas C. Zakas)
+* [`651649b`](https://github.com/eslint/eslint/commit/651649b12797594a86c0d659d6a0d1cdbda6f57b) docs: Core concepts page (#16399) (Ben Perlmutter)
+* [`4715787`](https://github.com/eslint/eslint/commit/4715787724a71494ba0bb0c5fe4639570bb6985b) feat: check `Object.create()` in getter-return (#16420) (Yuki Hirasawa)
+* [`e917a9a`](https://github.com/eslint/eslint/commit/e917a9a2e555d398c64b985fc933d44a42c958f0) ci: add node v19 (#16443) (Koichi ITO)
+* [`740b208`](https://github.com/eslint/eslint/commit/740b20826fadc5322ea5547c1ba41793944e571d) fix: ignore messages without a `ruleId` in `getRulesMetaForResults` (#16409) (Francesco Trotta)
+* [`8f9759e`](https://github.com/eslint/eslint/commit/8f9759e2a94586357d85fac902e038fabdba79a7) fix: `--ignore-pattern` in flat config mode should be relative to `cwd` (#16425) (Milos Djermanovic)
+* [`325ad37`](https://github.com/eslint/eslint/commit/325ad375a52d1c7b8b8fd23943350c91781366a2) fix: make `getRulesMetaForResults` return a plain object in trivial case (#16438) (Francesco Trotta)
+* [`a2810bc`](https://github.com/eslint/eslint/commit/a2810bc485d9f1123a86b60702fcaa51e19d71a3) fix: Ensure that directories can be unignored. (#16436) (Nicholas C. Zakas)
+* [`631cf72`](https://github.com/eslint/eslint/commit/631cf72e82f316a2cc08770e5c81b858637ab04a) docs: note --ignore-path not supported with flat config (#16434) (Andy Edwards)
+* [`1692840`](https://github.com/eslint/eslint/commit/1692840a2f763737a4891419dc304db4ebedab5d) docs: fix syntax in examples for new config files (#16427) (Milos Djermanovic)
+* [`28d1902`](https://github.com/eslint/eslint/commit/28d190264017dbaa29f2ab218f73b623143cd1af) feat: `no-implicit-globals` supports `exported` block comment (#16343) (Sosuke Suzuki)
+* [`35916ad`](https://github.com/eslint/eslint/commit/35916ad9bfc07dab63361721df1bd7f21e43e094) fix: Ensure unignore and reignore work correctly in flat config. (#16422) (Nicholas C. Zakas)
+* [`4b70b91`](https://github.com/eslint/eslint/commit/4b70b91a6e28669ab8e2a4ce2a6d9ed40be20fa7) chore: Add VS Code issues link (#16423) (Nicholas C. Zakas)
+* [`e940be7`](https://github.com/eslint/eslint/commit/e940be7a83d0caea15b64c1e1c2785a6540e2641) feat: Use ESLINT_USE_FLAT_CONFIG environment variable for flat config (#16356) (Tomer Aberbach)
+* [`d336cfc`](https://github.com/eslint/eslint/commit/d336cfc9145a72bf8730250ee1e331a135e6ee2c) docs: Document extending plugin with new config (#16394) (Ben Perlmutter)
+* [`dd0c58f`](https://github.com/eslint/eslint/commit/dd0c58f0f34d24331ae55139af39cf2747125f5e) feat: Swap out Globby for custom globbing solution. (#16369) (Nicholas C. Zakas)
+* [`232d291`](https://github.com/eslint/eslint/commit/232d2916ac5e44db55c2ffbd2f3b37ad70037b7b) chore: suppress a Node.js deprecation warning (#16398) (Koichi ITO)
+
 v8.25.0 - October 7, 2022
 
 * [`1f78594`](https://github.com/eslint/eslint/commit/1f785944f61c97996445e48cb74fc300142e7310) chore: upgrade @eslint/eslintrc@1.3.3 (#16397) (Milos Djermanovic)
