@@ -18,7 +18,7 @@ ESLint is a configurable JavaScript linter. It helps you find and fix problems i
 
 Rules are the core building block of ESLint. A rule validates if your code meets a certain expectation, and what to do if it does not meet that expectation. Rules can also contain additional configuration options specific to that rule.
 
-For example, the [`semi`](../rules/semi`) rule lets you specify whether or not JavaScript statements should end with a semicolon (`;`). You can set the rule to either always require semicolons or require that a statement never ends with a semicolon.
+For example, the [`semi`](../rules/semi) rule lets you specify whether or not JavaScript statements should end with a semicolon (`;`). You can set the rule to either always require semicolons or require that a statement never ends with a semicolon.
 
 ESLint contains hundreds of built-in rules that you can use. You can also create custom rules or use rules that others have created with [plugins](#plugins).
 
