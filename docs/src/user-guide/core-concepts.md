@@ -64,7 +64,7 @@ For example, [eslint-plugin-markdown](https://github.com/eslint/eslint-plugin-ma
 
 An ESLint formatter controls the appearance of the linting results in the CLI.
 
-For more information, refer to [Formatters](./formatters/index.md).
+For more information, refer to [Formatters](./formatters/).
 
 ## Integrations
 
