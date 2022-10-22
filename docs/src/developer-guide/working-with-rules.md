@@ -204,8 +204,8 @@ Global variables have the following additional properties:
 
 For examples of using `context.getScope()` to track variables, refer to the source code for the following built-in rules:
 
-* [no-shadow](https://github.com/eslint/eslint/blob/main/lib/rules/no-shadow.js): Calls `context.getScopes()` at the global scope and parses all child scopes to see if a variable name is reused at a lower scope. ([no-shadow](../rules/no-shadow) documentation)
-* [no-redeclare](https://github.com/eslint/eslint/blob/main/lib/rules/no-redeclare.js): Calls `context.getScope()` at each scope to make sure that a variable isn't declared twice at that scope. ([no-redeclare](../rules/no-redeclare) documentation)
+* [no-shadow](https://github.com/eslint/eslint/blob/main/lib/rules/no-shadow.js): Calls `context.getScopes()` at the global scope and parses all child scopes to make sure a variable name is not reused at a lower scope. ([no-shadow](../rules/no-shadow) documentation)
+* [no-redeclare](https://github.com/eslint/eslint/blob/main/lib/rules/no-redeclare.js): Calls `context.getScope()` at each scope to make sure that a variable is not declared twice at that scope. ([no-redeclare](../rules/no-redeclare) documentation)
 
 ### context.report()
 
