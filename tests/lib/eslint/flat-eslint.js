@@ -3813,6 +3813,26 @@ describe("FlatESLint", () => {
             assert.deepStrictEqual(rulesMeta, {});
         });
 
+        it("should not throw an error if results contain linted files and one ignored file", async () => {
+            const engine = new FlatESLint({
+                overrideConfigFile: true,
+                cwd: getFixturePath(),
+                ignorePatterns: "passing*",
+                overrideConfig: {
+                    rules: {
+                        "no-undef": 2,
+                        semi: 1
+                    }
+                }
+            });
+
+            const results = await engine.lintFiles(["missing-semicolon.js", "passing.js", "undef.js"]);
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.deepStrictEqual(rulesMeta["no-undef"], coreRules.get("no-undef").meta);
+            assert.deepStrictEqual(rulesMeta.semi, coreRules.get("semi").meta);
+        });
+
         it("should return empty object when there are no linting errors", async () => {
             const engine = new FlatESLint({
                 overrideConfigFile: true
