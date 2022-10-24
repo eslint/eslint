@@ -9,7 +9,8 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-misleading-character-class"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester"),
+    FlatRuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -618,6 +619,36 @@ ruleTester.run("no-misleading-character-class", rule, {
             errors: [{
                 messageId: "zwj",
                 suggestions: null
+            }]
+        }
+    ]
+});
+
+const flatRuleTester = new FlatRuleTester();
+
+flatRuleTester.run("no-misleading-character-class", rule, {
+    valid: [],
+
+    invalid: [
+        {
+            code: "var r = /[👍]/",
+            languageOptions: {
+                ecmaVersion: 5,
+                sourceType: "script"
+            },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: null // ecmaVersion doesn't support the 'u' flag
+            }]
+        },
+        {
+            code: "var r = /[👍]/",
+            languageOptions: {
+                ecmaVersion: 2015
+            },
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👍]/u" }]
             }]
         }
     ]
