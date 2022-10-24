@@ -59,6 +59,7 @@
     "lines-around-comment": "layout",
     "lines-around-directive": "layout",
     "lines-between-class-members": "layout",
+    "logical-assignment-operators": "suggestion",
     "max-classes-per-file": "suggestion",
     "max-depth": "suggestion",
     "max-len": "layout",

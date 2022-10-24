@@ -6,7 +6,7 @@ eleventyNavigation:
     key: rules
     parent: user guide
     title: Rules
-    order: 4
+    order: 5
 ---
 
 {% from 'components/rule-categories.macro.html' import ruleCategories, recommended, fixable, hasSuggestions %}

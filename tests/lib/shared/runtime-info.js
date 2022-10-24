@@ -206,7 +206,7 @@ describe("RuntimeInfo", () => {
             spawnSyncStubArgs[2] = "This is not JSON";
             setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
 
-            assert.throws(RuntimeInfo.environment, "Unexpected token T in JSON at position 0");
+            assert.throws(RuntimeInfo.environment, /^Unexpected token .*T.* JSON/u);
             assert.strictEqual(logErrorStub.args[0][0], "Error finding eslint version running the command `npm ls --depth=0 --json eslint`");
         });
 
@@ -214,7 +214,7 @@ describe("RuntimeInfo", () => {
             spawnSyncStubArgs[4] = "This is not JSON";
             setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
 
-            assert.throws(RuntimeInfo.environment, "Unexpected token T in JSON at position 0");
+            assert.throws(RuntimeInfo.environment, /^Unexpected token .*T.* JSON/u);
             assert.strictEqual(logErrorStub.args[0][0], "Error finding eslint version running the command `npm ls --depth=0 --json eslint -g`");
         });
     });

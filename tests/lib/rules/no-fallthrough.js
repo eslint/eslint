@@ -92,6 +92,22 @@ ruleTester.run("no-fallthrough", rule, {
             options: [{
                 commentPattern: "break[\\s\\w]+omitted"
             }]
+        },
+        {
+            code: "switch(foo) { case 0: \n\n\n case 1: b(); }",
+            options: [{ allowEmptyCase: true }]
+        },
+        {
+            code: "switch(foo) { case 0: \n /* with comments */  \n case 1: b(); }",
+            options: [{ allowEmptyCase: true }]
+        },
+        {
+            code: "switch (a) {\n case 1: ; break; \n case 3: }",
+            options: [{ allowEmptyCase: true }]
+        },
+        {
+            code: "switch (a) {\n case 1: ; break; \n case 3: }",
+            options: [{ allowEmptyCase: false }]
         }
     ],
     invalid: [
@@ -212,6 +228,73 @@ ruleTester.run("no-fallthrough", rule, {
                     type: "SwitchCase",
                     line: 4,
                     column: 1
+                }
+            ]
+        },
+        {
+            code: "switch(foo) { case 0: \n /* with comments */  \ncase 1: b(); }",
+            errors: [
+                {
+                    messageId: "case",
+                    type: "SwitchCase",
+                    line: 3,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "switch(foo) { case 0:\n\ncase 1: b(); }",
+            options: [{
+                allowEmptyCase: false
+            }],
+            errors: [
+                {
+                    messageId: "case",
+                    type: "SwitchCase",
+                    line: 3,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "switch(foo) { case 0:\n\ncase 1: b(); }",
+            options: [{}],
+            errors: [
+                {
+                    messageId: "case",
+                    type: "SwitchCase",
+                    line: 3,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "switch (a) { case 1: \n ; case 2:  }",
+            options: [{ allowEmptyCase: false }],
+            errors: [
+                {
+                    messageId: "case",
+                    type: "SwitchCase",
+                    line: 2,
+                    column: 4
+                }
+            ]
+        },
+        {
+            code: "switch (a) { case 1: ; case 2: ; case 3: }",
+            options: [{ allowEmptyCase: true }],
+            errors: [
+                {
+                    messageId: "case",
+                    type: "SwitchCase",
+                    line: 1,
+                    column: 24
+                },
+                {
+                    messageId: "case",
+                    type: "SwitchCase",
+                    line: 1,
+                    column: 34
                 }
             ]
         }

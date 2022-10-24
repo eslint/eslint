@@ -81,7 +81,14 @@ layout: base.html
             </div>
 
             <div class="docs-edit-link">
-                <a href="{{ edit_link }}" class="c-btn c-btn--secondary">Edit this page</a>
+                <a href="
+                {% if edit_link %}
+                    {{ edit_link }}
+                {% else %}
+                    {{ site.edit_link.start_with }}{{ page.inputPath }}
+                {% endif %}
+                "
+                class="c-btn c-btn--secondary">{{ site.edit_link.text }}</a>
             </div>
         </main>
 

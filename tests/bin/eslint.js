@@ -82,7 +82,7 @@ describe("bin/eslint.js", () => {
 
     describe("reading from stdin", () => {
         it("has exit code 0 if no linting errors are reported", () => {
-            const child = runESLint(["--stdin", "--no-eslintrc"]);
+            const child = runESLint(["--stdin", "--no-config-lookup"]);
 
             child.stdin.write("var foo = bar;\n");
             child.stdin.end();
@@ -92,7 +92,7 @@ describe("bin/eslint.js", () => {
         it("has exit code 0 if no linting errors are reported", () => {
             const child = runESLint([
                 "--stdin",
-                "--no-eslintrc",
+                "--no-config-lookup",
                 "--rule",
                 "{'no-extra-semi': 2}",
                 "--fix-dry-run",
@@ -128,7 +128,7 @@ describe("bin/eslint.js", () => {
         });
 
         it("has exit code 1 if a syntax error is thrown", () => {
-            const child = runESLint(["--stdin", "--no-eslintrc"]);
+            const child = runESLint(["--stdin", "--no-config-lookup"]);
 
             child.stdin.write("This is not valid JS syntax.\n");
             child.stdin.end();
@@ -136,7 +136,7 @@ describe("bin/eslint.js", () => {
         });
 
         it("has exit code 2 if a syntax error is thrown when exit-on-fatal-error is true", () => {
-            const child = runESLint(["--stdin", "--no-eslintrc", "--exit-on-fatal-error"]);
+            const child = runESLint(["--stdin", "--no-config-lookup", "--exit-on-fatal-error"]);
 
             child.stdin.write("This is not valid JS syntax.\n");
             child.stdin.end();
@@ -144,7 +144,7 @@ describe("bin/eslint.js", () => {
         });
 
         it("has exit code 1 if a linting error occurs", () => {
-            const child = runESLint(["--stdin", "--no-eslintrc", "--rule", "semi:2"]);
+            const child = runESLint(["--stdin", "--no-config-lookup", "--rule", "semi:2"]);
 
             child.stdin.write("var foo = bar // <-- no semicolon\n");
             child.stdin.end();
@@ -182,7 +182,7 @@ describe("bin/eslint.js", () => {
         );
 
         it("successfully reads from an asynchronous pipe", () => {
-            const child = runESLint(["--stdin", "--no-eslintrc"]);
+            const child = runESLint(["--stdin", "--no-config-lookup"]);
 
             child.stdin.write("var foo = bar;\n");
             return new Promise(resolve => setTimeout(resolve, 300)).then(() => {
@@ -194,7 +194,7 @@ describe("bin/eslint.js", () => {
         });
 
         it("successfully handles more than 4k data via stdin", () => {
-            const child = runESLint(["--stdin", "--no-eslintrc"]);
+            const child = runESLint(["--stdin", "--no-config-lookup"]);
             const large = fs.createReadStream(path.join(__dirname, "../bench/large.js"), "utf8");
 
             large.pipe(child.stdin);
@@ -205,9 +205,9 @@ describe("bin/eslint.js", () => {
 
     describe("running on files", () => {
         it("has exit code 0 if no linting errors occur", () => assertExitCode(runESLint(["bin/eslint.js"]), 0));
-        it("has exit code 0 if a linting warning is reported", () => assertExitCode(runESLint(["bin/eslint.js", "--env", "es2021", "--no-eslintrc", "--rule", "semi: [1, never]"]), 0));
-        it("has exit code 1 if a linting error is reported", () => assertExitCode(runESLint(["bin/eslint.js", "--env", "es2021", "--no-eslintrc", "--rule", "semi: [2, never]"]), 1));
-        it("has exit code 1 if a syntax error is thrown", () => assertExitCode(runESLint(["README.md"]), 1));
+        it("has exit code 0 if a linting warning is reported", () => assertExitCode(runESLint(["bin/eslint.js", "--no-config-lookup", "--rule", "semi: [1, never]"]), 0));
+        it("has exit code 1 if a linting error is reported", () => assertExitCode(runESLint(["bin/eslint.js", "--no-config-lookup", "--rule", "semi: [2, never]"]), 1));
+        it("has exit code 1 if a syntax error is thrown", () => assertExitCode(runESLint(["tests/fixtures/exit-on-fatal-error/fatal-error.js", "--no-ignore"]), 1));
     });
 
     describe("automatically fixing files", () => {
@@ -222,7 +222,7 @@ describe("bin/eslint.js", () => {
         });
 
         it("has exit code 0 and fixes a file if all rules can be fixed", () => {
-            const child = runESLint(["--fix", "--no-eslintrc", "--no-ignore", tempFilePath]);
+            const child = runESLint(["--fix", "--no-config-lookup", "--no-ignore", tempFilePath]);
             const exitCodeAssertion = assertExitCode(child, 0);
             const outputFileAssertion = awaitExit(child).then(() => {
                 assert.strictEqual(fs.readFileSync(tempFilePath).toString(), expectedFixedText);
@@ -232,7 +232,7 @@ describe("bin/eslint.js", () => {
         });
 
         it("has exit code 0, fixes errors in a file, and does not report or fix warnings if --quiet and --fix are used", () => {
-            const child = runESLint(["--fix", "--quiet", "--no-eslintrc", "--no-ignore", tempFilePath]);
+            const child = runESLint(["--fix", "--quiet", "--no-config-lookup", "--no-ignore", tempFilePath]);
             const exitCodeAssertion = assertExitCode(child, 0);
             const stdoutAssertion = getOutput(child).then(output => assert.strictEqual(output.stdout, ""));
             const outputFileAssertion = awaitExit(child).then(() => {
@@ -243,7 +243,7 @@ describe("bin/eslint.js", () => {
         });
 
         it("has exit code 1 and fixes a file if not all rules can be fixed", () => {
-            const child = runESLint(["--fix", "--no-eslintrc", "--no-ignore", "--rule", "max-len: [2, 10]", tempFilePath]);
+            const child = runESLint(["--fix", "--no-config-lookup", "--no-ignore", "--rule", "max-len: [2, 10]", tempFilePath]);
             const exitCodeAssertion = assertExitCode(child, 1);
             const outputFileAssertion = awaitExit(child).then(() => {
                 assert.strictEqual(fs.readFileSync(tempFilePath).toString(), expectedFixedText);
@@ -260,7 +260,7 @@ describe("bin/eslint.js", () => {
     describe("cache files", () => {
         const CACHE_PATH = ".temp-eslintcache";
         const SOURCE_PATH = "tests/fixtures/cache/src/test-file.js";
-        const ARGS_WITHOUT_CACHE = ["--no-eslintrc", "--no-ignore", SOURCE_PATH, "--cache-location", CACHE_PATH];
+        const ARGS_WITHOUT_CACHE = ["--no-config-lookup", "--no-ignore", SOURCE_PATH, "--cache-location", CACHE_PATH];
         const ARGS_WITH_CACHE = ARGS_WITHOUT_CACHE.concat("--cache");
 
         describe("when no cache file exists", () => {
@@ -388,40 +388,10 @@ describe("bin/eslint.js", () => {
         });
 
         it("prints the error message pointing to line of code", () => {
-            const invalidConfig = path.join(__dirname, "../fixtures/bin/.eslintrc.yml");
-            const child = runESLint(["--no-ignore", invalidConfig]);
-            const exitCodeAssertion = assertExitCode(child, 2);
-            const outputAssertion = getOutput(child).then(output => {
-                assert.strictEqual(output.stdout, "");
-                assert.match(
-                    output.stderr,
-                    /: bad indentation of a mapping entry \(\d+:\d+\)/u // a part of the error message from `js-yaml` dependency
-                );
-            });
+            const invalidConfig = path.join(__dirname, "../fixtures/bin/eslint.config.js");
+            const child = runESLint(["--no-ignore", "-c", invalidConfig]);
 
-            return Promise.all([exitCodeAssertion, outputAssertion]);
-        });
-    });
-
-
-    describe("emitting a warning for ecmaFeatures", () => {
-        it("does not emit a warning when it does not find an ecmaFeatures option", () => {
-            const child = runESLint(["Makefile.js"]);
-
-            const exitCodePromise = assertExitCode(child, 0);
-            const outputPromise = getOutput(child).then(output => assert.strictEqual(output.stderr, ""));
-
-            return Promise.all([exitCodePromise, outputPromise]);
-        });
-        it("emits a warning when it finds an ecmaFeatures option", () => {
-            const child = runESLint(["-c", "tests/fixtures/config-file/ecma-features/.eslintrc.yml", "Makefile.js"]);
-
-            const exitCodePromise = assertExitCode(child, 0);
-            const outputPromise = getOutput(child).then(output => {
-                assert.include(output.stderr, "The 'ecmaFeatures' config file property is deprecated and has no effect.");
-            });
-
-            return Promise.all([exitCodePromise, outputPromise]);
+            return assertExitCode(child, 2);
         });
     });
 

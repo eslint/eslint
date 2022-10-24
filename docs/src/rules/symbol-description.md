@@ -1,7 +1,6 @@
 ---
 title: symbol-description
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/symbol-description.md
 rule_type: suggestion
 further_reading:
 - https://www.ecma-international.org/ecma-262/6.0/#sec-symbol-description

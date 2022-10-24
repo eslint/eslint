@@ -1,7 +1,6 @@
 ---
 title: id-denylist
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/id-denylist.md
 rule_type: suggestion
 ---
 
@@ -38,6 +37,8 @@ For example, to restrict the use of common generic identifiers:
     "id-denylist": ["error", "data", "err", "e", "cb", "callback"]
 }
 ```
+
+**Note:** The first element of the array is for the rule severity (see [configuring rules](/docs/latest/user-guide/configuring/rules). The other elements in the array are the identifiers that you want to disallow.
 
 Examples of **incorrect** code for this rule with sample `"data", "callback"` restricted identifiers:
 

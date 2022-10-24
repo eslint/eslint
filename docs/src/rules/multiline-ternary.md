@@ -1,7 +1,6 @@
 ---
 title: multiline-ternary
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/multiline-ternary.md
 rule_type: layout
 related_rules:
 - operator-linebreak

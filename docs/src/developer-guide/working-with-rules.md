@@ -1,7 +1,6 @@
 ---
 title: Working with Rules
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/working-with-rules.md
 eleventyNavigation:
     key: working with rules
     parent: developer guide
@@ -336,7 +335,7 @@ The `fix()` function can return the following values:
 * An array which includes `fixing` objects.
 * An iterable object which enumerates `fixing` objects. Especially, the `fix()` function can be a generator.
 
-If you make a `fix()` function which returns multiple `fixing` objects, those `fixing` objects must not be overlapped.
+If you make a `fix()` function which returns multiple `fixing` objects, those `fixing` objects must not overlap.
 
 Best practices for fixes:
 
@@ -377,6 +376,13 @@ context.report({
     }
 });
 ```
+
+#### Conflicting Fixes
+
+Conflicting fixes are fixes that apply different changes to the same part of the source code.
+There is no way to specify which of the conflicting fixes is applied.
+
+For example, if two fixes want to modify characters 0 through 5, only one is applied.
 
 ### Providing Suggestions
 

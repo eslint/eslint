@@ -1,7 +1,6 @@
 ---
 title: no-catch-shadow
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-catch-shadow.md
 rule_type: suggestion
 ---
 

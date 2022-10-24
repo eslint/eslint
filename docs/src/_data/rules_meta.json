@@ -531,6 +531,16 @@
         },
         "fixable": "whitespace"
     },
+    "logical-assignment-operators": {
+        "type": "suggestion",
+        "docs": {
+            "description": "Require or disallow logical assignment logical operator shorthand",
+            "recommended": false,
+            "url": "https://eslint.org/docs/rules/logical-assignment-operators"
+        },
+        "fixable": "code",
+        "hasSuggestions": true
+    },
     "max-classes-per-file": {
         "type": "suggestion",
         "docs": {

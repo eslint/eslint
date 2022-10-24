@@ -2332,7 +2332,7 @@ describe("RuleTester", () => {
             const ruleWithUndefinedSchema = {
                 meta: {
                     type: "problem",
-                    // eslint-disable-next-line no-undefined -- intentioally added for test case
+                    // eslint-disable-next-line no-undefined -- intentionally added for test case
                     schema: undefined
                 },
                 create(context) {

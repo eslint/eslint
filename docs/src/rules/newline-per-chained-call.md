@@ -1,7 +1,6 @@
 ---
 title: newline-per-chained-call
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/newline-per-chained-call.md
 rule_type: layout
 ---
 

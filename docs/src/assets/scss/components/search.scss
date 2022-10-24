@@ -70,12 +70,12 @@
     width: 100%;
     border-radius: 0 0 var(--border-radius) var(--border-radius);
     border: 1px solid var(--divider-color);
-    position: rekative;
+    position: relative;
     top: .25rem;
     max-height: 400px;
     overflow-y: auto;
 
-    @media all and (min-width: 1023px) {
+    @media all and (min-width: 1024px) {
         box-shadow: var(--shadow-lg);
         position: absolute;
         top: calc(100% + .25rem);
@@ -107,6 +107,10 @@
     position: relative;
 
     &:hover {
+        background-color: var(--lightest-background-color);
+    }
+
+    &:focus-within{
         background-color: var(--lightest-background-color);
     }
 }

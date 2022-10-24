@@ -1,3 +1,96 @@
+v8.26.0 - October 21, 2022
+
+* [`df77409`](https://github.com/eslint/eslint/commit/df7740967ffab2915974c7b310ac76ea2915ac2d) fix: use `baseConfig` constructor option in FlatESLint (#16432) (Milos Djermanovic)
+* [`33668ee`](https://github.com/eslint/eslint/commit/33668ee9d22e1988ba03e07fb547738bdb21dc0e) fix: Ensure that glob patterns are matched correctly. (#16449) (Nicholas C. Zakas)
+* [`651649b`](https://github.com/eslint/eslint/commit/651649b12797594a86c0d659d6a0d1cdbda6f57b) docs: Core concepts page (#16399) (Ben Perlmutter)
+* [`4715787`](https://github.com/eslint/eslint/commit/4715787724a71494ba0bb0c5fe4639570bb6985b) feat: check `Object.create()` in getter-return (#16420) (Yuki Hirasawa)
+* [`e917a9a`](https://github.com/eslint/eslint/commit/e917a9a2e555d398c64b985fc933d44a42c958f0) ci: add node v19 (#16443) (Koichi ITO)
+* [`740b208`](https://github.com/eslint/eslint/commit/740b20826fadc5322ea5547c1ba41793944e571d) fix: ignore messages without a `ruleId` in `getRulesMetaForResults` (#16409) (Francesco Trotta)
+* [`8f9759e`](https://github.com/eslint/eslint/commit/8f9759e2a94586357d85fac902e038fabdba79a7) fix: `--ignore-pattern` in flat config mode should be relative to `cwd` (#16425) (Milos Djermanovic)
+* [`325ad37`](https://github.com/eslint/eslint/commit/325ad375a52d1c7b8b8fd23943350c91781366a2) fix: make `getRulesMetaForResults` return a plain object in trivial case (#16438) (Francesco Trotta)
+* [`a2810bc`](https://github.com/eslint/eslint/commit/a2810bc485d9f1123a86b60702fcaa51e19d71a3) fix: Ensure that directories can be unignored. (#16436) (Nicholas C. Zakas)
+* [`631cf72`](https://github.com/eslint/eslint/commit/631cf72e82f316a2cc08770e5c81b858637ab04a) docs: note --ignore-path not supported with flat config (#16434) (Andy Edwards)
+* [`1692840`](https://github.com/eslint/eslint/commit/1692840a2f763737a4891419dc304db4ebedab5d) docs: fix syntax in examples for new config files (#16427) (Milos Djermanovic)
+* [`28d1902`](https://github.com/eslint/eslint/commit/28d190264017dbaa29f2ab218f73b623143cd1af) feat: `no-implicit-globals` supports `exported` block comment (#16343) (Sosuke Suzuki)
+* [`35916ad`](https://github.com/eslint/eslint/commit/35916ad9bfc07dab63361721df1bd7f21e43e094) fix: Ensure unignore and reignore work correctly in flat config. (#16422) (Nicholas C. Zakas)
+* [`4b70b91`](https://github.com/eslint/eslint/commit/4b70b91a6e28669ab8e2a4ce2a6d9ed40be20fa7) chore: Add VS Code issues link (#16423) (Nicholas C. Zakas)
+* [`e940be7`](https://github.com/eslint/eslint/commit/e940be7a83d0caea15b64c1e1c2785a6540e2641) feat: Use ESLINT_USE_FLAT_CONFIG environment variable for flat config (#16356) (Tomer Aberbach)
+* [`d336cfc`](https://github.com/eslint/eslint/commit/d336cfc9145a72bf8730250ee1e331a135e6ee2c) docs: Document extending plugin with new config (#16394) (Ben Perlmutter)
+* [`dd0c58f`](https://github.com/eslint/eslint/commit/dd0c58f0f34d24331ae55139af39cf2747125f5e) feat: Swap out Globby for custom globbing solution. (#16369) (Nicholas C. Zakas)
+* [`232d291`](https://github.com/eslint/eslint/commit/232d2916ac5e44db55c2ffbd2f3b37ad70037b7b) chore: suppress a Node.js deprecation warning (#16398) (Koichi ITO)
+
+v8.25.0 - October 7, 2022
+
+* [`1f78594`](https://github.com/eslint/eslint/commit/1f785944f61c97996445e48cb74fc300142e7310) chore: upgrade @eslint/eslintrc@1.3.3 (#16397) (Milos Djermanovic)
+* [`173e820`](https://github.com/eslint/eslint/commit/173e82040895ad53b2d9940bfb3fb67a0478f00b) feat: Pass --max-warnings value to formatters (#16348) (Brandon Mills)
+* [`8476a9b`](https://github.com/eslint/eslint/commit/8476a9b8b81164887cdf38a21d431b75ff2956b1) chore: Remove CODEOWNERS (#16375) (Nick Schonning)
+* [`720ff75`](https://github.com/eslint/eslint/commit/720ff75beb9f4fdcf2a185fcb8020cf78483fdeb) chore: use "ci" for Dependabot commit message (#16377) (Nick Schonning)
+* [`90c6028`](https://github.com/eslint/eslint/commit/90c602802b6e330b79c42f282e9a615c583e32d7) docs: Conflicting fixes (#16366) (Ben Perlmutter)
+* [`5a3fe70`](https://github.com/eslint/eslint/commit/5a3fe70c5261acbf115fa5f47231cbc4ac62c1bc) docs: Add VS to integrations page (#16381) (Maria José Solano)
+* [`6964cb1`](https://github.com/eslint/eslint/commit/6964cb1e0f073b236cb3288b9d8be495336bbf29) feat: remove support for ignore files in FlatESLint (#16355) (Milos Djermanovic)
+* [`49bd1e5`](https://github.com/eslint/eslint/commit/49bd1e5669b34fd7e0f4a3cf42009866980d7e15) docs: remove unused link definitions (#16376) (Nick Schonning)
+* [`42f5479`](https://github.com/eslint/eslint/commit/42f547948f284f1c67799f237dfeb86fc400c7c7) chore: bump actions/stale from 5 to 6 (#16350) (dependabot[bot])
+* [`3bd380d`](https://github.com/eslint/eslint/commit/3bd380d3ea7e88ade4905ec0b240c866ab79a69d) docs: typo cleanups for docs (#16374) (Nick Schonning)
+* [`b3a0837`](https://github.com/eslint/eslint/commit/b3a08376cfb61275a7557d6d166b6116f36e5ac2) docs: remove duplicate words (#16378) (Nick Schonning)
+* [`a682562`](https://github.com/eslint/eslint/commit/a682562458948f74a227be60a80e10e7a3753124) docs: add `BigInt` to `new-cap` docs (#16362) (Sosuke Suzuki)
+* [`1cc4b3a`](https://github.com/eslint/eslint/commit/1cc4b3a8f82a7945dcd8c59550b6a906a0fabbb4) feat: `id-length` counts graphemes instead of code units (#16321) (Sosuke Suzuki)
+* [`f6d57fb`](https://github.com/eslint/eslint/commit/f6d57fb657c2f4e8e0140ad057da34c935482972) docs: Update docs README (#16352) (Ben Perlmutter)
+* [`e5e9e27`](https://github.com/eslint/eslint/commit/e5e9e271da58361bda16f7abc8f367ccc6f91510) chore: remove `jsdoc` dev dependency (#16344) (Milos Djermanovic)
+* [`7214347`](https://github.com/eslint/eslint/commit/721434705bd569e33911e25d2688e33f10898d52) docs: fix logical-assignment-operators option typo (#16346) (Jonathan Wilsson)
+
+v8.24.0 - September 23, 2022
+
+* [`131e646`](https://github.com/eslint/eslint/commit/131e646e227b9aca3937fe287343bf2c3df408af) chore: Upgrade @humanwhocodes/config-array for perf (#16339) (Nicholas C. Zakas)
+* [`2c152ff`](https://github.com/eslint/eslint/commit/2c152ff0fb709b99e62c19ecd2c95689efacbe4c) docs: note false positive `Object.getOwnPropertyNames` in prefer-reflect (#16317) (AnnAngela)
+* [`bf7bd88`](https://github.com/eslint/eslint/commit/bf7bd885a92046a6b6bcbcaaa1e78e9f2c4b482f) docs: fix warn severity description for new config files (#16324) (Nitin Kumar)
+* [`504fe59`](https://github.com/eslint/eslint/commit/504fe59b0e0f4f5a2afb6a69aaed5cb4ca631012) perf: switch from object spread to `Object.assign` when merging globals (#16311) (Milos Djermanovic)
+* [`1729f9e`](https://github.com/eslint/eslint/commit/1729f9ea4d7b2945b2b701d72027fd4aace954cf) feat: account for `sourceType: "commonjs"` in the strict rule (#16308) (Milos Djermanovic)
+* [`b0d72c9`](https://github.com/eslint/eslint/commit/b0d72c96b2a9cde7a5798c2b08ec4e70683c6aca) feat: add rule logical-assignment-operators (#16102) (fnx)
+* [`f02bcd9`](https://github.com/eslint/eslint/commit/f02bcd91bf89b6c167d5346a36677fdb854f0c05) feat: `array-callback-return` support `findLast` and `findLastIndex` (#16314) (Sosuke Suzuki)
+* [`8cc0bbe`](https://github.com/eslint/eslint/commit/8cc0bbe440dc5e6af6ef02f00d0514a40ca07c24) docs: use more clean link syntax (#16309) (Percy Ma)
+* [`6ba269e`](https://github.com/eslint/eslint/commit/6ba269ed673f965d081287b769c12beeb5f98887) docs: fix typo (#16288) (jjangga0214)
+
+v8.23.1 - September 12, 2022
+
+* [`b719893`](https://github.com/eslint/eslint/commit/b71989388a921886caa4c6cb48729bbf60c46100) fix: Upgrade eslintrc to stop redefining plugins (#16297) (Brandon Mills)
+* [`734b54e`](https://github.com/eslint/eslint/commit/734b54eb9c6c4839c0f99ebe18dc5695754aac1d) fix: improve autofix for the `prefer-const` rule (#16292) (Nitin Kumar)
+* [`6a923ff`](https://github.com/eslint/eslint/commit/6a923ff9257a4f009cefed049ebb59a4b5acdab5) fix: Ensure that glob patterns are normalized (#16287) (Nicholas C. Zakas)
+* [`38e8171`](https://github.com/eslint/eslint/commit/38e8171d9b170f400ac340368d044b2093114e94) perf: migrate rbTree to js-sdsl (#16267) (Zilong Yao)
+* [`16cba3f`](https://github.com/eslint/eslint/commit/16cba3f31294a673721864267aa13ea35233326b) docs: fix mobile double tap issue (#16293) (Sam Chen)
+* [`c6900f8`](https://github.com/eslint/eslint/commit/c6900f89a89f3de5d3c50c69a1bc62eac6eb76d7) fix: Ensure globbing doesn't include subdirectories (#16272) (Nicholas C. Zakas)
+* [`e098b5f`](https://github.com/eslint/eslint/commit/e098b5f80472e80c70603306e77e14ea15f1a93b) docs: keyboard control to search results (#16222) (Shanmughapriyan S)
+* [`1b5b2a7`](https://github.com/eslint/eslint/commit/1b5b2a7de504f2971a6a488d8a57442e73b56a51) docs: add Consolas font and prioritize resource loading (#16225) (Amaresh  S M)
+* [`1c388fb`](https://github.com/eslint/eslint/commit/1c388fb37739cc09dbd0b4aa59e9d45674280ad5) chore: switch nyc to c8 (#16263) (唯然)
+* [`67db10c`](https://github.com/eslint/eslint/commit/67db10c51dbb871a201eab444f6a73fbc1e4fc75) chore: enable linting `.eleventy.js` again (#16274) (Milos Djermanovic)
+* [`1ae8236`](https://github.com/eslint/eslint/commit/1ae8236a2e71c9dead20ba9da60d8cc9e317859a) docs: copy & use main package version in docs on release (#16252) (Jugal Thakkar)
+* [`42bfbd7`](https://github.com/eslint/eslint/commit/42bfbd7b7b91106e5f279a05f40c20769e3cd29f) chore: fix `npm run perf` crashes (#16258) (唯然)
+* [`279f0af`](https://github.com/eslint/eslint/commit/279f0afc14617c037da482919942beef87f56e45) docs: Improve id-denylist documentation (#16223) (Mert Ciflikli)
+
+v8.23.0 - August 26, 2022
+
+* [`2e004ab`](https://github.com/eslint/eslint/commit/2e004ab990a4a5a4efc44974da005d2161490256) chore: upgrade @eslint/eslintrc@1.3.1 (#16249) (Milos Djermanovic)
+* [`d35fbbe`](https://github.com/eslint/eslint/commit/d35fbbef895e8f4ac6eaf1756349230769a02b4d) chore: Upgrade to espree@9.4.0 (#16243) (Milos Djermanovic)
+* [`3e5839e`](https://github.com/eslint/eslint/commit/3e5839ecae96aecfbc1ac9526e88e0105e671032) feat: Enable eslint.config.js lookup from CLI (#16235) (Nicholas C. Zakas)
+* [`30b1a2d`](https://github.com/eslint/eslint/commit/30b1a2dac9060673101485841c4c7521675bf917) feat: add `allowEmptyCase` option to no-fallthrough rule (#15887) (Amaresh  S M)
+* [`ed26229`](https://github.com/eslint/eslint/commit/ed26229a19359b356f3a401698488c1707d4c029) test: add no-extra-parens tests with rest properties (#16236) (Milos Djermanovic)
+* [`deaf69f`](https://github.com/eslint/eslint/commit/deaf69ffd8f9b97b4b8c29a244a79969ff14c80a) chore: fix off-by-one `min-width: 1023px` media queries (#15974) (Milos Djermanovic)
+* [`63dec9f`](https://github.com/eslint/eslint/commit/63dec9fdee793be9bf2939e1bda0717b9cc6dcf8) refactor: simplify `parseListConfig` (#16241) (Milos Djermanovic)
+* [`43f03aa`](https://github.com/eslint/eslint/commit/43f03aa96b632039b1d9cad097a70b227bb7d348) feat: no-warning-comments support comments with decoration (#16120) (Lachlan Hunt)
+* [`b1918da`](https://github.com/eslint/eslint/commit/b1918da0f6cb8fe690c7377667616ec7cb57111e) docs: package.json conventions (#16206) (Patrick McElhaney)
+* [`0e03c33`](https://github.com/eslint/eslint/commit/0e03c333a70bebd00307deead0befa519f983f44) docs: remove word immediately (#16217) (Strek)
+* [`c6790db`](https://github.com/eslint/eslint/commit/c6790db6494e64a5261d74c0f3c4dc6139c59435) docs: add anchor link for "migrating from jscs" (#16207) (Percy Ma)
+* [`7137344`](https://github.com/eslint/eslint/commit/71373442c42b356f34179dba18f860e1d79a780d) docs: auto-generation edit link (#16213) (Percy Ma)
+
+v8.22.0 - August 13, 2022
+
+* [`2b97607`](https://github.com/eslint/eslint/commit/2b97607675e1d0920a3abedd736e2ae00ed26d52) feat: Implement caching for FlatESLint (#16190) (Nicholas C. Zakas)
+* [`fd5d3d3`](https://github.com/eslint/eslint/commit/fd5d3d37c97001fad1d9ae4386f76b3587cceba9) feat: add `methodsIgnorePattern` option to object-shorthand rule (#16185) (Milos Djermanovic)
+* [`9f5a752`](https://github.com/eslint/eslint/commit/9f5a75206675f2404ad6733640cf05ab44b02274) docs: optimize image assets (#16170) (Sam Chen)
+* [`61b2948`](https://github.com/eslint/eslint/commit/61b2948cb71ec505d2f7e904c7ad77ee1da64db2) docs: add svgo command to pre commit hook (#16178) (Amaresh  S M)
+* [`784096d`](https://github.com/eslint/eslint/commit/784096d37808e59ce8cc07c3c18018b31a31c3f8) docs: improve search result UI (#16187) (Sam Chen)
+* [`d0f4cb4`](https://github.com/eslint/eslint/commit/d0f4cb42e86b4b9c7bdf91e88a4ec0d36074f36b) docs: use shorthand property name in example (#16180) (Kevin Elliott)
+* [`10a6e0e`](https://github.com/eslint/eslint/commit/10a6e0e14488e4ae9ab267fb5db2ec0c5bb85d59) chore: remove deploy workflow for playground (#16186) (Milos Djermanovic)
+
 v8.21.0 - August 1, 2022
 
 * [`7b43ea1`](https://github.com/eslint/eslint/commit/7b43ea14a8af5fc3dbac38fa9d5bc71741328c16) feat: Implement FlatESLint (#16149) (Nicholas C. Zakas)

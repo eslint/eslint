@@ -1,12 +1,11 @@
 ---
 title: Command Line Interface
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/command-line-interface.md
 eleventyNavigation:
     key: command line interface
     parent: user guide
     title: Command Line Interface
-    order: 3
+    order: 4
 
 ---
 
@@ -298,6 +297,8 @@ This option is helpful if you are using another program to format your code but 
 ### Ignoring files
 
 #### `--ignore-path`
+
+**Note:** `--ignore-path` is not supported when using flat config (`eslint.config.js`).
 
 This option allows you to specify the file to use as your `.eslintignore`. By default, ESLint looks in the current working directory for `.eslintignore`. You can override this behavior by providing a path to a different file.
 

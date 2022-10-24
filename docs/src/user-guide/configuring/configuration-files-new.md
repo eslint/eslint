@@ -1,7 +1,6 @@
 ---
 title: Configuration Files (New)
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/user-guide/configuring/configuration-files-new.md
 eleventyNavigation:
     key: configuration files
     parent: configuring
@@ -11,7 +10,7 @@ eleventyNavigation:
 ---
 
 ::: warning
-This is an experimental feature that is not enabled by default. You can use the configuration system described on this page by using the `FlatESLint` class, the `FlatRuleTester` class, or by setting `configType: "flat"` in the `Linter` class.
+This is an experimental feature. To opt-in, place a `eslint.config.js` file in the root of your project or set the `ESLINT_USE_FLAT_CONFIG` environment variable to `true`. To opt-out, even in the presence of a `eslint.config.js` file, set the environment variable to `false`. If you are using the API, you can use the configuration system described on this page by using the `FlatESLint` class, the `FlatRuleTester` class, or by setting `configType: "flat"` in the `Linter` class.
 :::
 
 ## Configuration File
@@ -77,7 +76,7 @@ You can limit which files a configuration object applies to by specifying a comb
 
 ```js
 export default [
-    {   
+    {
         files: ["src/**/*.js"],
         rules: {
             semi: "error"
@@ -90,7 +89,7 @@ Here, only the JavaScript files in the `src` directory will have the `semi` rule
 
 ```js
 export default [
-    {   
+    {
         files: ["src/**/*.js"],
         ignores: ["**/*.config.js"],
         rules: {
@@ -104,7 +103,7 @@ This configuration object matches all JavaScript files in the `src` directory ex
 
 ```js
 export default [
-    {   
+    {
         files: ["src/**/*.js"],
         ignores: ["**/*.config.js", "!**/eslint.config.js"],
         rules: {
@@ -120,7 +119,7 @@ If `ignores` is used without `files` and any other setting, then the configurati
 
 ```js
 export default [
-    {   
+    {
         ignores: ["**/*.config.js"],
         rules: {
             semi: "error"
@@ -133,17 +132,17 @@ This configuration object applies to all files except those ending with `.config
 
 #### Globally ignoring files with `ignores`
 
-If `ignores` is used without any other keys in the configuration object, then the patterns act as additional global ignores, similar to those found in `.eslintignore`. Here's an example:
+If `ignores` is used without any other keys in the configuration object, then the patterns act as global ignores. Here's an example:
 
 ```js
 export default [
-    {   
+    {
         ignores: [".config/*"]
     }
 ];
 ```
 
-This configuration specifies that all of the files in the `.config` directory should be ignored. This pattern is added after the patterns found in `.eslintignore`.
+This configuration specifies that all of the files in the `.config` directory should be ignored. This pattern is added after the default patterns, which are `["**/node_modules/**", ".git/**"]`.
 
 #### Cascading configuration objects
 
@@ -157,16 +156,16 @@ export default [
             globals: {
                 MY_CUSTOM_GLOBAL: "readonly"
             }
-        }   
+        }
     },
-    {   
+    {
         files: ["tests/**/*.js"],
         languageOptions: {
             globals: {
                 it: "readonly",
                 describe: "readonly"
             }
-        }   
+        }
     }
 ];
 ```
@@ -233,8 +232,8 @@ export default [
 ESLint can evaluate your code in one of three ways:
 
 1. ECMAScript module (ESM) - Your code has a module scope and is run in strict mode.
-1. CommonJS - Your code has a top-level function scope and runs in nonstrict mode.
-1. Script - Your code has a shared global scope and runs in nonstrict mode.
+1. CommonJS - Your code has a top-level function scope and runs in non-strict mode.
+1. Script - Your code has a shared global scope and runs in non-strict mode.
 
 You can specify which of these modes your code is intended to run in by specifying the `sourceType` property. This property can be set to `"module"`, `"commonjs"`, or `"script"`. By default, `sourceType` is set to `"module"` for `.js` and `.mjs` files and is set to `"commonjs"` for `.cjs` files. Here's an example:
 
@@ -330,7 +329,13 @@ For historical reasons, the boolean value `false` and the string value `"readabl
 
 ### Using plugins in your configuration
 
-Plugins are used to share rules, processors, configurations, parsers, and more across ESLint projects. Plugins are specified in a configuration object using the `plugins` key, which is an object where the name of the plugin is the property name and the value is the plugin object itself. Here's an example:
+Plugins are used to share rules, processors, configurations, parsers, and more across ESLint projects.
+
+#### Using plugin rules
+
+You can use specific rules included in a plugin. To do this, specify the plugin
+in a configuration object using the `plugins` key. The value for the `plugin` key
+is an object where the name of the plugin is the property name and the value is the plugin object itself. Here's an example:
 
 ```js
 import jsdoc from "eslint-plugin-jsdoc";
@@ -340,11 +345,11 @@ export default [
         files: ["**/*.js"],
         plugins: {
             jsdoc: jsdoc
-        }
+        },
         rules: {
             "jsdoc/require-description": "error",
             "jsdoc/check-values": "error"
-        }  
+        }
     }
 ];
 ```
@@ -361,11 +366,11 @@ export default [
         files: ["**/*.js"],
         plugins: {
             jsdoc
-        }
+        },
         rules: {
             "jsdoc/require-description": "error",
             "jsdoc/check-values": "error"
-        }  
+        }
     }
 ];
 ```
@@ -380,16 +385,41 @@ export default [
         files: ["**/*.js"],
         plugins: {
             jsd: jsdoc
-        }
+        },
         rules: {
             "jsd/require-description": "error",
             "jsd/check-values": "error"
-        }  
+        }
     }
 ];
 ```
 
 This configuration object uses `jsd` as the prefix plugin instead of `jsdoc`.
+
+#### Using configurations included in plugins
+
+You can use a configuration included in a plugin by adding that configuration
+directly to the `eslint.config.js` configurations array.
+Often, you do this for a plugin's recommended configuration. Here's an example:
+
+```js
+import jsdoc from "eslint-plugin-jsdoc";
+
+export default [
+    // configuration included in plugin
+    jsdoc.configs.recommended,
+    // other configuration objects...
+    {
+        files: ["**/*.js"],
+        plugins: {
+            jsdoc: jsdoc
+        },
+        rules: {
+            "jsdoc/require-description": "warn",
+        }
+    }
+];
+```
 
 ### Using processors
 
@@ -404,7 +434,7 @@ export default [
         plugins: {
             markdown
         },
-        processor: "markdown/markdown"
+        processor: "markdown/markdown",
         settings: {
             sharedData: "Hello"
         }
@@ -425,7 +455,7 @@ export default [
         plugins: {
             markdown
         },
-        processor: "markdown/markdown"
+        processor: "markdown/markdown",
         settings: {
             sharedData: "Hello"
         }
@@ -474,7 +504,7 @@ Each rule specifies its own options and can be any valid JSON data type. Please 
 There are three possible severities you can specify for a rule
 
 * `"error"` (or `2`) - the reported problem should be treated as an error. When using the ESLint CLI, errors cause the CLI to exit with a nonzero code.
-* `"warn"` (or `1`) - the reported problem should be treated as a warning. When using the ESLint CLI, warnings are reported but do not change the exit code. If only errors are reported, the exit code will be 0.
+* `"warn"` (or `1`) - the reported problem should be treated as a warning. When using the ESLint CLI, warnings are reported but do not change the exit code. If only warnings are reported, the exit code will be 0.
 * `"off"` (or `0`) - the rule should be turned off completely.
 
 #### Rule configuration cascade
@@ -555,12 +585,10 @@ Here, the `eslint:recommended` predefined configuration is applied first and the
 
 When ESLint is run on the command line, it first checks the current working directory for `eslint.config.js`, and if not found, will look to the next parent directory for the file. This search continues until either the file is found or the root directory is reached.
 
-You can prevent this search for `eslint.config.js` by using the `-c` or `--config--file` option on the command line to specify an alternate configuration file, such as:
+You can prevent this search for `eslint.config.js` by setting the `ESLINT_USE_FLAT_CONFIG` environment variable to `true` and using the `-c` or `--config` option on the command line to specify an alternate configuration file, such as:
 
 ```shell
-npx eslint -c some-other-file.js **/*.js
+ESLINT_USE_FLAT_CONFIG=true npx eslint -c some-other-file.js **/*.js
 ```
 
 In this case, ESLint will not search for `eslint.config.js` and will instead use `some-other-file.js`.
-
-Each configuration file exports one or more configuration object. A configuration object

@@ -1,7 +1,6 @@
 ---
 title: no-param-reassign
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-param-reassign.md
 rule_type: suggestion
 further_reading:
 - https://spin.atomicobject.com/2011/04/10/javascript-don-t-reassign-your-function-arguments/

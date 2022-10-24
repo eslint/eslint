@@ -1,7 +1,6 @@
 ---
 title: valid-typeof
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/valid-typeof.md
 rule_type: problem
 further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof

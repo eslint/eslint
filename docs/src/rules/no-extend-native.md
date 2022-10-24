@@ -1,7 +1,6 @@
 ---
 title: no-extend-native
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-extend-native.md
 rule_type: suggestion
 related_rules:
 - no-global-assign

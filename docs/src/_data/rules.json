@@ -580,6 +580,13 @@
                     "hasSuggestions": false
                 },
                 {
+                    "name": "logical-assignment-operators",
+                    "description": "Require or disallow logical assignment logical operator shorthand",
+                    "recommended": false,
+                    "fixable": true,
+                    "hasSuggestions": true
+                },
+                {
                     "name": "max-classes-per-file",
                     "description": "Enforce a maximum number of classes per file",
                     "recommended": false,

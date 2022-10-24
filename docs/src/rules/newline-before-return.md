@@ -1,7 +1,6 @@
 ---
 title: newline-before-return
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/newline-before-return.md
 rule_type: layout
 related_rules:
 - newline-after-var

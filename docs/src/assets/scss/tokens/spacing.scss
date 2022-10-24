@@ -8,7 +8,7 @@
     --fluid-bp: calc((var(--fluid-screen) - var(--fluid-min-width) / 16 * 1rem) / (var(--fluid-max-width) - var(--fluid-min-width)));
 }
 
-@media screen and (min-width: 1023px) {
+@media screen and (min-width: 1024px) {
     :root {
         --fluid-screen: calc(var(--fluid-max-width) * 1px);
     }

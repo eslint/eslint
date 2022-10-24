@@ -76,9 +76,14 @@ const NODE = "node ", // intentional extra space
     MARKDOWNLINT_IGNORE_INSTANCE = ignore().add(fs.readFileSync(path.join(__dirname, ".markdownlintignore"), "utf-8")),
     MARKDOWN_FILES_ARRAY = MARKDOWNLINT_IGNORE_INSTANCE.filter(find("docs/").concat(ls(".")).filter(fileType("md"))),
     TEST_FILES = "\"tests/{bin,conf,lib,tools}/**/*.js\"",
-    PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslintrc.yml"),
+    PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslint.config.js"),
     PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
-    PERF_MULTIFILES_TARGETS = `"${PERF_MULTIFILES_TARGET_DIR + path.sep}{lib,tests${path.sep}lib}${path.sep}**${path.sep}*.js"`,
+
+    /*
+     * glob arguments with Windows separator `\` don't work:
+     * https://github.com/eslint/eslint/issues/16259
+     */
+    PERF_MULTIFILES_TARGETS = `"${TEMP_DIR}eslint/performance/eslint/{lib,tests/lib}/**/*.js"`,
 
     // Settings
     MOCHA_TIMEOUT = parseInt(process.env.ESLINT_MOCHA_TIMEOUT, 10) || 10000;
@@ -281,6 +286,13 @@ function generateRelease() {
     target.gensite();
     generateBlogPost(releaseInfo);
     commitSiteToGit(`v${releaseInfo.version}`);
+
+    echo("Updating version in docs package");
+    const docsPackagePath = path.join(__dirname, "docs", "package.json");
+    const docsPackage = require(docsPackagePath);
+
+    docsPackage.version = releaseInfo.version;
+    fs.writeFileSync(docsPackagePath, `${JSON.stringify(docsPackage, null, 4)}\n`);
 
     echo("Updating commit with docs data");
     exec("git add docs/ && git commit --amend --no-edit");
@@ -506,11 +518,11 @@ target.lint = function([fix = false] = []) {
      * when analyzing `require()` calls from CJS modules in the `docs` directory. Since our release process does not run `npm install`
      * in the `docs` directory, linting would fail and break the release. Also, working on the main `eslint` package does not require
      * installing dependencies declared in `docs/package.json`, so most contributors will not have `docs/node_modules` locally.
-     * Therefore, we add `--ignore-pattern docs` to exclude linting the `docs` directory from this command.
+     * Therefore, we add `--ignore-pattern "docs/**"` to exclude linting the `docs` directory from this command.
      * There is a separate command `target.lintDocsJS` for linting JavaScript files in the `docs` directory.
      */
     echo("Validating JavaScript files");
-    lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} . --ignore-pattern docs`);
+    lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} . --ignore-pattern "docs/**"`);
     if (lastReturn.code !== 0) {
         errors++;
     }
@@ -533,7 +545,7 @@ target.lintDocsJS = function([fix = false] = []) {
     let errors = 0;
 
     echo("Validating JavaScript files in the docs directory");
-    const lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} docs`);
+    const lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} docs/.eleventy.js`);
 
     if (lastReturn.code !== 0) {
         errors++;
@@ -589,12 +601,12 @@ target.mocha = () => {
 
     echo("Running unit tests");
 
-    lastReturn = exec(`${getBinFile("nyc")} -- ${MOCHA} --forbid-only -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
+    lastReturn = exec(`${getBinFile("c8")} -- ${MOCHA} --forbid-only -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
     if (lastReturn.code !== 0) {
         errors++;
     }
 
-    lastReturn = exec(`${getBinFile("nyc")} check-coverage --statement 98 --branch 97 --function 98 --lines 98`);
+    lastReturn = exec(`${getBinFile("c8")} check-coverage --statement 98 --branch 97 --function 98 --lines 98`);
     if (lastReturn.code !== 0) {
         errors++;
     }
@@ -911,19 +923,21 @@ function downloadMultifilesTestTarget(cb) {
  * @returns {void}
  */
 function createConfigForPerformanceTest() {
-    const content = [
-        "root: true",
-        "env:",
-        "    node: true",
-        "    es6: true",
-        "rules:"
-    ];
+    let rules = "";
 
     for (const [ruleId] of builtinRules) {
-        content.push(`    ${ruleId}: 1`);
+        rules += (`    "${ruleId}": 1,\n`);
     }
 
-    content.join("\n").to(PERF_ESLINTRC);
+    const content = `
+module.exports = [{
+    "languageOptions": {sourceType: "commonjs"},
+    "rules": {
+    ${rules}
+    }
+}];`;
+
+    content.to(PERF_ESLINTRC);
 }
 
 /**
@@ -983,7 +997,7 @@ function time(cmd, runs, runNumber, results, cb) {
 function runPerformanceTest(title, targets, multiplier, cb) {
     const cpuSpeed = os.cpus()[0].speed,
         max = multiplier / cpuSpeed,
-        cmd = `${ESLINT}--config "${PERF_ESLINTRC}" --no-eslintrc --no-ignore ${targets}`;
+        cmd = `${ESLINT}--config "${PERF_ESLINTRC}" --no-config-lookup --no-ignore ${targets}`;
 
     echo("");
     echo(title);

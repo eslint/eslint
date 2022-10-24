@@ -1,7 +1,6 @@
 ---
 title: Node.js API
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/nodejs-api.md
 eleventyNavigation:
     key: node.js api
     parent: developer guide
@@ -411,8 +410,8 @@ This edit information means replacing the range of the `range` property by the `
 
 The `LoadedFormatter` value is the object to convert the [LintResult] objects to text. The [eslint.loadFormatter()][eslint-loadformatter] method returns it. It has the following method:
 
-* `format` (`(results: LintResult[]) => string | Promise<string>`)<br>
-  The method to convert the [LintResult] objects to text.
+* `format` (`(results: LintResult[], resultsMeta: ResultsMeta) => string | Promise<string>`)<br>
+  The method to convert the [LintResult] objects to text. `resultsMeta` is an object that will contain a `maxWarningsExceeded` object if `--max-warnings` was set and the number of warnings exceeded the limit. The `maxWarningsExceeded` object will contain two properties: `maxWarnings`, the value of the `--max-warnings` option, and `foundWarnings`, the number of lint warnings.
 
 ---
 
@@ -465,7 +464,7 @@ const codeLines = SourceCode.splitLines(code);
 
 ## Linter
 
-The `Linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `Linter` object does not process configuration objects or files. Unless you are working in the browser, you probably want to use the [ESLint class](#eslint-class) class instead.
+The `Linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `Linter` object does not process configuration objects or files. Unless you are working in the browser, you probably want to use the [ESLint class](#eslint-class) instead.
 
 The `Linter` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
@@ -922,20 +921,11 @@ ruleTester.run("my-rule", myRule, {
 [configuration object]: ../user-guide/configuring/
 [builtin-formatters]: https://eslint.org/docs/user-guide/formatters/
 [third-party-formatters]: https://www.npmjs.com/search?q=eslintformatter
-[eslint]: #eslint-class
-[eslint-constructor]: #-new-eslintoptions
 [eslint-lintfiles]: #-eslintlintfilespatterns
 [eslint-linttext]: #-eslintlinttextcode-options
-[eslint-getrulesmetaforresults]: #-eslintgetrulesmetaforresultsresults
-[eslint-calculateconfigforfile]: #-eslintcalculateconfigforfilefilepath
-[eslint-ispathignored]: #-eslintispathignoredfilepath
 [eslint-loadformatter]: #-eslintloadformatternameorpath
-[eslint-version]: #-eslintversion
-[eslint-outputfixes]: #-eslintoutputfixesresults
-[eslint-geterrorresults]: #-eslintgeterrorresultsresults
 [lintresult]: #-lintresult-type
 [lintmessage]: #-lintmessage-type
 [suppressedlintmessage]: #-suppressedlintmessage-type
 [editinfo]: #-editinfo-type
 [loadedformatter]: #-loadedformatter-type
-[linter]: #linter

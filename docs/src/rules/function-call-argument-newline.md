@@ -1,7 +1,6 @@
 ---
 title: function-call-argument-newline
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/function-call-argument-newline.md
 rule_type: layout
 related_rules:
 - function-paren-newline

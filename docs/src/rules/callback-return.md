@@ -1,7 +1,6 @@
 ---
 title: callback-return
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/callback-return.md
 rule_type: suggestion
 related_rules:
 - handle-callback-err

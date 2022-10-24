@@ -1,7 +1,6 @@
 ---
 title: eol-last
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/eol-last.md
 rule_type: layout
 ---
 

@@ -1,7 +1,6 @@
 ---
 title: no-array-constructor
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-array-constructor.md
 rule_type: suggestion
 related_rules:
 - no-new-object

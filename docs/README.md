@@ -1,10 +1,24 @@
 # ESLint Documentation
 
+## Install Dependencies
+
+Install the necessary dependencies for the documentation site by running this
+from the `docs` folder:
+
+```shell
+npm install
+```
+
 ## Run Locally
+
+Run this from the `docs` folder:
 
 ```shell
 npm start
 ```
+
+Once the script finishes building the documentation site, you can visit it at
+<http://localhost:2023>.
 
 ## Scripts
 

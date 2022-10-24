@@ -1,7 +1,6 @@
 ---
 title: no-empty-class
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/no-empty-class.md
 
 ---
 

@@ -1,7 +1,6 @@
 ---
 title: arrow-spacing
 layout: doc
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/rules/arrow-spacing.md
 rule_type: layout
 ---
 
