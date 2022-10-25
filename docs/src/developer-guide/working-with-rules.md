@@ -160,7 +160,11 @@ Additionally, the `context` object has the following methods:
 
 ### context.getScope()
 
-This method returns the scope which has the following types:
+This method returns the scope of the current node. It is a useful method for finding information about the variables in a given scope, and how they are used in other scopes.
+
+#### Scope types
+
+The following table contains a list of AST node types and the scope type that they correspond to. For more information about the scope types, refer to the [`Scope` object documentation](./scope-manager-interface.md#scope-interface).
 
 | AST Node Type             | Scope Type |
 |:--------------------------|:-----------|
@@ -183,12 +187,25 @@ This method returns the scope which has the following types:
 **※2** Only if the `for` statement defines the iteration variable as a block-scoped variable (E.g., `for (let i = 0;;) {}`).<br>
 **※3** The scope of the closest ancestor node which has own scope. If the closest ancestor node has multiple scopes then it chooses the innermost scope (E.g., the `Program` node has a `global` scope and a `module` scope if `Program#sourceType` is `"module"`. The innermost scope is the `module` scope.).
 
-The returned value is a [`Scope` object](scope-manager-interface) defined by the `eslint-scope` package. The `Variable` objects of global variables have some additional properties.
+#### Scope Variables
 
-* `variable.writeable` (`boolean | undefined`) ... If `true`, this global variable can be assigned arbitrary value. If `false`, this global variable is read-only.
-* `variable.eslintExplicitGlobal` (`boolean | undefined`) ... If `true`, this global variable was defined by a `/* globals */` directive comment in the source code file.
-* `variable.eslintExplicitGlobalComments` (`Comment[] | undefined`) ... The array of `/* globals */` directive comments which defined this global variable in the source code file. This property is `undefined` if there are no `/* globals */` directive comments.
-* `variable.eslintImplicitGlobalSetting` (`"readonly" | "writable" | undefined`) ... The configured value in config files. This can be different from `variable.writeable` if there are `/* globals */` directive comments.
+The `Scope#variables` property contains an array of [`Variable` objects](./scope-manager-interface#variable-interface). These are the variables declared in current scope. You can use these `Variable` objects to track references to a variable throughout the entire module.
+
+Inside of each `Variable`, the `Variable#references` property contains an array of [`Reference` objects](./scope-manager-interface#reference-interface). The `Reference` array contains all the locations where the variable is referenced in the module's source code.
+
+Also inside of each `Variable`, the `Variable#defs` property contains an array of [`Definition` objects](./scope-manager-interface#definition-interface). You can use the `Definitions` to find where the variable was defined.
+
+Global variables have the following additional properties:
+
+* `Variable#writeable` (`boolean | undefined`) ... If `true`, this global variable can be assigned arbitrary value. If `false`, this global variable is read-only.
+* `Variable#eslintExplicitGlobal` (`boolean | undefined`) ... If `true`, this global variable was defined by a `/* globals */` directive comment in the source code file.
+* `Variable#eslintExplicitGlobalComments` (`Comment[] | undefined`) ... The array of `/* globals */` directive comments which defined this global variable in the source code file. This property is `undefined` if there are no `/* globals */` directive comments.
+* `Variable#eslintImplicitGlobalSetting` (`"readonly" | "writable" | undefined`) ... The configured value in config files. This can be different from `variable.writeable` if there are `/* globals */` directive comments.
+
+For examples of using `context.getScope()` to track variables, refer to the source code for the following built-in rules:
+
+* [no-shadow](https://github.com/eslint/eslint/blob/main/lib/rules/no-shadow.js): Calls `context.getScopes()` at the global scope and parses all child scopes to make sure a variable name is not reused at a lower scope. ([no-shadow](../rules/no-shadow) documentation)
+* [no-redeclare](https://github.com/eslint/eslint/blob/main/lib/rules/no-redeclare.js): Calls `context.getScope()` at each scope to make sure that a variable is not declared twice at that scope. ([no-redeclare](../rules/no-redeclare) documentation)
 
 ### context.report()
 
