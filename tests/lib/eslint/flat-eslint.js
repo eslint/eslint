@@ -814,12 +814,10 @@ describe("FlatESLint", () => {
                 ignore: false,
                 cwd: getFixturePath("example-app2")
             });
-            const results = await eslint.lintFiles(["subdir1", "doesnotexist/*.js"]);
 
-            assert.strictEqual(results.length, 1);
-            assert.strictEqual(results[0].messages.length, 0);
-            assert.strictEqual(results[0].filePath, getFixturePath("example-app2/subdir1/a.js"));
-            assert.strictEqual(results[0].suppressedMessages.length, 0);
+            await assert.rejects(async () => {
+                await eslint.lintFiles(["subdir1", "doesnotexist/*.js"]);
+            }, /No files matching 'doesnotexist\/\*\.js' were found/u);
         });
 
         // https://github.com/eslint/eslint/issues/16260
@@ -2714,6 +2712,13 @@ describe("FlatESLint", () => {
                 await assert.rejects(async () => {
                     await eslint.lintFiles(["console.js", "non-exist.js"]);
                 }, /No files matching 'non-exist\.js' were found\./u);
+            });
+
+            // https://github.com/eslint/eslint/issues/16275
+            it("a mix of an existing glob pattern and a non-existing glob pattern", async () => {
+                await assert.rejects(async () => {
+                    await eslint.lintFiles(["*.js", "non-exist/*.js"]);
+                }, /No files matching 'non-exist\/\*\.js' were found\./u);
             });
         });
 
