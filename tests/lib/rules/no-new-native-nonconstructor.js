@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for the no-new-nonconstructor rule
+ * @fileoverview Tests for the no-new-native-nonconstructor rule
  * @author Sosuke Suzuki
  */
 
@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/no-new-nonconstructor"),
+const rule = require("../../../lib/rules/no-new-native-nonconstructor"),
     { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -18,7 +18,7 @@ const rule = require("../../../lib/rules/no-new-nonconstructor"),
 
 const ruleTester = new RuleTester({ env: { es2022: true } });
 
-ruleTester.run("no-new-nonconstructor", rule, {
+ruleTester.run("no-new-native-nonconstructor", rule, {
     valid: [
 
         // Symbol

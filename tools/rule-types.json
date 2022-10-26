@@ -154,7 +154,7 @@
     "no-nested-ternary": "suggestion",
     "no-new": "suggestion",
     "no-new-func": "suggestion",
-    "no-new-nonconstructor": "problem",
+    "no-new-native-nonconstructor": "problem",
     "no-new-object": "suggestion",
     "no-new-require": "suggestion",
     "no-new-symbol": "problem",

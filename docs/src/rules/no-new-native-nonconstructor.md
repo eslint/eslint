@@ -1,5 +1,5 @@
 ---
-title: no-new-nonconstructor
+title: no-new-native-nonconstructor
 layout: doc
 rule_type: problem
 related_rules:
@@ -37,7 +37,7 @@ Examples of **incorrect** code for this rule:
 ::: incorrect
 
 ```js
-/*eslint no-new-nonconstructor: "error"*/
+/*eslint no-new-native-nonconstructor: "error"*/
 /*eslint-env es2022*/
 
 var foo = new Symbol('foo');
