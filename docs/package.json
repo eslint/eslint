@@ -16,7 +16,8 @@
         "build:eleventy": "npx @11ty/eleventy",
         "start": "npm-run-all build:sass --parallel watch:*",
         "build": "npm-run-all build:sass build:eleventy images",
-        "lint:scss": "stylelint \"**/*.scss\""
+        "lint:scss": "stylelint \"**/*.scss\"",
+        "lint:fix:scss": "npm run lint:scss -- --fix"
     },
     "devDependencies": {
         "@11ty/eleventy": "^1.0.1",
