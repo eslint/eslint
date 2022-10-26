@@ -23,6 +23,6 @@
         "value-keyword-case": null
     },
     "ignoreFiles": [
-        "_site/"
+        "_site/**"
     ]
   }
