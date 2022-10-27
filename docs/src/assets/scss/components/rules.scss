@@ -13,24 +13,24 @@
         background: none;
         border: none;
 
-        @media screen and (min-width:768px){
+        @media screen and (min-width: 768px) {
             &:not(:first-child)::after {
                 content: "";
                 display: block;
                 padding: 1px;
                 border-left: 1px solid var(--divider-color);
-                left: 0px;
+                left: 0;
             }
         }
 
-        @media screen and (min-width:768px) and (max-width:1023px), screen and (min-width:1440px){
+        @media screen and (min-width: 768px) and (max-width: 1023px), screen and (min-width: 1440px) {
             &:not(:first-child)::after {
                 height: 70%;
                 position: absolute;
             }
         }
 
-        @media screen and (min-width:1024px) and (max-width:1439px){
+        @media screen and (min-width: 1024px) and (max-width: 1439px) {
             &:nth-child(2)::after {
                 height: 70%;
                 position: absolute;
@@ -171,7 +171,6 @@ a.rule__name {
 }
 
 .related-rules__list__item {
-
     svg {
         color: inherit;
     }
@@ -194,7 +193,7 @@ a.rule__name {
     }
 }
 
-a.rule-list-item+a.rule-list-item::before {
+a.rule-list-item + a.rule-list-item::before {
     content: ",";
     display: inline-block;
     margin-left: 5px;

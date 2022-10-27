@@ -79,7 +79,6 @@
     --border-color: var(--color-neutral-300);
     --divider-color: var(--color-neutral-200);
 
-
     --icon-color: var(--color-neutral-400);
     --dark-icon-color: var(--color-neutral-500);
     --link-color: var(--color-primary-800);
@@ -97,14 +96,14 @@
         --body-background-color: var(--color-neutral-900);
         --body-text-color: var(--color-neutral-300);
         --headings-color: #fff;
-    
+
         --divider-color: var(--color-neutral-600);
         --border-color: var(--color-neutral-500);
-    
+
         --icon-color: var(--body-text-color);
         --dark-icon-color: #fff;
         --link-color: var(--color-primary-400);
-    
+
         --lighter-background-color: var(--color-neutral-800);
         --lightest-background-color: var(--color-neutral-800);
         --docs-lightest-background-color: var(--color-neutral-800);
@@ -114,8 +113,6 @@
     }
 }
 
-
-
 html[data-theme="light"] {
     --body-background-color: #fff;
     --body-text-color: var(--color-neutral-500);
@@ -123,7 +120,6 @@ html[data-theme="light"] {
 
     --border-color: var(--color-neutral-300);
     --divider-color: var(--color-neutral-200);
-
 
     --icon-color: var(--color-neutral-400);
     --dark-icon-color: var(--color-neutral-500);
