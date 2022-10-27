@@ -55,7 +55,7 @@ Examples of **correct** code for this rule:
 /*eslint-env es2022*/
 
 var foo = Symbol('foo');
-var bar = new BigInt(9007199254740991);
+var bar = BigInt(9007199254740991);
 
 // Ignores shadowed Symbol.
 function baz(Symbol) {
