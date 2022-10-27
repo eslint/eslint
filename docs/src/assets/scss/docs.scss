@@ -4,10 +4,10 @@ html {
     scroll-behavior: smooth;
 }
 
-.docs {
-    max-width: 1700px;
-    margin: 0 auto;
-}
+// .docs {
+//     max-width: 1700px;
+//     margin: 0 auto;
+// }
 
 .docs-aside__content {
     flex: 1;
@@ -18,6 +18,9 @@ html {
     flex: 1;
     display: flex;
     flex-direction: column;
+
+    max-width: 1700px;
+    margin: auto;
 
     @media all and (min-width: 1024px) {
         display: grid;

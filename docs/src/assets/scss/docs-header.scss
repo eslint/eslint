@@ -13,6 +13,9 @@
         padding-block-start: 0;
         padding-block-end: 0;
 
+        max-width: 1700px;
+        margin: auto;
+
         @media all and (min-width: 1024px) {
             justify-content: space-between;
         }
