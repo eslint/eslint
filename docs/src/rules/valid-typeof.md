@@ -29,7 +29,7 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint valid-typeof: "error"*/
 
-typeof foo === "strnig"
+typeof foo === "string"
 typeof foo == "undefimed"
 typeof bar != "nunber"
 typeof bar !== "fucntion"
@@ -61,7 +61,7 @@ Examples of **incorrect** code with the `{ "requireStringLiterals": true }` opti
 
 typeof foo === undefined
 typeof bar == Object
-typeof baz === "strnig"
+typeof baz === "string"
 typeof qux === "some invalid type"
 typeof baz === anotherVariable
 typeof foo == 5
