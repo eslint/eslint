@@ -1,17 +1,12 @@
 .docs-toc {
     margin: 2rem 0;
-}
-
-.docs-toc {
-    .docs-aside & {
-        display: none;
-    }
 
     @media all and (min-width: 1400px) {
         display: none;
     }
 
     .docs-aside & {
+        display: none;
         @media all and (min-width: 1400px) {
             display: block;
         }

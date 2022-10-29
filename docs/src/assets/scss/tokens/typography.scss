@@ -6,15 +6,7 @@
 
     --fluid-screen: 100vw;
     --fluid-bp: calc((var(--fluid-screen) - var(--fluid-min-width) / 16 * 1rem) / (var(--fluid-max-width) - var(--fluid-min-width)));
-}
 
-@media screen and (min-width: 1280px) {
-    :root {
-        --fluid-screen: calc(var(--fluid-max-width) * 1px);
-    }
-}
-
-:root {
     --f--2-min: 12.64;
     --f--2-max: 10.24;
     --step--2: calc(((var(--f--2-min) / 16) * 1rem) + (var(--f--2-max) - var(--f--2-min)) * var(--fluid-bp));
@@ -50,9 +42,7 @@
     --f-6-min: 32.44;
     --f-6-max: 61.04;
     --step-6: calc(((var(--f-6-min) / 16) * 1rem) + (var(--f-6-max) - var(--f-6-min)) * var(--fluid-bp));
-}
 
-:root {
     --mono-font: "Mono Punctuators", "Space Mono", monospace;
     --text-font:
         "Inter",
@@ -78,4 +68,10 @@
         "Apple Color Emoji",
         "Segoe UI Emoji",
         "Segoe UI Symbol";
+}
+
+@media screen and (min-width: 1280px) {
+    :root {
+        --fluid-screen: calc(var(--fluid-max-width) * 1px);
+    }
 }

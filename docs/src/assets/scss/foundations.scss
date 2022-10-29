@@ -70,6 +70,8 @@ body {
     min-height: 100%;
     background-color: var(--body-background-color);
     color: var(--body-text-color);
+    font-size: var(--step-0);
+    line-height: 1.5;
 }
 
 #skip-link {
@@ -284,11 +286,6 @@ ol {
     }
 }
 
-p:empty {
-    margin: 0;
-    display: none;
-}
-
 figure {
     margin-bottom: 4rem;
     margin-block-end: 4rem;
@@ -341,11 +338,6 @@ nav {
 }
 
 /* typography */
-body {
-    font-size: var(--step-0);
-    line-height: 1.5;
-}
-
 .eyebrow {
     color: var(--link-color);
     font-size: 1rem;
