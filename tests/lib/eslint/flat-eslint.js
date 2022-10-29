@@ -3827,6 +3827,12 @@ describe("FlatESLint", () => {
             });
 
             const results = await engine.lintFiles(["missing-semicolon.js", "passing.js", "undef.js"]);
+
+            assert(
+                results.some(({ messages }) => messages.some(({ message, ruleId }) => !ruleId && message.startsWith("File ignored"))),
+                "At least one file should be ignored but none is."
+            );
+
             const rulesMeta = engine.getRulesMetaForResults(results);
 
             assert.deepStrictEqual(rulesMeta["no-undef"], coreRules.get("no-undef").meta);
