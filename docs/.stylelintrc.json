@@ -22,6 +22,14 @@
         "selector-class-pattern": null,
         "value-keyword-case": null
     },
+    "overrides": [
+        {
+            "files": [
+                "**/*.html"
+            ],
+            "extends": ["stylelint-config-html/html", "stylelint-config-standard"]
+        }
+    ],
     "ignoreFiles": [
         "_site/**"
     ]
