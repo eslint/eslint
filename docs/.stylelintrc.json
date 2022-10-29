@@ -10,7 +10,7 @@
         "declaration-block-no-duplicate-properties": null,
         "declaration-block-no-redundant-longhand-properties": null,
         "declaration-block-no-shorthand-property-overrides": null,
-        "hue-degree-notation": null,
+        "hue-degree-notation": "number",
         "indentation": 4,
         "max-line-length": null,
         "no-descending-specificity": null,
