@@ -127,7 +127,8 @@ ruleTester.run("no-empty", rule, {
             errors: [{
                 messageId: "unexpected",
                 data: { type: "switch" },
-                type: "SwitchStatement"
+                type: "SwitchStatement",
+                suggestions: null
             }]
         },
         {
