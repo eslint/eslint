@@ -52,6 +52,7 @@ ruleTester.run("no-empty", rule, {
                 type: "BlockStatement",
                 suggestions: [{
                     messageId: "suggestComment",
+                    data: { type: "block" },
                     output: "try { /* empty */ } catch (ex) {throw ex}"
                 }]
             }]
@@ -64,6 +65,7 @@ ruleTester.run("no-empty", rule, {
                 type: "BlockStatement",
                 suggestions: [{
                     messageId: "suggestComment",
+                    data: { type: "block" },
                     output: "try { foo() } catch (ex) { /* empty */ }"
                 }]
             }]
@@ -76,6 +78,7 @@ ruleTester.run("no-empty", rule, {
                 type: "BlockStatement",
                 suggestions: [{
                     messageId: "suggestComment",
+                    data: { type: "block" },
                     output: "try { foo() } catch (ex) {throw ex} finally { /* empty */ }"
                 }]
             }]
@@ -88,6 +91,7 @@ ruleTester.run("no-empty", rule, {
                 type: "BlockStatement",
                 suggestions: [{
                     messageId: "suggestComment",
+                    data: { type: "block" },
                     output: "if (foo) { /* empty */ }"
                 }]
             }]
@@ -100,6 +104,7 @@ ruleTester.run("no-empty", rule, {
                 type: "BlockStatement",
                 suggestions: [{
                     messageId: "suggestComment",
+                    data: { type: "block" },
                     output: "while (foo) { /* empty */ }"
                 }]
             }]
@@ -112,6 +117,7 @@ ruleTester.run("no-empty", rule, {
                 type: "BlockStatement",
                 suggestions: [{
                     messageId: "suggestComment",
+                    data: { type: "block" },
                     output: "for (;foo;) { /* empty */ }"
                 }]
             }]
@@ -129,7 +135,8 @@ ruleTester.run("no-empty", rule, {
             errors: [{
                 messageId: "unexpected",
                 data: { type: "switch" },
-                type: "SwitchStatement"
+                type: "SwitchStatement",
+                suggestions: null
             }]
         },
         {
@@ -141,6 +148,7 @@ ruleTester.run("no-empty", rule, {
                 type: "BlockStatement",
                 suggestions: [{
                     messageId: "suggestComment",
+                    data: { type: "block" },
                     output: "try { /* empty */ } catch (ex) {}"
                 }]
             }]
@@ -154,6 +162,7 @@ ruleTester.run("no-empty", rule, {
                 type: "BlockStatement",
                 suggestions: [{
                     messageId: "suggestComment",
+                    data: { type: "block" },
                     output: "try { foo(); } catch (ex) {} finally { /* empty */ }"
                 }]
             }]
@@ -169,6 +178,7 @@ ruleTester.run("no-empty", rule, {
                     suggestions: [
                         {
                             messageId: "suggestComment",
+                            data: { type: "block" },
                             output: "try { /* empty */ } catch (ex) {} finally {}"
                         }
                     ]
@@ -180,6 +190,7 @@ ruleTester.run("no-empty", rule, {
                     suggestions: [
                         {
                             messageId: "suggestComment",
+                            data: { type: "block" },
                             output: "try {} catch (ex) {} finally { /* empty */ }"
                         }
                     ]
@@ -196,6 +207,7 @@ ruleTester.run("no-empty", rule, {
                     suggestions: [
                         {
                             messageId: "suggestComment",
+                            data: { type: "block" },
                             output: "try { foo(); } catch (ex) { /* empty */ } finally {}"
                         }
                     ]
@@ -207,6 +219,7 @@ ruleTester.run("no-empty", rule, {
                     suggestions: [
                         {
                             messageId: "suggestComment",
+                            data: { type: "block" },
                             output: "try { foo(); } catch (ex) {} finally { /* empty */ }"
                         }
                     ]
