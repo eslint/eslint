@@ -3,7 +3,7 @@ title: no-new-native-nonconstructor
 layout: doc
 rule_type: problem
 related_rules:
-- no-new-symbol
+- no-obj-calls
 further_reading:
 - https://tc39.es/ecma262/#sec-symbol-constructor
 - https://tc39.es/ecma262/#sec-bigint-constructor
@@ -18,7 +18,7 @@ var foo = new Symbol("foo");
 ```
 
 ```js
-var bar = new BigInt(9007199254740991)
+var bar = new BigInt(9007199254740991);
 ```
 
 These throw a `TypeError` exception.
@@ -51,7 +51,7 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```js
-/*eslint no-new-symbol: "error"*/
+/*eslint no-new-native-nonconstructor: "error"*/
 /*eslint-env es2022*/
 
 var foo = Symbol('foo');
