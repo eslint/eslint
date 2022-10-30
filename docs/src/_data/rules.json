@@ -731,7 +731,7 @@
                     "description": "Disallow empty block statements",
                     "recommended": true,
                     "fixable": false,
-                    "hasSuggestions": false
+                    "hasSuggestions": true
                 },
                 {
                     "name": "no-empty-function",
