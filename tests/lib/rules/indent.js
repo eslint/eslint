@@ -6361,6 +6361,54 @@ ruleTester.run("indent", rule, {
                 ;[1, 2, 3].forEach(x=>console.log(x))
             `,
             options: [4]
+        },
+        {
+            code:
+                "module.exports = function logicalExpressionIgnore(type) {\n" +
+                "\treturn type === 'Int8'\n" +
+                "    || type === 'Uint8'\n" +
+                "    || type === 'Int16'\n" +
+                "    || type === 'Uint16'\n" +
+                "    || type === 'Int32'\n" +
+                "    || type === 'Uint32';\n" +
+                "};",
+            options: ["tab", { LogicalExpression: "ignore" }]
+        },
+        {
+            code:
+                "module.exports = function logicalExpressionZero(type) {\n" +
+                "\treturn type === 'Int8'\n" +
+                "\t|| type === 'Uint8'\n" +
+                "\t|| type === 'Int16'\n" +
+                "\t|| type === 'Uint16'\n" +
+                "\t|| type === 'Int32'\n" +
+                "\t|| type === 'Uint32';\n" +
+                "};",
+            options: ["tab", { LogicalExpression: 0 }]
+        },
+        {
+            code:
+                "module.exports = function logicalExpressionOne(type) {\n" +
+                "\treturn type === 'Int8'\n" +
+                "\t\t|| type === 'Uint8'\n" +
+                "\t\t|| type === 'Int16'\n" +
+                "\t\t|| type === 'Uint16'\n" +
+                "\t\t|| type === 'Int32'\n" +
+                "\t\t|| type === 'Uint32';\n" +
+                "};",
+            options: ["tab", { LogicalExpression: 1 }]
+        },
+        {
+            code:
+                "module.exports = function logicalExpressionTwo(type) {\n" +
+                "\treturn type === 'Int8'\n" +
+                "\t\t\t|| type === 'Uint8'\n" +
+                "\t\t\t|| type === 'Int16'\n" +
+                "\t\t\t|| type === 'Uint16'\n" +
+                "\t\t\t|| type === 'Int32'\n" +
+                "\t\t\t|| type === 'Uint32';\n" +
+                "};",
+            options: ["tab", { LogicalExpression: 2 }]
         }
     ],
 
@@ -13381,6 +13429,62 @@ ruleTester.run("indent", rule, {
             `,
             options: [4],
             errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code:
+                "module.exports = function IsUnclampedIntegerElementType(type) {\n" +
+                "\treturn type === 'Int8'\n" +
+                "    || type === 'Uint8'\n" +
+                "    || type === 'Int16'\n" +
+                "    || type === 'Uint16'\n" +
+                "    || type === 'Int32'\n" +
+                "    || type === 'Uint32';\n" +
+                "};",
+            output:
+                "module.exports = function IsUnclampedIntegerElementType(type) {\n" +
+                "\treturn type === 'Int8'\n" +
+                "\t\t|| type === 'Uint8'\n" +
+                "\t\t|| type === 'Int16'\n" +
+                "\t\t|| type === 'Uint16'\n" +
+                "\t\t|| type === 'Int32'\n" +
+                "\t\t|| type === 'Uint32';\n" +
+                "};",
+            options: ["tab", { LogicalExpression: 1 }],
+            errors: expectedErrors("tab", [
+                [3, 2, "4 spaces", "Punctuator"],
+                [4, 2, "4 spaces", "Punctuator"],
+                [5, 2, "4 spaces", "Punctuator"],
+                [6, 2, "4 spaces", "Punctuator"],
+                [7, 2, "4 spaces", "Punctuator"]
+            ])
+        },
+        {
+            code:
+                "module.exports = function IsUnclampedIntegerElementType(type) {\n" +
+                "\treturn type === 'Int8'\n" +
+                "    && type === 'Uint8'\n" +
+                "    && type === 'Int16'\n" +
+                "    && type === 'Uint16'\n" +
+                "    && type === 'Int32'\n" +
+                "    && type === 'Uint32';\n" +
+                "};",
+            output:
+                "module.exports = function IsUnclampedIntegerElementType(type) {\n" +
+                "\treturn type === 'Int8'\n" +
+                "\t\t&& type === 'Uint8'\n" +
+                "\t\t&& type === 'Int16'\n" +
+                "\t\t&& type === 'Uint16'\n" +
+                "\t\t&& type === 'Int32'\n" +
+                "\t\t&& type === 'Uint32';\n" +
+                "};",
+            options: ["tab", { LogicalExpression: 1 }],
+            errors: expectedErrors("tab", [
+                [3, 2, "4 spaces", "Punctuator"],
+                [4, 2, "4 spaces", "Punctuator"],
+                [5, 2, "4 spaces", "Punctuator"],
+                [6, 2, "4 spaces", "Punctuator"],
+                [7, 2, "4 spaces", "Punctuator"]
+            ])
         }
     ]
 });

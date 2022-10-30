@@ -103,6 +103,7 @@ This rule has an object option:
 * `"flatTernaryExpressions": true` (`false` by default) requires no indentation for ternary expressions which are nested in other ternary expressions.
 * `"offsetTernaryExpressions": true` (`false` by default) requires indentation for values of ternary expressions.
 * `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
+* `"LogicalExpression"` (`"ignore"` by default) enforces indentation level for logical expressions like `||` or `&&`.
 
 Level of indentation denotes the multiple of the indent specified. Example:
 
@@ -1061,6 +1062,59 @@ if (foo) {
 
 // comment intentionally de-indented
     doSomethingElse();
+}
+```
+
+:::
+
+### LogicalExpression
+
+Examples of **correct** code for this rule with the default `2, { "LogicalExpression": "ignore" }` option:
+
+::: correct
+
+```js
+/* eslint indent: ["error", 2, { "LogicalExpression": "ignore" }] */
+
+function f() {
+  return foo
+      || bar
+        || baz
+    || quux;
+}
+```
+
+:::
+
+Examples of **correct** code for this rule with the default `2, { "LogicalExpression": 1 }` option:
+
+::: correct
+
+```js
+/* eslint indent: ["error", 2, { "LogicalExpression": 1 }] */
+
+function f() {
+  return foo
+    || bar
+    || baz
+    || quux;
+}
+```
+
+:::
+
+Examples of **correct** code for this rule with the `2, { "LogicalExpression": 0 }` option:
+
+::: correct
+
+```js
+/* eslint indent: ["error", 2, { "LogicalExpression": 0 }] */
+
+function f() {
+  return foo
+  || bar
+  || baz
+  || quux;
 }
 ```
 
