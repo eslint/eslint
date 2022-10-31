@@ -42,6 +42,10 @@ ruleTester.run("no-empty-static-block", rule, {
         {
             code: "class Foo { static { bar(); } static {} }",
             errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "class Foo { static // comment\n {} }",
+            errors: [{ messageId: "unexpected" }]
         }
     ]
 });
