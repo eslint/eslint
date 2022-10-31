@@ -12,7 +12,8 @@
 const path = require("path"),
     { unIndent } = require("../../_utils"),
     rule = require("../../../lib/rules/comma-dangle"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester"),
+    FlatRuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -280,6 +281,14 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always-multiline"]
         },
         {
+            code: "foo(a,\nb\n)",
+            options: ["always-multiline"]
+        },
+        {
+            code: "function foo(a,\nb\n) {}",
+            options: ["always-multiline"]
+        },
+        {
             code: "foo(a,\nb)",
             options: ["always-multiline"]
         },
@@ -318,6 +327,16 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "foo(a,\nb)",
+            options: ["always-multiline"],
+            parserOptions: { ecmaVersion: 7 }
+        },
+        {
+            code: "function foo(a,\nb\n) {}",
+            options: ["always-multiline"],
+            parserOptions: { ecmaVersion: 7 }
+        },
+        {
+            code: "foo(a,\nb\n)",
             options: ["always-multiline"],
             parserOptions: { ecmaVersion: 7 }
         },
@@ -1850,6 +1869,103 @@ let d = 0;export {d,};
             options: [{ imports: "never" }],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: 2
+        }
+    ]
+});
+
+const flatRuleTester = new FlatRuleTester();
+
+// https://github.com/eslint/eslint/issues/16442
+flatRuleTester.run("comma-dangle", rule, {
+    valid: [
+        {
+            code: "function f(\n a,\n b\n) {}",
+            options: ["always-multiline"],
+            languageOptions: {
+                ecmaVersion: 5,
+                sourceType: "script"
+            }
+        },
+        {
+            code: "f(\n a,\n b\n);",
+            options: ["always-multiline"],
+            languageOptions: {
+                ecmaVersion: 5,
+                sourceType: "script"
+            }
+        },
+        {
+            code: "function f(\n a,\n b\n) {}",
+            options: ["always-multiline"],
+            languageOptions: {
+                ecmaVersion: 2016
+            }
+        },
+        {
+            code: "f(\n a,\n b\n);",
+            options: ["always-multiline"],
+            languageOptions: {
+                ecmaVersion: 2016
+            }
+        }
+    ],
+
+    invalid: [
+        {
+            code: "function f(\n a,\n b\n) {}",
+            output: "function f(\n a,\n b,\n) {}",
+            options: ["always-multiline"],
+            languageOptions: {
+                ecmaVersion: 2017
+            },
+            errors: [{
+                messageId: "missing",
+                type: "Identifier",
+                line: 3,
+                column: 3
+            }]
+        },
+        {
+            code: "f(\n a,\n b\n);",
+            output: "f(\n a,\n b,\n);",
+            options: ["always-multiline"],
+            languageOptions: {
+                ecmaVersion: 2017
+            },
+            errors: [{
+                messageId: "missing",
+                type: "Identifier",
+                line: 3,
+                column: 3
+            }]
+        },
+        {
+            code: "function f(\n a,\n b\n) {}",
+            output: "function f(\n a,\n b,\n) {}",
+            options: ["always-multiline"],
+            languageOptions: {
+                ecmaVersion: "latest"
+            },
+            errors: [{
+                messageId: "missing",
+                type: "Identifier",
+                line: 3,
+                column: 3
+            }]
+        },
+        {
+            code: "f(\n a,\n b\n);",
+            output: "f(\n a,\n b,\n);",
+            options: ["always-multiline"],
+            languageOptions: {
+                ecmaVersion: "latest"
+            },
+            errors: [{
+                messageId: "missing",
+                type: "Identifier",
+                line: 3,
+                column: 3
+            }]
         }
     ]
 });
