@@ -3752,7 +3752,7 @@ describe("FlatESLint", () => {
 
     describe("getRulesMetaForResults()", () => {
 
-        it("should throw an error when results were not created from this instance", async () => {
+        it("should throw an error when this instance did not lint any files", async () => {
             const engine = new FlatESLint({
                 overrideConfigFile: true
             });
@@ -3789,7 +3789,99 @@ describe("FlatESLint", () => {
                             "var err = doStuff();\nif (err) console.log('failed tests: ' + err);\nprocess.exit(1);\n"
                     }
                 ]);
-            }, /Results object was not created from this ESLint instance/u);
+            }, {
+                constructor: TypeError,
+                message: "Results object was not created from this ESLint instance."
+            });
+        });
+
+        it("should throw an error when results were created from a different instance", async () => {
+            const engine1 = new FlatESLint({
+                overrideConfigFile: true,
+                cwd: path.join(fixtureDir, "foo"),
+                overrideConfig: {
+                    rules: {
+                        semi: 2
+                    }
+                }
+            });
+            const engine2 = new FlatESLint({
+                overrideConfigFile: true,
+                cwd: path.join(fixtureDir, "bar"),
+                overrideConfig: {
+                    rules: {
+                        semi: 2
+                    }
+                }
+            });
+
+            const results1 = await engine1.lintText("1", { filePath: "file.js" });
+            const results2 = await engine2.lintText("2", { filePath: "file.js" });
+
+            engine1.getRulesMetaForResults(results1); // should not throw an error
+            assert.throws(() => {
+                engine1.getRulesMetaForResults(results2);
+            }, {
+                constructor: TypeError,
+                message: "Results object was not created from this ESLint instance."
+            });
+        });
+
+        it("should treat a result without `filePath` as if the file was located in `cwd`", async () => {
+            const engine = new FlatESLint({
+                overrideConfigFile: true,
+                cwd: path.join(fixtureDir, "foo", "bar"),
+                ignorePatterns: "*/**", // ignore all subdirectories of `cwd`
+                overrideConfig: {
+                    rules: {
+                        eqeqeq: "warn"
+                    }
+                }
+            });
+
+            const results = await engine.lintText("a==b");
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.deepStrictEqual(rulesMeta.eqeqeq, coreRules.get("eqeqeq").meta);
+        });
+
+        it("should not throw an error if a result without `filePath` contains an ignored file warning", async () => {
+            const engine = new FlatESLint({
+                overrideConfigFile: true,
+                cwd: path.join(fixtureDir, "foo", "bar"),
+                ignorePatterns: "**"
+            });
+
+            const results = await engine.lintText("", { warnIgnored: true });
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.deepStrictEqual(rulesMeta, {});
+        });
+
+        it("should not throw an error if results contain linted files and one ignored file", async () => {
+            const engine = new FlatESLint({
+                overrideConfigFile: true,
+                cwd: getFixturePath(),
+                ignorePatterns: "passing*",
+                overrideConfig: {
+                    rules: {
+                        "no-undef": 2,
+                        semi: 1
+                    }
+                }
+            });
+
+            const results = await engine.lintFiles(["missing-semicolon.js", "passing.js", "undef.js"]);
+
+            assert(
+                results.some(({ messages }) => messages.some(({ message, ruleId }) => !ruleId && message.startsWith("File ignored"))),
+                "At least one file should be ignored but none is."
+            );
+
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.deepStrictEqual(rulesMeta["no-undef"], coreRules.get("no-undef").meta);
+            assert.deepStrictEqual(rulesMeta.semi, coreRules.get("semi").meta);
         });
 
         it("should return empty object when there are no linting errors", async () => {
