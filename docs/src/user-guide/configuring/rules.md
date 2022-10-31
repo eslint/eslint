@@ -234,7 +234,7 @@ foo(); /* eslint-disable-line example/rule-name */
 
 **Note:** Comments that disable warnings for a portion of a file tell ESLint not to report rule violations for the disabled code. ESLint still parses the entire file, however, so disabled code still needs to be syntactically valid JavaScript.
 
-#### Documenting justification
+#### Comment descriptions
 
 Configuration comments can include descriptions to explain why the comment is necessary. The description must come after the configuration and needs to be separated from the configuration by two or more consecutive `-` characters. For example:
 
