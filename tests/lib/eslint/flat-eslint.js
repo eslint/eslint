@@ -820,6 +820,34 @@ describe("FlatESLint", () => {
             }, /No files matching 'doesnotexist\/\*\.js' were found/u);
         });
 
+        // https://github.com/eslint/eslint/issues/16275
+        it("should throw an error for an ignored directory pattern when combined with a found pattern", async () => {
+            eslint = new FlatESLint({
+                cwd: getFixturePath("example-app2"),
+                overrideConfig: {
+                    ignores: ["subdir2"]
+                }
+            });
+
+            await assert.rejects(async () => {
+                await eslint.lintFiles(["subdir1/*.js", "subdir2/*.js"]);
+            }, /All files matched by 'subdir2\/\*\.js' are ignored/u);
+        });
+
+        // https://github.com/eslint/eslint/issues/16275
+        it("should throw an error for an ignored file pattern when combined with a found pattern", async () => {
+            eslint = new FlatESLint({
+                cwd: getFixturePath("example-app2"),
+                overrideConfig: {
+                    ignores: ["subdir2/*.js"]
+                }
+            });
+
+            await assert.rejects(async () => {
+                await eslint.lintFiles(["subdir1/*.js", "subdir2/*.js"]);
+            }, /All files matched by 'subdir2\/\*\.js' are ignored/u);
+        });
+
         // https://github.com/eslint/eslint/issues/16260
         describe("Globbing based on configs", () => {
             it("should report zero messages when given a directory with a .js and config file specifying a subdirectory", async () => {
