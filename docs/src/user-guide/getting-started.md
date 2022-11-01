@@ -23,9 +23,40 @@ You can install and configure ESLint using this command:
 
 ```shell
 npm init @eslint/config
+
+
+# or
+
+yarn init @eslint/config
+
+# or
+
+pnpm create @eslint/config
 ```
 
-**Note:** `npm init @eslint/config` assumes you have a `package.json` file already. If you don't, make sure to run `npm init` or `yarn init` beforehand.
+If you want to use the specified shared configs:
+
+```shell
+# use `eslint-config-semistandard` shared config
+# npm 6.x, yarn or pnpm
+npm init @eslint/config --config semistandard
+
+# ⚠️ npm 7+, extra double-dash is needed:
+npm init @eslint/config -- --config semistandard
+
+# or (`eslint-config` prefix is optional)
+npm init @eslint/config -- --config eslint-config-semistandard
+```
+
+The `--config` flag also supports passing in arrays:
+
+```shell
+npm init @eslint/config -- --config semistandard,standard
+# or
+npm init @eslint/config -- --config semistandard --config standard
+```
+
+**Note:** `npm init @eslint/config` assumes you have a `package.json` file already. If you don't, make sure to run `npm init`, `yarn init` or `pnpm init` beforehand.
 
 After that, you can run ESLint on any file or directory like this:
 
@@ -35,6 +66,10 @@ npx eslint yourfile.js
 # or
 
 yarn run eslint yourfile.js
+
+# or
+
+pnpm eslint yourfile.js
 ```
 
 It is also possible to install ESLint globally rather than locally (using `npm install eslint --global`). However, this is not recommended, and any plugins or shareable configs that you use must be installed locally in either case.
