@@ -1,6 +1,5 @@
 ---
 title: prefer-numeric-literals
-layout: doc
 rule_type: suggestion
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: max-lines-per-function
-layout: doc
 rule_type: suggestion
 related_rules:
 - complexity

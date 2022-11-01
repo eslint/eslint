@@ -1,6 +1,5 @@
 ---
 title: quote-props
-layout: doc
 rule_type: suggestion
 further_reading:
 - https://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names

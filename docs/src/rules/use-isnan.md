@@ -1,6 +1,5 @@
 ---
 title: use-isnan
-layout: doc
 rule_type: problem
 ---
 

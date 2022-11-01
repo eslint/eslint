@@ -1,6 +1,5 @@
 ---
 title: no-extra-boolean-cast
-layout: doc
 rule_type: suggestion
 ---
 

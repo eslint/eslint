@@ -1,6 +1,5 @@
 ---
 title: space-before-blocks
-layout: doc
 rule_type: layout
 related_rules:
 - keyword-spacing

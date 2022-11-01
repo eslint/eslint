@@ -1,6 +1,5 @@
 ---
 title: complexity
-layout: doc
 rule_type: suggestion
 related_rules:
 - max-depth

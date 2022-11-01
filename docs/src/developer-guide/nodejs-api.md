@@ -1,6 +1,5 @@
 ---
 title: Node.js API
-layout: doc
 eleventyNavigation:
     key: node.js api
     parent: developer guide

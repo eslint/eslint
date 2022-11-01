@@ -1,6 +1,5 @@
 ---
 title: new-parens
-layout: doc
 rule_type: layout
 ---
 

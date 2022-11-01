@@ -1,6 +1,5 @@
 ---
 title: no-undef-init
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-undefined

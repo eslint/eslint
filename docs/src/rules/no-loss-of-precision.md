@@ -1,6 +1,5 @@
 ---
 title: no-loss-of-precision
-layout: doc
 rule_type: problem
 ---
 

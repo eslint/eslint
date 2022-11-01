@@ -1,6 +1,5 @@
 ---
 title: no-unused-private-class-members
-layout: doc
 rule_type: problem
 ---
 

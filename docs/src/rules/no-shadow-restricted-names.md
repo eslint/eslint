@@ -1,6 +1,5 @@
 ---
 title: no-shadow-restricted-names
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-shadow

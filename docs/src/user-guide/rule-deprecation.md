@@ -1,6 +1,5 @@
 ---
 title: Rule Deprecation
-layout: doc
 
 ---
 

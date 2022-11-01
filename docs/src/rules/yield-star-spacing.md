@@ -1,6 +1,5 @@
 ---
 title: yield-star-spacing
-layout: doc
 rule_type: layout
 further_reading:
 - https://leanpub.com/understandinges6/read/#leanpub-auto-generators

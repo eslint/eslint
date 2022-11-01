@@ -1,6 +1,5 @@
 ---
 title: no-restricted-imports
-layout: doc
 rule_type: suggestion
 ---
 

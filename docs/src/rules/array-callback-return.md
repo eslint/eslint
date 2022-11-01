@@ -1,6 +1,5 @@
 ---
 title: array-callback-return
-layout: doc
 rule_type: problem
 ---
 

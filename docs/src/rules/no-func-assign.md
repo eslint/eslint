@@ -1,6 +1,5 @@
 ---
 title: no-func-assign
-layout: doc
 rule_type: problem
 ---
 

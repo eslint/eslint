@@ -1,6 +1,5 @@
 ---
 title: Integrations
-layout: doc
 eleventyNavigation:
     key: integrations
     parent: user guide

@@ -1,6 +1,5 @@
 ---
 title: Code Conventions
-layout: doc
 ---
 
 Code conventions for ESLint are determined by

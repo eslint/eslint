@@ -1,6 +1,5 @@
 ---
 title: func-names
-layout: doc
 rule_type: suggestion
 further_reading:
 - https://web.archive.org/web/20201112040809/http://markdaggett.com/blog/2013/02/15/functions-explained/

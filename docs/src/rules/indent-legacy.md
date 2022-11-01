@@ -1,6 +1,5 @@
 ---
 title: indent-legacy
-layout: doc
 rule_type: layout
 ---
 

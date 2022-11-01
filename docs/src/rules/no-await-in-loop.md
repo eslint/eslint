@@ -1,6 +1,5 @@
 ---
 title: no-await-in-loop
-layout: doc
 rule_type: problem
 ---
 

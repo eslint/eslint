@@ -1,6 +1,5 @@
 ---
 title: no-arrow-condition
-layout: doc
 
 related_rules:
 - arrow-parens

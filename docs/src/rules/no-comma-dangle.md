@@ -1,6 +1,5 @@
 ---
 title: no-comma-dangle
-layout: doc
 
 ---
 

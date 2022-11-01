@@ -1,6 +1,5 @@
 ---
 title: no-unsafe-finally
-layout: doc
 rule_type: problem
 ---
 

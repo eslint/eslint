@@ -1,6 +1,5 @@
 ---
 title: no-process-exit
-layout: doc
 rule_type: suggestion
 ---
 

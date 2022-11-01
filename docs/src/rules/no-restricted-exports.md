@@ -1,6 +1,5 @@
 ---
 title: no-restricted-exports
-layout: doc
 rule_type: suggestion
 ---
 

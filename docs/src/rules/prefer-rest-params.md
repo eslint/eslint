@@ -1,6 +1,5 @@
 ---
 title: prefer-rest-params
-layout: doc
 rule_type: suggestion
 related_rules:
 - prefer-spread

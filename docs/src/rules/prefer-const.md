@@ -1,6 +1,5 @@
 ---
 title: prefer-const
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-var

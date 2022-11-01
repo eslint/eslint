@@ -1,6 +1,5 @@
 ---
 title: no-undef
-layout: doc
 rule_type: problem
 related_rules:
 - no-global-assign

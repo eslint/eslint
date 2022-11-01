@@ -1,6 +1,5 @@
 ---
 title: no-import-assign
-layout: doc
 rule_type: problem
 ---
 

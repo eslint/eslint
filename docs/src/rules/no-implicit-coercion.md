@@ -1,6 +1,5 @@
 ---
 title: no-implicit-coercion
-layout: doc
 rule_type: suggestion
 ---
 

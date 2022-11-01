@@ -1,6 +1,5 @@
 ---
 title: Developer Guide
-layout: doc
 eleventyNavigation:
     key: developer guide 
     title: Developer Guide 

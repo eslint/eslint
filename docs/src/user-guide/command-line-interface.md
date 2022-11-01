@@ -1,6 +1,5 @@
 ---
 title: Command Line Interface
-layout: doc
 eleventyNavigation:
     key: command line interface
     parent: user guide

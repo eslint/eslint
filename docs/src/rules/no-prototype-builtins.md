@@ -1,6 +1,5 @@
 ---
 title: no-prototype-builtins
-layout: doc
 rule_type: problem
 ---
 

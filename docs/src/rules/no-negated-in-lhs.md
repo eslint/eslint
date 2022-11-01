@@ -1,6 +1,5 @@
 ---
 title: no-negated-in-lhs
-layout: doc
 rule_type: problem
 ---
 

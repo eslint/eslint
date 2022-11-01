@@ -1,6 +1,5 @@
 ---
 title: one-var
-layout: doc
 rule_type: suggestion
 ---
 

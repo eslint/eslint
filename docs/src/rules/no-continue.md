@@ -1,6 +1,5 @@
 ---
 title: no-continue
-layout: doc
 rule_type: suggestion
 ---
 

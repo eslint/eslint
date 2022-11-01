@@ -1,6 +1,5 @@
 ---
 title: Rule Changes
-layout: doc
 
 ---
 

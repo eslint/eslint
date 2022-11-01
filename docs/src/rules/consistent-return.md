@@ -1,6 +1,5 @@
 ---
 title: consistent-return
-layout: doc
 rule_type: suggestion
 ---
 

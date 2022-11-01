@@ -1,6 +1,5 @@
 ---
 title: no-unused-expressions
-layout: doc
 rule_type: suggestion
 ---
 

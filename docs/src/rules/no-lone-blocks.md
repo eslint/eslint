@@ -1,6 +1,5 @@
 ---
 title: no-lone-blocks
-layout: doc
 rule_type: suggestion
 ---
 

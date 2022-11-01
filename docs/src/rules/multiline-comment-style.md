@@ -1,6 +1,5 @@
 ---
 title: multiline-comment-style
-layout: doc
 rule_type: suggestion
 ---
 

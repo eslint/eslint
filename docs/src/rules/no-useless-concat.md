@@ -1,6 +1,5 @@
 ---
 title: no-useless-concat
-layout: doc
 rule_type: suggestion
 ---
 

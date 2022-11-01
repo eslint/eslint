@@ -1,6 +1,5 @@
 ---
 title: no-return-assign
-layout: doc
 rule_type: suggestion
 ---
 

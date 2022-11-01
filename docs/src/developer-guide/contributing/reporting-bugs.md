@@ -1,6 +1,5 @@
 ---
 title: Reporting Bugs
-layout: doc
 
 ---
 

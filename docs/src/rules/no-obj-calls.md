@@ -1,6 +1,5 @@
 ---
 title: no-obj-calls
-layout: doc
 rule_type: problem
 further_reading:
 - https://es5.github.io/#x15.8

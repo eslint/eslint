@@ -1,6 +1,5 @@
 ---
 title: Migrating to v8.0.0
-layout: doc
 eleventyNavigation:
     key: migrating to v8
     parent: user guide

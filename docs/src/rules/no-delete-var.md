@@ -1,6 +1,5 @@
 ---
 title: no-delete-var
-layout: doc
 rule_type: suggestion
 ---
 

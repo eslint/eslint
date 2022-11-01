@@ -1,6 +1,5 @@
 ---
 title: capitalized-comments
-layout: doc
 rule_type: suggestion
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: computed-property-spacing
-layout: doc
 rule_type: layout
 related_rules:
 - array-bracket-spacing

@@ -1,6 +1,5 @@
 ---
 title: no-unreachable
-layout: doc
 rule_type: problem
 ---
 

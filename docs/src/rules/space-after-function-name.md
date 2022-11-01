@@ -1,6 +1,5 @@
 ---
 title: space-after-function-name
-layout: doc
 
 ---
 

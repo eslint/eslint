@@ -1,6 +1,5 @@
 ---
 title: Working with Rules
-layout: doc
 eleventyNavigation:
     key: working with rules
     parent: developer guide

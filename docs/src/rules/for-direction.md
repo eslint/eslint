@@ -1,6 +1,5 @@
 ---
 title: for-direction
-layout: doc
 rule_type: problem
 ---
 

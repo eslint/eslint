@@ -1,6 +1,5 @@
 ---
 title: max-classes-per-file
-layout: doc
 rule_type: suggestion
 ---
 

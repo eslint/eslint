@@ -1,6 +1,5 @@
 ---
 title: logical-assignment-operators
-layout: doc
 rule_type: suggestion
 ---
 

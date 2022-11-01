@@ -1,6 +1,5 @@
 ---
 title: no-space-before-semi
-layout: doc
 
 related_rules:
 - semi

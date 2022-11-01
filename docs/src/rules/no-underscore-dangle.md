@@ -1,6 +1,5 @@
 ---
 title: no-underscore-dangle
-layout: doc
 rule_type: suggestion
 ---
 

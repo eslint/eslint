@@ -1,6 +1,5 @@
 ---
 title: Configuration Files
-layout: doc
 eleventyNavigation:
     key: configuration files
     parent: configuring

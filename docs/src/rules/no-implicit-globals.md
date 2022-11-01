@@ -1,6 +1,5 @@
 ---
 title: no-implicit-globals
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-undef

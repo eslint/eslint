@@ -1,6 +1,5 @@
 ---
 title: no-irregular-whitespace
-layout: doc
 rule_type: problem
 further_reading:
 - https://es5.github.io/#x7.2

@@ -1,6 +1,5 @@
 ---
 title: prefer-reflect
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-useless-call

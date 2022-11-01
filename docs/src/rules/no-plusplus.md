@@ -1,6 +1,5 @@
 ---
 title: no-plusplus
-layout: doc
 rule_type: suggestion
 ---
 

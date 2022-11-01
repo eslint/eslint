@@ -1,6 +1,5 @@
 ---
 title: no-unsafe-optional-chaining
-layout: doc
 rule_type: problem
 ---
 

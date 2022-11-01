@@ -1,6 +1,5 @@
 ---
 title: lines-around-directive
-layout: doc
 rule_type: layout
 related_rules:
 - lines-around-comment

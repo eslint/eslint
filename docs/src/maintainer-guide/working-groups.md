@@ -1,6 +1,5 @@
 ---
 title: Working Groups
-layout: doc
 
 ---
 

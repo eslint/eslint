@@ -1,6 +1,5 @@
 ---
 title: semi
-layout: doc
 rule_type: layout
 related_rules:
 - no-extra-semi

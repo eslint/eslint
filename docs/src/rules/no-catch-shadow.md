@@ -1,6 +1,5 @@
 ---
 title: no-catch-shadow
-layout: doc
 rule_type: suggestion
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: constructor-super
-layout: doc
 rule_type: problem
 ---
 

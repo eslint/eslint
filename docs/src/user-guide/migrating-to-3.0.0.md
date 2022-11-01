@@ -1,6 +1,5 @@
 ---
 title: Migrating to v3.0.0
-layout: doc
 
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: Rules
-layout: doc
 eleventyNavigation:
     key: configuring rules
     parent: configuring

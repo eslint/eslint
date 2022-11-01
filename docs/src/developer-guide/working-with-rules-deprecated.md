@@ -1,6 +1,5 @@
 ---
 title: Working with Rules (Deprecated)
-layout: doc
 
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: Reviewing Pull Requests
-layout: doc
 eleventyNavigation:
     key: reviewing pull requests
     parent: maintainer guide 

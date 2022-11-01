@@ -1,6 +1,5 @@
 ---
 title: no-fallthrough
-layout: doc
 rule_type: problem
 related_rules:
 - default-case

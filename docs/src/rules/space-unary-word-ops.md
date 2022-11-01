@@ -1,6 +1,5 @@
 ---
 title: space-unary-word-ops
-layout: doc
 
 ---
 

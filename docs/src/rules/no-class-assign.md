@@ -1,6 +1,5 @@
 ---
 title: no-class-assign
-layout: doc
 rule_type: problem
 ---
 

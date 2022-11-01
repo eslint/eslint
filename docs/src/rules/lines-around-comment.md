@@ -1,6 +1,5 @@
 ---
 title: lines-around-comment
-layout: doc
 rule_type: layout
 related_rules:
 - space-before-blocks

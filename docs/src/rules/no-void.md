@@ -1,6 +1,5 @@
 ---
 title: no-void
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-undef-init

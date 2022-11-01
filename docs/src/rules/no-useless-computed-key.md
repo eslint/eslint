@@ -1,6 +1,5 @@
 ---
 title: no-useless-computed-key
-layout: doc
 rule_type: suggestion
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: Migrating to v7.0.0
-layout: doc
 
 ---
 

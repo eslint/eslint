@@ -1,6 +1,5 @@
 ---
 title: Maintainer Guide
-layout: doc
 eleventyNavigation:
     key: maintainer guide 
     title: Maintainer Guide 

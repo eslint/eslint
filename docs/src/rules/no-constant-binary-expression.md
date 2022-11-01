@@ -1,6 +1,5 @@
 ---
 title: no-constant-binary-expression
-layout: doc
 rule_type: problem
 related_rules:
 - no-constant-condition

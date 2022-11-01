@@ -1,6 +1,5 @@
 ---
 title: no-empty-class
-layout: doc
 
 ---
 

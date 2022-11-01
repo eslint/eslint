@@ -1,6 +1,5 @@
 ---
 title: linebreak-style
-layout: doc
 rule_type: layout
 ---
 

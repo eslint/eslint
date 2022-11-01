@@ -1,6 +1,5 @@
 ---
 title: no-octal
-layout: doc
 rule_type: suggestion
 ---
 
