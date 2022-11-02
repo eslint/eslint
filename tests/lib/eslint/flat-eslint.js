@@ -809,43 +809,69 @@ describe("FlatESLint", () => {
         });
 
         // https://github.com/eslint/eslint/issues/16275
-        it("should throw an error for a missing pattern when combined with a found pattern", async () => {
-            eslint = new FlatESLint({
-                ignore: false,
-                cwd: getFixturePath("example-app2")
+        describe("Glob patterns without matches", () => {
+
+            it("should throw an error for a missing pattern when combined with a found pattern", async () => {
+                eslint = new FlatESLint({
+                    ignore: false,
+                    cwd: getFixturePath("example-app2")
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles(["subdir1", "doesnotexist/*.js"]);
+                }, /No files matching 'doesnotexist\/\*\.js' were found/u);
             });
 
-            await assert.rejects(async () => {
-                await eslint.lintFiles(["subdir1", "doesnotexist/*.js"]);
-            }, /No files matching 'doesnotexist\/\*\.js' were found/u);
-        });
+            it("should throw an error for an ignored directory pattern when combined with a found pattern", async () => {
+                eslint = new FlatESLint({
+                    cwd: getFixturePath("example-app2"),
+                    overrideConfig: {
+                        ignores: ["subdir2"]
+                    }
+                });
 
-        // https://github.com/eslint/eslint/issues/16275
-        it("should throw an error for an ignored directory pattern when combined with a found pattern", async () => {
-            eslint = new FlatESLint({
-                cwd: getFixturePath("example-app2"),
-                overrideConfig: {
-                    ignores: ["subdir2"]
-                }
+                await assert.rejects(async () => {
+                    await eslint.lintFiles(["subdir1/*.js", "subdir2/*.js"]);
+                }, /All files matched by 'subdir2\/\*\.js' are ignored/u);
             });
 
-            await assert.rejects(async () => {
-                await eslint.lintFiles(["subdir1/*.js", "subdir2/*.js"]);
-            }, /All files matched by 'subdir2\/\*\.js' are ignored/u);
-        });
+            it("should throw an error for an ignored file pattern when combined with a found pattern", async () => {
+                eslint = new FlatESLint({
+                    cwd: getFixturePath("example-app2"),
+                    overrideConfig: {
+                        ignores: ["subdir2/*.js"]
+                    }
+                });
 
-        // https://github.com/eslint/eslint/issues/16275
-        it("should throw an error for an ignored file pattern when combined with a found pattern", async () => {
-            eslint = new FlatESLint({
-                cwd: getFixturePath("example-app2"),
-                overrideConfig: {
-                    ignores: ["subdir2/*.js"]
-                }
+                await assert.rejects(async () => {
+                    await eslint.lintFiles(["subdir1/*.js", "subdir2/*.js"]);
+                }, /All files matched by 'subdir2\/\*\.js' are ignored/u);
             });
 
-            await assert.rejects(async () => {
-                await eslint.lintFiles(["subdir1/*.js", "subdir2/*.js"]);
-            }, /All files matched by 'subdir2\/\*\.js' are ignored/u);
+            it("should not throw an error for an ignored file pattern when errorOnUnmatchedPattern is false", async () => {
+                eslint = new FlatESLint({
+                    cwd: getFixturePath("example-app2"),
+                    overrideConfig: {
+                        ignores: ["subdir2/*.js"]
+                    },
+                    errorOnUnmatchedPattern: false
+                });
+
+                const results = await eslint.lintFiles(["subdir2/*.js"]);
+
+                assert.strictEqual(results.length, 0);
+            });
+
+            it("should not throw an error for a non-existing file pattern when errorOnUnmatchedPattern is false", async () => {
+                eslint = new FlatESLint({
+                    cwd: getFixturePath("example-app2"),
+                    errorOnUnmatchedPattern: false
+                });
+
+                const results = await eslint.lintFiles(["doesexist/*.js"]);
+
+                assert.strictEqual(results.length, 0);
+            });
         });
 
         // https://github.com/eslint/eslint/issues/16260
