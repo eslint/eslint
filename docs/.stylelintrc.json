@@ -7,7 +7,9 @@
         "color-hex-case": null,
         "custom-property-empty-line-before": null,
         "custom-property-pattern": null,
-        "declaration-block-no-duplicate-properties": null,
+        "declaration-block-no-duplicate-properties": [true, {
+            "ignore": ["consecutive-duplicates-with-different-values"]
+        }],
         "declaration-block-no-redundant-longhand-properties": null,
         "declaration-block-no-shorthand-property-overrides": null,
         "hue-degree-notation": null,
