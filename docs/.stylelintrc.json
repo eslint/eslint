@@ -9,7 +9,6 @@
         "declaration-block-no-duplicate-properties": [true, {
             "ignore": ["consecutive-duplicates-with-different-values"]
         }],
-        "declaration-block-no-redundant-longhand-properties": null,
         "hue-degree-notation": "number",
         "indentation": 4,
         "max-line-length": null,
