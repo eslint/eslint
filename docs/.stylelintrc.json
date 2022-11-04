@@ -19,7 +19,6 @@
         "no-duplicate-selectors": null,
         "number-leading-zero": null,
         "number-no-trailing-zeros": null,
-        "property-no-unknown": null,
         "property-no-vendor-prefix": null,
         "selector-class-pattern": null,
         "value-keyword-case": null
