@@ -2,7 +2,6 @@
     "extends": ["stylelint-config-standard-scss"],
     "rules": {
         "alpha-value-notation": "number",
-        "at-rule-empty-line-before": null,
         "color-function-notation": "legacy",
         "color-hex-case": null,
         "custom-property-empty-line-before": null,

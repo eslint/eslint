@@ -2,7 +2,6 @@
 @import "tokens/spacing";
 @import "tokens/typography";
 @import "tokens/ui";
-
 @import "foundations";
 @import "syntax-highlighter";
 @import "docs-header";
@@ -13,7 +12,6 @@
 @import "docs";
 @import "versions";
 @import "languages";
-
 @import "components/buttons";
 @import "components/docs-navigation";
 @import "components/toc";
@@ -29,7 +27,5 @@
 @import "components/index"; // used in component library
 @import "components/tabs";
 @import "components/resources";
-
 @import "carbon-ads";
-
 @import "utilities";
