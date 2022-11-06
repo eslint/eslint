@@ -9,6 +9,8 @@ eleventyNavigation:
 
 ---
 
+You can put your ESLint project configuration in a configuration file. You can include built-in rules, how you want them enforced, plugins with custom rules, shareable configurations, which files you want rules to apply to, and more.
+
 ## Configuration File Formats
 
 ESLint supports configuration files in several formats:
@@ -19,7 +21,7 @@ ESLint supports configuration files in several formats:
 * **JSON** - use `.eslintrc.json` to define the configuration structure. ESLint's JSON files also allow JavaScript-style comments.
 * **package.json** - create an `eslintConfig` property in your `package.json` file and define your configuration there.
 
-If there are multiple configuration files in the same directory, ESLint will only use one. The priority order is as follows:
+If there are multiple configuration files in the same directory, ESLint only uses one. The priority order is as follows:
 
 1. `.eslintrc.js`
 1. `.eslintrc.cjs`
@@ -32,7 +34,7 @@ If there are multiple configuration files in the same directory, ESLint will onl
 
 There are two ways to use configuration files.
 
-The first way to use configuration files is via `.eslintrc.*` and `package.json` files. ESLint will automatically look for them in the directory of the file to be linted, and in successive parent directories all the way up to the root directory of the filesystem (`/`), the home directory of the current user (`~/`), or when `root: true` is specified. See [Cascading and Hierarchy](#cascading-and-hierarchy) below for more details on this. Configuration files can be useful when you want different configurations for different parts of a project or when you want others to be able to use ESLint directly without needing to remember to pass in the configuration file.
+The first way to use configuration files is via `.eslintrc.*` and `package.json` files. ESLint automatically looks for them in the directory of the file to be linted, and in successive parent directories all the way up to the root directory of the filesystem (`/`), the home directory of the current user (`~/`), or when `root: true` is specified. See [Cascading and Hierarchy](#cascading-and-hierarchy) below for more details on this. Configuration files can be useful when you want different configurations for different parts of a project or when you want others to be able to use ESLint directly without needing to remember to pass in the configuration file.
 
 The second way to use configuration files is to save the file wherever you would like and pass its location to the CLI using the `--config` option, such as:
 
@@ -40,7 +42,7 @@ The second way to use configuration files is to save the file wherever you would
 eslint -c myconfig.json myfiletotest.js
 ```
 
-If you are using one configuration file and want ESLint to ignore any `.eslintrc.*` files, make sure to use [`--no-eslintrc`](https://eslint.org/docs/user-guide/command-line-interface#--no-eslintrc) along with the [`-c`](https://eslint.org/docs/user-guide/command-line-interface#-c---config) flag.
+If you are using one configuration file and want ESLint to ignore any `.eslintrc.*` files, make sure to use [`--no-eslintrc`](https://eslint.org/docs/user-guide/command-line-interface#--no-eslintrc) along with the [`--config`](https://eslint.org/docs/user-guide/command-line-interface#-c---config) flag.
 
 Here's an example JSON configuration file that uses the `typescript-eslint` parser to support TypeScript syntax:
 
@@ -71,7 +73,7 @@ Here's an example JSON configuration file that uses the `typescript-eslint` pars
 
 ### Comments in configuration files
 
-Both the JSON and YAML configuration file formats support comments (package.json files should not include them). You can use JavaScript-style comments for JSON files and YAML-style comments for YAML files. ESLint safely ignores comments in configuration files. This allows your configuration files to be more human-friendly.
+Both the JSON and YAML configuration file formats support comments (`package.json` files should not include them). You can use JavaScript-style comments for JSON files and YAML-style comments for YAML files. ESLint safely ignores comments in configuration files. This allows your configuration files to be more human-friendly.
 
 For JavaScript-style comments:
 
@@ -101,7 +103,7 @@ rules:
 
 ## Adding Shared Settings
 
-ESLint supports adding shared settings into configuration files. Plugins use `settings` to specify information that should be shared across all of its rules. You can add `settings` object to ESLint configuration file and it will be supplied to every rule being executed. This may be useful if you are adding custom rules and want them to have access to the same information and be easily configurable.
+ESLint supports adding shared settings into configuration files. Plugins use `settings` to specify information that should be shared across all of its rules. You can add a `settings` object to ESLint configuration file and it is supplied to every executed rule. This may be useful if you are adding custom rules and want them to have access to the same information and be easily configurable.
 
 In JSON:
 
@@ -123,7 +125,7 @@ And in YAML:
 
 ## Cascading and Hierarchy
 
-When using `.eslintrc.*` and `package.json` files for configuration, you can take advantage of configuration cascading. Suppose you have the following structure:
+When using `.eslintrc.*` and `package.json` files for configuration, you can take advantage of configuration cascading. Suppose your project has the following structure:
 
 ```text
 your-project
@@ -137,7 +139,7 @@ your-project
 
 The configuration cascade works based on the location of the file being linted. If there is a `.eslintrc` file in the same directory as the file being linted, then that configuration takes precedence. ESLint then searches up the directory structure, merging any `.eslintrc` files it finds along the way until reaching either a `.eslintrc` file with `root: true` or the root directory.
 
-In the same way, if there is a `package.json` file in the root directory with an `eslintConfig` field, the configuration it describes will apply to all subdirectories beneath it, but the configuration described by the `.eslintrc` file in the `tests/` directory will override it where there are conflicting specifications.
+In the same way, if there is a `package.json` file in the root directory with an `eslintConfig` field, the configuration it describes is apply to all subdirectories beneath it. However, the configuration described by the `.eslintrc` file in the `tests/` directory overrides it where there are conflicting specifications.
 
 ```text
 your-project
@@ -149,9 +151,9 @@ your-project
   └── test.js
 ```
 
-If there is a `.eslintrc` and a `package.json` file found in the same directory, `.eslintrc` will take priority and `package.json` file will not be used.
+If there is a `.eslintrc` and a `package.json` file found in the same directory, `.eslintrc` takes priority and `package.json` file is not used.
 
-By default, ESLint will look for configuration files in all parent folders up to the root directory. This can be useful if you want all of your projects to follow a certain convention, but can sometimes lead to unexpected results. To limit ESLint to a specific project, place `"root": true` inside the `.eslintrc.*` file or `eslintConfig` field of the `package.json` file or in the `.eslintrc.*` file at your project's root level. ESLint will stop looking in parent folders once it finds a configuration with `"root": true`.
+By default, ESLint looks for configuration files in all parent folders up to the root directory. This can be useful if you want all of your projects to follow a certain convention, but can sometimes lead to unexpected results. To limit ESLint to a specific project, place `"root": true` inside the `.eslintrc.*` file or `eslintConfig` field of the `package.json` file or in the `.eslintrc.*` file at your project's root level. ESLint stops looking in parent folders once it finds a configuration with `"root": true`.
 
 ```js
 {
@@ -166,7 +168,7 @@ And in YAML:
   root: true
 ```
 
-For example, consider `projectA` which has `"root": true` set in the `.eslintrc` file in the `lib/` directory.  In this case, while linting `main.js`, the configurations within `lib/` will be used, but the `.eslintrc` file in `projectA/` will not.
+For example, consider `projectA` which has `"root": true` set in the `.eslintrc` file in the `lib/` directory.  In this case, while linting `main.js`, the configurations within `lib/` are used, but the `.eslintrc` file in `projectA/` are not.
 
 ```text
 home
@@ -194,7 +196,7 @@ The complete configuration hierarchy, from highest to lowest precedence, is as f
     1. `.eslintrc.*` or `package.json` file in the same directory as the linted file
     1. Continue searching for `.eslintrc.*` and `package.json` files in ancestor directories up to and including the root directory or until a config with `"root": true` is found.
 
-Please note that the [home directory of the current user on your preferred operating system](https://nodejs.org/api/os.html#os_os_homedir) (`~/`) is also considered a root directory in this context and searching for configuration files will stop there as well. And with the [removal of support for Personal Configuration Files](https://eslint.org/docs/user-guide/configuring/configuration-files#personal-configuration-files-deprecated) from the 8.0.0 release forward, configuration files present in that directory will be ignored.
+Please note that the [home directory of the current user on your preferred operating system](https://nodejs.org/api/os.html#os_os_homedir) (`~/`) is also considered a root directory in this context and searching for configuration files stops there as well. And with the [removal of support for Personal Configuration Files](https://eslint.org/docs/user-guide/configuring/configuration-files#personal-configuration-files-deprecated) from the 8.0.0 release forward, configuration files present in that directory is ignored.
 
 ## Extending Configuration Files
 
@@ -359,7 +361,7 @@ module.exports = {
 
 ## Configuration Based on Glob Patterns
 
-<b>v4.1.0+.</b> Sometimes a more fine-controlled configuration is necessary, for example, if the configuration for files within the same directory has to be different. Therefore you can provide configurations under the `overrides` key that will only apply to files that match specific glob patterns, using the same format you would pass on the command line (e.g., `app/**/*.test.js`).
+<b>v4.1.0+.</b> Sometimes a more fine-controlled configuration is necessary, like if the configuration for files within the same directory has to be different. In this case, you can provide configurations under the `overrides` key that only apply to files that match specific glob patterns, using the same format you would pass on the command line (e.g., `app/**/*.test.js`).
 
 Glob patterns in overrides use [minimatch syntax](https://github.com/isaacs/minimatch).
 
@@ -389,11 +391,11 @@ In your `.eslintrc.json`:
 
 Here is how overrides work in a configuration file:
 
-* The patterns are applied against the file path relative to the directory of the config file. For example, if your config file has the path `/Users/john/workspace/any-project/.eslintrc.js` and the file you want to lint has the path `/Users/john/workspace/any-project/lib/util.js`, then the pattern provided in `.eslintrc.js` will be executed against the relative path `lib/util.js`.
+* The patterns are applied against the file path relative to the directory of the config file. For example, if your config file has the path `/Users/john/workspace/any-project/.eslintrc.js` and the file you want to lint has the path `/Users/john/workspace/any-project/lib/util.js`, then the pattern provided in `.eslintrc.js` is executed against the relative path `lib/util.js`.
 * Glob pattern overrides have higher precedence than the regular configuration in the same config file. Multiple overrides within the same config are applied in order. That is, the last override block in a config file always has the highest precedence.
 * A glob specific configuration works almost the same as any other ESLint config. Override blocks can contain any configuration options that are valid in a regular config, with the exception of `root` and `ignorePatterns`.
     * A glob specific configuration can have an `extends` setting, but the `root` property in the extended configs is ignored. The `ignorePatterns` property in the extended configs is used only for the files the glob specific configuration matched.
-    * Nested `overrides` setting will be applied only if the glob patterns of both of the parent config and the child config matched. This is the same when the extended configs have an `overrides` setting.
+    * Nested `overrides` setting are applied only if the glob patterns of both of the parent config and the child config matched. This is the same when the extended configs have an `overrides` setting.
 * Multiple glob patterns can be provided within a single override block. A file must match at least one of the supplied patterns for the configuration to apply.
 * Override blocks can also specify patterns to exclude from matches. If a file matches any of the excluded patterns, the configuration won't apply.
 
@@ -427,7 +429,7 @@ If you specified the [`--ext`](https://eslint.org/docs/user-guide/command-line-i
 
 ## Personal Configuration Files (deprecated)
 
-⚠️ **This feature has been deprecated**. This feature will be removed in the 8.0.0 release. If you want to continue to use personal configuration files, please use the [`--config` CLI option](https://eslint.org/docs/user-guide/command-line-interface#-c---config). For more information regarding this decision, please see [RFC 28](https://github.com/eslint/rfcs/pull/28) and [RFC 32](https://github.com/eslint/rfcs/pull/32).
+⚠️ **This feature has been deprecated**. This feature was removed in the 8.0.0 release. If you want to continue to use personal configuration files, please use the [`--config` CLI option](https://eslint.org/docs/user-guide/command-line-interface#-c---config). For more information regarding this decision, please see [RFC 28](https://github.com/eslint/rfcs/pull/28) and [RFC 32](https://github.com/eslint/rfcs/pull/32).
 
 `~/` refers to [the home directory of the current user on your preferred operating system](https://nodejs.org/api/os.html#os_os_homedir). The personal configuration file being referred to here is `~/.eslintrc.*` file, which is currently handled differently than other configuration files.
 
