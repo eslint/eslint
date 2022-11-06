@@ -9,6 +9,8 @@ eleventyNavigation:
 
 ---
 
+The JavaScript ecosystem has a variety of runtimes, versions, extensions and frameworks. Each of these can have different supported syntax and global variables. ESLint lets you configure language options specific to the JavaScript used in your project. You can also add custom global variables and plugins to extend ESLint to support your project's language options.
+
 ## Specifying Environments
 
 An environment provides predefined global variables. The available environments are:
@@ -52,7 +54,7 @@ Environments can be specified inside of a file, in configuration files or using 
 
 ### Using configuration comments
 
-To specify environments using a comment inside of your JavaScript file, use the following format:
+To specify environments with a comment inside of a JavaScript file, use the following format:
 
 ```js
 /* eslint-env node, mocha */
@@ -62,7 +64,7 @@ This enables Node.js and Mocha environments.
 
 ### Using configuration files
 
-To specify environments in a configuration file, use the `env` key and specify which environments you want to enable by setting each to `true`. For example, the following enables the browser and Node.js environments:
+To specify environments in a configuration file, use the `env` key. Specify which environments you want to enable by setting each to `true`. For example, the following enables the browser and Node.js environments:
 
 ```json
 {
@@ -167,7 +169,7 @@ And in YAML:
 
 These examples allow `var1` to be overwritten in your code, but disallow it for `var2`.
 
-Globals can be disabled with the string `"off"`. For example, in an environment where most ES2015 globals are available but `Promise` is unavailable, you might use this config:
+Globals can be disabled by setting their value to `"off"`. For example, in an environment where most ES2015 globals are available but `Promise` is unavailable, you might use this config:
 
 ```json
 {
@@ -180,21 +182,19 @@ Globals can be disabled with the string `"off"`. For example, in an environment 
 }
 ```
 
-For historical reasons, the boolean value `false` and the string value `"readable"` are equivalent to `"readonly"`. Similarly, the boolean value `true` and the string value `"writeable"` are equivalent to `"writable"`. However, the use of older values is deprecated.
+For historical reasons, the boolean value `false` and the string value `"readable"` are equivalent to `"readonly"`. Similarly, the boolean value `true` and the string value `"writeable"` are equivalent to `"writable"`. However, the use of these older values is deprecated.
 
 ## Specifying Parser Options
 
-ESLint allows you to specify the JavaScript language options you want to support. By default, ESLint expects ECMAScript 5 syntax. You can override that setting to enable support for other ECMAScript versions as well as JSX by using parser options.
+ESLint allows you to specify the JavaScript language options you want to support. By default, ESLint expects ECMAScript 5 syntax. You can override that setting to enable support for other ECMAScript versions and JSX using parser options.
 
-Please note that supporting JSX syntax is not the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react) if you are using React and want React semantics.
-By the same token, supporting ES6 syntax is not the same as supporting new ES6 globals (e.g., new types such as
-`Set`).
-For ES6 syntax, use `{ "parserOptions": { "ecmaVersion": 6 } }`; for new ES6 global variables, use `{ "env":
-{ "es6": true } }`. `{ "env": { "es6": true } }` enables ES6 syntax automatically, but `{ "parserOptions": { "ecmaVersion": 6 } }` does not enable ES6 globals automatically.
+Please note that supporting JSX syntax is not the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react) if you are using React.
 
-Parser options are set in your `.eslintrc.*` file by using the `parserOptions` property. The available options are:
+By the same token, supporting ES6 syntax is not the same as supporting new ES6 globals (e.g., new types such as `Set`). For ES6 syntax, use `{ "parserOptions": { "ecmaVersion": 6 } }`; for new ES6 global variables, use `{ "env": { "es6": true } }`. Setting `{ "env": { "es6": true } }` enables ES6 syntax automatically, but `{ "parserOptions": { "ecmaVersion": 6 } }` does not enable ES6 globals automatically.
 
-* `ecmaVersion` - set to 3, 5 (default), 6, 7, 8, 9, 10, 11, 12, 13, or 14 to specify the version of ECMAScript syntax you want to use. You can also set to 2015 (same as 6), 2016 (same as 7), 2017 (same as 8), 2018 (same as 9), 2019 (same as 10), 2020 (same as 11), 2021 (same as 12), 2022 (same as 13), or 2023 (same as 14) to use the year-based naming. You can also set "latest" to use the most recently supported version.
+Parser options are set in your `.eslintrc.*` file with the `parserOptions` property. The available options are:
+
+* `ecmaVersion` - set to 3, 5 (default), 6, 7, 8, 9, 10, 11, 12, 13, or 14 to specify the version of ECMAScript syntax you want to use. You can also set to 2015 (same as 6), 2016 (same as 7), 2017 (same as 8), 2018 (same as 9), 2019 (same as 10), 2020 (same as 11), 2021 (same as 12), 2022 (same as 13), or 2023 (same as 14) to use the year-based naming. You can also set `"latest"` to use the most recently supported version.
 * `sourceType` - set to `"script"` (default) or `"module"` if your code is in ECMAScript modules.
 * `allowReserved` - allow the use of reserved words as identifiers (if `ecmaVersion` is 3).
 * `ecmaFeatures` - an object indicating which additional language features you'd like to use:
