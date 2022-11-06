@@ -730,11 +730,11 @@ pre[class*=language-] {
   line-height: 1.5;
   font-variant-ligatures: none;
   -moz-tab-size: 4;
-  -o-tab-size: 4;
-  tab-size: 4;
+    -o-tab-size: 4;
+       tab-size: 4;
   -webkit-hyphens: none;
-  -ms-hyphens: none;
-  hyphens: none;
+      -ms-hyphens: none;
+          hyphens: none;
 }
 
 @media print {
@@ -823,6 +823,9 @@ code .highlight-line {
 
 code .highlight-line::before {
   -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   color: var(--icon-color);
   content: counter(lineNumber);
   counter-increment: lineNumber;
@@ -1044,9 +1047,9 @@ code .highlight-line::before {
 }
 
 .c-custom-select {
-  -moz-appearance: none;
   -webkit-appearance: none;
-  appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   box-sizing: border-box;
   display: block;
   width: 100%;
@@ -1674,7 +1677,7 @@ a.c-btn {
 [type=search]::-webkit-search-cancel-button,
 [type=search]::-webkit-search-decoration {
   -webkit-appearance: none;
-  appearance: none;
+          appearance: none;
 }
 
 [type=search]::-ms-clear,

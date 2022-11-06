@@ -1,7 +1,7 @@
 .c-custom-select {
-  -moz-appearance: none;
   -webkit-appearance: none;
-  appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   box-sizing: border-box;
   display: block;
   width: 100%;
