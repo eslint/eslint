@@ -19,6 +19,7 @@ let foo = new Symbol("foo");
 
 // throws a TypeError
 let result = new BigInt(9007199254740991);
+```
 
 Both `new Symbol` and `new BigInt` throw a type error because they are functions and not classes. It is easy to make this mistake by assuming the uppercase letters indicate classes.
 
