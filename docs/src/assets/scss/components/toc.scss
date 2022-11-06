@@ -33,6 +33,7 @@
             }
         }
     }
+
     .c-toc ol li.active::before {
         @media all and (min-width: 1400px) {
             color: var(--link-color);
