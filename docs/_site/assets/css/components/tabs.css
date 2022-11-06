@@ -1,6 +1,7 @@
 .c-tabs pre {
   margin-top: 0;
-  margin-block-start: 0;
+  -webkit-margin-before: 0;
+          margin-block-start: 0;
 }
 
 .js-tabs .c-tabs__tablist {
@@ -35,18 +36,21 @@
 
 .c-tabs__tabpanel {
   margin-bottom: 2rem;
-  margin-block-end: 2rem;
+  -webkit-margin-after: 2rem;
+          margin-block-end: 2rem;
   background-color: var(--lightest-background-color);
   border-radius: 0 var(--border-radius) var(--border-radius) var(--border-radius);
 }
 .js-tabs .c-tabs__tabpanel {
   margin-bottom: 0;
-  margin-block-end: 0;
+  -webkit-margin-after: 0;
+          margin-block-end: 0;
 }
 
 .c-tabs__tabpanel__title {
   margin-bottom: 1.5rem;
-  margin-block-end: 1.5rem;
+  -webkit-margin-after: 1.5rem;
+          margin-block-end: 1.5rem;
 }
 
 .js-tabs .c-tabs__tabpanel__title {

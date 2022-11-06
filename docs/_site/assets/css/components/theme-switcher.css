@@ -31,11 +31,13 @@
 }
 .theme-switcher__button:first-of-type {
   border-right: 0.5px solid var(--border-color);
-  border-inline-end: 0.5px solid var(--border-color);
+  -webkit-border-end: 0.5px solid var(--border-color);
+          border-inline-end: 0.5px solid var(--border-color);
 }
 .theme-switcher__button:last-of-type {
   border-left: 0.5px solid var(--border-color);
-  border-inline-start: 0.5px solid var(--border-color);
+  -webkit-border-start: 0.5px solid var(--border-color);
+          border-inline-start: 0.5px solid var(--border-color);
 }
 .theme-switcher__button .theme-switcher__icon {
   color: var(--icon-color);

@@ -1,12 +1,14 @@
 .eslint-social-icons {
   margin-bottom: -1rem;
-  margin-block-end: -1rem;
+  -webkit-margin-after: -1rem;
+          margin-block-end: -1rem;
 }
 .eslint-social-icons ul {
   margin: 0;
   padding: 0;
   margin-left: -1rem;
-  margin-inline-start: -1rem;
+  -webkit-margin-start: -1rem;
+          margin-inline-start: -1rem;
   display: inline-flex;
 }
 .eslint-social-icons ul li {

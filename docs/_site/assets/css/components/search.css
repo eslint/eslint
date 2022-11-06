@@ -43,7 +43,8 @@
 
 .search__input {
   padding-left: 2.5rem;
-  padding-inline-start: 2.5rem;
+  -webkit-padding-start: 2.5rem;
+          padding-inline-start: 2.5rem;
   outline-offset: 1px;
   width: 100%;
 }
@@ -100,7 +101,8 @@
   margin: 0;
   padding: 0.875rem;
   border-bottom: 1px solid var(--lightest-background-color);
-  border-block-end: 1px solid var(--lightest-background-color);
+  -webkit-border-after: 1px solid var(--lightest-background-color);
+          border-block-end: 1px solid var(--lightest-background-color);
   position: relative;
 }
 .search .search-results__item:hover {

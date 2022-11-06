@@ -1,4 +1,7 @@
-::selection {
+::-moz-selection {
+  background-color: var(--color-brand);
+  color: #fff;
+}::selection {
   background-color: var(--color-brand);
   color: #fff;
 }
@@ -107,7 +110,8 @@ main:target {
 hr {
   border: none;
   border-top: 1px solid var(--divider-color);
-  border-block-start: 1px solid var(--divider-color);
+  -webkit-border-before: 1px solid var(--divider-color);
+          border-block-start: 1px solid var(--divider-color);
   background: none;
   height: 0;
   margin: 2rem 0;
@@ -127,7 +131,8 @@ hr {
 
 .section-foot {
   margin-top: var(--space-l-2xl);
-  margin-block-start: var(--space-l-2xl);
+  -webkit-margin-before: var(--space-l-2xl);
+          margin-block-start: var(--space-l-2xl);
 }
 .section-foot .section-supporting-text {
   text-align: center;
@@ -138,7 +143,8 @@ hr {
 
 .section-title {
   margin-bottom: 1rem;
-  margin-block-end: 1rem;
+  -webkit-margin-after: 1rem;
+          margin-block-end: 1rem;
 }
 
 .section-supporting-text {
@@ -219,7 +225,8 @@ p {
 }
 :matches(nav, .posts-collection) p {
   margin-bottom: 0.75em;
-  margin-block-end: 0.75em;
+  -webkit-margin-after: 0.75em;
+          margin-block-end: 0.75em;
 }
 
 p,
@@ -235,7 +242,8 @@ h6 {
 ul,
 ol {
   margin-top: 0;
-  margin-block-start: 0;
+  -webkit-margin-before: 0;
+          margin-block-start: 0;
 }
 ul li,
 ol li {
@@ -244,7 +252,8 @@ ol li {
 .person__bio ul,
 .person__bio ol {
   padding-left: 1.5rem;
-  padding-inline-start: 1.5rem;
+  -webkit-padding-start: 1.5rem;
+          padding-inline-start: 1.5rem;
 }
 
 .docs-main ul,
@@ -277,11 +286,13 @@ p:empty {
 
 figure {
   margin-bottom: 4rem;
-  margin-block-end: 4rem;
+  -webkit-margin-after: 4rem;
+          margin-block-end: 4rem;
 }
 figure img {
   margin-bottom: 1rem;
-  margin-block-end: 1rem;
+  -webkit-margin-after: 1rem;
+          margin-block-end: 1rem;
 }
 figure figcaption {
   color: var(--grey);
@@ -334,7 +345,8 @@ body {
   font-weight: 500;
   display: block;
   margin-bottom: 1.5rem;
-  margin-block-end: 1.5rem;
+  -webkit-margin-after: 1.5rem;
+          margin-block-end: 1.5rem;
 }
 
 h1,
@@ -347,7 +359,8 @@ h6 {
   color: var(--headings-color);
   font-weight: 500;
   margin-top: 0;
-  margin-block-start: 0;
+  -webkit-margin-before: 0;
+          margin-block-start: 0;
 }
 
 .docs-main h2, .components-main h2,
@@ -361,8 +374,10 @@ h6 {
 .components-main h6 {
   margin-top: 3rem;
   margin-bottom: 1.5rem;
-  margin-block-start: 3rem;
-  margin-block-end: 1.5rem;
+  -webkit-margin-before: 3rem;
+          margin-block-start: 3rem;
+  -webkit-margin-after: 1.5rem;
+          margin-block-end: 1.5rem;
 }
 .docs-main h2:first-child, .components-main h2:first-child,
 .docs-main h3:first-child,
@@ -374,7 +389,8 @@ h6 {
 .docs-main h6:first-child,
 .components-main h6:first-child {
   margin-top: 0;
-  margin-block-start: 0;
+  -webkit-margin-before: 0;
+          margin-block-start: 0;
 }
 
 small,

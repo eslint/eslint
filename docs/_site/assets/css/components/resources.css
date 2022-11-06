@@ -6,7 +6,8 @@
   align-items: stretch;
   overflow: hidden;
   margin-bottom: 0.5rem;
-  margin-block-end: 0.5rem;
+  -webkit-margin-after: 0.5rem;
+          margin-block-end: 0.5rem;
   position: relative;
   transition: all 0.2s linear;
 }
@@ -24,7 +25,8 @@
   display: block;
   height: 100%;
   width: 100%;
-  object-fit: contain;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 
 .resource__content {

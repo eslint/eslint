@@ -19,7 +19,8 @@
   display: flex;
   align-items: center;
   border-bottom: 1px solid var(--divider-color);
-  border-block-end: 1px solid var(--divider-color);
+  -webkit-border-after: 1px solid var(--divider-color);
+          border-block-end: 1px solid var(--divider-color);
 }
 .languages-list a[aria-current=true] {
   font-weight: 500;
@@ -35,13 +36,16 @@
 .languages-section .flag {
   font-size: 2em;
   margin-right: 0.5rem;
-  margin-inline-end: 0.5rem;
+  -webkit-margin-end: 0.5rem;
+          margin-inline-end: 0.5rem;
 }
 
 .languages-section .languages-list {
   font-size: var(--step-1);
   border-left: 4px solid var(--tab-border-color);
   padding-left: 1rem;
-  border-inline-start: 4px solid var(--tab-border-color);
-  padding-inline-start: 1rem;
+  -webkit-border-start: 4px solid var(--tab-border-color);
+          border-inline-start: 4px solid var(--tab-border-color);
+  -webkit-padding-start: 1rem;
+          padding-inline-start: 1rem;
 }

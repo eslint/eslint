@@ -2,16 +2,20 @@
   padding: 0.75rem 0;
   border-top: 4px solid var(--link-color);
   border-bottom: 1px solid var(--divider-color);
-  border-block-start: 4px solid var(--link-color);
-  border-block-end: 1px solid var(--divider-color);
+  -webkit-border-before: 4px solid var(--link-color);
+          border-block-start: 4px solid var(--link-color);
+  -webkit-border-after: 1px solid var(--divider-color);
+          border-block-end: 1px solid var(--divider-color);
 }
 .site-header .docs-wrapper {
   display: grid;
   align-items: start;
   padding-top: 0;
   padding-bottom: 0;
-  padding-block-start: 0;
-  padding-block-end: 0;
+  -webkit-padding-before: 0;
+          padding-block-start: 0;
+  -webkit-padding-after: 0;
+          padding-block-end: 0;
 }
 @media all and (min-width: 1024px) {
   .site-header .docs-wrapper {
@@ -32,7 +36,8 @@
 .logo svg {
   display: inline-block;
   margin-bottom: -4px;
-  margin-block-end: -4px;
+  -webkit-margin-after: -4px;
+          margin-block-end: -4px;
   width: 100%;
   max-width: 100px;
   height: auto;

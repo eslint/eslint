@@ -23,9 +23,11 @@
 .c-toc ol li {
   position: relative;
   margin-bottom: 0.25rem;
-  margin-block-end: 0.25rem;
+  -webkit-margin-after: 0.25rem;
+          margin-block-end: 0.25rem;
   padding-left: 1rem;
-  padding-inline-start: 1rem;
+  -webkit-padding-start: 1rem;
+          padding-inline-start: 1rem;
 }
 .c-toc ol li > ol {
   margin-top: 0.25rem;
@@ -50,10 +52,12 @@
   color: var(--body-text-color);
   font-family: var(--text-font);
   margin-bottom: 0.5rem;
-  margin-block-end: 0.5rem;
+  -webkit-margin-after: 0.5rem;
+          margin-block-end: 0.5rem;
 }
 
 .c-toc__label {
+  width: -moz-fit-content;
   width: fit-content;
 }
 .c-toc__label button {
@@ -85,12 +89,12 @@
   height: 0.5rem;
   transform-origin: 50% 50%;
   margin-left: 2rem;
-  margin-inline-start: 2rem;
+  -webkit-margin-start: 2rem;
+          margin-inline-start: 2rem;
   transition: all 0.1s linear;
   color: var(--color-neutral-400);
 }
 [aria-expanded=true] .toc-trigger-icon {
-  -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 

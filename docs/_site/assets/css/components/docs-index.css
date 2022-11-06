@@ -6,7 +6,8 @@
   align-items: center;
   padding: 0.5rem 0.75rem;
   margin-left: -0.75rem;
-  margin-inline-start: -0.75rem;
+  -webkit-margin-start: -0.75rem;
+          margin-inline-start: -0.75rem;
   color: var(--headings-color);
 }
 .docs-index .docs-index__list a:hover, .docs-index .docs-index__list a[aria-current=true] {
@@ -17,7 +18,8 @@
   .docs-index .docs-index__list a {
     padding: 0.5rem 1rem;
     margin-left: 0;
-    margin-inline-start: 0;
+    -webkit-margin-start: 0;
+            margin-inline-start: 0;
   }
 }
 
@@ -33,7 +35,8 @@
 
 .docs-index__list > .docs-index__item {
   margin-top: 1.5rem;
-  margin-block-start: 1.5rem;
+  -webkit-margin-before: 1.5rem;
+          margin-block-start: 1.5rem;
 }
 .docs-index__list > .docs-index__item > a {
   color: var(--icon-color);
@@ -54,7 +57,6 @@
 }
 
 .index-js [aria-expanded=true] .index-icon {
-  -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 

@@ -13,7 +13,6 @@ pre[class*=language-] {
   -o-tab-size: 4;
   tab-size: 4;
   -webkit-hyphens: none;
-  -moz-hyphens: none;
   -ms-hyphens: none;
   hyphens: none;
 }
@@ -111,8 +110,10 @@ code .highlight-line::before {
   font-variant-numeric: tabular-nums;
   margin-right: 1.2em;
   padding-right: 1.2em;
-  margin-inline-end: 1.2em;
-  padding-inline-end: 1.2em;
+  -webkit-margin-end: 1.2em;
+          margin-inline-end: 1.2em;
+  -webkit-padding-end: 1.2em;
+          padding-inline-end: 1.2em;
   text-align: right;
   width: 2.4em;
 }

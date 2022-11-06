@@ -81,7 +81,8 @@
   font-weight: 500;
   font-size: 0.875rem;
   margin-bottom: 0.25rem;
-  margin-block-end: 0.25rem;
+  -webkit-margin-after: 0.25rem;
+          margin-block-end: 0.25rem;
 }
 
 a.rule__name {
@@ -129,7 +130,8 @@ a.rule__name::after {
   display: inline-block;
   font-weight: normal;
   margin-left: 0.5rem;
-  margin-inline-start: 0.5rem;
+  -webkit-margin-start: 0.5rem;
+          margin-inline-start: 0.5rem;
   font-size: var(--step--1);
   padding: 0 0.5rem;
 }

@@ -1,6 +1,7 @@
 .index {
   margin-bottom: 4rem;
-  margin-block-end: 4rem;
+  -webkit-margin-after: 4rem;
+          margin-block-end: 4rem;
 }
 
 .index__item {
