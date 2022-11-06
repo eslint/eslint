@@ -12,7 +12,7 @@
         "images": "imagemin '_site/assets/images' --out-dir='_site/assets/images'",
         "watch:sass": "sass --watch --poll src/assets/scss:_site/assets/css",
         "watch:eleventy": "eleventy --serve --port=2023",
-        "build:postcss": "postcss _site/assets/css --replace --verbose",
+        "build:postcss": "postcss _site/assets/css --replace",
         "build:sass": "sass src/assets/scss:_site/assets/css --no-source-map",
         "build:eleventy": "npx @11ty/eleventy",
         "start": "npm-run-all build:sass --parallel watch:*",
