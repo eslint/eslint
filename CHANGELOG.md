@@ -1,3 +1,26 @@
+v8.27.0 - November 6, 2022
+
+* [`f14587c`](https://github.com/eslint/eslint/commit/f14587c42bb0fe6ec89529aede045a488083d6ee) feat: new `no-new-native-nonconstructor` rule (#16368) (Sosuke Suzuki)
+* [`978799b`](https://github.com/eslint/eslint/commit/978799bd5c76fecf4ce8f17d89ad6c9f436c3228) feat: add new rule `no-empty-static-block` (#16325) (Sosuke Suzuki)
+* [`ce93b42`](https://github.com/eslint/eslint/commit/ce93b429bf917640473dd7e26b49bba993c68ce4) docs: Stylelint property-no-unknown (#16497) (Nick Schonning)
+* [`d2cecb4`](https://github.com/eslint/eslint/commit/d2cecb4ad2a6d33444cf0288a863c43acb3b468a) docs: Stylelint declaration-block-no-shorthand-property-overrides (#16498) (Nick Schonning)
+* [`0a92805`](https://github.com/eslint/eslint/commit/0a92805d7713118866e519b0ff2a61c5d6238ad9) docs: stylelint color-hex-case (#16496) (Nick Schonning)
+* [`c3ce521`](https://github.com/eslint/eslint/commit/c3ce5212f672d95dde3465d7d3c4bf99ff665f8b) fix: Ensure unmatched glob patterns throw an error (#16462) (Nicholas C. Zakas)
+* [`74a5af4`](https://github.com/eslint/eslint/commit/74a5af487ac7296a46a8078e585f00df72b63d83) docs: fix stylelint error (#16491) (Milos Djermanovic)
+* [`69216ee`](https://github.com/eslint/eslint/commit/69216ee69c7172e847b64e0e934b5121a34d0ea3) feat: no-empty suggest to add comment in empty BlockStatement (#16470) (Nitin Kumar)
+* [`324db1a`](https://github.com/eslint/eslint/commit/324db1a11e43ba9d954dc522763faea19129ce6a) docs: explicit stylelint color related rules (#16465) (Nick Schonning)
+* [`94dc4f1`](https://github.com/eslint/eslint/commit/94dc4f19ba49fe2358f8bcc2fc3555d222766755) docs: use Stylelint for HTML files (#16468) (Nick Schonning)
+* [`cc6128d`](https://github.com/eslint/eslint/commit/cc6128db4f489c3ab80fff2f9dbeea313e72208d) docs: enable stylelint declaration-block-no-duplicate-properties (#16466) (Nick Schonning)
+* [`d03a8bf`](https://github.com/eslint/eslint/commit/d03a8bf8978bd330aeb951f18cc92bf1ad24eeec) docs: Add heading to justification explanation (#16430) (Maritaria)
+* [`886a038`](https://github.com/eslint/eslint/commit/886a0386897f96d2da95eba8c52bd893fcbf7e86) fix: handle files with unspecified path in `getRulesMetaForResults` (#16437) (Francesco Trotta)
+* [`319f0a5`](https://github.com/eslint/eslint/commit/319f0a5491598825bbd528c6d1fc12771056a74c) feat: use `context.languageOptions.ecmaVersion` in core rules (#16458) (Milos Djermanovic)
+* [`8a15968`](https://github.com/eslint/eslint/commit/8a159686f9d497262d573dd601855ce28362199b) docs: add Stylelint configuration and cleanup (#16379) (Nick Schonning)
+* [`9b0a469`](https://github.com/eslint/eslint/commit/9b0a469d1e4650c1d9da26239357e715b11b2d97) docs: note commit messages don't support scope (#16435) (Andy Edwards)
+* [`1581405`](https://github.com/eslint/eslint/commit/15814057fd69319b3744bdea5db2455f85d2e74f) docs: improve context.getScope() docs (#16417) (Ben Perlmutter)
+* [`b797149`](https://github.com/eslint/eslint/commit/b7971496e9b44add405ca0360294f5c3be85b540) docs: update formatters template (#16454) (Milos Djermanovic)
+* [`5ac4de9`](https://github.com/eslint/eslint/commit/5ac4de911f712cb3a5a16eb7a4063eee09dfc97c) docs: fix link to formatters on the Core Concepts page (#16455) (Vladislav)
+* [`33313ef`](https://github.com/eslint/eslint/commit/33313ef56258a6a96b00a3e70025b94bd2f2fe9f) docs: core-concepts: fix link to semi rule (#16453) (coderaiser)
+
 v8.26.0 - October 21, 2022
 
 * [`df77409`](https://github.com/eslint/eslint/commit/df7740967ffab2915974c7b310ac76ea2915ac2d) fix: use `baseConfig` constructor option in FlatESLint (#16432) (Milos Djermanovic)
