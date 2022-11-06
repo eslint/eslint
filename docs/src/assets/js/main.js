@@ -28,7 +28,7 @@
             }
         });
     }, options);
-    if (window.matchMedia("(min-width: 1400px)")) {
+    if (window.matchMedia("(min-width: 1400px)").matches) {
         document
             .querySelectorAll(
                 "#main > div > h2[id], #main > div > h3[id], #main > div > h4[id]" // only h2, h3, h4 are shown in toc
