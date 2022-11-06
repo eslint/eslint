@@ -110,6 +110,7 @@
     "no-empty-character-class": "problem",
     "no-empty-function": "suggestion",
     "no-empty-pattern": "problem",
+    "no-empty-static-block": "suggestion",
     "no-eq-null": "suggestion",
     "no-eval": "suggestion",
     "no-ex-assign": "problem",

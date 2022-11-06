@@ -46,7 +46,6 @@ input:focus {
     box-shadow: 0 0 0 2px var(--link-color);
 }
 
-
 *,
 *::before,
 *::after {
@@ -81,7 +80,6 @@ body {
     offset-block-start: -30em;
     offset-inline-start: 0;
     offset-inline-end: auto;
-
     z-index: 999;
     transition: top .1s linear;
 
@@ -125,7 +123,6 @@ hr {
     padding: var(--space-xl-3xl) calc(1rem + 1vw);
 }
 
-
 .section-head {
     .section-supporting-text {
         text-align: center;
@@ -154,7 +151,6 @@ hr {
 .section-supporting-text {
     font-size: var(--step-1);
 }
-
 
 code,
 pre {
@@ -214,7 +210,6 @@ a {
     }
 }
 
-
 a {
     color: var(--link-color);
     transition: color .1s linear;
@@ -249,7 +244,6 @@ h6 {
     overflow-wrap: break-word;
 }
 
-
 ul,
 ol {
     margin-top: 0;
@@ -259,7 +253,7 @@ ol {
         margin: 0 0 .75em;
     }
 
-    .person__bio  & {
+    .person__bio & {
         padding-left: 1.5rem;
         padding-inline-start: 1.5rem;
     }
@@ -326,7 +320,6 @@ nav {
     }
 }
 
-
 .video {
     width: 90%;
     max-width: 1400px;
@@ -346,7 +339,6 @@ nav {
         outline-offset: 3px;
     }
 }
-
 
 /* typography */
 body {
@@ -374,7 +366,6 @@ h6 {
     font-weight: 500;
     margin-top: 0;
     margin-block-start: 0;
-
 }
 
 h2,
@@ -382,7 +373,6 @@ h3,
 h4,
 h5,
 h6 {
-
     .docs-main &,
     .components-main & {
         margin-top: 3rem;
@@ -396,7 +386,6 @@ h6 {
         }
     }
 }
-
 
 small,
 caption,

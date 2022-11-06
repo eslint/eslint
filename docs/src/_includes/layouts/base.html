@@ -24,7 +24,7 @@
     <title>{{ page_title }}</title>
     <meta name="description" content="{{ page_desc }}">
     <link rel="canonical" href="{{ page_url }}">
-    
+
     <!-- https://github.com/eslint/eslint/issues/15844 -->
     <base href="{{ relative_page_url }}">
 
@@ -76,7 +76,6 @@
 
 
     <style>
-    
         /* Overrides for funky punctuators */
         @font-face {
             font-family: "Mono Punctuators";
@@ -85,12 +84,13 @@
             unicode-range: U+40, U+7B, U+7D, U+28, U+29;
             font-display: swap;
         }
-        
+
         /* Space Grotesk for headings */
         @font-face {
             font-family: "Space Grotesk";
-            src: url("{{ '/assets/fonts/SpaceGrotesk-Medium-subset.woff2' | url }}") format("woff2"),
-            url("{{ '/assets/fonts/SpaceGrotesk-Medium-subset.zopfli.woff' | url }}") format("woff");
+            src:
+                url("{{ '/assets/fonts/SpaceGrotesk-Medium-subset.woff2' | url }}") format("woff2"),
+                url("{{ '/assets/fonts/SpaceGrotesk-Medium-subset.zopfli.woff' | url }}") format("woff");
             font-weight: 500;
             font-display: swap;
         }
@@ -98,9 +98,10 @@
         /* Inter for body text */
 
         @font-face {
-            font-family: "Inter";
-            src: url("{{ '/assets/fonts/Inter-Regular-subset.woff2' | url }}") format("woff2"),
-            url("{{ '/assets/fonts/Inter-Regular-subset.zopfli.woff' | url }}") format("woff");
+            font-family: Inter;
+            src:
+                url("{{ '/assets/fonts/Inter-Regular-subset.woff2' | url }}") format("woff2"),
+                url("{{ '/assets/fonts/Inter-Regular-subset.zopfli.woff' | url }}") format("woff");
             font-weight: 400;
             font-display: swap;
         }
@@ -109,8 +110,9 @@
 
         @font-face {
             font-family: "Space Mono";
-            src: url("{{ '/assets/fonts/SpaceMono-Regular-subset.woff2' | url }}") format("woff2"),
-            url("{{ '/assets/fonts/SpaceMono-Regular-subset.zopfli.woff' | url }}") format("woff");
+            src:
+                url("{{ '/assets/fonts/SpaceMono-Regular-subset.woff2' | url }}") format("woff2"),
+                url("{{ '/assets/fonts/SpaceMono-Regular-subset.zopfli.woff' | url }}") format("woff");
             font-weight: 400;
             font-display: swap;
         }

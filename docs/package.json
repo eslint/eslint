@@ -15,7 +15,9 @@
         "build:sass": "sass --style=compressed src/assets/scss:src/assets/css --no-source-map",
         "build:eleventy": "npx @11ty/eleventy",
         "start": "npm-run-all build:sass --parallel watch:*",
-        "build": "npm-run-all build:sass build:eleventy images"
+        "build": "npm-run-all build:sass build:eleventy images",
+        "lint:scss": "stylelint \"**/*.{scss,html}\"",
+        "lint:fix:scss": "npm run lint:scss -- --fix"
     },
     "devDependencies": {
         "@11ty/eleventy": "^1.0.1",
@@ -39,8 +41,13 @@
         "markdown-it-container": "^3.0.0",
         "netlify-cli": "^10.3.1",
         "npm-run-all": "^4.1.5",
+        "postcss-html": "^1.5.0",
         "rimraf": "^3.0.2",
-        "sass": "^1.52.1"
+        "sass": "^1.52.1",
+        "stylelint": "^14.13.0",
+        "stylelint-config-html": "^1.1.0",
+        "stylelint-config-standard": "^29.0.0",
+        "stylelint-config-standard-scss": "^5.0.0"
     },
     "engines": {
         "node": ">=14.0.0"

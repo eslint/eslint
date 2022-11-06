@@ -7,14 +7,12 @@
     overflow: hidden;
     margin-bottom: .5rem;
     margin-block-end: .5rem;
-
     position: relative;
     transition: all .2s linear;
 
     &:hover {
         background-color: var(--lighter-background-color);
     }
-
 }
 
 .resource__image {
@@ -27,7 +25,6 @@
         display: block;
         height: 100%;
         width: 100%;
-        // object-fit: cover;
         object-fit: contain;
     }
 }
@@ -37,7 +34,6 @@
     padding: .75rem;
     align-self: center;
 }
-
 
 .resource__title { // a
     text-decoration: none;
@@ -51,7 +47,7 @@
         left: 0;
         offset-inline-start: 0;
         top: 0;
-        block-inline-start: 0;
+        offset-block-start: 0;
         width: 100%;
         height: 100%;
     }

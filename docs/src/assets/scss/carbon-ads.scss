@@ -1,7 +1,7 @@
 .hero-ad {
-     @media all and (max-width: 800px) {
-         display: none;
-     }
+    @media all and (max-width: 800px) {
+        display: none;
+    }
 }
 
 #carbonads * {
@@ -15,9 +15,9 @@
     padding: .6em;
     font-size: 1rem;
     overflow: hidden;
-    border-radius: 4px;
     background-color: var(--body-background-color);
     border: 1px solid var(--border-color);
+    border-radius: 4px;
     border-radius: var(--border-radius);
     box-shadow: 0 1px 4px 1px hsla(0, 0%, 0%, 0.1);
 
@@ -31,8 +31,8 @@
 }
 
 .jumbotron #carbonads {
-    border: solid 1px hsla(250, 20%, 50%, .6);
-    background-color: hsla(0, 0%, 70%, .15);
+    border: solid 1px hsla(250, 20%, 50%, 0.6);
+    background-color: hsla(0, 0%, 70%, 0.15);
 }
 
 #carbonads a {

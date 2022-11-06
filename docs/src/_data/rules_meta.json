@@ -938,6 +938,7 @@
     },
     "no-empty": {
         "type": "suggestion",
+        "hasSuggestions": true,
         "docs": {
             "description": "Disallow empty block statements",
             "recommended": true,

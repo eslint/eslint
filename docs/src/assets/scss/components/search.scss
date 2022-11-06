@@ -4,8 +4,8 @@
     appearance: none;
 }
 
-[type=search]::-ms-clear,
-[type=search]::-ms-reveal {
+[type="search"]::-ms-clear,
+[type="search"]::-ms-reveal {
     display: none;
     width: 0;
     height: 0;
@@ -65,7 +65,6 @@
 .search .search-results {
     font-size: .875rem;
     background-color: var(--body-background-color);
-    position: relative;
     z-index: 10;
     width: 100%;
     border-radius: 0 0 var(--border-radius) var(--border-radius);
@@ -84,6 +83,7 @@
     &[data-results="true"] {
         padding: 0;
     }
+
     &[data-results="false"] {
         padding: 1rem;
     }
@@ -110,7 +110,7 @@
         background-color: var(--lightest-background-color);
     }
 
-    &:focus-within{
+    &:focus-within {
         background-color: var(--lightest-background-color);
     }
 }
@@ -120,7 +120,6 @@
     font-size: .875rem;
     margin-bottom: 0;
     font-family: var(--text-font);
-
 
     a {
         display: block;
