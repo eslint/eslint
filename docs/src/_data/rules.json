@@ -230,6 +230,13 @@
                     "hasSuggestions": true
                 },
                 {
+                    "name": "no-new-native-nonconstructor",
+                    "description": "Disallow `new` operators with global non-constructor functions",
+                    "recommended": false,
+                    "fixable": false,
+                    "hasSuggestions": false
+                },
+                {
                     "name": "no-new-symbol",
                     "description": "Disallow `new` operators with the `Symbol` object",
                     "recommended": true,
@@ -736,6 +743,13 @@
                 {
                     "name": "no-empty-function",
                     "description": "Disallow empty functions",
+                    "recommended": false,
+                    "fixable": false,
+                    "hasSuggestions": false
+                },
+                {
+                    "name": "no-empty-static-block",
+                    "description": "Disallow empty static blocks",
                     "recommended": false,
                     "fixable": false,
                     "hasSuggestions": false

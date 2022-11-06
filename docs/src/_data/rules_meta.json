@@ -937,8 +937,8 @@
         "fixable": "code"
     },
     "no-empty": {
-        "type": "suggestion",
         "hasSuggestions": true,
+        "type": "suggestion",
         "docs": {
             "description": "Disallow empty block statements",
             "recommended": true,
@@ -967,6 +967,14 @@
             "description": "Disallow empty destructuring patterns",
             "recommended": true,
             "url": "https://eslint.org/docs/rules/no-empty-pattern"
+        }
+    },
+    "no-empty-static-block": {
+        "type": "suggestion",
+        "docs": {
+            "description": "Disallow empty static blocks",
+            "recommended": false,
+            "url": "https://eslint.org/docs/rules/no-empty-static-block"
         }
     },
     "no-eq-null": {
@@ -1340,6 +1348,14 @@
             "description": "Disallow `new` operators with the `Function` object",
             "recommended": false,
             "url": "https://eslint.org/docs/rules/no-new-func"
+        }
+    },
+    "no-new-native-nonconstructor": {
+        "type": "problem",
+        "docs": {
+            "description": "Disallow `new` operators with global non-constructor functions",
+            "recommended": false,
+            "url": "https://eslint.org/docs/rules/no-new-native-nonconstructor"
         }
     },
     "no-new-object": {
