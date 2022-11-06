@@ -1,3 +1,42 @@
+(function () {
+    // for sticky table of contents
+    const tocBody = document.querySelector(".docs-aside #js-toc-panel");
+    const options = {
+        root: null,
+        rootMargin: `0px 0px -90% 0px`,
+        threshold: 1.0,
+    };
+    const activeClassName = "active";
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                const activeAnchor = tocBody.querySelector(
+                    `a.${activeClassName}`
+                );
+                if (activeAnchor) {
+                    activeAnchor.parentNode.classList.remove(activeClassName);
+                    activeAnchor.classList.remove(activeClassName);
+                }
+
+                const nextActiveAnchor = tocBody.querySelector(
+                    `a[href="#${entry.target.id}"]`
+                );
+                if (nextActiveAnchor) {
+                    nextActiveAnchor.parentNode.classList.add(activeClassName);
+                    nextActiveAnchor.classList.add(activeClassName);
+                }
+            }
+        });
+    }, options);
+    if (window.matchMedia("(min-width: 1400px)")) {
+        document
+            .querySelectorAll(
+                "#main > div > h2[id], #main > div > h3[id], #main > div > h4[id]" // only h2, h3, h4 are shown in toc
+            )
+            .forEach((el) => observer.observe(el));
+    }
+})();
+
 (function() {
     var toc_trigger = document.getElementById("js-toc-label"),
         toc = document.getElementById("js-toc-panel"),
