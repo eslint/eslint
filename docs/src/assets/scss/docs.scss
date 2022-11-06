@@ -14,12 +14,14 @@ html {
     display: flex;
     flex-direction: column;
     max-width: 1700px;
-    margin: auto;
 
     @media all and (min-width: 1024px) {
         display: grid;
         grid-template-columns: minmax(250px, 1fr) minmax(0, 3.5fr);
         align-items: stretch;
+    }
+    @media all and (min-width: 1700px) {
+        margin: auto;
     }
 }
 
