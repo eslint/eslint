@@ -47,7 +47,7 @@ npm init @eslint/config -- --config semistandard,standard
 npm init @eslint/config -- --config semistandard --config standard
 ```
 
-**Note:** `npm init @eslint/config` assumes you have a `package.json` file already. If you don't, make sure to run `npm init` beforehand.
+**Note:** `npm init @eslint/config` assumes you have a `package.json` file already. If you don't, make sure to run `npm init` or `yarn init` beforehand.
 
 After that, you can run ESLint on any file or directory like this:
 
