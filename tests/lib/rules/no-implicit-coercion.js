@@ -433,7 +433,7 @@ ruleTester.run("no-implicit-coercion", rule, {
             }]
         },
 
-        // https://github.com/eslint/eslint/issues/16373
+        // https://github.com/eslint/eslint/issues/16373 regression tests
         {
             code: "1 * a / 2",
             output: "Number(a) / 2",
@@ -458,6 +458,15 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(b)" },
+                type: "BinaryExpression"
+            }]
+        },
+        {
+            code: "a * 1 + 2",
+            output: "Number(a) + 2",
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Number(a)" },
                 type: "BinaryExpression"
             }]
         }
