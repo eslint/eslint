@@ -104,7 +104,12 @@ ruleTester.run("no-implicit-coercion", rule, {
         { code: "String(foo) + ``", parserOptions: { ecmaVersion: 6 } },
         { code: "`${'foo'}`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "`${`foo`}`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`${String(foo)}`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } }
+        { code: "`${String(foo)}`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } },
+
+        // https://github.com/eslint/eslint/issues/16373
+        "console.log(Math.PI * 1/4)",
+        "a * 1 / 2",
+        "a * 1 / b"
     ],
     invalid: [
         {
@@ -425,6 +430,35 @@ ruleTester.run("no-implicit-coercion", rule, {
                 messageId: "useRecommendation",
                 data: { recommendation: "(foo?.indexOf)(1) !== -1" },
                 type: "UnaryExpression"
+            }]
+        },
+
+        // https://github.com/eslint/eslint/issues/16373
+        {
+            code: "1 * a / 2",
+            output: "Number(a) / 2",
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Number(a)" },
+                type: "BinaryExpression"
+            }]
+        },
+        {
+            code: "(a * 1) / 2",
+            output: "(Number(a)) / 2",
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Number(a)" },
+                type: "BinaryExpression"
+            }]
+        },
+        {
+            code: "a * 1 / (b * 1)",
+            output: "a * 1 / (Number(b))",
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Number(b)" },
+                type: "BinaryExpression"
             }]
         }
     ]
