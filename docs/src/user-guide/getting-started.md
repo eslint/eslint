@@ -25,6 +25,28 @@ You can install and configure ESLint using this command:
 npm init @eslint/config
 ```
 
+If you want to use a specific shareable config that is hosted on npm, you can use the `--config` option and specify the package name:
+
+```shell
+# use `eslint-config-semistandard` shared config
+# npm 6.x
+npm init @eslint/config --config semistandard
+
+# ⚠️ npm 7+, extra double-dash is needed:
+npm init @eslint/config -- --config semistandard
+
+# or (`eslint-config` prefix is optional)
+npm init @eslint/config -- --config eslint-config-semistandard
+```
+
+The `--config` flag also supports passing in arrays:
+
+```shell
+npm init @eslint/config -- --config semistandard,standard
+# or
+npm init @eslint/config -- --config semistandard --config standard
+```
+
 **Note:** `npm init @eslint/config` assumes you have a `package.json` file already. If you don't, make sure to run `npm init` or `yarn init` beforehand.
 
 After that, you can run ESLint on any file or directory like this:
