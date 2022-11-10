@@ -278,7 +278,9 @@ ruleTester.run("key-spacing", rule, {
             "    method() {",
             "        return 42;",
             "    },",
-            "    baz: 456",
+            "    baz: 456,",
+            "    10:     ",
+            "    10",
             "};"
         ].join("\n"),
         options: [{ align: "value" }],
@@ -360,6 +362,10 @@ ruleTester.run("key-spacing", rule, {
             "    bat:      function() {",
             "        return this.a;",
             "    },",
+            "    barfoo:",
+            "    [",
+            "        1",
+            "    ],",
             "    baz: 42",
             "};"
         ].join("\n"),
@@ -633,6 +639,10 @@ ruleTester.run("key-spacing", rule, {
             "    internalGroup: {",
             "        internal : true,",
             "        ext      : false",
+            "    },",
+            "    func3:",
+            "    function () {",
+            "        var test3 = true;",
             "    }",
             "})"
         ].join("\n"),
@@ -969,6 +979,80 @@ ruleTester.run("key-spacing", rule, {
             align: {
                 on: "value"
             }
+        }],
+        parserOptions: { ecmaVersion: 6 }
+    },
+
+    // https://github.com/eslint/eslint/issues/16490
+    {
+        code: `
+            var foo =
+            {
+                id:   1,
+                code: 2,
+                [n]:  3,
+                message:
+                "some value on the next line",
+            };
+        `,
+        options: [{
+            align: "value"
+        }],
+        parserOptions: { ecmaVersion: 6 }
+    },
+    {
+        code: `
+            var foo =
+            {
+                id   : 1,
+                code : 2,
+                message :
+                "some value on the next line",
+            };
+        `,
+        options: [{
+            align: "colon",
+            beforeColon: true
+        }]
+    },
+    {
+        code: `
+            ({
+                a: 1,
+                // different group
+                bcd:
+                2
+            })
+        `,
+        options: [{
+            align: "value"
+        }]
+    },
+    {
+        code: `
+            ({
+                foo  :  1,
+                bar  :  2,
+                foobar :
+                3
+            })
+        `,
+        options: [{
+            align: "value",
+            beforeColon: true,
+            mode: "minimum"
+        }]
+    },
+    {
+        code: `
+            ({
+                oneLine: 1,
+                ["some key " +
+                "spanning multiple lines"]: 2
+            })
+        `,
+        options: [{
+            align: "value"
         }],
         parserOptions: { ecmaVersion: 6 }
     }],
@@ -1464,7 +1548,9 @@ ruleTester.run("key-spacing", rule, {
             "    method() {",
             "        return 42;",
             "    },",
-            "    baz:    456",
+            "    baz:    456,",
+            "    10:     ",
+            "    10",
             "};"
         ].join("\n"),
         output: [
@@ -1473,7 +1559,9 @@ ruleTester.run("key-spacing", rule, {
             "    method() {",
             "        return 42;",
             "    },",
-            "    baz: 456",
+            "    baz: 456,",
+            "    10:     ",
+            "    10",
             "};"
         ].join("\n"),
         options: [{ align: "value" }],
@@ -2374,6 +2462,123 @@ ruleTester.run("key-spacing", rule, {
             { messageId: "extraValue", data: { computed: "", key: "🎁" }, line: 4, column: 21, type: "Literal" },
             { messageId: "extraValue", data: { computed: "", key: "🇮🇳" }, line: 5, column: 23, type: "Literal" }
         ]
-    }
-    ]
+    },
+
+    // https://github.com/eslint/eslint/issues/16490
+    {
+        code: `
+            var foo =
+            {
+                id:      1,
+                code:    2,
+                [n]:     3,
+                message:
+                "some value on the next line",
+            };
+        `,
+        output: `
+            var foo =
+            {
+                id:   1,
+                code: 2,
+                [n]:  3,
+                message:
+                "some value on the next line",
+            };
+        `,
+        options: [{
+            align: "value"
+        }],
+        parserOptions: { ecmaVersion: 6 },
+        errors: [
+            { messageId: "extraValue", data: { computed: "", key: "id" }, line: 4, column: 19, type: "Literal" },
+            { messageId: "extraValue", data: { computed: "", key: "code" }, line: 5, column: 21, type: "Literal" },
+            { messageId: "extraValue", data: { computed: "computed ", key: "n" }, line: 6, column: 20, type: "Literal" }
+        ]
+    },
+    {
+        code: `
+            var foo =
+            {
+                id      : 1,
+                code    : 2,
+                message :
+                "some value on the next line",
+            };
+        `,
+        output: `
+            var foo =
+            {
+                id   : 1,
+                code : 2,
+                message :
+                "some value on the next line",
+            };
+        `,
+        options: [{
+            align: "colon",
+            beforeColon: true
+        }],
+        errors: [
+            { messageId: "extraKey", data: { computed: "", key: "id" }, line: 4, column: 19, type: "Identifier" },
+            { messageId: "extraKey", data: { computed: "", key: "code" }, line: 5, column: 21, type: "Identifier" }
+        ]
+    },
+    {
+        code: `
+            ({
+                a:   1,
+                // different group
+                bcd:
+                2
+            })
+        `,
+        output: `
+            ({
+                a: 1,
+                // different group
+                bcd:
+                2
+            })
+        `,
+        options: [{
+            align: "value"
+        }],
+        errors: [
+            { messageId: "extraValue", data: { computed: "", key: "a" }, line: 3, column: 18, type: "Literal" }
+        ]
+    },
+    {
+        code: [
+            "({",
+            "    singleLine : 10,",
+            "    newGroup :",
+            "    function() {",
+            "        var test3 = true;",
+            "    }",
+            "})"
+        ].join("\n"),
+        output: [
+            "({",
+            "    singleLine: 10,",
+            "    newGroup:",
+            "    function() {",
+            "        var test3 = true;",
+            "    }",
+            "})"
+        ].join("\n"),
+        options: [{
+            multiLine: {
+                beforeColon: false
+            },
+            align: {
+                on: "colon",
+                beforeColon: true
+            }
+        }],
+        errors: [
+            { messageId: "extraKey", data: { computed: "", key: "singleLine" }, line: 2, column: 15, type: "Identifier" },
+            { messageId: "extraKey", data: { computed: "", key: "newGroup" }, line: 3, column: 13, type: "Identifier" }
+        ]
+    }]
 });
