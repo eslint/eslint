@@ -1,6 +1,5 @@
 ---
 title: Managing Issues
-layout: doc
 eleventyNavigation:
     key: managing issues
     parent: maintainer guide 

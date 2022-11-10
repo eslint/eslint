@@ -1,6 +1,5 @@
 ---
 title: Documentation
-layout: doc
 permalink: /index.html
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: object-shorthand
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-useless-rename

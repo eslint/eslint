@@ -1,6 +1,5 @@
 ---
 title: Ignoring Code
-layout: doc
 eleventyNavigation:
     key: ignoring code
     parent: configuring

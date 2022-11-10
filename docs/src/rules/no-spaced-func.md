@@ -1,6 +1,5 @@
 ---
 title: no-spaced-func
-layout: doc
 rule_type: layout
 ---
 

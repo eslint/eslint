@@ -1,6 +1,5 @@
 ---
 title: no-magic-numbers
-layout: doc
 rule_type: suggestion
 ---
 

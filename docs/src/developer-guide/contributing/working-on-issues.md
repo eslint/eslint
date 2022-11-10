@@ -1,6 +1,5 @@
 ---
 title: Working on Issues
-layout: doc
 
 ---
 

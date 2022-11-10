@@ -1,6 +1,5 @@
 ---
 title: id-denylist
-layout: doc
 rule_type: suggestion
 ---
 

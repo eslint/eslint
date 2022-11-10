@@ -1,6 +1,5 @@
 ---
 title: no-floating-decimal
-layout: doc
 rule_type: suggestion
 ---
 

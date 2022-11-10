@@ -1,6 +1,5 @@
 ---
 title: Selectors
-layout: doc
 
 ---
 

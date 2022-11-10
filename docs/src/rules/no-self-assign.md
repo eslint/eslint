@@ -1,6 +1,5 @@
 ---
 title: no-self-assign
-layout: doc
 rule_type: problem
 ---
 

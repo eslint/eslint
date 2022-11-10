@@ -1,6 +1,5 @@
 ---
 title: no-this-before-super
-layout: doc
 rule_type: problem
 ---
 

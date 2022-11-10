@@ -1,6 +1,5 @@
 ---
 title: New Rules
-layout: doc
 
 ---
 

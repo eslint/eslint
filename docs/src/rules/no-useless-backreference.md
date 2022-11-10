@@ -1,6 +1,5 @@
 ---
 title: no-useless-backreference
-layout: doc
 rule_type: problem
 related_rules:
 - no-control-regex

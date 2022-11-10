@@ -1,6 +1,5 @@
 ---
 title: quotes
-layout: doc
 rule_type: layout
 ---
 

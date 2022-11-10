@@ -1,6 +1,5 @@
 ---
 title: Language Options
-layout: doc
 eleventyNavigation:
     key: configuring language options
     parent: configuring

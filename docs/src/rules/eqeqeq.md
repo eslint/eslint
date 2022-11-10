@@ -1,6 +1,5 @@
 ---
 title: eqeqeq
-layout: doc
 rule_type: suggestion
 ---
 

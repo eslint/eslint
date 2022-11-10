@@ -1,6 +1,5 @@
 ---
 title: Working with Custom Formatters
-layout: doc
 eleventyNavigation:
     key: working with custom formatters
     parent: developer guide

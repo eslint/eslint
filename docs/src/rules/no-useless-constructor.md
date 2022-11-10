@@ -1,6 +1,5 @@
 ---
 title: no-useless-constructor
-layout: doc
 rule_type: suggestion
 ---
 

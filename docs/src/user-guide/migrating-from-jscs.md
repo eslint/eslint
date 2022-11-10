@@ -1,6 +1,5 @@
 ---
 title: Migrating from JSCS
-layout: doc
 
 ---
 

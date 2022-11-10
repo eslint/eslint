@@ -1,6 +1,5 @@
 ---
 title: wrap-regex
-layout: doc
 rule_type: layout
 ---
 

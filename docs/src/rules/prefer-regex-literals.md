@@ -1,6 +1,5 @@
 ---
 title: prefer-regex-literals
-layout: doc
 rule_type: suggestion
 further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions

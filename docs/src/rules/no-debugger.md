@@ -1,6 +1,5 @@
 ---
 title: no-debugger
-layout: doc
 rule_type: problem
 related_rules:
 - no-alert

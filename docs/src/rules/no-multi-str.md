@@ -1,6 +1,5 @@
 ---
 title: no-multi-str
-layout: doc
 rule_type: suggestion
 ---
 

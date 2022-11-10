@@ -1,6 +1,5 @@
 ---
 title: no-return-await
-layout: doc
 rule_type: suggestion
 further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function

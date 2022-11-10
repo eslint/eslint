@@ -1,6 +1,5 @@
 ---
 title: padding-line-between-statements
-layout: doc
 rule_type: layout
 ---
 

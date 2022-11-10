@@ -1,6 +1,5 @@
 ---
 title: Migrating to v1.0.0
-layout: doc
 
 ---
 

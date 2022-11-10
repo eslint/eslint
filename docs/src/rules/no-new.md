@@ -1,6 +1,5 @@
 ---
 title: no-new
-layout: doc
 rule_type: suggestion
 ---
 

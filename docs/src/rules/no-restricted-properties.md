@@ -1,6 +1,5 @@
 ---
 title: no-restricted-properties
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-restricted-globals

@@ -1,6 +1,5 @@
 ---
 title: strict
-layout: doc
 rule_type: suggestion
 ---
 

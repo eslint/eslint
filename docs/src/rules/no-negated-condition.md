@@ -1,6 +1,5 @@
 ---
 title: no-negated-condition
-layout: doc
 rule_type: suggestion
 ---
 

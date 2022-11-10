@@ -1,6 +1,5 @@
 ---
 title: prefer-template
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-useless-concat

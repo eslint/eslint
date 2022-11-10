@@ -1,6 +1,5 @@
 ---
 title: no-useless-return
-layout: doc
 rule_type: suggestion
 ---
 

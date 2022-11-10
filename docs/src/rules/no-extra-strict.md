@@ -1,6 +1,5 @@
 ---
 title: no-extra-strict
-layout: doc
 
 further_reading:
 - https://es5.github.io/#C

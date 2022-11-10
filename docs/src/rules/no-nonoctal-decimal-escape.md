@@ -1,6 +1,5 @@
 ---
 title: no-nonoctal-decimal-escape
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-octal-escape

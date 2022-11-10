@@ -1,6 +1,5 @@
 ---
 title: no-restricted-modules
-layout: doc
 rule_type: suggestion
 ---
 

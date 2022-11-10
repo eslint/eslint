@@ -1,6 +1,5 @@
 ---
 title: no-extra-parens
-layout: doc
 rule_type: layout
 related_rules:
 - arrow-parens

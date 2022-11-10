@@ -1,6 +1,5 @@
 ---
 title: wrap-iife
-layout: doc
 rule_type: layout
 ---
 

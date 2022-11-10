@@ -1,6 +1,5 @@
 ---
 title: no-tabs
-layout: doc
 rule_type: layout
 ---
 

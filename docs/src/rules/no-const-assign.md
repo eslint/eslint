@@ -1,6 +1,5 @@
 ---
 title: no-const-assign
-layout: doc
 rule_type: problem
 ---
 

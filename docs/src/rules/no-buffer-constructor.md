@@ -1,6 +1,5 @@
 ---
 title: no-buffer-constructor
-layout: doc
 rule_type: problem
 further_reading:
 - https://nodejs.org/api/buffer.html

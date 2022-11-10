@@ -1,6 +1,5 @@
 ---
 title: new-cap
-layout: doc
 rule_type: suggestion
 ---
 

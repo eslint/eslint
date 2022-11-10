@@ -1,6 +1,5 @@
 ---
 title: space-after-keywords
-layout: doc
 
 ---
 

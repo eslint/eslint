@@ -1,6 +1,5 @@
 ---
 title: arrow-body-style
-layout: doc
 rule_type: suggestion
 ---
 

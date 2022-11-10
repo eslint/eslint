@@ -1,6 +1,5 @@
 ---
 title: no-loop-func
-layout: doc
 rule_type: suggestion
 ---
 

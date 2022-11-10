@@ -1,6 +1,5 @@
 ---
 title: no-sparse-arrays
-layout: doc
 rule_type: problem
 further_reading:
 - https://www.nczonline.net/blog/2007/09/09/inconsistent-array-literals/

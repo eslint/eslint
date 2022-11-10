@@ -1,6 +1,5 @@
 ---
 title: id-length
-layout: doc
 rule_type: suggestion
 related_rules:
 - max-len

@@ -1,6 +1,5 @@
 ---
 title: unicode-bom
-layout: doc
 rule_type: layout
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: Shareable Configs
-layout: doc
 eleventyNavigation:
     key: shareable configs
     parent: developer guide

@@ -1,6 +1,5 @@
 ---
 title: valid-typeof
-layout: doc
 rule_type: problem
 further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof

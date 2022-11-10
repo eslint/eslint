@@ -1,6 +1,5 @@
 ---
 title: no-constructor-return
-layout: doc
 rule_type: problem
 ---
 

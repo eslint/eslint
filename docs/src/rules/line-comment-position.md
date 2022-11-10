@@ -1,6 +1,5 @@
 ---
 title: line-comment-position
-layout: doc
 rule_type: layout
 ---
 

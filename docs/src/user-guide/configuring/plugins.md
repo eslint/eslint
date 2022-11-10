@@ -1,6 +1,5 @@
 ---
 title: Plugins
-layout: doc
 eleventyNavigation:
     key: configuring plugins
     parent: configuring

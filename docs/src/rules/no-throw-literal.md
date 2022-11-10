@@ -1,6 +1,5 @@
 ---
 title: no-throw-literal
-layout: doc
 rule_type: suggestion
 ---
 

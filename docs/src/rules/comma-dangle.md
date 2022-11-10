@@ -1,6 +1,5 @@
 ---
 title: comma-dangle
-layout: doc
 rule_type: layout
 ---
 

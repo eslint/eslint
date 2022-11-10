@@ -1,6 +1,5 @@
 ---
 title: space-before-keywords
-layout: doc
 
 related_rules:
 - space-after-keywords

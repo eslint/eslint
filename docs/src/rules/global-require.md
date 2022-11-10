@@ -1,6 +1,5 @@
 ---
 title: global-require
-layout: doc
 rule_type: suggestion
 ---
 

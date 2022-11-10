@@ -1,6 +1,5 @@
 ---
 title: dot-location
-layout: doc
 rule_type: layout
 related_rules:
 - newline-after-var

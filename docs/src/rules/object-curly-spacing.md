@@ -1,6 +1,5 @@
 ---
 title: object-curly-spacing
-layout: doc
 rule_type: layout
 related_rules:
 - array-bracket-spacing

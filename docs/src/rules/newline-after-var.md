@@ -1,6 +1,5 @@
 ---
 title: newline-after-var
-layout: doc
 rule_type: layout
 ---
 

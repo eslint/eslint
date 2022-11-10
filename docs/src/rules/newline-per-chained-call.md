@@ -1,6 +1,5 @@
 ---
 title: newline-per-chained-call
-layout: doc
 rule_type: layout
 ---
 

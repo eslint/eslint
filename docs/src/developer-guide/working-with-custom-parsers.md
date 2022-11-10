@@ -1,6 +1,5 @@
 ---
 title: Working with Custom Parsers
-layout: doc
 eleventyNavigation:
     key: working with custom parsers
     parent: developer guide

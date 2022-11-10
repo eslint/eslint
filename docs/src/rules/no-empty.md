@@ -1,6 +1,5 @@
 ---
 title: no-empty
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-empty-function

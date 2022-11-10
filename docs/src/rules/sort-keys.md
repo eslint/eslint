@@ -1,6 +1,5 @@
 ---
 title: sort-keys
-layout: doc
 rule_type: suggestion
 related_rules:
 - sort-imports

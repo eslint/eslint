@@ -1,6 +1,5 @@
 ---
 title: eol-last
-layout: doc
 rule_type: layout
 ---
 

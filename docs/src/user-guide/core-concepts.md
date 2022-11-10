@@ -1,6 +1,5 @@
 ---
 title: Core Concepts
-layout: doc
 eleventyNavigation:
     key: core concepts
     title: Core Concepts

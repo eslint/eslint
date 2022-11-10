@@ -1,6 +1,5 @@
 ---
 title: arrow-parens
-layout: doc
 rule_type: layout
 further_reading:
 - https://github.com/airbnb/javascript#arrows--one-arg-parens

@@ -1,6 +1,5 @@
 ---
 title: global-strict
-layout: doc
 
 ---
 

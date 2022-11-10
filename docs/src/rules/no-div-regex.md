@@ -1,6 +1,5 @@
 ---
 title: no-div-regex
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-control-regex

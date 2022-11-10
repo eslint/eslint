@@ -1,6 +1,5 @@
 ---
 title: Migrating to v6.0.0
-layout: doc
 
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: no-trailing-spaces
-layout: doc
 rule_type: layout
 ---
 

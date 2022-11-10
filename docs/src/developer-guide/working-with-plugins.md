@@ -1,6 +1,5 @@
 ---
 title: Working with Plugins
-layout: doc
 eleventyNavigation:
     key: working with plugings
     parent: developer guide

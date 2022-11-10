@@ -1,6 +1,5 @@
 ---
 title: id-match
-layout: doc
 rule_type: suggestion
 ---
 

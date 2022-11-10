@@ -1,6 +1,5 @@
 ---
 title: no-dupe-keys
-layout: doc
 rule_type: problem
 ---
 

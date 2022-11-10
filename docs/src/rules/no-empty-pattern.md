@@ -1,6 +1,5 @@
 ---
 title: no-empty-pattern
-layout: doc
 rule_type: problem
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: Change Requests
-layout: doc
 
 ---
 

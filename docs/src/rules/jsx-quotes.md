@@ -1,6 +1,5 @@
 ---
 title: jsx-quotes
-layout: doc
 rule_type: layout
 related_rules:
 - quotes

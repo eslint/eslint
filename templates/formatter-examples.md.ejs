@@ -1,6 +1,5 @@
 ---
 title: Formatters
-layout: doc
 eleventyNavigation:
     key: formatters
     parent: user guide

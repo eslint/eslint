@@ -1,6 +1,5 @@
 ---
 title: no-unused-vars
-layout: doc
 rule_type: problem
 ---
 

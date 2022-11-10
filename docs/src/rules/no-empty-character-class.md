@@ -1,6 +1,5 @@
 ---
 title: no-empty-character-class
-layout: doc
 rule_type: problem
 ---
 

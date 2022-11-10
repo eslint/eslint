@@ -1,6 +1,5 @@
 ---
 title: camelcase
-layout: doc
 rule_type: suggestion
 ---
 

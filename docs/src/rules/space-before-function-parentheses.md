@@ -1,6 +1,5 @@
 ---
 title: space-before-function-parentheses
-layout: doc
 
 related_rules:
 - space-after-keywords

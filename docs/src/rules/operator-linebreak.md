@@ -1,6 +1,5 @@
 ---
 title: operator-linebreak
-layout: doc
 rule_type: layout
 related_rules:
 - comma-style

@@ -1,6 +1,5 @@
 ---
 title: handle-callback-err
-layout: doc
 rule_type: suggestion
 further_reading:
 - https://github.com/maxogden/art-of-node#callbacks

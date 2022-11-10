@@ -1,6 +1,5 @@
 ---
 title: space-in-parens
-layout: doc
 rule_type: layout
 related_rules:
 - array-bracket-spacing

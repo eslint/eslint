@@ -1,6 +1,5 @@
 ---
 title: Getting Started with ESLint
-layout: doc
 eleventyNavigation:
     key: getting started 
     parent: user guide

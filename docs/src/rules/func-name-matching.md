@@ -1,6 +1,5 @@
 ---
 title: func-name-matching
-layout: doc
 rule_type: suggestion
 ---
 

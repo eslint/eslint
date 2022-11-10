@@ -1,6 +1,5 @@
 ---
 title: no-invalid-regexp
-layout: doc
 rule_type: problem
 further_reading:
 - https://es5.github.io/#x7.8.5

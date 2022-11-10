@@ -1,6 +1,5 @@
 ---
 title: no-misleading-character-class
-layout: doc
 rule_type: problem
 ---
 

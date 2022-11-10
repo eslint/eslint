@@ -1,6 +1,5 @@
 ---
 title: function-call-argument-newline
-layout: doc
 rule_type: layout
 related_rules:
 - function-paren-newline

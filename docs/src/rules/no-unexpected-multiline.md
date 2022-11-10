@@ -1,6 +1,5 @@
 ---
 title: no-unexpected-multiline
-layout: doc
 rule_type: problem
 related_rules:
 - func-call-spacing

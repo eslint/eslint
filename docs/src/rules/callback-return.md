@@ -1,6 +1,5 @@
 ---
 title: callback-return
-layout: doc
 rule_type: suggestion
 related_rules:
 - handle-callback-err
