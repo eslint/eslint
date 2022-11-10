@@ -848,6 +848,31 @@ describe("FlatESLint", () => {
                 }, /All files matched by 'subdir2\/\*\.js' are ignored/u);
             });
 
+            it("should always throw an error for the first unmatched file pattern", async () => {
+                eslint = new FlatESLint({
+                    cwd: getFixturePath("example-app2"),
+                    overrideConfig: {
+                        ignores: ["subdir1/*.js", "subdir2/*.js"]
+                    }
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles(["doesnotexist1/*.js", "doesnotexist2/*.js"]);
+                }, /No files matching 'doesnotexist1\/\*\.js' were found/u);
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles(["doesnotexist1/*.js", "subdir1/*.js"]);
+                }, /No files matching 'doesnotexist1\/\*\.js' were found/u);
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles(["subdir1/*.js", "doesnotexist1/*.js"]);
+                }, /All files matched by 'subdir1\/\*\.js' are ignored/u);
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles(["subdir1/*.js", "subdir2/*.js"]);
+                }, /All files matched by 'subdir1\/\*\.js' are ignored/u);
+            });
+
             it("should not throw an error for an ignored file pattern when errorOnUnmatchedPattern is false", async () => {
                 eslint = new FlatESLint({
                     cwd: getFixturePath("example-app2"),
