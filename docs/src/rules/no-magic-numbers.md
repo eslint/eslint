@@ -193,6 +193,45 @@ let head;
 
 :::
 
+### ignoreClassFieldInitialValues
+
+A boolean to specify if numbers used as initial values of class fields are considered okay. `false` by default.
+
+Examples of **correct** code for the `{ "ignoreClassFieldInitialValues": true }` option:
+
+::: correct
+
+```js
+/*eslint no-magic-numbers: ["error", { "ignoreClassFieldInitialValues": true }]*/
+
+class C {
+    foo = 2;
+    bar = -3;
+    #baz = 4;
+    static qux = 5;
+}
+```
+
+:::
+
+Examples of **incorrect** code for the `{ "ignoreClassFieldInitialValues": true }` option:
+
+::: incorrect
+
+```js
+/*eslint no-magic-numbers: ["error", { "ignoreClassFieldInitialValues": true }]*/
+
+class C {
+    foo = 2 + 3;
+}
+
+class D {
+    2;
+}
+```
+
+:::
+
 ### enforceConst
 
 A boolean to specify if we should check for the const keyword in variable declaration of numbers. `false` by default.
