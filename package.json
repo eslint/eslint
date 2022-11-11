@@ -24,7 +24,7 @@
     "lint": "node Makefile.js lint",
     "lint:fix": "node Makefile.js lint -- fix",
     "lint:docs:js": "node Makefile.js lintDocsJS",
-    "lint:docs:js:fix": "node Makefile.js lintDocsJS -- fix",
+    "lint:fix:docs:js": "node Makefile.js lintDocsJS -- fix",
     "test": "node Makefile.js test",
     "test:cli": "mocha",
     "test:fuzz": "node Makefile.js fuzz",
