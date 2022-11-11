@@ -102,6 +102,8 @@ Examples of **correct** code for the default `{ "number": true }` option:
 var n = Number(foo);
 var n = parseFloat(foo);
 var n = parseInt(foo, 10);
+
+var n = foo * 1/4; // `* 1` is allowed when followed by the `/` operator
 ```
 
 :::
