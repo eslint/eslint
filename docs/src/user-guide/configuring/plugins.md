@@ -3,19 +3,27 @@ title: Plugins
 eleventyNavigation:
     key: configuring plugins
     parent: configuring
-    title: Configuring Plugins
+    title: Configuring Extensions
     order: 4
 
 ---
 
+You can extend ESLint in a variety of different ways.
+
+* Add a custom parser to convert JavaScript code into an abstract syntax tree for ESLint to evaluate. You might want to add a custom parser if the code you're writing isn't compatible with the ESLint default parser, Espree.
+* Add a custom processor to extract JavaScript code from other kinds of files or preprocess code before linting.
+* Add plugins to include custom rules, configurations, processors, and environments in your ESLint project.
+
+You can include and customize all these different extension types in your ESLint configuration file.
+
 ## Specifying Parser
 
-By default, ESLint uses [Espree](https://github.com/eslint/espree) as its parser. You can optionally specify that a different parser should be used in your configuration file so long as the parser meets the following requirements:
+By default, ESLint uses [Espree](https://github.com/eslint/espree) as its parser. You can optionally specify that a different parser should be used in your configuration file if the parser meets the following requirements:
 
 1. It must be a Node module loadable from the config file where the parser is used. Usually, this means you should install the parser package separately using npm.
 1. It must conform to the [parser interface](../../developer-guide/working-with-custom-parsers).
 
-Note that even with these compatibilities, there are no guarantees that an external parser will work correctly with ESLint and ESLint will not fix bugs related to incompatibilities with other parsers.
+Note that even with these compatibilities, there are no guarantees that an external parser works correctly with ESLint. ESLint does not fix bugs related to incompatibilities with other parsers.
 
 To indicate the npm module to use as your parser, specify it using the `parser` option in your `.eslintrc` file. For example, the following specifies to use Esprima instead of Espree:
 
@@ -34,7 +42,7 @@ The following parsers are compatible with ESLint:
 * [@babel/eslint-parser](https://www.npmjs.com/package/@babel/eslint-parser) - A wrapper around the [Babel](https://babeljs.io) parser that makes it compatible with ESLint.
 * [@typescript-eslint/parser](https://www.npmjs.com/package/@typescript-eslint/parser) - A parser that converts TypeScript into an ESTree-compatible form so it can be used in ESLint.
 
-Note when using a custom parser, the `parserOptions` configuration property is still required for ESLint to work properly with features not in ECMAScript 5 by default. Parsers are all passed `parserOptions` and may or may not use them to determine which features to enable.
+Note that when using a custom parser, the `parserOptions` configuration property is still required for ESLint to work properly with features not in ECMAScript 5 by default. Parsers are all passed `parserOptions` and may or may not use them to determine which features to enable.
 
 ## Specifying Processor
 
@@ -87,7 +95,7 @@ ESLint checks the file path of named code blocks then ignores those if any `over
 
 ## Configuring Plugins
 
-ESLint supports the use of third-party plugins. Before using the plugin, you have to install it using npm.
+ESLint supports the use of third-party plugins. Before using a plugin, you have to install it using npm.
 
 To configure plugins inside of a configuration file, use the `plugins` key, which contains a list of plugin names. The `eslint-plugin-` prefix can be omitted from the plugin name.
 
@@ -111,14 +119,16 @@ And in YAML:
 
 **Notes:**
 
-1. Plugins are resolved relative to the config file. In other words, ESLint will load the plugin as a user would obtain by running `require('eslint-plugin-pluginname')` in the config file.
+1. Plugins are resolved relative to the config file. In other words, ESLint loads the plugin as a user would obtain by running `require('eslint-plugin-pluginname')` in the config file.
 2. Plugins in the base configuration (loaded by `extends` setting) are relative to the derived config file. For example, if `./.eslintrc` has `extends: ["foo"]` and the `eslint-config-foo` has `plugins: ["bar"]`, ESLint finds the `eslint-plugin-bar` from `./node_modules/` (rather than `./node_modules/eslint-config-foo/node_modules/`) or ancestor directories. Thus every plugin in the config file and base configurations is resolved uniquely.
 
 ### Naming convention
 
 #### Include a plugin
 
-The `eslint-plugin-` prefix can be omitted for non-scoped packages
+The `eslint-plugin-` prefix can be omitted for both non-scoped and scoped packages.
+
+A non-scoped package:
 
 ```js
 {
@@ -130,7 +140,7 @@ The `eslint-plugin-` prefix can be omitted for non-scoped packages
 }
 ```
 
-The same rule does apply to scoped packages:
+A scoped packages:
 
 ```js
 {
@@ -145,7 +155,7 @@ The same rule does apply to scoped packages:
 
 #### Use a plugin
 
-When using rules, environments or configs defined by plugins, they must be referenced following the convention:
+Rules, environments and configs defined in plugins must be referenced with the following convention:
 
 * `eslint-plugin-foo` → `foo/a-rule`
 * `@foo/eslint-plugin` → `@foo/a-config`
