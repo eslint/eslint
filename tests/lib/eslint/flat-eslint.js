@@ -794,6 +794,21 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[1].suppressedMessages.length, 0);
         });
 
+        // https://github.com/eslint/eslint/issues/16038
+        it("should allow files patterns with '..' inside", async () => {
+            eslint = new FlatESLint({
+                ignore: false,
+                cwd: getFixturePath("dots-in-files")
+            });
+            const results = await eslint.lintFiles(["."]);
+
+            assert.strictEqual(results.length, 2);
+            assert.strictEqual(results[0].messages.length, 0);
+            assert.strictEqual(results[0].filePath, getFixturePath("dots-in-files/a..b.js"));
+            assert.strictEqual(results[0].suppressedMessages.length, 0);
+        });
+
+
         // https://github.com/eslint/eslint/issues/16299
         it("should only find files in the subdir1 directory when given a directory name", async () => {
             eslint = new FlatESLint({
