@@ -29,11 +29,7 @@
     <div class="rule__categories">
         <span class="visually-hidden">Categories:</span>
         {%- if (params.deprecated) or (params.removed) -%}
-            <p class="rule__categories__type">
-                <svg width="24" height="24" viewBox="12 12 20 20" fill="none" aria-hidden="true" focusable="false" style="position: relative; right: -1px;">
-                    <path d="M28.5 16L16.5 28M16.5 16L28.5 28" stroke="#F63D68" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-            </p>
+            <p class="rule__categories__type">❌</p>
             {%- else -%}
             <p class="rule__categories__type" {% if params.categories.recommended == false %}aria-hidden="true" {%- endif -%}>
             ✅ <span class="visually-hidden">Extends</span>
