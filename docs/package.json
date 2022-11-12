@@ -10,12 +10,13 @@
     "files": [],
     "scripts": {
         "images": "imagemin '_site/assets/images' --out-dir='_site/assets/images'",
-        "watch:sass": "sass --watch --poll src/assets/scss:_site/assets/css",
+        "watch:postcss": "postcss src/assets/css -d _site/assets/css --watch --poll",
+        "watch:sass": "sass --watch --poll src/assets/scss:src/assets/css --no-source-map",
         "watch:eleventy": "eleventy --serve --port=2023",
-        "build:postcss": "postcss _site/assets/css --replace",
-        "build:sass": "sass src/assets/scss:_site/assets/css --no-source-map",
+        "build:postcss": "postcss src/assets/css -d _site/assets/css",
+        "build:sass": "sass src/assets/scss:src/assets/css --no-source-map",
         "build:eleventy": "npx @11ty/eleventy",
-        "start": "npm-run-all build:sass --parallel watch:*",
+        "start": "npm-run-all build:sass build:postcss --parallel watch:*",
         "build": "npm-run-all build:sass build:postcss build:eleventy images",
         "lint:scss": "stylelint \"**/*.{scss,html}\"",
         "lint:fix:scss": "npm run lint:scss -- --fix"
