@@ -335,6 +335,9 @@ function generatePrerelease(prereleaseId) {
     }
 
     commitSiteToGit(`v${releaseInfo.version}`);
+
+    // push to the next branch to trigger docs deploy
+    exec("git push origin HEAD:next -f");
 }
 
 /**

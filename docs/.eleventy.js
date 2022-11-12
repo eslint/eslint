@@ -25,8 +25,9 @@ module.exports = function(eleventyConfig) {
      * it's easier to see if URLs are broken.
      *
      * When a release is published, HEAD is pushed to the "latest" branch.
-     * Netlify deploys that branch as well, and in that case, we want the
-     * docs to be loaded from /docs/latest on eslint.org.
+     * When a pre-release is published, HEAD is pushed to the "next" branch.
+     * Netlify deploys those branches as well, and in that case, we want the
+     * docs to be loaded from /docs/latest or /docs/next on eslint.org.
      *
      * The path prefix is turned off for deploy previews so we can properly
      * see changes before deployed.
@@ -38,6 +39,8 @@ module.exports = function(eleventyConfig) {
         pathPrefix = "/";
     } else if (process.env.BRANCH === "latest") {
         pathPrefix = "/docs/latest/";
+    } else if (process.env.BRANCH === "next") {
+        pathPrefix = "/docs/next/";
     }
 
     //------------------------------------------------------------------------------
@@ -49,6 +52,7 @@ module.exports = function(eleventyConfig) {
 
     eleventyConfig.addGlobalData("site_name", siteName);
     eleventyConfig.addGlobalData("GIT_BRANCH", process.env.BRANCH);
+    eleventyConfig.addGlobalData("HEAD", pathPrefix === "/docs/head/");
     eleventyConfig.addGlobalData("NOINDEX", process.env.BRANCH !== "latest");
     eleventyConfig.addDataExtension("yml", contents => yaml.load(contents));
 
