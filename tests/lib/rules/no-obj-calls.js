@@ -45,6 +45,14 @@ ruleTester.run("no-obj-calls", rule, {
             code: "new Atomics.foo()",
             env: { es2017: true }
         },
+        {
+            code: "new Intl.Segmenter()",
+            env: { browser: true }
+        },
+        {
+            code: "Intl.foo()",
+            env: { browser: true }
+        },
 
         { code: "globalThis.Math();", env: { es6: true } },
         { code: "var x = globalThis.Math();", env: { es6: true } },
@@ -58,6 +66,8 @@ ruleTester.run("no-obj-calls", rule, {
         { code: "/*globals Reflect: true*/ globalThis.Reflect();", env: { es2017: true } },
         { code: "var x = globalThis.Atomics();", env: { es2017: true } },
         { code: "var x = globalThis.Atomics();", globals: { Atomics: false }, env: { es2017: true } },
+        { code: "var x = globalThis.Intl();", env: { browser: true } },
+        { code: "var x = globalThis.Intl();", globals: { Intl: false }, env: { browser: true } },
 
         // non-existing variables
         "/*globals Math: off*/ Math();",
@@ -78,6 +88,8 @@ ruleTester.run("no-obj-calls", rule, {
             code: "Atomics();",
             env: { es6: true }
         },
+        "Intl()",
+        "new Intl()",
 
         // shadowed variables
         "var Math; Math();",
@@ -119,6 +131,20 @@ ruleTester.run("no-obj-calls", rule, {
         {
             code: "var construct = typeof Reflect !== \"undefined\" ? Reflect.construct : undefined; construct();",
             globals: { Reflect: false }
+        },
+        {
+            code: "function foo(Intl) { Intl(); }",
+            env: { browser: true }
+        },
+        {
+            code: "if (foo) { const Intl = 1; Intl(); }",
+            parserOptions: { ecmaVersion: 2015 },
+            env: { browser: true }
+        },
+        {
+            code: "if (foo) { const Intl = 1; new Intl(); }",
+            parserOptions: { ecmaVersion: 2015 },
+            env: { browser: true }
         }
     ],
     invalid: [
@@ -226,6 +252,24 @@ ruleTester.run("no-obj-calls", rule, {
             errors: [{ messageId: "unexpectedCall", data: { name: "Atomics" }, type: "NewExpression" }]
         },
         {
+            code: "var x = Intl();",
+            env: { browser: true },
+            errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "CallExpression" }]
+        },
+        {
+            code: "var x = new Intl();",
+            env: { browser: true },
+            errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "NewExpression" }]
+        },
+        {
+            code: "/*globals Intl: true*/ Intl();",
+            errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "CallExpression" }]
+        },
+        {
+            code: "/*globals Intl: true*/ new Intl();",
+            errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "NewExpression" }]
+        },
+        {
             code: "var x = globalThis.Math();",
             env: { es2020: true },
             errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression" }]
@@ -289,6 +333,21 @@ ruleTester.run("no-obj-calls", rule, {
             errors: [{ messageId: "unexpectedCall", data: { name: "Atomics" }, type: "CallExpression" }]
         },
         {
+            code: "var x = globalThis.Intl();",
+            env: { browser: true, es2020: true },
+            errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "CallExpression" }]
+        },
+        {
+            code: "var x = new globalThis.Intl;",
+            env: { browser: true, es2020: true },
+            errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "NewExpression" }]
+        },
+        {
+            code: "/*globals Intl: true*/ Intl();",
+            env: { browser: true, es2020: true },
+            errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "CallExpression" }]
+        },
+        {
             code: "var foo = bar ? baz: JSON; foo();",
             errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "JSON" }, type: "CallExpression" }]
         },
@@ -315,6 +374,16 @@ ruleTester.run("no-obj-calls", rule, {
             code: "var foo = window.Atomics; new foo;",
             env: { es2020: true, browser: true },
             errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "Atomics" }, type: "NewExpression" }]
+        },
+        {
+            code: "var foo = window.Intl; foo();",
+            env: { es2020: true, browser: true },
+            errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "Intl" }, type: "CallExpression" }]
+        },
+        {
+            code: "var foo = window.Intl; new foo;",
+            env: { es2020: true, browser: true },
+            errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "Intl" }, type: "NewExpression" }]
         },
 
         // Optional chaining
