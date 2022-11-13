@@ -21,7 +21,7 @@ The [ECMAScript 2017 specification](https://www.ecma-international.org/ecma-262/
 
 > The Atomics object does not have a `[[Call]]` internal method; it is not possible to invoke the Atomics object as a function.
 
-And the [ECMAScript Internationalization API Specification](https://tc39.es/ecma402/#intl-object) make it clear that `Intl` cannot be involed:
+And the [ECMAScript Internationalization API Specification](https://tc39.es/ecma402/#intl-object) makes it clear that `Intl` cannot be invoked:
 
 > The Intl object does not have a `[[Call]]` internal method; it is not possible to invoke the Intl object as a function.
 
