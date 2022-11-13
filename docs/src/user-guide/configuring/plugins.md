@@ -3,18 +3,17 @@ title: Plugins
 eleventyNavigation:
     key: configuring plugins
     parent: configuring
-    title: Configuring Extensions
+    title: Configuring Plugins
     order: 4
 
 ---
 
-You can extend ESLint in a variety of different ways.
+You can extend ESLint with plugins in a variety of different ways. Plugins can include:
 
-* Add a custom parser to convert JavaScript code into an abstract syntax tree for ESLint to evaluate. You might want to add a custom parser if the code you're writing isn't compatible with the ESLint default parser, Espree.
-* Add a custom processor to extract JavaScript code from other kinds of files or preprocess code before linting.
-* Add plugins to include custom rules, configurations, processors, and environments in your ESLint project.
-
-You can include and customize all these different extension types in your ESLint configuration file.
+* Custom parsers to convert JavaScript code into an abstract syntax tree for ESLint to evaluate. You might want to add a custom parser if the code you're writing isn't compatible with the ESLint default parser, Espree.
+* Custom processors to extract JavaScript code from other kinds of files or preprocess code before linting.
+* Custom rules to validates if your code meets a certain expectation, and what to do if it does not meet that expectation.
+* Other custom configuration using ESLint's built in features.
 
 ## Specifying Parser
 
