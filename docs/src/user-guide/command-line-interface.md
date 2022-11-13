@@ -8,7 +8,7 @@ eleventyNavigation:
 
 ---
 
-The ESLint CLI is a command line interface that lets you execute linting from the terminal. The CLI has a variety of options that you can pass to its commands.
+The ESLint Command Line Interface (CLI) lets you execute linting from the terminal. The CLI has a variety of options that you can pass to its commands.
 
 ## Run the CLI
 
@@ -175,7 +175,7 @@ For example, `npx eslint lib/* --ext .js` matches all files within the `lib/` di
 
 #### `--global`
 
-This option defines global variables so that they are not  flagged as undefined by the `no-undef` rule. Any specified global variables are assumed to be read-only by default, but appending `:true` to a variable's name ensures that `no-undef` also allows writes. To specify multiple global variables, separate them using commas, or use the option multiple times.
+This option defines global variables so that they are not flagged as undefined by the `no-undef` rule. Any specified global variables are assumed to be read-only by default, but appending `:true` to a variable's name ensures that `no-undef` also allows writes. To specify multiple global variables, separate them using commas, or use the option multiple times.
 
 Examples:
 
@@ -370,7 +370,7 @@ npx eslint --quiet file.js
 
 This option allows you to specify a warning threshold, which can be used to force ESLint to exit with an error status if there are too many warning-level rule violations in your project.
 
-Normally, if ESLint runs and finds no errors (only warnings), it exits with a success exit status. However, if `--max-warnings` is specified and the total warning count is greater than the specified threshold, ESLint exits with an error status. To prevent this behavior, omitting this option or specifying a threshold of `-1`.
+Normally, if ESLint runs and finds no errors (only warnings), it exits with a success exit status. However, if `--max-warnings` is specified and the total warning count is greater than the specified threshold, ESLint exits with an error status. To prevent this behavior, omit this option or specify a threshold of `-1`.
 
 Example:
 
@@ -499,7 +499,7 @@ Store the info about processed files in order to only operate on the changed one
 
 #### `--cache-file`
 
-Path to the cache file. If none specified `.eslintcache` is used. The file is created in the directory where the `eslint` command is executed. **Deprecated**: Use `--cache-location` instead.
+Path to the cache file. If no file is specified, `.eslintcache` is used. The file is created in the directory where the `eslint` command is executed. **Deprecated**: Use `--cache-location` instead.
 
 #### `--cache-location`
 
