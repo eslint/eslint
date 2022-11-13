@@ -11,7 +11,7 @@ eleventyNavigation:
 
 Rules are the core building block of ESLint. A rule validates if your code meets a certain expectation, and what to do if it does not meet that expectation. Rules can also contain additional configuration options specific to that rule.
 
-ESLint comes with a large number of built-in rules and you can add more rules through plugins. You can modify which rules your project uses with either configuration comments or configuration files.
+ESLint comes with a large number of [built-in rules](../../rules/) and you can add more rules through plugins. You can modify which rules your project uses with either configuration comments or configuration files.
 
 ## Rule Settings
 
