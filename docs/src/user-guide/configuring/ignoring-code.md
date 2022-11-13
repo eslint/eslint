@@ -116,7 +116,7 @@ Any file that follows the standard ignore file format can be used. Keep in mind 
 
 ## Using eslintIgnore in package.json
 
-If an `.eslintignore` file is not found and an alternate file is not specified, ESLint looks in package.json for an `eslintIgnore` key to check for files to ignore.
+If an `.eslintignore` file is not found and an alternate file is not specified, ESLint looks in `package.json` for the `eslintIgnore` key to check for files to ignore.
 
 ```json
 {
