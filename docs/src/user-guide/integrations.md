@@ -8,6 +8,10 @@ eleventyNavigation:
 
 ---
 
+This page contains community projects that have integrated ESLint. The projects on this page are not maintained by the ESLint core team.
+
+If you would like to recommend an integration to be added to this page, [submit a pull request](../maintainer-guide/pullrequests).
+
 ## Editors
 
 * Sublime Text 3:
