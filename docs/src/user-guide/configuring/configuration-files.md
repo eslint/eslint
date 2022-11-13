@@ -139,7 +139,7 @@ your-project
 
 The configuration cascade works based on the location of the file being linted. If there is a `.eslintrc` file in the same directory as the file being linted, then that configuration takes precedence. ESLint then searches up the directory structure, merging any `.eslintrc` files it finds along the way until reaching either a `.eslintrc` file with `root: true` or the root directory.
 
-In the same way, if there is a `package.json` file in the root directory with an `eslintConfig` field, the configuration it describes is apply to all subdirectories beneath it. However, the configuration described by the `.eslintrc` file in the `tests/` directory overrides it where there are conflicting specifications.
+In the same way, if there is a `package.json` file in the root directory with an `eslintConfig` field, the configuration it describes is applied to all subdirectories beneath it. However, the configuration described by the `.eslintrc` file in the `tests/` directory overrides it where there are conflicting specifications.
 
 ```text
 your-project
@@ -395,7 +395,7 @@ Here is how overrides work in a configuration file:
 * Glob pattern overrides have higher precedence than the regular configuration in the same config file. Multiple overrides within the same config are applied in order. That is, the last override block in a config file always has the highest precedence.
 * A glob specific configuration works almost the same as any other ESLint config. Override blocks can contain any configuration options that are valid in a regular config, with the exception of `root` and `ignorePatterns`.
     * A glob specific configuration can have an `extends` setting, but the `root` property in the extended configs is ignored. The `ignorePatterns` property in the extended configs is used only for the files the glob specific configuration matched.
-    * Nested `overrides` setting are applied only if the glob patterns of both of the parent config and the child config matched. This is the same when the extended configs have an `overrides` setting.
+    * Nested `overrides` setting are applied only if the glob patterns of both of the parent config and the child config are matched. This is the same when the extended configs have an `overrides` setting.
 * Multiple glob patterns can be provided within a single override block. A file must match at least one of the supplied patterns for the configuration to apply.
 * Override blocks can also specify patterns to exclude from matches. If a file matches any of the excluded patterns, the configuration won't apply.
 
