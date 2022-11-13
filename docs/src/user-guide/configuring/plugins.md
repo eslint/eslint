@@ -13,7 +13,7 @@ You can extend ESLint with plugins in a variety of different ways. Plugins can i
 
 * Custom processors to extract JavaScript code from other kinds of files or preprocess code before linting.
 * Custom rules to validates if your code meets a certain expectation, and what to do if it does not meet that expectation.
-* Other custom configuration using ESLint's built in features.
+* Other custom configuration using ESLint's built-in features.
 
 You can also use custom parsers to convert JavaScript code into an abstract syntax tree for ESLint to evaluate. You might want to add a custom parser if the code you're writing isn't compatible with the ESLint default parser, Espree.
 
@@ -79,7 +79,7 @@ A scoped packages:
 
 #### Use a plugin
 
-Rules, environments and configs defined in plugins must be referenced with the following convention:
+Rules, environments, and configurations defined in plugins must be referenced with the following convention:
 
 * `eslint-plugin-foo` → `foo/a-rule`
 * `@foo/eslint-plugin` → `@foo/a-config`
@@ -115,7 +115,7 @@ For example:
 
 ### Specifying Processor
 
-Plugins may provide processors. Processors can extract JavaScript code from other kinds of files, then let ESLint lint the JavaScript code or processors can convert JavaScript code in preprocessing for some purpose.
+Plugins may provide processors. Processors can extract JavaScript code from other kinds of files, then let ESLint lint the JavaScript code. Alternatively, processors can convert JavaScript code during preprocessing.
 
 To specify processors in a configuration file, use the `processor` key with the concatenated string of a plugin name and a processor name by a slash. For example, the following enables the processor `a-processor` that the plugin `a-plugin` provided:
 
