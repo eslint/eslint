@@ -47,9 +47,9 @@ All of these options give you fine-grained control over how ESLint treats your c
 
 [**Plugins**](plugins)
 
-* [Specifying Parser](./plugins#specifying-parser)
-* [Specifying Processor](./plugins#specifying-processor)
 * [Configuring Plugins](./plugins#configuring-plugins)
+* [Specifying Processor](./plugins#specifying-processor)
+* [Configuring Parsers](./plugins#configuring-parsers)
 
 [**Ignoring Code**](ignoring-code)
 
