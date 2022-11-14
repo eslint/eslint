@@ -156,6 +156,24 @@ ruleTester.run("prefer-named-capture-group", rule, {
             }]
         },
         {
+            code: "new RegExp('\u1234\u5678(?:a)(b)');",
+            errors: [{
+                messageId: "required",
+                type: "NewExpression",
+                data: { group: "(b)" },
+                suggestions: [
+                    {
+                        messageId: "addGroupName",
+                        output: "new RegExp('\u1234\u5678(?:a)(?<temp1>b)');"
+                    },
+                    {
+                        messageId: "addNonCapture",
+                        output: "new RegExp('\u1234\u5678(?:a)(?:b)');"
+                    }
+                ]
+            }]
+        },
+        {
             code: "/([0-9]{4})-(\\w{5})/",
             errors: [
                 {
