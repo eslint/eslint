@@ -12,8 +12,8 @@ eleventyNavigation:
 You can extend ESLint with plugins in a variety of different ways. Plugins can include:
 
 * Custom processors to extract JavaScript code from other kinds of files or preprocess code before linting.
-* Custom rules to validates if your code meets a certain expectation, and what to do if it does not meet that expectation.
-* Other custom configuration using ESLint's built-in features.
+* Custom rules to validate if your code meets a certain expectation, and what to do if it does not meet that expectation.
+* Other custom configurations using ESLint's built-in features.
 
 You can also use custom parsers to convert JavaScript code into an abstract syntax tree for ESLint to evaluate. You might want to add a custom parser if the code you're writing isn't compatible with the ESLint default parser, Espree.
 
@@ -64,7 +64,7 @@ A non-scoped package:
 }
 ```
 
-A scoped packages:
+A scoped package:
 
 ```js
 {
