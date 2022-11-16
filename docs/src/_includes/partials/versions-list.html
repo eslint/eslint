@@ -1,6 +1,6 @@
 <ul class="versions-list">
     <option value="HEAD" data-url="/docs/head/" {% if HEAD %}selected{% endif %}>HEAD</option>
-    <option value="NEXT" data-url="/docs/next/" {% if GIT_BRANCH=="next" %}selected{% endif %}>NEXT</option>
+    <li><a href="/docs/next/" {% if GIT_BRANCH=="next" %} data-current="true" {% endif %}>NEXT</a></li>
     <li><a href="/docs/latest/" {% if GIT_BRANCH == "latest" %} data-current="true" {% endif %}>v{{ eslintVersion }}</a></li>
     {%- for version in versions.items -%}
     <li><a href="{{ version.url }}">v{{ version.number }}</a></li>
