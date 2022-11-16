@@ -8,9 +8,9 @@ eleventyNavigation:
 
 ---
 
-This page contains community projects that have integrated ESLint. The projects on this page are not maintained by the ESLint core team.
+This page contains community projects that have integrated ESLint. The projects on this page are not maintained by the ESLint team.
 
-If you would like to recommend an integration to be added to this page, [submit a pull request](../maintainer-guide/pullrequests).
+If you would like to recommend an integration to be added to this page, [submit a pull request](../developer-guide/contributing/pull-requests).
 
 ## Editors
 
