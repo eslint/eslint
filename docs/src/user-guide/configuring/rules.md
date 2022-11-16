@@ -13,9 +13,9 @@ Rules are the core building block of ESLint. A rule validates if your code meets
 
 ESLint comes with a large number of [built-in rules](../../rules/) and you can add more rules through plugins. You can modify which rules your project uses with either configuration comments or configuration files.
 
-## Rule Settings
+## Rule Severities
 
-To change a rule setting, you must set the rule ID equal to one of these values:
+To change a rule's severity, set the rule ID equal to one of these values:
 
 * `"off"` or `0` - turn the rule off
 * `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
@@ -94,7 +94,7 @@ rules:
 
 ## Rules from Plugins
 
-To configure a rule which is defined within a plugin you have to prefix the rule ID with the plugin name and `/`.
+To configure a rule that is defined within a plugin, prefix the rule ID with the plugin name and `/`.
 
 In a configuration file, for example:
 
@@ -127,7 +127,7 @@ rules:
   plugin1/rule1: error
 ```
 
-In these configuration files, the rule `plugin1/rule1` comes from the plugin named `plugin1`.
+In these configuration files, the rule `plugin1/rule1` comes from the plugin named `plugin1`, which is contained in an npm package named `eslint-plugin-plugin1`.
 
 You can also use this format with configuration comments, such as:
 
