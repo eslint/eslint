@@ -8,6 +8,10 @@ eleventyNavigation:
 
 ---
 
+This page contains community projects that have integrated ESLint. The projects on this page are not maintained by the ESLint team.
+
+If you would like to recommend an integration to be added to this page, [submit a pull request](../developer-guide/contributing/pull-requests).
+
 ## Editors
 
 * Sublime Text 3:
@@ -60,15 +64,6 @@ eleventyNavigation:
 ## Testing
 
 * Mocha.js: [mocha-eslint](https://www.npmjs.com/package/mocha-eslint)
-
-## External ESLint rules
-
-* [AngularJS](https://github.com/Gillespie59/eslint-plugin-angular)
-* [BackboneJS](https://github.com/ilyavolodin/eslint-plugin-backbone)
-* [Jasmine](https://github.com/tlvince/eslint-plugin-jasmine)
-* [React](https://github.com/yannickcr/eslint-plugin-react)
-
-… and many more published on npm with the [eslintplugin](https://www.npmjs.com/browse/keyword/eslintplugin) keyword.
 
 ## Other Integration Lists
 
