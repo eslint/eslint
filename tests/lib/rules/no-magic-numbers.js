@@ -257,6 +257,33 @@ ruleTester.run("no-magic-numbers", rule, {
             code: "foo?.[777]",
             options: [{ ignoreArrayIndexes: true }],
             parserOptions: { ecmaVersion: 2020 }
+        },
+
+        // ignoreClassFieldInitialValues
+        {
+            code: "class C { foo = 2; }",
+            options: [{ ignoreClassFieldInitialValues: true }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo = -2; }",
+            options: [{ ignoreClassFieldInitialValues: true }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static foo = 2; }",
+            options: [{ ignoreClassFieldInitialValues: true }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #foo = 2; }",
+            options: [{ ignoreClassFieldInitialValues: true }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static #foo = 2; }",
+            options: [{ ignoreClassFieldInitialValues: true }],
+            parserOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -811,6 +838,88 @@ ruleTester.run("no-magic-numbers", rule, {
             errors: [
                 { messageId: "noMagic", data: { raw: "1" }, line: 1 },
                 { messageId: "noMagic", data: { raw: "2" }, line: 1 }
+            ]
+        },
+
+        // ignoreClassFieldInitialValues
+        {
+            code: "class C { foo = 2; }",
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "2" }, line: 1, column: 17 }
+            ]
+        },
+        {
+            code: "class C { foo = 2; }",
+            options: [{}],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "2" }, line: 1, column: 17 }
+            ]
+        },
+        {
+            code: "class C { foo = 2; }",
+            options: [{ ignoreClassFieldInitialValues: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "2" }, line: 1, column: 17 }
+            ]
+        },
+        {
+            code: "class C { foo = -2; }",
+            options: [{ ignoreClassFieldInitialValues: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "-2" }, line: 1, column: 17 }
+            ]
+        },
+        {
+            code: "class C { static foo = 2; }",
+            options: [{ ignoreClassFieldInitialValues: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "2" }, line: 1, column: 24 }
+            ]
+        },
+        {
+            code: "class C { #foo = 2; }",
+            options: [{ ignoreClassFieldInitialValues: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "2" }, line: 1, column: 18 }
+            ]
+        },
+        {
+            code: "class C { static #foo = 2; }",
+            options: [{ ignoreClassFieldInitialValues: false }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "2" }, line: 1, column: 25 }
+            ]
+        },
+        {
+            code: "class C { foo = 2 + 3; }",
+            options: [{ ignoreClassFieldInitialValues: true }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "2" }, line: 1, column: 17 },
+                { messageId: "noMagic", data: { raw: "3" }, line: 1, column: 21 }
+            ]
+        },
+        {
+            code: "class C { 2; }",
+            options: [{ ignoreClassFieldInitialValues: true }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "2" }, line: 1, column: 11 }
+            ]
+        },
+        {
+            code: "class C { [2]; }",
+            options: [{ ignoreClassFieldInitialValues: true }],
+            parserOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "2" }, line: 1, column: 12 }
             ]
         }
     ]
