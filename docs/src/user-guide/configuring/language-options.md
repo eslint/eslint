@@ -9,7 +9,7 @@ eleventyNavigation:
 
 ---
 
-The JavaScript ecosystem has a variety of runtimes, versions, extensions, and frameworks. Each of these can have different supported syntax and global variables. ESLint lets you configure language options specific to the JavaScript used in your project. You can also add custom global variables and plugins to extend ESLint to support your project's language options.
+The JavaScript ecosystem has a variety of runtimes, versions, extensions, and frameworks. Each of these can have different supported syntax and global variables. ESLint lets you configure language options specific to the JavaScript used in your project, like custom global variables. You can also use plugins to extend ESLint to support your project's language options.
 
 ## Specifying Environments
 
