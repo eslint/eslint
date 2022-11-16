@@ -8,7 +8,7 @@ eleventyNavigation:
 
 ---
 
-The ESLint Command Line Interface (CLI) lets you execute linting from the terminal. The CLI has a variety of options that you can pass to its commands.
+The ESLint Command Line Interface (CLI) lets you execute linting from the terminal. The CLI has a variety of options that you can pass to configure ESLint.
 
 ## Run the CLI
 
@@ -175,7 +175,7 @@ For example, `npx eslint lib/* --ext .js` matches all files within the `lib/` di
 
 #### `--global`
 
-This option defines global variables so that they are not flagged as undefined by the `no-undef` rule. Any specified global variables are assumed to be read-only by default, but appending `:true` to a variable's name ensures that `no-undef` also allows writes. To specify multiple global variables, separate them using commas, or use the option multiple times.
+This option defines global variables so that they are not flagged as `undefined` by the `no-undef` rule. Any specified global variables are assumed to be read-only by default, but appending `:true` to a variable's name ensures that `no-undef` also allows writes. To specify multiple global variables, separate them using commas, or use the option multiple times.
 
 Examples:
 
@@ -223,7 +223,7 @@ npx eslint --plugin eslint-plugin-mocha file.js
 
 #### `--rule`
 
-This option specifies rules to be used. These rules are merged with any rules specified with configuration files. (You can use `--no-eslintrc` to change that behavior.) To define multiple rules, separate them using commas, or use the option multiple times. The [levn](https://github.com/gkz/levn#levn--) format is used for specifying the rules.
+This option specifies the rules to be used. These rules are merged with any rules specified with configuration files. (You can use `--no-eslintrc` to change that behavior.) To define multiple rules, separate them using commas, or use the option multiple times. The [levn](https://github.com/gkz/levn#levn--) format is used for specifying the rules.
 
 If the rule is defined within a plugin, you have to prefix the rule ID with the plugin name and a `/`.
 
@@ -519,7 +519,7 @@ npx eslint "src/**/*.js" --cache --cache-location "/Users/user/.eslintcache/"
 
 Strategy for the cache to use for detecting changed files. Can be either `metadata` or `content`. If no strategy is specified, `metadata` is used.
 
-The `content` strategy can be useful in cases where the modification time of your files change even if their contents have not. For example, this can happen during git operations like git clone because git does not track file modification time.
+The `content` strategy can be useful in cases where the modification time of your files changes even if their contents have not. For example, this can happen during git operations like git clone because git does not track file modification time.
 
 Example:
 
@@ -531,7 +531,7 @@ npx eslint "src/**/*.js" --cache --cache-strategy content
 
 #### `--init`
 
-This option runs `npm init @eslint/config` to start config initialization wizard. It's designed to help new users quickly create .eslintrc file by answering a few questions, choosing a popular style guide.
+This option runs `npm init @eslint/config` to start the config initialization wizard. It's designed to help new users quickly create an `.eslintrc.js` file by answering a few questions and choosing a popular style guide.
 
 The resulting configuration file is created in the current directory.
 
