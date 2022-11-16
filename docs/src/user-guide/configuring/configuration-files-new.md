@@ -10,7 +10,7 @@ eleventyNavigation:
 ---
 
 ::: warning
-This is an experimental feature. To opt-in, place a `eslint.config.js` file in the root of your project or set the `ESLINT_USE_FLAT_CONFIG` environment variable to `true`. To opt-out, even in the presence of a `eslint.config.js` file, set the environment variable to `false`. If you are using the API, you can use the configuration system described on this page by using the `FlatESLint` class, the `FlatRuleTester` class, or by setting `configType: "flat"` in the `Linter` class.
+This is an experimental feature. To opt-in, place an `eslint.config.js` file in the root of your project or set the `ESLINT_USE_FLAT_CONFIG` environment variable to `true`. To opt-out, even in the presence of an `eslint.config.js` file, set the environment variable to `false`. If you are using the API, you can use the configuration system described on this page by using the `FlatESLint` class, the `FlatRuleTester` class, or by setting `configType: "flat"` in the `Linter` class.
 :::
 
 You can put your ESLint project configuration in a configuration file. You can include built-in rules, how you want them enforced, plugins with custom rules, shareable configurations, which files you want rules to apply to, and more.
@@ -195,7 +195,7 @@ export default [
 
 #### Reporting unused disable directives
 
-Disable directives such as `/*eslint-disable*/` and `/*eslint-disable-next-line*/` are used to disable ESLint rules around certain portions of code. As code changes, it's possible for these directives to no longer be needed because the code has changed in such a way that the rule is no longer triggered. You can enable reporting of these unused disable directives by setting the `reportUnusedDisableDirectives` option to `true`, as in this example:
+Disable directives such as `/*eslint-disable*/` and `/*eslint-disable-next-line*/` are used to disable ESLint rules around certain portions of code. As code changes, it's possible for these directives to no longer be needed because the code has changed in such a way that the rule is no longer triggered. You can enable reporting of these unused disabled directives by setting the `reportUnusedDisableDirectives` option to `true`, as in this example:
 
 ```js
 export default [
@@ -549,7 +549,7 @@ Here, the second configuration object only overrides the severity, so the final 
 
 ### Configuring shared settings
 
-ESLint supports adding shared settings into configuration files. Plugins use `settings` to specify information that should be shared across all of its rules. When you add a `settings` object to a configuration object, and it is supplied to every rule executed by that configuration object. This may be useful if you are adding custom rules and want them to have access to the same information. Here's an example:
+ESLint supports adding shared settings into configuration files. Plugins use `settings` to specify information that should be shared across all of its rules. When you add a `settings` object to a configuration object, it is supplied to every rule executed by that configuration object. This may be useful if you are adding custom rules and want them to have access to the same information. Here's an example:
 
 ```js
 export default [

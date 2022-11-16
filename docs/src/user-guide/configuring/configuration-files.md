@@ -103,7 +103,7 @@ rules:
 
 ## Adding Shared Settings
 
-ESLint supports adding shared settings into configuration files. Plugins use `settings` to specify information that should be shared across all of its rules. You can add a `settings` object to ESLint configuration file and it is supplied to every executed rule. This may be useful if you are adding custom rules and want them to have access to the same information and be easily configurable.
+ESLint supports adding shared settings into configuration files. Plugins use `settings` to specify the information that should be shared across all of its rules. You can add a `settings` object to the ESLint configuration file and it is supplied to every executed rule. This may be useful if you are adding custom rules and want them to have access to the same information and be easily configurable.
 
 In JSON:
 
@@ -151,7 +151,7 @@ your-project
   └── test.js
 ```
 
-If there is a `.eslintrc` and a `package.json` file found in the same directory, `.eslintrc` takes priority and `package.json` file is not used.
+If there is a `.eslintrc` and a `package.json` file found in the same directory, `.eslintrc` takes priority and the `package.json` file is not used.
 
 By default, ESLint looks for configuration files in all parent folders up to the root directory. This can be useful if you want all of your projects to follow a certain convention, but can sometimes lead to unexpected results. To limit ESLint to a specific project, place `"root": true` inside the `.eslintrc.*` file or `eslintConfig` field of the `package.json` file or in the `.eslintrc.*` file at your project's root level. ESLint stops looking in parent folders once it finds a configuration with `"root": true`.
 
@@ -168,7 +168,7 @@ And in YAML:
   root: true
 ```
 
-For example, consider `projectA` which has `"root": true` set in the `.eslintrc` file in the `lib/` directory.  In this case, while linting `main.js`, the configurations within `lib/` are used, but the `.eslintrc` file in `projectA/` are not.
+For example, consider `projectA` which has `"root": true` set in the `.eslintrc` file in the `lib/` directory.  In this case, while linting `main.js`, the configurations within `lib/` are used, but the `.eslintrc` file in `projectA/` is not.
 
 ```text
 home
@@ -196,7 +196,7 @@ The complete configuration hierarchy, from highest to lowest precedence, is as f
     1. `.eslintrc.*` or `package.json` file in the same directory as the linted file
     1. Continue searching for `.eslintrc.*` and `package.json` files in ancestor directories up to and including the root directory or until a config with `"root": true` is found.
 
-Please note that the [home directory of the current user on your preferred operating system](https://nodejs.org/api/os.html#os_os_homedir) (`~/`) is also considered a root directory in this context and searching for configuration files stops there as well. And with the [removal of support for Personal Configuration Files](https://eslint.org/docs/user-guide/configuring/configuration-files#personal-configuration-files-deprecated) from the 8.0.0 release forward, configuration files present in that directory is ignored.
+Please note that the [home directory of the current user on your preferred operating system](https://nodejs.org/api/os.html#os_os_homedir) (`~/`) is also considered a root directory in this context and searching for configuration files stops there as well. And with the [removal of support for Personal Configuration Files](https://eslint.org/docs/user-guide/configuring/configuration-files#personal-configuration-files-deprecated) from the 8.0.0 release forward, configuration files present in that directory are ignored.
 
 ## Extending Configuration Files
 
@@ -395,7 +395,7 @@ Here is how overrides work in a configuration file:
 * Glob pattern overrides have higher precedence than the regular configuration in the same config file. Multiple overrides within the same config are applied in order. That is, the last override block in a config file always has the highest precedence.
 * A glob specific configuration works almost the same as any other ESLint config. Override blocks can contain any configuration options that are valid in a regular config, with the exception of `root` and `ignorePatterns`.
     * A glob specific configuration can have an `extends` setting, but the `root` property in the extended configs is ignored. The `ignorePatterns` property in the extended configs is used only for the files the glob specific configuration matched.
-    * Nested `overrides` setting are applied only if the glob patterns of both of the parent config and the child config are matched. This is the same when the extended configs have an `overrides` setting.
+    * Nested `overrides` settings are applied only if the glob patterns of both the parent config and the child config are matched. This is the same when the extended configs have an `overrides` setting.
 * Multiple glob patterns can be provided within a single override block. A file must match at least one of the supplied patterns for the configuration to apply.
 * Override blocks can also specify patterns to exclude from matches. If a file matches any of the excluded patterns, the configuration won't apply.
 
