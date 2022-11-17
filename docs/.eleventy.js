@@ -52,7 +52,7 @@ module.exports = function(eleventyConfig) {
 
     eleventyConfig.addGlobalData("site_name", siteName);
     eleventyConfig.addGlobalData("GIT_BRANCH", process.env.BRANCH);
-    eleventyConfig.addGlobalData("HEAD", process.env.BRANCH !== "latest" || process.env.BRANCH !== "next");
+    eleventyConfig.addGlobalData("HEAD", process.env.BRANCH !== "latest" && process.env.BRANCH !== "next");
     eleventyConfig.addGlobalData("NOINDEX", process.env.BRANCH !== "latest");
     eleventyConfig.addDataExtension("yml", contents => yaml.load(contents));
 
