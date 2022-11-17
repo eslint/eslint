@@ -307,17 +307,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
-                data: { group: "(a)" },
-                suggestions: [
-                    {
-                        messageId: "addGroupName",
-                        output: "new RegExp('(?<temp1>' + 'a)')"
-                    },
-                    {
-                        messageId: "addNonCapture",
-                        output: "new RegExp('(?:' + 'a)')"
-                    }
-                ]
+                data: { group: "(a)" }
             }]
         },
         {
@@ -325,17 +315,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
-                data: { group: "(bc)" },
-                suggestions: [
-                    {
-                        messageId: "addGroupName",
-                        output: "new RegExp('a(?<temp1>bc)d' + 'e')"
-                    },
-                    {
-                        messageId: "addNonCapture",
-                        output: "new RegExp('a(?:bc)d' + 'e')"
-                    }
-                ]
+                data: { group: "(bc)" }
             }]
         },
         {
@@ -343,17 +323,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "CallExpression",
-                data: { group: "(a)" },
-                suggestions: [
-                    {
-                        messageId: "addGroupName",
-                        output: "RegExp('(?<temp1>a)'+'')"
-                    },
-                    {
-                        messageId: "addNonCapture",
-                        output: "RegExp('(?:a)'+'')"
-                    }
-                ]
+                data: { group: "(a)" }
             }]
         },
         {
@@ -361,17 +331,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "CallExpression",
-                data: { group: "(ab)" },
-                suggestions: [
-                    {
-                        messageId: "addGroupName",
-                        output: "RegExp( '' + '(?<temp1>ab)')"
-                    },
-                    {
-                        messageId: "addNonCapture",
-                        output: "RegExp( '' + '(?:ab)')"
-                    }
-                ]
+                data: { group: "(ab)" }
             }]
         },
         {
@@ -379,17 +339,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
-                data: { group: "(ab)" },
-                suggestions: [
-                    {
-                        messageId: "addGroupName",
-                        output: "new RegExp(`(?<temp1>ab)${''}`)"
-                    },
-                    {
-                        messageId: "addNonCapture",
-                        output: "new RegExp(`(?:ab)${''}`)"
-                    }
-                ]
+                data: { group: "(ab)" }
             }]
         },
         {
