@@ -27,7 +27,10 @@
             color: var(--link-color);
 
             &::after {
-                content: "✔️";
+                content: " ✔️";
+                white-space: pre;
+                color: rgba(100%, 0%, 0%, 0);
+                text-shadow: 0 0 0 var(--headings-color);
             }
         }
 
