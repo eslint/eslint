@@ -247,7 +247,7 @@ module.exports = function(eleventyConfig) {
 
     eleventyConfig.addShortcode("fixable", () => `
         <div class="rule-category">
-            <span class="rule-category__icon">🛠 <span class="visually-hidden">Fixable</span></span>
+            <span class="rule-category__icon">🔧 <span class="visually-hidden">Fixable</span></span>
             <p class="rule-category__description">
                 if some problems reported by the rule are automatically fixable by the <code>--fix</code> command line option
             </p>
