@@ -549,7 +549,7 @@ Here, the second configuration object only overrides the severity, so the final 
 
 ### Configuring shared settings
 
-ESLint supports adding shared settings into configuration files. Plugins use `settings` to specify information that should be shared across all of its rules. When you add a `settings` object to a configuration object, it is supplied to every rule executed by that configuration object. This may be useful if you are adding custom rules and want them to have access to the same information. Here's an example:
+ESLint supports adding shared settings into configuration files. When you add a `settings` object to a configuration object, it is supplied to every rule executed by that configuration object. By convention, plugins namespace the settings they are interested in to avoid collisions with others. Plugins can use `settings` to specify the information that should be shared across all of their rules. This may be useful if you are adding custom rules and want them to have access to the same information. Here's an example:
 
 ```js
 export default [
