@@ -58,7 +58,7 @@ npx eslint --ext .jsx,.js lib/
 
 Disables use of configuration from `.eslintrc.*` and `package.json` files.
 
-* **Argument Type**: No argument
+* **Argument Type**: No argument.
 
 ##### `--no-eslintrc` example
 
@@ -262,7 +262,7 @@ TODO: add
 
 This option has the same effect as `--fix` with the difference that the fixes are not saved to the file system. Because the default formatter does not output the fixed code, you'll have to use another formatter (e.g. `--format json`) to get the fixes.
 
-* **Argument Type**: No argument
+* **Argument Type**: No argument.
 
 This makes it possible to fix code from `stdin` when used with the `--stdin` flag.
 
@@ -596,7 +596,11 @@ npx eslint --init
 
 TODO: Resume here
 
-This option outputs information about the execution environment, including the version of Node, npm, and local and global installations of ESLint. The ESLint team may ask for this information to help solve bugs. When you use this flag, the CLI does not perform linting.
+This option outputs information about the execution environment, including the version of Node, npm, and local and global installations of ESLint.
+
+* **Argument Type**: No argument.
+
+The ESLint team may ask for this information to help solve bugs. When you use this flag, the CLI does not perform linting.
 
 ##### `--env-info` example
 
@@ -608,13 +612,17 @@ npx eslint --env-info
 
 This option prevents errors when a quoted glob pattern or `--ext` is unmatched. This does not prevent errors when your shell can't match a glob.
 
+* **Argument Type**: No argument.
+
 ##### `--no-error-on-unmatched-pattern` example
 
 TODO: add
 
 #### `--exit-on-fatal-error`
 
-This option causes ESLint to exit with exit code 2 if one or more fatal parsing errors occur. Without this option, fatal parsing errors are reported as rule violations.
+This option causes ESLint to exit with exit code 2 if one or more fatal parsing errors occur. Without this option, ESLint reports fatal parsing errors as rule violations.
+
+* **Argument Type**: No argument.
 
 ##### `--exit-on-fatal-error` example
 
@@ -622,8 +630,11 @@ TODO: add
 
 #### `--debug`
 
-This option outputs debugging information to the console. This information is useful when you're seeing a problem and having a hard time pinpointing it. The ESLint team may ask for this debugging information to help solve bugs.
-Add this flag to an ESLint command line invocation in order to get extra debug information as the command is run.
+This option outputs debugging information to the console. Add this flag to an ESLint command line invocation in order to get extra debug information as the command is run.
+
+* **Argument Type**: No argument.
+
+This information is useful when you're seeing a problem and having a hard time pinpointing it. The ESLint team may ask for this debugging information to help solve bugs.
 
 ##### `--debug` example
 
@@ -631,9 +642,12 @@ Add this flag to an ESLint command line invocation in order to get extra debug i
 npx eslint --debug test.js
 ```
 
-#### `-h`, `--help`
+#### `--help`
 
 This option outputs the help menu, displaying all of the available options. All other options are ignored when this is present. When you use this flag, the CLI does not perform linting.
+
+* **Alias**: `h`
+* **Argument Type**: No argument.
 
 ##### `--help` example
 
@@ -641,9 +655,12 @@ This option outputs the help menu, displaying all of the available options. All 
 npx eslint --help
 ```
 
-#### `-v`, `--version`
+#### `--version`
 
 This option outputs the current ESLint version onto the console. All other options are ignored when this is present. When you use this flag, the CLI does not perform linting.
+
+* **Alias**: `v`
+* **Argument Type**: No argument.
 
 ##### `--version` example
 
@@ -655,13 +672,15 @@ npx eslint --version
 
 This option outputs the configuration to be used for the file passed. When present, no linting is performed and only config-related options are valid. When you use this flag, the CLI does not perform linting.
 
+* **Argument Type**: No argument.
+
 ##### `--print-config` example
 
 ```shell
 npx eslint --print-config file.js
 ```
 
-## Ignoring files from linting
+## Ignore files with `.eslintignore`
 
 ESLint supports `.eslintignore` files to exclude files from the linting process when ESLint operates on a directory. Files given as individual CLI arguments are exempt from exclusion. The `.eslintignore` file is a plain text file containing one pattern per line. It can be located in any of the target directory's ancestors; it affects files in its containing directory as well as all sub-directories. Here's a simple example of a `.eslintignore` file:
 
@@ -676,6 +695,6 @@ A more detailed breakdown of supported patterns and directories ESLint ignores b
 
 When linting files, ESLint exits with one of the following exit codes:
 
-* `0`: Linting was successful and there are no linting errors. If the `--max-warnings` flag is set to `n`, the number of linting warnings is at most `n`.
+* `0`: Linting was successful and there are no linting errors. If the [`--max-warnings`](#--max-warnings) flag is set to `n`, the number of linting warnings is at most `n`.
 * `1`: Linting was successful and there is at least one linting error, or there are more linting warnings than allowed by the `--max-warnings` option.
 * `2`: Linting was unsuccessful due to a configuration problem or an internal error.
