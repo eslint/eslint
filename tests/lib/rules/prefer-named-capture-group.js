@@ -178,7 +178,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
-                data: { group: "(b)" }
+                data: { group: "(b)" },
+                suggestions: null
             }]
         },
         {
@@ -252,7 +253,17 @@ ruleTester.run("prefer-named-capture-group", rule, {
                     data: { group: "(\\w{5})" },
                     line: 1,
                     column: 1,
-                    endColumn: 29
+                    endColumn: 29,
+                    suggestions: [
+                        {
+                            messageId: "addGroupName",
+                            output: "/(?<temp1>[0-9]{4})-(?<temp2>\\w{5})/"
+                        },
+                        {
+                            messageId: "addNonCapture",
+                            output: "/(?<temp1>[0-9]{4})-(?:\\w{5})/"
+                        }
+                    ]
                 }
             ]
         },
@@ -307,7 +318,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
-                data: { group: "(a)" }
+                data: { group: "(a)" },
+                suggestions: null
             }]
         },
         {
@@ -315,7 +327,34 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
-                data: { group: "(bc)" }
+                data: { group: "(bc)" },
+                suggestions: null
+            }]
+        },
+        {
+            code: "new RegExp(\"foo\" + \"(a)\" + \"(b)\");",
+            errors: [
+                {
+                    messageId: "required",
+                    type: "NewExpression",
+                    data: { group: "(a)" },
+                    suggestions: null
+                },
+                {
+                    messageId: "required",
+                    type: "NewExpression",
+                    data: { group: "(b)" },
+                    suggestions: null
+                }
+            ]
+        },
+        {
+            code: "new RegExp(\"foo\" + \"(?:a)\" + \"(b)\");",
+            errors: [{
+                messageId: "required",
+                type: "NewExpression",
+                data: { group: "(b)" },
+                suggestions: null
             }]
         },
         {
@@ -323,7 +362,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "CallExpression",
-                data: { group: "(a)" }
+                data: { group: "(a)" },
+                suggestions: null
             }]
         },
         {
@@ -331,7 +371,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "CallExpression",
-                data: { group: "(ab)" }
+                data: { group: "(ab)" },
+                suggestions: null
             }]
         },
         {
@@ -339,7 +380,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
-                data: { group: "(ab)" }
+                data: { group: "(ab)" },
+                suggestions: null
             }]
         },
         {
@@ -387,7 +429,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
-                data: { group: "(b)" }
+                data: { group: "(b)" },
+                suggestions: null
             }]
         },
         {
@@ -395,7 +438,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "CallExpression",
-                data: { group: "(a)" }
+                data: { group: "(a)" },
+                suggestions: null
             }]
         },
         {
@@ -403,7 +447,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "CallExpression",
-                data: { group: "(b)" }
+                data: { group: "(b)" },
+                suggestions: null
             }]
         },
         {
