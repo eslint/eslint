@@ -3213,6 +3213,13 @@ ruleTester.run("no-extra-parens", rule, {
             options: ["all", { enforceForFunctionPrototypeMethods: true }],
             parserOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "(Object.prototype.toString.call())",
+            output: "Object.prototype.toString.call()",
+            options: ["all"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
         }
     ]
 });
