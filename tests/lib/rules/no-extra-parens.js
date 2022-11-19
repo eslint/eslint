@@ -739,6 +739,42 @@ ruleTester.run("no-extra-parens", rule, {
         {
             code: "(Object.prototype.toString.call())",
             options: ["functions"],
+        },
+
+        // "allowParensAfterComment" option
+        {
+            code: "const span = /**@type {HTMLSpanElement}*/(event.currentTarget);",
+            options: ["all", { allowParensAfterComment: true }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "if (/** @type {Compiler | MultiCompiler} */(options).hooks) console.log('good');",
+            options: ["all", { allowParensAfterComment: true }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: `
+                validate(/** @type {Schema} */ (schema), options, {
+                    name: "Dev Server",
+                    baseDataPath: "options",
+                });
+            `,
+            options: ["all", { allowParensAfterComment: true }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    (options.server.options).requestCert = false;
+                }
+            `,
+            options: ["all", { allowParensAfterComment: true }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "const net = ipaddr.parseCIDR(/** @type {string} */ (cidr));",
+            options: ["all", { allowParensAfterComment: true }],
             parserOptions: { ecmaVersion: 2020 }
         }
     ],
@@ -3188,6 +3224,63 @@ ruleTester.run("no-extra-parens", rule, {
         {
             code: "var v = a | b ?? (c | d)",
             output: "var v = a | b ?? c | d",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+
+        // "allowParensAfterComment" option
+        {
+            code: "const span = /**@type {HTMLSpanElement}*/(event.currentTarget);",
+            output: "const span = /**@type {HTMLSpanElement}*/event.currentTarget;",
+            options: ["all", { allowParensAfterComment: false }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "if (/** @type {Compiler | MultiCompiler} */(options).hooks) console.log('good');",
+            output: "if (/** @type {Compiler | MultiCompiler} */options.hooks) console.log('good');",
+            options: ["all", { allowParensAfterComment: false }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: `
+                validate(/** @type {Schema} */ (schema), options, {
+                    name: "Dev Server",
+                    baseDataPath: "options",
+                });
+            `,
+            output: `
+                validate(/** @type {Schema} */ schema, options, {
+                    name: "Dev Server",
+                    baseDataPath: "options",
+                });
+            `,
+            options: ["all", { allowParensAfterComment: false }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    (options.server.options).requestCert = false;
+                }
+            `,
+            output: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    options.server.options.requestCert = false;
+                }
+            `,
+            options: ["all", { allowParensAfterComment: false }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "const net = ipaddr.parseCIDR(/** @type {string} */ (cidr));",
+            output: "const net = ipaddr.parseCIDR(/** @type {string} */ cidr);",
+            options: ["all", { allowParensAfterComment: false }],
             parserOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
