@@ -735,6 +735,11 @@ ruleTester.run("no-extra-parens", rule, {
             code: "var foo = (function(){}?.call())",
             options: ["all", { enforceForFunctionPrototypeMethods: false }],
             parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "(Object.prototype.toString.call())",
+            options: ["functions"],
+            parserOptions: { ecmaVersion: 2020 }
         }
     ],
 
