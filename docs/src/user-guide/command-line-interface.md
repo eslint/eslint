@@ -8,7 +8,7 @@ eleventyNavigation:
 
 ---
 
-The ESLint CLI is a command line interface that lets you execute linting from the terminal. The CLI has a variety of options that you can pass to its commands.
+The ESLint Command Line Interface (CLI) lets you execute linting from the terminal. The CLI has a variety of options that you can pass to configure ESLint.
 
 ## Run the CLI
 
@@ -622,6 +622,7 @@ This option prevents errors when a quoted glob pattern or `--ext` is unmatched. 
 npx eslint --no-error-on-unmatched-pattern --ext .ts lib/*
 ```
 
+
 #### `--exit-on-fatal-error`
 
 This option causes ESLint to exit with exit code 2 if one or more fatal parsing errors occur. Without this option, ESLint reports fatal parsing errors as rule violations.
@@ -665,7 +666,7 @@ npx eslint --help
 
 This option outputs the current ESLint version onto the console. All other options are ignored when this is present. When you use this flag, the CLI does not perform linting.
 
-* **Alias**: `v`
+* **Alias**: `-v`
 * **Argument Type**: No argument.
 
 ##### `--version` example

@@ -270,7 +270,7 @@
     "for-direction": {
         "type": "problem",
         "docs": {
-            "description": "Enforce \"for\" loop update clause moving the counter in the right direction.",
+            "description": "Enforce \"for\" loop update clause moving the counter in the right direction",
             "recommended": true,
             "url": "https://eslint.org/docs/rules/for-direction"
         },
@@ -2139,7 +2139,7 @@
     "prefer-object-spread": {
         "type": "suggestion",
         "docs": {
-            "description": "Disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead.",
+            "description": "Disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead",
             "recommended": false,
             "url": "https://eslint.org/docs/rules/prefer-object-spread"
         },

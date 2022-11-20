@@ -735,6 +735,11 @@ ruleTester.run("no-extra-parens", rule, {
             code: "var foo = (function(){}?.call())",
             options: ["all", { enforceForFunctionPrototypeMethods: false }],
             parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "(Object.prototype.toString.call())",
+            options: ["functions"],
+            parserOptions: { ecmaVersion: 2020 }
         }
     ],
 
@@ -3211,6 +3216,13 @@ ruleTester.run("no-extra-parens", rule, {
             code: "var foo = (function(){}?.call())",
             output: "var foo = function(){}?.call()",
             options: ["all", { enforceForFunctionPrototypeMethods: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "(Object.prototype.toString.call())",
+            output: "Object.prototype.toString.call()",
+            options: ["all"],
             parserOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         }

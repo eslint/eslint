@@ -1,3 +1,31 @@
+v8.28.0 - November 18, 2022
+
+* [`34c05a7`](https://github.com/eslint/eslint/commit/34c05a779ada3142995392ae12978461900088df) docs: Language Options page intro and tweaks (#16511) (Ben Perlmutter)
+* [`3e66387`](https://github.com/eslint/eslint/commit/3e663873c97773ab1ecdff54aaa122075d5bb389) docs: add intro and edit ignoring files page (#16510) (Ben Perlmutter)
+* [`436f712`](https://github.com/eslint/eslint/commit/436f712843360f98b2bd63256bf0c4f77013b54c) docs: fix Header UI inconsistency (#16464) (Tanuj Kanti)
+* [`f743816`](https://github.com/eslint/eslint/commit/f74381696703d8eed0e175d42f96904a3d1cb4cb) docs: switch to wrench emoji for auto-fixable rules (#16545) (Bryan Mishkin)
+* [`bc0547e`](https://github.com/eslint/eslint/commit/bc0547eb149a1e04211826662d2d798fb331983d) docs: improve styles for versions and languages page (#16553) (Nitin Kumar)
+* [`6070f58`](https://github.com/eslint/eslint/commit/6070f58d802d77c6c781c6bc1f554eef8b3d8f68) docs: clarify esquery issue workaround (#16556) (Milos Djermanovic)
+* [`b48e4f8`](https://github.com/eslint/eslint/commit/b48e4f89c59bd1c5408e3db492a0e95a402820bd) docs: Command Line Interface intro and tweaks (#16535) (Ben Perlmutter)
+* [`b92b30f`](https://github.com/eslint/eslint/commit/b92b30f93db64314827305b552cbb832c63fa949) docs: Add Rules page intro and content tweaks (#16523) (Ben Perlmutter)
+* [`1769b42`](https://github.com/eslint/eslint/commit/1769b423392512db4adf1eff75896c1ac0c3606b) docs: Integrations page introduction (#16548) (Ben Perlmutter)
+* [`63bce44`](https://github.com/eslint/eslint/commit/63bce44e7b6326e1e94fc7f6283df8de7bbac273) feat: add `ignoreClassFieldInitialValues` option to no-magic-numbers (#16539) (Milos Djermanovic)
+* [`c50ae4f`](https://github.com/eslint/eslint/commit/c50ae4f840d1ee9dc7b80a46c887398c0ec0a67c) fix: Ensure that dot files are found with globs. (#16550) (Nicholas C. Zakas)
+* [`a8d0a57`](https://github.com/eslint/eslint/commit/a8d0a57cbc29a917258df41d3254ecd29bcf61ab) docs: make table of contents sticky on desktop (#16506) (Sam Chen)
+* [`9432b67`](https://github.com/eslint/eslint/commit/9432b67f76ddd7b8a73d37e8a041a9ff25822f0c) fix: throw error for first unmatched pattern (#16533) (Milos Djermanovic)
+* [`8385ecd`](https://github.com/eslint/eslint/commit/8385ecdbbe342211e20aebe76fa7affe8ec04c33) feat: multiline properties in rule `key-spacing` with option `align` (#16532) (Francesco Trotta)
+* [`a4e89db`](https://github.com/eslint/eslint/commit/a4e89dbe85589dab982885872dc206e090c27b3c) feat: `no-obj-calls` support `Intl` (#16543) (Sosuke Suzuki)
+* [`a01315a`](https://github.com/eslint/eslint/commit/a01315a7d8f3a70468b7a644fde01d6983778c6b) docs: fix route of japanese translation site (#16542) (Tanuj Kanti)
+* [`e94a4a9`](https://github.com/eslint/eslint/commit/e94a4a95ee301b0344d3292c37a0b29d8e18ab30) chore: Add tests to verify #16038 is fixed (#16538) (Nicholas C. Zakas)
+* [`0515628`](https://github.com/eslint/eslint/commit/05156285396eba9ce3d3a0990a8c89d5bc229636) docs: use emoji instead of svg for deprecated rule (#16536) (Bryan Mishkin)
+* [`e76c382`](https://github.com/eslint/eslint/commit/e76c3827727b48c16af8467c02c31160e5595d83) fix: allow `* 1` when followed by `/` in no-implicit-coercion (#16522) (Milos Djermanovic)
+* [`68f1288`](https://github.com/eslint/eslint/commit/68f12882fbaeda8ffb26425d42d261346ff5af51) docs: set default layouts (#16484) (Percy Ma)
+* [`e13f194`](https://github.com/eslint/eslint/commit/e13f194f89f591730aa955f7b62192c7e8296069) chore: stricter validation of `meta.docs.description` in core rules (#16529) (Milos Djermanovic)
+* [`776827a`](https://github.com/eslint/eslint/commit/776827a1748da88a25e7903bd794f5439de922b5) docs: init config about specifying shared configs (#16483) (Percy Ma)
+* [`72dbfbc`](https://github.com/eslint/eslint/commit/72dbfbc0c45d2b9d19b21c6a5a6b4ca71403ffbf) chore: use `pkg` parameter in `getNpmPackageVersion` (#16525) (webxmsj)
+* [`5c39425`](https://github.com/eslint/eslint/commit/5c39425fc55ecc0b97bbd07ac22654c0eb4f789c) docs: fix broken link to plugins (#16520) (Ádám T. Nagy)
+* [`c97c789`](https://github.com/eslint/eslint/commit/c97c7897686ac4dc2828537d6a017f3c99f7d905) docs: Add missing no-new-native-nonconstructor docs code fence (#16503) (Brandon Mills)
+
 v8.27.0 - November 6, 2022
 
 * [`f14587c`](https://github.com/eslint/eslint/commit/f14587c42bb0fe6ec89529aede045a488083d6ee) feat: new `no-new-native-nonconstructor` rule (#16368) (Sosuke Suzuki)

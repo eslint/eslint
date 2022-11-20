@@ -21,7 +21,7 @@
                 },
                 {
                     "name": "for-direction",
-                    "description": "Enforce \"for\" loop update clause moving the counter in the right direction.",
+                    "description": "Enforce \"for\" loop update clause moving the counter in the right direction",
                     "recommended": true,
                     "fixable": false,
                     "hasSuggestions": false
@@ -1316,7 +1316,7 @@
                 },
                 {
                     "name": "prefer-object-spread",
-                    "description": "Disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead.",
+                    "description": "Disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead",
                     "recommended": false,
                     "fixable": true,
                     "hasSuggestions": false

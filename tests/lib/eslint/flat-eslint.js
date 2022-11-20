@@ -25,6 +25,23 @@ const { unIndent, createCustomTeardown } = require("../../_utils");
 const coreRules = require("../../../lib/rules");
 
 //------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
+
+/**
+ * Creates a directory if it doesn't already exist.
+ * @param {string} dirPath The path to the directory that should exist.
+ * @returns {void}
+ */
+function ensureDirectoryExists(dirPath) {
+    try {
+        fs.statSync(dirPath);
+    } catch {
+        fs.mkdirSync(dirPath);
+    }
+}
+
+//------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
@@ -773,7 +790,7 @@ describe("FlatESLint", () => {
             });
             const results = await eslint.lintFiles(["fixtures/files/"]);
 
-            assert.strictEqual(results.length, 2);
+            assert.strictEqual(results.length, 3);
             assert.strictEqual(results[0].messages.length, 0);
             assert.strictEqual(results[1].messages.length, 0);
             assert.strictEqual(results[0].suppressedMessages.length, 0);
@@ -823,6 +840,58 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[0].suppressedMessages.length, 0);
         });
 
+        // https://github.com/eslint/eslint/issues/16265
+        describe("Dot files in searches", () => {
+
+            it("should find dot files in current directory when a . pattern is used", async () => {
+                eslint = new FlatESLint({
+                    cwd: getFixturePath("dot-files")
+                });
+                const results = await eslint.lintFiles(["."]);
+
+                assert.strictEqual(results.length, 3);
+                assert.strictEqual(results[0].messages.length, 0);
+                assert.strictEqual(results[0].filePath, getFixturePath("dot-files/.a.js"));
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+                assert.strictEqual(results[1].messages.length, 0);
+                assert.strictEqual(results[1].filePath, getFixturePath("dot-files/.c.js"));
+                assert.strictEqual(results[1].suppressedMessages.length, 0);
+                assert.strictEqual(results[2].messages.length, 0);
+                assert.strictEqual(results[2].filePath, getFixturePath("dot-files/b.js"));
+                assert.strictEqual(results[2].suppressedMessages.length, 0);
+            });
+
+            it("should find dot files in current directory when a *.js pattern is used", async () => {
+                eslint = new FlatESLint({
+                    cwd: getFixturePath("dot-files")
+                });
+                const results = await eslint.lintFiles(["*.js"]);
+
+                assert.strictEqual(results.length, 3);
+                assert.strictEqual(results[0].messages.length, 0);
+                assert.strictEqual(results[0].filePath, getFixturePath("dot-files/.a.js"));
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+                assert.strictEqual(results[1].messages.length, 0);
+                assert.strictEqual(results[1].filePath, getFixturePath("dot-files/.c.js"));
+                assert.strictEqual(results[1].suppressedMessages.length, 0);
+                assert.strictEqual(results[2].messages.length, 0);
+                assert.strictEqual(results[2].filePath, getFixturePath("dot-files/b.js"));
+                assert.strictEqual(results[2].suppressedMessages.length, 0);
+            });
+
+            it("should find dot files in current directory when a .a.js pattern is used", async () => {
+                eslint = new FlatESLint({
+                    cwd: getFixturePath("dot-files")
+                });
+                const results = await eslint.lintFiles([".a.js"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 0);
+                assert.strictEqual(results[0].filePath, getFixturePath("dot-files/.a.js"));
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+        });
+
         // https://github.com/eslint/eslint/issues/16275
         describe("Glob patterns without matches", () => {
 
@@ -861,6 +930,31 @@ describe("FlatESLint", () => {
                 await assert.rejects(async () => {
                     await eslint.lintFiles(["subdir1/*.js", "subdir2/*.js"]);
                 }, /All files matched by 'subdir2\/\*\.js' are ignored/u);
+            });
+
+            it("should always throw an error for the first unmatched file pattern", async () => {
+                eslint = new FlatESLint({
+                    cwd: getFixturePath("example-app2"),
+                    overrideConfig: {
+                        ignores: ["subdir1/*.js", "subdir2/*.js"]
+                    }
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles(["doesnotexist1/*.js", "doesnotexist2/*.js"]);
+                }, /No files matching 'doesnotexist1\/\*\.js' were found/u);
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles(["doesnotexist1/*.js", "subdir1/*.js"]);
+                }, /No files matching 'doesnotexist1\/\*\.js' were found/u);
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles(["subdir1/*.js", "doesnotexist1/*.js"]);
+                }, /All files matched by 'subdir1\/\*\.js' are ignored/u);
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles(["subdir1/*.js", "subdir2/*.js"]);
+                }, /All files matched by 'subdir1\/\*\.js' are ignored/u);
             });
 
             it("should not throw an error for an ignored file pattern when errorOnUnmatchedPattern is false", async () => {
@@ -967,11 +1061,13 @@ describe("FlatESLint", () => {
             });
             const results = await eslint.lintFiles(["fixtures/files/*"]);
 
-            assert.strictEqual(results.length, 2);
+            assert.strictEqual(results.length, 3);
             assert.strictEqual(results[0].messages.length, 0);
             assert.strictEqual(results[1].messages.length, 0);
+            assert.strictEqual(results[2].messages.length, 0);
             assert.strictEqual(results[0].suppressedMessages.length, 0);
             assert.strictEqual(results[1].suppressedMessages.length, 0);
+            assert.strictEqual(results[2].suppressedMessages.length, 0);
         });
 
         it("should resolve globs when 'globInputPaths' option is true", async () => {
@@ -984,11 +1080,13 @@ describe("FlatESLint", () => {
             });
             const results = await eslint.lintFiles(["fixtures/files/*"]);
 
-            assert.strictEqual(results.length, 2);
+            assert.strictEqual(results.length, 3);
             assert.strictEqual(results[0].messages.length, 0);
             assert.strictEqual(results[1].messages.length, 0);
+            assert.strictEqual(results[2].messages.length, 0);
             assert.strictEqual(results[0].suppressedMessages.length, 0);
             assert.strictEqual(results[1].suppressedMessages.length, 0);
+            assert.strictEqual(results[2].suppressedMessages.length, 0);
         });
 
         // only works on a Windows machine
@@ -1004,11 +1102,13 @@ describe("FlatESLint", () => {
                 });
                 const results = await eslint.lintFiles(["fixtures\\files\\*"]);
 
-                assert.strictEqual(results.length, 2);
+                assert.strictEqual(results.length, 3);
                 assert.strictEqual(results[0].messages.length, 0);
                 assert.strictEqual(results[1].messages.length, 0);
+                assert.strictEqual(results[2].messages.length, 0);
                 assert.strictEqual(results[0].suppressedMessages.length, 0);
                 assert.strictEqual(results[1].suppressedMessages.length, 0);
+                assert.strictEqual(results[2].suppressedMessages.length, 0);
             });
 
         }
@@ -1333,11 +1433,13 @@ describe("FlatESLint", () => {
             });
             const results = await eslint.lintFiles(["fixtures/files/*.?s*"]);
 
-            assert.strictEqual(results.length, 2);
+            assert.strictEqual(results.length, 3);
             assert.strictEqual(results[0].messages.length, 0);
             assert.strictEqual(results[0].suppressedMessages.length, 0);
             assert.strictEqual(results[1].messages.length, 0);
             assert.strictEqual(results[1].suppressedMessages.length, 0);
+            assert.strictEqual(results[2].messages.length, 0);
+            assert.strictEqual(results[2].suppressedMessages.length, 0);
         });
 
         it("should return one error message when given a config with rules with options and severity level set to error", async () => {
@@ -2760,6 +2862,7 @@ describe("FlatESLint", () => {
             });
 
             it("should throw if the directory exists and is empty", async () => {
+                ensureDirectoryExists(getFixturePath("cli-engine/empty"));
                 await assert.rejects(async () => {
                     await eslint.lintFiles(["empty"]);
                 }, /No files matching 'empty' were found\./u);

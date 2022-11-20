@@ -60,6 +60,8 @@ for (a of (b));
 
 typeof (a);
 
+(Object.prototype.toString.call());
+
 (function(){} ? a() : b());
 
 class A {
@@ -81,8 +83,6 @@ Examples of **correct** code for this rule with the default `"all"` option:
 /* eslint no-extra-parens: "error" */
 
 (0).toString();
-
-(Object.prototype.toString.call());
 
 ({}.toString.call());
 

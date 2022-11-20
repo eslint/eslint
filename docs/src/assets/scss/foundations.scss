@@ -121,6 +121,11 @@ hr {
     width: 100%;
     margin: 0 auto;
     padding: var(--space-xl-3xl) calc(1rem + 1vw);
+    max-width: 1700px;
+
+    @media all and (min-width: 1700px) {
+        margin: auto;
+    }
 }
 
 .section-head {
