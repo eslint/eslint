@@ -361,7 +361,7 @@ module.exports = {
 
 ## Configuration Based on Glob Patterns
 
-<b>v4.1.0+.</b> Sometimes a more fine-controlled configuration is necessary, like if the configuration for files within the same directory has to be different. In this case, you can provide configurations under the `overrides` key that only apply to files that match specific glob patterns, using the same format you would pass on the command line (e.g., `app/**/*.test.js`).
+**v4.1.0+.** Sometimes a more fine-controlled configuration is necessary, like if the configuration for files within the same directory has to be different. In this case, you can provide configurations under the `overrides` key that only apply to files that match specific glob patterns, using the same format you would pass on the command line (e.g., `app/**/*.test.js`).
 
 Glob patterns in overrides use [minimatch syntax](https://github.com/isaacs/minimatch).
 
