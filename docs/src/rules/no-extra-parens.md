@@ -38,7 +38,7 @@ This rule has an object option for exceptions to the `"all"` option:
 * `"enforceForSequenceExpressions": false` allows extra parentheses around sequence expressions
 * `"enforceForNewInMemberExpressions": false` allows extra parentheses around `new` expressions in member expressions
 * `"enforceForFunctionPrototypeMethods": false` allows extra parentheses around immediate `.call` and `.apply` method calls on function expressions and around function expressions in the same context.
-* `"allowParensAfterComment": true` allows extra parentheses preceded by a comment that matches a regular expression
+* `"allowParensAfterCommentPattern": true` allows extra parentheses preceded by a comment that matches a regular expression.
 
 ### all
 
@@ -319,6 +319,32 @@ const bar = (function () {}).apply();
 const baz = (function () {}.call());
 
 const quux = (function () {}.apply());
+```
+
+:::
+
+### allowParensAfterCommentPattern
+
+Examples of **correct** code for this rule with the `"all"` and `{ "allowParensAfterCommentPattern": "@type" }` options:
+
+::: correct
+
+```js
+/* eslint no-extra-parens: ["error", "all", { "enforceForFunctionPrototypeMethods": false }] */
+
+const span = /**@type {HTMLSpanElement}*/(event.currentTarget);
+
+if (/** @type {Foo | Bar} */(options).baz) console.log('Lint free');
+
+foo(/** @type {Bar} */ (bar), options, {
+    name: "name",
+    path: "path",
+});
+
+if (foo) {
+    /** @type {Bar} */
+    (bar).prop = false;
+}
 ```
 
 :::
