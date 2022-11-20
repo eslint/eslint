@@ -38,7 +38,7 @@ This rule has an object option for exceptions to the `"all"` option:
 * `"enforceForSequenceExpressions": false` allows extra parentheses around sequence expressions
 * `"enforceForNewInMemberExpressions": false` allows extra parentheses around `new` expressions in member expressions
 * `"enforceForFunctionPrototypeMethods": false` allows extra parentheses around immediate `.call` and `.apply` method calls on function expressions and around function expressions in the same context.
-* `"allowParensAfterCommentPattern": true` allows extra parentheses preceded by a comment that matches a regular expression.
+* `"allowParensAfterCommentPattern": "any-string-pattern"` allows extra parentheses preceded by a comment that matches a regular expression.
 
 ### all
 
@@ -324,6 +324,8 @@ const quux = (function () {}.apply());
 :::
 
 ### allowParensAfterCommentPattern
+
+To make this rule allow extra parentheses preceded by specific comments, set this option to a string pattern that will be passed to the [`RegExp` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp).
 
 Examples of **correct** code for this rule with the `"all"` and `{ "allowParensAfterCommentPattern": "@type" }` options:
 
