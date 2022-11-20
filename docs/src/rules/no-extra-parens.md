@@ -38,6 +38,7 @@ This rule has an object option for exceptions to the `"all"` option:
 * `"enforceForSequenceExpressions": false` allows extra parentheses around sequence expressions
 * `"enforceForNewInMemberExpressions": false` allows extra parentheses around `new` expressions in member expressions
 * `"enforceForFunctionPrototypeMethods": false` allows extra parentheses around immediate `.call` and `.apply` method calls on function expressions and around function expressions in the same context.
+* `"allowParensAfterComment": true` allows extra parentheses preceded by a comment that matches a regular expression
 
 ### all
 
