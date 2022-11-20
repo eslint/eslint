@@ -91,7 +91,7 @@ This option enables specific environments.
 * **Argument Type**: String. One of the available environments.
 * **Multiple Arguments**: Yes
 
-Details about the global variables defined by each environment are available on the [Specifying Environments](configuring/language-options#specifying-environments) documentation. This option only enables environments; it does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the option multiple times.
+Details about the global variables defined by each environment are available in the [Specifying Environments](configuring/language-options#specifying-environments) documentation. This option only enables environments. It does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the option multiple times.
 
 ##### `--env` example
 
@@ -162,8 +162,8 @@ This option allows you to specify parser options to be used by ESLint. The avail
 ##### `--parser-options` example
 
 ```shell
-echo '3 ** 4' | npx eslint --stdin --parser-options=ecmaVersion:6 # fails with a parsing error
-echo '3 ** 4' | npx eslint --stdin --parser-options=ecmaVersion:7 # succeeds, yay!
+echo '3 ** 4' | npx eslint --stdin --parser-options ecmaVersion:6 # fails with a parsing error
+echo '3 ** 4' | npx eslint --stdin --parser-options ecmaVersion:7 # succeeds, yay!
 ```
 
 #### `--resolve-plugins-relative-to`
@@ -192,9 +192,9 @@ npx eslint --config ~/personal-eslintrc.js \
 
 #### `--plugin`
 
-This option specifies a plugin to load. You can omit the prefix `eslint-plugin-` from the plugin name.
+This option specifies a plugin to load.
 
-* **Argument Type**: String. Plugin name.
+* **Argument Type**: String. Plugin name. You can optionally omit the prefix `eslint-plugin-` from the plugin name.
 * **Multiple Arguments**: Yes
 
 Before using the plugin, you have to install it using npm.
@@ -213,7 +213,7 @@ This option specifies rules to be used.
 * **Argument Type**: Rules and their configuration specified with [levn](https://github.com/gkz/levn#levn--) format.
 * **Multiple Arguments**: Yes
 
-These rules are merged with any rules specified with configuration files. If the rule is defined within a plugin, you have to prefix the rule ID with the plugin name and a `/`.
+These rules are merged with any rules specified with configuration files. If the rule is defined in a plugin, you have to prefix the rule ID with the plugin name and a `/`.
 
 ##### `--rule` example
 
@@ -306,7 +306,7 @@ This option allows you to specify the file to use as your `.eslintignore`.
 
 * **Argument Type**: String. Path to file.
 * **Multiple Arguments**: No
-* **Default Value**:  By default, ESLint looks in the current working directory for `.eslintignore`.
+* **Default Value**:  By default, ESLint looks for `.eslintignore` in the current working directory.
 
 **Note:** `--ignore-path` is not supported when using [flat configuration](./configuring/configuration-files-new) (`eslint.config.js`).
 
@@ -319,7 +319,7 @@ npx eslint --ignore-path .gitignore file.js
 
 #### `--no-ignore`
 
-Disables excluding of files from `.eslintignore`, `--ignore-path`, `--ignore-pattern`, and `ignorePatterns` property in config files.
+Disables excluding of files from `.eslintignore` files, `--ignore-path` flags, `--ignore-pattern` flags, and  the `ignorePatterns` property in config files.
 
 * **Argument Type**: No argument.
 
@@ -333,14 +333,14 @@ npx eslint --no-ignore file.js
 
 This option allows you to specify patterns of files to ignore (in addition to those in `.eslintignore`).
 
-* **Argument Type**: String. The supported syntax is the same as for `.eslintignore` [files](configuring/ignoring-code#the-eslintignore-file), which use the same patterns as the `.gitignore` [specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
+* **Argument Type**: String. The supported syntax is the same as for `.eslintignore` [files](configuring/ignoring-code#the-eslintignore-file), which use the same patterns as the [`.gitignore` specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
 * **Multiple Arguments**: Yes
 * **Default Value**: whatever the default value is OR N/A
 
 ##### `--ignore-pattern` example
 
 ```shell
-npx eslint --ignore-pattern '/lib/' --ignore-pattern '/src/vendor/*' .
+npx eslint --ignore-pattern "/lib/" --ignore-pattern "/src/vendor/*" .
 ```
 
 ### Use stdin
@@ -417,7 +417,7 @@ Write output of linting results to a specified file.
 npx eslint -o ./test/test.html
 ```
 
-#### ``--format`
+#### `--format`
 
 This option specifies the output format for the console.
 
@@ -525,7 +525,7 @@ npx eslint --report-unused-disable-directives file.js
 
 #### `--cache`
 
-Store the info about processed files in order to only operate on the changed ones. Enabling this option can dramatically improve ESLint's running time by ensuring that only changed files are linted.
+Store the info about processed files in order to only operate on the changed ones. Enabling this option can dramatically improve ESLint's run time performance by ensuring that only changed files are linted.
 The cache is stored in `.eslintcache` by default.
 
 * **Argument Type**: No argument.
@@ -554,7 +554,7 @@ Specify the path to the cache location. Can be a file or a directory.
 * **Multiple Arguments**: No
 * **Default Value**: If no location is specified, `.eslintcache` is used. The file is created in the directory where the `eslint` command is executed.
 
-If the directory for the cache does not exist make sure you add a trailing `/` on \*nix systems or `\` in windows. Otherwise the path is assumed to be a file.
+If the directory for the cache does not exist make sure you add a trailing `/` on \*nix systems or `\` on Windows. Otherwise the path is assumed to be a file.
 
 ##### `--cache-location` example
 
@@ -568,7 +568,7 @@ Strategy for the cache to use for detecting changed files.
 
 * **Argument Type**: String. One of the following values:
   1. `metadata`
-  1. `content
+  1. `content`
 * **Multiple Arguments**: No
 * **Default Value**: `metadata`
 
@@ -598,7 +598,7 @@ npx eslint --init
 
 #### `--env-info`
 
-This option outputs information about the execution environment, including the version of Node, npm, and local and global installations of ESLint.
+This option outputs information about the execution environment, including the version of Node.js, npm, and local and global installations of ESLint.
 
 * **Argument Type**: No argument.
 
@@ -619,7 +619,7 @@ This option prevents errors when a quoted glob pattern or `--ext` is unmatched. 
 ##### `--no-error-on-unmatched-pattern` example
 
 ```shell
-npx eslint --no-error-on-unmatched-pattern --ext .ts lib/*
+npx eslint --no-error-on-unmatched-pattern --ext .ts "lib/*"
 ```
 
 #### `--exit-on-fatal-error`
@@ -636,7 +636,7 @@ npx eslint --exit-on-fatal-error file.js
 
 #### `--debug`
 
-This option outputs debugging information to the console. Add this flag to an ESLint command line invocation in order to get extra debug information as the command is run.
+This option outputs debugging information to the console. Add this flag to an ESLint command line invocation in order to get extra debugging information while the command runs.
 
 * **Argument Type**: No argument.
 
@@ -652,7 +652,7 @@ npx eslint --debug test.js
 
 This option outputs the help menu, displaying all of the available options. All other options are ignored when this is present. When you use this flag, the CLI does not perform linting.
 
-* **Alias**: `h`
+* **Alias**: `-h`
 * **Argument Type**: No argument.
 
 ##### `--help` example
