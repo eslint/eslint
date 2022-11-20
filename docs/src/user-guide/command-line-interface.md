@@ -148,7 +148,10 @@ This option allows you to specify a parser to be used by ESLint.
 
 ##### `--parser` example
 
-TODO: add
+```shell
+# Use TypeScript ESLint parser
+npx eslint --parser @typescript-eslint/parser files.ts
+```
 
 #### `--parser-options`
 
@@ -172,7 +175,7 @@ Changes the folder where plugins are resolved from.
 * **Multiple Arguments**: No
 * **Default Value**: By default, plugins are resolved from the current working directory.
 
- This option should be used when plugins were installed by someone other than the end user. It should be set to the project directory of the project that has a dependency on the necessary plugins.
+This option should be used when plugins were installed by someone other than the end user. It should be set to the project directory of the project that has a dependency on the necessary plugins. If you use npm to install plugins, the path ends with `/node_modules/`.
 
 For example:
 
@@ -181,7 +184,10 @@ For example:
 
 ##### `--resolve-plugins-relative-to` example
 
-TODO: add
+```sh
+npx eslint --config ~/personal-eslintrc.js \
+--resolve-plugins-relative-to /usr/local/lib/node_modules/
+```
 
 ### Specify rules and plugins
 
@@ -241,11 +247,7 @@ npx eslint --rulesdir my-rules/ --rulesdir my-other-rules/ file.js
 
 This option instructs ESLint to try to fix as many issues as possible. The fixes are made to the actual files themselves and only the remaining unfixed issues are output.
 
-TODO: test out this flag and see what is needed here
-
-* **Alias**: `-fn`
-* **Argument Type**: Data type. Short description. If no data type, put 'No argument'
-* **Multiple Arguments**: Yes/No
+* **Argument Type**: No argument.
 
 Not all problems are fixable using this option, and the option does not work in these situations:
 
@@ -256,7 +258,9 @@ If you want to fix code from `stdin` or otherwise want to get the fixes without 
 
 ##### `--fix` example
 
-TODO: add
+```shell
+npx eslint --fix file.js
+```
 
 #### `--fix-dry-run`
 
@@ -594,8 +598,6 @@ npx eslint --init
 
 #### `--env-info`
 
-TODO: Resume here
-
 This option outputs information about the execution environment, including the version of Node, npm, and local and global installations of ESLint.
 
 * **Argument Type**: No argument.
@@ -616,7 +618,9 @@ This option prevents errors when a quoted glob pattern or `--ext` is unmatched. 
 
 ##### `--no-error-on-unmatched-pattern` example
 
-TODO: add
+```shell
+npx eslint --no-error-on-unmatched-pattern --ext .ts lib/*
+```
 
 #### `--exit-on-fatal-error`
 
@@ -626,7 +630,9 @@ This option causes ESLint to exit with exit code 2 if one or more fatal parsing 
 
 ##### `--exit-on-fatal-error` example
 
-TODO: add
+```shell
+npx eslint --exit-on-fatal-error file.js
+```
 
 #### `--debug`
 
@@ -679,17 +685,6 @@ This option outputs the configuration to be used for the file passed. When prese
 ```shell
 npx eslint --print-config file.js
 ```
-
-## Ignore files with `.eslintignore`
-
-ESLint supports `.eslintignore` files to exclude files from the linting process when ESLint operates on a directory. Files given as individual CLI arguments are exempt from exclusion. The `.eslintignore` file is a plain text file containing one pattern per line. It can be located in any of the target directory's ancestors; it affects files in its containing directory as well as all sub-directories. Here's a simple example of a `.eslintignore` file:
-
-```text
-temp.js
-**/vendor/*.js
-```
-
-A more detailed breakdown of supported patterns and directories ESLint ignores by default can be found in [Ignoring Code](configuring/ignoring-code).
 
 ## Exit codes
 
