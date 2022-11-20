@@ -3333,6 +3333,25 @@ ruleTester.run("no-extra-parens", rule, {
             errors: [{ messageId: "unexpected" }]
         },
         {
+            code: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    /** extra coment */
+                    (options.server.options).requestCert = false;
+                }
+            `,
+            output: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    /** extra coment */
+                    options.server.options.requestCert = false;
+                }
+            `,
+            options: ["all", { allowParensAfterCommentPattern: "@type" }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
             code: "const net = ipaddr.parseCIDR(/** @type {string} */ (cidr));",
             output: "const net = ipaddr.parseCIDR(/** @type {string} */ cidr);",
             options: ["all", { allowParensAfterCommentPattern: "invalid" }],
