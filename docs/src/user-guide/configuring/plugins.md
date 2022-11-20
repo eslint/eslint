@@ -15,7 +15,7 @@ You can extend ESLint with plugins in a variety of different ways. Plugins can i
 * Custom rules to validate if your code meets a certain expectation, and what to do if it does not meet that expectation.
 * Custom configurations.
 
-You can also use custom parsers to convert JavaScript code into an abstract syntax tree for ESLint to evaluate. You might want to add a custom parser if the code you're writing isn't compatible with the ESLint default parser, Espree.
+You can also use custom parsers to convert JavaScript code into an abstract syntax tree for ESLint to evaluate. You might want to add a custom parser if your code isn't compatible with ESLint's default parser, Espree.
 
 ## Configuring Plugins
 
