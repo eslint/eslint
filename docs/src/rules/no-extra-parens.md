@@ -330,7 +330,7 @@ Examples of **correct** code for this rule with the `"all"` and `{ "allowParensA
 ::: correct
 
 ```js
-/* eslint no-extra-parens: ["error", "all", { "enforceForFunctionPrototypeMethods": false }] */
+/* eslint no-extra-parens: ["error", "all", { "allowParensAfterCommentPattern": "@type" }] */
 
 const span = /**@type {HTMLSpanElement}*/(event.currentTarget);
 
