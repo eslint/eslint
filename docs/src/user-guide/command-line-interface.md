@@ -73,7 +73,6 @@ This option allows you to specify an additional configuration file for ESLint (s
 * **Alias**: `-c`
 * **Argument Type**: String. File name.
 * **Multiple Arguments**: No
-* **Default Value**: N/A
 
 ##### `--config` example
 
@@ -424,6 +423,7 @@ This option specifies the output format for the console.
 
 * **Alias**: `-f`
 * **Argument Type**: String. One of the [built-in formatters](formatters) or a custom formatter.
+**Multiple Arguments**: No
 * **Default Value**: [`stylish`](formatters/#stylish)
 
 If you are using a custom formatter defined in a local file, you can specify the path to the custom formatter file.
@@ -621,7 +621,6 @@ This option prevents errors when a quoted glob pattern or `--ext` is unmatched. 
 ```shell
 npx eslint --no-error-on-unmatched-pattern --ext .ts lib/*
 ```
-
 
 #### `--exit-on-fatal-error`
 
