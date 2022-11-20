@@ -139,7 +139,7 @@ your-project
 
 The configuration cascade works based on the location of the file being linted. If there is a `.eslintrc` file in the same directory as the file being linted, then that configuration takes precedence. ESLint then searches up the directory structure, merging any `.eslintrc` files it finds along the way until reaching either a `.eslintrc` file with `root: true` or the root directory.
 
-In the same way, if there is a `package.json` file in the root directory with an `eslintConfig` field, the configuration it describes is applied to all subdirectories beneath it. However, the configuration described by the `.eslintrc` file in the `tests/` directory overrides it where there are conflicting specifications.
+In the same way, if there is a `package.json` file in the root directory with an `eslintConfig` field, the configuration it describes is applied to all subdirectories beneath it. However, the configuration described by the `.eslintrc` file in the `tests/` directory overrides conflicting specifications.
 
 ```text
 your-project
