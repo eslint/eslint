@@ -15,6 +15,7 @@ const checker = require("npm-license"),
     fs = require("fs"),
     glob = require("glob"),
     marked = require("marked"),
+    matter = require("gray-matter"),
     markdownlint = require("markdownlint"),
     os = require("os"),
     path = require("path"),
@@ -707,7 +708,8 @@ target.checkRuleFiles = function() {
         const basename = path.basename(filename, ".js");
         const docFilename = `docs/src/rules/${basename}.md`;
         const docText = cat(docFilename);
-        const docMarkdown = marked.lexer(docText, { gfm: true, silent: false });
+        const docTextWithoutFrontmatter = matter(String(docText)).content;
+        const docMarkdown = marked.lexer(docTextWithoutFrontmatter, { gfm: true, silent: false });
         const ruleCode = cat(filename);
         const knownHeaders = ["Rule Details", "Options", "Environments", "Examples", "Known Limitations", "When Not To Use It", "Compatibility"];
 
