@@ -103,7 +103,7 @@ npx eslint --env browser --env node file.js
 
 This option allows you to specify which file extensions ESLint uses when searching for target files in the directories you specify.
 
-* **Argument Type**: String. File glob pattern.
+* **Argument Type**: String. File extension.
 * **Multiple Arguments**: Yes
 * **Default Value**: `.js` and the files that match the `overrides` entries of your configuration.
 
