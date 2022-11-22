@@ -66,11 +66,10 @@ Disables use of configuration from `.eslintrc.*` and `package.json` files.
 npx eslint --no-eslintrc file.js
 ```
 
-#### `--config`
+#### `--config`, `-c`
 
 This option allows you to specify an additional configuration file for ESLint (see [Configuring ESLint](configuring/) for more).
 
-* **Alias**: `-c`
 * **Argument Type**: String. Path to file.
 * **Multiple Arguments**: No
 
@@ -403,11 +402,10 @@ npx eslint --max-warnings 10 file.js
 
 ### Output
 
-#### `--output-file`
+#### `--output-file`, `-o`
 
 Write the output of linting results to a specified file.
 
-* **Alias**: `-o`
 * **Argument Type**: String. Path to file.
 * **Multiple Arguments**: No
 
@@ -417,11 +415,10 @@ Write the output of linting results to a specified file.
 npx eslint -o ./test/test.html
 ```
 
-#### `--format`
+#### `--format`, `-f`
 
 This option specifies the output format for the console.
 
-* **Alias**: `-f`
 * **Argument Type**: String. One of the [built-in formatters](formatters) or a custom formatter.
 **Multiple Arguments**: No
 * **Default Value**: [`stylish`](formatters/#stylish)
@@ -648,11 +645,10 @@ This information is useful when you're seeing a problem and having a hard time p
 npx eslint --debug test.js
 ```
 
-#### `--help`
+#### `--help`, `-h`
 
 This option outputs the help menu, displaying all of the available options. All other options are ignored when this is present. When you use this flag, the CLI does not perform linting.
 
-* **Alias**: `-h`
 * **Argument Type**: No argument.
 
 ##### `--help` example
@@ -661,11 +657,10 @@ This option outputs the help menu, displaying all of the available options. All 
 npx eslint --help
 ```
 
-#### `--version`
+#### `--version`, `-v`
 
 This option outputs the current ESLint version onto the console. All other options are ignored when this is present. When you use this flag, the CLI does not perform linting.
 
-* **Alias**: `-v`
 * **Argument Type**: No argument.
 
 ##### `--version` example
