@@ -9,12 +9,14 @@ eleventyNavigation:
 ---
 
 ::: warning
-This is an experimental feature. To opt-in, place a `eslint.config.js` file in the root of your project or set the `ESLINT_USE_FLAT_CONFIG` environment variable to `true`. To opt-out, even in the presence of a `eslint.config.js` file, set the environment variable to `false`. If you are using the API, you can use the configuration system described on this page by using the `FlatESLint` class, the `FlatRuleTester` class, or by setting `configType: "flat"` in the `Linter` class.
+This is an experimental feature. To opt-in, place an `eslint.config.js` file in the root of your project or set the `ESLINT_USE_FLAT_CONFIG` environment variable to `true`. To opt-out, even in the presence of an `eslint.config.js` file, set the environment variable to `false`. If you are using the API, you can use the configuration system described on this page by using the `FlatESLint` class, the `FlatRuleTester` class, or by setting `configType: "flat"` in the `Linter` class.
 :::
+
+You can put your ESLint project configuration in a configuration file. You can include built-in rules, how you want them enforced, plugins with custom rules, shareable configurations, which files you want rules to apply to, and more.
 
 ## Configuration File
 
-The ESLint configuration file is named `eslint.config.js` and should be placed in the root directory of your project and export an array of configuration objects. Here's an example:
+The ESLint configuration file is named `eslint.config.js`. It should be placed in the root directory of your project and export an array of [configuration objects](#configuration-objects). Here's an example:
 
 ```js
 export default [
@@ -27,7 +29,7 @@ export default [
 ]
 ```
 
-Here, the configuration array contains just one configuration object. The configuration object enables two rules: `semi` and `prefer-const`. These rules will be applied to all of the files ESLint processes using this config file.
+In this example, the configuration array contains just one configuration object. The configuration object enables two rules: `semi` and `prefer-const`. These rules are applied to all of the files ESLint processes using this config file.
 
 ## Configuration Objects
 
@@ -55,7 +57,7 @@ Each configuration object contains all of the information ESLint needs to execut
 Patterns specified in `files` and `ignores` use [`minimatch`](https://www.npmjs.com/package/minimatch) syntax and are evaluated relative to the location of the `eslint.config.js` file.
 :::
 
-You can use a combination of `files` and `ignores` to determine which files should apply the configuration object and which should not. By default, ESLint matches `**/*.js`, `**/*.cjs`, and `**/*.mjs`. Because config objects that don't specify `files` or `ignores` apply to all files that have been matched by any other configuration object, by default config objects will apply to any JavaScript files passed to ESLint. For example:
+You can use a combination of `files` and `ignores` to determine which files should apply the configuration object and which should not. By default, ESLint matches `**/*.js`, `**/*.cjs`, and `**/*.mjs`. Because config objects that don't specify `files` or `ignores` apply to all files that have been matched by any other configuration object, those config objects apply to any JavaScript files passed to ESLint by default. For example:
 
 ```js
 export default [
@@ -67,11 +69,11 @@ export default [
 ];
 ```
 
-With this configuration, the `semi` rule is enabled for all files that match the default files in ESLint. So if you pass `example.js` to ESLint, the `semi` rule will be applied. If you pass a non-JavaScript file, like `example.txt`, the `semi` rule will not be applied because there are no other configuration objects that match that filename. (ESLint will output an error message letting you know that the file was ignored due to missing configuration.)
+With this configuration, the `semi` rule is enabled for all files that match the default files in ESLint. So if you pass `example.js` to ESLint, the `semi` rule is applied. If you pass a non-JavaScript file, like `example.txt`, the `semi` rule is not applied because there are no other configuration objects that match that filename. (ESLint outputs an error message letting you know that the file was ignored due to missing configuration.)
 
 #### Excluding files with `ignores`
 
-You can limit which files a configuration object applies to by specifying a combination of `files` and `ignores` patterns. For example, you may want certain rules to apply only to files in your `src` directory, like this:
+You can limit which files a configuration object applies to by specifying a combination of `files` and `ignores` patterns. For example, you may want certain rules to apply only to files in your `src` directory:
 
 ```js
 export default [
@@ -84,7 +86,7 @@ export default [
 ];
 ```
 
-Here, only the JavaScript files in the `src` directory will have the `semi` rule applied. If you run ESLint on files in another directory, this configuration object will be skipped. By adding `ignores`, you can also remove some of the files in `src` from this configuration object:
+Here, only the JavaScript files in the `src` directory have the `semi` rule applied. If you run ESLint on files in another directory, this configuration object is skipped. By adding `ignores`, you can also remove some of the files in `src` from this configuration object:
 
 ```js
 export default [
@@ -112,7 +114,7 @@ export default [
 ];
 ```
 
-Here, the configuration object excludes files ending with `.config.js` except for `eslint.config.js`. That file will still have `semi` applied.
+Here, the configuration object excludes files ending with `.config.js` except for `eslint.config.js`. That file still has `semi` applied.
 
 If `ignores` is used without `files` and any other setting, then the configuration object applies to all files except the ones specified in `ignores`, for example:
 
@@ -192,7 +194,7 @@ export default [
 
 #### Reporting unused disable directives
 
-Disable directives such as `/*eslint-disable*/` and `/*eslint-disable-next-line*/` are used to disable ESLint rules around certain portions of code. As code changes, it's possible for these directives to no longer be needed because the code has changed in such a way that the rule will no longer be triggered. You can enable reporting of these unused disable directives by setting the `reportUnusedDisableDirectives` option to `true`, as in this example:
+Disable directives such as `/*eslint-disable*/` and `/*eslint-disable-next-line*/` are used to disable ESLint rules around certain portions of code. As code changes, it's possible for these directives to no longer be needed because the code has changed in such a way that the rule is no longer triggered. You can enable reporting of these unused disable directives by setting the `reportUnusedDisableDirectives` option to `true`, as in this example:
 
 ```js
 export default [
@@ -264,7 +266,7 @@ export default [
 ];
 ```
 
-This configuration ensures that the Babel parser, rather than the default, will be used to parse all files ending with `.js` and `.mjs`.
+This configuration ensures that the Babel parser, rather than the default Espree parser, is used to parse all files ending with `.js` and `.mjs`.
 
 You can also pass options directly to the custom parser by using the `parserOptions` property. This property is an object whose name-value pairs are specific to the parser that you are using. For the Babel parser, you might pass in options like this:
 
@@ -441,7 +443,7 @@ export default [
 ];
 ```
 
-This configuration object specifies that there is a processor called `"markdown"` contained in the plugin named `"markdown"` and will apply the processor to all files ending with `.md`.
+This configuration object specifies that there is a processor called `"markdown"` contained in the plugin named `"markdown"`.  The configuration applies the processor to all files ending with `.md`.
 
 Processors may make named code blocks that function as filenames in configuration objects, such as `0.js` and `1.js`. ESLint handles such a named code block as a child of the original file. You can specify additional configuration objects for named code blocks. For example, the following disables the `strict` rule for the named code blocks which end with `.js` in markdown files.
 
@@ -503,7 +505,7 @@ Each rule specifies its own options and can be any valid JSON data type. Please 
 There are three possible severities you can specify for a rule
 
 * `"error"` (or `2`) - the reported problem should be treated as an error. When using the ESLint CLI, errors cause the CLI to exit with a nonzero code.
-* `"warn"` (or `1`) - the reported problem should be treated as a warning. When using the ESLint CLI, warnings are reported but do not change the exit code. If only warnings are reported, the exit code will be 0.
+* `"warn"` (or `1`) - the reported problem should be treated as a warning. When using the ESLint CLI, warnings are reported but do not change the exit code. If only warnings are reported, the exit code is 0.
 * `"off"` (or `0`) - the rule should be turned off completely.
 
 #### Rule configuration cascade
@@ -546,7 +548,7 @@ Here, the second configuration object only overrides the severity, so the final 
 
 ### Configuring shared settings
 
-ESLint supports adding shared settings into configuration files. Plugins use `settings` to specify information that should be shared across all of its rules. You can add a `settings` object to a configuration object and it will be supplied to every rule being executed. This may be useful if you are adding custom rules and want them to have access to the same information. Here's an example:
+ESLint supports adding shared settings into configuration files. When you add a `settings` object to a configuration object, it is supplied to every rule. By convention, plugins namespace the settings they are interested in to avoid collisions with others. Plugins can use `settings` to specify the information that should be shared across all of their rules. This may be useful if you are adding custom rules and want them to have access to the same information. Here's an example:
 
 ```js
 export default [
@@ -582,7 +584,7 @@ Here, the `eslint:recommended` predefined configuration is applied first and the
 
 ## Configuration File Resolution
 
-When ESLint is run on the command line, it first checks the current working directory for `eslint.config.js`, and if not found, will look to the next parent directory for the file. This search continues until either the file is found or the root directory is reached.
+When ESLint is run on the command line, it first checks the current working directory for `eslint.config.js`. If the file is not found, it looks to the next parent directory for the file. This search continues until either the file is found or the root directory is reached.
 
 You can prevent this search for `eslint.config.js` by setting the `ESLINT_USE_FLAT_CONFIG` environment variable to `true` and using the `-c` or `--config` option on the command line to specify an alternate configuration file, such as:
 
@@ -590,4 +592,4 @@ You can prevent this search for `eslint.config.js` by setting the `ESLINT_USE_FL
 ESLINT_USE_FLAT_CONFIG=true npx eslint -c some-other-file.js **/*.js
 ```
 
-In this case, ESLint will not search for `eslint.config.js` and will instead use `some-other-file.js`.
+In this case, ESLint does not search for `eslint.config.js` and instead uses `some-other-file.js`.
