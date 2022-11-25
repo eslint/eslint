@@ -128,10 +128,10 @@ function debounce(callback, delay) {
     }
 }
 
-const debouncedFetchSearchResults = debounce((query, onsuccess, onerror) => {
+const debouncedFetchSearchResults = debounce((query, onSuccess, onError) => {
     fetchSearchResults(query)
-        .then(onsuccess)
-        .catch(onerror);
+        .then(onSuccess)
+        .catch(onError);
 }, 300);
 
 //-----------------------------------------------------------------------------
