@@ -111,6 +111,25 @@ function maintainScrollVisibility(activeElement, scrollParent) {
 
 }
 
+/**
+ * Debounces the provided callback with a given delay.
+ * @param {Function} callback The callback that needs to be debounced.
+ * @param {Number} delay Time in ms that the timer shoud wait before the callback is executed.
+ * @returns {Function}
+ */
+function debounce(callback, delay) {
+    let timer;
+    return (...args) => {
+        if (timer) clearTimeout(timer)
+        timer = setTimeout(() => callback(...args), delay)
+    }
+}
+
+const debouncedFetchSearchResults = debounce((query, onsuccess, onerror) => {
+    fetchSearchResults(query)
+        .then(onsuccess)
+        .catch(onerror);
+}, 300);
 
 //-----------------------------------------------------------------------------
 // Event Handlers
@@ -127,9 +146,8 @@ if(searchInput)
         else searchClearBtn.setAttribute('hidden', '');
 
         if (query.length > 2) {
-            fetchSearchResults(query)
-                .then(displaySearchResults)
-                .catch(clearSearchResults);
+
+            debouncedFetchSearchResults(query, displaySearchResults, clearSearchResults);
 
             document.addEventListener('click', function(e) {
                 if(e.target !== resultsElement) clearSearchResults();
