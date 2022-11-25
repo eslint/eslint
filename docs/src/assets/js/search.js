@@ -148,7 +148,7 @@ if(searchClearBtn)
         searchInput.value = '';
         searchInput.focus();
         clearSearchResults();
-        searchClearBtn.setAttribute("hidden", "");
+        searchClearBtn.setAttribute('hidden', '');
     });
 
 document.addEventListener('keydown', function (e) {
