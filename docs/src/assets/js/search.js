@@ -123,8 +123,8 @@ function maintainScrollVisibility(activeElement, scrollParent) {
 function debounce(callback, delay) {
     let timer;
     return (...args) => {
-        if (timer) clearTimeout(timer)
-        timer = setTimeout(() => callback(...args), delay)
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => callback.apply(this, args), delay);
     }
 }
 
