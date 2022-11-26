@@ -49,7 +49,6 @@ function clearSearchResults() {
         resultsElement.removeChild(resultsElement.firstChild);
     }
     resultsElement.innerHTML = "";
-    searchClearBtn.setAttribute('hidden', '');
 }
 
 /**
@@ -80,13 +79,11 @@ function displaySearchResults(results) {
             `.trim();
             list.append(listItem);
         }
-        searchClearBtn.removeAttribute('hidden');
 
     } else {
         resultsLiveRegion.innerHTML = "No results found.";
         resultsElement.innerHTML = "No results found.";
         resultsElement.setAttribute('data-results', 'false');
-        searchClearBtn.setAttribute('hidden', '');
     }
 
 }
@@ -151,6 +148,7 @@ if(searchClearBtn)
         searchInput.value = '';
         searchInput.focus();
         clearSearchResults();
+        searchClearBtn.setAttribute('hidden', '');
     });
 
 document.addEventListener('keydown', function (e) {
