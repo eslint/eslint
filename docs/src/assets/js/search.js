@@ -118,7 +118,7 @@ function maintainScrollVisibility(activeElement, scrollParent) {
  * Debounces the provided callback with a given delay.
  * @param {Function} callback The callback that needs to be debounced.
  * @param {Number} delay Time in ms that the timer should wait before the callback is executed.
- * @returns {Function}
+ * @returns {Function} Returns the new debounced function
  */
 function debounce(callback, delay) {
     let timer;
