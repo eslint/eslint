@@ -128,10 +128,10 @@ function debounce(callback, delay) {
     }
 }
 
-const debouncedFetchSearchResults = debounce((query, onSuccess, onError) => {
+const debouncedFetchSearchResults = debounce((query) => {
     fetchSearchResults(query)
-        .then(onSuccess)
-        .catch(onError);
+        .then(displaySearchResults)
+        .catch(clearSearchResults);
 }, 300);
 
 //-----------------------------------------------------------------------------
@@ -150,7 +150,7 @@ if(searchInput)
 
         if (query.length > 2) {
 
-            debouncedFetchSearchResults(query, displaySearchResults, clearSearchResults);
+            debouncedFetchSearchResults(query);
 
             document.addEventListener('click', function(e) {
                 if(e.target !== resultsElement) clearSearchResults();
