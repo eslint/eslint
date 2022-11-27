@@ -386,12 +386,48 @@ ruleTester.run("no-useless-return", rule, {
               }
             `
         },
-
-        /*
-         * FIXME: Re-add this case (removed due to https://github.com/eslint/eslint/issues/7481):
-         * https://github.com/eslint/eslint/blob/261d7287820253408ec87c344beccdba2fe829a4/tests/lib/rules/no-useless-return.js#L308-L329
-         */
-
+        {
+            code: `
+              function foo() {
+                try {
+                  foo();
+                  return;
+                } catch (err) {
+                  return 5;
+                }
+              }
+            `,
+            output: `
+              function foo() {
+                try {
+                  foo();
+                  
+                } catch (err) {
+                  return 5;
+                }
+              }
+            `
+        },
+        {
+            code: `
+              function foo() {
+                try {
+                  return;
+                } catch (err) {
+                  foo();
+                }
+              }
+            `,
+            output: `
+              function foo() {
+                try {
+                  
+                } catch (err) {
+                  foo();
+                }
+              }
+            `
+        },
         {
             code: `
               function foo() {
