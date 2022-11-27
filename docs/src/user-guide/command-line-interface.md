@@ -73,7 +73,7 @@ This option allows you to specify an additional configuration file for ESLint (s
 * **Argument Type**: String. Path to file.
 * **Multiple Arguments**: No
 
-##### `--config` example
+##### `--config`, `-c` example
 
 ```shell
 npx eslint -c ~/my-eslint.json file.js
@@ -155,7 +155,7 @@ npx eslint --parser @typescript-eslint/parser files.ts
 
 This option allows you to specify parser options to be used by ESLint. The available parser options are determined by the parser being used.
 
-* **Argument Type**: Key/Value pair. Separated by colon (`:`).
+* **Argument Type**: Key/value pair separated by colon (`:`).
 * **Multiple Arguments**: Yes
 
 ##### `--parser-options` example
@@ -410,7 +410,7 @@ Write the output of linting results to a specified file.
 * **Argument Type**: String. Path to file.
 * **Multiple Arguments**: No
 
-##### `--output-file` example
+##### `--output-file`, `-o` example
 
 ```shell
 npx eslint -o ./test/test.html
@@ -420,7 +420,7 @@ npx eslint -o ./test/test.html
 
 This option specifies the output format for the console.
 
-* **Argument Type**: String. One of the [built-in formatters](formatters) or a custom formatter.
+* **Argument Type**: String. One of the [built-in formatters](formatters/) or a custom formatter.
 **Multiple Arguments**: No
 * **Default Value**: [`stylish`](formatters/#stylish)
 
@@ -652,7 +652,7 @@ This option outputs the help menu, displaying all of the available options. All 
 
 * **Argument Type**: No argument.
 
-##### `--help` example
+##### `--help`, `-h` example
 
 ```shell
 npx eslint --help
