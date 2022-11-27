@@ -447,6 +447,7 @@ function lintMarkdown(files) {
  */
 function getFormatterResults() {
     const stripAnsi = require("strip-ansi");
+    const formattersMetadata = require("./lib/cli-engine/formatters/manifest");
 
     const formatterFiles = fs.readdirSync("./lib/cli-engine/formatters/"),
         rules = {
@@ -489,7 +490,8 @@ function getFormatterResults() {
             );
 
             data.formatterResults[name] = {
-                result: stripAnsi(formattedOutput)
+                result: stripAnsi(formattedOutput),
+                description: formattersMetadata.find(formatter => formatter.name === name).description
             };
         }
         return data;
