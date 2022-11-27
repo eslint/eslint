@@ -52,6 +52,78 @@ npx eslint --ext .jsx,.js lib/
 
 ## Options
 
+You can view all the CLI options by running `npx eslint -h`.
+
+```txt
+eslint [options] file.js [file.js] [dir]
+
+Basic configuration:
+  --no-config-lookup             Disable look up for eslint.config.js
+  -c, --config path::String      Use this configuration instead of
+                                 eslint.config.js
+  --global [String]              Define global variables
+  --parser String                Specify the parser to be used
+  --parser-options Object        Specify parser options
+
+Specify rules and plugins:
+  --plugin [String]              Specify plugins
+  --rule Object                  Specify rules
+
+Fix problems:
+  --fix                          Automatically fix problems
+  --fix-dry-run                  Automatically fix problems without saving the
+                                 changes to the file system
+  --fix-type Array               Specify the types of fixes to apply
+                                 (directive, problem, suggestion, layout)
+
+Ignore files:
+  --no-ignore                    Disable use of ignore files and patterns
+  --ignore-pattern [String]      Pattern of files to ignore (in addition to
+                                 those in .eslintignore)
+
+Use stdin:
+  --stdin                        Lint code provided on <STDIN> - default: false
+  --stdin-filename String        Specify filename to process STDIN as
+
+Handling warnings:
+  --quiet                        Report errors only - default: false
+  --max-warnings Int             Number of warnings to trigger nonzero exit
+                                 code - default: -1
+
+Output:
+  -o, --output-file path::String  Specify file to write report to
+  -f, --format String            Use a specific output format - default:
+                                 stylish
+  --color, --no-color            Force enabling/disabling of color
+
+Inline configuration comments:
+  --no-inline-config             Prevent comments from changing config or rules
+  --report-unused-disable-directives  Adds reported errors for unused
+                                      eslint-disable directives
+
+Caching:
+  --cache                        Only check changed files - default: false
+  --cache-file path::String      Path to the cache file. Deprecated: use
+                                 --cache-location - default: .eslintcache
+  --cache-location path::String  Path to the cache file or directory
+  --cache-strategy String        Strategy to use for detecting changed files
+                                 in the cache - either: metadata or content -
+                                 default: metadata
+
+Miscellaneous:
+  --init                         Run config initialization wizard - default:
+                                 false
+  --env-info                     Output execution environment information -
+                                 default: false
+  --no-error-on-unmatched-pattern  Prevent errors when pattern is unmatched
+  --exit-on-fatal-error          Exit with exit code 2 in case of fatal error
+                                 - default: false
+  --debug                        Output debugging information
+  -h, --help                     Show help
+  -v, --version                  Output the version number
+  --print-config path::String    Print the configuration for the given file
+```
+
 ### Basic configuration
 
 #### `--no-eslintrc`
