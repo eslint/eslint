@@ -447,9 +447,9 @@ function lintMarkdown(files) {
  */
 function getFormatterResults() {
     const stripAnsi = require("strip-ansi");
-    const formattersMetadata = require("./lib/cli-engine/formatters/manifest");
+    const formattersMetadata = require("./lib/cli-engine/formatters/_manifest");
 
-    const formatterFiles = fs.readdirSync("./lib/cli-engine/formatters/"),
+    const formatterFiles = fs.readdirSync("./lib/cli-engine/formatters/").filter(fileName => !fileName.includes("_manifest.js")),
         rules = {
             "no-else-return": "warn",
             indent: ["warn", 4],
