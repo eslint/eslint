@@ -82,7 +82,17 @@ ruleTester.run("prefer-named-capture-group", rule, {
                 data: { group: "([0-9]{4})" },
                 line: 1,
                 column: 1,
-                endColumn: 13
+                endColumn: 13,
+                suggestions: [
+                    {
+                        messageId: "addGroupName",
+                        output: "/(?<temp1>[0-9]{4})/"
+                    },
+                    {
+                        messageId: "addNonCapture",
+                        output: "/(?:[0-9]{4})/"
+                    }
+                ]
             }]
         },
         {
@@ -93,7 +103,17 @@ ruleTester.run("prefer-named-capture-group", rule, {
                 data: { group: "([0-9]{4})" },
                 line: 1,
                 column: 1,
-                endColumn: 25
+                endColumn: 25,
+                suggestions: [
+                    {
+                        messageId: "addGroupName",
+                        output: "new RegExp('(?<temp1>[0-9]{4})')"
+                    },
+                    {
+                        messageId: "addNonCapture",
+                        output: "new RegExp('(?:[0-9]{4})')"
+                    }
+                ]
             }]
         },
         {
@@ -104,7 +124,17 @@ ruleTester.run("prefer-named-capture-group", rule, {
                 data: { group: "([0-9]{4})" },
                 line: 1,
                 column: 1,
-                endColumn: 21
+                endColumn: 21,
+                suggestions: [
+                    {
+                        messageId: "addGroupName",
+                        output: "RegExp('(?<temp1>[0-9]{4})')"
+                    },
+                    {
+                        messageId: "addNonCapture",
+                        output: "RegExp('(?:[0-9]{4})')"
+                    }
+                ]
             }]
         },
         {
@@ -112,7 +142,44 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
-                data: { group: "(bc)" }
+                data: { group: "(bc)" },
+                suggestions: [
+                    {
+                        messageId: "addGroupName",
+                        output: "new RegExp(`a(?<temp1>bc)d`)"
+                    },
+                    {
+                        messageId: "addNonCapture",
+                        output: "new RegExp(`a(?:bc)d`)"
+                    }
+                ]
+            }]
+        },
+        {
+            code: "new RegExp('\u1234\u5678(?:a)(b)');",
+            errors: [{
+                messageId: "required",
+                type: "NewExpression",
+                data: { group: "(b)" },
+                suggestions: [
+                    {
+                        messageId: "addGroupName",
+                        output: "new RegExp('\u1234\u5678(?:a)(?<temp1>b)');"
+                    },
+                    {
+                        messageId: "addNonCapture",
+                        output: "new RegExp('\u1234\u5678(?:a)(?:b)');"
+                    }
+                ]
+            }]
+        },
+        {
+            code: "new RegExp('\\u1234\\u5678(?:a)(b)');",
+            errors: [{
+                messageId: "required",
+                type: "NewExpression",
+                data: { group: "(b)" },
+                suggestions: null
             }]
         },
         {
@@ -124,7 +191,17 @@ ruleTester.run("prefer-named-capture-group", rule, {
                     data: { group: "([0-9]{4})" },
                     line: 1,
                     column: 1,
-                    endColumn: 21
+                    endColumn: 21,
+                    suggestions: [
+                        {
+                            messageId: "addGroupName",
+                            output: "/(?<temp1>[0-9]{4})-(\\w{5})/"
+                        },
+                        {
+                            messageId: "addNonCapture",
+                            output: "/(?:[0-9]{4})-(\\w{5})/"
+                        }
+                    ]
                 },
                 {
                     messageId: "required",
@@ -132,7 +209,173 @@ ruleTester.run("prefer-named-capture-group", rule, {
                     data: { group: "(\\w{5})" },
                     line: 1,
                     column: 1,
-                    endColumn: 21
+                    endColumn: 21,
+                    suggestions: [
+                        {
+                            messageId: "addGroupName",
+                            output: "/([0-9]{4})-(?<temp1>\\w{5})/"
+                        },
+                        {
+                            messageId: "addNonCapture",
+                            output: "/([0-9]{4})-(?:\\w{5})/"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "/([0-9]{4})-(5)/",
+            errors: [
+                {
+                    messageId: "required",
+                    type: "Literal",
+                    data: { group: "([0-9]{4})" },
+                    line: 1,
+                    column: 1,
+                    endColumn: 17,
+                    suggestions: [
+                        {
+                            messageId: "addGroupName",
+                            output: "/(?<temp1>[0-9]{4})-(5)/"
+                        },
+                        {
+                            messageId: "addNonCapture",
+                            output: "/(?:[0-9]{4})-(5)/"
+                        }
+                    ]
+                },
+                {
+                    messageId: "required",
+                    type: "Literal",
+                    data: { group: "(5)" },
+                    line: 1,
+                    column: 1,
+                    endColumn: 17,
+                    suggestions: [
+                        {
+                            messageId: "addGroupName",
+                            output: "/([0-9]{4})-(?<temp1>5)/"
+                        },
+                        {
+                            messageId: "addNonCapture",
+                            output: "/([0-9]{4})-(?:5)/"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "/(?<temp2>(a))/",
+            errors: [
+                {
+                    messageId: "required",
+                    type: "Literal",
+                    data: { group: "(a)" },
+                    line: 1,
+                    column: 1,
+                    endColumn: 16,
+                    suggestions: [
+                        {
+                            messageId: "addGroupName",
+                            output: "/(?<temp2>(?<temp3>a))/"
+                        },
+                        {
+                            messageId: "addNonCapture",
+                            output: "/(?<temp2>(?:a))/"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "/(?<temp2>(a)(?<temp5>b))/",
+            errors: [
+                {
+                    messageId: "required",
+                    type: "Literal",
+                    data: { group: "(a)" },
+                    line: 1,
+                    column: 1,
+                    endColumn: 27,
+                    suggestions: [
+                        {
+                            messageId: "addGroupName",
+                            output: "/(?<temp2>(?<temp6>a)(?<temp5>b))/"
+                        },
+                        {
+                            messageId: "addNonCapture",
+                            output: "/(?<temp2>(?:a)(?<temp5>b))/"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "/(?<temp1>[0-9]{4})-(\\w{5})/",
+            errors: [
+                {
+                    messageId: "required",
+                    type: "Literal",
+                    data: { group: "(\\w{5})" },
+                    line: 1,
+                    column: 1,
+                    endColumn: 29,
+                    suggestions: [
+                        {
+                            messageId: "addGroupName",
+                            output: "/(?<temp1>[0-9]{4})-(?<temp2>\\w{5})/"
+                        },
+                        {
+                            messageId: "addNonCapture",
+                            output: "/(?<temp1>[0-9]{4})-(?:\\w{5})/"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "/(?<temp1>[0-9]{4})-(5)/",
+            errors: [
+                {
+                    messageId: "required",
+                    type: "Literal",
+                    data: { group: "(5)" },
+                    line: 1,
+                    column: 1,
+                    endColumn: 25,
+                    suggestions: [
+                        {
+                            messageId: "addGroupName",
+                            output: "/(?<temp1>[0-9]{4})-(?<temp2>5)/"
+                        },
+                        {
+                            messageId: "addNonCapture",
+                            output: "/(?<temp1>[0-9]{4})-(?:5)/"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "/(?<temp1>a)(?<temp2>a)(a)(?<temp3>a)/",
+            errors: [
+                {
+                    messageId: "required",
+                    type: "Literal",
+                    data: { group: "(a)" },
+                    line: 1,
+                    column: 1,
+                    endColumn: 39,
+                    suggestions: [
+                        {
+                            messageId: "addGroupName",
+                            output: "/(?<temp1>a)(?<temp2>a)(?<temp4>a)(?<temp3>a)/"
+                        },
+                        {
+                            messageId: "addNonCapture",
+                            output: "/(?<temp1>a)(?<temp2>a)(?:a)(?<temp3>a)/"
+                        }
+                    ]
                 }
             ]
         },
@@ -141,7 +384,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
-                data: { group: "(a)" }
+                data: { group: "(a)" },
+                suggestions: null
             }]
         },
         {
@@ -149,7 +393,34 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
-                data: { group: "(bc)" }
+                data: { group: "(bc)" },
+                suggestions: null
+            }]
+        },
+        {
+            code: "new RegExp(\"foo\" + \"(a)\" + \"(b)\");",
+            errors: [
+                {
+                    messageId: "required",
+                    type: "NewExpression",
+                    data: { group: "(a)" },
+                    suggestions: null
+                },
+                {
+                    messageId: "required",
+                    type: "NewExpression",
+                    data: { group: "(b)" },
+                    suggestions: null
+                }
+            ]
+        },
+        {
+            code: "new RegExp(\"foo\" + \"(?:a)\" + \"(b)\");",
+            errors: [{
+                messageId: "required",
+                type: "NewExpression",
+                data: { group: "(b)" },
+                suggestions: null
             }]
         },
         {
@@ -157,7 +428,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "CallExpression",
-                data: { group: "(a)" }
+                data: { group: "(a)" },
+                suggestions: null
             }]
         },
         {
@@ -165,7 +437,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "CallExpression",
-                data: { group: "(ab)" }
+                data: { group: "(ab)" },
+                suggestions: null
             }]
         },
         {
@@ -173,7 +446,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
-                data: { group: "(ab)" }
+                data: { group: "(ab)" },
+                suggestions: null
             }]
         },
         {
@@ -185,7 +459,17 @@ ruleTester.run("prefer-named-capture-group", rule, {
                 line: 1,
                 column: 1,
                 endLine: 2,
-                endColumn: 3
+                endColumn: 3,
+                suggestions: [
+                    {
+                        messageId: "addGroupName",
+                        output: "new RegExp(`(?<temp1>a)\n`)"
+                    },
+                    {
+                        messageId: "addNonCapture",
+                        output: "new RegExp(`(?:a)\n`)"
+                    }
+                ]
             }]
         },
         {
@@ -193,7 +477,17 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "CallExpression",
-                data: { group: "(b\nc)" }
+                data: { group: "(b\nc)" },
+                suggestions: [
+                    {
+                        messageId: "addGroupName",
+                        output: "RegExp(`a(?<temp1>b\nc)d`)"
+                    },
+                    {
+                        messageId: "addNonCapture",
+                        output: "RegExp(`a(?:b\nc)d`)"
+                    }
+                ]
             }]
         },
         {
@@ -201,7 +495,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
-                data: { group: "(b)" }
+                data: { group: "(b)" },
+                suggestions: null
             }]
         },
         {
@@ -209,7 +504,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "CallExpression",
-                data: { group: "(a)" }
+                data: { group: "(a)" },
+                suggestions: null
             }]
         },
         {
@@ -217,7 +513,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "CallExpression",
-                data: { group: "(b)" }
+                data: { group: "(b)" },
+                suggestions: null
             }]
         },
         {
@@ -229,7 +526,17 @@ ruleTester.run("prefer-named-capture-group", rule, {
                 data: { group: "([0-9]{4})" },
                 line: 1,
                 column: 1,
-                endColumn: 36
+                endColumn: 36,
+                suggestions: [
+                    {
+                        messageId: "addGroupName",
+                        output: "new globalThis.RegExp('(?<temp1>[0-9]{4})')"
+                    },
+                    {
+                        messageId: "addNonCapture",
+                        output: "new globalThis.RegExp('(?:[0-9]{4})')"
+                    }
+                ]
             }]
         },
         {
@@ -241,7 +548,17 @@ ruleTester.run("prefer-named-capture-group", rule, {
                 data: { group: "([0-9]{4})" },
                 line: 1,
                 column: 1,
-                endColumn: 32
+                endColumn: 32,
+                suggestions: [
+                    {
+                        messageId: "addGroupName",
+                        output: "globalThis.RegExp('(?<temp1>[0-9]{4})')"
+                    },
+                    {
+                        messageId: "addNonCapture",
+                        output: "globalThis.RegExp('(?:[0-9]{4})')"
+                    }
+                ]
             }]
         },
         {
@@ -256,7 +573,23 @@ ruleTester.run("prefer-named-capture-group", rule, {
                 data: { group: "([0-9]{4})" },
                 line: 3,
                 column: 17,
-                endColumn: 52
+                endColumn: 52,
+                suggestions: [
+                    {
+                        messageId: "addGroupName",
+                        output: `
+                function foo() { var globalThis = bar; }
+                new globalThis.RegExp('(?<temp1>[0-9]{4})');
+            `
+                    },
+                    {
+                        messageId: "addNonCapture",
+                        output: `
+                function foo() { var globalThis = bar; }
+                new globalThis.RegExp('(?:[0-9]{4})');
+            `
+                    }
+                ]
             }]
         }
     ]
