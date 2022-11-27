@@ -17,7 +17,7 @@ You can extend ESLint with plugins in a variety of different ways. Plugins can i
 
 You can also use custom parsers to convert JavaScript code into an abstract syntax tree for ESLint to evaluate. You might want to add a custom parser if your code isn't compatible with ESLint's default parser, Espree.
 
-## Configuring Plugins
+## Configure Plugins
 
 ESLint supports the use of third-party plugins. Before using a plugin, you have to install it using npm.
 
@@ -113,7 +113,7 @@ For example:
 }
 ```
 
-### Specifying Processor
+### Specify a Processor
 
 Plugins may provide processors. Processors can extract JavaScript code from other kinds of files, then let ESLint lint the JavaScript code. Alternatively, processors can convert JavaScript code during preprocessing.
 
@@ -162,7 +162,7 @@ Processors may make named code blocks such as `0.js` and `1.js`. ESLint handles 
 
 ESLint checks the file path of named code blocks then ignores those if any `overrides` entry didn't match the file path. Be sure to add an `overrides` entry if you want to lint named code blocks other than `*.js`.
 
-## Configuring Parsers
+## Configure a Parser
 
 By default, ESLint uses [Espree](https://github.com/eslint/espree) as its parser. You can optionally specify that a different parser should be used in your configuration file if the parser meets the following requirements:
 
