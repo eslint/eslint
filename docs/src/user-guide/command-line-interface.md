@@ -286,12 +286,19 @@ This option specifies the rules to be used.
 
 These rules are merged with any rules specified with configuration files. If the rule is defined in a plugin, you have to prefix the rule ID with the plugin name and a `/`.
 
+To ignore rules in `.eslintrc` configuration files and only run rules specified in the command line, use the `--rules` flag in combination with the [`--no-eslintrc`](#--no-eslintrc) flag.
+
 ##### `--rule` example
 
 ```shell
+# Apply single rule
 npx eslint --rule 'quotes: [error, double]'
+# Apply multiple rules
 npx eslint --rule 'guard-for-in: error' --rule 'brace-style: [error, 1tbs]'
+# Apply rule from jquery plugin
 npx eslint --rule 'jquery/dollar-sign: error'
+# Only apply rule from the command line
+npx eslint --rule 'quotes: [error, double]' --no-eslintrc
 ```
 
 #### `--rulesdir`
