@@ -8,15 +8,15 @@ eleventyNavigation:
 
 ---
 
-ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs. In many ways, it is similar to JSLint and JSHint with a few exceptions:
+ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs.
 
-* ESLint uses [Espree](https://github.com/eslint/espree) for JavaScript parsing.
-* ESLint uses an AST to evaluate patterns in code.
-* ESLint is completely pluggable, every single rule is a plugin and you can add more at runtime.
+ESLint is completely pluggable. Every single rule is a plugin and you can add more at runtime. You can also add community plugins, configurations, and parsers to extend the functionality of ESLint.
 
-## Installation and Usage
+## Prerequisites
 
-Prerequisites: [Node.js](https://nodejs.org/en/) (`^12.22.0`, `^14.17.0`, or `>=16.0.0`) built with SSL support. (If you are using an official Node.js distribution, SSL is always built in.)
+To use ESLint, you must have [Node.js](https://nodejs.org/en/) (`^12.22.0`, `^14.17.0`, or `>=16.0.0`) installed and built with SSL support. (If you are using an official Node.js distribution, SSL is always built in.)
+
+## Quick start
 
 You can install and configure ESLint using this command:
 
@@ -28,14 +28,15 @@ If you want to use a specific shareable config that is hosted on npm, you can us
 
 ```shell
 # use `eslint-config-semistandard` shared config
-# npm 6.x
-npm init @eslint/config --config semistandard
-
 # ⚠️ npm 7+, extra double-dash is needed:
 npm init @eslint/config -- --config semistandard
 
 # or (`eslint-config` prefix is optional)
 npm init @eslint/config -- --config eslint-config-semistandard
+
+# npm 6.x
+npm init @eslint/config --config semistandard
+
 ```
 
 The `--config` flag also supports passing in arrays:
@@ -57,8 +58,6 @@ npx eslint yourfile.js
 
 yarn run eslint yourfile.js
 ```
-
-It is also possible to install ESLint globally rather than locally (using `npm install eslint --global`). However, this is not recommended, and any plugins or shareable configs that you use must be installed locally in either case.
 
 ## Configuration
 
@@ -92,6 +91,41 @@ Your `.eslintrc.{js,yml,json}` configuration file will also include the line:
 ```
 
 Because of this line, all of the rules marked "(recommended)" on the [rules page](/docs/rules) will be turned on.  Alternatively, you can use configurations that others have created by searching for "eslint-config" on [npmjs.com](https://www.npmjs.com/search?q=eslint-config).  ESLint will not lint your code unless you extend from a shared configuration or explicitly turn rules on in your configuration.
+
+## Global install
+
+It is also possible to install ESLint globally rather than locally (using `npm install eslint --global`). However, this is not recommended, and any plugins or shareable configs that you use must be installed locally in either case.
+
+## Manual set up
+
+You can also manually set ESLint up your project.
+
+Before you begin, you must have a `package.json` file already. If you don't, make sure to run `npm init` or `yarn init` beforehand.
+
+1. Install the ESLint package in your project:
+
+   ```shell
+   npm install --save-dev eslint
+   ```
+
+1. Add an `.eslintrc` file in one of the [supported configuration file formats](./configuring/configuration-files#configuration-file-formats).
+
+  TODO: add example shell commands for this
+
+1. Add configuration to the `.eslintrc` file. Refer to the [Configuring ESLint documentation](./configuring/) to learn how ot add rules, environments, custom configurations, plugins, and more.
+
+  TODO: show a sample configuration file using .js extension
+
+1. Lint code using the ESLint CLI:
+
+   ```sh
+   npm run eslint <Your file or directory>
+   # OR
+   npx eslint <Your file or directory>
+
+   ```
+
+   For more information on the available CLI options, refer to [Command Line Interface](./command-line-interface/).
 
 ---
 
