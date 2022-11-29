@@ -738,8 +738,39 @@ ruleTester.run("no-extra-parens", rule, {
         },
         {
             code: "(Object.prototype.toString.call())",
-            options: ["functions"],
-            parserOptions: { ecmaVersion: 2020 }
+            options: ["functions"]
+        },
+
+        // "allowParensAfterCommentPattern" option
+        {
+            code: "const span = /**@type {HTMLSpanElement}*/(event.currentTarget);",
+            options: ["all", { allowParensAfterCommentPattern: "@type" }]
+        },
+        {
+            code: "if (/** @type {Compiler | MultiCompiler} */(options).hooks) console.log('good');",
+            options: ["all", { allowParensAfterCommentPattern: "@type" }]
+        },
+        {
+            code: `
+                validate(/** @type {Schema} */ (schema), options, {
+                    name: "Dev Server",
+                    baseDataPath: "options",
+                });
+            `,
+            options: ["all", { allowParensAfterCommentPattern: "@type" }]
+        },
+        {
+            code: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    (options.server.options).requestCert = false;
+                }
+            `,
+            options: ["all", { allowParensAfterCommentPattern: "@type" }]
+        },
+        {
+            code: "const net = ipaddr.parseCIDR(/** @type {string} */ (cidr));",
+            options: ["all", { allowParensAfterCommentPattern: "@type" }]
         }
     ],
 
@@ -3189,6 +3220,160 @@ ruleTester.run("no-extra-parens", rule, {
             code: "var v = a | b ?? (c | d)",
             output: "var v = a | b ?? c | d",
             parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+
+        // "allowParensAfterCommentPattern" option (off by default)
+        {
+            code: "const span = /**@type {HTMLSpanElement}*/(event.currentTarget);",
+            output: "const span = /**@type {HTMLSpanElement}*/event.currentTarget;",
+            options: ["all"],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "if (/** @type {Compiler | MultiCompiler} */(options).hooks) console.log('good');",
+            output: "if (/** @type {Compiler | MultiCompiler} */options.hooks) console.log('good');",
+            options: ["all"],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: `
+                validate(/** @type {Schema} */ (schema), options, {
+                    name: "Dev Server",
+                    baseDataPath: "options",
+                });
+            `,
+            output: `
+                validate(/** @type {Schema} */ schema, options, {
+                    name: "Dev Server",
+                    baseDataPath: "options",
+                });
+            `,
+            options: ["all"],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    (options.server.options).requestCert = false;
+                }
+            `,
+            output: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    options.server.options.requestCert = false;
+                }
+            `,
+            options: ["all"],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "const net = ipaddr.parseCIDR(/** @type {string} */ (cidr));",
+            output: "const net = ipaddr.parseCIDR(/** @type {string} */ cidr);",
+            options: ["all"],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "const span = /**@type {HTMLSpanElement}*/(event.currentTarget);",
+            output: "const span = /**@type {HTMLSpanElement}*/event.currentTarget;",
+            options: ["all", { allowParensAfterCommentPattern: "invalid" }],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "if (/** @type {Compiler | MultiCompiler} */(options).hooks) console.log('good');",
+            output: "if (/** @type {Compiler | MultiCompiler} */options.hooks) console.log('good');",
+            options: ["all", { allowParensAfterCommentPattern: "invalid" }],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: `
+                validate(/** @type {Schema} */ (schema), options, {
+                    name: "Dev Server",
+                    baseDataPath: "options",
+                });
+            `,
+            output: `
+                validate(/** @type {Schema} */ schema, options, {
+                    name: "Dev Server",
+                    baseDataPath: "options",
+                });
+            `,
+            options: ["all", { allowParensAfterCommentPattern: "invalid" }],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    (options.server.options).requestCert = false;
+                }
+            `,
+            output: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    options.server.options.requestCert = false;
+                }
+            `,
+            options: ["all", { allowParensAfterCommentPattern: "invalid" }],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    /** extra coment */
+                    (options.server.options).requestCert = false;
+                }
+            `,
+            output: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    /** extra coment */
+                    options.server.options.requestCert = false;
+                }
+            `,
+            options: ["all", { allowParensAfterCommentPattern: "@type" }],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    ((options.server.options)).requestCert = false;
+                }
+            `,
+            output: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    (options.server.options).requestCert = false;
+                }
+            `,
+            options: ["all", { allowParensAfterCommentPattern: "@type" }],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    let foo = "bar";
+                    (options.server.options).requestCert = false;
+                }
+            `,
+            output: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    let foo = "bar";
+                    options.server.options.requestCert = false;
+                }
+            `,
+            options: ["all", { allowParensAfterCommentPattern: "@type" }],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "const net = ipaddr.parseCIDR(/** @type {string} */ (cidr));",
+            output: "const net = ipaddr.parseCIDR(/** @type {string} */ cidr);",
+            options: ["all", { allowParensAfterCommentPattern: "invalid" }],
             errors: [{ messageId: "unexpected" }]
         },
 
