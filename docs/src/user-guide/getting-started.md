@@ -110,18 +110,34 @@ Before you begin, you must have a `package.json` file already. If you don't, mak
 
 1. Add an `.eslintrc` file in one of the [supported configuration file formats](./configuring/configuration-files#configuration-file-formats).
 
-  TODO: add example shell commands for this
+  ```shell
+  # Create JavaScript configuration file
+  touch .eslintrc.js
+  ```
 
-1. Add configuration to the `.eslintrc` file. Refer to the [Configuring ESLint documentation](./configuring/) to learn how ot add rules, environments, custom configurations, plugins, and more.
+1. Add configuration to the `.eslintrc` file. Refer to the [Configuring ESLint documentation](./configuring/) to learn how to add rules, environments, custom configurations, plugins, and more.
 
-  TODO: show a sample configuration file using .js extension
+  ```js
+  // .eslintrc.js example
+  module.exports = {
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+  }
+  ```
 
 1. Lint code using the ESLint CLI:
 
    ```sh
-   npm run eslint <Your file or directory>
+   npm run eslint project-dir/ file1.js
    # OR
-   npx eslint <Your file or directory>
+   npx eslint project-dir/ file1.js
 
    ```
 
