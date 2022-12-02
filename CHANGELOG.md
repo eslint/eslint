@@ -1,3 +1,20 @@
+v8.29.0 - December 2, 2022
+
+* [`0311d81`](https://github.com/eslint/eslint/commit/0311d81834d675b8ae7cc92a460b37115edc4018) docs: Configuring Plugins page intro, page tweaks, and rename (#16534) (Ben Perlmutter)
+* [`57089b1`](https://github.com/eslint/eslint/commit/57089b1ede624452bc94404b6e60d01d48cfd468) docs: add a property assignment example for camelcase rule (#16605) (Milos Djermanovic)
+* [`b6ab030`](https://github.com/eslint/eslint/commit/b6ab030897d2e8b314b33a6502346a4ac45bb8da) docs: add docs codeowners (#16601) (Strek)
+* [`7628403`](https://github.com/eslint/eslint/commit/7628403a57d9d9b4e2cb2b36309170900f58832e) chore: add discord channel link (#16590) (Amaresh  S M)
+* [`49a07c5`](https://github.com/eslint/eslint/commit/49a07c52c5af7e98d161ff4acd44bbbe0aa6383b) feat: add `allowParensAfterCommentPattern` option to no-extra-parens (#16561) (Nitin Kumar)
+* [`6380c87`](https://github.com/eslint/eslint/commit/6380c87c563be5dc78ce0ddd5c7409aaf71692bb) docs: fix sitemap and feed (#16592) (Milos Djermanovic)
+* [`e6a865d`](https://github.com/eslint/eslint/commit/e6a865d70aed9e1c07be712e40c38da1a5dda849) feat: `prefer-named-capture-group` add suggestions (#16544) (Josh Goldberg)
+* [`ade621d`](https://github.com/eslint/eslint/commit/ade621dd12fcd3b65644bb3468248cc040db756c) docs: perf debounce the search query (#16586) (Shanmughapriyan S)
+* [`a91332b`](https://github.com/eslint/eslint/commit/a91332b8bd9adfa2aa8110071bdf73f56d400050) feat: In no-invalid-regexp validate flags also for non-literal patterns (#16583) (trosos)
+* [`fbcf3ab`](https://github.com/eslint/eslint/commit/fbcf3abd54dd20aec3c695cacece56493633c97f) docs: fix searchbar clear button (#16585) (Shanmughapriyan S)
+* [`f894035`](https://github.com/eslint/eslint/commit/f89403553b31d24f4fc841424cc7dcb8c3ef689f) docs: HTTPS link to yeoman.io (#16582) (Christian Oliff)
+* [`de12b26`](https://github.com/eslint/eslint/commit/de12b266f2aa6f063d0af888b8f0de41d09ec33f) docs: Update configuration file pages (#16509) (Ben Perlmutter)
+* [`f5808cb`](https://github.com/eslint/eslint/commit/f5808cb51529174a67b4938223f06435ad6d5118) chore: fix rule doc headers check (#16564) (Milos Djermanovic)
+* [`1ae9f20`](https://github.com/eslint/eslint/commit/1ae9f2067442434c6ccc6b41703624b302d17c67) docs: update correct code examples for `no-extra-parens` rule (#16560) (Nitin Kumar)
+
 v8.28.0 - November 18, 2022
 
 * [`34c05a7`](https://github.com/eslint/eslint/commit/34c05a779ada3142995392ae12978461900088df) docs: Language Options page intro and tweaks (#16511) (Ben Perlmutter)
