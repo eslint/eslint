@@ -126,6 +126,8 @@ Examples of **correct** code for this rule with the `{ "properties": "never" }` 
 var obj = {
     my_pref: 1
 };
+
+obj.foo_bar = "baz";
 ```
 
 :::
