@@ -281,7 +281,7 @@ module.exports = {
 
 A [plugin](https://eslint.org/docs/developer-guide/working-with-plugins) is an npm package that can add various extensions to ESLint. A plugin can perform numerous functions, including but not limited to adding new rules and exporting [shareable configurations](https://eslint.org/docs/developer-guide/working-with-plugins#configs-in-plugins). Make sure the package has been installed in a directory where ESLint can require it.
 
-The `plugins` [property value](./plugins#configuring-plugins) can omit the `eslint-plugin-` prefix of the package name.
+The `plugins` [property value](./plugins#configure-plugins) can omit the `eslint-plugin-` prefix of the package name.
 
 The `extends` property value can consist of:
 
