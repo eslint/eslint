@@ -188,29 +188,29 @@ module.exports = function(eleventyConfig) {
 
     const markdownIt = require("markdown-it");
     const md = markdownIt({ html: true, linkify: true, typographer: true, highlight: (str, lang) => highlighter(md, str, lang) })
-    .use(markdownItAnchor, {
-        slugify
-    })
-    .use(markdownItContainer, "correct", {})
-    .use(markdownItContainer, "incorrect", {})
-    .use(markdownItContainer, "warning", {
-        render(tokens, idx) {
-            return generateAlertMarkup("warning", tokens, idx);
-        }
-    })
-    .use(markdownItContainer, "tip", {
-        render(tokens, idx) {
-            return generateAlertMarkup("tip", tokens, idx);
-        }
-    })
-    .use(markdownItContainer, "important", {
-        render(tokens, idx) {
-            return generateAlertMarkup("important", tokens, idx);
-        }
-    })
-    .use(preWrapperPlugin)
-    .use(lineNumberPlugin)
-    .disable("code");
+        .use(markdownItAnchor, {
+            slugify
+        })
+        .use(markdownItContainer, "correct", {})
+        .use(markdownItContainer, "incorrect", {})
+        .use(markdownItContainer, "warning", {
+            render(tokens, idx) {
+                return generateAlertMarkup("warning", tokens, idx);
+            }
+        })
+        .use(markdownItContainer, "tip", {
+            render(tokens, idx) {
+                return generateAlertMarkup("tip", tokens, idx);
+            }
+        })
+        .use(markdownItContainer, "important", {
+            render(tokens, idx) {
+                return generateAlertMarkup("important", tokens, idx);
+            }
+        })
+        .use(preWrapperPlugin)
+        .use(lineNumberPlugin)
+        .disable("code");
 
     eleventyConfig.setLibrary("md", md);
 
