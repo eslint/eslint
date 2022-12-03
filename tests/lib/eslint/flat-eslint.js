@@ -5256,4 +5256,72 @@ describe("FlatESLint", () => {
         });
     });
 
+    describe("config file", () => {
+
+        it("new instance of FlatESLint should use the latest version of the config file (ESM)", async () => {
+            const cwd = path.join(getFixturePath(), `config_file_${Date.now()}`);
+            const configFileContent = "export default [{ rules: { semi: ['error', 'always'] } }];";
+            const teardown = createCustomTeardown({
+                cwd,
+                files: {
+                    "package.json": '{ "type": "module" }',
+                    "eslint.config.js": configFileContent,
+                    "a.js": "foo\nbar;"
+                }
+            });
+
+            await teardown.prepare();
+
+            let eslint = new FlatESLint({ cwd });
+            let [{ messages }] = await eslint.lintFiles(["a.js"]);
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "semi");
+            assert.strictEqual(messages[0].messageId, "missingSemi");
+            assert.strictEqual(messages[0].line, 1);
+
+            await fsp.writeFile(path.join(cwd, "eslint.config.js"), configFileContent.replace("always", "never"));
+
+            eslint = new FlatESLint({ cwd });
+            [{ messages }] = await eslint.lintFiles(["a.js"]);
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "semi");
+            assert.strictEqual(messages[0].messageId, "extraSemi");
+            assert.strictEqual(messages[0].line, 2);
+        });
+
+        it("new instance of FlatESLint should use the latest version of the config file (CJS)", async () => {
+            const cwd = path.join(getFixturePath(), `config_file_${Date.now()}`);
+            const configFileContent = "module.exports = [{ rules: { semi: ['error', 'always'] } }];";
+            const teardown = createCustomTeardown({
+                cwd,
+                files: {
+                    "eslint.config.js": configFileContent,
+                    "a.js": "foo\nbar;"
+                }
+            });
+
+            await teardown.prepare();
+
+            let eslint = new FlatESLint({ cwd });
+            let [{ messages }] = await eslint.lintFiles(["a.js"]);
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "semi");
+            assert.strictEqual(messages[0].messageId, "missingSemi");
+            assert.strictEqual(messages[0].line, 1);
+
+            await fsp.writeFile(path.join(cwd, "eslint.config.js"), configFileContent.replace("always", "never"));
+
+            eslint = new FlatESLint({ cwd });
+            [{ messages }] = await eslint.lintFiles(["a.js"]);
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "semi");
+            assert.strictEqual(messages[0].messageId, "extraSemi");
+            assert.strictEqual(messages[0].line, 2);
+        });
+    });
+
 });
