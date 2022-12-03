@@ -38,7 +38,7 @@ npx eslint "lib/**"
 
 **Note:** You can also use alternative package managers such as [Yarn](https://yarnpkg.com/) or [pnpm](https://pnpm.io/) to run ESLint. Please refer to your package manager's documentation for the correct syntax.
 
-## Pass multiple values to an option
+## Pass Multiple Values to an Option
 
 Options that accept multiple values can be specified by repeating the option or with a comma-delimited list (other than [`--ignore-pattern`](#--ignore-pattern), which does not allow the second style).
 
@@ -251,7 +251,7 @@ npx eslint --config ~/personal-eslintrc.js \
 --resolve-plugins-relative-to /usr/local/lib/
 ```
 
-### Specify rules and plugins
+### Specify Rules and Plugins
 
 #### `--plugin`
 
@@ -311,7 +311,7 @@ npx eslint --rulesdir my-rules/ file.js
 npx eslint --rulesdir my-rules/ --rulesdir my-other-rules/ file.js
 ```
 
-### Fix problems
+### Fix Problems
 
 #### `--fix`
 
@@ -369,7 +369,7 @@ npx eslint --fix --fix-type suggestion --fix-type problem .
 npx eslint --fix --fix-type suggestion,layout .
 ```
 
-### Ignore files
+### Ignore Files
 
 #### `--ignore-path`
 
@@ -442,7 +442,7 @@ This is useful when processing files from STDIN and you have rules which depend 
 cat myfile.js | npx eslint --stdin --stdin-filename myfile.js
 ```
 
-### Handle warnings
+### Handle Warnings
 
 #### `--quiet`
 
@@ -754,7 +754,7 @@ This option outputs the configuration to be used for the file passed. When prese
 npx eslint --print-config file.js
 ```
 
-## Exit codes
+## Exit Codes
 
 When linting files, ESLint exits with one of the following exit codes:
 
