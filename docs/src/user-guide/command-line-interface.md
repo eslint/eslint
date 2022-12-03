@@ -523,9 +523,10 @@ Use an npm-installed formatter:
 
 ```shell
 npm install eslint-formatter-pretty
-# THEN
+
+# Then run one of the following commands
 npx eslint -f pretty file.js
-# OR
+# or alternatively
 npx eslint -f eslint-formatter-pretty file.js
 ```
 
