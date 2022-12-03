@@ -1,0 +1,24 @@
+@media (prefers-color-scheme: dark) {
+    pre[class*="language-"] {
+        color: var(--color-neutral-100);
+    }
+
+    .token.comment,
+    .token.prolog,
+    .token.doctype,
+    .token.cdata {
+        color: #8e9fae;
+    }
+
+    .logo-component {
+        fill: #fff;
+    }
+
+    #logo-center {
+        opacity: 0.6;
+    }
+
+    .rule__categories, .rule__status {
+        background: var(--body-background-color);
+    }
+}
