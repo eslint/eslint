@@ -171,7 +171,7 @@ This option allows you to specify which file extensions ESLint uses when searchi
 * **Multiple Arguments**: Yes
 * **Default Value**: `.js` and the files that match the `overrides` entries of your configuration.
 
-`--ext` is only used when the the patterns to lint are directories. If you use glob patterns or file names, then `--ext` is ignored. For example, `npx eslint lib/* --ext .js` matches all files within the `lib/` directory, regardless of extension.
+`--ext` is only used when the the patterns to lint are directories. If you use glob patterns or file names, then `--ext` is ignored. For example, `npx eslint "lib/*" --ext .js` matches all files within the `lib/` directory, regardless of extension.
 
 ##### `--ext` example
 
@@ -212,7 +212,7 @@ This option allows you to specify a parser to be used by ESLint.
 
 ```shell
 # Use TypeScript ESLint parser
-npx eslint --parser @typescript-eslint/parser files.ts
+npx eslint --parser @typescript-eslint/parser file.ts
 ```
 
 #### `--parser-options`
@@ -233,11 +233,11 @@ echo '3 ** 4' | npx eslint --stdin --parser-options ecmaVersion:7 # succeeds, ya
 
 Changes the folder where plugins are resolved from.
 
-* **Argument Type**: String. Path to file.
+* **Argument Type**: String. Path to directory.
 * **Multiple Arguments**: No
-* **Default Value**: By default, plugins are resolved from the current working directory.
+* **Default Value**: By default, plugins are resolved from the directory in which your configuration file is found.
 
-This option should be used when plugins were installed by someone other than the end user. It should be set to the project directory of the project that has a dependency on the necessary plugins. If you use npm to install plugins, the path ends with `/node_modules/`.
+This option should be used when plugins were installed by someone other than the end user. It should be set to the project directory of the project that has a dependency on the necessary plugins.
 
 For example:
 
@@ -248,7 +248,7 @@ For example:
 
 ```shell
 npx eslint --config ~/personal-eslintrc.js \
---resolve-plugins-relative-to /usr/local/lib/node_modules/
+--resolve-plugins-relative-to /usr/local/lib/
 ```
 
 ### Specify rules and plugins
@@ -406,7 +406,6 @@ This option allows you to specify patterns of files to ignore (in addition to th
 
 * **Argument Type**: String. The supported syntax is the same as for [`.eslintignore` files](configuring/ignoring-code#the-eslintignore-file), which use the same patterns as the [`.gitignore` specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
 * **Multiple Arguments**: Yes
-* **Default Value**: whatever the default value is OR N/A
 
 ##### `--ignore-pattern` example
 
@@ -520,7 +519,7 @@ Use a local custom formatter:
 npx eslint -f ./customformat.js file.js
 ```
 
-Use npm-installed formatter:
+Use an npm-installed formatter:
 
 ```shell
 npm install eslint-formatter-pretty
@@ -532,7 +531,7 @@ npx eslint -f eslint-formatter-pretty file.js
 
 #### `--color` and `--no-color`
 
-These options forces the enabling/disabling of colorized output.
+These options force the enabling/disabling of colorized output.
 
 * **Argument Type**: No argument.
 
