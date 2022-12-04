@@ -42,6 +42,10 @@ html {
         border-right: 1px solid var(--divider-color);
         border-inline-end: 1px solid var(--divider-color);
     }
+
+    #version-fallback-switch {
+        display: none;
+    }
 }
 
 .docs-content {

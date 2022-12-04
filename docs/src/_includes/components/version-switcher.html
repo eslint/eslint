@@ -1,8 +1,8 @@
 <!-- only displayed on desktop; be sure to update nav-version-switcher.html too -->
 <div class="version-switcher">
-    <a href="{{ '/versions/' | url }}" class="switcher-fallback">Versions</a>
+    <a href="{{ '/versions/' | url }}" class="switcher-fallback" id="version-fallback-switch">Versions</a>
 
-    <div hidden role="region" class="switcher switcher--version" aria-labelledby="version-switcher-label" id="version-switcher">
+    <div role="region" class="switcher switcher--version" aria-labelledby="version-switcher-label" id="version-switcher">
         <span id="version-switcher-label" hidden>Version Switcher</span>
         <div class="infobox visually-hidden" id="version-infobox">
             Selecting a version will take you to the chosen version of the ESLint docs.

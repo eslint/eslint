@@ -1,0 +1,19 @@
+.no-js{
+    .docs-ad {
+        height: auto;
+    }
+
+    #nav-toggle, #version-switcher, #nav-version-switcher, #js-docs-index-toggle {
+        display: none;
+    }
+
+    #version-fallback-switch {
+        display: block;
+    }
+
+    @media all and (max-width: 1023px) {
+        #nav-panel, #js-docs-index-panel, #js-toc-panel {
+            display: block;
+        }
+    }
+}
