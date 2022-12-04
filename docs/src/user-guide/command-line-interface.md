@@ -116,7 +116,7 @@ Miscellaneous:
   --print-config path::String     Print the configuration for the given file
 ```
 
-### Basic configuration
+### Basic Configuration
 
 #### `--no-eslintrc`
 
@@ -545,7 +545,7 @@ npx eslint --color file.js | cat
 npx eslint --no-color file.js
 ```
 
-### Inline configuration comments
+### Inline Configuration Comments
 
 #### `--no-inline-config`
 
