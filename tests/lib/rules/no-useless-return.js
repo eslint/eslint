@@ -98,6 +98,15 @@ ruleTester.run("no-useless-return", rule, {
         `,
         `
           function foo() {
+            try {
+              bar();
+              return;
+            } catch (err) {}
+            baz();
+          }
+        `,
+        `
+          function foo() {
             return;
             doSomething();
           }
