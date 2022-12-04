@@ -65,7 +65,7 @@
     }
 }
 
-.rule {
+.rule:not(.token) {
     border-radius: var(--border-radius);
     background-color: var(--lightest-background-color);
     display: flex;
