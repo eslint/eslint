@@ -253,7 +253,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        FunctionExpression: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
@@ -281,7 +287,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        FunctionExpression: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
@@ -311,7 +323,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        FunctionExpression: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledTwice, "Event handler should be called twice.");
 
@@ -343,7 +361,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        FunctionExpression: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
@@ -371,7 +395,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        FunctionDeclaration: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
@@ -400,7 +430,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        FunctionDeclaration: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6, sourceType: "module" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
@@ -431,7 +467,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        FunctionDeclaration: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
@@ -462,7 +504,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        FunctionDeclaration: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
@@ -492,7 +540,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        FunctionDeclaration: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
@@ -524,7 +578,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        FunctionDeclaration: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
@@ -555,7 +615,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        FunctionExpression: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
@@ -586,7 +652,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ ArrowFunctionExpression: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        ArrowFunctionExpression: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
@@ -615,7 +687,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        FunctionExpression: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
@@ -648,7 +726,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        FunctionExpression: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledTwice, "Event handler should be called.");
         });
@@ -680,7 +764,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        FunctionExpression: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledTwice, "Event handler should be called.");
         });
@@ -710,7 +800,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        FunctionExpression: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
@@ -748,7 +844,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        FunctionExpression: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledTwice, "Event handler should be called.");
         });
@@ -777,7 +879,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ ClassExpression: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        ClassExpression: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
@@ -806,7 +914,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ ClassDeclaration: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        ClassDeclaration: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
@@ -835,7 +949,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        FunctionExpression: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
@@ -868,7 +988,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        FunctionExpression: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
@@ -899,7 +1025,13 @@ describe("SourceCode", () => {
 
             const spy = sinon.spy(assertJSDoc);
 
-            linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        FunctionDeclaration: spy
+                    });
+                }
+            });
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
@@ -956,13 +1088,17 @@ describe("SourceCode", () => {
                 "/* Trailing comment for VariableDeclaration */"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                VariableDeclaration: assertCommentCount(1, 1),
-                VariableDeclarator: assertCommentCount(0, 0),
-                Identifier: assertCommentCount(0, 0),
-                Literal: assertCommentCount(0, 0)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        VariableDeclaration: assertCommentCount(1, 1),
+                        VariableDeclarator: assertCommentCount(0, 0),
+                        Identifier: assertCommentCount(0, 0),
+                        Literal: assertCommentCount(0, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -975,13 +1111,17 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                BlockStatement: assertCommentCount(0, 0),
-                ExpressionStatement: assertCommentCount(0, 1),
-                CallExpression: assertCommentCount(0, 0),
-                Identifier: assertCommentCount(0, 0)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        BlockStatement: assertCommentCount(0, 0),
+                        ExpressionStatement: assertCommentCount(0, 1),
+                        CallExpression: assertCommentCount(0, 0),
+                        Identifier: assertCommentCount(0, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -992,12 +1132,16 @@ describe("SourceCode", () => {
                 "if (/* Leading comment for Identifier */ a) {}"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                IfStatement: assertCommentCount(1, 0),
-                Identifier: assertCommentCount(1, 0),
-                BlockStatement: assertCommentCount(0, 0)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        IfStatement: assertCommentCount(1, 0),
+                        Identifier: assertCommentCount(1, 0),
+                        BlockStatement: assertCommentCount(0, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1012,15 +1156,19 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                Identifier: assertCommentCount(0, 0),
-                BlockStatement: assertCommentCount(0, 0),
-                VariableDeclaration: assertCommentCount(0, 0),
-                VariableDeclarator: assertCommentCount(0, 0),
-                ObjectExpression: assertCommentCount(0, 1),
-                ReturnStatement: assertCommentCount(0, 0)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        Identifier: assertCommentCount(0, 0),
+                        BlockStatement: assertCommentCount(0, 0),
+                        VariableDeclaration: assertCommentCount(0, 0),
+                        VariableDeclarator: assertCommentCount(0, 0),
+                        ObjectExpression: assertCommentCount(0, 1),
+                        ReturnStatement: assertCommentCount(0, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1034,15 +1182,19 @@ describe("SourceCode", () => {
                 "var baz;"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                VariableDeclaration: assertCommentCount(0, 0),
-                VariableDeclarator: assertCommentCount(0, 0),
-                Identifier: assertCommentCount(0, 0),
-                ObjectExpression: assertCommentCount(0, 0),
-                Property: assertCommentCount(0, 1),
-                Literal: assertCommentCount(0, 0)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        VariableDeclaration: assertCommentCount(0, 0),
+                        VariableDeclarator: assertCommentCount(0, 0),
+                        Identifier: assertCommentCount(0, 0),
+                        ObjectExpression: assertCommentCount(0, 0),
+                        Property: assertCommentCount(0, 1),
+                        Literal: assertCommentCount(0, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1061,16 +1213,20 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                ExportDefaultDeclaration: assertCommentCount(1, 0),
-                ClassDeclaration: assertCommentCount(0, 0),
-                ClassBody: assertCommentCount(0, 0),
-                MethodDefinition: assertCommentCount(1, 0),
-                Identifier: assertCommentCount(0, 0),
-                FunctionExpression: assertCommentCount(0, 0),
-                BlockStatement: assertCommentCount(0, 0)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        ExportDefaultDeclaration: assertCommentCount(1, 0),
+                        ClassDeclaration: assertCommentCount(0, 0),
+                        ClassBody: assertCommentCount(0, 0),
+                        MethodDefinition: assertCommentCount(1, 0),
+                        Identifier: assertCommentCount(0, 0),
+                        FunctionExpression: assertCommentCount(0, 0),
+                        BlockStatement: assertCommentCount(0, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1084,19 +1240,25 @@ describe("SourceCode", () => {
             ].join("\n");
             let varDeclCount = 0;
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                VariableDeclaration(node) {
-                    if (varDeclCount === 0) {
-                        assertCommentCount(1, 1)(node);
-                    } else {
-                        assertCommentCount(1, 0)(node);
-                    }
-                    varDeclCount++;
-                },
-                VariableDeclarator: assertCommentCount(0, 0),
-                Identifier: assertCommentCount(0, 0)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+
+                        VariableDeclaration(node) {
+                            if (varDeclCount === 0) {
+                                assertCommentCount(1, 1)(node);
+                            } else {
+                                assertCommentCount(1, 0)(node);
+                            }
+                            varDeclCount++;
+                        },
+
+                        VariableDeclarator: assertCommentCount(0, 0),
+                        Identifier: assertCommentCount(0, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1110,18 +1272,24 @@ describe("SourceCode", () => {
             ].join("\n");
             let varDeclCount = 0;
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                VariableDeclaration(node) {
-                    if (varDeclCount === 0) {
-                        assertCommentCount(1, 1)(node);
-                    } else {
-                        assertCommentCount(1, 0)(node);
-                    }
-                    varDeclCount++;
-                },
-                Identifier: assertCommentCount(0, 0)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+
+                        VariableDeclaration(node) {
+                            if (varDeclCount === 0) {
+                                assertCommentCount(1, 1)(node);
+                            } else {
+                                assertCommentCount(1, 0)(node);
+                            }
+                            varDeclCount++;
+                        },
+
+                        Identifier: assertCommentCount(0, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1129,7 +1297,13 @@ describe("SourceCode", () => {
         it("should include shebang comment when program only contains shebang", () => {
             const code = "#!/usr/bin/env node";
 
-            linter.defineRule("checker", () => ({ Program: assertCommentCount(1, 0) }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(1, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1141,13 +1315,17 @@ describe("SourceCode", () => {
                 "// Trailing comment for VariableDeclaration"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                VariableDeclaration: assertCommentCount(1, 1),
-                VariableDeclarator: assertCommentCount(0, 0),
-                Identifier: assertCommentCount(0, 1),
-                Literal: assertCommentCount(0, 0)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        VariableDeclaration: assertCommentCount(1, 1),
+                        VariableDeclarator: assertCommentCount(0, 0),
+                        Identifier: assertCommentCount(0, 1),
+                        Literal: assertCommentCount(0, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1161,14 +1339,18 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                FunctionDeclaration: assertCommentCount(0, 0),
-                Identifier: assertCommentCount(0, 0),
-                BlockStatement: assertCommentCount(0, 0),
-                ExpressionStatement: assertCommentCount(1, 1),
-                CallExpression: assertCommentCount(0, 0)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        FunctionDeclaration: assertCommentCount(0, 0),
+                        Identifier: assertCommentCount(0, 0),
+                        BlockStatement: assertCommentCount(0, 0),
+                        ExpressionStatement: assertCommentCount(1, 1),
+                        CallExpression: assertCommentCount(0, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1182,13 +1364,17 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                FunctionDeclaration: assertCommentCount(0, 0),
-                Identifier: assertCommentCount(0, 0),
-                BlockStatement: assertCommentCount(0, 0),
-                DebuggerStatement: assertCommentCount(1, 1)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        FunctionDeclaration: assertCommentCount(0, 0),
+                        Identifier: assertCommentCount(0, 0),
+                        BlockStatement: assertCommentCount(0, 0),
+                        DebuggerStatement: assertCommentCount(1, 1)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1202,13 +1388,17 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                FunctionDeclaration: assertCommentCount(0, 0),
-                Identifier: assertCommentCount(0, 0),
-                BlockStatement: assertCommentCount(0, 0),
-                ReturnStatement: assertCommentCount(1, 1)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        FunctionDeclaration: assertCommentCount(0, 0),
+                        Identifier: assertCommentCount(0, 0),
+                        BlockStatement: assertCommentCount(0, 0),
+                        ReturnStatement: assertCommentCount(1, 1)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1222,13 +1412,17 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                FunctionDeclaration: assertCommentCount(0, 0),
-                Identifier: assertCommentCount(0, 0),
-                BlockStatement: assertCommentCount(0, 0),
-                ThrowStatement: assertCommentCount(1, 1)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        FunctionDeclaration: assertCommentCount(0, 0),
+                        Identifier: assertCommentCount(0, 0),
+                        BlockStatement: assertCommentCount(0, 0),
+                        ThrowStatement: assertCommentCount(1, 1)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1243,16 +1437,20 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                FunctionDeclaration: assertCommentCount(0, 0),
-                Identifier: assertCommentCount(0, 0),
-                BlockStatement: assertCommentCount(0, 0),
-                WhileStatement: assertCommentCount(1, 1),
-                Literal: assertCommentCount(0, 0),
-                VariableDeclaration: assertCommentCount(1, 0),
-                VariableDeclarator: assertCommentCount(0, 0)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        FunctionDeclaration: assertCommentCount(0, 0),
+                        Identifier: assertCommentCount(0, 0),
+                        BlockStatement: assertCommentCount(0, 0),
+                        WhileStatement: assertCommentCount(1, 1),
+                        Literal: assertCommentCount(0, 0),
+                        VariableDeclaration: assertCommentCount(1, 0),
+                        VariableDeclarator: assertCommentCount(0, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1271,24 +1469,30 @@ describe("SourceCode", () => {
             ].join("\n");
             let switchCaseCount = 0;
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                FunctionDeclaration: assertCommentCount(0, 0),
-                Identifier: assertCommentCount(0, 0),
-                BlockStatement: assertCommentCount(0, 0),
-                SwitchStatement: assertCommentCount(0, 0),
-                SwitchCase: node => {
-                    if (switchCaseCount === 0) {
-                        assertCommentCount(1, 1)(node);
-                    } else {
-                        assertCommentCount(1, 0)(node);
-                    }
-                    switchCaseCount++;
-                },
-                Literal: assertCommentCount(0, 0),
-                ExpressionStatement: assertCommentCount(0, 0),
-                CallExpression: assertCommentCount(0, 0)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        FunctionDeclaration: assertCommentCount(0, 0),
+                        Identifier: assertCommentCount(0, 0),
+                        BlockStatement: assertCommentCount(0, 0),
+                        SwitchStatement: assertCommentCount(0, 0),
+
+                        SwitchCase: node => {
+                            if (switchCaseCount === 0) {
+                                assertCommentCount(1, 1)(node);
+                            } else {
+                                assertCommentCount(1, 0)(node);
+                            }
+                            switchCaseCount++;
+                        },
+
+                        Literal: assertCommentCount(0, 0),
+                        ExpressionStatement: assertCommentCount(0, 0),
+                        CallExpression: assertCommentCount(0, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1305,21 +1509,27 @@ describe("SourceCode", () => {
             ].join("\n");
             let switchCaseCount = 0;
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                SwitchStatement: assertCommentCount(0, 0),
-                SwitchCase: node => {
-                    if (switchCaseCount === 0) {
-                        assertCommentCount(1, 1)(node);
-                    } else {
-                        assertCommentCount(1, 0)(node);
-                    }
-                    switchCaseCount++;
-                },
-                Literal: assertCommentCount(0, 0),
-                ExpressionStatement: assertCommentCount(0, 0),
-                CallExpression: assertCommentCount(0, 0)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        SwitchStatement: assertCommentCount(0, 0),
+
+                        SwitchCase: node => {
+                            if (switchCaseCount === 0) {
+                                assertCommentCount(1, 1)(node);
+                            } else {
+                                assertCommentCount(1, 0)(node);
+                            }
+                            switchCaseCount++;
+                        },
+
+                        Literal: assertCommentCount(0, 0),
+                        ExpressionStatement: assertCommentCount(0, 0),
+                        CallExpression: assertCommentCount(0, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1338,23 +1548,29 @@ describe("SourceCode", () => {
             ].join("\n");
             let breakStatementCount = 0;
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                FunctionDeclaration: assertCommentCount(0, 0),
-                Identifier: assertCommentCount(0, 0),
-                BlockStatement: assertCommentCount(0, 0),
-                SwitchStatement: assertCommentCount(0, 0),
-                SwitchCase: node => {
-                    if (breakStatementCount === 0) {
-                        assertCommentCount(0, 0)(node);
-                    } else {
-                        assertCommentCount(0, 1)(node);
-                    }
-                    breakStatementCount++;
-                },
-                BreakStatement: assertCommentCount(0, 0),
-                Literal: assertCommentCount(0, 0)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        FunctionDeclaration: assertCommentCount(0, 0),
+                        Identifier: assertCommentCount(0, 0),
+                        BlockStatement: assertCommentCount(0, 0),
+                        SwitchStatement: assertCommentCount(0, 0),
+
+                        SwitchCase: node => {
+                            if (breakStatementCount === 0) {
+                                assertCommentCount(0, 0)(node);
+                            } else {
+                                assertCommentCount(0, 1)(node);
+                            }
+                            breakStatementCount++;
+                        },
+
+                        BreakStatement: assertCommentCount(0, 0),
+                        Literal: assertCommentCount(0, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1368,14 +1584,18 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                SwitchStatement: assertCommentCount(0, 0),
-                Identifier: assertCommentCount(0, 0),
-                SwitchCase: assertCommentCount(0, 1),
-                BreakStatement: assertCommentCount(0, 0),
-                Literal: assertCommentCount(0, 0)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        SwitchStatement: assertCommentCount(0, 0),
+                        Identifier: assertCommentCount(0, 0),
+                        SwitchCase: assertCommentCount(0, 1),
+                        BreakStatement: assertCommentCount(0, 0),
+                        Literal: assertCommentCount(0, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1394,22 +1614,26 @@ describe("SourceCode", () => {
                 "};"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                ExpressionStatement: assertCommentCount(0, 0),
-                AssignmentExpression: assertCommentCount(0, 0),
-                MemberExpression: assertCommentCount(0, 0),
-                Identifier: assertCommentCount(0, 0),
-                FunctionExpression: assertCommentCount(0, 0),
-                BlockStatement: assertCommentCount(0, 0),
-                FunctionDeclaration: assertCommentCount(0, 0),
-                SwitchStatement: assertCommentCount(0, 0),
-                SwitchCase: assertCommentCount(0, 1),
-                ReturnStatement: assertCommentCount(0, 0),
-                CallExpression: assertCommentCount(0, 0),
-                BinaryExpression: assertCommentCount(0, 0),
-                Literal: assertCommentCount(0, 0)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        ExpressionStatement: assertCommentCount(0, 0),
+                        AssignmentExpression: assertCommentCount(0, 0),
+                        MemberExpression: assertCommentCount(0, 0),
+                        Identifier: assertCommentCount(0, 0),
+                        FunctionExpression: assertCommentCount(0, 0),
+                        BlockStatement: assertCommentCount(0, 0),
+                        FunctionDeclaration: assertCommentCount(0, 0),
+                        SwitchStatement: assertCommentCount(0, 0),
+                        SwitchCase: assertCommentCount(0, 1),
+                        ReturnStatement: assertCommentCount(0, 0),
+                        CallExpression: assertCommentCount(0, 0),
+                        BinaryExpression: assertCommentCount(0, 0),
+                        Literal: assertCommentCount(0, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1420,7 +1644,13 @@ describe("SourceCode", () => {
                 "/*another comment*/"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({ Program: assertCommentCount(2, 0) }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(2, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1433,10 +1663,14 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                BlockStatement: assertCommentCount(0, 2)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        BlockStatement: assertCommentCount(0, 2)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1449,11 +1683,15 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                ClassDeclaration: assertCommentCount(0, 0),
-                ClassBody: assertCommentCount(0, 2)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        ClassDeclaration: assertCommentCount(0, 0),
+                        ClassBody: assertCommentCount(0, 2)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1466,11 +1704,15 @@ describe("SourceCode", () => {
                 "})"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                ExpressionStatement: assertCommentCount(0, 0),
-                ObjectExpression: assertCommentCount(0, 2)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        ExpressionStatement: assertCommentCount(0, 0),
+                        ObjectExpression: assertCommentCount(0, 2)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1483,11 +1725,15 @@ describe("SourceCode", () => {
                 "]"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                ExpressionStatement: assertCommentCount(0, 0),
-                ArrayExpression: assertCommentCount(0, 2)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        ExpressionStatement: assertCommentCount(0, 0),
+                        ArrayExpression: assertCommentCount(0, 2)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1500,11 +1746,15 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                SwitchStatement: assertCommentCount(0, 2),
-                Identifier: assertCommentCount(0, 0)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        SwitchStatement: assertCommentCount(0, 2),
+                        Identifier: assertCommentCount(0, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1519,21 +1769,27 @@ describe("SourceCode", () => {
             ].join("\n");
             let varDeclCount = 0;
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                VariableDeclaration: assertCommentCount(1, 2),
-                VariableDeclarator: node => {
-                    if (varDeclCount === 0) {
-                        assertCommentCount(0, 0)(node);
-                    } else if (varDeclCount === 1) {
-                        assertCommentCount(1, 0)(node);
-                    } else {
-                        assertCommentCount(1, 0)(node);
-                    }
-                    varDeclCount++;
-                },
-                Identifier: assertCommentCount(0, 0)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        VariableDeclaration: assertCommentCount(1, 2),
+
+                        VariableDeclarator: node => {
+                            if (varDeclCount === 0) {
+                                assertCommentCount(0, 0)(node);
+                            } else if (varDeclCount === 1) {
+                                assertCommentCount(1, 0)(node);
+                            } else {
+                                assertCommentCount(1, 0)(node);
+                            }
+                            varDeclCount++;
+                        },
+
+                        Identifier: assertCommentCount(0, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1545,12 +1801,16 @@ describe("SourceCode", () => {
                 "    a;"
             ].join("\n");
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                VariableDeclaration: assertCommentCount(0, 0),
-                VariableDeclarator: assertCommentCount(2, 0),
-                Identifier: assertCommentCount(0, 0)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        VariableDeclaration: assertCommentCount(0, 0),
+                        VariableDeclarator: assertCommentCount(2, 0),
+                        Identifier: assertCommentCount(0, 0)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1558,12 +1818,16 @@ describe("SourceCode", () => {
         it("should return attached comments between tokens to the correct nodes for empty function declarations", () => {
             const code = "/* 1 */ function /* 2 */ foo(/* 3 */) /* 4 */ { /* 5 */ } /* 6 */";
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                FunctionDeclaration: assertCommentCount(1, 1),
-                Identifier: assertCommentCount(1, 0),
-                BlockStatement: assertCommentCount(1, 1)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        FunctionDeclaration: assertCommentCount(1, 1),
+                        Identifier: assertCommentCount(1, 0),
+                        BlockStatement: assertCommentCount(1, 1)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1572,19 +1836,25 @@ describe("SourceCode", () => {
             const code = "/* 1 */ class /* 2 */ Foo /* 3 */ extends /* 4 */ Bar /* 5 */ { /* 6 */ } /* 7 */";
             let idCount = 0;
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                ClassDeclaration: assertCommentCount(1, 1),
-                Identifier: node => {
-                    if (idCount === 0) {
-                        assertCommentCount(1, 1)(node);
-                    } else {
-                        assertCommentCount(1, 1)(node);
-                    }
-                    idCount++;
-                },
-                ClassBody: assertCommentCount(1, 1)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        ClassDeclaration: assertCommentCount(1, 1),
+
+                        Identifier: node => {
+                            if (idCount === 0) {
+                                assertCommentCount(1, 1)(node);
+                            } else {
+                                assertCommentCount(1, 1)(node);
+                            }
+                            idCount++;
+                        },
+
+                        ClassBody: assertCommentCount(1, 1)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });
@@ -1592,11 +1862,15 @@ describe("SourceCode", () => {
         it("should return attached comments between tokens to the correct nodes for empty switch statements", () => {
             const code = "/* 1 */ switch /* 2 */ (/* 3 */ foo /* 4 */) /* 5 */ { /* 6 */ } /* 7 */";
 
-            linter.defineRule("checker", () => ({
-                Program: assertCommentCount(0, 0),
-                SwitchStatement: assertCommentCount(1, 6),
-                Identifier: assertCommentCount(1, 1)
-            }));
+            linter.defineRule("checker", {
+                create() {
+                    return ({
+                        Program: assertCommentCount(0, 0),
+                        SwitchStatement: assertCommentCount(1, 6),
+                        Identifier: assertCommentCount(1, 1)
+                    });
+                }
+            });
 
             assert.isEmpty(linter.verify(code, config));
         });

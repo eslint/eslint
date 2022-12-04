@@ -61,22 +61,26 @@ describe("ast-utils", () => {
 
     describe("isTokenOnSameLine", () => {
         it("should return false if the tokens are not on the same line", () => {
-            linter.defineRule("checker", mustCall(context => ({
-                BlockStatement: mustCall(node => {
-                    assert.isFalse(astUtils.isTokenOnSameLine(context.getTokenBefore(node), node));
-                })
-            })));
+            linter.defineRule("checker", {
+                create: mustCall(context => ({
+                    BlockStatement: mustCall(node => {
+                        assert.isFalse(astUtils.isTokenOnSameLine(context.getTokenBefore(node), node));
+                    })
+                }))
+            });
 
             linter.verify("if(a)\n{}", { rules: { checker: "error" } });
         });
 
         it("should return true if the tokens are on the same line", () => {
 
-            linter.defineRule("checker", mustCall(context => ({
-                BlockStatement: mustCall(node => {
-                    assert.isTrue(astUtils.isTokenOnSameLine(context.getTokenBefore(node), node));
-                })
-            })));
+            linter.defineRule("checker", {
+                create: mustCall(context => ({
+                    BlockStatement: mustCall(node => {
+                        assert.isTrue(astUtils.isTokenOnSameLine(context.getTokenBefore(node), node));
+                    })
+                }))
+            });
 
             linter.verify("if(a){}", { rules: { checker: "error" } });
         });
@@ -116,64 +120,74 @@ describe("ast-utils", () => {
 
         // catch
         it("should return true if reference is assigned for catch", () => {
-            linter.defineRule("checker", mustCall(context => ({
-                CatchClause: mustCall(node => {
-                    const variables = context.getDeclaredVariables(node);
+            linter.defineRule("checker", {
+                create: mustCall(context => ({
+                    CatchClause: mustCall(node => {
+                        const variables = context.getDeclaredVariables(node);
 
-                    assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
-                })
-            })));
+                        assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
+                    })
+                }))
+            });
 
             linter.verify("try { } catch (e) { e = 10; }", { rules: { checker: "error" } });
         });
 
         // const
         it("should return true if reference is assigned for const", () => {
-            linter.defineRule("checker", mustCall(context => ({
-                VariableDeclaration: mustCall(node => {
-                    const variables = context.getDeclaredVariables(node);
+            linter.defineRule("checker", {
+                create: mustCall(context => ({
+                    VariableDeclaration: mustCall(node => {
+                        const variables = context.getDeclaredVariables(node);
 
-                    assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
-                })
-            })));
+                        assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
+                    })
+                }))
+            });
 
             linter.verify("const a = 1; a = 2;", { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
         });
 
         it("should return false if reference is not assigned for const", () => {
-            linter.defineRule("checker", mustCall(context => ({
-                VariableDeclaration: mustCall(node => {
-                    const variables = context.getDeclaredVariables(node);
+            linter.defineRule("checker", {
+                create: mustCall(context => ({
+                    VariableDeclaration: mustCall(node => {
+                        const variables = context.getDeclaredVariables(node);
 
-                    assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);
-                })
-            })));
+                        assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);
+                    })
+                }))
+            });
 
             linter.verify("const a = 1; c = 2;", { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
         });
 
         // class
         it("should return true if reference is assigned for class", () => {
-            linter.defineRule("checker", mustCall(context => ({
-                ClassDeclaration: mustCall(node => {
-                    const variables = context.getDeclaredVariables(node);
+            linter.defineRule("checker", {
+                create: mustCall(context => ({
+                    ClassDeclaration: mustCall(node => {
+                        const variables = context.getDeclaredVariables(node);
 
-                    assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
-                    assert.lengthOf(astUtils.getModifyingReferences(variables[1].references), 0);
-                })
-            })));
+                        assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
+                        assert.lengthOf(astUtils.getModifyingReferences(variables[1].references), 0);
+                    })
+                }))
+            });
 
             linter.verify("class A { }\n A = 1;", { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
         });
 
         it("should return false if reference is not assigned for class", () => {
-            linter.defineRule("checker", mustCall(context => ({
-                ClassDeclaration: mustCall(node => {
-                    const variables = context.getDeclaredVariables(node);
+            linter.defineRule("checker", {
+                create: mustCall(context => ({
+                    ClassDeclaration: mustCall(node => {
+                        const variables = context.getDeclaredVariables(node);
 
-                    assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);
-                })
-            })));
+                        assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);
+                    })
+                }))
+            });
 
             linter.verify("class A { } foo(A);", { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
         });
@@ -372,11 +386,13 @@ describe("ast-utils", () => {
         function assertNodeTypeInLoop(code, nodeType, expectedInLoop) {
             const results = [];
 
-            linter.defineRule("checker", mustCall(() => ({
-                [nodeType]: mustCall(node => {
-                    results.push(astUtils.isInLoop(node));
-                })
-            })));
+            linter.defineRule("checker", {
+                create: mustCall(() => ({
+                    [nodeType]: mustCall(node => {
+                        results.push(astUtils.isInLoop(node));
+                    })
+                }))
+            });
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
 
             assert.lengthOf(results, 1);
@@ -897,14 +913,16 @@ describe("ast-utils", () => {
 
         Object.keys(expectedResults).forEach(key => {
             it(`should return "${expectedResults[key]}" for "${key}".`, () => {
-                linter.defineRule("checker", mustCall(() => ({
-                    ":function": mustCall(node => {
-                        assert.strictEqual(
-                            astUtils.getFunctionNameWithKind(node),
-                            expectedResults[key]
-                        );
-                    })
-                })));
+                linter.defineRule("checker", {
+                    create: mustCall(() => ({
+                        ":function": mustCall(node => {
+                            assert.strictEqual(
+                                astUtils.getFunctionNameWithKind(node),
+                                expectedResults[key]
+                            );
+                        })
+                    }))
+                });
 
                 linter.verify(key, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 13 } });
             });
@@ -975,14 +993,16 @@ describe("ast-utils", () => {
             };
 
             it(`should return "${JSON.stringify(expectedLoc)}" for "${key}".`, () => {
-                linter.defineRule("checker", mustCall(() => ({
-                    ":function": mustCall(node => {
-                        assert.deepStrictEqual(
-                            astUtils.getFunctionHeadLoc(node, linter.getSourceCode()),
-                            expectedLoc
-                        );
-                    })
-                })));
+                linter.defineRule("checker", {
+                    create: mustCall(() => ({
+                        ":function": mustCall(node => {
+                            assert.deepStrictEqual(
+                                astUtils.getFunctionHeadLoc(node, linter.getSourceCode()),
+                                expectedLoc
+                            );
+                        })
+                    }))
+                });
 
                 linter.verify(key, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 13 } }, "test.js", true);
             });

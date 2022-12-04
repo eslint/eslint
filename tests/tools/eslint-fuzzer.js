@@ -15,7 +15,7 @@ const configRule = require("../../tools/config-rule");
 //------------------------------------------------------------------------------
 
 describe("eslint-fuzzer", function() {
-    let fakeRule, fuzz;
+    let fuzz;
 
     /*
      * These tests take awhile because isolating which rule caused an error requires running eslint up to hundreds of
@@ -39,9 +39,6 @@ describe("eslint-fuzzer", function() {
         // Make sure the config generator generates a config for "test-fuzzer-rule"
         sinon.stub(configRule, "createCoreRuleConfigs").returns(Object.assign(realCoreRuleConfigs, { "test-fuzzer-rule": [2] }));
 
-        // Create a closure around `fakeRule` so that tests can reassign it and have the changes take effect.
-        linter.defineRule("test-fuzzer-rule", Object.assign(context => fakeRule(context), { meta: { fixable: "code" } }));
-
         fuzz = require("../../tools/eslint-fuzzer");
     });
 
@@ -52,12 +49,14 @@ describe("eslint-fuzzer", function() {
     describe("when running in crash-only mode", () => {
         describe("when a rule crashes on the given input", () => {
             it("should report the crash with a minimal config", () => {
-                fakeRule = context => ({
-                    Program() {
-                        if (context.getSourceCode().text === "foo") {
-                            throw CRASH_BUG;
+                linter.defineRule("test-fuzzer-rule", {
+                    create: context => ({
+                        Program() {
+                            if (context.getSourceCode().text === "foo") {
+                                throw CRASH_BUG;
+                            }
                         }
-                    }
+                    })
                 });
 
                 const results = fuzz({ count: 1, codeGenerator: () => "foo", checkAutofixes: false, linter });
@@ -72,7 +71,7 @@ describe("eslint-fuzzer", function() {
 
         describe("when no rules crash", () => {
             it("should return an empty array", () => {
-                fakeRule = () => ({});
+                linter.defineRule("test-fuzzer-rule", { create: () => ({}) });
 
                 assert.deepStrictEqual(fuzz({ count: 1, codeGenerator: () => "foo", checkAutofixes: false, linter }), []);
             });
@@ -91,12 +90,14 @@ describe("eslint-fuzzer", function() {
 
         describe("when a rule crashes on the given input", () => {
             it("should report the crash with a minimal config", () => {
-                fakeRule = context => ({
-                    Program() {
-                        if (context.getSourceCode().text === "foo") {
-                            throw CRASH_BUG;
+                linter.defineRule("test-fuzzer-rule", {
+                    create: context => ({
+                        Program() {
+                            if (context.getSourceCode().text === "foo") {
+                                throw CRASH_BUG;
+                            }
                         }
-                    }
+                    })
                 });
 
                 const results = fuzz({ count: 1, codeGenerator: () => "foo", checkAutofixes: false, linter });
@@ -113,16 +114,19 @@ describe("eslint-fuzzer", function() {
             it("does not report any errors", () => {
 
                 // Replaces programs that start with "foo" with "bar"
-                fakeRule = context => ({
-                    Program(node) {
-                        if (context.getSourceCode().text === `foo ${disableFixableRulesComment}`) {
-                            context.report({
-                                node,
-                                message: "no foos allowed",
-                                fix: fixer => fixer.replaceText(node, `bar ${disableFixableRulesComment}`)
-                            });
+                linter.defineRule("test-fuzzer-rule", {
+                    meta: { fixable: "code" },
+                    create: context => ({
+                        Program(node) {
+                            if (context.getSourceCode().text === `foo ${disableFixableRulesComment}`) {
+                                context.report({
+                                    node,
+                                    message: "no foos allowed",
+                                    fix: fixer => fixer.replaceText(node, `bar ${disableFixableRulesComment}`)
+                                });
+                            }
                         }
-                    }
+                    })
                 });
 
                 const results = fuzz({
@@ -145,18 +149,21 @@ describe("eslint-fuzzer", function() {
             it("reports an autofix error with a minimal config", () => {
 
                 // Replaces programs that start with "foo" with invalid syntax
-                fakeRule = context => ({
-                    Program(node) {
-                        const sourceCode = context.getSourceCode();
+                linter.defineRule("test-fuzzer-rule", {
+                    meta: { fixable: "code" },
+                    create: context => ({
+                        Program(node) {
+                            const sourceCode = context.getSourceCode();
 
-                        if (sourceCode.text === `foo ${disableFixableRulesComment}`) {
-                            context.report({
-                                node,
-                                message: "no foos allowed",
-                                fix: fixer => fixer.replaceTextRange([0, sourceCode.text.length], INVALID_SYNTAX)
-                            });
+                            if (sourceCode.text === `foo ${disableFixableRulesComment}`) {
+                                context.report({
+                                    node,
+                                    message: "no foos allowed",
+                                    fix: fixer => fixer.replaceTextRange([0, sourceCode.text.length], INVALID_SYNTAX)
+                                });
+                            }
                         }
-                    }
+                    })
                 });
 
                 const results = fuzz({
@@ -186,23 +193,26 @@ describe("eslint-fuzzer", function() {
                 const intermediateCode = `bar ${disableFixableRulesComment}`;
 
                 // Replaces programs that start with "foo" with invalid syntax
-                fakeRule = context => ({
-                    Program(node) {
-                        const sourceCode = context.getSourceCode();
+                linter.defineRule("test-fuzzer-rule", {
+                    meta: { fixable: "code" },
+                    create: context => ({
+                        Program(node) {
+                            const sourceCode = context.getSourceCode();
 
-                        if (sourceCode.text.startsWith("foo") || sourceCode.text === intermediateCode) {
-                            context.report({
-                                node,
-                                message: "no foos allowed",
-                                fix(fixer) {
-                                    return fixer.replaceTextRange(
-                                        [0, sourceCode.text.length],
-                                        sourceCode.text === intermediateCode ? INVALID_SYNTAX : intermediateCode
-                                    );
-                                }
-                            });
+                            if (sourceCode.text.startsWith("foo") || sourceCode.text === intermediateCode) {
+                                context.report({
+                                    node,
+                                    message: "no foos allowed",
+                                    fix(fixer) {
+                                        return fixer.replaceTextRange(
+                                            [0, sourceCode.text.length],
+                                            sourceCode.text === intermediateCode ? INVALID_SYNTAX : intermediateCode
+                                        );
+                                    }
+                                });
+                            }
                         }
-                    }
+                    })
                 });
 
                 const results = fuzz({
@@ -231,20 +241,23 @@ describe("eslint-fuzzer", function() {
             it("reports a crash error with a minimal config", () => {
 
                 // Replaces programs that start with "foo" with invalid syntax
-                fakeRule = context => ({
-                    Program(node) {
-                        const sourceCode = context.getSourceCode();
+                linter.defineRule("test-fuzzer-rule", {
+                    meta: { fixable: "code" },
+                    create: context => ({
+                        Program(node) {
+                            const sourceCode = context.getSourceCode();
 
-                        if (sourceCode.text.startsWith("foo")) {
-                            context.report({
-                                node,
-                                message: "no foos allowed",
-                                fix: fixer => fixer.replaceText(node, "bar")
-                            });
-                        } else if (sourceCode.text === `bar ${disableFixableRulesComment}`) {
-                            throw CRASH_BUG;
+                            if (sourceCode.text.startsWith("foo")) {
+                                context.report({
+                                    node,
+                                    message: "no foos allowed",
+                                    fix: fixer => fixer.replaceText(node, "bar")
+                                });
+                            } else if (sourceCode.text === `bar ${disableFixableRulesComment}`) {
+                                throw CRASH_BUG;
+                            }
                         }
-                    }
+                    })
                 });
 
                 const results = fuzz({
