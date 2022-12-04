@@ -21,6 +21,7 @@ html {
         align-items: stretch;
     }
     @media all and (min-width: 1700px) {
+        width: 1700px;
         margin: auto;
     }
 }
@@ -65,6 +66,10 @@ html {
 
     @media all and (min-width: 1300px) {
         grid-gap: 2rem;
+    }
+
+    #language-fallback-switch {
+        display: none;
     }
 }
 

@@ -1,18 +1,26 @@
-.no-js{
+.no-js {
     .docs-ad {
         height: auto;
     }
 
-    #nav-toggle, #version-switcher, #nav-version-switcher, #js-docs-index-toggle {
+    #nav-toggle,
+    #version-switcher,
+    #nav-version-switcher,
+    #js-docs-index-toggle,
+    #js-theme-switcher,
+    #language-switcher {
         display: none;
     }
 
-    #version-fallback-switch {
+    #version-fallback-switch,
+    #langauge-fallback-switch {
         display: block;
     }
 
     @media all and (max-width: 1023px) {
-        #nav-panel, #js-docs-index-panel, #js-toc-panel {
+        #nav-panel,
+        #js-docs-index-panel,
+        #js-toc-panel {
             display: block;
         }
     }
