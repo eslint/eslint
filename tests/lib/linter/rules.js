@@ -32,16 +32,14 @@ describe("rules", () => {
             assert.ok(rules.get(ruleId));
         });
 
-        it("should return the rule as an object with a create() method if the rule was defined as a function", () => {
+        it("throws when using deprecated function-style rule format", () => {
 
             /**
              * A rule that does nothing
              * @returns {void}
              */
             function rule() {}
-            rule.schema = [];
-            rules.define("foo", rule);
-            assert.deepStrictEqual(rules.get("foo"), { create: rule, schema: [] });
+            assert.throws(() => rules.define("foo", rule), "Function-style rules are no longer supported. The rule \"foo\" needs to be switched to an object-style rule.");
         });
 
         it("should return the rule as-is if it was defined as an object with a create() method", () => {

@@ -293,14 +293,11 @@ function generateConfigsFromSchema(schema) {
  */
 function createCoreRuleConfigs(noDeprecated = false) {
     return Array.from(builtInRules).reduce((accumulator, [id, rule]) => {
-        const schema = (typeof rule === "function") ? rule.schema : rule.meta.schema;
-        const isDeprecated = (typeof rule === "function") ? rule.deprecated : rule.meta.deprecated;
-
-        if (noDeprecated && isDeprecated) {
+        if (noDeprecated && rule.meta.deprecated) {
             return accumulator;
         }
 
-        accumulator[id] = generateConfigsFromSchema(schema);
+        accumulator[id] = generateConfigsFromSchema(rule.meta.schema);
         return accumulator;
     }, {});
 }

@@ -303,11 +303,7 @@ describe("ConfigRule", () => {
 
         it("should allow to ignore deprecated rules", () => {
             const expectedRules = Array.from(builtInRules.entries())
-                    .filter(([, rule]) => {
-                        const isDeprecated = (typeof rule === "function") ? rule.deprecated : rule.meta.deprecated;
-
-                        return !isDeprecated;
-                    })
+                    .filter(([, rule]) => !rule.meta.deprecated)
                     .map(([id]) => id),
                 actualRules = Object.keys(ConfigRule.createCoreRuleConfigs(true));
 

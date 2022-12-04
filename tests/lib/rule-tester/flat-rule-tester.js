@@ -1701,30 +1701,6 @@ describe("FlatRuleTester", () => {
             });
         }, /Fixable rules must set the `meta\.fixable` property/u);
     });
-    it("should throw an error if a legacy-format rule produces fixes", () => {
-
-        /**
-         * Legacy-format rule (a function instead of an object with `create` method).
-         * @param {RuleContext} context The ESLint rule context object.
-         * @returns {Object} Listeners.
-         */
-        function replaceProgramWith5Rule(context) {
-            return {
-                Program(node) {
-                    context.report({ node, message: "bad", fix: fixer => fixer.replaceText(node, "5") });
-                }
-            };
-        }
-
-        assert.throws(() => {
-            ruleTester.run("replaceProgramWith5", replaceProgramWith5Rule, {
-                valid: [],
-                invalid: [
-                    { code: "var foo = bar;", output: "5", errors: 1 }
-                ]
-            });
-        }, /Fixable rules must set the `meta\.fixable` property/u);
-    });
 
     describe("suggestions", () => {
         it("should pass with valid suggestions (tested using desc)", () => {

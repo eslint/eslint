@@ -80,11 +80,13 @@ describe("Linter", () => {
         it("an error should be thrown when an error occurs inside of an event handler", () => {
             const config = { rules: { checker: "error" } };
 
-            linter.defineRule("checker", () => ({
-                Program() {
-                    throw new Error("Intentional error.");
-                }
-            }));
+            linter.defineRule("checker", {
+                create: () => ({
+                    Program() {
+                        throw new Error("Intentional error.");
+                    }
+                })
+            });
 
             assert.throws(() => {
                 linter.verify(code, config, filename);
@@ -94,7 +96,9 @@ describe("Linter", () => {
         it("does not call rule listeners with a `this` value", () => {
             const spy = sinon.spy();
 
-            linter.defineRule("checker", () => ({ Program: spy }));
+            linter.defineRule("checker", {
+                create: () => ({ Program: spy })
+            });
             linter.verify("foo", { rules: { checker: "error" } });
             assert(spy.calledOnce, "Rule should have been called");
             assert.strictEqual(spy.firstCall.thisValue, void 0, "this value should be undefined");
@@ -103,7 +107,9 @@ describe("Linter", () => {
         it("does not allow listeners to use special EventEmitter values", () => {
             const spy = sinon.spy();
 
-            linter.defineRule("checker", () => ({ newListener: spy }));
+            linter.defineRule("checker", {
+                create: () => ({ newListener: spy })
+            });
             linter.verify("foo", { rules: { checker: "error", "no-undef": "error" } });
             assert(spy.notCalled);
         });
@@ -120,7 +126,7 @@ describe("Linter", () => {
                 return {};
             });
 
-            linter.defineRule("checker", spy);
+            linter.defineRule("checker", { create: spy });
 
             linter.verify("foo + bar", { rules: { checker: "error" } });
             assert(spy.calledOnce);
@@ -136,7 +142,7 @@ describe("Linter", () => {
                 return {};
             });
 
-            linter.defineRule("checker", spy);
+            linter.defineRule("checker", { create: spy });
             linter.verify(code, { rules: { checker: "error" } });
             assert(spy.calledOnce);
         });
@@ -148,7 +154,7 @@ describe("Linter", () => {
                 return {};
             });
 
-            linter.defineRule("checker", spy);
+            linter.defineRule("checker", { create: spy });
             linter.verify(code, { rules: { checker: "error" } });
             assert(spy.calledOnce);
         });
@@ -160,7 +166,7 @@ describe("Linter", () => {
                 return {};
             });
 
-            linter.defineRule("checker", spy);
+            linter.defineRule("checker", { create: spy });
             linter.verify(code, { rules: { checker: "error" } });
             assert(spy.calledOnce);
         });
@@ -172,7 +178,7 @@ describe("Linter", () => {
                 return {};
             });
 
-            linter.defineRule("checker", spy);
+            linter.defineRule("checker", { create: spy });
             linter.verify(code, { rules: { checker: "error" } });
             assert(spy.calledOnce);
         });
@@ -184,7 +190,7 @@ describe("Linter", () => {
                 return {};
             });
 
-            linter.defineRule("checker", spy);
+            linter.defineRule("checker", { create: spy });
             linter.verify(code, { rules: { checker: "error" } });
             assert(spy.calledOnce);
         });
@@ -350,11 +356,13 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    assert.strictEqual(context.getSource(), TEST_CODE);
-                });
-                return { Program: spy };
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        assert.strictEqual(context.getSource(), TEST_CODE);
+                    });
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -365,11 +373,13 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(node => {
-                    assert.strictEqual(context.getSource(node), TEST_CODE);
-                });
-                return { Program: spy };
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(node => {
+                        assert.strictEqual(context.getSource(node), TEST_CODE);
+                    });
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -380,11 +390,13 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(node => {
-                    assert.strictEqual(context.getSource(node, 2, 0), TEST_CODE);
-                });
-                return { Program: spy };
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(node => {
+                        assert.strictEqual(context.getSource(node, 2, 0), TEST_CODE);
+                    });
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -395,11 +407,13 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(node => {
-                    assert.strictEqual(context.getSource(node), "6 * 7");
-                });
-                return { BinaryExpression: spy };
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(node => {
+                        assert.strictEqual(context.getSource(node), "6 * 7");
+                    });
+                    return { BinaryExpression: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -410,11 +424,13 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(node => {
-                    assert.strictEqual(context.getSource(node, 2), "= 6 * 7");
-                });
-                return { BinaryExpression: spy };
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(node => {
+                        assert.strictEqual(context.getSource(node, 2), "= 6 * 7");
+                    });
+                    return { BinaryExpression: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -425,11 +441,13 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(node => {
-                    assert.strictEqual(context.getSource(node, 0, 1), "6 * 7;");
-                });
-                return { BinaryExpression: spy };
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(node => {
+                        assert.strictEqual(context.getSource(node, 0, 1), "6 * 7;");
+                    });
+                    return { BinaryExpression: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -440,11 +458,13 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(node => {
-                    assert.strictEqual(context.getSource(node, 2, 1), "= 6 * 7;");
-                });
-                return { BinaryExpression: spy };
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(node => {
+                        assert.strictEqual(context.getSource(node, 2, 1), "= 6 * 7;");
+                    });
+                    return { BinaryExpression: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -461,13 +481,15 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const ancestors = context.getAncestors();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const ancestors = context.getAncestors();
 
-                    assert.strictEqual(ancestors.length, 3);
-                });
-                return { BinaryExpression: spy };
+                        assert.strictEqual(ancestors.length, 3);
+                    });
+                    return { BinaryExpression: spy };
+                }
             });
 
             linter.verify(code, config, filename, true);
@@ -478,14 +500,16 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const ancestors = context.getAncestors();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const ancestors = context.getAncestors();
 
-                    assert.strictEqual(ancestors.length, 0);
-                });
+                        assert.strictEqual(ancestors.length, 0);
+                    });
 
-                return { Program: spy };
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -503,7 +527,7 @@ describe("Linter", () => {
                 return {};
             });
 
-            linter.defineRule("checker", spy);
+            linter.defineRule("checker", { create: spy });
             linter.verify(code, config);
             assert(spy.calledOnce);
         });
@@ -515,7 +539,7 @@ describe("Linter", () => {
                 return {};
             });
 
-            linter.defineRule("checker", spy);
+            linter.defineRule("checker", { create: spy });
             linter.verify(code, config);
             assert(spy.calledOnce);
         });
@@ -530,7 +554,7 @@ describe("Linter", () => {
                 return {};
             });
 
-            linter.defineRule("checker", spy);
+            linter.defineRule("checker", { create: spy });
             linter.verify(code, config);
             assert(spy.calledOnce);
         });
@@ -542,7 +566,7 @@ describe("Linter", () => {
                 return {};
             });
 
-            linter.defineRule("checker", spy);
+            linter.defineRule("checker", { create: spy });
             linter.verify(code, config);
             assert(spy.calledOnce);
         });
@@ -560,7 +584,7 @@ describe("Linter", () => {
                 return {};
             });
 
-            linter.defineRule("checker", spy);
+            linter.defineRule("checker", { create: spy });
             linter.verify(code, config);
             assert(spy.calledOnce);
         });
@@ -578,7 +602,7 @@ describe("Linter", () => {
                 return {};
             });
 
-            linter.defineRule("checker", spy);
+            linter.defineRule("checker", { create: spy });
             linter.verify(code, config);
             assert(spy.calledOnce);
         });
@@ -592,13 +616,15 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
 
-                    assert.strictEqual(scope.type, "global");
-                });
-                return { Program: spy };
+                        assert.strictEqual(scope.type, "global");
+                    });
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -609,13 +635,15 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
 
-                    assert.strictEqual(scope.type, "function");
-                });
-                return { FunctionDeclaration: spy };
+                        assert.strictEqual(scope.type, "function");
+                    });
+                    return { FunctionDeclaration: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -626,14 +654,16 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
 
-                    assert.strictEqual(scope.type, "function");
-                    assert.strictEqual(scope.block.id.name, "foo");
-                });
-                return { LabeledStatement: spy };
+                        assert.strictEqual(scope.type, "function");
+                        assert.strictEqual(scope.block.id.name, "foo");
+                    });
+                    return { LabeledStatement: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -644,15 +674,17 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
 
-                    assert.strictEqual(scope.type, "function");
-                    assert.strictEqual(scope.block.type, "ArrowFunctionExpression");
-                });
+                        assert.strictEqual(scope.type, "function");
+                        assert.strictEqual(scope.block.type, "ArrowFunctionExpression");
+                    });
 
-                return { ReturnStatement: spy };
+                    return { ReturnStatement: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -663,15 +695,17 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
 
-                    assert.strictEqual(scope.type, "switch");
-                    assert.strictEqual(scope.block.type, "SwitchStatement");
-                });
+                        assert.strictEqual(scope.type, "switch");
+                        assert.strictEqual(scope.block.type, "SwitchStatement");
+                    });
 
-                return { SwitchStatement: spy };
+                    return { SwitchStatement: spy };
+                }
             });
 
             linter.verify("switch(foo){ case 'a': var b = 'foo'; }", config);
@@ -682,15 +716,17 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
 
-                    assert.strictEqual(scope.type, "block");
-                    assert.strictEqual(scope.block.type, "BlockStatement");
-                });
+                        assert.strictEqual(scope.type, "block");
+                        assert.strictEqual(scope.block.type, "BlockStatement");
+                    });
 
-                return { BlockStatement: spy };
+                    return { BlockStatement: spy };
+                }
             });
 
             linter.verify("var x; {let y = 1}", config);
@@ -701,15 +737,17 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
 
-                    assert.strictEqual(scope.type, "block");
-                    assert.strictEqual(scope.block.type, "BlockStatement");
-                });
+                        assert.strictEqual(scope.type, "block");
+                        assert.strictEqual(scope.block.type, "BlockStatement");
+                    });
 
-                return { BlockStatement: spy };
+                    return { BlockStatement: spy };
+                }
             });
 
             linter.verify("if (true) { let x = 1 }", config);
@@ -720,15 +758,17 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
 
-                    assert.strictEqual(scope.type, "function");
-                    assert.strictEqual(scope.block.type, "FunctionDeclaration");
-                });
+                        assert.strictEqual(scope.type, "function");
+                        assert.strictEqual(scope.block.type, "FunctionDeclaration");
+                    });
 
-                return { FunctionDeclaration: spy };
+                    return { FunctionDeclaration: spy };
+                }
             });
 
             linter.verify("function foo() {}", config);
@@ -739,15 +779,17 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
 
-                    assert.strictEqual(scope.type, "function");
-                    assert.strictEqual(scope.block.type, "FunctionExpression");
-                });
+                        assert.strictEqual(scope.type, "function");
+                        assert.strictEqual(scope.block.type, "FunctionExpression");
+                    });
 
-                return { FunctionExpression: spy };
+                    return { FunctionExpression: spy };
+                }
             });
 
             linter.verify("(function foo() {})();", config);
@@ -758,15 +800,17 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
 
-                    assert.strictEqual(scope.type, "catch");
-                    assert.strictEqual(scope.block.type, "CatchClause");
-                });
+                        assert.strictEqual(scope.type, "catch");
+                        assert.strictEqual(scope.block.type, "CatchClause");
+                    });
 
-                return { CatchClause: spy };
+                    return { CatchClause: spy };
+                }
             });
 
             linter.verify("try {} catch (err) {}", config);
@@ -777,14 +821,16 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6, sourceType: "module" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
 
-                    assert.strictEqual(scope.type, "module");
-                });
+                        assert.strictEqual(scope.type, "module");
+                    });
 
-                return { AssignmentExpression: spy };
+                    return { AssignmentExpression: spy };
+                }
             });
 
             linter.verify("var foo = {}; foo.bar = 1;", config);
@@ -795,14 +841,16 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
 
-                    assert.strictEqual(scope.type, "function");
-                });
+                        assert.strictEqual(scope.type, "function");
+                    });
 
-                return { AssignmentExpression: spy };
+                    return { AssignmentExpression: spy };
+                }
             });
 
             linter.verify("var foo = {}; foo.bar = 1;", config);
@@ -815,17 +863,19 @@ describe("Linter", () => {
             const code = "var a = 1, b = 2;";
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    assert.isTrue(context.markVariableAsUsed("a"));
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        assert.isTrue(context.markVariableAsUsed("a"));
 
-                    const scope = context.getScope();
+                        const scope = context.getScope();
 
-                    assert.isTrue(getVariable(scope, "a").eslintUsed);
-                    assert.notOk(getVariable(scope, "b").eslintUsed);
-                });
+                        assert.isTrue(getVariable(scope, "a").eslintUsed);
+                        assert.notOk(getVariable(scope, "b").eslintUsed);
+                    });
 
-                return { "Program:exit": spy };
+                    return { "Program:exit": spy };
+                }
             });
 
             linter.verify(code, { rules: { checker: "error" } });
@@ -835,17 +885,19 @@ describe("Linter", () => {
             const code = "function abc(a, b) { return 1; }";
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    assert.isTrue(context.markVariableAsUsed("a"));
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        assert.isTrue(context.markVariableAsUsed("a"));
 
-                    const scope = context.getScope();
+                        const scope = context.getScope();
 
-                    assert.isTrue(getVariable(scope, "a").eslintUsed);
-                    assert.notOk(getVariable(scope, "b").eslintUsed);
-                });
+                        assert.isTrue(getVariable(scope, "a").eslintUsed);
+                        assert.notOk(getVariable(scope, "b").eslintUsed);
+                    });
 
-                return { ReturnStatement: spy };
+                    return { ReturnStatement: spy };
+                }
             });
 
             linter.verify(code, { rules: { checker: "error" } });
@@ -855,18 +907,20 @@ describe("Linter", () => {
             const code = "var a, b; function abc() { return 1; }";
             let returnSpy, exitSpy;
 
-            linter.defineRule("checker", context => {
-                returnSpy = sinon.spy(() => {
-                    assert.isTrue(context.markVariableAsUsed("a"));
-                });
-                exitSpy = sinon.spy(() => {
-                    const scope = context.getScope();
+            linter.defineRule("checker", {
+                create: context => {
+                    returnSpy = sinon.spy(() => {
+                        assert.isTrue(context.markVariableAsUsed("a"));
+                    });
+                    exitSpy = sinon.spy(() => {
+                        const scope = context.getScope();
 
-                    assert.isTrue(getVariable(scope, "a").eslintUsed);
-                    assert.notOk(getVariable(scope, "b").eslintUsed);
-                });
+                        assert.isTrue(getVariable(scope, "a").eslintUsed);
+                        assert.notOk(getVariable(scope, "b").eslintUsed);
+                    });
 
-                return { ReturnStatement: returnSpy, "Program:exit": exitSpy };
+                    return { ReturnStatement: returnSpy, "Program:exit": exitSpy };
+                }
             });
 
             linter.verify(code, { rules: { checker: "error" } });
@@ -878,18 +932,20 @@ describe("Linter", () => {
             const code = "var a = 1, b = 2;";
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const globalScope = context.getScope(),
-                        childScope = globalScope.childScopes[0];
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const globalScope = context.getScope(),
+                            childScope = globalScope.childScopes[0];
 
-                    assert.isTrue(context.markVariableAsUsed("a"));
+                        assert.isTrue(context.markVariableAsUsed("a"));
 
-                    assert.isTrue(getVariable(childScope, "a").eslintUsed);
-                    assert.isUndefined(getVariable(childScope, "b").eslintUsed);
-                });
+                        assert.isTrue(getVariable(childScope, "a").eslintUsed);
+                        assert.isUndefined(getVariable(childScope, "b").eslintUsed);
+                    });
 
-                return { "Program:exit": spy };
+                    return { "Program:exit": spy };
+                }
             });
 
             linter.verify(code, { rules: { checker: "error" }, env: { node: true } });
@@ -900,18 +956,20 @@ describe("Linter", () => {
             const code = "var a = 1, b = 2;";
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const globalScope = context.getScope(),
-                        childScope = globalScope.childScopes[0];
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const globalScope = context.getScope(),
+                            childScope = globalScope.childScopes[0];
 
-                    assert.isTrue(context.markVariableAsUsed("a"));
+                        assert.isTrue(context.markVariableAsUsed("a"));
 
-                    assert.isTrue(getVariable(childScope, "a").eslintUsed);
-                    assert.isUndefined(getVariable(childScope, "b").eslintUsed);
-                });
+                        assert.isTrue(getVariable(childScope, "a").eslintUsed);
+                        assert.isUndefined(getVariable(childScope, "b").eslintUsed);
+                    });
 
-                return { "Program:exit": spy };
+                    return { "Program:exit": spy };
+                }
             });
 
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6, sourceType: "module" } }, filename, true);
@@ -922,12 +980,14 @@ describe("Linter", () => {
             const code = "var a = 1, b = 2;";
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    assert.isFalse(context.markVariableAsUsed("c"));
-                });
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        assert.isFalse(context.markVariableAsUsed("c"));
+                    });
 
-                return { "Program:exit": spy };
+                    return { "Program:exit": spy };
+                }
             });
 
             linter.verify(code, { rules: { checker: "error" } });
@@ -948,13 +1008,15 @@ describe("Linter", () => {
                 spyIdentifier = sinon.spy(),
                 spyBinaryExpression = sinon.spy();
 
-            linter.defineRule("checker", () => ({
-                Literal: spyLiteral,
-                VariableDeclarator: spyVariableDeclarator,
-                VariableDeclaration: spyVariableDeclaration,
-                Identifier: spyIdentifier,
-                BinaryExpression: spyBinaryExpression
-            }));
+            linter.defineRule("checker", {
+                create: () => ({
+                    Literal: spyLiteral,
+                    VariableDeclarator: spyVariableDeclarator,
+                    VariableDeclaration: spyVariableDeclaration,
+                    Identifier: spyIdentifier,
+                    BinaryExpression: spyBinaryExpression
+                })
+            });
 
             const messages = linter.verify(code, config, filename, true);
             const suppressedMessages = linter.getSuppressedMessages();
@@ -969,11 +1031,13 @@ describe("Linter", () => {
         });
 
         it("should throw an error if a rule reports a problem without a message", () => {
-            linter.defineRule("invalid-report", context => ({
-                Program(node) {
-                    context.report({ node });
-                }
-            }));
+            linter.defineRule("invalid-report", {
+                create: context => ({
+                    Program(node) {
+                        context.report({ node });
+                    }
+                })
+            });
 
             assert.throws(
                 () => linter.verify("foo", { rules: { "invalid-report": "error" } }),
@@ -987,11 +1051,13 @@ describe("Linter", () => {
         const code = "test-rule";
 
         it("should pass settings to all rules", () => {
-            linter.defineRule(code, context => ({
-                Literal(node) {
-                    context.report(node, context.settings.info);
-                }
-            }));
+            linter.defineRule(code, {
+                create: context => ({
+                    Literal(node) {
+                        context.report(node, context.settings.info);
+                    }
+                })
+            });
 
             const config = { rules: {}, settings: { info: "Hello" } };
 
@@ -1006,13 +1072,15 @@ describe("Linter", () => {
         });
 
         it("should not have any settings if they were not passed in", () => {
-            linter.defineRule(code, context => ({
-                Literal(node) {
-                    if (Object.getOwnPropertyNames(context.settings).length !== 0) {
-                        context.report(node, "Settings should be empty");
+            linter.defineRule(code, {
+                create: context => ({
+                    Literal(node) {
+                        if (Object.getOwnPropertyNames(context.settings).length !== 0) {
+                            context.report(node, "Settings should be empty");
+                        }
                     }
-                }
-            }));
+                })
+            });
 
             const config = { rules: {} };
 
@@ -1037,9 +1105,11 @@ describe("Linter", () => {
                 }
             };
 
-            linter.defineRule("test-rule", sinon.mock().withArgs(
-                sinon.match({ parserOptions })
-            ).returns({}));
+            linter.defineRule("test-rule", {
+                create: sinon.mock().withArgs(
+                    sinon.match({ parserOptions })
+                ).returns({})
+            });
 
             const config = { rules: { "test-rule": 2 }, parserOptions };
 
@@ -1050,9 +1120,11 @@ describe("Linter", () => {
 
             const parserOptions = {};
 
-            linter.defineRule("test-rule", sinon.mock().withArgs(
-                sinon.match({ parserOptions })
-            ).returns({}));
+            linter.defineRule("test-rule", {
+                create: sinon.mock().withArgs(
+                    sinon.match({ parserOptions })
+                ).returns({})
+            });
 
             const config = { rules: { "test-rule": 2 } };
 
@@ -1097,9 +1169,11 @@ describe("Linter", () => {
             const alternateParser = "esprima";
 
             linter.defineParser("esprima", esprima);
-            linter.defineRule("test-rule", sinon.mock().withArgs(
-                sinon.match({ parserPath: alternateParser })
-            ).returns({}));
+            linter.defineRule("test-rule", {
+                create: sinon.mock().withArgs(
+                    sinon.match({ parserPath: alternateParser })
+                ).returns({})
+            });
 
             const config = { rules: { "test-rule": 2 }, parser: alternateParser };
 
@@ -1119,14 +1193,16 @@ describe("Linter", () => {
 
         it("should expose parser services when using parseForESLint() and services are specified", () => {
             linter.defineParser("enhanced-parser", testParsers.enhancedParser);
-            linter.defineRule("test-service-rule", context => ({
-                Literal(node) {
-                    context.report({
-                        node,
-                        message: context.parserServices.test.getMessage()
-                    });
-                }
-            }));
+            linter.defineRule("test-service-rule", {
+                create: context => ({
+                    Literal(node) {
+                        context.report({
+                            node,
+                            message: context.parserServices.test.getMessage()
+                        });
+                    }
+                })
+            });
 
             const config = { rules: { "test-service-rule": 2 }, parser: "enhanced-parser" };
             const messages = linter.verify("0", config, filename);
@@ -1139,14 +1215,16 @@ describe("Linter", () => {
 
         it("should use the same parserServices if source code object is reused", () => {
             linter.defineParser("enhanced-parser", testParsers.enhancedParser);
-            linter.defineRule("test-service-rule", context => ({
-                Literal(node) {
-                    context.report({
-                        node,
-                        message: context.parserServices.test.getMessage()
-                    });
-                }
-            }));
+            linter.defineRule("test-service-rule", {
+                create: context => ({
+                    Literal(node) {
+                        context.report({
+                            node,
+                            message: context.parserServices.test.getMessage()
+                        });
+                    }
+                })
+            });
 
             const config = { rules: { "test-service-rule": 2 }, parser: "enhanced-parser" };
             const messages = linter.verify("0", config, filename);
@@ -1165,9 +1243,11 @@ describe("Linter", () => {
         });
 
         it("should pass parser as parserPath to all rules when default parser is used", () => {
-            linter.defineRule("test-rule", sinon.mock().withArgs(
-                sinon.match({ parserPath: "espree" })
-            ).returns({}));
+            linter.defineRule("test-rule", {
+                create: sinon.mock().withArgs(
+                    sinon.match({ parserPath: "espree" })
+                ).returns({})
+            });
 
             const config = { rules: { "test-rule": 2 } };
 
@@ -1277,38 +1357,40 @@ describe("Linter", () => {
             `;
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope();
-                    const a = getVariable(scope, "a"),
-                        b = getVariable(scope, "b"),
-                        c = getVariable(scope, "c"),
-                        d = getVariable(scope, "d"),
-                        e = getVariable(scope, "e"),
-                        f = getVariable(scope, "f"),
-                        mathGlobal = getVariable(scope, "Math"),
-                        arrayGlobal = getVariable(scope, "Array"),
-                        configGlobal = getVariable(scope, "ConfigGlobal");
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
+                        const a = getVariable(scope, "a"),
+                            b = getVariable(scope, "b"),
+                            c = getVariable(scope, "c"),
+                            d = getVariable(scope, "d"),
+                            e = getVariable(scope, "e"),
+                            f = getVariable(scope, "f"),
+                            mathGlobal = getVariable(scope, "Math"),
+                            arrayGlobal = getVariable(scope, "Array"),
+                            configGlobal = getVariable(scope, "ConfigGlobal");
 
-                    assert.strictEqual(a.name, "a");
-                    assert.strictEqual(a.writeable, false);
-                    assert.strictEqual(b.name, "b");
-                    assert.strictEqual(b.writeable, true);
-                    assert.strictEqual(c.name, "c");
-                    assert.strictEqual(c.writeable, false);
-                    assert.strictEqual(d.name, "d");
-                    assert.strictEqual(d.writeable, false);
-                    assert.strictEqual(e.name, "e");
-                    assert.strictEqual(e.writeable, true);
-                    assert.strictEqual(f.name, "f");
-                    assert.strictEqual(f.writeable, true);
-                    assert.strictEqual(mathGlobal, null);
-                    assert.strictEqual(arrayGlobal, null);
-                    assert.strictEqual(configGlobal.name, "ConfigGlobal");
-                    assert.strictEqual(configGlobal.writeable, false);
-                });
+                        assert.strictEqual(a.name, "a");
+                        assert.strictEqual(a.writeable, false);
+                        assert.strictEqual(b.name, "b");
+                        assert.strictEqual(b.writeable, true);
+                        assert.strictEqual(c.name, "c");
+                        assert.strictEqual(c.writeable, false);
+                        assert.strictEqual(d.name, "d");
+                        assert.strictEqual(d.writeable, false);
+                        assert.strictEqual(e.name, "e");
+                        assert.strictEqual(e.writeable, true);
+                        assert.strictEqual(f.name, "f");
+                        assert.strictEqual(f.writeable, true);
+                        assert.strictEqual(mathGlobal, null);
+                        assert.strictEqual(arrayGlobal, null);
+                        assert.strictEqual(configGlobal.name, "ConfigGlobal");
+                        assert.strictEqual(configGlobal.writeable, false);
+                    });
 
-                return { Program: spy };
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -1323,22 +1405,24 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope(),
-                        a = getVariable(scope, "a"),
-                        b = getVariable(scope, "b"),
-                        c = getVariable(scope, "c");
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope(),
+                            a = getVariable(scope, "a"),
+                            b = getVariable(scope, "b"),
+                            c = getVariable(scope, "c");
 
-                    assert.strictEqual(a.name, "a");
-                    assert.strictEqual(a.writeable, false);
-                    assert.strictEqual(b.name, "b");
-                    assert.strictEqual(b.writeable, true);
-                    assert.strictEqual(c.name, "c");
-                    assert.strictEqual(c.writeable, false);
-                });
+                        assert.strictEqual(a.name, "a");
+                        assert.strictEqual(a.writeable, false);
+                        assert.strictEqual(b.name, "b");
+                        assert.strictEqual(b.writeable, true);
+                        assert.strictEqual(c.name, "c");
+                        assert.strictEqual(c.writeable, false);
+                    });
 
-                return { Program: spy };
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -1362,17 +1446,19 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope(),
-                        exports = getVariable(scope, "exports"),
-                        window = getVariable(scope, "window");
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope(),
+                            exports = getVariable(scope, "exports"),
+                            window = getVariable(scope, "window");
 
-                    assert.strictEqual(exports.writeable, true);
-                    assert.strictEqual(window.writeable, false);
-                });
+                        assert.strictEqual(exports.writeable, true);
+                        assert.strictEqual(window.writeable, false);
+                    });
 
-                return { Program: spy };
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -1387,17 +1473,19 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope(),
-                        exports = getVariable(scope, "exports"),
-                        window = getVariable(scope, "window");
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope(),
+                            exports = getVariable(scope, "exports"),
+                            window = getVariable(scope, "window");
 
-                    assert.strictEqual(exports.writeable, true);
-                    assert.strictEqual(window, null);
-                });
+                        assert.strictEqual(exports.writeable, true);
+                        assert.strictEqual(window, null);
+                    });
 
-                return { Program: spy };
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -1419,15 +1507,17 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope(),
-                        horse = getVariable(scope, "horse");
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope(),
+                            horse = getVariable(scope, "horse");
 
-                    assert.strictEqual(horse.eslintUsed, true);
-                });
+                        assert.strictEqual(horse.eslintUsed, true);
+                    });
 
-                return { Program: spy };
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -1439,15 +1529,17 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope(),
-                        horse = getVariable(scope, "horse");
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope(),
+                            horse = getVariable(scope, "horse");
 
-                    assert.strictEqual(horse, null);
-                });
+                        assert.strictEqual(horse, null);
+                    });
 
-                return { Program: spy };
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -1459,15 +1551,17 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope(),
-                        horse = getVariable(scope, "horse");
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope(),
+                            horse = getVariable(scope, "horse");
 
-                    assert.strictEqual(horse.eslintUsed, true);
-                });
+                        assert.strictEqual(horse.eslintUsed, true);
+                    });
 
-                return { Program: spy };
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -1479,15 +1573,17 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6, sourceType: "module" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope(),
-                        horse = getVariable(scope, "horse");
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope(),
+                            horse = getVariable(scope, "horse");
 
-                    assert.strictEqual(horse, null); // there is no global scope at all
-                });
+                        assert.strictEqual(horse, null); // there is no global scope at all
+                    });
 
-                return { Program: spy };
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -1499,15 +1595,17 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" }, env: { node: true } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope(),
-                        horse = getVariable(scope, "horse");
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope(),
+                            horse = getVariable(scope, "horse");
 
-                    assert.strictEqual(horse, null); // there is no global scope at all
-                });
+                        assert.strictEqual(horse, null); // there is no global scope at all
+                    });
 
-                return { Program: spy };
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -1522,14 +1620,16 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
 
-                    assert.strictEqual(getVariable(scope, "a"), null);
-                });
+                        assert.strictEqual(getVariable(scope, "a"), null);
+                    });
 
-                return { Program: spy };
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -1544,17 +1644,19 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
 
-                    assert.strictEqual(getVariable(scope, "a"), null);
-                    assert.strictEqual(getVariable(scope, "b"), null);
-                    assert.strictEqual(getVariable(scope, "foo"), null);
-                    assert.strictEqual(getVariable(scope, "c"), null);
-                });
+                        assert.strictEqual(getVariable(scope, "a"), null);
+                        assert.strictEqual(getVariable(scope, "b"), null);
+                        assert.strictEqual(getVariable(scope, "foo"), null);
+                        assert.strictEqual(getVariable(scope, "c"), null);
+                    });
 
-                return { Program: spy };
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -1569,16 +1671,18 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
 
-                    assert.notStrictEqual(getVariable(scope, "Object"), null);
-                    assert.notStrictEqual(getVariable(scope, "Array"), null);
-                    assert.notStrictEqual(getVariable(scope, "undefined"), null);
-                });
+                        assert.notStrictEqual(getVariable(scope, "Object"), null);
+                        assert.notStrictEqual(getVariable(scope, "Array"), null);
+                        assert.notStrictEqual(getVariable(scope, "undefined"), null);
+                    });
 
-                return { Program: spy };
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -1589,16 +1693,18 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
 
-                    assert.strictEqual(getVariable(scope, "Promise"), null);
-                    assert.strictEqual(getVariable(scope, "Symbol"), null);
-                    assert.strictEqual(getVariable(scope, "WeakMap"), null);
-                });
+                        assert.strictEqual(getVariable(scope, "Promise"), null);
+                        assert.strictEqual(getVariable(scope, "Symbol"), null);
+                        assert.strictEqual(getVariable(scope, "WeakMap"), null);
+                    });
 
-                return { Program: spy };
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -1609,16 +1715,18 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" }, env: { es6: true } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
 
-                    assert.notStrictEqual(getVariable(scope, "Promise"), null);
-                    assert.notStrictEqual(getVariable(scope, "Symbol"), null);
-                    assert.notStrictEqual(getVariable(scope, "WeakMap"), null);
-                });
+                        assert.notStrictEqual(getVariable(scope, "Promise"), null);
+                        assert.notStrictEqual(getVariable(scope, "Symbol"), null);
+                        assert.notStrictEqual(getVariable(scope, "WeakMap"), null);
+                    });
 
-                return { Program: spy };
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -1629,16 +1737,18 @@ describe("Linter", () => {
             const config = { rules: { checker: "error" }, globals: { Promise: "off", Symbol: "off", WeakMap: "off" }, env: { es6: true } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    const scope = context.getScope();
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
 
-                    assert.strictEqual(getVariable(scope, "Promise"), null);
-                    assert.strictEqual(getVariable(scope, "Symbol"), null);
-                    assert.strictEqual(getVariable(scope, "WeakMap"), null);
-                });
+                        assert.strictEqual(getVariable(scope, "Promise"), null);
+                        assert.strictEqual(getVariable(scope, "Symbol"), null);
+                        assert.strictEqual(getVariable(scope, "WeakMap"), null);
+                    });
 
-                return { Program: spy };
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -1650,11 +1760,13 @@ describe("Linter", () => {
         const code = "new-rule";
 
         it("can add a rule dynamically", () => {
-            linter.defineRule(code, context => ({
-                Literal(node) {
-                    context.report(node, "message");
-                }
-            }));
+            linter.defineRule(code, {
+                create: context => ({
+                    Literal(node) {
+                        context.report(node, "message");
+                    }
+                })
+            });
 
             const config = { rules: {} };
 
@@ -1680,12 +1792,14 @@ describe("Linter", () => {
 
             code.forEach(item => {
                 config.rules[item] = 1;
-                newRules[item] = function(context) {
-                    return {
-                        Literal(node) {
-                            context.report(node, "message");
-                        }
-                    };
+                newRules[item] = {
+                    create(context) {
+                        return {
+                            Literal(node) {
+                                context.report(node, "message");
+                            }
+                        };
+                    }
                 };
             });
             linter.defineRules(newRules);
@@ -1709,11 +1823,13 @@ describe("Linter", () => {
         const code = "filename-rule";
 
         it("has access to the filename", () => {
-            linter.defineRule(code, context => ({
-                Literal(node) {
-                    context.report(node, context.getFilename());
-                }
-            }));
+            linter.defineRule(code, {
+                create: context => ({
+                    Literal(node) {
+                        context.report(node, context.getFilename());
+                    }
+                })
+            });
 
             const config = { rules: {} };
 
@@ -1727,11 +1843,13 @@ describe("Linter", () => {
         });
 
         it("has access to the physicalFilename", () => {
-            linter.defineRule(code, context => ({
-                Literal(node) {
-                    context.report(node, context.getPhysicalFilename());
-                }
-            }));
+            linter.defineRule(code, {
+                create: context => ({
+                    Literal(node) {
+                        context.report(node, context.getPhysicalFilename());
+                    }
+                })
+            });
 
             const config = { rules: {} };
 
@@ -1745,11 +1863,13 @@ describe("Linter", () => {
         });
 
         it("defaults filename to '<input>'", () => {
-            linter.defineRule(code, context => ({
-                Literal(node) {
-                    context.report(node, context.getFilename());
-                }
-            }));
+            linter.defineRule(code, {
+                create: context => ({
+                    Literal(node) {
+                        context.report(node, context.getFilename());
+                    }
+                })
+            });
 
             const config = { rules: {} };
 
@@ -2011,13 +2131,17 @@ describe("Linter", () => {
     describe("when evaluating code with comments to disable and enable configurable rule as part of plugin", () => {
 
         beforeEach(() => {
-            linter.defineRule("test-plugin/test-rule", context => ({
-                Literal(node) {
-                    if (node.value === "trigger violation") {
-                        context.report(node, "Reporting violation.");
-                    }
+            linter.defineRule("test-plugin/test-rule", {
+                create(context) {
+                    return {
+                        Literal(node) {
+                            if (node.value === "trigger violation") {
+                                context.report(node, "Reporting violation.");
+                            }
+                        }
+                    };
                 }
-            }));
+            });
         });
 
         it("should not report a violation when inline comment enables plugin rule and there's no violation", () => {
@@ -2045,11 +2169,13 @@ describe("Linter", () => {
         it("should report a violation when the report is right before the comment", () => {
             const code = " /* eslint-disable */ ";
 
-            linter.defineRule("checker", context => ({
-                Program() {
-                    context.report({ loc: { line: 1, column: 0 }, message: "foo" });
-                }
-            }));
+            linter.defineRule("checker", {
+                create: context => ({
+                    Program() {
+                        context.report({ loc: { line: 1, column: 0 }, message: "foo" });
+                    }
+                })
+            });
             const problems = linter.verify(code, { rules: { checker: "error" } });
             const suppressedMessages = linter.getSuppressedMessages();
 
@@ -2061,11 +2187,13 @@ describe("Linter", () => {
         it("should not report a violation when the report is right at the start of the comment", () => {
             const code = " /* eslint-disable */ ";
 
-            linter.defineRule("checker", context => ({
-                Program() {
-                    context.report({ loc: { line: 1, column: 1 }, message: "foo" });
-                }
-            }));
+            linter.defineRule("checker", {
+                create: context => ({
+                    Program() {
+                        context.report({ loc: { line: 1, column: 1 }, message: "foo" });
+                    }
+                })
+            });
             const problems = linter.verify(code, { rules: { checker: "error" } });
             const suppressedMessages = linter.getSuppressedMessages();
 
@@ -3279,7 +3407,7 @@ var a = "test2";
                 return {};
             });
 
-            linter.defineRule("checker", spy);
+            linter.defineRule("checker", { create: spy });
             linter.verify(code, config);
             assert(spy.calledOnce);
         });
@@ -3289,11 +3417,13 @@ var a = "test2";
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(node => {
-                    assert.strictEqual(context.getSource(node), "'123';");
-                });
-                return { ExpressionStatement: spy };
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(node => {
+                        assert.strictEqual(context.getSource(node), "'123';");
+                    });
+                    return { ExpressionStatement: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -3431,11 +3561,13 @@ var a = "test2";
 
     describe("when evaluating an empty string", () => {
         it("runs rules", () => {
-            linter.defineRule("no-programs", context => ({
-                Program(node) {
-                    context.report({ node, message: "No programs allowed." });
-                }
-            }));
+            linter.defineRule("no-programs", {
+                create: context => ({
+                    Program(node) {
+                        context.report({ node, message: "No programs allowed." });
+                    }
+                })
+            });
 
             assert.strictEqual(
                 linter.verify("", { rules: { "no-programs": "error" } }).length,
@@ -3638,8 +3770,8 @@ var a = "test2";
             let ok = false;
 
             linter.defineRules({
-                test(context) {
-                    return {
+                test: {
+                    create: context => ({
                         Program() {
                             const scope = context.getScope();
                             const sourceCode = context.getSourceCode();
@@ -3653,7 +3785,7 @@ var a = "test2";
 
                             ok = true;
                         }
-                    };
+                    })
                 }
             });
 
@@ -3810,11 +3942,13 @@ var a = "test2";
             const linterWithOption = new Linter({ cwd });
             let spy;
 
-            linterWithOption.defineRule("checker", context => {
-                spy = sinon.spy(() => {
-                    assert.strictEqual(context.getCwd(), cwd);
-                });
-                return { Program: spy };
+            linterWithOption.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(() => {
+                        assert.strictEqual(context.getCwd(), cwd);
+                    });
+                    return { Program: spy };
+                }
             });
 
             linterWithOption.verify(code, config);
@@ -3825,12 +3959,14 @@ var a = "test2";
             let spy;
             const linterWithOption = new Linter({ });
 
-            linterWithOption.defineRule("checker", context => {
+            linterWithOption.defineRule("checker", {
+                create: context => {
 
-                spy = sinon.spy(() => {
-                    assert.strictEqual(context.getCwd(), process.cwd());
-                });
-                return { Program: spy };
+                    spy = sinon.spy(() => {
+                        assert.strictEqual(context.getCwd(), process.cwd());
+                    });
+                    return { Program: spy };
+                }
             });
 
             linterWithOption.verify(code, config);
@@ -3840,12 +3976,14 @@ var a = "test2";
         it("should assign process.cwd() to it if the option is undefined", () => {
             let spy;
 
-            linter.defineRule("checker", context => {
+            linter.defineRule("checker", {
+                create: context => {
 
-                spy = sinon.spy(() => {
-                    assert.strictEqual(context.getCwd(), process.cwd());
-                });
-                return { Program: spy };
+                    spy = sinon.spy(() => {
+                        assert.strictEqual(context.getCwd(), process.cwd());
+                    });
+                    return { Program: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -4640,11 +4778,13 @@ var a = "test2";
             const config = { rules: { checker: "error" } };
             let spy;
 
-            linter.defineRule("checker", context => {
-                spy = sinon.spy(node => {
-                    assert.strictEqual(context.getSource(node), "'123';");
-                });
-                return { ExpressionStatement: spy };
+            linter.defineRule("checker", {
+                create: context => {
+                    spy = sinon.spy(node => {
+                        assert.strictEqual(context.getSource(node), "'123';");
+                    });
+                    return { ExpressionStatement: spy };
+                }
             });
 
             linter.verify(code, config);
@@ -4660,7 +4800,7 @@ var a = "test2";
                     return {};
                 });
 
-                linter.defineRule("checker", filenameChecker);
+                linter.defineRule("checker", { create: filenameChecker });
                 linter.verify("foo;", { rules: { checker: "error" } }, { filename: "foo.js" });
                 assert(filenameChecker.calledOnce);
             });
@@ -4671,7 +4811,7 @@ var a = "test2";
                     return {};
                 });
 
-                linter.defineRule("checker", filenameChecker);
+                linter.defineRule("checker", { create: filenameChecker });
                 linter.verify("foo;", { rules: { checker: "error" } }, "bar.js");
                 assert(filenameChecker.calledOnce);
             });
@@ -4682,7 +4822,7 @@ var a = "test2";
                     return {};
                 });
 
-                linter.defineRule("checker", filenameChecker);
+                linter.defineRule("checker", { create: filenameChecker });
                 linter.verify("foo;", { rules: { checker: "error" } }, {});
                 assert(filenameChecker.calledOnce);
             });
@@ -4693,7 +4833,7 @@ var a = "test2";
                     return {};
                 });
 
-                linter.defineRule("checker", filenameChecker);
+                linter.defineRule("checker", { create: filenameChecker });
                 linter.verify("foo;", { rules: { checker: "error" } });
                 assert(filenameChecker.calledOnce);
             });
@@ -4706,7 +4846,7 @@ var a = "test2";
                     return {};
                 });
 
-                linter.defineRule("checker", physicalFilenameChecker);
+                linter.defineRule("checker", { create: physicalFilenameChecker });
                 linter.verify("foo;", { rules: { checker: "error" } }, { filename: "foo.js" });
                 assert(physicalFilenameChecker.calledOnce);
             });
@@ -4717,7 +4857,7 @@ var a = "test2";
                     return {};
                 });
 
-                linter.defineRule("checker", physicalFilenameChecker);
+                linter.defineRule("checker", { create: physicalFilenameChecker });
                 linter.verify("foo;", { rules: { checker: "error" } }, {});
                 assert(physicalFilenameChecker.calledOnce);
             });
@@ -4728,7 +4868,7 @@ var a = "test2";
                     return {};
                 });
 
-                linter.defineRule("checker", physicalFilenameChecker);
+                linter.defineRule("checker", { create: physicalFilenameChecker });
                 linter.verify("foo;", { rules: { checker: "error" } });
                 assert(physicalFilenameChecker.calledOnce);
             });
@@ -4777,11 +4917,13 @@ var a = "test2";
                 let ecmaVersion = null;
                 const config = { rules: { "ecma-version": 2 }, parserOptions: { ecmaVersion: "latest" } };
 
-                linter.defineRule("ecma-version", context => ({
-                    Program() {
-                        ecmaVersion = context.parserOptions.ecmaVersion;
-                    }
-                }));
+                linter.defineRule("ecma-version", {
+                    create: context => ({
+                        Program() {
+                            ecmaVersion = context.parserOptions.ecmaVersion;
+                        }
+                    })
+                });
                 linter.verify("", config);
                 assert.strictEqual(ecmaVersion, espree.latestEcmaVersion, "ecmaVersion should be 13");
             });
@@ -4791,11 +4933,13 @@ var a = "test2";
                 const config = { rules: { "ecma-version": 2 }, parser: "custom-parser", parserOptions: { ecmaVersion: "latest" } };
 
                 linter.defineParser("custom-parser", testParsers.enhancedParser);
-                linter.defineRule("ecma-version", context => ({
-                    Program() {
-                        ecmaVersion = context.parserOptions.ecmaVersion;
-                    }
-                }));
+                linter.defineRule("ecma-version", {
+                    create: context => ({
+                        Program() {
+                            ecmaVersion = context.parserOptions.ecmaVersion;
+                        }
+                    })
+                });
                 linter.verify("", config);
                 assert.strictEqual(ecmaVersion, "latest", "ecmaVersion should be latest");
             });
@@ -4804,11 +4948,13 @@ var a = "test2";
                 let ecmaVersion = null;
                 const config = { rules: { "ecma-version": 2 }, parserOptions: { ecmaVersion: "latest" } };
 
-                linter.defineRule("ecma-version", context => ({
-                    Program() {
-                        ecmaVersion = context.languageOptions.ecmaVersion;
-                    }
-                }));
+                linter.defineRule("ecma-version", {
+                    create: context => ({
+                        Program() {
+                            ecmaVersion = context.languageOptions.ecmaVersion;
+                        }
+                    })
+                });
                 linter.verify("", config);
                 assert.strictEqual(ecmaVersion, espree.latestEcmaVersion + 2009, "ecmaVersion should be 2022");
             });
@@ -4818,11 +4964,13 @@ var a = "test2";
                 const config = { rules: { "ecma-version": 2 }, parser: "custom-parser", parserOptions: { ecmaVersion: "next" } };
 
                 linter.defineParser("custom-parser", testParsers.stubParser);
-                linter.defineRule("ecma-version", context => ({
-                    Program() {
-                        ecmaVersion = context.languageOptions.ecmaVersion;
-                    }
-                }));
+                linter.defineRule("ecma-version", {
+                    create: context => ({
+                        Program() {
+                            ecmaVersion = context.languageOptions.ecmaVersion;
+                        }
+                    })
+                });
                 linter.verify("", config);
                 assert.strictEqual(ecmaVersion, espree.latestEcmaVersion + 2009, "ecmaVersion should be 2022");
             });
@@ -4832,11 +4980,13 @@ var a = "test2";
                 const config = { rules: { "ecma-version": 2 }, parser: "custom-parser" };
 
                 linter.defineParser("custom-parser", testParsers.enhancedParser);
-                linter.defineRule("ecma-version", context => ({
-                    Program() {
-                        ecmaVersion = context.languageOptions.ecmaVersion;
-                    }
-                }));
+                linter.defineRule("ecma-version", {
+                    create: context => ({
+                        Program() {
+                            ecmaVersion = context.languageOptions.ecmaVersion;
+                        }
+                    })
+                });
                 linter.verify("", config);
                 assert.strictEqual(ecmaVersion, 5, "ecmaVersion should be 5");
             });
@@ -4844,11 +4994,13 @@ var a = "test2";
             it("should pass normalized ecmaVersion to eslint-scope", () => {
                 let blockScope = null;
 
-                linter.defineRule("block-scope", context => ({
-                    BlockStatement() {
-                        blockScope = context.getScope();
-                    }
-                }));
+                linter.defineRule("block-scope", {
+                    create: context => ({
+                        BlockStatement() {
+                            blockScope = context.getScope();
+                        }
+                    })
+                });
                 linter.defineParser("custom-parser", {
                     parse: (...args) => espree.parse(...args)
                 });
@@ -5247,8 +5399,8 @@ var a = "test2";
             let ok = false;
 
             linter.defineRules({
-                test(context) {
-                    return {
+                test: {
+                    create: context => ({
                         Program() {
                             const scope = context.getScope();
                             const sourceCode = context.getSourceCode();
@@ -5273,7 +5425,7 @@ var a = "test2";
 
                             ok = true;
                         }
-                    };
+                    })
                 }
             });
 
@@ -5321,16 +5473,20 @@ var a = "test2";
             let ast1 = null,
                 ast2 = null;
 
-            linter.defineRule("save-ast1", () => ({
-                Program(node) {
-                    ast1 = node;
-                }
-            }));
-            linter.defineRule("save-ast2", () => ({
-                Program(node) {
-                    ast2 = node;
-                }
-            }));
+            linter.defineRule("save-ast1", {
+                create: () => ({
+                    Program(node) {
+                        ast1 = node;
+                    }
+                })
+            });
+            linter.defineRule("save-ast2", {
+                create: () => ({
+                    Program(node) {
+                        ast2 = node;
+                    }
+                })
+            });
 
             linter.verify("function render() { return <div className='test'>{hello}</div> }", { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }, rules: { "save-ast1": 2 } });
             linter.verify(linter.getSourceCode(), { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }, rules: { "save-ast2": 2 } });
@@ -5365,7 +5521,7 @@ var a = "test2";
                 return {};
             });
 
-            linter.defineRule("foo-bar-baz", spy);
+            linter.defineRule("foo-bar-baz", { create: spy });
             linter.verify("x", { rules: { "foo-bar-baz": "error" } });
             assert(spy.calledOnce);
         });
@@ -5827,12 +5983,14 @@ var a = "test2";
         function getScope(code, astSelector, ecmaVersion = 5) {
             let node, scope;
 
-            linter.defineRule("get-scope", context => ({
-                [astSelector](node0) {
-                    node = node0;
-                    scope = context.getScope();
-                }
-            }));
+            linter.defineRule("get-scope", {
+                create: context => ({
+                    [astSelector](node0) {
+                        node = node0;
+                        scope = context.getScope();
+                    }
+                })
+            });
             linter.verify(
                 code,
                 {
@@ -6084,13 +6242,13 @@ var a = "test2";
             let ok = false;
 
             linter.defineRules({
-                test(context) {
-                    return {
+                test: {
+                    create: context => ({
                         Program() {
                             scope = context.getScope();
                             ok = true;
                         }
-                    };
+                    })
                 }
             });
             linter.verify(code, { rules: { test: 2 }, globals: { e: true, f: false } });
@@ -6177,78 +6335,80 @@ var a = "test2";
          */
         function verify(code, type, expectedNamesList) {
             linter.defineRules({
-                test(context) {
+                test: {
+                    create: context => {
 
-                    /**
-                     * Assert `context.getDeclaredVariables(node)` is empty.
-                     * @param {ASTNode} node A node to check.
-                     * @returns {void}
-                     */
-                    function checkEmpty(node) {
-                        assert.strictEqual(0, context.getDeclaredVariables(node).length);
-                    }
-                    const rule = {
-                        Program: checkEmpty,
-                        EmptyStatement: checkEmpty,
-                        BlockStatement: checkEmpty,
-                        ExpressionStatement: checkEmpty,
-                        LabeledStatement: checkEmpty,
-                        BreakStatement: checkEmpty,
-                        ContinueStatement: checkEmpty,
-                        WithStatement: checkEmpty,
-                        SwitchStatement: checkEmpty,
-                        ReturnStatement: checkEmpty,
-                        ThrowStatement: checkEmpty,
-                        TryStatement: checkEmpty,
-                        WhileStatement: checkEmpty,
-                        DoWhileStatement: checkEmpty,
-                        ForStatement: checkEmpty,
-                        ForInStatement: checkEmpty,
-                        DebuggerStatement: checkEmpty,
-                        ThisExpression: checkEmpty,
-                        ArrayExpression: checkEmpty,
-                        ObjectExpression: checkEmpty,
-                        Property: checkEmpty,
-                        SequenceExpression: checkEmpty,
-                        UnaryExpression: checkEmpty,
-                        BinaryExpression: checkEmpty,
-                        AssignmentExpression: checkEmpty,
-                        UpdateExpression: checkEmpty,
-                        LogicalExpression: checkEmpty,
-                        ConditionalExpression: checkEmpty,
-                        CallExpression: checkEmpty,
-                        NewExpression: checkEmpty,
-                        MemberExpression: checkEmpty,
-                        SwitchCase: checkEmpty,
-                        Identifier: checkEmpty,
-                        Literal: checkEmpty,
-                        ForOfStatement: checkEmpty,
-                        ArrowFunctionExpression: checkEmpty,
-                        YieldExpression: checkEmpty,
-                        TemplateLiteral: checkEmpty,
-                        TaggedTemplateExpression: checkEmpty,
-                        TemplateElement: checkEmpty,
-                        ObjectPattern: checkEmpty,
-                        ArrayPattern: checkEmpty,
-                        RestElement: checkEmpty,
-                        AssignmentPattern: checkEmpty,
-                        ClassBody: checkEmpty,
-                        MethodDefinition: checkEmpty,
-                        MetaProperty: checkEmpty
-                    };
-
-                    rule[type] = function(node) {
-                        const expectedNames = expectedNamesList.shift();
-                        const variables = context.getDeclaredVariables(node);
-
-                        assert(Array.isArray(expectedNames));
-                        assert(Array.isArray(variables));
-                        assert.strictEqual(expectedNames.length, variables.length);
-                        for (let i = variables.length - 1; i >= 0; i--) {
-                            assert.strictEqual(expectedNames[i], variables[i].name);
+                        /**
+                         * Assert `context.getDeclaredVariables(node)` is empty.
+                         * @param {ASTNode} node A node to check.
+                         * @returns {void}
+                         */
+                        function checkEmpty(node) {
+                            assert.strictEqual(0, context.getDeclaredVariables(node).length);
                         }
-                    };
-                    return rule;
+                        const rule = {
+                            Program: checkEmpty,
+                            EmptyStatement: checkEmpty,
+                            BlockStatement: checkEmpty,
+                            ExpressionStatement: checkEmpty,
+                            LabeledStatement: checkEmpty,
+                            BreakStatement: checkEmpty,
+                            ContinueStatement: checkEmpty,
+                            WithStatement: checkEmpty,
+                            SwitchStatement: checkEmpty,
+                            ReturnStatement: checkEmpty,
+                            ThrowStatement: checkEmpty,
+                            TryStatement: checkEmpty,
+                            WhileStatement: checkEmpty,
+                            DoWhileStatement: checkEmpty,
+                            ForStatement: checkEmpty,
+                            ForInStatement: checkEmpty,
+                            DebuggerStatement: checkEmpty,
+                            ThisExpression: checkEmpty,
+                            ArrayExpression: checkEmpty,
+                            ObjectExpression: checkEmpty,
+                            Property: checkEmpty,
+                            SequenceExpression: checkEmpty,
+                            UnaryExpression: checkEmpty,
+                            BinaryExpression: checkEmpty,
+                            AssignmentExpression: checkEmpty,
+                            UpdateExpression: checkEmpty,
+                            LogicalExpression: checkEmpty,
+                            ConditionalExpression: checkEmpty,
+                            CallExpression: checkEmpty,
+                            NewExpression: checkEmpty,
+                            MemberExpression: checkEmpty,
+                            SwitchCase: checkEmpty,
+                            Identifier: checkEmpty,
+                            Literal: checkEmpty,
+                            ForOfStatement: checkEmpty,
+                            ArrowFunctionExpression: checkEmpty,
+                            YieldExpression: checkEmpty,
+                            TemplateLiteral: checkEmpty,
+                            TaggedTemplateExpression: checkEmpty,
+                            TemplateElement: checkEmpty,
+                            ObjectPattern: checkEmpty,
+                            ArrayPattern: checkEmpty,
+                            RestElement: checkEmpty,
+                            AssignmentPattern: checkEmpty,
+                            ClassBody: checkEmpty,
+                            MethodDefinition: checkEmpty,
+                            MetaProperty: checkEmpty
+                        };
+
+                        rule[type] = function(node) {
+                            const expectedNames = expectedNamesList.shift();
+                            const variables = context.getDeclaredVariables(node);
+
+                            assert(Array.isArray(expectedNames));
+                            assert(Array.isArray(variables));
+                            assert.strictEqual(expectedNames.length, variables.length);
+                            for (let i = variables.length - 1; i >= 0; i--) {
+                                assert.strictEqual(expectedNames[i], variables[i].name);
+                            }
+                        };
+                        return rule;
+                    }
                 }
             });
             linter.verify(code, {
@@ -6548,7 +6708,9 @@ var a = "test2";
             });
 
             it("loading rule in one doesn't change the other", () => {
-                linter1.defineRule("mock-rule", () => ({}));
+                linter1.defineRule("mock-rule", {
+                    create: () => ({})
+                });
 
                 assert.isTrue(linter1.getRules().has("mock-rule"), "mock rule is present");
                 assert.isFalse(linter2.getRules().has("mock-rule"), "mock rule is not present");
@@ -6565,13 +6727,15 @@ var a = "test2";
             receivedPhysicalFilenames = [];
 
             // A rule that always reports the AST with a message equal to the source text
-            linter.defineRule("report-original-text", context => ({
-                Program(ast) {
-                    receivedFilenames.push(context.getFilename());
-                    receivedPhysicalFilenames.push(context.getPhysicalFilename());
-                    context.report({ node: ast, message: context.getSourceCode().text });
-                }
-            }));
+            linter.defineRule("report-original-text", {
+                create: context => ({
+                    Program(ast) {
+                        receivedFilenames.push(context.getFilename());
+                        receivedPhysicalFilenames.push(context.getPhysicalFilename());
+                        context.report({ node: ast, message: context.getSourceCode().text });
+                    }
+                })
+            });
         });
 
         describe("preprocessors", () => {
@@ -6907,11 +7071,13 @@ var a = "test2";
         });
 
         it("should throw an error if fix is passed from a legacy-format rule", () => {
-            linter.defineRule("test-rule", context => ({
-                Program(node) {
-                    context.report(node, "hello world", {}, () => ({ range: [1, 1], text: "" }));
-                }
-            }));
+            linter.defineRule("test-rule", {
+                create: context => ({
+                    Program(node) {
+                        context.report(node, "hello world", {}, () => ({ range: [1, 1], text: "" }));
+                    }
+                })
+            });
 
             assert.throws(() => {
                 linter.verify("0", { rules: { "test-rule": "error" } });
@@ -7000,7 +7166,9 @@ var a = "test2";
              * This test focuses on the instance of https://github.com/eslint/eslint/blob/v2.0.0-alpha-2/conf/environments.js#L26-L28
              * This `verify()` takes the instance and runs https://github.com/eslint/eslint/blob/v2.0.0-alpha-2/lib/eslint.js#L416
              */
-            linter.defineRule("test", () => ({}));
+            linter.defineRule("test", {
+                create: () => ({})
+            });
             linter.verify("var a = 0;", {
                 env: { node: true },
                 parserOptions: { ecmaVersion: 6, sourceType: "module" },
@@ -7010,13 +7178,15 @@ var a = "test2";
             // This `verify()` takes the instance and tests that the instance was not modified.
             let ok = false;
 
-            linter.defineRule("test", context => {
-                assert(
-                    context.parserOptions.ecmaFeatures.globalReturn,
-                    "`ecmaFeatures.globalReturn` of the node environment should not be modified."
-                );
-                ok = true;
-                return {};
+            linter.defineRule("test", {
+                create: context => {
+                    assert(
+                        context.parserOptions.ecmaFeatures.globalReturn,
+                        "`ecmaFeatures.globalReturn` of the node environment should not be modified."
+                    );
+                    ok = true;
+                    return {};
+                }
             });
             linter.verify("var a = 0;", {
                 env: { node: true },
@@ -7029,13 +7199,17 @@ var a = "test2";
         it("should throw when rule's create() function does not return an object", () => {
             const config = { rules: { checker: "error" } };
 
-            linter.defineRule("checker", () => null); // returns null
+            linter.defineRule("checker", {
+                create: () => null
+            }); // returns null
 
             assert.throws(() => {
                 linter.verify("abc", config, filename);
             }, "The create() function for rule 'checker' did not return an object.");
 
-            linter.defineRule("checker", () => {}); // returns undefined
+            linter.defineRule("checker", {
+                create: () => {}
+            }); // returns undefined
 
             assert.throws(() => {
                 linter.verify("abc", config, filename);
@@ -7111,11 +7285,13 @@ var a = "test2";
 
             const nodes = [];
 
-            linter.defineRule("collect-node-types", () => ({
-                "*"(node) {
-                    nodes.push(node.type);
-                }
-            }));
+            linter.defineRule("collect-node-types", {
+                create: () => ({
+                    "*"(node) {
+                        nodes.push(node.type);
+                    }
+                })
+            });
 
             linter.defineParser("non-js-parser", testParsers.nonJSParser);
 
@@ -7166,21 +7342,27 @@ var a = "test2";
             beforeEach(() => {
                 types = [];
                 firstChildNodes = [];
-                linter.defineRule("collect-node-types", () => ({
-                    "*"(node) {
-                        types.push(node.type);
-                    }
-                }));
-                linter.defineRule("save-scope-manager", context => {
-                    scopeManager = context.getSourceCode().scopeManager;
-
-                    return {};
+                linter.defineRule("collect-node-types", {
+                    create: () => ({
+                        "*"(node) {
+                            types.push(node.type);
+                        }
+                    })
                 });
-                linter.defineRule("esquery-option", () => ({
-                    ":first-child"(node) {
-                        firstChildNodes.push(node);
+                linter.defineRule("save-scope-manager", {
+                    create: context => {
+                        scopeManager = context.getSourceCode().scopeManager;
+
+                        return {};
                     }
-                }));
+                });
+                linter.defineRule("esquery-option", {
+                    create: () => ({
+                        ":first-child"(node) {
+                            firstChildNodes.push(node);
+                        }
+                    })
+                });
                 linter.defineParser("enhanced-parser2", testParsers.enhancedParser2);
                 linter.verify("@foo class A {}", {
                     parser: "enhanced-parser2",
@@ -7211,11 +7393,13 @@ var a = "test2";
             it("should use the same visitorKeys if the source code object is reused", () => {
                 const types2 = [];
 
-                linter.defineRule("collect-node-types", () => ({
-                    "*"(node) {
-                        types2.push(node.type);
-                    }
-                }));
+                linter.defineRule("collect-node-types", {
+                    create: () => ({
+                        "*"(node) {
+                            types2.push(node.type);
+                        }
+                    })
+                });
                 linter.verify(sourceCode, {
                     rules: {
                         "collect-node-types": "error"
@@ -7242,11 +7426,13 @@ var a = "test2";
 
             beforeEach(() => {
                 linter.defineParser("enhanced-parser3", testParsers.enhancedParser3);
-                linter.defineRule("save-scope1", context => ({
-                    Program() {
-                        scope = context.getScope();
-                    }
-                }));
+                linter.defineRule("save-scope1", {
+                    create: context => ({
+                        Program() {
+                            scope = context.getScope();
+                        }
+                    })
+                });
                 linter.verify("@foo class A {}", { parser: "enhanced-parser3", rules: { "save-scope1": 2 } });
 
                 sourceCode = linter.getSourceCode();
@@ -7263,11 +7449,13 @@ var a = "test2";
             it("should use the same scope if the source code object is reused", () => {
                 let scope2 = null;
 
-                linter.defineRule("save-scope2", context => ({
-                    Program() {
-                        scope2 = context.getScope();
-                    }
-                }));
+                linter.defineRule("save-scope2", {
+                    create: context => ({
+                        Program() {
+                            scope2 = context.getScope();
+                        }
+                    })
+                });
                 linter.verify(sourceCode, { rules: { "save-scope2": 2 } }, "test.js");
 
                 assert(scope2 !== null);
@@ -7410,12 +7598,12 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker(context) {
-                                        return {
+                                    checker: {
+                                        create: context => ({
                                             Program() {
                                                 assert.strictEqual(context.languageOptions.ecmaVersion, 2015);
                                             }
-                                        };
+                                        })
                                     }
                                 }
                             }
@@ -7434,12 +7622,12 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker(context) {
-                                        return {
+                                    checker: {
+                                        create: context => ({
                                             Program() {
                                                 assert.strictEqual(context.languageOptions.ecmaVersion, espree.latestEcmaVersion + 2009);
                                             }
-                                        };
+                                        })
                                     }
                                 }
                             }
@@ -7455,12 +7643,12 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker(context) {
-                                        return {
+                                    checker: {
+                                        create: context => ({
                                             Program() {
                                                 assert.strictEqual(context.languageOptions.ecmaVersion, 5);
                                             }
-                                        };
+                                        })
                                     }
                                 }
                             }
@@ -7479,12 +7667,12 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker(context) {
-                                        return {
+                                    checker: {
+                                        create: context => ({
                                             Program() {
                                                 assert.strictEqual(context.languageOptions.ecmaVersion, espree.latestEcmaVersion + 2009);
                                             }
-                                        };
+                                        })
                                     }
                                 }
                             }
@@ -7508,12 +7696,12 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker(context) {
-                                        return {
+                                    checker: {
+                                        create: context => ({
                                             Program() {
                                                 assert.strictEqual(context.languageOptions.sourceType, "module");
                                             }
-                                        };
+                                        })
                                     }
                                 }
                             }
@@ -7529,12 +7717,12 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker(context) {
-                                        return {
+                                    checker: {
+                                        create: context => ({
                                             Program() {
                                                 assert.strictEqual(context.languageOptions.sourceType, "commonjs");
                                             }
-                                        };
+                                        })
                                     }
                                 }
                             }
@@ -7695,9 +7883,11 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    "test-rule": sinon.mock().withArgs(
-                                        sinon.match({ languageOptions: { parser: esprima } })
-                                    ).returns({})
+                                    "test-rule": {
+                                        create: sinon.mock().withArgs(
+                                            sinon.match({ languageOptions: { parser: esprima } })
+                                        ).returns({})
+                                    }
                                 }
                             }
                         },
@@ -7742,14 +7932,16 @@ describe("Linter with FlatConfigArray", () => {
                                     "enhanced-parser": testParsers.enhancedParser
                                 },
                                 rules: {
-                                    "test-service-rule": context => ({
-                                        Literal(node) {
-                                            context.report({
-                                                node,
-                                                message: context.parserServices.test.getMessage()
-                                            });
-                                        }
-                                    })
+                                    "test-service-rule": {
+                                        create: context => ({
+                                            Literal(node) {
+                                                context.report({
+                                                    node,
+                                                    message: context.parserServices.test.getMessage()
+                                                });
+                                            }
+                                        })
+                                    }
                                 }
                             }
                         },
@@ -7779,14 +7971,16 @@ describe("Linter with FlatConfigArray", () => {
                                     "enhanced-parser": testParsers.enhancedParser
                                 },
                                 rules: {
-                                    "test-service-rule": context => ({
-                                        Literal(node) {
-                                            context.report({
-                                                node,
-                                                message: context.parserServices.test.getMessage()
-                                            });
-                                        }
-                                    })
+                                    "test-service-rule": {
+                                        create: context => ({
+                                            Literal(node) {
+                                                context.report({
+                                                    node,
+                                                    message: context.parserServices.test.getMessage()
+                                                });
+                                            }
+                                        })
+                                    }
                                 }
                             }
                         },
@@ -7829,7 +8023,7 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    "test-rule": spy
+                                    "test-rule": { create: spy }
                                 }
                             }
                         },
@@ -7921,11 +8115,13 @@ describe("Linter with FlatConfigArray", () => {
                             plugins: {
                                 test: {
                                     rules: {
-                                        "collect-node-types": () => ({
-                                            "*"(node) {
-                                                nodes.push(node.type);
-                                            }
-                                        })
+                                        "collect-node-types": {
+                                            create: () => ({
+                                                "*"(node) {
+                                                    nodes.push(node.type);
+                                                }
+                                            })
+                                        }
                                     }
                                 }
                             },
@@ -7988,21 +8184,27 @@ describe("Linter with FlatConfigArray", () => {
                                 plugins: {
                                     test: {
                                         rules: {
-                                            "collect-node-types": () => ({
-                                                "*"(node) {
-                                                    types.push(node.type);
-                                                }
-                                            }),
-                                            "save-scope-manager": context => {
-                                                scopeManager = context.getSourceCode().scopeManager;
-
-                                                return {};
+                                            "collect-node-types": {
+                                                create: () => ({
+                                                    "*"(node) {
+                                                        types.push(node.type);
+                                                    }
+                                                })
                                             },
-                                            "esquery-option": () => ({
-                                                ":first-child"(node) {
-                                                    firstChildNodes.push(node);
+                                            "save-scope-manager": {
+                                                create: context => {
+                                                    scopeManager = context.getSourceCode().scopeManager;
+
+                                                    return {};
                                                 }
-                                            })
+                                            },
+                                            "esquery-option": {
+                                                create: () => ({
+                                                    ":first-child"(node) {
+                                                        firstChildNodes.push(node);
+                                                    }
+                                                })
+                                            }
                                         }
                                     }
                                 },
@@ -8041,11 +8243,13 @@ describe("Linter with FlatConfigArray", () => {
                                 plugins: {
                                     test: {
                                         rules: {
-                                            "collect-node-types": () => ({
-                                                "*"(node) {
-                                                    types2.push(node.type);
-                                                }
-                                            })
+                                            "collect-node-types": {
+                                                create: () => ({
+                                                    "*"(node) {
+                                                        types2.push(node.type);
+                                                    }
+                                                })
+                                            }
                                         }
                                     }
                                 },
@@ -8079,11 +8283,13 @@ describe("Linter with FlatConfigArray", () => {
                                 plugins: {
                                     test: {
                                         rules: {
-                                            "save-scope1": context => ({
-                                                Program() {
-                                                    scope = context.getScope();
-                                                }
-                                            })
+                                            "save-scope1": {
+                                                create: context => ({
+                                                    Program() {
+                                                        scope = context.getScope();
+                                                    }
+                                                })
+                                            }
                                         }
                                     }
                                 },
@@ -8114,11 +8320,13 @@ describe("Linter with FlatConfigArray", () => {
                                 plugins: {
                                     test: {
                                         rules: {
-                                            "save-scope2": context => ({
-                                                Program() {
-                                                    scope2 = context.getScope();
-                                                }
-                                            })
+                                            "save-scope2": {
+                                                create: context => ({
+                                                    Program() {
+                                                        scope2 = context.getScope();
+                                                    }
+                                                })
+                                            }
                                         }
                                     }
                                 },
@@ -8170,9 +8378,11 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    "test-rule": sinon.mock().withArgs(
-                                        sinon.match({ languageOptions: { parserOptions } })
-                                    ).returns({})
+                                    "test-rule": {
+                                        create: sinon.mock().withArgs(
+                                            sinon.match({ languageOptions: { parserOptions } })
+                                        ).returns({})
+                                    }
                                 }
                             }
                         },
@@ -8193,17 +8403,19 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    "test-rule": sinon.mock().withArgs(
-                                        sinon.match({
-                                            languageOptions: {
-                                                parserOptions: {
-                                                    ecmaFeatures: {
-                                                        globalReturn: false
+                                    "test-rule": {
+                                        create: sinon.mock().withArgs(
+                                            sinon.match({
+                                                languageOptions: {
+                                                    parserOptions: {
+                                                        ecmaFeatures: {
+                                                            globalReturn: false
+                                                        }
                                                     }
                                                 }
-                                            }
-                                        })
-                                    ).returns({})
+                                            })
+                                        ).returns({})
+                                    }
                                 }
                             }
                         },
@@ -8392,7 +8604,7 @@ describe("Linter with FlatConfigArray", () => {
                         const code = "var enum;";
                         const messages = linter.verify(code, {
                             languageOptions: {
-                                ...ecmaVersion ? { ecmaVersion } : {},
+                                ...(ecmaVersion ? { ecmaVersion } : {}),
                                 sourceType: "script"
                             }
                         }, filename);
@@ -8411,7 +8623,7 @@ describe("Linter with FlatConfigArray", () => {
                         const code = "obj.enum; obj.function; var obj = { enum: 1, function: 2 };";
                         const messages = linter.verify(code, {
                             languageOptions: {
-                                ...ecmaVersion ? { ecmaVersion } : {},
+                                ...(ecmaVersion ? { ecmaVersion } : {}),
                                 sourceType: "script"
                             }
                         }, filename);
@@ -8427,7 +8639,7 @@ describe("Linter with FlatConfigArray", () => {
                         const code = "";
                         const messages = linter.verify(code, {
                             languageOptions: {
-                                ...ecmaVersion ? { ecmaVersion } : {},
+                                ...(ecmaVersion ? { ecmaVersion } : {}),
                                 sourceType: "script",
                                 parserOptions: {
                                     allowReserved: true
@@ -8453,11 +8665,13 @@ describe("Linter with FlatConfigArray", () => {
                     plugins: {
                         test: {
                             rules: {
-                                [ruleId]: context => ({
-                                    Literal(node) {
-                                        context.report(node, context.settings.info);
-                                    }
-                                })
+                                [ruleId]: {
+                                    create: context => ({
+                                        Literal(node) {
+                                            context.report(node, context.settings.info);
+                                        }
+                                    })
+                                }
                             }
                         }
                     },
@@ -8484,13 +8698,15 @@ describe("Linter with FlatConfigArray", () => {
                     plugins: {
                         test: {
                             rules: {
-                                [ruleId]: context => ({
-                                    Literal(node) {
-                                        if (Object.getOwnPropertyNames(context.settings).length !== 0) {
-                                            context.report(node, "Settings should be empty");
+                                [ruleId]: {
+                                    create: context => ({
+                                        Literal(node) {
+                                            if (Object.getOwnPropertyNames(context.settings).length !== 0) {
+                                                context.report(node, "Settings should be empty");
+                                            }
                                         }
-                                    }
-                                })
+                                    })
+                                }
                             }
                         }
                     },
@@ -8645,7 +8861,7 @@ describe("Linter with FlatConfigArray", () => {
                     plugins: {
                         test: {
                             rules: {
-                                checker: spy
+                                checker: { create: spy }
                             }
                         }
                     }
@@ -8665,11 +8881,14 @@ describe("Linter with FlatConfigArray", () => {
                     plugins: {
                         test: {
                             rules: {
-                                checker: () => ({
-                                    Program() {
-                                        throw new Error("Intentional error.");
-                                    }
-                                })
+                                checker: {
+                                    create: () => ({
+                                        Program() {
+                                            throw new Error("Intentional error.");
+                                        }
+
+                                    })
+                                }
                             }
                         }
                     },
@@ -8687,9 +8906,11 @@ describe("Linter with FlatConfigArray", () => {
                     plugins: {
                         test: {
                             rules: {
-                                checker: () => ({
-                                    Program: spy
-                                })
+                                checker: {
+                                    create: () => ({
+                                        Program: spy
+                                    })
+                                }
                             }
                         }
                     },
@@ -8707,9 +8928,11 @@ describe("Linter with FlatConfigArray", () => {
                     plugins: {
                         test: {
                             rules: {
-                                checker: () => ({
-                                    newListener: spy
-                                })
+                                checker: {
+                                    create: () => ({
+                                        newListener: spy
+                                    })
+                                }
                             }
                         }
                     },
@@ -8739,7 +8962,7 @@ describe("Linter with FlatConfigArray", () => {
                     plugins: {
                         test: {
                             rules: {
-                                checker: spy
+                                checker: { create: spy }
                             }
                         }
                     },
@@ -8763,14 +8986,16 @@ describe("Linter with FlatConfigArray", () => {
                     plugins: {
                         test: {
                             rules: {
-                                checker() {
-                                    return {
-                                        Literal: spyLiteral,
-                                        VariableDeclarator: spyVariableDeclarator,
-                                        VariableDeclaration: spyVariableDeclaration,
-                                        Identifier: spyIdentifier,
-                                        BinaryExpression: spyBinaryExpression
-                                    };
+                                checker: {
+                                    create() {
+                                        return {
+                                            Literal: spyLiteral,
+                                            VariableDeclarator: spyVariableDeclarator,
+                                            VariableDeclaration: spyVariableDeclaration,
+                                            Identifier: spyIdentifier,
+                                            BinaryExpression: spyBinaryExpression
+                                        };
+                                    }
                                 }
                             }
                         }
@@ -8797,12 +9022,12 @@ describe("Linter with FlatConfigArray", () => {
                     plugins: {
                         test: {
                             rules: {
-                                "invalid-report"(context) {
-                                    return {
+                                "invalid-report": {
+                                    create: context => ({
                                         Program(node) {
                                             context.report({ node });
                                         }
-                                    };
+                                    })
                                 }
                             }
                         }
@@ -8831,11 +9056,13 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    [ruleId]: context => ({
-                                        Literal(node) {
-                                            context.report(node, context.getFilename());
-                                        }
-                                    })
+                                    [ruleId]: {
+                                        create: context => ({
+                                            Literal(node) {
+                                                context.report(node, context.getFilename());
+                                            }
+                                        })
+                                    }
                                 }
                             }
                         },
@@ -8857,11 +9084,13 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    [ruleId]: context => ({
-                                        Literal(node) {
-                                            context.report(node, context.getFilename());
-                                        }
-                                    })
+                                    [ruleId]: {
+                                        create: context => ({
+                                            Literal(node) {
+                                                context.report(node, context.getFilename());
+                                            }
+                                        })
+                                    }
                                 }
                             }
                         },
@@ -8889,11 +9118,13 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    [ruleId]: context => ({
-                                        Literal(node) {
-                                            context.report(node, context.getPhysicalFilename());
-                                        }
-                                    })
+                                    [ruleId]: {
+                                        create: context => ({
+                                            Literal(node) {
+                                                context.report(node, context.getPhysicalFilename());
+                                            }
+                                        })
+                                    }
                                 }
                             }
                         },
@@ -8924,7 +9155,7 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: spy
+                                    checker: { create: spy }
                                 }
                             }
                         },
@@ -8946,7 +9177,7 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: spy
+                                    checker: { create: spy }
                                 }
                             }
                         },
@@ -8968,7 +9199,7 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: spy
+                                    checker: { create: spy }
                                 }
                             }
                         },
@@ -8990,7 +9221,7 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: spy
+                                    checker: { create: spy }
                                 }
                             }
                         },
@@ -9012,7 +9243,7 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: spy
+                                    checker: { create: spy }
                                 }
                             }
                         },
@@ -9036,11 +9267,13 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            assert.strictEqual(context.getSource(), TEST_CODE);
-                                        });
-                                        return { Program: spy };
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                assert.strictEqual(context.getSource(), TEST_CODE);
+                                            });
+                                            return { Program: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9060,11 +9293,13 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(node => {
-                                            assert.strictEqual(context.getSource(node), TEST_CODE);
-                                        });
-                                        return { Program: spy };
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(node => {
+                                                assert.strictEqual(context.getSource(node), TEST_CODE);
+                                            });
+                                            return { Program: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9083,11 +9318,13 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(node => {
-                                            assert.strictEqual(context.getSource(node, 2, 0), TEST_CODE);
-                                        });
-                                        return { Program: spy };
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(node => {
+                                                assert.strictEqual(context.getSource(node, 2, 0), TEST_CODE);
+                                            });
+                                            return { Program: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9106,11 +9343,13 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(node => {
-                                            assert.strictEqual(context.getSource(node), "6 * 7");
-                                        });
-                                        return { BinaryExpression: spy };
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(node => {
+                                                assert.strictEqual(context.getSource(node), "6 * 7");
+                                            });
+                                            return { BinaryExpression: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9129,11 +9368,14 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(node => {
-                                            assert.strictEqual(context.getSource(node, 2), "= 6 * 7");
-                                        });
-                                        return { BinaryExpression: spy };
+                                    checker: {
+                                        create:
+                                        context => {
+                                            spy = sinon.spy(node => {
+                                                assert.strictEqual(context.getSource(node, 2), "= 6 * 7");
+                                            });
+                                            return { BinaryExpression: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9152,11 +9394,13 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(node => {
-                                            assert.strictEqual(context.getSource(node, 0, 1), "6 * 7;");
-                                        });
-                                        return { BinaryExpression: spy };
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(node => {
+                                                assert.strictEqual(context.getSource(node, 0, 1), "6 * 7;");
+                                            });
+                                            return { BinaryExpression: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9175,11 +9419,13 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(node => {
-                                            assert.strictEqual(context.getSource(node, 2, 1), "= 6 * 7;");
-                                        });
-                                        return { BinaryExpression: spy };
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(node => {
+                                                assert.strictEqual(context.getSource(node, 2, 1), "= 6 * 7;");
+                                            });
+                                            return { BinaryExpression: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9204,13 +9450,15 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const ancestors = context.getAncestors();
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const ancestors = context.getAncestors();
 
-                                            assert.strictEqual(ancestors.length, 3);
-                                        });
-                                        return { BinaryExpression: spy };
+                                                assert.strictEqual(ancestors.length, 3);
+                                            });
+                                            return { BinaryExpression: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9229,14 +9477,16 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const ancestors = context.getAncestors();
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const ancestors = context.getAncestors();
 
-                                            assert.strictEqual(ancestors.length, 0);
-                                        });
+                                                assert.strictEqual(ancestors.length, 0);
+                                            });
 
-                                        return { Program: spy };
+                                            return { Program: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9262,7 +9512,7 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: spy
+                                    checker: { create: spy }
                                 }
                             }
                         },
@@ -9283,7 +9533,7 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: spy
+                                    checker: { create: spy }
                                 }
                             }
                         },
@@ -9307,7 +9557,7 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: spy
+                                    checker: { create: spy }
                                 }
                             }
                         },
@@ -9328,7 +9578,7 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: spy
+                                    checker: { create: spy }
                                 }
                             }
                         },
@@ -9355,7 +9605,7 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: spy
+                                    checker: { create: spy }
                                 }
                             }
                         },
@@ -9382,7 +9632,7 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: spy
+                                    checker: { create: spy }
                                 }
                             }
                         },
@@ -9404,13 +9654,15 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const scope = context.getScope();
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope();
 
-                                            assert.strictEqual(scope.type, "global");
-                                        });
-                                        return { Program: spy };
+                                                assert.strictEqual(scope.type, "global");
+                                            });
+                                            return { Program: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9432,13 +9684,15 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const scope = context.getScope();
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope();
 
-                                            assert.strictEqual(scope.type, "function");
-                                        });
-                                        return { FunctionDeclaration: spy };
+                                                assert.strictEqual(scope.type, "function");
+                                            });
+                                            return { FunctionDeclaration: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9460,14 +9714,16 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const scope = context.getScope();
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope();
 
-                                            assert.strictEqual(scope.type, "function");
-                                            assert.strictEqual(scope.block.id.name, "foo");
-                                        });
-                                        return { LabeledStatement: spy };
+                                                assert.strictEqual(scope.type, "function");
+                                                assert.strictEqual(scope.block.id.name, "foo");
+                                            });
+                                            return { LabeledStatement: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9490,15 +9746,17 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const scope = context.getScope();
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope();
 
-                                            assert.strictEqual(scope.type, "function");
-                                            assert.strictEqual(scope.block.type, "ArrowFunctionExpression");
-                                        });
+                                                assert.strictEqual(scope.type, "function");
+                                                assert.strictEqual(scope.block.type, "ArrowFunctionExpression");
+                                            });
 
-                                        return { ReturnStatement: spy };
+                                            return { ReturnStatement: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9521,15 +9779,17 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const scope = context.getScope();
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope();
 
-                                            assert.strictEqual(scope.type, "switch");
-                                            assert.strictEqual(scope.block.type, "SwitchStatement");
-                                        });
+                                                assert.strictEqual(scope.type, "switch");
+                                                assert.strictEqual(scope.block.type, "SwitchStatement");
+                                            });
 
-                                        return { SwitchStatement: spy };
+                                            return { SwitchStatement: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9551,15 +9811,17 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const scope = context.getScope();
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope();
 
-                                            assert.strictEqual(scope.type, "block");
-                                            assert.strictEqual(scope.block.type, "BlockStatement");
-                                        });
+                                                assert.strictEqual(scope.type, "block");
+                                                assert.strictEqual(scope.block.type, "BlockStatement");
+                                            });
 
-                                        return { BlockStatement: spy };
+                                            return { BlockStatement: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9582,15 +9844,17 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const scope = context.getScope();
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope();
 
-                                            assert.strictEqual(scope.type, "block");
-                                            assert.strictEqual(scope.block.type, "BlockStatement");
-                                        });
+                                                assert.strictEqual(scope.type, "block");
+                                                assert.strictEqual(scope.block.type, "BlockStatement");
+                                            });
 
-                                        return { BlockStatement: spy };
+                                            return { BlockStatement: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9613,15 +9877,17 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const scope = context.getScope();
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope();
 
-                                            assert.strictEqual(scope.type, "function");
-                                            assert.strictEqual(scope.block.type, "FunctionDeclaration");
-                                        });
+                                                assert.strictEqual(scope.type, "function");
+                                                assert.strictEqual(scope.block.type, "FunctionDeclaration");
+                                            });
 
-                                        return { FunctionDeclaration: spy };
+                                            return { FunctionDeclaration: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9644,15 +9910,17 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const scope = context.getScope();
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope();
 
-                                            assert.strictEqual(scope.type, "function");
-                                            assert.strictEqual(scope.block.type, "FunctionExpression");
-                                        });
+                                                assert.strictEqual(scope.type, "function");
+                                                assert.strictEqual(scope.block.type, "FunctionExpression");
+                                            });
 
-                                        return { FunctionExpression: spy };
+                                            return { FunctionExpression: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9675,15 +9943,17 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const scope = context.getScope();
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope();
 
-                                            assert.strictEqual(scope.type, "catch");
-                                            assert.strictEqual(scope.block.type, "CatchClause");
-                                        });
+                                                assert.strictEqual(scope.type, "catch");
+                                                assert.strictEqual(scope.block.type, "CatchClause");
+                                            });
 
-                                        return { CatchClause: spy };
+                                            return { CatchClause: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9705,14 +9975,16 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const scope = context.getScope();
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope();
 
-                                            assert.strictEqual(scope.type, "module");
-                                        });
+                                                assert.strictEqual(scope.type, "module");
+                                            });
 
-                                        return { AssignmentExpression: spy };
+                                            return { AssignmentExpression: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9736,14 +10008,16 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const scope = context.getScope();
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope();
 
-                                            assert.strictEqual(scope.type, "function");
-                                        });
+                                                assert.strictEqual(scope.type, "function");
+                                            });
 
-                                        return { AssignmentExpression: spy };
+                                            return { AssignmentExpression: spy };
+                                        }
                                     }
                                 }
                             }
@@ -9775,12 +10049,14 @@ describe("Linter with FlatConfigArray", () => {
                             plugins: {
                                 test: {
                                     rules: {
-                                        "get-scope": context => ({
-                                            [astSelector](node0) {
-                                                node = node0;
-                                                scope = context.getScope();
-                                            }
-                                        })
+                                        "get-scope": {
+                                            create: context => ({
+                                                [astSelector](node0) {
+                                                    node = node0;
+                                                    scope = context.getScope();
+                                                }
+                                            })
+                                        }
                                     }
                                 }
                             },
@@ -10042,13 +10318,13 @@ describe("Linter with FlatConfigArray", () => {
                             plugins: {
                                 test: {
                                     rules: {
-                                        test(context) {
-                                            return {
+                                        test: {
+                                            create: context => ({
                                                 Program() {
                                                     scope = context.getScope();
                                                     ok = true;
                                                 }
-                                            };
+                                            })
                                         }
                                     }
                                 }
@@ -10152,78 +10428,81 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
 
                                 rules: {
-                                    test(context) {
+                                    test: {
+                                        create: context => {
 
-                                        /**
-                                         * Assert `context.getDeclaredVariables(node)` is empty.
-                                         * @param {ASTNode} node A node to check.
-                                         * @returns {void}
-                                         */
-                                        function checkEmpty(node) {
-                                            assert.strictEqual(0, context.getDeclaredVariables(node).length);
-                                        }
-                                        const rule = {
-                                            Program: checkEmpty,
-                                            EmptyStatement: checkEmpty,
-                                            BlockStatement: checkEmpty,
-                                            ExpressionStatement: checkEmpty,
-                                            LabeledStatement: checkEmpty,
-                                            BreakStatement: checkEmpty,
-                                            ContinueStatement: checkEmpty,
-                                            WithStatement: checkEmpty,
-                                            SwitchStatement: checkEmpty,
-                                            ReturnStatement: checkEmpty,
-                                            ThrowStatement: checkEmpty,
-                                            TryStatement: checkEmpty,
-                                            WhileStatement: checkEmpty,
-                                            DoWhileStatement: checkEmpty,
-                                            ForStatement: checkEmpty,
-                                            ForInStatement: checkEmpty,
-                                            DebuggerStatement: checkEmpty,
-                                            ThisExpression: checkEmpty,
-                                            ArrayExpression: checkEmpty,
-                                            ObjectExpression: checkEmpty,
-                                            Property: checkEmpty,
-                                            SequenceExpression: checkEmpty,
-                                            UnaryExpression: checkEmpty,
-                                            BinaryExpression: checkEmpty,
-                                            AssignmentExpression: checkEmpty,
-                                            UpdateExpression: checkEmpty,
-                                            LogicalExpression: checkEmpty,
-                                            ConditionalExpression: checkEmpty,
-                                            CallExpression: checkEmpty,
-                                            NewExpression: checkEmpty,
-                                            MemberExpression: checkEmpty,
-                                            SwitchCase: checkEmpty,
-                                            Identifier: checkEmpty,
-                                            Literal: checkEmpty,
-                                            ForOfStatement: checkEmpty,
-                                            ArrowFunctionExpression: checkEmpty,
-                                            YieldExpression: checkEmpty,
-                                            TemplateLiteral: checkEmpty,
-                                            TaggedTemplateExpression: checkEmpty,
-                                            TemplateElement: checkEmpty,
-                                            ObjectPattern: checkEmpty,
-                                            ArrayPattern: checkEmpty,
-                                            RestElement: checkEmpty,
-                                            AssignmentPattern: checkEmpty,
-                                            ClassBody: checkEmpty,
-                                            MethodDefinition: checkEmpty,
-                                            MetaProperty: checkEmpty
-                                        };
-
-                                        rule[type] = function(node) {
-                                            const expectedNames = expectedNamesList.shift();
-                                            const variables = context.getDeclaredVariables(node);
-
-                                            assert(Array.isArray(expectedNames));
-                                            assert(Array.isArray(variables));
-                                            assert.strictEqual(expectedNames.length, variables.length);
-                                            for (let i = variables.length - 1; i >= 0; i--) {
-                                                assert.strictEqual(expectedNames[i], variables[i].name);
+                                            /**
+                                             * Assert `context.getDeclaredVariables(node)` is empty.
+                                             * @param {ASTNode} node A node to check.
+                                             * @returns {void}
+                                             */
+                                            function checkEmpty(node) {
+                                                assert.strictEqual(0, context.getDeclaredVariables(node).length);
                                             }
-                                        };
-                                        return rule;
+                                            const rule = {
+                                                Program: checkEmpty,
+                                                EmptyStatement: checkEmpty,
+                                                BlockStatement: checkEmpty,
+                                                ExpressionStatement: checkEmpty,
+                                                LabeledStatement: checkEmpty,
+                                                BreakStatement: checkEmpty,
+                                                ContinueStatement: checkEmpty,
+                                                WithStatement: checkEmpty,
+                                                SwitchStatement: checkEmpty,
+                                                ReturnStatement: checkEmpty,
+                                                ThrowStatement: checkEmpty,
+                                                TryStatement: checkEmpty,
+                                                WhileStatement: checkEmpty,
+                                                DoWhileStatement: checkEmpty,
+                                                ForStatement: checkEmpty,
+                                                ForInStatement: checkEmpty,
+                                                DebuggerStatement: checkEmpty,
+                                                ThisExpression: checkEmpty,
+                                                ArrayExpression: checkEmpty,
+                                                ObjectExpression: checkEmpty,
+                                                Property: checkEmpty,
+                                                SequenceExpression: checkEmpty,
+                                                UnaryExpression: checkEmpty,
+                                                BinaryExpression: checkEmpty,
+                                                AssignmentExpression: checkEmpty,
+                                                UpdateExpression: checkEmpty,
+                                                LogicalExpression: checkEmpty,
+                                                ConditionalExpression: checkEmpty,
+                                                CallExpression: checkEmpty,
+                                                NewExpression: checkEmpty,
+                                                MemberExpression: checkEmpty,
+                                                SwitchCase: checkEmpty,
+                                                Identifier: checkEmpty,
+                                                Literal: checkEmpty,
+                                                ForOfStatement: checkEmpty,
+                                                ArrowFunctionExpression: checkEmpty,
+                                                YieldExpression: checkEmpty,
+                                                TemplateLiteral: checkEmpty,
+                                                TaggedTemplateExpression: checkEmpty,
+                                                TemplateElement: checkEmpty,
+                                                ObjectPattern: checkEmpty,
+                                                ArrayPattern: checkEmpty,
+                                                RestElement: checkEmpty,
+                                                AssignmentPattern: checkEmpty,
+                                                ClassBody: checkEmpty,
+                                                MethodDefinition: checkEmpty,
+                                                MetaProperty: checkEmpty
+                                            };
+
+                                            rule[type] = function(node) {
+                                                const expectedNames = expectedNamesList.shift();
+                                                const variables = context.getDeclaredVariables(node);
+
+                                                assert(Array.isArray(expectedNames));
+                                                assert(Array.isArray(variables));
+                                                assert.strictEqual(expectedNames.length, variables.length);
+                                                for (let i = variables.length - 1; i >= 0; i--) {
+                                                    assert.strictEqual(expectedNames[i], variables[i].name);
+                                                }
+                                            };
+                                            return rule;
+                                        }
+
                                     }
                                 }
 
@@ -10396,17 +10675,19 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            assert.isTrue(context.markVariableAsUsed("a"));
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                assert.isTrue(context.markVariableAsUsed("a"));
 
-                                            const scope = context.getScope();
+                                                const scope = context.getScope();
 
-                                            assert.isTrue(getVariable(scope, "a").eslintUsed);
-                                            assert.notOk(getVariable(scope, "b").eslintUsed);
-                                        });
+                                                assert.isTrue(getVariable(scope, "a").eslintUsed);
+                                                assert.notOk(getVariable(scope, "b").eslintUsed);
+                                            });
 
-                                        return { "Program:exit": spy };
+                                            return { "Program:exit": spy };
+                                        }
                                     }
                                 }
                             }
@@ -10429,17 +10710,19 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            assert.isTrue(context.markVariableAsUsed("a"));
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                assert.isTrue(context.markVariableAsUsed("a"));
 
-                                            const scope = context.getScope();
+                                                const scope = context.getScope();
 
-                                            assert.isTrue(getVariable(scope, "a").eslintUsed);
-                                            assert.notOk(getVariable(scope, "b").eslintUsed);
-                                        });
+                                                assert.isTrue(getVariable(scope, "a").eslintUsed);
+                                                assert.notOk(getVariable(scope, "b").eslintUsed);
+                                            });
 
-                                        return { ReturnStatement: spy };
+                                            return { ReturnStatement: spy };
+                                        }
                                     }
                                 }
                             }
@@ -10459,18 +10742,20 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        returnSpy = sinon.spy(() => {
-                                            assert.isTrue(context.markVariableAsUsed("a"));
-                                        });
-                                        exitSpy = sinon.spy(() => {
-                                            const scope = context.getScope();
+                                    checker: {
+                                        create: context => {
+                                            returnSpy = sinon.spy(() => {
+                                                assert.isTrue(context.markVariableAsUsed("a"));
+                                            });
+                                            exitSpy = sinon.spy(() => {
+                                                const scope = context.getScope();
 
-                                            assert.isTrue(getVariable(scope, "a").eslintUsed);
-                                            assert.notOk(getVariable(scope, "b").eslintUsed);
-                                        });
+                                                assert.isTrue(getVariable(scope, "a").eslintUsed);
+                                                assert.notOk(getVariable(scope, "b").eslintUsed);
+                                            });
 
-                                        return { ReturnStatement: returnSpy, "Program:exit": exitSpy };
+                                            return { ReturnStatement: returnSpy, "Program:exit": exitSpy };
+                                        }
                                     }
                                 }
                             }
@@ -10494,18 +10779,20 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const globalScope = context.getScope(),
-                                                childScope = globalScope.childScopes[0];
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const globalScope = context.getScope(),
+                                                    childScope = globalScope.childScopes[0];
 
-                                            assert.isTrue(context.markVariableAsUsed("a"), "Call to markVariableAsUsed should return true");
+                                                assert.isTrue(context.markVariableAsUsed("a"), "Call to markVariableAsUsed should return true");
 
-                                            assert.isTrue(getVariable(childScope, "a").eslintUsed, "'a' should be marked as used.");
-                                            assert.isUndefined(getVariable(childScope, "b").eslintUsed, "'b' should be marked as used.");
-                                        });
+                                                assert.isTrue(getVariable(childScope, "a").eslintUsed, "'a' should be marked as used.");
+                                                assert.isUndefined(getVariable(childScope, "b").eslintUsed, "'b' should be marked as used.");
+                                            });
 
-                                        return { "Program:exit": spy };
+                                            return { "Program:exit": spy };
+                                        }
                                     }
                                 }
                             }
@@ -10528,18 +10815,20 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const globalScope = context.getScope(),
-                                                childScope = globalScope.childScopes[0];
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const globalScope = context.getScope(),
+                                                    childScope = globalScope.childScopes[0];
 
-                                            assert.isTrue(context.markVariableAsUsed("a"));
+                                                assert.isTrue(context.markVariableAsUsed("a"));
 
-                                            assert.isTrue(getVariable(childScope, "a").eslintUsed);
-                                            assert.isUndefined(getVariable(childScope, "b").eslintUsed);
-                                        });
+                                                assert.isTrue(getVariable(childScope, "a").eslintUsed);
+                                                assert.isUndefined(getVariable(childScope, "b").eslintUsed);
+                                            });
 
-                                        return { "Program:exit": spy };
+                                            return { "Program:exit": spy };
+                                        }
                                     }
                                 }
                             }
@@ -10563,12 +10852,14 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            assert.isFalse(context.markVariableAsUsed("c"));
-                                        });
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                assert.isFalse(context.markVariableAsUsed("c"));
+                                            });
 
-                                        return { "Program:exit": spy };
+                                            return { "Program:exit": spy };
+                                        }
                                     }
                                 }
                             }
@@ -10593,11 +10884,13 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            assert.strictEqual(context.getCwd(), cwd);
-                                        });
-                                        return { Program: spy };
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                assert.strictEqual(context.getCwd(), cwd);
+                                            });
+                                            return { Program: spy };
+                                        }
                                     }
                                 }
                             }
@@ -10617,12 +10910,14 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
+                                    checker: {
+                                        create: context => {
 
-                                        spy = sinon.spy(() => {
-                                            assert.strictEqual(context.getCwd(), process.cwd());
-                                        });
-                                        return { Program: spy };
+                                            spy = sinon.spy(() => {
+                                                assert.strictEqual(context.getCwd(), process.cwd());
+                                            });
+                                            return { Program: spy };
+                                        }
                                     }
                                 }
                             }
@@ -10640,12 +10935,14 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
+                                    checker: {
+                                        create: context => {
 
-                                        spy = sinon.spy(() => {
-                                            assert.strictEqual(context.getCwd(), process.cwd());
-                                        });
-                                        return { Program: spy };
+                                            spy = sinon.spy(() => {
+                                                assert.strictEqual(context.getCwd(), process.cwd());
+                                            });
+                                            return { Program: spy };
+                                        }
                                     }
                                 }
                             }
@@ -10747,7 +11044,7 @@ describe("Linter with FlatConfigArray", () => {
                     plugins: {
                         test: {
                             rules: {
-                                checker: spy
+                                checker: { create: spy }
                             }
                         }
                     },
@@ -10774,7 +11071,7 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: filenameChecker
+                                    checker: { create: filenameChecker }
                                 }
                             }
                         },
@@ -10797,7 +11094,7 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: filenameChecker
+                                    checker: { create: filenameChecker }
                                 }
                             }
                         },
@@ -10820,7 +11117,7 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: filenameChecker
+                                    checker: { create: filenameChecker }
                                 }
                             }
                         },
@@ -10843,7 +11140,7 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: filenameChecker
+                                    checker: { create: filenameChecker }
                                 }
                             }
                         },
@@ -10868,7 +11165,7 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: physicalFilenameChecker
+                                    checker: { create: physicalFilenameChecker }
                                 }
                             }
                         },
@@ -10891,7 +11188,7 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: physicalFilenameChecker
+                                    checker: { create: physicalFilenameChecker }
                                 }
                             }
                         },
@@ -10914,7 +11211,7 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: physicalFilenameChecker
+                                    checker: { create: physicalFilenameChecker }
                                 }
                             }
                         },
@@ -10949,38 +11246,40 @@ describe("Linter with FlatConfigArray", () => {
                             plugins: {
                                 test: {
                                     rules: {
-                                        checker: context => {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope();
-                                                const a = getVariable(scope, "a"),
-                                                    b = getVariable(scope, "b"),
-                                                    c = getVariable(scope, "c"),
-                                                    d = getVariable(scope, "d"),
-                                                    e = getVariable(scope, "e"),
-                                                    f = getVariable(scope, "f"),
-                                                    mathGlobal = getVariable(scope, "Math"),
-                                                    arrayGlobal = getVariable(scope, "Array"),
-                                                    configGlobal = getVariable(scope, "ConfigGlobal");
+                                        checker: {
+                                            create: context => {
+                                                spy = sinon.spy(() => {
+                                                    const scope = context.getScope();
+                                                    const a = getVariable(scope, "a"),
+                                                        b = getVariable(scope, "b"),
+                                                        c = getVariable(scope, "c"),
+                                                        d = getVariable(scope, "d"),
+                                                        e = getVariable(scope, "e"),
+                                                        f = getVariable(scope, "f"),
+                                                        mathGlobal = getVariable(scope, "Math"),
+                                                        arrayGlobal = getVariable(scope, "Array"),
+                                                        configGlobal = getVariable(scope, "ConfigGlobal");
 
-                                                assert.strictEqual(a.name, "a");
-                                                assert.strictEqual(a.writeable, false);
-                                                assert.strictEqual(b.name, "b");
-                                                assert.strictEqual(b.writeable, true);
-                                                assert.strictEqual(c.name, "c");
-                                                assert.strictEqual(c.writeable, false);
-                                                assert.strictEqual(d.name, "d");
-                                                assert.strictEqual(d.writeable, false);
-                                                assert.strictEqual(e.name, "e");
-                                                assert.strictEqual(e.writeable, true);
-                                                assert.strictEqual(f.name, "f");
-                                                assert.strictEqual(f.writeable, true);
-                                                assert.strictEqual(mathGlobal, null);
-                                                assert.strictEqual(arrayGlobal, null);
-                                                assert.strictEqual(configGlobal.name, "ConfigGlobal");
-                                                assert.strictEqual(configGlobal.writeable, false);
-                                            });
+                                                    assert.strictEqual(a.name, "a");
+                                                    assert.strictEqual(a.writeable, false);
+                                                    assert.strictEqual(b.name, "b");
+                                                    assert.strictEqual(b.writeable, true);
+                                                    assert.strictEqual(c.name, "c");
+                                                    assert.strictEqual(c.writeable, false);
+                                                    assert.strictEqual(d.name, "d");
+                                                    assert.strictEqual(d.writeable, false);
+                                                    assert.strictEqual(e.name, "e");
+                                                    assert.strictEqual(e.writeable, true);
+                                                    assert.strictEqual(f.name, "f");
+                                                    assert.strictEqual(f.writeable, true);
+                                                    assert.strictEqual(mathGlobal, null);
+                                                    assert.strictEqual(arrayGlobal, null);
+                                                    assert.strictEqual(configGlobal.name, "ConfigGlobal");
+                                                    assert.strictEqual(configGlobal.writeable, false);
+                                                });
 
-                                            return { Program: spy };
+                                                return { Program: spy };
+                                            }
                                         }
                                     }
                                 }
@@ -11006,22 +11305,24 @@ describe("Linter with FlatConfigArray", () => {
                             plugins: {
                                 test: {
                                     rules: {
-                                        checker: context => {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope(),
-                                                    a = getVariable(scope, "a"),
-                                                    b = getVariable(scope, "b"),
-                                                    c = getVariable(scope, "c");
+                                        checker: {
+                                            create: context => {
+                                                spy = sinon.spy(() => {
+                                                    const scope = context.getScope(),
+                                                        a = getVariable(scope, "a"),
+                                                        b = getVariable(scope, "b"),
+                                                        c = getVariable(scope, "c");
 
-                                                assert.strictEqual(a.name, "a");
-                                                assert.strictEqual(a.writeable, false);
-                                                assert.strictEqual(b.name, "b");
-                                                assert.strictEqual(b.writeable, true);
-                                                assert.strictEqual(c.name, "c");
-                                                assert.strictEqual(c.writeable, false);
-                                            });
+                                                    assert.strictEqual(a.name, "a");
+                                                    assert.strictEqual(a.writeable, false);
+                                                    assert.strictEqual(b.name, "b");
+                                                    assert.strictEqual(b.writeable, true);
+                                                    assert.strictEqual(c.name, "c");
+                                                    assert.strictEqual(c.writeable, false);
+                                                });
 
-                                            return { Program: spy };
+                                                return { Program: spy };
+                                            }
                                         }
                                     }
                                 }
@@ -11044,14 +11345,16 @@ describe("Linter with FlatConfigArray", () => {
                             plugins: {
                                 test: {
                                     rules: {
-                                        checker: context => {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope();
+                                        checker: {
+                                            create: context => {
+                                                spy = sinon.spy(() => {
+                                                    const scope = context.getScope();
 
-                                                assert.strictEqual(getVariable(scope, "a"), null);
-                                            });
+                                                    assert.strictEqual(getVariable(scope, "a"), null);
+                                                });
 
-                                            return { Program: spy };
+                                                return { Program: spy };
+                                            }
                                         }
                                     }
                                 }
@@ -11075,17 +11378,19 @@ describe("Linter with FlatConfigArray", () => {
                             plugins: {
                                 test: {
                                     rules: {
-                                        checker: context => {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope();
+                                        checker: {
+                                            create: context => {
+                                                spy = sinon.spy(() => {
+                                                    const scope = context.getScope();
 
-                                                assert.strictEqual(getVariable(scope, "a"), null);
-                                                assert.strictEqual(getVariable(scope, "b"), null);
-                                                assert.strictEqual(getVariable(scope, "foo"), null);
-                                                assert.strictEqual(getVariable(scope, "c"), null);
-                                            });
+                                                    assert.strictEqual(getVariable(scope, "a"), null);
+                                                    assert.strictEqual(getVariable(scope, "b"), null);
+                                                    assert.strictEqual(getVariable(scope, "foo"), null);
+                                                    assert.strictEqual(getVariable(scope, "c"), null);
+                                                });
 
-                                            return { Program: spy };
+                                                return { Program: spy };
+                                            }
                                         }
                                     }
                                 }
@@ -11106,8 +11411,8 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    test(context) {
-                                        return {
+                                    test: {
+                                        create: context => ({
                                             Program() {
                                                 const scope = context.getScope();
                                                 const sourceCode = context.getSourceCode();
@@ -11132,7 +11437,7 @@ describe("Linter with FlatConfigArray", () => {
 
                                                 ok = true;
                                             }
-                                        };
+                                        })
                                     }
                                 }
                             }
@@ -11195,15 +11500,17 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const scope = context.getScope(),
-                                                horse = getVariable(scope, "horse");
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope(),
+                                                    horse = getVariable(scope, "horse");
 
-                                            assert.strictEqual(horse.eslintUsed, true);
-                                        });
+                                                assert.strictEqual(horse.eslintUsed, true);
+                                            });
 
-                                        return { Program: spy };
+                                            return { Program: spy };
+                                        }
                                     }
                                 }
                             }
@@ -11225,15 +11532,17 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const scope = context.getScope(),
-                                                horse = getVariable(scope, "horse");
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope(),
+                                                    horse = getVariable(scope, "horse");
 
-                                            assert.strictEqual(horse, null);
-                                        });
+                                                assert.strictEqual(horse, null);
+                                            });
 
-                                        return { Program: spy };
+                                            return { Program: spy };
+                                        }
                                     }
                                 }
                             }
@@ -11255,15 +11564,17 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const scope = context.getScope(),
-                                                horse = getVariable(scope, "horse");
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope(),
+                                                    horse = getVariable(scope, "horse");
 
-                                            assert.strictEqual(horse.eslintUsed, true);
-                                        });
+                                                assert.strictEqual(horse.eslintUsed, true);
+                                            });
 
-                                        return { Program: spy };
+                                            return { Program: spy };
+                                        }
                                     }
                                 }
                             }
@@ -11285,15 +11596,17 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const scope = context.getScope(),
-                                                horse = getVariable(scope, "horse");
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope(),
+                                                    horse = getVariable(scope, "horse");
 
-                                            assert.strictEqual(horse, null); // there is no global scope at all
-                                        });
+                                                assert.strictEqual(horse, null); // there is no global scope at all
+                                            });
 
-                                        return { Program: spy };
+                                            return { Program: spy };
+                                        }
                                     }
                                 }
                             }
@@ -11316,15 +11629,17 @@ describe("Linter with FlatConfigArray", () => {
                         plugins: {
                             test: {
                                 rules: {
-                                    checker: context => {
-                                        spy = sinon.spy(() => {
-                                            const scope = context.getScope(),
-                                                horse = getVariable(scope, "horse");
+                                    checker: {
+                                        create: context => {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope(),
+                                                    horse = getVariable(scope, "horse");
 
-                                            assert.strictEqual(horse, null); // there is no global scope at all
-                                        });
+                                                assert.strictEqual(horse, null); // there is no global scope at all
+                                            });
 
-                                        return { Program: spy };
+                                            return { Program: spy };
+                                        }
                                     }
                                 }
                             }
@@ -11598,14 +11913,14 @@ describe("Linter with FlatConfigArray", () => {
                             plugins: {
                                 "test-plugin": {
                                     rules: {
-                                        "test-rule"(context) {
-                                            return {
+                                        "test-rule": {
+                                            create: context => ({
                                                 Literal(node) {
                                                     if (node.value === "trigger violation") {
                                                         context.report(node, "Reporting violation.");
                                                     }
                                                 }
-                                            };
+                                            })
                                         }
                                     }
                                 }
@@ -11643,11 +11958,13 @@ describe("Linter with FlatConfigArray", () => {
                             plugins: {
                                 test: {
                                     rules: {
-                                        checker: context => ({
-                                            Program() {
-                                                context.report({ loc: { line: 1, column: 0 }, message: "foo" });
-                                            }
-                                        })
+                                        checker: {
+                                            create: context => ({
+                                                Program() {
+                                                    context.report({ loc: { line: 1, column: 0 }, message: "foo" });
+                                                }
+                                            })
+                                        }
                                     }
                                 }
                             },
@@ -11672,11 +11989,13 @@ describe("Linter with FlatConfigArray", () => {
                             plugins: {
                                 test: {
                                     rules: {
-                                        checker: context => ({
-                                            Program() {
-                                                context.report({ loc: { line: 1, column: 1 }, message: "foo" });
-                                            }
-                                        })
+                                        checker: {
+                                            create: context => ({
+                                                Program() {
+                                                    context.report({ loc: { line: 1, column: 1 }, message: "foo" });
+                                                }
+                                            })
+                                        }
                                     }
                                 }
                             },
@@ -13374,8 +13693,8 @@ var a = "test2";
                             plugins: {
                                 test: {
                                     rules: {
-                                        test(context) {
-                                            return {
+                                        test: {
+                                            create: context => ({
                                                 Program() {
                                                     const scope = context.getScope();
                                                     const sourceCode = context.getSourceCode();
@@ -13389,7 +13708,7 @@ var a = "test2";
 
                                                     ok = true;
                                                 }
-                                            };
+                                            })
                                         }
                                     }
                                 }
@@ -14413,16 +14732,18 @@ var a = "test2";
                     plugins: {
                         test: {
                             rules: {
-                                checker: context => {
-                                    spy = sinon.spy(() => {
-                                        const scope = context.getScope();
+                                checker: {
+                                    create: context => {
+                                        spy = sinon.spy(() => {
+                                            const scope = context.getScope();
 
-                                        assert.notStrictEqual(getVariable(scope, "Object"), null);
-                                        assert.notStrictEqual(getVariable(scope, "Array"), null);
-                                        assert.notStrictEqual(getVariable(scope, "undefined"), null);
-                                    });
+                                            assert.notStrictEqual(getVariable(scope, "Object"), null);
+                                            assert.notStrictEqual(getVariable(scope, "Array"), null);
+                                            assert.notStrictEqual(getVariable(scope, "undefined"), null);
+                                        });
 
-                                    return { Program: spy };
+                                        return { Program: spy };
+                                    }
                                 }
                             }
                         }
@@ -14446,16 +14767,18 @@ var a = "test2";
                     plugins: {
                         test: {
                             rules: {
-                                checker: context => {
-                                    spy = sinon.spy(() => {
-                                        const scope = context.getScope();
+                                checker: {
+                                    create: context => {
+                                        spy = sinon.spy(() => {
+                                            const scope = context.getScope();
 
-                                        assert.notStrictEqual(getVariable(scope, "Promise"), null);
-                                        assert.notStrictEqual(getVariable(scope, "Symbol"), null);
-                                        assert.notStrictEqual(getVariable(scope, "WeakMap"), null);
-                                    });
+                                            assert.notStrictEqual(getVariable(scope, "Promise"), null);
+                                            assert.notStrictEqual(getVariable(scope, "Symbol"), null);
+                                            assert.notStrictEqual(getVariable(scope, "WeakMap"), null);
+                                        });
 
-                                    return { Program: spy };
+                                        return { Program: spy };
+                                    }
                                 }
                             }
                         }
@@ -14781,7 +15104,9 @@ var a = "test2";
     describe("defineRule()", () => {
         it("should throw an error when called in flat config mode", () => {
             assert.throws(() => {
-                linter.defineRule("foo", () => {});
+                linter.defineRule("foo", {
+                    create: () => {}
+                });
             }, /This method cannot be used with flat config/u);
         });
     });
@@ -14982,11 +15307,13 @@ var a = "test2";
                 plugins: {
                     test: {
                         rules: {
-                            "test-rule": context => ({
-                                Program(node) {
-                                    context.report(node, "hello world", {}, () => ({ range: [1, 1], text: "" }));
-                                }
-                            })
+                            "test-rule": {
+                                create: context => ({
+                                    Program(node) {
+                                        context.report(node, "hello world", {}, () => ({ range: [1, 1], text: "" }));
+                                    }
+                                })
+                            }
                         }
                     }
                 },
@@ -15017,7 +15344,9 @@ var a = "test2";
             });
 
             it("loading rule in one doesn't change the other", () => {
-                linter1.defineRule("mock-rule", () => ({}));
+                linter1.defineRule("mock-rule", {
+                    create: () => ({})
+                });
 
                 assert.isTrue(linter1.getRules().has("mock-rule"), "mock rule is present");
                 assert.isFalse(linter2.getRules().has("mock-rule"), "mock rule is not present");
@@ -15480,17 +15809,21 @@ var a = "test2";
                 plugins: {
                     test: {
                         rules: {
-                            "save-ast1": () => ({
-                                Program(node) {
-                                    ast1 = node;
-                                }
-                            }),
+                            "save-ast1": {
+                                create: () => ({
+                                    Program(node) {
+                                        ast1 = node;
+                                    }
+                                })
+                            },
 
-                            "save-ast2": () => ({
-                                Program(node) {
-                                    ast2 = node;
-                                }
-                            })
+                            "save-ast2": {
+                                create: () => ({
+                                    Program(node) {
+                                        ast2 = node;
+                                    }
+                                })
+                            }
 
                         }
                     }
@@ -15530,7 +15863,7 @@ var a = "test2";
                 plugins: {
                     test: {
                         rules: {
-                            "foo-bar-baz": spy
+                            "foo-bar-baz": { create: spy }
                         }
                     }
                 },
@@ -15552,11 +15885,15 @@ var a = "test2";
                     plugins: {
                         test: {
                             rules: {
-                                "no-programs": context => ({
-                                    Program(node) {
-                                        context.report({ node, message: "No programs allowed." });
+                                "no-programs": {
+                                    create(context) {
+                                        return {
+                                            Program(node) {
+                                                context.report({ node, message: "No programs allowed." });
+                                            }
+                                        };
                                     }
-                                })
+                                }
                             }
                         }
                     },

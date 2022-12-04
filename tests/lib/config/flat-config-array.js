@@ -25,15 +25,17 @@ const baseConfig = {
         "@": {
             rules: {
                 foo: {
-                    schema: {
-                        type: "array",
-                        items: [
-                            {
-                                enum: ["always", "never"]
-                            }
-                        ],
-                        minItems: 0,
-                        maxItems: 1
+                    meta: {
+                        schema: {
+                            type: "array",
+                            items: [
+                                {
+                                    enum: ["always", "never"]
+                                }
+                            ],
+                            minItems: 0,
+                            maxItems: 1
+                        }
                     }
 
                 },
@@ -48,13 +50,15 @@ const baseConfig = {
                 boom() {},
 
                 foo2: {
-                    schema: {
-                        type: "array",
-                        items: {
-                            type: "string"
-                        },
-                        uniqueItems: true,
-                        minItems: 1
+                    meta: {
+                        schema: {
+                            type: "array",
+                            items: {
+                                type: "string"
+                            },
+                            uniqueItems: true,
+                            minItems: 1
+                        }
                     }
                 }
             }
@@ -1505,20 +1509,20 @@ describe("FlatConfigArray", () => {
                 {
                     rules: {
                         foo: 1,
-                        bar: "error"
+                        foo2: "error"
                     }
                 },
                 {
                     rules: {
                         foo: ["error", "never"],
-                        bar: ["warn", "foo"]
+                        foo2: ["warn", "foo"]
                     }
                 }
             ], {
                 plugins: baseConfig.plugins,
                 rules: {
                     foo: [2, "never"],
-                    bar: [1, "foo"]
+                    foo2: [1, "foo"]
                 }
             }));
 
