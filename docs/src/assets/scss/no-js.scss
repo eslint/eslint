@@ -18,7 +18,8 @@
         opacity: 0.6;
     }
 
-    .rule__categories, .rule__status {
+    .rule__categories, 
+    .rule__status {
         background: var(--body-background-color);
     }
 }
