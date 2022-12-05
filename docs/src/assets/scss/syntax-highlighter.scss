@@ -122,11 +122,10 @@ pre[class*="language-"] {
 
 div[class*="language-"].line-numbers-mode {
     position: relative;
+
     pre[class*="language-"] {
         padding-left: calc(2.4em + 1.2rem);
         margin-top: 0;
         margin-bottom: 0;
-        
     }
-}
 }
