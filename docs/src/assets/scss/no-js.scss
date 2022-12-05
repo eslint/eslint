@@ -4,7 +4,7 @@
     }
 
     .token {
-        & .comment,
+        &.comment,
         .prolog,
         .doctype,
         .cdata {
