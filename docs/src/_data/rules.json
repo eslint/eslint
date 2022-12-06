@@ -1298,7 +1298,7 @@
                     "description": "Enforce using named capture group in regular expression",
                     "recommended": false,
                     "fixable": false,
-                    "hasSuggestions": true
+                    "hasSuggestions": false
                 },
                 {
                     "name": "prefer-numeric-literals",
