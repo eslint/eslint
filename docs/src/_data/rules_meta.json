@@ -2116,7 +2116,8 @@
             "description": "Enforce using named capture group in regular expression",
             "recommended": false,
             "url": "https://eslint.org/docs/rules/prefer-named-capture-group"
-        }
+        },
+        "hasSuggestions": true
     },
     "prefer-numeric-literals": {
         "type": "suggestion",
