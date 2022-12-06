@@ -94,13 +94,13 @@ Because of this line, all of the rules marked "(recommended)" on the [rules page
 
 ## Global Install
 
-It is also possible to install ESLint globally rather than locally (using `npm install eslint --global`). However, this is not recommended, and any plugins or shareable configs that you use must be installed locally in either case.
+It is also possible to install ESLint globally, rather than locally, using `npm install eslint --global`. However, this is not recommended, and any plugins or shareable configs that you use must be installed locally in either case.
 
 ## Manual Set Up
 
 You can also manually set up ESLint in your project.
 
-Before you begin, you must have a `package.json` file already. If you don't, make sure to run `npm init` or `yarn init` beforehand.
+Before you begin, you must already have a `package.json` file. If you don't, make sure to run `npm init` or `yarn init` to create the file beforehand.
 
 1. Install the ESLint package in your project:
 
@@ -115,7 +115,7 @@ Before you begin, you must have a `package.json` file already. If you don't, mak
    touch .eslintrc.js
    ```
 
-1. Add configuration to the `.eslintrc.js` file. Refer to the [Configuring ESLint documentation](configuring/) to learn how to add rules, environments, custom configurations, plugins, and more.
+1. Add configuration to the `.eslintrc` file. Refer to the [Configuring ESLint documentation](configuring/) to learn how to add rules, environments, custom configurations, plugins, and more.
 
    ```js
    // .eslintrc.js example
