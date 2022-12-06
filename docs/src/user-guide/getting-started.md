@@ -94,7 +94,7 @@ Because of this line, all of the rules marked "(recommended)" on the [rules page
 
 ## Global Install
 
-It is also possible to install ESLint globally, rather than locally, using `npm install eslint --global`. However, this is not recommended, and any plugins or shareable configs that you use must be installed locally in either case.
+It is also possible to install ESLint globally, rather than locally, using `npm install eslint --global`. However, this is not recommended, and any plugins or shareable configs that you use must still be installed locally if you install ESLint globally.
 
 ## Manual Set Up
 
