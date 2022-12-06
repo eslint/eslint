@@ -92,13 +92,13 @@ Your `.eslintrc.{js,yml,json}` configuration file will also include the line:
 
 Because of this line, all of the rules marked "(recommended)" on the [rules page](/docs/rules) will be turned on.  Alternatively, you can use configurations that others have created by searching for "eslint-config" on [npmjs.com](https://www.npmjs.com/search?q=eslint-config).  ESLint will not lint your code unless you extend from a shared configuration or explicitly turn rules on in your configuration.
 
-## Global install
+## Global Install
 
 It is also possible to install ESLint globally rather than locally (using `npm install eslint --global`). However, this is not recommended, and any plugins or shareable configs that you use must be installed locally in either case.
 
-## Manual set up
+## Manual Set Up
 
-You can also manually set ESLint up your project.
+You can also manually set up ESLint in your project.
 
 Before you begin, you must have a `package.json` file already. If you don't, make sure to run `npm init` or `yarn init` beforehand.
 
@@ -115,7 +115,7 @@ Before you begin, you must have a `package.json` file already. If you don't, mak
   touch .eslintrc.js
   ```
 
-1. Add configuration to the `.eslintrc` file. Refer to the [Configuring ESLint documentation](./configuring/) to learn how to add rules, environments, custom configurations, plugins, and more.
+1. Add configuration to the `.eslintrc.js` file. Refer to the [Configuring ESLint documentation](configuring/) to learn how to add rules, environments, custom configurations, plugins, and more.
 
   ```js
   // .eslintrc.js example
@@ -134,7 +134,7 @@ Before you begin, you must have a `package.json` file already. If you don't, mak
 
 1. Lint code using the ESLint CLI:
 
-   ```sh
+   ```shell
    npm run eslint project-dir/ file1.js
    # OR
    npx eslint project-dir/ file1.js
