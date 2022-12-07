@@ -357,7 +357,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         assert.strictEqual(context.getSource(), TEST_CODE);
                     });
@@ -374,7 +374,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(node => {
                         assert.strictEqual(context.getSource(node), TEST_CODE);
                     });
@@ -391,7 +391,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(node => {
                         assert.strictEqual(context.getSource(node, 2, 0), TEST_CODE);
                     });
@@ -408,7 +408,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(node => {
                         assert.strictEqual(context.getSource(node), "6 * 7");
                     });
@@ -425,7 +425,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(node => {
                         assert.strictEqual(context.getSource(node, 2), "= 6 * 7");
                     });
@@ -442,7 +442,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(node => {
                         assert.strictEqual(context.getSource(node, 0, 1), "6 * 7;");
                     });
@@ -459,7 +459,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(node => {
                         assert.strictEqual(context.getSource(node, 2, 1), "= 6 * 7;");
                     });
@@ -482,7 +482,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const ancestors = context.getAncestors();
 
@@ -501,7 +501,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const ancestors = context.getAncestors();
 
@@ -617,7 +617,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope();
 
@@ -636,7 +636,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope();
 
@@ -655,7 +655,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope();
 
@@ -675,7 +675,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope();
 
@@ -696,7 +696,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope();
 
@@ -717,7 +717,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope();
 
@@ -738,7 +738,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope();
 
@@ -759,7 +759,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope();
 
@@ -780,7 +780,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope();
 
@@ -801,7 +801,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope();
 
@@ -822,7 +822,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope();
 
@@ -842,7 +842,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope();
 
@@ -864,7 +864,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         assert.isTrue(context.markVariableAsUsed("a"));
 
@@ -886,7 +886,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         assert.isTrue(context.markVariableAsUsed("a"));
 
@@ -908,7 +908,7 @@ describe("Linter", () => {
             let returnSpy, exitSpy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     returnSpy = sinon.spy(() => {
                         assert.isTrue(context.markVariableAsUsed("a"));
                     });
@@ -933,7 +933,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const globalScope = context.getScope(),
                             childScope = globalScope.childScopes[0];
@@ -957,7 +957,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const globalScope = context.getScope(),
                             childScope = globalScope.childScopes[0];
@@ -981,7 +981,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         assert.isFalse(context.markVariableAsUsed("c"));
                     });
@@ -1358,7 +1358,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope();
                         const a = getVariable(scope, "a"),
@@ -1406,7 +1406,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope(),
                             a = getVariable(scope, "a"),
@@ -1447,7 +1447,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope(),
                             exports = getVariable(scope, "exports"),
@@ -1474,7 +1474,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope(),
                             exports = getVariable(scope, "exports"),
@@ -1508,7 +1508,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope(),
                             horse = getVariable(scope, "horse");
@@ -1530,7 +1530,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope(),
                             horse = getVariable(scope, "horse");
@@ -1552,7 +1552,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope(),
                             horse = getVariable(scope, "horse");
@@ -1574,7 +1574,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope(),
                             horse = getVariable(scope, "horse");
@@ -1596,7 +1596,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope(),
                             horse = getVariable(scope, "horse");
@@ -1621,7 +1621,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope();
 
@@ -1645,7 +1645,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope();
 
@@ -1672,7 +1672,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope();
 
@@ -1694,7 +1694,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope();
 
@@ -1716,7 +1716,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope();
 
@@ -1738,7 +1738,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         const scope = context.getScope();
 
@@ -3418,7 +3418,7 @@ var a = "test2";
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(node => {
                         assert.strictEqual(context.getSource(node), "'123';");
                     });
@@ -3943,7 +3943,7 @@ var a = "test2";
             let spy;
 
             linterWithOption.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(() => {
                         assert.strictEqual(context.getCwd(), cwd);
                     });
@@ -3960,7 +3960,7 @@ var a = "test2";
             const linterWithOption = new Linter({ });
 
             linterWithOption.defineRule("checker", {
-                create: context => {
+                create(context) {
 
                     spy = sinon.spy(() => {
                         assert.strictEqual(context.getCwd(), process.cwd());
@@ -3977,7 +3977,7 @@ var a = "test2";
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
 
                     spy = sinon.spy(() => {
                         assert.strictEqual(context.getCwd(), process.cwd());
@@ -4779,7 +4779,7 @@ var a = "test2";
             let spy;
 
             linter.defineRule("checker", {
-                create: context => {
+                create(context) {
                     spy = sinon.spy(node => {
                         assert.strictEqual(context.getSource(node), "'123';");
                     });
@@ -6336,7 +6336,7 @@ var a = "test2";
         function verify(code, type, expectedNamesList) {
             linter.defineRules({
                 test: {
-                    create: context => {
+                    create(context) {
 
                         /**
                          * Assert `context.getDeclaredVariables(node)` is empty.
@@ -7179,7 +7179,7 @@ var a = "test2";
             let ok = false;
 
             linter.defineRule("test", {
-                create: context => {
+                create(context) {
                     assert(
                         context.parserOptions.ecmaFeatures.globalReturn,
                         "`ecmaFeatures.globalReturn` of the node environment should not be modified."
@@ -7208,7 +7208,7 @@ var a = "test2";
             }, "The create() function for rule 'checker' did not return an object.");
 
             linter.defineRule("checker", {
-                create: () => {}
+                create() {}
             }); // returns undefined
 
             assert.throws(() => {
@@ -7350,7 +7350,7 @@ var a = "test2";
                     })
                 });
                 linter.defineRule("save-scope-manager", {
-                    create: context => {
+                    create(context) {
                         scopeManager = context.getSourceCode().scopeManager;
 
                         return {};
@@ -8192,7 +8192,7 @@ describe("Linter with FlatConfigArray", () => {
                                                 })
                                             },
                                             "save-scope-manager": {
-                                                create: context => {
+                                                create(context) {
                                                     scopeManager = context.getSourceCode().scopeManager;
 
                                                     return {};
@@ -9268,7 +9268,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 assert.strictEqual(context.getSource(), TEST_CODE);
                                             });
@@ -9294,7 +9294,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(node => {
                                                 assert.strictEqual(context.getSource(node), TEST_CODE);
                                             });
@@ -9319,7 +9319,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(node => {
                                                 assert.strictEqual(context.getSource(node, 2, 0), TEST_CODE);
                                             });
@@ -9344,7 +9344,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(node => {
                                                 assert.strictEqual(context.getSource(node), "6 * 7");
                                             });
@@ -9369,8 +9369,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create:
-                                        context => {
+                                        create(context) {
                                             spy = sinon.spy(node => {
                                                 assert.strictEqual(context.getSource(node, 2), "= 6 * 7");
                                             });
@@ -9395,7 +9394,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(node => {
                                                 assert.strictEqual(context.getSource(node, 0, 1), "6 * 7;");
                                             });
@@ -9420,7 +9419,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(node => {
                                                 assert.strictEqual(context.getSource(node, 2, 1), "= 6 * 7;");
                                             });
@@ -9451,7 +9450,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const ancestors = context.getAncestors();
 
@@ -9478,7 +9477,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const ancestors = context.getAncestors();
 
@@ -9655,7 +9654,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const scope = context.getScope();
 
@@ -9685,7 +9684,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const scope = context.getScope();
 
@@ -9715,7 +9714,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const scope = context.getScope();
 
@@ -9747,7 +9746,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const scope = context.getScope();
 
@@ -9780,7 +9779,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const scope = context.getScope();
 
@@ -9812,7 +9811,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const scope = context.getScope();
 
@@ -9845,7 +9844,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const scope = context.getScope();
 
@@ -9878,7 +9877,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const scope = context.getScope();
 
@@ -9911,7 +9910,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const scope = context.getScope();
 
@@ -9944,7 +9943,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const scope = context.getScope();
 
@@ -9976,7 +9975,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const scope = context.getScope();
 
@@ -10009,7 +10008,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const scope = context.getScope();
 
@@ -10429,7 +10428,7 @@ describe("Linter with FlatConfigArray", () => {
 
                                 rules: {
                                     test: {
-                                        create: context => {
+                                        create(context) {
 
                                             /**
                                              * Assert `context.getDeclaredVariables(node)` is empty.
@@ -10676,7 +10675,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 assert.isTrue(context.markVariableAsUsed("a"));
 
@@ -10711,7 +10710,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 assert.isTrue(context.markVariableAsUsed("a"));
 
@@ -10743,7 +10742,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             returnSpy = sinon.spy(() => {
                                                 assert.isTrue(context.markVariableAsUsed("a"));
                                             });
@@ -10780,7 +10779,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const globalScope = context.getScope(),
                                                     childScope = globalScope.childScopes[0];
@@ -10816,7 +10815,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const globalScope = context.getScope(),
                                                     childScope = globalScope.childScopes[0];
@@ -10853,7 +10852,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 assert.isFalse(context.markVariableAsUsed("c"));
                                             });
@@ -10885,7 +10884,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 assert.strictEqual(context.getCwd(), cwd);
                                             });
@@ -10911,7 +10910,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
 
                                             spy = sinon.spy(() => {
                                                 assert.strictEqual(context.getCwd(), process.cwd());
@@ -10936,7 +10935,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
 
                                             spy = sinon.spy(() => {
                                                 assert.strictEqual(context.getCwd(), process.cwd());
@@ -11247,7 +11246,7 @@ describe("Linter with FlatConfigArray", () => {
                                 test: {
                                     rules: {
                                         checker: {
-                                            create: context => {
+                                            create(context) {
                                                 spy = sinon.spy(() => {
                                                     const scope = context.getScope();
                                                     const a = getVariable(scope, "a"),
@@ -11306,7 +11305,7 @@ describe("Linter with FlatConfigArray", () => {
                                 test: {
                                     rules: {
                                         checker: {
-                                            create: context => {
+                                            create(context) {
                                                 spy = sinon.spy(() => {
                                                     const scope = context.getScope(),
                                                         a = getVariable(scope, "a"),
@@ -11346,7 +11345,7 @@ describe("Linter with FlatConfigArray", () => {
                                 test: {
                                     rules: {
                                         checker: {
-                                            create: context => {
+                                            create(context) {
                                                 spy = sinon.spy(() => {
                                                     const scope = context.getScope();
 
@@ -11379,7 +11378,7 @@ describe("Linter with FlatConfigArray", () => {
                                 test: {
                                     rules: {
                                         checker: {
-                                            create: context => {
+                                            create(context) {
                                                 spy = sinon.spy(() => {
                                                     const scope = context.getScope();
 
@@ -11501,7 +11500,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const scope = context.getScope(),
                                                     horse = getVariable(scope, "horse");
@@ -11533,7 +11532,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const scope = context.getScope(),
                                                     horse = getVariable(scope, "horse");
@@ -11565,7 +11564,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const scope = context.getScope(),
                                                     horse = getVariable(scope, "horse");
@@ -11597,7 +11596,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const scope = context.getScope(),
                                                     horse = getVariable(scope, "horse");
@@ -11630,7 +11629,7 @@ describe("Linter with FlatConfigArray", () => {
                             test: {
                                 rules: {
                                     checker: {
-                                        create: context => {
+                                        create(context) {
                                             spy = sinon.spy(() => {
                                                 const scope = context.getScope(),
                                                     horse = getVariable(scope, "horse");
@@ -14733,7 +14732,7 @@ var a = "test2";
                         test: {
                             rules: {
                                 checker: {
-                                    create: context => {
+                                    create(context) {
                                         spy = sinon.spy(() => {
                                             const scope = context.getScope();
 
@@ -14768,7 +14767,7 @@ var a = "test2";
                         test: {
                             rules: {
                                 checker: {
-                                    create: context => {
+                                    create(context) {
                                         spy = sinon.spy(() => {
                                             const scope = context.getScope();
 
@@ -15105,7 +15104,7 @@ var a = "test2";
         it("should throw an error when called in flat config mode", () => {
             assert.throws(() => {
                 linter.defineRule("foo", {
-                    create: () => {}
+                    create() {}
                 });
             }, /This method cannot be used with flat config/u);
         });

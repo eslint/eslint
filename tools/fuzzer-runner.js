@@ -58,7 +58,7 @@ function run({ amount = 300, fuzzBrokenAutofixes = true } = {}) {
         linter,
         count: crashTestCount,
         checkAutofixes: false,
-        progressCallback: elapsedErrors => {
+        progressCallback(elapsedErrors) {
             progressBar.tick(1, { elapsedErrors });
             progressBar.render();
         }
@@ -68,7 +68,7 @@ function run({ amount = 300, fuzzBrokenAutofixes = true } = {}) {
         linter,
         count: autofixTestCount,
         checkAutofixes: true,
-        progressCallback: elapsedErrors => {
+        progressCallback(elapsedErrors) {
             progressBar.tick(ESTIMATED_CRASH_AUTOFIX_PERFORMANCE_RATIO, { elapsedErrors: crashTestResults.length + elapsedErrors });
             progressBar.render();
         }

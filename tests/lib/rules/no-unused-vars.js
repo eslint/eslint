@@ -19,7 +19,7 @@ const rule = require("../../../lib/rules/no-unused-vars"),
 const ruleTester = new RuleTester();
 
 ruleTester.defineRule("use-every-a", {
-    create: context => {
+    create(context) {
 
         /**
          * Mark a variable as used

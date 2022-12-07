@@ -145,7 +145,7 @@ describe("CodePathAnalyzer", () => {
 
             // there is the current segment in progress.
             linter.defineRule("test", {
-                create: () => {
+                create() {
                     let codePath = null;
 
                     return {

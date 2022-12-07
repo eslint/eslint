@@ -1478,7 +1478,7 @@ describe("SourceCode", () => {
                         BlockStatement: assertCommentCount(0, 0),
                         SwitchStatement: assertCommentCount(0, 0),
 
-                        SwitchCase: node => {
+                        SwitchCase(node) {
                             if (switchCaseCount === 0) {
                                 assertCommentCount(1, 1)(node);
                             } else {
@@ -1515,7 +1515,7 @@ describe("SourceCode", () => {
                         Program: assertCommentCount(0, 0),
                         SwitchStatement: assertCommentCount(0, 0),
 
-                        SwitchCase: node => {
+                        SwitchCase(node) {
                             if (switchCaseCount === 0) {
                                 assertCommentCount(1, 1)(node);
                             } else {
@@ -1557,7 +1557,7 @@ describe("SourceCode", () => {
                         BlockStatement: assertCommentCount(0, 0),
                         SwitchStatement: assertCommentCount(0, 0),
 
-                        SwitchCase: node => {
+                        SwitchCase(node) {
                             if (breakStatementCount === 0) {
                                 assertCommentCount(0, 0)(node);
                             } else {
@@ -1775,7 +1775,7 @@ describe("SourceCode", () => {
                         Program: assertCommentCount(0, 0),
                         VariableDeclaration: assertCommentCount(1, 2),
 
-                        VariableDeclarator: node => {
+                        VariableDeclarator(node) {
                             if (varDeclCount === 0) {
                                 assertCommentCount(0, 0)(node);
                             } else if (varDeclCount === 1) {
@@ -1842,7 +1842,7 @@ describe("SourceCode", () => {
                         Program: assertCommentCount(0, 0),
                         ClassDeclaration: assertCommentCount(1, 1),
 
-                        Identifier: node => {
+                        Identifier(node) {
                             if (idCount === 0) {
                                 assertCommentCount(1, 1)(node);
                             } else {

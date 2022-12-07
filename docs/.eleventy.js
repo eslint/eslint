@@ -452,7 +452,7 @@ module.exports = function(eleventyConfig) {
      * URLs with a file extension, like main.css, main.js, sitemap.xml, etc. should not be rewritten
      */
     eleventyConfig.setBrowserSyncConfig({
-        middleware: (req, res, next) => {
+        middleware(req, res, next) {
             if (!/(?:\.[a-zA-Z][^/]*|\/)$/u.test(req.url)) {
                 req.url += ".html";
             }
