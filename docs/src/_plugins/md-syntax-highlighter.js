@@ -64,7 +64,7 @@ const lineNumberPlugin = (md) => {
             )
             .join("");
 
-        const lineNumbersWrapperCode = `<div class="line-numbers-wrapper">${lineNumbersCode}</div>`;
+        const lineNumbersWrapperCode = `<div class="line-numbers-wrapper" aria-hidden="true">${lineNumbersCode}</div>`;
 
         const finalCode = rawCode
             .replace(/<\/div>$/, `${lineNumbersWrapperCode}</div>`)
