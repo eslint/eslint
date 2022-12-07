@@ -424,7 +424,7 @@ If a config is provided via the `--config` CLI option, the glob patterns in the 
 
 If you specified directories with CLI (e.g., `eslint lib`), ESLint searches target files in the directory to lint. The target files are `*.js` or the files that match any of `overrides` entries (but exclude entries that are any of `files` end with `*`).
 
-If you specified the [`--ext`](https://eslint.org/docs/user-guide/command-line-interface#ext) command line option along with directories, the target files are only the files that have specified file extensions regardless of `overrides` entries.
+If you specified the [`--ext`](https://eslint.org/docs/user-guide/command-line-interface#--ext) command line option along with directories, the target files are only the files that have specified file extensions regardless of `overrides` entries.
 
 ## Personal Configuration Files (deprecated)
 
