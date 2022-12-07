@@ -10,7 +10,7 @@ const Image = require("@11ty/eleventy-img");
 const path = require("path");
 const { slug } = require("github-slugger");
 const yaml = require("js-yaml");
-const { highlighter, preWrapperPlugin, lineNumberPlugin } = require("./mdSyntaxHighlighter");
+const { highlighter, preWrapperPlugin, lineNumberPlugin } = require("./src/_plugins/md-syntax-highlighter");
 const {
     DateTime
 } = require("luxon");
