@@ -147,20 +147,20 @@ To allow for the colocation of comments that provide context with the directive,
 
 The ten Node.js/CommonJS rules in core have been deprecated and moved to the [eslint-plugin-node](https://github.com/mysticatea/eslint-plugin-node) plugin.
 
-**To address:** As per [our deprecation policy](https://eslint.org/docs/user-guide/rule-deprecation), the deprecated rules will remain in core for the foreseeable future and are still available for use. However, we will no longer be updating or fixing any bugs in those rules. To use a supported version of the rules, we recommend using the corresponding rules in the plugin instead.
+**To address:** As per [our deprecation policy](../user-guide/rule-deprecation), the deprecated rules will remain in core for the foreseeable future and are still available for use. However, we will no longer be updating or fixing any bugs in those rules. To use a supported version of the rules, we recommend using the corresponding rules in the plugin instead.
 
 | Deprecated Rules                                                             | Replacement                                                                                                                     |
 | :--------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------ |
-| [callback-return](https://eslint.org/docs/rules/callback-return)             | [node/callback-return](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/callback-return.md)             |
-| [global-require](https://eslint.org/docs/rules/global-require)               | [node/global-require](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/global-require.md)               |
-| [handle-callback-err](https://eslint.org/docs/rules/handle-callback-err)     | [node/handle-callback-err](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/handle-callback-err.md)     |
-| [no-mixed-requires](https://eslint.org/docs/rules/no-mixed-requires)         | [node/no-mixed-requires](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-mixed-requires.md)         |
-| [no-new-require](https://eslint.org/docs/rules/no-new-require)               | [node/no-new-require](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-new-require.md)               |
-| [no-path-concat](https://eslint.org/docs/rules/no-path-concat)               | [node/no-path-concat](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-path-concat.md)               |
-| [no-process-env](https://eslint.org/docs/rules/no-process-env)               | [node/no-process-env](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-process-env.md)               |
-| [no-process-exit](https://eslint.org/docs/rules/no-process-exit)             | [node/no-process-exit](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-process-exit.md)             |
-| [no-restricted-modules](https://eslint.org/docs/rules/no-restricted-modules) | [node/no-restricted-require](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-restricted-require.md) |
-| [no-sync](https://eslint.org/docs/rules/no-sync)                             | [node/no-sync](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-sync.md)                             |
+| [callback-return](../rules/callback-return)             | [node/callback-return](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/callback-return.md)             |
+| [global-require](../rules/global-require)               | [node/global-require](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/global-require.md)               |
+| [handle-callback-err](../rules/handle-callback-err)     | [node/handle-callback-err](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/handle-callback-err.md)     |
+| [no-mixed-requires](../rules/no-mixed-requires)         | [node/no-mixed-requires](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-mixed-requires.md)         |
+| [no-new-require](../rules/no-new-require)               | [node/no-new-require](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-new-require.md)               |
+| [no-path-concat](../rules/no-path-concat)               | [node/no-path-concat](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-path-concat.md)               |
+| [no-process-env](../rules/no-process-env)               | [node/no-process-env](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-process-env.md)               |
+| [no-process-exit](../rules/no-process-exit)             | [node/no-process-exit](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-process-exit.md)             |
+| [no-restricted-modules](../rules/no-restricted-modules) | [node/no-restricted-require](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-restricted-require.md) |
+| [no-sync](../rules/no-sync)                             | [node/no-sync](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-sync.md)                             |
 
 **Related issue(s):** [#12898](https://github.com/eslint/eslint/pull/12898)
 
@@ -168,16 +168,16 @@ The ten Node.js/CommonJS rules in core have been deprecated and moved to the [es
 
 Several rules have been enhanced and now report additional errors:
 
-* [accessor-pairs](https://eslint.org/docs/rules/accessor-pairs) rule now recognizes class members by default.
-* [array-callback-return](https://eslint.org/docs/rules/array-callback-return) rule now recognizes `flatMap` method.
-* [computed-property-spacing](https://eslint.org/docs/rules/computed-property-spacing) rule now recognizes class members by default.
-* [func-names](https://eslint.org/docs/rules/func-names) rule now recognizes function declarations in default exports.
-* [no-extra-parens](https://eslint.org/docs/rules/no-extra-parens) rule now recognizes parentheses in assignment targets.
-* [no-dupe-class-members](https://eslint.org/docs/rules/no-dupe-class-members) rule now recognizes computed keys for static class members.
-* [no-magic-numbers](https://eslint.org/docs/rules/no-magic-numbers) rule now recognizes bigint literals.
-* [radix](https://eslint.org/docs/rules/radix) rule now recognizes invalid numbers for the second parameter of `parseInt()`.
-* [use-isnan](https://eslint.org/docs/rules/use-isnan) rule now recognizes class members by default.
-* [yoda](https://eslint.org/docs/rules/yoda) rule now recognizes bigint literals.
+* [accessor-pairs](../rules/accessor-pairs) rule now recognizes class members by default.
+* [array-callback-return](../rules/array-callback-return) rule now recognizes `flatMap` method.
+* [computed-property-spacing](../rules/computed-property-spacing) rule now recognizes class members by default.
+* [func-names](../rules/func-names) rule now recognizes function declarations in default exports.
+* [no-extra-parens](../rules/no-extra-parens) rule now recognizes parentheses in assignment targets.
+* [no-dupe-class-members](../rules/no-dupe-class-members) rule now recognizes computed keys for static class members.
+* [no-magic-numbers](../rules/no-magic-numbers) rule now recognizes bigint literals.
+* [radix](../rules/radix) rule now recognizes invalid numbers for the second parameter of `parseInt()`.
+* [use-isnan](../rules/use-isnan) rule now recognizes class members by default.
+* [yoda](../rules/yoda) rule now recognizes bigint literals.
 
 **To address:** Fix errors or disable these rules.
 
@@ -187,9 +187,9 @@ Several rules have been enhanced and now report additional errors:
 
 Three new rules have been enabled in the `eslint:recommended` preset.
 
-* [no-dupe-else-if](https://eslint.org/docs/rules/no-dupe-else-if)
-* [no-import-assign](https://eslint.org/docs/rules/no-import-assign)
-* [no-setter-return](https://eslint.org/docs/rules/no-setter-return)
+* [no-dupe-else-if](../rules/no-dupe-else-if)
+* [no-import-assign](../rules/no-import-assign)
+* [no-setter-return](../rules/no-setter-return)
 
 **To address:** Fix errors or disable these rules.
 
@@ -209,7 +209,7 @@ The `RuleTester` now validates the following:
 
 ## <a name="deprecate-cliengine"></a> The `CLIEngine` class has been deprecated
 
-The [`CLIEngine` class](https://eslint.org/docs/developer-guide/nodejs-api#cliengine) has been deprecated and replaced by the new [`ESLint` class](https://eslint.org/docs/developer-guide/nodejs-api#eslint-class).
+The [`CLIEngine` class](../developer-guide/nodejs-api#cliengine) has been deprecated and replaced by the new [`ESLint` class](../developer-guide/nodejs-api#eslint-class).
 
 The `CLIEngine` class provides a synchronous API that is blocking the implementation of features such as parallel linting, supporting ES modules in shareable configs/parsers/plugins/formatters, and adding the ability to visually display the progress of linting runs. The new `ESLint` class provides an asynchronous API that ESLint core will now using going forward. `CLIEngine` will remain in core for the foreseeable future but may be removed in a future major version.
 

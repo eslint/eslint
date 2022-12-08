@@ -7,7 +7,7 @@ Occasionally, a core ESLint rule needs to be changed. This is not necessarily a 
 
 ## Proposing a Rule Change
 
-To propose a change to an existing rule, [create a pull request](/docs/developer-guide/contributing/pull-requests) or [new issue](https://github.com/eslint/eslint/issues/new/choose) and fill out the template.
+To propose a change to an existing rule, [create a pull request](pull-requests) or [new issue](https://github.com/eslint/eslint/issues/new/choose) and fill out the template.
 
 We need all of this information in order to determine whether or not the change is a good candidate for inclusion.
 

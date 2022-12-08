@@ -129,8 +129,8 @@ The `context` object contains additional functionality that is helpful for rules
 
 * `parserOptions` - the parser options configured for this run (more details [here](../user-guide/configuring/language-options#specifying-parser-options)).
 * `id` - the rule ID.
-* `options` - an array of the [configured options](/docs/user-guide/configuring/rules#configuring-rules) for this rule. This array does not include the rule severity. For more information, see [here](#contextoptions).
-* `settings` - the [shared settings](/docs/user-guide/configuring/configuration-files#adding-shared-settings) from configuration.
+* `options` - an array of the [configured options](../user-guide/configuring/rules#configuring-rules) for this rule. This array does not include the rule severity. For more information, see [here](#contextoptions).
+* `settings` - the [shared settings](../user-guide/configuring/configuration-files#adding-shared-settings) from configuration.
 * `parserPath` - the name of the `parser` from configuration.
 * `parserServices` - an object containing parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
 
@@ -373,7 +373,7 @@ Best practices for fixes:
         ({ "foo": 1 })
         ```
 
-    * This fixer can just select a quote type arbitrarily. If it guesses wrong, the resulting code will be automatically reported and fixed by the [`quotes`](/docs/rules/quotes) rule.
+    * This fixer can just select a quote type arbitrarily. If it guesses wrong, the resulting code will be automatically reported and fixed by the [`quotes`](../rules/quotes) rule.
 
 Note: Making fixes as small as possible is a best practice, but in some cases it may be correct to extend the range of the fix in order to intentionally prevent other rules from making fixes in a surrounding range in the same pass. For instance, if replacement text declares a new variable, it can be useful to prevent other changes in the scope of the variable as they might cause name collisions.
 
@@ -714,7 +714,7 @@ You can access that code path objects with five events related to code paths.
 
 Each bundled rule for ESLint core must have a set of unit tests submitted with it to be accepted. The test file is named the same as the source file but lives in `tests/lib/`. For example, if the rule source file is `lib/rules/foo.js` then the test file should be `tests/lib/rules/foo.js`.
 
-ESLint provides the [`RuleTester`](/docs/developer-guide/nodejs-api#ruletester) utility to make it easy to write tests for rules.
+ESLint provides the [`RuleTester`](nodejs-api#ruletester) utility to make it easy to write tests for rules.
 
 ## Performance Testing
 

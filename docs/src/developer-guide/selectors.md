@@ -93,7 +93,7 @@ If multiple selectors have equal specificity, their listeners will be called in 
 
 ### Restricting syntax with selectors
 
-With the [no-restricted-syntax](/docs/rules/no-restricted-syntax) rule, you can restrict the usage of particular syntax in your code. For example, you can use the following configuration to disallow using `if` statements that do not have block statements as their body:
+With the [no-restricted-syntax](../rules/no-restricted-syntax) rule, you can restrict the usage of particular syntax in your code. For example, you can use the following configuration to disallow using `if` statements that do not have block statements as their body:
 
 ```json
 {
