@@ -50,10 +50,10 @@ As of April 30th, 2018, Node.js 4 will be at EOL and will no longer be receiving
 
 ## <a name="eslint-recommended-changes"/> `eslint:recommended` changes
 
-Two new rules have been added to the [`eslint:recommended`](https://eslint.org/docs/user-guide/configuring#using-eslintrecommended) config:
+Two new rules have been added to the [`eslint:recommended`](configuring#using-eslintrecommended) config:
 
-* [`for-direction`](/docs/rules/for-direction) enforces that a `for` loop update clause moves the counter in the right direction.
-* [`getter-return`](/docs/rules/getter-return) enforces that a `return` statement is present in property getters.
+* [`for-direction`](../rules/for-direction) enforces that a `for` loop update clause moves the counter in the right direction.
+* [`getter-return`](../rules/getter-return) enforces that a `return` statement is present in property getters.
 
 **To address:** To mimic the `eslint:recommended` behavior from 4.x, you can disable these rules in a config file:
 
@@ -96,7 +96,7 @@ Note that this also enables parsing for other features from ES2018, such as [asy
 
 For compatibility, ESLint v5 will treat `ecmaFeatures: { experimentalObjectRestSpread: true }` as an alias for `ecmaVersion: 2018` when the former is found in a config file. As a result, if you use object rest/spread, your code should still parse successfully with ESLint v5. However, note that this alias will be removed in ESLint v6.
 
-**To address:** If you use the `experimentalObjectRestSpread` option, you should be able to upgrade to ESLint v5 without any changes, but you will encounter a deprecation warning. To avoid the warning, use `ecmaVersion: 2018` in your config file rather than `ecmaFeatures: { experimentalObjectRestSpread: true }`. If you would like to disallow the use of other ES2018 features, consider using rules such as [`no-restricted-syntax`](/docs/rules/no-restricted-syntax).
+**To address:** If you use the `experimentalObjectRestSpread` option, you should be able to upgrade to ESLint v5 without any changes, but you will encounter a deprecation warning. To avoid the warning, use `ecmaVersion: 2018` in your config file rather than `ecmaFeatures: { experimentalObjectRestSpread: true }`. If you would like to disallow the use of other ES2018 features, consider using rules such as [`no-restricted-syntax`](../rules/no-restricted-syntax).
 
 ## <a name="nonexistent-files"></a> Linting nonexistent files from the command line is now a fatal error
 
@@ -113,7 +113,7 @@ ESLint v5 will report a fatal error when either of the following conditions is m
 * A file provided on the command line does not exist
 * A glob or folder provided on the command line does not match any lintable files
 
-Note that this also affects the [`CLIEngine.executeOnFiles()`](https://eslint.org/docs/developer-guide/nodejs-api#cliengineexecuteonfiles) API.
+Note that this also affects the [`CLIEngine.executeOnFiles()`](../developer-guide/nodejs-api#cliengineexecuteonfiles) API.
 
 **To address:** If you encounter an error about missing files after upgrading to ESLint v5, you may want to double-check that there are no typos in the paths you provide to ESLint. To make the error go away, you can simply remove the given files or globs from the list of arguments provided to ESLint on the command line.
 
@@ -121,8 +121,8 @@ If you use a boilerplate generator that relies on this behavior (e.g. to generat
 
 ## <a name="rule-default-changes"></a> The default options for some rules have changed
 
-* The default options for the [`object-curly-newline`](/docs/rules/object-curly-newline) rule have changed from `{ multiline: true }` to `{ consistent: true }`.
-* The default options object for the [`no-self-assign`](/docs/rules/no-self-assign) rule has changed from `{ props: false }` to `{ props: true }`.
+* The default options for the [`object-curly-newline`](../rules/object-curly-newline) rule have changed from `{ multiline: true }` to `{ consistent: true }`.
+* The default options object for the [`no-self-assign`](../rules/no-self-assign) rule has changed from `{ props: false }` to `{ props: true }`.
 
 **To address:** To restore the rule behavior from ESLint v4, you can update your config file to include the previous options:
 
@@ -137,7 +137,7 @@ If you use a boilerplate generator that relies on this behavior (e.g. to generat
 
 ## <a name="deprecated-globals"></a> Deprecated globals have been removed from the `node`, `browser`, and `jest` environments
 
-Some global variables have been deprecated or removed for code running in Node.js, browsers, and Jest. (For example, browsers used to expose an `SVGAltGlyphElement` global variable to JavaScript code, but this global has been removed from web standards and is no longer present in browsers.) As a result, we have removed these globals from the corresponding `eslint` environments, so use of these globals will trigger an error when using rules such as [`no-undef`](/docs/rules/no-undef).
+Some global variables have been deprecated or removed for code running in Node.js, browsers, and Jest. (For example, browsers used to expose an `SVGAltGlyphElement` global variable to JavaScript code, but this global has been removed from web standards and is no longer present in browsers.) As a result, we have removed these globals from the corresponding `eslint` environments, so use of these globals will trigger an error when using rules such as [`no-undef`](../rules/no-undef).
 
 **To address:** If you use deprecated globals in the `node`, `browser`, or `jest` environments, you can add a `globals` section to your configuration to re-enable any globals you need. For example:
 
@@ -158,7 +158,7 @@ ESLint v4 had a special behavior when linting files that only contain whitespace
 
 ESLint v5 treats whitespace-only files the same way as all other files: it parses them and runs enabled rules on them as appropriate. This could lead to additional linting problems if you use a custom rule that reports errors on empty files.
 
-**To address:** If you have an empty file in your project and you don't want it to be linted, consider adding it to an [`.eslintignore` file](/docs/user-guide/configuring#ignoring-files-and-directories).
+**To address:** If you have an empty file in your project and you don't want it to be linted, consider adding it to an [`.eslintignore` file](configuring#ignoring-files-and-directories).
 
 If you have a custom rule, you should make sure it handles empty files appropriately. (In most cases, no changes should be necessary.)
 
@@ -229,7 +229,7 @@ In ESLint v5, the `context.getScope()` method has the same behavior regardless o
 
 Previously, rule context objects had an undocumented `_linter` property, which was used internally within ESLint to process reports from rules. Some rules used this property to achieve functionality that was not intended to be possible for rules. For example, several plugins used the `_linter` property in a rule to monitor reports from other rules, for the purpose of checking for unused `/* eslint-disable */` directive comments. Although this functionality was useful for users, it could also cause stability problems for projects using ESLint. For example, an upgrade to a rule in one plugin could unexpectedly cause a rule in another plugin to start reporting errors.
 
-The `_linter` property has been removed in ESLint v5.0, so it is no longer possible to implement rules with this functionality. However, the [`--report-unused-disable-directives`](/docs/user-guide/command-line-interface#--report-unused-disable-directives) CLI flag can be used to flag unused directive comments.
+The `_linter` property has been removed in ESLint v5.0, so it is no longer possible to implement rules with this functionality. However, the [`--report-unused-disable-directives`](command-line-interface#--report-unused-disable-directives) CLI flag can be used to flag unused directive comments.
 
 ## <a name="rule-tester-equality"></a> `RuleTester` now uses strict equality checks in its assertions
 
@@ -268,6 +268,6 @@ In ESLint v5, an unsuccessful linting run due to a fatal error will result in an
 
 ## <a name="non-enumerable-linter"></a> The `eslint.linter` property is now non-enumerable
 
-When using ESLint's Node.js API, the [`linter`](/docs/developer-guide/nodejs-api#linter-1) property is now non-enumerable. Note that the `linter` property was deprecated in ESLint v4 in favor of the [`Linter`](/docs/developer-guide/nodejs-api#linter) property.
+When using ESLint's Node.js API, the [`linter`](../developer-guide/nodejs-api#linter-1) property is now non-enumerable. Note that the `linter` property was deprecated in ESLint v4 in favor of the [`Linter`](../developer-guide/nodejs-api#linter) property.
 
 **To address:** If you rely on enumerating all the properties of the `eslint` object, use something like `Object.getOwnPropertyNames` to ensure that non-enumerable keys are captured.

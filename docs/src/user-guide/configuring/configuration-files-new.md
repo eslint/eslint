@@ -486,7 +486,7 @@ export default [
 ];
 ```
 
-This configuration object specifies that the [`semi`](/docs/latest/rules/semi) rule should be enabled with a severity of `"error"`. You can also provide options to a rule by specifying an array where the first item is the severity and each item after that is an option for the rule. For example, you can switch the `semi` rule to disallow semicolons by passing `"never"` as an option:
+This configuration object specifies that the [`semi`](../../rules/semi) rule should be enabled with a severity of `"error"`. You can also provide options to a rule by specifying an array where the first item is the severity and each item after that is an option for the rule. For example, you can switch the `semi` rule to disallow semicolons by passing `"never"` as an option:
 
 ```js
 export default [

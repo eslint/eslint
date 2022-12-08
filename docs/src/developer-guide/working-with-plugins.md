@@ -222,7 +222,7 @@ The plugin support was introduced in ESLint version `0.8.0`. Ensure the `peerDep
 
 ### Testing
 
-ESLint provides the [`RuleTester`](/docs/developer-guide/nodejs-api#ruletester) utility to make it easy to test the rules of your plugin.
+ESLint provides the [`RuleTester`](nodejs-api#ruletester) utility to make it easy to test the rules of your plugin.
 
 ### Linting
 
