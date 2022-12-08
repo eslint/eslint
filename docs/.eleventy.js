@@ -10,7 +10,7 @@ const Image = require("@11ty/eleventy-img");
 const path = require("path");
 const { slug } = require("github-slugger");
 const yaml = require("js-yaml");
-
+const { highlighter, preWrapperPlugin, lineNumberPlugin } = require("./src/_plugins/md-syntax-highlighter");
 const {
     DateTime
 } = require("luxon");
@@ -145,7 +145,8 @@ module.exports = function(eleventyConfig) {
 
     eleventyConfig.addPlugin(eleventyNavigationPlugin);
     eleventyConfig.addPlugin(syntaxHighlight, {
-        alwaysWrapLineHighlights: true
+        alwaysWrapLineHighlights: true,
+        templateFormats: ["liquid", "njk"]
     });
     eleventyConfig.addPlugin(pluginRss);
     eleventyConfig.addPlugin(pluginTOC, {
@@ -186,30 +187,32 @@ module.exports = function(eleventyConfig) {
     }
 
     const markdownIt = require("markdown-it");
+    const md = markdownIt({ html: true, linkify: true, typographer: true, highlight: (str, lang) => highlighter(md, str, lang) })
+        .use(markdownItAnchor, {
+            slugify
+        })
+        .use(markdownItContainer, "correct", {})
+        .use(markdownItContainer, "incorrect", {})
+        .use(markdownItContainer, "warning", {
+            render(tokens, idx) {
+                return generateAlertMarkup("warning", tokens, idx);
+            }
+        })
+        .use(markdownItContainer, "tip", {
+            render(tokens, idx) {
+                return generateAlertMarkup("tip", tokens, idx);
+            }
+        })
+        .use(markdownItContainer, "important", {
+            render(tokens, idx) {
+                return generateAlertMarkup("important", tokens, idx);
+            }
+        })
+        .use(preWrapperPlugin)
+        .use(lineNumberPlugin)
+        .disable("code");
 
-    eleventyConfig.setLibrary("md",
-        markdownIt({ html: true, linkify: true, typographer: true })
-            .use(markdownItAnchor, {
-                slugify
-            })
-            .use(markdownItContainer, "correct", {})
-            .use(markdownItContainer, "incorrect", {})
-            .use(markdownItContainer, "warning", {
-                render(tokens, idx) {
-                    return generateAlertMarkup("warning", tokens, idx);
-                }
-            })
-            .use(markdownItContainer, "tip", {
-                render(tokens, idx) {
-                    return generateAlertMarkup("tip", tokens, idx);
-                }
-            })
-            .use(markdownItContainer, "important", {
-                render(tokens, idx) {
-                    return generateAlertMarkup("important", tokens, idx);
-                }
-            })
-            .disable("code"));
+    eleventyConfig.setLibrary("md", md);
 
     //------------------------------------------------------------------------------
     // Shortcodes
