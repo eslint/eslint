@@ -247,25 +247,6 @@ Examples of **correct** code for the `{ "args": "none" }` option:
 
 :::
 
-### ignoreRestSiblings
-
-The `ignoreRestSiblings` option is a boolean (default: `false`). Using a [Rest Property](https://github.com/tc39/proposal-object-rest-spread) it is possible to "omit" properties from an object, but by default the sibling properties are marked as "unused". With this option enabled the rest property's siblings are ignored.
-
-Examples of **correct** code for the `{ "ignoreRestSiblings": true }` option:
-
-::: correct
-
-```js
-/*eslint no-unused-vars: ["error", { "ignoreRestSiblings": true }]*/
-// 'foo' and 'bar' were ignored because they have a rest property sibling.
-var { foo, ...coords } = data;
-
-var bar;
-({ bar, ...coords } = data);
-```
-
-:::
-
 ### argsIgnorePattern
 
 The `argsIgnorePattern` option specifies exceptions not to check for usage: arguments whose names match a regexp pattern. For example, variables whose names begin with an underscore.
@@ -281,47 +262,6 @@ function foo(x, _y) {
     return x + 1;
 }
 foo();
-```
-
-:::
-
-### destructuredArrayIgnorePattern
-
-The `destructuredArrayIgnorePattern` option specifies exceptions not to check for usage: elements of array destructuring patterns whose names match a regexp pattern. For example, variables whose names begin with an underscore.
-
-Examples of **correct** code for the `{ "destructuredArrayIgnorePattern": "^_" }` option:
-
-::: correct
-
-```js
-/*eslint no-unused-vars: ["error", { "destructuredArrayIgnorePattern": "^_" }]*/
-
-const [a, _b, c] = ["a", "b", "c"];
-console.log(a+c);
-
-const { x: [_a, foo] } = bar;
-console.log(foo);
-
-function baz([_c, x]) {
-    x;
-}
-baz();
-
-function test({p: [_q, r]}) {
-    r;
-}
-test();
-
-let _m, n;
-foo.forEach(item => {
-    [_m, n] = item;
-    console.log(n);
-});
-
-let _o, p;
-_o = 1;
-[_o, p] = foo;
-p;
 ```
 
 :::
@@ -391,6 +331,66 @@ try {
 } catch (ignoreErr) {
     console.error("errors");
 }
+```
+
+:::
+
+### destructuredArrayIgnorePattern
+
+The `destructuredArrayIgnorePattern` option specifies exceptions not to check for usage: elements of array destructuring patterns whose names match a regexp pattern. For example, variables whose names begin with an underscore.
+
+Examples of **correct** code for the `{ "destructuredArrayIgnorePattern": "^_" }` option:
+
+::: correct
+
+```js
+/*eslint no-unused-vars: ["error", { "destructuredArrayIgnorePattern": "^_" }]*/
+
+const [a, _b, c] = ["a", "b", "c"];
+console.log(a+c);
+
+const { x: [_a, foo] } = bar;
+console.log(foo);
+
+function baz([_c, x]) {
+    x;
+}
+baz();
+
+function test({p: [_q, r]}) {
+    r;
+}
+test();
+
+let _m, n;
+foo.forEach(item => {
+    [_m, n] = item;
+    console.log(n);
+});
+
+let _o, p;
+_o = 1;
+[_o, p] = foo;
+p;
+```
+
+:::
+
+### ignoreRestSiblings
+
+The `ignoreRestSiblings` option is a boolean (default: `false`). Using a [Rest Property](https://github.com/tc39/proposal-object-rest-spread) it is possible to "omit" properties from an object, but by default the sibling properties are marked as "unused". With this option enabled the rest property's siblings are ignored.
+
+Examples of **correct** code for the `{ "ignoreRestSiblings": true }` option:
+
+::: correct
+
+```js
+/*eslint no-unused-vars: ["error", { "ignoreRestSiblings": true }]*/
+// 'foo' and 'bar' were ignored because they have a rest property sibling.
+var { foo, ...coords } = data;
+
+var bar;
+({ bar, ...coords } = data);
 ```
 
 :::
