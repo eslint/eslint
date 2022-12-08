@@ -25,11 +25,13 @@ const linter = new Linter();
 function parseCodePaths(code) {
     const retv = [];
 
-    linter.defineRule("test", () => ({
-        onCodePathStart(codePath) {
-            retv.push(codePath);
-        }
-    }));
+    linter.defineRule("test", {
+        create: () => ({
+            onCodePathStart(codePath) {
+                retv.push(codePath);
+            }
+        })
+    });
 
     linter.verify(code, {
         rules: { test: 2 },
