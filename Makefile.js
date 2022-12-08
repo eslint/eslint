@@ -629,7 +629,6 @@ target.karma = () => {
 };
 
 target.test = function() {
-    target.lint();
     target.checkRuleFiles();
     target.mocha();
     target.karma();
