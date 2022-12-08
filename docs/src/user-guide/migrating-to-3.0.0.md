@@ -38,17 +38,17 @@ To create a new configuration, use `eslint --init`.
 
 In 3.0.0, the following rules were added to `"eslint:recommended"`:
 
-* [`no-unsafe-finally`](https://eslint.org/docs/rules/no-unsafe-finally) helps catch `finally` clauses that may not behave as you think.
-* [`no-native-reassign`](https://eslint.org/docs/rules/no-native-reassign) was previously part of `no-undef`, but was split out because it didn't make sense as part of another rule. The `no-native-reassign` rule warns whenever you try to overwrite a read-only global variable.
-* [`require-yield`](https://eslint.org/docs/rules/require-yield) helps to identify generator functions that do not have the `yield` keyword.
+* [`no-unsafe-finally`](../rules/no-unsafe-finally) helps catch `finally` clauses that may not behave as you think.
+* [`no-native-reassign`](../rules/no-native-reassign) was previously part of `no-undef`, but was split out because it didn't make sense as part of another rule. The `no-native-reassign` rule warns whenever you try to overwrite a read-only global variable.
+* [`require-yield`](../rules/require-yield) helps to identify generator functions that do not have the `yield` keyword.
 
 The following rules were removed from `"eslint:recommended"`:
 
-* [`comma-dangle`](https://eslint.org/docs/rules/comma-dangle) used to be recommended because Internet Explorer 8 and earlier threw a syntax error when it found a dangling comma on object literal properties. However, [Internet Explorer 8 was end-of-lifed](https://www.microsoft.com/en-us/WindowsForBusiness/End-of-IE-support) in January 2016 and all other active browsers allow dangling commas. As such, we consider dangling commas to now be a stylistic issue instead of a possible error.
+* [`comma-dangle`](../rules/comma-dangle) used to be recommended because Internet Explorer 8 and earlier threw a syntax error when it found a dangling comma on object literal properties. However, [Internet Explorer 8 was end-of-lifed](https://www.microsoft.com/en-us/WindowsForBusiness/End-of-IE-support) in January 2016 and all other active browsers allow dangling commas. As such, we consider dangling commas to now be a stylistic issue instead of a possible error.
 
 The following rules were modified:
 
-* [`complexity`](https://eslint.org/docs/rules/complexity) used to have a hardcoded default of 11 in `eslint:recommended` that would be used if you turned the rule on without specifying a maximum. The default is now 20. The rule actually always had a default of 20, but `eslint:recommended` was overriding it by mistake.
+* [`complexity`](../rules/complexity) used to have a hardcoded default of 11 in `eslint:recommended` that would be used if you turned the rule on without specifying a maximum. The default is now 20. The rule actually always had a default of 20, but `eslint:recommended` was overriding it by mistake.
 
 **To address:** If you want to mimic how `eslint:recommended` worked in v2.x, you can use the following:
 

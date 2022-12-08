@@ -51,19 +51,19 @@ As of April 2019, Node.js 6 will be at EOL and will no longer be receiving secur
 
 ## <a name="eslint-recommended-changes"></a> `eslint:recommended` has been updated
 
-The following rules have been added to the [`eslint:recommended`](https://eslint.org/docs/user-guide/configuring#using-eslintrecommended) config:
+The following rules have been added to the [`eslint:recommended`](../user-guide/configuring#using-eslintrecommended) config:
 
-* [`no-async-promise-executor`](https://eslint.org/docs/rules/no-async-promise-executor) disallows using an `async` function as the argument to the `Promise` constructor, which is usually a bug.
-* [`no-misleading-character-class`](https://eslint.org/docs/rules/no-misleading-character-class) reports character classes in regular expressions that might not behave as expected.
-* [`no-prototype-builtins`](https://eslint.org/docs/rules/no-prototype-builtins) reports method calls like `foo.hasOwnProperty("bar")` (which are a frequent source of bugs), and suggests that they be replaced with `Object.prototype.hasOwnProperty.call(foo, "bar")` instead.
-* [`no-shadow-restricted-names`](https://eslint.org/docs/rules/no-shadow-restricted-names) disallows shadowing variables like `undefined` (e.g. with code like `let undefined = 5;`), since is likely to confuse readers.
-* [`no-useless-catch`](https://eslint.org/docs/rules/no-useless-catch) reports `catch` clauses that are redundant and can be removed from the code without changing its behavior.
-* [`no-with`](https://eslint.org/docs/rules/no-with) disallows use of the [`with` statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/with), which can make code difficult to understand and cause compatibility problems.
-* [`require-atomic-updates`](https://eslint.org/docs/rules/require-atomic-updates) reports race condition bugs that can occur when reassigning variables in async functions.
+* [`no-async-promise-executor`](../rules/no-async-promise-executor) disallows using an `async` function as the argument to the `Promise` constructor, which is usually a bug.
+* [`no-misleading-character-class`](../rules/no-misleading-character-class) reports character classes in regular expressions that might not behave as expected.
+* [`no-prototype-builtins`](../rules/no-prototype-builtins) reports method calls like `foo.hasOwnProperty("bar")` (which are a frequent source of bugs), and suggests that they be replaced with `Object.prototype.hasOwnProperty.call(foo, "bar")` instead.
+* [`no-shadow-restricted-names`](../rules/no-shadow-restricted-names) disallows shadowing variables like `undefined` (e.g. with code like `let undefined = 5;`), since is likely to confuse readers.
+* [`no-useless-catch`](../rules/no-useless-catch) reports `catch` clauses that are redundant and can be removed from the code without changing its behavior.
+* [`no-with`](../rules/no-with) disallows use of the [`with` statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/with), which can make code difficult to understand and cause compatibility problems.
+* [`require-atomic-updates`](../rules/require-atomic-updates) reports race condition bugs that can occur when reassigning variables in async functions.
 
 Additionally, the following rule has been *removed* from `eslint:recommended`:
 
-* [`no-console`](https://eslint.org/docs/rules/no-console) disallows calling functions like `console.log`. While this rule is useful in many cases (e.g. to avoid inadvertently leaving debugging statements in production code), it is not as broadly applicable as the other rules in `eslint:recommended`, and it was a source of false positives in cases where `console.log` is acceptable (e.g. in CLI applications).
+* [`no-console`](../rules/no-console) disallows calling functions like `console.log`. While this rule is useful in many cases (e.g. to avoid inadvertently leaving debugging statements in production code), it is not as broadly applicable as the other rules in `eslint:recommended`, and it was a source of false positives in cases where `console.log` is acceptable (e.g. in CLI applications).
 
 Finally, in ESLint v5 `eslint:recommended` would explicitly disable all core rules that were not considered "recommended". This could cause confusing behavior if `eslint:recommended` was loaded after another config, since `eslint:recommended` would have the effect of turning off some rules. In ESLint v6, `eslint:recommended` has no effect on non-recommended rules.
 
@@ -133,7 +133,7 @@ config | ESLint v5 | ESLint v6
 
 ## <a name="no-redeclare-updates"></a> The `no-redeclare` rule is now more strict by default
 
-The default options for the [`no-redeclare`](https://eslint.org/docs/rules/no-redeclare) rule have changed from `{ builtinGlobals: false }` to `{ builtinGlobals: true }`. Additionally, the `no-redeclare` rule will now report an error for globals enabled by comments like `/* global foo */` if those globals were already enabled through configuration anyway.
+The default options for the [`no-redeclare`](../rules/no-redeclare) rule have changed from `{ builtinGlobals: false }` to `{ builtinGlobals: true }`. Additionally, the `no-redeclare` rule will now report an error for globals enabled by comments like `/* global foo */` if those globals were already enabled through configuration anyway.
 
 **To address:**
 
@@ -153,7 +153,7 @@ Additionally, if you see new errors for `global` comments in your code, you shou
 
 ## <a name="comma-dangle-updates"></a> The `comma-dangle` rule is now more strict by default
 
-Previously, the [`comma-dangle`](https://eslint.org/docs/rules/comma-dangle) rule would ignore trailing function arguments and parameters, unless explicitly configured to check for function commas. In ESLint v6, function commas are treated the same way as other types of trailing commas.
+Previously, the [`comma-dangle`](../rules/comma-dangle) rule would ignore trailing function arguments and parameters, unless explicitly configured to check for function commas. In ESLint v6, function commas are treated the same way as other types of trailing commas.
 
 **To address:** You can restore the previous default behavior of the rule with:
 
@@ -177,7 +177,7 @@ To restore the previous behavior of a string option like `"always-multiline"`, r
 
 ## <a name="no-confusing-arrow-updates"></a> The `no-confusing-arrow` rule is now more lenient by default
 
-The default options for the [`no-confusing-arrow`](https://eslint.org/docs/rules/no-confusing-arrow) rule have changed from `{ allowParens: false }` to `{ allowParens: true }`.
+The default options for the [`no-confusing-arrow`](../rules/no-confusing-arrow) rule have changed from `{ allowParens: false }` to `{ allowParens: true }`.
 
 **To address:** You can restore the previous default behavior of the rule with:
 
@@ -195,7 +195,7 @@ The default options for the [`no-confusing-arrow`](https://eslint.org/docs/rules
 
 Due to a bug, the glob patterns in a `files` list in an `overrides` section of a config file would never match dotfiles, making it impossible to have overrides apply to files starting with a dot. This bug has been fixed in ESLint v6.
 
-**To address:** If you don't want dotfiles to be matched by an override, consider adding something like `excludedFiles: [".*"]` to that `overrides` section. See the [documentation](https://eslint.org/docs/user-guide/configuring#configuration-based-on-glob-patterns) for more details.
+**To address:** If you don't want dotfiles to be matched by an override, consider adding something like `excludedFiles: [".*"]` to that `overrides` section. See the [documentation](../user-guide/configuring#configuration-based-on-glob-patterns) for more details.
 
 **Related issue(s):** [eslint/eslint#11201](https://github.com/eslint/eslint/issues/11201)
 
@@ -282,7 +282,7 @@ If you're not sure which config file needs to be updated, it may be useful to ru
 
 ## <a name="unicode-regexes"></a> User-provided regular expressions in rule options are parsed with the unicode flag
 
-Rules like [`max-len`](/docs/rules/max-len) accept a string option which is interpreted as a regular expression. In ESLint v6.0.0, these regular expressions are interpreted with the [unicode flag](https://mathiasbynens.be/notes/es6-unicode-regex), which should exhibit more reasonable behavior when matching characters like astral symbols. Unicode regexes also validate escape sequences more strictly than non-unicode regexes.
+Rules like [`max-len`](../rules/max-len) accept a string option which is interpreted as a regular expression. In ESLint v6.0.0, these regular expressions are interpreted with the [unicode flag](https://mathiasbynens.be/notes/es6-unicode-regex), which should exhibit more reasonable behavior when matching characters like astral symbols. Unicode regexes also validate escape sequences more strictly than non-unicode regexes.
 
 **To address:** If you get rule option validation errors after upgrading, ensure that any regular expressions in your rule options have no invalid escape sequences.
 
@@ -328,6 +328,6 @@ Previously, when linting code with a parser that had not been previously defined
 
 In ESLint v6, `Linter` will no longer perform any filesystem operations, including loading parsers.
 
-**To address:** If you're using `Linter` with a custom parser, use [`Linter#defineParser`](https://eslint.org/docs/developer-guide/nodejs-api#linterdefineparser) to explicitly define the parser before linting any code.
+**To address:** If you're using `Linter` with a custom parser, use [`Linter#defineParser`](../developer-guide/nodejs-api#linterdefineparser) to explicitly define the parser before linting any code.
 
 **Related issue(s):** [eslint/rfcs#7](https://github.com/eslint/rfcs/pull/7)

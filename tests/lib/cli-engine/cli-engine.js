@@ -5018,7 +5018,7 @@ describe("CLIEngine", () => {
 
         it("should call fs.writeFileSync() for each result with output", () => {
             const fakeFS = {
-                    writeFileSync: () => {}
+                    writeFileSync() {}
                 },
                 localCLIEngine = proxyquire("../../../lib/cli-engine/cli-engine", {
                     fs: fakeFS
@@ -5048,7 +5048,7 @@ describe("CLIEngine", () => {
 
         it("should call fs.writeFileSync() for each result with output and not at all for a result without output", () => {
             const fakeFS = {
-                    writeFileSync: () => {}
+                    writeFileSync() {}
                 },
                 localCLIEngine = proxyquire("../../../lib/cli-engine/cli-engine", {
                     fs: fakeFS
