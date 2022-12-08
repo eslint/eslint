@@ -304,7 +304,10 @@
         "wrap-iife": "0.0.9",
         "wrap-regex": "0.1.0",
         "yield-star-spacing": "2.0.0-alpha-1",
-        "yoda": "0.7.1"
+        "yoda": "0.7.1",
+        "logical-assignment-operators": "8.24.0",
+        "no-empty-static-block": "8.27.0",
+        "no-new-native-nonconstructor": "8.27.0"
     },
     "removed": {
         "generator-star": "1.0.0-rc-1",

@@ -1,6 +1,5 @@
 ---
 title: consistent-this
-layout: doc
 rule_type: suggestion
 ---
 

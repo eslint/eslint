@@ -1,6 +1,5 @@
 ---
 title: guard-for-in
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-prototype-builtins

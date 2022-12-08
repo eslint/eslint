@@ -1,6 +1,5 @@
 ---
 title: no-with
-layout: doc
 rule_type: suggestion
 further_reading:
 - https://web.archive.org/web/20200717110117/https://yuiblog.com/blog/2006/04/11/with-statement-considered-harmful/

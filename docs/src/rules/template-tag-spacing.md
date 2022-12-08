@@ -1,6 +1,5 @@
 ---
 title: template-tag-spacing
-layout: doc
 rule_type: layout
 further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_template_literals

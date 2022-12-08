@@ -1,6 +1,5 @@
 ---
 title: no-new-object
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-array-constructor

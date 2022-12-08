@@ -1,17 +1,16 @@
 ---
 title: Formatters
-layout: doc
 eleventyNavigation:
     key: formatters
     parent: user guide
     title: Formatters
-    order: 5
+    order: 6
 edit_link: https://github.com/eslint/eslint/edit/main/templates/formatter-examples.md.ejs
 ---
 
 ESLint comes with several built-in formatters to control the appearance of the linting results, and supports third-party formatters as well.
 
-You can specify a formatter using the `--format` or `-f` flag on the command line. For example, `--format json` uses the `json` formatter.
+You can specify a formatter using the `--format` or `-f` flag in the CLI. For example, `--format json` uses the `json` formatter.
 
 The built-in formatter options are:
 
@@ -21,9 +20,9 @@ The built-in formatter options are:
 
 ## Example Source
 
-Examples of each formatter were created from linting `fullOfProblems.js` using the `.eslintrc` configuration shown below.
+Examples of each formatter were created from linting `fullOfProblems.js` using the `.eslintrc.json` configuration shown below.
 
-### `fullOfProblems.js`
+`fullOfProblems.js`:
 
 ```js
 function addOne(i) {
@@ -35,7 +34,7 @@ function addOne(i) {
 };
 ```
 
-### `.eslintrc`:
+`.eslintrc.json`:
 
 ```json
 {
@@ -50,17 +49,26 @@ function addOne(i) {
 }
 ```
 
-## Output Examples
+Tests the formatters with the CLI:
+
+```shell
+npx eslint --format <Add formatter here> fullOfProblems.js
+```
+
+## Built-In Formatter Options
 <% Object.keys(formatterResults).forEach(function(formatterName) { -%>
 
 ### <%= formatterName %>
-<% if (formatterName !== "html") { -%>
 
+<%= formatterResults[formatterName].description %>
+
+Example output:
+
+<% if (formatterName !== "html") { -%>
 ```text
 <%= formatterResults[formatterName].result %>
 ```
 <% } else {-%>
-
 <iframe src="html-formatter-example.html" width="100%" height="460px"></iframe>
 <% } -%>
 <% }) -%>

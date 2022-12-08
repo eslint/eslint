@@ -1,6 +1,5 @@
 ---
 title: object-curly-newline
-layout: doc
 rule_type: layout
 related_rules:
 - comma-spacing

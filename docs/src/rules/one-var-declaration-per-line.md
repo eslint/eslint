@@ -1,6 +1,5 @@
 ---
 title: one-var-declaration-per-line
-layout: doc
 rule_type: suggestion
 related_rules:
 - one-var

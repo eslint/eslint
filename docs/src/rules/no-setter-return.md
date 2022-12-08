@@ -1,6 +1,5 @@
 ---
 title: no-setter-return
-layout: doc
 rule_type: problem
 related_rules:
 - getter-return

@@ -1,6 +1,5 @@
 ---
 title: no-promise-executor-return
-layout: doc
 rule_type: problem
 related_rules:
 - no-async-promise-executor

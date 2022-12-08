@@ -1,6 +1,5 @@
 ---
 title: space-infix-ops
-layout: doc
 rule_type: layout
 ---
 

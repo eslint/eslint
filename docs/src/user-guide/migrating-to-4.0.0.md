@@ -1,6 +1,5 @@
 ---
 title: Migrating to v4.0.0
-layout: doc
 
 ---
 
@@ -36,10 +35,10 @@ The lists below are ordered roughly by the number of users each change is expect
 
 ## <a name="eslint-recommended-changes"></a> `eslint:recommended` changes
 
-Two new rules have been added to the [`eslint:recommended`](https://eslint.org/docs/user-guide/configuring#using-eslintrecommended) config:
+Two new rules have been added to the [`eslint:recommended`](configuring#using-eslintrecommended) config:
 
-* [`no-compare-neg-zero`](/docs/rules/no-compare-neg-zero) disallows comparisons to `-0`
-* [`no-useless-escape`](/docs/rules/no-useless-escape) disallows uselessly-escaped characters in strings and regular expressions
+* [`no-compare-neg-zero`](../rules/no-compare-neg-zero) disallows comparisons to `-0`
+* [`no-useless-escape`](../rules/no-useless-escape) disallows uselessly-escaped characters in strings and regular expressions
 
 **To address:** To mimic the `eslint:recommended` behavior from 3.x, you can disable these rules in a config file:
 
@@ -56,11 +55,11 @@ Two new rules have been added to the [`eslint:recommended`](https://eslint.org/d
 
 ## <a name="indent-rewrite"></a> The `indent` rule is more strict
 
-Previously, the [`indent`](/docs/rules/indent) rule was fairly lenient about checking indentation; there were many code patterns where indentation was not validated by the rule. This caused confusion for users, because they were accidentally writing code with incorrect indentation, and they expected ESLint to catch the issues.
+Previously, the [`indent`](../rules/indent) rule was fairly lenient about checking indentation; there were many code patterns where indentation was not validated by the rule. This caused confusion for users, because they were accidentally writing code with incorrect indentation, and they expected ESLint to catch the issues.
 
 In 4.0.0, the `indent` rule has been rewritten. The new version of the rule will report some indentation errors that the old version of the rule did not catch. Additionally, the indentation of `MemberExpression` nodes, function parameters, and function arguments will now be checked by default (it was previously ignored by default for backwards compatibility).
 
-To make the upgrade process easier, we've introduced the [`indent-legacy`](/docs/rules/indent-legacy) rule as a snapshot of the `indent` rule from 3.x. If you run into issues from the `indent` rule when you upgrade, you should be able to use the `indent-legacy` rule to replicate the 3.x behavior. However, the `indent-legacy` rule is deprecated and will not receive bugfixes or improvements in the future, so you should eventually switch back to the `indent` rule.
+To make the upgrade process easier, we've introduced the [`indent-legacy`](../rules/indent-legacy) rule as a snapshot of the `indent` rule from 3.x. If you run into issues from the `indent` rule when you upgrade, you should be able to use the `indent-legacy` rule to replicate the 3.x behavior. However, the `indent-legacy` rule is deprecated and will not receive bugfixes or improvements in the future, so you should eventually switch back to the `indent` rule.
 
 **To address:** We recommend upgrading without changing your `indent` configuration, and fixing any new indentation errors that appear in your codebase. However, if you want to mimic how the `indent` rule worked in 3.x, you can update your configuration:
 
@@ -87,13 +86,13 @@ Due to a bug, glob patterns in an `.eslintignore` file were previously resolved 
 
 ## <a name="padded-blocks-defaults"></a> The `padded-blocks` rule is more strict by default
 
-By default, the [`padded-blocks`](/docs/rules/padded-blocks) rule will now enforce padding in class bodies and switch statements. Previously, the rule would ignore these cases unless the user opted into enforcing them.
+By default, the [`padded-blocks`](../rules/padded-blocks) rule will now enforce padding in class bodies and switch statements. Previously, the rule would ignore these cases unless the user opted into enforcing them.
 
 **To address:** If this change results in more linting errors in your codebase, you should fix them or reconfigure the rule.
 
 ## <a name="space-before-function-paren-defaults"></a> The `space-before-function-paren` rule is more strict by default
 
-By default, the [`space-before-function-paren`](/docs/rules/space-before-function-paren) rule will now enforce spacing for async arrow functions. Previously, the rule would ignore these cases unless the user opted into enforcing them.
+By default, the [`space-before-function-paren`](../rules/space-before-function-paren) rule will now enforce spacing for async arrow functions. Previously, the rule would ignore these cases unless the user opted into enforcing them.
 
 **To address:** To mimic the default config from 3.x, you can use:
 
@@ -111,7 +110,7 @@ By default, the [`space-before-function-paren`](/docs/rules/space-before-functio
 
 ## <a name="no-multi-spaces-eol-comments"></a> The `no-multi-spaces` rule is more strict by default
 
-By default, the [`no-multi-spaces`](/docs/rules/no-multi-spaces) rule will now disallow multiple spaces before comments at the end of a line. Previously, the rule did not check this case.
+By default, the [`no-multi-spaces`](../rules/no-multi-spaces) rule will now disallow multiple spaces before comments at the end of a line. Previously, the rule did not check this case.
 
 **To address:** To mimic the default config from 3.x, you can use:
 

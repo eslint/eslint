@@ -1,6 +1,5 @@
 ---
 title: Getting Started with ESLint
-layout: doc
 eleventyNavigation:
     key: getting started 
     parent: user guide
@@ -23,6 +22,28 @@ You can install and configure ESLint using this command:
 
 ```shell
 npm init @eslint/config
+```
+
+If you want to use a specific shareable config that is hosted on npm, you can use the `--config` option and specify the package name:
+
+```shell
+# use `eslint-config-semistandard` shared config
+# npm 6.x
+npm init @eslint/config --config semistandard
+
+# ⚠️ npm 7+, extra double-dash is needed:
+npm init @eslint/config -- --config semistandard
+
+# or (`eslint-config` prefix is optional)
+npm init @eslint/config -- --config eslint-config-semistandard
+```
+
+The `--config` flag also supports passing in arrays:
+
+```shell
+npm init @eslint/config -- --config semistandard,standard
+# or
+npm init @eslint/config -- --config semistandard --config standard
 ```
 
 **Note:** `npm init @eslint/config` assumes you have a `package.json` file already. If you don't, make sure to run `npm init` or `yarn init` beforehand.
@@ -54,7 +75,7 @@ After running `npm init @eslint/config`, you'll have a `.eslintrc.{js,yml,json}`
 }
 ```
 
-The names `"semi"` and `"quotes"` are the names of [rules](/docs/rules) in ESLint. The first value is the error level of the rule and can be one of these values:
+The names `"semi"` and `"quotes"` are the names of [rules](../rules) in ESLint. The first value is the error level of the rule and can be one of these values:
 
 * `"off"` or `0` - turn the rule off
 * `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
@@ -70,7 +91,7 @@ Your `.eslintrc.{js,yml,json}` configuration file will also include the line:
 }
 ```
 
-Because of this line, all of the rules marked "(recommended)" on the [rules page](/docs/rules) will be turned on.  Alternatively, you can use configurations that others have created by searching for "eslint-config" on [npmjs.com](https://www.npmjs.com/search?q=eslint-config).  ESLint will not lint your code unless you extend from a shared configuration or explicitly turn rules on in your configuration.
+Because of this line, all of the rules marked "(recommended)" on the [rules page](../rules) will be turned on.  Alternatively, you can use configurations that others have created by searching for "eslint-config" on [npmjs.com](https://www.npmjs.com/search?q=eslint-config).  ESLint will not lint your code unless you extend from a shared configuration or explicitly turn rules on in your configuration.
 
 ---
 
@@ -79,5 +100,5 @@ Because of this line, all of the rules marked "(recommended)" on the [rules page
 * Learn about [advanced configuration](configuring/) of ESLint.
 * Get familiar with the [command line options](command-line-interface).
 * Explore [ESLint integrations](integrations) into other tools like editors, build systems, and more.
-* Can't find just the right rule?  Make your own [custom rule](/docs/developer-guide/working-with-rules).
-* Make ESLint even better by [contributing](/docs/developer-guide/contributing/).
+* Can't find just the right rule?  Make your own [custom rule](../developer-guide/working-with-rules).
+* Make ESLint even better by [contributing](../developer-guide/contributing/).

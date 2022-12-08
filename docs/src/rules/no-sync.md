@@ -1,6 +1,5 @@
 ---
 title: no-sync
-layout: doc
 rule_type: suggestion
 ---
 

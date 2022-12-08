@@ -1,6 +1,5 @@
 ---
 title: space-in-brackets
-layout: doc
 
 related_rules:
 - array-bracket-spacing

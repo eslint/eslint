@@ -1,6 +1,5 @@
 ---
 title: prefer-const
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-var
@@ -106,7 +105,7 @@ for (const a of [1, 2, 3]) {
 
 // `end` is never reassigned, but we cannot separate the declarations without modifying the scope.
 for (let i = 0, end = 10; i < end; ++i) {
-    console.log(a);
+    console.log(i);
 }
 
 // `predicate` is only assigned once but cannot be separately declared as `const`

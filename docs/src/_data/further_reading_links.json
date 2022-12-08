@@ -698,5 +698,26 @@
         "logo": "https://eslint.org/apple-touch-icon.png",
         "title": "Interesting bugs caught by no-constant-binary-expression - ESLint - Pluggable JavaScript Linter",
         "description": "A pluggable and configurable linter tool for identifying and reporting on patterns in JavaScript. Maintain your code quality with ease."
+    },
+    "https://github.com/tc39/proposal-class-static-block": {
+        "domain": "github.com",
+        "url": "https://github.com/tc39/proposal-class-static-block",
+        "logo": "https://github.com/fluidicon.png",
+        "title": "GitHub - tc39/proposal-class-static-block: ECMAScript class static initialization blocks",
+        "description": "ECMAScript class static initialization blocks. Contribute to tc39/proposal-class-static-block development by creating an account on GitHub."
+    },
+    "https://tc39.es/ecma262/#sec-symbol-constructor": {
+        "domain": "tc39.es",
+        "url": "https://tc39.es/ecma262/#sec-symbol-constructor",
+        "logo": "https://tc39.es/ecma262/img/favicon.ico",
+        "title": "ECMAScript® 2023 Language Specification",
+        "description": null
+    },
+    "https://tc39.es/ecma262/#sec-bigint-constructor": {
+        "domain": "tc39.es",
+        "url": "https://tc39.es/ecma262/#sec-bigint-constructor",
+        "logo": "https://tc39.es/ecma262/img/favicon.ico",
+        "title": "ECMAScript® 2023 Language Specification",
+        "description": null
     }
 }

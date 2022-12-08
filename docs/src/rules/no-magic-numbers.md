@@ -1,6 +1,5 @@
 ---
 title: no-magic-numbers
-layout: doc
 rule_type: suggestion
 ---
 
@@ -190,6 +189,45 @@ function mapParallel(concurrency = 3) { /***/ }
 
 let head;
 [head = 100] = []
+```
+
+:::
+
+### ignoreClassFieldInitialValues
+
+A boolean to specify if numbers used as initial values of class fields are considered okay. `false` by default.
+
+Examples of **correct** code for the `{ "ignoreClassFieldInitialValues": true }` option:
+
+::: correct
+
+```js
+/*eslint no-magic-numbers: ["error", { "ignoreClassFieldInitialValues": true }]*/
+
+class C {
+    foo = 2;
+    bar = -3;
+    #baz = 4;
+    static qux = 5;
+}
+```
+
+:::
+
+Examples of **incorrect** code for the `{ "ignoreClassFieldInitialValues": true }` option:
+
+::: incorrect
+
+```js
+/*eslint no-magic-numbers: ["error", { "ignoreClassFieldInitialValues": true }]*/
+
+class C {
+    foo = 2 + 3;
+}
+
+class D {
+    2;
+}
 ```
 
 :::

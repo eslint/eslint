@@ -1,6 +1,5 @@
 ---
 title: dot-notation
-layout: doc
 rule_type: suggestion
 ---
 

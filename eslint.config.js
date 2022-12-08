@@ -79,6 +79,23 @@ function createInternalFilesPatterns(pattern = null) {
 module.exports = [
     ...compat.extends("eslint"),
     {
+        ignores: [
+            "build/**",
+            "coverage/**",
+            "docs/**",
+            "!docs/.eleventy.js",
+            "jsdoc/**",
+            "templates/**",
+            "tests/bench/**",
+            "tests/fixtures/**",
+            "tests/performance/**",
+            "tmp/**",
+            "tools/internal-rules/node_modules/**",
+            "**/test.js",
+            "!.eslintrc.js"
+        ]
+    },
+    {
         plugins: {
             "internal-rules": internalPlugin,
             "eslint-plugin": eslintPlugin
@@ -117,7 +134,7 @@ module.exports = [
             "eslint-plugin/prefer-placeholders": "error",
             "eslint-plugin/prefer-replace-text": "error",
             "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
-            "eslint-plugin/require-meta-docs-description": ["error", { pattern: "^(Enforce|Require|Disallow)" }],
+            "eslint-plugin/require-meta-docs-description": ["error", { pattern: "^(Enforce|Require|Disallow) .+[^. ]$" }],
             "internal-rules/no-invalid-meta": "error"
         }
     },

@@ -1,6 +1,5 @@
 ---
 title: switch-colon-spacing
-layout: doc
 rule_type: layout
 ---
 

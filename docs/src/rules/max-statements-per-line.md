@@ -1,6 +1,5 @@
 ---
 title: max-statements-per-line
-layout: doc
 rule_type: layout
 related_rules:
 - max-depth

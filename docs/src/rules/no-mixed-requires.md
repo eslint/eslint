@@ -1,6 +1,5 @@
 ---
 title: no-mixed-requires
-layout: doc
 rule_type: suggestion
 ---
 

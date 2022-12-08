@@ -1,6 +1,5 @@
 ---
 title: func-call-spacing
-layout: doc
 rule_type: layout
 related_rules:
 - no-spaced-func

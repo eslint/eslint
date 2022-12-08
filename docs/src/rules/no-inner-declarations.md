@@ -1,6 +1,5 @@
 ---
 title: no-inner-declarations
-layout: doc
 rule_type: problem
 ---
 

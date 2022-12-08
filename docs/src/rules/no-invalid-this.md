@@ -1,6 +1,5 @@
 ---
 title: no-invalid-this
-layout: doc
 rule_type: suggestion
 ---
 

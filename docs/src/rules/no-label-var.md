@@ -1,6 +1,5 @@
 ---
 title: no-label-var
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-extra-label

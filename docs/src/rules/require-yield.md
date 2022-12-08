@@ -1,6 +1,5 @@
 ---
 title: require-yield
-layout: doc
 rule_type: suggestion
 related_rules:
 - require-await

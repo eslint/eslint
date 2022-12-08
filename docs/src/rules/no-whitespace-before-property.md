@@ -1,6 +1,5 @@
 ---
 title: no-whitespace-before-property
-layout: doc
 rule_type: layout
 ---
 

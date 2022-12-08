@@ -4,7 +4,7 @@ title: Rule categories
 
 ## Rule categories
 
-The rule categories—namely “recommended”, “fixable”, and “hasSuggestions”—are shown in the [rules page](/rules/). They are rendered using the `ruleCategories` macro (imported from `/components/rule-categories.macro.html`). There is also an individual macro for each category type.
+The rule categories—namely “recommended”, “fixable”, and “hasSuggestions”—are shown in the [rules page](../rules/). They are rendered using the `ruleCategories` macro (imported from `/components/rule-categories.macro.html`). There is also an individual macro for each category type.
 
 ```html
 { % from 'components/rule-categories.macro.html' import ruleCategories % }

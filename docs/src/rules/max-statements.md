@@ -1,6 +1,5 @@
 ---
 title: max-statements
-layout: doc
 rule_type: suggestion
 related_rules:
 - complexity

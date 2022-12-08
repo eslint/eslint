@@ -1,13 +1,16 @@
 ---
 title: Integrations
-layout: doc
 eleventyNavigation:
     key: integrations
     parent: user guide
     title: Integrations
-    order: 6
+    order: 7
 
 ---
+
+This page contains community projects that have integrated ESLint. The projects on this page are not maintained by the ESLint team.
+
+If you would like to recommend an integration to be added to this page, [submit a pull request](../developer-guide/contributing/pull-requests).
 
 ## Editors
 
@@ -27,6 +30,7 @@ eleventyNavigation:
     * [linter-eslint](https://atom.io/packages/linter-eslint)
     * [fast-eslint-8](https://atom.io/packages/fast-eslint-8)
 * IntelliJ IDEA, WebStorm, PhpStorm, PyCharm, RubyMine, and other JetBrains IDEs: [How to use ESLint](https://www.jetbrains.com/help/webstorm/eslint.html)
+* Visual Studio: [Linting JavaScript in VS](https://learn.microsoft.com/en-us/visualstudio/javascript/linting-javascript?view=vs-2022)
 * Visual Studio Code: [ESLint Extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 * Brackets: Included and [Brackets ESLint](https://github.com/brackets-userland/brackets-eslint)
 
@@ -60,15 +64,6 @@ eleventyNavigation:
 ## Testing
 
 * Mocha.js: [mocha-eslint](https://www.npmjs.com/package/mocha-eslint)
-
-## External ESLint rules
-
-* [AngularJS](https://github.com/Gillespie59/eslint-plugin-angular)
-* [BackboneJS](https://github.com/ilyavolodin/eslint-plugin-backbone)
-* [Jasmine](https://github.com/tlvince/eslint-plugin-jasmine)
-* [React](https://github.com/yannickcr/eslint-plugin-react)
-
-… and many more published on npm with the [eslintplugin](https://www.npmjs.com/browse/keyword/eslintplugin) keyword.
 
 ## Other Integration Lists
 

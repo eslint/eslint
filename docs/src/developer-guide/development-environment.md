@@ -1,6 +1,5 @@
 ---
 title: Development Environment
-layout: doc
 eleventyNavigation:
     key: set up a development environment
     parent: developer guide
@@ -44,7 +43,7 @@ Now, the remote `upstream` points to the upstream source.
 
 ## Step 4: Install the Yeoman Generator
 
-[Yeoman](http://yeoman.io) is a scaffold generator that ESLint uses to help streamline development of new rules. If you don't already have Yeoman installed, you can install it via npm:
+[Yeoman](https://yeoman.io) is a scaffold generator that ESLint uses to help streamline development of new rules. If you don't already have Yeoman installed, you can install it via npm:
 
 ```shell
 npm install -g yo

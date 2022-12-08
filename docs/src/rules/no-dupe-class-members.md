@@ -1,6 +1,5 @@
 ---
 title: no-dupe-class-members
-layout: doc
 rule_type: problem
 ---
 

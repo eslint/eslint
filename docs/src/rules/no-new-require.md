@@ -1,6 +1,5 @@
 ---
 title: no-new-require
-layout: doc
 rule_type: suggestion
 ---
 

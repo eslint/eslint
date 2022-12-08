@@ -1,6 +1,5 @@
 ---
 title: Managing Releases
-layout: doc
 eleventyNavigation:
     key: managing releases
     parent: maintainer guide 

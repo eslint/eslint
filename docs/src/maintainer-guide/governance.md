@@ -1,6 +1,5 @@
 ---
 title: Governance
-layout: doc
 eleventyNavigation:
     key: governance
     parent: maintainer guide
@@ -37,8 +36,8 @@ Website Team Members are community members who have shown that they are committe
 * Are expected to delete their public branches when they are no longer necessary.
 * Must submit pull requests for all changes.
 * Have their work reviewed by Reviewers and TSC members before acceptance into the repository.
-* May label and close website-related issues (see [Managing Issues](issues.html))
-* May merge some pull requests (see [Managing Pull Requests](pullrequests.html))
+* May label and close website-related issues (see [Managing Issues](issues))
+* May merge some pull requests (see [Managing Pull Requests](pullrequests))
 
 To become a  Website Team Member:
 
@@ -60,8 +59,8 @@ Committers:
 * Are expected to delete their public branches when they are no longer necessary.
 * Must submit pull requests for all changes.
 * Have their work reviewed by TSC members before acceptance into the repository.
-* May label and close issues (see [Managing Issues](issues.html))
-* May merge some pull requests (see [Managing Pull Requests](pullrequests.html))
+* May label and close issues (see [Managing Issues](issues))
+* May merge some pull requests (see [Managing Pull Requests](pullrequests))
 
 To become a Committer:
 

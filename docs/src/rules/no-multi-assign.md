@@ -1,6 +1,5 @@
 ---
 title: no-multi-assign
-layout: doc
 rule_type: suggestion
 related_rules:
 - max-statements-per-line

@@ -1,6 +1,5 @@
 ---
 title: Rules
-layout: doc
 eleventyNavigation:
     key: configuring rules
     parent: configuring
@@ -9,9 +8,13 @@ eleventyNavigation:
 
 ---
 
-## Configuring Rules
+Rules are the core building block of ESLint. A rule validates if your code meets a certain expectation, and what to do if it does not meet that expectation. Rules can also contain additional configuration options specific to that rule.
 
-ESLint comes with a large number of built-in rules and you can add more rules through plugins. You can modify which rules your project uses either using configuration comments or configuration files. To change a rule setting, you must set the rule ID equal to one of these values:
+ESLint comes with a large number of [built-in rules](../../rules/) and you can add more rules through plugins. You can modify which rules your project uses with either configuration comments or configuration files.
+
+## Rule Severities
+
+To change a rule's severity, set the rule ID equal to one of these values:
 
 * `"off"` or `0` - turn the rule off
 * `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
@@ -40,6 +43,8 @@ If a rule has additional options, you can specify them using array literal synta
 ```
 
 This comment specifies the "double" option for the [`quotes`](../../rules/quotes) rule. The first item in the array is always the rule severity (number or string).
+
+#### Configuration Comment Descriptions
 
 Configuration comments can include descriptions to explain why the comment is necessary. The description must occur after the configuration and is separated from the configuration by two or more consecutive `-` characters. For example:
 
@@ -86,7 +91,11 @@ rules:
     - double
 ```
 
-To configure a rule which is defined within a plugin you have to prefix the rule ID with the plugin name and a `/`. For example:
+## Rules from Plugins
+
+To configure a rule that is defined within a plugin, prefix the rule ID with the plugin name and `/`.
+
+In a configuration file, for example:
 
 ```json
 {
@@ -117,7 +126,9 @@ rules:
   plugin1/rule1: error
 ```
 
-In these configuration files, the rule `plugin1/rule1` comes from the plugin named `plugin1`. You can also use this format with configuration comments, such as:
+In these configuration files, the rule `plugin1/rule1` comes from the plugin named `plugin1`, which is contained in an npm package named `eslint-plugin-plugin1`.
+
+You can also use this format with configuration comments, such as:
 
 ```js
 /* eslint "plugin1/rule1": "error" */
@@ -129,7 +140,7 @@ In these configuration files, the rule `plugin1/rule1` comes from the plugin nam
 
 ### Using configuration comments
 
-To temporarily disable rule warnings in your file, use block comments in the following format:
+To disable rule warnings in a part of a file, use block comments in the following format:
 
 ```js
 /* eslint-disable */
@@ -150,7 +161,7 @@ console.log('bar');
 /* eslint-enable no-alert, no-console */
 ```
 
-**Note:** `/* eslint-enable */` without any specific rules listed will cause all disabled rules to be re-enabled.
+**Note:** `/* eslint-enable */` without any specific rules listed causes all disabled rules to be re-enabled.
 
 To disable rule warnings in an entire file, put a `/* eslint-disable */` block comment at the top of the file:
 
@@ -232,7 +243,11 @@ foo(); // eslint-disable-line example/rule-name
 foo(); /* eslint-disable-line example/rule-name */
 ```
 
-Configuration comments can include descriptions to explain why the comment is necessary. The description must come after the configuration and needs to be separated from the configuration by two or more consecutive `-` characters. For example:
+**Note:** Comments that disable warnings for a portion of a file tell ESLint not to report rule violations for the disabled code. ESLint still parses the entire file, however, so disabled code still needs to be syntactically valid JavaScript.
+
+#### Comment descriptions
+
+Configuration comments can include descriptions to explain why disabling or re-enabling the rule is necessary. The description must come after the configuration and needs to be separated from the configuration by two or more consecutive `-` characters. For example:
 
 ```js
 // eslint-disable-next-line no-console -- Here's a description about why this configuration is necessary.
@@ -244,8 +259,6 @@ console.log('hello');
 **/
 console.log('hello');
 ```
-
-**Note:** Comments that disable warnings for a portion of a file tell ESLint not to report rule violations for the disabled code. ESLint still parses the entire file, however, so disabled code still needs to be syntactically valid JavaScript.
 
 ### Using configuration files
 
@@ -267,7 +280,7 @@ To disable rules inside of a configuration file for a group of files, use the `o
 
 ### Disabling Inline Comments
 
-To disable all inline config comments, use the `noInlineConfig` setting. For example:
+To disable all inline config comments, use the `noInlineConfig` setting in your configuration file. For example:
 
 ```json
 {
@@ -276,7 +289,7 @@ To disable all inline config comments, use the `noInlineConfig` setting. For exa
 }
 ```
 
-This setting is similar to [--no-inline-config](../command-line-interface#--no-inline-config) CLI option.
+You can also use the [--no-inline-config](../command-line-interface#--no-inline-config) CLI option to disable rule comments, in addition to other in-line configuration.
 
 #### Report unused `eslint-disable` comments
 

@@ -15,6 +15,7 @@ const checker = require("npm-license"),
     fs = require("fs"),
     glob = require("glob"),
     marked = require("marked"),
+    matter = require("gray-matter"),
     markdownlint = require("markdownlint"),
     os = require("os"),
     path = require("path"),
@@ -446,8 +447,9 @@ function lintMarkdown(files) {
  */
 function getFormatterResults() {
     const stripAnsi = require("strip-ansi");
+    const formattersMetadata = require("./lib/cli-engine/formatters/formatters-meta.json");
 
-    const formatterFiles = fs.readdirSync("./lib/cli-engine/formatters/"),
+    const formatterFiles = fs.readdirSync("./lib/cli-engine/formatters/").filter(fileName => !fileName.includes("formatters-meta.json")),
         rules = {
             "no-else-return": "warn",
             indent: ["warn", 4],
@@ -488,7 +490,8 @@ function getFormatterResults() {
             );
 
             data.formatterResults[name] = {
-                result: stripAnsi(formattedOutput)
+                result: stripAnsi(formattedOutput),
+                description: formattersMetadata.find(formatter => formatter.name === name).description
             };
         }
         return data;
@@ -518,11 +521,11 @@ target.lint = function([fix = false] = []) {
      * when analyzing `require()` calls from CJS modules in the `docs` directory. Since our release process does not run `npm install`
      * in the `docs` directory, linting would fail and break the release. Also, working on the main `eslint` package does not require
      * installing dependencies declared in `docs/package.json`, so most contributors will not have `docs/node_modules` locally.
-     * Therefore, we add `--ignore-pattern docs` to exclude linting the `docs` directory from this command.
+     * Therefore, we add `--ignore-pattern "docs/**"` to exclude linting the `docs` directory from this command.
      * There is a separate command `target.lintDocsJS` for linting JavaScript files in the `docs` directory.
      */
     echo("Validating JavaScript files");
-    lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} . --ignore-pattern docs`);
+    lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} . --ignore-pattern "docs/**"`);
     if (lastReturn.code !== 0) {
         errors++;
     }
@@ -706,7 +709,8 @@ target.checkRuleFiles = function() {
         const basename = path.basename(filename, ".js");
         const docFilename = `docs/src/rules/${basename}.md`;
         const docText = cat(docFilename);
-        const docMarkdown = marked.lexer(docText, { gfm: true, silent: false });
+        const docTextWithoutFrontmatter = matter(String(docText)).content;
+        const docMarkdown = marked.lexer(docTextWithoutFrontmatter, { gfm: true, silent: false });
         const ruleCode = cat(filename);
         const knownHeaders = ["Rule Details", "Options", "Environments", "Examples", "Known Limitations", "When Not To Use It", "Compatibility"];
 

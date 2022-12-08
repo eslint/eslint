@@ -1,6 +1,5 @@
 ---
 title: lines-between-class-members
-layout: doc
 rule_type: layout
 related_rules:
 - padded-blocks

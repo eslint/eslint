@@ -10,7 +10,8 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/func-name-matching"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester"),
+    FlatRuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -504,7 +505,8 @@ ruleTester.run("func-name-matching", rule, {
             code: "class C { #x; foo() { a.b.#x = function y() {}; } }",
             options: ["never"],
             parserOptions: { ecmaVersion: 2022 }
-        }
+        },
+        "var obj = { '\\u1885': function foo() {} };" // not a valid identifier in es5
     ],
     invalid: [
         {
@@ -877,6 +879,39 @@ ruleTester.run("func-name-matching", rule, {
             parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
+            ]
+        },
+        {
+            code: "var obj = { '\\u1885': function foo() {} };", // valid identifier in es2015
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "foo", name: "\u1885" } }
+            ]
+        }
+    ]
+});
+
+const flatRuleTester = new FlatRuleTester();
+
+flatRuleTester.run("func-name-matching", rule, {
+    valid: [
+        {
+            code: "var obj = { '\\u1885': function foo() {} };", // not a valid identifier in es5
+            languageOptions: {
+                ecmaVersion: 5,
+                sourceType: "script"
+            }
+        }
+    ],
+
+    invalid: [
+        {
+            code: "var obj = { '\\u1885': function foo() {} };", // valid identifier in es2015
+            languageOptions: {
+                ecmaVersion: 2015
+            },
+            errors: [
+                { messageId: "matchProperty", data: { funcName: "foo", name: "\u1885" } }
             ]
         }
     ]

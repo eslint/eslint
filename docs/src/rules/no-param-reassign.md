@@ -1,6 +1,5 @@
 ---
 title: no-param-reassign
-layout: doc
 rule_type: suggestion
 further_reading:
 - https://spin.atomicobject.com/2011/04/10/javascript-don-t-reassign-your-function-arguments/

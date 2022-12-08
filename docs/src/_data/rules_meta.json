@@ -270,7 +270,7 @@
     "for-direction": {
         "type": "problem",
         "docs": {
-            "description": "Enforce \"for\" loop update clause moving the counter in the right direction.",
+            "description": "Enforce \"for\" loop update clause moving the counter in the right direction",
             "recommended": true,
             "url": "https://eslint.org/docs/rules/for-direction"
         },
@@ -530,6 +530,16 @@
             "url": "https://eslint.org/docs/rules/lines-between-class-members"
         },
         "fixable": "whitespace"
+    },
+    "logical-assignment-operators": {
+        "type": "suggestion",
+        "docs": {
+            "description": "Require or disallow logical assignment logical operator shorthand",
+            "recommended": false,
+            "url": "https://eslint.org/docs/rules/logical-assignment-operators"
+        },
+        "fixable": "code",
+        "hasSuggestions": true
     },
     "max-classes-per-file": {
         "type": "suggestion",
@@ -927,6 +937,7 @@
         "fixable": "code"
     },
     "no-empty": {
+        "hasSuggestions": true,
         "type": "suggestion",
         "docs": {
             "description": "Disallow empty block statements",
@@ -956,6 +967,14 @@
             "description": "Disallow empty destructuring patterns",
             "recommended": true,
             "url": "https://eslint.org/docs/rules/no-empty-pattern"
+        }
+    },
+    "no-empty-static-block": {
+        "type": "suggestion",
+        "docs": {
+            "description": "Disallow empty static blocks",
+            "recommended": false,
+            "url": "https://eslint.org/docs/rules/no-empty-static-block"
         }
     },
     "no-eq-null": {
@@ -1329,6 +1348,14 @@
             "description": "Disallow `new` operators with the `Function` object",
             "recommended": false,
             "url": "https://eslint.org/docs/rules/no-new-func"
+        }
+    },
+    "no-new-native-nonconstructor": {
+        "type": "problem",
+        "docs": {
+            "description": "Disallow `new` operators with global non-constructor functions",
+            "recommended": false,
+            "url": "https://eslint.org/docs/rules/no-new-native-nonconstructor"
         }
     },
     "no-new-object": {
@@ -2089,7 +2116,8 @@
             "description": "Enforce using named capture group in regular expression",
             "recommended": false,
             "url": "https://eslint.org/docs/rules/prefer-named-capture-group"
-        }
+        },
+        "hasSuggestions": true
     },
     "prefer-numeric-literals": {
         "type": "suggestion",
@@ -2112,7 +2140,7 @@
     "prefer-object-spread": {
         "type": "suggestion",
         "docs": {
-            "description": "Disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead.",
+            "description": "Disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead",
             "recommended": false,
             "url": "https://eslint.org/docs/rules/prefer-object-spread"
         },

@@ -1,6 +1,5 @@
 ---
 title: no-octal-escape
-layout: doc
 rule_type: suggestion
 ---
 

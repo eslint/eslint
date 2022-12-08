@@ -49,7 +49,6 @@ function clearSearchResults() {
         resultsElement.removeChild(resultsElement.firstChild);
     }
     resultsElement.innerHTML = "";
-    searchClearBtn.setAttribute('hidden', '');
 }
 
 /**
@@ -80,13 +79,11 @@ function displaySearchResults(results) {
             `.trim();
             list.append(listItem);
         }
-        searchClearBtn.removeAttribute('hidden');
 
     } else {
         resultsLiveRegion.innerHTML = "No results found.";
         resultsElement.innerHTML = "No results found.";
         resultsElement.setAttribute('data-results', 'false');
-        searchClearBtn.setAttribute('hidden', '');
     }
 
 }
@@ -111,9 +108,28 @@ function maintainScrollVisibility(activeElement, scrollParent) {
     else if (isBelow) {
         scrollParent.scrollTo(0, offsetTop - parentOffsetHeight + offsetHeight);
     }
-    
+
 }
 
+/**
+ * Debounces the provided callback with a given delay.
+ * @param {Function} callback The callback that needs to be debounced.
+ * @param {Number} delay Time in ms that the timer should wait before the callback is executed.
+ * @returns {Function} Returns the new debounced function.
+ */
+function debounce(callback, delay) {
+    let timer;
+    return (...args) => {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => callback.apply(this, args), delay);
+    }
+}
+
+const debouncedFetchSearchResults = debounce((query) => {
+    fetchSearchResults(query)
+        .then(displaySearchResults)
+        .catch(clearSearchResults);
+}, 300);
 
 //-----------------------------------------------------------------------------
 // Event Handlers
@@ -130,9 +146,8 @@ if(searchInput)
         else searchClearBtn.setAttribute('hidden', '');
 
         if (query.length > 2) {
-            fetchSearchResults(query)
-                .then(displaySearchResults)
-                .catch(clearSearchResults);
+
+            debouncedFetchSearchResults(query);
 
             document.addEventListener('click', function(e) {
                 if(e.target !== resultsElement) clearSearchResults();
@@ -151,6 +166,7 @@ if(searchClearBtn)
         searchInput.value = '';
         searchInput.focus();
         clearSearchResults();
+        searchClearBtn.setAttribute('hidden', '');
     });
 
 document.addEventListener('keydown', function (e) {
@@ -164,7 +180,7 @@ document.addEventListener('keydown', function (e) {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
         searchInput.focus();
-        document.querySelector('.search').scrollIntoView({ behaviour: "smooth", block: "start" });
+        document.querySelector('.search').scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     const searchResults = Array.from(document.querySelectorAll('.search-results__item'));
@@ -188,4 +204,3 @@ document.addEventListener('keydown', function (e) {
         maintainScrollVisibility(activeSearchResult, resultsElement);
     }
 });
-    

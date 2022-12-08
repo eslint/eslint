@@ -1,6 +1,5 @@
 ---
 title: no-new-symbol
-layout: doc
 rule_type: problem
 further_reading:
 - https://www.ecma-international.org/ecma-262/6.0/#sec-symbol-objects

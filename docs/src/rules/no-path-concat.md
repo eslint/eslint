@@ -1,6 +1,5 @@
 ---
 title: no-path-concat
-layout: doc
 rule_type: suggestion
 ---
 

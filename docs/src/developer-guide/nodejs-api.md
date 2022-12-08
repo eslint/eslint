@@ -1,6 +1,5 @@
 ---
 title: Node.js API
-layout: doc
 eleventyNavigation:
     key: node.js api
     parent: developer guide
@@ -410,8 +409,8 @@ This edit information means replacing the range of the `range` property by the `
 
 The `LoadedFormatter` value is the object to convert the [LintResult] objects to text. The [eslint.loadFormatter()][eslint-loadformatter] method returns it. It has the following method:
 
-* `format` (`(results: LintResult[]) => string | Promise<string>`)<br>
-  The method to convert the [LintResult] objects to text.
+* `format` (`(results: LintResult[], resultsMeta: ResultsMeta) => string | Promise<string>`)<br>
+  The method to convert the [LintResult] objects to text. `resultsMeta` is an object that will contain a `maxWarningsExceeded` object if `--max-warnings` was set and the number of warnings exceeded the limit. The `maxWarningsExceeded` object will contain two properties: `maxWarnings`, the value of the `--max-warnings` option, and `foundWarnings`, the number of lint warnings.
 
 ---
 
@@ -464,7 +463,7 @@ const codeLines = SourceCode.splitLines(code);
 
 ## Linter
 
-The `Linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `Linter` object does not process configuration objects or files. Unless you are working in the browser, you probably want to use the [ESLint class](#eslint-class) class instead.
+The `Linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `Linter` object does not process configuration objects or files. Unless you are working in the browser, you probably want to use the [ESLint class](#eslint-class) instead.
 
 The `Linter` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
@@ -490,8 +489,8 @@ The most important method on `Linter` is `verify()`, which initiates linting of 
     * **Note**: If you want to lint text and have your configuration be read and processed, use [`ESLint#lintFiles()`][eslint-lintfiles] or [`ESLint#lintText()`][eslint-linttext] instead.
 * `options` - (optional) Additional options for this run.
     * `filename` - (optional) the filename to associate with the source code.
-    * `preprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins#processors-in-plugins) documentation describes as the `preprocess` method.
-    * `postprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins#processors-in-plugins) documentation describes as the `postprocess` method.
+    * `preprocess` - (optional) A function that [Processors in Plugins](working-with-plugins#processors-in-plugins) documentation describes as the `preprocess` method.
+    * `postprocess` - (optional) A function that [Processors in Plugins](working-with-plugins#processors-in-plugins) documentation describes as the `postprocess` method.
     * `filterCodeBlock` - (optional) A function that decides which code blocks the linter should adopt. The function receives two arguments. The first argument is the virtual filename of a code block. The second argument is the text of the code block. If the function returned `true` then the linter adopts the code block. If the function was omitted, the linter adopts only `*.js` code blocks. If you provided a `filterCodeBlock` function, it overrides this default behavior, so the linter doesn't adopt `*.js` code blocks automatically.
     * `disableFixes` - (optional) when set to `true`, the linter doesn't make either the `fix` or `suggestions` property of the lint result.
     * `allowInlineConfig` - (optional) set to `false` to disable inline comments from changing ESLint rules.
@@ -687,7 +686,7 @@ Map {
 ### Linter#defineParser
 
 Each instance of `Linter` holds a map of custom parsers. If you want to define a parser programmatically, you can add this function
-with the name of the parser as first argument and the [parser object](/docs/developer-guide/working-with-custom-parsers) as second argument. The default `"espree"` parser will already be loaded for every `Linter` instance.
+with the name of the parser as first argument and the [parser object](working-with-custom-parsers) as second argument. The default `"espree"` parser will already be loaded for every `Linter` instance.
 
 ```js
 const Linter = require("eslint").Linter;
@@ -919,22 +918,13 @@ ruleTester.run("my-rule", myRule, {
 ---
 
 [configuration object]: ../user-guide/configuring/
-[builtin-formatters]: https://eslint.org/docs/user-guide/formatters/
+[builtin-formatters]: ../user-guide/formatters/
 [third-party-formatters]: https://www.npmjs.com/search?q=eslintformatter
-[eslint]: #eslint-class
-[eslint-constructor]: #-new-eslintoptions
 [eslint-lintfiles]: #-eslintlintfilespatterns
 [eslint-linttext]: #-eslintlinttextcode-options
-[eslint-getrulesmetaforresults]: #-eslintgetrulesmetaforresultsresults
-[eslint-calculateconfigforfile]: #-eslintcalculateconfigforfilefilepath
-[eslint-ispathignored]: #-eslintispathignoredfilepath
 [eslint-loadformatter]: #-eslintloadformatternameorpath
-[eslint-version]: #-eslintversion
-[eslint-outputfixes]: #-eslintoutputfixesresults
-[eslint-geterrorresults]: #-eslintgeterrorresultsresults
 [lintresult]: #-lintresult-type
 [lintmessage]: #-lintmessage-type
 [suppressedlintmessage]: #-suppressedlintmessage-type
 [editinfo]: #-editinfo-type
 [loadedformatter]: #-loadedformatter-type
-[linter]: #linter

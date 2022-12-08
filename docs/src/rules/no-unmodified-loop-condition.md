@@ -1,6 +1,5 @@
 ---
 title: no-unmodified-loop-condition
-layout: doc
 rule_type: problem
 ---
 

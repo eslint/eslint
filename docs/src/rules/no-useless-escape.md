@@ -1,6 +1,5 @@
 ---
 title: no-useless-escape
-layout: doc
 rule_type: suggestion
 ---
 

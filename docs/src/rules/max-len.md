@@ -1,6 +1,5 @@
 ---
 title: max-len
-layout: doc
 rule_type: layout
 related_rules:
 - complexity

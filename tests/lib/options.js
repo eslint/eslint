@@ -124,14 +124,6 @@ describe("options", () => {
                 });
             });
 
-            describe("--ignore-path", () => {
-                it("should return a string for .ignorePath when passed", () => {
-                    const currentOptions = options.parse("--ignore-path .gitignore");
-
-                    assert.strictEqual(currentOptions.ignorePath, ".gitignore");
-                });
-            });
-
             describe("--ignore-pattern", () => {
                 it("should return a string array for .ignorePattern when passed", () => {
                     const currentOptions = options.parse("--ignore-pattern *.js");
@@ -368,6 +360,14 @@ describe("options", () => {
 
             assert.isArray(currentOptions.rulesdir);
             assert.deepStrictEqual(currentOptions.rulesdir, ["/morerules"]);
+        });
+    });
+
+    describe("--ignore-path", () => {
+        it("should return a string for .ignorePath when passed", () => {
+            const currentOptions = eslintrcOptions.parse("--ignore-path .gitignore");
+
+            assert.strictEqual(currentOptions.ignorePath, ".gitignore");
         });
     });
 

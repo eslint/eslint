@@ -1,6 +1,5 @@
 ---
 title: require-unicode-regexp
-layout: doc
 rule_type: suggestion
 ---
 

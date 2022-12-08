@@ -1,6 +1,5 @@
 ---
 title: Source Code
-layout: doc
 eleventyNavigation:
     key: getting the source code
     parent: developer guide

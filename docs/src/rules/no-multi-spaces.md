@@ -1,6 +1,5 @@
 ---
 title: no-multi-spaces
-layout: doc
 rule_type: layout
 related_rules:
 - key-spacing

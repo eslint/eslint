@@ -1,6 +1,5 @@
 ---
 title: no-extra-parens
-layout: doc
 rule_type: layout
 related_rules:
 - arrow-parens
@@ -39,6 +38,7 @@ This rule has an object option for exceptions to the `"all"` option:
 * `"enforceForSequenceExpressions": false` allows extra parentheses around sequence expressions
 * `"enforceForNewInMemberExpressions": false` allows extra parentheses around `new` expressions in member expressions
 * `"enforceForFunctionPrototypeMethods": false` allows extra parentheses around immediate `.call` and `.apply` method calls on function expressions and around function expressions in the same context.
+* `"allowParensAfterCommentPattern": "any-string-pattern"` allows extra parentheses preceded by a comment that matches a regular expression.
 
 ### all
 
@@ -61,6 +61,8 @@ for (a of (b));
 
 typeof (a);
 
+(Object.prototype.toString.call());
+
 (function(){} ? a() : b());
 
 class A {
@@ -82,8 +84,6 @@ Examples of **correct** code for this rule with the default `"all"` option:
 /* eslint no-extra-parens: "error" */
 
 (0).toString();
-
-(Object.prototype.toString.call());
 
 ({}.toString.call());
 
@@ -319,6 +319,34 @@ const bar = (function () {}).apply();
 const baz = (function () {}.call());
 
 const quux = (function () {}.apply());
+```
+
+:::
+
+### allowParensAfterCommentPattern
+
+To make this rule allow extra parentheses preceded by specific comments, set this option to a string pattern that will be passed to the [`RegExp` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp).
+
+Examples of **correct** code for this rule with the `"all"` and `{ "allowParensAfterCommentPattern": "@type" }` options:
+
+::: correct
+
+```js
+/* eslint no-extra-parens: ["error", "all", { "allowParensAfterCommentPattern": "@type" }] */
+
+const span = /**@type {HTMLSpanElement}*/(event.currentTarget);
+
+if (/** @type {Foo | Bar} */(options).baz) console.log('Lint free');
+
+foo(/** @type {Bar} */ (bar), options, {
+    name: "name",
+    path: "path",
+});
+
+if (foo) {
+    /** @type {Bar} */
+    (bar).prop = false;
+}
 ```
 
 :::

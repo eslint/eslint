@@ -1,6 +1,5 @@
 ---
 title: no-regex-spaces
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-div-regex

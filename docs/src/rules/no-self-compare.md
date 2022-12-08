@@ -1,6 +1,5 @@
 ---
 title: no-self-compare
-layout: doc
 rule_type: problem
 ---
 

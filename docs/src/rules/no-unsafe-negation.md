@@ -1,6 +1,5 @@
 ---
 title: no-unsafe-negation
-layout: doc
 rule_type: problem
 ---
 

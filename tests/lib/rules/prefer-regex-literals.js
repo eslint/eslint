@@ -10,7 +10,8 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/prefer-regex-literals");
-const { RuleTester } = require("../../../lib/rule-tester");
+const { RuleTester } = require("../../../lib/rule-tester"),
+    FlatRuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -2471,6 +2472,30 @@ ruleTester.run("prefer-regex-literals", rule, {
                     suggestions: null
                 }
             ]
+        }
+    ]
+});
+
+const flatRuleTester = new FlatRuleTester();
+
+flatRuleTester.run("prefer-regex-literals", rule, {
+    valid: [],
+
+    invalid: [
+        {
+            code: "var regex = new RegExp('foo', 'u');",
+            languageOptions: {
+                ecmaVersion: 2015
+            },
+            errors: [{
+                messageId: "unexpectedRegExp",
+                suggestions: [
+                    {
+                        messageId: "replaceWithLiteral",
+                        output: "var regex = /foo/u;"
+                    }
+                ]
+            }]
         }
     ]
 });

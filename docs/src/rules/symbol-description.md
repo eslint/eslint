@@ -1,6 +1,5 @@
 ---
 title: symbol-description
-layout: doc
 rule_type: suggestion
 further_reading:
 - https://www.ecma-international.org/ecma-262/6.0/#sec-symbol-description

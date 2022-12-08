@@ -1,6 +1,5 @@
 ---
 title: prefer-spread
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-useless-call

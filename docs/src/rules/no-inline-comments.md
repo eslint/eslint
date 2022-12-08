@@ -1,6 +1,5 @@
 ---
 title: no-inline-comments
-layout: doc
 rule_type: suggestion
 ---
 

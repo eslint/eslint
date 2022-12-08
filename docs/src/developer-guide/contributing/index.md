@@ -1,6 +1,5 @@
 ---
 title: Contributing
-layout: doc
 eleventyNavigation:
     key: contributing
     parent: developer guide

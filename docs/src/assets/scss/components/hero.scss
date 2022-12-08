@@ -36,11 +36,15 @@
         padding: 0 calc(1rem + 1vw);
         padding-bottom: 0;
         align-items: center;
+        max-width: 1700px;
+
+        @media all and (min-width: 1700px) {
+            margin: auto;
+        }
     }
 }
 
 .hero--homepage {
-
     .section-title {
         margin-bottom: 1.5rem;
         margin-block-end: 1.5rem;

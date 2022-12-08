@@ -1,6 +1,5 @@
 ---
 title: max-params
-layout: doc
 rule_type: suggestion
 related_rules:
 - complexity

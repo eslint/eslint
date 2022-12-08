@@ -1,6 +1,5 @@
 ---
 title: no-async-promise-executor
-layout: doc
 rule_type: problem
 ---
 

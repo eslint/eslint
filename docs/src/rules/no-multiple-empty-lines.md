@@ -1,6 +1,5 @@
 ---
 title: no-multiple-empty-lines
-layout: doc
 rule_type: layout
 ---
 

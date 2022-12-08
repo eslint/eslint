@@ -1,6 +1,5 @@
 ---
 title: space-unary-ops
-layout: doc
 rule_type: layout
 ---
 

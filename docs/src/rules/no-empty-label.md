@@ -1,6 +1,5 @@
 ---
 title: no-empty-label
-layout: doc
 
 related_rules:
 - no-labels

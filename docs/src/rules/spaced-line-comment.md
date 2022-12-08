@@ -1,6 +1,5 @@
 ---
 title: spaced-line-comment
-layout: doc
 
 related_rules:
 - spaced-comment

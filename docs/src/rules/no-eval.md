@@ -1,6 +1,5 @@
 ---
 title: no-eval
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-implied-eval

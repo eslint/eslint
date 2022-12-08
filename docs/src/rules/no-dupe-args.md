@@ -1,6 +1,5 @@
 ---
 title: no-dupe-args
-layout: doc
 rule_type: problem
 ---
 

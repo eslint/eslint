@@ -10,7 +10,8 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/strict"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester"),
+    FlatRuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -655,6 +656,49 @@ ruleTester.run("strict", rule, {
             errors: [
                 { messageId: "unnecessaryInClasses", line: 2 },
                 { messageId: "multiple", line: 3 }
+            ]
+        }
+    ]
+});
+
+const flatRuleTester = new FlatRuleTester();
+
+// TODO: merge these tests into `ruleTester.run` once we switch to FlatRuleTester (when FlatRuleTester becomes RuleTester).
+flatRuleTester.run("strict", rule, {
+    valid: [
+        {
+            code: "'use strict'; module.exports = function identity (value) { return value; }",
+            languageOptions: {
+                sourceType: "commonjs"
+            }
+        },
+        {
+            code: "'use strict'; module.exports = function identity (value) { return value; }",
+            options: ["safe"],
+            languageOptions: {
+                sourceType: "commonjs"
+            }
+        }
+    ],
+
+    invalid: [
+        {
+            code: "module.exports = function identity (value) { return value; }",
+            options: ["safe"],
+            languageOptions: {
+                sourceType: "commonjs"
+            },
+            errors: [
+                { messageId: "global", line: 1 }
+            ]
+        },
+        {
+            code: "module.exports = function identity (value) { return value; }",
+            languageOptions: {
+                sourceType: "commonjs"
+            },
+            errors: [
+                { messageId: "global", line: 1 }
             ]
         }
     ]

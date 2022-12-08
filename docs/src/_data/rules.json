@@ -21,7 +21,7 @@
                 },
                 {
                     "name": "for-direction",
-                    "description": "Enforce \"for\" loop update clause moving the counter in the right direction.",
+                    "description": "Enforce \"for\" loop update clause moving the counter in the right direction",
                     "recommended": true,
                     "fixable": false,
                     "hasSuggestions": false
@@ -228,6 +228,13 @@
                     "recommended": true,
                     "fixable": false,
                     "hasSuggestions": true
+                },
+                {
+                    "name": "no-new-native-nonconstructor",
+                    "description": "Disallow `new` operators with global non-constructor functions",
+                    "recommended": false,
+                    "fixable": false,
+                    "hasSuggestions": false
                 },
                 {
                     "name": "no-new-symbol",
@@ -580,6 +587,13 @@
                     "hasSuggestions": false
                 },
                 {
+                    "name": "logical-assignment-operators",
+                    "description": "Require or disallow logical assignment logical operator shorthand",
+                    "recommended": false,
+                    "fixable": true,
+                    "hasSuggestions": true
+                },
+                {
                     "name": "max-classes-per-file",
                     "description": "Enforce a maximum number of classes per file",
                     "recommended": false,
@@ -724,11 +738,18 @@
                     "description": "Disallow empty block statements",
                     "recommended": true,
                     "fixable": false,
-                    "hasSuggestions": false
+                    "hasSuggestions": true
                 },
                 {
                     "name": "no-empty-function",
                     "description": "Disallow empty functions",
+                    "recommended": false,
+                    "fixable": false,
+                    "hasSuggestions": false
+                },
+                {
+                    "name": "no-empty-static-block",
+                    "description": "Disallow empty static blocks",
                     "recommended": false,
                     "fixable": false,
                     "hasSuggestions": false
@@ -1277,7 +1298,7 @@
                     "description": "Enforce using named capture group in regular expression",
                     "recommended": false,
                     "fixable": false,
-                    "hasSuggestions": false
+                    "hasSuggestions": true
                 },
                 {
                     "name": "prefer-numeric-literals",
@@ -1295,7 +1316,7 @@
                 },
                 {
                     "name": "prefer-object-spread",
-                    "description": "Disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead.",
+                    "description": "Disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead",
                     "recommended": false,
                     "fixable": true,
                     "hasSuggestions": false

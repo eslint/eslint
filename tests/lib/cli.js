@@ -137,6 +137,50 @@ describe("cli", () => {
 
         });
 
+        describe("flat config", () => {
+            const originalEnv = process.env;
+            const originalCwd = process.cwd;
+
+            beforeEach(() => {
+                process.env = { ...originalEnv };
+            });
+
+            afterEach(() => {
+                process.env = originalEnv;
+                process.cwd = originalCwd;
+            });
+
+            it(`should use it when an eslint.config.js is present and useFlatConfig is true:${configType}`, async () => {
+                process.cwd = getFixturePath;
+
+                const exitCode = await cli.execute(`--no-ignore --ext .js ${getFixturePath("files")}`, null, useFlatConfig);
+
+                // When flat config is used, we get an exit code of 2 because the --ext option is unrecognized.
+                assert.strictEqual(exitCode, useFlatConfig ? 2 : 0);
+            });
+
+            it(`should not use it when ESLINT_USE_FLAT_CONFIG=false even if an eslint.config.js is present:${configType}`, async () => {
+                process.env.ESLINT_USE_FLAT_CONFIG = "false";
+                process.cwd = getFixturePath;
+
+                const exitCode = await cli.execute(`--no-ignore --ext .js ${getFixturePath("files")}`, null, useFlatConfig);
+
+                assert.strictEqual(exitCode, 0);
+            });
+
+            it(`should use it when ESLINT_USE_FLAT_CONFIG=true and useFlatConfig is true even if an eslint.config.js is not present:${configType}`, async () => {
+                process.env.ESLINT_USE_FLAT_CONFIG = "true";
+
+                // Set the CWD to outside the fixtures/ directory so that no eslint.config.js is found
+                process.cwd = () => getFixturePath("..");
+
+                const exitCode = await cli.execute(`--no-ignore --ext .js ${getFixturePath("files")}`, null, useFlatConfig);
+
+                // When flat config is used, we get an exit code of 2 because the --ext option is unrecognized.
+                assert.strictEqual(exitCode, useFlatConfig ? 2 : 0);
+            });
+        });
+
         describe("when given a config with rules with options and severity level set to error", () => {
 
             const originalCwd = process.cwd;
@@ -157,17 +201,6 @@ describe("cli", () => {
                 const exitStatus = await cli.execute(code, null, useFlatConfig);
 
                 assert.strictEqual(exitStatus, 1);
-            });
-        });
-
-        describe("when given a config file and a directory of files", () => {
-            it(`should load and execute without error with configType:${configType}`, async () => {
-                const configPath = getFixturePath("configurations", "semi-error.js");
-                const filePath = getFixturePath("formatters");
-                const code = `--config ${configPath} ${filePath}`;
-                const exitStatus = await cli.execute(code, null, useFlatConfig);
-
-                assert.strictEqual(exitStatus, 0);
             });
         });
 
@@ -241,6 +274,45 @@ describe("cli", () => {
                     };
 
                     assert.deepStrictEqual(metadata, expectedMetadata);
+                });
+            });
+
+            describe("when the --max-warnings option is passed", () => {
+                const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
+
+                describe("and there are too many warnings", () => {
+                    it(`should provide \`maxWarningsExceeded\` metadata to the formatter with configType:${configType}`, async () => {
+                        const exit = await cli.execute(
+                            `--no-ignore -f json-with-metadata --max-warnings 1 --rule 'quotes: warn' ${flag}`,
+                            "'hello' + 'world';",
+                            useFlatConfig
+                        );
+
+                        assert.strictEqual(exit, 1);
+
+                        const { metadata } = JSON.parse(log.info.args[0][0]);
+
+                        assert.deepStrictEqual(
+                            metadata.maxWarningsExceeded,
+                            { maxWarnings: 1, foundWarnings: 2 }
+                        );
+                    });
+                });
+
+                describe("and warnings do not exceed the limit", () => {
+                    it(`should omit \`maxWarningsExceeded\` metadata from the formatter with configType:${configType}`, async () => {
+                        const exit = await cli.execute(
+                            `--no-ignore -f json-with-metadata --max-warnings 1 --rule 'quotes: warn' ${flag}`,
+                            "'hello world';",
+                            useFlatConfig
+                        );
+
+                        assert.strictEqual(exit, 0);
+
+                        const { metadata } = JSON.parse(log.info.args[0][0]);
+
+                        assert.notProperty(metadata, "maxWarningsExceeded");
+                    });
                 });
             });
 
@@ -419,6 +491,17 @@ describe("cli", () => {
 
             afterEach(() => {
                 process.cwd = originalCwd;
+            });
+
+            describe("when given a config file and a directory of files", () => {
+                it(`should load and execute without error with configType:${configType}`, async () => {
+                    const configPath = getFixturePath("configurations", "semi-error.js");
+                    const filePath = getFixturePath("formatters");
+                    const code = `--no-ignore --config ${configPath} ${filePath}`;
+                    const exitStatus = await cli.execute(code, null, useFlatConfig);
+
+                    assert.strictEqual(exitStatus, 0);
+                });
             });
 
             describe("when executing with global flag", () => {
@@ -658,23 +741,27 @@ describe("cli", () => {
 
                 describe("when given a directory with eslint excluded files in the directory", () => {
                     it(`should throw an error and not process any files with configType:${configType}`, async () => {
-                        const ignorePath = getFixturePath(".eslintignore");
+                        const options = useFlatConfig
+                            ? `--config ${getFixturePath("eslint.config_with_ignores.js")}`
+                            : `--ignore-path ${getFixturePath(".eslintignore")}`;
                         const filePath = getFixturePath("cli");
                         const expectedMessage = useFlatConfig
-                            ? `All files matched by '${filePath.replace(/\\/gu, "/")}/**/*.js' are ignored.`
+                            ? `All files matched by '${filePath.replace(/\\/gu, "/")}' are ignored.`
                             : `All files matched by '${filePath}' are ignored.`;
 
                         await stdAssert.rejects(async () => {
-                            await cli.execute(`--ignore-path ${ignorePath} ${filePath}`, null, useFlatConfig);
+                            await cli.execute(`${options} ${filePath}`, null, useFlatConfig);
                         }, new Error(expectedMessage));
                     });
                 });
 
                 describe("when given a file in excluded files list", () => {
                     it(`should not process the file with configType:${configType}`, async () => {
-                        const ignorePath = getFixturePath(".eslintignore");
+                        const options = useFlatConfig
+                            ? `--config ${getFixturePath("eslint.config_with_ignores.js")}`
+                            : `--ignore-path ${getFixturePath(".eslintignore")}`;
                         const filePath = getFixturePath("passing.js");
-                        const exit = await cli.execute(`--ignore-path ${ignorePath} ${filePath}`, null, useFlatConfig);
+                        const exit = await cli.execute(`${options} ${filePath}`, null, useFlatConfig);
 
                         // a warning about the ignored file
                         assert.isTrue(log.info.called);
@@ -682,9 +769,11 @@ describe("cli", () => {
                     });
 
                     it(`should process the file when forced with configType:${configType}`, async () => {
-                        const ignorePath = getFixturePath(".eslintignore");
+                        const options = useFlatConfig
+                            ? `--config ${getFixturePath("eslint.config_with_ignores.js")}`
+                            : `--ignore-path ${getFixturePath(".eslintignore")}`;
                         const filePath = getFixturePath("passing.js");
-                        const exit = await cli.execute(`--ignore-path ${ignorePath} --no-ignore ${filePath}`, null, useFlatConfig);
+                        const exit = await cli.execute(`${options} --no-ignore ${filePath}`, null, useFlatConfig);
 
                         // no warnings
                         assert.isFalse(log.info.called);
@@ -695,13 +784,65 @@ describe("cli", () => {
                 describe("when given a pattern to ignore", () => {
                     it(`should not process any files with configType:${configType}`, async () => {
                         const ignoredFile = getFixturePath("cli/syntax-error.js");
+                        const ignorePathOption = useFlatConfig
+                            ? ""
+                            : "--ignore-path .eslintignore_empty";
                         const filePath = getFixturePath("cli/passing.js");
-                        const exit = await cli.execute(`--ignore-pattern cli/ ${ignoredFile} ${filePath}`, null, useFlatConfig);
+                        const ignorePattern = useFlatConfig ? "cli/**" : "cli/";
+                        const exit = await cli.execute(
+                            `--ignore-pattern ${ignorePattern} ${ignorePathOption} ${ignoredFile} ${filePath}`, null, useFlatConfig
+                        );
 
                         // warnings about the ignored files
                         assert.isTrue(log.info.called);
                         assert.strictEqual(exit, 0);
                     });
+
+                    it(`should interpret pattern that contains a slash as relative to cwd with configType:${configType}`, async () => {
+                        process.cwd = () => getFixturePath("cli/ignore-pattern-relative/subdir");
+
+                        /*
+                         * The config file is in `cli/ignore-pattern-relative`, so this would fail
+                         * if `subdir/**` ignore pattern is interpreted as relative to the config base path.
+                         */
+                        const exit = await cli.execute("**/*.js --ignore-pattern subdir/**", null, useFlatConfig);
+
+                        assert.strictEqual(exit, 0);
+
+                        await stdAssert.rejects(
+                            async () => await cli.execute("**/*.js --ignore-pattern subsubdir/*.js", null, useFlatConfig),
+                            /All files matched by '\*\*\/\*\.js' are ignored/u
+                        );
+                    });
+
+                    it(`should interpret pattern that doesn't contain a slash as relative to cwd with configType:${configType}`, async () => {
+                        process.cwd = () => getFixturePath("cli/ignore-pattern-relative/subdir/subsubdir");
+
+                        await stdAssert.rejects(
+                            async () => await cli.execute("**/*.js --ignore-pattern *.js", null, useFlatConfig),
+                            /All files matched by '\*\*\/\*\.js' are ignored/u
+                        );
+                    });
+
+                    if (useFlatConfig) {
+                        it("should ignore files if the pattern is a path to a directory (with trailing slash)", async () => {
+                            const filePath = getFixturePath("cli/syntax-error.js");
+                            const exit = await cli.execute(`--ignore-pattern cli/ ${filePath}`, null, true);
+
+                            // parsing error causes exit code 1
+                            assert.isTrue(log.info.called);
+                            assert.strictEqual(exit, 0);
+                        });
+
+                        it("should ignore files if the pattern is a path to a directory (without trailing slash)", async () => {
+                            const filePath = getFixturePath("cli/syntax-error.js");
+                            const exit = await cli.execute(`--ignore-pattern cli ${filePath}`, null, true);
+
+                            // parsing error causes exit code 1
+                            assert.isTrue(log.info.called);
+                            assert.strictEqual(exit, 0);
+                        });
+                    }
                 });
 
             });

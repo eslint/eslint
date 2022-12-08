@@ -14,10 +14,10 @@
 
     a {
         color: var(--link-color);
-        display: block;
         width: 100%;
         padding: 1rem .5rem;
         text-decoration: none;
+        display: block;
         display: flex;
         align-items: center;
         border-bottom: 1px solid var(--divider-color);
@@ -28,7 +28,10 @@
             color: var(--link-color);
 
             &::after {
-                content: "✔️";
+                content: " ✔️";
+                white-space: pre;
+                color: rgba(100%, 0%, 0%, 0);
+                text-shadow: 0 0 0 var(--headings-color);
             }
         }
 

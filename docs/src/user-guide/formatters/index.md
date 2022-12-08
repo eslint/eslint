@@ -1,11 +1,10 @@
 ---
 title: Formatters
-layout: doc
 eleventyNavigation:
     key: formatters
     parent: user guide
     title: Formatters
-    order: 5
+    order: 6
 edit_link: https://github.com/eslint/eslint/edit/main/templates/formatter-examples.md.ejs
 ---
 
@@ -43,7 +42,7 @@ function addOne(i) {
 };
 ```
 
-### `.eslintrc`:
+### `.eslintrc`
 
 ```json
 {

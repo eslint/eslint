@@ -1,6 +1,5 @@
 ---
 title: Working with Rules
-layout: doc
 eleventyNavigation:
     key: working with rules
     parent: developer guide
@@ -130,8 +129,8 @@ The `context` object contains additional functionality that is helpful for rules
 
 * `parserOptions` - the parser options configured for this run (more details [here](../user-guide/configuring/language-options#specifying-parser-options)).
 * `id` - the rule ID.
-* `options` - an array of the [configured options](/docs/user-guide/configuring/rules#configuring-rules) for this rule. This array does not include the rule severity. For more information, see [here](#contextoptions).
-* `settings` - the [shared settings](/docs/user-guide/configuring/configuration-files#adding-shared-settings) from configuration.
+* `options` - an array of the [configured options](../user-guide/configuring/rules#configuring-rules) for this rule. This array does not include the rule severity. For more information, see [here](#contextoptions).
+* `settings` - the [shared settings](../user-guide/configuring/configuration-files#adding-shared-settings) from configuration.
 * `parserPath` - the name of the `parser` from configuration.
 * `parserServices` - an object containing parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
 
@@ -160,7 +159,11 @@ Additionally, the `context` object has the following methods:
 
 ### context.getScope()
 
-This method returns the scope which has the following types:
+This method returns the scope of the current node. It is a useful method for finding information about the variables in a given scope, and how they are used in other scopes.
+
+#### Scope types
+
+The following table contains a list of AST node types and the scope type that they correspond to. For more information about the scope types, refer to the [`Scope` object documentation](./scope-manager-interface.md#scope-interface).
 
 | AST Node Type             | Scope Type |
 |:--------------------------|:-----------|
@@ -183,12 +186,25 @@ This method returns the scope which has the following types:
 **※2** Only if the `for` statement defines the iteration variable as a block-scoped variable (E.g., `for (let i = 0;;) {}`).<br>
 **※3** The scope of the closest ancestor node which has own scope. If the closest ancestor node has multiple scopes then it chooses the innermost scope (E.g., the `Program` node has a `global` scope and a `module` scope if `Program#sourceType` is `"module"`. The innermost scope is the `module` scope.).
 
-The returned value is a [`Scope` object](scope-manager-interface) defined by the `eslint-scope` package. The `Variable` objects of global variables have some additional properties.
+#### Scope Variables
 
-* `variable.writeable` (`boolean | undefined`) ... If `true`, this global variable can be assigned arbitrary value. If `false`, this global variable is read-only.
-* `variable.eslintExplicitGlobal` (`boolean | undefined`) ... If `true`, this global variable was defined by a `/* globals */` directive comment in the source code file.
-* `variable.eslintExplicitGlobalComments` (`Comment[] | undefined`) ... The array of `/* globals */` directive comments which defined this global variable in the source code file. This property is `undefined` if there are no `/* globals */` directive comments.
-* `variable.eslintImplicitGlobalSetting` (`"readonly" | "writable" | undefined`) ... The configured value in config files. This can be different from `variable.writeable` if there are `/* globals */` directive comments.
+The `Scope#variables` property contains an array of [`Variable` objects](./scope-manager-interface#variable-interface). These are the variables declared in current scope. You can use these `Variable` objects to track references to a variable throughout the entire module.
+
+Inside of each `Variable`, the `Variable#references` property contains an array of [`Reference` objects](./scope-manager-interface#reference-interface). The `Reference` array contains all the locations where the variable is referenced in the module's source code.
+
+Also inside of each `Variable`, the `Variable#defs` property contains an array of [`Definition` objects](./scope-manager-interface#definition-interface). You can use the `Definitions` to find where the variable was defined.
+
+Global variables have the following additional properties:
+
+* `Variable#writeable` (`boolean | undefined`) ... If `true`, this global variable can be assigned arbitrary value. If `false`, this global variable is read-only.
+* `Variable#eslintExplicitGlobal` (`boolean | undefined`) ... If `true`, this global variable was defined by a `/* globals */` directive comment in the source code file.
+* `Variable#eslintExplicitGlobalComments` (`Comment[] | undefined`) ... The array of `/* globals */` directive comments which defined this global variable in the source code file. This property is `undefined` if there are no `/* globals */` directive comments.
+* `Variable#eslintImplicitGlobalSetting` (`"readonly" | "writable" | undefined`) ... The configured value in config files. This can be different from `variable.writeable` if there are `/* globals */` directive comments.
+
+For examples of using `context.getScope()` to track variables, refer to the source code for the following built-in rules:
+
+* [no-shadow](https://github.com/eslint/eslint/blob/main/lib/rules/no-shadow.js): Calls `context.getScopes()` at the global scope and parses all child scopes to make sure a variable name is not reused at a lower scope. ([no-shadow](../rules/no-shadow) documentation)
+* [no-redeclare](https://github.com/eslint/eslint/blob/main/lib/rules/no-redeclare.js): Calls `context.getScope()` at each scope to make sure that a variable is not declared twice at that scope. ([no-redeclare](../rules/no-redeclare) documentation)
 
 ### context.report()
 
@@ -335,7 +351,7 @@ The `fix()` function can return the following values:
 * An array which includes `fixing` objects.
 * An iterable object which enumerates `fixing` objects. Especially, the `fix()` function can be a generator.
 
-If you make a `fix()` function which returns multiple `fixing` objects, those `fixing` objects must not be overlapped.
+If you make a `fix()` function which returns multiple `fixing` objects, those `fixing` objects must not overlap.
 
 Best practices for fixes:
 
@@ -357,7 +373,7 @@ Best practices for fixes:
         ({ "foo": 1 })
         ```
 
-    * This fixer can just select a quote type arbitrarily. If it guesses wrong, the resulting code will be automatically reported and fixed by the [`quotes`](/docs/rules/quotes) rule.
+    * This fixer can just select a quote type arbitrarily. If it guesses wrong, the resulting code will be automatically reported and fixed by the [`quotes`](../rules/quotes) rule.
 
 Note: Making fixes as small as possible is a best practice, but in some cases it may be correct to extend the range of the fix in order to intentionally prevent other rules from making fixes in a surrounding range in the same pass. For instance, if replacement text declares a new variable, it can be useful to prevent other changes in the scope of the variable as they might cause name collisions.
 
@@ -376,6 +392,13 @@ context.report({
     }
 });
 ```
+
+#### Conflicting Fixes
+
+Conflicting fixes are fixes that apply different changes to the same part of the source code.
+There is no way to specify which of the conflicting fixes is applied.
+
+For example, if two fixes want to modify characters 0 through 5, only one is applied.
 
 ### Providing Suggestions
 
@@ -691,7 +714,7 @@ You can access that code path objects with five events related to code paths.
 
 Each bundled rule for ESLint core must have a set of unit tests submitted with it to be accepted. The test file is named the same as the source file but lives in `tests/lib/`. For example, if the rule source file is `lib/rules/foo.js` then the test file should be `tests/lib/rules/foo.js`.
 
-ESLint provides the [`RuleTester`](/docs/developer-guide/nodejs-api#ruletester) utility to make it easy to write tests for rules.
+ESLint provides the [`RuleTester`](nodejs-api#ruletester) utility to make it easy to write tests for rules.
 
 ## Performance Testing
 

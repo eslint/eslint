@@ -1,6 +1,5 @@
 ---
 title: ScopeManager
-layout: doc
 
 ---
 

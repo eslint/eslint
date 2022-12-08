@@ -1,6 +1,5 @@
 ---
 title: no-lonely-if
-layout: doc
 rule_type: suggestion
 ---
 

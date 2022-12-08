@@ -1,6 +1,5 @@
 ---
 title: Code Path Analysis Details
-layout: doc
 
 ---
 

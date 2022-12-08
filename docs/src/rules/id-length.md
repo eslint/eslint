@@ -1,6 +1,5 @@
 ---
 title: id-length
-layout: doc
 rule_type: suggestion
 related_rules:
 - max-len
@@ -19,6 +18,8 @@ var x = 5; // too short; difficult to understand its purpose without context
 ## Rule Details
 
 This rule enforces a minimum and/or maximum identifier length convention.
+
+This rule counts [graphemes](https://unicode.org/reports/tr29/#Default_Grapheme_Cluster_Table) instead of using [`String length`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length).
 
 ## Options
 

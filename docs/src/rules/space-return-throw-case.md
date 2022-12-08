@@ -1,6 +1,5 @@
 ---
 title: space-return-throw-case
-layout: doc
 
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: no-wrap-func
-layout: doc
 
 ---
 

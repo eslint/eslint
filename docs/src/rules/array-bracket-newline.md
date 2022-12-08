@@ -1,6 +1,5 @@
 ---
 title: array-bracket-newline
-layout: doc
 rule_type: layout
 related_rules:
 - array-bracket-spacing

@@ -1,6 +1,5 @@
 ---
 title: template-curly-spacing
-layout: doc
 rule_type: layout
 ---
 

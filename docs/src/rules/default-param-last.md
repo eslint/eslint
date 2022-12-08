@@ -1,6 +1,5 @@
 ---
 title: default-param-last
-layout: doc
 rule_type: suggestion
 ---
 

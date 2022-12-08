@@ -1,6 +1,5 @@
 ---
 title: no-else-return
-layout: doc
 rule_type: suggestion
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: User Guide
-layout: doc
 eleventyNavigation:
     key: user guide
     title: User Guide

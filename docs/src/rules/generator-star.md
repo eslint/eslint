@@ -1,6 +1,5 @@
 ---
 title: generator-star
-layout: doc
 further_reading:
 - https://leanpub.com/understandinges6/read/#leanpub-auto-generators
 ---

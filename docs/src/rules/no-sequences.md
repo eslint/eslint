@@ -1,6 +1,5 @@
 ---
 title: no-sequences
-layout: doc
 rule_type: suggestion
 ---
 

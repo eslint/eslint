@@ -1,6 +1,5 @@
 ---
 title: Unit Tests
-layout: doc
 eleventyNavigation:
     key: run the tests
     parent: developer guide

@@ -1,6 +1,5 @@
 ---
 title: function-paren-newline
-layout: doc
 rule_type: layout
 ---
 
