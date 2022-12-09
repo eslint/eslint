@@ -29,13 +29,13 @@ If you want to use a specific shareable config that is hosted on npm, you can us
 ```shell
 # use `eslint-config-semistandard` shared config
 
-# ⚠️ npm 7+, extra double-dash is needed:
+# npm 7+
 npm init @eslint/config -- --config semistandard
 
 # or (`eslint-config` prefix is optional)
 npm init @eslint/config -- --config eslint-config-semistandard
 
-# npm 6.x
+# ⚠️ npm 6.x no extra double-dash is needed:
 npm init @eslint/config --config semistandard
 
 ```
