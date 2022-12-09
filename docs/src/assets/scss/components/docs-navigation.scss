@@ -53,7 +53,6 @@
         transition: color 0.1s linear;
         text-decoration: underline;
     }
-
 }
 
 .docs-nav-panel {
@@ -158,18 +157,15 @@
 }
 
 @media all and (max-width: 1023px) {
-
     #nav-panel,
     #js-docs-index-panel {
         display: none;
     }
 
     [data-open="true"] {
-
         &#nav-panel,
         &#js-docs-index-panel {
             display: block;
         }
-
     }
 }
