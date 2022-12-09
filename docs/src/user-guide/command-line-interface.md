@@ -231,7 +231,7 @@ echo '3 ** 4' | npx eslint --stdin --parser-options ecmaVersion:7 # succeeds, ya
 
 #### `--resolve-plugins-relative-to`
 
-Changes the folder where plugins are resolved from.
+Changes the directory where plugins are resolved from.
 
 * **Argument Type**: String. Path to directory.
 * **Multiple Arguments**: No
