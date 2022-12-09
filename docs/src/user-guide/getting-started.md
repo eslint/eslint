@@ -28,6 +28,7 @@ If you want to use a specific shareable config that is hosted on npm, you can us
 
 ```shell
 # use `eslint-config-semistandard` shared config
+
 # ⚠️ npm 7+, extra double-dash is needed:
 npm init @eslint/config -- --config semistandard
 
@@ -135,13 +136,13 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
 1. Lint code using the ESLint CLI:
 
    ```shell
-   npm run eslint project-dir/ file1.js
+   npx eslint project-dir/ file1.js
    # OR
    npx eslint project-dir/ file1.js
 
    ```
 
-   For more information on the available CLI options, refer to [Command Line Interface](./command-line-interface/).
+   For more information on the available CLI options, refer to [Command Line Interface](./command-line-interface).
 
 ---
 
