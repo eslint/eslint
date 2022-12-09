@@ -14,7 +14,7 @@
     "team": "/team",
 
     "configuring": "https://eslint.org/docs/user-guide/configuring/",
-    "fixProblems": "https://eslint.org/docs/user-guide/command-line-interface#fixing-problems",
+    "fixProblems": "https://eslint.org/docs/user-guide/command-line-interface#fix-problems",
 
     "donate": "/donate",
     "openCollective": "https://opencollective.com/eslint",
