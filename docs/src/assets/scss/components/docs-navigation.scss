@@ -134,7 +134,7 @@
     #nav-toggle {
         display: none;
     }
-    
+
     .docs-site-nav {
         flex-direction: row;
         grid-column: auto;
@@ -158,11 +158,18 @@
 }
 
 @media all and (max-width: 1023px) {
-  #nav-panel, #js-docs-index-panel {
-      display: none;
-  }
 
-  #nav-panel[data-open="true"], #js-docs-index-panel[data-open="true"] {
-      display: block;
-  }
+    #nav-panel,
+    #js-docs-index-panel {
+        display: none;
+    }
+
+    [data-open="true"] {
+
+        &#nav-panel,
+        &#js-docs-index-panel {
+            display: block;
+        }
+
+    }
 }
