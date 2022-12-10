@@ -76,6 +76,7 @@ footer:
     chat: Discord
     mailing_list: Google Group
     github: GitHub
+    mastodon: Mastodon
   theme_switcher:
     title: Theme Switcher
     light: Light
