@@ -32,7 +32,7 @@ pre[class*="language-"] {
 }
 
 /* Code blocks */
-div[class*="language-"] {
+div[class*="language-"]:not(.language-switcher) {
     padding: 1.5rem;
     margin: 1.5rem 0;
     overflow: auto;
