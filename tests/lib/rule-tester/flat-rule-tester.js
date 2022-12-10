@@ -1941,6 +1941,47 @@ describe("FlatRuleTester", () => {
             }, "Error should have 2 suggestions. Instead found 1 suggestions");
         });
 
+        it("should throw if suggestion fix made a syntax error.", () => {
+            assert.throw(() => {
+                ruleTester.run(
+                    "foo",
+                    {
+                        meta: { hasSuggestions: true },
+                        create(context) {
+                            return {
+                                Identifier(node) {
+                                    context.report({
+                                        node,
+                                        message: "make a syntax error",
+                                        suggest: [
+                                            {
+                                                desc: "make a syntax error",
+                                                fix(fixer) {
+                                                    return fixer.replaceText(node, "one two");
+                                                }
+                                            }
+                                        ]
+                                    });
+                                }
+                            };
+                        }
+                    },
+                    {
+                        valid: [""],
+                        invalid: [{
+                            code: "one()",
+                            errors: [{
+                                suggestions: [{
+                                    desc: "make a syntax error",
+                                    output: "one two()"
+                                }]
+                            }]
+                        }]
+                    }
+                );
+            }, /A fatal parsing error occurred in suggestion fix\.\nError: .+\nSuggestion output:\n.+/u);
+        });
+
         it("should throw if the suggestion description doesn't match", () => {
             assert.throws(() => {
                 ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
