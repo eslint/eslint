@@ -16,8 +16,16 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-// pending https://github.com/eslint/espree/issues/304, the type should be "Keyword"
-const errors = [{ messageId: "redundantUseOfAwait", type: "Identifier" }];
+/**
+ * Creates the list of errors that should be found by this rule
+ * @returns {Array} the list of errors
+ */
+function createErrorList() {
+
+    // pending https://github.com/eslint/espree/issues/304, the type should be "Keyword"
+    return [{ messageId: "redundantUseOfAwait", type: "Identifier" }];
+}
+
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2017 } });
 
@@ -138,99 +146,99 @@ ruleTester.run("no-return-await", rule, {
     invalid: [
         {
             code: "\nasync function foo() {\n\treturn await bar();\n}\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync function foo() {\n\treturn (a, await bar());\n}\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync function foo() {\n\treturn (a, b, await bar());\n}\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync function foo() {\n\treturn (a && await bar());\n}\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync function foo() {\n\treturn (a && b && await bar());\n}\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync function foo() {\n\treturn (a || await bar());\n}\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync function foo() {\n\treturn (a, b, (c, d, await bar()));\n}\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync function foo() {\n\treturn (a, b, (c && await bar()));\n}\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync function foo() {\n\treturn (await baz(), b, await bar());\n}\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync function foo() {\n\treturn (baz() ? await bar() : b);\n}\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync function foo() {\n\treturn (baz() ? a : await bar());\n}\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync function foo() {\n\treturn (baz() ? (a, await bar()) : b);\n}\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync function foo() {\n\treturn (baz() ? a : (b, await bar()));\n}\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync function foo() {\n\treturn (baz() ? (a && await bar()) : b);\n}\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync function foo() {\n\treturn (baz() ? a : (b && await bar()));\n}\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync () => { return await bar(); }\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync () => await bar()\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync () => (a, b, await bar())\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync () => (a && await bar())\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync () => (baz() ? await bar() : b)\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync () => (baz() ? a : (b, await bar()))\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync () => (baz() ? a : (b && await bar()))\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync function foo() {\nif (a) {\n\t\tif (b) {\n\t\t\treturn await bar();\n\t\t}\n\t}\n}\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: "\nasync () => {\nif (a) {\n\t\tif (b) {\n\t\t\treturn await bar();\n\t\t}\n\t}\n}\n",
-            errors
+            errors: createErrorList()
         },
         {
             code: `
@@ -241,7 +249,7 @@ ruleTester.run("no-return-await", rule, {
                 }
               }
             `,
-            errors
+            errors: createErrorList()
         },
         {
             code: `
@@ -252,7 +260,7 @@ ruleTester.run("no-return-await", rule, {
                 }
               }
             `,
-            errors
+            errors: createErrorList()
         },
         {
             code: `
@@ -262,7 +270,7 @@ ruleTester.run("no-return-await", rule, {
                 }
               } catch (e) {}
             `,
-            errors
+            errors: createErrorList()
         },
         {
             code: `
@@ -270,7 +278,7 @@ ruleTester.run("no-return-await", rule, {
                 async () => await bar();
               } catch (e) {}
             `,
-            errors
+            errors: createErrorList()
         },
         {
             code: `
@@ -284,7 +292,7 @@ ruleTester.run("no-return-await", rule, {
                 }
               }
             `,
-            errors
+            errors: createErrorList()
         }
     ]
 });
