@@ -533,6 +533,7 @@ The `quotes` rule in this example has one option, `"double"` (the `error` is the
 
 ```js
 module.exports = {
+    meta: { schema: [/* ... */] },
     create: function(context) {
         var isDouble = (context.options[0] === "double");
 
@@ -626,7 +627,9 @@ Please note that the following methods have been deprecated and will be removed 
 
 ### Options Schemas
 
-Rules may export a `schema` property, which is a [JSON schema](https://json-schema.org/) format description of a rule's options which will be used by ESLint to validate configuration options and prevent invalid or unexpected inputs before they are passed to the rule in `context.options`. This property is mandatory when a rule has options.
+Rules may export a `meta.schema` property, which is a [JSON schema](https://json-schema.org/) format description of a rule's options which will be used by ESLint to validate configuration options and prevent invalid or unexpected inputs before they are passed to the rule in `context.options`.
+
+Providing a schema is mandatory when a rule has options. However, it is possible to opt-out of providing a schema using `schema: false`, but doing so is discouraged as it increases the chance of bugs and mistakes. Rules without options can simply omit the schema property or use `schema: []`, both of which prevent any options from being passed.
 
 There are two formats for a rule's exported `schema`. The first is a full JSON Schema object describing all possible options the rule accepts, including the rule's error level as the first argument and any optional arguments thereafter.
 

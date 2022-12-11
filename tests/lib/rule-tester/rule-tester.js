@@ -2344,6 +2344,27 @@ describe("RuleTester", () => {
             "\"rule-with-null-schema\" rule has options but is missing the \"meta.schema\" property. Please add a schema: https://eslint.org/docs/developer-guide/working-with-rules#options-schemas");
         });
 
+        it("throws an error when using no-op schema {}", () => {
+            const ruleWithEmptyObjectSchema = {
+                meta: { schema: {} },
+                create(context) {
+                    return {
+                        Program(node) {
+                            context.report({ node, message: "bad" });
+                        }
+                    };
+                }
+            };
+
+            assert.throws(() => ruleTester.run("rule-with-empty-object-schema", ruleWithEmptyObjectSchema, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", options: [{ foo: true }], errors: 1 }
+                ]
+            }),
+            "`schema: {}` is a no-op. For rules with options, please fill in a complete schema. For rules without options, please omit `schema` or use `schema: []`.");
+        });
+
         it("should not throw an error when schema is an empty array", () => {
             const ruleWithEmptySchema = {
                 meta: {
@@ -2421,6 +2442,26 @@ describe("RuleTester", () => {
                 valid: [],
                 invalid: [
                     { code: "var foo = bar;", options: [], errors: 1 }
+                ]
+            });
+        });
+
+        it("should not throw an error when rule has options and opts-out of providing as schema", () => {
+            const ruleWithSchemaOptOut = {
+                meta: { schema: false },
+                create(context) {
+                    return {
+                        Program(node) {
+                            context.report({ node, message: "bad" });
+                        }
+                    };
+                }
+            };
+
+            ruleTester.run("rule-with-no-schema-4", ruleWithSchemaOptOut, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", options: [{ foo: true }], errors: 1 }
                 ]
             });
         });
