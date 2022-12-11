@@ -29,7 +29,7 @@ function createErrorList({ suggestionOutput: output }) {
         messageId: "redundantUseOfAwait",
         type: "Identifier",
         suggestions: [{
-            messageId: "removeAwait", data: { type: "block" }, output
+            messageId: "removeAwait", output
         }]
     }];
 }
