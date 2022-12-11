@@ -1,8 +1,8 @@
 ---
-title: Maintainer Guide
+title: Maintain ESLint
 eleventyNavigation:
-    key: maintainer guide 
-    title: Maintainer Guide 
+    key: maintain eslint
+    title: Maintain ESLint
     order: 3
 
 ---

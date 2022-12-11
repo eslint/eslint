@@ -15,6 +15,6 @@ as well as guides for migrating from earlier versions of ESLint.
 Intended for contributors to ESLint and people who wish to extend ESLint. Contains information about contributing to ESLint; creating custom
 rules, configurations, plugins, and formatters; and information about our architecture and Node.js API.
 
-## [Maintainer Guide](maintainer-guide/)
+## [Maintain ESLint](maintain-guide/)
 
 Intended for maintainers of ESLint.

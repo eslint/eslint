@@ -1,9 +1,9 @@
 ---
-title: Managing Releases
+title: Manage Releases
 eleventyNavigation:
-    key: managing releases
-    parent: maintainer guide 
-    title: Managing Releases
+    key: manage releases
+    parent: maintain eslint
+    title: Manage Releases
     order: 3
 
 ---
