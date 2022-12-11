@@ -30,7 +30,7 @@ function createErrorList({ suggestionOutput: output } = {}) {
         type: "Identifier",
         suggestions: output ? [{
             messageId: "removeAwait", output
-        }] : null
+        }] : []
     }];
 }
 
@@ -349,6 +349,33 @@ ruleTester.run("no-return-await", rule, {
               }
             `
             })
+        },
+        {
+            code: `
+              async function foo() {
+                return await new Promise(resolve => {
+                  resolve(5);
+                });
+              }
+            `,
+            errors: createErrorList({
+                suggestionOutput: `
+              async function foo() {
+                return new Promise(resolve => {
+                  resolve(5);
+                });
+              }
+            `
+            })
+        },
+        {
+            code: `
+              async function foo() {
+                return await // Test
+                  5;
+              }
+            `,
+            errors: createErrorList()
         }
     ]
 });
