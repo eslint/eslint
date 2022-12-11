@@ -22,15 +22,15 @@ const { RuleTester } = require("../../../lib/rule-tester");
  * @param {string} options.suggestionOutput The suggested output
  * @returns {Array} the list of errors
  */
-function createErrorList({ suggestionOutput: output }) {
+function createErrorList({ suggestionOutput: output } = {}) {
 
     // pending https://github.com/eslint/espree/issues/304, the type should be "Keyword"
     return [{
         messageId: "redundantUseOfAwait",
         type: "Identifier",
-        suggestions: [{
+        suggestions: output ? [{
             messageId: "removeAwait", output
-        }]
+        }] : null
     }];
 }
 
