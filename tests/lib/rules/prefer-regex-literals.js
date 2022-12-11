@@ -576,12 +576,18 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRedundantRegExp",
                     type: "NewExpression",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "/a/;"
+                        }
+                    ]
                 }
             ]
         },
         {
-            code: "new RegExp(/a/, 'u');",
+            code: "new RegExp(/a/, 'g');",
             options: [
                 {
                     disallowRedundantWrapping: true
@@ -592,7 +598,109 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRedundantRegExpWithFlags",
                     type: "NewExpression",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/g;"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/g, 'g');",
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/g;"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/ig, 'g');",
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/g;"
+                        },
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/ig;"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/g, 'ig');",
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/ig;"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/i, 'g');",
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/g;"
+                        },
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/ig;"
+                        }
+                    ]
                 }
             ]
         },
@@ -608,7 +716,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRedundantRegExpWithFlags",
                     type: "NewExpression",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/u;"
+                        }
+                    ]
                 }
             ]
         },
@@ -624,12 +738,18 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRedundantRegExpWithFlags",
                     type: "NewExpression",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/u;"
+                        }
+                    ]
                 }
             ]
         },
         {
-            code: "new RegExp('a');",
+            code: "new RegExp(/a/ /* comment */);",
             options: [
                 {
                     disallowRedundantWrapping: true
@@ -637,16 +757,31 @@ ruleTester.run("prefer-regex-literals", rule, {
             ],
             errors: [
                 {
-                    messageId: "unexpectedRegExp",
+                    messageId: "unexpectedRedundantRegExp",
                     type: "NewExpression",
                     line: 1,
                     column: 1,
-                    suggestions: [
-                        {
-                            messageId: "replaceWithLiteral",
-                            output: "/a/;"
-                        }
-                    ]
+                    suggestions: null
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/, 'd');",
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: null
                 }
             ]
         },
