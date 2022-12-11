@@ -157,6 +157,10 @@ ruleTester.run("no-return-await", rule, {
             errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn bar();\n}\n" })
         },
         {
+            code: "\nasync function foo() {\n\treturn await(bar());\n}\n",
+            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (bar());\n}\n" })
+        },
+        {
             code: "\nasync function foo() {\n\treturn (a, await bar());\n}\n",
             errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (a, bar());\n}\n" })
         },
