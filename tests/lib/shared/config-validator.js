@@ -424,6 +424,32 @@ describe("Validator", () => {
             });
         });
 
+        it("should not modify object schema", () => {
+            linter.defineRule("mock-object-rule", mockObjectRule);
+            assert.deepStrictEqual(validator.getRuleOptionsSchema(ruleMapper("mock-object-rule")), {
+                enum: ["first", "second"]
+            });
+        });
+
+        it("should allow no options when omitting schema", () => {
+            linter.defineRule("mock-schema-false-rule", { meta: {}, create() {} });
+            assert.deepStrictEqual(validator.getRuleOptionsSchema(ruleMapper("mock-schema-false-rule")), {
+                type: "array",
+                minItems: 0,
+                maxItems: 0
+            });
+        });
+
+        it("should not have a schema upon opt-out", () => {
+            linter.defineRule("mock-schema-false-rule", { meta: { schema: false }, create() {} });
+            assert.deepStrictEqual(validator.getRuleOptionsSchema(ruleMapper("mock-schema-false-rule")), null);
+        });
+
+        it("should disallow no-op schema {}", () => {
+            linter.defineRule("mock-empty-object-rule", { meta: { schema: {} }, create() {} });
+            assert.throws(() => validator.getRuleOptionsSchema(ruleMapper("mock-empty-object-rule")), "`schema: {}` is a no-op. For rules with options, please fill in a complete schema. For rules without options, please omit `schema` or use `schema: []`.");
+        });
+
     });
 
     describe("validateRuleOptions", () => {

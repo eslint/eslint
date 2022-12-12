@@ -39,7 +39,7 @@ describe("rules", () => {
              * @returns {void}
              */
             function rule() {}
-            assert.throws(() => rules.define("foo", rule), "Function-style rules are no longer supported. The rule \"foo\" needs to be switched to an object-style rule.");
+            assert.throws(() => rules.define("foo", rule), "\"foo\" rule is using the deprecated function-style format. Please use object-style format: https://eslint.org/docs/developer-guide/working-with-rules");
         });
 
         it("should return the rule as-is if it was defined as an object with a create() method", () => {
