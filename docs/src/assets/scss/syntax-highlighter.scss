@@ -100,10 +100,6 @@ pre[class*="language-"] {
     cursor: help;
 }
 
-pre {
-    counter-reset: lineNumber;
-}
-
 .line-numbers-wrapper {
     position: absolute;
     top: 0;
