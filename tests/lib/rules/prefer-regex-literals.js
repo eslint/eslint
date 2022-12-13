@@ -587,7 +587,7 @@ ruleTester.run("prefer-regex-literals", rule, {
             ]
         },
         {
-            code: "new RegExp(/a/, 'g');",
+            code: "new RegExp(/a/, 'u');",
             options: [
                 {
                     disallowRedundantWrapping: true
@@ -602,7 +602,29 @@ ruleTester.run("prefer-regex-literals", rule, {
                     suggestions: [
                         {
                             messageId: "replaceWithLiteralAndFlags",
-                            output: "/a/g;"
+                            output: "/a/u;"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/g, '');",
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/;"
                         }
                     ]
                 }
@@ -743,6 +765,28 @@ ruleTester.run("prefer-regex-literals", rule, {
                         {
                             messageId: "replaceWithLiteralAndFlags",
                             output: "/a/gi;"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp('a');",
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "/a/;"
                         }
                     ]
                 }
