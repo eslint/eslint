@@ -11,6 +11,7 @@
 //------------------------------------------------------------------------------
 
 const assert = require("assert");
+const util = require("util");
 const fs = require("fs");
 const fsp = fs.promises;
 const os = require("os");
@@ -39,6 +40,15 @@ function ensureDirectoryExists(dirPath) {
     } catch {
         fs.mkdirSync(dirPath);
     }
+}
+
+/**
+ * Does nothing for a given time.
+ * @param {number} time Time in ms.
+ * @returns {void}
+ */
+async function sleep(time) {
+    await util.promisify(setTimeout)(time);
 }
 
 //------------------------------------------------------------------------------
@@ -5280,6 +5290,7 @@ describe("FlatESLint", () => {
             assert.strictEqual(messages[0].messageId, "missingSemi");
             assert.strictEqual(messages[0].line, 1);
 
+            await sleep(100);
             await fsp.writeFile(path.join(cwd, "eslint.config.js"), configFileContent.replace("always", "never"));
 
             eslint = new FlatESLint({ cwd });
@@ -5312,6 +5323,7 @@ describe("FlatESLint", () => {
             assert.strictEqual(messages[0].messageId, "missingSemi");
             assert.strictEqual(messages[0].line, 1);
 
+            await sleep(100);
             await fsp.writeFile(path.join(cwd, "eslint.config.js"), configFileContent.replace("always", "never"));
 
             eslint = new FlatESLint({ cwd });
