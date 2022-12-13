@@ -727,6 +727,28 @@ ruleTester.run("prefer-regex-literals", rule, {
             ]
         },
         {
+            code: "new RegExp(/a/, `gi`);",
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/gi;"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             code: "new RegExp(/a/, String.raw`u`);",
             options: [
                 {
