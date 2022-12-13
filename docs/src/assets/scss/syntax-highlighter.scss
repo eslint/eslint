@@ -100,12 +100,6 @@ pre[class*="language-"] {
     cursor: help;
 }
 
-.language-abnf .token {
-    display: inline;
-    padding: 0;
-    margin: 0;
-}
-
 pre {
     counter-reset: lineNumber;
 }
