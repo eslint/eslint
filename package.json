@@ -13,22 +13,22 @@
     "./use-at-your-own-risk": "./lib/unsupported-api.js"
   },
   "scripts": {
+    "build:docs:update-links": "node tools/fetch-docs-links.js",
+    "release:generate:latest": "node Makefile.js generateRelease",
+    "release:generate:alpha": "node Makefile.js generatePrerelease -- alpha",
+    "release:generate:beta": "node Makefile.js generatePrerelease -- beta",
+    "release:publish": "node Makefile.js publishRelease",
+    "release:generate:rc": "node Makefile.js generatePrerelease -- rc",
+    "build:site": "node Makefile.js gensite",
+    "build:webpack": "node Makefile.js webpack",
+    "lint": "node Makefile.js lint",
+    "lint:fix": "node Makefile.js lint -- fix",
+    "lint:docs:js": "node Makefile.js lintDocsJS",
+    "lint:fix:docs:js": "node Makefile.js lintDocsJS -- fix",
     "test": "node Makefile.js test",
     "test:cli": "mocha",
-    "lint": "node Makefile.js lint",
-    "lint:docsjs": "node Makefile.js lintDocsJS",
-    "fix": "node Makefile.js lint -- fix",
-    "fix:docsjs": "node Makefile.js lintDocsJS -- fix",
-    "fuzz": "node Makefile.js fuzz",
-    "generate-release": "node Makefile.js generateRelease",
-    "generate-alpharelease": "node Makefile.js generatePrerelease -- alpha",
-    "generate-betarelease": "node Makefile.js generatePrerelease -- beta",
-    "generate-rcrelease": "node Makefile.js generatePrerelease -- rc",
-    "publish-release": "node Makefile.js publishRelease",
-    "gensite": "node Makefile.js gensite",
-    "webpack": "node Makefile.js webpack",
-    "perf": "node Makefile.js perf",
-    "docs:update-links": "node tools/fetch-docs-links.js"
+    "test:fuzz": "node Makefile.js fuzz",
+    "test:performance": "node Makefile.js perf"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"

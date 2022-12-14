@@ -9,22 +9,16 @@ The following applies to the "scripts" section of `package.json` files.
 
 npm script names MUST contain only lower case letters, `:` to separate parts, `-` to separate words, and `+` to separate file extensions. Each part name SHOULD be either a full English word (e.g. `coverage` not `cov`) or a well-known initialism in all lowercase (e.g. `wasm`).
 
-Here is a summary of the proposal in EBNF.
+Here is a summary of the proposal in ABNF.
 
-```ebnf
-name = life-cycle | main ":fix"? target? option* ":watch"?
-
-life-cycle = prepare | preinstall | install | postinstall | prepublish | preprepare | prepare | postprepare | prepack | postpack | prepublishOnly;
-
-main = "build" | "lint" | "start" | "test";
-
-target = ":" word ("-" word)* | extension ("+" extension)*;
-
-option = ":" word ("-" word)*;
-
-word = [a-z]+;
-
-extension = [a-z0-9]+;
+```abnf
+name         = life-cycle / main target? option* ":watch"?
+life-cycle   = "prepare" / "preinstall" / "install" / "postinstall" / "prepublish" / "preprepare" / "prepare" / "postprepare" / "prepack" / "postpack" / "prepublishOnly"
+main         = "build" / "lint" ":fix"? / "release" / "start" / "test"
+target       = ":" word ("-" word)* / extension ("+" extension)*
+option       = ":" word ("-" word)*
+word         = ALPHA +
+extension    = ( ALPHA / DIGIT )+
 ```
 
 ## Order
@@ -40,6 +34,10 @@ With the exception of [npm life cycle scripts](https://docs.npmjs.com/cli/v8/usi
 Scripts that generate a set of files from source code and / or data MUST have names that begin with `build`.
 
 If a package contains any `build:*` scripts, there MAY be a script named `build`. If so, SHOULD produce the same output as running each of the `build` scripts individually. It MUST produce a subset of the output from running those scripts.
+
+### Release
+
+Scripts that have public side effects (publishing the web site, committing to Git, etc.) MUST begin with `release`.
 
 ### Lint
 
