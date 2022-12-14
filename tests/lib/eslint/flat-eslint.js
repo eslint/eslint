@@ -4501,13 +4501,14 @@ describe("FlatESLint", () => {
             });
         });
 
+
         describe("ignores can unignore '/node_modules/foo'.", () => {
 
             const { prepare, cleanup, getPath } = createCustomTeardown({
                 cwd: `${root}-unignores`,
                 files: {
                     "eslint.config.js": `module.exports = {
-                        ignores: ["!**/node_modules/foo/**"]
+                        ignores: ["!**/node_modules/foo"]
                     };`,
                     "node_modules/foo/index.js": "",
                     "node_modules/foo/.dot.js": "",
@@ -4540,6 +4541,59 @@ describe("FlatESLint", () => {
             it("'lintFiles()' should verify 'node_modules/foo/index.js'.", async () => {
                 const engine = new FlatESLint({ cwd: getPath() });
                 const filePaths = (await engine.lintFiles("**/*.js"))
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(getPath(), "eslint.config.js"),
+                    path.join(getPath(), "foo.js"),
+                    path.join(getPath(), "node_modules/foo/.dot.js"),
+                    path.join(getPath(), "node_modules/foo/index.js")
+                ]);
+            });
+        });
+
+        describe("ignores can unignore '/node_modules/foo/**'.", () => {
+
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: `${root}-unignores`,
+                files: {
+                    "eslint.config.js": `module.exports = {
+                        ignores: ["!**/node_modules/foo/**"]
+                    };`,
+                    "node_modules/foo/index.js": "",
+                    "node_modules/foo/.dot.js": "",
+                    "node_modules/bar/index.js": "",
+                    "foo.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'isPathIgnored()' should return 'true' for 'node_modules/foo/index.js'.", async () => {
+                const engine = new FlatESLint({ cwd: getPath() });
+
+                assert.strictEqual(await engine.isPathIgnored("node_modules/foo/index.js"), false);
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'node_modules/foo/.dot.js'.", async () => {
+                const engine = new FlatESLint({ cwd: getPath() });
+
+                assert.strictEqual(await engine.isPathIgnored("node_modules/foo/.dot.js"), false);
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'node_modules/bar/index.js'.", async () => {
+                const engine = new FlatESLint({ cwd: getPath() });
+
+                assert.strictEqual(await engine.isPathIgnored("node_modules/bar/index.js"), true);
+            });
+
+            it("'lintFiles()' should verify 'node_modules/foo/index.js'.", async () => {
+                const engine = new FlatESLint({ cwd: getPath() });
+                const result = (await engine.lintFiles("**/*.js"));
+
+                const filePaths = result
                     .map(r => r.filePath)
                     .sort();
 
