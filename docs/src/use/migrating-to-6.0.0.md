@@ -51,7 +51,7 @@ As of April 2019, Node.js 6 will be at EOL and will no longer be receiving secur
 
 ## <a name="eslint-recommended-changes"></a> `eslint:recommended` has been updated
 
-The following rules have been added to the [`eslint:recommended`](../use/configuring#using-eslintrecommended) config:
+The following rules have been added to the [`eslint:recommended`](../use/configure#using-eslintrecommended) config:
 
 * [`no-async-promise-executor`](../rules/no-async-promise-executor) disallows using an `async` function as the argument to the `Promise` constructor, which is usually a bug.
 * [`no-misleading-character-class`](../rules/no-misleading-character-class) reports character classes in regular expressions that might not behave as expected.
@@ -195,7 +195,7 @@ The default options for the [`no-confusing-arrow`](../rules/no-confusing-arrow) 
 
 Due to a bug, the glob patterns in a `files` list in an `overrides` section of a config file would never match dotfiles, making it impossible to have overrides apply to files starting with a dot. This bug has been fixed in ESLint v6.
 
-**To address:** If you don't want dotfiles to be matched by an override, consider adding something like `excludedFiles: [".*"]` to that `overrides` section. See the [documentation](../use/configuring#configuration-based-on-glob-patterns) for more details.
+**To address:** If you don't want dotfiles to be matched by an override, consider adding something like `excludedFiles: [".*"]` to that `overrides` section. See the [documentation](../use/configure#configuration-based-on-glob-patterns) for more details.
 
 **Related issue(s):** [eslint/eslint#11201](https://github.com/eslint/eslint/issues/11201)
 

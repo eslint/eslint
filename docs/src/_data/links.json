@@ -13,7 +13,7 @@
     "branding": "/branding",
     "store": "https://eslint.threadless.com",
     "team": "/team",
-    "configuring": "https://eslint.org/docs/use/configuring/",
+    "configuring": "https://eslint.org/docs/use/configure/",
     "fixProblems": "https://eslint.org/docs/use/command-line-interface#fix-problems",
     "donate": "/donate",
     "openCollective": "https://opencollective.com/eslint",

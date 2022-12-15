@@ -122,8 +122,8 @@ A read-only global variable can be a built-in ES global (e.g. `Array`), an envir
 (e.g. `window` in the browser environment), or a global variable defined as `readonly` in the configuration file
 or in a `/*global */` comment.
 
-* [Specifying Environments](../use/configuring#specifying-environments)
-* [Specifying Globals](../use/configuring#specifying-globals)
+* [Specifying Environments](../use/configure#specifying-environments)
+* [Specifying Globals](../use/configure#specifying-globals)
 
 Examples of **incorrect** code for this rule:
 

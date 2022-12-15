@@ -23,8 +23,8 @@ This rule disallows modifications to read-only global variables.
 
 ESLint has the capability to configure global variables as read-only.
 
-* [Specifying Environments](../use/configuring#specifying-environments)
-* [Specifying Globals](../use/configuring#specifying-globals)
+* [Specifying Environments](../use/configure#specifying-environments)
+* [Specifying Globals](../use/configure#specifying-globals)
 
 Examples of **incorrect** code for this rule:
 

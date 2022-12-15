@@ -27,7 +27,7 @@ For more information, refer to [Rules](../rules/).
 
 An ESLint configuration file is a place where you put the configuration for ESLint in your project. You can include built-in rules, how you want them enforced, plugins with custom rules, shareable configurations, which files you want rules to apply to, and more.
 
-For more information, refer to [Configuration Files](./configuring/configuration-files).
+For more information, refer to [Configuration Files](./configure/configuration-files).
 
 ## Shareable Configurations
 
@@ -35,7 +35,7 @@ Shareable configurations are ESLint configurations that are shared via npm.
 
 Often shareable configurations are used to enforce style guides using ESLint's built-in rules. For example the sharable configuration [eslint-config-airbnb-base](https://www.npmjs.com/package/eslint-config-airbnb-base) implements the popular Airbnb JavaScript style guide.
 
-For more information, refer to [Using a shareable configuration package](./configuring/configuration-files#using-a-shareable-configuration-package).
+For more information, refer to [Using a shareable configuration package](./configure/configuration-files#using-a-shareable-configuration-package).
 
 ## Plugins
 
@@ -43,7 +43,7 @@ An ESLint plugin is an npm module that can contain a set of ESLint rules, config
 
 A popular use case for plugins is to enforce best practices for a framework. For example, [@angular-eslint/eslint-plugin](https://www.npmjs.com/package/@angular-eslint/eslint-plugin) contains best practices for using the Angular framework.
 
-For more information, refer to [Configuring Plugins](./configuring/plugins).
+For more information, refer to [Configuring Plugins](./configure/plugins).
 
 ## Parsers
 
