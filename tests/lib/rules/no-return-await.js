@@ -370,6 +370,24 @@ ruleTester.run("no-return-await", rule, {
         },
         {
             code: `
+              async () => {
+                return await (
+                  foo()
+                )
+              };
+            `,
+            errors: createErrorList({
+                suggestionOutput: `
+              async () => {
+                return (
+                  foo()
+                )
+              };
+            `
+            })
+        },
+        {
+            code: `
               async function foo() {
                 return await // Test
                   5;
