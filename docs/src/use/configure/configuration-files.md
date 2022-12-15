@@ -41,7 +41,7 @@ The second way to use configuration files is to save the file wherever you would
 eslint -c myconfig.json myfiletotest.js
 ```
 
-If you are using one configuration file and want ESLint to ignore any `.eslintrc.*` files, make sure to use [`--no-eslintrc`](../command-line-interface#--no-eslintrc) along with the [`--config`](../../users/command-line-interface#-c---config) flag.
+If you are using one configuration file and want ESLint to ignore any `.eslintrc.*` files, make sure to use [`--no-eslintrc`](../command-line-interface#--no-eslintrc) along with the [`--config`](../../use/command-line-interface#-c---config) flag.
 
 Here's an example JSON configuration file that uses the `typescript-eslint` parser to support TypeScript syntax:
 
@@ -390,7 +390,7 @@ In your `.eslintrc.json`:
 
 Here is how overrides work in a configuration file:
 
-* The patterns are applied against the file path relative to the directory of the config file. For example, if your config file has the path `/Users/john/workspace/any-project/.eslintrc.js` and the file you want to lint has the path `/Users/john/workspace/any-project/lib/util.js`, then the pattern provided in `.eslintrc.js` is executed against the relative path `lib/util.js`.
+* The patterns are applied against the file path relative to the directory of the config file. For example, if your config file has the path `/use/john/workspace/any-project/.eslintrc.js` and the file you want to lint has the path `/use/john/workspace/any-project/lib/util.js`, then the pattern provided in `.eslintrc.js` is executed against the relative path `lib/util.js`.
 * Glob pattern overrides have higher precedence than the regular configuration in the same config file. Multiple overrides within the same config are applied in order. That is, the last override block in a config file always has the highest precedence.
 * A glob specific configuration works almost the same as any other ESLint config. Override blocks can contain any configuration options that are valid in a regular config, with the exception of `root` and `ignorePatterns`.
     * A glob specific configuration can have an `extends` setting, but the `root` property in the extended configs is ignored. The `ignorePatterns` property in the extended configs is used only for the files the glob specific configuration matched.

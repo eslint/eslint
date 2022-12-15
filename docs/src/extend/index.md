@@ -33,15 +33,15 @@ Developing for ESLint is a bit different than running it on the command line. Th
 
 There are a lot of unit tests included with ESLint to make sure that we're keeping on top of code quality. This section explains how to run the unit tests.
 
-## Section 4: [Working with Rules](working-with-rules)
+## Section 4: [Working with Rules](custom-rules)
 
 You're finally ready to start working with rules. You may want to fix an existing rule or create a new one. This section explains how to do all of that.
 
-## Section 5: [Working with Plugins](working-with-plugins)
+## Section 5: [Working with Plugins](custom-plugins)
 
 You've developed library-specific rules for ESLint and you want to share them with the community. You can publish an ESLint plugin on npm.
 
-## Section 6: [Working with Custom Parsers](working-with-custom-parsers)
+## Section 6: [Working with Custom Parsers](custom-parsers)
 
 If you aren't going to use the default parser of ESLint, this section explains about using custom parsers.
 
@@ -49,6 +49,6 @@ If you aren't going to use the default parser of ESLint, this section explains a
 
 If you're interested in writing a tool that uses ESLint, then you can use the Node.js API to get programmatic access to functionality.
 
-## Section 8: [Contributing](contributing/)
+## Section 8: [Contributing](contribute/)
 
 Once you've made changes that you want to share with the community, the next step is to submit those changes back via a pull request.

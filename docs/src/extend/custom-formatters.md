@@ -376,7 +376,7 @@ error semi
 
 ### Complex Argument Passing
 
-If you find the custom formatter pattern doesn't provide enough options for the way you'd like to format ESLint results, the best option is to use ESLint's built-in [JSON formatter](../users/formatters/) and pipe the output to a second program. For example:
+If you find the custom formatter pattern doesn't provide enough options for the way you'd like to format ESLint results, the best option is to use ESLint's built-in [JSON formatter](../use/formatters/) and pipe the output to a second program. For example:
 
 ```bash
 eslint -f json src/ | your-program-that-reads-JSON --option

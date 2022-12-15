@@ -917,8 +917,8 @@ ruleTester.run("my-rule", myRule, {
 
 ---
 
-[configuration object]: ../users/configuring/
-[builtin-formatters]: ../users/formatters/
+[configuration object]: ../use/configuring/
+[builtin-formatters]: ../use/formatters/
 [third-party-formatters]: https://www.npmjs.com/search?q=eslintformatter
 [eslint-lintfiles]: #-eslintlintfilespatterns
 [eslint-linttext]: #-eslintlinttextcode-options
