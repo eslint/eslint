@@ -467,7 +467,7 @@ The `Linter` object does the actual evaluation of the JavaScript code. It doesn'
 
 The `Linter` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
-* `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules by calling `context.getCwd()` (see [The Context Object](./working-with-rules#the-context-object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
+* `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules by calling `context.getCwd()` (see [The Context Object](./custom-rules#the-context-object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
 
 For example:
 
@@ -554,7 +554,7 @@ The information available for each linting message is:
 * `endColumn` - the end column of the range on which the error occurred (this property is omitted if it's not range).
 * `endLine` - the end line of the range on which the error occurred (this property is omitted if it's not range).
 * `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
-* `suggestions` - an array of objects describing possible lint fixes for editors to programmatically enable (see details in the [Working with Rules docs](./working-with-rules#providing-suggestions)).
+* `suggestions` - an array of objects describing possible lint fixes for editors to programmatically enable (see details in the [Working with Rules docs](./custom-rules#providing-suggestions)).
 
 You can get the suppressed messages from the previous run by `getSuppressedMessages()` method. If there is not a previous run, `getSuppressedMessage()` will return an empty list.
 
@@ -766,7 +766,7 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 The `RuleTester#run()` method is used to run the tests. It should be passed the following arguments:
 
 * The name of the rule (string)
-* The rule object itself (see ["working with rules"](./working-with-rules))
+* The rule object itself (see ["working with rules"](./custom-rules))
 * An object containing `valid` and `invalid` properties, each of which is an array containing test cases.
 
 A test case is an object with the following properties:

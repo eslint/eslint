@@ -9,15 +9,15 @@ eleventyNavigation:
 
 This guide is intended for those who work as part of the ESLint project team.
 
-## [Managing Issues](issues)
+## [Managing Issues](manage-issues)
 
 Describes how to deal with issues when they're opened, when interacting with users, and how to close them effectively.
 
-## [Reviewing Pull Requests](pullrequests)
+## [Reviewing Pull Requests](manage-pull-requests)
 
 Describes how to review incoming pull requests.
 
-## [Managing Releases](releases)
+## [Managing Releases](manage-releases)
 
 Describes how to do an ESLint project release.
 

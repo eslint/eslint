@@ -120,7 +120,7 @@ Four new rules have been enabled in the `eslint:recommended` preset.
 
 ## <a name="suggestions"></a> Rules require `meta.hasSuggestions` to provide suggestions
 
-In ESLint v7.0.0, rules that [provided suggestions](../extend/working-with-rules#providing-suggestions) did not need to let ESLint know. In v8.0.0, rules providing suggestions need to set their `meta.hasSuggestions` to `true`. This informs ESLint that the rule intends to provide suggestions. Without this property, any attempt to provide a suggestion will result in an error.
+In ESLint v7.0.0, rules that [provided suggestions](../extend/custom-rules#providing-suggestions) did not need to let ESLint know. In v8.0.0, rules providing suggestions need to set their `meta.hasSuggestions` to `true`. This informs ESLint that the rule intends to provide suggestions. Without this property, any attempt to provide a suggestion will result in an error.
 
 **To address:** If your rule provides suggestions, add `meta.hasSuggestions` to the object, such as:
 
@@ -168,7 +168,7 @@ The [eslint-plugin/require-meta-fixable](https://github.com/not-an-aardvark/esli
 
 The [eslint-plugin/prefer-object-rule](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-object-rule.md) rule can automatically fix and enforce that your rules are written with the object format instead of the deprecated function format.
 
-See the [rule documentation](../extend/working-with-rules) for more information on writing rules.
+See the [rule documentation](../extend/custom-rules) for more information on writing rules.
 
 **Related issue(s):** [#13349](https://github.com/eslint/eslint/issues/13349)
 
@@ -178,7 +178,7 @@ Back in ESLint v4.0.0, we deprecated `SourceCode#getComments()`, but we neglecte
 
 The `SourceCode#getComments()` method will be removed in v9.0.0.
 
-**To address:** If your rule uses `SourceCode#getComments()`, please use [`SourceCode#getCommentsBefore()`, `SourceCode#getCommentsAfter()`, or `SourceCode#getCommentsInside()`](../extend/working-with-rules#sourcecodegetcommentsbefore-sourcecodegetcommentsafter-and-sourcecodegetcommentsinside).
+**To address:** If your rule uses `SourceCode#getComments()`, please use [`SourceCode#getCommentsBefore()`, `SourceCode#getCommentsAfter()`, or `SourceCode#getCommentsInside()`](../extend/custom-rules#sourcecodegetcommentsbefore-sourcecodegetcommentsafter-and-sourcecodegetcommentsinside).
 
 **Related issue(s):** [#14744](https://github.com/eslint/eslint/issues/14744)
 

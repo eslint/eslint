@@ -15,7 +15,7 @@ We need all of this information in order to determine whether or not the change 
 
 In order for a rule change to be accepted into ESLint, it must:
 
-1. Adhere to the [Core Rule Guidelines](new-rules#core-rule-guidelines)
+1. Adhere to the [Core Rule Guidelines](propose-new-rule#core-rule-guidelines)
 1. Have an ESLint team member champion the change
 1. Be important enough that rule is deemed incomplete without this change
 
