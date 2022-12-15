@@ -167,7 +167,7 @@ ESLint checks the file path of named code blocks then ignores those if any `over
 By default, ESLint uses [Espree](https://github.com/eslint/espree) as its parser. You can optionally specify that a different parser should be used in your configuration file if the parser meets the following requirements:
 
 1. It must be a Node module loadable from the config file where the parser is used. Usually, this means you should install the parser package separately using npm.
-1. It must conform to the [parser interface](../../developer-guide/working-with-custom-parsers).
+1. It must conform to the [parser interface](../../extend/working-with-custom-parsers).
 
 Note that even with these compatibilities, there are no guarantees that an external parser works correctly with ESLint. ESLint does not fix bugs related to incompatibilities with other parsers.
 

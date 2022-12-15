@@ -1,6 +1,6 @@
 ---
 title: Package.json Conventions
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/developer-guide/package-json-conventions.md
+edit_link: https://github.com/eslint/eslint/edit/main/docs/src/extend/package-json-conventions.md
 ---
 
 The following applies to the "scripts" section of `package.json` files.

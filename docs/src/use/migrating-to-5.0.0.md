@@ -113,7 +113,7 @@ ESLint v5 will report a fatal error when either of the following conditions is m
 * A file provided on the command line does not exist
 * A glob or folder provided on the command line does not match any lintable files
 
-Note that this also affects the [`CLIEngine.executeOnFiles()`](../developer-guide/nodejs-api#cliengineexecuteonfiles) API.
+Note that this also affects the [`CLIEngine.executeOnFiles()`](../extend/nodejs-api#cliengineexecuteonfiles) API.
 
 **To address:** If you encounter an error about missing files after upgrading to ESLint v5, you may want to double-check that there are no typos in the paths you provide to ESLint. To make the error go away, you can simply remove the given files or globs from the list of arguments provided to ESLint on the command line.
 
@@ -221,7 +221,7 @@ Previously, the `context.getScope()` method changed its behavior based on the `p
 
 Additionally, `context.getScope()` incorrectly returned the parent scope of the proper scope on `CatchClause` (in ES5), `ForStatement` (in ≧ES2015), `ForInStatement` (in ≧ES2015), `ForOfStatement`, and `WithStatement` nodes.
 
-In ESLint v5, the `context.getScope()` method has the same behavior regardless of `parserOptions.ecmaVersion` and returns the proper scope. See [the documentation](../developer-guide/working-with-rules#contextgetscope) for more details on which scopes are returned.
+In ESLint v5, the `context.getScope()` method has the same behavior regardless of `parserOptions.ecmaVersion` and returns the proper scope. See [the documentation](../extend/working-with-rules#contextgetscope) for more details on which scopes are returned.
 
 **To address:** If you have written a custom rule that uses the `context.getScope()` method in node handlers, you may need to update it to account for the modified scope information.
 
@@ -268,6 +268,6 @@ In ESLint v5, an unsuccessful linting run due to a fatal error will result in an
 
 ## <a name="non-enumerable-linter"></a> The `eslint.linter` property is now non-enumerable
 
-When using ESLint's Node.js API, the [`linter`](../developer-guide/nodejs-api#linter-1) property is now non-enumerable. Note that the `linter` property was deprecated in ESLint v4 in favor of the [`Linter`](../developer-guide/nodejs-api#linter) property.
+When using ESLint's Node.js API, the [`linter`](../extend/nodejs-api#linter-1) property is now non-enumerable. Note that the `linter` property was deprecated in ESLint v4 in favor of the [`Linter`](../extend/nodejs-api#linter) property.
 
 **To address:** If you rely on enumerating all the properties of the `eslint` object, use something like `Object.getOwnPropertyNames` to ensure that non-enumerable keys are captured.
