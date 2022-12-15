@@ -7,7 +7,7 @@ Enforces consistent spacing after keywords.
 
 (removed) This rule was **removed** in ESLint v2.0 and replaced by the [keyword-spacing](keyword-spacing) rule.
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#--fix) automatically fixed problems reported by this rule.
+(fixable) The `--fix` option on the [command line](../users/command-line-interface#--fix) automatically fixed problems reported by this rule.
 
 Some style guides will require or disallow spaces following the certain keywords.
 

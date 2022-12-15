@@ -12,7 +12,7 @@ This rule can help you locate potential ReferenceErrors resulting from misspelli
 
 ## Rule Details
 
-Any reference to an undeclared variable causes a warning, unless the variable is explicitly mentioned in a `/*global ...*/` comment, or specified in the [`globals` key in the configuration file](../user-guide/configuring/language-options#using-configuration-files-1). A common use case for these is if you intentionally use globals that are defined elsewhere (e.g. in a script sourced from HTML).
+Any reference to an undeclared variable causes a warning, unless the variable is explicitly mentioned in a `/*global ...*/` comment, or specified in the [`globals` key in the configuration file](../users/configuring/language-options#using-configuration-files-1). A common use case for these is if you intentionally use globals that are defined elsewhere (e.g. in a script sourced from HTML).
 
 Examples of **incorrect** code for this rule:
 
@@ -96,7 +96,7 @@ if(typeof a === "string"){}
 
 ## Environments
 
-For convenience, ESLint provides shortcuts that pre-define global variables exposed by popular libraries and runtime environments. This rule supports these environments, as listed in [Specifying Environments](../user-guide/configuring/language-options#specifying-environments).  A few examples are given below.
+For convenience, ESLint provides shortcuts that pre-define global variables exposed by popular libraries and runtime environments. This rule supports these environments, as listed in [Specifying Environments](../users/configuring/language-options#specifying-environments).  A few examples are given below.
 
 ### browser
 

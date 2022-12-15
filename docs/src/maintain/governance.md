@@ -28,7 +28,7 @@ As Contributors gain experience and familiarity with the project, their profile 
 
 ### Website Team Member
 
-Website Team Members are community members who have shown that they are committed to the continued maintenance of [eslint.org](https://eslint.org/) through ongoing engagement with the community. Website Team Members are given push access to the `eslint.org` GitHub repository and must abide by the project's [Contribution Guidelines](../developer-guide/contributing/).
+Website Team Members are community members who have shown that they are committed to the continued maintenance of [eslint.org](https://eslint.org/) through ongoing engagement with the community. Website Team Members are given push access to the `eslint.org` GitHub repository and must abide by the project's [Contribution Guidelines](../contribute/).
 
  Website Team Members:
 
@@ -51,7 +51,7 @@ It is important to recognize that membership on the website team is a privilege,
 
 ### Committers
 
-Committers are community members who have shown that they are committed to the continued development of the project through ongoing engagement with the community. Committers are given push access to the project's GitHub repos and must abide by the project's [Contribution Guidelines](../developer-guide/contributing/).
+Committers are community members who have shown that they are committed to the continued development of the project through ongoing engagement with the community. Committers are given push access to the project's GitHub repos and must abide by the project's [Contribution Guidelines](../contribute/).
 
 Committers:
 

@@ -41,7 +41,7 @@ The second way to use configuration files is to save the file wherever you would
 eslint -c myconfig.json myfiletotest.js
 ```
 
-If you are using one configuration file and want ESLint to ignore any `.eslintrc.*` files, make sure to use [`--no-eslintrc`](../command-line-interface#--no-eslintrc) along with the [`--config`](../../user-guide/command-line-interface#-c---config) flag.
+If you are using one configuration file and want ESLint to ignore any `.eslintrc.*` files, make sure to use [`--no-eslintrc`](../command-line-interface#--no-eslintrc) along with the [`--config`](../../users/command-line-interface#-c---config) flag.
 
 Here's an example JSON configuration file that uses the `typescript-eslint` parser to support TypeScript syntax:
 
@@ -232,7 +232,7 @@ The `rules` property can do any of the following to extend (or override) the set
 
 ### Using a shareable configuration package
 
-A [sharable configuration](../../developer-guide/shareable-configs) is an npm package that exports a configuration object. Make sure that you have installed the package in your project root directory, so that ESLint can require it.
+A [sharable configuration](../../extend/shareable-configs) is an npm package that exports a configuration object. Make sure that you have installed the package in your project root directory, so that ESLint can require it.
 
 The `extends` property value can omit the `eslint-config-` prefix of the package name.
 
@@ -279,7 +279,7 @@ module.exports = {
 
 ### Using a configuration from a plugin
 
-A [plugin](../../developer-guide/working-with-plugins) is an npm package that can add various extensions to ESLint. A plugin can perform numerous functions, including but not limited to adding new rules and exporting [shareable configurations](../../developer-guide/working-with-plugins#configs-in-plugins). Make sure the package has been installed in a directory where ESLint can require it.
+A [plugin](../../extend/working-with-plugins) is an npm package that can add various extensions to ESLint. A plugin can perform numerous functions, including but not limited to adding new rules and exporting [shareable configurations](../../extend/working-with-plugins#configs-in-plugins). Make sure the package has been installed in a directory where ESLint can require it.
 
 The `plugins` [property value](./plugins#configure-plugins) can omit the `eslint-plugin-` prefix of the package name.
 

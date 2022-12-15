@@ -92,7 +92,7 @@ module.exports = {
 
 **The `preprocess` method** takes the file contents and filename as arguments, and returns an array of code blocks to lint. The code blocks will be linted separately but still be registered to the filename.
 
-A code block has two properties `text` and `filename`; the `text` property is the content of the block and the `filename` property is the name of the block. Name of the block can be anything, but should include the file extension, that would tell the linter how to process the current block. The linter will check [`--ext` CLI option](../user-guide/command-line-interface#--ext) to see if the current block should be linted, and resolve `overrides` configs to check how to process the current block.
+A code block has two properties `text` and `filename`; the `text` property is the content of the block and the `filename` property is the name of the block. Name of the block can be anything, but should include the file extension, that would tell the linter how to process the current block. The linter will check [`--ext` CLI option](../users/command-line-interface#--ext) to see if the current block should be linted, and resolve `overrides` configs to check how to process the current block.
 
 It's up to the plugin to decide if it needs to return just one part, or multiple pieces. For example in the case of processing `.html` files, you might want to return just one item in the array by combining all scripts, but for `.md` file where each JavaScript block might be independent, you can return multiple items.
 
@@ -144,7 +144,7 @@ overrides:
     processor: a-plugin/markdown
 ```
 
-See [Specifying Processor](../user-guide/configuring/plugins#specify-a-processor) for details.
+See [Specifying Processor](../users/configuring/plugins#specify-a-processor) for details.
 
 #### File Extension-named Processor
 
@@ -205,7 +205,7 @@ If the example plugin above were called `eslint-plugin-myPlugin`, the `myConfig`
 
 ```
 
-**Note:** Please note that configuration will not enable any of the plugin's rules by default, and instead should be treated as a standalone config. This means that you must specify your plugin name in the `plugins` array as well as any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configuring Plugins](../user-guide/configuring/plugins#configure-plugins) for more information.
+**Note:** Please note that configuration will not enable any of the plugin's rules by default, and instead should be treated as a standalone config. This means that you must specify your plugin name in the `plugins` array as well as any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configuring Plugins](../users/configuring/plugins#configure-plugins) for more information.
 
 ### Peer Dependency
 

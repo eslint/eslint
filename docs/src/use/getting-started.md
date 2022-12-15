@@ -148,5 +148,5 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
 * Learn about [advanced configuration](configuring/) of ESLint.
 * Get familiar with the [command line options](command-line-interface).
 * Explore [ESLint integrations](integrations) into other tools like editors, build systems, and more.
-* Can't find just the right rule?  Make your own [custom rule](../developer-guide/working-with-rules).
-* Make ESLint even better by [contributing](../developer-guide/contributing/).
+* Can't find just the right rule?  Make your own [custom rule](../extend/working-with-rules).
+* Make ESLint even better by [contributing](../contribute/).
