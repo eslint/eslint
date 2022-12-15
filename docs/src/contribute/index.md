@@ -16,19 +16,19 @@ This guide is intended for anyone who wants to contribute to an ESLint project. 
 
 ESLint welcomes contributions from everyone and adheres to the [OpenJS Foundation Code of Conduct](https://eslint.org/conduct). We kindly request that you read over our code of conduct before contributing.
 
-## [Bug Reporting](reporting-bugs)
+## [Bug Reporting](report-bug)
 
 Think you found a problem? We'd love to hear about it. This section explains how to submit a bug, the type of information we need to properly verify it, and the overall process.
 
-## Proposing a [New Rule](new-rules)
+## Proposing a [New Rule](propose-new-rule)
 
 We get a lot of proposals for new rules in ESLint. This section explains how we determine which rules are accepted and what information you should provide to help us evaluate your proposal.
 
-## Proposing a [Rule Change](rule-changes)
+## Proposing a [Rule Change](propose-rule-change)
 
 Want to make a change to an existing rule? This section explains the process and how we evaluate such proposals.
 
-## Requesting a [Change](changes)
+## Requesting a [Change](request-change)
 
 If you'd like to request a change other than a bug fix or new rule, this section explains that process.
 
@@ -36,7 +36,7 @@ If you'd like to request a change other than a bug fix or new rule, this section
 
 To report a security vulnerability in ESLint, please use our [HackerOne program](https://hackerone.com/eslint).
 
-## [Working on Issues](working-on-issues)
+## [Working on Issues](work-on-issue)
 
 Have some extra time and want to contribute? This section talks about the process of working on issues.
 

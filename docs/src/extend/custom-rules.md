@@ -8,7 +8,7 @@ eleventyNavigation:
 
 ---
 
-**Note:** This page covers the most recent rule format for ESLint >= 3.0.0. There is also a [deprecated rule format](./working-with-rules-deprecated).
+**Note:** This page covers the most recent rule format for ESLint >= 3.0.0. There is also a [deprecated rule format](./custom-rules-deprecated).
 
 Each rule in ESLint has three files named with its identifier (for example, `no-extra-semi`).
 

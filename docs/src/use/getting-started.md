@@ -100,5 +100,5 @@ Because of this line, all of the rules marked "(recommended)" on the [rules page
 * Learn about [advanced configuration](configuring/) of ESLint.
 * Get familiar with the [command line options](command-line-interface).
 * Explore [ESLint integrations](integrations) into other tools like editors, build systems, and more.
-* Can't find just the right rule?  Make your own [custom rule](../extend/working-with-rules).
+* Can't find just the right rule?  Make your own [custom rule](../extend/custom-rules).
 * Make ESLint even better by [contributing](../contribute/).
