@@ -798,3 +798,5 @@ Runtime rules are written in the same format as all other rules. Create your rul
 1. Place all of your runtime rules in the same directory (e.g., `eslint_rules`).
 2. Create a [configuration file](../use/configure/) and specify your rule ID error level under the `rules` key. Your rule will not run unless it has a value of `"warn"` or `"error"` in the configuration file.
 3. Run the [command line interface](../use/command-line-interface) using the `--rulesdir` option to specify the location of your runtime rules.
+
+TODO: Delete
