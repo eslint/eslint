@@ -379,7 +379,7 @@ This option allows you to specify the file to use as your `.eslintignore`.
 * **Multiple Arguments**: No
 * **Default Value**:  By default, ESLint looks for `.eslintignore` in the current working directory.
 
-**Note:** `--ignore-path` is not supported when using [flat configuration](./configuring/configuration-files-new) (`eslint.config.js`).
+**Note:** `--ignore-path` is not supported when using [flat configuration](./configure/configuration-files-new) (`eslint.config.js`).
 
 ##### `--ignore-path` example
 
