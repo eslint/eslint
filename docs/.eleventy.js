@@ -10,7 +10,7 @@ const Image = require("@11ty/eleventy-img");
 const path = require("path");
 const { slug } = require("github-slugger");
 const yaml = require("js-yaml");
-const { highlighter, preWrapperPlugin, lineNumberPlugin } = require("./src/_plugins/md-syntax-highlighter");
+const { highlighter, lineNumberPlugin } = require("./src/_plugins/md-syntax-highlighter");
 const {
     DateTime
 } = require("luxon");
@@ -208,7 +208,6 @@ module.exports = function(eleventyConfig) {
                 return generateAlertMarkup("important", tokens, idx);
             }
         })
-        .use(preWrapperPlugin)
         .use(lineNumberPlugin)
         .disable("code");
 

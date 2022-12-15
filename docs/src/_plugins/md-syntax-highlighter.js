@@ -47,23 +47,7 @@ const highlighter = function (md, str, lang) {
         result = md.utils.escapeHtml(str);
     }
 
-    return `<pre><code>${result}</code></pre>`;
-};
-
-/**
- *
- * modified from https://github.com/vuejs/vitepress/blob/main/src/node/markdown/plugins/preWrapper.ts
- * @param {MarkdownIt} md
- * @license MIT License. See file header.
- */
-const preWrapperPlugin = (md) => {
-    const fence = md.renderer.rules.fence;
-    md.renderer.rules.fence = (...args) => {
-        const [tokens, idx] = args;
-        const lang = tokens[idx].info.trim();
-        const rawCode = fence(...args);
-        return `<div class="language-${lang}">${rawCode}</div>`;
-    };
+    return `<pre class="language-${lang}"><code>${result}</code></pre>`;
 };
 
 /**
@@ -93,15 +77,13 @@ const lineNumberPlugin = (md) => {
         const lineNumbersWrapperCode = `<div class="line-numbers-wrapper" aria-hidden="true">${lineNumbersCode}</div>`;
 
         const finalCode = rawCode
-            .replace(/<\/div>$/, `${lineNumbersWrapperCode}</div>`)
+            .replace(/<\/pre>\n/, `${lineNumbersWrapperCode}</pre>`)
             .replace(/"(language-\S*?)"/, '"$1 line-numbers-mode"')
             .replace(/<code>/, `<code class="language-${lang}">`)
-            .replace(/<pre>/, `<pre class="language-${lang}">`);
 
         return finalCode;
     };
 };
 
 module.exports.highlighter = highlighter;
-module.exports.preWrapperPlugin = preWrapperPlugin;
 module.exports.lineNumberPlugin = lineNumberPlugin;

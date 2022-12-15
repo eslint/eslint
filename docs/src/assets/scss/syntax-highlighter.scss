@@ -32,7 +32,7 @@ pre[class*="language-"] {
 }
 
 /* Code blocks */
-div[class*="language-"] {
+pre[class*="language-"] {
     padding: 1.5rem;
     margin: 1.5rem 0;
     overflow: auto;
@@ -42,6 +42,10 @@ div[class*="language-"] {
 
     [data-theme="dark"] & {
         color: var(--color-neutral-100);
+    }
+
+    &.line-numbers-mode {
+        padding-left: calc(1.5rem + 2.4em + 1.2rem);
     }
 }
 
@@ -103,29 +107,20 @@ pre[class*="language-"] {
 .line-numbers-wrapper {
     position: absolute;
     top: 0;
+    left: 1.5rem;
     text-align: right;
     padding-top: 1.5rem;
     font-size: 1em;
     font-family: var(--mono-font), Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
     line-height: 1.5;
     color: var(--icon-color);
-}
 
-.line-number {
-    user-select: none;
-    color: var(--icon-color);
-    display: inline-block;
-    font-variant-numeric: tabular-nums;
-    text-align: right;
-    width: 1.2em;
-}
-
-div[class*="language-"].line-numbers-mode {
-    position: relative;
-
-    pre[class*="language-"] {
-        padding-left: calc(2.4em + 1.2rem);
-        margin-top: 0;
-        margin-bottom: 0;
+    .line-number {
+        user-select: none;
+        color: var(--icon-color);
+        display: inline-block;
+        font-variant-numeric: tabular-nums;
+        text-align: right;
+        width: 1.2em;
     }
 }
