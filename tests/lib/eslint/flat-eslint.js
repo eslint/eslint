@@ -4502,19 +4502,13 @@ describe("FlatESLint", () => {
         });
 
 
-        /*
-         * These tests fail due to a bug in fast-glob that doesn't allow
-         * negated patterns inside of ignores. These tests won't work until
-         * this bug is fixed:
-         * https://github.com/mrmlnc/fast-glob/issues/356
-         */
-        xdescribe("ignorePatterns can unignore '/node_modules/foo'.", () => {
+        describe("ignores can unignore '/node_modules/foo'.", () => {
 
             const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
+                cwd: `${root}-unignores`,
                 files: {
                     "eslint.config.js": `module.exports = {
-                        ignores: ["!**/node_modules/foo/**"]
+                        ignores: ["!**/node_modules/foo"]
                     };`,
                     "node_modules/foo/index.js": "",
                     "node_modules/foo/.dot.js": "",
@@ -4551,16 +4545,70 @@ describe("FlatESLint", () => {
                     .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, "eslint.config.js"),
-                    path.join(root, "foo.js"),
-                    path.join(root, "node_modules/foo/index.js")
+                    path.join(getPath(), "eslint.config.js"),
+                    path.join(getPath(), "foo.js"),
+                    path.join(getPath(), "node_modules/foo/.dot.js"),
+                    path.join(getPath(), "node_modules/foo/index.js")
                 ]);
             });
         });
 
-        xdescribe("ignore pattern can re-ignore files that are unignored by a previous pattern.", () => {
+        describe("ignores can unignore '/node_modules/foo/**'.", () => {
+
             const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
+                cwd: `${root}-unignores`,
+                files: {
+                    "eslint.config.js": `module.exports = {
+                        ignores: ["!**/node_modules/foo/**"]
+                    };`,
+                    "node_modules/foo/index.js": "",
+                    "node_modules/foo/.dot.js": "",
+                    "node_modules/bar/index.js": "",
+                    "foo.js": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("'isPathIgnored()' should return 'true' for 'node_modules/foo/index.js'.", async () => {
+                const engine = new FlatESLint({ cwd: getPath() });
+
+                assert.strictEqual(await engine.isPathIgnored("node_modules/foo/index.js"), false);
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'node_modules/foo/.dot.js'.", async () => {
+                const engine = new FlatESLint({ cwd: getPath() });
+
+                assert.strictEqual(await engine.isPathIgnored("node_modules/foo/.dot.js"), false);
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'node_modules/bar/index.js'.", async () => {
+                const engine = new FlatESLint({ cwd: getPath() });
+
+                assert.strictEqual(await engine.isPathIgnored("node_modules/bar/index.js"), true);
+            });
+
+            it("'lintFiles()' should verify 'node_modules/foo/index.js'.", async () => {
+                const engine = new FlatESLint({ cwd: getPath() });
+                const result = (await engine.lintFiles("**/*.js"));
+
+                const filePaths = result
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(getPath(), "eslint.config.js"),
+                    path.join(getPath(), "foo.js"),
+                    path.join(getPath(), "node_modules/foo/.dot.js"),
+                    path.join(getPath(), "node_modules/foo/index.js")
+                ]);
+            });
+        });
+
+        describe("ignore pattern can re-ignore files that are unignored by a previous pattern.", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: `${root}-reignore`,
                 files: {
                     "eslint.config.js": `module.exports = ${JSON.stringify({
                         ignores: ["!.*", ".foo*"]
@@ -4592,15 +4640,15 @@ describe("FlatESLint", () => {
                     .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, ".bar.js"),
-                    path.join(root, "eslint.config.js")
+                    path.join(getPath(), ".bar.js"),
+                    path.join(getPath(), "eslint.config.js")
                 ]);
             });
         });
 
-        xdescribe("ignore pattern can unignore files that are ignored by a previous pattern.", () => {
+        describe("ignore pattern can unignore files that are ignored by a previous pattern.", () => {
             const { prepare, cleanup, getPath } = createCustomTeardown({
-                cwd: root,
+                cwd: `${root}-dignore`,
                 files: {
                     "eslint.config.js": `module.exports = ${JSON.stringify({
                         ignores: ["**/*.js", "!foo.js"]
@@ -4632,7 +4680,7 @@ describe("FlatESLint", () => {
                     .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, "foo.js")
+                    path.join(getPath(), "foo.js")
                 ]);
             });
         });
@@ -5033,17 +5081,17 @@ describe("FlatESLint", () => {
             });
         });
 
-        // dependent on https://github.com/mrmlnc/fast-glob/issues/86
-        xdescribe("if { ignores: 'foo/*.js', ... } is present by '--config node_modules/myconf/eslint.config.js',", () => {
+        describe("if { ignores: 'foo/*.js', ... } is present by '--config node_modules/myconf/eslint.config.js',", () => {
             const { prepare, cleanup, getPath } = createCustomTeardown({
                 cwd: `${root}a3`,
                 files: {
-                    "node_modules/myconf/eslint.config.js": `module.exports = {
-                        ignores: ["**/eslint.config.js", "!node_modules/myconf", "foo/*.js"],
+                    "node_modules/myconf/eslint.config.js": `module.exports = [{
+                        ignores: ["!node_modules/myconf", "foo/*.js"],
+                    }, {
                         rules: {
                             eqeqeq: "error"
                         }
-                    }`,
+                    }]`,
                     "node_modules/myconf/foo/test.js": "a == b",
                     "foo/test.js": "a == b"
                 }
@@ -5052,7 +5100,7 @@ describe("FlatESLint", () => {
             beforeEach(prepare);
             afterEach(cleanup);
 
-            it("'lintFiles()' with '**/*.js' should iterate 'node_modules/myconf/foo/test.js' but not 'foo/test.js'.", async () => {
+            it("'lintFiles()' with '**/*.js' should lint 'node_modules/myconf/foo/test.js' but not 'foo/test.js'.", async () => {
                 const engine = new FlatESLint({
                     overrideConfigFile: "node_modules/myconf/eslint.config.js",
                     cwd: getPath()
@@ -5062,6 +5110,7 @@ describe("FlatESLint", () => {
                     .sort();
 
                 assert.deepStrictEqual(files, [
+                    path.join(getPath(), "node_modules/myconf/eslint.config.js"),
                     path.join(getPath(), "node_modules/myconf/foo/test.js")
                 ]);
             });
