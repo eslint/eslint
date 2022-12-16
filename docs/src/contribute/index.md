@@ -16,7 +16,7 @@ This guide is intended for anyone who wants to contribute to an ESLint project. 
 
 ESLint welcomes contributions from everyone and adheres to the [OpenJS Foundation Code of Conduct](https://eslint.org/conduct). We kindly request that you read over our code of conduct before contributing.
 
-## [Bug Reporting](report-bug)
+## [Bug Reporting](report-bugs)
 
 Think you found a problem? We'd love to hear about it. This section explains how to submit a bug, the type of information we need to properly verify it, and the overall process.
 

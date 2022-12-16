@@ -51,10 +51,10 @@ All of these options give you fine-grained control over how ESLint treats your c
 * [Specifying Processors](./plugins#specify-a-processor)
 * [Configuring Parsers](./plugins#configure-a-parser)
 
-[**Ignoring Code**](ignoring-code)
+[**Ignoring Code**](ignore-code)
 
-* [`ignorePatterns` in Config Files](./ignore#ignorepatterns-in-config-files)
-* [The `.eslintignore` File](./ignore#the-eslintignore-file)
-* [Using an Alternate File](./ignore#using-an-alternate-file)
-* [Using eslintIgnore in package.json](./ignore#using-eslintignore-in-packagejson)
-* [Ignored File Warnings](./ignore#ignored-file-warnings)
+* [`ignorePatterns` in Config Files](./ignore-code#ignorepatterns-in-config-files)
+* [The `.eslintignore` File](./ignore-code#the-eslintignore-file)
+* [Using an Alternate File](./ignore-code#using-an-alternate-file)
+* [Using eslintIgnore in package.json](./ignore-code#using-eslintignore-in-packagejson)
+* [Ignored File Warnings](./ignore-code#ignored-file-warnings)

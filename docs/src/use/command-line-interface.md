@@ -132,7 +132,7 @@ npx eslint --no-eslintrc file.js
 
 #### `-c`, `--config`
 
-This option allows you to specify an additional configuration file for ESLint (see [Configuring ESLint](configuring/) for more).
+This option allows you to specify an additional configuration file for ESLint (see [Configuring ESLint](configure/) for more).
 
 * **Argument Type**: String. Path to file.
 * **Multiple Arguments**: No
@@ -154,7 +154,7 @@ This option enables specific environments.
 * **Argument Type**: String. One of the available environments.
 * **Multiple Arguments**: Yes
 
-Details about the global variables defined by each environment are available in the [Specifying Environments](configuring/language-options#specifying-environments) documentation. This option only enables environments. It does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the option multiple times.
+Details about the global variables defined by each environment are available in the [Specifying Environments](configure/language-options#specifying-environments) documentation. This option only enables environments. It does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the option multiple times.
 
 ##### `--env` example
 
@@ -404,7 +404,7 @@ npx eslint --no-ignore file.js
 
 This option allows you to specify patterns of files to ignore (in addition to those in `.eslintignore`).
 
-* **Argument Type**: String. The supported syntax is the same as for [`.eslintignore` files](configuring/ignore#the-eslintignore-file), which use the same patterns as the [`.gitignore` specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
+* **Argument Type**: String. The supported syntax is the same as for [`.eslintignore` files](configure/ignore-code#the-eslintignore-file), which use the same patterns as the [`.gitignore` specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
 * **Multiple Arguments**: Yes
 
 ##### `--ignore-pattern` example
