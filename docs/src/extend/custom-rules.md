@@ -90,7 +90,7 @@ The source file for a rule exports an object with the following properties.
 
 * if a key is a node type or a [selector](./selectors), ESLint calls that **visitor** function while going **down** the tree
 * if a key is a node type or a [selector](./selectors) plus `:exit`, ESLint calls that **visitor** function while going **up** the tree
-* if a key is an event name, ESLint calls that **handler** function for [code path analysis](./code-path-analysis)
+* if a key is an event name, ESLint calls that **handler** function for [code path analysis](../contribute/code-path-analysis)
 
 A rule can use the current node and its surrounding tree to report or fix problems.
 
@@ -708,7 +708,7 @@ Shebangs are represented by tokens of type `"Shebang"`. They are treated as comm
 ESLint analyzes code paths while traversing AST.
 You can access that code path objects with five events related to code paths.
 
-[details here](./code-path-analysis)
+[details here](../contribute/code-path-analysis)
 
 ## Rule Unit Tests
 
