@@ -1,3 +1,24 @@
+v8.30.0 - December 16, 2022
+
+* [`f2c4737`](https://github.com/eslint/eslint/commit/f2c47372420f050ad8f2300271345de1c1232635) chore: upgrade @eslint/eslintrc@1.4.0 (#16675) (Milos Djermanovic)
+* [`1a327aa`](https://github.com/eslint/eslint/commit/1a327aae57f1b68c96b27cc1bd57f8198d5a3a7c) fix: Ensure flat config unignores work consistently like eslintrc (#16579) (Nicholas C. Zakas)
+* [`075ef2c`](https://github.com/eslint/eslint/commit/075ef2cf315e75b51b671c40ce9a97c66b2e4b50) feat: add suggestion for no-return-await (#16637) (Daniel Bartholomae)
+* [`ba74253`](https://github.com/eslint/eslint/commit/ba74253e8bd63e9e163bbee0540031be77e39253) chore: standardize npm script names per #14827 (#16315) (Patrick McElhaney)
+* [`6a8cd94`](https://github.com/eslint/eslint/commit/6a8cd94ed08983c70ca7d72dc6e360770a743405) docs: Clarify Discord info in issue template config (#16663) (Nicholas C. Zakas)
+* [`0d9af4c`](https://github.com/eslint/eslint/commit/0d9af4c5674809be993439c766dcd9d7f65fcec9) ci: fix npm v9 problem with `file:` (#16664) (Milos Djermanovic)
+* [`7190d98`](https://github.com/eslint/eslint/commit/7190d98ff40023f24b0c6a98319ae8a82c99ff5b) feat: update globals (#16654) (Sébastien Règne)
+* [`ad44344`](https://github.com/eslint/eslint/commit/ad44344ef6fdeac7217eb83bc54a230382c0da5e) docs: CLI documentation standardization (#16563) (Ben Perlmutter)
+* [`90c9219`](https://github.com/eslint/eslint/commit/90c9219181e0aadcae7224602d2988186d457113) refactor: migrate off deprecated function-style rules in all tests (#16618) (Bryan Mishkin)
+* [`9b8bb72`](https://github.com/eslint/eslint/commit/9b8bb72c49a453086954b06a5d7dd390731b1975) fix: autofix recursive functions in no-var (#16611) (Milos Djermanovic)
+* [`293573e`](https://github.com/eslint/eslint/commit/293573eb530d161d2a5b01efd9d3de49dadea022) docs: fix broken line numbers (#16606) (Sam Chen)
+* [`fa2c64b`](https://github.com/eslint/eslint/commit/fa2c64be10d5854fb586c20957737d7d2da1975a) docs: use relative links for internal links (#16631) (Percy Ma)
+* [`75276c9`](https://github.com/eslint/eslint/commit/75276c9bc7c4bc013fc6bdf277353c979934d73b) docs: reorder options in no-unused-vars (#16625) (Milos Djermanovic)
+* [`7276fe5`](https://github.com/eslint/eslint/commit/7276fe5776f03fb90e575ed63a9b1a6766993e42) docs: Fix anchor in URL (#16628) (Karl Horky)
+* [`6bef135`](https://github.com/eslint/eslint/commit/6bef1350e692c818c55c6d2074c12506e98cdf4f) docs: don't apply layouts to html formatter example (#16591) (Tanuj Kanti)
+* [`dfc7ec1`](https://github.com/eslint/eslint/commit/dfc7ec11b11b56daaa10e8e6d08c5cddfc8c2c59) docs: Formatters page updates (#16566) (Ben Perlmutter)
+* [`8ba124c`](https://github.com/eslint/eslint/commit/8ba124cfd8aaf01d14ccbcb1654798624948fb0a) docs: update the `prefer-const` example (#16607) (Pavel)
+* [`e6cb05a`](https://github.com/eslint/eslint/commit/e6cb05aa35bafb9e88f161ad1fa6b01942a7c13c) docs: fix css leaking (#16603) (Sam Chen)
+
 v8.29.0 - December 2, 2022
 
 * [`0311d81`](https://github.com/eslint/eslint/commit/0311d81834d675b8ae7cc92a460b37115edc4018) docs: Configuring Plugins page intro, page tweaks, and rename (#16534) (Ben Perlmutter)
