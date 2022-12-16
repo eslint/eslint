@@ -1571,6 +1571,7 @@
         }
     },
     "no-return-await": {
+        "hasSuggestions": true,
         "type": "suggestion",
         "docs": {
             "description": "Disallow unnecessary `return await`",

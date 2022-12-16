@@ -1067,7 +1067,7 @@
                     "description": "Disallow unnecessary `return await`",
                     "recommended": false,
                     "fixable": false,
-                    "hasSuggestions": false
+                    "hasSuggestions": true
                 },
                 {
                     "name": "no-script-url",
