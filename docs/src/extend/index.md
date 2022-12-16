@@ -49,6 +49,6 @@ If you aren't going to use the default parser of ESLint, this section explains a
 
 If you're interested in writing a tool that uses ESLint, then you can use the Node.js API to get programmatic access to functionality.
 
-## Section 8: [Contributing](contribute/)
+## Section 8: [Contributing](../contribute/)
 
 Once you've made changes that you want to share with the community, the next step is to submit those changes back via a pull request.

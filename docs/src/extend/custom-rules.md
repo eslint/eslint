@@ -377,7 +377,7 @@ Best practices for fixes:
 
 Note: Making fixes as small as possible is a best practice, but in some cases it may be correct to extend the range of the fix in order to intentionally prevent other rules from making fixes in a surrounding range in the same pass. For instance, if replacement text declares a new variable, it can be useful to prevent other changes in the scope of the variable as they might cause name collisions.
 
-The following example replaces `node` and also ensures that no other fixes will be applied in the range of `node.parent` in the same pass:
+The following exam∑ple replaces `node` and also ensures that no other fixes will be applied in the range of `node.parent` in the same pass:
 
 ```js
 context.report({
