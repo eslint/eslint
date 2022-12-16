@@ -37,7 +37,7 @@ There are a lot of unit tests included with ESLint to make sure that we're keepi
 
 You're finally ready to start working with rules. You may want to fix an existing rule or create a new one. This section explains how to do all of that.
 
-## Section 5: [Working with Plugins](custom-plugins)
+## Section 5: [Working with Plugins](plugins)
 
 You've developed library-specific rules for ESLint and you want to share them with the community. You can publish an ESLint plugin on npm.
 

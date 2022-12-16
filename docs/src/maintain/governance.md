@@ -59,7 +59,7 @@ Committers:
 * Are expected to delete their public branches when they are no longer necessary.
 * Must submit pull requests for all changes.
 * Have their work reviewed by TSC members before acceptance into the repository.
-* May label and close issues (see [Managing Issues](issues))
+* May label and close issues (see [Managing Issues](manage-issues))
 * May merge some pull requests (see [Managing Pull Requests](manage-pull-requests))
 
 To become a Committer:
