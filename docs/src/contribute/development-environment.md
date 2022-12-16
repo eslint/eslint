@@ -71,7 +71,7 @@ The testing takes a few minutes to complete. If any tests fail, that likely mean
 
 ### Workflow
 
-Once you have your development environment installed, you can make and submit changes to the ESLint source files. Doing this successfully requires careful adherence to our [pull-request submission workflow](contributing/pull-requests).
+Once you have your development environment installed, you can make and submit changes to the ESLint source files. Doing this successfully requires careful adherence to our [pull-request submission workflow](./pull-requests).
 
 ### Build Scripts
 
