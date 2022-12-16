@@ -9,8 +9,8 @@ If you want to contribute to an ESLint repo, please use a GitHub pull request. T
 
 If you'd like to work on a pull request and you've never submitted code before, follow these steps:
 
-1. Set up a [development environment](../development-environment).
-1. If you want to implement a breaking change or a change to the core, ensure there's an issue that describes what you're doing and the issue has been accepted. You can create a new issue or just indicate you're [working on an existing issue](work-on-issue). Bug fixes, documentation changes, and other pull requests do not require an issue.
+1. Set up a [development environment](./development-environment).
+1. If you want to implement a breaking change or a change to the core, ensure there's an issue that describes what you're doing and the issue has been accepted. You can create a new issue or just indicate you're [working on an existing issue](./work-on-issue). Bug fixes, documentation changes, and other pull requests do not require an issue.
 
 After that, you're ready to start working on code.
 
@@ -42,7 +42,7 @@ You should do all of your development for the issue in this branch.
 
 ### Step 2: Make your changes<a name="step2"></a>
 
-Make the changes to the code and tests, following the [code conventions](../code-conventions) as you go. Once you have finished, commit the changes to your branch:
+Make the changes to the code and tests, following the [code conventions](./code-conventions) as you go. Once you have finished, commit the changes to your branch:
 
 ```shell
 git add -A
@@ -119,7 +119,7 @@ With your code ready to go, this is a good time to double-check your submission 
 * Make separate pull requests for unrelated changes. Large pull requests with multiple unrelated changes may be closed without merging.
 * All changes must be accompanied by tests, even if the feature you're working on previously had no tests.
 * All user-facing changes must be accompanied by appropriate documentation.
-* Follow the [Code Conventions](../code-conventions).
+* Follow the [Code Conventions](./code-conventions).
 
 ### Step 6: Push your changes<a name="step6"></a>
 
@@ -179,7 +179,7 @@ The commit messages in subsequent commits do not need to be in any specific form
 
 ### Rebasing
 
-If your code is out-of-date, we might ask you to rebase. That means we want you to apply your changes on top of the latest upstream code. Make sure you have set up a [development environment](../development-environment) and then you can rebase using these commands:
+If your code is out-of-date, we might ask you to rebase. That means we want you to apply your changes on top of the latest upstream code. Make sure you have set up a [development environment](./development-environment) and then you can rebase using these commands:
 
 ```shell
 git fetch upstream
