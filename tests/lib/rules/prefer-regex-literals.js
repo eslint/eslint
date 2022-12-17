@@ -852,6 +852,76 @@ ruleTester.run("prefer-regex-literals", rule, {
             ]
         },
         {
+            code: "(a)\nnew RegExp(/b/);",
+            options: [{
+                disallowRedundantWrapping: true
+            }],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExp",
+                    type: "NewExpression",
+                    line: 2,
+                    column: 1,
+                    suggestions: null
+                }
+            ]
+        },
+        {
+            code: "(a)\nnew RegExp(/b/, 'g');",
+            options: [{
+                disallowRedundantWrapping: true
+            }],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 2,
+                    column: 1,
+                    suggestions: null
+                }
+            ]
+        },
+        {
+            code: "a/RegExp(/foo/);",
+            options: [{
+                disallowRedundantWrapping: true
+            }],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExp",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 3,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "a/ /foo/;"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "RegExp(/foo/)in a;",
+            options: [{
+                disallowRedundantWrapping: true
+            }],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExp",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "/foo/ in a;"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             code: "new RegExp((String?.raw)`a`);",
             errors: [
                 {
