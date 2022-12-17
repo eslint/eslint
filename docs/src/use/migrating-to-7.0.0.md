@@ -147,7 +147,7 @@ To allow for the colocation of comments that provide context with the directive,
 
 The ten Node.js/CommonJS rules in core have been deprecated and moved to the [eslint-plugin-node](https://github.com/mysticatea/eslint-plugin-node) plugin.
 
-**To address:** As per [our deprecation policy](../use/rule-deprecation), the deprecated rules will remain in core for the foreseeable future and are still available for use. However, we will no longer be updating or fixing any bugs in those rules. To use a supported version of the rules, we recommend using the corresponding rules in the plugin instead.
+**To address:** As per [our deprecation policy](rule-deprecation), the deprecated rules will remain in core for the foreseeable future and are still available for use. However, we will no longer be updating or fixing any bugs in those rules. To use a supported version of the rules, we recommend using the corresponding rules in the plugin instead.
 
 | Deprecated Rules                                                             | Replacement                                                                                                                     |
 | :--------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------ |
