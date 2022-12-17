@@ -163,7 +163,7 @@ This method returns the scope of the current node. It is a useful method for fin
 
 #### Scope types
 
-The following table contains a list of AST node types and the scope type that they correspond to. For more information about the scope types, refer to the [`Scope` object documentation](./scope-manager-interface.md#scope-interface).
+The following table contains a list of AST node types and the scope type that they correspond to. For more information about the scope types, refer to the [`Scope` object documentation](./scope-manager-interface#scope-interface).
 
 | AST Node Type             | Scope Type |
 |:--------------------------|:-----------|
