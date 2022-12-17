@@ -114,6 +114,7 @@ pre[class*="language-"] {
     font-family: var(--mono-font), Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
     line-height: 1.5;
     color: var(--icon-color);
+    font-variant-ligatures: none;
 
     .line-number {
         user-select: none;
