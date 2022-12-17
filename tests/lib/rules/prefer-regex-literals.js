@@ -602,6 +602,9 @@ ruleTester.run("prefer-regex-literals", rule, {
                     suggestions: [
                         {
                             messageId: "replaceWithLiteralAndFlags",
+                            data: {
+                                flags: "u"
+                            },
                             output: "/a/u;"
                         }
                     ]
@@ -623,7 +626,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     column: 1,
                     suggestions: [
                         {
-                            messageId: "replaceWithLiteralAndFlags",
+                            messageId: "replaceWithLiteral",
                             output: "/a/;"
                         }
                     ]
@@ -716,10 +719,16 @@ ruleTester.run("prefer-regex-literals", rule, {
                     suggestions: [
                         {
                             messageId: "replaceWithLiteralAndFlags",
+                            data: {
+                                flags: "g"
+                            },
                             output: "/a/g;"
                         },
                         {
                             messageId: "replaceWithLiteralAndFlags",
+                            data: {
+                                flags: "ig"
+                            },
                             output: "/a/ig;"
                         }
                     ]
@@ -742,6 +751,9 @@ ruleTester.run("prefer-regex-literals", rule, {
                     suggestions: [
                         {
                             messageId: "replaceWithLiteralAndFlags",
+                            data: {
+                                flags: "u"
+                            },
                             output: "/a/u;"
                         }
                     ]
@@ -764,6 +776,9 @@ ruleTester.run("prefer-regex-literals", rule, {
                     suggestions: [
                         {
                             messageId: "replaceWithLiteralAndFlags",
+                            data: {
+                                flags: "gi"
+                            },
                             output: "/a/gi;"
                         }
                     ]
