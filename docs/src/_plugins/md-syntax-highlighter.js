@@ -32,7 +32,7 @@ const loadLanguages = require("prismjs/components/");
  * @param {MarkdownIt} md markdown-it
  * @param {string} str code
  * @param {string} lang code language
- * @returns
+ * @returns {string} highlighted result wrapped in pre
  */
 const highlighter = function (md, str, lang) {
     let result = "";
@@ -41,7 +41,9 @@ const highlighter = function (md, str, lang) {
             loadLanguages([lang]);
             result = Prism.highlight(str, Prism.languages[lang], lang);
         } catch (err) {
-            console.log(err);
+            console.log(lang, err);
+            // we still want to wrap the result later
+            result = md.utils.escapeHtml(str);
         }
     } else {
         result = md.utils.escapeHtml(str);
