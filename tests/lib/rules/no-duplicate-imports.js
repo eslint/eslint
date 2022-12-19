@@ -84,6 +84,10 @@ ruleTester.run("no-duplicate-imports", rule, {
             errors: [{ messageId: "import", data: { module: "lodash-es" }, type: "ImportDeclaration" }]
         },
         {
+            code: "import { merge, merge } from \"lodash-es\";",
+            errors: [{ messageId: "import", data: { module: "lodash-es" }, type: "ImportDeclaration" }]
+        },
+        {
             code: "import os from \"os\";\nimport { something } from \"os\";\nimport * as foobar from \"os\";",
             errors: [
                 { messageId: "import", data: { module: "os" }, type: "ImportDeclaration" },
