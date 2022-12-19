@@ -27,6 +27,7 @@ Example of **incorrect** code for this rule:
 
 import { merge } from 'module';
 import something from 'another-module';
+import { wow, wow } from 'third-module';
 import { find } from 'module';
 ```
 
@@ -41,6 +42,7 @@ Example of **correct** code for this rule:
 
 import { merge, find } from 'module';
 import something from 'another-module';
+import { wow } from 'third-module';
 ```
 
 :::
