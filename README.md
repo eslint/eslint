@@ -25,23 +25,7 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 * ESLint uses an AST to evaluate patterns in code.
 * ESLint is completely pluggable, every single rule is a plugin and you can add more at runtime.
 
-## Table of Contents
-
-1. [Installation and Usage](#installation-and-usage)
-2. [Configuration](#configuration)
-3. [Code of Conduct](#code-of-conduct)
-4. [Filing Issues](#filing-issues)
-5. [Frequently Asked Questions](#faq)
-6. [Releases](#releases)
-7. [Security Policy](#security-policy)
-8. [Semantic Versioning Policy](#semantic-versioning-policy)
-9. [Stylistic Rule Updates](#stylistic-rule-updates)
-10. [License](#license)
-11. [Team](#team)
-12. [Sponsors](#sponsors)
-13. [Technology Sponsors](#technology-sponsors)
-
-## <a name="installation-and-usage"></a>Installation and Usage
+## Installation and Usage
 
 Prerequisites: [Node.js](https://nodejs.org/) (`^12.22.0`, `^14.17.0`, or `>=16.0.0`) built with SSL support. (If you are using an official Node.js distribution, SSL is always built in.)
 
@@ -57,7 +41,7 @@ After that, you can run ESLint on any file or directory like this:
 ./node_modules/.bin/eslint yourfile.js
 ```
 
-## <a name="configuration"></a>Configuration
+## Configuration
 
 After running `npm init @eslint/config`, you'll have a `.eslintrc` file in your directory. In it, you'll see some rules configured like this:
 
@@ -78,11 +62,11 @@ The names `"semi"` and `"quotes"` are the names of [rules](https://eslint.org/do
 
 The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the [configuration docs](https://eslint.org/docs/user-guide/configuring)).
 
-## <a name="code-of-conduct"></a>Code of Conduct
+## Code of Conduct
 
 ESLint adheres to the [JS Foundation Code of Conduct](https://eslint.org/conduct).
 
-## <a name="filing-issues"></a>Filing Issues
+## Filing Issues
 
 Before filing an issue, please be sure to read the guidelines for what you're reporting:
 
@@ -91,7 +75,7 @@ Before filing an issue, please be sure to read the guidelines for what you're re
 * [Proposing a Rule Change](https://eslint.org/docs/developer-guide/contributing/rule-changes)
 * [Request a Change](https://eslint.org/docs/developer-guide/contributing/changes)
 
-## <a name="faq"></a>Frequently Asked Questions
+## Frequently Asked Questions
 
 ### I'm using JSCS, should I migrate to ESLint?
 
@@ -141,15 +125,15 @@ We intentionally don't lock dependency versions so that we have the latest compa
 
 The Twilio blog has a [deeper dive](https://www.twilio.com/blog/lockfiles-nodejs) to learn more.
 
-## <a name="releases"></a>Releases
+## Releases
 
 We have scheduled releases every two weeks on Friday or Saturday. You can follow a [release issue](https://github.com/eslint/eslint/issues?q=is%3Aopen+is%3Aissue+label%3Arelease) for updates about the scheduling of any particular release.
 
-## <a name="security-policy"></a>Security Policy
+## Security Policy
 
 ESLint takes security seriously. We work hard to ensure that ESLint is safe for everyone and that security issues are addressed quickly and responsibly. Read the full [security policy](https://github.com/eslint/.github/blob/master/SECURITY.md).
 
-## <a name="semantic-versioning-policy"></a>Semantic Versioning Policy
+## Semantic Versioning Policy
 
 ESLint follows [semantic versioning](https://semver.org). However, due to the nature of ESLint as a code quality tool, it's not always clear when a minor or major version bump occurs. To help clarify this for everyone, we've defined the following semantic versioning policy for ESLint:
 
@@ -182,7 +166,7 @@ ESLint follows [semantic versioning](https://semver.org). However, due to the na
 
 According to our policy, any minor update may report more linting errors than the previous release (ex: from a bug fix). As such, we recommend using the tilde (`~`) in `package.json` e.g. `"eslint": "~3.1.0"` to guarantee the results of your builds.
 
-## <a name="stylistic-rule-updates"></a>Stylistic Rule Updates
+## Stylistic Rule Updates
 
 Stylistic rules are frozen according to [our policy](https://eslint.org/blog/2020/05/changes-to-rules-policies) on how we evaluate new rules and rule changes.
 This means:
@@ -191,11 +175,11 @@ This means:
 * **New ECMAScript features**: We will also make sure stylistic rules are compatible with new ECMAScript features.
 * **New options**: We will **not** add any new options to stylistic rules unless an option is the only way to fix a bug or support a newly-added ECMAScript feature.
 
-## <a name="license"></a>License
+## License
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint?ref=badge_large)
 
-## <a name="team"></a>Team
+## Team
 
 These folks keep the project moving and are resources for help.
 
@@ -278,7 +262,7 @@ YeonJuan
 
 <!--teamend-->
 
-## <a name="sponsors"></a>Sponsors
+## Sponsors
 
 The following companies, organizations, and individuals support ESLint's ongoing maintenance and development. [Become a Sponsor](https://opencollective.com/eslint) to get your logo on our README and website.
 
@@ -291,7 +275,7 @@ The following companies, organizations, and individuals support ESLint's ongoing
 <p><a href="https://launchdarkly.com"><img src="https://images.opencollective.com/launchdarkly/574bb9e/logo.png" alt="launchdarkly" height="32"></a> <a href="https://nx.dev"><img src="https://images.opencollective.com/nx/0efbe42/logo.png" alt="Nx (by Nrwl)" height="32"></a> <a href="https://www.crosswordsolver.org/anagram-solver/"><img src="https://images.opencollective.com/anagram-solver/2666271/logo.png" alt="Anagram Solver" height="32"></a> <a href="https://www.vpsserver.com"><img src="https://images.opencollective.com/vpsservercom/logo.png" alt="VPS" height="32"></a> <a href="https://icons8.com"><img src="https://images.opencollective.com/icons8/7fa1641/logo.png" alt="Icons8: free icons, photos, illustrations, and music" height="32"></a> <a href="https://discord.com"><img src="https://images.opencollective.com/discordapp/f9645d9/logo.png" alt="Discord" height="32"></a> <a href="https://themeisle.com"><img src="https://images.opencollective.com/themeisle/d5592fe/logo.png" alt="ThemeIsle" height="32"></a> <a href="https://www.ignitionapp.com"><img src="https://avatars.githubusercontent.com/u/5753491?v=4" alt="Ignition" height="32"></a> <a href="https://herocoders.com"><img src="https://avatars.githubusercontent.com/u/37549774?v=4" alt="HeroCoders" height="32"></a></p>
 <!--sponsorsend-->
 
-## <a name="technology-sponsors"></a>Technology Sponsors
+## Technology Sponsors
 
 * Site search ([eslint.org](https://eslint.org)) is sponsored by [Algolia](https://www.algolia.com)
 * Hosting for ([eslint.org](https://eslint.org)) is sponsored by [Netlify](https://www.netlify.com)
