@@ -4571,13 +4571,13 @@ describe("FlatESLint", () => {
             beforeEach(prepare);
             afterEach(cleanup);
 
-            it("'isPathIgnored()' should return 'true' for 'node_modules/foo/index.js'.", async () => {
+            it("'isPathIgnored()' should return 'false' for 'node_modules/foo/index.js'.", async () => {
                 const engine = new FlatESLint({ cwd: getPath() });
 
                 assert.strictEqual(await engine.isPathIgnored("node_modules/foo/index.js"), false);
             });
 
-            it("'isPathIgnored()' should return 'true' for 'node_modules/foo/.dot.js'.", async () => {
+            it("'isPathIgnored()' should return 'false' for 'node_modules/foo/.dot.js'.", async () => {
                 const engine = new FlatESLint({ cwd: getPath() });
 
                 assert.strictEqual(await engine.isPathIgnored("node_modules/foo/.dot.js"), false);
