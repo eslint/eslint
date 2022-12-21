@@ -35,7 +35,7 @@ npm init @eslint/config -- --config semistandard
 # or (`eslint-config` prefix is optional)
 npm init @eslint/config -- --config eslint-config-semistandard
 
-# ⚠️ npm 6.x no extra double-dash is needed:
+# ⚠️ npm 6.x no extra double-dash:
 npm init @eslint/config --config semistandard
 
 ```
@@ -137,9 +137,6 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
 
    ```shell
    npx eslint project-dir/ file1.js
-   # OR
-   npx eslint project-dir/ file1.js
-
    ```
 
    For more information on the available CLI options, refer to [Command Line Interface](./command-line-interface).
