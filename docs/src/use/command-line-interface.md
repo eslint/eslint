@@ -628,7 +628,7 @@ If the directory for the cache does not exist make sure you add a trailing `/` o
 ##### `--cache-location` example
 
 ```shell
-npx eslint "src/**/*.js" --cache --cache-location "/use/user/.eslintcache/"
+npx eslint "src/**/*.js" --cache --cache-location "/User/user/.eslintcache/"
 ```
 
 #### `--cache-strategy`

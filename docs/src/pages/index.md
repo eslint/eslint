@@ -10,13 +10,9 @@ Welcome to our documentation pages! What would you like to view?
 Intended for end users of ESLint. Contains information about core rules, configuration, command line options, formatters, and integrations,
 as well as guides for migrating from earlier versions of ESLint.
 
-## [Extender Guide](extend/)
+## [Developer Guide](extend/)
 
 Intended for people who wish to extend ESLint. Contains information about creating custom rules, configurations, plugins, and formatters; and information about our Node.js API.
-
-## [Contributor Guide](contribute/)
-
-Intended for contributors to ESLint. Contains information about contributing to ESLint, architecture, and project setup.
 
 ## [Maintainer Guide](maintain/)
 
