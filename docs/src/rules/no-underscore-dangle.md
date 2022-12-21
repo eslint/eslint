@@ -28,6 +28,7 @@ Examples of **incorrect** code for this rule:
 var foo_;
 var __proto__ = {};
 foo._bar();
+const [_foo, ..._bar] = list;
 ```
 
 :::
@@ -60,6 +61,8 @@ This rule has an object option:
 * `"allowAfterThisConstructor": false` (default) disallows dangling underscores in members of the `this.constructor` object
 * `"enforceInMethodNames": false` (default) allows dangling underscores in method names
 * `"enforceInClassFields": false` (default) allows dangling underscores in es2022 class fields names
+* `"allowInArrayDestructuring": true` (default) allows dangling underscores in variable names assigned by array destructuring
+* `"allowInObjectDestructuring": true` (default) allows dangling underscores in variable names assigned by object destructuring
 * `"allowFunctionParams": true` (default) allows dangling underscores in function parameter names
 
 ### allow
@@ -178,6 +181,50 @@ class Foo {
 class Foo {
     #bar_;
 }
+```
+
+:::
+
+### allowInArrayDestructuring
+
+Examples of **incorrect** code for this rule with the `{ "allowInArrayDestructuring": false }` option:
+
+::: incorrect
+
+```js
+/*eslint no-underscore-dangle: ["error", { "allowInArrayDestructuring": false }]*/
+
+const [_foo, _bar] = list;
+const [foo_, ..._bar] = list;
+const [foo, [bar, _baz]] = list;
+```
+
+:::
+
+### allowInObjectDestructuring
+
+Examples of **incorrect** code for this rule with the `{ "allowInObjectDestructuring": false }` option:
+
+::: incorrect
+
+```js
+/*eslint no-underscore-dangle: ["error", { "allowInObjectDestructuring": false }]*/
+
+const { foo, bar: _bar } = collection;
+const { foo, bar, _baz } = collection;
+```
+
+:::
+
+Examples of **correct** code for this rule with the `{ "allowInObjectDestructuring": false }` option:
+
+::: correct
+
+```js
+/*eslint no-underscore-dangle: ["error", { "allowInObjectDestructuring": false }]*/
+
+const { foo, bar, _baz: { a, b } } = collection;
+const { foo, bar, _baz: baz } = collection;
 ```
 
 :::
