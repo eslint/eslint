@@ -25,6 +25,22 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 * ESLint uses an AST to evaluate patterns in code.
 * ESLint is completely pluggable, every single rule is a plugin and you can add more at runtime.
 
+## Table of Contents
+
+1. [Installation and Usage](#installation-and-usage)
+2. [Configuration](#configuration)
+3. [Code of Conduct](#code-of-conduct)
+4. [Filing Issues](#filing-issues)
+5. [Frequently Asked Questions](#frequently-asked-questions)
+6. [Releases](#releases)
+7. [Security Policy](#security-policy)
+8. [Semantic Versioning Policy](#semantic-versioning-policy)
+9. [Stylistic Rule Updates](#stylistic-rule-updates)
+10. [License](#license)
+11. [Team](#team)
+12. [Sponsors](#sponsors)
+13. [Technology Sponsors](#technology-sponsors)
+
 ## Installation and Usage
 
 Prerequisites: [Node.js](https://nodejs.org/) (`^12.22.0`, `^14.17.0`, or `>=16.0.0`) built with SSL support. (If you are using an official Node.js distribution, SSL is always built in.)
