@@ -660,6 +660,8 @@ To learn more about JSON Schema, we recommend looking at some examples in [websi
 
 **Note:** Currently you need to use full JSON Schema object rather than array in case your schema has references ($ref), because in case of array format ESLint transforms this array into a single schema without updating references that makes them incorrect (they are ignored).
 
+**Note:** A common pitfall for JSON schema authors is to use `"oneOf"`, when `"anyOf"` could be used. Usually `"anyOf"` is preferable, because it’s more performant.
+
 ### Getting the Source
 
 If your rule needs to get the actual JavaScript source to work with, then use the `sourceCode.getText()` method. This method works as follows:
