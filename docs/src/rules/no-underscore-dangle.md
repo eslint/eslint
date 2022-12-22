@@ -28,7 +28,6 @@ Examples of **incorrect** code for this rule:
 var foo_;
 var __proto__ = {};
 foo._bar();
-const [_foo, ..._bar] = list;
 ```
 
 :::
