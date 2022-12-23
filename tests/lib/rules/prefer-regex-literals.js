@@ -628,6 +628,10 @@ ruleTester.run("prefer-regex-literals", rule, {
                         {
                             messageId: "replaceWithLiteral",
                             output: "/a/;"
+                        },
+                        {
+                            messageId: "replaceWithIntendedLiteralAndFlags",
+                            output: "/a/g;"
                         }
                     ]
                 }
@@ -674,7 +678,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                             output: "/a/g;"
                         },
                         {
-                            messageId: "replaceWithLiteralAndFlags",
+                            messageId: "replaceWithIntendedLiteralAndFlags",
                             output: "/a/ig;"
                         }
                     ]
@@ -725,11 +729,36 @@ ruleTester.run("prefer-regex-literals", rule, {
                             output: "/a/g;"
                         },
                         {
-                            messageId: "replaceWithLiteralAndFlags",
+                            messageId: "replaceWithIntendedLiteralAndFlags",
                             data: {
                                 flags: "ig"
                             },
                             output: "/a/ig;"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/i, 'i');",
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            data: {
+                                flags: "i"
+                            },
+                            output: "/a/i;"
                         }
                     ]
                 }
