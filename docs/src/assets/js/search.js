@@ -175,7 +175,6 @@ document.addEventListener('keydown', function (e) {
 
     if (e.key === 'Escape') {
         e.preventDefault();
-
         if (searchResults.length) {
             clearSearchResults();
             searchInput.focus();
