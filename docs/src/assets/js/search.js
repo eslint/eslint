@@ -136,33 +136,33 @@ const debouncedFetchSearchResults = debounce((query) => {
 //-----------------------------------------------------------------------------
 
 // listen for input changes
-if(searchInput)
+if (searchInput)
     searchInput.addEventListener('keyup', function (e) {
         const query = searchInput.value;
 
-        if(query === searchQuery) return;
+        if (query === searchQuery) return;
 
-        if(query.length) searchClearBtn.removeAttribute('hidden');
+        if (query.length) searchClearBtn.removeAttribute('hidden');
         else searchClearBtn.setAttribute('hidden', '');
 
         if (query.length > 2) {
 
             debouncedFetchSearchResults(query);
 
-            document.addEventListener('click', function(e) {
-                if(e.target !== resultsElement) clearSearchResults();
+            document.addEventListener('click', function (e) {
+                if (e.target !== resultsElement) clearSearchResults();
             });
         } else {
             clearSearchResults();
         }
 
-    searchQuery = query
+        searchQuery = query
 
     });
 
 
-if(searchClearBtn)
-    searchClearBtn.addEventListener('click', function(e) {
+if (searchClearBtn)
+    searchClearBtn.addEventListener('click', function (e) {
         searchInput.value = '';
         searchInput.focus();
         clearSearchResults();
@@ -171,10 +171,14 @@ if(searchClearBtn)
 
 document.addEventListener('keydown', function (e) {
 
+    const searchResults = Array.from(document.querySelectorAll('.search-results__item'));
+
     if (e.key === 'Escape') {
         e.preventDefault();
-        clearSearchResults();
-        searchInput.focus();
+        if (searchResults.length) {
+            clearSearchResults();
+            searchInput.focus();
+        }
     }
 
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -183,7 +187,6 @@ document.addEventListener('keydown', function (e) {
         document.querySelector('.search').scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
-    const searchResults = Array.from(document.querySelectorAll('.search-results__item'));
     if (!searchResults.length) return;
 
     switch (e.key) {
