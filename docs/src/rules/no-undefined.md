@@ -58,7 +58,6 @@ function foo(undefined) {
     // ...
 }
 
-// Skips the first parameter
 bar(undefined, "lorem");
 ```
 
@@ -81,7 +80,6 @@ if (typeof foo === "undefined") {
 
 global.undefined = "foo";
 
-// Skips the first parameter
 bar(void 0, "lorem");
 ```
 
