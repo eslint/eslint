@@ -58,11 +58,6 @@ function foo(undefined) {
     // ...
 }
 
-// Function creation with parameter
-function bar(baz, qux) {
-    // ...
-}
-
 // Using a function with improper reference to the undefined global value to attempt to skip the first parameter
 bar(undefined, "lorem");
 ```
@@ -86,12 +81,7 @@ if (typeof foo === "undefined") {
 
 global.undefined = "foo";
 
-// Function creation with parameter
-function bar(baz, qux) {
-    // ...
-}
-
-// Using function without referencing the global undefined
+// Using function without referencing the global undefined value
 bar(void 0, "lorem");
 ```
 
