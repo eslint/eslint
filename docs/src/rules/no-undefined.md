@@ -63,7 +63,7 @@ function bar(baz, qux) {
     // ...
 }
 
-// Using function with improper refrence to the global undefined value to attempt to skip the first parameter
+// Using a function with improper reference to the undefined global value to attempt to skip the first parameter
 bar(undefined, "lorem");
 ```
 
