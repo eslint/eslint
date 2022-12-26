@@ -91,7 +91,7 @@ function bar(baz, qux) {
     // ...
 }
 
-// Using function wihtout refrencing the global undefined
+// Using function without referencing the global undefined
 bar(void 0, "lorem");
 ```
 
