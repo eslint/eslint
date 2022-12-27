@@ -13,20 +13,19 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
-const path = require("path");
 const fs = require("fs");
 const { stripIndents } = require("common-tags");
 const ejs = require("ejs");
+const got = require("got");
 
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
 
-const README_FILE_PATH = path.resolve(__dirname, "../README.md");
-const WEBSITE_DATA_PATH = path.resolve(__dirname, "../../website/_data");
+const SPONSORS_URL = "https://raw.githubusercontent.com/eslint/eslint.org/main/src/_data/sponsors.json";
+const TEAM_URL = "https://raw.githubusercontent.com/eslint/eslint.org/main/src/_data/team.json";
+const README_FILE_PATH = "./README.md";
 
-const team = JSON.parse(fs.readFileSync(path.join(WEBSITE_DATA_PATH, "team.json")));
-const allSponsors = JSON.parse(fs.readFileSync(path.join(WEBSITE_DATA_PATH, "sponsors.json")));
 const readme = fs.readFileSync(README_FILE_PATH, "utf8");
 
 const heights = {
@@ -35,12 +34,30 @@ const heights = {
     bronze: 32
 };
 
-// remove backers from sponsors list - not shown on readme
-delete allSponsors.backers;
-
 //-----------------------------------------------------------------------------
 // Helpers
 //-----------------------------------------------------------------------------
+
+/**
+ * Fetches the latest sponsors data from the website.
+ * @returns {Object} The sponsors data object.
+ */
+async function fetchSponsorsData() {
+    const data = await got(SPONSORS_URL).json();
+
+    // remove backers from sponsors list - not shown on readme
+    delete data.backers;
+
+    return data;
+}
+
+/**
+ * Fetches the latest team data from the website.
+ * @returns {Object} The sponsors data object.
+ */
+async function fetchTeamData() {
+    return got(TEAM_URL).json();
+}
 
 /**
  * Formats an array of team members for inclusion in the readme.
@@ -74,7 +91,7 @@ function formatSponsors(sponsors) {
         ${
             nonEmptySponsors.map(tier => `<h3>${tier[0].toUpperCase()}${tier.slice(1)} Sponsors</h3>
             <p>${
-                sponsors[tier].map(sponsor => `<a href="${sponsor.url}"><img src="${sponsor.image}" alt="${sponsor.name}" height="${heights[tier]}"></a>`).join(" ")
+                sponsors[tier].map(sponsor => `<a href="${sponsor.url || "#"}"><img src="${sponsor.image}" alt="${sponsor.name}" height="${heights[tier]}"></a>`).join(" ")
             }</p>`).join("")
         }
     <!--sponsorsend-->`;
@@ -112,19 +129,37 @@ const HTML_TEMPLATE = stripIndents`
     <%- formatTeamMembers(team.committers) %>
 
     <% } %>
+
+    <% if (team.website.length > 0) { %>
+    ### Website Team
+
+    Team members who focus specifically on eslint.org
+
+    <%- formatTeamMembers(team.committers) %>
+
+    <% } %>
     <!--teamend-->
 `;
 
-// replace all of the section
-let newReadme = readme.replace(/<!--teamstart-->[\w\W]*?<!--teamend-->/u, ejs.render(HTML_TEMPLATE, {
-    team,
-    formatTeamMembers
-}));
+(async () => {
 
-newReadme = newReadme.replace(/<!--sponsorsstart-->[\w\W]*?<!--sponsorsend-->/u, formatSponsors(allSponsors));
+    const [allSponsors, team] = await Promise.all([
+        fetchSponsorsData(),
+        fetchTeamData()
+    ]);
 
-// replace multiple consecutive blank lines with just one blank line
-newReadme = newReadme.replace(/(?<=^|\n)\n{2,}/gu, "\n");
+    // replace all of the section
+    let newReadme = readme.replace(/<!--teamstart-->[\w\W]*?<!--teamend-->/u, ejs.render(HTML_TEMPLATE, {
+        team,
+        formatTeamMembers
+    }));
 
-// output to the file
-fs.writeFileSync(README_FILE_PATH, newReadme, "utf8");
+    newReadme = newReadme.replace(/<!--sponsorsstart-->[\w\W]*?<!--sponsorsend-->/u, formatSponsors(allSponsors));
+
+    // replace multiple consecutive blank lines with just one blank line
+    newReadme = newReadme.replace(/(?<=^|\n)\n{2,}/gu, "\n");
+
+    // output to the file
+    fs.writeFileSync(README_FILE_PATH, newReadme, "utf8");
+
+})();
