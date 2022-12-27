@@ -9,6 +9,13 @@
 
 import algoliasearch from "./algoliasearch.js";
 
+docsearch({
+    container: '.search__input-wrapper',
+    appId: 'L633P0C2IR',
+    indexName: 'eslint',
+    apiKey: 'bb6bbd2940351f3afc18844a6b06a6e8',
+})
+
 //-----------------------------------------------------------------------------
 // Initialization
 //-----------------------------------------------------------------------------

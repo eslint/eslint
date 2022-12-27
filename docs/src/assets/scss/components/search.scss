@@ -162,3 +162,34 @@
         color: var(--color-neutral-900);
     }
 }
+
+.DocSearch--active {
+    height: 100%;
+}
+.DocSearch-Button {
+    --docsearch-primary-color: var(--color-brand);
+    --docsearch-text-color: var(--body-text-color);
+    --docsearch-muted-color: var(--body-text-color);
+    --docsearch-searchbox-shadow: none;
+    --docsearch-searchbox-focus-background: transparent;
+    --docsearch-key-gradient: transparent;
+
+    /* search button */
+    --docsearch-searchbox-background: var(--body-background-color);
+
+    width: 100%;
+    height: 40px;
+    margin: 0;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    padding-left: 12px;
+    padding-right: 12px;
+
+    .DocSearch-Button-Placeholder {
+        display: none;
+    }
+}
+.DocSearch-Input:focus {
+    outline: 0;
+    box-shadow: none;
+}
