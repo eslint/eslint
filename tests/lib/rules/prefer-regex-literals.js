@@ -626,7 +626,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     column: 1,
                     suggestions: [
                         {
-                            messageId: "replaceWithLiteral",
+                            messageId: "replaceWithLiteralAndFlags",
                             output: "/a/;"
                         },
                         {
