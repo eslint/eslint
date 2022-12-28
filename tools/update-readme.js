@@ -135,7 +135,7 @@ const HTML_TEMPLATE = stripIndents`
 
     Team members who focus specifically on eslint.org
 
-    <%- formatTeamMembers(team.committers) %>
+    <%- formatTeamMembers(team.website) %>
 
     <% } %>
     <!--teamend-->
