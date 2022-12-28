@@ -43,7 +43,7 @@ module.exports.schema = []; // no options
 
 * if a key is a node type, ESLint calls that **visitor** function while going **down** the tree
 * if a key is a node type plus `:exit`, ESLint calls that **visitor** function while going **up** the tree
-* if a key is an event name, ESLint calls that **handler** function for [code path analysis](../contribute/code-path-analysis)
+* if a key is an event name, ESLint calls that **handler** function for [code path analysis](code-path-analysis)
 
 A rule can use the current node and its surrounding tree to report or fix problems.
 
@@ -327,7 +327,7 @@ Keep in mind that comments are technically not a part of the AST and are only at
 ESLint analyzes code paths while traversing AST.
 You can access that code path objects with five events related to code paths.
 
-[details here](../contribute/code-path-analysis)
+[details here](code-path-analysis)
 
 ## Rule Unit Tests
 
