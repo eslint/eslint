@@ -2,7 +2,7 @@
 
 # ESLint Configuration
 
-[Website](https://eslint.org) | [Configuring](https://eslint.org/docs/user-guide/configuring) | [Rules](https://eslint.org/docs/rules/) | [Contributing](https://eslint.org/docs/developer-guide/contributing) | [Twitter](https://twitter.com/geteslint) | [Mailing List](https://groups.google.com/group/eslint) | [Chatroom](https://eslint.org/chat)
+[Website](https://eslint.org) | [Configuring](https://eslint.org/docs/use/configure) | [Rules](https://eslint.org/docs/rules/) | [Contributing](https://eslint.org/docs/contribute) | [Twitter](https://twitter.com/geteslint) | [Mailing List](https://groups.google.com/group/eslint) | [Chatroom](https://eslint.org/chat)
 
 Contains the ESLint configuration used for projects maintained by the ESLint team.
 
