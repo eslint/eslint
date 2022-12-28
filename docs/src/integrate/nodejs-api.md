@@ -766,7 +766,7 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 The `RuleTester#run()` method is used to run the tests. It should be passed the following arguments:
 
 * The name of the rule (string)
-* The rule object itself (see ["working with rules"](./custom-rules))
+* The rule object itself (see ["working with rules"](../extend/custom-rules))
 * An object containing `valid` and `invalid` properties, each of which is an array containing test cases.
 
 A test case is an object with the following properties:
