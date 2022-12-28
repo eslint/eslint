@@ -35,7 +35,7 @@ In this example, the configuration array contains just one configuration object.
 
 Each configuration object contains all of the information ESLint needs to execute on a set of files. Each configuration object is made up of these properties:
 
-* `files` - An array of glob patterns indicating the files that the configuration object should apply to. If not specified, the configuration object applies to all files.
+* `files` - An array of glob patterns indicating the files that the configuration object should apply to. If not specified, the configuration object applies to all files matched by any other configuration object.
 * `ignores` - An array of glob patterns indicating the files that the configuration object should not apply to. If not specified, the configuration object applies to all files matched by `files`.
 * `languageOptions` - An object containing settings related to how JavaScript is configured for linting.
     * `ecmaVersion` - The version of ECMAScript to support. May be any year (i.e., `2022`) or version (i.e., `5`). Set to `"latest"` for the most recent supported version. (default: `"latest"`)
