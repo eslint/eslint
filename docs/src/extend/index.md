@@ -29,7 +29,7 @@ Before you can get started, you'll need to get a copy of the ESLint source code.
 
 Developing for ESLint is a bit different than running it on the command line. This section shows you how to set up a development environment and get you ready to write code.
 
-## Section 3: Run the [Unit Tests](../contribute/unit-tests)
+## Section 3: Run the [Unit Tests](../contribute/tests)
 
 There are a lot of unit tests included with ESLint to make sure that we're keeping on top of code quality. This section explains how to run the unit tests.
 
