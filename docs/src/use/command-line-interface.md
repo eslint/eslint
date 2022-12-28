@@ -404,7 +404,7 @@ npx eslint --no-ignore file.js
 
 This option allows you to specify patterns of files to ignore (in addition to those in `.eslintignore`).
 
-* **Argument Type**: String. The supported syntax is the same as for [`.eslintignore` files](configure/ignore-code#the-eslintignore-file), which use the same patterns as the [`.gitignore` specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
+* **Argument Type**: String. The supported syntax is the same as for [`.eslintignore` files](configure/ignore#the-eslintignore-file), which use the same patterns as the [`.gitignore` specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
 * **Multiple Arguments**: Yes
 
 ##### `--ignore-pattern` example

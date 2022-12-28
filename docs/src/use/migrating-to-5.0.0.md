@@ -158,7 +158,7 @@ ESLint v4 had a special behavior when linting files that only contain whitespace
 
 ESLint v5 treats whitespace-only files the same way as all other files: it parses them and runs enabled rules on them as appropriate. This could lead to additional linting problems if you use a custom rule that reports errors on empty files.
 
-**To address:** If you have an empty file in your project and you don't want it to be linted, consider adding it to an [`.eslintignore` file](configure/ignore-code).
+**To address:** If you have an empty file in your project and you don't want it to be linted, consider adding it to an [`.eslintignore` file](configure/ignore).
 
 If you have a custom rule, you should make sure it handles empty files appropriately. (In most cases, no changes should be necessary.)
 

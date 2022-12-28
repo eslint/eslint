@@ -16,7 +16,7 @@ You can ignore files in the following ways:
 
 ## `ignorePatterns` in Config Files
 
-You can tell ESLint to ignore specific files and directories using `ignorePatterns` in your config files. `ignorePatterns` patterns follow the same rules as `.eslintignore`. Please see the [`.eslintignore` file documentation](./ignore-code#the-eslintignore-file) to learn more.
+You can tell ESLint to ignore specific files and directories using `ignorePatterns` in your config files. `ignorePatterns` patterns follow the same rules as `.eslintignore`. Please see the [`.eslintignore` file documentation](#the-eslintignore-file) to learn more.
 
 ```json
 {
