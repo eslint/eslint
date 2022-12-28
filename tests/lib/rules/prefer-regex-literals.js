@@ -602,10 +602,10 @@ ruleTester.run("prefer-regex-literals", rule, {
                     suggestions: [
                         {
                             messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/u;",
                             data: {
                                 flags: "u"
-                            },
-                            output: "/a/u;"
+                            }
                         }
                     ]
                 }
@@ -627,11 +627,17 @@ ruleTester.run("prefer-regex-literals", rule, {
                     suggestions: [
                         {
                             messageId: "replaceWithLiteralAndFlags",
-                            output: "/a/;"
+                            output: "/a/;",
+                            data: {
+                                flags: ""
+                            }
                         },
                         {
                             messageId: "replaceWithIntendedLiteralAndFlags",
-                            output: "/a/g;"
+                            output: "/a/g;",
+                            data: {
+                                flags: "g"
+                            }
                         }
                     ]
                 }
@@ -653,7 +659,10 @@ ruleTester.run("prefer-regex-literals", rule, {
                     suggestions: [
                         {
                             messageId: "replaceWithLiteralAndFlags",
-                            output: "/a/g;"
+                            output: "/a/g;",
+                            data: {
+                                flags: "g"
+                            }
                         }
                     ]
                 }
@@ -675,11 +684,17 @@ ruleTester.run("prefer-regex-literals", rule, {
                     suggestions: [
                         {
                             messageId: "replaceWithLiteralAndFlags",
-                            output: "/a/g;"
+                            output: "/a/g;",
+                            data: {
+                                flags: "g"
+                            }
                         },
                         {
                             messageId: "replaceWithIntendedLiteralAndFlags",
-                            output: "/a/ig;"
+                            output: "/a/ig;",
+                            data: {
+                                flags: "ig"
+                            }
                         }
                     ]
                 }
@@ -701,7 +716,10 @@ ruleTester.run("prefer-regex-literals", rule, {
                     suggestions: [
                         {
                             messageId: "replaceWithLiteralAndFlags",
-                            output: "/a/ig;"
+                            output: "/a/ig;",
+                            data: {
+                                flags: "ig"
+                            }
                         }
                     ]
                 }
@@ -723,17 +741,17 @@ ruleTester.run("prefer-regex-literals", rule, {
                     suggestions: [
                         {
                             messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/g;",
                             data: {
                                 flags: "g"
-                            },
-                            output: "/a/g;"
+                            }
                         },
                         {
                             messageId: "replaceWithIntendedLiteralAndFlags",
+                            output: "/a/ig;",
                             data: {
                                 flags: "ig"
-                            },
-                            output: "/a/ig;"
+                            }
                         }
                     ]
                 }
@@ -755,10 +773,10 @@ ruleTester.run("prefer-regex-literals", rule, {
                     suggestions: [
                         {
                             messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/i;",
                             data: {
                                 flags: "i"
-                            },
-                            output: "/a/i;"
+                            }
                         }
                     ]
                 }
@@ -780,10 +798,10 @@ ruleTester.run("prefer-regex-literals", rule, {
                     suggestions: [
                         {
                             messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/u;",
                             data: {
                                 flags: "u"
-                            },
-                            output: "/a/u;"
+                            }
                         }
                     ]
                 }
@@ -805,10 +823,10 @@ ruleTester.run("prefer-regex-literals", rule, {
                     suggestions: [
                         {
                             messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/gi;",
                             data: {
                                 flags: "gi"
-                            },
-                            output: "/a/gi;"
+                            }
                         }
                     ]
                 }
@@ -852,7 +870,10 @@ ruleTester.run("prefer-regex-literals", rule, {
                     suggestions: [
                         {
                             messageId: "replaceWithLiteralAndFlags",
-                            output: "/a/u;"
+                            output: "/a/u;",
+                            data: {
+                                flags: "u"
+                            }
                         }
                     ]
                 }
