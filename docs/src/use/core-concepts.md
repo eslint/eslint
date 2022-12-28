@@ -51,7 +51,7 @@ An ESLint parser converts code into an abstract syntax tree that ESLint can eval
 
 Custom parsers let ESLint parse non-standard JavaScript syntax. Often custom parsers are included as part of shareable configurations or plugins, so you don't have to use them directly.
 
-For example, [@typescript-eslint/parser](npmjs.com/package/@typescript-eslint/parser) is a custom parser included in the [typescript-eslint](https://github.com/typescript-eslint/typescript-eslint) project that lets ESLint parse TypeScript code.
+For example, [@typescript-eslint/parser](https://www.npmjs.com/package/@typescript-eslint/parser) is a custom parser included in the [typescript-eslint](https://github.com/typescript-eslint/typescript-eslint) project that lets ESLint parse TypeScript code.
 
 ## Custom Processors
 
