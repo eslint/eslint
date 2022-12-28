@@ -109,14 +109,14 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
    npm install --save-dev eslint
    ```
 
-1. Add an `.eslintrc` file in one of the [supported configuration file formats](./configuring/configuration-files#configuration-file-formats).
+1. Add an `.eslintrc` file in one of the [supported configuration file formats](./configure/configuration-files#configuration-file-formats).
 
    ```shell
    # Create JavaScript configuration file
    touch .eslintrc.js
    ```
 
-1. Add configuration to the `.eslintrc` file. Refer to the [Configuring ESLint documentation](configuring/) to learn how to add rules, environments, custom configurations, plugins, and more.
+1. Add configuration to the `.eslintrc` file. Refer to the [Configuring ESLint documentation](configure/) to learn how to add rules, environments, custom configurations, plugins, and more.
 
    ```js
    // .eslintrc.js example
