@@ -37,7 +37,7 @@ Website Team Members are community members who have shown that they are committe
 * Must submit pull requests for all changes.
 * Have their work reviewed by Reviewers and TSC members before acceptance into the repository.
 * May label and close website-related issues (see [Managing Issues](manage-issues))
-* May merge some pull requests (see [Managing Pull Requests](manage-pull-requests))
+* May merge some pull requests (see [Managing Pull Requests](review-pull-requests))
 
 To become a  Website Team Member:
 
@@ -60,7 +60,7 @@ Committers:
 * Must submit pull requests for all changes.
 * Have their work reviewed by TSC members before acceptance into the repository.
 * May label and close issues (see [Managing Issues](manage-issues))
-* May merge some pull requests (see [Managing Pull Requests](manage-pull-requests))
+* May merge some pull requests (see [Managing Pull Requests](review-pull-requests))
 
 To become a Committer:
 
