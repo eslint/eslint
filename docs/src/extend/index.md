@@ -45,7 +45,7 @@ You've developed library-specific rules for ESLint and you want to share them wi
 
 If you aren't going to use the default parser of ESLint, this section explains about using custom parsers.
 
-## Section 7: [Node.js API](nodejs-api)
+## Section 7: [Node.js API](../integrate/nodejs-api)
 
 If you're interested in writing a tool that uses ESLint, then you can use the Node.js API to get programmatic access to functionality.
 

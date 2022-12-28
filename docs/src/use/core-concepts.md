@@ -79,4 +79,4 @@ The ESLint Node.js API lets you use ESLint programmatically from Node.js code. T
 
 Unless you are extending ESLint in some way, you should use the CLI.
 
-For more information, refer to [Command Line Interface](./command-line-interface) and [Node.js API](../extend/nodejs-api).
+For more information, refer to [Command Line Interface](./command-line-interface) and [Node.js API](../integrate/nodejs-api).

@@ -328,6 +328,6 @@ Previously, when linting code with a parser that had not been previously defined
 
 In ESLint v6, `Linter` will no longer perform any filesystem operations, including loading parsers.
 
-**To address:** If you're using `Linter` with a custom parser, use [`Linter#defineParser`](../extend/nodejs-api#linterdefineparser) to explicitly define the parser before linting any code.
+**To address:** If you're using `Linter` with a custom parser, use [`Linter#defineParser`](../integrate/nodejs-api#linterdefineparser) to explicitly define the parser before linting any code.
 
 **Related issue(s):** [eslint/rfcs#7](https://github.com/eslint/rfcs/pull/7)

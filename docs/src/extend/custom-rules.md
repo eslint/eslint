@@ -137,7 +137,7 @@ The `context` object contains additional functionality that is helpful for rules
 Additionally, the `context` object has the following methods:
 
 * `getAncestors()` - returns an array of the ancestors of the currently-traversed node, starting at the root of the AST and continuing through the direct parent of the current node. This array does not include the currently-traversed node itself.
-* `getCwd()` - returns the `cwd` passed to [Linter](./nodejs-api#linter). It is a path to a directory that should be considered as the current working directory.
+* `getCwd()` - returns the `cwd` passed to [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered as the current working directory.
 * `getDeclaredVariables(node)` - returns a list of [variables](./scope-manager-interface#variable-interface) declared by the given node. This information can be used to track references to variables.
     * If the node is a `VariableDeclaration`, all variables declared in the declaration are returned.
     * If the node is a `VariableDeclarator`, all variables declared in the declarator are returned.
@@ -714,7 +714,7 @@ You can access that code path objects with five events related to code paths.
 
 Each bundled rule for ESLint core must have a set of unit tests submitted with it to be accepted. The test file is named the same as the source file but lives in `tests/lib/`. For example, if the rule source file is `lib/rules/foo.js` then the test file should be `tests/lib/rules/foo.js`.
 
-ESLint provides the [`RuleTester`](nodejs-api#ruletester) utility to make it easy to write tests for rules.
+ESLint provides the [`RuleTester`](../integrate/nodejs-api#ruletester) utility to make it easy to write tests for rules.
 
 ## Performance Testing
 

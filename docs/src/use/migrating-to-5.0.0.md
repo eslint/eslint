@@ -113,7 +113,7 @@ ESLint v5 will report a fatal error when either of the following conditions is m
 * A file provided on the command line does not exist
 * A glob or folder provided on the command line does not match any lintable files
 
-Note that this also affects the [`CLIEngine.executeOnFiles()`](../extend/nodejs-api#cliengineexecuteonfiles) API.
+Note that this also affects the [`CLIEngine.executeOnFiles()`](../integrate/nodejs-api#cliengineexecuteonfiles) API.
 
 **To address:** If you encounter an error about missing files after upgrading to ESLint v5, you may want to double-check that there are no typos in the paths you provide to ESLint. To make the error go away, you can simply remove the given files or globs from the list of arguments provided to ESLint on the command line.
 
@@ -268,6 +268,6 @@ In ESLint v5, an unsuccessful linting run due to a fatal error will result in an
 
 ## <a name="non-enumerable-linter"></a> The `eslint.linter` property is now non-enumerable
 
-When using ESLint's Node.js API, the [`linter`](../extend/nodejs-api#linter-1) property is now non-enumerable. Note that the `linter` property was deprecated in ESLint v4 in favor of the [`Linter`](../extend/nodejs-api#linter) property.
+When using ESLint's Node.js API, the [`linter`](../integrate/nodejs-api#linter-1) property is now non-enumerable. Note that the `linter` property was deprecated in ESLint v4 in favor of the [`Linter`](../integrate/nodejs-api#linter) property.
 
 **To address:** If you rely on enumerating all the properties of the `eslint` object, use something like `Object.getOwnPropertyNames` to ensure that non-enumerable keys are captured.

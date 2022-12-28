@@ -117,7 +117,7 @@ Example output:
 
 Outputs JSON-serialized results. The `json-with-metadata` provides the same linting results as the [`json`](#json) formatter with additional metadata about the rules applied. The linting results are included in the `results` property and the rules metadata is included in the `metadata` property.
 
-Alternatively, you can use the [ESLint Node.js API](../../developer-guide/nodejs-api) to programmatically use ESLint.
+Alternatively, you can use the [ESLint Node.js API](../../integrate/nodejs-api) to programmatically use ESLint.
 
 Example output:
 
@@ -129,7 +129,7 @@ Example output:
 
 Outputs JSON-serialized results. The `json` formatter is useful when you want to programmatically work with the CLI&#39;s linting results.
 
-Alternatively, you can use the [ESLint Node.js API](../../developer-guide/nodejs-api) to programmatically use ESLint.
+Alternatively, you can use the [ESLint Node.js API](../../integrate/nodejs-api) to programmatically use ESLint.
 
 Example output:
 

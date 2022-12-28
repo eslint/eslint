@@ -233,7 +233,7 @@ In ESLint v8.0.0 (via Acorn v8.0.0), the key and value are now separate objects 
 
 ## <a name="remove-cliengine"></a> The `CLIEngine` class has been removed
 
-The `CLIEngine` class has been removed and replaced by the [`ESLint` class](../extend/nodejs-api#eslint-class).
+The `CLIEngine` class has been removed and replaced by the [`ESLint` class](../integrate/nodejs-api#eslint-class).
 
 **To address:** Update your code to use the new `ESLint` class if you are currently using `CLIEngine`. The following table maps the existing `CLIEngine` methods to their `ESLint` counterparts:
 

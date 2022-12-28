@@ -209,7 +209,7 @@ The `RuleTester` now validates the following:
 
 ## <a name="deprecate-cliengine"></a> The `CLIEngine` class has been deprecated
 
-The [`CLIEngine` class](../extend/nodejs-api#cliengine) has been deprecated and replaced by the new [`ESLint` class](../extend/nodejs-api#eslint-class).
+The [`CLIEngine` class](../integrate/nodejs-api#cliengine) has been deprecated and replaced by the new [`ESLint` class](../integrate/nodejs-api#eslint-class).
 
 The `CLIEngine` class provides a synchronous API that is blocking the implementation of features such as parallel linting, supporting ES modules in shareable configs/parsers/plugins/formatters, and adding the ability to visually display the progress of linting runs. The new `ESLint` class provides an asynchronous API that ESLint core will now using going forward. `CLIEngine` will remain in core for the foreseeable future but may be removed in a future major version.
 
