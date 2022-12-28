@@ -32,7 +32,7 @@ const loadLanguages = require("prismjs/components/");
  * @param {MarkdownIt} md markdown-it
  * @param {string} str code
  * @param {string} lang code language
- * @returns
+ * @returns {string} highlighted result wrapped in pre
  */
 const highlighter = function (md, str, lang) {
     let result = "";
@@ -41,29 +41,15 @@ const highlighter = function (md, str, lang) {
             loadLanguages([lang]);
             result = Prism.highlight(str, Prism.languages[lang], lang);
         } catch (err) {
-            console.log(err);
+            console.log(lang, err);
+            // we still want to wrap the result later
+            result = md.utils.escapeHtml(str);
         }
     } else {
         result = md.utils.escapeHtml(str);
     }
 
-    return `<pre><code>${result}</code></pre>`;
-};
-
-/**
- *
- * modified from https://github.com/vuejs/vitepress/blob/main/src/node/markdown/plugins/preWrapper.ts
- * @param {MarkdownIt} md
- * @license MIT License. See file header.
- */
-const preWrapperPlugin = (md) => {
-    const fence = md.renderer.rules.fence;
-    md.renderer.rules.fence = (...args) => {
-        const [tokens, idx] = args;
-        const lang = tokens[idx].info.trim();
-        const rawCode = fence(...args);
-        return `<div class="language-${lang}">${rawCode}</div>`;
-    };
+    return `<pre class="language-${lang}"><code>${result}</code></pre>`;
 };
 
 /**
@@ -93,15 +79,13 @@ const lineNumberPlugin = (md) => {
         const lineNumbersWrapperCode = `<div class="line-numbers-wrapper" aria-hidden="true">${lineNumbersCode}</div>`;
 
         const finalCode = rawCode
-            .replace(/<\/div>$/, `${lineNumbersWrapperCode}</div>`)
+            .replace(/<\/pre>\n/, `${lineNumbersWrapperCode}</pre>`)
             .replace(/"(language-\S*?)"/, '"$1 line-numbers-mode"')
             .replace(/<code>/, `<code class="language-${lang}">`)
-            .replace(/<pre>/, `<pre class="language-${lang}">`);
 
         return finalCode;
     };
 };
 
 module.exports.highlighter = highlighter;
-module.exports.preWrapperPlugin = preWrapperPlugin;
 module.exports.lineNumberPlugin = lineNumberPlugin;
