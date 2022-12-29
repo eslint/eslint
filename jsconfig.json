@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": [
+      "es5",
+    ],
+    "allowJs": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    // "noEmitOnError": true,
+    "noImplicitAny": false,
+    "outDir": "out/",
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es6",
+    // "skipLibCheck": true
+  },
+  "include": [
+    "lib/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+}
