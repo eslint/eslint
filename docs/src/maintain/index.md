@@ -21,7 +21,7 @@ Describes how to review incoming pull requests.
 
 Describes how to do an ESLint project release.
 
-## [Governance](governance)
+## [Governance](../contribute/governance)
 
 Describes the governance policy for ESLint, including the rights and privileges of individuals inside the project.
 
