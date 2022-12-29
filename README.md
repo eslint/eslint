@@ -266,19 +266,19 @@ YeonJuan
 Team members who focus specifically on eslint.org
 
 <table><tbody><tr><td align="center" valign="top" width="11%">
-<a href="https://github.com/bmish">
-<img src="https://github.com/bmish.png?s=75" width="75" height="75"><br />
-Bryan Mishkin
+<a href="https://github.com/amareshsm">
+<img src="https://github.com/amareshsm.png?s=75" width="75" height="75"><br />
+Amaresh  S M 
 </a>
 </td><td align="center" valign="top" width="11%">
-<a href="https://github.com/SaraSoueidan">
-<img src="https://github.com/SaraSoueidan.png?s=75" width="75" height="75"><br />
-Sara Soueidan
+<a href="https://github.com/harish-sethuraman">
+<img src="https://github.com/harish-sethuraman.png?s=75" width="75" height="75"><br />
+Strek
 </a>
 </td><td align="center" valign="top" width="11%">
-<a href="https://github.com/yeonjuan">
-<img src="https://github.com/yeonjuan.png?s=75" width="75" height="75"><br />
-YeonJuan
+<a href="https://github.com/kecrily">
+<img src="https://github.com/kecrily.png?s=75" width="75" height="75"><br />
+Percy Ma
 </a>
 </td></tr></tbody></table>
 
