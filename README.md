@@ -268,7 +268,7 @@ Team members who focus specifically on eslint.org
 <table><tbody><tr><td align="center" valign="top" width="11%">
 <a href="https://github.com/amareshsm">
 <img src="https://github.com/amareshsm.png?s=75" width="75" height="75"><br />
-Amaresh  S M 
+Amaresh  S M
 </a>
 </td><td align="center" valign="top" width="11%">
 <a href="https://github.com/harish-sethuraman">
