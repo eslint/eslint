@@ -71,7 +71,7 @@ function formatTeamMembers(members) {
         members.map((member, index) => `<td align="center" valign="top" width="11%">
             <a href="https://github.com/${member.username}">
                 <img src="https://github.com/${member.username}.png?s=75" width="75" height="75"><br />
-                ${member.name}
+                ${member.name.trim()}
             </a>
             </td>${(index + 1) % 9 === 0 ? "</tr><tr>" : ""}`).join("")
         }</tr></tbody></table>`;
