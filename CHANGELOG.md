@@ -1,3 +1,29 @@
+v8.31.0 - December 31, 2022
+
+* [`65d4e24`](https://github.com/eslint/eslint/commit/65d4e24c36367cd63f0eba7371820e0e81dae7aa) chore: Upgrade @eslint/eslintrc@1.4.1 (#16729) (Brandon Mills)
+* [`35439f1`](https://github.com/eslint/eslint/commit/35439f1572e1a8888f7feb6c5e51a15b5582495d) fix: correct syntax error in `prefer-arrow-callback` autofix (#16722) (Francesco Trotta)
+* [`87b2470`](https://github.com/eslint/eslint/commit/87b247058ed520061fe1a146b7f0e7072a94990d) fix: new instance of FlatESLint should load latest config file version (#16608) (Milos Djermanovic)
+* [`8d93081`](https://github.com/eslint/eslint/commit/8d93081a717f6e8b8cb60c3075cc1d7e4e655e6b) chore: fix CI failure (#16721) (Sam Chen)
+* [`4339dc4`](https://github.com/eslint/eslint/commit/4339dc462d78888fe2e10acdfacd6f57245ce6ae) docs: Update README (GitHub Actions Bot)
+* [`8f17247`](https://github.com/eslint/eslint/commit/8f17247a93240ff8a08980d8e06352e4ff4e8fe3) chore: Set up automatic updating of README (#16717) (Nicholas C. Zakas)
+* [`4e4049c`](https://github.com/eslint/eslint/commit/4e4049c5fa355b2091afc8948690fcd7b1c1e6df) docs: optimize code block structure (#16669) (Sam Chen)
+* [`54a7ade`](https://github.com/eslint/eslint/commit/54a7ade5d8e6f59554afeb9202ba6143f8afdf57) docs: do not escape code blocks of formatters examples (#16719) (Sam Chen)
+* [`52c7c73`](https://github.com/eslint/eslint/commit/52c7c73c052e1ec2528c6b4af78181bc30cf8cdd) feat: check assignment patterns in no-underscore-dangle (#16693) (Milos Djermanovic)
+* [`e5ecfef`](https://github.com/eslint/eslint/commit/e5ecfefa1c952195a3a8371f5953cc655d844079) docs: Add function call example for no-undefined (#16712) (Elliot Huffman)
+* [`a3262f0`](https://github.com/eslint/eslint/commit/a3262f0a6305d2a721fac137a60c62c019b26aa4) docs: Add mastodon link (#16638) (Amaresh  S M)
+* [`4cd87cb`](https://github.com/eslint/eslint/commit/4cd87cb3c52412277577ba00c4fbb1aec36acc8c) ci: bump actions/stale from 6 to 7 (#16713) (dependabot[bot])
+* [`a14ccf9`](https://github.com/eslint/eslint/commit/a14ccf91af1122e419710f58ef494980fc4894b3) docs: clarify files property (#16709) (Sam Chen)
+* [`3b29eb1`](https://github.com/eslint/eslint/commit/3b29eb14e00182614c986d8498b483a9917976e7) docs: fix npm link (#16710) (Abdullah Osama)
+* [`fd20c75`](https://github.com/eslint/eslint/commit/fd20c75b1059c54d598c0abaf63e7d7a80f04f32) chore: sort package.json scripts in alphabetical order (#16705) (Darius Dzien)
+* [`a638673`](https://github.com/eslint/eslint/commit/a638673ee6e94344c46d12dfc988adeb3783f817) docs: fix search bar focus on `Esc` (#16700) (Shanmughapriyan S)
+* [`f62b722`](https://github.com/eslint/eslint/commit/f62b722251858a5dfb157591910edbaaeb4a966f) docs: country flag missing in windows (#16698) (Shanmughapriyan S)
+* [`4d27ec6`](https://github.com/eslint/eslint/commit/4d27ec6019847afabeebf592dddc014e9220057c) docs: display zh-hans in the docs language switcher (#16686) (Percy Ma)
+* [`8bda20e`](https://github.com/eslint/eslint/commit/8bda20e8276c6ba17d31842fcdd63ba65476fbbd) docs: remove manually maintained anchors (#16685) (Percy Ma)
+* [`b401cde`](https://github.com/eslint/eslint/commit/b401cde47d44746ff91b8feced3fb3a4e32c0e12) feat: add options to check destructuring in no-underscore-dangle (#16006) (Morten Kaltoft)
+* [`b68440f`](https://github.com/eslint/eslint/commit/b68440ff2b8322fc00373792701169205c94ed94) docs: User Guide Getting Started expansion (#16596) (Ben Perlmutter)
+* [`30d0daf`](https://github.com/eslint/eslint/commit/30d0daf55e85a412995f6d69f47cab3fb591f2c3) feat: group properties with values in parentheses in `key-spacing` (#16677) (Francesco Trotta)
+* [`10a5c78`](https://github.com/eslint/eslint/commit/10a5c7839370219c79f44d4206cbd7c28a72bad5) chore: update ignore patterns in `eslint.config.js` (#16678) (Milos Djermanovic)
+
 v8.30.0 - December 16, 2022
 
 * [`f2c4737`](https://github.com/eslint/eslint/commit/f2c47372420f050ad8f2300271345de1c1232635) chore: upgrade @eslint/eslintrc@1.4.0 (#16675) (Milos Djermanovic)
