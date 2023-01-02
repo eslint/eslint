@@ -50,7 +50,7 @@ As of April 30th, 2018, Node.js 4 will be at EOL and will no longer be receiving
 
 ## <a name="eslint-recommended-changes"/> `eslint:recommended` changes
 
-Two new rules have been added to the [`eslint:recommended`](configuring#using-eslintrecommended) config:
+Two new rules have been added to the [`eslint:recommended`](configure/configuration-files.md#using-eslintrecommended) config:
 
 * [`for-direction`](../rules/for-direction) enforces that a `for` loop update clause moves the counter in the right direction.
 * [`getter-return`](../rules/getter-return) enforces that a `return` statement is present in property getters.
