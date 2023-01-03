@@ -576,7 +576,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRedundantRegExp",
                     type: "NewExpression",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "/a/;"
+                        }
+                    ]
                 }
             ]
         },
@@ -592,7 +598,187 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRedundantRegExpWithFlags",
                     type: "NewExpression",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/u;",
+                            data: {
+                                flags: "u"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/g, '');",
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/;",
+                            data: {
+                                flags: ""
+                            }
+                        },
+                        {
+                            messageId: "replaceWithIntendedLiteralAndFlags",
+                            output: "/a/g;",
+                            data: {
+                                flags: "g"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/g, 'g');",
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/g;",
+                            data: {
+                                flags: "g"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/ig, 'g');",
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/g;",
+                            data: {
+                                flags: "g"
+                            }
+                        },
+                        {
+                            messageId: "replaceWithIntendedLiteralAndFlags",
+                            output: "/a/ig;",
+                            data: {
+                                flags: "ig"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/g, 'ig');",
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/ig;",
+                            data: {
+                                flags: "ig"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/i, 'g');",
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/g;",
+                            data: {
+                                flags: "g"
+                            }
+                        },
+                        {
+                            messageId: "replaceWithIntendedLiteralAndFlags",
+                            output: "/a/ig;",
+                            data: {
+                                flags: "ig"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/i, 'i');",
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/i;",
+                            data: {
+                                flags: "i"
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -608,12 +794,21 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRedundantRegExpWithFlags",
                     type: "NewExpression",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/u;",
+                            data: {
+                                flags: "u"
+                            }
+                        }
+                    ]
                 }
             ]
         },
         {
-            code: "new RegExp(/a/, String.raw`u`);",
+            code: "new RegExp(/a/, `gi`);",
             options: [
                 {
                     disallowRedundantWrapping: true
@@ -624,7 +819,16 @@ ruleTester.run("prefer-regex-literals", rule, {
                     messageId: "unexpectedRedundantRegExpWithFlags",
                     type: "NewExpression",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/gi;",
+                            data: {
+                                flags: "gi"
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -645,6 +849,138 @@ ruleTester.run("prefer-regex-literals", rule, {
                         {
                             messageId: "replaceWithLiteral",
                             output: "/a/;"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/, String.raw`u`);",
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/u;",
+                            data: {
+                                flags: "u"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/ /* comment */);",
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExp",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: null
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/, 'd');",
+            options: [
+                {
+                    disallowRedundantWrapping: true
+                }
+            ],
+            parserOptions: {
+                ecmaVersion: 2021
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: null
+                }
+            ]
+        },
+        {
+            code: "(a)\nnew RegExp(/b/);",
+            options: [{
+                disallowRedundantWrapping: true
+            }],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExp",
+                    type: "NewExpression",
+                    line: 2,
+                    column: 1,
+                    suggestions: null
+                }
+            ]
+        },
+        {
+            code: "(a)\nnew RegExp(/b/, 'g');",
+            options: [{
+                disallowRedundantWrapping: true
+            }],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    type: "NewExpression",
+                    line: 2,
+                    column: 1,
+                    suggestions: null
+                }
+            ]
+        },
+        {
+            code: "a/RegExp(/foo/);",
+            options: [{
+                disallowRedundantWrapping: true
+            }],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExp",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 3,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "a/ /foo/;"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "RegExp(/foo/)in a;",
+            options: [{
+                disallowRedundantWrapping: true
+            }],
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExp",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1,
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "/foo/ in a;"
                         }
                     ]
                 }
