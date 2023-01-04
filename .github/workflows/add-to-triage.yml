@@ -14,3 +14,5 @@ jobs:
         with:
           project-url: https://github.com/orgs/eslint/projects/3
           github-token: ${{ secrets.PROJECT_BOT_TOKEN }}
+          labeled: "triage:no"
+          label-operator: NOT
