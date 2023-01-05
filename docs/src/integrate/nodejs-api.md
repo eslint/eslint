@@ -5,7 +5,6 @@ eleventyNavigation:
     parent: developer guide
     title: Node.js API
     order: 9
-
 ---
 
 While ESLint is designed to be run on the command line, it's possible to use ESLint programmatically through the Node.js API. The purpose of the Node.js API is to allow plugin and tool authors to use the ESLint functionality directly, without going through the command line interface.
@@ -24,48 +23,92 @@ Here's a simple example of using the `ESLint` class:
 const { ESLint } = require("eslint");
 
 (async function main() {
-  // 1. Create an instance.
-  const eslint = new ESLint();
+    // 1. Create an instance.
+    const eslint = new ESLint();
 
-  // 2. Lint files.
-  const results = await eslint.lintFiles(["lib/**/*.js"]);
+    // 2. Lint files.
+    const results = await eslint.lintFiles(["lib/**/*.js"]);
 
-  // 3. Format the results.
-  const formatter = await eslint.loadFormatter("stylish");
-  const resultText = formatter.format(results);
+    // 3. Format the results.
+    const formatter = await eslint.loadFormatter("stylish");
+    const resultText = formatter.format(results);
 
-  // 4. Output it.
-  console.log(resultText);
+    // 4. Output it.
+    console.log(resultText);
 })().catch((error) => {
-  process.exitCode = 1;
-  console.error(error);
+    process.exitCode = 1;
+    console.error(error);
 });
 ```
 
-And here is an example that autofixes lint problems:
+Here's an example that autofixes lint problems:
 
 ```js
 const { ESLint } = require("eslint");
 
 (async function main() {
-  // 1. Create an instance with the `fix` option.
-  const eslint = new ESLint({ fix: true });
+    // 1. Create an instance with the `fix` option.
+    const eslint = new ESLint({ fix: true });
 
-  // 2. Lint files. This doesn't modify target files.
-  const results = await eslint.lintFiles(["lib/**/*.js"]);
+    // 2. Lint files. This doesn't modify target files.
+    const results = await eslint.lintFiles(["lib/**/*.js"]);
 
-  // 3. Modify the files with the fixed code.
-  await ESLint.outputFixes(results);
+    // 3. Modify the files with the fixed code.
+    await ESLint.outputFixes(results);
 
-  // 4. Format the results.
-  const formatter = await eslint.loadFormatter("stylish");
-  const resultText = formatter.format(results);
+    // 4. Format the results.
+    const formatter = await eslint.loadFormatter("stylish");
+    const resultText = formatter.format(results);
 
-  // 5. Output it.
-  console.log(resultText);
+    // 5. Output it.
+    console.log(resultText);
 })().catch((error) => {
-  process.exitCode = 1;
-  console.error(error);
+    process.exitCode = 1;
+    console.error(error);
+});
+```
+
+And here is an example of using the `ESLint` class with `lintText` API:
+
+```js
+const { ESLint } = require("eslint");
+
+const testCode = `
+  const name = "eslint";
+  if(true) {
+    console.log("constant condition warning")
+  };
+`;
+
+(async function main() {
+    // 1. Create an instance
+    const eslint = new ESLint({
+        useEslintrc: false,
+        overrideConfig: {
+            extends: ["eslint:recommended"],
+            parserOptions: {
+                sourceType: "module",
+                ecmaVersion: "latest",
+            },
+            env: {
+                es2022: true,
+                node: true,
+            },
+        },
+    });
+
+    // 2. Lint files.
+    const results = await eslint.lintText(testCode);
+
+    // 3. Format the results.
+    const formatter = await eslint.loadFormatter("stylish");
+    const resultText = formatter.format(results);
+
+    // 4. Output it.
+    console.log(resultText);
+})().catch((error) => {
+    process.exitCode = 1;
+    console.error(error);
 });
 ```
 
