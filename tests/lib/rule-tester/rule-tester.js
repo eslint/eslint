@@ -2286,7 +2286,7 @@ describe("RuleTester", () => {
             assert.deepStrictEqual(
                 processStub.getCall(0).args,
                 [
-                    "\"function-style-rule\" rule is using the deprecated function-style format and will stop working in ESLint v9. Please use object-style format: https://eslint.org/docs/extend/custom-rules",
+                    "\"function-style-rule\" rule is using the deprecated function-style format and will stop working in ESLint v9. Please use object-style format: https://eslint.org/docs/latest/extend/custom-rules",
                     "DeprecationWarning"
                 ]
             );
@@ -2304,7 +2304,7 @@ describe("RuleTester", () => {
             assert.deepStrictEqual(
                 processStub.getCall(0).args,
                 [
-                    "\"rule-with-no-meta-1\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/extend/custom-rules#options-schemas",
+                    "\"rule-with-no-meta-1\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/latest/extend/custom-rules#options-schemas",
                     "DeprecationWarning"
                 ]
             );
@@ -2322,7 +2322,7 @@ describe("RuleTester", () => {
             assert.deepStrictEqual(
                 processStub.getCall(0).args,
                 [
-                    "\"rule-with-no-schema-1\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/extend/custom-rules#options-schemas",
+                    "\"rule-with-no-schema-1\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/latest/extend/custom-rules#options-schemas",
                     "DeprecationWarning"
                 ]
             );
@@ -2355,7 +2355,7 @@ describe("RuleTester", () => {
             assert.deepStrictEqual(
                 processStub.getCall(0).args,
                 [
-                    "\"rule-with-undefined-schema\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/extend/custom-rules#options-schemas",
+                    "\"rule-with-undefined-schema\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/latest/extend/custom-rules#options-schemas",
                     "DeprecationWarning"
                 ]
             );
@@ -2387,7 +2387,7 @@ describe("RuleTester", () => {
             assert.deepStrictEqual(
                 processStub.getCall(0).args,
                 [
-                    "\"rule-with-null-schema\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/extend/custom-rules#options-schemas",
+                    "\"rule-with-null-schema\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/latest/extend/custom-rules#options-schemas",
                     "DeprecationWarning"
                 ]
             );

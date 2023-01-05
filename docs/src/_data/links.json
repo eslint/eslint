@@ -4,7 +4,6 @@
     "chat": "https://eslint.org/chat",
     "group": "https://groups.google.com/group/eslint",
     "mastodon": "https://fosstodon.org/@eslint",
-    
     "blog": "/blog",
     "docs": "/docs/latest/",
     "playground": "/play",
@@ -13,8 +12,8 @@
     "branding": "/branding",
     "store": "https://eslint.threadless.com",
     "team": "/team",
-    "configuring": "https://eslint.org/docs/use/configure/",
-    "fixProblems": "https://eslint.org/docs/use/command-line-interface#fix-problems",
+    "configuring": "https://eslint.org/docs/latest/use/configure/",
+    "fixProblems": "https://eslint.org/docs/latest/use/command-line-interface#fix-problems",
     "donate": "/donate",
     "openCollective": "https://opencollective.com/eslint",
     "githubSponsors": "https://github.com/sponsors/eslint"
