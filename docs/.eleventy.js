@@ -325,9 +325,7 @@ module.exports = function(eleventyConfig) {
         </div>`);
 
 
-    eleventyConfig.addWatchTarget("./src/assets/fonts/");
-    eleventyConfig.addWatchTarget("./src/assets/images/");
-    eleventyConfig.addWatchTarget("./src/assets/js/");
+    eleventyConfig.addWatchTarget("./src/assets/");
 
     //------------------------------------------------------------------------------
     // File PassThroughs
@@ -337,9 +335,7 @@ module.exports = function(eleventyConfig) {
         "./src/static": "/"
     });
 
-    eleventyConfig.addPassthroughCopy("./src/assets/fonts/");
-    eleventyConfig.addPassthroughCopy("./src/assets/images/");
-    eleventyConfig.addPassthroughCopy("./src/assets/js/");
+    eleventyConfig.addPassthroughCopy("./src/assets/");
 
     eleventyConfig.addPassthroughCopy({
         "./src/content/**/*.png": "/assets/images"
@@ -457,8 +453,7 @@ module.exports = function(eleventyConfig) {
                 req.url += ".html";
             }
             return next();
-        },
-        files: "./_site/css/**/*.css"
+        }
     });
 
     /*

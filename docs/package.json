@@ -10,10 +10,10 @@
     "files": [],
     "scripts": {
         "images": "imagemin '_site/assets/images' --out-dir='_site/assets/images'",
-        "watch:postcss": "postcss src/assets/css -d _site/assets/css --watch --poll",
+        "watch:postcss": "postcss src/assets/css -d src/assets/css --watch --poll",
         "watch:sass": "sass --watch --poll src/assets/scss:src/assets/css --no-source-map",
         "watch:eleventy": "eleventy --serve --port=2023",
-        "build:postcss": "postcss src/assets/css -d _site/assets/css",
+        "build:postcss": "postcss src/assets/css -d src/assets/css",
         "build:sass": "sass src/assets/scss:src/assets/css --no-source-map",
         "build:eleventy": "npx @11ty/eleventy",
         "start": "npm-run-all build:sass build:postcss --parallel watch:*",
