@@ -20,6 +20,8 @@ To change a rule's severity, set the rule ID equal to one of these values:
 * `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
 * `"error"` or `2` - turn the rule on as an error (exit code is 1 when triggered)
 
+The `"warn"` severity is meant to be used as a temporary measure. It can be used to enable a rule so that new reported issues can be addressed, without breaking the build due to existing ones. It is recommended to keep the number of these issues low so that new issues get more easily noticed and don't get ignored.
+
 ### Using configuration comments
 
 To configure rules inside of a file using configuration comments, use a comment in the following format:
