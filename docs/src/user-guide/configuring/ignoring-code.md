@@ -9,6 +9,14 @@ eleventyNavigation:
 ---
 
 You can configure ESLint to ignore certain files and directories while linting by specifying one or more glob patterns.
+
+Note that you can also ignore a specific error on a specific line by adding `// eslint-disable-line {ERROR-ID}` to the end of the line.
+For example:
+
+```javascript
+return; // eslint-disable-line no-useless-return
+```
+
 You can ignore files in the following ways:
 
 * Add `ignorePatterns` to a configuration file.
