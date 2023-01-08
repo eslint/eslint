@@ -3,7 +3,7 @@ title: Core Concepts
 eleventyNavigation:
     key: core concepts
     title: Core Concepts
-    parent: user guide
+    parent: use eslint
     order: 2
 ---
 

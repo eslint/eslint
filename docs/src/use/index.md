@@ -1,8 +1,8 @@
 ---
 title: User Guide
 eleventyNavigation:
-    key: user guide
-    title: User Guide
+    key: use eslint
+    title: Use ESLint in Your Project
     order: 1
 ---
 

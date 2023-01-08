@@ -2,7 +2,7 @@
 title: Configuration Files (New)
 eleventyNavigation:
     key: configuration files
-    parent: configuring
+    parent: configure
     title: Configuration Files (New)
     order: 1
 

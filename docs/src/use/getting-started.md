@@ -2,7 +2,7 @@
 title: Getting Started with ESLint
 eleventyNavigation:
     key: getting started 
-    parent: user guide
+    parent: use eslint
     title: Getting Started
     order: 1
 

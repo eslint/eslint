@@ -1,10 +1,10 @@
 ---
-title: Rules
+title: Configure Rules
 eleventyNavigation:
-    key: configuring rules
-    parent: configuring
-    title: Configuring Rules
-    order: 3
+    key: configure rules
+    parent: configure
+    title: Configure Rules
+    order: 4
 
 ---
 

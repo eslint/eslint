@@ -1,9 +1,9 @@
 ---
-title: Command Line Interface
+title: Command Line Interface Reference
 eleventyNavigation:
     key: command line interface
-    parent: user guide
-    title: Command Line Interface
+    parent: use eslint
+    title: Command Line Interface Reference
     order: 4
 
 ---

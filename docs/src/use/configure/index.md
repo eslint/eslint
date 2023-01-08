@@ -1,9 +1,9 @@
 ---
-title: Configuring ESLint
+title: Configure ESLint
 eleventyNavigation:
-    key: configuring
-    parent: user guide
-    title: Configuring
+    key: configure
+    parent: use eslint
+    title: Configure
     order: 3
 
 ---
