@@ -1,10 +1,10 @@
 ---
-title: Working with Custom Formatters
+title: Custom Formatters
 eleventyNavigation:
-    key: working with custom formatters
-    parent: developer guide
-    title: Working with Custom Formatters
-    order: 6
+    key: custom formatters
+    parent: extend eslint
+    title: Custom Formatters
+    order: 3
 
 ---
 

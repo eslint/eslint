@@ -1,10 +1,10 @@
 ---
-title: Working with Plugins
+title: Create Plugins
 eleventyNavigation:
-    key: working with plugings
-    parent: developer guide
-    title: Working with Plugins
-    order: 5
+    key: create plugins
+    parent: extend eslint
+    title: Create Plugins
+    order: 1
 
 ---
 

@@ -1,10 +1,10 @@
 ---
-title: Working with Rules
+title: Custom Rules
 eleventyNavigation:
-    key: working with rules
-    parent: developer guide
-    title: Working with Rules
-    order: 4
+    key: custom rules
+    parent: extend eslint
+    title: Custom Rules
+    order: 2
 
 ---
 

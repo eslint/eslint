@@ -2,9 +2,9 @@
 title: Governance
 eleventyNavigation:
     key: governance
-    parent: maintainer guide
+    parent: contribute to eslint
     title: Governance
-    order: 4
+    order: 10
 
 ---
 

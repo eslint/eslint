@@ -1,8 +1,8 @@
 ---
-title: Developer Guide
+title: Extend ESLint
 eleventyNavigation:
-    key: developer guide 
-    title: Developer Guide 
+    key: extend eslint
+    title: Extend ESLint
     order: 2
 
 ---

@@ -2,7 +2,7 @@
 title: Source Code
 eleventyNavigation:
     key: getting the source code
-    parent: developer guide
+    parent: extend eslint
     title: Getting the Source Code
     order: 1
 

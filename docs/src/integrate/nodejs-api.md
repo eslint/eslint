@@ -1,10 +1,10 @@
 ---
-title: Node.js API
+title: Node.js API Reference
 eleventyNavigation:
     key: node.js api
-    parent: developer guide
-    title: Node.js API
-    order: 9
+    parent: extend eslint
+    title: Node.js API Reference
+    order: 6
 
 ---
 
