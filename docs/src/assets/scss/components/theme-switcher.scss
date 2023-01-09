@@ -20,8 +20,7 @@
 }
 
 .theme-switcher__button {
-    flex-shrink: 1;
-    flex-grow: 1;
+    flex-wrap: wrap;
     box-shadow: var(--shadow-xs);
     padding: .625rem .875rem;
     display: inline-flex;
