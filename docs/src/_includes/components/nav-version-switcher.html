@@ -16,7 +16,6 @@
             {% if config.showNextVersion == true %}
                 <option value="NEXT" data-url="/docs/next/" {% if GIT_BRANCH == "next" %}selected{% endif %}>NEXT</option>
             {% endif %}
-            <option value="NEXT" data-url="/docs/next/" {% if GIT_BRANCH == "next" %}selected{% endif %}>NEXT</option>
             <option value="{{ eslintVersion }}" data-url="/docs/latest/" {% if GIT_BRANCH == "latest" %}selected{% endif %}>v{{ eslintVersion }}</option>
             {% for version in versions.items %}
             <option value="{{ version.number }}"
