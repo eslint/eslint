@@ -12,7 +12,10 @@
             <span class="label__text">Version</span>
         </label>
         <select name="version selector" id="version-select" aria-describedby="version-infobox" class="c-custom-select switcher__select auto-switcher">
-            <option value="HEAD" data-url="/docs/head/"  {% if GIT_BRANCH != "latest" %}selected{% endif %}>HEAD</option>
+            <option value="HEAD" data-url="/docs/head/"  {% if HEAD %}selected{% endif %}>HEAD</option>
+            {% if config.showNextVersion == true %}
+              <option value="NEXT" data-url="/docs/next/" {% if GIT_BRANCH=="next" %}selected{% endif %}>NEXT</option>
+            {% endif %}
             <option value="{{ eslintVersion }}" data-url="/docs/latest/"  {% if GIT_BRANCH == "latest" %}selected{% endif %}>v{{ eslintVersion }}</option>
             {% for version in versions.items %}
             <option value="{{ version.number }}"

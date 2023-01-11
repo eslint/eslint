@@ -345,9 +345,18 @@ function generatePrerelease(prereleaseId) {
  */
 function publishRelease() {
     ReleaseOps.publishRelease();
+    const releaseInfo = JSON.parse(cat(".eslint-release-info.json"));
+    const isPreRelease = /[a-z]/u.test(releaseInfo.version);
 
-    // push to latest branch to trigger docs deploy
-    exec("git push origin HEAD:latest -f");
+    /*
+     * for a pre-release, push to the "next" branch to trigger docs deploy
+     * for a release, push to the "latest" branch to trigger docs deploy
+     */
+    if (isPreRelease) {
+        exec("git push origin HEAD:next -f");
+    } else {
+        exec("git push origin HEAD:latest -f");
+    }
 
     publishSite();
 }
