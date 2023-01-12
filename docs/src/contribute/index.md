@@ -30,9 +30,17 @@ Want to make a change to an existing rule? This section explains the process and
 
 If you'd like to request a change other than a bug fix or new rule, this section explains that process.
 
-## Report a security vulnerability
+## [Architecture](architecture)
 
-To report a security vulnerability in ESLint, please use our [HackerOne program](https://hackerone.com/eslint).
+Learn about the architecture of the ESLint project.
+
+## [Set up a Development Environment](development-environment)
+
+Developing for ESLint is a bit different than running it on the command line. This section shows you how to set up a development environment and get you ready to write code.
+
+## [Run the Tests](tests)
+
+There are a lot of unit tests included with ESLint to make sure that we're keeping on top of code quality. This section explains how to run the unit tests.
 
 ## [Work on Issues](work-on-issue)
 
@@ -41,6 +49,18 @@ Have some extra time and want to contribute? This section talks about the proces
 ## [Submit a Pull Request](pull-requests)
 
 We're always looking for contributions from the community. This section explains the requirements for pull requests and the process of contributing code.
+
+## [Governance](governance)
+
+Describes the governance policy for ESLint, including the rights and privileges of individuals inside the project.
+
+## [Get the Source Code](source-code)
+
+Before you can get started developing ESLint, you'll need to get a copy of the ESLint source code. This section explains how to do that and a little about the source code structure.
+
+## Report a security vulnerability
+
+To report a security vulnerability in ESLint, please use our [HackerOne program](https://hackerone.com/eslint).
 
 ## Sign the CLA
 
