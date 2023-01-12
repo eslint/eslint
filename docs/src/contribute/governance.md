@@ -143,7 +143,7 @@ A Reviewer is invited to become a TSC member by existing TSC members. A nominati
 
 1. Add the GitHub user to the "ESLint TSC" GitHub team
 1. Set the GitHub user to be have the "Owner" role for the ESLint organization
-1. Send a welcome email with a link to the [maintainer guide](./) and instructions for npm 2FA.
+1. Send a welcome email with a link to the [Maintain ESLint documentation](./) and instructions for npm 2FA.
 1. Invite to the Discord TSC channel
 1. Make the TSC member an admin on the ESLint team mailing list
 1. Add the TSC member to the recurring TSC meeting event on Google Calendar

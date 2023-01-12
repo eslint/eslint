@@ -6,7 +6,7 @@ eleventyNavigation:
     order: 1
 ---
 
-This guide is intended for those who wish to use ESLint as an end-user. If you're looking for how to extend ESLint or work with the ESLint source code, please see the [Developer Guide](../extend/).
+This guide is intended for those who wish to use ESLint as an end-user. If you're looking for how to extend ESLint or work with the ESLint source code, please see the [Extend ESLint documentation](../extend/).
 
 ## [Getting Started](getting-started)
 
