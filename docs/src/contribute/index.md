@@ -58,7 +58,7 @@ Describes the governance policy for ESLint, including the rights and privileges 
 
 Before you can get started developing ESLint, you'll need to get a copy of the ESLint source code. This section explains how to do that and a little about the source code structure.
 
-## Report a security vulnerability
+## Report a Security Vulnerability
 
 To report a security vulnerability in ESLint, please use our [HackerOne program](https://hackerone.com/eslint).
 
