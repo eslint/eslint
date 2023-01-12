@@ -1,9 +1,9 @@
 ---
-title: Reviewing Pull Requests
+title: Review Pull Requests
 eleventyNavigation:
-    key: reviewing pull requests
-    parent: maintainer guide 
-    title: Reviewing Pull Requests
+    key: review pull requests
+    parent: maintain eslint
+    title: Review Pull Requests
     order: 2
 
 ---

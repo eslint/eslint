@@ -1,9 +1,9 @@
 ---
-title: Managing Issues
+title: Manage Issues
 eleventyNavigation:
-    key: managing issues
-    parent: maintainer guide 
-    title: Managing Issues
+    key: manage issues
+    parent: maintain eslint
+    title: Manage Issues
     order: 1
 
 ---

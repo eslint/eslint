@@ -1,6 +1,10 @@
 ---
 title: Working Groups
-
+eleventyNavigation:
+    key: working groups
+    parent: maintain eslint
+    title: Working Groups
+    order: 4
 ---
 
 The ESLint TSC may form working groups to focus on a specific area of the project.

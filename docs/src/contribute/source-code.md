@@ -2,10 +2,8 @@
 title: Source Code
 eleventyNavigation:
     key: getting the source code
-    parent: extend eslint
+    parent: contribute to eslint
     title: Getting the Source Code
-    order: 1
-
 ---
 
 ESLint is hosted at [GitHub](https://github.com/eslint/eslint) and uses [Git](https://git-scm.com/) for source control. In order to obtain the source code, you must first install Git on your system. Instructions for installing and setting up Git can be found at <https://help.github.com/articles/set-up-git/>.
