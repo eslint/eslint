@@ -51,7 +51,7 @@ All of these options give you fine-grained control over how ESLint treats your c
 * [Specify a Processor](./plugins#specify-a-processor)
 * [Configure Parsers](./plugins#configure-a-parser)
 
-[**Ignore Code**](ignore)
+[**Ignore Files**](ignore)
 
 * [`ignorePatterns` in Config Files](./ignore#ignorepatterns-in-config-files)
 * [The `.eslintignore` File](./ignore#the-eslintignore-file)
