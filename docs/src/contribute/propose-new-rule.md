@@ -46,4 +46,4 @@ The ESLint team doesn't implement new rules that are suggested by users because 
 
 ## Alternative: Creating Your Own Rules
 
-Remember that ESLint is completely pluggable, which means you can create your own rules and distribute them using plugins. We did this on purpose because we don't want to be the gatekeepers for all possible rules. Even if we don't accept a rule into the core, that doesn't mean you can't have the exact rule that you want. See the [working with rules](../extend/custom-rules) and [working with plugins](../extend/plugins) documentation for more information.
+Remember that ESLint is completely pluggable, which means you can create your own rules and distribute them using plugins. We did this on purpose because we don't want to be the gatekeepers for all possible rules. Even if we don't accept a rule into the core, that doesn't mean you can't have the exact rule that you want. See the [Custom Rules](../extend/custom-rules) and [Create Plugins](../extend/plugins) documentation for more information.

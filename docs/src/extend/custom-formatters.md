@@ -132,7 +132,7 @@ The formatter function receives an object as the second argument. The object has
 
 * `cwd` ... The current working directory. This value comes from the `cwd` constructor option of the [ESLint](../integrate/nodejs-api#-new-eslintoptions) class.
 * `maxWarningsExceeded` (optional): If `--max-warnings` was set and the number of warnings exceeded the limit, this property's value will be an object containing two properties: `maxWarnings`, the value of the `--max-warnings` option, and `foundWarnings`, the number of lint warnings.
-* `rulesMeta` ... The `meta` property values of rules. See the [Working with Rules](custom-rules) page for more information about rules.
+* `rulesMeta` ... The `meta` property values of rules. See the [Custom Rules](custom-rules) page for more information about rules.
 
 For example, here's what the object would look like if one rule, `no-extra-semi`, had been run:
 

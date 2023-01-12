@@ -1,9 +1,9 @@
 ---
-title: Source Code
+title: Get the Source Code
 eleventyNavigation:
-    key: getting the source code
+    key: get the source code
     parent: contribute to eslint
-    title: Getting the Source Code
+    title: Get the Source Code
     order: 11
 ---
 

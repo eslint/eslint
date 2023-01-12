@@ -10,9 +10,9 @@ This project adheres to the [Open JS Foundation Code of Conduct](https://eslint.
 
 Before filing an issue, please be sure to read the guidelines for what you're reporting:
 
-* [Bug Report](https://eslint.org/docs/latest/contribute/report-bugs)
+* [Report Bugs](https://eslint.org/docs/latest/contribute/report-bugs)
 * [Propose a New Rule](https://eslint.org/docs/latest/contribute/propose-new-rule)
-* [Proposing a Rule Change](https://eslint.org/docs/latest/contribute/propose-rule-change)
+* [Propose a Rule Change](https://eslint.org/docs/latest/contribute/propose-rule-change)
 * [Request a Change](https://eslint.org/docs/latest/contribute/request-change)
 
 To report a security vulnerability in ESLint, please use our [HackerOne program](https://hackerone.com/eslint).

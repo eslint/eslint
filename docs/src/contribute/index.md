@@ -14,34 +14,34 @@ This guide is intended for anyone who wants to contribute to an ESLint project. 
 
 ESLint welcomes contributions from everyone and adheres to the [OpenJS Foundation Code of Conduct](https://eslint.org/conduct). We kindly request that you read over our code of conduct before contributing.
 
-## [Bug Reporting](report-bugs)
+## [Report Bugs](report-bugs)
 
 Think you found a problem? We'd love to hear about it. This section explains how to submit a bug, the type of information we need to properly verify it, and the overall process.
 
-## Proposing a [New Rule](propose-new-rule)
+## [Propose a New Rule](propose-new-rule)
 
 We get a lot of proposals for new rules in ESLint. This section explains how we determine which rules are accepted and what information you should provide to help us evaluate your proposal.
 
-## Proposing a [Rule Change](propose-rule-change)
+## [Propose a Rule Change](propose-rule-change)
 
 Want to make a change to an existing rule? This section explains the process and how we evaluate such proposals.
 
-## Requesting a [Change](request-change)
+## [Request a Change](request-change)
 
 If you'd like to request a change other than a bug fix or new rule, this section explains that process.
 
-## Reporting a security vulnerability
+## Report a security vulnerability
 
 To report a security vulnerability in ESLint, please use our [HackerOne program](https://hackerone.com/eslint).
 
-## [Working on Issues](work-on-issue)
+## [Work on Issues](work-on-issue)
 
 Have some extra time and want to contribute? This section talks about the process of working on issues.
 
-## Submitting a [Pull Request](pull-requests)
+## [Submit a Pull Request](pull-requests)
 
 We're always looking for contributions from the community. This section explains the requirements for pull requests and the process of contributing code.
 
-## Signing the CLA
+## Sign the CLA
 
 In order to submit code or documentation to an ESLint project, you will need to electronically sign our Contributor License Agreement. The CLA is the commonly used Apache-style template, and is you giving us permission to use your contribution. You only need to sign the CLA once for any OpenJS Foundation projects that use EasyCLA. You will be asked to sign the CLA in the first pull request you open.
