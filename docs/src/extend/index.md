@@ -37,10 +37,10 @@ This section explains how you can create a custom formatter to control what ESLi
 
 If you aren't going to use the default parser of ESLint, this section explains about using custom parsers.
 
-## [Share Configs](share-configs)
+## [Share Configurations](shareable-configs)
 
 This section explains how you can bundle and share ESLint configuration in a JavaScript package.
 
-## [Node.js API](../integrate/nodejs-api)
+## [Node.js API Reference](../integrate/nodejs-api)
 
 If you're interested in writing a tool that uses ESLint, then you can use the Node.js API to get programmatic access to functionality.
