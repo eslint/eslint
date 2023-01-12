@@ -7,10 +7,10 @@
         padding: 0;
         margin-left: -1rem;
         margin-inline-start: -1rem;
+        display: flex;
 
         li {
             margin: 0;
-            display: inline-flex;
             align-items: center;
 
             a {
