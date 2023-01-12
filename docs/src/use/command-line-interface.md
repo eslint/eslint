@@ -132,7 +132,7 @@ npx eslint --no-eslintrc file.js
 
 #### `-c`, `--config`
 
-This option allows you to specify an additional configuration file for ESLint (see [Configuring ESLint](configure/) for more).
+This option allows you to specify an additional configuration file for ESLint (see [Configure ESLint](configure/) for more).
 
 * **Argument Type**: String. Path to file.
 * **Multiple Arguments**: No

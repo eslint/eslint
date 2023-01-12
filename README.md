@@ -10,10 +10,10 @@
 # ESLint
 
 [Website](https://eslint.org) |
-[Configuring](https://eslint.org/docs/latest/use/configure) |
+[Configure ESLint](https://eslint.org/docs/latest/use/configure) |
 [Rules](https://eslint.org/docs/rules/) |
-[Contributing](https://eslint.org/docs/latest/contribute) |
-[Reporting Bugs](https://eslint.org/docs/latest/contribute/report-bugs) |
+[Contribute to ESLint](https://eslint.org/docs/latest/contribute) |
+[Report Bugs](https://eslint.org/docs/latest/contribute/report-bugs) |
 [Code of Conduct](https://eslint.org/conduct) |
 [Twitter](https://twitter.com/geteslint) |
 [Mailing List](https://groups.google.com/group/eslint) |
