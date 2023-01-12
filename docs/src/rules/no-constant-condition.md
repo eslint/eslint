@@ -106,6 +106,34 @@ var result = x !== 0 ? a : b;
 
 :::
 
+This rule also applies to this more subtle example. This is an **incorrect** way to compare a variable against two values:
+
+::: incorrect
+
+```js
+/*eslint no-constant-condition: "error"*/
+
+if(input === "hello" || "bye"){
+  output(input);
+}
+```
+
+:::
+
+This is a **correct** way to compare a variable against two values:
+
+::: correct
+
+```js
+/*eslint no-constant-condition: "error"*/
+
+if(input === "hello" || input === "bye"){
+  output(input);
+}
+```
+
+:::
+
 ## Options
 
 ### checkLoops
