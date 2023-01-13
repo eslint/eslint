@@ -71,6 +71,15 @@ ruleTester.run("no-invalid-regexp", rule, {
 
         // ES2022
         "new RegExp('a+(?<Z>z)?', 'd')",
+        "new RegExp('\\\\p{Script=Cpmn}', 'u')",
+        "new RegExp('\\\\p{Script=Cypro_Minoan}', 'u')",
+        "new RegExp('\\\\p{Script=Old_Uyghur}', 'u')",
+        "new RegExp('\\\\p{Script=Ougr}', 'u')",
+        "new RegExp('\\\\p{Script=Tangsa}', 'u')",
+        "new RegExp('\\\\p{Script=Tnsa}', 'u')",
+        "new RegExp('\\\\p{Script=Toto}', 'u')",
+        "new RegExp('\\\\p{Script=Vith}', 'u')",
+        "new RegExp('\\\\p{Script=Vithkuqi}', 'u')",
 
         // allowConstructorFlags
         {
