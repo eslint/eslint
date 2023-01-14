@@ -107,7 +107,16 @@ ruleTester.run("no-restricted-exports", rule, {
         { code: "export default 1;", options: [{ restrictedNamedExports: ["default"] }] },
 
         // "default" does not disallow re-exporting a renamed default export from another module
-        { code: "export { default as a } from 'foo';", options: [{ restrictedNamedExports: ["default"] }] }
+        { code: "export { default as a } from 'foo';", options: [{ restrictedNamedExports: ["default"] }] },
+
+        // restrictDefaultExports.direct option
+        { code: "export default foo;", options: [{ restrictDefaultExports: { direct: false } }] },
+        { code: "export default 42;", options: [{ restrictDefaultExports: { direct: false } }] },
+        { code: "export default function foo() {}", options: [{ restrictDefaultExports: { direct: false } }] },
+        { code: "export default foo;", options: [{ restrictedNamedExports: ["default"], restrictDefaultExports: { direct: true } }] },
+
+        // restrictDefaultExports.named option
+        { code: "const foo = 123;\nexport { foo as default };", options: [{ restrictDefaultExports: { named: false } }] }
     ],
 
     invalid: [
@@ -519,6 +528,47 @@ ruleTester.run("no-restricted-exports", rule, {
             code: "export { default } from 'foo';",
             options: [{ restrictedNamedExports: ["default"] }],
             errors: [{ messageId: "restrictedNamed", data: { name: "default" }, type: "Identifier", column: 10 }]
+        },
+
+        // restrictDefaultExports.direct option
+        {
+            code: "export default foo;",
+            options: [{ restrictDefaultExports: { direct: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "ExportDefaultDeclaration", column: 1 }]
+        },
+        {
+            code: "export default 42;",
+            options: [{ restrictDefaultExports: { direct: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "ExportDefaultDeclaration", column: 1 }]
+        },
+        {
+            code: "export default function foo() {};",
+            options: [{ restrictDefaultExports: { direct: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "ExportDefaultDeclaration", column: 1 }]
+        },
+        {
+            code: "export default foo;",
+            options: [{ restrictedNamedExports: ["bar"], restrictDefaultExports: { direct: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "ExportDefaultDeclaration", column: 1 }]
+        },
+
+        // restrictDefaultExports.named option
+        {
+            code: "const foo = 123;\nexport { foo as default };",
+            options: [{ restrictDefaultExports: { named: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "Identifier", line: 2, column: 17 }]
+        },
+
+        // restrictedNamedExports should take priority over restrictDefaultExports.named
+        {
+            code: "const foo = 123;\nexport { foo as default };",
+            options: [{ restrictedNamedExports: ["default"], restrictDefaultExports: { named: false } }],
+            errors: [{ messageId: "restrictedNamed", type: "Identifier", line: 2, column: 17 }]
+        },
+        {
+            code: "const foo = 123;\nexport { foo as default };",
+            options: [{ restrictedNamedExports: ["default"], restrictDefaultExports: { named: true } }],
+            errors: [{ messageId: "restrictedNamed", type: "Identifier", line: 2, column: 17 }]
         }
     ]
 });
