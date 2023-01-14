@@ -116,7 +116,11 @@ ruleTester.run("no-restricted-exports", rule, {
         { code: "export default foo;", options: [{ restrictedNamedExports: ["default"], restrictDefaultExports: { direct: true } }] },
 
         // restrictDefaultExports.named option
-        { code: "const foo = 123;\nexport { foo as default };", options: [{ restrictDefaultExports: { named: false } }] }
+        { code: "const foo = 123;\nexport { foo as default };", options: [{ restrictDefaultExports: { named: false } }] },
+
+        // restrictDefaultExports.defaultFrom option
+        { code: "export { default } from 'mod';", options: [{ restrictDefaultExports: { defaultFrom: false } }] },
+        { code: "export { default } from 'mod';", options: [{ restrictDefaultExports: { named: true, defaultFrom: false } }] }
     ],
 
     invalid: [
@@ -569,6 +573,23 @@ ruleTester.run("no-restricted-exports", rule, {
             code: "const foo = 123;\nexport { foo as default };",
             options: [{ restrictedNamedExports: ["default"], restrictDefaultExports: { named: true } }],
             errors: [{ messageId: "restrictedNamed", type: "Identifier", line: 2, column: 17 }]
+        },
+
+        // restrictDefaultExports.defaultFrom option
+        {
+            code: "export { default } from 'mod';",
+            options: [{ restrictDefaultExports: { defaultFrom: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "Identifier", line: 1, column: 10 }]
+        },
+        {
+            code: "export { default } from 'mod';",
+            options: [{ restrictedNamedExports: ["default"], restrictDefaultExports: { defaultFrom: true } }],
+            errors: [{ messageId: "restrictedNamed", type: "Identifier", line: 1, column: 10 }]
+        },
+        {
+            code: "export { default } from 'mod';",
+            options: [{ restrictedNamedExports: ["default"], restrictDefaultExports: { defaultFrom: false } }],
+            errors: [{ messageId: "restrictedNamed", type: "Identifier", line: 1, column: 10 }]
         }
     ]
 });
