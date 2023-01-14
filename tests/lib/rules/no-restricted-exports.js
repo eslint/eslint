@@ -120,6 +120,8 @@ ruleTester.run("no-restricted-exports", rule, {
 
         // restrictDefaultExports.defaultFrom option
         { code: "export { default } from 'mod';", options: [{ restrictDefaultExports: { defaultFrom: false } }] },
+        { code: "export { default as default } from 'mod';", options: [{ restrictDefaultExports: { defaultFrom: false } }] },
+        { code: "export { foo as default } from 'mod';", options: [{ restrictDefaultExports: { defaultFrom: true } }] },
         { code: "export { default } from 'mod';", options: [{ restrictDefaultExports: { named: true, defaultFrom: false } }] }
     ],
 
@@ -582,14 +584,29 @@ ruleTester.run("no-restricted-exports", rule, {
             errors: [{ messageId: "restrictedDefault", type: "Identifier", line: 1, column: 10 }]
         },
         {
+            code: "export { default as default } from 'mod';",
+            options: [{ restrictDefaultExports: { defaultFrom: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "Identifier", line: 1, column: 21 }]
+        },
+        {
             code: "export { default } from 'mod';",
             options: [{ restrictedNamedExports: ["default"], restrictDefaultExports: { defaultFrom: true } }],
             errors: [{ messageId: "restrictedNamed", type: "Identifier", line: 1, column: 10 }]
         },
         {
+            code: "export { default as default } from 'mod';",
+            options: [{ restrictedNamedExports: ["default"], restrictDefaultExports: { defaultFrom: true } }],
+            errors: [{ messageId: "restrictedNamed", type: "Identifier", line: 1, column: 21 }]
+        },
+        {
             code: "export { default } from 'mod';",
             options: [{ restrictedNamedExports: ["default"], restrictDefaultExports: { defaultFrom: false } }],
             errors: [{ messageId: "restrictedNamed", type: "Identifier", line: 1, column: 10 }]
+        },
+        {
+            code: "export { default as default } from 'mod';",
+            options: [{ restrictedNamedExports: ["default"], restrictDefaultExports: { defaultFrom: false } }],
+            errors: [{ messageId: "restrictedNamed", type: "Identifier", line: 1, column: 21 }]
         }
     ]
 });
