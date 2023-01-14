@@ -122,7 +122,12 @@ ruleTester.run("no-restricted-exports", rule, {
         { code: "export { default } from 'mod';", options: [{ restrictDefaultExports: { defaultFrom: false } }] },
         { code: "export { default as default } from 'mod';", options: [{ restrictDefaultExports: { defaultFrom: false } }] },
         { code: "export { foo as default } from 'mod';", options: [{ restrictDefaultExports: { defaultFrom: true } }] },
-        { code: "export { default } from 'mod';", options: [{ restrictDefaultExports: { named: true, defaultFrom: false } }] }
+        { code: "export { default } from 'mod';", options: [{ restrictDefaultExports: { named: true, defaultFrom: false } }] },
+
+        // restrictDefaultExports.namedFrom option
+        { code: "export { foo as default } from 'mod';", options: [{ restrictDefaultExports: { namedFrom: false } }] },
+        { code: "export { default as default } from 'mod';", options: [{ restrictDefaultExports: { namedFrom: true } }] },
+        { code: "export { default as default } from 'mod';", options: [{ restrictDefaultExports: { namedFrom: false } }] }
     ],
 
     invalid: [
@@ -607,6 +612,23 @@ ruleTester.run("no-restricted-exports", rule, {
             code: "export { default as default } from 'mod';",
             options: [{ restrictedNamedExports: ["default"], restrictDefaultExports: { defaultFrom: false } }],
             errors: [{ messageId: "restrictedNamed", type: "Identifier", line: 1, column: 21 }]
+        },
+
+        // restrictDefaultExports.namedFrom option
+        {
+            code: "export { foo as default } from 'mod';",
+            options: [{ restrictDefaultExports: { namedFrom: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "Identifier", line: 1, column: 17 }]
+        },
+        {
+            code: "export { foo as default } from 'mod';",
+            options: [{ restrictedNamedExports: ["default"], restrictDefaultExports: { namedFrom: true } }],
+            errors: [{ messageId: "restrictedNamed", type: "Identifier", line: 1, column: 17 }]
+        },
+        {
+            code: "export { foo as default } from 'mod';",
+            options: [{ restrictedNamedExports: ["default"], restrictDefaultExports: { namedFrom: false } }],
+            errors: [{ messageId: "restrictedNamed", type: "Identifier", line: 1, column: 17 }]
         }
     ]
 });
