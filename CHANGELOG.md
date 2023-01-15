@@ -1,3 +1,16 @@
+v8.32.0 - January 14, 2023
+
+* [`17b65ad`](https://github.com/eslint/eslint/commit/17b65ad10d653bb05077f21d8b1f79bee96e38d8) docs: IA Update page URL move (#16665) (Ben Perlmutter)
+* [`b4f8329`](https://github.com/eslint/eslint/commit/b4f8329164d7b293a1557e05b987d2a685fe1d30) fix: ignore directives for no-fallthrough (#16757) (gfyoung)
+* [`5981296`](https://github.com/eslint/eslint/commit/5981296d5c7c86228ad766009901191fdd87d5a4) docs: fix theme switcher button (#16752) (Sam Chen)
+* [`6669413`](https://github.com/eslint/eslint/commit/66694136b67277c050bd27f60050779687a88c9f) docs: deploy prerelease docs under the `/docs/next/` path (#16541) (Nitin Kumar)
+* [`2952d6e`](https://github.com/eslint/eslint/commit/2952d6ed95811ce0971b6855d66fb7a9767a7b72) chore: sync templates/*.md files with issue templates (#16758) (gfyoung)
+* [`78ecfe0`](https://github.com/eslint/eslint/commit/78ecfe0e52c0e5780fefc8dc9a98864e48de6637) docs: use inline code for rule options name (#16768) (Percy Ma)
+* [`3e34418`](https://github.com/eslint/eslint/commit/3e34418b31664decfb2337de798feafbf985b66c) chore: Add new issues to triage project (#16740) (Nicholas C. Zakas)
+* [`fc2ea59`](https://github.com/eslint/eslint/commit/fc2ea598aee97beb6d768866da1ee4f63775f0c9) docs: Update README (GitHub Actions Bot)
+* [`fc20f24`](https://github.com/eslint/eslint/commit/fc20f242a2ac073b5af6d5fca67e07a175f36c3b) feat: add suggestions for redundant wrapping in prefer-regex-literals (#16658) (YeonJuan)
+* [`762a872`](https://github.com/eslint/eslint/commit/762a8727fb3b5619cff900826053b643ca5f1162) docs: Update README (GitHub Actions Bot)
+
 v8.31.0 - December 31, 2022
 
 * [`65d4e24`](https://github.com/eslint/eslint/commit/65d4e24c36367cd63f0eba7371820e0e81dae7aa) chore: Upgrade @eslint/eslintrc@1.4.1 (#16729) (Brandon Mills)
