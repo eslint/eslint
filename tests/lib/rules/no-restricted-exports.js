@@ -600,14 +600,14 @@ ruleTester.run("no-restricted-exports", rule, {
             errors: [{ messageId: "restrictedNamed", type: "Identifier", line: 1, column: 10 }]
         },
         {
-            code: "export { default as default } from 'mod';",
-            options: [{ restrictedNamedExports: ["default"], restrictDefaultExports: { defaultFrom: true } }],
-            errors: [{ messageId: "restrictedNamed", type: "Identifier", line: 1, column: 21 }]
-        },
-        {
             code: "export { default } from 'mod';",
             options: [{ restrictedNamedExports: ["default"], restrictDefaultExports: { defaultFrom: false } }],
             errors: [{ messageId: "restrictedNamed", type: "Identifier", line: 1, column: 10 }]
+        },
+        {
+            code: "export { default as default } from 'mod';",
+            options: [{ restrictedNamedExports: ["default"], restrictDefaultExports: { defaultFrom: true } }],
+            errors: [{ messageId: "restrictedNamed", type: "Identifier", line: 1, column: 21 }]
         },
         {
             code: "export { default as default } from 'mod';",
