@@ -10,10 +10,10 @@
 # ESLint
 
 [Website](https://eslint.org) |
-[Configuring](https://eslint.org/docs/user-guide/configuring) |
+[Configuring](https://eslint.org/docs/latest/use/configure) |
 [Rules](https://eslint.org/docs/rules/) |
-[Contributing](https://eslint.org/docs/developer-guide/contributing) |
-[Reporting Bugs](https://eslint.org/docs/developer-guide/contributing/reporting-bugs) |
+[Contributing](https://eslint.org/docs/latest/contribute) |
+[Reporting Bugs](https://eslint.org/docs/latest/contribute/report-bugs) |
 [Code of Conduct](https://eslint.org/conduct) |
 [Twitter](https://twitter.com/geteslint) |
 [Mailing List](https://groups.google.com/group/eslint) |
@@ -76,7 +76,7 @@ The names `"semi"` and `"quotes"` are the names of [rules](https://eslint.org/do
 * `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
 * `"error"` or `2` - turn the rule on as an error (exit code will be 1)
 
-The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the [configuration docs](https://eslint.org/docs/user-guide/configuring)).
+The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the [configuration docs](https://eslint.org/docs/latest/use/configure)).
 
 ## Code of Conduct
 
@@ -86,10 +86,10 @@ ESLint adheres to the [JS Foundation Code of Conduct](https://eslint.org/conduct
 
 Before filing an issue, please be sure to read the guidelines for what you're reporting:
 
-* [Bug Report](https://eslint.org/docs/developer-guide/contributing/reporting-bugs)
-* [Propose a New Rule](https://eslint.org/docs/developer-guide/contributing/new-rules)
-* [Proposing a Rule Change](https://eslint.org/docs/developer-guide/contributing/rule-changes)
-* [Request a Change](https://eslint.org/docs/developer-guide/contributing/changes)
+* [Bug Report](https://eslint.org/docs/latest/contribute/report-bugs)
+* [Propose a New Rule](https://eslint.org/docs/latest/contribute/propose-new-rule)
+* [Proposing a Rule Change](https://eslint.org/docs/latest/contribute/propose-rule-change)
+* [Request a Change](https://eslint.org/docs/latest/contribute/request-change)
 
 ## Frequently Asked Questions
 
@@ -97,7 +97,7 @@ Before filing an issue, please be sure to read the guidelines for what you're re
 
 Yes. [JSCS has reached end of life](https://eslint.org/blog/2016/07/jscs-end-of-life) and is no longer supported.
 
-We have prepared a [migration guide](https://eslint.org/docs/user-guide/migrating-from-jscs) to help you convert your JSCS settings to an ESLint configuration.
+We have prepared a [migration guide](https://eslint.org/docs/latest/use/migrating-from-jscs) to help you convert your JSCS settings to an ESLint configuration.
 
 We are now at or near 100% compatibility with JSCS. If you try ESLint and believe we are not yet compatible with a JSCS rule/configuration, please create an issue (mentioning that it is a JSCS compatibility issue) and we will evaluate it as per our normal process.
 
@@ -113,11 +113,11 @@ No, ESLint does both traditional linting (looking for problematic patterns) and 
 
 ### Does ESLint support JSX?
 
-Yes, ESLint natively supports parsing JSX syntax (this must be enabled in [configuration](https://eslint.org/docs/user-guide/configuring)). Please note that supporting JSX syntax *is not* the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) if you are using React and want React semantics.
+Yes, ESLint natively supports parsing JSX syntax (this must be enabled in [configuration](https://eslint.org/docs/latest/use/configure)). Please note that supporting JSX syntax *is not* the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) if you are using React and want React semantics.
 
 ### What ECMAScript versions does ESLint support?
 
-ESLint has full support for ECMAScript 3, 5 (default), 2015, 2016, 2017, 2018, 2019, 2020, 2021 and 2022. You can set your desired ECMAScript syntax (and other settings, like global variables or your target environments) through [configuration](https://eslint.org/docs/user-guide/configuring).
+ESLint has full support for ECMAScript 3, 5 (default), 2015, 2016, 2017, 2018, 2019, 2020, 2021 and 2022. You can set your desired ECMAScript syntax (and other settings, like global variables or your target environments) through [configuration](https://eslint.org/docs/latest/use/configure).
 
 ### What about experimental features?
 
@@ -125,7 +125,7 @@ ESLint's parser only officially supports the latest final ECMAScript standard. W
 
 In other cases (including if rules need to warn on more or fewer cases due to new syntax, rather than just not crashing), we recommend you use other parsers and/or rule plugins. If you are using Babel, you can use [@babel/eslint-parser](https://www.npmjs.com/package/@babel/eslint-parser) and [@babel/eslint-plugin](https://www.npmjs.com/package/@babel/eslint-plugin) to use any option available in Babel.
 
-Once a language feature has been adopted into the ECMAScript standard (stage 4 according to the [TC39 process](https://tc39.github.io/process-document/)), we will accept issues and pull requests related to the new feature, subject to our [contributing guidelines](https://eslint.org/docs/developer-guide/contributing). Until then, please use the appropriate parser and plugin(s) for your experimental feature.
+Once a language feature has been adopted into the ECMAScript standard (stage 4 according to the [TC39 process](https://tc39.github.io/process-document/)), we will accept issues and pull requests related to the new feature, subject to our [contributing guidelines](https://eslint.org/docs/latest/contribute). Until then, please use the appropriate parser and plugin(s) for your experimental feature.
 
 ### Where to ask for help?
 
