@@ -18,11 +18,11 @@ This rule has an object option:
 
 * `"restrictedNamedExports"` is an array of strings, where each string is a name to be restricted.
 * `"restrictDefaultExports"` is an object option with boolean properties to restrict default exports in different formats. The option works only if the `restrictedNamedExports` option does not contain the `"default"` value. The following properties are allowed:
-  * `direct`: restricts `export default` declarations.
-  * `named`: restricts `export { foo as default };` declarations.
-  * `defaultFrom`: restricts `export { default } from 'foo';` declarations.
-  * `namedFrom`: restricts `export { foo as default } from 'foo';` declarations.
-  * `namespaceFrom`: restricts `export * as default from 'foo';` declarations.
+    * `direct`: restricts `export default` declarations.
+    * `named`: restricts `export { foo as default };` declarations.
+    * `defaultFrom`: restricts `export { default } from 'foo';` declarations.
+    * `namedFrom`: restricts `export { foo as default } from 'foo';` declarations.
+    * `namespaceFrom`: restricts `export * as default from 'foo';` declarations.
 
 ### restrictedNamedExports
 
