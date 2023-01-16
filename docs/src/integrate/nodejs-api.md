@@ -97,7 +97,7 @@ const testCode = `
         },
     });
 
-    // 2. Lint files.
+    // 2. Lint text.
     const results = await eslint.lintText(testCode);
 
     // 3. Format the results.
