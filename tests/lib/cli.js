@@ -679,15 +679,15 @@ describe("cli", () => {
 
                     assert.strictEqual(exitCode, 1);
                     assert.ok(log.error.calledOnce);
-                    assert.include(log.error.getCall(0).args[0], "ESLint found too many warnings");
+                    assert.include(log.error.getCall(0).args[0], "ESLint found too many warnings (maximum: %s).");
                 });
 
-                it(`should exit with exit code 1 without printing warnings if the quiet option is enabled and warning count exceeds threshold with configType:${configType}`, async () => {
+                it(`should exit with exit code 1 printing warning count and without printing warnings themselves if the quiet option is enabled and warning count exceeds threshold with configType:${configType}`, async () => {
                     const exitCode = await cli.execute(`--no-ignore --quiet --max-warnings 5 ${filePath} -c ${configFilePath}`, null, useFlatConfig);
 
                     assert.strictEqual(exitCode, 1);
                     assert.ok(log.error.calledOnce);
-                    assert.include(log.error.getCall(0).args[0], "ESLint found too many warnings");
+                    assert.include(log.error.getCall(0).args[0], "ESLint found too many warnings (maximum: %s, found: %s).");
                     assert.ok(log.info.notCalled); // didn't print warnings
                 });
 
