@@ -122,11 +122,13 @@ ruleTester.run("no-restricted-exports", rule, {
         { code: "export { default as default } from 'mod';", options: [{ restrictDefaultExports: { defaultFrom: false } }] },
         { code: "export { foo as default } from 'mod';", options: [{ restrictDefaultExports: { defaultFrom: true } }] },
         { code: "export { default } from 'mod';", options: [{ restrictDefaultExports: { named: true, defaultFrom: false } }] },
+        { code: "export { 'default' } from 'mod'; ", options: [{ restrictDefaultExports: { defaultFrom: false } }] },
 
         // restrictDefaultExports.namedFrom option
         { code: "export { foo as default } from 'mod';", options: [{ restrictDefaultExports: { namedFrom: false } }] },
         { code: "export { default as default } from 'mod';", options: [{ restrictDefaultExports: { namedFrom: true } }] },
         { code: "export { default as default } from 'mod';", options: [{ restrictDefaultExports: { namedFrom: false } }] },
+        { code: "export { 'default' } from 'mod'; ", options: [{ restrictDefaultExports: { defaultFrom: false, namedFrom: true } }] },
 
         // restrictDefaultExports.namespaceFrom option
         { code: "export * as default from 'mod';", options: [{ restrictDefaultExports: { namespaceFrom: false } }] }
@@ -582,6 +584,11 @@ ruleTester.run("no-restricted-exports", rule, {
             code: "export { default as default } from 'mod';",
             options: [{ restrictDefaultExports: { defaultFrom: true } }],
             errors: [{ messageId: "restrictedDefault", type: "Identifier", line: 1, column: 21 }]
+        },
+        {
+            code: "export { 'default' } from 'mod';",
+            options: [{ restrictDefaultExports: { defaultFrom: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "Literal", line: 1, column: 10 }]
         },
 
         // restrictDefaultExports.namedFrom option
