@@ -60,7 +60,7 @@ Before you can get started developing ESLint, you'll need to get a copy of the E
 
 ## Report a Security Vulnerability
 
-To report a security vulnerability in ESLint, please use our [HackerOne program](https://hackerone.com/eslint).
+To report a security vulnerability in ESLint, please use our [create an advistory](https://github.com/eslint/eslint/security/advisories/new).
 
 ## Sign the CLA
 
