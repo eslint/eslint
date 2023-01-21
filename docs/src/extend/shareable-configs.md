@@ -4,7 +4,7 @@ eleventyNavigation:
     key: share configs
     parent: extend eslint
     title: Share Configurations
-    order: 5
+    order: 6
 
 ---
 

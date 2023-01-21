@@ -33,6 +33,10 @@ This section explains how you can create a custom formatter to control what ESLi
 
 If you don't want to use the default parser of ESLint, this section explains how to create custom parsers.
 
+## [Custom Processors](custom-processors)
+
+This section explains how you can use a custom processor to have ESLint process files other than JavaScript.
+
 ## [Share Configurations](shareable-configs)
 
 This section explains how you can bundle and share ESLint configuration in a JavaScript package.
