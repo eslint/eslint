@@ -54,6 +54,10 @@ Have some extra time and want to contribute? This section talks about the proces
 
 We're always looking for contributions from the community. This section explains the requirements for pull requests and the process of contributing code.
 
+## [Contribute to Core Rules](contribute-core-rule)
+
+This section explains how to add to the core rules of ESLint.
+
 ## [Governance](governance)
 
 Describes the governance policy for ESLint, including the rights and privileges of individuals inside the project.
