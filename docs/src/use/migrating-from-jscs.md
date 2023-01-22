@@ -30,7 +30,7 @@ To convert your configuration file, pass in the location of your `.jscs.json` fi
 polyjuice --jscs .jscsrc.json > .eslintrc.json
 ```
 
-This creates a `.eslintrc.json` with the equivalent rules from `.jscsrc.json`.
+This creates an `.eslintrc.json` with the equivalent rules from `.jscsrc.json`.
 
 If you have multiple `.jscsrc.json` files, you can pass them all and Polyjuice will combine them into one `.eslintrc.json` file:
 

@@ -136,7 +136,7 @@ your-project
   └── test.js
 ```
 
-The configuration cascade works based on the location of the file being linted. If there is a `.eslintrc` file in the same directory as the file being linted, then that configuration takes precedence. ESLint then searches up the directory structure, merging any `.eslintrc` files it finds along the way until reaching either a `.eslintrc` file with `root: true` or the root directory.
+The configuration cascade works based on the location of the file being linted. If there is an `.eslintrc` file in the same directory as the file being linted, then that configuration takes precedence. ESLint then searches up the directory structure, merging any `.eslintrc` files it finds along the way until reaching either an `.eslintrc` file with `root: true` or the root directory.
 
 In the same way, if there is a `package.json` file in the root directory with an `eslintConfig` field, the configuration it describes is applied to all subdirectories beneath it. However, the configuration described by the `.eslintrc` file in the `tests/` directory overrides conflicting specifications.
 
@@ -150,7 +150,7 @@ your-project
   └── test.js
 ```
 
-If there is a `.eslintrc` and a `package.json` file found in the same directory, `.eslintrc` takes priority and the `package.json` file is not used.
+If there is an `.eslintrc` and a `package.json` file found in the same directory, `.eslintrc` takes priority and the `package.json` file is not used.
 
 By default, ESLint looks for configuration files in all parent folders up to the root directory. This can be useful if you want all of your projects to follow a certain convention, but can sometimes lead to unexpected results. To limit ESLint to a specific project, place `"root": true` inside the `.eslintrc.*` file or `eslintConfig` field of the `package.json` file or in the `.eslintrc.*` file at your project's root level. ESLint stops looking in parent folders once it finds a configuration with `"root": true`.
 

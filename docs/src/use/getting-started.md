@@ -64,7 +64,7 @@ yarn run eslint yourfile.js
 
 **Note:** If you are coming from a version before 1.0.0 please see the [migration guide](migrating-to-1.0.0).
 
-After running `npm init @eslint/config`, you'll have a `.eslintrc.{js,yml,json}` file in your directory. In it, you'll see some rules configured like this:
+After running `npm init @eslint/config`, you'll have an `.eslintrc.{js,yml,json}` file in your directory. In it, you'll see some rules configured like this:
 
 ```json
 {
