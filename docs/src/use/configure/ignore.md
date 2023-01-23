@@ -37,13 +37,13 @@ If a config is provided via the `--config` CLI option, the ignore patterns that 
 
 ## The `.eslintignore` File
 
-You can tell ESLint to ignore specific files and directories by creating a `.eslintignore` file in your project's root directory. The `.eslintignore` file is a plain text file where each line is a glob pattern indicating which paths should be omitted from linting. For example, the following omits all JavaScript files:
+You can tell ESLint to ignore specific files and directories by creating an `.eslintignore` file in your project's root directory. The `.eslintignore` file is a plain text file where each line is a glob pattern indicating which paths should be omitted from linting. For example, the following omits all JavaScript files:
 
 ```text
 **/*.js
 ```
 
-When ESLint is run, it looks in the current working directory to find a `.eslintignore` file before determining which files to lint. If this file is found, then those preferences are applied when traversing directories. Only one `.eslintignore` file can be used at a time, so `.eslintignore` files other than the one in the current working directory are not used.
+When ESLint is run, it looks in the current working directory to find an `.eslintignore` file before determining which files to lint. If this file is found, then those preferences are applied when traversing directories. Only one `.eslintignore` file can be used at a time, so `.eslintignore` files other than the one in the current working directory are not used.
 
 Globs are matched using [node-ignore](https://github.com/kaelzhang/node-ignore), so a number of features are available:
 

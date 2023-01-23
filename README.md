@@ -59,7 +59,7 @@ After that, you can run ESLint on any file or directory like this:
 
 ## Configuration
 
-After running `npm init @eslint/config`, you'll have a `.eslintrc` file in your directory. In it, you'll see some rules configured like this:
+After running `npm init @eslint/config`, you'll have an `.eslintrc` file in your directory. In it, you'll see some rules configured like this:
 
 ```json
 {

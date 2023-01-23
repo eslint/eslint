@@ -4433,7 +4433,7 @@ describe("CLIEngine", () => {
                 const cwd = getFixturePath("ignored-paths", "configurations");
                 const engine = new CLIEngine({ cwd });
 
-                // a .eslintignore in parent directories includes `*.js`, but don't load it.
+                // an .eslintignore in parent directories includes `*.js`, but don't load it.
                 assert(!engine.isPathIgnored("foo.js"));
                 assert(engine.isPathIgnored("node_modules/foo.js"));
             });
@@ -4593,7 +4593,7 @@ describe("CLIEngine", () => {
                 const cwd = getFixturePath("ignored-paths", "no-ignore-file");
                 const engine = new CLIEngine({ ignorePath: false, cwd });
 
-                // a .eslintignore in parent directories includes `*.js`, but don't load it.
+                // an .eslintignore in parent directories includes `*.js`, but don't load it.
                 assert(!engine.isPathIgnored("foo.js"));
                 assert(engine.isPathIgnored("node_modules/foo.js"));
             });
