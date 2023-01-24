@@ -74,6 +74,10 @@ do {
 } while (x = -1);
 
 var result = 0 ? a : b;
+
+if(input === "hello" || "bye"){
+  output(input);
+}
 ```
 
 :::
@@ -102,6 +106,10 @@ do {
 } while (x);
 
 var result = x !== 0 ? a : b;
+
+if(input === "hello" || input === "bye"){
+  output(input);
+}
 ```
 
 :::
