@@ -126,6 +126,11 @@ div.incorrect {
     }
 }
 
+div.img-container {
+    background-color: var(--img-background-color);
+    border-radius: var(--border-radius);
+}
+
 pre[class*="language-"] {
     position: relative;
 }
