@@ -145,7 +145,7 @@ Examples of **incorrect** code for the `"restrictDefaultExports": { "direct": tr
 
 export default foo;
 export default 42;
-export default function foo() {};
+export default function foo() {}
 ```
 
 :::

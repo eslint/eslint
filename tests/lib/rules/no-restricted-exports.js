@@ -557,7 +557,7 @@ ruleTester.run("no-restricted-exports", rule, {
             errors: [{ messageId: "restrictedDefault", type: "ExportDefaultDeclaration", column: 1 }]
         },
         {
-            code: "export default function foo() {};",
+            code: "export default function foo() {}",
             options: [{ restrictDefaultExports: { direct: true } }],
             errors: [{ messageId: "restrictedDefault", type: "ExportDefaultDeclaration", column: 1 }]
         },
