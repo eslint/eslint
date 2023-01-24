@@ -2230,6 +2230,261 @@ describe("RuleTester", () => {
         });
     });
 
+    describe("fatal test cases", () => {
+        const rule = {
+            meta: { schema: [] },
+            create: context => ({
+                Literal(node) {
+
+                    /** */
+                    class CustomError extends Error {} // Custom Error class.
+                    if (node.value === "foo") {
+                        throw new CustomError("Some custom error message");
+                    }
+                    if (node.value === "bar") {
+                        context.report(node, "no baz");
+                    }
+                }
+            })
+        };
+        const ruleWithoutCustomErrorClass = {
+            meta: { schema: [] },
+            create: context => ({
+                Literal(node) {
+
+                    const error = new Error("Some custom error message"); // Standard Error class.
+
+                    error.name = "CustomError"; // This name comes from the `name` property, not the constructor's name.
+
+                    if (node.value === "foo") {
+                        throw error;
+                    }
+                    if (node.value === "bar") {
+                        context.report(node, "no baz");
+                    }
+                }
+            })
+        };
+
+        it("should handle custom rule error exception", () => {
+
+            ruleTester.run("rule", rule, {
+                valid: ["'baz'"],
+                invalid: [{ code: "'bar'", errors: [{ message: "no baz" }] }],
+                fatal: [
+                    {
+                        code: "'foo'",
+                        error: {
+
+                            // both `message` and `name`
+                            message: "Some custom error message",
+                            name: "CustomError"
+                        }
+                    },
+                    {
+                        code: "'foo'",
+                        error: {
+
+                            // omit `message`
+                            name: "CustomError"
+                        }
+                    },
+                    {
+                        code: "'foo'",
+                        error: {
+
+                            // omit `name`
+                            message: "Some custom error message"
+                        }
+                    },
+                    {
+                        code: "'foo'",
+                        error: {
+
+                            // `message` as RegExp
+                            message: /Some custom error message/u,
+                            name: "CustomError"
+                        }
+                    }
+                ]
+            });
+
+            ruleTester.run("ruleWithoutCustomErrorClass", ruleWithoutCustomErrorClass, {
+                valid: ["'baz'"],
+                invalid: [{ code: "'bar'", errors: [{ message: "no baz" }] }],
+                fatal: [
+                    {
+                        code: "'foo'",
+                        error: {
+
+                            // both `message` and `name`
+                            message: "Some custom error message",
+                            name: "CustomError"
+                        }
+                    }
+                ]
+            });
+        });
+
+        it("should handle a schema validation error", () => {
+            ruleTester.run("no-bar", rule, {
+                valid: ["foo()"],
+                invalid: [{ code: "'bar'", errors: [{ message: "no baz" }] }],
+                fatal: [
+                    {
+                        code: "'foo'",
+                        options: [{ foo: true }],
+                        error: {
+
+                            // both `message` and `name`
+                            message: 'Value [{"foo":true}] should NOT have more than 0 items.',
+                            name: "SchemaValidationError"
+                        }
+                    },
+                    {
+                        code: "'foo'",
+                        options: [{ foo: true }],
+                        error: {
+
+                            // omit `message`
+                            name: "SchemaValidationError"
+                        }
+                    },
+                    {
+                        code: "'foo'",
+                        options: [{ foo: true }],
+                        error: {
+
+                            // omit `name`
+                            message: 'Value [{"foo":true}] should NOT have more than 0 items.'
+                        }
+                    },
+                    {
+
+                        // omit `code`
+                        options: [{ foo: true }],
+                        error: {
+
+                            // omit `name`
+                            message: 'Value [{"foo":true}] should NOT have more than 0 items.'
+                        }
+                    }
+                ]
+            });
+        });
+
+        it("throws when fatal test case does not match error thrown", () => {
+
+            // error `name` does not match
+            assert.throws(() => {
+                ruleTester.run("foo", rule, {
+                    valid: [{ code: "'baz'" }],
+                    invalid: [{ code: "'bar'", errors: [{ type: "Literal" }] }],
+                    fatal: [{ code: "'foo'", error: { name: "FakeErrorName" } }]
+                });
+            }, 'Fatal error name should be "FakeErrorName" but got "CustomError" instead.');
+
+            // error `message` does not match
+            assert.throws(() => {
+                ruleTester.run("foo", rule, {
+                    valid: [{ code: "'baz'" }],
+                    invalid: [{ code: "'bar'", errors: [{ type: "Literal" }] }],
+                    fatal: [{ code: "'foo'", error: { message: "Fake Message" } }]
+                });
+            });
+
+            /*
+             * TODO: figure out why this assert message doesn't match:
+             * "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'Some custom error message'\n- 'Fake Message'");
+             */
+        });
+
+        it("throws when fatal test case has no error", () => {
+            assert.throws(() => {
+                ruleTester.run("foo", rule, {
+                    valid: [{ code: "'baz'" }],
+                    invalid: [{ code: "'bar'", errors: [{ type: "Literal" }] }],
+                    fatal: [{ code: "foo", error: { name: "Error" } }]
+                });
+            }, "A fatal test case must throw an exception");
+        });
+
+        it("throws with missing properties or wrong property types", () => {
+
+            // empty `fatal` object
+            assert.throws(() => {
+                ruleTester.run("foo", rule, {
+                    valid: [{ code: "'baz'" }],
+                    invalid: [{ code: "'bar'", errors: [{ type: "Literal" }] }],
+                    fatal: [{}]
+                });
+            }, "Test case property 'error' must be an object");
+
+            // wrong type `code`
+            assert.throws(() => {
+                ruleTester.run("foo", rule, {
+                    valid: [{ code: "'baz'" }],
+                    invalid: [{ code: "'bar'", errors: [{ type: "Literal" }] }],
+                    fatal: [{ code: true }]
+                });
+            }, "Optional test case property 'code' must be a string");
+
+            // wrong type `name`
+            assert.throws(() => {
+                ruleTester.run("foo", rule, {
+                    valid: [{ code: "'baz'" }],
+                    invalid: [{ code: "'bar'", errors: [{ type: "Literal" }] }],
+                    fatal: [{ name: true }]
+                });
+            }, "Optional test case property 'name' must be a string");
+
+            // extra property in `fatal` object
+            assert.throws(() => {
+                ruleTester.run("foo", rule, {
+                    valid: [{ code: "'baz'" }],
+                    invalid: [{ code: "'bar'", errors: [{ type: "Literal" }] }],
+                    fatal: [{ error: { name: "Error" }, code: "'foo'", foo: true }]
+                });
+            }, 'ESLint configuration in rule-tester is invalid:\n\t- Unexpected top-level property "foo".');
+
+            // extra property in `error` object
+            assert.throws(() => {
+                ruleTester.run("foo", rule, {
+                    valid: [{ code: "'baz'" }],
+                    invalid: [{ code: "'bar'", errors: [{ type: "Literal" }] }],
+                    fatal: [{ error: { name: "Error", foo: true }, code: "'foo'" }]
+                });
+            }, "Invalid error property name 'foo'. Expected one of ['message', 'name'].");
+
+            // empty `error` object
+            assert.throws(() => {
+                ruleTester.run("foo", rule, {
+                    valid: [{ code: "'baz'" }],
+                    invalid: [{ code: "'bar'", errors: [{ type: "Literal" }] }],
+                    fatal: [{ error: {} }]
+                });
+            }, "Test case property 'error' object must provide a string 'name' property or string/regexp 'message' property");
+
+            // wrong type `error.name`
+            assert.throws(() => {
+                ruleTester.run("foo", rule, {
+                    valid: [{ code: "'baz'" }],
+                    invalid: [{ code: "'bar'", errors: [{ type: "Literal" }] }],
+                    fatal: [{ error: { name: true } }]
+                });
+            }, "Test case property 'error' object must provide a string 'name' property or string/regexp 'message' property");
+
+            // wrong type `error.message`
+            assert.throws(() => {
+                ruleTester.run("foo", rule, {
+                    valid: [{ code: "'baz'" }],
+                    invalid: [{ code: "'bar'", errors: [{ type: "Literal" }] }],
+                    fatal: [{ error: { message: true } }]
+                });
+            }, "Test case property 'error' object must provide a string 'name' property or string/regexp 'message' property");
+        });
+    });
+
     describe("deprecations", () => {
         let processStub;
         const ruleWithNoSchema = {
@@ -2785,6 +3040,15 @@ describe("RuleTester", () => {
                 ]
             });
             sinon.assert.calledWith(spyRuleTesterIt, code);
+        });
+
+        it("should label a fatal test case with no `code` correctly", () => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [],
+                fatal: [{ options: [{ foo: true }] }]
+            });
+            sinon.assert.calledWith(spyRuleTesterIt, "(Test Case #1)");
         });
 
     });

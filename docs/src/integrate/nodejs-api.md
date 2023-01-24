@@ -796,7 +796,30 @@ ruleTester.run("my-rule", rule, {
             code: "var invalidVariable = true",
             errors: [{ message: /^Unexpected.+variable/ }]
         }
-    ]
+    ],
+
+    // Optional array for testing invalid rule options or custom exceptions thrown by a rule.
+    fatal: [
+        // Test case for invalid rule options. Useful for complex schemas.
+        {
+            // `code` can be omitted as it's irrelevant when testing the schema.
+            options: [{ foo: true }],
+            error: {
+                // Only one property in this error object is required.
+                name: 'SchemaValidationError', // Error class name.
+                message: 'Value {"foo":true} should NOT have additional properties.', // Error message. Can be provided as string or RegExp.
+            },
+        },
+
+        // Test case for a custom exception thrown by the rule.
+        {
+            code: 'for(const x of [1, 2, 3]) {}',
+            error: {
+                name: 'NotYetImplementedError',
+                message: 'Not implemented',
+            },
+        },
+    ],
 });
 ```
 
@@ -810,9 +833,9 @@ The `RuleTester#run()` method is used to run the tests. It should be passed the 
 
 * The name of the rule (string)
 * The rule object itself (see ["working with rules"](../extend/custom-rules))
-* An object containing `valid` and `invalid` properties, each of which is an array containing test cases.
+* An object containing the following test case array properties: `valid`, `invalid`, `fatal` (optional)
 
-A test case is an object with the following properties:
+Valid and invalid test cases are objects with the following properties:
 
 * `name` (string, optional): The name to use for the test case, to make it easier to find
 * `code` (string, required): The source code that the rule should be run on
@@ -835,6 +858,8 @@ In addition to the properties above, invalid test cases can also have the follow
 
     If a string is provided as an error instead of an object, the string is used to assert the `message` of the error.
 * `output` (string, required if the rule fixes code): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null`, asserts that none of the reported problems suggest autofixes.
+
+Fatal test cases (which are optional) are the same as invalid test cases, except that `code` is optional (it may be irrelevant when testing rule options), and there's an `error` object instead of an `errors` array. The `error` object should include one or both of the `message` of the error and the error (exception) class `name`. Fatal test cases can be used to test custom errors thrown by the rule, or invalid rule options (in which case the error `name` will be `SchemaValidationError`, and the `message` will be come from JSON Schema -- note that strings from JSON Schema are subject to change with future upgrades).
 
 Any additional properties of a test case will be passed directly to the linter as config options. For example, a test case can have a `parserOptions` property to configure parser behavior:
 
