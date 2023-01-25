@@ -4,7 +4,7 @@ eleventyNavigation:
     key: custom formatters
     parent: extend eslint
     title: Custom Formatters
-    order: 3
+    order: 4
 
 ---
 

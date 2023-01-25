@@ -4,7 +4,7 @@ eleventyNavigation:
     key: create plugins
     parent: extend eslint
     title: Create Plugins
-    order: 1
+    order: 2
 
 ---
 

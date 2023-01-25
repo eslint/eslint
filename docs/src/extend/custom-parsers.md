@@ -4,7 +4,7 @@ eleventyNavigation:
     key: custom parsers
     parent: extend eslint
     title: Custom Parsers
-    order: 4
+    order: 5
 
 ---
 
