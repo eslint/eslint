@@ -7,7 +7,9 @@ eleventyNavigation:
     order: 1
 ---
 
-<center><img alt="dependency graph" src="../../assets/images/architecture/dependency.svg"></center>
+:::img-container
+<img alt="dependency graph" src="../../assets/images/architecture/dependency.svg">
+:::
 
 At a high level, there are a few key parts to ESLint:
 

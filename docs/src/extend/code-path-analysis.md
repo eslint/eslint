@@ -14,7 +14,9 @@ if (a && b) {
 bar();
 ```
 
+:::img-container
 ![Code Path Example](../assets/images/code-path-analysis/helo.svg)
+:::
 
 ## Objects
 
@@ -143,17 +145,23 @@ bar();
 
 1. First, the analysis advances to the end of loop.
 
+:::img-container
    ![Loop Event's Example 1](../assets/images/code-path-analysis/loop-event-example-while-1.svg)
+:::
 
 2. Second, it creates the looping path.
    At this time, the next segment has existed already, so the `onCodePathSegmentStart` event is not fired.
    It fires `onCodePathSegmentLoop` instead.
 
+:::img-container
    ![Loop Event's Example 2](../assets/images/code-path-analysis/loop-event-example-while-2.svg)
+:::
 
 3. Last, it advances to the end.
 
+:::img-container
    ![Loop Event's Example 3](../assets/images/code-path-analysis/loop-event-example-while-3.svg)
+:::
 
 For example 2:
 
@@ -168,29 +176,39 @@ bar();
    First, the analysis advances to `ForStatement.update`.
    The `update` segment is hovered at first.
 
+:::img-container
    ![Loop Event's Example 1](../assets/images/code-path-analysis/loop-event-example-for-1.svg)
+:::
 
 2. Second, it advances to `ForStatement.body`.
    Of course the `body` segment is preceded by the `test` segment.
    It keeps the `update` segment hovering.
 
+:::img-container
    ![Loop Event's Example 2](../assets/images/code-path-analysis/loop-event-example-for-2.svg)
+:::
 
 3. Third, it creates the looping path from `body` segment to `update` segment.
    At this time, the next segment has existed already, so the `onCodePathSegmentStart` event is not fired.
    It fires `onCodePathSegmentLoop` instead.
 
+:::img-container
    ![Loop Event's Example 3](../assets/images/code-path-analysis/loop-event-example-for-3.svg)
+:::
 
 4. Fourth, also it creates the looping path from `update` segment to `test` segment.
    At this time, the next segment has existed already, so the `onCodePathSegmentStart` event is not fired.
    It fires `onCodePathSegmentLoop` instead.
 
+:::img-container
    ![Loop Event's Example 4](../assets/images/code-path-analysis/loop-event-example-for-4.svg)
+:::
 
 5. Last, it advances to the end.
 
+:::img-container
    ![Loop Event's Example 5](../assets/images/code-path-analysis/loop-event-example-for-5.svg)
+:::
 
 ## Usage Examples
 
@@ -336,7 +354,9 @@ See Also:
 console.log("Hello world!");
 ```
 
+:::img-container
 ![Hello World](../assets/images/code-path-analysis/example-hello-world.svg)
+:::
 
 ### `IfStatement`
 
@@ -348,7 +368,9 @@ if (a) {
 }
 ```
 
+:::img-container
 ![`IfStatement`](../assets/images/code-path-analysis/example-ifstatement.svg)
+:::
 
 ### `IfStatement` (chain)
 
@@ -362,7 +384,9 @@ if (a) {
 }
 ```
 
+:::img-container
 ![`IfStatement` (chain)](../assets/images/code-path-analysis/example-ifstatement-chain.svg)
+:::
 
 ### `SwitchStatement`
 
@@ -383,7 +407,9 @@ switch (a) {
 }
 ```
 
+:::img-container
 ![`SwitchStatement`](../assets/images/code-path-analysis/example-switchstatement.svg)
+:::
 
 ### `SwitchStatement` (has `default`)
 
@@ -408,7 +434,9 @@ switch (a) {
 }
 ```
 
+:::img-container
 ![`SwitchStatement` (has `default`)](../assets/images/code-path-analysis/example-switchstatement-has-default.svg)
+:::
 
 ### `TryStatement` (try-catch)
 
@@ -431,7 +459,9 @@ It creates the paths from `try` block to `catch` block at:
 * The first throwable node (e.g. a function call) in the `try` block.
 * The end of the `try` block.
 
+:::img-container
 ![`TryStatement` (try-catch)](../assets/images/code-path-analysis/example-trystatement-try-catch.svg)
+:::
 
 ### `TryStatement` (try-finally)
 
@@ -449,7 +479,9 @@ If there is not `catch` block, `finally` block has two current segments.
 At this time, `CodePath.currentSegments.length` is `2`.
 One is the normal path, and another is the leaving path (`throw` or `return`).
 
+:::img-container
 ![`TryStatement` (try-finally)](../assets/images/code-path-analysis/example-trystatement-try-finally.svg)
+:::
 
 ### `TryStatement` (try-catch-finally)
 
@@ -465,7 +497,9 @@ try {
 last();
 ```
 
+:::img-container
 ![`TryStatement` (try-catch-finally)](../assets/images/code-path-analysis/example-trystatement-try-catch-finally.svg)
+:::
 
 ### `WhileStatement`
 
@@ -479,7 +513,9 @@ while (a) {
 }
 ```
 
+:::img-container
 ![`WhileStatement`](../assets/images/code-path-analysis/example-whilestatement.svg)
+:::
 
 ### `DoWhileStatement`
 
@@ -490,7 +526,9 @@ do {
 } while (a);
 ```
 
+:::img-container
 ![`DoWhileStatement`](../assets/images/code-path-analysis/example-dowhilestatement.svg)
+:::
 
 ### `ForStatement`
 
@@ -504,7 +542,9 @@ for (let i = 0; i < 10; ++i) {
 }
 ```
 
+:::img-container
 ![`ForStatement`](../assets/images/code-path-analysis/example-forstatement.svg)
+:::
 
 ### `ForStatement` (for ever)
 
@@ -515,7 +555,9 @@ for (;;) {
 bar();
 ```
 
+:::img-container
 ![`ForStatement` (for ever)](../assets/images/code-path-analysis/example-forstatement-for-ever.svg)
+:::
 
 ### `ForInStatement`
 
@@ -525,7 +567,9 @@ for (let key in obj) {
 }
 ```
 
+:::img-container
 ![`ForInStatement`](../assets/images/code-path-analysis/example-forinstatement.svg)
+:::
 
 ### When there is a function
 
@@ -544,8 +588,12 @@ It creates two code paths.
 
 * The global's
 
+:::img-container
   ![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-g.svg)
+:::
 
 * The function's
 
+:::img-container
   ![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-f.svg)
+:::

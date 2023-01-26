@@ -131,6 +131,7 @@ html[data-theme="light"] {
     --hero-background-color: var(--color-neutral-25);
     --footer-background-color: var(--color-neutral-25);
     --outline-color: var(--color-brand);
+    --img-background-color: #fff;
 }
 
 html[data-theme="dark"] {
@@ -151,4 +152,5 @@ html[data-theme="dark"] {
     --hero-background-color: var(--color-neutral-800);
     --footer-background-color: var(--color-neutral-800);
     --outline-color: #fff;
+    --img-background-color: var(--color-neutral-300);
 }

@@ -195,6 +195,7 @@ module.exports = function(eleventyConfig) {
         .use(markdownItAnchor, {
             slugify
         })
+        .use(markdownItContainer, "img-container", {})
         .use(markdownItContainer, "correct", {})
         .use(markdownItContainer, "incorrect", {})
         .use(markdownItContainer, "warning", {
