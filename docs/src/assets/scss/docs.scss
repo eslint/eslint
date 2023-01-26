@@ -129,8 +129,10 @@ div.incorrect {
 div.img-container {
     background-color: var(--img-background-color);
     border-radius: var(--border-radius);
-    display: flex;
-    justify-content: center;
+
+    img {
+       margin: 0 auto; 
+    }
 }
 
 pre[class*="language-"] {
