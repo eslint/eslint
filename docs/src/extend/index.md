@@ -7,17 +7,13 @@ eleventyNavigation:
 
 ---
 
-This guide is intended for those who wish to:
+This guide is intended for those who wish to extend the functionality of ESLint.
 
-* Contribute code to ESLint
-* Create their own rules for ESLint
-
-In order to work with ESLint as a developer, it's recommended that:
+In order to extend ESLint, it's recommended that:
 
 * You know JavaScript, since ESLint is written in JavaScript.
 * You have some familiarity with Node.js, since ESLint runs on it.
 * You're comfortable with command-line programs.
-* You understand unit tests and why they're important.
 
 If that sounds like you, then continue reading to get started.
 
@@ -35,7 +31,7 @@ This section explains how you can create a custom formatter to control what ESLi
 
 ## [Custom Parsers](custom-parsers)
 
-If you aren't going to use the default parser of ESLint, this section explains about using custom parsers.
+If you don't want to use the default parser of ESLint, this section explains how to create custom parsers.
 
 ## [Share Configurations](shareable-configs)
 
