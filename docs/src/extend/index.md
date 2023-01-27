@@ -23,7 +23,7 @@ If that sounds like you, then continue reading to get started.
 
 ## [Create Plugins](plugins)
 
-You've developed library-specific rules for ESLint and you want to share them with the community. You can publish an ESLint plugin on npm.
+You've developed custom rules for ESLint and you want to share them with the community. You can publish an ESLint plugin on npm.
 
 ## [Custom Rules](custom-rules)
 
