@@ -90,6 +90,8 @@ var bar = 3;
 
 **Incorrect**:
 
+::: incorrect
+
 ```js
 1    /*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }]*/⏎
 2    ⏎
@@ -101,7 +103,11 @@ var bar = 3;
 8
 ```
 
+:::
+
 **Correct**:
+
+::: correct
 
 ```js
 1    /*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }]*/⏎
@@ -112,6 +118,8 @@ var bar = 3;
 6    var bar = 3;⏎
 7
 ```
+
+:::
 
 ### maxBOF
 
