@@ -34,10 +34,6 @@ If you'd like to request a change other than a bug fix or new rule, this section
 
 Learn about the architecture of the ESLint project.
 
-## [Get the Source Code](source-code)
-
-Before you can get started developing ESLint, you'll need to get a copy of the ESLint source code. This section explains how to do that and a little about the source code structure.
-
 ## [Set up a Development Environment](development-environment)
 
 Developing for ESLint is a bit different than running it on the command line. This section shows you how to set up a development environment and get you ready to write code.
