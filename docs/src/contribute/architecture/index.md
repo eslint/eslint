@@ -2,9 +2,9 @@
 title: Architecture
 eleventyNavigation:
     key: architecture
-    parent: developer guide
+    parent: contribute to eslint
     title: Architecture
-    order: 1
+    order: 5
 ---
 
 :::img-container

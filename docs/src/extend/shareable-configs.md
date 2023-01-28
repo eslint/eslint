@@ -1,10 +1,10 @@
 ---
-title: Shareable Configs
+title: Share Configurations
 eleventyNavigation:
-    key: shareable configs
-    parent: developer guide
-    title: Shareable Configs
-    order: 8
+    key: share configs
+    parent: extend eslint
+    title: Share Configurations
+    order: 5
 
 ---
 

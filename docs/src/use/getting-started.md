@@ -2,7 +2,7 @@
 title: Getting Started with ESLint
 eleventyNavigation:
     key: getting started 
-    parent: user guide
+    parent: use eslint
     title: Getting Started
     order: 1
 
@@ -116,7 +116,7 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
    touch .eslintrc.js
    ```
 
-1. Add configuration to the `.eslintrc` file. Refer to the [Configuring ESLint documentation](configure/) to learn how to add rules, environments, custom configurations, plugins, and more.
+1. Add configuration to the `.eslintrc` file. Refer to the [Configure ESLint documentation](configure/) to learn how to add rules, environments, custom configurations, plugins, and more.
 
    ```js
    // .eslintrc.js example

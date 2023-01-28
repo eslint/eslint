@@ -1,11 +1,10 @@
 ---
-title: Development Environment
+title: Set up a Development Environment
 eleventyNavigation:
-    key: set up a development environment
-    parent: developer guide
-    title: Set Up a Development Environment
-    order: 2
-
+    key: development environment
+    parent: contribute to eslint
+    title: Set up a Development Environment
+    order: 6
 ---
 
 ESLint has a very lightweight development environment that makes updating code fast and easy. This is a step-by-step guide to setting up a local development environment that will let you contribute back to the project.

@@ -1,6 +1,10 @@
 ---
-title: Change Requests
-
+title: Request a Change
+eleventyNavigation:
+    key: request change
+    parent: contribute to eslint
+    title: Request a Change
+    order: 4
 ---
 
 If you'd like to request a change to ESLint, please [create a new issue](https://github.com/eslint/eslint/issues/new/choose) on GitHub. Be sure to include the following information:

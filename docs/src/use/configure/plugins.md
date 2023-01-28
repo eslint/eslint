@@ -1,10 +1,10 @@
 ---
-title: Plugins & Parsers
+title: Configure Plugins & Parsers
 eleventyNavigation:
-    key: configuring plugins
-    parent: configuring
-    title: Configuring Plugins & Parsers
-    order: 4
+    key: configure plugins
+    parent: configure
+    title: Configure Plugins & Parsers
+    order: 5
 
 ---
 

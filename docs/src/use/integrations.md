@@ -2,7 +2,7 @@
 title: Integrations
 eleventyNavigation:
     key: integrations
-    parent: user guide
+    parent: use eslint
     title: Integrations
     order: 7
 

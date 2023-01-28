@@ -1,9 +1,9 @@
 ---
-title: Migrating to v8.0.0
+title: Migrate to v8.0.0
 eleventyNavigation:
-    key: migrating to v8
-    parent: user guide
-    title: Migrating to v8.x
+    key: migrate to v8
+    parent: use eslint
+    title: Migrate to v8.x
     order: 7
 
 ---

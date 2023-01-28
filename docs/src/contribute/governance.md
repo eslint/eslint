@@ -2,9 +2,9 @@
 title: Governance
 eleventyNavigation:
     key: governance
-    parent: maintainer guide
+    parent: contribute to eslint
     title: Governance
-    order: 4
+    order: 10
 
 ---
 
@@ -36,8 +36,8 @@ Website Team Members are community members who have shown that they are committe
 * Are expected to delete their public branches when they are no longer necessary.
 * Must submit pull requests for all changes.
 * Have their work reviewed by Reviewers and TSC members before acceptance into the repository.
-* May label and close website-related issues (see [Managing Issues](../maintain/manage-issues))
-* May merge some pull requests (see [Managing Pull Requests](../maintain/review-pull-requests))
+* May label and close website-related issues (see [Manage Issues](../maintain/manage-issues))
+* May merge some pull requests (see [Review Pull Requests](../maintain/review-pull-requests))
 
 To become a  Website Team Member:
 
@@ -59,8 +59,8 @@ Committers:
 * Are expected to delete their public branches when they are no longer necessary.
 * Must submit pull requests for all changes.
 * Have their work reviewed by TSC members before acceptance into the repository.
-* May label and close issues (see [Managing Issues](../maintain/manage-issues))
-* May merge some pull requests (see [Managing Pull Requests](../maintain/review-pull-requests))
+* May label and close issues (see [Manage Issues](../maintain/manage-issues))
+* May merge some pull requests (see [Review Pull Requests](../maintain/review-pull-requests))
 
 To become a Committer:
 
@@ -143,7 +143,7 @@ A Reviewer is invited to become a TSC member by existing TSC members. A nominati
 
 1. Add the GitHub user to the "ESLint TSC" GitHub team
 1. Set the GitHub user to be have the "Owner" role for the ESLint organization
-1. Send a welcome email with a link to the [maintainer guide](./) and instructions for npm 2FA.
+1. Send a welcome email with a link to the [Maintain ESLint documentation](../maintain/) and instructions for npm 2FA.
 1. Invite to the Discord TSC channel
 1. Make the TSC member an admin on the ESLint team mailing list
 1. Add the TSC member to the recurring TSC meeting event on Google Calendar

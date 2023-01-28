@@ -1,9 +1,9 @@
 ---
-title: Configuring ESLint
+title: Configure ESLint
 eleventyNavigation:
-    key: configuring
-    parent: user guide
-    title: Configuring
+    key: configure
+    parent: use eslint
+    title: Configure ESLint
     order: 3
 
 ---
@@ -34,24 +34,24 @@ All of these options give you fine-grained control over how ESLint treats your c
 * [Configuration Based on Glob Patterns](./configuration-files#configuration-based-on-glob-patterns)
 * [Personal Configuration Files](./configuration-files#personal-configuration-files-deprecated)
 
-[**Language Options**](language-options)
+[**Configure Language Options**](language-options)
 
 * [Specifying Environments](./language-options#specifying-environments)
 * [Specifying Globals](./language-options#specifying-globals)
 * [Specifying Parser Options](./language-options#specifying-parser-options)
 
-[**Rules**](rules)
+[**Configure Rules**](rules)
 
 * [Configuring Rules](./rules#configuring-rules)
 * [Disabling Rules](./rules#disabling-rules)
 
-[**Plugins**](plugins)
+[**Configure Plugins**](plugins)
 
-* [Configuring Plugins](./plugins#configure-plugins)
-* [Specifying Processors](./plugins#specify-a-processor)
-* [Configuring Parsers](./plugins#configure-a-parser)
+* [Configure Plugins](./plugins#configure-plugins)
+* [Specify a Processor](./plugins#specify-a-processor)
+* [Configure Parsers](./plugins#configure-a-parser)
 
-[**Ignoring Code**](ignore)
+[**Ignore Files**](ignore)
 
 * [`ignorePatterns` in Config Files](./ignore#ignorepatterns-in-config-files)
 * [The `.eslintignore` File](./ignore#the-eslintignore-file)

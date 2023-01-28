@@ -1,16 +1,20 @@
 ---
-title: Working on Issues
-
+title: Work on Issues
+eleventyNavigation:
+    key: work on issues
+    parent: contribute to eslint
+    title: Work on Issues
+    order: 8
 ---
 
 Our public [issues tracker](https://github.com/eslint/eslint/issues) lists all of the things we plan on doing as well as suggestions from the community. Before starting to work on an issue, be sure you read through the rest of this page.
 
 ## Issue Labels
 
-We use labels to indicate the status of issues. The most complete documentation on the labels is found in the [Maintainer Guide](../maintain/manage-issues#when-an-issue-is-opened), but most contributors should find the information on this page sufficient. The most important questions that labels can help you, as a contributor, answer are:
+We use labels to indicate the status of issues. The most complete documentation on the labels is found in the [Maintain ESLint documentation](../maintain/manage-issues#when-an-issue-is-opened), but most contributors should find the information on this page sufficient. The most important questions that labels can help you, as a contributor, answer are:
 
 1. Is this issue available for me to work on? If you have little or no experience contributing to ESLint, the [`good first issue`](https://github.com/eslint/eslint/labels/good%20first%20issue) label marks appropriate issues. Otherwise, the [`help wanted`](https://github.com/eslint/eslint/labels/help%20wanted) label is an invitation to work on the issue. If you have more experience, you can try working on other issues labeled [`accepted`](https://github.com/eslint/eslint/labels/accepted). Conversely, issues not yet ready to work on are labeled `triage`, `evaluating`, and/or `needs bikeshedding`, and issues that cannot currently be worked on because of something else, such as a bug in a dependency, are labeled `blocked`.
-1. What is this issue about? Labels describing the nature of issues include `bug`, `enhancement`, `feature`, `question`, `rule`, `documentation`, `core`, `build`, `cli`, `infrastructure`, `breaking`, and `chore`. These are documented in the [Maintainer Guide](../maintain/manage-issues#types-of-issues).
+1. What is this issue about? Labels describing the nature of issues include `bug`, `enhancement`, `feature`, `question`, `rule`, `documentation`, `core`, `build`, `cli`, `infrastructure`, `breaking`, and `chore`. These are documented in [Maintain ESLint](../maintain/manage-issues#types-of-issues).
 1. What is the priority of this issue? Because we have a lot of issues, we prioritize certain issues above others. The following is the list of priorities, from highest to lowest:
 
     1. **Bugs** - problems with the project are actively affecting users. We want to get these resolved as quickly as possible.

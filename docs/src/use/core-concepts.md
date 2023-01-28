@@ -3,7 +3,7 @@ title: Core Concepts
 eleventyNavigation:
     key: core concepts
     title: Core Concepts
-    parent: user guide
+    parent: use eslint
     order: 2
 ---
 
@@ -43,7 +43,7 @@ An ESLint plugin is an npm module that can contain a set of ESLint rules, config
 
 A popular use case for plugins is to enforce best practices for a framework. For example, [@angular-eslint/eslint-plugin](https://www.npmjs.com/package/@angular-eslint/eslint-plugin) contains best practices for using the Angular framework.
 
-For more information, refer to [Configuring Plugins](./configure/plugins).
+For more information, refer to [Configure Plugins](./configure/plugins).
 
 ## Parsers
 

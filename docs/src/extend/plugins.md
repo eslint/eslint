@@ -1,10 +1,10 @@
 ---
-title: Working with Plugins
+title: Create Plugins
 eleventyNavigation:
-    key: working with plugings
-    parent: developer guide
-    title: Working with Plugins
-    order: 5
+    key: create plugins
+    parent: extend eslint
+    title: Create Plugins
+    order: 1
 
 ---
 
@@ -205,7 +205,7 @@ If the example plugin above were called `eslint-plugin-myPlugin`, the `myConfig`
 
 ```
 
-**Note:** Please note that configuration will not enable any of the plugin's rules by default, and instead should be treated as a standalone config. This means that you must specify your plugin name in the `plugins` array as well as any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configuring Plugins](../use/configure/plugins#configure-plugins) for more information.
+**Note:** Please note that configuration will not enable any of the plugin's rules by default, and instead should be treated as a standalone config. This means that you must specify your plugin name in the `plugins` array as well as any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configure Plugins](../use/configure/plugins#configure-plugins) for more information.
 
 ### Peer Dependency
 

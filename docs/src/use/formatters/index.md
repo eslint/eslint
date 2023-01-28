@@ -1,9 +1,9 @@
 ---
-title: Formatters
+title: Formatters Reference
 eleventyNavigation:
     key: formatters
-    parent: user guide
-    title: Formatters
+    parent: use eslint
+    title: Formatters Reference
     order: 6
 edit_link: https://github.com/eslint/eslint/edit/main/templates/formatter-examples.md.ejs
 ---

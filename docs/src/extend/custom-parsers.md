@@ -1,10 +1,10 @@
 ---
-title: Working with Custom Parsers
+title: Custom Parsers
 eleventyNavigation:
-    key: working with custom parsers
-    parent: developer guide
-    title: Working with Custom Parsers
-    order: 7
+    key: custom parsers
+    parent: extend eslint
+    title: Custom Parsers
+    order: 4
 
 ---
 

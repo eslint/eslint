@@ -1,10 +1,10 @@
 ---
-title: Node.js API
+title: Node.js API Reference
 eleventyNavigation:
     key: node.js api
-    parent: developer guide
-    title: Node.js API
-    order: 9
+    parent: extend eslint
+    title: Node.js API Reference
+    order: 6
 ---
 
 While ESLint is designed to be run on the command line, it's possible to use ESLint programmatically through the Node.js API. The purpose of the Node.js API is to allow plugin and tool authors to use the ESLint functionality directly, without going through the command line interface.

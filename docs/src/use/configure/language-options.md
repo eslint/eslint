@@ -1,10 +1,10 @@
 ---
-title: Language Options
+title: Configure Language Options
 eleventyNavigation:
-    key: configuring language options
-    parent: configuring
-    title: Configuring Language Options
-    order: 2
+    key: configure language options
+    parent: configure
+    title: Configure Language Options
+    order: 3
 
 ---
 

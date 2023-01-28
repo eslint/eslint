@@ -1,10 +1,10 @@
 ---
-title: Ignoring Code
+title: Ignore Files
 eleventyNavigation:
-    key: ignoring code
-    parent: configuring
-    title: Ignoring Code
-    order: 5
+    key: ignore files
+    parent: configure
+    title: Ignore Files
+    order: 6
 
 ---
 
