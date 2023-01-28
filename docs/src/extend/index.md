@@ -23,7 +23,7 @@ You've developed custom rules for ESLint and you want to share them with the com
 
 ## [Custom Rules](custom-rules)
 
-This section explains how to create and modify rules to use with ESLint.
+This section explains how to create custom rules to use with ESLint.
 
 ## [Custom Formatters](custom-formatters)
 
