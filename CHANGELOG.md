@@ -1,3 +1,20 @@
+v8.33.0 - January 28, 2023
+
+* [`17f4be2`](https://github.com/eslint/eslint/commit/17f4be2b66deb81f4e9ffb3d6bdfb79f3fcf85a2) docs: Fix examples in no-multiple-empty-lines rule (#16835) (jonz94)
+* [`9c7cfe3`](https://github.com/eslint/eslint/commit/9c7cfe33c4a39cf2c23529afe02030ea7f8acf70) docs: 'Source Code' content in 'Set up Development Environment' page (#16780) (Ben Perlmutter)
+* [`ede5c64`](https://github.com/eslint/eslint/commit/ede5c6475469a905da4f559ab55f0ee73168a9d7) docs: Custom processors page (#16802) (Ben Perlmutter)
+* [`2620614`](https://github.com/eslint/eslint/commit/2620614f525de13f2e3ab0a7cd92abe89dae4897) docs: Code of Conduct page (#16781) (Ben Perlmutter)
+* [`50a8efd`](https://github.com/eslint/eslint/commit/50a8efd957c70c9978a8ed25744a24193b00e078) docs: report a sec vulnerability page (#16808) (Ben Perlmutter)
+* [`2cc7954`](https://github.com/eslint/eslint/commit/2cc7954cdb1fed44e8a5d3c9b3ea1deceadb5e00) feat: add `restrictDefaultExports` option to no-restricted-exports rule (#16785) (Nitin Kumar)
+* [`ed60afd`](https://github.com/eslint/eslint/commit/ed60afd4450e769a975447178299446f4439d926) docs: Update page titles, section landing pages, and side TOC (#16760) (Ben Perlmutter)
+* [`333c712`](https://github.com/eslint/eslint/commit/333c71243537966930e9ab8178bc98c37949b5f2) docs: add background to code-path-diagrams for dark-mode (#16822) (Tanuj Kanti)
+* [`f5f7b9b`](https://github.com/eslint/eslint/commit/f5f7b9b8b512f5c6a5b4a1037f81bb3f5a7311e0) docs: Update README (GitHub Actions Bot)
+* [`2aa4f5f`](https://github.com/eslint/eslint/commit/2aa4f5fb2fdb1c4a1734093c225e5c6251b0ee0f) docs: no-constant-condition: Add multi-comparison example (#16776) (Sebastian Simon)
+* [`40287db`](https://github.com/eslint/eslint/commit/40287dbe7407934a69805f02ece07491778c3694) docs: Remove Google Group icon (#16779) (Nicholas C. Zakas)
+* [`ea10ca5`](https://github.com/eslint/eslint/commit/ea10ca5b7b5bd8f6e6daf030ece9a3a82f10994c) docs: 'a .eslint' -> 'an .eslint' for consistency (#16809) (Ben Perlmutter)
+* [`3be0748`](https://github.com/eslint/eslint/commit/3be07488ee7b6a9591d169be9648fbd36b32105e) docs: add example for nodejs lintText api (#16789) (Siva K)
+* [`ce4f5ff`](https://github.com/eslint/eslint/commit/ce4f5ff30590df053a539c8e8e2597838e038a36) docs: Replace removed related rules with a valid rule (#16800) (Ville Saalo)
+
 v8.32.0 - January 14, 2023
 
 * [`17b65ad`](https://github.com/eslint/eslint/commit/17b65ad10d653bb05077f21d8b1f79bee96e38d8) docs: IA Update page URL move (#16665) (Ben Perlmutter)
