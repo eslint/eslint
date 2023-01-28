@@ -98,7 +98,7 @@ overrides:
     processor: a-plugin/markdown
 ```
 
-See [Specifying Processor](../use/configure/plugins#specify-a-processor) for details.
+See [Specify a Processor](../use/configure/plugins#specify-a-processor) in the Plugin Configuration documentation for more details.
 
 ## File Extension-named Processor
 
