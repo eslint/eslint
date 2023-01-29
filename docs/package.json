@@ -19,6 +19,7 @@
         "start": "npm-run-all build:sass build:postcss --parallel watch:*",
         "build": "npm-run-all build:sass build:postcss build:eleventy images",
         "lint:scss": "stylelint \"**/*.{scss,html}\"",
+        "lint:links": "hyperlink ./_site/index.html --canonicalroot https://eslint.org/docs/head -r --internal ./_site/index.html --pretty --skip https:// --skip fragment-redirect --skip migrating-to --skip /blog --skip /play --skip /team --skip /donate | tap-spot",
         "lint:fix:scss": "npm run lint:scss -- --fix"
     },
     "devDependencies": {
@@ -36,6 +37,7 @@
         "eleventy-plugin-page-assets": "^0.3.0",
         "eleventy-plugin-reading-time": "^0.0.1",
         "github-slugger": "^1.5.0",
+        "hyperlink": "^5.0.4",
         "imagemin": "^8.0.1",
         "imagemin-cli": "^7.0.0",
         "js-yaml": "^3.14.1",
@@ -53,7 +55,8 @@
         "stylelint": "^14.13.0",
         "stylelint-config-html": "^1.1.0",
         "stylelint-config-standard": "^29.0.0",
-        "stylelint-config-standard-scss": "^5.0.0"
+        "stylelint-config-standard-scss": "^5.0.0",
+        "tap-spot": "^1.1.2"
     },
     "engines": {
         "node": ">=14.0.0"
