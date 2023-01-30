@@ -19,10 +19,9 @@ Shareable configs are simply npm packages that export a configuration object. To
 The module name must take one of the following forms:
 
 * Begin with `eslint-config-`, such as `eslint-config-myconfig`.
-* Be an npm [scoped modules](https://docs.npmjs.com/misc/scope). To create a scoped module, name or prefix the module with `@scope/eslint-config`, such as `@scope/eslint-config` or `@scope/eslint-config-myconfig`.
+* Be an npm [scoped module](https://docs.npmjs.com/misc/scope). To create a scoped module, name or prefix the module with `@scope/eslint-config`, such as `@scope/eslint-config` or `@scope/eslint-config-myconfig`.
 
-In your module, export the shareable config from the module's [`main`](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#main) entry point file. The default main entry point is `index.js`.
-For example:
+In your module, export the shareable config from the module's [`main`](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#main) entry point file. The default main entry point is `index.js`. For example:
 
 ```js
 // index.js
@@ -39,11 +38,11 @@ module.exports = {
 };
 ```
 
-Since `index.js` is just JavaScript, you can optionally read these settings from a file or generate them dynamically.
+Since the `index.js` file is just JavaScript, you can read these settings from a file or generate them dynamically.
 
 ## Publishing a Shareable Config
 
-Once your shareable config is ready, you can [publish to npm](https://docs.npmjs.com/getting-started/publishing-npm-packages) to share with others. We recommend using the `eslint` and `eslintconfig` [keywords](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#keywords) in the `package.json` so others can easily find your module.
+Once your shareable config is ready, you can [publish it to npm](https://docs.npmjs.com/getting-started/publishing-npm-packages) to share it with others. We recommend using the `eslint` and `eslintconfig` [keywords](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#keywords) in the `package.json` so others can easily find your module.
 
 You should declare your dependency on ESLint in the `package.json` using the [peerDependencies](https://docs.npmjs.com/files/package.json#peerdependencies) field. The recommended way to declare a dependency for future-proof compatibility is with the ">=" range syntax, using the lowest required ESLint version. For example:
 
@@ -109,7 +108,7 @@ You can also omit the `eslint-config` and it is automatically assumed by ESLint:
 }
 ```
 
-The module name can also be customized, just note that when using [scoped modules](https://docs.npmjs.com/misc/scope) you cannot omit the `eslint-config-` prefix. Doing so results in package naming conflicts, and thus often in resolution errors. For example, if you have a package named `@scope/eslint-config-myconfig`, the configuration should be specified as:
+The module name can also be customized, just note that when using [scoped modules](https://docs.npmjs.com/misc/scope) you cannot omit the `eslint-config-` prefix. Doing so results in package naming conflicts, and thus often in resolution errors. For example, if you have a package named `@scope/eslint-config-myconfig`, the configuration must be specified as:
 
 ```json
 {
@@ -175,13 +174,13 @@ myconfig
     └── common.js
 ```
 
-In your `index.js` you can do something like this:
+In the `index.js` file, you can do something like this:
 
 ```js
 module.exports = require('./lib/ci.js');
 ```
 
-Now inside your package you have `/lib/defaults.js`, which contains:
+Now inside the package you have `/lib/defaults.js`, which contains:
 
 ```js
 module.exports = {
@@ -191,13 +190,13 @@ module.exports = {
 };
 ```
 
-Inside your `/lib/ci.js` you have
+Inside `/lib/ci.js` you have:
 
 ```js
 module.exports = require('./ci/backend');
 ```
 
-Inside your `/lib/ci/common.js`
+Inside `/lib/ci/common.js`:
 
 ```js
 module.exports = {
@@ -210,7 +209,7 @@ module.exports = {
 
 Despite being in an entirely different directory, you'll see that all `extends` must use the full package path to the config file you wish to extend.
 
-Now inside your `/lib/ci/backend.js`
+Now inside `/lib/ci/backend.js`:
 
 ```js
 module.exports = {
