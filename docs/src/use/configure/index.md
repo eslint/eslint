@@ -52,7 +52,7 @@ All of these options give you fine-grained control over how ESLint treats your c
 
 [**Configure a Parser**](./parser)
 
-* [**Configure a Custom Parser**](./parser#configure-a-custom-parser)
+* [Configure a Custom Parser](./parser#configure-a-custom-parser)
 
 [**Ignore Files**](ignore)
 

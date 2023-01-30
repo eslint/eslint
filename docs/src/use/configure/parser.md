@@ -1,5 +1,5 @@
 ---
-title: Configure a Parsers
+title: Configure a Parser
 eleventyNavigation:
     key: configure parser
     parent: configure
