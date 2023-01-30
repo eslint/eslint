@@ -29,7 +29,7 @@ Examples of **incorrect** code for this rule:
 /*eslint valid-typeof: "error"*/
 
 typeof foo === "strnig"
-typeof foo == "undefimed"
+typeof foo == "undefined"
 typeof bar != "nunber"
 typeof bar !== "fucntion"
 ```
