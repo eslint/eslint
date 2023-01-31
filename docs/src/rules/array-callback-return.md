@@ -35,7 +35,7 @@ This rule finds callback functions of the following methods, then checks usage o
 * [`Array.prototype.reduceRight`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.reduceright)
 * [`Array.prototype.some`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.some)
 * [`Array.prototype.sort`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.sort)
-* [`Array.prototype.toSorted`](https://github.com/tc39/proposal-change-array-by-copy)
+* [`Array.prototype.toSorted`](https://tc39.es/proposal-change-array-by-copy/#sec-array.prototype.toSorted)
 * And above of typed arrays.
 
 Examples of **incorrect** code for this rule:
