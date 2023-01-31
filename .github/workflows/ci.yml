@@ -35,7 +35,7 @@ jobs:
       run: node Makefile lintDocsJS
     - name: Validate internal links
       working-directory: docs
-      run: npm run lint:links
+      run: npm run build && npm run lint:links
 
   test_on_node:
     name: Test
