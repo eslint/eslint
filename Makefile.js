@@ -835,7 +835,7 @@ target.checkRuleFiles = function() {
             }
 
             // check eslint:recommended
-            const recommended = require("./conf/eslint-recommended");
+            const recommended = require("./packages/js").configs.recommended;
 
             if (ruleDef.meta.docs.recommended) {
                 if (recommended.rules[basename] !== "error") {

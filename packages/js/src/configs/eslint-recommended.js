@@ -9,7 +9,7 @@
 /* eslint sort-keys: ["error", "asc"] -- Long, so make more readable */
 
 /** @type {import("../lib/shared/types").ConfigData} */
-module.exports = {
+module.exports = Object.freeze({
     rules: {
         "constructor-super": "error",
         "for-direction": "error",
@@ -73,4 +73,4 @@ module.exports = {
         "use-isnan": "error",
         "valid-typeof": "error"
     }
-};
+});

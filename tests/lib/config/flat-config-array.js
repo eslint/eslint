@@ -11,8 +11,10 @@
 
 const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
 const assert = require("chai").assert;
-const allConfig = require("../../../conf/eslint-all");
-const recommendedConfig = require("../../../conf/eslint-recommended");
+const {
+    all: allConfig,
+    recommended: recommendedConfig
+} = require("@eslint/js").configs;
 const stringify = require("json-stable-stringify-without-jsonify");
 
 //-----------------------------------------------------------------------------

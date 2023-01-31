@@ -1447,7 +1447,7 @@ describe("cli", () => {
                     getFixturePath("globals-node.js")
                 ];
 
-                await cli.execute(`--no-eslintrc --config ./conf/eslint-recommended.js --no-ignore ${files.join(" ")}`);
+                await cli.execute(`--no-eslintrc --config ./packages/js/src/configs/eslint-recommended.js --no-ignore ${files.join(" ")}`);
 
                 assert.strictEqual(log.info.args[0][0].split("\n").length, 10);
             });

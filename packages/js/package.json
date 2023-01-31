@@ -1,0 +1,31 @@
+{
+  "name": "@eslint/js",
+  "version": "8.33.0",
+  "description": "ESLint JavaScript language implementation",
+  "main": "./src/index.js",
+  "scripts": {
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eslint/eslint"
+  },
+  "homepage": "https://eslint.org",
+  "bugs": "https://github.com/eslint/eslint/issues/",
+  "keywords": [
+    "javascript",
+    "eslint-plugin",
+    "eslint"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": "^10.12.0 || >=12.0.0"
+  }
+}
