@@ -82,8 +82,6 @@ By default, ESLint does not perform autofixes when a custom processor is used, e
 
 2. Add a `supportsAutofix: true` property to the processor.
 
-TODO: i don't understand what this next paragraph means
-
 You can have both rules and custom processors in a single plugin. You can also have multiple processors in one plugin.
 To support multiple extensions, add each one to the `processors` element and point them to the same object.
 
