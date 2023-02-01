@@ -298,7 +298,7 @@ To report unused `eslint-disable` comments, use the `reportUnusedDisableDirectiv
 ```json
 {
   "rules": {...},
-  "reportUnusedDisableDirectives": true
+  "reportUnusedDisableDirectives": "warn"
 }
 ```
 
