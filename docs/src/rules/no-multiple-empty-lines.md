@@ -93,14 +93,14 @@ var bar = 3;
 ::: incorrect
 
 ```js
-1    /*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }]*/⏎
-2    ⏎
-3    var foo = 5;⏎
-4    ⏎
-5    ⏎
-6    var bar = 3;⏎
-7    ⏎
-8
+/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }]*/⏎
+⏎
+var foo = 5;⏎
+⏎
+⏎
+var bar = 3;⏎
+⏎
+
 ```
 
 :::
@@ -110,13 +110,13 @@ var bar = 3;
 ::: correct
 
 ```js
-1    /*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }]*/⏎
-2    ⏎
-3    var foo = 5;⏎
-4    ⏎
-5    ⏎
-6    var bar = 3;⏎
-7
+/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }]*/⏎
+⏎
+var foo = 5;⏎
+⏎
+⏎
+var bar = 3;⏎
+
 ```
 
 :::
