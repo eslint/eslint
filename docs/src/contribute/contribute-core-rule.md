@@ -103,7 +103,7 @@ Performance budget ok:  1443.736547ms (limit: 3409.090909090909ms)
 
 ### Per-rule Performance
 
-ESLint has a built-in method to track performance of individual rules. Setting the `TIMING` environment variable will trigger the display, upon linting completion, of the ten longest-running rules, along with their individual running time (rule creation + rule execution) and relative performance impact as a percentage of total rule processing time (rule creation + rule execution).
+ESLint has a built-in method to track the performance of individual rules. Setting the `TIMING` environment variable will trigger the display, upon linting completion, of the ten longest-running rules, along with their individual running time (rule creation + rule execution) and relative performance impact as a percentage of total rule processing time (rule creation + rule execution).
 
 ```bash
 $ TIMING=1 eslint lib
