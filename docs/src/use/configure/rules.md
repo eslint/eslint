@@ -298,8 +298,8 @@ To report unused `eslint-disable` comments, use the `reportUnusedDisableDirectiv
 ```json
 {
   "rules": {...},
-  "reportUnusedDisableDirectives": true
+  "reportUnusedDisableDirectives": "warn"
 }
 ```
 
-This setting is similar to [--report-unused-disable-directives](../command-line-interface#--report-unused-disable-directives) CLI option, but doesn't fail linting (reports as `"warn"` severity).
+This setting is similar to [--report-unused-disable-directives](../command-line-interface#--report-unused-disable-directives) CLI option, but doesn't fail linting.
