@@ -105,9 +105,6 @@ See [Specify a Processor](../use/configure/plugins#specify-a-processor) in the P
 
 ## File Extension-named Processor
 
-> TODO: i don't understand this line. is it saying that as long as the file extension named processor
-> is inclueded in the plugin, it runs?
-> Users don't need to specify the file extension-named processors in their config files.
 
 If a custom processor name starts with `.`, ESLint handles the processor as a **file extension-named processor**. ESLint applies the processor to files with that filename extension automatically. Users don't need to specify the file extension-named processors in their config files.
 
