@@ -105,7 +105,6 @@ See [Specify a Processor](../use/configure/plugins#specify-a-processor) in the P
 
 ## File Extension-named Processor
 
-
 If a custom processor name starts with `.`, ESLint handles the processor as a **file extension-named processor**. ESLint applies the processor to files with that filename extension automatically. Users don't need to specify the file extension-named processors in their config files.
 
 For example:
