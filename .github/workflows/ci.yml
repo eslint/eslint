@@ -33,9 +33,12 @@ jobs:
       run: npm run lint:scss
     - name: Lint Docs JS Files
       run: node Makefile lintDocsJS
+    - name: Build Docs Website
+      working-directory: docs
+      run: npm run build
     - name: Validate internal links
       working-directory: docs
-      run: npm run build && npm run lint:links
+      run: npm run lint:links
 
   test_on_node:
     name: Test
