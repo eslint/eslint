@@ -39,4 +39,4 @@ const code = `/*
 module.exports = Object.freeze(${JSON.stringify({ rules: allRules }, null, 4)});
 `;
 
-fs.writeFileSync("./packages/js/src/eslint-all.js", code, "utf8");
+fs.writeFileSync("./packages/js/src/configs/eslint-all.js", code, "utf8");
