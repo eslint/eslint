@@ -1,5 +1,5 @@
 /**
- * Script to update the eslint:all configuration.
+ * @fileoverview Script to update the eslint:all configuration.
  * @author Nicholas C. Zakas
  */
 
