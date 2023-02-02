@@ -4,7 +4,7 @@ eleventyNavigation:
     key: ignore files
     parent: configure
     title: Ignore Files
-    order: 6
+    order: 7
 
 ---
 
