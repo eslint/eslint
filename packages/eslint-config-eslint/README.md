@@ -32,7 +32,7 @@ In your `.eslintrc` file, add:
 
 ### Where to ask for help?
 
-Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](https://eslint.org/chat)
+Open a [discussion](https://github.com/eslint/eslint/discussions) or stop by our [Discord server](https://eslint.org/chat) instead of filing an issue.
 
 [npm-image]: https://img.shields.io/npm/v/eslint-config-eslint.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/eslint-config-eslint
