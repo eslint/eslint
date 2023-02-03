@@ -17,7 +17,7 @@ You can extend ESLint with plugins in a variety of different ways. Plugins can i
 
 ## Configure Plugins
 
-ESLint supports the use of third-party plugins. Before using a plugin, you have to install it using npm.
+ESLint supports the use of third-party plugins. Before using a plugin, you have to install it using npm.5
 
 To configure plugins inside of a configuration file, use the `plugins` key, which contains a list of plugin names. The `eslint-plugin-` prefix can be omitted from the plugin name.
 
