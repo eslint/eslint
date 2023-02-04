@@ -59,7 +59,9 @@ ruleTester.run("no-constant-binary-expression", rule, {
         "function foo(undefined) { undefined === true;}",
         "[...arr, 1] == true",
         "[,,,] == true",
-        { code: "new Foo() === bar;", globals: { Foo: "writable" } }
+        { code: "new Foo() === bar;", globals: { Foo: "writable" } },
+        "(foo && true) ?? bar",
+        "foo ?? null ?? bar"
     ],
     invalid: [
 
@@ -312,8 +314,6 @@ ruleTester.run("no-constant-binary-expression", rule, {
 
         { code: "window.abc && false && anything", errors: [{ messageId: "constantShortCircuit" }] },
         { code: "window.abc || true || anything", errors: [{ messageId: "constantShortCircuit" }] },
-        { code: "window.abc ?? 'non-nullish' ?? 'non-nullish'", errors: [{ messageId: "constantShortCircuit" }] },
-        { code: "window.abc ?? undefined ?? 'non-nullish'", errors: [{ messageId: "constantShortCircuit" }] },
-        { code: "window.abc ?? null ?? 'non-nullish'", errors: [{ messageId: "constantShortCircuit" }] }
+        { code: "window.abc ?? 'non-nullish' ?? 'non-nullish'", errors: [{ messageId: "constantShortCircuit" }] }
     ]
 });
