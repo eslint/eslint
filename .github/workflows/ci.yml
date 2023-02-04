@@ -39,6 +39,8 @@ jobs:
     - name: Validate internal links
       working-directory: docs
       run: npm run lint:links
+      env:
+        NODE_OPTIONS: --max-old-space-size=2048
 
   test_on_node:
     name: Test
