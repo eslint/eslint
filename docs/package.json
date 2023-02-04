@@ -19,7 +19,7 @@
         "start": "npm-run-all build:sass build:postcss --parallel watch:*",
         "build": "npm-run-all build:sass build:postcss build:eleventy images",
         "lint:scss": "stylelint \"**/*.{scss,html}\"",
-        "lint:links": "hyperlink ./_site/index.html --canonicalroot https://eslint.org/docs/head/ -r --internal ./_site/index.html --pretty --skip https:// --skip fragment-redirect --skip migrating-to --skip /blog --skip /play --skip /team --skip /donate --skip /docs/latest --skip _site/rules/null | tap-spot",
+        "lint:links": "hyperlink ./_site/index.html --canonicalroot https://eslint.org/docs/head/ -r --internal ./_site/index.html --pretty --skip https:// --skip fragment-redirect --skip migrating-to --skip /blog --skip /play --skip /team --skip /donate --skip /docs/latest --skip _site/rules/null > internal-links.tap; cat internal-links.tap | tap-spot",
         "lint:fix:scss": "npm run lint:scss -- --fix"
     },
     "devDependencies": {
