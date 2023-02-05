@@ -53,11 +53,10 @@ It's up to the plugin to decide if it needs to return just one part of the non-J
 
 **The `postprocess` method** takes a two-dimensional array of arrays of lint messages and the filename. Each item in the input array corresponds to the part that was returned from the `preprocess` method. The `postprocess` method must adjust the locations of all errors to correspond to locations in the original, unprocessed code, and aggregate them into a single flat array and return it.
 
-Reported problems have the following location information:
+Reported problems have the following location information in each lint message:
 
 ```typescript
-// TODO: are these the messages?
-{
+type LintMessage = {
     line: number,
     column: number,
     endLine?: number,
@@ -69,7 +68,7 @@ By default, ESLint does not perform autofixes when a custom processor is used, e
 
 1. Update the `postprocess` method to additionally transform the `fix` property of reported problems. All autofixable problems have a `fix` property, which is an object with the following schema:
 
-    ```js
+    ```typescript
     {
         range: [number, number],
         text: string
@@ -82,8 +81,7 @@ By default, ESLint does not perform autofixes when a custom processor is used, e
 
 2. Add a `supportsAutofix: true` property to the processor.
 
-You can have both rules and custom processors in a single plugin. You can also have multiple processors in one plugin.
-To support multiple extensions, add each one to the `processors` element and point them to the same object.
+You can have both rules and custom processors in a single plugin. You can also have multiple processors in one plugin. To support multiple extensions, add each one to the `processors` element and point them to the same object.
 
 ## Specifying Processor in Config Files
 
@@ -113,6 +111,13 @@ module.exports = {
         // This processor will be applied to `*.md` files automatically.
         // Also, you can use this processor as "plugin-id/.md" explicitly.
         ".md": {
+            preprocess(text, filename) { /* ... */ },
+            postprocess(messageLists, filename) { /* ... */ }
+        }
+        // This processor will not be applied to any files automatically.
+        // To use this processor, you must explicitly specify it
+        // in your configuration as "plugin-id/markdown".
+       "markdown": {
             preprocess(text, filename) { /* ... */ },
             postprocess(messageLists, filename) { /* ... */ }
         }
