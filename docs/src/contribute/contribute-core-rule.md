@@ -24,7 +24,7 @@ Each core rule in ESLint has three files named with its identifier (for example,
 * in the `tests/lib/rules` directory: a test file (for example, `no-extra-semi.js`)
 * in the `docs/src/rules` directory: a Markdown documentation file (for example, `no-extra-semi.md`)
 
-**Important:** If you submit a **core** rule to the ESLint repository, you **must** follow some conventions explained below.
+**Important:** If you submit a core rule to the ESLint repository, you **must** follow some conventions explained below.
 
 Here is the basic format of the source file for a rule:
 
@@ -40,7 +40,7 @@ Here is the basic format of the source file for a rule:
 // Rule Definition
 //------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
+/** @type {import('../shared/types').Rule} */
 module.exports = {
     meta: {
         type: "suggestion",
@@ -134,8 +134,8 @@ To see a longer list of results (more than 10), set the environment variable to 
 
 ## Rule Naming Conventions
 
-The rule naming conventions for ESLint are fairly simple:
+The rule naming conventions for ESLint are as follows:
 
-* If your rule is disallowing something, prefix it with `no-` such as `no-eval` for disallowing `eval()` and `no-debugger` for disallowing `debugger`.
+* If your rule only disallows something, prefix it with `no-` such as `no-eval` for disallowing `eval()` and `no-debugger` for disallowing `debugger`.
 * If your rule is enforcing the inclusion of something, use a short name without a special prefix.
 * Use dashes between words.
