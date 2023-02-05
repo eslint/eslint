@@ -32,7 +32,7 @@ To learn more about bundling these extensions into a plugin, refer to [Plugins](
 
 ## Shareable Configs
 
-ESLint shareable configs are pre-defined configurations for ESLint that you can use in your projects. They bundle rules and other configuration together in an npm package. Anything that you can put in a `.eslintrc` configuration file can be put in a shareable config.
+ESLint shareable configs are pre-defined configurations for ESLint that you can use in your projects. They bundle rules and other configuration together in an npm package. Anything that you can put in a configuration file can be put in a shareable config.
 
 You can either publish a shareable config independently or as part of a plugin.
 
