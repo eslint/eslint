@@ -675,7 +675,7 @@ ESLint provides the [`RuleTester`](../integrate/nodejs-api#ruletester) utility t
 
 ## Rule Naming Conventions
 
-While you can give a custom rule any name you'd like, the core rules have naming conventions that it could be clearer to apply to your custom rule. To learn more, refer to the [Core Rule Naming Conventions](../contribute/contribute-core-rule#rule-naming-conventions) documentation.
+While you can give a custom rule any name you'd like, the core rules have naming conventions that it could be clearer to apply to your custom rule. To learn more, refer to the [Core Rule Naming Conventions](../contribute/core-rulse#rule-naming-conventions) documentation.
 
 ## Runtime Rules
 
@@ -686,3 +686,34 @@ Runtime rules are written in the same format as all other rules. Create your rul
 1. Place all of your runtime rules in the same directory (e.g., `eslint_rules`).
 2. Create a [configuration file](../use/configure/) and specify your rule ID error level under the `rules` key. Your rule will not run unless it has a value of `"warn"` or `"error"` in the configuration file.
 3. Run the [command line interface](../use/command-line-interface) using the `--rulesdir` option to specify the location of your runtime rules.
+
+## Profile Rule Performance
+
+ESLint has a built-in method to track the performance of individual rules. Setting the `TIMING` environment variable will trigger the display, upon linting completion, of the ten longest-running rules, along with their individual running time (rule creation + rule execution) and relative performance impact as a percentage of total rule processing time (rule creation + rule execution).
+
+```bash
+$ TIMING=1 eslint lib
+Rule                    | Time (ms) | Relative
+:-----------------------|----------:|--------:
+no-multi-spaces         |    52.472 |     6.1%
+camelcase               |    48.684 |     5.7%
+no-irregular-whitespace |    43.847 |     5.1%
+valid-jsdoc             |    40.346 |     4.7%
+handle-callback-err     |    39.153 |     4.6%
+space-infix-ops         |    35.444 |     4.1%
+no-undefined            |    25.693 |     3.0%
+no-shadow               |    22.759 |     2.7%
+no-empty-class          |    21.976 |     2.6%
+semi                    |    19.359 |     2.3%
+```
+
+To test one rule explicitly, combine the `--no-eslintrc`, and `--rule` options:
+
+```bash
+$ TIMING=1 eslint --no-eslintrc --rule "quotes: [2, 'double']" lib
+Rule   | Time (ms) | Relative
+:------|----------:|--------:
+quotes |    18.066 |   100.0%
+```
+
+To see a longer list of results (more than 10), set the environment variable to another value such as `TIMING=50` or `TIMING=all`.
