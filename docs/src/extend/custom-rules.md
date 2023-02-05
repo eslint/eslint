@@ -2,9 +2,9 @@
 title: Custom Rules
 eleventyNavigation:
     key: custom rules
-    parent: extend eslint
+    parent: create plugins
     title: Custom Rules
-    order: 3
+    order: 1
 
 ---
 

@@ -2,7 +2,7 @@
 title: Custom Formatters
 eleventyNavigation:
     key: custom formatters
-    parent: extend eslint
+    parent: create plugins
     title: Custom Formatters
     order: 4
 

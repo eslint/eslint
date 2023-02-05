@@ -2,9 +2,9 @@
 title: Custom Processors
 eleventyNavigation:
     key: custom processors
-    parent: extend eslint
+    parent: create plugins
     title: Custom Processors
-    order: 5
+    order: 2
 
 ---
 You can also create custom processors that tell ESLint how to process files other than JavaScript.
