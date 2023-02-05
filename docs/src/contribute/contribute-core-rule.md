@@ -11,12 +11,12 @@ The ESLint core rules are the rules included in the ESLint package.
 
 ## Rule Writing Documentation
 
-For full reference information on writing rules, refer to [Custom Rules](../extend/custom-rules). Both custom rules and core rules have the same structure and API. The primary difference between core and custom rules are:
+For full reference information on writing rules, refer to [Custom Rules](../extend/custom-rules). Both custom rules and core rules have the same API. The primary difference between core and custom rules are:
 
 1. Core rules are included in the `eslint` package.
-1. Core rules must adhere to the structure documented on this page.
+1. Core rules must adhere to the conventions documented on this page.
 
-## Core Rule Structure
+## File Structure
 
 Each core rule in ESLint has three files named with its identifier (for example, `no-extra-semi`).
 
