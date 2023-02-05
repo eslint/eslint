@@ -9,7 +9,7 @@ eleventyNavigation:
 
 ESLint is highly pluggable and configurable. There are a variety of ways that you can extend ESLint's functionality.
 
-This page explains the ways to extend ESLint, and how these different ways all fit together.
+This page explains the ways to extend ESLint, and how these extensions all fit together.
 
 ## Plugins
 

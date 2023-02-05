@@ -19,7 +19,7 @@ If that sounds like you, then continue reading to get started.
 
 ## [Ways to Extend ESLint](ways-to-extend)
 
-This page summarizes the various ways that you can extend ESLint and how they all fit together.
+This page summarizes the various ways that you can extend ESLint and how these extensions all fit together.
 
 ## [Create Plugins](plugins)
 
