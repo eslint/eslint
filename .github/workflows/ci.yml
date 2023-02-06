@@ -2,8 +2,12 @@ name: CI
 on:
   push:
     branches: [main]
+    paths-ignore:
+    - '!docs/**'
   pull_request:
     branches: [main]
+    paths-ignore:
+    - '!docs/**'
 
 permissions:
   contents: read
@@ -25,14 +29,6 @@ jobs:
       run: node Makefile checkRuleFiles
     - name: Check Licenses
       run: node Makefile checkLicenses
-    - name: Install Docs Packages
-      working-directory: docs
-      run: npm install
-    - name: Stylelint Docs
-      working-directory: docs
-      run: npm run lint:scss
-    - name: Lint Docs JS Files
-      run: node Makefile lintDocsJS
 
   test_on_node:
     name: Test
