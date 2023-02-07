@@ -3,11 +3,11 @@ on:
   push:
     branches: [main]
     paths-ignore:
-    - '!docs/**'
+    - 'docs/**'
   pull_request:
     branches: [main]
     paths-ignore:
-    - '!docs/**'
+    - 'docs/**'
 
 permissions:
   contents: read

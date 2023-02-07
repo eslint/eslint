@@ -24,6 +24,8 @@ jobs:
     - name: Stylelint Docs
       working-directory: docs
       run: npm run lint:scss
+    - name: Install Packages
+      run: npm install
     - name: Lint Docs JS Files
       run: node Makefile lintDocsJS
 
