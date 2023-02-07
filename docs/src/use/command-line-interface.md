@@ -171,7 +171,7 @@ This option allows you to specify which file extensions ESLint uses when searchi
 * **Multiple Arguments**: Yes
 * **Default Value**: `.js` and the files that match the `overrides` entries of your configuration.
 
-`--ext` is only used when the the patterns to lint are directories. If you use glob patterns or file names, then `--ext` is ignored. For example, `npx eslint "lib/*" --ext .js` matches all files within the `lib/` directory, regardless of extension.
+`--ext` is only used when the patterns to lint are directories. If you use glob patterns or file names, then `--ext` is ignored. For example, `npx eslint "lib/*" --ext .js` matches all files within the `lib/` directory, regardless of extension.
 
 ##### `--ext` example
 
