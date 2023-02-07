@@ -21,10 +21,13 @@ jobs:
     - uses: actions/stale@v7
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        days-before-stale: 60
+        days-before-issue-stale: 30
+        days-before-pr-stale: 10
         days-before-close: 7
         stale-issue-message: 'Oops! It looks like we lost track of this issue. What do we want to do here? This issue will auto-close in 7 days without an update.'
-        stale-pr-message: 'Oops! It looks like we lost track of this pull request. What do we want to do here? This pull request will auto-close in 7 days without an update.'
+        close-issue-message: 'This issue was auto-closed due to inactivity. While we wish we could keep responding to every issue, we unfortunately don''t have the bandwidth and need to focus on high-value issues.'
+        stale-pr-message: 'Hi everyone, it looks like we lost track of this pull request. Please review and see what the next steps are. This pull request will auto-close in 7 days without an update.'
+        close-pr-message: 'This pull request was auto-closed due to inactivity. While we wish we could keep working on every request, we unfortunately don''t have the bandwidth to continue here and need to focus on other things.'
         exempt-all-assignees: true
         exempt-issue-labels: accepted
         exempt-pr-labels: accepted
