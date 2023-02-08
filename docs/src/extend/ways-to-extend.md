@@ -39,6 +39,14 @@ For example, a popular shareable config is [eslint-config-airbnb](https://www.np
 
 To learn more about creating a shareable config, refer to [Share Configuration](shareable-configs).
 
+## Custom Formatters
+
+Custom formatters take ESLint linting results and output the results in a format that you define. Custom formatters let you display linting results in a format that best fits your needs, whether that's in a specific file format, a certain display style, or a format optimized for a particular tool. You only need to create a custom formatter if the [built-in formatters](../use/formatters/) don't serve your use case.
+
+For example, the custom formatter [eslint-formatter-gitlab](https://www.npmjs.com/package/eslint-formatter-gitlab) can be used to display ESLint results in GitLab code quality reports.
+
+To learn more about creating a custom formatter, refer to [Custom Formatters](custom-formatters).
+
 ## Custom Parsers
 
 ESLint custom parsers are a way to extend ESLint to support linting of new language features or custom syntax in your code. A parser is responsible for taking your code and transforming it into an abstract syntax tree (AST) that ESLint can then analyze and lint.
@@ -50,11 +58,3 @@ For example, the custom parser [@typescript-eslint/parser](https://typescript-es
 Custom parsers **cannot** be included in a plugin, unlike the other extension types.
 
 To learn more about creating a custom parser, refer to [Custom Parsers](custom-parsers).
-
-## Custom Formatters
-
-Custom formatters take ESLint linting results and output the results in a format that you define. Custom formatters let you display linting results in a format that best fits your needs, whether that's in a specific file format, a certain display style, or a format optimized for a particular tool. You only need to create a custom formatter if the [built-in formatters](../use/formatters/) don't serve your use case.
-
-For example, the custom formatter [eslint-formatter-gitlab](https://www.npmjs.com/package/eslint-formatter-gitlab) can be used to display ESLint results in GitLab code quality reports.
-
-To learn more about creating a custom formatter, refer to [Custom Formatters](custom-formatters).
