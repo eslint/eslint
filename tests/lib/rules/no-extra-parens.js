@@ -3437,6 +3437,13 @@ ruleTester.run("no-extra-parens", rule, {
             ]
         },
         invalid("((a)) = () => {};", "(a) = () => {};", "Identifier"),
-        invalid("(a) = (function () {})();", "a = (function () {})();", "Identifier")
+        invalid("(a) = (function () {})();", "a = (function () {})();", "Identifier"),
+        ...["**=", "*=", "/=", "%=", "+=", "-=", "<<=", ">>=", ">>>=", "&=", "^=", "|="].map(
+            operator => invalid(
+                `(a) ${operator} function () {};`,
+                `a ${operator} function () {};`,
+                "Identifier"
+            )
+        )
     ]
 });
