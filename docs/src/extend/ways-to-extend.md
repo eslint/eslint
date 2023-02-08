@@ -13,13 +13,13 @@ This page explains the ways to extend ESLint, and how these extensions all fit t
 
 ## Plugins
 
-Plugins let you add your own ESLint custom rules, processors, and formatters to a project. You can publish a plugin as a npm module.
+Plugins let you add your own ESLint custom rules, processors, and formatters to a project. You can publish a plugin as an npm module.
 
 Plugins are useful because your project may require some ESLint configuration that isn't included in the core `eslint` package. For example, if you're using a frontend JavaScript library like React or framework like Vue, these tools have some features that require custom rules outside the scope of the ESLint core rules.
 
 Often a plugin is paired with a shareable config, which applies a set of features from the plugin to a project. You can include a shareable config in a plugin as well.
 
-For example, [`eslint-plugin-react`](https://www.npmjs.com/package/eslint-plugin-react) is an ESLint plugin that include rules specifically for React projects. The rules include things like enforcing consistent usage of React component lifecycle methods and requiring the use of key props when rendering dynamic lists.
+For example, [`eslint-plugin-react`](https://www.npmjs.com/package/eslint-plugin-react) is an ESLint plugin that includes rules specifically for React projects. The rules include things like enforcing consistent usage of React component lifecycle methods and requiring the use of key props when rendering dynamic lists.
 
 To learn more about creating the extensions you can include in a plugin, refer to the following documentation:
 
