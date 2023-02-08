@@ -8,7 +8,7 @@ eleventyNavigation:
 
 ---
 
-To share your `.eslintrc` file, create a **shareable config**. You can publish your shareable config on [npm](https://www.npmjs.com/) so that others can download and use it in their ESLint projects.
+To share your ESLint configuration, create a **shareable config**. You can publish your shareable config on [npm](https://www.npmjs.com/) so that others can download and use it in their ESLint projects.
 
 This page explains how to create and publish a shareable config.
 
@@ -42,7 +42,7 @@ Since the `index.js` file is just JavaScript, you can read these settings from a
 
 ## Publishing a Shareable Config
 
-Once your shareable config is ready, you can [publish it to npm](https://docs.npmjs.com/getting-started/publishing-npm-packages) to share it with others. We recommend using the `eslint` and `eslintconfig` [keywords](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#keywords) in the `package.json` so others can easily find your module.
+Once your shareable config is ready, you can [publish it to npm](https://docs.npmjs.com/getting-started/publishing-npm-packages) to share it with others. We recommend using the `eslint` and `eslintconfig` [keywords](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#keywords) in the `package.json` file so others can easily find your module.
 
 You should declare your dependency on ESLint in the `package.json` using the [peerDependencies](https://docs.npmjs.com/files/package.json#peerdependencies) field. The recommended way to declare a dependency for future-proof compatibility is with the ">=" range syntax, using the lowest required ESLint version. For example:
 
