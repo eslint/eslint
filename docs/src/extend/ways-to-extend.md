@@ -13,7 +13,7 @@ This page explains the ways to extend ESLint, and how these extensions all fit t
 
 ## Plugins
 
-Plugins let you add your own ESLint custom rules, processors, and formatters to a project. You can publish a plugin as an npm module.
+Plugins let you add your own ESLint custom rules, custom processors, and shareable configs to a project. You can publish a plugin as an npm module.
 
 Plugins are useful because your project may require some ESLint configuration that isn't included in the core `eslint` package. For example, if you're using a frontend JavaScript library like React or framework like Vue, these tools have some features that require custom rules outside the scope of the ESLint core rules.
 
@@ -24,9 +24,8 @@ For example, [`eslint-plugin-react`](https://www.npmjs.com/package/eslint-plugin
 To learn more about creating the extensions you can include in a plugin, refer to the following documentation:
 
 * [Custom Rules](custom-rules)
-* [Custom Formatters](custom-formatters)
 * [Custom Processors](custom-processors)
-* [Share Configurations](shareable-configs)
+* [Share Configurations](plugins#configs-in-plugins)
 
 To learn more about bundling these extensions into a plugin, refer to [Plugins](plugins).
 
@@ -51,3 +50,11 @@ For example, the custom parser [@typescript-eslint/parser](https://typescript-es
 Custom parsers **cannot** be included in a plugin, unlike the other extension types.
 
 To learn more about creating a custom parser, refer to [Custom Parsers](custom-parsers).
+
+## Custom Formatters
+
+Custom formatters take ESLint linting results and output the results in a format that you define. Custom formatters let you display linting results in a format that best fits your needs, whether that's in a specific file format, a certain display style, or a format optimized for a particular tool. You only need to create a custom formatter if the [built-in formatters](../use/formatters/) don't serve your use case.
+
+For example, the custom formatter [eslint-formatter-gitlab](https://www.npmjs.com/package/eslint-formatter-gitlab) can be used to display ESLint results in GitLab code quality reports.
+
+To learn more about creating a custom formatter, refer to [Custom Formatters](custom-formatters).
