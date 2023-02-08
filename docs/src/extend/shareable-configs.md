@@ -108,11 +108,19 @@ You can also omit the `eslint-config` and it is automatically assumed by ESLint:
 }
 ```
 
-The module name can also be customized, just note that when using [scoped modules](https://docs.npmjs.com/misc/scope) you cannot omit the `eslint-config-` prefix. Doing so results in package naming conflicts, and thus often in resolution errors. For example, if you have a package named `@scope/eslint-config-myconfig`, the configuration must be specified as:
+The module name can also be customized. For example, if you have a package named `@scope/eslint-config-myconfig`, the configuration can be specified as:
 
 ```json
 {
     "extends": "@scope/eslint-config-myconfig"
+}
+```
+
+You could also omit `eslint-config` to specify the configuration as:
+
+```json
+{
+    "extends": "@scope/myconfig"
 }
 ```
 
