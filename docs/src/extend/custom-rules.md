@@ -675,7 +675,7 @@ ESLint provides the [`RuleTester`](../integrate/nodejs-api#ruletester) utility t
 
 ## Rule Naming Conventions
 
-While you can give a custom rule any name you'd like, the core rules have naming conventions that it could be clearer to apply to your custom rule. To learn more, refer to the [Core Rule Naming Conventions](../contribute/core-rulse#rule-naming-conventions) documentation.
+While you can give a custom rule any name you'd like, the core rules have naming conventions that it could be clearer to apply to your custom rule. To learn more, refer to the [Core Rule Naming Conventions](../contribute/core-rules#rule-naming-conventions) documentation.
 
 ## Runtime Rules
 

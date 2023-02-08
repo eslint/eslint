@@ -24,7 +24,7 @@ Each core rule in ESLint has three files named with its identifier (for example,
 * in the `tests/lib/rules` directory: a test file (for example, `no-extra-semi.js`)
 * in the `docs/src/rules` directory: a Markdown documentation file (for example, `no-extra-semi.md`)
 
-**Important:** If you submit a core rule to the ESLint repository, you **must** follow some conventions explained below.
+**Important:** If you submit a core rule to the ESLint repository, you **must** follow the conventions explained below.
 
 Here is the basic format of the source file for a rule:
 
