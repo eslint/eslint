@@ -12,6 +12,28 @@ You can create custom rules to use with ESLint. You might want to create a custo
 
 **Note:** This page covers the most recent rule format for ESLint >= 3.0.0. There is also a [deprecated rule format](./custom-rules-deprecated).
 
+Here's the basic format of a custom rule:
+
+```js
+// customRule.js
+
+module.exports = {
+    meta: {
+        type: "suggestion",
+        docs: {
+            description: "Description of the rule",
+        },
+        fixable: "code",
+        schema: [] // no options
+    },
+    create: function(context) {
+        return {
+            // callback functions
+        };
+    }
+};
+```
+
 ## Rule Basics
 
 The source file for a rule exports an object with the following properties.
