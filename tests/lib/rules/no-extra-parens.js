@@ -771,6 +771,18 @@ ruleTester.run("no-extra-parens", rule, {
         {
             code: "const net = ipaddr.parseCIDR(/** @type {string} */ (cidr));",
             options: ["all", { allowParensAfterCommentPattern: "@type" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/16850
+        "(a) = function () {};",
+        "(a) = () => {};",
+        "(a) = class {};",
+        "(a) ??= function () {};",
+        "(a) &&= class extends SuperClass {};",
+        "(a) ||= async () => {}",
+        {
+            code: "((a)) = function () {};",
+            options: ["functions"]
         }
     ],
 
@@ -3410,6 +3422,28 @@ ruleTester.run("no-extra-parens", rule, {
             options: ["all"],
             parserOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
-        }
+        },
+
+        // https://github.com/eslint/eslint/issues/16850
+        invalid("(a) = function foo() {};", "a = function foo() {};", "Identifier"),
+        invalid("(a) = class Bar {};", "a = class Bar {};", "Identifier"),
+        invalid("(a.b) = function () {};", "a.b = function () {};", "MemberExpression"),
+        {
+            code: "(newClass) = [(one)] = class { static * [Symbol.iterator]() { yield 1; } };",
+            output: "newClass = [one] = class { static * [Symbol.iterator]() { yield 1; } };",
+            errors: [
+                { messageId: "unexpected", type: "Identifier" },
+                { messageId: "unexpected", type: "Identifier" }
+            ]
+        },
+        invalid("((a)) = () => {};", "(a) = () => {};", "Identifier"),
+        invalid("(a) = (function () {})();", "a = (function () {})();", "Identifier"),
+        ...["**=", "*=", "/=", "%=", "+=", "-=", "<<=", ">>=", ">>>=", "&=", "^=", "|="].map(
+            operator => invalid(
+                `(a) ${operator} function () {};`,
+                `a ${operator} function () {};`,
+                "Identifier"
+            )
+        )
     ]
 });
