@@ -584,7 +584,7 @@ export default [
 
 Here, the `js.configs.recommended` predefined configuration is applied first and then another configuration object adds the desired configuration for `semi`.
 
-You can apply these predefined configs to just a subset of files but specifying a config object with a `files` key, like this:
+You can apply these predefined configs to just a subset of files by specifying a config object with a `files` key, like this:
 
 ```js
 import js from "@eslint/js";
