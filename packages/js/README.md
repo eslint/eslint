@@ -29,7 +29,7 @@ export default [
     // apply recommended rules to JS files
     {
         files: ["**/*.js"],
-        rules: js.configs.recommended
+        rules: js.configs.recommended.rules
     },
 
     // apply recommended rules to JS files with an override
