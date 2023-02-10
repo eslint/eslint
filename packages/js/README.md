@@ -36,7 +36,7 @@ export default [
     {
         files: ["**/*.js"],
         rules: {
-            ...js.configs.recommended
+            ...js.configs.recommended.rules,
             "no-unused-vars": "warn"
         } 
     },
