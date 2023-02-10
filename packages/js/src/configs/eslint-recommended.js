@@ -10,7 +10,7 @@
 
 /** @type {import("../lib/shared/types").ConfigData} */
 module.exports = Object.freeze({
-    rules: {
+    rules: Object.freeze({
         "constructor-super": "error",
         "for-direction": "error",
         "getter-return": "error",
@@ -72,5 +72,5 @@ module.exports = Object.freeze({
         "require-yield": "error",
         "use-isnan": "error",
         "valid-typeof": "error"
-    }
+    })
 });
