@@ -39,7 +39,7 @@
     "*.md": "markdownlint --fix",
     "lib/rules/*.js": [
       "node tools/update-eslint-all.js",
-      "git add packages/js/src/all.js"
+      "git add packages/js/src/configs/eslint-all.js"
     ],
     "docs/src/rules/*.md": [
       "node tools/fetch-docs-links.js",
