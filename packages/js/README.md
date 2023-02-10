@@ -1,4 +1,4 @@
-[![npm version][npm-image]][npm-url]
+[![npm version](https://img.shields.io/npm/v/@eslint/js.svg)](https://www.npmjs.com/package/@eslint/js)
 
 # ESLint JavaScript Plugin
 
