@@ -1,3 +1,16 @@
+v8.34.0 - February 10, 2023
+
+* [`f0a9883`](https://github.com/eslint/eslint/commit/f0a988384ea1a262150e70d83abd8a5e50c46fa7) docs: split rules documentation (#16797) (Ben Perlmutter)
+* [`923f61d`](https://github.com/eslint/eslint/commit/923f61d8fc82d83b912c6ba95abb5a509c4d7b52) fix: false positive with assignment in `no-extra-parens` (#16872) (Francesco Trotta)
+* [`9dbe06d`](https://github.com/eslint/eslint/commit/9dbe06d0ad875e6d5964497e2975e8d789e763d0) chore: add `type` property to array-element-newline schema (#16877) (MHO)
+* [`a061527`](https://github.com/eslint/eslint/commit/a061527a0332f0edf559acfc2902a327cae098d9) chore: Remove unused functions (#16868) (Nicholas C. Zakas)
+* [`67aa37b`](https://github.com/eslint/eslint/commit/67aa37b583f059226b9c959672400f04ed6a56b5) docs: fix typo in command-line-interface.md (#16871) (Kevin Rouchut)
+* [`337f7ed`](https://github.com/eslint/eslint/commit/337f7ed96131d873be7ae6b010739476d0ad15e9) docs: fix width of language input (#16849) (Tanuj Kanti)
+* [`9b2fcf7`](https://github.com/eslint/eslint/commit/9b2fcf7e928fc92ac6d43617bdee1bda250b7491) feat: `array-callback-return` supports `Array.prototype.toSorted` (#16845) (SUZUKI Sosuke)
+* [`71349a1`](https://github.com/eslint/eslint/commit/71349a1f709baa361bd656a7ce4a7d35d857a9a8) docs: Configure a Parser page (#16803) (Ben Perlmutter)
+* [`de7e925`](https://github.com/eslint/eslint/commit/de7e925d03764f3681269b30bb60b92ee463c10f) docs: remove extra line numbers in example (#16848) (jonz94)
+* [`ad38d77`](https://github.com/eslint/eslint/commit/ad38d77102d6fe30cfa92c831174f178bb35c88b) docs: Update README (GitHub Actions Bot)
+
 v8.33.0 - January 28, 2023
 
 * [`17f4be2`](https://github.com/eslint/eslint/commit/17f4be2b66deb81f4e9ffb3d6bdfb79f3fcf85a2) docs: Fix examples in no-multiple-empty-lines rule (#16835) (jonz94)
