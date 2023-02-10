@@ -15,7 +15,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/eslint/eslint"
+    "url": "https://github.com/eslint/eslint.git",
+     "directory": "packages/js"
   },
   "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
