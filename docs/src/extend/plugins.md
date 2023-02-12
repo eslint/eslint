@@ -18,7 +18,7 @@ The easiest way to start creating a plugin is to use the [Yeoman generator](http
 
 ### Rules in Plugins
 
-Plugins can expose additional rules for use in ESLint. To do so, the plugin must export a `rules` object containing a key-value mapping of rule ID to rule. The rule ID does not have to follow any naming convention (so it can just be `dollar-sign`, for instance).
+Plugins can expose custom rules for use in ESLint. To do so, the plugin must export a `rules` object containing a key-value mapping of rule ID to rule. The rule ID does not have to follow any naming convention (so it can just be `dollar-sign`, for instance). To learn more about creating custom rules in plugins, refer to [Custom Rules](custom-rules).
 
 ```js
 module.exports = {
@@ -80,7 +80,9 @@ module.exports = {
 
 ### Configs in Plugins
 
-You can bundle configurations inside a plugin by specifying them under the `configs` key. This can be useful when you want to provide not just code style, but also some custom rules to support it. Multiple configurations are supported per plugin. Note that it is not possible to specify a default configuration for a given plugin and that users must specify in their configuration file when they want to use one.
+You can bundle configurations inside a plugin by specifying them under the `configs` key. This can be useful when you want to provide not just code style, but also custom rules to support it. Multiple configurations are supported per plugin.
+
+It is not possible to specify a default configuration for a given plugin. Users must specify a default configuration in their configuration file.
 
 ```js
 // eslint-plugin-myPlugin
@@ -118,12 +120,13 @@ If the example plugin above were called `eslint-plugin-myPlugin`, the `myConfig`
 
 ```
 
-**Note:** Please note that configuration will not enable any of the plugin's rules by default, and instead should be treated as a standalone config. This means that you must specify your plugin name in the `plugins` array as well as any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configure Plugins](../use/configure/plugins#configure-plugins) for more information.
+ESLint configuration files do not enable any of the plugin's rules by default. You must specify your plugin name in the `plugins` array as well as any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configure Plugins](../use/configure/plugins#configure-plugins) for more information.
 
 ### Peer Dependency
 
-To make clear that the plugin requires ESLint to work correctly you have to declare ESLint as a `peerDependency` in your `package.json`.
-The plugin support was introduced in ESLint version `0.8.0`. Ensure the `peerDependency` points to ESLint `0.8.0` or later.
+To make clear that the plugin requires ESLint to work correctly you have to declare ESLint as a `peerDependency` in your plugin's `package.json`.
+
+Plugin support was introduced in ESLint version `0.8.0`. Ensure the `peerDependency` points to ESLint `0.8.0` or later.
 
 ```json
 {
@@ -133,11 +136,11 @@ The plugin support was introduced in ESLint version `0.8.0`. Ensure the `peerDep
 }
 ```
 
-### Testing
+## Testing
 
 ESLint provides the [`RuleTester`](../integrate/nodejs-api#ruletester) utility to make it easy to test the rules of your plugin.
 
-### Linting
+## Linting
 
 ESLint plugins should be linted too! It's suggested to lint your plugin with the `recommended` configurations of:
 
@@ -149,12 +152,10 @@ ESLint plugins should be linted too! It's suggested to lint your plugin with the
 
 In order to make your plugin available to the community you have to publish it on npm.
 
-Recommended keywords:
+Add these [keywords](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#keywords) to your `package.json` file to make it easy for others to find your plugin:
 
 * `eslint`
 * `eslintplugin`
-
-Add these keywords into your `package.json` file to make it easy for others to find.
 
 ## Further Reading
 
