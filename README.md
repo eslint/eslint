@@ -16,7 +16,7 @@
 [Report Bugs](https://eslint.org/docs/latest/contribute/report-bugs) |
 [Code of Conduct](https://eslint.org/conduct) |
 [Twitter](https://twitter.com/geteslint) |
-[Chat Room](https://eslint.org/chat)
+[Discord](https://eslint.org/chat)
 
 ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code. In many ways, it is similar to JSLint and JSHint with a few exceptions:
 
