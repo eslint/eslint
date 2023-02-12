@@ -82,7 +82,7 @@ module.exports = {
 
 ### Configs in Plugins
 
-You can bundle configurations inside a plugin by specifying them under the `configs` key. This can be useful when you want to provide not just code style, but also custom rules to support it. Multiple configurations are supported per plugin.
+You can bundle configurations inside a plugin by specifying them under the `configs` key. This can be useful when you want to bundle a set of custom rules with additional configuration. Multiple configurations are supported per plugin.
 
 It is not possible to specify a default configuration for a given plugin. Users must specify a default configuration in their configuration file.
 
@@ -122,11 +122,11 @@ If the example plugin above were called `eslint-plugin-myPlugin`, the `myConfig`
 
 ```
 
-ESLint configuration files do not enable any of the plugin's rules by default. You must specify your plugin name in the `plugins` array as well as any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configure Plugins](../use/configure/plugins#configure-plugins) for more information.
+ESLint configuration files do not enable any of the plugin's rules by default. You must specify your plugin name in the `plugins` array as well as any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. To learn more, refer to [Configure Plugins](../use/configure/plugins#configure-plugins).
 
 ### Peer Dependency
 
-To make clear that the plugin requires ESLint to work correctly you have to declare ESLint as a `peerDependency` in your plugin's `package.json`.
+To make clear that the plugin requires ESLint to work correctl, you must declare ESLint as a `peerDependency` in your plugin's `package.json`.
 
 Plugin support was introduced in ESLint version `0.8.0`. Ensure the `peerDependency` points to ESLint `0.8.0` or later.
 
@@ -154,11 +154,7 @@ ESLint plugins should be linted too! It's suggested to lint your plugin with the
 
 In order to make your plugin available to the community you have to publish it on npm.
 
-Add these [keywords](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#keywords) to your `package.json` file to make it easy for others to find your plugin:
+To make it easy for others to find your plugin, add these [keywords](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#keywords) to your `package.json` file:
 
 * `eslint`
 * `eslintplugin`
-
-## Further Reading
-
-* [npm Developer Guide](https://docs.npmjs.com/misc/developers)
