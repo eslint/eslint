@@ -92,16 +92,16 @@ If the pull request was created from a branch on the `eslint/eslint` repository 
 There are several times when it's appropriate to close a pull request without merging:
 
 1. The pull request addresses an issue that is already fixed
-1. The pull request hasn't been updated in 30 days
+1. The pull request hasn't been updated in 17 days
 1. The pull request submitter isn't willing to follow project guidelines.
 
 In any of these cases, please be sure to leave a comment stating why the pull request is being closed.
 
 ### Example Closing Comments
 
-If a pull request hasn't been updated in 30 days:
+If a pull request hasn't been updated in 17 days:
 
-> Closing because there hasn't been activity for 30 days. If you're still interested in submitting this code, please feel free to resubmit.
+> Closing because there hasn't been activity for 17 days. If you're still interested in submitting this code, please feel free to resubmit.
 
 If a pull request submitter isn't willing to follow project guidelines.
 
