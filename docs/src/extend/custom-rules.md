@@ -4,7 +4,7 @@ eleventyNavigation:
     key: custom rules
     parent: extend eslint
     title: Custom Rules
-    order: 2
+    order: 3
 
 ---
 
