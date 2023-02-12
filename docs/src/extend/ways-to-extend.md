@@ -13,11 +13,11 @@ This page explains the ways to extend ESLint, and how these extensions all fit t
 
 ## Plugins
 
-Plugins let you add your own ESLint custom rules, custom processors, and shareable configs to a project. You can publish a plugin as an npm module.
+Plugins let you add your own ESLint custom rules and custom processors to a project. You can publish a plugin as an npm module.
 
 Plugins are useful because your project may require some ESLint configuration that isn't included in the core `eslint` package. For example, if you're using a frontend JavaScript library like React or framework like Vue, these tools have some features that require custom rules outside the scope of the ESLint core rules.
 
-Often a plugin is paired with a shareable config, which applies a set of features from the plugin to a project. You can include a shareable config in a plugin as well.
+Often a plugin is paired with a configuration for ESLint that applies a set of features from the plugin to a project. You can include configurations in a plugin as well.
 
 For example, [`eslint-plugin-react`](https://www.npmjs.com/package/eslint-plugin-react) is an ESLint plugin that includes rules specifically for React projects. The rules include things like enforcing consistent usage of React component lifecycle methods and requiring the use of key props when rendering dynamic lists.
 
@@ -25,7 +25,7 @@ To learn more about creating the extensions you can include in a plugin, refer t
 
 * [Custom Rules](custom-rules)
 * [Custom Processors](custom-processors)
-* [Share Configurations](plugins#configs-in-plugins)
+* [Configs in Plugins](plugins#configs-in-plugins)
 
 To learn more about bundling these extensions into a plugin, refer to [Plugins](plugins).
 
@@ -49,7 +49,7 @@ To learn more about creating a custom formatter, refer to [Custom Formatters](cu
 
 ## Custom Parsers
 
-ESLint custom parsers are a way to extend ESLint to support linting of new language features or custom syntax in your code. A parser is responsible for taking your code and transforming it into an abstract syntax tree (AST) that ESLint can then analyze and lint.
+ESLint custom parsers are a way to extend ESLint to support the linting of new language features or custom syntax in your code. A parser is responsible for taking your code and transforming it into an abstract syntax tree (AST) that ESLint can then analyze and lint.
 
 ESLint ships with a built-in JavaScript parser (Espree), but custom parsers allow you to lint other languages or to extend the linting capabilities of the built-in parser.
 
