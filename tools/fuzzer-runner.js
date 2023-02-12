@@ -47,7 +47,7 @@ function run({ amount = 300, fuzzBrokenAutofixes = true } = {}) {
      * a crash-only fuzzer run versus an autofix fuzzer run.
      */
     const progressBar = new ProgressBar(
-        "Fuzzing rules [:bar] :percent, :elapseds elapsed, eta :etas, errors so far: :elapsedErrors",
+        "Fuzzing rules [:bar] :percent, :elapsed elapsed, eta :etas, errors so far: :elapsedErrors",
         { width: 30, total: crashTestCount + autofixTestCount * ESTIMATED_CRASH_AUTOFIX_PERFORMANCE_RATIO }
     );
 

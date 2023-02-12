@@ -5270,7 +5270,7 @@ describe("FlatESLint", () => {
             assert.strictEqual(messages[1].severity, 2);
         });
 
-        it("when it has 'files' they should be intepreted as relative to the config file", async () => {
+        it("when it has 'files' they should be interpreted as relative to the config file", async () => {
 
             /*
              * `fixtures/plugins` directory does not have a config file.
@@ -5293,7 +5293,7 @@ describe("FlatESLint", () => {
             assert.strictEqual(messages[0].ruleId, "semi");
         });
 
-        it("when it has 'ignores' they should be intepreted as relative to the config file", async () => {
+        it("when it has 'ignores' they should be interpreted as relative to the config file", async () => {
 
             /*
              * `fixtures/plugins` directory does not have a config file.

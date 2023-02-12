@@ -541,7 +541,7 @@ ruleTester.run("valid-jsdoc", rule, {
             options: [{ requireReturn: false }]
         },
 
-        // https://github.com/eslint/eslint/issues/9412 - different orders for jsodc tags
+        // https://github.com/eslint/eslint/issues/9412 - different orders for jsdoc tags
         {
             code:
             "/**\n" +
