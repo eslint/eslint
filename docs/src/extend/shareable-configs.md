@@ -72,7 +72,7 @@ Be sure to replace `eslint-config-myconfig` with the actual name of your module.
 
 ## Using a Shareable Config
 
-To use a shareable config, include it in the `extends` field of an `.eslintrc` file. For the value, use your module name. For example:
+To use a shareable config, include the config name in the `extends` field of a configuration file. For the value, use your module name. For example:
 
 ```json
 {
@@ -87,6 +87,8 @@ You can also omit the `eslint-config-` and it is automatically assumed by ESLint
     "extends": "myconfig"
 }
 ```
+
+You cannot use shareable configs with the ESLint CLI [`--config`](../use/command-line-interface#c---config) flag unless you explicitly specify the path to the module (e.g. `eslint --config node_modules/eslint-config-airbnb/index.js`).
 
 ### npm Scoped Modules
 
