@@ -61,7 +61,9 @@ ruleTester.run("no-constant-binary-expression", rule, {
         "[,,,] == true",
         { code: "new Foo() === bar;", globals: { Foo: "writable" } },
         "(foo && true) ?? bar",
-        "foo ?? null ?? bar"
+        "foo ?? null ?? bar",
+        "a ?? (doSomething(), undefined) ?? b",
+        "a ?? (something = null) ?? b"
     ],
     invalid: [
 
