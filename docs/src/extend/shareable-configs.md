@@ -88,7 +88,7 @@ You can also omit the `eslint-config-` and it is automatically assumed by ESLint
 }
 ```
 
-You cannot use shareable configs with the ESLint CLI [`--config`](../use/command-line-interface#c---config) flag unless you explicitly specify the path to the module (e.g. `eslint --config node_modules/eslint-config-airbnb/index.js`).
+You cannot use shareable configs with the ESLint CLI [`--config`](../use/command-line-interface#-c---config) flag.
 
 ### npm Scoped Modules
 
