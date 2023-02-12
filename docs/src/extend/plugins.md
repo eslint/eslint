@@ -126,7 +126,7 @@ ESLint configuration files do not enable any of the plugin's rules by default. Y
 
 ### Peer Dependency
 
-To make clear that the plugin requires ESLint to work correctl, you must declare ESLint as a `peerDependency` in your plugin's `package.json`.
+To make clear that the plugin requires ESLint to work correctly, you must declare ESLint as a `peerDependency` in your plugin's `package.json`.
 
 Plugin support was introduced in ESLint version `0.8.0`. Ensure the `peerDependency` points to ESLint `0.8.0` or later.
 
