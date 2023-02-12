@@ -8,6 +8,8 @@ eleventyNavigation:
 
 ---
 
+An ESLint plugin is an extension for ESLint that adds additional rules and configuration options. Plugins let you customize your ESLint configuration to enforce rules that are not included in the core ESLint package. Plugins can also provide additional environments, custom processors and configurations.
+
 ## Name a Plugin
 
 Each plugin is an npm module with a name in the format of `eslint-plugin-<plugin-name>`, such as `eslint-plugin-jquery`. You can also use scoped packages in the format of `@<scope>/eslint-plugin-<plugin-name>` such as `@jquery/eslint-plugin-jquery` or even `@<scope>/eslint-plugin` such as `@jquery/eslint-plugin`.
