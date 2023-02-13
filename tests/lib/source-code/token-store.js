@@ -627,8 +627,8 @@ describe("TokenStore", () => {
             const tokenStore = new TokenStore(ast.tokens, ast.comments);
 
             /*
-             * Actually, the first of nodes is always tokens, not comments.
-             * But I think this test case is needed for completeness.
+             * A node must not start with a token: it can start with a comment or be empty.
+             * This test case is needed for completeness.
              */
             const token = tokenStore.getFirstToken(
                 { range: [ast.comments[0].range[0], ast.tokens[5].range[1]] },
@@ -644,14 +644,46 @@ describe("TokenStore", () => {
             const tokenStore = new TokenStore(ast.tokens, ast.comments);
 
             /*
-             * Actually, the first of nodes is always tokens, not comments.
-             * But I think this test case is needed for completeness.
+             * A node must not start with a token: it can start with a comment or be empty.
+             * This test case is needed for completeness.
              */
             const token = tokenStore.getFirstToken(
                 { range: [ast.comments[0].range[0], ast.tokens[5].range[1]] }
             );
 
             assert.strictEqual(token.value, "c");
+        });
+
+        it("should return null if the source contains only comments", () => {
+            const code = "// comment";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+            const token = tokenStore.getFirstToken(ast, {
+                filter() {
+                    assert.fail("Unexpected call to filter callback");
+                }
+            });
+
+            assert.strictEqual(token, null);
+        });
+
+        it("should return null if the source is empty", () => {
+            const code = "";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+            const token = tokenStore.getFirstToken(ast);
+
+            assert.strictEqual(token, null);
+        });
+
+        it("should retrieve a parent node's token if a node has no tokens", () => {
+            const code = "foo``";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true, ecmaVersion: 6 });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+            const emptyTemplateElementNode = ast.body[0].expression.quasi.quasis[0];
+            const token = tokenStore.getFirstToken(emptyTemplateElementNode);
+
+            assert.strictEqual(token.value, "``");
         });
 
     });
@@ -814,8 +846,8 @@ describe("TokenStore", () => {
             const tokenStore = new TokenStore(ast.tokens, ast.comments);
 
             /*
-             * Actually, the last of nodes is always tokens, not comments.
-             * But I think this test case is needed for completeness.
+             * A node must not end with a token: it can end with a comment or be empty.
+             * This test case is needed for completeness.
              */
             const token = tokenStore.getLastToken(
                 { range: [ast.tokens[0].range[0], ast.comments[0].range[1]] },
@@ -831,14 +863,46 @@ describe("TokenStore", () => {
             const tokenStore = new TokenStore(ast.tokens, ast.comments);
 
             /*
-             * Actually, the last of nodes is always tokens, not comments.
-             * But I think this test case is needed for completeness.
+             * A node must not end with a token: it can end with a comment or be empty.
+             * This test case is needed for completeness.
              */
             const token = tokenStore.getLastToken(
                 { range: [ast.tokens[0].range[0], ast.comments[0].range[1]] }
             );
 
             assert.strictEqual(token.value, "b");
+        });
+
+        it("should return null if the source contains only comments", () => {
+            const code = "// comment";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+            const token = tokenStore.getLastToken(ast, {
+                filter() {
+                    assert.fail("Unexpected call to filter callback");
+                }
+            });
+
+            assert.strictEqual(token, null);
+        });
+
+        it("should return null if the source is empty", () => {
+            const code = "";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+            const token = tokenStore.getLastToken(ast);
+
+            assert.strictEqual(token, null);
+        });
+
+        it("should retrieve a parent node's token if a node has no tokens", () => {
+            const code = "foo``";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true, ecmaVersion: 6 });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+            const emptyTemplateElementNode = ast.body[0].expression.quasi.quasis[0];
+            const token = tokenStore.getLastToken(emptyTemplateElementNode);
+
+            assert.strictEqual(token.value, "``");
         });
 
     });
