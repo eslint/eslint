@@ -59,7 +59,11 @@ ruleTester.run("no-constant-binary-expression", rule, {
         "function foo(undefined) { undefined === true;}",
         "[...arr, 1] == true",
         "[,,,] == true",
-        { code: "new Foo() === bar;", globals: { Foo: "writable" } }
+        { code: "new Foo() === bar;", globals: { Foo: "writable" } },
+        "(foo && true) ?? bar",
+        "foo ?? null ?? bar",
+        "a ?? (doSomething(), undefined) ?? b",
+        "a ?? (something = null) ?? b"
     ],
     invalid: [
 
@@ -308,6 +312,10 @@ ruleTester.run("no-constant-binary-expression", rule, {
         { code: "x === /[a-z]/", errors: [{ messageId: "alwaysNew" }] },
 
         // It's not obvious what this does, but it compares the old value of `x` to the new object.
-        { code: "x === (x = {})", errors: [{ messageId: "alwaysNew" }] }
+        { code: "x === (x = {})", errors: [{ messageId: "alwaysNew" }] },
+
+        { code: "window.abc && false && anything", errors: [{ messageId: "constantShortCircuit" }] },
+        { code: "window.abc || true || anything", errors: [{ messageId: "constantShortCircuit" }] },
+        { code: "window.abc ?? 'non-nullish' ?? anything", errors: [{ messageId: "constantShortCircuit" }] }
     ]
 });
