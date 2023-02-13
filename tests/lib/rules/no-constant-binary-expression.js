@@ -316,6 +316,6 @@ ruleTester.run("no-constant-binary-expression", rule, {
 
         { code: "window.abc && false && anything", errors: [{ messageId: "constantShortCircuit" }] },
         { code: "window.abc || true || anything", errors: [{ messageId: "constantShortCircuit" }] },
-        { code: "window.abc ?? 'non-nullish' ?? 'non-nullish'", errors: [{ messageId: "constantShortCircuit" }] }
+        { code: "window.abc ?? 'non-nullish' ?? anything", errors: [{ messageId: "constantShortCircuit" }] }
     ]
 });
