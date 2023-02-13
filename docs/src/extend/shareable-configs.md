@@ -8,17 +8,23 @@ eleventyNavigation:
 
 ---
 
-The configuration that you have in your `.eslintrc` file is an important part of your project, and as such, you may want to share it with other projects or people. Shareable configs allow you to publish your configuration settings on [npm](https://www.npmjs.com/) and have others download and use it in their ESLint projects.
+To share your ESLint configuration, create a **shareable config**. You can publish your shareable config on [npm](https://www.npmjs.com/) so that others can download and use it in their ESLint projects.
+
+This page explains how to create and publish a shareable config.
 
 ## Creating a Shareable Config
 
-Shareable configs are simply npm packages that export a configuration object. To start, [create a Node.js module](https://docs.npmjs.com/getting-started/creating-node-modules) like you normally would. Make sure the module name begins with `eslint-config-`, such as `eslint-config-myconfig`.
+Shareable configs are simply npm packages that export a configuration object. To start, [create a Node.js module](https://docs.npmjs.com/getting-started/creating-node-modules) like you normally would.
 
-npm [scoped modules](https://docs.npmjs.com/misc/scope) are also supported, by naming or prefixing the module with `@scope/eslint-config`, such as `@scope/eslint-config` or `@scope/eslint-config-myconfig`.
+The module name must take one of the following forms:
 
-Create a new `index.js` file and export an object containing your settings:
+* Begin with `eslint-config-`, such as `eslint-config-myconfig`.
+* Be an npm [scoped module](https://docs.npmjs.com/misc/scope). To create a scoped module, name or prefix the module with `@scope/eslint-config`, such as `@scope/eslint-config` or `@scope/eslint-config-myconfig`.
+
+In your module, export the shareable config from the module's [`main`](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#main) entry point file. The default main entry point is `index.js`. For example:
 
 ```js
+// index.js
 module.exports = {
 
     globals: {
@@ -32,13 +38,13 @@ module.exports = {
 };
 ```
 
-Since `index.js` is just JavaScript, you can optionally read these settings from a file or generate them dynamically.
+Since the `index.js` file is just JavaScript, you can read these settings from a file or generate them dynamically.
 
 ## Publishing a Shareable Config
 
-Once your shareable config is ready, you can [publish to npm](https://docs.npmjs.com/getting-started/publishing-npm-packages) to share with others. We recommend using the `eslint` and `eslintconfig` keywords so others can easily find your module.
+Once your shareable config is ready, you can [publish it to npm](https://docs.npmjs.com/getting-started/publishing-npm-packages) to share it with others. We recommend using the `eslint` and `eslintconfig` [keywords](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#keywords) in the `package.json` file so others can easily find your module.
 
-You should declare your dependency on ESLint in `package.json` using the [peerDependencies](https://docs.npmjs.com/files/package.json#peerdependencies) field. The recommended way to declare a dependency for future proof compatibility is with the ">=" range syntax, using the lowest required ESLint version. For example:
+You should declare your dependency on ESLint in the `package.json` using the [peerDependencies](https://docs.npmjs.com/files/package.json#peerdependencies) field. The recommended way to declare a dependency for future-proof compatibility is with the ">=" range syntax, using the lowest required ESLint version. For example:
 
 ```json
 {
@@ -48,7 +54,7 @@ You should declare your dependency on ESLint in `package.json` using the [peerDe
 }
 ```
 
-If your shareable config depends on a plugin, you should also specify it as a `peerDependency` (plugins will be loaded relative to the end user's project, so the end user is required to install the plugins they need). However, if your shareable config depends on a third-party parser or another shareable config, you can specify these packages as `dependencies`.
+If your shareable config depends on a plugin, you should also specify it as a `peerDependency` (plugins will be loaded relative to the end user's project, so the end user is required to install the plugins they need). However, if your shareable config depends on a [custom parser](custom-parsers) or another shareable config, you can specify these packages as `dependencies` in the `package.json`.
 
 You can also test your shareable config on your computer before publishing by linking your module globally. Type:
 
@@ -66,7 +72,7 @@ Be sure to replace `eslint-config-myconfig` with the actual name of your module.
 
 ## Using a Shareable Config
 
-Shareable configs are designed to work with the `extends` feature of `.eslintrc` files. Instead of using a file path for the value of `extends`, use your module name. For example:
+To use a shareable config, include the config name in the `extends` field of a configuration file. For the value, use your module name. For example:
 
 ```json
 {
@@ -74,7 +80,7 @@ Shareable configs are designed to work with the `extends` feature of `.eslintrc`
 }
 ```
 
-You can also omit the `eslint-config-` and it will be automatically assumed by ESLint:
+You can also omit the `eslint-config-` and it is automatically assumed by ESLint:
 
 ```json
 {
@@ -82,11 +88,13 @@ You can also omit the `eslint-config-` and it will be automatically assumed by E
 }
 ```
 
-### npm scoped modules
+You cannot use shareable configs with the ESLint CLI [`--config`](../use/command-line-interface#-c---config) flag.
+
+### npm Scoped Modules
 
 npm [scoped modules](https://docs.npmjs.com/misc/scope) are also supported in a number of ways.
 
-By using the module name:
+You can use the module name:
 
 ```json
 {
@@ -94,7 +102,7 @@ By using the module name:
 }
 ```
 
-You can also omit the `eslint-config` and it will be automatically assumed by ESLint:
+You can also omit the `eslint-config` and it is automatically assumed by ESLint:
 
 ```json
 {
@@ -102,7 +110,7 @@ You can also omit the `eslint-config` and it will be automatically assumed by ES
 }
 ```
 
-The module name can also be customized, just note that when using [scoped modules](https://docs.npmjs.com/misc/scope) it is not possible to omit the `eslint-config-` prefix. Doing so would result in package naming conflicts, and thus in resolution errors in most of cases. For example a package named `@scope/eslint-config-myconfig` vs `@scope/myconfig`, since both are valid scoped package names, the configuration should be specified as:
+The module name can also be customized. For example, if you have a package named `@scope/eslint-config-myconfig`, the configuration can be specified as:
 
 ```json
 {
@@ -110,15 +118,26 @@ The module name can also be customized, just note that when using [scoped module
 }
 ```
 
+You could also omit `eslint-config` to specify the configuration as:
+
+```json
+{
+    "extends": "@scope/myconfig"
+}
+```
+
+### Overriding Settings from Shareable Configs
+
 You can override settings from the shareable config by adding them directly into your `.eslintrc` file.
 
 ## Sharing Multiple Configs
 
-It's possible to share multiple configs in the same npm package. You can specify a default config for the package by following the directions in the first section. You can specify additional configs by simply adding a new file to your npm package and then referencing it from your ESLint config.
+You can share multiple configs in the same npm package. Specify a default config for the package by following the directions in the [Creating a Shareable Config](#creating-a-shareable-config) section. You can specify additional shareable configs by adding a new file to your npm package and then referencing it from your ESLint config.
 
 As an example, you can create a file called `my-special-config.js` in the root of your npm package and export a config, such as:
 
 ```js
+// my-special-config.js
 module.exports = {
     rules: {
         quotes: [2, "double"]
@@ -142,13 +161,13 @@ When using [scoped modules](https://docs.npmjs.com/misc/scope) it is not possibl
 }
 ```
 
-Note that you can leave off the `.js` from the filename. In this way, you can add as many additional configs to your package as you'd like.
+Note that you can leave off the `.js` from the filename.
 
 **Important:** We strongly recommend always including a default config for your plugin to avoid errors.
 
 ## Local Config File Resolution
 
-If you need to make multiple configs that can extend from each other and live in different directories, you can create a single shareable config that handles this scenario.
+If you need to make multiple configs that can extend each other and live in different directories, you can create a single shareable config that handles this scenario.
 
 As an example, let's assume you're using the package name `eslint-config-myconfig` and your package looks something like this:
 
@@ -165,13 +184,13 @@ myconfig
     └── common.js
 ```
 
-In your `index.js` you can do something like this:
+In the `index.js` file, you can do something like this:
 
 ```js
 module.exports = require('./lib/ci.js');
 ```
 
-Now inside your package you have `/lib/defaults.js`, which contains:
+Now inside the package you have `/lib/defaults.js`, which contains:
 
 ```js
 module.exports = {
@@ -181,13 +200,13 @@ module.exports = {
 };
 ```
 
-Inside your `/lib/ci.js` you have
+Inside `/lib/ci.js` you have:
 
 ```js
 module.exports = require('./ci/backend');
 ```
 
-Inside your `/lib/ci/common.js`
+Inside `/lib/ci/common.js`:
 
 ```js
 module.exports = {
@@ -200,7 +219,7 @@ module.exports = {
 
 Despite being in an entirely different directory, you'll see that all `extends` must use the full package path to the config file you wish to extend.
 
-Now inside your `/lib/ci/backend.js`
+Now inside `/lib/ci/backend.js`:
 
 ```js
 module.exports = {
@@ -211,7 +230,7 @@ module.exports = {
 };
 ```
 
-In the last file, you'll once again see that to properly resolve your config, you'll need include the full package path.
+In the last file, once again see that to properly resolve your config, you need to include the full package path.
 
 ## Further Reading
 
