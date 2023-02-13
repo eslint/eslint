@@ -3334,14 +3334,14 @@ ruleTester.run("no-extra-parens", rule, {
             code: `
                 if (condition) {
                     /** @type {ServerOptions} */
-                    /** extra coment */
+                    /** extra comment */
                     (options.server.options).requestCert = false;
                 }
             `,
             output: `
                 if (condition) {
                     /** @type {ServerOptions} */
-                    /** extra coment */
+                    /** extra comment */
                     options.server.options.requestCert = false;
                 }
             `,
