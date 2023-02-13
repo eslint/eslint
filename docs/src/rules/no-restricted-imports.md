@@ -183,6 +183,16 @@ import pick from 'lodash/pick';
 ::: incorrect
 
 ```js
+// eslint no-restricted-imports: ["error", { "patterns": ["**/dist/"] }]
+
+import { NotExported } from '@vendor/package/dist/esm/path';
+```
+
+:::
+
+::: incorrect
+
+```js
 /*eslint no-restricted-imports: ["error", { paths: [{
     name: "foo",
     importNames: ["default"],
