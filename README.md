@@ -16,8 +16,7 @@
 [Report Bugs](https://eslint.org/docs/latest/contribute/report-bugs) |
 [Code of Conduct](https://eslint.org/conduct) |
 [Twitter](https://twitter.com/geteslint) |
-[Mailing List](https://groups.google.com/group/eslint) |
-[Chat Room](https://eslint.org/chat)
+[Discord](https://eslint.org/chat)
 
 ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code. In many ways, it is similar to JSLint and JSHint with a few exceptions:
 
@@ -129,7 +128,7 @@ Once a language feature has been adopted into the ECMAScript standard (stage 4 a
 
 ### Where to ask for help?
 
-Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](https://eslint.org/chat).
+Open a [discussion](https://github.com/eslint/eslint/discussions) or stop by our [Discord server](https://eslint.org/chat).
 
 ### Why doesn't ESLint lock dependency versions?
 
