@@ -64,23 +64,12 @@ module.exports = function(eleventyConfig) {
 
     eleventyConfig.addFilter("jsonify", variable => JSON.stringify(variable));
 
-    /**
-     * Takes in a string and converts to a slug
-     * @param {string} text text to be converted into slug
-     * @returns {string} slug to be used as anchors
-     */
-    function slugify(text) {
-        return slug(text.replace(/[<>()[\]{}]/gu, ""))
-        // eslint-disable-next-line no-control-regex -- used regex from https://github.com/eslint/archive-website/blob/master/_11ty/plugins/markdown-plugins.js#L37
-            .replace(/[^\u{00}-\u{FF}]/gu, "");
-    }
-
     eleventyConfig.addFilter("slugify", str => {
         if (!str) {
             return "";
         }
 
-        return slugify(str);
+        return slug(str);
     });
 
     eleventyConfig.addFilter("URIencode", str => {
@@ -193,7 +182,7 @@ module.exports = function(eleventyConfig) {
     const markdownIt = require("markdown-it");
     const md = markdownIt({ html: true, linkify: true, typographer: true, highlight: (str, lang) => highlighter(md, str, lang) })
         .use(markdownItAnchor, {
-            slugify
+            slugify: slug
         })
         .use(markdownItContainer, "correct", {})
         .use(markdownItContainer, "incorrect", {})
