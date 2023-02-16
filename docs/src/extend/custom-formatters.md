@@ -308,7 +308,7 @@ module.exports = function(results, context) {
 };
 ```
 
-Running `eslint` with the previous custom formatter,
+Run `eslint` with the above summary formatter:
 
 ```bash
 eslint -f ./my-awesome-formatter.js src/
