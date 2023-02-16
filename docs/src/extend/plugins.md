@@ -84,7 +84,7 @@ module.exports = {
 
 You can bundle configurations inside a plugin by specifying them under the `configs` key. This can be useful when you want to bundle a set of custom rules with additional configuration. Multiple configurations are supported per plugin.
 
-It is not possible to specify a default configuration for a given plugin. Users must specify a default configuration in their configuration file.
+Plugins cannot force a specific configuration to be used. Users must manually include plugin configurations in their configuration file.
 
 ```js
 // eslint-plugin-myPlugin
