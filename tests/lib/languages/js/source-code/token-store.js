@@ -11,7 +11,7 @@
 
 const assert = require("chai").assert,
     espree = require("espree"),
-    TokenStore = require("../../../lib/source-code/token-store");
+    TokenStore = require("../../../../../lib/languages/js/source-code/token-store");
 
 //------------------------------------------------------------------------------
 // Constants

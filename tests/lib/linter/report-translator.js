@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert;
-const { SourceCode } = require("../../../lib/source-code");
+const { SourceCode } = require("../../../lib/languages/js/source-code");
 const espree = require("espree");
 const createReportTranslator = require("../../../lib/linter/report-translator");
 
