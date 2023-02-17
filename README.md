@@ -254,6 +254,11 @@ Bryan Mishkin
 Sara Soueidan
 </a>
 </td><td align="center" valign="top" width="11%">
+<a href="https://github.com/fasttime">
+<img src="https://github.com/fasttime.png?s=75" width="75" height="75"><br />
+Francesco Trotta
+</a>
+</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/yeonjuan">
 <img src="https://github.com/yeonjuan.png?s=75" width="75" height="75"><br />
 YeonJuan
