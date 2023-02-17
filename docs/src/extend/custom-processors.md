@@ -57,23 +57,24 @@ Reported problems have the following location information in each lint message:
 
 ```typescript
 type LintMessage = {
+
+  /// The 1-based line number where the message occurs.
+  line: number;
+
    /// The 1-based column number where the message occurs.
   column: number;
 
-  /// The 1-based column number of the end location.
-  endColumn: number;
-
   /// The 1-based line number of the end location.
   endLine: number;
+
+  /// The 1-based column number of the end location.
+  endColumn: number;
 
   /// If `true`, this is a fatal error.
   fatal: boolean;
 
   /// Information for an autofix.
   fix: Fix;
-
-  /// The 1-based line number where the message occurs.
-  line: number;
 
   /// The error message.
   message: string;
