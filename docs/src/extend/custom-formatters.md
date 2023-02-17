@@ -8,7 +8,7 @@ eleventyNavigation:
 
 ---
 
-Custom formatters take ESLint linting results and output the results in a format that you define. Custom formatters let you display linting results in a format that best fits your needs, whether that's in a specific file format, a certain display style, or a format optimized for a particular tool.
+Custom formatters let you display linting results in a format that best fits your needs, whether that's in a specific file format, a certain display style, or a format optimized for a particular tool.
 
 ESLint also has [built-in formatters](../use/formatters/) that you can use.
 
@@ -35,7 +35,7 @@ module.exports = async function(results) {
 };
 ```
 
-To run ESLint with this formatter, you can use the [`-f` (or `--format`)](../use/command-line-interface#f---format) command line flag:
+To run ESLint with this formatter, you can use the [`-f` (or `--format`)](../use/command-line-interface#-f---format) command line flag:
 
 ```bash
 eslint -f ./my-awesome-formatter.js src/
@@ -258,7 +258,7 @@ file:line:column
 
 ## Packaging a Custom Formatter
 
-Custom formatters can be distributed through npm packages. To do so, create an npm package with a name in the format `eslint-formatter-*`, where `*` is the name of your formatter (such as `eslint-formatter-awesome`). Projects should then install the package and use the custom formatter with the [`-f` (or `--format`)](../use/command-line-interface#f---format) flag like this:
+Custom formatters can be distributed through npm packages. To do so, create an npm package with a name in the format `eslint-formatter-*`, where `*` is the name of your formatter (such as `eslint-formatter-awesome`). Projects should then install the package and use the custom formatter with the [`-f` (or `--format`)](../use/command-line-interface#-f---format) flag like this:
 
 ```bash
 eslint -f awesome src/
