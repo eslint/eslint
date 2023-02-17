@@ -35,7 +35,7 @@ module.exports = async function(results) {
 };
 ```
 
-To run ESLint with this formatter, you can use the [`-f` (or `--format`)](../use/command-line-interface#-f---format) command line flag.  You must begin the path to a locally defined custom formatter with a period (`.`), such as `./my-awesome-formatter.js` or `../formatters/my-awesome-formatter.js`.
+To run ESLint with this formatter, you can use the [`-f` (or `--format`)](../use/command-line-interface#-f---format) command line flag. You must begin the path to a locally defined custom formatter with a period (`.`), such as `./my-awesome-formatter.js` or `../formatters/my-awesome-formatter.js`.
 
 ```bash
 eslint -f ./my-awesome-formatter.js src/
