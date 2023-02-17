@@ -182,7 +182,7 @@ module.exports = function(eleventyConfig) {
     const markdownIt = require("markdown-it");
     const md = markdownIt({ html: true, linkify: true, typographer: true, highlight: (str, lang) => highlighter(md, str, lang) })
         .use(markdownItAnchor, {
-            slugify: slug
+            slugify: s => slug(s)
         })
         .use(markdownItContainer, "correct", {})
         .use(markdownItContainer, "incorrect", {})
