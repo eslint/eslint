@@ -49,7 +49,7 @@ module.exports = {
 
 A code block has two properties `text` and `filename`. The `text` property is the content of the block and the `filename` property is the name of the block. The name of the block can be anything, but should include the file extension, which tells the linter how to process the current block. The linter checks the [`--ext` CLI option](../use/command-line-interface#--ext) to see if the current block should be linted and resolves `overrides` configs to check how to process the current block.
 
-It's up to the plugin to decide if it needs to return just one part of the non-JavaScript file or multiple pieces. For example in the case of processing `.html` files, you might want to return just one item in the array by combining all scripts. However, for `.md` files, because each JavaScript block might be independent, you can return multiple items.
+It's up to the plugin to decide if it needs to return just one part of the non-JavaScript file or multiple pieces. For example in the case of processing `.html` files, you might want to return just one item in the array by combining all scripts. However, for `.md` files, you can return multiple items because each JavaScript block might be independent.
 
 **The `postprocess` method** takes a two-dimensional array of arrays of lint messages and the filename. Each item in the input array corresponds to the part that was returned from the `preprocess` method. The `postprocess` method must adjust the locations of all errors to correspond to locations in the original, unprocessed code, and aggregate them into a single flat array and return it.
 
