@@ -14,7 +14,9 @@ ESLint custom parsers let you extend ESLint to support linting new non-standard 
 
 If a `parseForESLint` method is exposed on the parser, this method will be used to parse the code. Otherwise, the `parse` method will be used. Both methods should take in the source code as the first argument, and an optional configuration object as the second argument (provided as `parserOptions` in a config file).
 
-TODO: have a simple example here w parse and parserOptions
+```javascript
+// TODO: have a simple example here w parse and parserOptions
+```
 
 ## `parse` Return Object
 
