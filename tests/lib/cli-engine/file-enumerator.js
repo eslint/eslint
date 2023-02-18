@@ -182,6 +182,60 @@ describe("FileEnumerator", () => {
             });
         });
 
+        // https://github.com/eslint/eslint/issues/14742
+        describe.only("with 5 directories ('{lib}', '{lib}/client', '{lib}/client/src', '{lib}/server', '{lib}/server/src') that contains two files '{lib}/client/src/one.js' and '{lib}/server/src/two.js'", () => {
+            const root = path.join("/Users/snitin315/Desktop/eslint/file-enumerator");
+            const files = {
+                "{lib}/client/src/one.js": "console.log('one.js');",
+                "{lib}/server/src/two.js": "console.log('two.js');",
+                "{lib}/client/.eslintrc.json": JSON.stringify({
+                    rules: {
+                        "no-console": "error"
+                    },
+                    env: {
+                        mocha: true
+                    }
+                }),
+                "{lib}/server/.eslintrc.json": JSON.stringify({
+                    rules: {
+                        "no-console": "off"
+                    },
+                    env: {
+                        mocha: true
+                    }
+                })
+            };
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files
+            });
+
+            /** @type {FileEnumerator} */
+            let enumerator;
+
+            beforeEach(async () => {
+                await prepare();
+                enumerator = new FileEnumerator({
+                    cwd: path.resolve(getPath("{lib}/server"))
+                });
+            });
+
+            afterEach(cleanup);
+
+            describe("when running eslint in the server directory", () => {
+                it("should use the config '{lib}/server/.eslintrc.json' for '{lib}/server/src/two.js'.", () => {
+                    const list = [
+                        ...enumerator.iterateFiles(["src/**/*.{js,json}"])
+                    ];
+
+                    assert.strictEqual(list.length, 1);
+                    assert.strictEqual(list[0].config.length, 2);
+                    assert.strictEqual(list[0].config[0].name, "DefaultIgnorePattern");
+                    assert.strictEqual(list[0].config[1].filePath, getPath("{lib}/server/.eslintrc.json"));
+                });
+            });
+        });
+
         // This group moved from 'tests/lib/util/glob-utils.js' when refactoring to keep the cumulated test cases.
         describe("with 'tests/fixtures/glob-utils' files", () => {
             let fixtureDir;
