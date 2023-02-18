@@ -13,6 +13,7 @@ const path = require("path");
 const os = require("os");
 const { assert } = require("chai");
 const sh = require("shelljs");
+const sinon = require("sinon");
 const {
     Legacy: {
         CascadingConfigArrayFactory
@@ -224,14 +225,27 @@ describe("FileEnumerator", () => {
 
             describe("when running eslint in the server directory", () => {
                 it("should use the config '{lib}/server/.eslintrc.json' for '{lib}/server/src/two.js'.", () => {
+                    const spy = sinon.spy(fs, "readdirSync");
+
                     const list = [
                         ...enumerator.iterateFiles(["src/**/*.{js,json}"])
                     ];
 
+                    // should enter the directory '{lib}/server/src' directly
+                    assert.strictEqual(spy.getCall(0).firstArg, path.join(root, "{lib}/server/src"));
                     assert.strictEqual(list.length, 1);
                     assert.strictEqual(list[0].config.length, 2);
                     assert.strictEqual(list[0].config[0].name, "DefaultIgnorePattern");
                     assert.strictEqual(list[0].config[1].filePath, getPath("{lib}/server/.eslintrc.json"));
+                    assert.deepStrictEqual(
+                        list.map(entry => entry.filePath),
+                        [
+                            path.join(root, "{lib}/server/src/two.js")
+                        ]
+                    );
+
+                    // destroy the spy
+                    sinon.restore();
                 });
             });
         });
