@@ -43,7 +43,7 @@ const skipFilter = (report) =>
         console.log(err.stack);
         process.exit(1);
     }
-    const results = t.close();
+    const results = tapRenderInstance.close();
 
     process.exit(results.fail ? 1 : 0);
 })();
