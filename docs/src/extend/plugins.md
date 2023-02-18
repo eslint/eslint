@@ -84,7 +84,7 @@ module.exports = {
 
 You can bundle configurations inside a plugin by specifying them under the `configs` key. This can be useful when you want to bundle a set of custom rules with additional configuration. Multiple configurations are supported per plugin.
 
-Plugins cannot force a specific configuration to be used. Users must manually include plugin's configurations in their configuration file.
+You can include individual rules from a plugin in a config that's also included in the plugin. In the config, you must specify your plugin name in the `plugins` array as well as any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name.
 
 ```js
 // eslint-plugin-myPlugin
@@ -110,19 +110,26 @@ module.exports = {
             }
         }
     }
+    rules: {
+        "my-rule": {/* rule definition */},
+        "another-rule": {/* rule definition */},
+        "yet-another-rule": {/* rule definition */},
+    }
 };
 ```
 
-If the example plugin above were called `eslint-plugin-myPlugin`, the `myConfig` and `myOtherConfig` configurations would then be usable by extending off of `"plugin:myPlugin/myConfig"` and `"plugin:myPlugin/myOtherConfig"`, respectively.
+Plugins cannot force a specific configuration to be used. Users must manually include plugin's configurations in their configuration file.
+
+If the example plugin above were called `eslint-plugin-myPlugin`, the `myConfig` and `myOtherConfig` configurations would then be usable in a configuration file by extending `"plugin:myPlugin/myConfig"` and `"plugin:myPlugin/myOtherConfig"`, respectively.
 
 ```json
+// eslintrc.json
+
 {
     "extends": ["plugin:myPlugin/myConfig"]
 }
 
 ```
-
-If you'd like to include individual rules from a plugin in your configuration file, you must specify your plugin name in the `plugins` array as well as any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. To learn more, refer to [Configure Plugins](../use/configure/plugins#configure-plugins).
 
 ### Peer Dependency
 
