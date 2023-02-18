@@ -3,9 +3,9 @@ const TapRender = require("@munter/tap-render");
 const spot = require("tap-spot");
 const hyperlink = require("hyperlink");
 
-const t = new TapRender();
+const tapRenderInstance = new TapRender();
 
-t.pipe(spot()).pipe(process.stdout);
+tapRenderInstance.pipe(spot()).pipe(process.stdout);
 
 const skipPatterns = [
     "https://",
@@ -16,7 +16,7 @@ const skipPatterns = [
     "/team",
     "/donate",
     "/docs/latest",
-    "_site/rules/null"
+    `src="null"`,
 ];
 
 const skipFilter = (report) =>
@@ -37,7 +37,7 @@ const skipFilter = (report) =>
                 concurrency: 25,
                 skipFilter,
             },
-            t
+            tapRenderInstance
         );
     } catch (err) {
         console.log(err.stack);

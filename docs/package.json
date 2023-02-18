@@ -28,6 +28,7 @@
         "@11ty/eleventy-navigation": "^0.3.2",
         "@11ty/eleventy-plugin-rss": "^1.1.1",
         "@11ty/eleventy-plugin-syntaxhighlight": "^3.1.2",
+        "@munter/tap-render": "^0.2.0",
         "@types/markdown-it": "^12.2.3",
         "algoliasearch": "^4.12.1",
         "autoprefixer": "^10.4.13",
