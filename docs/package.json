@@ -31,7 +31,7 @@
         "eleventy-plugin-nesting-toc": "^1.3.0",
         "eleventy-plugin-page-assets": "^0.3.0",
         "eleventy-plugin-reading-time": "^0.0.1",
-        "github-slugger": "^1.4.0",
+        "github-slugger": "^1.5.0",
         "imagemin": "^8.0.1",
         "imagemin-cli": "^7.0.0",
         "js-yaml": "^3.14.1",
