@@ -36,30 +36,29 @@ module.exports = {
 
 ## Rule Basics
 
-The source file for a rule exports an object with the following properties.
+The source file for a rule exports an object with the following properties. Both custom rules and core rules follow this format.
 
 `meta` (object) contains metadata for the rule:
 
 * `type` (string) indicates the type of rule, which is one of `"problem"`, `"suggestion"`, or `"layout"`:
+
     * `"problem"` means the rule is identifying code that either will cause an error or may cause a confusing behavior. Developers should consider this a high priority to resolve.
     * `"suggestion"` means the rule is identifying something that could be done in a better way but no errors will occur if the code isn't changed.
     * `"layout"` means the rule cares primarily about whitespace, semicolons, commas, and parentheses, all the parts of the program that determine how the code looks rather than how it executes. These rules work on parts of the code that aren't specified in the AST.
 
-* `docs` (object) is required for core rules of ESLint:
+* `docs` (object) is required for **core rules** of ESLint. If you are creating a custom rule, you **do not** need to include the `docs` object or can include any properties that you need in it.
 
     * `description` (string) provides the short description of the rule in the [rules index](../rules/)
-    * `recommended` (boolean) is whether the `"extends": "eslint:recommended"` property in a [configuration file](../use/configure/configuration-files#extending-configuration-files) enables the rule
+    * `recommended` (boolean) is whether the `"extends":  "eslint:recommended"` property in a [configuration file](../use configure/configuration-files#extending-configuration-files) enables the rule
     * `url` (string) specifies the URL at which the full documentation can be accessed (enabling code editors to provide a helpful link on highlighted rule violations)
 
-    In a custom rule or plugin, you can omit `docs` or include any properties that you need in it.
+* `fixable` (string) is either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../use/command-line-interface#--fix) automatically fixes problems reported by the rule.
 
-* `fixable` (string) is either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../use/command-line-interface#--fix) automatically fixes problems reported by the rule
-
-    **Important:** the `fixable` property is mandatory for fixable rules. If this property isn't specified, ESLint will throw an error whenever the rule attempts to produce a fix. Omit the `fixable` property if the rule is not fixable.
+  **Important:** the `fixable` property is mandatory for fixable rules. If this property isn't specified, ESLint will throw an error whenever the rule attempts to produce a fix. Omit the `fixable` property if the rule is not fixable.
 
 * `hasSuggestions` (boolean) specifies whether rules can return suggestions (defaults to `false` if omitted)
 
-     **Important:** the `hasSuggestions` property is mandatory for rules that provide suggestions. If this property isn't set to `true`, ESLint will throw an error whenever the rule attempts to produce a suggestion. Omit the `hasSuggestions` property if the rule does not provide suggestions.
+  **Important:** the `hasSuggestions` property is mandatory for rules that provide suggestions. If this property isn't set to `true`, ESLint will throw an error whenever the rule attempts to produce a suggestion. Omit the `hasSuggestions` property if the rule does not provide suggestions.
 
 * `schema` (array) specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules)
 
@@ -221,7 +220,6 @@ The node contains all of the information necessary to figure out the line and co
 You can also use placeholders in the message and provide `data`:
 
 ```js
-{% raw %}
 context.report({
     node: node,
     message: "Unexpected identifier: {{ identifier }}",
@@ -229,12 +227,11 @@ context.report({
         identifier: node.name
     }
 });
-{% endraw %}
 ```
 
 Note that leading and trailing whitespace is optional in message parameters.
 
-The node contains all of the information necessary to figure out the line and column number of the offending text as well the source text representing the node.
+The node contains all the information necessary to figure out the line and column number of the offending text as well the source text representing the node.
 
 ### `messageId`s
 
@@ -242,9 +239,11 @@ Instead of typing out messages in both the `context.report()` call and your test
 
 This allows you to avoid retyping error messages. It also prevents errors reported in different sections of your rule from having out-of-date messages.
 
+Rule file:
+
 ```js
-{% raw %}
-// in your rule
+// avoidName.js
+
 module.exports = {
     meta: {
         messages: {
@@ -267,13 +266,22 @@ module.exports = {
         };
     }
 };
+```
 
-// in the file to lint:
+In the file to lint:
+
+```javascript
+// someFile.js
 
 var foo = 2;
 //  ^ error: Avoid using variables named 'foo'
+```
 
-// In your tests:
+In your tests:
+
+```javascript
+// avoidName.test.js
+
 var rule = require("../../../lib/rules/my-rule");
 var RuleTester = require("eslint").RuleTester;
 
@@ -291,7 +299,6 @@ ruleTester.run("my-rule", rule, {
         }
     ]
 });
-{% endraw %}
 ```
 
 ### Applying Fixes
@@ -308,7 +315,7 @@ context.report({
 });
 ```
 
-Here, the `fix()` function is used to insert a semicolon after the node. Note that a fix is not immediately applied, and may not be applied at all if there are conflicts with other fixes. After applying fixes, ESLint will run all of the enabled rules again on the fixed code, potentially applying more fixes. This process will repeat up to 10 times, or until no more fixable problems are found. Afterwards, any remaining problems will be reported as usual.
+Here, the `fix()` function is used to insert a semicolon after the node. Note that a fix is not immediately applied, and may not be applied at all if there are conflicts with other fixes. After applying fixes, ESLint will run all the enabled rules again on the fixed code, potentially applying more fixes. This process will repeat up to 10 times, or until no more fixable problems are found. Afterwards, any remaining problems will be reported as usual.
 
 **Important:** The `meta.fixable` property is mandatory for fixable rules. ESLint will throw an error if a rule that implements `fix` functions does not [export](#rule-basics) the `meta.fixable` property.
 
@@ -323,7 +330,7 @@ The `fixer` object has the following methods:
 * `replaceText(nodeOrToken, text)` - replaces the text in the given node or token
 * `replaceTextRange(range, text)` - replaces the text in the given range
 
-A range is a two-item array containing character indices inside of the source code. The first item is the start of the range (inclusive) and the second item is the end of the range (exclusive). Every node and token has a `range` property to identify the source code range they represent.
+A range is a two-item array containing character indices inside the source code. The first item is the start of the range (inclusive) and the second item is the end of the range (exclusive). Every node and token has a `range` property to identify the source code range they represent.
 
 The above methods return a `fixing` object.
 The `fix()` function can return the following values:
@@ -340,21 +347,22 @@ Best practices for fixes:
 1. Make fixes as small as possible. Fixes that are unnecessarily large could conflict with other fixes, and prevent them from being applied.
 1. Only make one fix per message. This is enforced because you must return the result of the fixer operation from `fix()`.
 1. Since all rules are run again after the initial round of fixes is applied, it's not necessary for a rule to check whether the code style of a fix will cause errors to be reported by another rule.
-    * For example, suppose a fixer would like to surround an object key with quotes, but it's not sure whether the user would prefer single or double quotes.
 
-        ```js
-        ({ foo : 1 })
+* For example, suppose a fixer would like to surround an object key with quotes, but it's not sure whether the user would prefer single or double quotes.
 
-        // should get fixed to either
+  ```js
+  ({ foo : 1 })
 
-        ({ 'foo': 1 })
+  // should get fixed to either
 
-        // or
+  ({ 'foo': 1 })
 
-        ({ "foo": 1 })
-        ```
+  // or
 
-    * This fixer can just select a quote type arbitrarily. If it guesses wrong, the resulting code will be automatically reported and fixed by the [`quotes`](../rules/quotes) rule.
+  ({ "foo": 1 })
+  ```
+
+* This fixer can just select a quote type arbitrarily. If it guesses wrong, the resulting code will be automatically reported and fixed by the [`quotes`](../rules/quotes) rule.
 
 Note: Making fixes as small as possible is a best practice, but in some cases it may be correct to extend the range of the fix in order to intentionally prevent other rules from making fixes in a surrounding range in the same pass. For instance, if replacement text declares a new variable, it can be useful to prevent other changes in the scope of the variable as they might cause name collisions.
 
@@ -385,10 +393,9 @@ For example, if two fixes want to modify characters 0 through 5, only one is app
 
 In some cases fixes aren't appropriate to be automatically applied, for example, if a fix potentially changes functionality or if there are multiple valid ways to fix a rule depending on the implementation intent (see the best practices for [applying fixes](#applying-fixes) listed above). In these cases, there is an alternative `suggest` option on `context.report()` that allows other tools, such as editors, to expose helpers for users to manually apply a suggestion.
 
-In order to provide suggestions, use the `suggest` key in the report argument with an array of suggestion objects. The suggestion objects represent individual suggestions that could be applied and require either a `desc` key string that describes what applying the suggestion would do or a `messageId` key (see [below](#suggestion-messageids)), and a `fix` key that is a function defining the suggestion result. This `fix` function follows the same API as regular fixes (described above in [applying fixes](#applying-fixes)).
+To provide suggestions, use the `suggest` key in the report argument with an array of suggestion objects. The suggestion objects represent individual suggestions that could be applied and require either a `desc` key string that describes what applying the suggestion would do or a `messageId` key (see [below](#suggestion-messageids)), and a `fix` key that is a function defining the suggestion result. This `fix` function follows the same API as regular fixes (described above in [applying fixes](#applying-fixes)).
 
 ```js
-{% raw %}
 context.report({
     node: node,
     message: "Unnecessary escape character: \\{{character}}.",
@@ -408,7 +415,6 @@ context.report({
         }
     ]
 });
-{% endraw %}
 ```
 
 **Important:** The `meta.hasSuggestions` property is mandatory for rules that provide suggestions. ESLint will throw an error if a rule attempts to produce a suggestion but does not [export](#rule-basics) this property.
@@ -427,7 +433,6 @@ Suggestions are intended to provide fixes. ESLint will automatically remove the 
 Instead of using a `desc` key for suggestions a `messageId` can be used instead. This works the same way as `messageId`s for the overall error (see [messageIds](#messageids)). Here is an example of how to use it in a rule:
 
 ```js
-{% raw %}
 module.exports = {
     meta: {
         messages: {
@@ -460,7 +465,6 @@ module.exports = {
         });
     }
 };
-{% endraw %}
 ```
 
 #### Placeholders in suggestion messages
@@ -470,7 +474,6 @@ You can also use placeholders in the suggestion message. This works the same way
 Please note that you have to provide `data` on the suggestion's object. Suggestion messages cannot use properties from the overall error's `data`.
 
 ```js
-{% raw %}
 module.exports = {
     meta: {
         messages: {
@@ -497,7 +500,6 @@ module.exports = {
         });
     }
 };
-{% endraw %}
 ```
 
 ### context.options
@@ -597,7 +599,7 @@ You should use a `SourceCode` object whenever you need to get more information a
 
 #### Deprecated
 
-Please note that the following methods have been deprecated and will be removed in a future version of ESLint:
+Please note that the following `context` methods have been deprecated and will be removed in a future version of ESLint:
 
 * `getComments()` - replaced by `getCommentsBefore()`, `getCommentsAfter()`, and `getCommentsInside()`
 * `getTokenOrCommentBefore()` - replaced by `getTokenBefore()` with the `{ includeComments: true }` option
