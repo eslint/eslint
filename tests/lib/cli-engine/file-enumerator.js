@@ -184,7 +184,7 @@ describe("FileEnumerator", () => {
         });
 
         // https://github.com/eslint/eslint/issues/14742
-        describe.only("with 5 directories ('{lib}', '{lib}/client', '{lib}/client/src', '{lib}/server', '{lib}/server/src') that contains two files '{lib}/client/src/one.js' and '{lib}/server/src/two.js'", () => {
+        describe("with 5 directories ('{lib}', '{lib}/client', '{lib}/client/src', '{lib}/server', '{lib}/server/src') that contains two files '{lib}/client/src/one.js' and '{lib}/server/src/two.js'", () => {
             const root = path.join("/Users/snitin315/Desktop/eslint/file-enumerator");
             const files = {
                 "{lib}/client/src/one.js": "console.log('one.js');",
