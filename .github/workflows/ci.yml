@@ -42,9 +42,9 @@ jobs:
         node: [19.x, 18.x, 17.x, 16.x, 14.x, 12.x, "12.22.0"]
         include:
         - os: windows-latest
-          node: "16.x"
+          node: "lts/*"
         - os: macOS-latest
-          node: "16.x"
+          node: "lts/*"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
