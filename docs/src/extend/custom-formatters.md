@@ -16,7 +16,7 @@ You can include custom formatters in your project directly or create an npm pack
 
 ## Creating a Custom Formatter
 
-Each formatter is a function that receives a `results` object and a `context` as arguments and returns a string. For example, the following is how the `json` built-in formatter is implemented:
+Each formatter is a function that receives a `results` object and a `context` as arguments and returns a string. For example, the following is how the built-in [JSON formatter](../use/formatters/#json) is implemented:
 
 ```js
 //my-awesome-formatter.js
