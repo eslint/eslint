@@ -8,7 +8,7 @@ eleventyNavigation:
 
 ---
 
-An ESLint plugin is an extension for ESLint that adds additional rules and configuration options. Plugins let you customize your ESLint configuration to enforce rules that are not included in the core ESLint package. Plugins can also provide additional environments, custom processors and configurations.
+An ESLint plugin is an extension for ESLint that adds additional rules and configuration options. Plugins let you customize your ESLint configuration to enforce rules that are not included in the core ESLint package. Plugins can also provide additional environments, custom processors, and configurations.
 
 ## Name a Plugin
 
@@ -109,21 +109,21 @@ module.exports = {
                 "eslint-plugin-myPlugin/yet-another-rule": "error"
             }
         }
-    }
+    },
     rules: {
         "my-rule": {/* rule definition */},
         "another-rule": {/* rule definition */},
-        "yet-another-rule": {/* rule definition */},
+        "yet-another-rule": {/* rule definition */}
     }
 };
 ```
 
-Plugins cannot force a specific configuration to be used. Users must manually include plugin's configurations in their configuration file.
+Plugins cannot force a specific configuration to be used. Users must manually include a plugin's configurations in their configuration file.
 
 If the example plugin above were called `eslint-plugin-myPlugin`, the `myConfig` and `myOtherConfig` configurations would then be usable in a configuration file by extending `"plugin:myPlugin/myConfig"` and `"plugin:myPlugin/myOtherConfig"`, respectively.
 
 ```json
-// eslintrc.json
+// .eslintrc.json
 
 {
     "extends": ["plugin:myPlugin/myConfig"]
@@ -133,9 +133,9 @@ If the example plugin above were called `eslint-plugin-myPlugin`, the `myConfig`
 
 ### Peer Dependency
 
-To make clear that the plugin requires ESLint to work correctly, you must declare ESLint as a `peerDependency` in your plugin's `package.json`.
+To make clear that the plugin requires ESLint to work correctly, you must declare ESLint as a peer dependency by mentioning it in the `peerDependencies` field of your plugin's `package.json`.
 
-Plugin support was introduced in ESLint version `0.8.0`. Ensure the `peerDependency` points to ESLint `0.8.0` or later.
+Plugin support was introduced in ESLint version `0.8.0`. Ensure the `peerDependencies` points to ESLint `0.8.0` or later.
 
 ```json
 {
