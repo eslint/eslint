@@ -6858,7 +6858,7 @@ var a = "test2";
                 const messages = linter.verify(code, {}, { filename, preprocess });
 
                 assert.strictEqual(preprocess.calledOnce, true);
-                assert.deepStrictEqual(preprocess.args[0], [code, filename]);
+                assert.deepStrictEqual(preprocess.args[0], [code, filename, {}]);
                 assert.deepStrictEqual(messages, [
                     {
                         ruleId: null,
