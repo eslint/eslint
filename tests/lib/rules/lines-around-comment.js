@@ -1057,6 +1057,19 @@ ruleTester.run("lines-around-comment", rule, {
         {
             code: "#!comment\n\nvar a = 1;",
             options: [{ afterHashbangComment: true }]
+        },
+        "#!comment\nvar a = 1;",
+        {
+            code: "#!comment\nvar a = 1;",
+            options: [{}]
+        },
+        {
+            code: "#!comment\nvar a = 1;",
+            options: [{ afterHashbangComment: false }]
+        },
+        {
+            code: "#!comment\nvar a = 1;",
+            options: [{ afterLineComment: true, afterBlockComment: true }]
         }
     ],
 
