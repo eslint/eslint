@@ -835,16 +835,16 @@ target.checkRuleFiles = function() {
             }
 
             // check eslint:recommended
-            const recommended = require("./conf/eslint-recommended");
+            const recommended = require("./packages/js").configs.recommended;
 
             if (ruleDef.meta.docs.recommended) {
                 if (recommended.rules[basename] !== "error") {
-                    console.error(`Missing rule from eslint:recommended (./conf/eslint-recommended.js): ${basename}. If you just made a rule recommended then add an entry for it in this file.`);
+                    console.error(`Missing rule from eslint:recommended (./packages/js/src/configs/eslint-recommended.js): ${basename}. If you just made a rule recommended then add an entry for it in this file.`);
                     errors++;
                 }
             } else {
                 if (basename in recommended.rules) {
-                    console.error(`Extra rule in eslint:recommended (./conf/eslint-recommended.js): ${basename}. If you just added a rule then don't add an entry for it in this file.`);
+                    console.error(`Extra rule in eslint:recommended (./packages/js/src/configs/eslint-recommended.js): ${basename}. If you just added a rule then don't add an entry for it in this file.`);
                     errors++;
                 }
             }
