@@ -38,35 +38,35 @@ module.exports = {
 
 The source file for a rule exports an object with the following properties. Both custom rules and core rules follow this format.
 
-`meta` (object) contains metadata for the rule:
+`meta` (object) Contains metadata for the rule:
 
-* `type` (string) indicates the type of rule, which is one of `"problem"`, `"suggestion"`, or `"layout"`:
+* `type`: (string) indicates the type of rule, which is one of `"problem"`, `"suggestion"`, or `"layout"`:
 
-    * `"problem"` means the rule is identifying code that either will cause an error or may cause a confusing behavior. Developers should consider this a high priority to resolve.
-    * `"suggestion"` means the rule is identifying something that could be done in a better way but no errors will occur if the code isn't changed.
-    * `"layout"` means the rule cares primarily about whitespace, semicolons, commas, and parentheses, all the parts of the program that determine how the code looks rather than how it executes. These rules work on parts of the code that aren't specified in the AST.
+    * `"problem"`: The rule is identifying code that either will cause an error or may cause a confusing behavior. Developers should consider this a high priority to resolve.
+    * `"suggestion"`: The rule is identifying something that could be done in a better way but no errors will occur if the code isn't changed.
+    * `"layout"`: The rule cares primarily about whitespace, semicolons, commas, and parentheses, all the parts of the program that determine how the code looks rather than how it executes. These rules work on parts of the code that aren't specified in the AST.
 
-* `docs` (object) is required for **core rules** of ESLint. If you are creating a custom rule, you **do not** need to include the `docs` object or can include any properties that you need in it.
+* `docs`: (object) Required for **core rules** of ESLint. If you are creating a custom rule, you **do not** need to include the `docs` object or can include any properties that you need in it.
 
-    * `description` (string) provides the short description of the rule in the [rules index](../rules/)
-    * `recommended` (boolean) is whether the `"extends":  "eslint:recommended"` property in a [configuration file](../use configure/configuration-files#extending-configuration-files) enables the rule
-    * `url` (string) specifies the URL at which the full documentation can be accessed (enabling code editors to provide a helpful link on highlighted rule violations)
+    * `description`: (string) Provides the short description of the rule in the [rules index](../rules/).
+    * `recommended`: (boolean) Specifies whether the `"extends":  "eslint:recommended"` property in a [configuration file](../use configure/configuration-files#extending-configuration-files) enables the rule.
+    * `url`: (string) Specifies the URL at which the full documentation can be accessed (enabling code editors to provide a helpful link on highlighted rule violations).
 
-* `fixable` (string) is either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../use/command-line-interface#--fix) automatically fixes problems reported by the rule.
+* `fixable`: (string) Either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../use/command-line-interface#--fix) automatically fixes problems reported by the rule.
 
   **Important:** the `fixable` property is mandatory for fixable rules. If this property isn't specified, ESLint will throw an error whenever the rule attempts to produce a fix. Omit the `fixable` property if the rule is not fixable.
 
-* `hasSuggestions` (boolean) specifies whether rules can return suggestions (defaults to `false` if omitted)
+* `hasSuggestions`: (boolean) Specifies whether rules can return suggestions (defaults to `false` if omitted).
 
   **Important:** the `hasSuggestions` property is mandatory for rules that provide suggestions. If this property isn't set to `true`, ESLint will throw an error whenever the rule attempts to produce a suggestion. Omit the `hasSuggestions` property if the rule does not provide suggestions.
 
-* `schema` (array) specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules#configuring-rules)
+* `schema`: (array) Specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules#configuring-rules).
 
-* `deprecated` (boolean) indicates whether the rule has been deprecated.  You may omit the `deprecated` property if the rule has not been deprecated.
+* `deprecated`: (boolean) Indicates whether the rule has been deprecated.  You may omit the `deprecated` property if the rule has not been deprecated.
 
-* `replacedBy` (array) in the case of a deprecated rule, specifies replacement rule(s)
+* `replacedBy`: (array) In the case of a deprecated rule, specifies replacement rule(s).
 
-`create` (function) returns an object with methods that ESLint calls to "visit" nodes while traversing the abstract syntax tree (AST as defined by [ESTree](https://github.com/estree/estree)) of JavaScript code:
+`create`: (function) Returns an object with methods that ESLint calls to "visit" nodes while traversing the abstract syntax tree (AST as defined by [ESTree](https://github.com/estree/estree)) of JavaScript code:
 
 * If a key is a node type or a [selector](./selectors), ESLint calls that **visitor** function while going **down** the tree.
 * If a key is a node type or a [selector](./selectors) plus `:exit`, ESLint calls that **visitor** function while going **up** the tree.
@@ -105,24 +105,36 @@ module.exports = {
 
 ## The Context Object
 
-TODO: contextualize where the context object is used in a sentence
+The `context` object is the argument of the callback function in the `create` property of a custom rule. For example:
+
+```js
+// customRule.js
+
+module.exports = {
+    meta: { ... },
+    // `context` object is the argument
+    create: function(context) {
+       // ...
+    }
+};
+```
 
 The `context` object contains additional functionality that is helpful for rules to do their jobs. As the name implies, the `context` object contains information that is relevant to the context of the rule.
 
 The `context` object has the following properties:
 
-* `parserOptions` - the parser options configured for this run (more details [here](../use/configure/language-options#specifying-parser-options)).
-* `id` - the rule ID.
-* `options` - an array of the [configured options](../use/configure/rules#configuring-rules) for this rule. This array does not include the rule severity (see the [dedicated section](#contextoptions)).
-* `settings` - the [shared settings](../use/configure/configuration-files#adding-shared-settings) from configuration.
-* `parserPath` - the name of the `parser` from configuration.
-* `parserServices` - an object containing parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
+* `parserOptions`: The parser options configured for this run (more details [here](../use/configure/language-options#specifying-parser-options)).
+* `id`: The rule ID.
+* `options`: An array of the [configured options](../use/configure/rules#configuring-rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
+* `settings`: The [shared settings](../use/configure/configuration-files#adding-shared-settings) from configuration.
+* `parserPath`: The name of the `parser` from configuration.
+* `parserServices`: An object containing parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
 
 Additionally, the `context` object has the following methods:
 
-* `getAncestors()` - returns an array of the ancestors of the currently-traversed node, starting at the root of the AST and continuing through the direct parent of the current node. This array does not include the currently-traversed node itself.
-* `getCwd()` - returns the `cwd` passed to [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered as the current working directory.
-* `getDeclaredVariables(node)` - returns a list of [variables](./scope-manager-interface#variable-interface) declared by the given node. This information can be used to track references to variables.
+* `getAncestors()`: Returns an array of the ancestors of the currently-traversed node, starting at the root of the AST and continuing through the direct parent of the current node. This array does not include the currently-traversed node itself.
+* `getCwd()`: Returns the `cwd` passed to [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered as the current working directory.
+* `getDeclaredVariables(node)`: Returns a list of [variables](./scope-manager-interface#variable-interface) declared by the given node. This information can be used to track references to variables.
     * If the node is a `VariableDeclaration`, all variables declared in the declaration are returned.
     * If the node is a `VariableDeclarator`, all variables declared in the declarator are returned.
     * If the node is a `FunctionDeclaration` or `FunctionExpression`, the variable for the function name is returned, in addition to variables for the function parameters.
@@ -132,20 +144,20 @@ Additionally, the `context` object has the following methods:
     * If the node is an `ImportDeclaration`, variables for all of its specifiers are returned.
     * If the node is an `ImportSpecifier`, `ImportDefaultSpecifier`, or `ImportNamespaceSpecifier`, the declared variable is returned.
     * Otherwise, if the node does not declare any variables, an empty array is returned.
-* `getFilename()` - returns the filename associated with the source.
-* `getPhysicalFilename()` - when linting a file, it returns the full path of the file on disk without any code block information. When linting text, it returns the value passed to `—stdin-filename` or `<text>` if not specified.
-* `getScope()` - returns the [scope](./scope-manager-interface#scope-interface) of the currently-traversed node. This information can be used to track references to variables (see the [dedicated section](#contextgetscope)).
-* `getSourceCode()` - returns a `SourceCode` object that you can use to work with the source that was passed to ESLint (see the [dedicated section](#contextgetsourcecode)).
-* `markVariableAsUsed(name)` - marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
-* `report(descriptor)` - reports a problem in the code (see the [dedicated section](#contextreport)).
+* `getFilename()`: Returns the filename associated with the source.
+* `getPhysicalFilename()`: When linting a file, it returns the full path of the file on disk without any code block information. When linting text, it returns the value passed to `—stdin-filename` or `<text>` if not specified.
+* `getScope()`: Returns the [scope](./scope-manager-interface#scope-interface) of the currently-traversed node. This information can be used to track references to variables (see the [dedicated section](#accessing-scope-of-a-node)).
+* `getSourceCode()`: Returns a `SourceCode` object that you can use to work with the source that was passed to ESLint (see the [dedicated section](#accessing-the-source-code)).
+* `markVariableAsUsed(name)`: Marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
+* `report(descriptor)`. Reports a problem in the code (see the [dedicated section](#reporting-problems)).
 
 **Note:** Earlier versions of ESLint supported additional methods on the `context` object. Those methods were removed in the new format and should not be relied upon.
 
-### context.getScope()
+### Accessing Scope of a Node
 
-This method returns the scope of the current node. It is a useful method for finding information about the variables in a given scope, and how they are used in other scopes.
+The `context.getScope()` method returns the scope of the current node. It is a useful method for finding information about the variables in a given scope, and how they are used in other scopes.
 
-#### Scope types
+#### Scope Types
 
 The following table contains a list of AST node types and the scope type that they correspond to. For more information about the scope types, refer to the [`Scope` object documentation](./scope-manager-interface#scope-interface).
 
@@ -180,31 +192,31 @@ Also inside of each `Variable`, the `Variable#defs` property contains an array o
 
 Global variables have the following additional properties:
 
-* `Variable#writeable` (`boolean | undefined`) ... If `true`, this global variable can be assigned arbitrary value. If `false`, this global variable is read-only.
-* `Variable#eslintExplicitGlobal` (`boolean | undefined`) ... If `true`, this global variable was defined by a `/* globals */` directive comment in the source code file.
-* `Variable#eslintExplicitGlobalComments` (`Comment[] | undefined`) ... The array of `/* globals */` directive comments which defined this global variable in the source code file. This property is `undefined` if there are no `/* globals */` directive comments.
-* `Variable#eslintImplicitGlobalSetting` (`"readonly" | "writable" | undefined`) ... The configured value in config files. This can be different from `variable.writeable` if there are `/* globals */` directive comments.
+* `Variable#writeable`: (`boolean | undefined`) If `true`, this global variable can be assigned arbitrary value. If `false`, this global variable is read-only.
+* `Variable#eslintExplicitGlobal`: (`boolean | undefined`) If `true`, this global variable was defined by a `/* globals */` directive comment in the source code file.
+* `Variable#eslintExplicitGlobalComments`: (`Comment[] | undefined`) The array of `/* globals */` directive comments which defined this global variable in the source code file. This property is `undefined` if there are no `/* globals */` directive comments.
+* `Variable#eslintImplicitGlobalSetting`: (`"readonly" | "writable" | undefined`) The configured value in config files. This can be different from `variable.writeable` if there are `/* globals */` directive comments.
 
 For examples of using `context.getScope()` to track variables, refer to the source code for the following built-in rules:
 
 * [no-shadow](https://github.com/eslint/eslint/blob/main/lib/rules/no-shadow.js): Calls `context.getScopes()` at the global scope and parses all child scopes to make sure a variable name is not reused at a lower scope. ([no-shadow](../rules/no-shadow) documentation)
 * [no-redeclare](https://github.com/eslint/eslint/blob/main/lib/rules/no-redeclare.js): Calls `context.getScope()` at each scope to make sure that a variable is not declared twice at that scope. ([no-redeclare](../rules/no-redeclare) documentation)
 
-### context.report()
+### Reporting Problems
 
-The main method you'll use is `context.report()`, which publishes a warning or error (depending on the configuration being used). This method accepts a single argument, which is an object containing the following properties:
+The main method you'll use when writing custom rules is `context.report()`, which publishes a warning or error (depending on the configuration being used). This method accepts a single argument, which is an object containing the following properties:
 
-* `message` - the problem message.
-* `node` - (optional)  the AST node related to the problem. If present and `loc` is not specified, then the starting location of the node is used as the location of the problem.
-* `loc` - (optional) an object specifying the location of the problem. If both `loc` and `node` are specified, then the location is used from `loc` instead of `node`.
-    * `start` - An object of the start location.
-        * `line` - the 1-based line number at which the problem occurred.
-        * `column` - the 0-based column number at which the problem occurred.
-    * `end` - An object of the end location.
-        * `line` - the 1-based line number at which the problem occurred.
-        * `column` - the 0-based column number at which the problem occurred.
-* `data` - (optional) [placeholder](#using-message-placeholders) data for `message`.
-* `fix` - (optional) a function that applies a [fix](#applying-fixes) to resolve the problem.
+* `message`: The problem message.
+* `node`: (optional) The AST node related to the problem. If present and `loc` is not specified, then the starting location of the node is used as the location of the problem.
+* `loc`: (optional) An object specifying the location of the problem. If both `loc` and `node` are specified, then the location is used from `loc` instead of `node`.
+    * `start`: An object of the start location.
+        * `line`: The 1-based line number at which the problem occurred.
+        * `column` The 0-based column number at which the problem occurred.
+    * `end`: An object of the end location.
+        * `line`: The 1-based line number at which the problem occurred.
+        * `column`: The 0-based column number at which the problem occurred.
+* `data`:(optional) [Placeholder](#using-message-placeholders) data for `message`.
+* `fix`: (optional) A function that applies a [fix](#applying-fixes) to resolve the problem.
 
 Note that at least one of `node` or `loc` is required.
 
@@ -217,9 +229,9 @@ context.report({
 });
 ```
 
-The node contains all of the information necessary to figure out the line and column number of the offending text as well the source text representing the node.
+The node contains all the information necessary to figure out the line and column number of the offending text as well the source text representing the node.
 
-#### Using message placeholders
+#### Using Message Placeholders
 
 You can also use placeholders in the message and provide `data`:
 
@@ -325,14 +337,14 @@ Here, the `fix()` function is used to insert a semicolon after the node. Note th
 
 The `fixer` object has the following methods:
 
-* `insertTextAfter(nodeOrToken, text)` - inserts text after the given node or token
-* `insertTextAfterRange(range, text)` - inserts text after the given range
-* `insertTextBefore(nodeOrToken, text)` - inserts text before the given node or token
-* `insertTextBeforeRange(range, text)` - inserts text before the given range
-* `remove(nodeOrToken)` - removes the given node or token
-* `removeRange(range)` - removes text in the given range
-* `replaceText(nodeOrToken, text)` - replaces the text in the given node or token
-* `replaceTextRange(range, text)` - replaces the text in the given range
+* `insertTextAfter(nodeOrToken, text)`: Insert text after the given node or token.
+* `insertTextAfterRange(range, text)`: Insert text after the given range
+* `insertTextBefore(nodeOrToken, text)`: Insert text before the given node or token
+* `insertTextBeforeRange(range, text)`: Insert text before the given range
+* `remove(nodeOrToken)`: Remove the given node or token
+* `removeRange(range)`: Remove text in the given range
+* `replaceText(nodeOrToken, text)`: Replace the text in the given node or token
+* `replaceTextRange(range, text)`: Replace the text in the given range
 
 A range is a two-item array containing character indices inside the source code. The first item is the start of the range (inclusive) and the second item is the end of the range (exclusive). Every node and token has a `range` property to identify the source code range they represent.
 
@@ -432,7 +444,7 @@ Best practices for suggestions:
 
 Suggestions are intended to provide fixes. ESLint will automatically remove the whole suggestion from the linting output if the suggestion's `fix` function returned `null` or an empty array/sequence.
 
-##### Suggestion `messageId`s
+#### Suggestion `messageId`s
 
 Instead of using a `desc` key for suggestions a `messageId` can be used instead. This works the same way as `messageId`s for the overall error (see [messageIds](#messageids)). Here is an example of how to use it in a rule:
 
@@ -471,7 +483,7 @@ module.exports = {
 };
 ```
 
-#### Placeholders in suggestion messages
+#### Placeholders in Suggestion Messages
 
 You can also use placeholders in the suggestion message. This works the same way as placeholders for the overall error (see [using message placeholders](#using-message-placeholders)).
 
@@ -506,7 +518,7 @@ module.exports = {
 };
 ```
 
-### context.options
+### Accessing Options Passed to a Rule
 
 Some rules require options in order to function correctly. These options appear in configuration (`.eslintrc`, command line, or in comments). For example:
 
@@ -532,9 +544,11 @@ Since `context.options` is just an array, you can use it to determine how many o
 
 When using options, make sure that your rule has some logical defaults in case the options are not provided.
 
-### context.getSourceCode()
+TODO: change title
 
-The `SourceCode` object is the main object for getting more information about the source code being linted. You can retrieve the `SourceCode` object at any time by using the `getSourceCode()` method:
+### Accessing the Source Code
+
+The `SourceCode` object is the main object for getting more information about the source code being linted. You can retrieve the `SourceCode` object at any time by using the `context.getSourceCode()` method:
 
 ```js
 module.exports = {
@@ -548,62 +562,60 @@ module.exports = {
 
 Once you have an instance of `SourceCode`, you can use the following methods on it to work with the code:
 
-* `getText(node)` - returns the source code for the given node. Omit `node` to get the whole source.
-* `getAllComments()` - returns an array of all comments in the source.
-* `getCommentsBefore(nodeOrToken)` - returns an array of comment tokens that occur directly before the given node or token.
-* `getCommentsAfter(nodeOrToken)` - returns an array of comment tokens that occur directly after the given node or token.
-* `getCommentsInside(node)` - returns an array of all comment tokens inside a given node.
-* `isSpaceBetween(nodeOrToken, nodeOrToken)` - returns true if there is a whitespace character between the two tokens or, if given a node, the last token of the first node and the first token of the second node.
-* `getFirstToken(node, skipOptions)` - returns the first token representing the given node.
-* `getFirstTokens(node, countOptions)` - returns the first `count` tokens representing the given node.
-* `getLastToken(node, skipOptions)` - returns the last token representing the given node.
-* `getLastTokens(node, countOptions)` - returns the last `count` tokens representing the given node.
-* `getTokenAfter(nodeOrToken, skipOptions)` - returns the first token after the given node or token.
-* `getTokensAfter(nodeOrToken, countOptions)` - returns `count` tokens after the given node or token.
-* `getTokenBefore(nodeOrToken, skipOptions)` - returns the first token before the given node or token.
-* `getTokensBefore(nodeOrToken, countOptions)` - returns `count` tokens before the given node or token.
-* `getFirstTokenBetween(nodeOrToken1, nodeOrToken2, skipOptions)` - returns the first token between two nodes or tokens.
-* `getFirstTokensBetween(nodeOrToken1, nodeOrToken2, countOptions)` - returns the first `count` tokens between two nodes or tokens.
-* `getLastTokenBetween(nodeOrToken1, nodeOrToken2, skipOptions)` - returns the last token between two nodes or tokens.
-* `getLastTokensBetween(nodeOrToken1, nodeOrToken2, countOptions)` - returns the last `count` tokens between two nodes or tokens.
-* `getTokens(node)` - returns all tokens for the given node.
-* `getTokensBetween(nodeOrToken1, nodeOrToken2)` - returns all tokens between two nodes.
-* `getTokenByRangeStart(index, rangeOptions)` - returns the token whose range starts at the given index in the source.
-* `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index.
-* `getLocFromIndex(index)` - returns an object with `line` and `column` properties, corresponding to the location of the given source index. `line` is 1-based and `column` is 0-based.
-* `getIndexFromLoc(loc)` - returns the index of a given location in the source code, where `loc` is an object with a 1-based `line` key and a 0-based `column` key.
-* `commentsExistBetween(nodeOrToken1, nodeOrToken2)` - returns `true` if comments exist between two nodes.
+* `getText(node)`: Return the source code for the given node. Omit `node` to get the whole source (see the [dedicated section](#getting-the-source-text)).
+* `getAllComments()`: Return an array of all comments in the source.
+* `getCommentsBefore(nodeOrToken)`: Return an array of comment tokens that occur directly before the given node or token.
+* `getCommentsAfter(nodeOrToken)`: Return an array of comment tokens that occur directly after the given node or token.
+* `getCommentsInside(node)`: Return an array of all comment tokens inside a given node.
+* `isSpaceBetween(nodeOrToken, nodeOrToken)`: Return true if there is a whitespace character between the two tokens or, if given a node, the last token of the first node and the first token of the second node.
+* `getFirstToken(node, skipOptions)`: Return the first token representing the given node.
+* `getFirstTokens(node, countOptions)`: Return the first `count` tokens representing the given node.
+* `getLastToken(node, skipOptions)`: Return the last token representing the given node.
+* `getLastTokens(node, countOptions)`: Return the last `count` tokens representing the given node.
+* `getTokenAfter(nodeOrToken, skipOptions)`: Return the first token after the given node or token.
+* `getTokensAfter(nodeOrToken, countOptions)`: Return `count` tokens after the given node or token.
+* `getTokenBefore(nodeOrToken, skipOptions)`: Return the first token before the given node or token.
+* `getTokensBefore(nodeOrToken, countOptions)`: Return `count` tokens before the given node or token.
+* `getFirstTokenBetween(nodeOrToken1, nodeOrToken2, skipOptions)`: Return the first token between two nodes or tokens.
+* `getFirstTokensBetween(nodeOrToken1, nodeOrToken2, countOptions)`: Return the first `count` tokens between two nodes or tokens.
+* `getLastTokenBetween(nodeOrToken1, nodeOrToken2, skipOptions)`: Return the last token between two nodes or tokens.
+* `getLastTokensBetween(nodeOrToken1, nodeOrToken2, countOptions)`: Return the last `count` tokens between two nodes or tokens.
+* `getTokens(node)`: Return all tokens for the given node.
+* `getTokensBetween(nodeOrToken1, nodeOrToken2)`: Return all tokens between two nodes.
+* `getTokenByRangeStart(index, rangeOptions)`: Return the token whose range starts at the given index in the source.
+* `getNodeByRangeIndex(index)`: Return the deepest node in the AST containing the given source index.
+* `getLocFromIndex(index)`: Return an object with `line` and `column` properties, corresponding to the location of the given source index. `line` is 1-based and `column` is 0-based.
+* `getIndexFromLoc(loc)`: Return the index of a given location in the source code, where `loc` is an object with a 1-based `line` key and a 0-based `column` key.
+* `commentsExistBetween(nodeOrToken1, nodeOrToken2)`: Return `true` if comments exist between two nodes.
 
 `skipOptions` is an object which has 3 properties; `skip`, `includeComments`, and `filter`. Default is `{skip: 0, includeComments: false, filter: null}`.
 
-* `skip` is a positive integer, the number of skipping tokens. If `filter` option is given at the same time, it doesn't count filtered tokens as skipped.
-* `includeComments` is a boolean value, the flag to include comment tokens into the result.
-* `filter` is a function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
+* `skip`: Positive integer, the number of skipping tokens. If `filter` option is given at the same time, it doesn't count filtered tokens as skipped.
+* `includeComments`: Boolean, the flag to include comment tokens into the result.
+* `filter`: Function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
 
 `countOptions` is an object which has 3 properties; `count`, `includeComments`, and `filter`. Default is `{count: 0, includeComments: false, filter: null}`.
 
-* `count` is a positive integer, the maximum number of returning tokens.
-* `includeComments` is a boolean value, the flag to include comment tokens into the result.
-* `filter` is a function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
+* `count`: Positive integer, the maximum number of returning tokens.
+* `includeComments`: Boolean, the flag to include comment tokens into the result.
+* `filter` Function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
 
 `rangeOptions` is an object which has 1 property: `includeComments`.
 
-* `includeComments` is a boolean value, the flag to include comment tokens into the result.
+* `includeComments`: Boolean, the flag to include comment tokens into the result.
 
 There are also some properties you can access:
 
-* `hasBOM` - the flag to indicate whether or not the source code has Unicode BOM.
-* `text` - the full text of the code being linted. Unicode BOM has been stripped from this text.
-* `ast` - the `Program` node of the AST for the code being linted.
-* `scopeManager` - the [ScopeManager](./scope-manager-interface#scopemanager-interface) object of the code.
-* `visitorKeys` - the visitor keys to traverse this AST.
-* `lines` - an array of lines, split according to the specification's definition of line breaks.
+* `hasBOM`: The flag to indicate whether the source code has Unicode BOM.
+* `text`: The full text of the code being linted. Unicode BOM has been stripped from this text.
+* `ast`: `Program` node of the AST for the code being linted.
+* `scopeManager`: [ScopeManager](./scope-manager-interface#scopemanager-interface) object of the code.
+* `visitorKeys`: Visitor keys to traverse this AST.
+* `lines`: Array of lines, split according to the specification's definition of line breaks.
 
 You should use a `SourceCode` object whenever you need to get more information about the code being linted.
 
 #### Getting the Source Text
-
-TODO: contextualize where sourceCode object comes from
 
 If your rule needs to get the actual JavaScript source to work with, then use the `sourceCode.getText()` method. This method works as follows:
 
@@ -628,21 +640,16 @@ In this way, you can look for patterns in the JavaScript text itself when the AS
 
 While comments are not technically part of the AST, ESLint provides a few ways for rules to access them:
 
-#### sourceCode.getAllComments()
+* `sourceCode.getAllComments()`: Return an array of all the comments found in the program. This is useful for rules that need to check all comments regardless of location.
+* `sourceCode.getCommentsBefore()`: Return an array of comments that appear directly before nodes.
+* `sourceCode.getCommentsAfter()`: Return an array of comments that appear directly after nodes.
+* `sourceCode.getCommentsInside()` Return an array of comments that appear inside nodes.
 
-This method returns an array of all the comments found in the program. This is useful for rules that need to check all comments regardless of location.
+`sourceCode.getCommentsBefore()`, `sourceCode.getCommentsAfter()`, and `sourceCode.getCommentsInside()` are useful for rules that need to check comments in relation to a given node or token.
 
-#### sourceCode.getCommentsBefore(), sourceCode.getCommentsAfter(), and sourceCode.getCommentsInside()
+Keep in mind that the results of these methods are calculated on demand.
 
-These methods return an array of comments that appear directly before, directly after, and inside nodes, respectively. They are useful for rules that need to check comments in relation to a given node or token.
-
-Keep in mind that the results of this method are calculated on demand.
-
-#### Token traversal methods
-
-Finally, comments can be accessed through many of `sourceCode`'s methods using the `includeComments` option.
-
-TODO: see if can link to above
+You can also access comments through many of `sourceCode`'s methods using the `includeComments` option.
 
 ### Options Schemas
 
@@ -680,28 +687,25 @@ To learn more about JSON Schema, we recommend looking at some examples in [websi
 
 **Note:** Currently you need to use full JSON Schema object rather than array in case your schema has references ($ref), because in case of array format ESLint transforms this array into a single schema without updating references that makes them incorrect (they are ignored).
 
-TODO: see if can link to above.
-
 ### Accessing Shebangs
+
+TODO: which methods to access shebang? also would be helpful to have a small example here.
 
 Shebangs are represented by tokens of type `"Shebang"`. They are treated as comments and can be accessed by the methods outlined above.
 
 ### Accessing Code Paths
 
-ESLint analyzes code paths while traversing AST.
-You can access that code path objects with five events related to code paths.
-
-[details here](code-path-analysis)
+ESLint analyzes code paths while traversing AST. You can access that code path objects with five events related to code paths. For more information, refer to [Code Path Analysis](code-path-analysis).
 
 ### Deprecated `context` Methods
 
 Please note that the following `context` methods have been deprecated and will be removed in a future version of ESLint:
 
-* `getComments()` - replaced by `SourceCode#getCommentsBefore()`, `SourceCode#getCommentsAfter()`, and `SourceCode#getCommentsInside()`
-* `getTokenOrCommentBefore()` - replaced by `SourceCode#getTokenBefore()` with the `{ includeComments: true }` option
-* `getTokenOrCommentAfter()` - replaced by `SourceCode#getTokenAfter()` with the `{ includeComments: true }` option
-* `isSpaceBetweenTokens()` - replaced by `SourceCode#isSpaceBetween()`
-* `getJSDocComment()`
+* `getComments()`: Replaced by `SourceCode#getCommentsBefore()`, `SourceCode#getCommentsAfter()`, and `SourceCode#getCommentsInside()`.
+* `getTokenOrCommentBefore()`: Replaced by `SourceCode#getTokenBefore()` with the `{ includeComments: true }` option.
+* `getTokenOrCommentAfter()`: Replaced by `SourceCode#getTokenAfter()` with the `{ includeComments: true }` option.
+* `isSpaceBetweenTokens()`: Replaced by `SourceCode#isSpaceBetween()`
+* `getJSDocComment()`.
 
 ## Rule Unit Tests
 
