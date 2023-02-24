@@ -33,6 +33,7 @@ This rule has an object option:
 * `"allowClassEnd": true` allows comments to appear at the end of classes
 * `"applyDefaultIgnorePatterns"` enables or disables the default comment patterns to be ignored by the rule
 * `"ignorePattern"` custom patterns to be ignored by the rule
+* `"afterHashbangComment": true` requires an empty line after hashbang comments
 
 ### beforeBlockComment
 
@@ -713,6 +714,35 @@ Examples of **incorrect** code for the `{ "applyDefaultIgnorePatterns": false }`
 foo();
 /* eslint mentioned in comment */
 
+```
+
+:::
+
+### afterHashbangComment
+
+Examples of **incorrect** code for this rule with the `{ "afterHashbangComment": true }` option:
+
+::: incorrect
+
+```js
+#!foo
+var day = "great"
+
+/*eslint lines-around-comment: ["error", { "afterHashbangComment": true }] */
+```
+
+:::
+
+Examples of **correct** code for this rule with the `{ "afterHashbangComment": true }` option:
+
+::: correct
+
+```js
+#!foo
+
+var day = "great"
+
+/*eslint lines-around-comment: ["error", { "afterHashbangComment": true }] */
 ```
 
 :::
