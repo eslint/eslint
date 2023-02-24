@@ -31,6 +31,10 @@ ruleTester.run("no-tabs", rule, {
         {
             code: "\t// comment",
             options: [{ allowIndentationTabs: true }]
+        },
+        {
+            code: "// \tcomment",
+            options: [{ allowIndentationTabs: true }]
         }
     ],
     invalid: [
