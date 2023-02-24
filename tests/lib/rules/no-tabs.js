@@ -40,6 +40,7 @@ ruleTester.run("no-tabs", rule, {
     invalid: [
         {
             code: "function test(){\t}",
+            output: "function test(){ }",
             errors: [{
                 messageId: "unexpectedTab",
                 line: 1,
@@ -50,6 +51,7 @@ ruleTester.run("no-tabs", rule, {
         },
         {
             code: "/** \t comment test */",
+            output: "/**   comment test */",
             errors: [{
                 messageId: "unexpectedTab",
                 line: 1,
@@ -63,6 +65,10 @@ ruleTester.run("no-tabs", rule, {
             "function test(){\n" +
             "  //\tsdfdsf \n" +
             "}",
+            output:
+            "function test(){\n" +
+            "  // sdfdsf \n" +
+            "}",
             errors: [{
                 messageId: "unexpectedTab",
                 line: 2,
@@ -74,6 +80,10 @@ ruleTester.run("no-tabs", rule, {
         {
             code:
             "function\ttest(){\n" +
+            "  //sdfdsf \n" +
+            "}",
+            output:
+            "function test(){\n" +
             "  //sdfdsf \n" +
             "}",
             errors: [{
@@ -89,6 +99,10 @@ ruleTester.run("no-tabs", rule, {
             "function test(){\n" +
             "  //\tsdfdsf \n" +
             "\t}",
+            output:
+            "function test(){\n" +
+            "  // sdfdsf \n" +
+            " }",
             errors: [
                 {
                     messageId: "unexpectedTab",
@@ -108,6 +122,7 @@ ruleTester.run("no-tabs", rule, {
         },
         {
             code: "\t// Comment with leading tab \t and inline tab",
+            output: "\t// Comment with leading tab   and inline tab",
             options: [{ allowIndentationTabs: true }],
             errors: [{
                 messageId: "unexpectedTab",
@@ -119,6 +134,7 @@ ruleTester.run("no-tabs", rule, {
         },
         {
             code: "\t\ta =\t\t\tb +\tc\t\t;\t\t",
+            output: "  a =   b + c  ;  ",
             errors: [
                 {
                     messageId: "unexpectedTab",
