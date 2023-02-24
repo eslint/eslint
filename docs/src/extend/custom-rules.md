@@ -46,10 +46,10 @@ The source file for a rule exports an object with the following properties. Both
     * `"suggestion"`: The rule is identifying something that could be done in a better way but no errors will occur if the code isn't changed.
     * `"layout"`: The rule cares primarily about whitespace, semicolons, commas, and parentheses, all the parts of the program that determine how the code looks rather than how it executes. These rules work on parts of the code that aren't specified in the AST.
 
-* `docs`: (object) Required for **core rules** of ESLint. If you are creating a custom rule, you **do not** need to include the `docs` object or can include any properties that you need in it.
+* `docs`: (object) Required for **core rules** of ESLint. If you are creating a custom rule, you **do not** need to include the `docs` object or can include any properties that you need in it. The following properties are only relevant when working on core rules.
 
     * `description`: (string) Provides the short description of the rule in the [rules index](../rules/).
-    * `recommended`: (boolean) Specifies whether the `"extends":  "eslint:recommended"` property in a [configuration file](../use configure/configuration-files#extending-configuration-files) enables the rule.
+    * `recommended`: (boolean) Specifies whether the `"extends":  "eslint:recommended"` property in a [configuration file](../use/configure/configuration-files#extending-configuration-files) enables the rule.
     * `url`: (string) Specifies the URL at which the full documentation can be accessed (enabling code editors to provide a helpful link on highlighted rule violations).
 
 * `fixable`: (string) Either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../use/command-line-interface#--fix) automatically fixes problems reported by the rule.
@@ -346,7 +346,7 @@ The `fixer` object has the following methods:
 * `replaceText(nodeOrToken, text)`: Replace the text in the given node or token
 * `replaceTextRange(range, text)`: Replace the text in the given range
 
-A range is a two-item array containing character indices inside the source code. The first item is the start of the range (inclusive) and the second item is the end of the range (exclusive). Every node and token has a `range` property to identify the source code range they represent.
+A `range` is a two-item array containing character indices inside the source code. The first item is the start of the range (inclusive) and the second item is the end of the range (exclusive). Every node and token has a `range` property to identify the source code range they represent.
 
 The above methods return a `fixing` object.
 The `fix()` function can return the following values:
@@ -435,7 +435,7 @@ context.report({
 
 **Important:** The `meta.hasSuggestions` property is mandatory for rules that provide suggestions. ESLint will throw an error if a rule attempts to produce a suggestion but does not [export](#rule-structure) this property.
 
-Note: Suggestions will be applied as a stand-alone change, without triggering multipass fixes. Each suggestion should focus on a singular change in the code and should not try to conform to user defined styles. For example, if a suggestion is adding a new statement into the codebase, it should not try to match correct indentation, or conform to user preferences on presence/absence of semicolons. All of those things can be corrected by multipass autofix when the user triggers it.
+**Note:** Suggestions are applied as stand-alone changes, without triggering multipass fixes. Each suggestion should focus on a singular change in the code and should not try to conform to user defined styles. For example, if a suggestion is adding a new statement into the codebase, it should not try to match correct indentation, or conform to user preferences on presence/absence of semicolons. All of those things can be corrected by multipass autofix when the user triggers it.
 
 Best practices for suggestions:
 
@@ -446,7 +446,7 @@ Suggestions are intended to provide fixes. ESLint will automatically remove the 
 
 #### Suggestion `messageId`s
 
-Instead of using a `desc` key for suggestions a `messageId` can be used instead. This works the same way as `messageId`s for the overall error (see [messageIds](#messageids)). Here is an example of how to use it in a rule:
+Instead of using a `desc` key for suggestions a `messageId` can be used instead. This works the same way as `messageId`s for the overall error (see [messageIds](#messageids)). Here is an example of how to use a suggestion `messageId` in a rule:
 
 ```js
 module.exports = {
@@ -466,13 +466,13 @@ module.exports = {
             data: { character },
             suggest: [
                 {
-                    messageId: "removeEscape",
+                    messageId: "removeEscape", // suggestion messageId
                     fix: function(fixer) {
                         return fixer.removeRange(range);
                     }
                 },
                 {
-                    messageId: "escapeBackslash",
+                    messageId: "escapeBackslash", // suggestion messageId
                     fix: function(fixer) {
                         return fixer.insertTextBeforeRange(range, "\\");
                     }
@@ -520,7 +520,7 @@ module.exports = {
 
 ### Accessing Options Passed to a Rule
 
-Some rules require options in order to function correctly. These options appear in configuration (`.eslintrc`, command line, or in comments). For example:
+Some rules require options in order to function correctly. These options appear in configuration (`.eslintrc`, command line interface, or comments). For example:
 
 ```json
 {
@@ -543,8 +543,6 @@ module.exports = {
 Since `context.options` is just an array, you can use it to determine how many options have been passed as well as retrieving the actual options themselves. Keep in mind that the error level is not part of `context.options`, as the error level cannot be known or modified from inside a rule.
 
 When using options, make sure that your rule has some logical defaults in case the options are not provided.
-
-TODO: change title
 
 ### Accessing the Source Code
 
@@ -653,7 +651,7 @@ You can also access comments through many of `sourceCode`'s methods using the `i
 
 ### Options Schemas
 
-Rules may export a `schema` property, which is a [JSON schema](https://json-schema.org/) format description of a rule's options which will be used by ESLint to validate configuration options and prevent invalid or unexpected inputs before they are passed to the rule in `context.options`.
+Rules may export a `schema` property, which is a [JSON Schema](https://json-schema.org/) format description of a rule's options which will be used by ESLint to validate configuration options and prevent invalid or unexpected inputs before they are passed to the rule in `context.options`.
 
 There are two formats for a rule's exported `schema`. The first is a full JSON Schema object describing all possible options the rule accepts, including the rule's error level as the first argument and any optional arguments thereafter.
 
@@ -681,9 +679,11 @@ module.exports = {
 };
 ```
 
-In the preceding example, the error level is assumed to be the first argument. It is followed by the first optional argument, a string which may be either `"always"` or `"never"`. The final optional argument is an object, which may have a Boolean property named `exceptRange`.
+In the preceding example, the error level is assumed to be the first argument. It is followed by the first optional argument, a string which may be either `"always"` or `"never"`. The final optional argument is an object, which may have a boolean property named `exceptRange`.
 
 To learn more about JSON Schema, we recommend looking at some examples in [website](https://json-schema.org/learn/) to start, and also reading [Understanding JSON Schema](https://json-schema.org/understanding-json-schema/) (a free ebook).
+
+TODO: i don't understand what this note is saying. could someone clarify?
 
 **Note:** Currently you need to use full JSON Schema object rather than array in case your schema has references ($ref), because in case of array format ESLint transforms this array into a single schema without updating references that makes them incorrect (they are ignored).
 
@@ -695,7 +695,7 @@ Shebangs are represented by tokens of type `"Shebang"`. They are treated as comm
 
 ### Accessing Code Paths
 
-ESLint analyzes code paths while traversing AST. You can access that code path objects with five events related to code paths. For more information, refer to [Code Path Analysis](code-path-analysis).
+ESLint analyzes code paths while traversing AST. You can access code path objects with five events related to code paths. For more information, refer to [Code Path Analysis](code-path-analysis).
 
 ### Deprecated `context` Methods
 
@@ -713,11 +713,11 @@ ESLint provides the [`RuleTester`](../integrate/nodejs-api#ruletester) utility t
 
 ## Rule Naming Conventions
 
-While you can give a custom rule any name you'd like, the core rules have naming conventions that it could be clearer to apply to your custom rule. To learn more, refer to the [Core Rule Naming Conventions](../contribute/core-rules#rule-naming-conventions) documentation.
+While you can give a custom rule any name you'd like, the core rules have naming conventions. It could be clearer to apply these same naming conventions to your custom rule. To learn more, refer to the [Core Rule Naming Conventions](../contribute/core-rules#rule-naming-conventions) documentation.
 
 ## Runtime Rules
 
-The thing that makes ESLint different from other linters is the ability to define custom rules at runtime. This is perfect for rules that are specific to your project or company and wouldn't make sense for ESLint to ship with. With runtime rules, you don't have to wait for the next version of ESLint or be disappointed that your rule isn't general enough to apply to the larger JavaScript community, just write your rules and include them at runtime.
+The thing that makes ESLint different from other linters is the ability to define custom rules at runtime. This is perfect for rules that are specific to your project or company and wouldn't make sense for ESLint to ship with or be included in a plugin. Just write your rules and include them at runtime.
 
 Runtime rules are written in the same format as all other rules. Create your rule as you would any other and then follow these steps:
 
