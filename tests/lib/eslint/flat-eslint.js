@@ -851,7 +851,7 @@ describe("FlatESLint", () => {
         });
 
         // https://github.com/eslint/eslint/issues/14742
-        it.only("should run", async () => {
+        it("should run", async () => {
             eslint = new FlatESLint({
                 cwd: getFixturePath("{curly-path}", "server")
             });
