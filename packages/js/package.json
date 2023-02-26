@@ -1,10 +1,9 @@
 {
   "name": "@eslint/js",
-  "version": "8.33.0",
+  "version": "8.34.0",
   "description": "ESLint JavaScript language implementation",
   "main": "./src/index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "files": [
     "LICENSE",
     "README.md",
@@ -16,7 +15,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/eslint/eslint.git",
-     "directory": "packages/js"
+    "directory": "packages/js"
   },
   "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
