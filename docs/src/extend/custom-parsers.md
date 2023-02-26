@@ -12,17 +12,32 @@ ESLint custom parsers let you extend ESLint to support linting new non-standard 
 
 ## Creating a Custom Parser
 
-If a `parseForESLint` method is exposed on the parser, this method will be used to parse the code. Otherwise, the `parse` method will be used. Both methods should take in the source code as the first argument, and an optional configuration object as the second argument (provided as `parserOptions` in a config file).
+A custom parser is a JavaScript object with either a `parse` or `parseForESLint` method. The `parse` method only returns the AST, whereas `parseForESLint` also returns additional values that let you customize the behavior of the parser even more.
+
+Both methods should take in the source code as the first argument, and an optional configuration object as the second argument, which is provided as [`parserOptions`](../use/configure/language-options#specifying-parser-options) in a configuration file.
 
 ```javascript
-// TODO: have a simple example here w parse and parserOptions
+// customParser.js
+
+const espree = require("espree");
+
+// Logs the time before and after each node traversal.
+function parse(code, options) {
+    const label = `Parsing file "${options.filePath}"`;
+    console.time(label);
+    const ast = espree.parse(code, options);
+    console.timeEnd(label);
+    return ast; // Only the AST is returned.
+};
+
+module.exports = { parse };
 ```
 
 ## `parse` Return Object
 
 The `parse` method should simply return the [AST](#ast-specification) object.
 
-### `parseForESLint` Return Object
+## `parseForESLint` Return Object
 
 The `parseForESLint` method should return an object that contains the required property `ast` and optional properties `services`, `scopeManager`, and `visitorKeys`.
 
@@ -73,7 +88,33 @@ The `Literal` node must have `raw` property.
 
 ## Packaging a Custom Parser
 
-TODO: Add info on turning into a package
+To publish your custom parser to npm, perform the following:
+
+1. Create a custom parser following the [Creating a Custom Parser](#creating-a-custom-parser) section above.
+1. Create an npm package for the custom parser.
+1. In your `package.json` file, set the [`main`](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#main) field as the file that exports your custom parser.
+1. Publish the npm package.
+
+For more information on publishing an npm package, refer to the [npm documentation](https://docs.npmjs.com/).
+
+Once you've published the npm package, you can use it by adding the package to your project. For example:
+
+```shell
+npm install eslint-parser-myParser
+```
+
+Then add the custom parser to your ESLint configuration file with the `parser` property. For example:
+
+```js
+// .eslintrc.js
+
+module.exports = {
+  parser: 'eslint-parser-myParser',
+  // ... rest of configuration
+};
+```
+
+To learn more about using ESLint parsers in your project, refer to [Configure a Parser](../use/configure/parser).
 
 ## Example
 
@@ -84,7 +125,7 @@ A simple custom parser that logs `"foo"` to the console when it processes a node
 ```javascript
 // awesome-custom-parser.js
 var espree = require("espree");
-exports.parseForESLint = function(code, options) {
+function parseForESLint(code, options) {
     return {
         ast: espree.parse(code, options),
         services: {
@@ -97,6 +138,7 @@ exports.parseForESLint = function(code, options) {
     };
 };
 
+module.exports = { parseForESLint };
 ```
 
 Include the custom parser in an ESLint configuration file:
