@@ -15,7 +15,11 @@ Releases are when a project formally publishes a new version so the community ca
 
 ## Release Team
 
-A two-person release team is assigned to each scheduled release. This two-person team is responsible for:
+A two-person release team is assigned to each scheduled release.
+
+TODO: add a sentence or two about who the release team is composed of...just TSC members? how is the release team determined?
+
+This two-person team is responsible for:
 
 1. The scheduled release on Friday
 1. Monitoring issues over the weekend
@@ -24,7 +28,7 @@ A two-person release team is assigned to each scheduled release. This two-person
 
 The two-person team should seek input from the whole team on the Monday following a release to double-check if a patch release is necessary.
 
-At least one member of the release team needs to have access to eslint's two-factor authentication for npm in order to do a release.
+At least one member of the release team needs to have access to ESLint's two-factor authentication for npm in order to do a release.
 
 ## Release Communication
 
@@ -35,7 +39,7 @@ Each scheduled release should be associated with a release issue ([example](http
 On the day of a scheduled release, the release team should follow these steps:
 
 1. Review open pull requests to see if any should be merged. In general, you can merge pull requests that:
-    * Have been open at least two days and have been reviewed (these are just waiting for merge).
+    * Have been open at least two days and have been approved (these are just waiting for merge).
     * Important pull requests (as determined by the team). You should stop and have people review before merging if they haven't been already.
     * Documentation changes.
     * Small bugfixes written by a team member.
@@ -43,11 +47,13 @@ On the day of a scheduled release, the release team should follow these steps:
 1. Watch the console output of the build on Jenkins. At some point, the build will pause and a link will be produced with an input field for a six-digit 2FA code.
 1. Enter the current six-digit 2FA code from your authenticator app.
 1. Continue the build and wait for it to finish.
-1. Update the release blog post with a "Highlights" section, including new rules and anything else that's important.
+1. Create a release blog post with a "Highlights" section, including new rules and anything else that's important.
 1. Make a release announcement in the public chatroom.
 1. Make a release announcement on Twitter.
 1. Make a release announcement on the release issue. Document any problems that occurred during the release, and remind the team not to merge anything other than documentation changes and bugfixes. Leave the release issue open.
 1. Add the `patch release pending` label to the release issue. (When this label is present, `eslint-github-bot` will create a pending status check on non-semver-patch pull requests, to ensure that they aren't accidentally merged while a patch release is pending.)
+
+TODO: add a bit of info saying where the release communication happens.
 
 On the Monday following the scheduled release, the release team needs to determine if a patch release is necessary. A patch release is considered necessary if any of the following occurred since the scheduled release:
 
@@ -62,6 +68,8 @@ After the patch release has been published (or no patch release is necessary), c
 
 ## Emergency Releases
 
-In general, we try not to do emergency releases (an emergency release is unplanned and isn't the regularly scheduled release or the anticipated patch release). Even if there is a regression, it's best to wait the weekend to see if any other problems arise so a patch release can fix as many issues as possible.
+An emergency release is unplanned and isn't the regularly scheduled release or the anticipated patch release.
+
+In general, we try not to do emergency releases. Even if there is a regression, it's best to wait the weekend to see if any other problems arise so a patch release can fix as many issues as possible.
 
 The only real exception is if ESLint is completely unusable by most of the current users. For instance, we once pushed a release that errored for everyone because it was missing some core files. In that case, an emergency release is appropriate.

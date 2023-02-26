@@ -12,7 +12,7 @@ New issues are filed frequently, and how we respond to those issues directly aff
 
 ## Things to Keep in Mind
 
-1. **Be nice.** Even if the people are being rude or aggressive on an issue, as a project team member you must be the mature one in the conversation. Do your best to work with everyone no matter their style. Remember, poor wording choice can also be a sign of someone who doesn't know English very well, so be sure to consider that when trying to determine the tone of someone's message. Being rude, even when someone is being rude to you, reflects poorly on the team and the project as a whole.
+1. **Be nice.** Even if the people are being rude or aggressive on an issue, you must be the mature one in the conversation as a project team member. Do your best to work with everyone no matter their style. Remember, poor wording choice can also be a sign of someone who doesn't know English very well, so be sure to consider that when trying to determine the tone of someone's message. Being rude, even when someone is being rude to you, reflects poorly on the team and the project as a whole.
 1. **Be inquisitive.** Ask questions on the issue whenever something isn't clear. Don't assume you understand what's being reported if there are details missing. Whenever you are unsure, it's best to ask for more information.
 1. **Not all requests are equal.** It's unlikely we'll be able to accommodate every request, so don't be afraid to say that something doesn't fit into the scope of the project or isn't practical. It's better to give such feedback if that's the case.
 1. **Close when appropriate.** Don't be afraid to close issues that you don't think will be done, or when it's become clear from the conversation that there's no further work to do. Issues can always be reopened if they are closed incorrectly, so feel free to close issues when appropriate. Just be sure to leave a comment explaining why the issue is being closed (if not closed by a commit).
@@ -21,10 +21,10 @@ New issues are filed frequently, and how we respond to those issues directly aff
 
 There are four primary issue categories:
 
-1. **Bug** - something isn't working the way it's expected to work.
-1. **Enhancement** - a change to something that already exists. For instance, adding a new option to an existing rule or a bug in a rule where fixing it will result in the rule reporting more problems (in this case, use both "Bug" and "Enhancement").
-1. **Feature** - adding something that doesn't already exist. For example, adding a new rule, new formatter, or new command line flag.
-1. **Question** - an inquiry about how something works that won't result in a code change. We'd prefer if people use discussions or Discord for questions, but sometimes they'll open an issue.
+1. **Bug**: Something isn't working the way it's expected to work.
+1. **Enhancement**: A change to something that already exists. For instance, adding a new option to an existing rule or fixing a bug in a rule where fixing it will result in the rule reporting more problems (in this case, use both "Bug" and "Enhancement").
+1. **Feature**: Adding something that doesn't already exist. For example, adding a new rule, new formatter, or new command line flag.
+1. **Question**: An inquiry about how something works that won't result in a code change. We prefer if people use Github Discussions or Discord for questions, but sometimes they'll open an issue.
 
 The first goal when evaluating an issue is to determine which category the issue falls into.
 
@@ -32,17 +32,17 @@ The first goal when evaluating an issue is to determine which category the issue
 
 All of ESLint's issues, across all GitHub repositories, are managed on our [Triage Project](https://github.com/orgs/eslint/projects/2). Please use the Triage project instead of the issues list when reviewing issues to determine what to work on. The Triage project has several columns:
 
-* **Needs Triage** - issues that have not yet been reviewed by anyone
-* **Triaging** - issues that someone has reviewed but has not been able to fully triage yet
-* **Ready for Dev Team** - issues that have been triaged and have all of the information necessary for the dev team to take a look
-* **Evaluating** - the dev team is evaluating these issues to determine whether to move forward or not
-* **Feedback Needed** - a team member is requesting more input from the rest of the team before proceeding
-* **Waiting for RFC** - the next step in the process is for an RFC to be written
-* **RFC Opened** - an RFC is opened to address these issues
-* **Blocked** - the issue can't move forward due to some dependency
-* **Ready to Implement** - these issues have all of the details necessary to start implementation
-* **PR Opened** - there is an open pull request for each of these issues
-* **Completed** - the issue has been closed (either via pull request merge or by the team manually closing the issue)
+* **Needs Triage**: Issues that have not yet been reviewed by anyone
+* **Triaging**: Issues that someone has reviewed but has not been able to fully triage yet
+* **Ready for Dev Team**: Issues that have been triaged and have all the information necessary for the dev team to take a look
+* **Evaluating**: The dev team is evaluating these issues to determine whether to move forward or not
+* **Feedback Needed**: A team member is requesting more input from the rest of the team before proceeding
+* **Waiting for RFC**: The next step in the process is for an RFC to be written
+* **RFC Opened**: An RFC is opened to address these issues
+* **Blocked**: The issue can't move forward due to some dependency
+* **Ready to Implement**: These issues have all the details necessary to start implementation
+* **PR Opened**: There is an open pull request for each of these issues
+* **Completed**: The issue has been closed (either via pull request merge or by the team manually closing the issue)
 
 We make every attempt to automate movement between as many columns as we can, but sometimes moving issues needs to be done manually.
 
@@ -50,12 +50,12 @@ We make every attempt to automate movement between as many columns as we can, bu
 
 When an issue is opened, it is automatically added to the "Needs Triage" column in the Triage project. These issues need to be evaluated to determine next steps. Anyone on the support team or dev team can follow these steps to properly triage issues.
 
-**Note:** If an issue is in the "Triaging" column, that means someone is already triaging it and you should let them finish. There's no need to comment on issues in the "Triaging" column unless someone asks for help.
+**Note:** If an issue is in the "Triaging" column, that means someone is already triaging it, and you should let them finish. There's no need to comment on issues in the "Triaging" column unless someone asks for help.
 
 The steps for triaging an issue are:
 
-1. Move the issue from "Needs Triage" to "Triaging" in the Triage project
-1. Check: Has all of the information in the issue template been provided?
+1. Move the issue from "Needs Triage" to "Triaging" in the Triage project.
+1. Check: Has all the information in the issue template been provided?
     * **No:** If information is missing from the issue template, or you can't tell what is being requested, please ask the author to provide the missing information:
         * Add the "needs info" label to the issue so we know that this issue is stalled due to lack of information.
         * Don't move on to other steps until the necessary information has been provided.
@@ -65,15 +65,15 @@ The steps for triaging an issue are:
         * If the issue is reporting a bug, try to reproduce the issue following the instructions in the issue. If you can reproduce the bug, please add the "repro:yes" label. (The bot will automatically remove the "repro:needed" label.) If you can't reproduce the bug, ask the author for more information about their environment or to clarify reproduction steps.
         * If the issue is reporting something that works as intended, please add the "works as intended" label and close the issue.
         * For all issues, please add labels describing the part of ESLint affected:
-            * "3rd party plugin" - related to third-party functionality (plugins, parsers, rules, etc.)
-            * "build" - related to commands run during a build (testing, linting, release scripts, etc.)
-            * "cli" - related to command line input or output, or to `CLIEngine`
-            * "core" - related to internal APIs
-            * "documentation" - related to content on eslint.org
-            * "infrastructure" - related to resources needed for builds or deployment (VMs, CI tools, bots, etc.)
-            * "rule" - related to core rules
-        * If you can't properly triage the issue, move the issue back to the "Needs Triage" column in the Triage project so someone else can triage it
-        * If you have triaged the issue, move the issue to the "Ready for Dev Team" column in the Triage project
+            * **3rd party plugin**: Related to third-party functionality (plugins, parsers, rules, etc.)
+            * **build**: Related to commands run during a build (testing, linting, release scripts, etc.)
+            * **cli**: Related to command line input or output, or to `CLIEngine`
+            * **core**: Related to internal APIs
+            * **documentation**: Related to content on eslint.org
+            * **infrastructure**: Related to resources needed for builds or deployment (VMs, CI tools, bots, etc.)
+            * **rule**: Related to core rules
+        * If you can't properly triage the issue, move the issue back to the "Needs Triage" column in the Triage project so someone else can triage it.
+        * If you have triaged the issue, move the issue to the "Ready for Dev Team" column in the Triage project.
 
 ## Evaluation Process
 
@@ -81,12 +81,12 @@ When an issue has been moved to the "Ready for Dev Team" column, any dev team me
 
 1. Move the issue into the "Evaluating" column.
 1. Next steps:
-    * **Bugs:** if you can verify the bug, add the "accepted" label and ask if they would like to submit a pull request.
-    * **New Rules:** if you are willing to champion the rule (meaning you believe it should be included in ESLint core and you will take ownership of the process for including it), add a comment saying you will champion the issue, assign the issue to yourself, and follow the [guidelines](#championing-issues) below.
-    * **Rule Changes:** if you are willing to champion the change and it would not be a breaking change (requiring a major version increment), add a comment saying that you will champion the issue, assign the issue to yourself, and follow the [guidelines](#championing-issues) below.
-    * **Breaking Changes:** if you suspect or can verify that a change would be breaking, label it as "Breaking".
-    * **Duplicates:** if you can verify the issue is a duplicate, add a comment mentioning the duplicate issue (such as, "Duplicate of #1234") and close the issue.
-1. Regardless of the above, always leave a comment. Don't just add labels, engage with the person who opened the issue by asking a question (request more information if necessary) or stating your opinion of the issue. If it's a verified bug, ask if the user would like to submit a pull request.
+    * **Bugs** :If you can verify the bug, add the "accepted" label and ask if they would like to submit a pull request.
+    * **New Rules**: If you are willing to champion the rule (meaning you believe it should be included in ESLint core and you will take ownership of the process for including it), add a comment saying you will champion the issue, assign the issue to yourself, and follow the [guidelines](#championing-issues) below.
+    * **Rule Changes**: If you are willing to champion the change and it would not be a breaking change (requiring a major version increment), add a comment saying that you will champion the issue, assign the issue to yourself, and follow the [guidelines](#championing-issues) below.
+    * **Breaking Changes**: If you suspect or can verify that a change would be breaking, label it as "Breaking".
+    * **Duplicates**: If you can verify the issue is a duplicate, add a comment mentioning the duplicate issue (such as, "Duplicate of #1234") and close the issue.
+1. Regardless of the above, always leave a comment. Don't just add labels; engage with the person who opened the issue by asking a question (request more information if necessary) or stating your opinion of the issue. If it's a verified bug, ask if the user would like to submit a pull request.
 1. If the issue can't be implemented because it needs an external dependency to be updated or needs to wait for another issue to be resolved, move the issue to the "Blocked" column.
 1. If the issue has been accepted and an RFC is required as the next step, move the issue to the "Waiting for RFC" column and comment on the issue that an RFC is needed.
 
@@ -110,7 +110,7 @@ New rules and rule changes require a champion. As champion, it's your job to:
 * Gain [consensus](#consensus) from the ESLint team on inclusion
 * Guide the rule creation process until it's complete (so only champion a rule that you have time to implement or help another contributor implement)
 
-Once consensus has been reached on inclusion, add the "accepted" and, optionally, "help wanted" and "good first issue" labels, as necessary.
+Once consensus has been reached on inclusion, add the "accepted" label. Optionally, add "help wanted" and "good first issue" labels, as necessary.
 
 ## Consensus
 
@@ -129,9 +129,9 @@ The issue will be discussed at the next TSC meeting and the resolution will be p
 
 In addition to the above, changes to the core (including CLI changes) that would result in a minor or major version release must be approved by the TSC by standard TSC motion. Add the label "tsc agenda" to the issue and it will be discussed at the next TSC meeting. In general, requests should meet the following criteria to be considered:
 
-1. The feature or enhancement is in scope for the project and should be added to the roadmap
-1. Someone is committed to including the change within the next year
-1. There is reasonable certainty about who will do the work
+1. The feature or enhancement is in scope for the project and should be added to the roadmap.
+1. Someone is committed to including the change within the next year.
+1. There is reasonable certainty about who will do the work.
 
 When a suggestion is too ambitious or would take too much time to complete, it's better not to accept the proposal. Stick to small, incremental changes and lay out a roadmap of where you'd like the project to go eventually. Don't let the project get bogged down in big features that will take a long time to complete.
 
