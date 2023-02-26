@@ -21,7 +21,7 @@ Both methods should take in the source code as the first argument, and an option
 
 const espree = require("espree");
 
-// Logs the time before and after each node traversal.
+// Logs the time before and after parsing each file.
 function parse(code, options) {
     const label = `Parsing file "${options.filePath}"`;
     console.time(label);
