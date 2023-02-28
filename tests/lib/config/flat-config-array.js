@@ -319,6 +319,66 @@ describe("FlatConfigArray", () => {
 
         });
 
+        it("should not throw an error when config with meta-named and versioned parser object is normalized", () => {
+
+            const configs = new FlatConfigArray([{
+                languageOptions: {
+                    parser: {
+                        meta: {
+                            name: "custom-parser"
+                        },
+                        version: "0.1.0",
+                        parse() { /* empty */ }
+                    }
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.deepStrictEqual(config.toJSON(), {
+                languageOptions: {
+                    ecmaVersion: "latest",
+                    parser: "custom-parser@0.1.0",
+                    parserOptions: {},
+                    sourceType: "module"
+                },
+                plugins: ["@"],
+                processor: void 0
+            });
+
+        });
+
+        it("should not throw an error when config with named and versioned parser object outside of meta object is normalized", () => {
+
+            const configs = new FlatConfigArray([{
+                languageOptions: {
+                    parser: {
+                        name: "custom-parser",
+                        version: "0.1.0",
+                        parse() { /* empty */ }
+                    }
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.deepStrictEqual(config.toJSON(), {
+                languageOptions: {
+                    ecmaVersion: "latest",
+                    parser: "custom-parser@0.1.0",
+                    parserOptions: {},
+                    sourceType: "module"
+                },
+                plugins: ["@"],
+                processor: void 0
+            });
+
+        });
+
         it("should throw an error when config with unnamed processor object is normalized", () => {
 
             const configs = new FlatConfigArray([{
@@ -388,6 +448,33 @@ describe("FlatConfigArray", () => {
 
         });
 
+        it("should not throw an error when config with named processor object without meta is normalized", () => {
+
+            const configs = new FlatConfigArray([{
+                processor: {
+                    name: "custom-processor",
+                    preprocess() { /* empty */ },
+                    postprocess() { /* empty */ }
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.deepStrictEqual(config.toJSON(), {
+                languageOptions: {
+                    ecmaVersion: "latest",
+                    parser: "@/espree",
+                    parserOptions: {},
+                    sourceType: "module"
+                },
+                plugins: ["@"],
+                processor: "custom-processor"
+            });
+
+        });
+
         it("should not throw an error when config with named and versioned processor object is normalized", () => {
 
             const configs = new FlatConfigArray([{
@@ -396,6 +483,35 @@ describe("FlatConfigArray", () => {
                         name: "custom-processor",
                         version: "1.2.3"
                     },
+                    preprocess() { /* empty */ },
+                    postprocess() { /* empty */ }
+                }
+            }]);
+
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.deepStrictEqual(config.toJSON(), {
+                languageOptions: {
+                    ecmaVersion: "latest",
+                    parser: "@/espree",
+                    parserOptions: {},
+                    sourceType: "module"
+                },
+                plugins: ["@"],
+                processor: "custom-processor@1.2.3"
+            });
+
+        });
+
+        it("should not throw an error when config with named and versioned processor object without meta is normalized", () => {
+
+            const configs = new FlatConfigArray([{
+                processor: {
+                    name: "custom-processor",
+                    version: "1.2.3",
                     preprocess() { /* empty */ },
                     postprocess() { /* empty */ }
                 }
